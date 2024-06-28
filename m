@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF40B25569;
-	Fri, 28 Jun 2024 03:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FA81D6A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 04:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719545625; cv=none; b=cVRAT/TTnTCcFozsjSjnz48ySGE3t0AUKkvCXUHflKRGbUeSRCt2HR1f3QoRnJO3Dy48Tiih+/00JpAtDlgbYUSwtlfdoYOvZ55A0HzMxzgqBDt2FxzV5ue2U35VJCMUueBfGfojjDUkR8oUwyLsVlNhTZN+x1d6cKKY1dnP+AM=
+	t=1719547494; cv=none; b=BJ4ajuK1ecyX3fGV/ZkFFQhOyLbx14mhfFGbtu99TeIrdNg6pLNY2y3ieL9cZUpC8aOLVwHeCrvJWWM+9+5/bi8YYC4JIgG4iKv5HoczjzkC1NUHc8XCCfgDTD7Z8uDlBCenrPsod/3P569wOFhXsHTXD4DcN05QpMymX3C3Rto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719545625; c=relaxed/simple;
-	bh=Yh9XNF1kuwAoeoGdI9ucQ2I3fS7pT1Go1q2P3ChIgJE=;
+	s=arc-20240116; t=1719547494; c=relaxed/simple;
+	bh=6z58p4LZ/N2Y/lg7vktDu7xFfujCsuahqgw/kDmkNMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p+FI7I1+Qcrj3LRl5ck7IsGwRYMkTgVUsuGvizevHwWv4zBB7CIlxAKAItdr14OKOqWn6afquoiNgqZqSwAw3w14E88X6YIs1GRYnI4DWBhcpsMRfKLnB/jDUavVIH0zIENzz3az71sQtxvE+d7Rrsox3iQfAsHH5VATSCivaSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCIBdYm5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=s+Oz1tGRlqaPGTvyNmgHhxXWtt7ikCixsyNazRviI74SGa2tPKOxn92CSi1HUsOHQb9V6iQkyZDiGbg1zWkabyKnJsftVFf6e4T0IHgxXaaFB8F5XgsJ7dDwGl9k4MKhl5S5sW6584fPwAcLdvV9zqsoJM98IIKOSe94zOxJLTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m5SmBkeL; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCIBdYm5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5SmBkeL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719545623; x=1751081623;
+  t=1719547492; x=1751083492;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yh9XNF1kuwAoeoGdI9ucQ2I3fS7pT1Go1q2P3ChIgJE=;
-  b=aCIBdYm5nyUsshUcvGkWhmeV/bkcd2NEBaSobD59woWYR+o3t5Hn4eaX
-   044sIXvDaOiEJ9kXYpVORithi3laQeTyyHcyNQHBowxTzeXh6/ib3qhPh
-   GLXUEvLi4HdpiFGVZLiCDyO1eUsXeFGGDB/yN3xdxEJP3UK7G0BpgafYI
-   tChhrIDby9MCfZWGbqJJO8XV06+scYKcSXn4fqfQP866CqAzjRB5+8xi+
-   t457LXAKOtbt0COsz+ms7ic3dWxG3CkYYhePKh/qkVCpI0MhxF2dDj20o
-   Rf+eiWc964D0bba1ZG2Wohzr3UvULLGVj4mdzB8BROezLvE9j6s/GK1CU
-   w==;
-X-CSE-ConnectionGUID: 5fV6GfLkTVSAcst/Wu5aeA==
-X-CSE-MsgGUID: lTe8Y8N5Qqa3JuqhRCmWoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="28112951"
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="28112951"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 20:33:42 -0700
-X-CSE-ConnectionGUID: zighsVJUT3aetq9B0PKyuA==
-X-CSE-MsgGUID: 5x5E7KgPRCe3/Stx6BLTpA==
+  bh=6z58p4LZ/N2Y/lg7vktDu7xFfujCsuahqgw/kDmkNMw=;
+  b=m5SmBkeLcEET0rNIi6HF4KokMG3xO0VLGpUg1huWOZZJc4OOakDFXJw8
+   x8sKKTorntB7c88B58iB4K1ATXq/wpJ0sabny/pW/y5q27OJhToW3HFJE
+   Yg3TP4h1Utwgye88tZY75jzQD5YAXvrI7W0Uetcp4CcF0+TE6TnHAfMXN
+   QsNIjoaOsRGShBMebXe7Fbzwi4yAjUou2dIEqQCcGkICrJRBu094wY4MO
+   5R0E6uo89GlrO5UFbHLwbaqFe3gMYnT78bpaKvsLGlcUlVyiLJ80tKwQh
+   gflDRSz+DbD5Wv2lIedgheupBFKwv/NWHQ+QZDXWo8zhsL+tn8C92UkWk
+   g==;
+X-CSE-ConnectionGUID: zRo28trsQXWoo4NSi+J4VA==
+X-CSE-MsgGUID: rZI+YFsbS3mOYW5ie6xWdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="27304590"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="27304590"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 21:04:52 -0700
+X-CSE-ConnectionGUID: NOzIfKPvSBmiSQlloo0ZHg==
+X-CSE-MsgGUID: NLfYDZKyQOy1JpnB+3ZhHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="75798021"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="44665527"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Jun 2024 20:33:41 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 27 Jun 2024 21:04:50 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN2Mk-000Glm-1G;
-	Fri, 28 Jun 2024 03:33:38 +0000
-Date: Fri, 28 Jun 2024 11:33:03 +0800
+	id 1sN2qu-000Gmk-1V;
+	Fri, 28 Jun 2024 04:04:48 +0000
+Date: Fri, 28 Jun 2024 12:04:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Khanh Le <khanh.le.xr@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: [morimoto:renesas-bsp/v6.1.95-2024-06-24-GrayHawk-sound 706/709]
- sound/soc/codecs/ak4619.c:824:17: error: use of undeclared identifier
- 'REGCACHE_MAPLE'; did you mean 'REGCACHE_NONE'?
-Message-ID: <202406281100.D8245BGl-lkp@intel.com>
+To: Tengfei Fan <quic_tengfan@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [qcom:arm64-for-6.11 111/251]
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtb:
+ /soc@0/system-cache-controller@9200000: failed to match any schema with
+ compatible: ['qcom,sa8775p-llcc']
+Message-ID: <202406281110.oY7rhCZ1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,52 +64,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.95-2024-06-24-GrayHawk-sound
-head:   a2ad04eb2a203f409e8218f127ade36084b87721
-commit: 79d8f008f407299e889b60bca90e182ae4a0eded [706/709] ASoC: Add ak4619 codec support
-config: arm-randconfig-004-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281100.D8245BGl-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281100.D8245BGl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
+head:   fd513b922e34edb0db1284a4abee7f6c10ffd9a7
+commit: 809c20b1ffc80200bfcbbeceb0d946a3e0eed3a4 [111/251] arm64: dts: qcom: sa8775p: Add llcc support for the SA8775p platform
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406281110.oY7rhCZ1-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+dtschema version: 2024.6.dev2+g3b69bad
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281110.oY7rhCZ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281100.D8245BGl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281110.oY7rhCZ1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from sound/soc/codecs/ak4619.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:1775:
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> sound/soc/codecs/ak4619.c:824:17: error: use of undeclared identifier 'REGCACHE_MAPLE'; did you mean 'REGCACHE_NONE'?
-     824 |         .cache_type             = REGCACHE_MAPLE,
-         |                                   ^~~~~~~~~~~~~~
-         |                                   REGCACHE_NONE
-   include/linux/regmap.h:42:2: note: 'REGCACHE_NONE' declared here
-      42 |         REGCACHE_NONE,
-         |         ^
-   1 warning and 1 error generated.
-
-
-vim +824 sound/soc/codecs/ak4619.c
-
-   817	
-   818	static const struct regmap_config ak4619_regmap_cfg = {
-   819		.reg_bits		= 8,
-   820		.val_bits		= 8,
-   821		.max_register		= 0x14,
-   822		.reg_defaults		= ak4619_reg_defaults,
-   823		.num_reg_defaults	= ARRAY_SIZE(ak4619_reg_defaults),
- > 824		.cache_type		= REGCACHE_MAPLE,
-   825	};
-   826	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: usb@a4f8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/system-cache-controller@9200000: failed to match any schema with compatible: ['qcom,sa8775p-llcc']
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
