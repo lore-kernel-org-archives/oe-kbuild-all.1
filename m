@@ -1,64 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0153F4CB37
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 17:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1A44315F;
+	Fri, 28 Jun 2024 18:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719596275; cv=none; b=IJjDASEiiEltCWoWZuhDFn/k/g3UI96Qj3BCwoS+nPG1ViI1uv1ql21bRfT0P+L4RL5/226sZqInTV1T7wknfbseBsyqzas5siZEyq1XiK0y/DcUi9zPKhdCYwxE+HGb3Qe3GdMBXIJGEh5//ATnKw4Rengxf32WJnVsLhg8uQ0=
+	t=1719598532; cv=none; b=DzgUeKBkF2zx6+ssJJcgqY191HCRTFzyx9Eje78eWrqxuNUG/BiJqW865JZXAqqPW5uZV9tSIfOdjWO11uyGn90DadKZJyXotzlYJ75KC8SQuYq5JnQyY4BQHqrbYOIziQ8Uwgc1hDRxoiAJj/c6THqCMSOtD3e5qEwHXayzHBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719596275; c=relaxed/simple;
-	bh=qPFeIWVXm8Kv85+s+qgwv+YqdPUZnd5cXgY0w4SHw6M=;
+	s=arc-20240116; t=1719598532; c=relaxed/simple;
+	bh=G6ogdb37vMBiTBHKzuRXgv5nWGa+A1TGusHactB8uGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=atoUJWyWHtUyYTtyzrJ2+vQQgQEI96zQkPeGnqyskJmzfJs6APqi57gVg6qP/PNDQN0DIxg7Bd3MipQa89I4zdEpovClaTZGR/puLxMTJLBrI0mSOz+5XretTfh4DYqn+R/2aLO1PCwNBQ8KsaNdnlfAqXkpXep3jvp6Io1bZyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hc2Q+52D; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=C4yXovxyjgCYAwt/MdcRMp+Pa8/Pb7O64pd7roqFwPN61miGsyOjU+MIz1Cuw7y4ATGJBDlJ9Mwc+gf+c5DC/Azu4Se2sbyjFyOXpMMJxHbsgd9czps0IWaryE+pF6kjPKWBfbGfuHv+vtosscTS7GVaTYUJ5C67BYpuFXtXjqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQOzASL2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hc2Q+52D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719596273; x=1751132273;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qPFeIWVXm8Kv85+s+qgwv+YqdPUZnd5cXgY0w4SHw6M=;
-  b=Hc2Q+52D5sG7wDCZL3sWDxOzMiOR9DXdXX/Nnp3ykojkSAg/pGIbc++O
-   ehfMCmi5MFV893y+e3sFikgaCmd0QgjT+t/l7kLkCHp4DUOqhRIS9/UWn
-   dDHw3C4k8EMnQ3fPJjj1u3lq5/G8UjvMfRSVafhR+lR1IpqZ1igsKrOBh
-   Au2OL+FnvxT4+U4x5AD5tp4WGS4RsUhuhu64vbhfiEiyvQeccFhrGYDOj
-   TZkilXF2Ydy4mosyuzm0ZoS4bPsXUwe5uJ66YkB3JlEDImInx8CcQGARN
-   98j1zWMR0sVYeGKltF5xZl/HxP95JawymJBmbXMfICXWkiCepPKvCQUX1
-   Q==;
-X-CSE-ConnectionGUID: obCT+sneTdqhIlEVcbxJeg==
-X-CSE-MsgGUID: vjKHSaXKSx2NN3pKhBnCnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16526231"
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="16526231"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 10:37:52 -0700
-X-CSE-ConnectionGUID: 7AHxoUbyTFybu//5upRrJQ==
-X-CSE-MsgGUID: idLp97qGQQSbgHV5vhOiKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="44918609"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Jun 2024 10:37:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sNFXf-000Hcs-0q;
-	Fri, 28 Jun 2024 17:37:47 +0000
-Date: Sat, 29 Jun 2024 01:36:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sudeepgoud Patil <quic_sudeepgo@quicinc.com>, quic_bjorande@quicinc.com,
-	andersson@kernel.org, quic_clew@quicinc.com,
-	mathieu.poirier@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	quic_deesin@quicinc.com, quic_sudeepgo@quicinc.com,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH V3 2/2] soc: qcom: smp2p: Introduce tracepoint support
-Message-ID: <202406290037.KaJgVUWB-lkp@intel.com>
-References: <20240627104831.4176799-3-quic_sudeepgo@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQOzASL2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAD85C116B1;
+	Fri, 28 Jun 2024 18:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719598530;
+	bh=G6ogdb37vMBiTBHKzuRXgv5nWGa+A1TGusHactB8uGU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aQOzASL2TQPWjqByWeCbvIZD6ttnaO4CefmI9uFXiG56QvH+Ux579VffYduabDZIJ
+	 0OTy7v1EpSahQG4KiYfHEpGYVaOyolfoFArTWEfwdIVFIl4VBfMxL7A3iHh9QO8UIW
+	 vUZbtsWT9pXpAF9P37G0Rv6hE1lcyCF3tYvqXzaC64jbwYqVDoaN2fjfO4xCaF4aFL
+	 71w4QqrvCl0ONOjzeao9LNlwzrVLr4NAqChgexYGxbvKzEiQ5Eo6OwvhUbwmLIqX4Z
+	 Nj21uftup+t3bsmN7R0Qm0anEYquuejEv2OO+am5eMDiIetAt5aGWu38h8M8TTARir
+	 RaUdcM0NUd85A==
+Date: Fri, 28 Jun 2024 20:15:25 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	linux-scsi@vger.kernel.org, John Garry <john.g.garry@oracle.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	linux-ide@vger.kernel.org
+Subject: Re: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port
+ print_ids
+Message-ID: <Zn79vbjYDhhXwy_T@ryzen.lan>
+References: <20240626180031.4050226-26-cassel@kernel.org>
+ <202406290027.cdgsPQAF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,358 +48,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627104831.4176799-3-quic_sudeepgo@quicinc.com>
+In-Reply-To: <202406290027.cdgsPQAF-lkp@intel.com>
 
-Hi Sudeepgoud,
+On Sat, Jun 29, 2024 at 12:31:57AM +0800, kernel test robot wrote:
+> Hi Niklas,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.10-rc5 next-20240627]
+> [cannot apply to mkp-scsi/for-next jejb-scsi/for-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/ata-libata-core-Fix-null-pointer-dereference-on-error/20240627-123023
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20240626180031.4050226-26-cassel%40kernel.org
+> patch subject: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port print_ids
+> config: i386-randconfig-141-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290027.cdgsPQAF-lkp@intel.com/config)
+> compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202406290027.cdgsPQAF-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/ata/libata-core.c:5467 ata_port_alloc() warn: unsigned 'ap->print_id' is never less than zero.
+> 
+> vim +5467 drivers/ata/libata-core.c
+> 
+>   5443	
+>   5444	/**
+>   5445	 *	ata_port_alloc - allocate and initialize basic ATA port resources
+>   5446	 *	@host: ATA host this allocated port belongs to
+>   5447	 *
+>   5448	 *	Allocate and initialize basic ATA port resources.
+>   5449	 *
+>   5450	 *	RETURNS:
+>   5451	 *	Allocate ATA port on success, NULL on failure.
+>   5452	 *
+>   5453	 *	LOCKING:
+>   5454	 *	Inherited from calling layer (may sleep).
+>   5455	 */
+>   5456	struct ata_port *ata_port_alloc(struct ata_host *host)
+>   5457	{
+>   5458		struct ata_port *ap;
+>   5459	
+>   5460		ap = kzalloc(sizeof(*ap), GFP_KERNEL);
+>   5461		if (!ap)
+>   5462			return NULL;
+>   5463	
+>   5464		ap->pflags |= ATA_PFLAG_INITIALIZING | ATA_PFLAG_FROZEN;
+>   5465		ap->lock = &host->lock;
+>   5466		ap->print_id = ida_alloc_min(&ata_ida, 1, GFP_KERNEL);
+> > 5467		if (ap->print_id < 0) {
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10-rc5 next-20240627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sudeepgoud-Patil/soc-qcom-smp2p-Use-devname-for-interrupt-descriptions/20240628-061654
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240627104831.4176799-3-quic_sudeepgo%40quicinc.com
-patch subject: [PATCH V3 2/2] soc: qcom: smp2p: Introduce tracepoint support
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240629/202406290037.KaJgVUWB-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290037.KaJgVUWB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406290037.KaJgVUWB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/trace/trace_events.h:419,
-                    from include/trace/define_trace.h:102,
-                    from drivers/soc/qcom/trace-smp2p.h:98,
-                    from drivers/soc/qcom/smp2p.c:165:
->> drivers/soc/qcom/./trace-smp2p.h:25:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      25 | );
-         | ^~                 
-   In file included from include/trace/trace_events.h:375:
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'trace_event_raw_event_smp2p_ssr_ack':
->> drivers/soc/qcom/./trace-smp2p.h:22:17: error: '__assign_str' undeclared (first use in this function)
-      22 |                 __assign_str(dev_name, dev_name(dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:15:1: note: in expansion of macro 'TRACE_EVENT'
-      15 | TRACE_EVENT(smp2p_ssr_ack,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:21:9: note: in expansion of macro 'TP_fast_assign'
-      21 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:22:17: note: each undeclared identifier is reported only once for each function it appears in
-      22 |                 __assign_str(dev_name, dev_name(dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:15:1: note: in expansion of macro 'TRACE_EVENT'
-      15 | TRACE_EVENT(smp2p_ssr_ack,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:21:9: note: in expansion of macro 'TP_fast_assign'
-      21 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:42:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      42 | );
-         | ^~                 
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'trace_event_raw_event_smp2p_negotiate':
-   drivers/soc/qcom/./trace-smp2p.h:35:17: error: '__assign_str' undeclared (first use in this function)
-      35 |                 __assign_str(dev_name, dev_name(dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:27:1: note: in expansion of macro 'TRACE_EVENT'
-      27 | TRACE_EVENT(smp2p_negotiate,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:34:9: note: in expansion of macro 'TP_fast_assign'
-      34 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'trace_event_raw_event_smp2p_notify_in':
-   drivers/soc/qcom/./trace-smp2p.h:54:17: error: '__assign_str' undeclared (first use in this function)
-      54 |                 __assign_str(dev_name, dev_name(smp2p_entry->smp2p->dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:44:1: note: in expansion of macro 'TRACE_EVENT'
-      44 | TRACE_EVENT(smp2p_notify_in,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:53:9: note: in expansion of macro 'TP_fast_assign'
-      53 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'trace_event_raw_event_smp2p_update_bits':
-   drivers/soc/qcom/./trace-smp2p.h:77:17: error: '__assign_str' undeclared (first use in this function)
-      77 |                 __assign_str(dev_name, dev_name(smp2p_entry->smp2p->dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:67:1: note: in expansion of macro 'TRACE_EVENT'
-      67 | TRACE_EVENT(smp2p_update_bits,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:76:9: note: in expansion of macro 'TP_fast_assign'
-      76 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:469:
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
->> drivers/soc/qcom/./trace-smp2p.h:25:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      25 | );
-         | ^~                 
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:42:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      42 | );
-         | ^~                 
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   In file included from include/trace/perf.h:75,
-                    from include/trace/define_trace.h:103:
->> drivers/soc/qcom/./trace-smp2p.h:25:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      25 | );
-         | ^~                 
-   In file included from include/trace/perf.h:7:
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'perf_trace_smp2p_ssr_ack':
->> drivers/soc/qcom/./trace-smp2p.h:22:17: error: '__assign_str' undeclared (first use in this function)
-      22 |                 __assign_str(dev_name, dev_name(dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:15:1: note: in expansion of macro 'TRACE_EVENT'
-      15 | TRACE_EVENT(smp2p_ssr_ack,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:21:9: note: in expansion of macro 'TP_fast_assign'
-      21 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:42:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      42 | );
-         | ^~                 
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'perf_trace_smp2p_negotiate':
-   drivers/soc/qcom/./trace-smp2p.h:35:17: error: '__assign_str' undeclared (first use in this function)
-      35 |                 __assign_str(dev_name, dev_name(dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:27:1: note: in expansion of macro 'TRACE_EVENT'
-      27 | TRACE_EVENT(smp2p_negotiate,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:34:9: note: in expansion of macro 'TP_fast_assign'
-      34 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'perf_trace_smp2p_notify_in':
-   drivers/soc/qcom/./trace-smp2p.h:54:17: error: '__assign_str' undeclared (first use in this function)
-      54 |                 __assign_str(dev_name, dev_name(smp2p_entry->smp2p->dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:44:1: note: in expansion of macro 'TRACE_EVENT'
-      44 | TRACE_EVENT(smp2p_notify_in,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:53:9: note: in expansion of macro 'TP_fast_assign'
-      53 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h: In function 'perf_trace_smp2p_update_bits':
-   drivers/soc/qcom/./trace-smp2p.h:77:17: error: '__assign_str' undeclared (first use in this function)
-      77 |                 __assign_str(dev_name, dev_name(smp2p_entry->smp2p->dev));
-         |                 ^~~~~~~~~~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:67:1: note: in expansion of macro 'TRACE_EVENT'
-      67 | TRACE_EVENT(smp2p_update_bits,
-         | ^~~~~~~~~~~
-   drivers/soc/qcom/./trace-smp2p.h:76:9: note: in expansion of macro 'TP_fast_assign'
-      76 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/bpf_probe.h:117,
-                    from include/trace/define_trace.h:104:
-   drivers/soc/qcom/./trace-smp2p.h: At top level:
->> drivers/soc/qcom/./trace-smp2p.h:25:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      25 | );
-         | ^~                 
-   In file included from include/trace/bpf_probe.h:7:
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:42:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      42 | );
-         | ^~                 
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:65:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      65 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
-   drivers/soc/qcom/./trace-smp2p.h:88:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
-      88 | );
-         | ^~                    
-   include/trace/stages/stage6_event_callback.h:34: note: macro "__assign_str" defined here
-      34 | #define __assign_str(dst)                                               \
-         | 
+Well, the check is correct, but since ap->print_id is unsigned int,
+we will need to use a temporary (signed) variable to check for errors
+from ida_alloc_min(). Will fix in next revision.
 
 
-vim +/__assign_str +25 drivers/soc/qcom/./trace-smp2p.h
-
-    14	
-    15	TRACE_EVENT(smp2p_ssr_ack,
-    16		TP_PROTO(const struct device *dev),
-    17		TP_ARGS(dev),
-    18		TP_STRUCT__entry(
-    19			__string(dev_name, dev_name(dev))
-    20		),
-    21		TP_fast_assign(
-  > 22			__assign_str(dev_name, dev_name(dev));
-    23		),
-    24		TP_printk("%s: SSR detected", __get_str(dev_name))
-  > 25	);
-    26	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>   5468			kfree(ap);
+>   5469			return NULL;
+>   5470		}
+>   5471		ap->host = host;
+>   5472		ap->dev = host->dev;
+>   5473	
+>   5474		mutex_init(&ap->scsi_scan_mutex);
+>   5475		INIT_DELAYED_WORK(&ap->hotplug_task, ata_scsi_hotplug);
+>   5476		INIT_DELAYED_WORK(&ap->scsi_rescan_task, ata_scsi_dev_rescan);
+>   5477		INIT_LIST_HEAD(&ap->eh_done_q);
+>   5478		init_waitqueue_head(&ap->eh_wait_q);
+>   5479		init_completion(&ap->park_req_pending);
+>   5480		timer_setup(&ap->fastdrain_timer, ata_eh_fastdrain_timerfn,
+>   5481			    TIMER_DEFERRABLE);
+>   5482	
+>   5483		ap->cbl = ATA_CBL_NONE;
+>   5484	
+>   5485		ata_link_init(ap, &ap->link, 0);
+>   5486	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
