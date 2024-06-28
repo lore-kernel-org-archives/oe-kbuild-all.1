@@ -1,65 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6917997
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 00:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776F9193;
+	Fri, 28 Jun 2024 00:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719532975; cv=none; b=o76+1W12Lf5zsPRJxwlLDYj7XC7K4pcxiZHrR4WRWq9HZyBgI8XU4rm4eyQ5ihXTwtPB7VoqM5qI0ZZu+5D5L8PGBZgrDKwjSIW/qHVhVEuz+IlqRXOgWAFOMuGToqseUFXNTHG9H40jdOUAv+0Nxo60qdrVOS/1XFnGsrYVeNU=
+	t=1719533536; cv=none; b=jGG/iQ6fP8pX1uCdsmvJxCaXZBMQPL111/kVFaEbMdlhPzgrw0S9exvEF7BcLIxXxyhbnXehQ08+zByuRa0wI0+WkORk+rF6coBwI+VSpDnG7rvlN69382IDIo4B4myzTZGwv/mi0qIKkM9DY9y21ONKJP70cTga0vjCQctg2bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719532975; c=relaxed/simple;
-	bh=mZjzbLJm2O0tHpL/cbdHIH5/7khS3AgCyWr3Lg/WQC0=;
+	s=arc-20240116; t=1719533536; c=relaxed/simple;
+	bh=H/fT+DfVxtbUufv1/xpK7cKBSC3jOJ7umsudl9tb1SQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QngfOAvuoI159naw311fcCz/P7+Kd/QE9ENVtfdvvTGGnC7xRi+stdQ7Vc0B3+4xybAYjNXZh/LWz3NVgVrvpiYwNJEMxqrR82LHdKa+wU46AtdwbJntYeok2k26oLMokKSMmc9kSiGTHo7TIhpJuFipVC3qk/Ic27UCYYbUYGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKidaqmw; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gCTEOEQIC+b3+5rXyAcR+B/dveLwNyRIAzhxrSWnyRt6TOKn+/XbXOmMhbYGxE2YcHOq+LBH2WNvJLJ9TYMKlIAGoH/zIwLncLZYKyqaX2u8BniEuz4lr18KIZMF7dBXzPyql3JBIDHwAiSvwFaFzBVzUqB+OLgo7ZZzqHYV5cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNXnLQxO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKidaqmw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719532971; x=1751068971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mZjzbLJm2O0tHpL/cbdHIH5/7khS3AgCyWr3Lg/WQC0=;
-  b=NKidaqmw5J/816TkPp/MKVLho1GNwqmrlhVAn7ytXgH7tcFKZubLzDc3
-   gokbSq53NhBZ8KkXcUIhLKr6glrxRPAMfyGmrI3i8wOStdFB5eOHV0DKn
-   ZOtBGBRj98riP2ZFRG1UsYsigx8rATDh9ajZtqtMB0/iTBTRwNcE10nAl
-   uKUI7CYW/rZ3z1IJ6eon6G7wzjcBMWtv1xX856dV+Si14bJvVsPBhsOmw
-   t6IltDAOukwjca0GCdzprN+W7ALpDhuz4n1h2+BSCsB1IQBES2TQSMs98
-   yKRbvO9GbiD0radctVtBzewzDcO1DG/Tx59sbFCpvPx3uqZ/wptVeXXpQ
-   A==;
-X-CSE-ConnectionGUID: n4N8aZxFSi+pwGhuleeQzg==
-X-CSE-MsgGUID: ACH4clWeR+iO5UrscGoZhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="27386483"
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="27386483"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 17:02:51 -0700
-X-CSE-ConnectionGUID: vfIoZHpFQe2CmfRuc4So6w==
-X-CSE-MsgGUID: +kNRcqUJSMeCacVTgFpz+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="48891275"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2024 17:02:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMz4g-000Gdu-1A;
-	Fri, 28 Jun 2024 00:02:46 +0000
-Date: Fri, 28 Jun 2024 08:01:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v2 2/2] arm64: dts: rockchip: Add Xunlong Orange Pi 3B
-Message-ID: <202406280724.E053qdhz-lkp@intel.com>
-References: <20240626230319.1425316-3-jonas@kwiboo.se>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNXnLQxO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EDDFC2BBFC;
+	Fri, 28 Jun 2024 00:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719533535;
+	bh=H/fT+DfVxtbUufv1/xpK7cKBSC3jOJ7umsudl9tb1SQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZNXnLQxO9x7FvxiWuWl0GmxpFP0HzE2hIN0JHFzfH02/WUqqUOE5VkAuXViyDcCRZ
+	 bdE+CeX5eYRlUgHauWhVdSCuW93uyTwPEN7QLMnT+v2lIU+YzHTsDJtJ/85irzt81c
+	 NG7jtZJhBErsi8FyuvWXl4u/56eaR1e+Hr1N/Knnz74qQE/uyiq9SkeylaY7zHHNzz
+	 CRRbmWMeifSqCJwoInuP0f6eyGlYbk0IygqMIcezv7/xRvZDXxaXxeRAJ/1ziWoQ0M
+	 r3VRU7RBADP9x5Fnz8i6BiRx2XOLxKovbhW5EBSEKiE7cZneuHyA6uZkXXFtaTzVYk
+	 ttoD0SY43fvCQ==
+Date: Fri, 28 Jun 2024 09:12:14 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [pci:controller/rockchip 10/11]
+ drivers/pci/controller/dwc/pcie-designware-ep.c:26:undefined reference to
+ `pci_epc_init_notify'
+Message-ID: <20240628001214.GB2060184@rocinante>
+References: <202406270250.k2esVVnL-lkp@intel.com>
+ <ZnxmHFkIvm-qTfiD@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,39 +46,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626230319.1425316-3-jonas@kwiboo.se>
+In-Reply-To: <ZnxmHFkIvm-qTfiD@ryzen.lan>
 
-Hi Jonas,
+Hello,
 
-kernel test robot noticed the following build warnings:
+[...]
+> > All errors (new ones prefixed by >>):
+> > 
+> >    loongarch64-linux-ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_pcie_ep_init_notify':
+> > >> drivers/pci/controller/dwc/pcie-designware-ep.c:26:(.text+0x1e4): undefined reference to `pci_epc_init_notify'
+> 
+> Seeing that it is pcie-designware-ep.c that fails to build, I can see the error.
+> I have forgotten to do:
+> 
+> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+> index 9c4fb8ba7573..4c38181acffa 100644
+> --- a/drivers/pci/controller/dwc/Kconfig
+> +++ b/drivers/pci/controller/dwc/Kconfig
+> @@ -329,6 +329,7 @@ config PCIE_ROCKCHIP_DW_EP
+>         bool "Rockchip DesignWare PCIe controller (endpoint mode)"
+>         depends on ARCH_ROCKCHIP || COMPILE_TEST
+>         depends on OF
+> +       depends on PCI_ENDPOINT
+>         select PCIE_DW_EP
+>         select PCIE_ROCKCHIP_DW
+>         help
+> 
+> (The .config in this build has PCIE_ROCKCHIP_DW_EP selected, but not PCI_ENDPOINT,
+> which should not be allowed...)
+> 
+> This is my fault, all the other endpoint drivers have a depends on PCI_ENDPOINT.
+> Will send a patch for this shortly. I'm truly sorry for this mistake.
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.10-rc5 next-20240627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+No worries.  Thank you for a quick fix!  Much appreciated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Karlman/dt-bindings-arm-rockchip-Add-Xunlong-Orange-Pi-3B/20240627-175050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20240626230319.1425316-3-jonas%40kwiboo.se
-patch subject: [PATCH v2 2/2] arm64: dts: rockchip: Add Xunlong Orange Pi 3B
-config: arm64-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280724.E053qdhz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev2+g3b69bad
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280724.E053qdhz-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280724.E053qdhz-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
