@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220F91BF329;
-	Fri, 28 Jun 2024 14:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8974D1BF326
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 14:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719584305; cv=none; b=aJ6rImR5omx8KDRNjNyqY0zyYHR5JEg9vEiOXEp9wHV2a9LiQoINT6tCqG0abI5gkLo3G77m6ReJ4JYyhrjyUFvfohdjekGk/IBDT0SqGd8tIk50Twf6v6jGLuyPxxVMGslPVgG0KTfLLswK8RxBtnOQ+ZgOxAUbsMwz33gyqVA=
+	t=1719584306; cv=none; b=BblquGv3nswQHBOqYe5v157s2YliIugXfkkCz4kcf0YDQUqVwI+RyP20vhhbYK6NuilbSKSs3f3/hW73HT+lyPQNqzI8s2pwmlO8ddkei4fy38IG5MYMQ42pSZ1s1fExoi1vSP5/NnnGMpvfjQsSmUI0CvReGDzWyWY3W3qoV6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719584305; c=relaxed/simple;
-	bh=1YJJG5D7+u3FmINigAy0zveGXvWefge1uVMDVisu0LA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eDZCvvfKSsUrFpSMT5ujkGjeIO66726nZ21DZ3S7ggDs9EJ4luxX6+RPfawDACZNbq9FdckPtv3OpAJBDuIyKKgg49OrQE9o2lJflxOOKhNvVjmtQ+kg+jjAWxQYpHaa1YIx5vdpDHsLzcsu+ibtaGGaUv4Sk1uOjUkluu70jQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ad6qjDNx; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1719584306; c=relaxed/simple;
+	bh=rN+yu1M6VrPAN2qTYxmI06wUxwW065hAHBTk2UqyBcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PCR2ORlp09I+QbjzVvnWGn2o6KbjX3NBbB6Ysfq8WJPLDlVllCC7pFK4YA2ui8+N0N6op/btbQHlEFF5BS5AwujFKXG7o4mha5pgahZdujBtRRlkYz9Bs3BrNilVeiyaVpc5KC874RgWkcfihDYvdcvEfrb8YpnhXnwRCkB5A8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cL4rX5ym; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ad6qjDNx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cL4rX5ym"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719584304; x=1751120304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1YJJG5D7+u3FmINigAy0zveGXvWefge1uVMDVisu0LA=;
-  b=Ad6qjDNxpal7S3KHAIrlX3e4oSC9+4TQjCB2xuQPZ/5baULH0y0vXgW+
-   f1Vsn5qnDUKOQ+z0I+S6SYlCX1muj6CQISoV2gTjG2o1RWSw19QKxC3Dh
-   qQJzMGWsMNWQ+Z88bgQBvXnNuiVGC4WzKJhAHokonli6UvuYeeMQuby+q
-   0zN1At3sjv9rj5eWGWWUhMGBQnwaApCEIovjw2hoSvtaEYU16EYxrEX3h
-   oMTviqADa8cfMt8F6c12+V4ybUTE9JtWB60/ZePpGMrKLkmR5L68f+19V
-   MLUYQUjK04LV0PmPSo4M2VjjoXZqRE/8Qg2Urq1qONWWP0MF/r3oYbXMW
-   g==;
-X-CSE-ConnectionGUID: E3iQfcoZQ46LYyiUyTyONw==
-X-CSE-MsgGUID: Onw6zGiOQ96He4ueOcEGUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="34212461"
+  t=1719584305; x=1751120305;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rN+yu1M6VrPAN2qTYxmI06wUxwW065hAHBTk2UqyBcM=;
+  b=cL4rX5ymUjWFdqabZcXIQ6uDM/er7DuxuO94IBArM75svUK9HR3Ibl+R
+   LiCvko6txsFCgWRhhCBtX1xZA1YW0ICAMOGIxLS2FGyEK1YNoqh9oICXn
+   jTG8Y01VZ8dHo98PPhJcpd+5FJn56RCI3bx/WHCqtyCf24rsxUmKWKMtO
+   r56ttCQ1rNfZp2NVFxzCr01X/kdJIwSUhWgOJl3vJbESRoJC70ydDjeg+
+   Ax3gFtHgxpBXyBgL2qh1M0tHCymmkNfouq6AE/rsgz8T830BnqzXT4XVA
+   lMaqWpj0ia1m96rGHHef2GUt7vKSFKUvTmdbYG/B0IN++vhu5H5MFMdz3
+   A==;
+X-CSE-ConnectionGUID: BtyjeJz5QvO9WPW5EIbH3w==
+X-CSE-MsgGUID: opdMTra7TxO60KBsKgkvkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="34212462"
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="34212461"
+   d="scan'208";a="34212462"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 07:18:22 -0700
-X-CSE-ConnectionGUID: FyBt4nggTt2iWY7Wx6F2yQ==
-X-CSE-MsgGUID: Gu4d2bXORkC1ryhkIQX7Vg==
+X-CSE-ConnectionGUID: Bz2/fHEbT0S8fNCVTzY1pw==
+X-CSE-MsgGUID: U1PKB/ubTOSBb3dymWeWpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="44806973"
+   d="scan'208";a="44806972"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2024 07:18:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNCQb-000HCA-1A;
+	id 1sNCQb-000HCC-1G;
 	Fri, 28 Jun 2024 14:18:17 +0000
-Date: Fri, 28 Jun 2024 22:17:51 +0800
+Date: Fri, 28 Jun 2024 22:17:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] drm/connector: automatically set immutable flag for
- max_bpc property
-Message-ID: <202406282224.4sie1QiJ-lkp@intel.com>
-References: <20240623-drm-bridge-connector-fix-hdmi-reset-v1-2-41e9894dcdec@linaro.org>
+To: Amelie Delaunay <amelie.delaunay@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: [atorgue-stm32:stm32-next 28/31]
+ arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: /soc@0/dma-controller@40400000:
+ failed to match any schema with compatible: ['st,stm32mp25-dma3']
+Message-ID: <202406282243.eGxr1ku9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240623-drm-bridge-connector-fix-hdmi-reset-v1-2-41e9894dcdec@linaro.org>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2102cb0d050d34d50b9642a3a50861787527e922]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-bridge-connector-reset-the-HDMI-connector-state/20240626-024615
-base:   2102cb0d050d34d50b9642a3a50861787527e922
-patch link:    https://lore.kernel.org/r/20240623-drm-bridge-connector-fix-hdmi-reset-v1-2-41e9894dcdec%40linaro.org
-patch subject: [PATCH 2/2] drm/connector: automatically set immutable flag for max_bpc property
-config: i386-randconfig-003-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282224.4sie1QiJ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406282224.4sie1QiJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
+head:   45fad67e83073a93bafcc39f4fa6ae1900d5d75b
+commit: 03b9ad569105ca71762780322ebc0dd3ad1bc62c [28/31] arm64: dts: st: add HPDMA nodes on stm32mp251
+config: arm64-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282243.eGxr1ku9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406282243.eGxr1ku9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406282224.4sie1QiJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406282243.eGxr1ku9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_connector.c:2613:7: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-    2613 |                 u32 flags = 0;
-         |                     ^
-   1 warning generated.
-
-
-vim +/flags +2613 drivers/gpu/drm/drm_connector.c
-
-  2593	
-  2594	/**
-  2595	 * drm_connector_attach_max_bpc_property - attach "max bpc" property
-  2596	 * @connector: connector to attach max bpc property on.
-  2597	 * @min: The minimum bit depth supported by the connector.
-  2598	 * @max: The maximum bit depth supported by the connector.
-  2599	 *
-  2600	 * This is used to add support for limiting the bit depth on a connector.
-  2601	 *
-  2602	 * Returns:
-  2603	 * Zero on success, negative errno on failure.
-  2604	 */
-  2605	int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
-  2606						  int min, int max)
-  2607	{
-  2608		struct drm_device *dev = connector->dev;
-  2609		struct drm_property *prop;
-  2610	
-  2611		prop = connector->max_bpc_property;
-  2612		if (!prop) {
-> 2613			u32 flags = 0;
-  2614	
-  2615			if (min == max)
-  2616				flags |= DRM_MODE_PROP_IMMUTABLE;
-  2617	
-  2618			prop = drm_property_create_range(dev, 0, "max bpc", min, max);
-  2619			if (!prop)
-  2620				return -ENOMEM;
-  2621	
-  2622			connector->max_bpc_property = prop;
-  2623		}
-  2624	
-  2625		drm_object_attach_property(&connector->base, prop, max);
-  2626		connector->state->max_requested_bpc = max;
-  2627		connector->state->max_bpc = max;
-  2628	
-  2629		return 0;
-  2630	}
-  2631	EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
-  2632	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: /soc@0/dma-controller@40400000: failed to match any schema with compatible: ['st,stm32mp25-dma3']
+   arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: /soc@0/dma-controller@40410000: failed to match any schema with compatible: ['st,stm32mp25-dma3']
+   arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: /soc@0/dma-controller@40420000: failed to match any schema with compatible: ['st,stm32mp25-dma3']
 
 -- 
 0-DAY CI Kernel Test Service
