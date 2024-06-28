@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9BD1C8FC7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43591BE25F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719590910; cv=none; b=NWFIQkl6T9GGpMSuOJly5iyGkNserlgx904gh1sqCjsQWCQpYSh9naK6sc2SMY5QNKmi4Gzx4yQYgrH7WFYxaEQ4V/E4pGhG2rMnaG3tVPC5CXPjKP4IBZ26k4bCaMlONemQBWygbbC9GGNmAqfCUI9pSH7W4RV17LqNZLy6uQY=
+	t=1719592383; cv=none; b=gIw5C/zBB9v3DxWIA9Fu9t+7GOUJW49npzm3D3pFP/cxznQhrIKfjeyFHf0QDh89CuEKIPjZGHJRiPT/4sRDQIqMB8sYpkhSyN6zu58j0gwarmLY3mGGXOkbnKgYRNB4ISXrqXLd1WnLJCNhyn+Sg8fOd88E6mojv8I+zJ6wKKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719590910; c=relaxed/simple;
-	bh=R4kwb7inTePxkXUgwaD3xEPqRk0IkjAOzJgUSxQSk00=;
+	s=arc-20240116; t=1719592383; c=relaxed/simple;
+	bh=UziAVxGIMxKimVIvWEEoSCI3IvuFy9O2kjXtnQXXDzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQuteB/HiLmB2aZiZpp73AyCMg/DvKuN993oxn5cN0O1xmoSZ+RH1SdaTtuKQB4yto2DlzUD9TXU9S5FNjt7NSL8fhXPocSZxbYeLbuvaK6O1inOFYx2Sbq5qjFnZTz1XlCsr4aVFR7xVXSdASp7GsBZy6Df8XgdiEpQ4fLzRbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwWj69zq; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=GL4cROj3Rkho8Tn0Zxu0uUSrlzzKlkmoC2YN32c4zoJvvpWOXeJ2c29JC0glKPhlfP4vJrtzm2yaaqhUuUdv76S6ryqSZG5Y6+MQXJ3QKzBfWyeW3G5c4I9IHy/bWbVEI+NJXHl0K4dihAPHYwvRzevZMSPo193EDKxvMWLsE/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2p3UYqx; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwWj69zq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2p3UYqx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719590909; x=1751126909;
+  t=1719592381; x=1751128381;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R4kwb7inTePxkXUgwaD3xEPqRk0IkjAOzJgUSxQSk00=;
-  b=mwWj69zqhlPijTHtHRC+cxTzN/eoNttUt5VPpioWNva/VOewJCP2I98R
-   c9V5BSbEa0Y24syZSVXVDGxPYDgbC4hfv4br8F2jbgkKQWu5lBSRGjKj7
-   13tcFck6Mk834YiRM5g+gknyb1+PfAt09o+O0lP8wZ4Zy/TYrYhjTloFa
-   Nh0QtKc+/uxisx1RB+LH9SInF5ilAS6a/QIKxjLaIDDSqFBXi9CxGQZ1V
-   OGCjYlYha9UN3XDNBL2St+DLIX77jjoGyY/F6iMZKZp2ySO4tIuA2ZLFN
-   UAqmlLHl14UC6f9jV2lFXSynj3QYOUMiZ18nlMWKTztvMG2Law0MOKWyW
-   g==;
-X-CSE-ConnectionGUID: tLnMgeeIT2u8oP+a8dvQLg==
-X-CSE-MsgGUID: lHwdzqtPS6eE8He1JpNXMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="17005104"
+  bh=UziAVxGIMxKimVIvWEEoSCI3IvuFy9O2kjXtnQXXDzM=;
+  b=O2p3UYqxx+neIDs/VHLZssNVYWPvwWdJBHEywACAVmHnGX8lWnkW4bH/
+   48FSKisIDkuLt7WlUMcSmntPfUqxq47KxY4ZB76BsJ+y4nF0whGM+30Yy
+   76s1334frtJfnB7opsmLTfSb4Mi3y7Q5cYCazJAu1NU97RB4T8YjnxmEv
+   pEad3+gMfm7wduQMPVDuZOc0Lj/Y/bPcY7M15gDYyORGzQYIZrM5FkYbm
+   AjzzJfWffQCGp88vE9jOFk6ns9CXW/zFSz59qb/hIEa/cfDW4feR2P8MW
+   X+wB6VapyXnn/tXB5zMRrwWKdE+C/q/JDsJy0A/sKhf52wURZYiwAEdDU
+   A==;
+X-CSE-ConnectionGUID: fKV6PYO3TByZn2rpiAYFmA==
+X-CSE-MsgGUID: UX39gmBsRMmH1qzrDiudZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16457625"
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="17005104"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:08:26 -0700
-X-CSE-ConnectionGUID: WSVqjr6pQbaADbCz/moyeQ==
-X-CSE-MsgGUID: pbgkgWDkQlKzrfXSbQu4ug==
+   d="scan'208";a="16457625"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:33:01 -0700
+X-CSE-ConnectionGUID: PjH0WufYSg2TMeOvv/BMKA==
+X-CSE-MsgGUID: iBTfl+UnRi+7HD2djoy5ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="75979078"
+   d="scan'208";a="44904378"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Jun 2024 09:08:18 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Jun 2024 09:32:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNE8w-000HJq-1l;
-	Fri, 28 Jun 2024 16:08:10 +0000
-Date: Sat, 29 Jun 2024 00:07:13 +0800
+	id 1sNEWu-000HOn-1c;
+	Fri, 28 Jun 2024 16:32:56 +0000
+Date: Sat, 29 Jun 2024 00:31:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Kagan <rkagan@amazon.de>, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, nh-open-source@amazon.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH] irqchip/gicv3-its: Workaround for GIC-700 erratum 2195890
-Message-ID: <202406282359.98P8jJ4c-lkp@intel.com>
-References: <20240624165541.1286227-1-rkagan@amazon.de>
+To: Niklas Cassel <cassel@kernel.org>, Damien Le Moal <dlemoal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	John Garry <john.g.garry@oracle.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	linux-ide@vger.kernel.org
+Subject: Re: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port
+ print_ids
+Message-ID: <202406290027.cdgsPQAF-lkp@intel.com>
+References: <20240626180031.4050226-26-cassel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +68,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624165541.1286227-1-rkagan@amazon.de>
+In-Reply-To: <20240626180031.4050226-26-cassel@kernel.org>
 
-Hi Roman,
+Hi Niklas,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on soc/for-next tip/irq/core linus/master v6.10-rc5 next-20240627]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10-rc5 next-20240627]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kagan/irqchip-gicv3-its-Workaround-for-GIC-700-erratum-2195890/20240625-212945
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20240624165541.1286227-1-rkagan%40amazon.de
-patch subject: [PATCH] irqchip/gicv3-its: Workaround for GIC-700 erratum 2195890
-config: arm64-randconfig-004-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282359.98P8jJ4c-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406282359.98P8jJ4c-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/ata-libata-core-Fix-null-pointer-dereference-on-error/20240627-123023
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240626180031.4050226-26-cassel%40kernel.org
+patch subject: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port print_ids
+config: i386-randconfig-141-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290027.cdgsPQAF-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406282359.98P8jJ4c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406290027.cdgsPQAF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+drivers/ata/libata-core.c:5467 ata_port_alloc() warn: unsigned 'ap->print_id' is never less than zero.
 
->> WARNING: modpost: vmlinux: section mismatch in reference: its_enable_quirk_gic700_2195890+0x24 (section: .text) -> lpi_id_base (section: .init.data)
-WARNING: modpost: vmlinux: section mismatch in reference: its_enable_quirk_gic700_2195890+0x34 (section: .text) -> lpi_id_base (section: .init.data)
-WARNING: modpost: vmlinux: section mismatch in reference: its_enable_quirk_gic700_2195890+0x44 (section: .text) -> lpi_id_base (section: .init.data)
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/crct10dif-ce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/aes-neon-bs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/test_udelay.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/arm_smccc_trng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+vim +5467 drivers/ata/libata-core.c
+
+  5443	
+  5444	/**
+  5445	 *	ata_port_alloc - allocate and initialize basic ATA port resources
+  5446	 *	@host: ATA host this allocated port belongs to
+  5447	 *
+  5448	 *	Allocate and initialize basic ATA port resources.
+  5449	 *
+  5450	 *	RETURNS:
+  5451	 *	Allocate ATA port on success, NULL on failure.
+  5452	 *
+  5453	 *	LOCKING:
+  5454	 *	Inherited from calling layer (may sleep).
+  5455	 */
+  5456	struct ata_port *ata_port_alloc(struct ata_host *host)
+  5457	{
+  5458		struct ata_port *ap;
+  5459	
+  5460		ap = kzalloc(sizeof(*ap), GFP_KERNEL);
+  5461		if (!ap)
+  5462			return NULL;
+  5463	
+  5464		ap->pflags |= ATA_PFLAG_INITIALIZING | ATA_PFLAG_FROZEN;
+  5465		ap->lock = &host->lock;
+  5466		ap->print_id = ida_alloc_min(&ata_ida, 1, GFP_KERNEL);
+> 5467		if (ap->print_id < 0) {
+  5468			kfree(ap);
+  5469			return NULL;
+  5470		}
+  5471		ap->host = host;
+  5472		ap->dev = host->dev;
+  5473	
+  5474		mutex_init(&ap->scsi_scan_mutex);
+  5475		INIT_DELAYED_WORK(&ap->hotplug_task, ata_scsi_hotplug);
+  5476		INIT_DELAYED_WORK(&ap->scsi_rescan_task, ata_scsi_dev_rescan);
+  5477		INIT_LIST_HEAD(&ap->eh_done_q);
+  5478		init_waitqueue_head(&ap->eh_wait_q);
+  5479		init_completion(&ap->park_req_pending);
+  5480		timer_setup(&ap->fastdrain_timer, ata_eh_fastdrain_timerfn,
+  5481			    TIMER_DEFERRABLE);
+  5482	
+  5483		ap->cbl = ATA_CBL_NONE;
+  5484	
+  5485		ata_link_init(ap, &ap->link, 0);
+  5486	
 
 -- 
 0-DAY CI Kernel Test Service
