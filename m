@@ -1,73 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26E01A2FA5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jun 2024 23:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BBD179A3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 00:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719530938; cv=none; b=eaU25wgqXwseivYpBtWkid7Y/COVHVEY/G62sDQ5ig9aezWPftv2Q1qKbW43AKhHsPuqVmh+QkSd0PHW3wpxw1PpEiXjZo7U679I9Irxr7yQETyiE8IN+u84vtnmzQrGsAOeFXvZ+7CScU695gBACNRkvIem+I53wX4eRXNOK+s=
+	t=1719532974; cv=none; b=RAxYY0d8UXxpAsGL8OcLqhYpmpJaGru1sRu/Fh7AlhwsKC02ffCx3OxXnV65kFrjPqG2NR3N10NeRcTU0SZUTaq7LqXe/uAM1h4des3P/kGTTF+x6rfbYrjRcuDwqIhg7uj/HRop5e2O9BWwbXZq+h6fVTbJownw5te/95IjeSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719530938; c=relaxed/simple;
-	bh=fDcY929y1dbItvCnjfbE1Bmmgy71kQcGofpj8HonM4A=;
+	s=arc-20240116; t=1719532974; c=relaxed/simple;
+	bh=E1YAMTWZQHJa0g1CplgYKEt95kLRiyCZDqokpEPY8bU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8KE9YP7+R+1mIYJ0a3gv0AU7mDAQMGcBj4xflgMS6S89jVECAE+bhLCH2hJCoaz1+rNQcaejOBEBl0LCzeCw5eE16A/kgfFyMv9bmttMxwz6p5g5lE1enlpLj7q/wzmUpVe2nTgfwZlvRot3bifVnKJsMqQ27spguCorqpxL50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwgZpVaR; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mm5ZFgBmL/lg48q8ouWSBZ5XYr2YUjqzH8wtOg5mV9Y5AZW76668kcgR5NEGTylhvKDT6mzPMZQnKbvONxWjfvWby+vN50B9aSwA+cHIrE24uhYaIkpd0RIqWl978e7dBCunvwseaxLm0qrRqeN5x2tMUKNCh8y2YyVKcyjZEHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOgFB1hg; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwgZpVaR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOgFB1hg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719530933; x=1751066933;
+  t=1719532973; x=1751068973;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fDcY929y1dbItvCnjfbE1Bmmgy71kQcGofpj8HonM4A=;
-  b=nwgZpVaRaSJ0thcV/8y9QGhH58NgnG0xyVWTK7NyOIW9QTZY9dVm5xC8
-   IrMcyAgi3/X12b5QWgoLtT/T029JDROoQst59HTS6X59mjH1w+6NMJrGN
-   viVxxNxMkFZEecMLcfCr7aQx5EzrdD7hDcBPhTFNIVyUJH8Gn5M1Oj1/x
-   rUl/pStdonGhnvmcf0SqM/DY4jGcppZpt5pYHVl83TGOhvx1qxk0lozO2
-   Agw30b9f8p7ydGZMZD1CV7hreiy7QE7f9tDS8L72EMGpUEj3fpe3fQT5n
-   YZ5pvxP0h11tkZQ7njSRbTK2QjP+iyDzgd3q2MJwV+tH78qS61nV6gkBV
-   g==;
-X-CSE-ConnectionGUID: n8Lmb9YNTjSd/MEMd2k/tg==
-X-CSE-MsgGUID: fh4fm0EKRlmev37G34ouog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16825809"
+  bh=E1YAMTWZQHJa0g1CplgYKEt95kLRiyCZDqokpEPY8bU=;
+  b=DOgFB1hgS9kBDgEs9yC4jYT8dlLfe6aaD+BBT7M/jqXCutA0uVPbwyxN
+   yzIZws+2XVFwJKT+onX+FDW14gSQZg+01TOs4t3hj8mKZ8kXry/oPS79D
+   jJDQkieLww6gFigjis265ozT7Tahu503N3MM55t31B/GDmtv7P1sK8g5T
+   z5vpI8apcz/s9LPxaAT+jGGb4yTOrDkJe99uDXhU6oVizoTRAwPVCLYRS
+   bEgDj14MUEJ//4zX/NUzKt4aghJimggJ8mtwnrqCHGXdTopcNKuZ2dO/6
+   cezXE+Ev9ohvLBN5uWKfORKj3Azxb5J4QeQreP3TvdUNDeyy/dhpMjIo9
+   w==;
+X-CSE-ConnectionGUID: pbXNuYLsQgiyAYYz2IzIsw==
+X-CSE-MsgGUID: qvgCFeBmRVmV9qq9BzPIlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="39216941"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16825809"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 16:28:52 -0700
-X-CSE-ConnectionGUID: zzRpow8RSiS75GHQ6+Hc1g==
-X-CSE-MsgGUID: h1laxujgRbujeNMcMbUh+g==
+   d="scan'208";a="39216941"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 17:02:52 -0700
+X-CSE-ConnectionGUID: uXnR8qFXQaa0j4b4U4I/sw==
+X-CSE-MsgGUID: KU2C2W66THiFb79QcDcghA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="75300931"
+   d="scan'208";a="49470939"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2024 16:28:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Jun 2024 17:02:49 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMyXk-000Gcm-0e;
-	Thu, 27 Jun 2024 23:28:44 +0000
-Date: Fri, 28 Jun 2024 07:28:12 +0800
+	id 1sMz4g-000Gdw-1E;
+	Fri, 28 Jun 2024 00:02:46 +0000
+Date: Fri, 28 Jun 2024 08:01:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH net-next] dt-bindings: net: Define properties at top-level
-Message-ID: <202406280720.2jpIQKsI-lkp@intel.com>
-References: <20240625215442.190557-2-robh@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+	eric.piel@tremplin-utc.net, Marius Hoch <mail@mariushoch.de>,
+	Dell.Client.Kernel@dell.com,
+	Kai Heng Feng <kai.heng.feng@canonical.com>,
+	platform-driver-x86@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] platform/x86: dell-smo8800: Move instantiation of
+ lis3lv02d i2c_client from i2c-i801 to dell-lis3lv02d
+Message-ID: <202406280739.e0s764jH-lkp@intel.com>
+References: <20240624111519.15652-5-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,896 +74,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625215442.190557-2-robh@kernel.org>
+In-Reply-To: <20240624111519.15652-5-hdegoede@redhat.com>
 
-Hi Rob,
+Hi Hans,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on wsa/i2c/for-next linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-net-Define-properties-at-top-level/20240626-091748
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240625215442.190557-2-robh%40kernel.org
-patch subject: [PATCH net-next] dt-bindings: net: Define properties at top-level
-config: arm64-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280720.2jpIQKsI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev2+g3b69bad
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280720.2jpIQKsI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/i2c-core-Setup-i2c_adapter-runtime-pm-before-calling-device_add/20240626-053449
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240624111519.15652-5-hdegoede%40redhat.com
+patch subject: [PATCH v4 4/6] platform/x86: dell-smo8800: Move instantiation of lis3lv02d i2c_client from i2c-i801 to dell-lis3lv02d
+config: i386-randconfig-002-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280739.e0s764jH-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280739.e0s764jH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280720.2jpIQKsI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406280739.e0s764jH-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('interrupts', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff550000: Unevaluated properties are not allowed ('assigned-clock-rate', 'interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('interrupts', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: ethernet@ff540000: snps,pbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,pbl', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: ethernet@ff550000: Unevaluated properties are not allowed ('assigned-clock-rate', 'interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('interrupts', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,force_thresh_dma_mode', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: ethernet@ff540000: snps,rxpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,rxpbl', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: ethernet@ff550000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('interrupts', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: ethernet@ff540000: snps,rxpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,rxpbl', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:732.17-740.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: hdmi@ff3c0000: interrupts: [[0, 35, 4], [0, 71, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('interrupts', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
-   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
-   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: ethernet@ff540000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: ethernet@ff540000: snps,rxpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,aal', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,rxpbl', 'snps,txpbl', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: ethernet@ff550000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:582.31-584.7: Warning (unit_address_vs_reg): /i2c@ff3d0000/typec-portc@22/ports/port@0/endpoint@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:907.7-914.4: Warning (graph_child_address): /usb@fe800000/usb@fe800000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:576.9-586.5: Warning (graph_child_address): /i2c@ff3d0000/typec-portc@22/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /i2c@ff110000/audio-codec@1a: failed to match any schema with compatible: ['rockchip,rt5651']
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: typec-portc@22: 'ports' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000: usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: bluetooth: clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /i2c@ff110000/rt5640@1c: failed to match any schema with compatible: ['realtek,rt5640']
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000: usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe900000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /i2c@ff110000/rt5514@57: failed to match any schema with compatible: ['realtek,rt5514']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /spi@ff1e0000/spi2@0: failed to match any schema with compatible: ['realtek,rt5514']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /i2c@ff110000/rt5514@57: failed to match any schema with compatible: ['realtek,rt5514']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /spi@ff1e0000/spi2@0: failed to match any schema with compatible: ['realtek,rt5514']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: pcie@0,0: wifi@0,0:compatible: ['qcom,ath10k'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: pcie@0,0: wifi@0,0:reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: wifi@0,0: reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000: bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000: bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000: bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: bluetooth: clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: syr827@40: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: pcie@f8000000: 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: bluetooth: clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: typec-portc@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: typec-portc@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:1356.21-1369.4: Warning (avoid_unnecessary_addr_size): /i2c@ff3d0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: typec-portc@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'nvmem-cell-names', 'nvmem-cells', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: cm32181@10: 'vdd-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: syscon@ff770000: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: syscon@ff770000: usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: spi@ff1d0000: Unevaluated properties are not allowed ('max-freq' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-rockchip.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: syscon@ff770000: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: syscon@ff770000: usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2098.21-2100.6: Warning (avoid_unnecessary_addr_size): /dsi@ff960000/ports/port@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2098.21-2100.6: Warning (graph_child_address): /dsi@ff960000/ports/port@1: graph node has single child node 'endpoint', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: vop@ff8f0000: assigned-clocks: [[8, 183], [8, 181], [8, 219], [8, 475]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: vop@ff8f0000: assigned-clock-rates:0: [0, 0, 400000000, 100000000] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: fan@18: '#cooling-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: pinctrl: gpios: {'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 186]], 'phandle': [[182]]}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: usb-typec@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /i2c@ff160000/regulator@66: failed to match any schema with compatible: ['mps,mp8859']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: usb-typec@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: usb-typec@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /i2c@ff160000/regulator@66: failed to match any schema with compatible: ['mps,mp8859']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: usb-typec@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:1356.21-1369.4: Warning (avoid_unnecessary_addr_size): /i2c@ff3d0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'DVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'AVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'PVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'HPVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: regulator@40: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: regulator@41: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4se.dtb: spdif-dit: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a.dtb: spdif-dit: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: codec@11: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8316.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4a-plus.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b.dtb: spdif-dit: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: codec@11: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8316.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4b-plus.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: codec@11: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8316.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dtb: sdio-pwrseq: clock-names:0: 'ext_clock' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-pwrseq-simple.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: bluetooth: clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/broadcom-bluetooth.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: typec-portc@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64-v2.dtb: spdif-dit: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: typec-portc@22: 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtb: spdif-dit: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /i2c@ff110000/rt5651@1a: failed to match any schema with compatible: ['rockchip,rt5651']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: ethernet@fe300000: snps,txpbl: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: ethernet@fe300000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'phy-mode', 'power-domains', 'reg', 'reset-names', 'resets', 'snps,reset-active-low', 'snps,reset-delays-us', 'snps,reset-gpio', 'snps,txpbl' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+All error/warnings (new ones prefixed by >>):
+
+   drivers/platform/x86/dell/dell-lis3lv02d.c: In function 'find_i801':
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:77:21: error: implicit declaration of function 'i2c_get_adapter'; did you mean 'i2c_get_adapdata'? [-Werror=implicit-function-declaration]
+      77 |         *adap_ret = i2c_get_adapter(adap->nr);
+         |                     ^~~~~~~~~~~~~~~
+         |                     i2c_get_adapdata
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:77:19: warning: assignment to 'struct i2c_adapter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      77 |         *adap_ret = i2c_get_adapter(adap->nr);
+         |                   ^
+   drivers/platform/x86/dell/dell-lis3lv02d.c: In function 'instantiate_i2c_client':
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:96:19: error: implicit declaration of function 'i2c_new_client_device' [-Werror=implicit-function-declaration]
+      96 |         i2c_dev = i2c_new_client_device(adap, &info);
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:96:17: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      96 |         i2c_dev = i2c_new_client_device(adap, &info);
+         |                 ^
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:104:9: error: implicit declaration of function 'i2c_put_adapter' [-Werror=implicit-function-declaration]
+     104 |         i2c_put_adapter(adap);
+         |         ^~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-lis3lv02d.c: In function 'dell_lis3lv02d_module_exit':
+>> drivers/platform/x86/dell/dell-lis3lv02d.c:193:9: error: implicit declaration of function 'i2c_unregister_device' [-Werror=implicit-function-declaration]
+     193 |         i2c_unregister_device(i2c_dev);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +77 drivers/platform/x86/dell/dell-lis3lv02d.c
+
+    65	
+    66	static int find_i801(struct device *dev, void *data)
+    67	{
+    68		struct i2c_adapter *adap, **adap_ret = data;
+    69	
+    70		adap = i2c_verify_adapter(dev);
+    71		if (!adap)
+    72			return 0;
+    73	
+    74		if (!i2c_adapter_is_main_i801(adap))
+    75			return 0;
+    76	
+  > 77		*adap_ret = i2c_get_adapter(adap->nr);
+    78		return 1;
+    79	}
+    80	
+    81	static void instantiate_i2c_client(struct work_struct *work)
+    82	{
+    83		struct i2c_board_info info = { };
+    84		struct i2c_adapter *adap = NULL;
+    85	
+    86		if (i2c_dev)
+    87			return;
+    88	
+    89		bus_for_each_dev(&i2c_bus_type, NULL, &adap, find_i801);
+    90		if (!adap)
+    91			return;
+    92	
+    93		info.addr = (long)lis3lv02d_dmi_id->driver_data;
+    94		strscpy(info.type, "lis3lv02d", I2C_NAME_SIZE);
+    95	
+  > 96		i2c_dev = i2c_new_client_device(adap, &info);
+    97		if (IS_ERR(i2c_dev)) {
+    98			pr_err("error %ld registering i2c_client\n", PTR_ERR(i2c_dev));
+    99			i2c_dev = NULL;
+   100		} else {
+   101			pr_debug("registered lis3lv02d on address 0x%02x\n", info.addr);
+   102		}
+   103	
+ > 104		i2c_put_adapter(adap);
+   105	}
+   106	static DECLARE_WORK(i2c_work, instantiate_i2c_client);
+   107	
+   108	static int i2c_bus_notify(struct notifier_block *nb, unsigned long action, void *data)
+   109	{
+   110		struct device *dev = data;
+   111		struct i2c_client *client;
+   112		struct i2c_adapter *adap;
+   113	
+   114		switch (action) {
+   115		case BUS_NOTIFY_ADD_DEVICE:
+   116			adap = i2c_verify_adapter(dev);
+   117			if (!adap)
+   118				break;
+   119	
+   120			if (i2c_adapter_is_main_i801(adap))
+   121				queue_work(system_long_wq, &i2c_work);
+   122			break;
+   123		case BUS_NOTIFY_REMOVED_DEVICE:
+   124			client = i2c_verify_client(dev);
+   125			if (!client)
+   126				break;
+   127	
+   128			if (i2c_dev == client) {
+   129				pr_debug("lis3lv02d i2c_client removed\n");
+   130				i2c_dev = NULL;
+   131			}
+   132			break;
+   133		default:
+   134			break;
+   135		}
+   136	
+   137		return 0;
+   138	}
+   139	static struct notifier_block i2c_nb = { .notifier_call = i2c_bus_notify };
+   140	
+   141	static int match_acpi_device_ids(struct device *dev, const void *data)
+   142	{
+   143		const struct acpi_device_id *ids = data;
+   144	
+   145		return acpi_match_device(ids, dev) ? 1 : 0;
+   146	}
+   147	
+   148	static int __init dell_lis3lv02d_init(void)
+   149	{
+   150		struct device *dev;
+   151		int err;
+   152	
+   153		/*
+   154		 * First check for a matching platform_device. This protects against
+   155		 * SMO88xx ACPI fwnodes which actually do have an I2C resource, which
+   156		 * will already have an i2c_client instantiated (not a platform_device).
+   157		 */
+   158		dev = bus_find_device(&platform_bus_type, NULL, smo8800_ids, match_acpi_device_ids);
+   159		if (!dev) {
+   160			pr_debug("No SMO88xx platform-device found\n");
+   161			return 0;
+   162		}
+   163		put_device(dev);
+   164	
+   165		lis3lv02d_dmi_id = dmi_first_match(lis3lv02d_devices);
+   166		if (!lis3lv02d_dmi_id) {
+   167			pr_warn("accelerometer is present on SMBus but its address is unknown, skipping registration\n");
+   168			return 0;
+   169		}
+   170	
+   171		/*
+   172		 * Register i2c-bus notifier + queue initial scan for lis3lv02d
+   173		 * i2c_client instantiation.
+   174		 */
+   175		err = bus_register_notifier(&i2c_bus_type, &i2c_nb);
+   176		if (err)
+   177			return err;
+   178	
+   179		notifier_registered = true;
+   180	
+   181		queue_work(system_long_wq, &i2c_work);
+   182		return 0;
+   183	}
+   184	module_init(dell_lis3lv02d_init);
+   185	
+   186	static void __exit dell_lis3lv02d_module_exit(void)
+   187	{
+   188		if (!notifier_registered)
+   189			return;
+   190	
+   191		bus_unregister_notifier(&i2c_bus_type, &i2c_nb);
+   192		cancel_work_sync(&i2c_work);
+ > 193		i2c_unregister_device(i2c_dev);
+   194	}
+   195	module_exit(dell_lis3lv02d_module_exit);
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
