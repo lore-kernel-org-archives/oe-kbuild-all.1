@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EB714A82
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 03:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2628018046
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 03:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719544363; cv=none; b=cV0hkDFboLW8mgCg+iumMFRnXtkXjgyiD2m4BcetN6ghpdqJ/eAiWAoSI/ezN/mEPKENMY7o4ExRvsOOY3O3Y5FsFIIpbcDHY9VRJShaBVVjoFxV/g00XABOJC4qGzjxV+h5jtmaVfG3a/IUZNrncVs7GExidxgmn46deAr1JuI=
+	t=1719544364; cv=none; b=BfvxHk5t9r42yh1e//HloMfSh5m0yxvHMKpeHn5HLlg2/ZkeoHjk0I9MsbIX6+rUACu2jYGFtEk6UTU4puqUnCoeoHJFMIn8pHP3KWPqb57L0iVsLUtfirE0A2pIeFXwBdSdPrhWEdOBKCJEP50HmXmlxUqMpXC4aoMt9X6kbuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719544363; c=relaxed/simple;
-	bh=1IUiEfV3lAL1ruYALme9i7fUmT03alGKGQ1wa0Eanj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a/ajjIcp3wm361OMNBryqtkBshSXgBJ69QSBrTNJ1N3MfKyq3PSs8QncJjWUhjJMWE/L7gXJoiKl5ZdEHO6A6L2pgxg9XaENuAXjhHJxefcE+SgFmxoOAoQHC512wwFlho9kt8Ljdft1h2+w2L7GHrFYCS6slQ0tIGdY3S8PfcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjA1JcHP; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1719544364; c=relaxed/simple;
+	bh=KpKvoNe31q1ir/EC3qbB097EM0L4TCKV56PaZiAfSFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XHQVYeJW8tlrqSf/Mtpn+5VWzd3SBslT5LbUUosLIUyCKRpLPJ2fJxrAvbTtOmp/5iYhlK2Rgklpm/qReGN8rBr31SBvzt6yFYo0+dG4+jQFgzYEss+kQmyA2DUQ5doFF69/liMQnFsHNFOb/kwy/9fZihdLxzzUdy0LMlx+o5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNH2svvH; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjA1JcHP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNH2svvH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719544361; x=1751080361;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1IUiEfV3lAL1ruYALme9i7fUmT03alGKGQ1wa0Eanj0=;
-  b=IjA1JcHPPpyXyOcPdz3ysp6AHgu6k3n6wsO+deJegyUGNVTD7PzzX8te
-   8cL6kEUZYNQX+Fm1V/CPVQ1xoG9dyjVj59j2DhzLXjXoTYij+bBwegOiJ
-   +eUK3vazp8jRQ12otmsIkTjXIuV0k+NNoIGr2A+ly67EBwO76BYR0eWnD
-   HGHzdKeoRjgUkL9jkDXqHlGITPj5nMSNLk4DbodzxDcB6gVJfrtispUG0
-   DzMfpO5UFRfCsL1t5CCa41ItftI+Rtbo87XYcXNI558dpNK6Cd2LuE65E
-   kBdYvNrd1UP/cWJVqQ+PSQIfVGDylx3UN8vhFgpzBwb2PgWOcpOfrC/yO
-   w==;
-X-CSE-ConnectionGUID: VrQgmXwCR6aSGFCPF7hfAQ==
-X-CSE-MsgGUID: d1RxignHQkm7mKgjaxAjxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="19612028"
+  t=1719544363; x=1751080363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KpKvoNe31q1ir/EC3qbB097EM0L4TCKV56PaZiAfSFw=;
+  b=PNH2svvHjccalso4i9ZCOjaBHq/eIM3yLZiGYJkD31/o5Bm+S9b5BtFf
+   6sVkv63x1Gu4VaQ3HQCirTdFykb8qf9/0PHVKfHmcT12mq0sJT5u1I7+J
+   UnWy5QsmyAHeuszo9Mwma/uEibni5+Z56k5uBAX1tLUCJWIIr6jJak1mT
+   z6iHhcs+svksK1e4NEfFVl2Zh5ZRoRV0HC0zysC/3YCF76k5MRjKR3JEW
+   sEgm1x4SlY++rEk5pb5eKBGktW922WrxO3ZtcA8D9zGAiLAV0900NzJok
+   dXxqYlGXKAe3yK/PCbkliBsNo4fBHWF9qb/9JJ5vg/0nE7AAgykj1eCfQ
+   g==;
+X-CSE-ConnectionGUID: saNiMMPhTv+5hK2y6+ov7w==
+X-CSE-MsgGUID: vL4HQbvYQN6+veDNzhMy2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="20586078"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="19612028"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 20:12:41 -0700
-X-CSE-ConnectionGUID: bx8lOq+MSZiiL0UdKR9cuQ==
-X-CSE-MsgGUID: DkBaUEI8Qjm735A9/xSKUw==
+   d="scan'208";a="20586078"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 20:12:42 -0700
+X-CSE-ConnectionGUID: Jsd8QtN4TXia8baFcb1tSw==
+X-CSE-MsgGUID: jz6j91dmSHWQE3tOo9P3Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="44689549"
+   d="scan'208";a="44510188"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jun 2024 20:12:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 27 Jun 2024 20:12:41 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN22P-000Gkq-1m;
+	id 1sN22P-000Gko-1U;
 	Fri, 28 Jun 2024 03:12:37 +0000
-Date: Fri, 28 Jun 2024 11:11:43 +0800
+Date: Fri, 28 Jun 2024 11:11:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Quadros <rogerq@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Roger Quadros <rogerq@kernel.org>
-Subject: [rogerq:b4/am65-cpsw-multi-rx-2.0 2/8]
- drivers/net/ethernet/ti/am65-cpsw-nuss.c:1038:34: warning: variable 'rx_chn'
- set but not used
-Message-ID: <202406281135.bhPBGfLj-lkp@intel.com>
+To: zijianzhang@bytedance.com, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com,
+	willemdebruijn.kernel@gmail.com, cong.wang@bytedance.com,
+	xiaochun.lu@bytedance.com, Zijian Zhang <zijianzhang@bytedance.com>
+Subject: Re: [PATCH net-next v6 2/4] sock: support copy cmsg to userspace in
+ TX path
+Message-ID: <202406281051.NAiS477l-lkp@intel.com>
+References: <20240626193403.3854451-3-zijianzhang@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +65,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240626193403.3854451-3-zijianzhang@bytedance.com>
 
-tree:   https://github.com/rogerq/linux b4/am65-cpsw-multi-rx-2.0
-head:   3d9c49054ad968c08869454695cfcea16c17eced
-commit: f0b23508592f67ef8de01e3b6b2b0d0b380d3c93 [2/8] net: ethernet: ti: am65-cpsw: Introduce multi queue Rx
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240628/202406281135.bhPBGfLj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281135.bhPBGfLj-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zijianzhang-bytedance-com/selftests-fix-OOM-problem-in-msg_zerocopy-selftest/20240627-150801
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240626193403.3854451-3-zijianzhang%40bytedance.com
+patch subject: [PATCH net-next v6 2/4] sock: support copy cmsg to userspace in TX path
+config: i386-randconfig-062-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281051.NAiS477l-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281051.NAiS477l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281135.bhPBGfLj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281051.NAiS477l-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/socket.c:2635:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg_control @@     got void [noderef] __user *[noderef] __user msg_control @@
+   net/socket.c:2635:30: sparse:     expected void *msg_control
+   net/socket.c:2635:30: sparse:     got void [noderef] __user *[noderef] __user msg_control
+>> net/socket.c:2629:49: sparse: sparse: dereference of noderef expression
 
-   drivers/net/ethernet/ti/am65-cpsw-nuss.c: In function 'am65_cpsw_run_xdp':
->> drivers/net/ethernet/ti/am65-cpsw-nuss.c:1038:34: warning: variable 'rx_chn' set but not used [-Wunused-but-set-variable]
-    1038 |         struct am65_cpsw_rx_chn *rx_chn;
-         |                                  ^~~~~~
+vim +2635 net/socket.c
 
-
-vim +/rx_chn +1038 drivers/net/ethernet/ti/am65-cpsw-nuss.c
-
-  1029	
-  1030	static int am65_cpsw_run_xdp(struct am65_cpsw_rx_flow *flow,
-  1031				     struct am65_cpsw_port *port,
-  1032				     struct xdp_buff *xdp,
-  1033				     int desc_idx, int cpu, int *len)
-  1034	{
-  1035		struct am65_cpsw_common *common = flow->common;
-  1036		struct net_device *ndev = port->ndev;
-  1037		int ret = AM65_CPSW_XDP_CONSUMED;
-> 1038		struct am65_cpsw_rx_chn *rx_chn;
-  1039		struct am65_cpsw_tx_chn *tx_chn;
-  1040		struct netdev_queue *netif_txq;
-  1041		struct xdp_frame *xdpf;
-  1042		struct bpf_prog *prog;
-  1043		struct page *page;
-  1044		u32 act;
-  1045	
-  1046		rx_chn = &common->rx_chns;
-  1047		prog = READ_ONCE(port->xdp_prog);
-  1048		if (!prog)
-  1049			return AM65_CPSW_XDP_PASS;
-  1050	
-  1051		act = bpf_prog_run_xdp(prog, xdp);
-  1052		/* XDP prog might have changed packet data and boundaries */
-  1053		*len = xdp->data_end - xdp->data;
-  1054	
-  1055		switch (act) {
-  1056		case XDP_PASS:
-  1057			ret = AM65_CPSW_XDP_PASS;
-  1058			goto out;
-  1059		case XDP_TX:
-  1060			tx_chn = &common->tx_chns[cpu % AM65_CPSW_MAX_TX_QUEUES];
-  1061			netif_txq = netdev_get_tx_queue(ndev, tx_chn->id);
-  1062	
-  1063			xdpf = xdp_convert_buff_to_frame(xdp);
-  1064			if (unlikely(!xdpf))
-  1065				break;
-  1066	
-  1067			__netif_tx_lock(netif_txq, cpu);
-  1068			ret = am65_cpsw_xdp_tx_frame(ndev, tx_chn, xdpf,
-  1069						     AM65_CPSW_TX_BUF_TYPE_XDP_TX);
-  1070			__netif_tx_unlock(netif_txq);
-  1071			if (ret)
-  1072				break;
-  1073	
-  1074			ndev->stats.rx_bytes += *len;
-  1075			ndev->stats.rx_packets++;
-  1076			ret = AM65_CPSW_XDP_CONSUMED;
-  1077			goto out;
-  1078		case XDP_REDIRECT:
-  1079			if (unlikely(xdp_do_redirect(ndev, xdp, prog)))
-  1080				break;
-  1081	
-  1082			ndev->stats.rx_bytes += *len;
-  1083			ndev->stats.rx_packets++;
-  1084			ret = AM65_CPSW_XDP_REDIRECT;
-  1085			goto out;
-  1086		default:
-  1087			bpf_warn_invalid_xdp_action(ndev, prog, act);
-  1088			fallthrough;
-  1089		case XDP_ABORTED:
-  1090			trace_xdp_exception(ndev, prog, act);
-  1091			fallthrough;
-  1092		case XDP_DROP:
-  1093			ndev->stats.rx_dropped++;
-  1094		}
-  1095	
-  1096		page = virt_to_head_page(xdp->data);
-  1097		am65_cpsw_put_page(flow, page, true, desc_idx);
-  1098	
-  1099	out:
-  1100		return ret;
-  1101	}
-  1102	
+  2623	
+  2624	static int sendmsg_copy_cmsg_to_user(struct msghdr *msg_sys,
+  2625					     struct user_msghdr __user *umsg)
+  2626	{
+  2627		struct compat_msghdr __user *umsg_compat =
+  2628					(struct compat_msghdr __user *)umsg;
+> 2629		unsigned long cmsg_ptr = (unsigned long)umsg->msg_control;
+  2630		unsigned int flags = msg_sys->msg_flags;
+  2631		struct msghdr msg_user = *msg_sys;
+  2632		struct cmsghdr *cmsg;
+  2633		int err;
+  2634	
+> 2635		msg_user.msg_control = umsg->msg_control;
+  2636		msg_user.msg_control_is_user = true;
+  2637		for_each_cmsghdr(cmsg, msg_sys) {
+  2638			if (!CMSG_OK(msg_sys, cmsg))
+  2639				break;
+  2640			if (cmsg_copy_to_user(cmsg))
+  2641				put_cmsg(&msg_user, cmsg->cmsg_level, cmsg->cmsg_type,
+  2642					 cmsg->cmsg_len - sizeof(*cmsg), CMSG_DATA(cmsg));
+  2643		}
+  2644	
+  2645		err = __put_user((msg_sys->msg_flags & ~MSG_CMSG_COMPAT), COMPAT_FLAGS(umsg));
+  2646		if (err)
+  2647			return err;
+  2648		if (MSG_CMSG_COMPAT & flags)
+  2649			err = __put_user((unsigned long)msg_user.msg_control - cmsg_ptr,
+  2650					 &umsg_compat->msg_controllen);
+  2651		else
+  2652			err = __put_user((unsigned long)msg_user.msg_control - cmsg_ptr,
+  2653					 &umsg->msg_controllen);
+  2654		return err;
+  2655	}
+  2656	
 
 -- 
 0-DAY CI Kernel Test Service
