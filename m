@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BECE1C2336
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CFD1C68AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 16:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719590898; cv=none; b=qvYgf3QXw8xyI3T/TTW1j3e7FmY3TTBH1+sMH0pUDCD41IeL4qL8OiLiI92SG0GM/c7GxR609QpK2CU1lTYMoW9PdlmLW0edhF1M+26AwOyaE4K9COYnmkkoFwtg+vg2/iCXUY7kKlTYwLtq619eDdv1pQVhvbwvPuyH2aMOtCY=
+	t=1719590909; cv=none; b=jk78D4FsNyJBsiUB2XGI5ubIf9WALqgtGODvEEHzYO8VSnmNiaGGas8x0tPCE/TfwiuOyIUzUD7OggYAtq5ftQ9z0ScWW3rJSIZEDqVkcrEIwd8/77JWLcshGpVIG6TcZXjmRekuHftsNBRVuR2r1JKKIKCQmQXzPZbff3IzWJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719590898; c=relaxed/simple;
-	bh=zzorYU/27hnfjB1vjJiodp8DNsccMxFGZ8yXSPHKSPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EtL8MWM4mU7Y6+wc0qalWSHR+67D9pVBwTerCxlFJtIvcnB1e9fcwpEZAwmSyLpBtqnak45pMoMsmRdhReqEOc+tisb7M7NTtpf0uo5HV4h0M3Ce4glWFZMCGKgwIEyrmXoeC7okHuk5jimL9ImuWJvOdB4SzhRNUOwVQcd7c8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWzUdkq7; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1719590909; c=relaxed/simple;
+	bh=t2EAy8X1rIcqkKVtZY5aX9JkkaT7Y6KhejNkuKBDBV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tWpYetdnwAh8upeiIepBtJKo6jmJqF3eMd6kgV8NCDcb0kpQKmOd8ig9hxaWW/ibjR76vNx/YvkFq+BEi1PPXoFBOGawAmbwaSDkXMWaYms65vNt0ExqOsjeD8W9uNsJpp/rgtwqEFORa28vYwOoRNfXryc1W3aoKHaGP31Uyqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WR/7kLsk; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWzUdkq7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR/7kLsk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719590897; x=1751126897;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zzorYU/27hnfjB1vjJiodp8DNsccMxFGZ8yXSPHKSPw=;
-  b=OWzUdkq7INJ1DYSHSxDhGCQFLwqTS0juuly81ExZWArlbzURHN1Nn7Le
-   O5TfdmGfP0kk5MRDWAYr42eYkBDkRiCdbTCpLY8BR5sRsmQf9y7EFApNe
-   urHNnXA75xBqSsRRJxQGOBMVIs2lIdscroPELLRqgB2Ehxxw4DLYvewAk
-   5Dd+jZc1glCkzD/gHdNkNP4oxg645AlrfC2rJv6IJMU52iaiSAI/43v24
-   w3dqtETtJKpL0CSr6EfzfmjCnAEG3LpGQO5+sef6ejqx9zFWQqFUDf1cX
-   fKvDqm/N86SeCN/sZ6UtTIOkEC/6uYaJT3AXcNJPWQzLpQAFL0pve+ZIX
-   A==;
-X-CSE-ConnectionGUID: +NP8TPwJS1iJaY8fyUbHKQ==
-X-CSE-MsgGUID: nflCY8kkRLWUNp5ytLLMFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="42201328"
+  t=1719590907; x=1751126907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t2EAy8X1rIcqkKVtZY5aX9JkkaT7Y6KhejNkuKBDBV8=;
+  b=WR/7kLskzoDSdz41OOj4AmTZm28mIM9yiWDR8jUVbORRetv9Rt59qhkD
+   wumSqmTZMWRPSqjxgY7fkHD3acHJUIagGUjrqQ9m+jk78SyotZW5RGc8t
+   IXTPfVDoOKtT+DduAmPfMPfuJk9RpQTBxezOnYGjg8jMaURXeB1QJm9PJ
+   8OY+L/nI10Tyn4gVn2Sl4W7FAhsEZeMeEMOWWe5lID681MoTl/SFmFhrU
+   nhmAdUsIce2J8ikeBNK/5C4vglDQNpl4IB1sQnJMHQiCVtb7t9BGgyuAs
+   fX3zZOo7TNSoeuwVOzdnRmqNMngqmMrNK8Zyuj/aQB5YqJM5M+bGv5kMJ
+   w==;
+X-CSE-ConnectionGUID: 2wku6rA6RbW1DoObm1B2Ow==
+X-CSE-MsgGUID: mQ6bHvq9SVaopSOMuuvfLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="17005103"
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="42201328"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:08:16 -0700
-X-CSE-ConnectionGUID: acw2AI8ZR92T05WVV7j1zw==
-X-CSE-MsgGUID: 6iW7oFrTT8ShSatx/+rPiQ==
+   d="scan'208";a="17005103"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 09:08:26 -0700
+X-CSE-ConnectionGUID: Qo+wlVuxT9KduHnMPkSoFw==
+X-CSE-MsgGUID: klM3M0nVRF2kMiqfox5iPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="49395167"
+   d="scan'208";a="75979077"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Jun 2024 09:08:13 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Jun 2024 09:08:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNE8w-000HJm-1d;
+	id 1sNE8w-000HJi-1T;
 	Fri, 28 Jun 2024 16:08:10 +0000
-Date: Sat, 29 Jun 2024 00:07:14 +0800
+Date: Sat, 29 Jun 2024 00:07:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shiji Yang <yangshiji66@outlook.com>, linux-mips@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Khalid Aziz <khalid@gonehiking.org>, Baoquan He <bhe@redhat.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
-	Shiji Yang <yangshiji66@outlook.com>,
-	Mieczyslaw Nalewaj <namiltd@yahoo.com>
-Subject: Re: [PATCH V2] mips: kernel: fix detect_memory_region() function
-Message-ID: <202406282354.0hGuOKo0-lkp@intel.com>
-References: <TYCP286MB089598ABD1E2F66003D71EB8BCD52@TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/mmu_follow_pfn 73/92] arch/loongarch/kvm/mmu.c:810:31:
+ error: passing argument 1 of 'kvm_faultin_pfn' from incompatible pointer
+ type
+Message-ID: <202406282351.ELJT96D6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,81 +62,198 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYCP286MB089598ABD1E2F66003D71EB8BCD52@TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM>
 
-Hi Shiji,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.10-rc5 next-20240627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shiji-Yang/mips-kernel-fix-detect_memory_region-function/20240626-070033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/TYCP286MB089598ABD1E2F66003D71EB8BCD52%40TYCP286MB0895.JPNP286.PROD.OUTLOOK.COM
-patch subject: [PATCH V2] mips: kernel: fix detect_memory_region() function
-config: mips-randconfig-r113-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282354.0hGuOKo0-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240628/202406282354.0hGuOKo0-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/mmu_follow_pfn
+head:   ddc17683711a347aaff45e1e0b178742df18ff4d
+commit: f03397f70bfc8fe8ff9605632a2b27f17303fa72 [73/92] KVM: LoongArch: Use kvm_faultin_pfn() to map pfns into the guest
+config: loongarch-randconfig-002-20240628 (https://download.01.org/0day-ci/archive/20240628/202406282351.ELJT96D6-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406282351.ELJT96D6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406282354.0hGuOKo0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406282351.ELJT96D6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/mips/kernel/setup.c:104:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void *dm @@
-   arch/mips/kernel/setup.c:104:53: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:104:53: sparse:     got void *dm
->> arch/mips/kernel/setup.c:105:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void *dm @@
-   arch/mips/kernel/setup.c:105:33: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:105:33: sparse:     got void *dm
->> arch/mips/kernel/setup.c:105:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/kernel/setup.c:105:55: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:105:55: sparse:     got void *
-   arch/mips/kernel/setup.c:106:62: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void *dm @@
-   arch/mips/kernel/setup.c:106:62: sparse:     expected void volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:106:62: sparse:     got void *dm
-   arch/mips/kernel/setup.c:107:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void *dm @@
-   arch/mips/kernel/setup.c:107:41: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:107:41: sparse:     got void *dm
-   arch/mips/kernel/setup.c:107:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/kernel/setup.c:107:63: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/kernel/setup.c:107:63: sparse:     got void *
-   arch/mips/kernel/setup.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +104 arch/mips/kernel/setup.c
+   arch/loongarch/kvm/mmu.c: In function 'kvm_map_page_fast':
+   arch/loongarch/kvm/mmu.c:538:19: warning: variable 'pfn' set but not used [-Wunused-but-set-variable]
+     538 |         kvm_pfn_t pfn = 0;
+         |                   ^~~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_map_page':
+>> arch/loongarch/kvm/mmu.c:810:31: error: passing argument 1 of 'kvm_faultin_pfn' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     810 |         pfn = kvm_faultin_pfn(kvm, gfn, write, &writeable, &page);
+         |                               ^~~
+         |                               |
+         |                               struct kvm *
+   In file included from arch/loongarch/kvm/mmu.c:8:
+   include/linux/kvm_host.h:1250:58: note: expected 'struct kvm_vcpu *' but argument is of type 'struct kvm *'
+    1250 | static inline kvm_pfn_t kvm_faultin_pfn(struct kvm_vcpu *vcpu, gfn_t gfn,
+         |                                         ~~~~~~~~~~~~~~~~~^~~~
+>> arch/loongarch/kvm/mmu.c:881:52: error: 'writable' undeclared (first use in this function); did you mean 'writeable'?
+     881 |         kvm_release_faultin_page(kvm, page, false, writable);
+         |                                                    ^~~~~~~~
+         |                                                    writeable
+   arch/loongarch/kvm/mmu.c:881:52: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
-    97	
-    98	void __init detect_memory_region(phys_addr_t start, phys_addr_t sz_min, phys_addr_t sz_max)
-    99	{
-   100		void *dm = (void *)KSEG1ADDR(&detect_magic);
-   101		phys_addr_t size;
-   102	
-   103		for (size = sz_min; size < sz_max; size <<= 1) {
- > 104			__raw_writel(MIPS_MEM_TEST_PATTERN, dm);
- > 105			if (__raw_readl(dm) == __raw_readl(dm + size)) {
-   106				__raw_writel(~MIPS_MEM_TEST_PATTERN, dm);
-   107				if (__raw_readl(dm) == __raw_readl(dm + size))
-   108					break;
-   109			}
-   110		}
-   111	
-   112		pr_debug("Memory: %lluMB of RAM detected at 0x%llx (min: %lluMB, max: %lluMB)\n",
-   113			((unsigned long long) size) / SZ_1M,
-   114			(unsigned long long) start,
-   115			((unsigned long long) sz_min) / SZ_1M,
-   116			((unsigned long long) sz_max) / SZ_1M);
-   117	
-   118		memblock_add(start, size);
-   119	}
-   120	#endif /* CONFIG_64BIT */
-   121	
+
+vim +/kvm_faultin_pfn +810 arch/loongarch/kvm/mmu.c
+
+   739	
+   740	/*
+   741	 * kvm_map_page() - Map a guest physical page.
+   742	 * @vcpu:		vCPU pointer.
+   743	 * @gpa:		Guest physical address of fault.
+   744	 * @write:	Whether the fault was due to a write.
+   745	 *
+   746	 * Handle GPA faults by creating a new GPA mapping (or updating an existing
+   747	 * one).
+   748	 *
+   749	 * This takes care of marking pages young or dirty (idle/dirty page tracking),
+   750	 * asking KVM for the corresponding PFN, and creating a mapping in the GPA page
+   751	 * tables. Derived mappings (GVA page tables and TLBs) must be handled by the
+   752	 * caller.
+   753	 *
+   754	 * Returns:	0 on success
+   755	 *		-EFAULT if there is no memory region at @gpa or a write was
+   756	 *		attempted to a read-only memory region. This is usually handled
+   757	 *		as an MMIO access.
+   758	 */
+   759	static int kvm_map_page(struct kvm_vcpu *vcpu, unsigned long gpa, bool write)
+   760	{
+   761		bool writeable;
+   762		int srcu_idx, err, retry_no = 0, level;
+   763		unsigned long hva, mmu_seq, prot_bits;
+   764		kvm_pfn_t pfn;
+   765		kvm_pte_t *ptep, new_pte;
+   766		gfn_t gfn = gpa >> PAGE_SHIFT;
+   767		struct kvm *kvm = vcpu->kvm;
+   768		struct kvm_memory_slot *memslot;
+   769		struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
+   770		struct page *page;
+   771	
+   772		/* Try the fast path to handle old / clean pages */
+   773		srcu_idx = srcu_read_lock(&kvm->srcu);
+   774		err = kvm_map_page_fast(vcpu, gpa, write);
+   775		if (!err)
+   776			goto out;
+   777	
+   778		memslot = gfn_to_memslot(kvm, gfn);
+   779		hva = gfn_to_hva_memslot_prot(memslot, gfn, &writeable);
+   780		if (kvm_is_error_hva(hva) || (write && !writeable)) {
+   781			err = -EFAULT;
+   782			goto out;
+   783		}
+   784	
+   785		/* We need a minimum of cached pages ready for page table creation */
+   786		err = kvm_mmu_topup_memory_cache(memcache, KVM_MMU_CACHE_MIN_PAGES);
+   787		if (err)
+   788			goto out;
+   789	
+   790	retry:
+   791		/*
+   792		 * Used to check for invalidations in progress, of the pfn that is
+   793		 * returned by pfn_to_pfn_prot below.
+   794		 */
+   795		mmu_seq = kvm->mmu_invalidate_seq;
+   796		/*
+   797		 * Ensure the read of mmu_invalidate_seq isn't reordered with PTE reads in
+   798		 * kvm_faultin_pfn() (which calls get_user_pages()), so that we don't
+   799		 * risk the page we get a reference to getting unmapped before we have a
+   800		 * chance to grab the mmu_lock without mmu_invalidate_retry() noticing.
+   801		 *
+   802		 * This smp_rmb() pairs with the effective smp_wmb() of the combination
+   803		 * of the pte_unmap_unlock() after the PTE is zapped, and the
+   804		 * spin_lock() in kvm_mmu_invalidate_invalidate_<page|range_end>() before
+   805		 * mmu_invalidate_seq is incremented.
+   806		 */
+   807		smp_rmb();
+   808	
+   809		/* Slow path - ask KVM core whether we can access this GPA */
+ > 810		pfn = kvm_faultin_pfn(kvm, gfn, write, &writeable, &page);
+   811		if (is_error_noslot_pfn(pfn)) {
+   812			err = -EFAULT;
+   813			goto out;
+   814		}
+   815	
+   816		/* Check if an invalidation has taken place since we got pfn */
+   817		spin_lock(&kvm->mmu_lock);
+   818		if (mmu_invalidate_retry_gfn(kvm, mmu_seq, gfn)) {
+   819			/*
+   820			 * This can happen when mappings are changed asynchronously, but
+   821			 * also synchronously if a COW is triggered by
+   822			 * kvm_faultin_pfn().
+   823			 */
+   824			spin_unlock(&kvm->mmu_lock);
+   825			kvm_release_page_unused(page);
+   826			if (retry_no > 100) {
+   827				retry_no = 0;
+   828				schedule();
+   829			}
+   830			retry_no++;
+   831			goto retry;
+   832		}
+   833	
+   834		/*
+   835		 * For emulated devices such virtio device, actual cache attribute is
+   836		 * determined by physical machine.
+   837		 * For pass through physical device, it should be uncachable
+   838		 */
+   839		prot_bits = _PAGE_PRESENT | __READABLE;
+   840		if (pfn_valid(pfn))
+   841			prot_bits |= _CACHE_CC;
+   842		else
+   843			prot_bits |= _CACHE_SUC;
+   844	
+   845		if (writeable) {
+   846			prot_bits |= _PAGE_WRITE;
+   847			if (write)
+   848				prot_bits |= __WRITEABLE;
+   849		}
+   850	
+   851		/* Disable dirty logging on HugePages */
+   852		level = 0;
+   853		if (!fault_supports_huge_mapping(memslot, hva, write)) {
+   854			level = 0;
+   855		} else {
+   856			level = host_pfn_mapping_level(kvm, gfn, memslot);
+   857			if (level == 1) {
+   858				gfn = gfn & ~(PTRS_PER_PTE - 1);
+   859				pfn = pfn & ~(PTRS_PER_PTE - 1);
+   860			}
+   861		}
+   862	
+   863		/* Ensure page tables are allocated */
+   864		ptep = kvm_populate_gpa(kvm, memcache, gpa, level);
+   865		new_pte = kvm_pfn_pte(pfn, __pgprot(prot_bits));
+   866		if (level == 1) {
+   867			new_pte = kvm_pte_mkhuge(new_pte);
+   868			/*
+   869			 * previous pmd entry is invalid_pte_table
+   870			 * there is invalid tlb with small page
+   871			 * need flush these invalid tlbs for current vcpu
+   872			 */
+   873			kvm_make_request(KVM_REQ_TLB_FLUSH, vcpu);
+   874			++kvm->stat.hugepages;
+   875		}  else if (kvm_pte_huge(*ptep) && write)
+   876			ptep = kvm_split_huge(vcpu, ptep, gfn);
+   877		else
+   878			++kvm->stat.pages;
+   879		kvm_set_pte(ptep, new_pte);
+   880	
+ > 881		kvm_release_faultin_page(kvm, page, false, writable);
+   882		spin_unlock(&kvm->mmu_lock);
+   883	
+   884		if (prot_bits & _PAGE_DIRTY)
+   885			mark_page_dirty_in_slot(kvm, memslot, gfn);
+   886	
+   887	out:
+   888		srcu_read_unlock(&kvm->srcu, srcu_idx);
+   889		return err;
+   890	}
+   891	
 
 -- 
 0-DAY CI Kernel Test Service
