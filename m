@@ -1,61 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154D446521
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 20:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D9546521
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 20:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719606548; cv=none; b=UnhME5UzA3ivqyr5v0eJa3S9pq/ctAX0fjSrx6s2UKOewF37IdnqYfgTkDlvt+d1jP/0eZh8GO8YH/Hw4AbkI7LngY9ZLMxy3034Co5B/XIOtGZCR7duMC2nQaoFAUTmcMD/k27S7AdcBkAQvoBPVG5rrf2IalMDzqg7FVRIRt4=
+	t=1719606551; cv=none; b=DENwaFSTfMGXWj9g6BhL9BrYLm7xc+Qf89Zg3jwUJYR4VIxrnE3DIUo9/hSm6GYnPlyDvzvuAOIiGkjMc2SpS84WJziibwDs7j7r2iDguTTFqDDdPVZlMbGSlL55oUu1WSqXzSyY8c6OlMWmPIcDaG2n12ns5wiuzR+BB4aAwtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719606548; c=relaxed/simple;
-	bh=VsVcoL1snDQLIEHicDB0BVd0qVds/Wx+B6JWy45tfzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J9Cra4D+PPCSD3rmmKDJmD9GY4ffFTubS03Gpju76PsBf4Z4gIEt0rvv4MMWlDG5XixN/NCVyUK8LhOsc08zA8oVJVsFFA6jgvQvG9cegaNGAO6NhA/4LS2h+5MFamMHxG7wCt4SF1k8LuA0BuuhaFf1sLvzvq5RkEpx35H1eGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xw3vWN5Q; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1719606551; c=relaxed/simple;
+	bh=tfe5a/HvAURMpYv4FI+g4wXkv6seRMWPbq9u0BdH7fc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QBk3tNcce7IkOxgjnPNdNaL0yZcFGtmuHM8ui5Oa8IFKB4/YCnb2oB+FoGQKCQ44t0zOM5Gwf55UnA7jdWKfHQbEb7HjEgtp/gX57XBI8KfZcLc68WaW6TA532Tm8tlQhtqsDAUZRujv6IrdIJvINxzcjtVtDKq3qJ+yZw9dRxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmvbDZfl; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xw3vWN5Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmvbDZfl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719606546; x=1751142546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VsVcoL1snDQLIEHicDB0BVd0qVds/Wx+B6JWy45tfzM=;
-  b=Xw3vWN5QXMEEBHlfhnfMecTiZtc/hWDfz2P6kPHrjwt98I3NKlrTEV2f
-   eHvPVICpX2cjwOERK7QkCG9/Yxd1YO0Su8vHyIwD6kgbGWh/LsIfaEMXZ
-   pCSlkaDWmIvn26upnUYW1ZC8fUMhe/1VF9VMW++qR3TDpGisZbJgjWMbo
-   GCCY6Kg8li+Txar9XVh91kiWYToJyTMgWdy4asNEbR7xA2qDzIkysmoAD
-   PGlr+QN8N9Pg4yJgYGyXPpyKRKp1lro2NyaKREqSdn9GTIXJmWusvecM0
-   z0HVs5qdw3Z2MR2akClwCFWK87EPNrXWWxLknrzK/CilIAZ9EW5URVelU
-   w==;
-X-CSE-ConnectionGUID: goD9IMFhSYq/o84v8TbNug==
-X-CSE-MsgGUID: i0errF4dT5+eKkaYJt0qPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="28202885"
+  t=1719606549; x=1751142549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tfe5a/HvAURMpYv4FI+g4wXkv6seRMWPbq9u0BdH7fc=;
+  b=hmvbDZfl4xgi/B2ZZ5BzWr2nGhgq2UQ4xREqbN4sYLPDmJ2/Dn1Ryt4d
+   gJ5srNpd84B9x6USk1S3QTuAwjEjILeFEgzlgYOML1GxeTMO5HQTfH7+f
+   ucllFGB9CoG9RLQTPRZnTG7gJzaVEyNQ06PgeE2ia56D8rRDheJae06/8
+   bqPawCUfe9wHsqC52N9MNH4KzWtipAh8j3qp2dy7+G3HCdOEkrO2V0Fed
+   l6Cppddu1qOfan/rIsrBc2MM0xdY94jj8e2C1MAxUXPnF5GQFm9DiRYLB
+   iT5VZ/N9oaKf8o3gwM6Bnw3XHv9DzyjxX9T3ork4IDTEQYp2DA6KTmoKz
+   Q==;
+X-CSE-ConnectionGUID: gpm8T8SNSeahnEURTxJ0nQ==
+X-CSE-MsgGUID: ZLGOyA1rTlWf9HNwQTr0eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="42223289"
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="28202885"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 13:29:05 -0700
-X-CSE-ConnectionGUID: 2jQuBxIkQ8uq+oU+rBk6kQ==
-X-CSE-MsgGUID: 1Aj8wq6xSIytrv1vYj7/ng==
+   d="scan'208";a="42223289"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 13:29:08 -0700
+X-CSE-ConnectionGUID: njTA7HW3ThW8tWfRxDh5eQ==
+X-CSE-MsgGUID: YZ1G1OqjQjG9ACIKE/51OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="45593263"
+   d="scan'208";a="75565564"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Jun 2024 13:29:03 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 Jun 2024 13:29:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNIDN-000IPV-0T;
+	id 1sNIDN-000IPX-0a;
 	Fri, 28 Jun 2024 20:29:01 +0000
-Date: Sat, 29 Jun 2024 04:28:37 +0800
+Date: Sat, 29 Jun 2024 04:28:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajendra Nayak <quic_rjendra@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [qcom:arm64-for-6.11 236/251]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c271000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202406290407.ppYBkO2R-lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, James Morse <james.morse@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Shiju Jose <shiju.jose@huawei.com>, Tony Luck <tony.luck@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Len Brown <lenb@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
+	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/4] efi/cper: align ARM CPER type with UEFI 2.9A/2.10
+ specs
+Message-ID: <202406290457.3HKFUkuV-lkp@intel.com>
+References: <b9354882f45a0c600e65df4bacee2f1080c4ba89.1719219886.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,132 +75,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b9354882f45a0c600e65df4bacee2f1080c4ba89.1719219886.git.mchehab+huawei@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
-head:   fd513b922e34edb0db1284a4abee7f6c10ffd9a7
-commit: 4e915987ff5b91ea531e716367373ff4442d9614 [236/251] arm64: dts: qcom: x1e80100: Enable tsens and thermal zone nodes
-config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240629/202406290407.ppYBkO2R-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290407.ppYBkO2R-lkp@intel.com/reproduce)
+Hi Mauro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on efi/next]
+[also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/efi-cper-Adjust-infopfx-size-to-accept-an-extra-space/20240625-203952
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/b9354882f45a0c600e65df4bacee2f1080c4ba89.1719219886.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH v5 3/4] efi/cper: align ARM CPER type with UEFI 2.9A/2.10 specs
+config: x86_64-buildonly-randconfig-003-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290457.3HKFUkuV-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290457.3HKFUkuV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406290407.ppYBkO2R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406290457.3HKFUkuV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:3678.11-3688.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c271000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c271000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c272000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c272000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c273000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c273000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c274000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:3678.11-3688.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c271000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c271000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c272000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c272000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c273000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c273000: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom,tsens-v2']
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c274000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
+All errors (new ones prefixed by >>):
+
+   drivers/acpi/apei/ghes.c: In function 'ghes_handle_arm_hw_error':
+>> drivers/acpi/apei/ghes.c:566:34: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     566 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+         |                                  ^~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_GET +566 drivers/acpi/apei/ghes.c
+
+   530	
+   531	static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+   532					       int sev, bool sync)
+   533	{
+   534		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+   535		int flags = sync ? MF_ACTION_REQUIRED : 0;
+   536		char error_type[120];
+   537		bool queued = false;
+   538		int sec_sev, i;
+   539		char *p;
+   540	
+   541		log_arm_hw_error(err);
+   542	
+   543		sec_sev = ghes_severity(gdata->error_severity);
+   544		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+   545			return false;
+   546	
+   547		p = (char *)(err + 1);
+   548		for (i = 0; i < err->err_info_num; i++) {
+   549			struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
+   550			bool is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
+   551			bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+   552	
+   553			/*
+   554			 * The field (err_info->error_info & BIT(26)) is fixed to set to
+   555			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+   556			 * firmware won't mix corrected errors in an uncorrected section,
+   557			 * and don't filter out 'corrected' error here.
+   558			 */
+   559			if (is_cache && has_pa) {
+   560				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+   561				p += err_info->length;
+   562				continue;
+   563			}
+   564	
+   565			cper_bits_to_str(error_type, sizeof(error_type),
+ > 566					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+   567					 cper_proc_error_type_strs,
+   568					 ARRAY_SIZE(cper_proc_error_type_strs));
+   569	
+   570			pr_warn_ratelimited(FW_WARN GHES_PFX
+   571					    "Unhandled processor error type 0x%02x: %s%s\n",
+   572					    err_info->type, error_type,
+   573					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
+   574			p += err_info->length;
+   575		}
+   576	
+   577		return queued;
+   578	}
+   579	
 
 -- 
 0-DAY CI Kernel Test Service
