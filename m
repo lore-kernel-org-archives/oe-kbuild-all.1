@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B269C481D7;
-	Fri, 28 Jun 2024 10:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED63D1459EF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 10:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719571107; cv=none; b=FKHoKbh2Wlee+tVqExdMk/ffeTV70b+4GDKoRc2pJb96Xgi1LaQi8hBkpmwa19kSNuMfckxfvy/hdzYNJ9DZCMr+yGlVRO1ZvKfLgDnqAVizoK4cgy3S/XtAZ/D+GEu4FiKaQoK3t/RAfIPzP+QtTaXnyFZfeIGnJIIeJBG7Rw4=
+	t=1719571798; cv=none; b=p4NdLg8CcpThry8/VIsgNEmlBJ8TWRqOnjyesAgGc2Oksg1isJX+6giTMjSNAEC2MftzKsbPV2c2ase7Vh1Mo60lPfncNbIcOLAa2ER+hJ3XAUnOwcw68+oKhVt3lKuwhd0KBq4LlweWVskiO2nAdHYAy7EduzfFX91xjfPIrrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719571107; c=relaxed/simple;
-	bh=txHEnCfCJpHuS3Xiagch3AWe5OLvDgaLejgE+yxFh6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M3TTQYOpzDATccxeVwySxTo3crlUstCZg3ml2oLyil2enSfaZbX0m7xTw4Ym+cF183RWTh9x6HipkfWMI5EgjT/9k/wRRHyRXCyyivcFhnYTSkprm5QEiiwmn464wb1rD+SFdXOoqJJVL2EkLsWkzi1L2Q8vMl2uUv8Q4HrLeX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsUSxp7r; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1719571798; c=relaxed/simple;
+	bh=4yLS4SO15+GZgSV9YAquPD11MCf9dm2ee3l4KGzL7uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btRDDEYwpZKtch/MxanGeNgyrIo87sOrM51TxEPmrNXt4i1Li1dyYA19VQ6Fc+rNk3wVgC119ydNxkY1YqYfeMQiVQOIuemWLmsZJycaWGJtQcAxpesi3y3LyAONsHYH3lAZU3HN9ZGI7oGAmD8z04qPHHGxw1+He9Z6oLJ9ONA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0aefskv; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsUSxp7r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0aefskv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719571106; x=1751107106;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=txHEnCfCJpHuS3Xiagch3AWe5OLvDgaLejgE+yxFh6A=;
-  b=YsUSxp7rWeZq5NymDQ2W30jHHBmVw1L/o3uCb/R3WHRyDjHcTktCROnI
-   NXS8H4MF2DNRSn0Fu0TT4dn0YdiJKxo2jecvEe85AY2VekjA55EymCgdH
-   9YIf29YW3DBHit1m2ZDUAMdODdGgRwJIJlU2XzaP/H3TS0qFHAcuKls2e
-   Zn/CJk5SGo7px3t3cscIA7x5gDq0os4A+m4+wCcdpW2zHf2JICPz9przh
-   kjO415QQ6taIzXO6XUyzvGsD5GpJ+RWgUUzIyVHfXsy/sPZJPGGmhnbJF
-   4INwLkg/pGMocCv0FK3ygg2FkG8cjUdP5tSmJAT2cKKa0weuM515p7Q+x
+  t=1719571797; x=1751107797;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4yLS4SO15+GZgSV9YAquPD11MCf9dm2ee3l4KGzL7uk=;
+  b=N0aefskv9SNxsP9IwAuM/D3VYfms1bupr/1/PbnylIAB8HFCzxOIbErE
+   4zW2YZ8/BxRfUH2i4jfD1TKmVUnzNXmOFb1eLEBOAsHmVxQSv8w1BWcOv
+   +E7mxtkr1Xauq2ish41oqExWlh1h2PjNOkksMTu3boBkcP4HICVyaEhTZ
+   RDLWQCHQIT8CZFTh7fmhzn2cF5DAdlwZ5oIXopjr5ku+moFAk7WnIQcsd
+   YtaaMqlIsSQMH5AusZM4ClJenRWSwr2CoKzVsvsAepIZ0J1HYp0e/eoab
+   vmUsYJoSZXutbU9Wzl8yBdKcQq6aojp0pG8q2R6+WG+qsaNoAniokur4h
    g==;
-X-CSE-ConnectionGUID: nfYRROlTTAauuxD4NoXgPw==
-X-CSE-MsgGUID: lkaQV2DTTVaGZpDuD8EWPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="20564384"
+X-CSE-ConnectionGUID: UKft1EwdT/CUbHuiqsuDAg==
+X-CSE-MsgGUID: yZQA0frrR1KobywRlG9ehg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16583411"
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="20564384"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 03:38:25 -0700
-X-CSE-ConnectionGUID: 8MNKNpggS9ewswlUQWQ7Lw==
-X-CSE-MsgGUID: hpmkFST4Sme2NxvqIHUh1A==
+   d="scan'208";a="16583411"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 03:49:36 -0700
+X-CSE-ConnectionGUID: bnRvln6hT6a4BNTMtrWfNA==
+X-CSE-MsgGUID: B+Rix3d/R7OrlEn3C8UPfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="49878854"
+   d="scan'208";a="44759393"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jun 2024 03:38:23 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2024 03:49:34 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN8zl-000H0C-1r;
-	Fri, 28 Jun 2024 10:38:21 +0000
-Date: Fri, 28 Jun 2024 18:37:54 +0800
+	id 1sN9AZ-000H1Z-1p;
+	Fri, 28 Jun 2024 10:49:31 +0000
+Date: Fri, 28 Jun 2024 18:49:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>
-Subject: [axboe-block:for-next 99/111] error[E0425]: cannot find value
- `BLK_FEAT_ROTATIONAL` in crate `bindings`
-Message-ID: <202406281812.yXvA6FSP-lkp@intel.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v2 2/2] arm64: dts: rockchip: Add Xunlong Orange Pi 3B
+Message-ID: <202406281834.nNnojcHy-lkp@intel.com>
+References: <20240626230319.1425316-3-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +68,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240626230319.1425316-3-jonas@kwiboo.se>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-head:   bc512ae8cb934ac31470bc825fa25f9f5f99a720
-commit: fcf865e357f80285af12c0c9a49f89d71acb7f4b [99/111] block: convert features and flags to __bitwise types
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240628/202406281812.yXvA6FSP-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281812.yXvA6FSP-lkp@intel.com/reproduce)
+Hi Jonas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Karlman/dt-bindings-arm-rockchip-Add-Xunlong-Orange-Pi-3B/20240627-175050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20240626230319.1425316-3-jonas%40kwiboo.se
+patch subject: [PATCH v2 2/2] arm64: dts: rockchip: Add Xunlong Orange Pi 3B
+config: arm64-randconfig-051-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281834.nNnojcHy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281834.nNnojcHy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281812.yXvA6FSP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281834.nNnojcHy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find value `BLK_FEAT_ROTATIONAL` in crate `bindings`
-   --> rust/kernel/block/mq/gen_disk.rs:104:38
-   |
-   104 |             lim.features = bindings::BLK_FEAT_ROTATIONAL;
-   |                                      ^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
