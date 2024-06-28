@@ -1,73 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB3622619
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 04:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97237225D4;
+	Fri, 28 Jun 2024 05:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719550028; cv=none; b=WlMI3TkBvMbNmcOIleiPjhudGiyxcPA8HdWCHTRQF5kfCsZUB+PkXtkJYTpCZqn0661Kqhg5W0wIDN8nmMwIm8kot33rFJbKK3rnweSf+a2eKqYyqhVJIcIHv03c3h0dyGv72a/gtUI6GhaZMNJ+yg7pk61pdi5R5PPVv0Law0A=
+	t=1719551923; cv=none; b=dWffUlAw7A/IltG4MUPJzvcEvDObvRX6BttXRQGBeX2Mo3Q5oFfymr0GcshqqE7Hlq9q79r2Kh0S8yFfcPl4WdrhTetc2XYtYvTg8/FJKbjw+skXndPtyY9/SOewoSGY3RffOAtT6ygBoaxKHv0EeGrZZnuwY7TGbk/ZJ5xwKCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719550028; c=relaxed/simple;
-	bh=hhSOyJfbZRZhIjSoV5AnADdHQZS1XJORgVzByzcsybE=;
+	s=arc-20240116; t=1719551923; c=relaxed/simple;
+	bh=EsBjbl1L0ItHWLuJt6/SzDFQkncBAJfJVa3VjM2Xvcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZ4SCibd0kb4yTLnWN82Y0NrSGLZxLWNyxTdP/gAs+OHz6+Jk8DyZq9djtEYYrlZ71Xfexj8hEGRID/0sRPDR2d/kAS8QVydM8c2Uh+o+oMeob+mG3zEOZiDM0FOndOVyWTgRNpIgUliyr6g2UkypqGLSLqUQGfCJ7ZxJ0VYh1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7htaq3d; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFCXzSyjrSoZcO7EjQlzwr+knvwvIU9bwjVMeQlk2pCZH906X0/ixVfxOWeq+1WlMD5lVqKQPIy4rJYhNxhfy0mChA+CZajrcW7FoJYK5iLI9XMhFLyWJn3zYki5VeA/V8TzNukWLl6mpROd30Uj0/4KZbn2BccEFWtiwEKFMjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLL9Seaq; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7htaq3d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLL9Seaq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719550027; x=1751086027;
+  t=1719551922; x=1751087922;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hhSOyJfbZRZhIjSoV5AnADdHQZS1XJORgVzByzcsybE=;
-  b=F7htaq3d082niNVfoeAVgjzk0fchFSd5q0HH2QaP+r5kJ6kW2gDjfRpR
-   uO0e97xg+WR0ICipk9A6KFvSwsYHasaC+DOKgR29kt133mgnL3CIqRink
-   q3CeTa//4CavZWEL8Gu4Gw9SiFvs+EUZ2m2+dO9TJ8A/BYUkSgvhiqVkl
-   1JsBWQ7LKq7dqoEfwnJvVclUdFmEFjBK4SYBd9IjYjTDQv3md9p/JatvV
-   X4we4RthwqdNK96glJK7EiS9h1XozrqCjYVAu8r6YZWcuewUb53QFwpKF
-   46856jRG1B+4OHlqUN7gtbhLN6qzYBoRv+J3iRGsQjtsOnzfj3dS+cajD
-   g==;
-X-CSE-ConnectionGUID: tTVDGdYJTh28YOSlJ95pSQ==
-X-CSE-MsgGUID: 8ub82BxaQ+uWzxHrSbXRqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16537256"
+  bh=EsBjbl1L0ItHWLuJt6/SzDFQkncBAJfJVa3VjM2Xvcg=;
+  b=YLL9SeaqZcFliqinc6nNTXuykOyo3w0Tb9gRiMQ5qjIr+UKsnGc4rYYH
+   l7QZORzTivBakBPuO92UUuQNMY8xXWo3WxCEJyG5ZWZYPU3zfrLg79O5o
+   NN0NFuRr2WYLuRvO2aX4xfQaxXb2hwj7fs58WSLoGewcq5QEk1pTUBzpG
+   ZjCz2ksTH8oVjdvXkFG7AOxHkI7d7aio4FyXT3W9nPEQSlYh3jZsDOIUk
+   lPxbXZXApuVdrbD7hVP6tfMLrwHy7Kza/WgdhT/x6NfrHFX2RPa9bUP0g
+   tQBQkRDifYEZVwjgvM/+rC0VntskzWVUntqetPsSp/KSi8y6hwoN1L0Oj
+   A==;
+X-CSE-ConnectionGUID: eeEhlz/IT1ajtagKhw5xNA==
+X-CSE-MsgGUID: 1mYCKVZHRdi43LaI/GykKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="27340533"
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="16537256"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 21:47:06 -0700
-X-CSE-ConnectionGUID: cCW7NoNoRpib26TeZ6KruA==
-X-CSE-MsgGUID: hLb0L9vtSdmkdnpJYFiLHw==
+   d="scan'208";a="27340533"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 22:18:41 -0700
+X-CSE-ConnectionGUID: PKoepgiDSSyTrsIjQx5f9Q==
+X-CSE-MsgGUID: sSeuRvK7T5S4L+nd0hgoSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="45254075"
+   d="scan'208";a="45367562"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jun 2024 21:47:02 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2024 22:18:37 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN3Vj-000Gnw-2k;
-	Fri, 28 Jun 2024 04:46:59 +0000
-Date: Fri, 28 Jun 2024 12:46:04 +0800
+	id 1sN40I-000Gp8-2o;
+	Fri, 28 Jun 2024 05:18:34 +0000
+Date: Fri, 28 Jun 2024 13:18:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Daniel Ferguson <danielf@os.amperecomputing.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Len Brown <lenb@kernel.org>, Shengwei Luo <luoshengwei@huawei.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Tony Luck <tony.luck@intel.com>, linux-acpi@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM
- error report functions
-Message-ID: <202406281232.xTKmzO76-lkp@intel.com>
-References: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
+To: Bibek Kumar Patro <quic_bibekkum@quicinc.com>, robdclark@gmail.com,
+	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+	jgg@ziepe.ca, jsnitsel@redhat.com, robh@kernel.org,
+	krzysztof.kozlowski@linaro.org, quic_c_gdjako@quicinc.com,
+	dmitry.baryshkov@linaro.org, konrad.dybcio@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Bibek Kumar Patro <quic_bibekkum@quicinc.com>
+Subject: Re: [PATCH v12 6/6] iommu/arm-smmu: add support for PRR bit setup
+Message-ID: <202406281241.xEX0TWjt-lkp@intel.com>
+References: <20240626143020.3682243-7-quic_bibekkum@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,93 +69,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20240626143020.3682243-7-quic_bibekkum@quicinc.com>
 
-Hi Mauro,
+Hi Bibek,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.10-rc5 next-20240627]
+[auto build test WARNING on joro-iommu/next]
+[also build test WARNING on linus/master v6.10-rc5 next-20240627]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/RAS-ACPI-APEI-add-conditional-compilation-to-ARM-error-report-functions/20240627-225843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM error report functions
-config: x86_64-buildonly-randconfig-003-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281232.xTKmzO76-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281232.xTKmzO76-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibek-Kumar-Patro/iommu-arm-smmu-re-enable-context-caching-in-smmu-reset-operation/20240627-074037
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
+patch link:    https://lore.kernel.org/r/20240626143020.3682243-7-quic_bibekkum%40quicinc.com
+patch subject: [PATCH v12 6/6] iommu/arm-smmu: add support for PRR bit setup
+config: arm64-randconfig-r113-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281241.xEX0TWjt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240628/202406281241.xEX0TWjt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281232.xTKmzO76-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281241.xEX0TWjt-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:247:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:247:54: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:247:54: sparse:     got void *
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:250:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:250:54: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:250:54: sparse:     got void *
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
-   drivers/acpi/apei/ghes.c: In function 'ghes_handle_arm_hw_error':
->> drivers/acpi/apei/ghes.c:575:16: error: 'queued' undeclared (first use in this function)
-     575 |         return queued;
-         |                ^~~~~~
-   drivers/acpi/apei/ghes.c:575:16: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/acpi/apei/ghes.c:576:1: warning: control reaches end of non-void function [-Wreturn-type]
-     576 | }
-         | ^
+vim +247 drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
 
-
-vim +/queued +575 drivers/acpi/apei/ghes.c
-
-7f17b4a121d0d5 James Morse     2020-05-01  530  
-a70297d2213253 Shuai Xue       2023-12-18  531  static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
-a70297d2213253 Shuai Xue       2023-12-18  532  				     int sev, bool sync)
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  533  {
-4a485d7f807462 Daniel Ferguson 2024-06-27  534  #if defined(CONFIG_ARM) || defined (CONFIG_ARM64)
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  535  	struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
-a70297d2213253 Shuai Xue       2023-12-18  536  	int flags = sync ? MF_ACTION_REQUIRED : 0;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  537  	bool queued = false;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  538  	int sec_sev, i;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  539  	char *p;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  540  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  541  	log_arm_hw_error(err);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  542  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  543  	sec_sev = ghes_severity(gdata->error_severity);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  544  	if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
-7f17b4a121d0d5 James Morse     2020-05-01  545  		return false;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  546  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  547  	p = (char *)(err + 1);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  548  	for (i = 0; i < err->err_info_num; i++) {
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  549  		struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  550  		bool is_cache = (err_info->type == CPER_ARM_CACHE_ERROR);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  551  		bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  552  		const char *error_type = "unknown error";
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  553  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  554  		/*
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  555  		 * The field (err_info->error_info & BIT(26)) is fixed to set to
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  556  		 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  557  		 * firmware won't mix corrected errors in an uncorrected section,
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  558  		 * and don't filter out 'corrected' error here.
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  559  		 */
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  560  		if (is_cache && has_pa) {
-a70297d2213253 Shuai Xue       2023-12-18  561  			queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  562  			p += err_info->length;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  563  			continue;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  564  		}
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  565  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  566  		if (err_info->type < ARRAY_SIZE(cper_proc_error_type_strs))
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  567  			error_type = cper_proc_error_type_strs[err_info->type];
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  568  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  569  		pr_warn_ratelimited(FW_WARN GHES_PFX
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  570  				    "Unhandled processor error type: %s\n",
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  571  				    error_type);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  572  		p += err_info->length;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  573  	}
-4a485d7f807462 Daniel Ferguson 2024-06-27  574  #endif
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11 @575  	return queued;
-cf870c70a19444 Naveen N. Rao   2013-07-10 @576  }
-cf870c70a19444 Naveen N. Rao   2013-07-10  577  
+   238	
+   239	static void qcom_adreno_smmu_set_prr(const void *cookie, phys_addr_t page_addr, bool set)
+   240	{
+   241		struct arm_smmu_domain *smmu_domain = (void *)cookie;
+   242		struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
+   243		struct arm_smmu_device *smmu = smmu_domain->smmu;
+   244		u32 reg = 0;
+   245	
+   246		writel_relaxed(lower_32_bits(page_addr),
+ > 247					(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_LADDR);
+   248	
+   249		writel_relaxed(upper_32_bits(page_addr),
+   250					(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_UADDR);
+   251	
+   252		reg =  arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_ACTLR);
+   253		reg &= ~GFX_ACTLR_PRR;
+   254		if (set)
+   255			reg |= FIELD_PREP(GFX_ACTLR_PRR, 1);
+   256		arm_smmu_cb_write(smmu, cfg->cbndx, ARM_SMMU_CB_ACTLR, reg);
+   257	
 
 -- 
 0-DAY CI Kernel Test Service
