@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1CD1B80F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 02:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B035F1C694
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 02:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719540860; cv=none; b=AU2sYeEngQwVZ0FyJgzmNDpeIXvjp8ZInFOeSjZHpWAkuCtkFVle39WIC0alYgywtCVnivlpSXgsRM/cg0jTMAGu6qhk7vqzPMF3d53GAdqp4Nz2Ij1C/dd/2IElSZK/Sqofk5m3o57PcFeetBWwYEZ6FJmvSa2LPzLF0reAAQ4=
+	t=1719542866; cv=none; b=dM+j/6Fi54sluWs54c2Z+gYalU2oGoZWIGNNHwhTEFQFQtT51RoxMNW9FAWy0tg2MeKudmUo2OBIbrlnvF5MUVjVNskQTsfrVTxxS5n8dA+5rD3iRHvdct1CL9e7aIxt1Bsr2+1lRY6qxgDooG4JVyGnQw+lTrCkbT6mZNdSh6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719540860; c=relaxed/simple;
-	bh=qRdHRD9HTB4U9n62DbQovrhamYXj4ymf6CH5wF3eqlw=;
+	s=arc-20240116; t=1719542866; c=relaxed/simple;
+	bh=RugJsmSoFQ0Opqso7x3i6LNEuu1OqPbWR4QAu9YtPQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WB/ZWaiPpW3S2j9SzZXaELuzkZJ+1SPog13PEyDifNiSdxzHGorYa45PyuU5afMn2pz8Dim2tqNEmS5wlXOodI2CS1ixLEUwuQghFYln3Zj+ya3Rs4rODb6PwYUfoBbImK2UAFq7+PTvi2rPkNbimC/aJjIWCuXz7ce192igRgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+bUTZL4; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=lcANZQpSVeH47OKTiUaGMEhPnIpvKwQ0yH29F/hwYGg8AWVDIg3F1mvOtIoi7hLZ8luubC5NIOUHp1ZHgGtCXXIiJIzIkG8e4O+Yc4PdmZeL6zeMnXzC463N38sqDxBhNVSWQTuJIVTPZyp4H2Q+oatvkGOFrj7Dl5Qwj+Xkz5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW1FkHOn; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+bUTZL4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW1FkHOn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719540859; x=1751076859;
+  t=1719542864; x=1751078864;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qRdHRD9HTB4U9n62DbQovrhamYXj4ymf6CH5wF3eqlw=;
-  b=i+bUTZL4qyrndrO+mvAlfzADbjjPVOSZveEUCNdLC5Du+/mUHZgcvGmU
-   eOaSe9Cq/cV1ixRbjwgNsIJkLafPKS9pcYhsPTaulSAEQ9R3lyQx82BkZ
-   u1JnWgT1WdcMt9KlbrrHHmTSqCxWsmbDozAn9TaP/gjU6UM08LC5mgp92
-   Jd5C3gZ1JiFPD+MIlixdKLyhBV4F7/Eb/KKquGb9TKwSB8Smpd9IqMZd9
-   HlfbmWya00xwbAIYommEkjFz3lVbVg4YA/ELKk0nsGujL9kHFozWyZpHZ
-   g15zZIiO7ObKiN5hjDEr9R877lvcTkqeWAk4LowXp3tdY+WmcApQel0xp
+  bh=RugJsmSoFQ0Opqso7x3i6LNEuu1OqPbWR4QAu9YtPQI=;
+  b=nW1FkHOnP1gqYRdE4mrG8BYvthA7CXPkNmSTaDM2gn+0QvM4OSYl7+vL
+   Hu1maylCNZmgqxTXJdUn2W5+h2s3WFcvbZEwg5csnsECBNrwlNDoNWJjX
+   ZkULuCWQo27coMCjdHQO+6/1qY8ULnNH4nwny1rv3UG7L/9ZsXGO58OjH
+   KUwQgPlXtLpFodr99GZ9i5yGCtHcvi+STmY7u3G8HFLuJ9CcrilfT2yPh
+   g0DkKUKDP8uumtRIWo4OqS6wf0d05ax2liDBQ5P3+sPjT5+olbkpuqjzn
+   F+4ptPaGQ19x/dNvqQIysRi3DJ1kNvTn9PjH8bELJyzjtOY8lswkd2Bj7
    w==;
-X-CSE-ConnectionGUID: ihi15dlOQt6uokEwi14+rQ==
-X-CSE-MsgGUID: 3e+yqL6USwuIVEs62l5H5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="39226352"
+X-CSE-ConnectionGUID: ZH43DaqrQvSLHbY0uHyOYA==
+X-CSE-MsgGUID: oFdaESlOQKGIXOaNdeEqRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16841295"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="39226352"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 19:14:19 -0700
-X-CSE-ConnectionGUID: hXaE1l1NTiu3mt2ujLzInw==
-X-CSE-MsgGUID: 7xTySdsDSHuwRxmubzKEhw==
+   d="scan'208";a="16841295"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 19:47:43 -0700
+X-CSE-ConnectionGUID: 0C3QM5UYRGaMVHm8ynMGug==
+X-CSE-MsgGUID: 6Ri0fHKYTxyAa0KtLme04A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="49497277"
+   d="scan'208";a="49554408"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 27 Jun 2024 19:14:18 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Jun 2024 19:47:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN17v-000Giq-1b;
-	Fri, 28 Jun 2024 02:14:15 +0000
-Date: Fri, 28 Jun 2024 10:13:15 +0800
+	id 1sN1eC-000Gjq-2k;
+	Fri, 28 Jun 2024 02:47:36 +0000
+Date: Fri, 28 Jun 2024 10:47:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Esteban Blanc <eblanc@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 1/5] dt-bindings: iio: adc: add ADI ad4030 and ad4630
-Message-ID: <202406281018.rHMeGwPm-lkp@intel.com>
-References: <20240627-eblanc-ad4630_v1-v1-1-fdc0610c23b0@baylibre.com>
+To: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>, sboyd@kernel.org,
+	andersson@kernel.org, bjorn.andersson@linaro.org,
+	david.brown@linaro.org, devicetree@vger.kernel.org,
+	jassisinghbrar@gmail.com, linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, mark.rutland@arm.com,
+	mturquette@baylibre.com, ohad@wizery.com, robh@kernel.org,
+	sricharan@codeaurora.org
+Cc: oe-kbuild-all@lists.linux.dev, gokulsri@codeaurora.org
+Subject: Re: [PATCH v9 8/8] arm64: dts: qcom: Enable Q6v5 WCSS for ipq8074 SoC
+Message-ID: <202406281044.3vIaThJc-lkp@intel.com>
+References: <20240621114659.2958170-9-quic_gokulsri@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +69,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627-eblanc-ad4630_v1-v1-1-fdc0610c23b0@baylibre.com>
+In-Reply-To: <20240621114659.2958170-9-quic_gokulsri@quicinc.com>
 
-Hi Esteban,
+Hi Gokul,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 07d4d0bb4a8ddcc463ed599b22f510d5926c2495]
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on clk/clk-next robh/for-next linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-and-ad4630/20240628-081907
-base:   07d4d0bb4a8ddcc463ed599b22f510d5926c2495
-patch link:    https://lore.kernel.org/r/20240627-eblanc-ad4630_v1-v1-1-fdc0610c23b0%40baylibre.com
-patch subject: [PATCH RFC 1/5] dt-bindings: iio: adc: add ADI ad4030 and ad4630
-reproduce: (https://download.01.org/0day-ci/archive/20240628/202406281018.rHMeGwPm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-Sriram-Palanisamy/remoteproc-qcom-Add-PRNG-proxy-clock/20240625-162317
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20240621114659.2958170-9-quic_gokulsri%40quicinc.com
+patch subject: [PATCH v9 8/8] arm64: dts: qcom: Enable Q6v5 WCSS for ipq8074 SoC
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406281044.3vIaThJc-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+dtschema version: 2024.6.dev2+g3b69bad
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281044.3vIaThJc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281018.rHMeGwPm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281044.3vIaThJc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adi,ad4630.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Using alabaster theme
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: phy@59000: 'vdda-pll-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: phy@59000: 'vdda-phy-dpdm-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: phy@79000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: phy@79000: 'vdda-pll-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: phy@79000: 'vdda-phy-dpdm-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/ipq8074-hk01.dtb: /soc@0/remoteproc@cd00000: failed to match any schema with compatible: ['qcom,ipq8074-wcss-pil']
+--
+>> arch/arm64/boot/dts/qcom/ipq8074-hk10-c1.dtb: /soc@0/remoteproc@cd00000: failed to match any schema with compatible: ['qcom,ipq8074-wcss-pil']
+--
+>> arch/arm64/boot/dts/qcom/ipq8074-hk10-c2.dtb: /soc@0/remoteproc@cd00000: failed to match any schema with compatible: ['qcom,ipq8074-wcss-pil']
 
 -- 
 0-DAY CI Kernel Test Service
