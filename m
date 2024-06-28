@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109047EF10;
-	Fri, 28 Jun 2024 07:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C90140363
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jun 2024 08:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719559343; cv=none; b=TmChYZD4BpSFgKqEGJu9Zqaq02RRDu/gaoiRYlQm8w8ZdYOqSbWd1TR7lf0fNogWrkP7tzxi8hVpYkcvxy5Hk/l+PnH7o/9tJw4Rp40EzMaGqHpQgIZ+KGC7nK2VXxeYLHgn2oRLJcJu7ljMWjvQA2VTSpVP0/G42YcWmf2HEPI=
+	t=1719561820; cv=none; b=pD35dlz8AE1LbWZrsM3zCD5tr48Ij3mwOKtwsoTnVPS0SA7eL0KSCArSjSn2Nc0eiDgWWCSZRsCifO2eQRxq3pJ7wDhz5qBJJStRMAlwXKjfjPrN9dmhazXOqC3huByVzY2u371/Ir4KIDoutmSWsQG7RhS5D9Dqq1qLyksFKoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719559343; c=relaxed/simple;
-	bh=kk0jS6Zn/eajs/D76BtMMEDKGhKMcCaj28YrpERS6qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+0aHUQcZwqhNb3ndY1N22xs8BRPXi9zjCsyV32DSTiQSvOdwhTsUu3ztGf3PjtxIPA+HGkexIPDtWTTpvRVUGX2MkOETXx0f04E2/wfo7CToe4Pmh3wtuvyLIkVIpH9h/BspXa5b0ELVHLf7iUqBqKRNiq7buZzNGdIgjPn9kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nxu+xklR; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1719561820; c=relaxed/simple;
+	bh=oMLYOyBhQSYdN06gsza6YIxixLrJCFBllEQfR3+I3cQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I/xGVCjEWvjzavtbaSlaVwpSAYTehseS1jA5IIREkoSUnEDyKCaRugpYdrn2qF7ax7C7/kJ886NWZ2kEWm4bZD0Loc17/DQ8ppbGD+TIx3T2sriqTJhHmgILoWB8aCvPrXKkfcJFZ+yosY5xqf4KW0RH57ThpGVS5M5eed6DWdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ch3Y3Kt/; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nxu+xklR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ch3Y3Kt/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719559341; x=1751095341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kk0jS6Zn/eajs/D76BtMMEDKGhKMcCaj28YrpERS6qw=;
-  b=Nxu+xklRrCKBuy4TN8nVFGR5fUyyEcjxeNiUc1ouICMzL1piC3u1xQUR
-   pKcudj6F6+Bcxn35IJcbbOJhgxPhtpo3IVlt8zVAfSx+i9VqyqMb3qG6P
-   wVEBNpL9Igtp5I4MOjWgkDRJl5pKOVaIwSM7hzzMiK9on2etzkdR7nvqF
-   YERuROWgzYceIqJ8W0qaCNxKmjEzqax85mUGj949raG8RPyPUItztk02B
-   H2G3KLYqJRf7KYUD85yAPaxb8aJ0GuYE1K+ZIZwkhZZTx6ajzU6WWRPTg
-   a+6LtaEj+u/7rbtSwZzuYk8u0z77Vyzz9xopZ9wXBylUSwaPNOBswfpSR
-   w==;
-X-CSE-ConnectionGUID: nZ1Iy5MaQn6Nc9tHo+sl8Q==
-X-CSE-MsgGUID: wyqlnN4qSSyv5f+jn0cj3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16468206"
+  t=1719561819; x=1751097819;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oMLYOyBhQSYdN06gsza6YIxixLrJCFBllEQfR3+I3cQ=;
+  b=ch3Y3Kt/30GrMjK0rBugqhydHWSSAhdn+BBg5vcIjRNNUIb4/uz61qkK
+   Lm/QjGMn/FzEX5WhQ6+r8h1uxb4z0715lbM14GJgJC14AFtXbM2W98HXp
+   QL6wRUB/A6UeguHc154hPTK+DtJrkwK6ItZTvmJDNLJYmH4qUc0WA1Epr
+   OIEdcRnmOCko2+0tyz/78Zpl593VHOTeMs/KpVMs7uswIfZJIHaDYTZ70
+   j+i255vb700HVjdCpwf6l5MFVQ0C6VVtv5/BYhlkpc2sIdg0B0+5H1OKe
+   Rfy0reyhC+7K60xevZ9eolZZbYyYf+8ZglgIpbjrMfkJLlWs30FeFKeOh
+   A==;
+X-CSE-ConnectionGUID: PkDqgYTTRgqasoocBwM0EA==
+X-CSE-MsgGUID: UDF1ptbqRomDuQOXoCNvBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="27323377"
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="16468206"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 00:22:20 -0700
-X-CSE-ConnectionGUID: CBI4nw8NSwuGvrqeMakrxQ==
-X-CSE-MsgGUID: VaE3baFuSwybmyPTgbBtPg==
+   d="scan'208";a="27323377"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 01:03:38 -0700
+X-CSE-ConnectionGUID: 374phvE4T0qftEcMT/6G7w==
+X-CSE-MsgGUID: st7fM4J+SzqNiSZyFMVDZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="49567540"
+   d="scan'208";a="45313280"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Jun 2024 00:22:17 -0700
+  by orviesa007.jf.intel.com with ESMTP; 28 Jun 2024 01:03:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sN5vx-000Gti-2j;
-	Fri, 28 Jun 2024 07:22:13 +0000
-Date: Fri, 28 Jun 2024 15:21:15 +0800
+	id 1sN6Zz-000GuI-0I;
+	Fri, 28 Jun 2024 08:03:35 +0000
+Date: Fri, 28 Jun 2024 16:03:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Vdovydchenko <keromvp@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org, Alex Vdovydchenko <xzeol@yahoo.com>
-Subject: Re: [PATCH v2 2/2] hwmon: add MP5920 driver
-Message-ID: <202406281512.NAdadCZX-lkp@intel.com>
-References: <20240627090113.391730-3-xzeol@yahoo.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:rosebush 2/5] lib/rosebush.c:56:46: error:
+ 'spinlock_t' {aka 'struct spinlock'} has no member named 'dep_map'
+Message-ID: <202406281549.oF7mq1M2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,155 +61,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627090113.391730-3-xzeol@yahoo.com>
 
-Hi Alex,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on next-20240627]
-[cannot apply to robh/for-next krzk-dt/for-next linus/master v6.10-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Vdovydchenko/dt-bindings-hwmon-Add-MPS-mp5920/20240628-021125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240627090113.391730-3-xzeol%40yahoo.com
-patch subject: [PATCH v2 2/2] hwmon: add MP5920 driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240628/202406281512.NAdadCZX-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281512.NAdadCZX-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache rosebush
+head:   7a7ecd4f2b493425b64377e6293c81b06e7cc8ea
+commit: 7126d5cc921de485e55c313a280c88622f3a337b [2/5] rosebush: Add new data structure
+config: x86_64-buildonly-randconfig-001-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281549.oF7mq1M2-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281549.oF7mq1M2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281512.NAdadCZX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281549.oF7mq1M2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/hwmon/pmbus/mp5920.c:18:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/pmbus/mp5920.c:26:2: error: use of undeclared identifier 'pages'
-      26 |         pages = 1,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:27:2: error: use of undeclared identifier 'format'
-      27 |         format[PSC_VOLTAGE_IN] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:28:2: error: use of undeclared identifier 'format'
-      28 |         format[PSC_VOLTAGE_OUT] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:29:2: error: use of undeclared identifier 'format'
-      29 |         format[PSC_CURRENT_OUT] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:30:2: error: use of undeclared identifier 'format'
-      30 |         format[PSC_POWER] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:31:2: error: use of undeclared identifier 'format'
-      31 |         format[PSC_TEMPERATURE] = direct,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:32:2: error: use of undeclared identifier 'm'
-      32 |         m[PSC_VOLTAGE_IN] = 2266,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:33:2: error: use of undeclared identifier 'b'
-      33 |         b[PSC_VOLTAGE_IN] = 0,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:34:2: error: use of undeclared identifier 'R'
-      34 |         R[PSC_VOLTAGE_IN] = -1,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:35:2: error: use of undeclared identifier 'm'
-      35 |         m[PSC_VOLTAGE_OUT] = 2266,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:36:2: error: use of undeclared identifier 'b'
-      36 |         b[PSC_VOLTAGE_OUT] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:37:2: error: use of undeclared identifier 'R'
-      37 |         R[PSC_VOLTAGE_OUT] = -1,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:38:2: error: use of undeclared identifier 'm'
-      38 |         m[PSC_CURRENT_OUT] = 546,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:39:2: error: use of undeclared identifier 'b'
-      39 |         b[PSC_CURRENT_OUT] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:40:2: error: use of undeclared identifier 'R'
-      40 |         R[PSC_CURRENT_OUT] = -2,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:41:2: error: use of undeclared identifier 'm'
-      41 |         m[PSC_POWER] = 5840,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:42:2: error: use of undeclared identifier 'b'
-      42 |         b[PSC_POWER] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:43:2: error: use of undeclared identifier 'R'
-      43 |         R[PSC_POWER] = -3,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:44:2: error: use of undeclared identifier 'm'
-      44 |         m[PSC_TEMPERATURE] = 1067,
-         |         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   5 warnings and 20 errors generated.
+   lib/rosebush.c: In function 'rbh_first':
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:139:9: note: in expansion of macro 'bucket_lock_init'
+     139 |         bucket_lock_init(rbh, &table->buckets[0]);
+         |         ^~~~~~~~~~~~~~~~
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:142:9: note: in expansion of macro 'bucket_lock_init'
+     142 |         bucket_lock_init(rbh, &table->buckets[1]);
+         |         ^~~~~~~~~~~~~~~~
+   lib/rosebush.c: In function 'copy_initial_buckets':
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'const struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:167:9: note: in expansion of macro 'bucket_lock_init'
+     167 |         bucket_lock_init(rbh, bucket);
+         |         ^~~~~~~~~~~~~~~~
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'const struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:172:9: note: in expansion of macro 'bucket_lock_init'
+     172 |         bucket_lock_init(rbh, bucket);
+         |         ^~~~~~~~~~~~~~~~
+   lib/rosebush.c: In function 'bucket_copy':
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'const struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:262:9: note: in expansion of macro 'bucket_lock_init'
+     262 |         bucket_lock_init(rbh, buckets[0]);
+         |         ^~~~~~~~~~~~~~~~
+>> lib/rosebush.c:56:46: error: 'spinlock_t' {aka 'const struct spinlock'} has no member named 'dep_map'
+      56 |                 "rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+         |                                              ^
+   lib/rosebush.c:265:9: note: in expansion of macro 'bucket_lock_init'
+     265 |         bucket_lock_init(rbh, buckets[1]);
+         |         ^~~~~~~~~~~~~~~~
 
 
-vim +/pages +26 drivers/hwmon/pmbus/mp5920.c
+vim +56 lib/rosebush.c
 
-    24	
-    25	static struct pmbus_driver_info mp5920_info = {
-  > 26		pages = 1,
-  > 27		format[PSC_VOLTAGE_IN] = direct,
-    28		format[PSC_VOLTAGE_OUT] = direct,
-    29		format[PSC_CURRENT_OUT] = direct,
-    30		format[PSC_POWER] = direct,
-    31		format[PSC_TEMPERATURE] = direct,
-  > 32		m[PSC_VOLTAGE_IN] = 2266,
-  > 33		b[PSC_VOLTAGE_IN] = 0,
-  > 34		R[PSC_VOLTAGE_IN] = -1,
-    35		m[PSC_VOLTAGE_OUT] = 2266,
-    36		b[PSC_VOLTAGE_OUT] = 0,
-    37		R[PSC_VOLTAGE_OUT] = -1,
-    38		m[PSC_CURRENT_OUT] = 546,
-    39		b[PSC_CURRENT_OUT] = 0,
-    40		R[PSC_CURRENT_OUT] = -2,
-    41		m[PSC_POWER] = 5840,
-    42		b[PSC_POWER] = 0,
-    43		R[PSC_POWER] = -3,
-    44		m[PSC_TEMPERATURE] = 1067,
-    45		b[PSC_TEMPERATURE] = 20500,
-    46		R[PSC_TEMPERATURE] = -2,
-    47		func[0] = PMBUS_HAVE_VIN  | PMBUS_HAVE_VOUT |
-    48			PMBUS_HAVE_IOUT | PMBUS_HAVE_POUT |
-    49			PMBUS_HAVE_TEMP,
-    50	};
-    51	
+    45	
+    46	/*
+    47	 * As far as lockdep is concerned, all buckets in the same rosebush use
+    48	 * the same lock.  We use the classes to distinguish the rbh resize lock
+    49	 * from the bucket locks.  The only time we take two bucket locks is
+    50	 * when we already hold the resize lock, so there is no need to define
+    51	 * an order between bucket locks.
+    52	 */
+    53	#ifdef CONFIG_DEBUG_SPINLOCK
+    54	#define bucket_lock_init(rbh, bucket)					\
+    55		__raw_spin_lock_init(spinlock_check(&(bucket)->rbh_lock),	\
+  > 56			"rbh", (rbh)->rbh_resize_lock.dep_map.key, LD_WAIT_SPIN)
+    57	#else
+    58	#define bucket_lock_init(rbh, bucket)					\
+    59		spin_lock_init(&(bucket)->rbh_lock)
+    60	#endif
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
