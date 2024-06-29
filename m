@@ -1,78 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B85622F1E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jun 2024 05:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6B11EA8D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jun 2024 05:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719637682; cv=none; b=WBSWLOcIhRymwtvH+gSHAU0PWpvwnw360ohLvdCTWWY3cc7wqJQiwPXXOPyCtG/hvac+g/fdZStpr612B6MEr/eKPVoUsaaUJuXtcvV2A4MHzG6+EDhOZmrLDmASjhwh5eVTEePa2PNJ7aLzYZQdHTiiRCTpuhal2rkjBH08MPE=
+	t=1719639722; cv=none; b=jkm+pFAa0Ac+92m7Gq/6XL4Y/+42RxKMu+GFOaRCYxgcNiWAIUcM7WvgmLJ4GKNBNJPE3UB39WontCH7Jbn7U0aGaU3A3dfU2HwuFHJ+02AE21vGcIsU2/c8DHcIROkXeOt+SSMPPtpQCKmmz+rcVjlIfYmlyMsjM8H7axEKV4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719637682; c=relaxed/simple;
-	bh=QwyhW4YFMjffq2CDg+44QHxFVJm5bsla0hUSSO20YEg=;
+	s=arc-20240116; t=1719639722; c=relaxed/simple;
+	bh=jDpKDrydtg1VJkps55fhlhQVybBHln10hutxOwKGM10=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MAAch/Bk0fvUdA/q1jwUXAfrnRcHJRczcxHWMP37GPn6CpzkjwSaE3cuWS6/Nh8OgqR1Bb+pTTNItXxuDbUZBwh86DUaC4oyc71hrCNUujD70w1SBY6y5lGO/zhecyC/7z1ManhcMzLcxoy4nz6yHkbUxawVNyVdvCQRoaK057Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JrMenixl; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=hjhPlCvjM++nJvYHxaWtMyEEWPx5ORe99MyQsziIUj4n+3VMFFdRP5/ceLafP2c1qK2MGol6iFnijwTcFpABw76rZB6QewKnp4qgh8cYLT2b42NfK3uCAc0sEmMU1K+idvTztph5InPZKoPzPZcjZTR+/h/dmEIFVSCGS7K3uGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PpDDnUF9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrMenixl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PpDDnUF9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719637674; x=1751173674;
+  t=1719639714; x=1751175714;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QwyhW4YFMjffq2CDg+44QHxFVJm5bsla0hUSSO20YEg=;
-  b=JrMenixlqDNvyN/TYfEekCYF1ScH3YuiklEz35ahalpGL2H5VZEysvuo
-   LS0Od+haw5es00QDtSaFDoXxZwcEvGE+aRr/aQYr/HDhPWLkhdih+j11I
-   tkkFoF1CO4yMs4ULzo2GzxjUvOT2tyJE0VE2ddy2tBp8Nxq1ZgGGK0elG
-   Mdmq5b0qhLDhhrfJYZcnYeSnNI7swqGLEOE4VXJ+Wwv7/GCYx1wC/od1g
-   z9I/UJLCj+msmxxvLjTY92Qm414qTaA+f3A8FGrtNa69tLUBsJBsuDZDL
-   Cqm0BQwIe1ptrwas4PelxrTQZ++pSHxoq0IVEOHAmBRDCB8E7xWgprNKb
+  bh=jDpKDrydtg1VJkps55fhlhQVybBHln10hutxOwKGM10=;
+  b=PpDDnUF9NwQLp5wz7GA4F+z4FbvkY3S/hLSsqQCJGRn6rjmKBQ8avU1+
+   ypW/SmoJhgXfpXqhE+PYB5GygwGa6sHCZXrRLmt7mDQ03Y6C6NyNZxitm
+   3Mw3xXB9Xe4xP5/3koceuN84ZIwreHPXsyc+M4/HfWEwNGjdmM800gkVR
+   za5u+SK1pxp9EYu7rb4RmpoNSjL/0YbhOZyyPnTmxjNLeQwfkVkLfwT3Q
+   zewElnbuJX+YNhnZ3UjeSvjL0wHxRAD0ZQgKI1C5CCJRKjlZvmi7nvREy
+   K5eECamAMANp3FHlELgBBT+4ODzDoxm+wEpb7ZYg8ZqGoNjE1VWuH2qe7
    g==;
-X-CSE-ConnectionGUID: 93PDmU2PTiqO2QELZvKHNA==
-X-CSE-MsgGUID: B6YC2bCiQfCFdgZ1Gr8rNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="17051418"
+X-CSE-ConnectionGUID: 5AVRqkikRUGzd7IpxQ00pw==
+X-CSE-MsgGUID: +D2IfAR/TeCs348boZRPFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16564768"
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="17051418"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 22:07:53 -0700
-X-CSE-ConnectionGUID: gxbT1/ttStuX5de0DN56uw==
-X-CSE-MsgGUID: bZ4bmCOwTZKseaWZrzWMsw==
+   d="scan'208";a="16564768"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 22:41:53 -0700
+X-CSE-ConnectionGUID: PN24QPtqS8S/hOAO3zmsSg==
+X-CSE-MsgGUID: GOm80u9oQAmrUMAshY6wXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="44777055"
+   d="scan'208";a="49418335"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Jun 2024 22:07:51 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2024 22:41:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNQJQ-000Iyo-0Z;
-	Sat, 29 Jun 2024 05:07:48 +0000
-Date: Sat, 29 Jun 2024 13:07:07 +0800
+	id 1sNQqK-000Izg-2j;
+	Sat, 29 Jun 2024 05:41:48 +0000
+Date: Sat, 29 Jun 2024 13:40:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 17/21]
- arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:33.31-41.5: Warning
- (unit_address_vs_reg): /chosen/framebuffer@0: node has a unit name, but no
- reg or ranges property
-Message-ID: <202406291234.UIHVZdaD-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/000-devicetree 8/187]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000: compatible:0:
+ 'apple,t8112-dart' is not one of ['apple,t8103-dart',
+ 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+Message-ID: <202406291328.sKImElaI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="RXIZQNODkGeuu/+5"
+Content-Type: multipart/mixed; boundary="BccLXEGBOLTkOFSF"
 Content-Disposition: inline
 
 
---RXIZQNODkGeuu/+5
+--BccLXEGBOLTkOFSF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   0e1cf9a5dc2aedc23644276953f7a89a5a9e6749
-commit: bef82fed82cfec76c105251d3ab2f55fcba2df51 [17/21] arm64: dts: ti: am62x: am62p: Add simple-fb node
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: df8e1b8cd933e329e7b938977daaabc538bb41eb [8/187] arm64: dts: apple: t8112: Add mtp device nodes for j413/j493
 config: arm64-randconfig-051-20240629
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
 dtschema version: 2024.6.dev3+g650bf2d
@@ -81,229 +80,101 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406291234.UIHVZdaD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406291328.sKImElaI-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:33.31-41.5: Warning (unit_address_vs_reg): /chosen/framebuffer@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:398.10-408.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-main.dtsi:658.22-668.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
-   arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: iommus: [[100, 0], [101, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
 --
->> arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:33.31-41.5: Warning (unit_address_vs_reg): /chosen/framebuffer@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi:398.10-408.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-main.dtsi:658.22-668.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
-   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
 --
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:41.31-49.5: Warning (unit_address_vs_reg): /chosen/framebuffer@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:466.10-475.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/usb-power-controller@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:691.22-701.5: Warning (graph_child_address): /bus@f0000/usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: pinctrl@4084000: pinctrl-single,gpio-range: [[2, 0, 21, 327687], [2, 23, 1, 327687], [2, 32, 2, 327687]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: syscon@43000000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4008: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /bus@f0000/bus@b00000/syscon@43000000/syscon@4018: failed to match any schema with compatible: ['ti,am62-usb-phy-ctrl', 'syscon']
-   arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: dss-oldi-io-ctrl@8600: compatible: 'anyOf' conditional failed, one must be fixed:
-
-vim +33 arch/arm64/boot/dts/ti/k3-am62x-sk-common.dtsi
-
-    12	
-    13	/ {
-    14		aliases {
-    15			serial2 = &main_uart0;
-    16			mmc0 = &sdhci0;
-    17			mmc1 = &sdhci1;
-    18			mmc2 = &sdhci2;
-    19			spi0 = &ospi0;
-    20			ethernet0 = &cpsw_port1;
-    21			ethernet1 = &cpsw_port2;
-    22			usb0 = &usb0;
-    23			usb1 = &usb1;
-    24		};
-    25	
-    26		chosen {
-    27			#address-cells = <2>;
-    28			#size-cells = <2>;
-    29			ranges;
-    30	
-    31			stdout-path = "serial2:115200n8";
-    32	
-  > 33			framebuffer0: framebuffer@0 {
-    34				compatible = "simple-framebuffer";
-    35				power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
-    36				clocks = <&k3_clks 186 6>,
-    37					 <&dss_vp1_clk>,
-    38					 <&k3_clks 186 2>;
-    39				display = <&dss>;
-    40				status = "disabled";
-    41			};
-    42		};
-    43	
-    44		memory@80000000 {
-    45			bootph-pre-ram;
-    46			device_type = "memory";
-    47			/* 2G RAM */
-    48			reg = <0x00000000 0x80000000 0x00000000 0x80000000>;
-    49		};
-    50	
-    51		reserved-memory {
-    52			#address-cells = <2>;
-    53			#size-cells = <2>;
-    54			ranges;
-    55	
-    56			ramoops@9c700000 {
-    57				compatible = "ramoops";
-    58				reg = <0x00 0x9c700000 0x00 0x00100000>;
-    59				record-size = <0x8000>;
-    60				console-size = <0x8000>;
-    61				ftrace-size = <0x00>;
-    62				pmsg-size = <0x8000>;
-    63			};
-    64	
-    65			rtos_ipc_memory_region: ipc-memories@9c800000 {
-    66				compatible = "shared-dma-pool";
-    67				reg = <0x00 0x9c800000 0x00 0x00300000>;
-    68				no-map;
-    69			};
-    70	
-    71			mcu_m4fss_dma_memory_region: m4f-dma-memory@9cb00000 {
-    72				compatible = "shared-dma-pool";
-    73				reg = <0x00 0x9cb00000 0x00 0x100000>;
-    74				no-map;
-    75			};
-    76	
-    77			mcu_m4fss_memory_region: m4f-memory@9cc00000 {
-    78				compatible = "shared-dma-pool";
-    79				reg = <0x00 0x9cc00000 0x00 0xe00000>;
-    80				no-map;
-    81			};
-    82	
-    83			/* global cma region */
-    84			linux,cma {
-    85				compatible = "shared-dma-pool";
-    86				reusable;
-    87				size = <0x00 0x8000000>;
-    88				linux,cma-default;
-    89			};
-    90	
-    91			secure_tfa_ddr: tfa@9e780000 {
-    92				reg = <0x00 0x9e780000 0x00 0x80000>;
-    93				alignment = <0x1000>;
-    94				no-map;
-    95			};
-    96	
-    97			secure_ddr: optee@9e800000 {
-    98				reg = <0x00 0x9e800000 0x00 0x01800000>; /* for OP-TEE */
-    99				alignment = <0x1000>;
-   100				no-map;
-   101			};
-   102	
-   103			wkup_r5fss0_core0_dma_memory_region: r5f-dma-memory@9db00000 {
-   104				compatible = "shared-dma-pool";
-   105				reg = <0x00 0x9db00000 0x00 0xc00000>;
-   106				no-map;
-   107			};
-   108		};
-   109	
-   110		leds {
-   111			compatible = "gpio-leds";
-   112			pinctrl-names = "default";
-   113			pinctrl-0 = <&usr_led_pins_default>;
-   114	
-   115			led-0 {
-   116				label = "am62-sk:green:heartbeat";
-   117				gpios = <&main_gpio1 49 GPIO_ACTIVE_HIGH>;
-   118				linux,default-trigger = "heartbeat";
-   119				function = LED_FUNCTION_HEARTBEAT;
-   120				default-state = "off";
-   121			};
-   122		};
-   123	
-   124		tlv320_mclk: clk-0 {
-   125			#clock-cells = <0>;
-   126			compatible = "fixed-clock";
-   127			clock-frequency = <12288000>;
-   128		};
-   129	
-   130		codec_audio: sound {
-   131			compatible = "simple-audio-card";
-   132			simple-audio-card,name = "AM62x-SKEVM";
-   133			simple-audio-card,widgets =
-   134				"Headphone",	"Headphone Jack",
-   135				"Line",		"Line In",
-   136				"Microphone",	"Microphone Jack";
-   137			simple-audio-card,routing =
-   138				"Headphone Jack",	"HPLOUT",
-   139				"Headphone Jack",	"HPROUT",
-   140				"LINE1L",		"Line In",
-   141				"LINE1R",		"Line In",
-   142				"MIC3R",		"Microphone Jack",
-   143				"Microphone Jack",	"Mic Bias";
-   144			simple-audio-card,format = "dsp_b";
-   145			simple-audio-card,bitclock-master = <&sound_master>;
-   146			simple-audio-card,frame-master = <&sound_master>;
-   147			simple-audio-card,bitclock-inversion;
-   148	
-   149			simple-audio-card,cpu {
-   150				sound-dai = <&mcasp1>;
-   151			};
-   152	
-   153			sound_master: simple-audio-card,codec {
-   154				sound-dai = <&tlv320aic3106>;
-   155				clocks = <&tlv320_mclk>;
-   156			};
-   157		};
-   158	
-   159		hdmi0: connector-hdmi {
-   160			compatible = "hdmi-connector";
-   161			label = "hdmi";
-   162			type = "a";
-   163			port {
-   164				hdmi_connector_in: endpoint {
-   165					remote-endpoint = <&sii9022_out>;
-   166				};
-   167			};
-   168		};
-   169	};
-   170	
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: iommus: [[100, 0], [101, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---RXIZQNODkGeuu/+5
+--BccLXEGBOLTkOFSF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-6.6.y-cicd
-        git checkout bef82fed82cfec76c105251d3ab2f55fcba2df51
+        # https://github.com/AsahiLinux/linux/commit/df8e1b8cd933e329e7b938977daaabc538bb41eb
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/000-devicetree
+        git checkout df8e1b8cd933e329e7b938977daaabc538bb41eb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash dtbs_check
 
---RXIZQNODkGeuu/+5
+--BccLXEGBOLTkOFSF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 6.6.32 Kernel Configuration
+# Linux/arm64 6.9.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 19.0.0git (git://gitmirror/llvm_project 326ba38a991250a8587a399a260b0f7af2c9166a)"
 CONFIG_GCC_VERSION=0
@@ -474,6 +345,7 @@ CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH=y
 CONFIG_CC_HAS_INT128=y
 CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough"
 CONFIG_GCC10_NO_ARRAY_BOUNDS=y
+CONFIG_GCC_NO_STRINGOP_OVERFLOW=y
 CONFIG_ARCH_SUPPORTS_INT128=y
 # CONFIG_NUMA_BALANCING is not set
 CONFIG_CGROUPS=y
@@ -542,14 +414,14 @@ CONFIG_AIO=y
 CONFIG_IO_URING=y
 CONFIG_ADVISE_SYSCALLS=y
 CONFIG_MEMBARRIER=y
+CONFIG_KCMP=y
+CONFIG_RSEQ=y
+CONFIG_CACHESTAT_SYSCALL=y
 CONFIG_KALLSYMS=y
 # CONFIG_KALLSYMS_SELFTEST is not set
 CONFIG_KALLSYMS_ALL=y
 CONFIG_KALLSYMS_BASE_RELATIVE=y
 CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
-CONFIG_KCMP=y
-CONFIG_RSEQ=y
-CONFIG_CACHESTAT_SYSCALL=y
 CONFIG_HAVE_PERF_EVENTS=y
 CONFIG_GUEST_PERF_EVENTS=y
 
@@ -567,7 +439,6 @@ CONFIG_TRACEPOINTS=y
 #
 # Kexec and crash features
 #
-CONFIG_CRASH_CORE=y
 CONFIG_KEXEC_CORE=y
 CONFIG_HAVE_IMA_KEXEC=y
 CONFIG_KEXEC=y
@@ -581,7 +452,6 @@ CONFIG_ARM64=y
 CONFIG_CLANG_SUPPORTS_DYNAMIC_FTRACE_WITH_ARGS=y
 CONFIG_64BIT=y
 CONFIG_MMU=y
-CONFIG_ARM64_PAGE_SHIFT=12
 CONFIG_ARM64_CONT_PTE_SHIFT=4
 CONFIG_ARM64_CONT_PMD_SHIFT=4
 CONFIG_ARCH_MMAP_RND_BITS_MIN=18
@@ -626,6 +496,7 @@ CONFIG_ARCH_MESON=y
 # CONFIG_ARCH_NXP is not set
 # CONFIG_ARCH_MA35 is not set
 CONFIG_ARCH_NPCM=y
+# CONFIG_ARCH_PENSANDO is not set
 CONFIG_ARCH_QCOM=y
 # CONFIG_ARCH_REALTEK is not set
 CONFIG_ARCH_RENESAS=y
@@ -705,6 +576,7 @@ CONFIG_ARM64_4K_PAGES=y
 # CONFIG_ARM64_64K_PAGES is not set
 CONFIG_ARM64_VA_BITS_39=y
 # CONFIG_ARM64_VA_BITS_48 is not set
+# CONFIG_ARM64_VA_BITS_52 is not set
 CONFIG_ARM64_VA_BITS=39
 CONFIG_ARM64_PA_BITS_48=y
 CONFIG_ARM64_PA_BITS=48
@@ -854,17 +726,15 @@ CONFIG_ARCH_SUSPEND_POSSIBLE=y
 # end of CPU Frequency scaling
 # end of CPU Power Management
 
-CONFIG_IRQ_BYPASS_MANAGER=y
-CONFIG_HAVE_KVM=y
+CONFIG_KVM_COMMON=y
 CONFIG_HAVE_KVM_IRQCHIP=y
-CONFIG_HAVE_KVM_IRQFD=y
 CONFIG_HAVE_KVM_IRQ_ROUTING=y
 CONFIG_HAVE_KVM_DIRTY_RING=y
 CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL=y
 CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP=y
-CONFIG_HAVE_KVM_EVENTFD=y
 CONFIG_KVM_MMIO=y
 CONFIG_HAVE_KVM_MSI=y
+CONFIG_HAVE_KVM_READONLY_MEM=y
 CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT=y
 CONFIG_KVM_VFIO=y
 CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y
@@ -872,6 +742,7 @@ CONFIG_HAVE_KVM_IRQ_BYPASS=y
 CONFIG_HAVE_KVM_VCPU_RUN_PID_CHANGE=y
 CONFIG_KVM_XFER_TO_GUEST_WORK=y
 CONFIG_KVM_GENERIC_HARDWARE_ENABLING=y
+CONFIG_KVM_GENERIC_MMU_NOTIFIER=y
 CONFIG_VIRTUALIZATION=y
 CONFIG_KVM=y
 CONFIG_NVHE_EL2_DEBUG=y
@@ -908,6 +779,7 @@ CONFIG_ARCH_WANTS_NO_INSTR=y
 CONFIG_HAVE_ASM_MODVERSIONS=y
 CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
 CONFIG_HAVE_RSEQ=y
+CONFIG_HAVE_RUST=y
 CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
 CONFIG_HAVE_HW_BREAKPOINT=y
 CONFIG_HAVE_PERF_REGS=y
@@ -955,8 +827,11 @@ CONFIG_SOFTIRQ_ON_OWN_STACK=y
 CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
 CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
 CONFIG_ARCH_MMAP_RND_BITS=18
+CONFIG_HAVE_PAGE_SIZE_4KB=y
+CONFIG_PAGE_SIZE_4KB=y
 CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
 CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
+CONFIG_PAGE_SHIFT=12
 CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT=y
 CONFIG_CLONE_BACKWARDS=y
 # CONFIG_COMPAT_32BIT_TIME is not set
@@ -980,6 +855,7 @@ CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
 CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
 CONFIG_ARCH_SUPPORTS_PAGE_TABLE_CHECK=y
 CONFIG_ARCH_HAVE_TRACE_MMIO_ACCESS=y
+CONFIG_ARCH_HAS_HW_PTE_YOUNG=y
 
 #
 # GCOV-based kernel profiling
@@ -991,6 +867,7 @@ CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
 CONFIG_HAVE_GCC_PLUGINS=y
 CONFIG_FUNCTION_ALIGNMENT_4B=y
 CONFIG_FUNCTION_ALIGNMENT=4
+CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT=y
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -1014,6 +891,7 @@ CONFIG_MODULE_COMPRESS_NONE=y
 # CONFIG_MODULE_COMPRESS_ZSTD is not set
 # CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
 CONFIG_MODPROBE_PATH="/sbin/modprobe"
+# CONFIG_TRIM_UNUSED_KSYMS is not set
 CONFIG_MODULES_TREE_LOOKUP=y
 CONFIG_BLOCK=y
 CONFIG_BLOCK_LEGACY_AUTOLOAD=y
@@ -1024,6 +902,7 @@ CONFIG_BLK_ICQ=y
 CONFIG_BLK_DEV_BSGLIB=y
 CONFIG_BLK_DEV_INTEGRITY=y
 CONFIG_BLK_DEV_INTEGRITY_T10=y
+CONFIG_BLK_DEV_WRITE_MOUNTED=y
 # CONFIG_BLK_DEV_ZONED is not set
 CONFIG_BLK_DEV_THROTTLING=y
 CONFIG_BLK_DEV_THROTTLING_LOW=y
@@ -1109,9 +988,8 @@ CONFIG_SWAP=y
 # CONFIG_ZSWAP is not set
 
 #
-# SLAB allocator options
+# Slab allocator options
 #
-# CONFIG_SLAB_DEPRECATED is not set
 CONFIG_SLUB=y
 # CONFIG_SLAB_MERGE_DEFAULT is not set
 CONFIG_SLAB_FREELIST_RANDOM=y
@@ -1119,7 +997,7 @@ CONFIG_SLAB_FREELIST_RANDOM=y
 CONFIG_SLUB_STATS=y
 CONFIG_SLUB_CPU_PARTIAL=y
 CONFIG_RANDOM_KMALLOC_CACHES=y
-# end of SLAB allocator options
+# end of Slab allocator options
 
 CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
 CONFIG_COMPAT_BRK=y
@@ -1144,6 +1022,7 @@ CONFIG_ARCH_ENABLE_SPLIT_PMD_PTLOCK=y
 # CONFIG_PAGE_REPORTING is not set
 CONFIG_MIGRATION=y
 CONFIG_CONTIG_ALLOC=y
+CONFIG_PCP_BATCH_SCALE_MAX=5
 CONFIG_PHYS_ADDR_T_64BIT=y
 CONFIG_MMU_NOTIFIER=y
 # CONFIG_KSM is not set
@@ -1158,7 +1037,6 @@ CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
 CONFIG_USE_PERCPU_NUMA_NODE_ID=y
 CONFIG_HAVE_SETUP_PER_CPU_AREA=y
 CONFIG_CMA=y
-# CONFIG_CMA_DEBUG is not set
 CONFIG_CMA_DEBUGFS=y
 # CONFIG_CMA_SYSFS is not set
 CONFIG_CMA_AREAS=19
@@ -1182,12 +1060,13 @@ CONFIG_MAPPING_DIRTY_HELPERS=y
 CONFIG_MEMFD_CREATE=y
 CONFIG_SECRETMEM=y
 CONFIG_ANON_VMA_NAME=y
-CONFIG_USERFAULTFD=y
 CONFIG_HAVE_ARCH_USERFAULTFD_MINOR=y
+CONFIG_USERFAULTFD=y
 # CONFIG_LRU_GEN is not set
 CONFIG_ARCH_SUPPORTS_PER_VMA_LOCK=y
 CONFIG_PER_VMA_LOCK=y
 CONFIG_LOCK_MM_AND_FIND_VMA=y
+CONFIG_IOMMU_MM_DATA=y
 
 #
 # Data Access Monitoring
@@ -1251,6 +1130,7 @@ CONFIG_INET_TUNNEL=y
 # CONFIG_TCP_CONG_ADVANCED is not set
 CONFIG_TCP_CONG_CUBIC=y
 CONFIG_DEFAULT_TCP_CONG="cubic"
+CONFIG_TCP_SIGPOOL=y
 CONFIG_TCP_MD5SIG=y
 CONFIG_IPV6=m
 CONFIG_IPV6_ROUTER_PREF=y
@@ -1286,7 +1166,6 @@ CONFIG_NETWORK_SECMARK=y
 CONFIG_NET_PTP_CLASSIFY=y
 CONFIG_NETWORK_PHY_TIMESTAMPING=y
 # CONFIG_NETFILTER is not set
-# CONFIG_BPFILTER is not set
 CONFIG_IP_DCCP=y
 
 #
@@ -1403,11 +1282,13 @@ CONFIG_CFG80211_DEFAULT_PS=y
 CONFIG_CFG80211_DEBUGFS=y
 CONFIG_CFG80211_CRDA_SUPPORT=y
 CONFIG_CFG80211_WEXT=y
+CONFIG_CFG80211_KUNIT_TEST=m
 CONFIG_MAC80211=m
 CONFIG_MAC80211_HAS_RC=y
 CONFIG_MAC80211_RC_MINSTREL=y
 CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
 CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
+CONFIG_MAC80211_KUNIT_TEST=m
 CONFIG_MAC80211_MESH=y
 CONFIG_MAC80211_LEDS=y
 CONFIG_MAC80211_DEBUGFS=y
@@ -1460,12 +1341,14 @@ CONFIG_PAGE_POOL_STATS=y
 CONFIG_FAILOVER=y
 CONFIG_ETHTOOL_NETLINK=y
 # CONFIG_NETDEV_ADDR_LIST_TEST is not set
+CONFIG_NET_TEST=m
 
 #
 # Device Drivers
 #
 CONFIG_ARM_AMBA=y
 CONFIG_HAVE_PCI=y
+CONFIG_GENERIC_PCI_IOMAP=y
 CONFIG_PCI=y
 CONFIG_PCI_DOMAINS=y
 CONFIG_PCI_DOMAINS_GENERIC=y
@@ -1525,6 +1408,7 @@ CONFIG_PCIE_ROCKCHIP_HOST=m
 # CONFIG_PCI_V3_SEMI is not set
 # CONFIG_PCI_XGENE is not set
 # CONFIG_PCIE_XILINX is not set
+# CONFIG_PCIE_XILINX_DMA_PL is not set
 # CONFIG_PCIE_XILINX_NWL is not set
 CONFIG_PCIE_XILINX_CPM=y
 
@@ -1572,6 +1456,8 @@ CONFIG_PCIE_TEGRA194_EP=m
 # CONFIG_PCIE_DW_PLAT_EP is not set
 CONFIG_PCIE_QCOM=y
 CONFIG_PCIE_QCOM_EP=y
+# CONFIG_PCIE_RCAR_GEN4_HOST is not set
+# CONFIG_PCIE_RCAR_GEN4_EP is not set
 # CONFIG_PCIE_ROCKCHIP_DW_HOST is not set
 CONFIG_PCI_EXYNOS=m
 CONFIG_PCIE_FU740=y
@@ -1618,7 +1504,6 @@ CONFIG_CXL_PORT=m
 CONFIG_CXL_SUSPEND=y
 CONFIG_CXL_REGION=y
 # CONFIG_CXL_REGION_INVALIDATION_TEST is not set
-# CONFIG_CXL_PMU is not set
 CONFIG_PCCARD=m
 CONFIG_PCMCIA=m
 CONFIG_PCMCIA_LOAD_CIS=y
@@ -1668,6 +1553,8 @@ CONFIG_DEV_COREDUMP=y
 # CONFIG_DEBUG_TEST_DRIVER_REMOVE is not set
 CONFIG_TEST_ASYNC_DRIVER_PROBE=m
 # CONFIG_DM_KUNIT_TEST is not set
+CONFIG_DRIVER_PE_KUNIT_TEST=m
+CONFIG_GENERIC_CPU_DEVICES=y
 CONFIG_GENERIC_CPU_AUTOPROBE=y
 CONFIG_GENERIC_CPU_VULNERABILITIES=y
 CONFIG_SOC_BUS=y
@@ -1692,7 +1579,6 @@ CONFIG_GENERIC_ARCH_NUMA=y
 #
 CONFIG_ARM_CCI=y
 CONFIG_ARM_INTEGRATOR_LM=y
-CONFIG_BRCMSTB_GISB_ARB=m
 # CONFIG_BT1_APB is not set
 # CONFIG_BT1_AXI is not set
 # CONFIG_HISILICON_LPC is not set
@@ -1732,18 +1618,14 @@ CONFIG_ARM_SCMI_HAVE_TRANSPORT=y
 CONFIG_ARM_SCMI_HAVE_SHMEM=y
 CONFIG_ARM_SCMI_TRANSPORT_MAILBOX=y
 # CONFIG_ARM_SCMI_TRANSPORT_SMC is not set
-CONFIG_ARM_SCMI_POWER_DOMAIN=y
 # CONFIG_ARM_SCMI_POWER_CONTROL is not set
 # end of ARM System Control and Management Interface Protocol
 
 CONFIG_ARM_SCPI_PROTOCOL=y
-CONFIG_ARM_SCPI_POWER_DOMAIN=y
 # CONFIG_FW_CFG_SYSFS is not set
 CONFIG_INTEL_STRATIX10_SERVICE=y
 CONFIG_INTEL_STRATIX10_RSU=y
 CONFIG_MTK_ADSP_IPC=m
-CONFIG_QCOM_SCM=y
-CONFIG_QCOM_SCM_DOWNLOAD_MODE_DEFAULT=y
 CONFIG_TI_SCI_PROTOCOL=y
 CONFIG_TURRIS_MOX_RWTM=y
 # CONFIG_ARM_FFA_TRANSPORT is not set
@@ -1754,6 +1636,15 @@ CONFIG_IMX_DSP=y
 # CONFIG_IMX_SCU is not set
 CONFIG_MESON_SM=y
 CONFIG_ARM_PSCI_FW=y
+
+#
+# Qualcomm firmware drivers
+#
+CONFIG_QCOM_SCM=y
+CONFIG_QCOM_SCM_DOWNLOAD_MODE_DEFAULT=y
+# CONFIG_QCOM_QSEECOM is not set
+# end of Qualcomm firmware drivers
+
 CONFIG_HAVE_ARM_SMCCC=y
 CONFIG_HAVE_ARM_SMCCC_DISCOVERY=y
 CONFIG_ARM_SMCCC_SOC_ID=y
@@ -1771,7 +1662,6 @@ CONFIG_MTD_TESTS=m
 #
 # Partition parsers
 #
-CONFIG_MTD_AR7_PARTS=m
 CONFIG_MTD_BCM63XX_PARTS=y
 # CONFIG_MTD_BRCM_U_BOOT is not set
 CONFIG_MTD_CMDLINE_PARTS=m
@@ -1852,7 +1742,6 @@ CONFIG_MTD_SC520CDP=m
 # CONFIG_MTD_TS5500 is not set
 CONFIG_MTD_PCI=m
 # CONFIG_MTD_PCMCIA is not set
-# CONFIG_MTD_INTEL_VR_NOR is not set
 # CONFIG_MTD_PLATRAM is not set
 # end of Mapping drivers for chip access
 
@@ -1913,6 +1802,7 @@ CONFIG_MTD_HYPERBUS=m
 CONFIG_DTC=y
 CONFIG_OF=y
 CONFIG_OF_UNITTEST=y
+CONFIG_OF_KUNIT_TEST=m
 # CONFIG_OF_ALL_DTBS is not set
 CONFIG_OF_FLATTREE=y
 CONFIG_OF_EARLY_FLATTREE=y
@@ -1938,13 +1828,14 @@ CONFIG_NVME_HWMON=y
 CONFIG_NVME_FABRICS=y
 # CONFIG_NVME_FC is not set
 CONFIG_NVME_TCP=y
-# CONFIG_NVME_AUTH is not set
-CONFIG_NVME_APPLE=m
+# CONFIG_NVME_TCP_TLS is not set
+# CONFIG_NVME_HOST_AUTH is not set
 CONFIG_NVME_TARGET=m
 # CONFIG_NVME_TARGET_PASSTHRU is not set
 CONFIG_NVME_TARGET_LOOP=m
 # CONFIG_NVME_TARGET_FC is not set
 CONFIG_NVME_TARGET_TCP=m
+# CONFIG_NVME_TARGET_TCP_TLS is not set
 # CONFIG_NVME_TARGET_AUTH is not set
 # end of NVME Support
 
@@ -1980,13 +1871,13 @@ CONFIG_XILINX_SDFEC=y
 CONFIG_MISC_RTSX=y
 # CONFIG_OPEN_DICE is not set
 # CONFIG_VCPU_STALL_DETECTOR is not set
+# CONFIG_NSM is not set
 CONFIG_C2PORT=m
 
 #
 # EEPROM support
 #
 # CONFIG_EEPROM_AT24 is not set
-CONFIG_EEPROM_LEGACY=m
 CONFIG_EEPROM_MAX6875=m
 CONFIG_EEPROM_93CX6=m
 CONFIG_EEPROM_IDT_89HPESX=m
@@ -2025,23 +1916,20 @@ CONFIG_SCSI_MOD=y
 CONFIG_RAID_ATTRS=m
 CONFIG_SCSI_COMMON=m
 # CONFIG_SCSI is not set
+CONFIG_SCSI_LIB_KUNIT_TEST=m
 # end of SCSI device support
 
 # CONFIG_ATA is not set
 CONFIG_MD=y
 CONFIG_BLK_DEV_MD=m
 CONFIG_MD_BITMAP_FILE=y
-CONFIG_MD_LINEAR=m
 CONFIG_MD_RAID0=m
 CONFIG_MD_RAID1=m
 # CONFIG_MD_RAID10 is not set
 CONFIG_MD_RAID456=m
-# CONFIG_MD_MULTIPATH is not set
-# CONFIG_MD_FAULTY is not set
 CONFIG_MD_CLUSTER=m
 CONFIG_BCACHE=m
 # CONFIG_BCACHE_DEBUG is not set
-CONFIG_BCACHE_CLOSURES_DEBUG=y
 # CONFIG_BCACHE_ASYNC_REGISTRATION is not set
 CONFIG_BLK_DEV_DM_BUILTIN=y
 CONFIG_BLK_DEV_DM=m
@@ -2079,6 +1967,7 @@ CONFIG_DM_SWITCH=m
 # CONFIG_DM_LOG_WRITES is not set
 CONFIG_DM_INTEGRITY=m
 CONFIG_DM_AUDIT=y
+# CONFIG_DM_VDO is not set
 CONFIG_TARGET_CORE=m
 CONFIG_TCM_IBLOCK=m
 # CONFIG_TCM_FILEIO is not set
@@ -2212,8 +2101,10 @@ CONFIG_I40E=m
 CONFIG_IAVF=m
 CONFIG_I40EVF=m
 CONFIG_ICE=m
+CONFIG_ICE_HWMON=y
 # CONFIG_FM10K is not set
 CONFIG_IGC=m
+# CONFIG_IDPF is not set
 CONFIG_JME=m
 CONFIG_KORINA=y
 # CONFIG_NET_VENDOR_LITEX is not set
@@ -2277,6 +2168,7 @@ CONFIG_NET_VENDOR_RENESAS=y
 # CONFIG_SH_ETH is not set
 # CONFIG_RAVB is not set
 CONFIG_RENESAS_ETHER_SWITCH=m
+CONFIG_RENESAS_GEN4_PTP=m
 # CONFIG_NET_VENDOR_ROCKER is not set
 CONFIG_NET_VENDOR_SAMSUNG=y
 # CONFIG_SXGBE_ETH is not set
@@ -2374,7 +2266,11 @@ CONFIG_NATIONAL_PHY=m
 CONFIG_NXP_C45_TJA11XX_PHY=m
 CONFIG_NXP_TJA11XX_PHY=m
 # CONFIG_NCN26000_PHY is not set
+CONFIG_QCOM_NET_PHYLIB=m
 CONFIG_AT803X_PHY=m
+# CONFIG_QCA83XX_PHY is not set
+# CONFIG_QCA808X_PHY is not set
+# CONFIG_QCA807X_PHY is not set
 CONFIG_QSEMI_PHY=m
 CONFIG_REALTEK_PHY=y
 # CONFIG_RENESAS_PHY is not set
@@ -2388,6 +2284,7 @@ CONFIG_DP83848_PHY=y
 CONFIG_DP83867_PHY=m
 CONFIG_DP83869_PHY=m
 CONFIG_DP83TD510_PHY=y
+# CONFIG_DP83TG720_PHY is not set
 CONFIG_VITESSE_PHY=y
 # CONFIG_XILINX_GMII2RGMII is not set
 # CONFIG_PSE_CONTROLLER is not set
@@ -2467,6 +2364,7 @@ CONFIG_HDLC_FR=y
 #
 # X.25/LAPB support is disabled
 #
+# CONFIG_FRAMER is not set
 CONFIG_PCI200SYN=y
 CONFIG_WANXL=y
 # CONFIG_WANXL_BUILD_FIRMWARE is not set
@@ -2586,7 +2484,6 @@ CONFIG_VT=y
 CONFIG_CONSOLE_TRANSLATIONS=y
 CONFIG_VT_CONSOLE=y
 CONFIG_VT_CONSOLE_SLEEP=y
-CONFIG_HW_CONSOLE=y
 # CONFIG_VT_HW_CONSOLE_BINDING is not set
 CONFIG_UNIX98_PTYS=y
 CONFIG_LEGACY_PTYS=y
@@ -2606,6 +2503,7 @@ CONFIG_SERIAL_8250_CONSOLE=y
 CONFIG_SERIAL_8250_DMA=y
 CONFIG_SERIAL_8250_PCILIB=y
 # CONFIG_SERIAL_8250_PCI is not set
+CONFIG_SERIAL_8250_EXAR=y
 CONFIG_SERIAL_8250_CS=m
 CONFIG_SERIAL_8250_NR_UARTS=4
 CONFIG_SERIAL_8250_RUNTIME_UARTS=4
@@ -2715,6 +2613,8 @@ CONFIG_SERIAL_LITEUART_MAX_PORTS=1
 CONFIG_SERIAL_LITEUART_CONSOLE=y
 # CONFIG_SERIAL_SUNPLUS is not set
 # CONFIG_SERIAL_NUVOTON_MA35D1 is not set
+# CONFIG_SERIAL_ESP32 is not set
+# CONFIG_SERIAL_ESP32_ACM is not set
 # end of Serial drivers
 
 CONFIG_SERIAL_MCTRL_GPIO=y
@@ -2995,6 +2895,7 @@ CONFIG_PTP_1588_CLOCK_PCH=m
 CONFIG_PTP_1588_CLOCK_KVM=m
 CONFIG_PTP_1588_CLOCK_IDT82P33=m
 CONFIG_PTP_1588_CLOCK_IDTCM=m
+# CONFIG_PTP_1588_CLOCK_FC3W is not set
 # CONFIG_PTP_1588_CLOCK_MOCK is not set
 CONFIG_PTP_1588_CLOCK_OCP=m
 CONFIG_PTP_DFL_TOD=m
@@ -3011,6 +2912,7 @@ CONFIG_GENERIC_PINCONF=y
 CONFIG_PINCTRL_APPLE_GPIO=m
 # CONFIG_PINCTRL_AT91PIO4 is not set
 # CONFIG_PINCTRL_AXP209 is not set
+# CONFIG_PINCTRL_AW9523 is not set
 # CONFIG_PINCTRL_BM1880 is not set
 CONFIG_PINCTRL_CY8C95X0=m
 CONFIG_PINCTRL_DA850_PUPD=y
@@ -3066,6 +2968,31 @@ CONFIG_PINCTRL_IMX8MP=y
 CONFIG_PINCTRL_IMX8MQ=m
 
 #
+# Intel pinctrl drivers
+#
+# CONFIG_PINCTRL_BAYTRAIL is not set
+# CONFIG_PINCTRL_CHERRYVIEW is not set
+# CONFIG_PINCTRL_LYNXPOINT is not set
+# CONFIG_PINCTRL_ALDERLAKE is not set
+# CONFIG_PINCTRL_BROXTON is not set
+# CONFIG_PINCTRL_CANNONLAKE is not set
+# CONFIG_PINCTRL_CEDARFORK is not set
+# CONFIG_PINCTRL_DENVERTON is not set
+# CONFIG_PINCTRL_ELKHARTLAKE is not set
+# CONFIG_PINCTRL_EMMITSBURG is not set
+# CONFIG_PINCTRL_GEMINILAKE is not set
+# CONFIG_PINCTRL_ICELAKE is not set
+# CONFIG_PINCTRL_JASPERLAKE is not set
+# CONFIG_PINCTRL_LAKEFIELD is not set
+# CONFIG_PINCTRL_LEWISBURG is not set
+# CONFIG_PINCTRL_METEORLAKE is not set
+# CONFIG_PINCTRL_SUNRISEPOINT is not set
+# CONFIG_PINCTRL_TIGERLAKE is not set
+# CONFIG_PINCTRL_MERRIFIELD is not set
+# CONFIG_PINCTRL_MOOREFIELD is not set
+# end of Intel pinctrl drivers
+
+#
 # MediaTek pinctrl drivers
 #
 CONFIG_EINT_MTK=y
@@ -3099,8 +3026,10 @@ CONFIG_PINCTRL_MT6397=y
 # end of MediaTek pinctrl drivers
 
 # CONFIG_PINCTRL_MESON is not set
+# CONFIG_PINCTRL_NOMADIK is not set
 CONFIG_PINCTRL_WPCM450=y
 CONFIG_PINCTRL_NPCM7XX=y
+# CONFIG_PINCTRL_NPCM8XX is not set
 # CONFIG_PINCTRL_PXA25X is not set
 # CONFIG_PINCTRL_PXA27X is not set
 CONFIG_PINCTRL_MSM=y
@@ -3140,6 +3069,7 @@ CONFIG_PINCTRL_SDM845=y
 # CONFIG_PINCTRL_SDX55 is not set
 # CONFIG_PINCTRL_SDX65 is not set
 CONFIG_PINCTRL_SDX75=y
+# CONFIG_PINCTRL_SM4450 is not set
 CONFIG_PINCTRL_SM6115=m
 # CONFIG_PINCTRL_SM6125 is not set
 CONFIG_PINCTRL_SM6350=y
@@ -3150,6 +3080,8 @@ CONFIG_PINCTRL_SM8150=m
 CONFIG_PINCTRL_SM8350=y
 CONFIG_PINCTRL_SM8450=m
 CONFIG_PINCTRL_SM8550=m
+# CONFIG_PINCTRL_SM8650 is not set
+# CONFIG_PINCTRL_X1E80100 is not set
 CONFIG_PINCTRL_QCOM_SSBI_PMIC=m
 # CONFIG_PINCTRL_LPASS_LPI is not set
 
@@ -3179,6 +3111,7 @@ CONFIG_PINCTRL_PFC_R8A77980=y
 CONFIG_PINCTRL_PFC_R8A77970=y
 CONFIG_PINCTRL_PFC_R8A779A0=y
 CONFIG_PINCTRL_PFC_R8A779G0=y
+# CONFIG_PINCTRL_PFC_R8A779H0 is not set
 # CONFIG_PINCTRL_PFC_R8A7740 is not set
 CONFIG_PINCTRL_PFC_R8A73A4=y
 CONFIG_PINCTRL_RZA1=y
@@ -3298,6 +3231,7 @@ CONFIG_GPIO_DAVINCI=m
 CONFIG_GPIO_DWAPB=m
 # CONFIG_GPIO_EIC_SPRD is not set
 CONFIG_GPIO_EM=y
+# CONFIG_GPIO_EXAR is not set
 CONFIG_GPIO_GE_FPGA=y
 CONFIG_GPIO_FTGPIO010=y
 CONFIG_GPIO_GENERIC_PLATFORM=y
@@ -3313,6 +3247,8 @@ CONFIG_GPIO_MPC8XXX=y
 # CONFIG_GPIO_MT7621 is not set
 CONFIG_GPIO_MXC=y
 CONFIG_GPIO_MXS=y
+# CONFIG_GPIO_NOMADIK is not set
+# CONFIG_GPIO_NPCM_SGPIO is not set
 CONFIG_GPIO_PL061=m
 # CONFIG_GPIO_PXA is not set
 # CONFIG_GPIO_RCAR is not set
@@ -3330,6 +3266,7 @@ CONFIG_GPIO_SYSCON=m
 CONFIG_GPIO_TS4800=y
 CONFIG_GPIO_THUNDERX=m
 CONFIG_GPIO_UNIPHIER=y
+# CONFIG_GPIO_VF610 is not set
 # CONFIG_GPIO_VISCONTI is not set
 # CONFIG_GPIO_WCD934X is not set
 # CONFIG_GPIO_XGENE is not set
@@ -3412,12 +3349,14 @@ CONFIG_W1=y
 #
 # 1-wire Bus Masters
 #
+# CONFIG_W1_MASTER_AMD_AXI is not set
 # CONFIG_W1_MASTER_MATROX is not set
 # CONFIG_W1_MASTER_DS2482 is not set
 CONFIG_W1_MASTER_MXC=y
 CONFIG_W1_MASTER_GPIO=m
 CONFIG_HDQ_MASTER_OMAP=y
 CONFIG_W1_MASTER_SGI=m
+# CONFIG_W1_MASTER_UART is not set
 # end of 1-wire Bus Masters
 
 #
@@ -3493,7 +3432,6 @@ CONFIG_BATTERY_BQ27XXX_I2C=m
 # CONFIG_BATTERY_BQ27XXX_HDQ is not set
 # CONFIG_BATTERY_BQ27XXX_DT_UPDATES_NVM is not set
 CONFIG_BATTERY_DA9150=m
-CONFIG_BATTERY_MAX17040=y
 CONFIG_BATTERY_MAX17042=y
 # CONFIG_BATTERY_MAX1721X is not set
 CONFIG_CHARGER_PCF50633=m
@@ -3509,6 +3447,8 @@ CONFIG_CHARGER_MAX77650=m
 CONFIG_CHARGER_MAX77693=m
 # CONFIG_CHARGER_MAX77976 is not set
 CONFIG_CHARGER_QCOM_SMBB=y
+# CONFIG_BATTERY_PM8916_BMS_VM is not set
+# CONFIG_CHARGER_PM8916_LBC is not set
 CONFIG_CHARGER_BQ2415X=y
 # CONFIG_CHARGER_BQ24190 is not set
 # CONFIG_CHARGER_BQ24257 is not set
@@ -3530,6 +3470,7 @@ CONFIG_CHARGER_SC2731=y
 CONFIG_CHARGER_UCS1002=y
 CONFIG_CHARGER_BD99954=y
 CONFIG_BATTERY_UG3105=m
+# CONFIG_FUEL_GAUGE_MM8013 is not set
 CONFIG_HWMON=y
 CONFIG_HWMON_VID=y
 CONFIG_HWMON_DEBUG_CHIP=y
@@ -3537,6 +3478,8 @@ CONFIG_HWMON_DEBUG_CHIP=y
 #
 # Native drivers
 #
+# CONFIG_SENSORS_ABITUGURU is not set
+# CONFIG_SENSORS_ABITUGURU3 is not set
 # CONFIG_SENSORS_SMPRO is not set
 CONFIG_SENSORS_AD7414=m
 # CONFIG_SENSORS_AD7418 is not set
@@ -3555,13 +3498,16 @@ CONFIG_SENSORS_ADT7475=m
 # CONFIG_SENSORS_AHT10 is not set
 CONFIG_SENSORS_AS370=y
 CONFIG_SENSORS_ASC7621=y
+# CONFIG_SENSORS_ASUS_ROG_RYUJIN is not set
 # CONFIG_SENSORS_AXI_FAN_CONTROL is not set
 CONFIG_SENSORS_ARM_SCMI=m
 # CONFIG_SENSORS_ARM_SCPI is not set
 CONFIG_SENSORS_ASB100=y
 # CONFIG_SENSORS_ASPEED is not set
+# CONFIG_SENSORS_ASPEED_G6 is not set
 CONFIG_SENSORS_ATXP1=m
 # CONFIG_SENSORS_BT1_PVT is not set
+# CONFIG_SENSORS_CHIPCAP2 is not set
 CONFIG_SENSORS_CORSAIR_CPRO=y
 CONFIG_SENSORS_CORSAIR_PSU=y
 CONFIG_SENSORS_DS620=y
@@ -3594,6 +3540,7 @@ CONFIG_SENSORS_LTC2945=m
 CONFIG_SENSORS_LTC2947=y
 CONFIG_SENSORS_LTC2947_I2C=y
 CONFIG_SENSORS_LTC2990=y
+# CONFIG_SENSORS_LTC2991 is not set
 CONFIG_SENSORS_LTC2992=y
 # CONFIG_SENSORS_LTC4151 is not set
 CONFIG_SENSORS_LTC4215=m
@@ -3601,6 +3548,7 @@ CONFIG_SENSORS_LTC4222=m
 CONFIG_SENSORS_LTC4245=m
 CONFIG_SENSORS_LTC4260=y
 # CONFIG_SENSORS_LTC4261 is not set
+# CONFIG_SENSORS_LTC4282 is not set
 CONFIG_SENSORS_MAX127=m
 CONFIG_SENSORS_MAX16065=y
 CONFIG_SENSORS_MAX1619=y
@@ -3653,6 +3601,7 @@ CONFIG_SENSORS_PECI_CPUTEMP=m
 CONFIG_SENSORS_PECI_DIMMTEMP=m
 CONFIG_SENSORS_PECI=m
 # CONFIG_PMBUS is not set
+# CONFIG_SENSORS_PT5161L is not set
 CONFIG_SENSORS_PWM_FAN=m
 CONFIG_SENSORS_RASPBERRYPI_HWMON=m
 # CONFIG_SENSORS_SL28CPLD is not set
@@ -3712,10 +3661,10 @@ CONFIG_SENSORS_INTEL_M10_BMC_HWMON=m
 CONFIG_THERMAL=y
 # CONFIG_THERMAL_NETLINK is not set
 CONFIG_THERMAL_STATISTICS=y
+# CONFIG_THERMAL_DEBUGFS is not set
 CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
 CONFIG_THERMAL_HWMON=y
 CONFIG_THERMAL_OF=y
-CONFIG_THERMAL_WRITABLE_TRIPS=y
 CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
 # CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
 # CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
@@ -3991,6 +3940,7 @@ CONFIG_REGULATOR_DEBUG=y
 CONFIG_REGULATOR_FIXED_VOLTAGE=y
 # CONFIG_REGULATOR_VIRTUAL_CONSUMER is not set
 CONFIG_REGULATOR_USERSPACE_CONSUMER=y
+# CONFIG_REGULATOR_NETLINK_EVENTS is not set
 CONFIG_REGULATOR_88PG86X=y
 # CONFIG_REGULATOR_88PM800 is not set
 CONFIG_REGULATOR_ACT8865=y
@@ -4030,6 +3980,7 @@ CONFIG_REGULATOR_LTC3676=m
 CONFIG_REGULATOR_MAX14577=m
 CONFIG_REGULATOR_MAX1586=m
 CONFIG_REGULATOR_MAX5970=m
+# CONFIG_REGULATOR_MAX77503 is not set
 CONFIG_REGULATOR_MAX77620=m
 CONFIG_REGULATOR_MAX77650=y
 CONFIG_REGULATOR_MAX77857=m
@@ -4210,6 +4161,12 @@ CONFIG_MEDIA_ATTACH=y
 # CONFIG_VIDEO_CAMERA_SENSOR is not set
 
 #
+# Camera ISPs
+#
+# CONFIG_VIDEO_THP7312 is not set
+# end of Camera ISPs
+
+#
 # Lens drivers
 #
 # CONFIG_VIDEO_AD5820 is not set
@@ -4277,6 +4234,7 @@ CONFIG_VIDEO_TC358746=m
 CONFIG_VIDEO_TVP5150=m
 CONFIG_VIDEO_TVP7002=m
 # CONFIG_VIDEO_TW2804 is not set
+# CONFIG_VIDEO_TW9900 is not set
 CONFIG_VIDEO_TW9903=m
 CONFIG_VIDEO_TW9906=m
 CONFIG_VIDEO_TW9910=m
@@ -4542,8 +4500,7 @@ CONFIG_DVB_CXD2099=m
 # Graphics support
 #
 CONFIG_APERTURE_HELPERS=y
-CONFIG_VIDEO_CMDLINE=y
-CONFIG_VIDEO_NOMODESET=y
+CONFIG_VIDEO=y
 # CONFIG_AUXDISPLAY is not set
 CONFIG_TEGRA_HOST1X_CONTEXT_BUS=y
 CONFIG_TEGRA_HOST1X=m
@@ -4568,6 +4525,7 @@ CONFIG_DRM_DP_CEC=y
 CONFIG_DRM_TTM=y
 # CONFIG_DRM_TTM_KUNIT_TEST is not set
 CONFIG_DRM_EXEC=y
+CONFIG_DRM_GPUVM=y
 CONFIG_DRM_BUDDY=y
 CONFIG_DRM_VRAM_HELPER=m
 CONFIG_DRM_TTM_HELPER=y
@@ -4620,6 +4578,8 @@ CONFIG_NOUVEAU_DEBUG_DEFAULT=3
 # CONFIG_NOUVEAU_DEBUG_MMU is not set
 # CONFIG_NOUVEAU_DEBUG_PUSH is not set
 CONFIG_DRM_NOUVEAU_BACKLIGHT=y
+# CONFIG_DRM_NOUVEAU_GSP_DEFAULT is not set
+# CONFIG_DRM_XE is not set
 CONFIG_DRM_KMB_DISPLAY=y
 CONFIG_DRM_VGEM=m
 CONFIG_DRM_VKMS=m
@@ -4680,32 +4640,36 @@ CONFIG_DRM_PANEL_ARM_VERSATILE=y
 # CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596 is not set
 CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0=y
 CONFIG_DRM_PANEL_BOE_HIMAX8279D=y
+# CONFIG_DRM_PANEL_BOE_TH101MB31UIG002_28A is not set
 # CONFIG_DRM_PANEL_BOE_TV101WUM_NL6 is not set
-CONFIG_DRM_PANEL_DSI_CM=y
-# CONFIG_DRM_PANEL_LVDS is not set
-CONFIG_DRM_PANEL_SIMPLE=m
-CONFIG_DRM_PANEL_EDP=m
 # CONFIG_DRM_PANEL_EBBG_FT8719 is not set
 CONFIG_DRM_PANEL_ELIDA_KD35T133=m
 CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02=y
 # CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D is not set
+CONFIG_DRM_PANEL_DSI_CM=y
+# CONFIG_DRM_PANEL_LVDS is not set
+# CONFIG_DRM_PANEL_HIMAX_HX83112A is not set
 # CONFIG_DRM_PANEL_HIMAX_HX8394 is not set
+# CONFIG_DRM_PANEL_ILITEK_ILI9805 is not set
 # CONFIG_DRM_PANEL_ILITEK_ILI9881C is not set
+CONFIG_DRM_PANEL_ILITEK_ILI9882T=y
 CONFIG_DRM_PANEL_INNOLUX_P079ZCA=y
 CONFIG_DRM_PANEL_JADARD_JD9365DA_H3=m
+# CONFIG_DRM_PANEL_JDI_LPM102A188A is not set
 # CONFIG_DRM_PANEL_JDI_LT070ME05000 is not set
 # CONFIG_DRM_PANEL_JDI_R63452 is not set
 # CONFIG_DRM_PANEL_KHADAS_TS050 is not set
 # CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04 is not set
 # CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W is not set
 CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829=y
+CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
 # CONFIG_DRM_PANEL_NEWVISION_NV3051D is not set
 # CONFIG_DRM_PANEL_NOVATEK_NT35510 is not set
 CONFIG_DRM_PANEL_NOVATEK_NT35560=m
 # CONFIG_DRM_PANEL_NOVATEK_NT35950 is not set
 CONFIG_DRM_PANEL_NOVATEK_NT36523=y
 CONFIG_DRM_PANEL_NOVATEK_NT36672A=m
-CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
+# CONFIG_DRM_PANEL_NOVATEK_NT36672E is not set
 CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO=m
 CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
 CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS=y
@@ -4713,7 +4677,9 @@ CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS=y
 # CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN is not set
 CONFIG_DRM_PANEL_RAYDIUM_RM67191=y
 CONFIG_DRM_PANEL_RAYDIUM_RM68200=y
+# CONFIG_DRM_PANEL_RAYDIUM_RM692E5 is not set
 CONFIG_DRM_PANEL_RONBO_RB070D30=m
+CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01=m
 # CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20 is not set
 CONFIG_DRM_PANEL_SAMSUNG_S6D16D0=m
 CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0=y
@@ -4721,7 +4687,6 @@ CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0=y
 CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=y
 CONFIG_DRM_PANEL_SAMSUNG_S6E63M0=y
 CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI=y
-CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01=m
 CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=y
 # CONFIG_DRM_PANEL_SAMSUNG_SOFEF00 is not set
 # CONFIG_DRM_PANEL_SEIKO_43WVF1G is not set
@@ -4734,16 +4699,20 @@ CONFIG_DRM_PANEL_SITRONIX_ST7701=y
 CONFIG_DRM_PANEL_SONY_TD4353_JDI=y
 CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521=m
 CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+CONFIG_DRM_PANEL_EDP=m
+CONFIG_DRM_PANEL_SIMPLE=m
+# CONFIG_DRM_PANEL_SYNAPTICS_R63353 is not set
 # CONFIG_DRM_PANEL_TDO_TL070WSH30 is not set
 CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
+# CONFIG_DRM_PANEL_VISIONOX_R66451 is not set
 CONFIG_DRM_PANEL_VISIONOX_RM69299=y
 # CONFIG_DRM_PANEL_VISIONOX_VTDR6130 is not set
-# CONFIG_DRM_PANEL_VISIONOX_R66451 is not set
 # CONFIG_DRM_PANEL_XINPENG_XPP055C272 is not set
 # end of Display Panels
 
 CONFIG_DRM_BRIDGE=y
 CONFIG_DRM_PANEL_BRIDGE=y
+CONFIG_DRM_AUX_BRIDGE=m
 
 #
 # Display Interface Bridges
@@ -4791,10 +4760,13 @@ CONFIG_DRM_I2C_ADV7511=y
 CONFIG_DRM_CDNS_MHDP8546=m
 # CONFIG_DRM_CDNS_MHDP8546_J721E is not set
 CONFIG_DRM_IMX_LDB_HELPER=y
+# CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE is not set
+# CONFIG_DRM_IMX8MP_HDMI_PVI is not set
 CONFIG_DRM_IMX8QM_LDB=y
 # CONFIG_DRM_IMX8QXP_LDB is not set
 # CONFIG_DRM_IMX8QXP_PIXEL_COMBINER is not set
 # CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI is not set
+# CONFIG_DRM_IMX93_MIPI_DSI is not set
 CONFIG_DRM_DW_HDMI=m
 # CONFIG_DRM_DW_HDMI_CEC is not set
 CONFIG_DRM_DW_MIPI_DSI=y
@@ -4832,7 +4804,7 @@ CONFIG_DRM_MCDE=m
 # CONFIG_DRM_TIDSS is not set
 # CONFIG_DRM_SSD130X is not set
 # CONFIG_DRM_SPRD is not set
-CONFIG_DRM_LEGACY=y
+# CONFIG_DRM_POWERVR is not set
 CONFIG_DRM_EXPORT_FOR_TESTS=y
 CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
 CONFIG_DRM_LIB_RANDOM=y
@@ -4844,7 +4816,6 @@ CONFIG_FB=y
 CONFIG_FB_CIRRUS=m
 CONFIG_FB_PM2=m
 # CONFIG_FB_PM2_FIFO_DISCONNECT is not set
-CONFIG_FB_ARMCLCD=y
 # CONFIG_FB_CLPS711X is not set
 CONFIG_FB_IMX=m
 # CONFIG_FB_CYBER2000 is not set
@@ -4966,9 +4937,10 @@ CONFIG_FB_FOREIGN_ENDIAN=y
 CONFIG_FB_BOTH_ENDIAN=y
 # CONFIG_FB_BIG_ENDIAN is not set
 # CONFIG_FB_LITTLE_ENDIAN is not set
-CONFIG_FB_SYS_FOPS=y
+CONFIG_FB_SYSMEM_FOPS=y
 CONFIG_FB_DEFERRED_IO=y
 CONFIG_FB_DMAMEM_HELPERS=y
+CONFIG_FB_IOMEM_FOPS=y
 CONFIG_FB_IOMEM_HELPERS=y
 CONFIG_FB_SYSMEM_HELPERS=y
 CONFIG_FB_SYSMEM_HELPERS_DEFERRED=y
@@ -4985,6 +4957,7 @@ CONFIG_LCD_PLATFORM=m
 CONFIG_BACKLIGHT_CLASS_DEVICE=y
 # CONFIG_BACKLIGHT_ATMEL_LCDC is not set
 CONFIG_BACKLIGHT_KTD253=m
+# CONFIG_BACKLIGHT_KTD2801 is not set
 CONFIG_BACKLIGHT_KTZ8866=m
 CONFIG_BACKLIGHT_LM3533=m
 CONFIG_BACKLIGHT_OMAP1=y
@@ -5001,6 +4974,7 @@ CONFIG_BACKLIGHT_ADP8870=y
 CONFIG_BACKLIGHT_LM3639=m
 # CONFIG_BACKLIGHT_LP855X is not set
 CONFIG_BACKLIGHT_LP8788=m
+# CONFIG_BACKLIGHT_MP3309C is not set
 # CONFIG_BACKLIGHT_TPS65217 is not set
 CONFIG_BACKLIGHT_AS3711=y
 CONFIG_BACKLIGHT_GPIO=y
@@ -5137,7 +5111,6 @@ CONFIG_I2C_HID_CORE=m
 #
 # AMD SFH HID Support
 #
-CONFIG_AMD_SFH_HID=m
 # end of AMD SFH HID Support
 
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
@@ -5182,6 +5155,7 @@ CONFIG_MMC_SDHCI_BCM_KONA=m
 CONFIG_MMC_SDHCI_F_SDH30=m
 CONFIG_MMC_SDHCI_MILBEAUT=m
 CONFIG_MMC_SDHCI_IPROC=y
+# CONFIG_MMC_SDHCI_NPCM is not set
 # CONFIG_MMC_MESON_GX is not set
 CONFIG_MMC_MESON_MX_SDHC=y
 CONFIG_MMC_MESON_MX_SDIO=y
@@ -5203,6 +5177,7 @@ CONFIG_MMC_DW_PLTFM=m
 CONFIG_MMC_DW_BLUEFIELD=m
 CONFIG_MMC_DW_EXYNOS=m
 CONFIG_MMC_DW_HI3798CV200=m
+# CONFIG_MMC_DW_HI3798MV200 is not set
 CONFIG_MMC_DW_K3=m
 CONFIG_MMC_DW_PCI=m
 CONFIG_MMC_SH_MMCIF=m
@@ -5264,12 +5239,6 @@ CONFIG_LEDS_LM3692X=m
 CONFIG_LEDS_GPIO=m
 # CONFIG_LEDS_LP3944 is not set
 CONFIG_LEDS_LP3952=y
-CONFIG_LEDS_LP50XX=y
-CONFIG_LEDS_LP55XX_COMMON=y
-CONFIG_LEDS_LP5521=m
-CONFIG_LEDS_LP5523=m
-CONFIG_LEDS_LP5562=y
-# CONFIG_LEDS_LP8501 is not set
 CONFIG_LEDS_LP8788=y
 CONFIG_LEDS_LP8860=y
 # CONFIG_LEDS_PCA955X is not set
@@ -5283,6 +5252,7 @@ CONFIG_LEDS_BD2606MVV=m
 CONFIG_LEDS_BD2802=y
 CONFIG_LEDS_LT3593=y
 CONFIG_LEDS_ADP5520=y
+# CONFIG_LEDS_MAX5970 is not set
 CONFIG_LEDS_MC13783=m
 CONFIG_LEDS_NS2=y
 CONFIG_LEDS_NETXBIG=m
@@ -5330,6 +5300,7 @@ CONFIG_LEDS_TRIGGER_HEARTBEAT=m
 CONFIG_LEDS_TRIGGER_BACKLIGHT=m
 CONFIG_LEDS_TRIGGER_CPU=y
 CONFIG_LEDS_TRIGGER_ACTIVITY=y
+# CONFIG_LEDS_TRIGGER_GPIO is not set
 CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
 
 #
@@ -5404,6 +5375,7 @@ CONFIG_HISI_DMA=y
 CONFIG_IMG_MDC_DMA=y
 # CONFIG_INTEL_IDMA64 is not set
 CONFIG_K3_DMA=m
+# CONFIG_LS2X_APB_DMA is not set
 # CONFIG_MCF_EDMA is not set
 CONFIG_MILBEAUT_HDMAC=m
 # CONFIG_MILBEAUT_XDMAC is not set
@@ -5490,6 +5462,7 @@ CONFIG_VFIO=y
 CONFIG_VFIO_DEVICE_CDEV=y
 # CONFIG_VFIO_GROUP is not set
 CONFIG_VFIO_VIRQFD=y
+# CONFIG_VFIO_DEBUGFS is not set
 
 #
 # VFIO support for PCI devices
@@ -5498,6 +5471,7 @@ CONFIG_VFIO_PCI_CORE=y
 CONFIG_VFIO_PCI_MMAP=y
 CONFIG_VFIO_PCI_INTX=y
 CONFIG_VFIO_PCI=y
+# CONFIG_NVGRACE_GPU_VFIO_PCI is not set
 # end of VFIO support for PCI devices
 
 #
@@ -5516,6 +5490,7 @@ CONFIG_VFIO_PLATFORM_BCMFLEXRM_RESET=m
 # end of VFIO platform reset drivers
 # end of VFIO support for platform devices
 
+CONFIG_IRQ_BYPASS_MANAGER=y
 # CONFIG_VIRT_DRIVERS is not set
 CONFIG_VIRTIO_ANCHOR=y
 CONFIG_VIRTIO=m
@@ -5687,6 +5662,7 @@ CONFIG_COMMON_CLK_MT7981=y
 # CONFIG_COMMON_CLK_MT7981_ETHSYS is not set
 CONFIG_COMMON_CLK_MT7986=m
 CONFIG_COMMON_CLK_MT7986_ETHSYS=m
+# CONFIG_COMMON_CLK_MT7988 is not set
 CONFIG_COMMON_CLK_MT8135=y
 CONFIG_COMMON_CLK_MT8167=m
 CONFIG_COMMON_CLK_MT8167_AUDSYS=m
@@ -5764,6 +5740,8 @@ CONFIG_COMMON_CLK_AXG_AUDIO=y
 CONFIG_COMMON_CLK_A1_PLL=m
 CONFIG_COMMON_CLK_A1_PERIPHERALS=y
 CONFIG_COMMON_CLK_G12A=y
+CONFIG_COMMON_CLK_S4_PLL=y
+CONFIG_COMMON_CLK_S4_PERIPHERALS=y
 # end of Clock support for Amlogic platforms
 
 CONFIG_MSTAR_MSC313_CPUPLL=y
@@ -5805,10 +5783,12 @@ CONFIG_CLK_R8A77990=y
 CONFIG_CLK_R8A779A0=y
 CONFIG_CLK_R8A779F0=y
 CONFIG_CLK_R8A779G0=y
+# CONFIG_CLK_R8A779H0 is not set
 # CONFIG_CLK_R9A06G032 is not set
 CONFIG_CLK_R9A07G043=y
 # CONFIG_CLK_R9A07G044 is not set
 CONFIG_CLK_R9A07G054=y
+# CONFIG_CLK_R9A08G045 is not set
 # CONFIG_CLK_R9A09G011 is not set
 # CONFIG_CLK_SH73A0 is not set
 CONFIG_CLK_RCAR_CPG_LIB=y
@@ -5867,6 +5847,9 @@ CONFIG_SUN8I_V3S_CCU=m
 CONFIG_SUN8I_R40_CCU=m
 # CONFIG_SUN9I_A80_CCU is not set
 CONFIG_SUN8I_R_CCU=m
+CONFIG_COMMON_CLK_STM32MP=y
+CONFIG_COMMON_CLK_STM32MP135=y
+CONFIG_COMMON_CLK_STM32MP157=y
 CONFIG_COMMON_CLK_TI_ADPLL=y
 # CONFIG_CLK_UNIPHIER is not set
 CONFIG_COMMON_CLK_VISCONTI=y
@@ -5876,6 +5859,7 @@ CONFIG_COMMON_CLK_XLNX_CLKWZRD=m
 # CONFIG_COMMON_CLK_ZYNQMP is not set
 CONFIG_CLK_KUNIT_TEST=m
 CONFIG_CLK_GATE_KUNIT_TEST=m
+CONFIG_CLK_FD_KUNIT_TEST=m
 # CONFIG_HWSPINLOCK is not set
 
 #
@@ -5955,7 +5939,6 @@ CONFIG_MSC313E_TIMER=y
 # end of Clock Source drivers
 
 CONFIG_MAILBOX=y
-# CONFIG_APPLE_MAILBOX is not set
 # CONFIG_ARM_MHU is not set
 CONFIG_ARM_MHU_V2=m
 CONFIG_IMX_MBOX=y
@@ -6000,6 +5983,7 @@ CONFIG_IOMMU_DEFAULT_DMA_STRICT=y
 CONFIG_OF_IOMMU=y
 CONFIG_IOMMU_DMA=y
 CONFIG_IOMMU_SVA=y
+CONFIG_IOMMU_IOPF=y
 CONFIG_IOMMUFD=y
 # CONFIG_OMAP_IOMMU is not set
 # CONFIG_ROCKCHIP_IOMMU is not set
@@ -6044,8 +6028,6 @@ CONFIG_SOUNDWIRE=m
 #
 # SOC (System On Chip) specific Drivers
 #
-CONFIG_OWL_PM_DOMAINS_HELPER=y
-CONFIG_OWL_PM_DOMAINS=y
 
 #
 # Amlogic SoC drivers
@@ -6053,17 +6035,13 @@ CONFIG_OWL_PM_DOMAINS=y
 CONFIG_MESON_CANVAS=y
 CONFIG_MESON_CLK_MEASURE=m
 CONFIG_MESON_GX_SOCINFO=y
-# CONFIG_MESON_GX_PM_DOMAINS is not set
-# CONFIG_MESON_EE_PM_DOMAINS is not set
-# CONFIG_MESON_SECURE_PM_DOMAINS is not set
 # CONFIG_MESON_MX_SOCINFO is not set
 # end of Amlogic SoC drivers
 
 #
 # Apple SoC drivers
 #
-CONFIG_APPLE_PMGR_PWRSTATE=y
-CONFIG_APPLE_RTKIT=m
+# CONFIG_APPLE_MAILBOX is not set
 CONFIG_APPLE_SART=y
 # end of Apple SoC drivers
 
@@ -6083,10 +6061,7 @@ CONFIG_AT91_SOC_SFR=m
 #
 # Broadcom SoC drivers
 #
-CONFIG_BCM2835_POWER=y
-# CONFIG_SOC_BCM63XX is not set
 # CONFIG_SOC_BRCMSTB is not set
-CONFIG_BCM_PMB=y
 # end of Broadcom SoC drivers
 
 #
@@ -6114,10 +6089,8 @@ CONFIG_FSL_RCPM=y
 #
 # i.MX SoC drivers
 #
-CONFIG_IMX_GPCV2_PM_DOMAINS=y
 CONFIG_SOC_IMX8M=y
 # CONFIG_SOC_IMX9 is not set
-CONFIG_IMX8M_BLK_CTRL=y
 # end of i.MX SoC drivers
 
 #
@@ -6143,8 +6116,6 @@ CONFIG_MTK_DEVAPC=y
 CONFIG_MTK_INFRACFG=y
 CONFIG_MTK_PMIC_WRAP=y
 # CONFIG_MTK_REGULATOR_COUPLER is not set
-# CONFIG_MTK_SCPSYS is not set
-CONFIG_MTK_SCPSYS_PM_DOMAINS=y
 CONFIG_MTK_MMSYS=y
 # end of MediaTek SoC drivers
 
@@ -6155,12 +6126,12 @@ CONFIG_MTK_MMSYS=y
 #
 # CONFIG_QCOM_AOSS_QMP is not set
 CONFIG_QCOM_COMMAND_DB=m
-CONFIG_QCOM_CPR=y
 # CONFIG_QCOM_GENI_SE is not set
 CONFIG_QCOM_GSBI=m
 CONFIG_QCOM_LLCC=m
 CONFIG_QCOM_OCMEM=m
 CONFIG_QCOM_PDR_HELPERS=m
+# CONFIG_QCOM_PMIC_PDCHARGER_ULOG is not set
 CONFIG_QCOM_QMI_HELPERS=m
 # CONFIG_QCOM_RAMP_CTRL is not set
 # CONFIG_QCOM_RMTFS_MEM is not set
@@ -6175,6 +6146,7 @@ CONFIG_QCOM_APR=m
 
 CONFIG_SOC_RENESAS=y
 CONFIG_ARCH_RCAR_GEN3=y
+CONFIG_ARCH_RCAR_GEN4=y
 CONFIG_ARCH_RZG2L=y
 # CONFIG_ARCH_R8A77995 is not set
 # CONFIG_ARCH_R8A77990 is not set
@@ -6187,6 +6159,7 @@ CONFIG_ARCH_R8A77980=y
 # CONFIG_ARCH_R8A77970 is not set
 CONFIG_ARCH_R8A779A0=y
 CONFIG_ARCH_R8A779G0=y
+# CONFIG_ARCH_R8A779H0 is not set
 # CONFIG_ARCH_R8A774C0 is not set
 CONFIG_ARCH_R8A774E1=y
 # CONFIG_ARCH_R8A774A1 is not set
@@ -6194,9 +6167,77 @@ CONFIG_ARCH_R8A774B1=y
 # CONFIG_ARCH_R9A07G043 is not set
 # CONFIG_ARCH_R9A07G044 is not set
 CONFIG_ARCH_R9A07G054=y
+# CONFIG_ARCH_R9A08G045 is not set
 # CONFIG_ARCH_R9A09G011 is not set
 CONFIG_PWC_RZV2M=y
 CONFIG_RST_RCAR=y
+CONFIG_ROCKCHIP_GRF=y
+CONFIG_ROCKCHIP_IODOMAIN=m
+# CONFIG_SOC_SAMSUNG is not set
+CONFIG_SUNXI_MBUS=y
+CONFIG_SUNXI_SRAM=y
+# CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER is not set
+CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER=y
+CONFIG_SOC_TI=y
+CONFIG_TI_K3_RINGACC=m
+CONFIG_TI_K3_SOCINFO=y
+CONFIG_TI_PRUSS=y
+CONFIG_TI_SCI_INTA_MSI_DOMAIN=y
+# CONFIG_UX500_SOC_ID is not set
+
+#
+# Xilinx SoC drivers
+#
+# end of Xilinx SoC drivers
+# end of SOC (System On Chip) specific Drivers
+
+#
+# PM Domains
+#
+CONFIG_OWL_PM_DOMAINS_HELPER=y
+CONFIG_OWL_PM_DOMAINS=y
+
+#
+# Amlogic PM Domains
+#
+# CONFIG_MESON_GX_PM_DOMAINS is not set
+# CONFIG_MESON_EE_PM_DOMAINS is not set
+# CONFIG_MESON_SECURE_PM_DOMAINS is not set
+# end of Amlogic PM Domains
+
+CONFIG_APPLE_PMGR_PWRSTATE=y
+CONFIG_ARM_SCMI_PERF_DOMAIN=y
+CONFIG_ARM_SCMI_POWER_DOMAIN=y
+CONFIG_ARM_SCPI_POWER_DOMAIN=y
+
+#
+# Broadcom PM Domains
+#
+CONFIG_BCM2835_POWER=y
+CONFIG_BCM_PMB=y
+# CONFIG_BCM63XX_POWER is not set
+# end of Broadcom PM Domains
+
+#
+# i.MX PM Domains
+#
+CONFIG_IMX_GPCV2_PM_DOMAINS=y
+CONFIG_IMX8M_BLK_CTRL=y
+# end of i.MX PM Domains
+
+#
+# MediaTek PM Domains
+#
+# CONFIG_MTK_SCPSYS is not set
+CONFIG_MTK_SCPSYS_PM_DOMAINS=y
+# end of MediaTek PM Domains
+
+#
+# Qualcomm PM Domains
+#
+CONFIG_QCOM_CPR=y
+# end of Qualcomm PM Domains
+
 CONFIG_SYSC_RCAR=y
 CONFIG_SYSC_RCAR_GEN4=y
 CONFIG_SYSC_R8A77995=y
@@ -6215,6 +6256,7 @@ CONFIG_SYSC_R8A77980=y
 CONFIG_SYSC_R8A77970=y
 CONFIG_SYSC_R8A779A0=y
 CONFIG_SYSC_R8A779G0=y
+# CONFIG_SYSC_R8A779H0 is not set
 CONFIG_SYSC_RMOBILE=y
 CONFIG_SYSC_R8A77470=y
 # CONFIG_SYSC_R8A7745 is not set
@@ -6224,29 +6266,12 @@ CONFIG_SYSC_R8A7742=y
 CONFIG_SYSC_R8A774E1=y
 CONFIG_SYSC_R8A774A1=y
 CONFIG_SYSC_R8A774B1=y
-CONFIG_ROCKCHIP_GRF=y
-CONFIG_ROCKCHIP_IODOMAIN=m
 CONFIG_ROCKCHIP_PM_DOMAINS=y
-# CONFIG_SOC_SAMSUNG is not set
+# CONFIG_UX500_PM_DOMAIN is not set
 CONFIG_JH71XX_PMU=y
-CONFIG_SUNXI_MBUS=y
-CONFIG_SUNXI_SRAM=y
 # CONFIG_SUN20I_PPU is not set
-# CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER is not set
-CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER=y
-CONFIG_SOC_TI=y
 # CONFIG_TI_SCI_PM_DOMAINS is not set
-CONFIG_TI_K3_RINGACC=m
-CONFIG_TI_K3_SOCINFO=y
-CONFIG_TI_PRUSS=y
-CONFIG_TI_SCI_INTA_MSI_DOMAIN=y
-# CONFIG_UX500_SOC_ID is not set
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
+# end of PM Domains
 
 CONFIG_PM_DEVFREQ=y
 
@@ -6305,6 +6330,7 @@ CONFIG_PWM_BERLIN=m
 CONFIG_PWM_BRCMSTB=y
 CONFIG_PWM_CLK=y
 CONFIG_PWM_CLPS711X=y
+# CONFIG_PWM_CRC is not set
 # CONFIG_PWM_DWC is not set
 # CONFIG_PWM_EP93XX is not set
 CONFIG_PWM_FSL_FTM=m
@@ -6387,6 +6413,7 @@ CONFIG_IMX_MU_MSI=m
 CONFIG_TI_SCI_INTR_IRQCHIP=y
 CONFIG_TI_SCI_INTA_IRQCHIP=y
 CONFIG_TI_PRUSS_INTC=y
+# CONFIG_STARFIVE_JH8100_INTC is not set
 # CONFIG_EXYNOS_IRQ_COMBINER is not set
 CONFIG_MST_IRQ=y
 CONFIG_APPLE_AIC=y
@@ -6404,6 +6431,7 @@ CONFIG_RESET_ATH79=y
 CONFIG_RESET_BERLIN=m
 # CONFIG_RESET_BRCMSTB is not set
 CONFIG_RESET_BRCMSTB_RESCAL=y
+# CONFIG_RESET_GPIO is not set
 # CONFIG_RESET_HSDK is not set
 CONFIG_RESET_IMX7=m
 CONFIG_RESET_INTEL_GW=y
@@ -6506,6 +6534,7 @@ CONFIG_PHY_MTK_TPHY=m
 CONFIG_PHY_MTK_UFS=y
 # CONFIG_PHY_MTK_XSPHY is not set
 CONFIG_PHY_MTK_HDMI=m
+# CONFIG_PHY_MTK_MIPI_CSI_0_5 is not set
 CONFIG_PHY_MTK_MIPI_DSI=y
 CONFIG_PHY_MTK_DP=m
 # CONFIG_PHY_SPARX5_SERDES is not set
@@ -6543,6 +6572,7 @@ CONFIG_PHY_ROCKCHIP_INNO_HDMI=y
 # CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY is not set
 CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=m
 CONFIG_PHY_ROCKCHIP_PCIE=m
+# CONFIG_PHY_ROCKCHIP_SAMSUNG_HDPTX is not set
 CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=y
 # CONFIG_PHY_ROCKCHIP_TYPEC is not set
 CONFIG_PHY_EXYNOS_DP_VIDEO=y
@@ -6587,6 +6617,7 @@ CONFIG_ARM_CCI5xx_PMU=y
 # CONFIG_ARM_CCN is not set
 # CONFIG_ARM_CMN is not set
 # CONFIG_ARM_PMU is not set
+# CONFIG_STARFIVE_STARLINK_PMU is not set
 # CONFIG_ARM_SMMU_V3_PMU is not set
 CONFIG_ARM_DSU_PMU=y
 CONFIG_FSL_IMX8_DDR_PMU=m
@@ -6598,8 +6629,10 @@ CONFIG_ARM_DMC620_PMU=m
 # CONFIG_HISI_PCIE_PMU is not set
 CONFIG_HNS3_PMU=y
 CONFIG_MARVELL_CN10K_DDR_PMU=m
+# CONFIG_DWC_PCIE_PMU is not set
 # CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU is not set
 CONFIG_MESON_DDR_PMU=y
+# CONFIG_CXL_PMU is not set
 # end of Performance monitor support
 
 CONFIG_RAS=y
@@ -6616,6 +6649,7 @@ CONFIG_USB4_DMA_TEST=m
 CONFIG_DAX=y
 CONFIG_NVMEM=y
 # CONFIG_NVMEM_SYSFS is not set
+CONFIG_NVMEM_LAYOUTS=y
 
 #
 # Layout Types
@@ -6739,12 +6773,16 @@ CONFIG_INTERCONNECT_QCOM_SDM670=m
 CONFIG_INTERCONNECT_QCOM_SDM845=m
 CONFIG_INTERCONNECT_QCOM_SDX55=m
 # CONFIG_INTERCONNECT_QCOM_SDX65 is not set
+# CONFIG_INTERCONNECT_QCOM_SDX75 is not set
 CONFIG_INTERCONNECT_QCOM_SM6350=m
+# CONFIG_INTERCONNECT_QCOM_SM7150 is not set
 # CONFIG_INTERCONNECT_QCOM_SM8150 is not set
 CONFIG_INTERCONNECT_QCOM_SM8250=m
 CONFIG_INTERCONNECT_QCOM_SM8350=m
 # CONFIG_INTERCONNECT_QCOM_SM8450 is not set
 CONFIG_INTERCONNECT_QCOM_SM8550=m
+# CONFIG_INTERCONNECT_QCOM_SM8650 is not set
+# CONFIG_INTERCONNECT_QCOM_X1E80100 is not set
 # CONFIG_INTERCONNECT_SAMSUNG is not set
 # CONFIG_COUNTER is not set
 # CONFIG_MOST is not set
@@ -6753,7 +6791,10 @@ CONFIG_PECI_CPU=m
 # CONFIG_PECI_ASPEED is not set
 CONFIG_PECI_NPCM=m
 CONFIG_HTE=y
+# CONFIG_HTE_TEGRA194 is not set
+# CONFIG_HTE_TEGRA194_TEST is not set
 # CONFIG_CDX_BUS is not set
+CONFIG_DPLL=y
 # end of Device Drivers
 
 #
@@ -6762,6 +6803,7 @@ CONFIG_HTE=y
 CONFIG_DCACHE_WORD_ACCESS=y
 CONFIG_VALIDATE_FS_PARSER=y
 CONFIG_FS_IOMAP=y
+CONFIG_FS_STACK=y
 CONFIG_BUFFER_HEAD=y
 CONFIG_LEGACY_DIRECT_IO=y
 CONFIG_EXT2_FS=y
@@ -6799,7 +6841,6 @@ CONFIG_XFS_DEBUG=y
 # CONFIG_OCFS2_FS is not set
 CONFIG_BTRFS_FS=y
 CONFIG_BTRFS_FS_POSIX_ACL=y
-CONFIG_BTRFS_FS_CHECK_INTEGRITY=y
 CONFIG_BTRFS_FS_RUN_SANITY_TESTS=y
 CONFIG_BTRFS_DEBUG=y
 # CONFIG_BTRFS_ASSERT is not set
@@ -6815,6 +6856,7 @@ CONFIG_F2FS_FAULT_INJECTION=y
 # CONFIG_F2FS_FS_COMPRESSION is not set
 # CONFIG_F2FS_IOSTAT is not set
 CONFIG_F2FS_UNFAIR_RWSEM=y
+# CONFIG_BCACHEFS_FS is not set
 CONFIG_FS_POSIX_ACL=y
 CONFIG_EXPORTFS=y
 CONFIG_EXPORTFS_BLOCK_OPS=y
@@ -6836,17 +6878,12 @@ CONFIG_QUOTACTL=y
 CONFIG_FUSE_FS=m
 CONFIG_CUSE=m
 CONFIG_VIRTIO_FS=m
+CONFIG_FUSE_PASSTHROUGH=y
 # CONFIG_OVERLAY_FS is not set
 
 #
 # Caches
 #
-CONFIG_NETFS_SUPPORT=m
-CONFIG_NETFS_STATS=y
-CONFIG_FSCACHE=m
-CONFIG_FSCACHE_STATS=y
-# CONFIG_FSCACHE_DEBUG is not set
-# CONFIG_CACHEFILES is not set
 # end of Caches
 
 #
@@ -6868,8 +6905,8 @@ CONFIG_FAT_DEFAULT_UTF8=y
 # CONFIG_FAT_KUNIT_TEST is not set
 CONFIG_EXFAT_FS=m
 CONFIG_EXFAT_DEFAULT_IOCHARSET="utf8"
-# CONFIG_NTFS_FS is not set
 # CONFIG_NTFS3_FS is not set
+# CONFIG_NTFS_FS is not set
 # end of DOS/FAT/EXFAT/NT Filesystems
 
 #
@@ -6952,6 +6989,7 @@ CONFIG_EROFS_FS_XATTR=y
 CONFIG_EROFS_FS_POSIX_ACL=y
 # CONFIG_EROFS_FS_SECURITY is not set
 # CONFIG_EROFS_FS_ZIP is not set
+# CONFIG_EROFS_FS_ONDEMAND is not set
 # CONFIG_NETWORK_FILESYSTEMS is not set
 CONFIG_NLS=y
 CONFIG_NLS_DEFAULT="iso8859-1"
@@ -7209,14 +7247,12 @@ CONFIG_CRYPTO_TWOFISH_COMMON=m
 CONFIG_CRYPTO_ARC4=m
 CONFIG_CRYPTO_CHACHA20=m
 CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CFB=m
 CONFIG_CRYPTO_CTR=y
 CONFIG_CRYPTO_CTS=y
 CONFIG_CRYPTO_ECB=y
 CONFIG_CRYPTO_HCTR2=m
 CONFIG_CRYPTO_KEYWRAP=m
 CONFIG_CRYPTO_LRW=m
-CONFIG_CRYPTO_OFB=m
 # CONFIG_CRYPTO_PCBC is not set
 CONFIG_CRYPTO_XCTR=m
 CONFIG_CRYPTO_XTS=y
@@ -7268,7 +7304,6 @@ CONFIG_CRYPTO_XXHASH=y
 CONFIG_CRYPTO_CRC32C=y
 CONFIG_CRYPTO_CRC32=y
 CONFIG_CRYPTO_CRCT10DIF=y
-# CONFIG_CRYPTO_CRC64_ISO3309 is not set
 CONFIG_CRYPTO_CRC64_ROCKSOFT=y
 # end of CRCs (cyclic redundancy checks)
 
@@ -7293,7 +7328,9 @@ CONFIG_CRYPTO_DRBG_HMAC=y
 CONFIG_CRYPTO_DRBG_CTR=y
 CONFIG_CRYPTO_DRBG=y
 CONFIG_CRYPTO_JITTERENTROPY=y
-CONFIG_CRYPTO_JITTERENTROPY_TESTINTERFACE=y
+CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKS=64
+CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKSIZE=32
+CONFIG_CRYPTO_JITTERENTROPY_OSR=1
 # end of Random number generation
 
 #
@@ -7369,9 +7406,11 @@ CONFIG_CRYPTO_DEV_QAT_DH895xCC=m
 CONFIG_CRYPTO_DEV_QAT_C3XXX=m
 CONFIG_CRYPTO_DEV_QAT_C62X=y
 # CONFIG_CRYPTO_DEV_QAT_4XXX is not set
+# CONFIG_CRYPTO_DEV_QAT_420XX is not set
 # CONFIG_CRYPTO_DEV_QAT_DH895xCCVF is not set
 CONFIG_CRYPTO_DEV_QAT_C3XXXVF=m
 # CONFIG_CRYPTO_DEV_QAT_C62XVF is not set
+# CONFIG_CRYPTO_DEV_QAT_ERROR_INJECTION is not set
 CONFIG_CRYPTO_DEV_CAVIUM_ZIP=y
 CONFIG_CRYPTO_DEV_QCE=y
 CONFIG_CRYPTO_DEV_QCE_SKCIPHER=y
@@ -7402,7 +7441,6 @@ CONFIG_CRYPTO_DEV_ASPEED_DEBUG=y
 # CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO is not set
 # CONFIG_CRYPTO_DEV_ASPEED_ACRY is not set
 CONFIG_CRYPTO_DEV_JH7110=m
-# CONFIG_CRYPTO_DEV_TI_MCRC64 is not set
 CONFIG_ASYMMETRIC_KEY_TYPE=y
 CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
 CONFIG_X509_CERTIFICATE_PARSER=y
@@ -7443,8 +7481,6 @@ CONFIG_GENERIC_NET_UTILS=y
 # CONFIG_CORDIC is not set
 CONFIG_PRIME_NUMBERS=y
 CONFIG_RATIONAL=y
-CONFIG_MATH_KUNIT_TEST=m
-CONFIG_GENERIC_PCI_IOMAP=y
 CONFIG_STMP_DEVICE=y
 CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
 CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
@@ -7508,7 +7544,6 @@ CONFIG_ZSTD_DECOMPRESS=y
 CONFIG_XZ_DEC=y
 CONFIG_XZ_DEC_X86=y
 CONFIG_XZ_DEC_POWERPC=y
-CONFIG_XZ_DEC_IA64=y
 CONFIG_XZ_DEC_ARM=y
 CONFIG_XZ_DEC_ARMTHUMB=y
 CONFIG_XZ_DEC_SPARC=y
@@ -7523,8 +7558,8 @@ CONFIG_BCH=m
 CONFIG_BCH_CONST_PARAMS=y
 CONFIG_INTERVAL_TREE=y
 CONFIG_INTERVAL_TREE_SPAN_ITER=y
-CONFIG_XARRAY_MULTI=y
 CONFIG_ASSOCIATIVE_ARRAY=y
+CONFIG_CLOSURES=y
 CONFIG_HAS_IOMEM=y
 CONFIG_HAS_IOPORT=y
 CONFIG_HAS_IOPORT_MAP=y
@@ -7583,16 +7618,19 @@ CONFIG_MEMREGION=y
 CONFIG_ARCH_STACKWALK=y
 CONFIG_STACKDEPOT=y
 CONFIG_STACKDEPOT_ALWAYS_INIT=y
+CONFIG_STACKDEPOT_MAX_FRAMES=64
 CONFIG_REF_TRACKER=y
 CONFIG_SBITMAP=y
 # CONFIG_PARMAN is not set
 CONFIG_OBJAGG=m
+# CONFIG_LWQ_TEST is not set
 # end of Library routines
 
 CONFIG_GENERIC_IOREMAP=y
 CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED=y
 CONFIG_PLDMFW=y
 CONFIG_POLYNOMIAL=m
+CONFIG_FIRMWARE_TABLE=y
 
 #
 # Kernel hacking
@@ -7620,12 +7658,12 @@ CONFIG_DEBUG_MISC=y
 #
 # Compile-time checks and compiler options
 #
-CONFIG_AS_HAS_NON_CONST_LEB128=y
+CONFIG_AS_HAS_NON_CONST_ULEB128=y
 CONFIG_DEBUG_INFO_NONE=y
 # CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
 # CONFIG_DEBUG_INFO_DWARF4 is not set
 # CONFIG_DEBUG_INFO_DWARF5 is not set
-CONFIG_FRAME_WARN=2048
+CONFIG_FRAME_WARN=0
 # CONFIG_STRIP_ASM_SYMS is not set
 CONFIG_HEADERS_INSTALL=y
 CONFIG_SECTION_MISMATCH_WARN_ONLY=y
@@ -7650,7 +7688,7 @@ CONFIG_KGDB=y
 CONFIG_KGDB_SERIAL_CONSOLE=m
 # CONFIG_KGDB_TESTS is not set
 # CONFIG_KGDB_KDB is not set
-CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
+CONFIG_ARCH_HAS_UBSAN=y
 CONFIG_UBSAN=y
 CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=y
 # CONFIG_UBSAN_BOUNDS is not set
@@ -7658,7 +7696,6 @@ CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=y
 # CONFIG_UBSAN_UNREACHABLE is not set
 CONFIG_UBSAN_BOOL=y
 # CONFIG_UBSAN_ENUM is not set
-CONFIG_UBSAN_SANITIZE_ALL=y
 CONFIG_TEST_UBSAN=m
 CONFIG_HAVE_KCSAN_COMPILER=y
 # end of Generic Kernel Debugging Instruments
@@ -7796,6 +7833,7 @@ CONFIG_DEBUG_LIST=y
 CONFIG_DEBUG_PLIST=y
 CONFIG_DEBUG_SG=y
 # CONFIG_DEBUG_NOTIFIERS is not set
+# CONFIG_DEBUG_CLOSURES is not set
 CONFIG_DEBUG_MAPLE_TREE=y
 # end of Debug kernel data structures
 
@@ -7809,6 +7847,7 @@ CONFIG_RCU_TORTURE_TEST=m
 CONFIG_RCU_CPU_STALL_TIMEOUT=21
 CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
 # CONFIG_RCU_CPU_STALL_CPUTIME is not set
+# CONFIG_RCU_CPU_STALL_NOTIFIER is not set
 CONFIG_RCU_TRACE=y
 # CONFIG_RCU_EQS_DEBUG is not set
 # end of RCU Debugging
@@ -7943,4 +7982,4 @@ CONFIG_MEMTEST=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Documentation
 
---RXIZQNODkGeuu/+5--
+--BccLXEGBOLTkOFSF--
