@@ -1,79 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85393C092
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jun 2024 22:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA78E2AF12
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jun 2024 22:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719786547; cv=none; b=k37spztXlIf4B26LecyEtiKd2+eqyGOhx4SbxNoxyEQaiBOVEY/nfTDokL/MhXlT7knKilJ3i59u48O9Sy/gV8yNA5gWpIb3EMDJwFgy+uTUkiHWnwcVXrSGJrcOeec5joTYiG5+EJPc7q0cdZaFdNnvHRxT3VXXIWsfUvPPFLs=
+	t=1719787403; cv=none; b=a45ZLQX8IEw+TvYjjMTovOcn229brXyqXu2ao0ukaJvK/WqRHOJHh8+WnMbMtRWWk5+zJwudIuUoz4ajLuGy3SAJ5f/c0JjGT62scMbhLFxg0eIWp5B6096ghRDAKdJPk1/8IHi12Sa8rH3YtdfWNWanEOrpwgn0ZCRFmRvsTuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719786547; c=relaxed/simple;
-	bh=57d5mP+Mha1pRe9wQP4F4Bf4l51LI4wRQ+RDe4FGxGU=;
+	s=arc-20240116; t=1719787403; c=relaxed/simple;
+	bh=Dj4SBa5HCzSqoP+dyfUUIfhn6L00Z0x11dkL0XuSKDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oeAp/Ytl1FEy2jJSxTs6LhX6Uk1NJRjo4ugBsfynWyxBleT00/DGVgxNsRb3X2gQNmtRN5QE2w0YZyod5fM7KAYE60zUUHAo8KUq3nVkOqTSQunlkT/90Lnr+A93/VcGWVomh6K7Bf/14i5AVilfg7BCXhtjHU/4hiLPXxG/MGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdrxbWND; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=upCiIdhI/vbUslzkdGnnX/3Bfu1LmnTheiHQnztysRWRSWIkaO0V1R7Im4K5BfQljU+SUyvH/AJKy44SwTPPMWTiQd6TmVZs2MMHNJgREOEaxs/E1MNQZ/pCWAqPWdwjgcoUbg77BqSju6R3LNp9rtnUTUWRpzeux2VBh18jFQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S0Hx9Xc2; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdrxbWND"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S0Hx9Xc2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719786538; x=1751322538;
+  t=1719787395; x=1751323395;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=57d5mP+Mha1pRe9wQP4F4Bf4l51LI4wRQ+RDe4FGxGU=;
-  b=fdrxbWNDVYLTpqDKo64AzqF1A/W5IM3i4omoPgYN0AboCiOjgxOwb7eU
-   0JdH1/ucVSFikqPeCViIFU9RG08omMQyWIK2um1e9o4cKHnXZmOuUk9js
-   NueGOamgXr0mg3/JXARexpoloyJH3lEdJ1of1JWKMnA9EQ0aSjIUdRKZD
-   6qGYMynR94SRHKXfR0Mg/OWTSa3Pp2VkmS/QctsYDvNT7NFWFstXlK7kO
-   kMr6OK2KJhHTiwdHJ9G6v228/hZ0nZeNWL1kxgYg3AMwZuHG0bG9/gbSS
-   eMTtbN8fBy++EzY8+n0uXEoLlPKSO8YWtJRKZnbzcHSQ1iQlgYBgQGmVJ
+  bh=Dj4SBa5HCzSqoP+dyfUUIfhn6L00Z0x11dkL0XuSKDw=;
+  b=S0Hx9Xc2rrtvsMTctI6u7vu46yQut9V0NJXqFfHxAlGu/WTWdg7jTFAI
+   LaebE95ugRR27iD+CGwLfu2+wY2EgGrxj4NjOie/q7RPjlSjRzfT+6vGE
+   sQcTN506pNYzirS6ObZWA3nTPbVjxlTi8Vls/GGgdt5fEpuhcWTrlSldw
+   lYR7uih1TkdzS1ix8nphx0xWGnmJ6M2FjVdRuUgYeTPHmHg4imDuxhvmE
+   TkHRWCr9micoONMhFjE51mKsnAFq6+Gj5BbaJoNBqrxHo5IYDZP0kOEsI
+   VvtL396OV0t6SS5yf/ztGncVOWa5rB7r3RS1AK0eYj0VBmH89Of8t6oUA
    g==;
-X-CSE-ConnectionGUID: 39Hkvk1ySBSr+0/xMQ+EtQ==
-X-CSE-MsgGUID: dt7OPW/XRQeuBZrFEBOVKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="17021808"
+X-CSE-ConnectionGUID: RUyA/bivQJ68vNAVCLnTjg==
+X-CSE-MsgGUID: DN04+fu1Rq+Gubf51Vc+kA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="20650239"
 X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="17021808"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 15:28:57 -0700
-X-CSE-ConnectionGUID: LxApYSVERxaBJjZYT9mJrg==
-X-CSE-MsgGUID: Qp19hoZYRfmcBlOoQsmqyA==
+   d="scan'208";a="20650239"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 15:43:14 -0700
+X-CSE-ConnectionGUID: KL2gSnKcSRS5NNZNwzC7jg==
+X-CSE-MsgGUID: MHEugifnQz6ncMZOAqL2Dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="50262553"
+   d="scan'208";a="45413090"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Jun 2024 15:28:56 -0700
+  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2024 15:43:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sO32T-000M5P-0q;
-	Sun, 30 Jun 2024 22:28:53 +0000
-Date: Mon, 1 Jul 2024 06:28:45 +0800
+	id 1sO3GH-000M65-1b;
+	Sun, 30 Jun 2024 22:43:09 +0000
+Date: Mon, 1 Jul 2024 06:42:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: [linux-next:master 8595/9689]
- arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb:
- interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one
- must be fixed:
-Message-ID: <202407010630.LibKjEIl-lkp@intel.com>
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 8957/9027]
+ arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: panel-lvds:
+ 'panel-timing' does not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202407010656.oITJd1Mz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="WiQec0MqdnZBxc2X"
+Content-Type: multipart/mixed; boundary="mj1P4Qens/eKo442"
 Content-Disposition: inline
 
 
---WiQec0MqdnZBxc2X
+--mj1P4Qens/eKo442
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   1eb586a9782cde8e5091b9de74603e0a8386b09e
-commit: 5e09b7247d85db8088ea8738b231a01e7623f701 [8595/9689] arm64: dts: imx8qm: add lvds subsystem
+commit: 8d2bf5a527a48ac9f6855467768c91eeece46b62 [8957/9027] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
 config: arm64-randconfig-051-20240701
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
 dtschema version: 2024.6.dev3+g650bf2d
@@ -82,168 +81,120 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407010630.LibKjEIl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407010656.oITJd1Mz-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: panel-lvds: 'panel-timing' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
 --
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['phytec,imx8mm-phygate-tauri-l'] is too short
+>> 	arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   		['phytec,imx8mm-phygate-tauri-l'] is too short
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8dxp-tqma8xdp-mba8xx']
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8qxp-tqma8xqp-mba8xx']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx1-apf9328', 'fsl,imx1ads']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['creative,x-fi3', 'fsl,imx23-evk', 'fsl,stmp378x-devb', 'olimex,imx23-olinuxino', 'sandisk,sansa_fuze_plus']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,imx25-pdk', 'karo,imx25-tx25']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard-cmo-qvga', 'eukrea,mbimxsd25-baseboard-dvi-svga', 'eukrea,mbimxsd25-baseboard-dvi-vga']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx27-apf27', 'fsl,imx27-pdk']
+   	'armadeus,imx27-apf27dev' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,ls2088a-qds', 'fsl,ls2088a-rdb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,lx2160a-bluebox3', 'fsl,lx2160a-bluebox3-rev-a', 'fsl,lx2160a-qds', 'fsl,lx2160a-rdb', 'fsl,lx2162a-qds']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['solidrun,clearfog-cx', 'solidrun,honeycomb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['solidrun,lx2162a-clearfog']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,lx2160a-tqmlx2160a-mblx2160a']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['nxp,s32g274a-evb', 'nxp,s32g274a-rdb2']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['nxp,s32g399a-rdb3']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,s32v234-evb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['traverse,ten64']
+   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: gpio@30220000: 'pinctrcl-0', 'uart4_rs485_en' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/fsl-imx-gpio.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: gpio@30220000: 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: uart4_rs485_en: $nodename:0: 'uart4_rs485_en' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
 --
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-cts-rts.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['phytec,imx8mm-phygate-tauri-l'] is too short
+>> 	arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-cts-rts.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   		['phytec,imx8mm-phygate-tauri-l'] is too short
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8dxp-tqma8xdp-mba8xx']
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8qxp-tqma8xqp-mba8xx']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx1-apf9328', 'fsl,imx1ads']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['creative,x-fi3', 'fsl,imx23-evk', 'fsl,stmp378x-devb', 'olimex,imx23-olinuxino', 'sandisk,sansa_fuze_plus']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,imx25-pdk', 'karo,imx25-tx25']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard-cmo-qvga', 'eukrea,mbimxsd25-baseboard-dvi-svga', 'eukrea,mbimxsd25-baseboard-dvi-vga']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx27-apf27', 'fsl,imx27-pdk']
+   	'armadeus,imx27-apf27dev' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['phytec,imx8mm-phygate-tauri-l'] is too short
+>> 	arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   		['phytec,imx8mm-phygate-tauri-l'] is too short
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8dxp-tqma8xdp-mba8xx']
+   		'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,imx8qxp-tqma8xqp-mba8xx']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx1-apf9328', 'fsl,imx1ads']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['creative,x-fi3', 'fsl,imx23-evk', 'fsl,stmp378x-devb', 'olimex,imx23-olinuxino', 'sandisk,sansa_fuze_plus']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,imx25-pdk', 'karo,imx25-tx25']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['eukrea,mbimxsd25-baseboard-cmo-qvga', 'eukrea,mbimxsd25-baseboard-dvi-svga', 'eukrea,mbimxsd25-baseboard-dvi-vga']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['armadeus,imx27-apf27', 'fsl,imx27-pdk']
+   	'armadeus,imx27-apf27dev' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,ls2088a-qds', 'fsl,ls2088a-rdb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,lx2160a-bluebox3', 'fsl,lx2160a-bluebox3-rev-a', 'fsl,lx2160a-qds', 'fsl,lx2160a-rdb', 'fsl,lx2162a-qds']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['solidrun,clearfog-cx', 'solidrun,honeycomb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['solidrun,lx2162a-clearfog']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['tq,lx2160a-tqmlx2160a-mblx2160a']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['nxp,s32g274a-evb', 'nxp,s32g274a-rdb2']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['nxp,s32g399a-rdb3']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['fsl,s32v234-evb']
+   	'phytec,imx8mm-phygate-tauri-l' is not one of ['traverse,ten64']
+   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: gpio@30220000: 'pinctrcl-0', 'uart4_rs485_en' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/fsl-imx-gpio.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: gpio@30220000: 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: uart4_rs485_en: $nodename:0: 'uart4_rs485_en' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---WiQec0MqdnZBxc2X
+--mj1P4Qens/eKo442
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=5e09b7247d85db8088ea8738b231a01e7623f701
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8d2bf5a527a48ac9f6855467768c91eeece46b62
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout 5e09b7247d85db8088ea8738b231a01e7623f701
+        git checkout 8d2bf5a527a48ac9f6855467768c91eeece46b62
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash dtbs_check
 
---WiQec0MqdnZBxc2X
+--mj1P4Qens/eKo442
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 6.10.0-rc1 Kernel Configuration
+# Linux/arm64 6.10.0-rc5 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 19.0.0git (git://gitmirror/llvm_project 326ba38a991250a8587a399a260b0f7af2c9166a)"
 CONFIG_GCC_VERSION=0
@@ -588,9 +539,7 @@ CONFIG_ARM64_ERRATUM_2658417=y
 CONFIG_ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD=y
 # CONFIG_ARM64_ERRATUM_2966298 is not set
 CONFIG_ARM64_ERRATUM_3117295=y
-CONFIG_ARM64_WORKAROUND_SPECULATIVE_SSBS=y
 CONFIG_ARM64_ERRATUM_3194386=y
-CONFIG_ARM64_ERRATUM_3312417=y
 # CONFIG_CAVIUM_ERRATUM_22375 is not set
 # CONFIG_CAVIUM_ERRATUM_23154 is not set
 CONFIG_CAVIUM_ERRATUM_27456=y
@@ -909,7 +858,6 @@ CONFIG_BLK_DEV_BSG_COMMON=y
 CONFIG_BLK_ICQ=y
 CONFIG_BLK_DEV_BSGLIB=y
 CONFIG_BLK_DEV_INTEGRITY=y
-CONFIG_BLK_DEV_INTEGRITY_T10=y
 # CONFIG_BLK_DEV_WRITE_MOUNTED is not set
 CONFIG_BLK_DEV_ZONED=y
 # CONFIG_BLK_WBT is not set
@@ -1013,6 +961,7 @@ CONFIG_COREDUMP=y
 #
 CONFIG_SWAP=y
 # CONFIG_ZSWAP is not set
+CONFIG_HAVE_ZSMALLOC=y
 CONFIG_ZSMALLOC=y
 # CONFIG_ZSMALLOC_STAT is not set
 CONFIG_ZSMALLOC_CHAIN_SIZE=8
@@ -1164,7 +1113,6 @@ CONFIG_PCI_LOONGSON=y
 # CONFIG_PCIE_MEDIATEK is not set
 CONFIG_PCIE_MEDIATEK_GEN3=y
 CONFIG_PCIE_MT7621=y
-CONFIG_PCIE_MICROCHIP_HOST=y
 CONFIG_PCI_TEGRA=y
 # CONFIG_PCIE_RCAR_HOST is not set
 CONFIG_PCIE_RCAR_EP=y
@@ -1248,6 +1196,14 @@ CONFIG_PCIE_MOBIVEIL_HOST=y
 # CONFIG_PCIE_LAYERSCAPE_GEN4 is not set
 CONFIG_PCIE_MOBIVEIL_PLAT=y
 # end of Mobiveil-based PCIe controllers
+
+#
+# PLDA-based PCIe controllers
+#
+CONFIG_PCIE_PLDA_HOST=y
+CONFIG_PCIE_MICROCHIP_HOST=y
+# CONFIG_PCIE_STARFIVE_HOST is not set
+# end of PLDA-based PCIe controllers
 # end of PCI controller drivers
 
 #
@@ -1435,6 +1391,9 @@ CONFIG_ARM_PSCI_FW=y
 # Qualcomm firmware drivers
 #
 CONFIG_QCOM_SCM=y
+CONFIG_QCOM_TZMEM=y
+CONFIG_QCOM_TZMEM_MODE_GENERIC=y
+# CONFIG_QCOM_TZMEM_MODE_SHMBRIDGE is not set
 CONFIG_QCOM_SCM_DOWNLOAD_MODE_DEFAULT=y
 CONFIG_QCOM_QSEECOM=y
 # CONFIG_QCOM_QSEECOM_UEFISECAPP is not set
@@ -2096,7 +2055,9 @@ CONFIG_SERIAL_LANTIQ=y
 CONFIG_SERIAL_LANTIQ_CONSOLE=y
 CONFIG_SERIAL_SCCNXP=y
 CONFIG_SERIAL_SCCNXP_CONSOLE=y
-# CONFIG_SERIAL_SC16IS7XX_CORE is not set
+CONFIG_SERIAL_SC16IS7XX=y
+CONFIG_SERIAL_SC16IS7XX_I2C=y
+CONFIG_SERIAL_SC16IS7XX_SPI=y
 CONFIG_SERIAL_TIMBERDALE=y
 # CONFIG_SERIAL_BCM63XX is not set
 CONFIG_SERIAL_ALTERA_JTAGUART=y
@@ -3083,6 +3044,7 @@ CONFIG_POWER_RESET_RMOBILE=y
 # CONFIG_SYSCON_REBOOT_MODE is not set
 CONFIG_POWER_RESET_SC27XX=y
 # CONFIG_NVMEM_REBOOT_MODE is not set
+# CONFIG_POWER_SEQUENCING is not set
 CONFIG_POWER_SUPPLY=y
 CONFIG_POWER_SUPPLY_DEBUG=y
 # CONFIG_POWER_SUPPLY_HWMON is not set
@@ -3321,9 +3283,11 @@ CONFIG_SENSORS_MAX31785=y
 # CONFIG_SENSORS_MP2856 is not set
 CONFIG_SENSORS_MP2888=y
 CONFIG_SENSORS_MP2975=y
+# CONFIG_SENSORS_MP2993 is not set
 # CONFIG_SENSORS_MP2975_REGULATOR is not set
 CONFIG_SENSORS_MP5023=y
 CONFIG_SENSORS_MP5990=y
+# CONFIG_SENSORS_MP9941 is not set
 # CONFIG_SENSORS_MPQ7932 is not set
 # CONFIG_SENSORS_MPQ8785 is not set
 CONFIG_SENSORS_PIM4328=y
@@ -3375,6 +3339,7 @@ CONFIG_SENSORS_AMC6821=y
 CONFIG_SENSORS_INA2XX=y
 # CONFIG_SENSORS_INA238 is not set
 CONFIG_SENSORS_INA3221=y
+# CONFIG_SENSORS_SPD5118 is not set
 CONFIG_SENSORS_TC74=y
 CONFIG_SENSORS_THMC50=y
 # CONFIG_SENSORS_TMP102 is not set
@@ -3425,9 +3390,6 @@ CONFIG_MAX77620_THERMAL=y
 CONFIG_SPEAR_THERMAL=y
 # CONFIG_SUN8I_THERMAL is not set
 CONFIG_ROCKCHIP_THERMAL=y
-CONFIG_RCAR_THERMAL=y
-CONFIG_RCAR_GEN3_THERMAL=y
-CONFIG_RZG2L_THERMAL=y
 CONFIG_KIRKWOOD_THERMAL=y
 CONFIG_DOVE_THERMAL=y
 CONFIG_ARMADA_THERMAL=y
@@ -3466,6 +3428,10 @@ CONFIG_BCM_SR_THERMAL=y
 # Samsung thermal drivers
 #
 # end of Samsung thermal drivers
+
+CONFIG_RCAR_THERMAL=y
+CONFIG_RCAR_GEN3_THERMAL=y
+CONFIG_RZG2L_THERMAL=y
 
 #
 # NVIDIA Tegra thermal drivers
@@ -3819,6 +3785,7 @@ CONFIG_REGULATOR_TPS65910=y
 CONFIG_REGULATOR_TPS65912=y
 CONFIG_REGULATOR_TPS68470=y
 # CONFIG_REGULATOR_UNIPHIER is not set
+CONFIG_REGULATOR_RZG2L_VBCTRL=y
 CONFIG_REGULATOR_VCTRL=y
 CONFIG_REGULATOR_WM831X=y
 CONFIG_REGULATOR_WM8350=y
@@ -4152,6 +4119,7 @@ CONFIG_VIDEO_HI846=y
 # CONFIG_VIDEO_IMX219 is not set
 CONFIG_VIDEO_IMX258=y
 CONFIG_VIDEO_IMX274=y
+# CONFIG_VIDEO_IMX283 is not set
 CONFIG_VIDEO_IMX290=y
 # CONFIG_VIDEO_IMX296 is not set
 # CONFIG_VIDEO_IMX319 is not set
@@ -4351,6 +4319,8 @@ CONFIG_VIDEO_THS7303=y
 # CONFIG_VIDEO_DS90UB913 is not set
 CONFIG_VIDEO_DS90UB953=y
 CONFIG_VIDEO_DS90UB960=y
+# CONFIG_VIDEO_MAX96714 is not set
+# CONFIG_VIDEO_MAX96717 is not set
 # end of Video serializers and deserializers
 
 #
@@ -4608,6 +4578,7 @@ CONFIG_DRM_PANIC=y
 CONFIG_DRM_PANIC_FOREGROUND_COLOR=0xffffff
 CONFIG_DRM_PANIC_BACKGROUND_COLOR=0x000000
 # CONFIG_DRM_PANIC_DEBUG is not set
+CONFIG_DRM_PANIC_SCREEN="user"
 # CONFIG_DRM_FBDEV_EMULATION is not set
 # CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
 CONFIG_DRM_DISPLAY_HELPER=y
@@ -4657,6 +4628,7 @@ CONFIG_DRM_VGEM=y
 CONFIG_DRM_VMWGFX=y
 # CONFIG_DRM_AST is not set
 # CONFIG_DRM_MGAG200 is not set
+# CONFIG_DRM_ATMEL_HLCDC is not set
 CONFIG_DRM_RCAR_DU=y
 CONFIG_DRM_RCAR_USE_CMM=y
 CONFIG_DRM_RCAR_CMM=y
@@ -4668,6 +4640,7 @@ CONFIG_DRM_RCAR_MIPI_DSI=y
 CONFIG_DRM_RCAR_WRITEBACK=y
 # CONFIG_DRM_SHMOBILE is not set
 # CONFIG_DRM_SUN4I is not set
+# CONFIG_DRM_OMAP is not set
 # CONFIG_DRM_QXL is not set
 CONFIG_DRM_MSM=y
 CONFIG_DRM_MSM_GPU_STATE=y
@@ -4680,6 +4653,7 @@ CONFIG_DRM_MSM_HDMI=y
 # CONFIG_DRM_MSM_HDMI_HDCP is not set
 CONFIG_DRM_TEGRA=y
 CONFIG_DRM_TEGRA_DEBUG=y
+# CONFIG_DRM_STM is not set
 CONFIG_DRM_PANEL=y
 
 #
@@ -4699,11 +4673,13 @@ CONFIG_DRM_PANEL_EBBG_FT8719=y
 CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D=y
 CONFIG_DRM_PANEL_DSI_CM=y
 # CONFIG_DRM_PANEL_LVDS is not set
+# CONFIG_DRM_PANEL_HIMAX_HX83102 is not set
 # CONFIG_DRM_PANEL_HIMAX_HX83112A is not set
 # CONFIG_DRM_PANEL_HIMAX_HX8394 is not set
 CONFIG_DRM_PANEL_ILITEK_IL9322=y
 CONFIG_DRM_PANEL_ILITEK_ILI9341=y
 # CONFIG_DRM_PANEL_ILITEK_ILI9805 is not set
+# CONFIG_DRM_PANEL_ILITEK_ILI9806E is not set
 CONFIG_DRM_PANEL_ILITEK_ILI9881C=y
 # CONFIG_DRM_PANEL_ILITEK_ILI9882T is not set
 # CONFIG_DRM_PANEL_INNOLUX_EJ030NA is not set
@@ -4716,6 +4692,7 @@ CONFIG_DRM_PANEL_JDI_LT070ME05000=y
 # CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04 is not set
 CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W=y
 CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829=y
+# CONFIG_DRM_PANEL_LINCOLNTECH_LCD197 is not set
 CONFIG_DRM_PANEL_LG_LB035Q02=y
 CONFIG_DRM_PANEL_LG_LG4573=y
 # CONFIG_DRM_PANEL_LG_SW43408 is not set
@@ -4845,6 +4822,7 @@ CONFIG_DRM_DW_HDMI=y
 CONFIG_DRM_DW_MIPI_DSI=y
 # end of Display Interface Bridges
 
+# CONFIG_DRM_STI is not set
 CONFIG_DRM_IMX_DCSS=y
 # CONFIG_DRM_IMX is not set
 CONFIG_DRM_IMX_LCDC=y
@@ -5035,6 +5013,7 @@ CONFIG_BACKLIGHT_QCOM_WLED=y
 # CONFIG_BACKLIGHT_ADP8860 is not set
 CONFIG_BACKLIGHT_ADP8870=y
 CONFIG_BACKLIGHT_AAT2870=y
+# CONFIG_BACKLIGHT_LM3509 is not set
 # CONFIG_BACKLIGHT_LM3630A is not set
 CONFIG_BACKLIGHT_LM3639=y
 # CONFIG_BACKLIGHT_LP855X is not set
@@ -5697,13 +5676,13 @@ CONFIG_MSTAR_MSC313_MPLL=y
 # CONFIG_COMMON_CLK_NUVOTON is not set
 # CONFIG_COMMON_CLK_PISTACHIO is not set
 CONFIG_QCOM_GDSC=y
-CONFIG_QCOM_RPMCC=y
 CONFIG_COMMON_CLK_QCOM=y
 CONFIG_CLK_X1E80100_CAMCC=y
 # CONFIG_CLK_X1E80100_DISPCC is not set
 CONFIG_CLK_X1E80100_GCC=y
 # CONFIG_CLK_X1E80100_GPUCC is not set
 # CONFIG_CLK_X1E80100_TCSRCC is not set
+# CONFIG_CLK_QCM2290_GPUCC is not set
 CONFIG_QCOM_A53PLL=y
 CONFIG_QCOM_A7PLL=y
 CONFIG_QCOM_CLK_APCS_MSM8916=y
@@ -5783,11 +5762,13 @@ CONFIG_SDM_DISPCC_845=y
 CONFIG_SDX_GCC_65=y
 CONFIG_SDX_GCC_75=y
 CONFIG_SM_CAMCC_6350=y
+# CONFIG_SM_CAMCC_7150 is not set
 CONFIG_SM_CAMCC_8250=y
 CONFIG_SM_CAMCC_8450=y
 CONFIG_SM_CAMCC_8550=y
 CONFIG_SM_DISPCC_6115=y
 CONFIG_SM_DISPCC_6125=y
+# CONFIG_SM_DISPCC_7150 is not set
 CONFIG_SM_DISPCC_8250=y
 # CONFIG_SM_DISPCC_6350 is not set
 CONFIG_SM_DISPCC_6375=y
@@ -5818,6 +5799,7 @@ CONFIG_SM_GPUCC_8450=y
 CONFIG_SM_GPUCC_8650=y
 CONFIG_SM_TCSRCC_8550=y
 CONFIG_SM_TCSRCC_8650=y
+# CONFIG_SM_VIDEOCC_7150 is not set
 CONFIG_SM_VIDEOCC_8150=y
 CONFIG_SM_VIDEOCC_8250=y
 # CONFIG_SM_VIDEOCC_8350 is not set
@@ -6218,6 +6200,7 @@ CONFIG_ARCH_R9A07G043=y
 # CONFIG_ARCH_R9A08G045 is not set
 # CONFIG_ARCH_R9A09G011 is not set
 CONFIG_ARCH_R9A09G057=y
+# CONFIG_FUSE_RCAR is not set
 CONFIG_PWC_RZV2M=y
 CONFIG_RST_RCAR=y
 # CONFIG_ROCKCHIP_GRF is not set
@@ -7206,6 +7189,7 @@ CONFIG_RESET_BRCMSTB_RESCAL=y
 CONFIG_RESET_GPIO=y
 # CONFIG_RESET_HSDK is not set
 # CONFIG_RESET_IMX7 is not set
+CONFIG_RESET_IMX8MP_AUDIOMIX=y
 CONFIG_RESET_INTEL_GW=y
 CONFIG_RESET_K210=y
 # CONFIG_RESET_LANTIQ is not set
@@ -7232,8 +7216,10 @@ CONFIG_RESET_TN48M_CPLD=y
 CONFIG_RESET_UNIPHIER=y
 CONFIG_RESET_UNIPHIER_GLUE=y
 # CONFIG_RESET_ZYNQ is not set
+CONFIG_RESET_ZYNQMP=y
 CONFIG_RESET_STARFIVE_JH71X0=y
 CONFIG_RESET_STARFIVE_JH7100=y
+# CONFIG_STIH407_RESET is not set
 # CONFIG_COMMON_RESET_HI3660 is not set
 CONFIG_COMMON_RESET_HI6220=y
 CONFIG_RESET_TEGRA_BPMP=y
@@ -7391,6 +7377,7 @@ CONFIG_USB4_DEBUGFS_MARGINING=y
 # CONFIG_ANDROID_BINDER_IPC is not set
 # end of Android
 
+CONFIG_TRACE_GPU_MEM=y
 # CONFIG_LIBNVDIMM is not set
 CONFIG_DAX=y
 CONFIG_NVMEM=y
@@ -7793,6 +7780,18 @@ CONFIG_SECURITY_PATH=y
 CONFIG_FORTIFY_SOURCE=y
 CONFIG_STATIC_USERMODEHELPER=y
 CONFIG_STATIC_USERMODEHELPER_PATH="/sbin/usermode-helper"
+CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_OFF=y
+# CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE is not set
+# CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_ALL is not set
+CONFIG_PROC_MEM_RESTRICT_OPEN_READ_OFF=y
+# CONFIG_PROC_MEM_RESTRICT_OPEN_READ_PTRACE is not set
+# CONFIG_PROC_MEM_RESTRICT_OPEN_READ_ALL is not set
+CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_OFF=y
+# CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_PTRACE is not set
+# CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_ALL is not set
+CONFIG_PROC_MEM_RESTRICT_WRITE_OFF=y
+# CONFIG_PROC_MEM_RESTRICT_WRITE_PTRACE is not set
+# CONFIG_PROC_MEM_RESTRICT_WRITE_ALL is not set
 CONFIG_SECURITY_LOADPIN=y
 # CONFIG_SECURITY_LOADPIN_ENFORCE is not set
 CONFIG_SECURITY_LOADPIN_VERITY=y
@@ -7845,7 +7844,6 @@ CONFIG_INIT_STACK_NONE=y
 # CONFIG_INIT_STACK_ALL_ZERO is not set
 CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
 CONFIG_INIT_ON_FREE_DEFAULT_ON=y
-# CONFIG_INIT_MLOCKED_ON_FREE_DEFAULT_ON is not set
 CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
 CONFIG_ZERO_CALL_USED_REGS=y
 # end of Memory initialization
@@ -7916,7 +7914,6 @@ CONFIG_CRYPTO_ECC=y
 CONFIG_CRYPTO_ECDH=y
 CONFIG_CRYPTO_ECDSA=y
 CONFIG_CRYPTO_ECRDSA=y
-# CONFIG_CRYPTO_SM2 is not set
 CONFIG_CRYPTO_CURVE25519=y
 # end of Public-key cryptography
 
@@ -8291,8 +8288,9 @@ CONFIG_HAVE_GENERIC_VDSO=y
 CONFIG_GENERIC_GETTIMEOFDAY=y
 CONFIG_GENERIC_VDSO_TIME_NS=y
 CONFIG_FONT_SUPPORT=y
+# CONFIG_FONTS is not set
+CONFIG_FONT_8x8=y
 CONFIG_FONT_8x16=y
-CONFIG_FONT_AUTOSELECT=y
 CONFIG_SG_SPLIT=y
 CONFIG_SG_POOL=y
 CONFIG_ARCH_STACKWALK=y
@@ -8619,4 +8617,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Documentation
 
---WiQec0MqdnZBxc2X--
+--mj1P4Qens/eKo442--
