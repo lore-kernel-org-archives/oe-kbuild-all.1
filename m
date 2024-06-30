@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB18282F1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jun 2024 12:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612B812D1F1;
+	Sun, 30 Jun 2024 12:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719748869; cv=none; b=qIsc34JdtgViqt6sW4LdWSvwS4vO1LhGkjNvcx3ooYdgkRd+UR9qSKCK4yusS+PidliPwUGA+irlyoFMWvtRsbo8m/h7Whh3ue27Y4SFXSBnBKATSIGXqrT1T350AyOBscD6kJZsPqipheP8A0JXmK96RWV+R7or8JocUG0IOlM=
+	t=1719749685; cv=none; b=QUlHs5fe+Vy1ixJo5GtsIH/nr19+Wt3UC73vBSHuRfmlhxO8HZ6qXOBpbUw/oMMejJrYfo1KHP+7Ho7K/bCqvEWq7Hi8jhHJL2bPPDtMAlyyLNulG0EkG9fVNUkLHXL7+OfXMUKqzBMrD1fZ66GZBeNLsM9ibIuoonPPOwEYBOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719748869; c=relaxed/simple;
-	bh=Xb2aj4FgA+8RqXHyjD5TAb3jCVjxE0Mv/2KmjY/Hd7c=;
+	s=arc-20240116; t=1719749685; c=relaxed/simple;
+	bh=6tEE0HovZr0YQZA8+/0jwkZ9VFUyUxZc007vqz5+Zr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gODeRqp1aOUqrj5WPcJ/YFgBvRY3Fv+d0042aC1CIHTHt6VqYsLWuzAF7y4jONbkXlYZfSMOq2/3KMUKpVvsrB8XN8AjXbS3ct+FCTLfK0wfFBuqG/mR72h3F5rpHT3gGso7/MjPzFvl6GUdlzqcOmXT2wYnhZDvhuQHu2KqJmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kq/4o5/l; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=d52VbWxGna4mdMUXzIskUoRe/skrL4uwxCsejqwTrkKOyneSulh8A2mA9JiIfa1uR1A/1onucVcXrAuDhZs6wBkCdoTWV8NvQ1CiXcOUShZ9UDddrC8aeWiQphzhlTdgVO/mQ6ouQwgy8DSCuFR5x5jtWQatKmmRb+qeo1jwm1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZivJXM+0; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kq/4o5/l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZivJXM+0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719748865; x=1751284865;
+  t=1719749681; x=1751285681;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=Xb2aj4FgA+8RqXHyjD5TAb3jCVjxE0Mv/2KmjY/Hd7c=;
-  b=kq/4o5/ljPG5bkseIvx1eKNiLJrvVAuWNcWDd8KE7DDBkTSPczpiFLRg
-   cip+9+P1KPua7SwCw3YsVTWcMj4csszkQcVuRnireN/sn4V+bm2U4Waa4
-   SQ/K5CnpcccNvryrwjni6XCY8ZqWzzqr7tLqC1ZcqGFfOhpmi/qLKZwmY
-   nnoRc00R55br3E6lZWwUgY0qxVZeUVoaEQvcdDVo5rX7oL/+CFr7iRvOA
-   u4pnEd4jFG5LdOFalcFOnoNIuqAib/I+TtYtP+pMjg/5QpzP6NgCYXcTw
-   7o70XrKVhhBEHbz/BzKgBT0gKZfxjaRexSQjGKv827wWyh74/I9Cj7JZf
-   A==;
-X-CSE-ConnectionGUID: ofwSRR6kQJiv9BuuMxA4Vg==
-X-CSE-MsgGUID: rLQ9H/vSSra2wxfYa8fUFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11118"; a="28274084"
+  bh=6tEE0HovZr0YQZA8+/0jwkZ9VFUyUxZc007vqz5+Zr8=;
+  b=ZivJXM+0WkVPVczi96987PdVrq8icWy0sX4f0eJhcTBC8CBxSjTBKW6/
+   PczcAoROSqmbkcpY2OgQRJEmZG5Ut3XUiIc141Nt3fVOMLBp1nFfwEAA5
+   W2Pf+MRyPGAVQ0QiwtzZLGFqxcix0IPb+ZZjdX8uG6vEkIBwIkMYDD03x
+   5LtcPUSOStOlMRZW7VqOsQxsCE73kFEuwhZ9k0dRPvRSE6QacwFo1wxwp
+   bmQ4TtHWQrJOOmD+cDMeF/f33YyNPqKveELk5zJQmHQVEZ5jyH2IXs/tl
+   B/nTb3DTja9U4vV+05PqC0gqVH2ptah53/IzEQlcl6FB7WpwOU1AlA068
+   g==;
+X-CSE-ConnectionGUID: +L3tBufsTq2cvcC3SbENOw==
+X-CSE-MsgGUID: rvGVVWF6SF+oRi1ou+K5og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11118"; a="16750285"
 X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
-   d="scan'208";a="28274084"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 05:01:04 -0700
-X-CSE-ConnectionGUID: oT3iJIEIRgyLxCW8OstYyw==
-X-CSE-MsgGUID: q4Pti1ssQYm86VFzzAjKpg==
+   d="scan'208";a="16750285"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2024 05:14:40 -0700
+X-CSE-ConnectionGUID: OepLdzGDS+ahFPqxuTV+dA==
+X-CSE-MsgGUID: SwvwpCu5RPWgl8V0714ygw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,174,1716274800"; 
-   d="scan'208";a="75932396"
+   d="scan'208";a="76418901"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jun 2024 05:01:03 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jun 2024 05:14:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNtEq-000LT2-1u;
-	Sun, 30 Jun 2024 12:01:00 +0000
-Date: Sun, 30 Jun 2024 20:00:11 +0800
+	id 1sNtS1-000LVn-08;
+	Sun, 30 Jun 2024 12:14:37 +0000
+Date: Sun, 30 Jun 2024 20:14:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Barry Song <21cnbao@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC v4 1/2] mm: swap: introduce swapcache_prepare_nr and
  swapcache_clear_nr for large folios swap-in
-Message-ID: <202406301911.VYfzWCHM-lkp@intel.com>
+Message-ID: <202406301917.UoglDhDV-lkp@intel.com>
 References: <20240629111010.230484-2-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,13 +61,13 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="CFcjBSgX0c8+q70c"
+Content-Type: multipart/mixed; boundary="kPIQ8/96DO+3LspG"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20240629111010.230484-2-21cnbao@gmail.com>
 
 
---CFcjBSgX0c8+q70c
+--kPIQ8/96DO+3LspG
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
@@ -83,30 +83,101 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-swap-introd
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20240629111010.230484-2-21cnbao%40gmail.com
 patch subject: [PATCH RFC v4 1/2] mm: swap: introduce swapcache_prepare_nr and swapcache_clear_nr for large folios swap-in
-config: openrisc-allnoconfig
-compiler: or1k-linux-gcc (GCC) 13.2.0
+config: s390-allnoconfig
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
 reproduce (this is a W=1 build):
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406301911.VYfzWCHM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406301917.UoglDhDV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'do_swap_page':
-   mm/memory.c:4085:29: error: implicit declaration of function 'swapcache_prepare'; did you mean 'swapcache_prepare_nr'? [-Werror=implicit-function-declaration]
+   In file included from mm/memory.c:44:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/memory.c:45:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   mm/memory.c:4085:8: error: call to undeclared function 'swapcache_prepare'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     4085 |                         if (swapcache_prepare(entry)) {
-         |                             ^~~~~~~~~~~~~~~~~
-         |                             swapcache_prepare_nr
->> mm/memory.c:4391:17: error: implicit declaration of function 'swapcache_clear'; did you mean 'swapcache_clear_nr'? [-Werror=implicit-function-declaration]
+         |                             ^
+   mm/memory.c:4085:8: note: did you mean 'swapcache_prepare_nr'?
+   include/linux/swap.h:558:19: note: 'swapcache_prepare_nr' declared here
+     558 | static inline int swapcache_prepare_nr(swp_entry_t swp, int nr)
+         |                   ^
+>> mm/memory.c:4391:3: error: call to undeclared function 'swapcache_clear'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     4391 |                 swapcache_clear(si, entry);
-         |                 ^~~~~~~~~~~~~~~
-         |                 swapcache_clear_nr
-   cc1: some warnings being treated as errors
+         |                 ^
+   mm/memory.c:4391:3: note: did you mean 'swapcache_clear_nr'?
+   mm/swap.h:123:20: note: 'swapcache_clear_nr' declared here
+     123 | static inline void swapcache_clear_nr(struct swap_info_struct *si, swp_entry_t entry, int nr)
+         |                    ^
+   15 warnings and 2 errors generated.
 
 
-vim +4391 mm/memory.c
+vim +/swapcache_clear +4391 mm/memory.c
 
 5c041f5d1f23d3 Peter Xu                2022-05-12  3989  
 ^1da177e4c3f41 Linus Torvalds          2005-04-16  3990  /*
@@ -537,76 +608,92 @@ d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4404) 		folio_put(swapcache);
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---CFcjBSgX0c8+q70c
+--kPIQ8/96DO+3LspG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
         git fetch akpm-mm mm-everything
         git checkout akpm-mm/mm-everything
         b4 shazam https://lore.kernel.org/r/20240629111010.230484-2-21cnbao@gmail.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-13.2.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-13.2.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-19 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-19 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash mm/
 
---CFcjBSgX0c8+q70c
+--kPIQ8/96DO+3LspG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/openrisc 6.10.0-rc5 Kernel Configuration
+# Linux/s390 6.10.0-rc5 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="or1k-linux-gcc (GCC) 13.2.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=130200
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=24100
+CONFIG_CC_VERSION_TEXT="clang version 19.0.0git (git://gitmirror/llvm_project 326ba38a991250a8587a399a260b0f7af2c9166a)"
+CONFIG_GCC_VERSION=0
+CONFIG_CC_IS_CLANG=y
+CONFIG_CLANG_VERSION=190000
+CONFIG_AS_IS_LLVM=y
+CONFIG_AS_VERSION=190000
 CONFIG_LD_IS_BFD=y
 CONFIG_LD_VERSION=24100
 CONFIG_LLD_VERSION=0
+CONFIG_RUST_IS_AVAILABLE=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
 CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
-CONFIG_GCC_ASM_GOTO_OUTPUT_WORKAROUND=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
 CONFIG_PAHOLE_VERSION=127
 CONFIG_IRQ_WORK=y
+CONFIG_BUILDTIME_TABLE_SORT=y
+CONFIG_THREAD_INFO_IN_TASK=y
 
 #
 # General setup
 #
-CONFIG_BROKEN_ON_SMP=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
-# CONFIG_COMPILE_TEST is not set
 # CONFIG_WERROR is not set
 CONFIG_LOCALVERSION=""
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_BUILD_SALT=""
+CONFIG_HAVE_KERNEL_GZIP=y
+CONFIG_HAVE_KERNEL_BZIP2=y
+CONFIG_HAVE_KERNEL_LZMA=y
+CONFIG_HAVE_KERNEL_XZ=y
+CONFIG_HAVE_KERNEL_LZO=y
+CONFIG_HAVE_KERNEL_LZ4=y
+CONFIG_HAVE_KERNEL_ZSTD=y
+CONFIG_HAVE_KERNEL_UNCOMPRESSED=y
+CONFIG_KERNEL_GZIP=y
+# CONFIG_KERNEL_BZIP2 is not set
+# CONFIG_KERNEL_LZMA is not set
+# CONFIG_KERNEL_XZ is not set
+# CONFIG_KERNEL_LZO is not set
+# CONFIG_KERNEL_LZ4 is not set
+# CONFIG_KERNEL_ZSTD is not set
+# CONFIG_KERNEL_UNCOMPRESSED is not set
 CONFIG_DEFAULT_INIT=""
 CONFIG_DEFAULT_HOSTNAME="(none)"
 # CONFIG_SYSVIPC is not set
 # CONFIG_WATCH_QUEUE is not set
 # CONFIG_CROSS_MEMORY_ATTACH is not set
 # CONFIG_USELIB is not set
+CONFIG_HAVE_ARCH_AUDITSYSCALL=y
 
 #
 # IRQ subsystem
 #
-CONFIG_GENERIC_IRQ_PROBE=y
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_IRQ_CHIP=y
-CONFIG_IRQ_DOMAIN=y
 CONFIG_SPARSE_IRQ=y
 # end of IRQ subsystem
 
-CONFIG_GENERIC_IRQ_MULTI_HANDLER=y
+CONFIG_GENERIC_TIME_VSYSCALL=y
 CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
+CONFIG_CONTEXT_TRACKING=y
+CONFIG_CONTEXT_TRACKING_IDLE=y
 
 #
 # Timers subsystem
@@ -616,6 +703,9 @@ CONFIG_HZ_PERIODIC=y
 # CONFIG_NO_HZ is not set
 # CONFIG_HIGH_RES_TIMERS is not set
 # end of Timers subsystem
+
+CONFIG_HAVE_EBPF_JIT=y
+CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
 
 #
 # BPF subsystem
@@ -631,36 +721,44 @@ CONFIG_PREEMPT_NONE=y
 #
 # CPU/Task time and stats accounting
 #
-CONFIG_TICK_CPU_ACCOUNTING=y
+CONFIG_VIRT_CPU_ACCOUNTING=y
+CONFIG_VIRT_CPU_ACCOUNTING_NATIVE=y
 # CONFIG_BSD_PROCESS_ACCT is not set
 # CONFIG_PSI is not set
 # end of CPU/Task time and stats accounting
 
+# CONFIG_CPU_ISOLATION is not set
+
 #
 # RCU Subsystem
 #
-CONFIG_TINY_RCU=y
+CONFIG_TREE_RCU=y
 # CONFIG_RCU_EXPERT is not set
-CONFIG_TINY_SRCU=y
+CONFIG_TREE_SRCU=y
+CONFIG_RCU_STALL_COMMON=y
+CONFIG_RCU_NEED_SEGCBLIST=y
 # end of RCU Subsystem
 
 # CONFIG_IKCONFIG is not set
 # CONFIG_IKHEADERS is not set
 CONFIG_LOG_BUF_SHIFT=17
+CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
 
 #
 # Scheduler features
 #
 # end of Scheduler features
 
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
+CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
+CONFIG_CC_HAS_INT128=y
+CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough"
 CONFIG_GCC10_NO_ARRAY_BOUNDS=y
-CONFIG_CC_NO_ARRAY_BOUNDS=y
 CONFIG_GCC_NO_STRINGOP_OVERFLOW=y
-CONFIG_CC_NO_STRINGOP_OVERFLOW=y
+CONFIG_ARCH_SUPPORTS_INT128=y
 # CONFIG_CGROUPS is not set
 CONFIG_NAMESPACES=y
 # CONFIG_UTS_NS is not set
+# CONFIG_TIME_NS is not set
 # CONFIG_USER_NS is not set
 # CONFIG_PID_NS is not set
 # CONFIG_CHECKPOINT_RESTORE is not set
@@ -671,10 +769,11 @@ CONFIG_NAMESPACES=y
 # CONFIG_INITRAMFS_PRESERVE_MTIME is not set
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+CONFIG_LD_ORPHAN_WARN=y
+CONFIG_LD_ORPHAN_WARN_LEVEL="warn"
 CONFIG_SYSCTL=y
-CONFIG_HAVE_UID16=y
+CONFIG_SYSCTL_EXCEPTION_TRACE=y
 # CONFIG_EXPERT is not set
-CONFIG_UID16=y
 CONFIG_MULTIUSER=y
 CONFIG_SYSFS_SYSCALL=y
 CONFIG_FHANDLE=y
@@ -693,14 +792,18 @@ CONFIG_AIO=y
 CONFIG_IO_URING=y
 CONFIG_ADVISE_SYSCALLS=y
 CONFIG_MEMBARRIER=y
+CONFIG_RSEQ=y
 CONFIG_CACHESTAT_SYSCALL=y
 CONFIG_KALLSYMS=y
 # CONFIG_KALLSYMS_SELFTEST is not set
 CONFIG_KALLSYMS_BASE_RELATIVE=y
+CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
+CONFIG_HAVE_PERF_EVENTS=y
 
 #
 # Kernel Performance Events And Counters
 #
+# CONFIG_PERF_EVENTS is not set
 # end of Kernel Performance Events And Counters
 
 # CONFIG_PROFILING is not set
@@ -708,88 +811,202 @@ CONFIG_KALLSYMS_BASE_RELATIVE=y
 #
 # Kexec and crash features
 #
+# CONFIG_KEXEC is not set
+# CONFIG_KEXEC_FILE is not set
 # end of Kexec and crash features
 # end of General setup
 
-CONFIG_OPENRISC=y
-CONFIG_CPU_BIG_ENDIAN=y
 CONFIG_MMU=y
-CONFIG_GENERIC_HWEIGHT=y
-CONFIG_NO_IOPORT_MAP=y
-CONFIG_GENERIC_CSUM=y
-CONFIG_STACKTRACE_SUPPORT=y
+CONFIG_CPU_BIG_ENDIAN=y
 CONFIG_LOCKDEP_SUPPORT=y
+CONFIG_STACKTRACE_SUPPORT=y
+CONFIG_ARCH_PROC_KCORE_TEXT=y
+CONFIG_GENERIC_HWEIGHT=y
+CONFIG_GENERIC_BUG=y
+CONFIG_GENERIC_BUG_RELATIVE_POINTERS=y
+CONFIG_AUDIT_ARCH=y
+CONFIG_NO_IOPORT_MAP=y
+CONFIG_ARCH_SUPPORTS_UPROBES=y
+CONFIG_S390=y
+CONFIG_SCHED_OMIT_FRAME_POINTER=y
+CONFIG_PGTABLE_LEVELS=5
+CONFIG_HAVE_LIVEPATCH=y
+CONFIG_ARCH_SUPPORTS_KEXEC=y
+CONFIG_ARCH_SUPPORTS_KEXEC_FILE=y
+CONFIG_ARCH_SUPPORTS_KEXEC_PURGATORY=y
+CONFIG_ARCH_SUPPORTS_CRASH_DUMP=y
 
 #
 # Processor type and features
 #
-CONFIG_OR1K_1200=y
-# CONFIG_DCACHE_WRITETHROUGH is not set
-CONFIG_OPENRISC_BUILTIN_DTB=""
-
-#
-# Class II Instructions
-#
-# CONFIG_OPENRISC_HAVE_INST_FF1 is not set
-# CONFIG_OPENRISC_HAVE_INST_FL1 is not set
-# CONFIG_OPENRISC_HAVE_INST_MUL is not set
-# CONFIG_OPENRISC_HAVE_INST_DIV is not set
-# CONFIG_OPENRISC_HAVE_INST_CMOV is not set
-# CONFIG_OPENRISC_HAVE_INST_ROR is not set
-# CONFIG_OPENRISC_HAVE_INST_RORI is not set
-# CONFIG_OPENRISC_HAVE_INST_SEXT is not set
-# end of Class II Instructions
-
-# CONFIG_SMP is not set
-# CONFIG_FPU is not set
+CONFIG_HAVE_MARCH_Z10_FEATURES=y
+CONFIG_HAVE_MARCH_Z196_FEATURES=y
+# CONFIG_MARCH_Z10 is not set
+CONFIG_MARCH_Z196=y
+# CONFIG_MARCH_ZEC12 is not set
+# CONFIG_MARCH_Z13 is not set
+# CONFIG_MARCH_Z14 is not set
+# CONFIG_MARCH_Z15 is not set
+# CONFIG_MARCH_Z16 is not set
+CONFIG_MARCH_Z196_TUNE=y
+CONFIG_TUNE_DEFAULT=y
+# CONFIG_TUNE_Z10 is not set
+# CONFIG_TUNE_Z196 is not set
+# CONFIG_TUNE_ZEC12 is not set
+# CONFIG_TUNE_Z13 is not set
+# CONFIG_TUNE_Z14 is not set
+# CONFIG_TUNE_Z15 is not set
+# CONFIG_TUNE_Z16 is not set
+CONFIG_64BIT=y
+CONFIG_COMMAND_LINE_SIZE=4096
+CONFIG_SMP=y
+CONFIG_NR_CPUS=64
+CONFIG_HOTPLUG_CPU=y
+# CONFIG_SCHED_TOPOLOGY is not set
 # CONFIG_HZ_100 is not set
 CONFIG_HZ_250=y
 # CONFIG_HZ_300 is not set
 # CONFIG_HZ_1000 is not set
 CONFIG_HZ=250
-# CONFIG_OPENRISC_NO_SPR_SR_DSX is not set
-# CONFIG_OPENRISC_HAVE_SHADOW_GPRS is not set
-CONFIG_CMDLINE=""
+# CONFIG_KERNEL_NOBP is not set
+CONFIG_RELOCATABLE=y
+# CONFIG_RANDOMIZE_BASE is not set
+CONFIG_KERNEL_IMAGE_BASE=0x3FFE0000000
+# end of Processor type and features
 
 #
-# Debugging options
+# Memory setup
 #
-# CONFIG_JUMP_UPON_UNHANDLED_EXCEPTION is not set
-# CONFIG_OPENRISC_ESR_EXCEPTION_BUG_CHECK is not set
-# end of Debugging options
-# end of Processor type and features
+CONFIG_ARCH_SPARSEMEM_ENABLE=y
+CONFIG_ARCH_SPARSEMEM_DEFAULT=y
+CONFIG_MAX_PHYSMEM_BITS=46
+# CONFIG_CHECK_STACK is not set
+# end of Memory setup
+
+#
+# I/O subsystem
+#
+# CONFIG_QDIO is not set
+# CONFIG_CHSC_SCH is not set
+# CONFIG_SCM_BUS is not set
+# CONFIG_AP is not set
+# end of I/O subsystem
+
+CONFIG_CCW=y
+
+#
+# Virtualization
+#
+# CONFIG_PROTECTED_VIRTUALIZATION_GUEST is not set
+# CONFIG_PFAULT is not set
+# CONFIG_CMM is not set
+# CONFIG_APPLDATA_BASE is not set
+# CONFIG_S390_HYPFS is not set
+# CONFIG_VIRTUALIZATION is not set
+# CONFIG_S390_GUEST is not set
+# end of Virtualization
+
+#
+# Selftests
+#
+# end of Selftests
 
 CONFIG_CPU_MITIGATIONS=y
 
 #
 # General architecture-dependent options
 #
+CONFIG_GENERIC_ENTRY=y
+# CONFIG_KPROBES is not set
+# CONFIG_JUMP_LABEL is not set
+CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
+CONFIG_ARCH_USE_BUILTIN_BSWAP=y
+CONFIG_HAVE_KPROBES=y
+CONFIG_HAVE_KRETPROBES=y
+CONFIG_HAVE_KPROBES_ON_FTRACE=y
+CONFIG_ARCH_CORRECT_STACKTRACE_ON_KRETPROBE=y
+CONFIG_HAVE_FUNCTION_ERROR_INJECTION=y
+CONFIG_HAVE_NMI=y
 CONFIG_TRACE_IRQFLAGS_SUPPORT=y
 CONFIG_HAVE_ARCH_TRACEHOOK=y
+CONFIG_HAVE_DMA_CONTIGUOUS=y
 CONFIG_GENERIC_SMP_IDLE_THREAD=y
-CONFIG_ARCH_HAS_DMA_SET_UNCACHED=y
-CONFIG_ARCH_HAS_DMA_CLEAR_UNCACHED=y
-CONFIG_ARCH_32BIT_OFF_T=y
-CONFIG_MMU_GATHER_NO_RANGE=y
+CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
+CONFIG_ARCH_HAS_SET_MEMORY=y
+CONFIG_ARCH_HAS_SET_DIRECT_MAP=y
+CONFIG_ARCH_WANTS_NO_INSTR=y
+CONFIG_ARCH_32BIT_USTAT_F_TINODE=y
+CONFIG_HAVE_ASM_MODVERSIONS=y
+CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
+CONFIG_HAVE_RSEQ=y
+CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
+CONFIG_HAVE_PERF_REGS=y
+CONFIG_HAVE_PERF_USER_STACK_DUMP=y
+CONFIG_HAVE_ARCH_JUMP_LABEL=y
+CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE=y
+CONFIG_MMU_GATHER_TABLE_FREE=y
+CONFIG_MMU_GATHER_RCU_TABLE_FREE=y
 CONFIG_MMU_GATHER_MERGE_VMAS=y
+CONFIG_MMU_GATHER_NO_GATHER=y
 CONFIG_MMU_LAZY_TLB_REFCOUNT=y
+CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG=y
+CONFIG_ARCH_HAS_NMI_SAFE_THIS_CPU_OPS=y
+CONFIG_HAVE_ALIGNED_STRUCT_PAGE=y
+CONFIG_HAVE_CMPXCHG_LOCAL=y
+CONFIG_HAVE_CMPXCHG_DOUBLE=y
+CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
+CONFIG_HAVE_ARCH_SECCOMP=y
+CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
+# CONFIG_SECCOMP is not set
+CONFIG_HAVE_ARCH_STACKLEAK=y
 CONFIG_LTO_NONE=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING_IDLE=y
+CONFIG_ARCH_HAS_SCALED_CPUTIME=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
+CONFIG_ARCH_WANT_KERNEL_PMD_MKWRITE=y
+CONFIG_ARCH_WANT_PMD_MKWRITE=y
+CONFIG_HAVE_ARCH_SOFT_DIRTY=y
+CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
 CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_PGTABLE_LEVELS=2
-CONFIG_HAVE_PAGE_SIZE_8KB=y
-CONFIG_PAGE_SIZE_8KB=y
+CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
+CONFIG_SOFTIRQ_ON_OWN_STACK=y
+CONFIG_ALTERNATE_USER_ADDRESS_SPACE=y
+CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
+CONFIG_HAVE_PAGE_SIZE_4KB=y
+CONFIG_PAGE_SIZE_4KB=y
 CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
 CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_PAGE_SHIFT=13
+CONFIG_PAGE_SHIFT=12
+CONFIG_HAVE_RELIABLE_STACKTRACE=y
+CONFIG_CLONE_BACKWARDS2=y
+CONFIG_OLD_SIGSUSPEND3=y
+CONFIG_OLD_SIGACTION=y
 # CONFIG_COMPAT_32BIT_TIME is not set
-CONFIG_CPU_NO_EFFICIENT_FFS=y
+CONFIG_HAVE_ARCH_VMAP_STACK=y
+# CONFIG_VMAP_STACK is not set
+CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
+CONFIG_RANDOMIZE_KSTACK_OFFSET=y
+# CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT is not set
+CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
+CONFIG_STRICT_KERNEL_RWX=y
+CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
+CONFIG_ARCH_HAS_MEM_ENCRYPT=y
+CONFIG_ARCH_HAS_VDSO_DATA=y
+CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
+CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
 
 #
 # GCOV-based kernel profiling
 #
+CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
 # end of GCOV-based kernel profiling
 
-CONFIG_FUNCTION_ALIGNMENT=0
+CONFIG_HAVE_GCC_PLUGINS=y
+CONFIG_FUNCTION_ALIGNMENT_16B=y
+CONFIG_FUNCTION_ALIGNMENT=16
+CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT=y
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -819,17 +1036,72 @@ CONFIG_EFI_PARTITION=y
 # CONFIG_IOSCHED_BFQ is not set
 # end of IO Schedulers
 
+CONFIG_ARCH_INLINE_SPIN_TRYLOCK=y
+CONFIG_ARCH_INLINE_SPIN_TRYLOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_LOCK=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_IRQRESTORE=y
+CONFIG_ARCH_INLINE_READ_TRYLOCK=y
+CONFIG_ARCH_INLINE_READ_LOCK=y
+CONFIG_ARCH_INLINE_READ_LOCK_BH=y
+CONFIG_ARCH_INLINE_READ_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_READ_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_READ_UNLOCK=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_IRQRESTORE=y
+CONFIG_ARCH_INLINE_WRITE_TRYLOCK=y
+CONFIG_ARCH_INLINE_WRITE_LOCK=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_BH=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_IRQRESTORE=y
+CONFIG_INLINE_SPIN_TRYLOCK=y
+CONFIG_INLINE_SPIN_TRYLOCK_BH=y
+CONFIG_INLINE_SPIN_LOCK=y
+CONFIG_INLINE_SPIN_LOCK_BH=y
+CONFIG_INLINE_SPIN_LOCK_IRQ=y
+CONFIG_INLINE_SPIN_LOCK_IRQSAVE=y
+CONFIG_INLINE_SPIN_UNLOCK_BH=y
 CONFIG_INLINE_SPIN_UNLOCK_IRQ=y
+CONFIG_INLINE_SPIN_UNLOCK_IRQRESTORE=y
+CONFIG_INLINE_READ_TRYLOCK=y
+CONFIG_INLINE_READ_LOCK=y
+CONFIG_INLINE_READ_LOCK_BH=y
+CONFIG_INLINE_READ_LOCK_IRQ=y
+CONFIG_INLINE_READ_LOCK_IRQSAVE=y
 CONFIG_INLINE_READ_UNLOCK=y
+CONFIG_INLINE_READ_UNLOCK_BH=y
 CONFIG_INLINE_READ_UNLOCK_IRQ=y
+CONFIG_INLINE_READ_UNLOCK_IRQRESTORE=y
+CONFIG_INLINE_WRITE_TRYLOCK=y
+CONFIG_INLINE_WRITE_LOCK=y
+CONFIG_INLINE_WRITE_LOCK_BH=y
+CONFIG_INLINE_WRITE_LOCK_IRQ=y
+CONFIG_INLINE_WRITE_LOCK_IRQSAVE=y
 CONFIG_INLINE_WRITE_UNLOCK=y
+CONFIG_INLINE_WRITE_UNLOCK_BH=y
 CONFIG_INLINE_WRITE_UNLOCK_IRQ=y
-CONFIG_ARCH_USE_QUEUED_RWLOCKS=y
+CONFIG_INLINE_WRITE_UNLOCK_IRQRESTORE=y
+CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
+CONFIG_MUTEX_SPIN_ON_OWNER=y
+CONFIG_RWSEM_SPIN_ON_OWNER=y
+CONFIG_LOCK_SPIN_ON_OWNER=y
+CONFIG_ARCH_HAS_SYSCALL_WRAPPER=y
 
 #
 # Executable file formats
 #
 # CONFIG_BINFMT_ELF is not set
+CONFIG_ARCH_BINFMT_ELF_STATE=y
 # CONFIG_BINFMT_SCRIPT is not set
 # CONFIG_BINFMT_MISC is not set
 CONFIG_COREDUMP=y
@@ -849,22 +1121,41 @@ CONFIG_SLUB=y
 # CONFIG_SLAB_FREELIST_RANDOM is not set
 # CONFIG_SLAB_FREELIST_HARDENED is not set
 # CONFIG_SLUB_STATS is not set
+# CONFIG_SLUB_CPU_PARTIAL is not set
 # CONFIG_RANDOM_KMALLOC_CACHES is not set
 # end of Slab allocator options
 
 # CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
 # CONFIG_COMPAT_BRK is not set
-CONFIG_FLATMEM=y
+CONFIG_SPARSEMEM=y
+CONFIG_SPARSEMEM_EXTREME=y
+CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
+CONFIG_SPARSEMEM_VMEMMAP=y
+CONFIG_ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP=y
+CONFIG_HAVE_MEMBLOCK_PHYS_MAP=y
+CONFIG_HAVE_GUP_FAST=y
 CONFIG_EXCLUSIVE_SYSTEM_RAM=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
+# CONFIG_MEMORY_HOTPLUG is not set
+CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
 CONFIG_SPLIT_PTLOCK_CPUS=4
+CONFIG_ARCH_ENABLE_SPLIT_PMD_PTLOCK=y
 # CONFIG_COMPACTION is not set
 # CONFIG_PAGE_REPORTING is not set
+# CONFIG_MIGRATION is not set
 CONFIG_PCP_BATCH_SCALE_MAX=5
+CONFIG_PHYS_ADDR_T_64BIT=y
 # CONFIG_KSM is not set
 CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-CONFIG_NEED_PER_CPU_KM=y
+# CONFIG_TRANSPARENT_HUGEPAGE is not set
+CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
+CONFIG_HAVE_SETUP_PER_CPU_AREA=y
 # CONFIG_CMA is not set
+# CONFIG_DEFERRED_STRUCT_PAGE_INIT is not set
 # CONFIG_IDLE_PAGE_TRACKING is not set
+CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
+CONFIG_ZONE_DMA=y
 CONFIG_VM_EVENT_COUNTERS=y
 # CONFIG_PERCPU_STATS is not set
 
@@ -872,9 +1163,13 @@ CONFIG_VM_EVENT_COUNTERS=y
 # GUP_TEST needs to have DEBUG_FS enabled
 #
 # CONFIG_DMAPOOL_TEST is not set
+CONFIG_ARCH_HAS_PTE_SPECIAL=y
+CONFIG_SECRETMEM=y
 # CONFIG_ANON_VMA_NAME is not set
 # CONFIG_USERFAULTFD is not set
 # CONFIG_LRU_GEN is not set
+CONFIG_ARCH_SUPPORTS_PER_VMA_LOCK=y
+CONFIG_PER_VMA_LOCK=y
 
 #
 # Data Access Monitoring
@@ -889,7 +1184,6 @@ CONFIG_VM_EVENT_COUNTERS=y
 # Device Drivers
 #
 CONFIG_HAVE_PCI=y
-CONFIG_GENERIC_PCI_IOMAP=y
 # CONFIG_PCI is not set
 # CONFIG_PCCARD is not set
 
@@ -912,7 +1206,8 @@ CONFIG_EXTRA_FIRMWARE=""
 # end of Firmware loader
 
 CONFIG_ALLOW_DEV_COREDUMP=y
-CONFIG_GENERIC_CPU_DEVICES=y
+CONFIG_GENERIC_CPU_AUTOPROBE=y
+CONFIG_GENERIC_CPU_VULNERABILITIES=y
 # CONFIG_FW_DEVLINK_SYNC_STATE_TIMEOUT is not set
 # end of Generic Driver Options
 
@@ -952,17 +1247,7 @@ CONFIG_GENERIC_CPU_DEVICES=y
 
 # CONFIG_GNSS is not set
 # CONFIG_MTD is not set
-CONFIG_DTC=y
-CONFIG_OF=y
-# CONFIG_OF_UNITTEST is not set
-CONFIG_OF_FLATTREE=y
-CONFIG_OF_EARLY_FLATTREE=y
-CONFIG_OF_KOBJ=y
-CONFIG_OF_ADDRESS=y
-CONFIG_OF_IRQ=y
-CONFIG_OF_RESERVED_MEM=y
-# CONFIG_OF_OVERLAY is not set
-# CONFIG_PARPORT is not set
+# CONFIG_OF is not set
 # CONFIG_BLK_DEV is not set
 
 #
@@ -976,10 +1261,6 @@ CONFIG_OF_RESERVED_MEM=y
 #
 # CONFIG_DUMMY_IRQ is not set
 # CONFIG_ENCLOSURE_SERVICES is not set
-# CONFIG_SRAM is not set
-# CONFIG_XILINX_SDFEC is not set
-# CONFIG_OPEN_DICE is not set
-# CONFIG_VCPU_STALL_DETECTOR is not set
 # CONFIG_C2PORT is not set
 
 #
@@ -1008,7 +1289,6 @@ CONFIG_SCSI_MOD=y
 # CONFIG_SCSI is not set
 # end of SCSI device support
 
-# CONFIG_ATA is not set
 # CONFIG_MD is not set
 # CONFIG_TARGET_CORE is not set
 
@@ -1059,37 +1339,26 @@ CONFIG_UNIX98_PTYS=y
 # CONFIG_LEGACY_PTYS is not set
 # CONFIG_LEGACY_TIOCSTI is not set
 # CONFIG_LDISC_AUTOLOAD is not set
-
-#
-# Serial drivers
-#
-# CONFIG_SERIAL_8250 is not set
-
-#
-# Non-8250 serial port support
-#
-# CONFIG_SERIAL_UARTLITE is not set
-# CONFIG_SERIAL_SIFIVE is not set
-# CONFIG_SERIAL_SCCNXP is not set
-# CONFIG_SERIAL_ALTERA_JTAGUART is not set
-# CONFIG_SERIAL_ALTERA_UART is not set
-# CONFIG_SERIAL_XILINX_PS_UART is not set
-# CONFIG_SERIAL_ARC is not set
-# CONFIG_SERIAL_FSL_LPUART is not set
-# CONFIG_SERIAL_FSL_LINFLEXUART is not set
-# CONFIG_SERIAL_CONEXANT_DIGICOLOR is not set
-# CONFIG_SERIAL_SPRD is not set
-# end of Serial drivers
-
-# CONFIG_SERIAL_NONSTANDARD is not set
 # CONFIG_NULL_TTY is not set
 # CONFIG_SERIAL_DEV_BUS is not set
 # CONFIG_VIRTIO_CONSOLE is not set
-# CONFIG_IPMI_HANDLER is not set
 # CONFIG_HW_RANDOM is not set
 # CONFIG_DEVMEM is not set
-# CONFIG_TCG_TPM is not set
-# CONFIG_XILLYBUS is not set
+# CONFIG_HANGCHECK_TIMER is not set
+
+#
+# S/390 character device drivers
+#
+# CONFIG_TN3270 is not set
+# CONFIG_TN3215 is not set
+# CONFIG_SCLP_TTY is not set
+# CONFIG_SCLP_VT220_TTY is not set
+# CONFIG_HMC_DRV is not set
+# CONFIG_SCLP_OFB is not set
+# CONFIG_S390_TAPE is not set
+# CONFIG_VMCP is not set
+# CONFIG_MONWRITER is not set
+# CONFIG_S390_VMUR is not set
 # end of Character devices
 
 #
@@ -1099,7 +1368,6 @@ CONFIG_UNIX98_PTYS=y
 # end of I2C support
 
 # CONFIG_I3C is not set
-# CONFIG_SPI is not set
 # CONFIG_SPMI is not set
 # CONFIG_HSI is not set
 # CONFIG_PPS is not set
@@ -1115,68 +1383,11 @@ CONFIG_PTP_1588_CLOCK_OPTIONAL=y
 # end of PTP clock support
 
 # CONFIG_PINCTRL is not set
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_OF_GPIO=y
-CONFIG_GPIO_CDEV=y
-# CONFIG_GPIO_CDEV_V1 is not set
-
-#
-# Memory mapped GPIO drivers
-#
-# CONFIG_GPIO_74XX_MMIO is not set
-# CONFIG_GPIO_ALTERA is not set
-# CONFIG_GPIO_CADENCE is not set
-# CONFIG_GPIO_DWAPB is not set
-# CONFIG_GPIO_FTGPIO010 is not set
-# CONFIG_GPIO_GENERIC_PLATFORM is not set
-# CONFIG_GPIO_GRGPIO is not set
-# CONFIG_GPIO_HLWD is not set
-# CONFIG_GPIO_MB86S7X is not set
-# CONFIG_GPIO_SIFIVE is not set
-# CONFIG_GPIO_XILINX is not set
-# CONFIG_GPIO_AMD_FCH is not set
-# end of Memory mapped GPIO drivers
-
-#
-# MFD GPIO expanders
-#
-# end of MFD GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-# CONFIG_GPIO_AGGREGATOR is not set
-# CONFIG_GPIO_LATCH is not set
-# CONFIG_GPIO_MOCKUP is not set
-# CONFIG_GPIO_SIM is not set
-# end of Virtual GPIO drivers
-
-# CONFIG_W1 is not set
+# CONFIG_GPIOLIB is not set
 # CONFIG_POWER_RESET is not set
 # CONFIG_POWER_SUPPLY is not set
-# CONFIG_HWMON is not set
 # CONFIG_THERMAL is not set
 # CONFIG_WATCHDOG is not set
-CONFIG_SSB_POSSIBLE=y
-# CONFIG_SSB is not set
-CONFIG_BCMA_POSSIBLE=y
-# CONFIG_BCMA is not set
-
-#
-# Multifunction device drivers
-#
-# CONFIG_MFD_ATMEL_FLEXCOM is not set
-# CONFIG_MFD_ATMEL_HLCDC is not set
-# CONFIG_MFD_MADERA is not set
-# CONFIG_MFD_HI6421_PMIC is not set
-# CONFIG_MFD_KEMPLD is not set
-# CONFIG_MFD_MT6397 is not set
-# CONFIG_MFD_SM501 is not set
-# CONFIG_MFD_SYSCON is not set
-# CONFIG_MFD_TQMX86 is not set
-# end of Multifunction device drivers
-
 # CONFIG_REGULATOR is not set
 # CONFIG_RC_CORE is not set
 
@@ -1186,26 +1397,10 @@ CONFIG_BCMA_POSSIBLE=y
 # CONFIG_MEDIA_CEC_SUPPORT is not set
 # end of CEC support
 
-# CONFIG_MEDIA_SUPPORT is not set
-
 #
 # Graphics support
 #
 # CONFIG_AUXDISPLAY is not set
-# CONFIG_DRM is not set
-
-#
-# Frame buffer Devices
-#
-# CONFIG_FB is not set
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-# CONFIG_LCD_CLASS_DEVICE is not set
-# CONFIG_BACKLIGHT_CLASS_DEVICE is not set
-# end of Backlight & LCD device support
 
 #
 # Console display driver support
@@ -1216,15 +1411,11 @@ CONFIG_DUMMY_CONSOLE_ROWS=25
 # end of Console display driver support
 # end of Graphics support
 
-# CONFIG_SOUND is not set
 # CONFIG_HID_SUPPORT is not set
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-# CONFIG_USB_SUPPORT is not set
-# CONFIG_MMC is not set
 # CONFIG_MEMSTICK is not set
 # CONFIG_NEW_LEDS is not set
 # CONFIG_ACCESSIBILITY is not set
-# CONFIG_RTC_CLASS is not set
 # CONFIG_DMADEVICES is not set
 
 #
@@ -1248,14 +1439,7 @@ CONFIG_USB_OHCI_LITTLE_ENDIAN=y
 # CONFIG_GREYBUS is not set
 # CONFIG_COMEDI is not set
 # CONFIG_STAGING is not set
-# CONFIG_GOLDFISH is not set
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_CLK_PREPARE=y
-CONFIG_COMMON_CLK=y
-# CONFIG_COMMON_CLK_AXI_CLKGEN is not set
-# CONFIG_COMMON_CLK_FIXED_MMIO is not set
-# CONFIG_XILINX_VCU is not set
-# CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
+# CONFIG_COMMON_CLK is not set
 # CONFIG_HWSPINLOCK is not set
 
 #
@@ -1277,8 +1461,6 @@ CONFIG_COMMON_CLK=y
 #
 # CONFIG_RPMSG_VIRTIO is not set
 # end of Rpmsg drivers
-
-# CONFIG_SOUNDWIRE is not set
 
 #
 # SOC (System On Chip) specific Drivers
@@ -1312,7 +1494,6 @@ CONFIG_COMMON_CLK=y
 #
 # Enable LiteX SoC Builder specific drivers
 #
-# CONFIG_LITEX_SOC_CONTROLLER is not set
 # end of Enable LiteX SoC Builder specific drivers
 
 # CONFIG_WPCM450_SOC is not set
@@ -1364,13 +1545,8 @@ CONFIG_COMMON_CLK=y
 #
 # IRQ chip support
 #
-CONFIG_IRQCHIP=y
-# CONFIG_AL_FIC is not set
-CONFIG_OR1K_PIC=y
-# CONFIG_XILINX_INTC is not set
 # end of IRQ chip support
 
-# CONFIG_IPACK_BUS is not set
 # CONFIG_RESET_CONTROLLER is not set
 
 #
@@ -1382,19 +1558,10 @@ CONFIG_OR1K_PIC=y
 #
 # PHY drivers for Broadcom platforms
 #
-# CONFIG_BCM_KONA_USB2_PHY is not set
 # end of PHY drivers for Broadcom platforms
-
-# CONFIG_PHY_CADENCE_TORRENT is not set
-# CONFIG_PHY_CADENCE_DPHY is not set
-# CONFIG_PHY_CADENCE_DPHY_RX is not set
-# CONFIG_PHY_CADENCE_SALVO is not set
-# CONFIG_PHY_PXA_28NM_HSIC is not set
-# CONFIG_PHY_PXA_28NM_USB2 is not set
 # end of PHY Subsystem
 
 # CONFIG_POWERCAP is not set
-# CONFIG_MCB is not set
 # CONFIG_RAS is not set
 
 #
@@ -1410,11 +1577,9 @@ CONFIG_OR1K_PIC=y
 # HW tracing support
 #
 # CONFIG_STM is not set
-# CONFIG_INTEL_TH is not set
 # end of HW tracing support
 
 # CONFIG_FPGA is not set
-# CONFIG_FSI is not set
 # CONFIG_SIOX is not set
 # CONFIG_SLIMBUS is not set
 # CONFIG_INTERCONNECT is not set
@@ -1426,6 +1591,7 @@ CONFIG_OR1K_PIC=y
 #
 # File systems
 #
+CONFIG_DCACHE_WORD_ACCESS=y
 # CONFIG_VALIDATE_FS_PARSER is not set
 CONFIG_FS_IOMAP=y
 # CONFIG_EXT2_FS is not set
@@ -1485,6 +1651,9 @@ CONFIG_PROC_PAGE_MONITOR=y
 CONFIG_KERNFS=y
 CONFIG_SYSFS=y
 # CONFIG_TMPFS is not set
+CONFIG_ARCH_SUPPORTS_HUGETLBFS=y
+# CONFIG_HUGETLBFS is not set
+CONFIG_ARCH_HAS_GIGANTIC_PAGE=y
 # CONFIG_CONFIGFS_FS is not set
 # end of Pseudo filesystems
 
@@ -1502,7 +1671,9 @@ CONFIG_IO_WQ=y
 # CONFIG_SECURITY is not set
 # CONFIG_SECURITYFS is not set
 # CONFIG_HARDENED_USERCOPY is not set
+# CONFIG_FORTIFY_SOURCE is not set
 # CONFIG_STATIC_USERMODEHELPER is not set
+# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
 CONFIG_DEFAULT_SECURITY_DAC=y
 CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,bpf"
 
@@ -1521,8 +1692,6 @@ CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
 CONFIG_INIT_STACK_ALL_ZERO=y
 # CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
 # CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-# CONFIG_ZERO_CALL_USED_REGS is not set
 # end of Memory initialization
 
 #
@@ -1532,7 +1701,9 @@ CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
 # CONFIG_BUG_ON_DATA_CORRUPTION is not set
 # end of Hardening of kernel data structures
 
+CONFIG_CC_HAS_RANDSTRUCT=y
 CONFIG_RANDSTRUCT_NONE=y
+# CONFIG_RANDSTRUCT_FULL is not set
 # end of Kernel hardening options
 # end of Security options
 
@@ -1547,7 +1718,8 @@ CONFIG_GENERIC_STRNCPY_FROM_USER=y
 CONFIG_GENERIC_STRNLEN_USER=y
 # CONFIG_CORDIC is not set
 # CONFIG_PRIME_NUMBERS is not set
-CONFIG_RATIONAL=y
+CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
+CONFIG_ARCH_USE_SYM_ANNOTATIONS=y
 
 #
 # Crypto library routines
@@ -1576,24 +1748,27 @@ CONFIG_CRC32_SLICEBY8=y
 # CONFIG_LIBCRC32C is not set
 # CONFIG_CRC8 is not set
 # CONFIG_RANDOM32_SELFTEST is not set
+# CONFIG_ZLIB_DFLTCC is not set
 # CONFIG_XZ_DEC is not set
-CONFIG_HAS_IOMEM=y
+CONFIG_GENERIC_ALLOCATOR=y
 CONFIG_HAS_DMA=y
-CONFIG_DMA_DECLARE_COHERENT=y
-CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE=y
+CONFIG_NEED_DMA_MAP_STATE=y
+CONFIG_ARCH_DMA_ADDR_T_64BIT=y
+CONFIG_ARCH_HAS_FORCE_DMA_UNENCRYPTED=y
+CONFIG_SWIOTLB=y
+# CONFIG_SWIOTLB_DYNAMIC is not set
 CONFIG_DMA_NEED_SYNC=y
 # CONFIG_DMA_API_DEBUG is not set
-CONFIG_FORCE_NR_CPUS=y
-CONFIG_GENERIC_ATOMIC64=y
 # CONFIG_IRQ_POLL is not set
-CONFIG_LIBFDT=y
+CONFIG_HAVE_GENERIC_VDSO=y
+CONFIG_GENERIC_GETTIMEOFDAY=y
+CONFIG_GENERIC_VDSO_TIME_NS=y
+CONFIG_ARCH_STACKWALK=y
 CONFIG_STACKDEPOT=y
 CONFIG_STACKDEPOT_MAX_FRAMES=64
 CONFIG_SBITMAP=y
 # CONFIG_LWQ_TEST is not set
 # end of Library routines
-
-CONFIG_GENERIC_IOREMAP=y
 
 #
 # Kernel hacking
@@ -1611,6 +1786,7 @@ CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
 # CONFIG_DYNAMIC_DEBUG is not set
 # CONFIG_DYNAMIC_DEBUG_CORE is not set
 # CONFIG_SYMBOLIC_ERRNAME is not set
+CONFIG_DEBUG_BUGVERBOSE=y
 # end of printk and dmesg options
 
 # CONFIG_DEBUG_KERNEL is not set
@@ -1619,13 +1795,10 @@ CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
 # Compile-time checks and compiler options
 #
 CONFIG_AS_HAS_NON_CONST_ULEB128=y
-CONFIG_FRAME_WARN=1024
+CONFIG_FRAME_WARN=2048
 # CONFIG_STRIP_ASM_SYMS is not set
 # CONFIG_HEADERS_INSTALL is not set
-CONFIG_DEBUG_SECTION_MISMATCH=y
 CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-CONFIG_ARCH_WANT_FRAME_POINTERS=y
-# CONFIG_FRAME_POINTER is not set
 # end of Compile-time checks and compiler options
 
 #
@@ -1633,6 +1806,9 @@ CONFIG_ARCH_WANT_FRAME_POINTERS=y
 #
 # CONFIG_MAGIC_SYSRQ is not set
 # CONFIG_DEBUG_FS is not set
+CONFIG_ARCH_HAS_UBSAN=y
+# CONFIG_UBSAN is not set
+CONFIG_HAVE_ARCH_KCSAN=y
 CONFIG_HAVE_KCSAN_COMPILER=y
 # end of Generic Kernel Debugging Instruments
 
@@ -1648,10 +1824,26 @@ CONFIG_HAVE_KCSAN_COMPILER=y
 CONFIG_SLUB_DEBUG=y
 # CONFIG_SLUB_DEBUG_ON is not set
 # CONFIG_PAGE_POISONING is not set
+# CONFIG_DEBUG_RODATA_TEST is not set
+CONFIG_ARCH_HAS_DEBUG_WX=y
+# CONFIG_DEBUG_WX is not set
+CONFIG_GENERIC_PTDUMP=y
+CONFIG_HAVE_DEBUG_KMEMLEAK=y
+# CONFIG_PER_VMA_LOCK_STATS is not set
+CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
+# CONFIG_DEBUG_VM_PGTABLE is not set
+CONFIG_ARCH_HAS_DEBUG_VIRTUAL=y
 CONFIG_DEBUG_MEMORY_INIT=y
-CONFIG_HAVE_DEBUG_STACKOVERFLOW=y
 # CONFIG_MEM_ALLOC_PROFILING is not set
+CONFIG_HAVE_ARCH_KASAN=y
+CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
+CONFIG_CC_HAS_KASAN_GENERIC=y
 CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
+# CONFIG_KASAN is not set
+CONFIG_HAVE_ARCH_KFENCE=y
+# CONFIG_KFENCE is not set
+CONFIG_HAVE_ARCH_KMSAN=y
+CONFIG_HAVE_KMSAN_COMPILER=y
 # end of Memory Debugging
 
 #
@@ -1660,6 +1852,7 @@ CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
 # CONFIG_PANIC_ON_OOPS is not set
 CONFIG_PANIC_ON_OOPS_VALUE=0
 CONFIG_PANIC_TIMEOUT=0
+CONFIG_HAVE_HARDLOCKUP_DETECTOR_BUDDY=y
 # end of Debug Oops, Lockups and Hangs
 
 #
@@ -1689,22 +1882,44 @@ CONFIG_STACKTRACE=y
 #
 # RCU Debugging
 #
+CONFIG_RCU_CPU_STALL_TIMEOUT=21
+CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
+# CONFIG_RCU_CPU_STALL_CPUTIME is not set
 # end of RCU Debugging
 
+CONFIG_USER_STACKTRACE_SUPPORT=y
+CONFIG_HAVE_RETHOOK=y
+CONFIG_HAVE_FUNCTION_TRACER=y
+CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
+CONFIG_HAVE_FUNCTION_GRAPH_RETVAL=y
+CONFIG_HAVE_DYNAMIC_FTRACE=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
+CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
+CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
+CONFIG_HAVE_FENTRY=y
+CONFIG_HAVE_NOP_MCOUNT=y
 CONFIG_TRACING_SUPPORT=y
 # CONFIG_FTRACE is not set
 # CONFIG_SAMPLES is not set
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
+CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
 
 #
-# openrisc Debugging
+# s390 Debugging
 #
-# end of openrisc Debugging
+CONFIG_EARLY_PRINTK=y
+# end of s390 Debugging
 
 #
 # Kernel Testing and Coverage
 #
 # CONFIG_KUNIT is not set
+CONFIG_ARCH_HAS_KCOV=y
 CONFIG_CC_HAS_SANCOV_TRACE_PC=y
+# CONFIG_KCOV is not set
 # CONFIG_RUNTIME_TESTING_MENU is not set
 # end of Kernel Testing and Coverage
 
@@ -1714,4 +1929,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # end of Rust hacking
 # end of Kernel hacking
 
---CFcjBSgX0c8+q70c--
+--kPIQ8/96DO+3LspG--
