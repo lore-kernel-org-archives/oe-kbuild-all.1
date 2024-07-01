@@ -1,64 +1,65 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721903236
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 15:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B37A16D32B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 15:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848980; cv=none; b=JA1X3cBghBj2SFSMfChooUFCWxZmGAzBOCZTFaik0uenknOeJSkr5GeqF6PKe1wXN5NgacA7pT3gJtOvxIv0eQ6qnPyvAGbJWlC9fYJ4W7vLHEEGk6lYjmeonK/9akQ1SivbEe7iAxaHSb2dh4+SF0qrcp64gK0/Y3ESKcHb+gQ=
+	t=1719849268; cv=none; b=h9j67Y2zZjrTnrQsE9DnLi5BVQnrS/rufpUtei1F0NeqRAkCeWcgcM0L6pa7Kq837RrzHFNOc3jJzM8+KaBYdfV/Gl2BVjAKutr5CtW98QiN0tSROt5qL3WWyCOUIUi2bM1hXYSXRGij04oQNtPwI5g47yKibazAsV7CpUWsoTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848980; c=relaxed/simple;
-	bh=TK4vZaAnfVkxJ/ZoBJZqiWc0fTJ4Gh5qMFpt9eiHrgY=;
+	s=arc-20240116; t=1719849268; c=relaxed/simple;
+	bh=JNdJrXWtWcZkPHjamD5v8fTHqAwrFBBTQ484HlJQPhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aR2OOmAbKSDEkhr3Kc82SkD3WbFnWyeWWhQtnf5P4wqq9AVkjbnzmqAoiJppIvaZrqI5Lzcf8d7FgwEvd9MpTw9dgSmxmtYAsdsy7pZhx+fcvh8NTcpAuF8Qd69NlCKJ0Bhi3dB9Tdm4k+2XOsmTd2JV6T5WIAEo9o1RRCaEpwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qr6vzVau; arc=none smtp.client-ip=209.85.161.47
+	 Content-Disposition; b=BlBZ0LokSVUKQl7+LuwVoCJwp8WhmA/ZuJBMGPEAnG+/YvbTkZscRs7SxFEYWcnRKqMAGR1Z2mv7uCz9f7nA9aSWJs90EvywRIRoQVM8RDBCOrKOh7P5oPqvZ1cn4XOpluzhnRur4ZoXCzloFBa9DVYAwl78fm6VWRvs1eewAwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QpYUT4nL; arc=none smtp.client-ip=209.85.161.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qr6vzVau"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5c22527f8d6so1074624eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jul 2024 08:49:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QpYUT4nL"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5c444e7d196so785182eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jul 2024 08:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719848977; x=1720453777; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1719849265; x=1720454065; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9pbnnRVQrzMX0CGFAYif3fzXQZbulLBKnBWYz5JrFPE=;
-        b=Qr6vzVauWGbK+6Tvnyw9kzcntAVXhNCHNAYVq5koiIsj5HjhXMzt+StEEAInOmCr1s
-         087PKP6iu4D6GThaxk4qNxXHzK3RysSleR4YMiswHRAjMAx0zhcCBojMrNgNY3uePgSV
-         h83nPzmwyusXmg1iwiN9qZ4bRUUURDbvsm4ZAfW/+e7K6/cc4oV1UQ6/aEMiQGZx5LRC
-         TGcbPuqlq81pImHvViHgniR+0My1evxYSD1ZWqCWEAOgVx6YkixOtx+iwFTc172OxITf
-         mKnhKMQlPEA3eNcu8wCie/yr9bv6KbjO2rEdhBAnrAc+vaWPzeKjLIXMk6DckDSuOsTB
-         NnJw==
+        bh=inKe0gpccZBgzMijx9pxHCKKEV+WntLBxDDl6NG8580=;
+        b=QpYUT4nLw61/nBh9UlRsmZIFJO8V7OR1mbFxr7kpj5G9EHrWrwkXNBHrre+9cPzbB+
+         QRVpXqJbYnSUyTKe3nq9Qz7sNaiHhfIixedq4L2diDFoku6y2GPaqRFzB39oT/hOvHD9
+         Tz0qOeMWy0jqudA0P6k7xWzFxsiydIUUH23MxZD2C+yKsLxkkCVw9T/cmvEpVYA4Cd5k
+         Ppp2vYj64PKKhtjDdtsi+W9wrJT7t33jr3s/m6FTq8G8zRW3IRo6onpTIN/i7Pz++rAW
+         UMKDN3icsh4KGAcqL1A3zmZ/hiUzd2modCTD35nPMfV25XwRGG5okmGin2uGhyZCIf31
+         LI5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719848977; x=1720453777;
+        d=1e100.net; s=20230601; t=1719849265; x=1720454065;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9pbnnRVQrzMX0CGFAYif3fzXQZbulLBKnBWYz5JrFPE=;
-        b=SxDnuQe0OOIwguyrUte7d4CNvZFDMC10yFKpr/eGCwWTtk2GiPJnZ+4D7J4QPxzzPf
-         1eRQhXFze5gek+Ju17cNV1ffOJYRfX3D9381CUslCIDo/8klSNFeNtoppy3RjiqZDfa6
-         sc8dNkcNUk5YQjHcxgwwaM0k+QHGKnijgLp0rRWHv4+3Y8N3zmpsVEv9MNcqRgtILhOq
-         wMkHsw5K3w2Ir0XqRRHfjYFW0lKVXNGTYXzq1KX+r4nrJXYwws5ECMxTOj5DivWXpDZ7
-         zMnGjQjHZ7huy4HUQ9rW+9wWvy74nQyiMP3lNB2MQdq5csmmT+4mMaIRB6zIuPHMZKAw
-         3geg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9Qso1LGGzMpGmSL4oNIowJueHiqTBzLaRD/GYyEuGDxCNN2SEjapQo95cC29w9sU9NkLi9oFbyFBvH7pKLpkxMGTR19LVnIfAlTjxCA==
-X-Gm-Message-State: AOJu0Yxjgg+kuZcyqjXqsptsJNtR+hC3PXVmvgZQpwKpgqalx5DqsfK2
-	tqASyjT6CSlltoyq/gogp1bB/EfaLE3nT80LOGaQEz2JUYemtkeDOWmyXOelEAo=
-X-Google-Smtp-Source: AGHT+IGdWlJ27Yw/zyy5GfKOqPdKnbpeLSIQMH8kFN5if5+K8hSApWs45kzO5cdt9RpoIl3tm10ucA==
-X-Received: by 2002:a4a:ad8e:0:b0:5c4:fd5:35fd with SMTP id 006d021491bc7-5c439249112mr4233273eaf.7.1719848977395;
-        Mon, 01 Jul 2024 08:49:37 -0700 (PDT)
+        bh=inKe0gpccZBgzMijx9pxHCKKEV+WntLBxDDl6NG8580=;
+        b=PcNBJYpms9td2kT8Xpr3gxHjAVrapuIZjEgXxbS/BPc/iDhm+rOKJAOG6NNpIzMwGk
+         SDV+ZwjhWmrZYddn9rw9dCWD/MHsoc08NfHA/m+VrZWtn4kCd/c+oLjI2HsA8kCLXcE0
+         ZBfY7HFtzWKhrUkiD4dYl4aH28sXI1Bp0klWIryC6eCVJISCVirAb07tkqtoW/WzuCxa
+         qI5MWXXskS7wv+4pCo2eY6Q6bIobEklR+dKAZztxEbG5tUhJ4HoPram6mKjU5/Z8AV0Y
+         zCfty2IhJP2RmEG4K8BX7XLIohFDoUo9nnvWneIi9YqgZaHyTYzhMJqzHkMhtVdyJlii
+         QAow==
+X-Forwarded-Encrypted: i=1; AJvYcCXmyWB7Ebzj6vidToMSDJ9xy+Mg0aA4HW1nBp6EDkpIrhP1Y331J3ocEj2A56kNMqLsomeerRZohG2JubNBujx5FWXlm1rtZbw71CHlJA==
+X-Gm-Message-State: AOJu0Yxs9KA3VvqeyO0cASvHe37c/tvJvgJQUAoIRiId6qRDFZAI8+5U
+	5uYL+q8UJsM+rre5mF9Tc7Vjhq+EgKbSqkKNkBNqsqsDuhqNBIsggaTWGs4Y5jQ=
+X-Google-Smtp-Source: AGHT+IH/5NacSQigA3BVXrUsBYR+sgs0GU45+bLwXIZoiraKUNm9btupAKR1PoLq0slAixB/ETs5mQ==
+X-Received: by 2002:a05:6870:ec9f:b0:254:8bb9:d0bf with SMTP id 586e51a60fabf-25db3428fbcmr5907324fac.32.1719849265682;
+        Mon, 01 Jul 2024 08:54:25 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c414939fdcsm1012772eaf.25.2024.07.01.08.49.35
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25d8deb56f9sm1806844fac.0.2024.07.01.08.54.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:49:35 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:49:34 +0200
+        Mon, 01 Jul 2024 08:54:24 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:54:23 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aristeu Rozanski <aris@redhat.com>
+To: oe-kbuild@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 7944/8232] mm/hugetlb.c:2677
- gather_surplus_pages() error: uninitialized symbol 'folio'.
-Message-ID: <6d5e5b32-246e-4c56-84d7-f7c4f0a6212f@suswa.mountain>
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>
+Subject: [robh:for-kernelci 14/21] drivers/irqchip/irq-msi-lib.c:133
+ msi_lib_irq_domain_select() warn: variable dereferenced before check 'ops'
+ (see line 130)
+Message-ID: <86549955-085a-4c36-ae52-f7138cc0b49d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,71 +69,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: 1cb6271d927cdb448a6a2794291c5405f1effa76 [7944/8232] hugetlb: force allocating surplus hugepages on mempolicy allowed nodes
-config: i386-randconfig-141-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270727.F4yNrBsh-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   0abda6ec2f639084d6dd4a568683e0b1b70f604d
+commit: 3bb490967f4f337c9c1724b5442a1e09fde1d195 [14/21] irqchip/imx-mu-msi: Switch to MSI parent
+config: powerpc-randconfig-r081-20240629
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406270727.F4yNrBsh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406291820.O1SulCwh-lkp@intel.com/
 
 smatch warnings:
-mm/hugetlb.c:2677 gather_surplus_pages() error: uninitialized symbol 'folio'.
+drivers/irqchip/irq-msi-lib.c:133 msi_lib_irq_domain_select() warn: variable dereferenced before check 'ops' (see line 130)
 
-vim +/folio +2677 mm/hugetlb.c
+vim +/ops +133 drivers/irqchip/irq-msi-lib.c
 
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2644  static int gather_surplus_pages(struct hstate *h, long delta)
-1b2a1e7bb9ce99 Jules Irenge            2020-04-06  2645  	__must_hold(&hugetlb_lock)
-e4e574b767ba63 Adam Litke              2007-10-16  2646  {
-3466534131b28e Miaohe Lin              2022-09-01  2647  	LIST_HEAD(surplus_list);
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2648) 	struct folio *folio, *tmp;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2649  	int ret;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2650  	long i;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2651  	long needed, allocated;
-28073b02bfaaed Hillf Danton            2012-03-21  2652  	bool alloc_ok = true;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2653  	int node;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2654  	nodemask_t *mbind_nodemask = policy_mbind_nodemask(htlb_alloc_mask(h));
-e4e574b767ba63 Adam Litke              2007-10-16  2655  
-9487ca60fd7fa2 Mike Kravetz            2021-05-04  2656  	lockdep_assert_held(&hugetlb_lock);
-a5516438959d90 Andi Kleen              2008-07-23  2657  	needed = (h->resv_huge_pages + delta) - h->free_huge_pages;
-ac09b3a15154af Adam Litke              2008-03-04  2658  	if (needed <= 0) {
-a5516438959d90 Andi Kleen              2008-07-23  2659  		h->resv_huge_pages += delta;
-e4e574b767ba63 Adam Litke              2007-10-16  2660  		return 0;
-ac09b3a15154af Adam Litke              2008-03-04  2661  	}
-e4e574b767ba63 Adam Litke              2007-10-16  2662  
-e4e574b767ba63 Adam Litke              2007-10-16  2663  	allocated = 0;
-e4e574b767ba63 Adam Litke              2007-10-16  2664  
-e4e574b767ba63 Adam Litke              2007-10-16  2665  	ret = -ENOMEM;
-e4e574b767ba63 Adam Litke              2007-10-16  2666  retry:
-db71ef79b59bb2 Mike Kravetz            2021-05-04  2667  	spin_unlock_irq(&hugetlb_lock);
-e4e574b767ba63 Adam Litke              2007-10-16  2668  	for (i = 0; i < needed; i++) {
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2669  		for_each_node_mask(node, cpuset_current_mems_allowed) {
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2670  			if (!mbind_nodemask || node_isset(node, *mbind_nodemask)) {
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13  2671  				folio = alloc_surplus_hugetlb_folio(h, htlb_alloc_mask(h),
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2672  						node, NULL);
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2673  				if (folio)
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2674  					break;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2675  			}
+b8577a042dce35 Thomas Gleixner 2024-06-14  120  int msi_lib_irq_domain_select(struct irq_domain *d, struct irq_fwspec *fwspec,
+b8577a042dce35 Thomas Gleixner 2024-06-14  121  			      enum irq_domain_bus_token bus_token)
+b8577a042dce35 Thomas Gleixner 2024-06-14  122  {
+b8577a042dce35 Thomas Gleixner 2024-06-14  123  	const struct msi_parent_ops *ops = d->msi_parent_ops;
+b8577a042dce35 Thomas Gleixner 2024-06-14  124  	u32 busmask = BIT(bus_token);
+b8577a042dce35 Thomas Gleixner 2024-06-14  125  
+b8577a042dce35 Thomas Gleixner 2024-06-14  126  	if (fwspec->fwnode != d->fwnode || fwspec->param_count != 0)
+b8577a042dce35 Thomas Gleixner 2024-06-14  127  		return 0;
+b8577a042dce35 Thomas Gleixner 2024-06-14  128  
+b8577a042dce35 Thomas Gleixner 2024-06-14  129  	/* Handle pure domain searches */
+b8577a042dce35 Thomas Gleixner 2024-06-14 @130  	if (bus_token == ops->bus_select_token)
+                                                                         ^^^^^
+Dereference
 
-folio is uninitialized if everything is set, I guess.  Not sure if that
-is possible or not.
-
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2676  		}
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13 @2677  		if (!folio) {
-28073b02bfaaed Hillf Danton            2012-03-21  2678  			alloc_ok = false;
-28073b02bfaaed Hillf Danton            2012-03-21  2679  			break;
-28073b02bfaaed Hillf Danton            2012-03-21  2680  		}
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13  2681  		list_add(&folio->lru, &surplus_list);
-69ed779a1454d9 David Rientjes          2017-07-10  2682  		cond_resched();
-e4e574b767ba63 Adam Litke              2007-10-16  2683  	}
-28073b02bfaaed Hillf Danton            2012-03-21  2684  	allocated += i;
-e4e574b767ba63 Adam Litke              2007-10-16  2685  
-e4e574b767ba63 Adam Litke              2007-10-16  2686  	/*
-e4e574b767ba63 Adam Litke              2007-10-16  2687  	 * After retaking hugetlb_lock, we need to recalculate 'needed'
+b8577a042dce35 Thomas Gleixner 2024-06-14  131  		return 1;
+b8577a042dce35 Thomas Gleixner 2024-06-14  132  
+b8577a042dce35 Thomas Gleixner 2024-06-14 @133  	return ops && !!(ops->bus_select_mask & busmask);
+                                                               ^^^
+Check is too late.
 
 -- 
 0-DAY CI Kernel Test Service
