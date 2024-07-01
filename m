@@ -1,183 +1,175 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5DE153BE2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 14:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA7E16132E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 15:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842623; cv=none; b=Q/g5aAiWsmLWKlxUKkskUhKiXQAOXID5h5u1bcceagvBFu8v3KgT6sSyqgWbL7TTAuY9e2F8NljSSpTaYmCaL+w5YfIgoyJLQoslcA4BtGm5NtfIh5Q57DDmcl5QmPYaETpfhNveQ4WQMwkupzMja2lJ35eneEVGX5zpIHomOtk=
+	t=1719847786; cv=none; b=N2B6OaBJymtFsO8WmAL13KKAQ4JGHzvLoyilQp2RQxw43vK7ku20pCj1JHF8bVoEEqF+safNRlhApG2fOeuI1PRmdE4938V8FRYptspf7TKNj3smME+/wTcI7v3POeaY3cVJztN7nYcuruVrRHwWzHh2CagPjozhqLM6euSZy1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842623; c=relaxed/simple;
-	bh=w+fq7hAZICwQ8ms4QU9zqAnifRtgEhMdLeDYpMFOr0A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YrKO8FJMkvCys4Amx5FsZUu3E+MlQWjv99mjB8OgW4+Uok5AY/p+OsuP6eM6i3+JnzppkByCvnxuOSCfjoU/e7vgpMO/E///ZnJAwqAVp5AJ9RBLvol2rZHf2dPCGhBQ6SVvGFUWjIv8Nikk3fUikEwiGYaJ1p7QxCFrePlZyxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nxwP+Q9n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LurVQOTi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ub/6WAXL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yOZG147l; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719847786; c=relaxed/simple;
+	bh=dgcxhfxO7XNNZIIzsXhXS9h51GmpNb4bbMCjqOprPVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F//QsZzoQ7yUt4/w5pJctE6z+xHfCIUkGLZgUpDpZppfrhHFK5EWlLJfHsG/IWMOLDHf1rXFWsbvvexbt3dUo/UBMQpt3H81RfnnDzZGWpTDPm8zOXct9ipcocpoSS9uV8ar67VhxH7zqiZrdn7SxZojiJ2KUnxlJgbGplQ5YS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=skb5JW6Q; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxwP+Q9n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LurVQOTi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ub/6WAXL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOZG147l"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C87BC219AE;
-	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719842619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=nxwP+Q9nLHejCyTv8hmik6ylkRFgJqBt1oszlyYZrG+GWi0jfOJ2Lk2A4xdluxtxZgv3zL
-	SfUsurk9gD4r9rRCH5bcLg1uKlh8R4k8bDzOU9W7LESetfTzRodezuRGf8Hsu3vHOLR9/2
-	SjzHHvKVp1lKzkgXWymCh2UB2egxMMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719842619;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=LurVQOTiQEBIZYfVO1Yo0uiasq5uqX8GhFmWPh8OB+7gDjkCg2lNzjsB/qeGeJfG4PKEbh
-	FaOeFslRPkQVARDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ub/6WAXL";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yOZG147l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719842618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=ub/6WAXLNxFJWS8zhP7rSpSzcSnd0r1nyEJLVZUKMP2vf7ypH3P006LIpgIFEgYGgP0NBU
-	ECEVdgv0OiIOG1ErE/A3AA5Z0XesgDk9jtM7Py7aAR2gDMvTFW7uCMZ7dojj6vD96OhUTC
-	QXi4m89fuYKN3v9mK7BtNo9QQyzSUX8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719842618;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=yOZG147lLhEJDc2w6yhhoxL5Wv+TCNV1IiquuW5olXtA7QOhdrJIrn7v4wF33235NqAckX
-	2oV5BRQCdlhgIzBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83E1F13800;
-	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rGz9Hjq3gmZOZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 14:03:38 +0000
-Date: Mon, 01 Jul 2024 16:04:06 +0200
-Message-ID: <875xtp43ah.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-In-Reply-To: <1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
-References: <20240628122429.2018059-2-jbrunet@baylibre.com>
-	<202406300718.iL828kaG-lkp@intel.com>
-	<1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="skb5JW6Q"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5b9794dad09so1441993eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jul 2024 08:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719847783; x=1720452583; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EchXEgvYyyprQwbhpSObEGQxgcJUwnnkANo7fhZuSTo=;
+        b=skb5JW6QEjh+FsbHit+AsY5FEBd9/FXpR4IObBPUJYAthqEgY49l+bYmu9HdVPoBgk
+         UG0dsLMUkwjA6mrvGqIG2JzIx+GoDnYhy4W8ZbMhwh15tRlo4I9EnzO8u6sii5pzsXy0
+         +YI0lI8L+EeYXiW2EWoz5Yyt1TEeNZtU49jzBfdVc9/yI2KwRMlEKWCGJOB77cbG36C9
+         rtj6dxByLFsYTCDyu8abLbT99GNzdfQ2dASz4sh59WO/3erZsH56tKud54zxweAa9WHr
+         PJx5qxsCw+T82sMZF8a+/4F5F0IoIJOzNKKgRHvEm9UKHK+9xGPvHIGb/Yo8hdZibFiS
+         um/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719847783; x=1720452583;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EchXEgvYyyprQwbhpSObEGQxgcJUwnnkANo7fhZuSTo=;
+        b=OrkVBBHMtI4O0KRuwL4jIlS0U57riNa9barZuEw09Y9QfT8cql+33nnqNY3vAA1XeD
+         6AvBiMdLmD8Thgsl1ut1xMV2VyfVqWpAbQqZ0Y0z4Gd5UxSyY99ieVnwGBRrPlN0cClh
+         BIzvZ2tVjhR0wz+5NvI5kCC7JSmqr5c4p4eeH4TZyT9SB0IG6NrfM9LZn30fn1zTxBIV
+         ONZXmtUjAwneVaeQtboh9rModCWsn0u9Pj9MLglRN0GBeHSCEqbDIuCJXUl4qdPmQqJz
+         cdhcPF4Ino6tId6OF0CCkf1BZdEKyvHJeV5feSY6cz9vAU0DMW3EtRoXtVVi+aQ/TbwY
+         G3Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9f0W1nnLfB+pAHvsJCpWh6SBlrtv+QXVi+aKJBHcTUtwAjGPCRd2IksryGqIxDmNITPJMOHaDBgYl4XVAsz+kHDHRQst5DLlec0FM6Q==
+X-Gm-Message-State: AOJu0YwrehTmygF6awOzDSrpecVqhAxCvKYNQ78jSF2yKGj29j0+PSWr
+	tCL+hVuAfyx0BLPkry1FL1rDevr+eTIWSMbxgFENwDimfo1SKdu+OBVX7wVPzr8=
+X-Google-Smtp-Source: AGHT+IHozdhWENFtYSiNW51hppR/6UWlYxrNZgU98Z6IuLUyKOa8uDIyf050rk+OT+Tv/n/HtNZZOA==
+X-Received: by 2002:a05:6870:d24e:b0:254:a6ea:c315 with SMTP id 586e51a60fabf-25db348bc66mr6128043fac.21.1719847783572;
+        Mon, 01 Jul 2024 08:29:43 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25d8e3841bdsm1781544fac.48.2024.07.01.08.29.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 08:29:42 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:29:39 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 17/17] fs/netfs/buffered_read.c:280
+ netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
+Message-ID: <4c2dd2d5-1360-4611-b2a6-d63013104a8c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,gmail.com,suse.com,perex.cz,lists.linux.dev,alsa-project.org,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,intel.com:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C87BC219AE
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 30 Jun 2024 08:53:15 +0200,
-Jerome Brunet wrote:
-> 
-> On Sun 30 Jun 2024 at 07:29, kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi Jerome,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on tiwai-sound/for-next]
-> > [also build test ERROR on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.10-rc5 next-20240628]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/ALSA-pcm-add-support-for-128kHz-sample-rate/20240629-201915
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-> > patch link:    https://lore.kernel.org/r/20240628122429.2018059-2-jbrunet%40baylibre.com
-> > patch subject: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-> > config: i386-buildonly-randconfig-004-20240630
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=1 build):
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406300718.iL828kaG-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> sound/usb/caiaq/audio.c:179:2: error: #error "Change this table"
-> >     #error "Change this table"
-> >      ^~~~~
-> >
-> >
-> > vim +179 sound/usb/caiaq/audio.c
-> >
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  176  
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  177  /* this should probably go upstream */
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  178  #if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26 @179  #error "Change this table"
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  180  #endif
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  181  
-> 
-> This file is not in mainline or
-> https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-> branch ...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   ce62c8542631d1deea2fcedbbba41046c3f95285
+commit: d75f8ece3c49fa2ab1299cdabfc879952702a19a [17/17] netfs: Speed up buffered reading
+config: x86_64-randconfig-161-20240622 (https://download.01.org/0day-ci/archive/20240622/202406220713.ZTEHfOyc-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
-It's sound/usb/caiaq/audio.c.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406220713.ZTEHfOyc-lkp@intel.com/
 
+New smatch warnings:
+fs/netfs/buffered_read.c:280 netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
+fs/smb/client/file.c:166 cifs_issue_read() warn: unsigned 'len' is never less than zero.
 
-Takashi
+Old smatch warnings:
+fs/smb/client/file.c:3054 cifs_oplock_break() warn: variable dereferenced before check 'inode' (see line 3025)
+
+vim +/slice +280 fs/netfs/buffered_read.c
+
+d75f8ece3c49fa2 David Howells 2024-06-19  212  static int netfs_read_to_pagecache(struct netfs_io_request *rreq)
+d75f8ece3c49fa2 David Howells 2024-06-19  213  {
+d75f8ece3c49fa2 David Howells 2024-06-19  214  	struct netfs_inode *ictx = netfs_inode(rreq->inode);
+d75f8ece3c49fa2 David Howells 2024-06-19  215  	unsigned long long start = rreq->start;
+d75f8ece3c49fa2 David Howells 2024-06-19  216  	ssize_t size = rreq->len;
+d75f8ece3c49fa2 David Howells 2024-06-19  217  
+d75f8ece3c49fa2 David Howells 2024-06-19  218  	/* Chop the readahead request up into subrequests. */
+d75f8ece3c49fa2 David Howells 2024-06-19  219  	do {
+d75f8ece3c49fa2 David Howells 2024-06-19  220  		struct netfs_io_subrequest *subreq;
+d75f8ece3c49fa2 David Howells 2024-06-19  221  		enum netfs_io_source source = NETFS_DOWNLOAD_FROM_SERVER;
+d75f8ece3c49fa2 David Howells 2024-06-19  222  		ssize_t slice;
+d75f8ece3c49fa2 David Howells 2024-06-19  223  
+d75f8ece3c49fa2 David Howells 2024-06-19  224  		subreq = netfs_alloc_subrequest(rreq);
+d75f8ece3c49fa2 David Howells 2024-06-19  225  		if (!subreq)
+d75f8ece3c49fa2 David Howells 2024-06-19  226  			return -ENOMEM;
+d75f8ece3c49fa2 David Howells 2024-06-19  227  
+d75f8ece3c49fa2 David Howells 2024-06-19  228  		subreq->source	= NETFS_DOWNLOAD_FROM_SERVER;
+d75f8ece3c49fa2 David Howells 2024-06-19  229  		subreq->start	= start;
+d75f8ece3c49fa2 David Howells 2024-06-19  230  		subreq->len	= size;
+d75f8ece3c49fa2 David Howells 2024-06-19  231  
+d75f8ece3c49fa2 David Howells 2024-06-19  232  		spin_lock(&rreq->lock);
+d75f8ece3c49fa2 David Howells 2024-06-19  233  		list_add_tail(&subreq->rreq_link, &rreq->subrequests);
+d75f8ece3c49fa2 David Howells 2024-06-19  234  		subreq->prev_donated = rreq->prev_donated;
+d75f8ece3c49fa2 David Howells 2024-06-19  235  		rreq->prev_donated = 0;
+d75f8ece3c49fa2 David Howells 2024-06-19  236  		trace_netfs_sreq(subreq, netfs_sreq_trace_added);
+d75f8ece3c49fa2 David Howells 2024-06-19  237  		spin_unlock(&rreq->lock);
+d75f8ece3c49fa2 David Howells 2024-06-19  238  
+d75f8ece3c49fa2 David Howells 2024-06-19  239  		source = netfs_cache_prepare_read(rreq, subreq, rreq->i_size);
+d75f8ece3c49fa2 David Howells 2024-06-19  240  		if (source == NETFS_DOWNLOAD_FROM_SERVER) {
+d75f8ece3c49fa2 David Howells 2024-06-19  241  			if (subreq->start >= ictx->zero_point) {
+d75f8ece3c49fa2 David Howells 2024-06-19  242  				subreq->source = source = NETFS_FILL_WITH_ZEROES;
+d75f8ece3c49fa2 David Howells 2024-06-19  243  				goto fill_with_zeroes;
+
+source == NETFS_DOWNLOAD_FROM_SERVER and we hit this goto
+
+d75f8ece3c49fa2 David Howells 2024-06-19  244  			}
+d75f8ece3c49fa2 David Howells 2024-06-19  245  
+d75f8ece3c49fa2 David Howells 2024-06-19  246  			if (subreq->len > ictx->zero_point - subreq->start)
+d75f8ece3c49fa2 David Howells 2024-06-19  247  				subreq->len = ictx->zero_point - subreq->start;
+d75f8ece3c49fa2 David Howells 2024-06-19  248  			if (subreq->len > rreq->i_size - subreq->start)
+d75f8ece3c49fa2 David Howells 2024-06-19  249  				subreq->len = rreq->i_size - subreq->start;
+d75f8ece3c49fa2 David Howells 2024-06-19  250  
+d75f8ece3c49fa2 David Howells 2024-06-19  251  			netfs_stat(&netfs_n_rh_download);
+d75f8ece3c49fa2 David Howells 2024-06-19  252  			slice = rreq->netfs_ops->issue_read(subreq);
+d75f8ece3c49fa2 David Howells 2024-06-19  253  			if (slice <= 0)
+d75f8ece3c49fa2 David Howells 2024-06-19  254  				return slice;
+d75f8ece3c49fa2 David Howells 2024-06-19  255  			goto done;
+d75f8ece3c49fa2 David Howells 2024-06-19  256  		}
+d75f8ece3c49fa2 David Howells 2024-06-19  257  
+d75f8ece3c49fa2 David Howells 2024-06-19  258  	fill_with_zeroes:
+d75f8ece3c49fa2 David Howells 2024-06-19  259  		if (source == NETFS_FILL_WITH_ZEROES) {
+d75f8ece3c49fa2 David Howells 2024-06-19  260  			subreq->source = NETFS_FILL_WITH_ZEROES;
+d75f8ece3c49fa2 David Howells 2024-06-19  261  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
+d75f8ece3c49fa2 David Howells 2024-06-19  262  			netfs_stat(&netfs_n_rh_zero);
+d75f8ece3c49fa2 David Howells 2024-06-19  263  			slice = subreq->len;
+d75f8ece3c49fa2 David Howells 2024-06-19  264  			subreq->transferred = slice;
+d75f8ece3c49fa2 David Howells 2024-06-19  265  			__set_bit(NETFS_SREQ_CLEAR_TAIL, &subreq->flags);
+d75f8ece3c49fa2 David Howells 2024-06-19  266  			netfs_read_subreq_progress(subreq, 0, false);
+d75f8ece3c49fa2 David Howells 2024-06-19  267  			goto done;
+d75f8ece3c49fa2 David Howells 2024-06-19  268  		}
+d75f8ece3c49fa2 David Howells 2024-06-19  269  
+d75f8ece3c49fa2 David Howells 2024-06-19  270  		if (source == NETFS_READ_FROM_CACHE) {
+d75f8ece3c49fa2 David Howells 2024-06-19  271  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
+d75f8ece3c49fa2 David Howells 2024-06-19  272  			slice = netfs_read_cache_to_pagecache(rreq, subreq);
+d75f8ece3c49fa2 David Howells 2024-06-19  273  			goto done;
+d75f8ece3c49fa2 David Howells 2024-06-19  274  		}
+d75f8ece3c49fa2 David Howells 2024-06-19  275  
+d75f8ece3c49fa2 David Howells 2024-06-19  276  		if (source == NETFS_INVALID_READ)
+d75f8ece3c49fa2 David Howells 2024-06-19  277  			break;
+d75f8ece3c49fa2 David Howells 2024-06-19  278  
+d75f8ece3c49fa2 David Howells 2024-06-19  279  	done:
+d75f8ece3c49fa2 David Howells 2024-06-19 @280  		size -= slice;
+                                                                ^^^^^
+Uninitialized.
+
+d75f8ece3c49fa2 David Howells 2024-06-19  281  		start += slice;
+d75f8ece3c49fa2 David Howells 2024-06-19  282  		cond_resched();
+d75f8ece3c49fa2 David Howells 2024-06-19  283  	} while (size > 0);
+d75f8ece3c49fa2 David Howells 2024-06-19  284  
+d75f8ece3c49fa2 David Howells 2024-06-19  285  	return 0;
+d75f8ece3c49fa2 David Howells 2024-06-19  286  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
