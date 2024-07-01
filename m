@@ -1,67 +1,62 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BDE16D327
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 15:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE1616D304
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jul 2024 15:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848618; cv=none; b=BrQoTcn707GvM6MIyzKI98Z1pEHoi5g1kSFWUW2J6UHJnHlsUEA5t7vpq7Lm/yy266yc7ppfJ0fs8zoW4zO/JyyTxLQworDry0IrLQyvgT1Nfc2zgZun+umldfjbrgE6kyNnaJGZ6E4zaiTc4OBgV5KqTSvuMc6cuuSu2Y+5rkw=
+	t=1719848692; cv=none; b=hnyWChb75sX4mlYK7bybXOwYnUq85/QN6i5hOFJpAQF9qoyKMz57VBhq+k63Hc84zfXgGwiAWhjiU/g53YSUr9Y2L6iGHLu7fv53N904gDsDpLlPkQjLvfaDZOUWb8Nf5wF9u3qKI4DGDlLSDpTXa3wkh+qh3PHFWsrQ6ceUbUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848618; c=relaxed/simple;
-	bh=zDEkERNJE/MSnzMdn8TBJ7WRg9m6LCkM9RUeIIHLeFU=;
+	s=arc-20240116; t=1719848692; c=relaxed/simple;
+	bh=VmhP/DqI3/DC+RCFnRY97vWoIPaKXNyGiWJICSA6kak=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Dqo1S9sEnmOnaTZdpmNklO+4AbgsZ1ydECLqmdC/DZjM3KwbVNCafH/1qA5SnE4RqWfYoGJ2t4MbBG4ng4aUzBqBGXDGGhDZ5qlDP9VZvDtQj10oWqIBpwUXHCPV0sZUOMqWdSiJ2k1xk7IvwJAVCw3D+wxRMiBAO4LLMi//5J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CRUxMNa7; arc=none smtp.client-ip=209.85.161.41
+	 Content-Disposition; b=Gd0nTQoqKURBDIbYF9INpIiKwuhE1FoJNwYIIuqGlr2vD1LR7s0Ojy0BXDNSPxmuZs+mHvCkWBLzwIFL40bObTniRj9IJWSz+dJqHW3Rw2tMSl0E/k1/F5szJa/Q0egNysPzmRQ+f0QPOAvvjkunTknxCC7axJSIXtb+GbzJyuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RVXQjbqI; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CRUxMNa7"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5c410776a80so1677745eaf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jul 2024 08:43:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RVXQjbqI"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52cdf4bc083so4692078e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Jul 2024 08:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719848616; x=1720453416; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9jzIOafebewEo1ZZHJ4C0Fr72HpACHosWsaCca63y70=;
-        b=CRUxMNa7VbMu+hNjoffFboY8A5JIACh76Og04ADNW92u8fbh0/PZ4TAfW+I2OjVoCJ
-         t3GEFWo9Q0zrH9ErObJ1MVdMmZha+GLSrWgRit4Aw11uP/hyxsgN0I8/liBGINqOwcpm
-         Xidyxd9s6PfimCTKT5Z7nwM4qicxPMHiq6ntwOq3GZB2XxbXxMPe+e/2GIcyZdBndkK5
-         VEGW191T+THzLrMheZpASH/kagZyn2tZF8hDrqlsUNXm4AGsq1FBFZH9EZcshbnQBC00
-         x1cS84faroKO+AW50nmmwTPwih1BfGvXjl8yWOc+pVV4qnD66oOk08t79UV7swOdxrKF
-         nLBw==
+        d=linaro.org; s=google; t=1719848689; x=1720453489; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mfut94CXDwmtEg0KE4qH64hQMu242J0CBA5kPfzN1CE=;
+        b=RVXQjbqIfVBTXmrojbmng2YFKWebx7m5hfA7WUmVd+sR3yRJeywiNBBGv1q0/FoW94
+         CJZwz/DzhU68xgYt3PGAnBtngR9XbKUc1SfMotODi0KmCZDItzz9g2FqZEHkYADn5ccP
+         SM8kYi3NPfRXvD76dW8s7px8mKallaj6CDRQP6WLhWx2EQiGRiO4UyrAqaik/uMHjNpt
+         PRGEvwq4wmoAORIw25GPNlm+t2Thcg4tLRfhtsX+q+C+JBOqaQPo9fm3WSLBZeGrE29O
+         Vu6oF0uRpFlu/7nbDGcVx/32/2+WKs6jkC4zx/BaTWHTh6uVrTSDR44/0f3BG9PAesF7
+         UD4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719848616; x=1720453416;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9jzIOafebewEo1ZZHJ4C0Fr72HpACHosWsaCca63y70=;
-        b=flrqHAWZ9TdjSQG7JqN2SjtWcG3g3lmmr9HlxQ+cAfxA+YFNiQBrihHQERMcFS6hqW
-         YqCOYe+qhuXBeVrxwnm20leAMQjOB6VzTq1qJXZyWa1JHnSaFNzWGQmWZFjzJT7I4dAW
-         c+OyikcB8rRQ1uSrG98ck1GQt5tP+d9J7kclUh10uUOKL8m+F5O3R+hQCv37PziFvV5k
-         gDWBqTUq5JOP1zDO61zio+RPYINVxDtL2WfWwbKRy+GUJlxwvUNKTgvV8k8Obhiqcvwv
-         YRV0+lPruL6QnrJNsT1/+UZ/GL85yrYvRe9lpMGrrJ7VVCDMwTn6Grr2NiBlPkRF93XU
-         NBPA==
-X-Forwarded-Encrypted: i=1; AJvYcCX00P90oMiJD9fUXWkf5PjazsfREa+gIo2z6w+BSGxZwiijvPINddtON1X6C4Cb0gZPOllOy9OHQ0gBMOtoOwhOw6MNJ/IVCvOPso6WCg==
-X-Gm-Message-State: AOJu0YxCTFmonbAwPWNy+BY8xZAaFDyfD2IrL4wE/wbjHiHqAgFsyDKG
-	M6mhMGCpf/OWve1MARdLwkg+r2AlIkg1CoTuhlP5/5UcoOSvHY+yl+u+oXtYZEo=
-X-Google-Smtp-Source: AGHT+IHDxWKHqbKggeW5m/UHELJJsSAkUbSHIz5mdvPHuItb+51Qna7y7RwAeJL+Khg+Wsc2oO72Kw==
-X-Received: by 2002:a4a:5842:0:b0:5c4:2eef:d39 with SMTP id 006d021491bc7-5c439257c35mr5388343eaf.8.1719848616260;
-        Mon, 01 Jul 2024 08:43:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719848689; x=1720453489;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mfut94CXDwmtEg0KE4qH64hQMu242J0CBA5kPfzN1CE=;
+        b=ClEjfzf65VMA18EnCbOldGUgSphy1+SA7MLjT2vwCppWToBFJ5CdVo7WTP7gkBUA3g
+         Wyap12cvJFfLuUBv5/uIFEWVBr5kUC4Znw7XeJqt/5feIqVBN7Akr47779HGbseGNyqk
+         Mmb8YwC6CD1mb5dh0VpkfBIszml3ZUbjSOW0amqf18SpCzY8Z4RCFErgX2PAjV7Z81tj
+         y+wZ1qUWCe03/p08r8yUJEv+rGTNou+an1xf/cDCRrwzE2OYgEwbQlWxNdt3d2tNrd/z
+         3IYpVzvnfAylo7lqWK0FsjWQIIikOMceHU0unZNhfCdIiFGTKiitpxVfX+d8oMBp9Lip
+         BayA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTFLlurQT9CjrMljZkaqzMiRSssvl+3VIGaLvxyvWBBOk+PAGvxppe1JnqGYRKnLOEsk1wJhUiOsM8iriBxZ8tR18H7oPGUm5BMd5BJQ==
+X-Gm-Message-State: AOJu0YxOs2wS1wSG+RWqw3wLgcZlfsXW5affxbHV3rdkostCbdPHjg7I
+	hwdKxfpDh9gIlmj/omOOSsDHb98HFpLvtMe9UY4aP+kw2ezAGkjv/nryQYB0OU4=
+X-Google-Smtp-Source: AGHT+IGWCt/0JLV1k6alOnu00qU3v0Jv/qG1wNcZIWrTOsvizj5b7E6638LK4hM12opmwTLbJng0dw==
+X-Received: by 2002:a05:6512:3f0b:b0:52c:de8f:2e6c with SMTP id 2adb3069b0e04-52e82727fc5mr3923687e87.57.1719848686523;
+        Mon, 01 Jul 2024 08:44:46 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c41480bfa1sm1016306eaf.4.2024.07.01.08.43.35
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab27bdbsm1453262e87.171.2024.07.01.08.44.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:43:35 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:43:34 +0200
+        Mon, 01 Jul 2024 08:44:45 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:44:42 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
-	manjunath.hadli@vayavyalabs.com, bhoomikak@vayavyalabs.com,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-Subject: Re: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and
- Makefile
-Message-ID: <dcca1eff-48eb-411d-aef8-e206e241f3e1@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/next-6.10-rebase 30/35] io_uring/zcrx.c:812
+ io_zcrx_recv_skb() warn: check likely/unlikely parentheses
+Message-ID: <75318c18-bf2a-427d-b9bb-aa54fa3e0a3c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,76 +65,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621082053.638952-8-pavitrakumarm@vayavyalabs.com>
 
-Hi Pavitrakumar,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-Skcipher-support/20240625-184208
-base:   1dcf865d3bf5bff45e93cb2410911b3428dacb78
-patch link:    https://lore.kernel.org/r/20240621082053.638952-8-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and Makefile
-config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260926.bfyJ84yf-lkp@intel.com/config)
+tree:   https://github.com/isilence/linux zcrx/next-6.10-rebase
+head:   1bc9807cd5e670cbc5f1a650daf7470d33fb94d7
+commit: 217b71934ad9ee4fffd5eb975aae285911a16052 [30/35] io_uring/zcrx: prevent endless unresponsive execution
+config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406261243.sPJ6xyvQ-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406260926.bfyJ84yf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406261243.sPJ6xyvQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/crypto/dwc-spacc/spacc_core.c:1029 fixup_sg() error: we previously assumed 'sg' could be null (see line 1008)
+smatch warnings:
+io_uring/zcrx.c:812 io_zcrx_recv_skb() warn: check likely/unlikely parentheses
 
-Old smatch warnings:
-drivers/crypto/dwc-spacc/spacc_core.c:1417 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
-drivers/crypto/dwc-spacc/spacc_core.c:1422 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
-drivers/crypto/dwc-spacc/spacc_core.c:2018 spacc_open() warn: inconsistent indenting
+vim +812 io_uring/zcrx.c
 
-vim +/sg +1029 drivers/crypto/dwc-spacc/spacc_core.c
+f9ab1c1cb8fd3a David Wei      2024-03-05  800  static int
+f9ab1c1cb8fd3a David Wei      2024-03-05  801  io_zcrx_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
+f9ab1c1cb8fd3a David Wei      2024-03-05  802  		 unsigned int offset, size_t len)
+f9ab1c1cb8fd3a David Wei      2024-03-05  803  {
+f9ab1c1cb8fd3a David Wei      2024-03-05  804  	struct io_zcrx_args *args = desc->arg.data;
+f9ab1c1cb8fd3a David Wei      2024-03-05  805  	struct io_zcrx_ifq *ifq = args->ifq;
+f9ab1c1cb8fd3a David Wei      2024-03-05  806  	struct io_kiocb *req = args->req;
+f9ab1c1cb8fd3a David Wei      2024-03-05  807  	struct sk_buff *frag_iter;
+4eb3e10e62f790 Pavel Begunkov 2024-03-05  808  	unsigned start, start_off = offset;
+f9ab1c1cb8fd3a David Wei      2024-03-05  809  	int i, copy, end, off;
+f9ab1c1cb8fd3a David Wei      2024-03-05  810  	int ret = 0;
+f9ab1c1cb8fd3a David Wei      2024-03-05  811  
+217b71934ad9ee Pavel Begunkov 2024-04-17 @812  	if (unlikely(args->nr_skbs++) > IO_SKBS_PER_CALL_LIMIT)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+unlikely() returns true/false.  Surprised checkpatch doesn't catch this.
 
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1003  static int fixup_sg(struct scatterlist *sg, int nbytes)
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1004  {
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1005  	int sg_nents = 0;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1006  
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1007  	while (nbytes > 0) {
-8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1008  		if (sg && sg->length) {
-
-Can we really pass a NULL sg?
-
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1009  			++sg_nents;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1010  
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1011  			if (sg->length > nbytes)
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1012  				return sg_nents;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1013  
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1014  			nbytes -= sg->length;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1015  
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1016  			sg = sg_next(sg);
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1017  			if (!sg)
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1018  				break;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1019  			/* WARNING: sg->length may be > nbytes */
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1020  		} else {
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1021  			/*
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1022  			 * The Linux crypto system uses its own SG chaining
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1023  			 * method which is slightly incompatible with the
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1024  			 * generic SG chaining. In particular, dma_map_sg does
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1025  			 * not support this method. Turn them into proper
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1026  			 * chained SGs here (which dma_map_sg does
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1027  			 * support) as a workaround.
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1028  			 */
-8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1029  			spacc_sg_chain(sg, 1, sg_chain_ptr(sg));
-                                                                                       ^^^                 ^^
-Because if so, we're toast.
-
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1030  			sg = sg_chain_ptr(sg);
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1031  			if (!sg)
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1032  				break;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1033  		}
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1034  	}
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1035  
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1036  	return sg_nents;
-8e3d92f71646e6 Pavitrakumar M 2024-06-21  1037  }
+217b71934ad9ee Pavel Begunkov 2024-04-17  813  		return -EAGAIN;
+217b71934ad9ee Pavel Begunkov 2024-04-17  814  
+4eb3e10e62f790 Pavel Begunkov 2024-03-05  815  	if (unlikely(offset < skb_headlen(skb))) {
+4eb3e10e62f790 Pavel Begunkov 2024-03-05  816  		ssize_t copied;
 
 -- 
 0-DAY CI Kernel Test Service
