@@ -1,72 +1,62 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9788B156675
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 09:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0B7154449
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 10:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719914146; cv=none; b=beol4Cp2C1iUfQR6b5cMrk/hJ+8hVevvYczmUhb60hsmDvCKLQ8IOPqUcPwYzydo66cWixIw30WihpHg6S/dno6GsVVK3x/uVLa0Ym02tq0Marrhi351UMIuYgYKkFnWrFzg3Zq+r75/CI6CkS/8lBayUrSKM2KtHDeIwwRrHxQ=
+	t=1719916854; cv=none; b=qevfmyMOXT/PXeP2REvKpsRivWrZ1diL2sUWstpsXx/oH8Pa6jH7095/g2O6ZLthTxSaIQlcH9bPqXfgi7y71MBSM8EknsdHAAy2mWFk9C3oEwfgxqDudDwNcaf0B6UcUcVVzQToboO/J1JMAVGGtUKfqAGwv7q+V4pt7HDcC0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719914146; c=relaxed/simple;
-	bh=MtYqxGVsiucXKQDSYUlWauuhbg/pDes1bRUtDedyeQk=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tldoACJRwmbNqWwh0bsP3Uqj9NpE4CxRiIQxXziPVZn7Ed3WpI5qYveMXE0+tBvhTKoskly7Ay0YisVCqDq1tP7FBFo3hUM4Iw8ZW31yed++i6RONN58OiakkguHFa/SeXkJFO+Z8WTo6u7nO6j/QkTS2ZCyBYsFcvl7n2uOPxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=d5I5JA81; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1719916854; c=relaxed/simple;
+	bh=LyQY7uH1zuzzvMCjOZs4vScS3Dav/kuXAitme7jJo+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tYjAXQ2ozjL5wvyCfDWOdP5AXEGJSVd9Zvl9Z/isI3gEM5/j00GF8iBH0IbjO4qqsgX1ovKSUpL65MmtD6PPCREFNLymOIDNAofe7zRIG3VKlJUmKVhrocTiEKS8xHFmk1x7CCHSEcO44hgN+7gnIdvNxpIEYEgV3c3IlvWLAPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWKSz2oB; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="d5I5JA81"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a6fe7a0cb58so209146466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Jul 2024 02:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1719914143; x=1720518943; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h7lKw+krOjTRGYIf5SOXym+J0JFKwzz6LVW8Ps6ttw4=;
-        b=d5I5JA81mlTCvUbIQhonhStlL58hjJr6SMSeZp8MhfGBi7OmtwCmi6HAHXLeDHefoI
-         DcA4ygaBqQL5UjYLWIc0T4TvuPZNaEbnEFKULjtlQtqIaOWaNT/IUwW8lMTSDmNirZac
-         bWc/+FHwqEGMOix7deaE/ArIubmGKTdyMy+VtenIFGVGglwOvFGgIQkrPidZVL723Ak2
-         MrxrLPFMYiOzs1YnENzR/cUNcmovtkWtWoCvkj9riN5UVZfYdfqavxCNDOZ5SY48cGto
-         lrCsdfA3hYMDtbldnUVxe9ziCLhWws2vKYHzTH1gSkqbkM2YwuGoeA1w29/A7s71whsA
-         06kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719914143; x=1720518943;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h7lKw+krOjTRGYIf5SOXym+J0JFKwzz6LVW8Ps6ttw4=;
-        b=hvuUoJPF2tKf3x1p9vYizoPTHhJTqbth1v+7bIXrMjT/HBG7MDHVw+xuHE8Snft57m
-         I6FKkH/0FO8w8BDpAVJorIcOBhVTj9U6tF+wRcAvo+Oo/+7qvQ2Sn7Up2GX1CZMTV6rQ
-         M3hxyCSwIB43y8Gyx1h/Txb0QqJmPUwdSZZPxxCkvYgaqZvF/4Rp1wh5AGFz1LA9aivw
-         ieae51fWkV945OfJmu7/VupNEPzIePve6okO7bT27Pjt+6APnxY0RF1hmhk3oMQVF86z
-         h0Pe1eKxT1UsumZND9Pw+8a9lLd1Urv4PNoDa7KqG2mTwCupjMTPvSy4rAgZg/OAC8eV
-         HubA==
-X-Forwarded-Encrypted: i=1; AJvYcCU046Nf8RVbidmqKtfPW8uIXTLNoZBQvcQ0H5J80YqX3wtfBzP26Ez4tvNfL9ktGEwqt3MP+voKLsTRQMAHJEjH5x2UWAjFYLVb9SZY1A==
-X-Gm-Message-State: AOJu0YyxxBBdBl4vINYOcdsbd4aK8kQu/UtSEPBvr+SpEljFmG3cFeq6
-	7NwfAlqQ2t7NPjzvj44/8P3ZfdNfwyNDz7VeCPTGUr9TddeZhOUVK2lb0iDMshM=
-X-Google-Smtp-Source: AGHT+IG7nNHw9EPFKI8kGvKxgPuay6SC8NTsNk5lC+URj+fmaR+Cr212qir31uzIDTloIiPvg69mUw==
-X-Received: by 2002:a05:6402:1913:b0:587:2dd1:4b6c with SMTP id 4fb4d7f45d1cf-587a0822bdemr7647851a12.30.1719914142710;
-        Tue, 02 Jul 2024 02:55:42 -0700 (PDT)
-Received: from localhost (host-82-61-26-208.retail.telecomitalia.it. [82.61.26.208])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5861324ff85sm5481652a12.29.2024.07.02.02.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 02:55:42 -0700 (PDT)
-From: Andrea della Porta <andrea.porta@suse.com>
-X-Google-Original-From: Andrea della Porta <aporta@suse.de>
-Date: Tue, 2 Jul 2024 11:55:56 +0200
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: kernel test robot <lkp@intel.com>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	oe-kbuild-all@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWKSz2oB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719916852; x=1751452852;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LyQY7uH1zuzzvMCjOZs4vScS3Dav/kuXAitme7jJo+Q=;
+  b=CWKSz2oBXeBFjY8gh3UNKW7ve9XURCcG9qm0awDNrSxeNyv6m47d2sMm
+   5pCe5qtvN0osn130jiPkZBWdZm+Y38n8Wsd6ush5Dj1d1h3rKLCxVmJQt
+   1C1u+1FSN28RNvarlqfe7fsYOzItT853WvoLYhAUIiFQb3Z5M0vRKyzzL
+   1WWnKnl+4n46Mn5w/w/i2IAmPGFhEC24jtAwWO88LlNTSf7cClB6L2Tmc
+   Ns1+dTP1lCdtgqkiLuwiIuhQuY7raZOOeZGWInVdo9Uvtcb//rXXOkwKf
+   heYcRrRcijs2vAPpRP9ZaKRsCAupgRNbAW48XRKDZSKOkzDNl0emGiwEn
+   g==;
+X-CSE-ConnectionGUID: Gd1cL4IURNKhk17tHRJVAQ==
+X-CSE-MsgGUID: mwQRWCW6QC6hfxshCt7mnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="16909831"
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="16909831"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 03:40:51 -0700
+X-CSE-ConnectionGUID: jTfWAAnTQ3W7aBl6PfvYFA==
+X-CSE-MsgGUID: rut9CfscSfi4dtib/E1ULQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="45653482"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2024 03:40:51 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sOawJ-000O3I-1G;
+	Tue, 02 Jul 2024 10:40:47 +0000
+Date: Tue, 2 Jul 2024 18:40:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [linux-next:master 3392/8232]
- arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb:
- /soc@107c000000/timer@7c003000: failed to match any schema with compatible:
- ['brcm,bcm2835-system-timer']
-Message-ID: <ZoPOrBdevxVrrZfW@apocalypse>
-References: <202406260927.CS1A5Ugr-lkp@intel.com>
- <bfc60a7e-54d2-48a6-a288-4fe76d66507a@gmx.net>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [linux-next:master 9019/10049] drivers/irqchip/irq-gic-v3.c:47:23:
+ warning: 'broken_rdists' defined but not used
+Message-ID: <202407021807.cBuWVBVa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,47 +65,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bfc60a7e-54d2-48a6-a288-4fe76d66507a@gmx.net>
 
-Hi stefan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   82e4255305c554b0bb18b7ccf2db86041b4c8b6e
+commit: d633da5d3ab1a0eb26a2213d65da1e189e82f8ab [9019/10049] irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs
+config: arm-randconfig-r034-20220810 (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/reproduce)
 
-On 16:53 Wed 26 Jun     , Stefan Wahren wrote:
-> Am 26.06.24 um 04:02 schrieb kernel test robot:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-> > commit: cbda7c3ffe6d78933ee8c2d5e71de60ff4f4847b [3392/8232] arm64: dts: broadcom: Add minimal support for Raspberry Pi 5
-> > config: arm64-randconfig-051-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260927.CS1A5Ugr-lkp@intel.com/config)
-> > compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> > dtschema version: 2024.6.dev1+g833054f
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240626/202406260927.CS1A5Ugr-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406260927.CS1A5Ugr-lkp@intel.com/
-> > 
-> > dtcheck warnings: (new ones prefixed by >>)
-> >     arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /: failed to match any schema with compatible: ['raspberrypi,5-model-b', 'brcm,bcm2712']
-> >     arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /: failed to match any schema with compatible: ['raspberrypi,5-model-b', 'brcm,bcm2712']
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407021807.cBuWVBVa-lkp@intel.com/
 
-Ack, will take a look asap.
+All warnings (new ones prefixed by >>):
 
-> >     arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/mmc@fff000: failed to match any schema with compatible: ['brcm,bcm2712-sdhci', 'brcm,sdhci-brcmstb']
-> I think the last one can be ignored, because the relevant dt-bindings
-> change is in Ulf Hansson's tree.
+>> drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used [-Wunused-variable]
+      47 | static struct cpumask broken_rdists __read_mostly;
+         |                       ^~~~~~~~~~~~~
 
-Ok.
 
-> > > > arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/timer@7c003000: failed to match any schema with compatible: ['brcm,bcm2835-system-timer']
-> > > > arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: /soc@107c000000/local-intc@7cd00000: failed to match any schema with compatible: ['brcm,bcm2836-l1-intc']
-> > > > 
-> I can take care of these binding conversions. But don't expect fast
-> results during the summertime.
+vim +/broken_rdists +47 drivers/irqchip/irq-gic-v3.c
 
-Really appreciated, many thanks.
+    46	
+  > 47	static struct cpumask broken_rdists __read_mostly;
+    48	
 
-Best regards,
-Andrea
-
-> 
-> Best regards
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
