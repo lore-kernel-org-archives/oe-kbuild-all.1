@@ -1,101 +1,106 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73342207A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 15:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4F616C699
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 15:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719935181; cv=none; b=ssGPvc0XGMdk+p+G/K2H9wPZv6kMyC78IXIz9NQbyBk2v6uBm8+urzXtMo4J2vwbW79FMLHhqgnOUMpdKnTslbVQxKcuvq+dw44u8nqKdKcR1rcDszQ2minqvyHyQ6R1/d+J2QXTyzyFpQCZwtkL+3VBK4FpH+VjsdlP8FF9jn4=
+	t=1719935358; cv=none; b=ZvViml8QHceouf59qRpHbY0X1W9jCEfDJruMlWX4cD1IXXXGINYhU1ZBJQcRpuf42xMpblaPU9cR1vkr8vt1cg/MKbuRV+eVaDP3aWzr7DsFNXwby/J4R+EHOaM0yiPjUq8cGespe0e5URTe8r78iIOIaYQG16oNALaXE3pIMhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719935181; c=relaxed/simple;
-	bh=0ibR360hPUqQ7hgWtx3NG9BBOAI0tL4aSNSl8jIXVrg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=COn1A4PQtx3IZgj/kqCPHN3GJcqlhhsZWU8rQ3RbhUYu1NIINZzs0q7NQfkq481O3WseXz0wh4XzU5aNFi31oKnCTo9bCqm3OMLhxkiOUgJRaRaQk0/nmg8d7fBLg74YGKRqvLjT04X47SLCIohrUjChgbVgsevxeYkEwVPjx2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nbWt8gbR; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1719935358; c=relaxed/simple;
+	bh=1bXk3fVxtmT3t4OBthf9K/NlhG47ZFcskU6K1jKTiwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tylQQE1nK4upIhxxg/Im/hsr9QEREdYc07ha7JaJ+SrWo3EdDtMOiekid9g1Nsz2yFVQS8DFEqhGYtdb0znJ5/WolmZ+wQbsRX1i6HtY56FkStR6TiIe3HRGxmd68DWl1g5PopJE+kjLKRM6xW/bEEwlb10QxS8VAkYqIWvhRk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U38YEFs+; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nbWt8gbR"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16644FF805;
-	Tue,  2 Jul 2024 15:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719935172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GXc+8fEuYxBnCX11OGCVRsvxNL2Mw6mHKpkE9BRDssM=;
-	b=nbWt8gbREQMCfAcf84382i0POulvVG2BhOSx/zeMZfMFN87iTQxOcuZYtMtDiGLGFZhOVk
-	Xxp8eT4x07nnhud4srCWWMZ/nd2xNVJ8YVAL+VkRkKYJQQmXj51T1ipbRMaOSau/stqZ8P
-	pEE6BFxwH601uiBtLS/vc/6/Glie8cYwHYKnwplFxvI9Qat8STAnKtj0LIjN4d+0TZbeK6
-	WJDIrxwin1CKcBt32szaooHJeIX+aKpmRwwT9HNFbgJFPnxKjfKC5PE9K2gOvWJHQYxuWA
-	MPVf2DnKhBJvBu18vfYJerLtZFq8azVk8n3oBETGRLpyVleNueaSzF8gta7nFA==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U38YEFs+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719935356; x=1751471356;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1bXk3fVxtmT3t4OBthf9K/NlhG47ZFcskU6K1jKTiwA=;
+  b=U38YEFs+N4daVNgjUSoJ9e1Tu4Pt7N/ovQAgCPwVa4TkNhDCu11/Z8TK
+   gR05c2bl4DGBDmHp0O8Dh1cqynq81Xi8NrivK+jZwvcvJSdImSKbMzK7C
+   Ozf9ZtFJGH2vmKW6oqTg9IlrTJ/YaNIfJJVurrQGR1unoFMxL/ezkNCGH
+   de095HDItJTcVEXzETcR88F+hDp/Eao1sNXRB/D892DqEDZpgBEYUvXIL
+   PIcODtiQ44XO80NZuc89daXn0mh7o/7aJws0dxInp2T8jYhmGjkd0HFhB
+   2JkvShwsWZUcHDKaPv3VYOorW2AXUNa4FIFfsjsl1/KKzF2o/FyXEYm/F
+   g==;
+X-CSE-ConnectionGUID: 61K0tL/BQo6aWyBs/CQvag==
+X-CSE-MsgGUID: BHf/7k/bQJqxZOxGT65jpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="34657765"
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="34657765"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 08:49:15 -0700
+X-CSE-ConnectionGUID: gN5VoYl4TwmvEUzvLbnX7g==
+X-CSE-MsgGUID: SLRXOCNyS4mRIup+XwNnTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="46679177"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 02 Jul 2024 08:49:13 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sOfkj-000OLw-3D;
+	Tue, 02 Jul 2024 15:49:10 +0000
+Date: Tue, 2 Jul 2024 23:48:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Pratik R. Sampat" <psampat@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michael Ellerman <mpe@ellerman.id.au>,
+	Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
+	Aboorva Devarajan <aboorvad@linux.vnet.ibm.com>
+Subject: [linuxppc:merge-test 19/24]
+ arch/powerpc/kernel/test_cpuidle_latency.c:33:6: warning: no previous
+ prototype for function 'run_smp_call_function_test'
+Message-ID: <202407022350.nrtxMzWZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 02 Jul 2024 17:46:11 +0200
-Message-Id: <D2F64U1H2P8J.16H1SVRMYFROM@bootlin.com>
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Subject: Re: [PATCH 2/2] pinctrl: eyeq5: add platform driver
-Cc: <oe-kbuild-all@lists.linux.dev>, <linux-gpio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vladimir
- Kondratiev" <vladimir.kondratiev@mobileye.com>,
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
- <tawfik.bayouk@mobileye.com>
-To: "kernel test robot" <lkp@intel.com>, "Linus Walleij"
- <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240628-mbly-pinctrl-v1-2-c878192d6b0a@bootlin.com>
- <202407020641.JqMWvOOu-lkp@intel.com>
-In-Reply-To: <202407020641.JqMWvOOu-lkp@intel.com>
-X-GND-Sasl: theo.lebrun@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
+tree:   https://github.com/linuxppc/linux merge-test
+head:   abcc5fdeacec65419fccafbefae1974afea31dc1
+commit: b5af3438997c07a6c4f5f3bf3a00f2172f019759 [19/24] powerpc/cpuidle: cpuidle wakeup latency based on IPI and timer events
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240702/202407022350.nrtxMzWZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407022350.nrtxMzWZ-lkp@intel.com/reproduce)
 
-On Tue Jul 2, 2024 at 12:49 AM CEST, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on f2661062f16b2de5d7b6a5c42a9a5c96326b8454]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/Revert=
--dt-bindings-pinctrl-mobileye-eyeq5-pinctrl-add-bindings/20240630-070720
-> base:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
-> patch link:    https://lore.kernel.org/r/20240628-mbly-pinctrl-v1-2-c8781=
-92d6b0a%40bootlin.com
-> patch subject: [PATCH 2/2] pinctrl: eyeq5: add platform driver
-> config: m68k-randconfig-r131-20240701
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce:
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407020641.JqMWvOOu-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    m68k-linux-ld: drivers/pinctrl/pinctrl-eyeq5.o: in function `pinconf_g=
-eneric_dt_node_to_map_pin':
-> >> pinctrl-eyeq5.c:(.text+0xe0): undefined reference to `pinconf_generic_=
-dt_node_to_map'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407022350.nrtxMzWZ-lkp@intel.com/
 
-Argh yes, pinconf_generic_dt_node_to_map() requires CONFIG_OF. I'll add
-that to the Kconfig entry in the next revision, as a "depends on OF"
-similar to other pinctrl driver config options.
+All warnings (new ones prefixed by >>):
 
-Regards,
+>> arch/powerpc/kernel/test_cpuidle_latency.c:33:6: warning: no previous prototype for function 'run_smp_call_function_test' [-Wmissing-prototypes]
+      33 | void run_smp_call_function_test(unsigned int cpu)
+         |      ^
+   arch/powerpc/kernel/test_cpuidle_latency.c:33:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      33 | void run_smp_call_function_test(unsigned int cpu)
+         | ^
+         | static 
+   1 warning generated.
 
---
-Th=C3=A9o Lebrun, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
+vim +/run_smp_call_function_test +33 arch/powerpc/kernel/test_cpuidle_latency.c
+
+    32	
+  > 33	void run_smp_call_function_test(unsigned int cpu)
+    34	{
+    35		ipi_wakeup.src_cpu = smp_processor_id();
+    36		ipi_wakeup.dest_cpu = cpu;
+    37		ipi_wakeup.time_start = ktime_get();
+    38		smp_call_function_single(cpu, measure_latency, &ipi_wakeup, 1);
+    39	}
+    40	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
