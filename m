@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE521C2DE1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 22:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD6F1DA332
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 23:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719958404; cv=none; b=OXkPmqRXjp534ruMCM69Mx7ep6nAowEMpnOvlnwBOBndVVAZcLE40iKX+fw1hMEXvSflt/hYJbA5U/240lO+mLHhXpnj+0pTJhhLkjY3Cz74TAiCUawz/y6u55fDGFEqKCpU52ztKLQwVX0/06BDtjRYLM5iWP0DASU770kLIsU=
+	t=1719963437; cv=none; b=OGh5K9N6UgA2KYgQdQdkiAvEArcjd6IPndibtfIbjYJ0ac3RxA+gyA2TMX69hFwQYAGh6G7UKR54YW57PKJWKxibePaX0Hgs1eiKMaW4/WAZiksUaEycSXDdrNbnfLQxMri3kiRr8X6LJhWpQ8FqI4/iYCUUhO2M1g5SvT8BiAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719958404; c=relaxed/simple;
-	bh=9uRJi1dePOVenBwNoo7H4ISDnwyWuNDqKJelhTa20bg=;
+	s=arc-20240116; t=1719963437; c=relaxed/simple;
+	bh=rKnJ8LxOVlYeAGCw99qsiSNLbEeMNnROjoNYwvsDyY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kzUYhLFw37CIc2KtU3XgdVSqukLFu+WcPZZds/dFCwdqLj48U4I0D/2W8ur/ylvk4d+6n7pAUXVYDt7l1xFYesBEN8qkRB013rNFqYjjQpyZJLjnhIBIQ7aG3syPxW6L1ERz8JG0FiEurPESvozJ7aSPTxwW7MRaDL/bGGhBUKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHOTWcQo; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=R8A6QIC+QF+TqfeJGwaOu0ONrGXIhRjMxxsJVfiD1rqJJ6idYlbWHx646YGA885ggpS1ZJQZcptlZozbAzRKKVSP1X0lofXmjUh6+D6U/gAjW59OWjNE2falt9gkibVA4Nhj/l+SUKO+m0FtmUc5CX5wGJVbGu6RsBK2mRrjrSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9CQTkoi; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHOTWcQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9CQTkoi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719958403; x=1751494403;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9uRJi1dePOVenBwNoo7H4ISDnwyWuNDqKJelhTa20bg=;
-  b=JHOTWcQoEDi6eDhCaG/9bW/L9lDxp2Fj+9RjUp+GPGzoScde0OrlmNJA
-   zXGlzoC3lDeSk7zTN2HO1TTdGgTxD6S4QJm/ux+4JsX/OGH8ygTpnzkY8
-   E47DC7Dz7JLtXEve6gijwt4QpLG/tV+wpz7lpF5A8LmR6oFy3+P+QaQ7E
-   YlGHkR8iM4T+YliUtn5TlAx9xFoTo+amAxzpV3aZBFl/d+4hocrF+Uua7
-   0GKYSd1TMBWeDQYf84TI91vHqegKsSetuLQA0B7pdcR1ySE6kvhSD7cly
-   GCJyia7fPNJ3fiUYvXFR4lWy3O0/iNocLJQ7igB2KdSxVGN3aLiedTtM+
-   w==;
-X-CSE-ConnectionGUID: glT/BaZcRpSVkCvzIySzKA==
-X-CSE-MsgGUID: eSyYHVC8Q/6Db+NPcWShSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17297557"
+  t=1719963435; x=1751499435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rKnJ8LxOVlYeAGCw99qsiSNLbEeMNnROjoNYwvsDyY0=;
+  b=n9CQTkoiqPnKOzz9AWyTKr5BrC2O9ep9wP3yglxwEZwlCn+8ha6FhrfD
+   YX1R2HHYQAyYdWmk+U8k2stg+qxCiv4N/Aqh/li2i8QV+RLj7P3X0zVoh
+   GXEsCvxALvYg3yCDaOAySeoA5OMb+jZhBz26ab9fcgrwacg+GKLHpovuZ
+   6f+JH6QnnkYVxuBgGvPKUF6uDBDypMW+R1+a8AW5Z7nzwhtlYrOKSDRk8
+   0T1Cn5v0z/B+eCKArzgXWC0y5/JLqY+GNkRCaTgpVCv+gxcOI0BMly+qm
+   gJr5iaIPtL6KceJ3Y8RN2O0GMpLoAAOidwjb0n1XfumoeHtbpoUdIhXle
+   Q==;
+X-CSE-ConnectionGUID: DbE+RhisTqetMfXtymHzJA==
+X-CSE-MsgGUID: JmRpVRBuRQKgWcum91NMBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="20932548"
 X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
-   d="scan'208";a="17297557"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 15:13:22 -0700
-X-CSE-ConnectionGUID: XQrfl8E+QAS+tN2n4QTjFQ==
-X-CSE-MsgGUID: ey0NallYTXip8EzDQyIH8Q==
+   d="scan'208";a="20932548"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 16:37:09 -0700
+X-CSE-ConnectionGUID: g/OjBv2PRpmFyR/qLDkCfg==
+X-CSE-MsgGUID: vxYXOGnRQf6MqubTzshkmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
-   d="scan'208";a="46031038"
+   d="scan'208";a="46798705"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jul 2024 15:13:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Jul 2024 16:37:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOlkT-000OkE-1k;
-	Tue, 02 Jul 2024 22:13:17 +0000
-Date: Wed, 3 Jul 2024 06:12:34 +0800
+	id 1sOn3U-000Ow2-1V;
+	Tue, 02 Jul 2024 23:37:00 +0000
+Date: Wed, 3 Jul 2024 07:36:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajendra Nayak <quic_rjendra@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [qcom:arm64-for-6.11 236/264]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c271000:
- failed to match any schema with compatible: ['qcom,x1e80100-tsens',
- 'qcom,tsens-v2']
-Message-ID: <202407030642.boy144Da-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/next 24/36]
+ drivers/net/wireless/mediatek/mt76/mt792x_trace.h:24:11: error: expected
+ identifier
+Message-ID: <202407030715.FzXsvsG0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,359 +62,284 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-fo=
-r-6.11
-head:   818c2676e5816dad5a77df5a1c0d99d0e160d0b1
-commit: 4e915987ff5b91ea531e716367373ff4442d9614 [236/264] arm64: dts: qcom=
-: x1e80100: Enable tsens and thermal zone nodes
-config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/arch=
-ive/20240703/202407030642.boy144Da-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad7=
-9a14c9e5ec4a369eed4adf567c22cc029863f)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240703/202407030642.boy144Da-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/next
+head:   daa95af9ac26711b21e20be3c8d512d6de26bb11
+commit: ae027e8620ed35529906c8ff93bdb00813b93909 [24/36] page_pool: add page_pool_state_hold() helper
+config: powerpc64-randconfig-003-20240703 (https://download.01.org/0day-ci/archive/20240703/202407030715.FzXsvsG0-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407030715.FzXsvsG0-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407030642.boy144Da-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407030715.FzXsvsG0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c271000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c272000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c272000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c273000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c273000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: thermal-sensor@c274000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/thermal-sensor@c274000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: Unevaluated prop=
-erties are not allowed ('vddpe-3v3-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names:=
- ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@3: compatible:0: 'qcom,p=
-mc8380' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@3: gpio@8800:compatible:=
-0: 'qcom,pmc8380-gpio' is not one of ['qcom,pm2250-gpio', 'qcom,pm660-gpio'=
-, 'qcom,pm660l-gpio', 'qcom,pm6125-gpio', 'qcom,pm6150-gpio', 'qcom,pm6150l=
--gpio', 'qcom,pm6350-gpio', 'qcom,pm6450-gpio', 'qcom,pm7250b-gpio', 'qcom,=
-pm7325-gpio', 'qcom,pm7550ba-gpio', 'qcom,pm8005-gpio', 'qcom,pm8008-gpio',=
- 'qcom,pm8018-gpio', 'qcom,pm8019-gpio', 'qcom,pm8038-gpio', 'qcom,pm8058-g=
-pio', 'qcom,pm8150-gpio', 'qcom,pm8150b-gpio', 'qcom,pm8150l-gpio', 'qcom,p=
-m8226-gpio', 'qcom,pm8350-gpio', 'qcom,pm8350b-gpio', 'qcom,pm8350c-gpio', =
-'qcom,pm8450-gpio', 'qcom,pm8550-gpio', 'qcom,pm8550b-gpio', 'qcom,pm8550ve=
--gpio', 'qcom,pm8550vs-gpio', 'qcom,pm8916-gpio', 'qcom,pm8917-gpio', 'qcom=
-,pm8921-gpio', 'qcom,pm8941-gpio', 'qcom,pm8950-gpio', 'qcom,pm8953-gpio', =
-'qcom,pm8994-gpio', 'qcom,pm8998-gpio', 'qcom,pma8084-gpio', 'qcom,pmc8180-=
-gpio', 'qcom,pmc8180c-gpio', 'qcom,pmd8028-gpio', 'qcom,pmi632-gpio', 'qcom=
-,pmi8950-gpio', 'qcom,pmi8994-gpio', 'qcom,pmi8998-gpio', 'qcom,pmih0108-gp=
-io', 'qcom,pmk8350-gpio', 'qcom,pmk8550-gpio', 'qcom,pmm8155au-gpio', 'qcom=
-,pmm8654au-gpio', 'qcom,pmp8074-gpio', 'qcom,pmr735a-gpio', 'qcom,pmr735b-g=
-pio', 'qcom,pmr735d-gpio', 'qcom,pms405-gpio', 'qcom,pmx55-gpio', 'qcom,pmx=
-65-gpio', 'qcom,pmx75-gpio', 'qcom,pmxr2230-gpio']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c=
-42d000/pmic@3: failed to match any schema with compatible: ['qcom,pmc8380',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: gpio@8800: compatible:0: 'qco=
-m,pmc8380-gpio' is not one of ['qcom,pm2250-gpio', 'qcom,pm660-gpio', 'qcom=
-,pm660l-gpio', 'qcom,pm6125-gpio', 'qcom,pm6150-gpio', 'qcom,pm6150l-gpio',=
- 'qcom,pm6350-gpio', 'qcom,pm6450-gpio', 'qcom,pm7250b-gpio', 'qcom,pm7325-=
-gpio', 'qcom,pm7550ba-gpio', 'qcom,pm8005-gpio', 'qcom,pm8008-gpio', 'qcom,=
-pm8018-gpio', 'qcom,pm8019-gpio', 'qcom,pm8038-gpio', 'qcom,pm8058-gpio', '=
-qcom,pm8150-gpio', 'qcom,pm8150b-gpio', 'qcom,pm8150l-gpio', 'qcom,pm8226-g=
-pio', 'qcom,pm8350-gpio', 'qcom,pm8350b-gpio', 'qcom,pm8350c-gpio', 'qcom,p=
-m8450-gpio', 'qcom,pm8550-gpio', 'qcom,pm8550b-gpio', 'qcom,pm8550ve-gpio',=
- 'qcom,pm8550vs-gpio', 'qcom,pm8916-gpio', 'qcom,pm8917-gpio', 'qcom,pm8921=
--gpio', 'qcom,pm8941-gpio', 'qcom,pm8950-gpio', 'qcom,pm8953-gpio', 'qcom,p=
-m8994-gpio', 'qcom,pm8998-gpio', 'qcom,pma8084-gpio', 'qcom,pmc8180-gpio', =
-'qcom,pmc8180c-gpio', 'qcom,pmd8028-gpio', 'qcom,pmi632-gpio', 'qcom,pmi895=
-0-gpio', 'qcom,pmi8994-gpio', 'qcom,pmi8998-gpio', 'qcom,pmih0108-gpio', 'q=
-com,pmk8350-gpio', 'qcom,pmk8550-gpio', 'qcom,pmm8155au-gpio', 'qcom,pmm865=
-4au-gpio', 'qcom,pmp8074-gpio', 'qcom,pmr735a-gpio', 'qcom,pmr735b-gpio', '=
-qcom,pmr735d-gpio', 'qcom,pms405-gpio', 'qcom,pmx55-gpio', 'qcom,pmx65-gpio=
-', 'qcom,pmx75-gpio', 'qcom,pmxr2230-gpio']
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/wireless/mediatek/mt76/mt792x_trace.c:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt792x_trace.h:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt792x.h:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/powerpc/include/asm/io.h:24:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/net/wireless/mediatek/mt76/mt792x_trace.c:10:
+>> drivers/net/wireless/mediatek/mt76/mt792x_trace.h:24:11: error: expected identifier
+      24 |         TP_PROTO(struct mt792x_dev *dev, u8 lp_state),
+         |                  ^
+>> drivers/net/wireless/mediatek/mt76/mt792x_trace.h:23:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      23 | TRACE_EVENT(lp_event,
+         | ^
+         | int
+>> drivers/net/wireless/mediatek/mt76/mt792x_trace.h:23:12: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      23 | TRACE_EVENT(lp_event,
+         |            ^
+   1 warning and 3 errors generated.
 --
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c271000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c272000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c272000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c273000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c273000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: thermal-sensor@c274000: compa=
-tible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-tsens', 'qcom,tsens-v2'] is too long
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm896=
-0-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm822=
-6-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens',=
- 'qcom,msm8974-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm897=
-6-tsens', 'qcom,qcs404-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm899=
-6-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens',=
- 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc82=
-80xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens',=
- 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm825=
-0-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'q=
-com,sm8650-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq8074-tsens']
-   	'qcom,x1e80100-tsens' is not one of ['qcom,ipq9574-tsens']
-   	'qcom,tsens-v0_1' was expected
-   	'qcom,tsens-v1' was expected
-   	'qcom,ipq8074-tsens' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/thermal-sensor@c274000=
-: failed to match any schema with compatible: ['qcom,x1e80100-tsens', 'qcom=
-,tsens-v2']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: Unevaluated prop=
-erties are not allowed ('vddpe-3v3-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names:=
- ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@3: compatible:0: 'qcom,p=
-mc8380' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@3: gpio@8800:compatible:=
-0: 'qcom,pmc8380-gpio' is not one of ['qcom,pm2250-gpio', 'qcom,pm660-gpio'=
-, 'qcom,pm660l-gpio', 'qcom,pm6125-gpio', 'qcom,pm6150-gpio', 'qcom,pm6150l=
--gpio', 'qcom,pm6350-gpio', 'qcom,pm6450-gpio', 'qcom,pm7250b-gpio', 'qcom,=
-pm7325-gpio', 'qcom,pm7550ba-gpio', 'qcom,pm8005-gpio', 'qcom,pm8008-gpio',=
- 'qcom,pm8018-gpio', 'qcom,pm8019-gpio', 'qcom,pm8038-gpio', 'qcom,pm8058-g=
-pio', 'qcom,pm8150-gpio', 'qcom,pm8150b-gpio', 'qcom,pm8150l-gpio', 'qcom,p=
-m8226-gpio', 'qcom,pm8350-gpio', 'qcom,pm8350b-gpio', 'qcom,pm8350c-gpio', =
-'qcom,pm8450-gpio', 'qcom,pm8550-gpio', 'qcom,pm8550b-gpio', 'qcom,pm8550ve=
--gpio', 'qcom,pm8550vs-gpio', 'qcom,pm8916-gpio', 'qcom,pm8917-gpio', 'qcom=
-,pm8921-gpio', 'qcom,pm8941-gpio', 'qcom,pm8950-gpio', 'qcom,pm8953-gpio', =
-'qcom,pm8994-gpio', 'qcom,pm8998-gpio', 'qcom,pma8084-gpio', 'qcom,pmc8180-=
-gpio', 'qcom,pmc8180c-gpio', 'qcom,pmd8028-gpio', 'qcom,pmi632-gpio', 'qcom=
-,pmi8950-gpio', 'qcom,pmi8994-gpio', 'qcom,pmi8998-gpio', 'qcom,pmih0108-gp=
-io', 'qcom,pmk8350-gpio', 'qcom,pmk8550-gpio', 'qcom,pmm8155au-gpio', 'qcom=
-,pmm8654au-gpio', 'qcom,pmp8074-gpio', 'qcom,pmr735a-gpio', 'qcom,pmr735b-g=
-pio', 'qcom,pmr735d-gpio', 'qcom,pms405-gpio', 'qcom,pmx55-gpio', 'qcom,pmx=
-65-gpio', 'qcom,pmx75-gpio', 'qcom,pmxr2230-gpio']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c=
-42d000/pmic@3: failed to match any schema with compatible: ['qcom,pmc8380',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: gpio@8800: compatible:0: 'qco=
-m,pmc8380-gpio' is not one of ['qcom,pm2250-gpio', 'qcom,pm660-gpio', 'qcom=
-,pm660l-gpio', 'qcom,pm6125-gpio', 'qcom,pm6150-gpio', 'qcom,pm6150l-gpio',=
- 'qcom,pm6350-gpio', 'qcom,pm6450-gpio', 'qcom,pm7250b-gpio', 'qcom,pm7325-=
-gpio', 'qcom,pm7550ba-gpio', 'qcom,pm8005-gpio', 'qcom,pm8008-gpio', 'qcom,=
-pm8018-gpio', 'qcom,pm8019-gpio', 'qcom,pm8038-gpio', 'qcom,pm8058-gpio', '=
-qcom,pm8150-gpio', 'qcom,pm8150b-gpio', 'qcom,pm8150l-gpio', 'qcom,pm8226-g=
-pio', 'qcom,pm8350-gpio', 'qcom,pm8350b-gpio', 'qcom,pm8350c-gpio', 'qcom,p=
-m8450-gpio', 'qcom,pm8550-gpio', 'qcom,pm8550b-gpio', 'qcom,pm8550ve-gpio',=
- 'qcom,pm8550vs-gpio', 'qcom,pm8916-gpio', 'qcom,pm8917-gpio', 'qcom,pm8921=
--gpio', 'qcom,pm8941-gpio', 'qcom,pm8950-gpio', 'qcom,pm8953-gpio', 'qcom,p=
-m8994-gpio', 'qcom,pm8998-gpio', 'qcom,pma8084-gpio', 'qcom,pmc8180-gpio', =
-'qcom,pmc8180c-gpio', 'qcom,pmd8028-gpio', 'qcom,pmi632-gpio', 'qcom,pmi895=
-0-gpio', 'qcom,pmi8994-gpio', 'qcom,pmi8998-gpio', 'qcom,pmih0108-gpio', 'q=
-com,pmk8350-gpio', 'qcom,pmk8550-gpio', 'qcom,pmm8155au-gpio', 'qcom,pmm865=
-4au-gpio', 'qcom,pmp8074-gpio', 'qcom,pmr735a-gpio', 'qcom,pmr735b-gpio', '=
-qcom,pmr735d-gpio', 'qcom,pms405-gpio', 'qcom,pmx55-gpio', 'qcom,pmx65-gpio=
-', 'qcom,pmx75-gpio', 'qcom,pmxr2230-gpio']
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02_trace.c:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02.h:10:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02_trace.c:10:
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:27:11: error: expected identifier
+      27 |         TP_PROTO(struct mt76x02_dev *dev),
+         |                  ^
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:26:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      26 | DECLARE_EVENT_CLASS(dev_evt,
+         | ^
+         | int
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:26:20: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      26 | DECLARE_EVENT_CLASS(dev_evt,
+         |                    ^
+      27 |         TP_PROTO(struct mt76x02_dev *dev),
+      28 |         TP_ARGS(dev),
+      29 |         TP_STRUCT__entry(
+      30 |                 DEV_ENTRY
+      31 |         ),
+      32 |         TP_fast_assign(
+      33 |                 DEV_ASSIGN;
+      34 |         ),
+      35 |         TP_printk(DEV_PR_FMT, DEV_PR_ARG)
+      36 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:39:11: error: expected identifier
+      39 |         TP_PROTO(struct mt76x02_dev *dev),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:38:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      38 | DEFINE_EVENT(dev_evt, mac_txstat_poll,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:38:13: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      38 | DEFINE_EVENT(dev_evt, mac_txstat_poll,
+         |             ^
+      39 |         TP_PROTO(struct mt76x02_dev *dev),
+      40 |         TP_ARGS(dev)
+      41 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:44:11: error: expected identifier
+      44 |         TP_PROTO(struct mt76x02_dev *dev,
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:43:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      43 | TRACE_EVENT(mac_txstat_fetch,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:43:12: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      43 | TRACE_EVENT(mac_txstat_fetch,
+         |            ^
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02_trace.c:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:87:
+   In file included from include/trace/define_trace.h:95:
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:27:11: error: expected identifier
+      27 |         TP_PROTO(struct mt76x02_dev *dev),
+         |                  ^
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:26:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      26 | DECLARE_EVENT_CLASS(dev_evt,
+         | ^
+         | int
+>> drivers/net/wireless/mediatek/mt76/mt76x02_trace.h:26:20: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      26 | DECLARE_EVENT_CLASS(dev_evt,
+         |                    ^
+      27 |         TP_PROTO(struct mt76x02_dev *dev),
+      28 |         TP_ARGS(dev),
+      29 |         TP_STRUCT__entry(
+      30 |                 DEV_ENTRY
+      31 |         ),
+      32 |         TP_fast_assign(
+      33 |                 DEV_ASSIGN;
+      34 |         ),
+      35 |         TP_printk(DEV_PR_FMT, DEV_PR_ARG)
+      36 | );
+         | void
+   1 warning and 12 errors generated.
+--
+   In file included from drivers/net/wireless/mediatek/mt76/trace.c:10:
+   In file included from drivers/net/wireless/mediatek/mt76/trace.h:10:
+   In file included from drivers/net/wireless/mediatek/mt76/mt76.h:10:
+   In file included from include/linux/io.h:14:
+   In file included from arch/powerpc/include/asm/io.h:24:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/net/wireless/mediatek/mt76/trace.c:10:
+>> drivers/net/wireless/mediatek/mt76/trace.h:33:11: error: expected identifier
+      33 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+         |                  ^
+>> drivers/net/wireless/mediatek/mt76/trace.h:32:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      32 | DECLARE_EVENT_CLASS(dev_reg_evt,
+         | ^
+         | int
+>> drivers/net/wireless/mediatek/mt76/trace.h:32:20: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      32 | DECLARE_EVENT_CLASS(dev_reg_evt,
+         |                    ^
+      33 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+      34 |         TP_ARGS(dev, reg, val),
+      35 |         TP_STRUCT__entry(
+      36 |                 DEV_ENTRY
+      37 |                 REG_ENTRY
+      38 |         ),
+      39 |         TP_fast_assign(
+      40 |                 DEVICE_ASSIGN;
+      41 |                 REG_ASSIGN;
+      42 |         ),
+      43 |         TP_printk(
+      44 |                 DEV_PR_FMT REG_PR_FMT,
+      45 |                 DEV_PR_ARG, REG_PR_ARG
+      46 |         )
+      47 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/trace.h:50:11: error: expected identifier
+      50 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/trace.h:49:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      49 | DEFINE_EVENT(dev_reg_evt, reg_rr,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/trace.h:49:13: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      49 | DEFINE_EVENT(dev_reg_evt, reg_rr,
+         |             ^
+      50 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+      51 |         TP_ARGS(dev, reg, val)
+      52 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/trace.h:55:11: error: expected identifier
+      55 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/trace.h:54:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      54 | DEFINE_EVENT(dev_reg_evt, reg_wr,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/trace.h:54:13: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      54 | DEFINE_EVENT(dev_reg_evt, reg_wr,
+         |             ^
+      55 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+      56 |         TP_ARGS(dev, reg, val)
+      57 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/trace.h:60:11: error: expected identifier
+      60 |         TP_PROTO(struct mt76_dev *dev, u32 val, u32 mask),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/trace.h:59:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      59 | TRACE_EVENT(dev_irq,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/trace.h:59:12: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      59 | TRACE_EVENT(dev_irq,
+         |            ^
+   drivers/net/wireless/mediatek/mt76/trace.h:83:11: error: expected identifier
+      83 |         TP_PROTO(struct mt76_dev *dev, u8 wcid, u8 pktid),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/trace.h:82:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      82 | DECLARE_EVENT_CLASS(dev_txid_evt,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/trace.h:82:20: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      82 | DECLARE_EVENT_CLASS(dev_txid_evt,
+         |                    ^
+      83 |         TP_PROTO(struct mt76_dev *dev, u8 wcid, u8 pktid),
+      84 |         TP_ARGS(dev, wcid, pktid),
+      85 |         TP_STRUCT__entry(
+      86 |                 DEV_ENTRY
+      87 |                 TXID_ENTRY
+      88 |         ),
+      89 |         TP_fast_assign(
+      90 |                 DEVICE_ASSIGN;
+      91 |                 TXID_ASSIGN;
+      92 |         ),
+      93 |         TP_printk(
+      94 |                 DEV_PR_FMT TXID_PR_FMT,
+      95 |                 DEV_PR_ARG, TXID_PR_ARG
+      96 |         )
+      97 | );
+         | void
+   drivers/net/wireless/mediatek/mt76/trace.h:100:11: error: expected identifier
+     100 |         TP_PROTO(struct mt76_dev *dev, u8 wcid, u8 pktid),
+         |                  ^
+   drivers/net/wireless/mediatek/mt76/trace.h:99:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      99 | DEFINE_EVENT(dev_txid_evt, mac_txdone,
+         | ^
+         | int
+   drivers/net/wireless/mediatek/mt76/trace.h:99:13: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      99 | DEFINE_EVENT(dev_txid_evt, mac_txdone,
+         |             ^
+     100 |         TP_PROTO(struct mt76_dev *dev, u8 wcid, u8 pktid),
+     101 |         TP_ARGS(dev, wcid, pktid)
+     102 | );
+         | void
+   In file included from drivers/net/wireless/mediatek/mt76/trace.c:10:
+   In file included from drivers/net/wireless/mediatek/mt76/trace.h:111:
+   In file included from include/trace/define_trace.h:95:
+>> drivers/net/wireless/mediatek/mt76/trace.h:33:11: error: expected identifier
+      33 |         TP_PROTO(struct mt76_dev *dev, u32 reg, u32 val),
+         |                  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
 
---=20
+
+vim +24 drivers/net/wireless/mediatek/mt76/mt792x_trace.h
+
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  22  
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11 @23  TRACE_EVENT(lp_event,
+975e122ddb7cd6 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2023-06-28 @24  	TP_PROTO(struct mt792x_dev *dev, u8 lp_state),
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  25  
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  26  	TP_ARGS(dev, lp_state),
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  27  
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  28  	TP_STRUCT__entry(
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  29  		DEV_ENTRY
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  30  		__field(u8, lp_state)
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  31  	),
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  32  
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  33  	TP_fast_assign(
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  34  		DEV_ASSIGN;
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  35  		__entry->lp_state = lp_state;
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  36  	),
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  37  
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  38  	TP_printk(
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  39  		DEV_PR_FMT " %s",
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  40  		DEV_PR_ARG, LP_STATE_PR_ARG
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  41  	)
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  42  );
+2afd17b4d0fc15 drivers/net/wireless/mediatek/mt76/mt7921/mt7921_trace.h Lorenzo Bianconi 2021-04-11  43  
+
+:::::: The code at line 24 was first introduced by commit
+:::::: 975e122ddb7cd6f67bff974d2ea00c5568d2014c wifi: mt76: mt7921: rename mt7921_dev in mt792x_dev
+
+:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
