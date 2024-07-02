@@ -1,207 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E2A148303
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 08:39:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719909595; cv=fail; b=lKUFQUPHsdpm95zY85a3LKCChtzgv7cgnwuy3j+/40R03LpYaRuH2vbkpSJnzIQRKtzjWF4wM0B6PQegukYcjHLHgqUPr+7FuIZO5bvcQfmmp/+kdKp+Ffl4DpZ9gJG8cv1mOPIZ7ZY9drTcPT1ZHclvoQPJOT8qCsT6/mZIC9g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719909595; c=relaxed/simple;
-	bh=yFq4R8APpWua9OARCwmnizOxyOaKu252VVTpLYz9Fmo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YNQYoWJ+9U5edZiPpQhuLp68fHFA2DmqnkarizgEgejOcHePeVrD9lAZBBuVNQ7BwVrEi77GYYSMfslctYLCVoirgrL2TPhcV+vqQZPZoL1LyC/B3nrhmcobV1NVqJU+W1A+//LMOv3htfXX9/TpHHnbkQgX79IOA5Mtovt81DA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GG5TFZ0V; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GG5TFZ0V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719909594; x=1751445594;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=yFq4R8APpWua9OARCwmnizOxyOaKu252VVTpLYz9Fmo=;
-  b=GG5TFZ0VsyXONKXiocmIxav//iU+MJ1ofHJKSWE6Ot57X+6t7vdWwI3D
-   E1W1HexsMXVqPsozG4mseTWSAq+2Exy2vpiKQ3oFg48xNZ7A29nE70LRF
-   HuWLzSTpCRs1R3lIxSgnl/GVJ32R55qeanQUhK1AW2HjXNwuQfo4GTiQL
-   IONFOAg3BZHHp0/ywWgIh/0czln9aUTFTl7RbduhrpnZCuedT7F4WhTgh
-   UfoIuXlezrv9WxDZnQMRf59Aridxv8anBbCPR7a0hDRVx2/3CJwo8cjXu
-   S7LjVI8f5kHnXJVPiLy03MmeC2ozZaXq2LqUCVzpZL7APj2EiFJP7Xz+D
-   w==;
-X-CSE-ConnectionGUID: nABWzBg4R4qN4uK/XkGQmA==
-X-CSE-MsgGUID: QFMuD3OGTsSVrvFObEHNTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="27750085"
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="27750085"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 01:39:53 -0700
-X-CSE-ConnectionGUID: LHGSZS8/Sjy5bqgPH1+1Mg==
-X-CSE-MsgGUID: qMUaWoL7RbSrB7DF4cACzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="45718322"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Jul 2024 01:39:53 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 2 Jul 2024 01:39:52 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 2 Jul 2024 01:39:52 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 2 Jul 2024 01:39:52 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 2 Jul 2024 01:39:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eATd82ZDi+sQukQu9sCAue4H5Y+WjYMIae2zdvvOL0vQCOamJvjeYtGWI8bN5iu9+qX7JfKuOsPXt5AuzrZghHemA9dAiAuWW7P5g8c+W0uaogUXiV1jLaI8+KKcgMtPEs6yRrHq3DmOKFKYW9JZ7x66EAG5DBvZejTZJ//ARdqfF7MZ6h8NgWVkaHny2o1v3m2ZXgxGNg1PDa2tN2+v42zxjnUqS4RqFA/oA8wPomcoEY5eXg1B5Zf9IL1WH9KbACLePjHnTDNezCv/HDCm3AbICW+KY12UcLRnk/ot3NmIBekWRCGrYGBpPL50WwWUVOeGNmnLDP2OL9RKy9lQqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cbf6TU9W6FuoimOoCQAiAqXX/l62+9l7UgqTaxEB92g=;
- b=Byci+uo4mUClccBLKHylGROVtSQaltaAWXvAr+15IB53akBLTxrI2eHq9ia3ixIyVUCzq23EslgFQVXWmCdzi45pYE54vkslSIhUGOm9X47O544623knUDg+vIULLub4w+Lg10PCg8aPQYDgT/yjwk48nMkxmbs7emGpIHJVoIjuF8vC2IayAoFX284jkWhwWTqDV4qehpuV42Sl54kkaPfgh+U3T5UEcQp56hND/jpbr74/mLnmYpiujP7DGZll7F2GG1QbdbydoiRinimdqpK5RwHv08RtlEdq0VQ/1TVPU/9rKobshoOAqPe4oWLd6ipXXi/jczPzmZMDNidctQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6) by
- SJ0PR11MB5867.namprd11.prod.outlook.com (2603:10b6:a03:42a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.32; Tue, 2 Jul
- 2024 08:39:44 +0000
-Received: from DS7PR11MB6039.namprd11.prod.outlook.com
- ([fe80::3f0c:a44c:f6a2:d3a9]) by DS7PR11MB6039.namprd11.prod.outlook.com
- ([fe80::3f0c:a44c:f6a2:d3a9%3]) with mapi id 15.20.7741.017; Tue, 2 Jul 2024
- 08:39:44 +0000
-Date: Tue, 2 Jul 2024 16:39:36 +0800
-From: Philip Li <philip.li@intel.com>
-To: Shawn Guo <shawnguo2@yeah.net>
-CC: Peng Fan <peng.fan@nxp.com>, kernel test robot <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [shawnguo:imx/dt64 53/91]
- arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: /: failed to match any
- schema with compatible: ['fsl,imx95-19x19-evk', 'fsl,imx95']
-Message-ID: <ZoO8yPWlF/DO85N7@rli9-mobl>
-References: <202407021405.ahrmTsPb-lkp@intel.com>
- <AM6PR04MB5941F075BB66E5D866A8F54988DC2@AM6PR04MB5941.eurprd04.prod.outlook.com>
- <ZoOjPtWSTTn8QryI@dragon>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZoOjPtWSTTn8QryI@dragon>
-X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
- To DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6484C14D6FE;
+	Tue,  2 Jul 2024 08:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719909732; cv=none; b=QPZ5QhHbDrEs8EjvHoaP7Ng+wTLSjOUWhdPq6Uf1cAcdtdTGfunjHa4M3QLp8GiegzsiHNJW91+qhxKbzYpEn08DE6hAYTvkvTG6kKYhyz6X+yWjFX1cdN0Di2uQAlL5hyZcb864pwF/SzniztDY8lofesfT0spmfj00eGUtnnM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719909732; c=relaxed/simple;
+	bh=Szn6YRUpfYz0yd9osdhVOlDX+be/F0LeP2yU9Iygw5w=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d698AQq7knhHATLjbcl1Qp3g3oLUnm2429NYvMvkevu4MwNA+rH50xTOFTS98TDxvJ6RfETwnGm5ZLPY0CGSHCbZHcMV5jrjGOg/lhqwEbdMtvyj4dPCXGR4omLSAT5Do3OhxXjdwnCi83GjMtjSg66+HfdKn6Fh0lnHpIEExPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WCxGL3zKrz6JBCM;
+	Tue,  2 Jul 2024 16:41:30 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id BD3C9140A87;
+	Tue,  2 Jul 2024 16:42:05 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 2 Jul
+ 2024 09:42:05 +0100
+Date: Tue, 2 Jul 2024 09:42:04 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: <oe-kbuild@lists.linux.dev>, Dumitru Ceclan <dumitru.ceclan@analog.com>,
+	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Nuno Sa
+	<nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
+	<jic23@kernel.org>, <linux-iio@vger.kernel.org>
+Subject: Re: [jic23-iio:testing 15/61] drivers/iio/adc/ad7173.c:1254
+ ad7173_fw_parse_channel_config() error: uninitialized symbol
+ 'is_current_chan'.
+Message-ID: <20240702094204.0000312a@Huawei.com>
+In-Reply-To: <fc29cd12-378f-420f-b076-92a1833907e5@suswa.mountain>
+References: <fc29cd12-378f-420f-b076-92a1833907e5@suswa.mountain>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB6039:EE_|SJ0PR11MB5867:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35d41b4f-4ddc-4688-e951-08dc9a728603
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?m0FcnJTuiK7cHQyQ3GsDnF7KZ94Hihq6L67WA6knad56qqGI8x/erRma/wXK?=
- =?us-ascii?Q?TXGMJHQcWMF1UzAeeXBH/QVzzNol+5Cym7lnsFjpQSRU+D7XR4Vvbr//gz1E?=
- =?us-ascii?Q?ShjSuj0U6IycKL5J6zQjr92uNYZAtO9o7VM8td+4M+Akj3+b/LORGBsf4sCS?=
- =?us-ascii?Q?R4pxJr/F/54yBxb2JP5irIAuOrlXDVKLcSRkIY/tVc5yJ3AtBquv+/KDbe3A?=
- =?us-ascii?Q?9aVs/pIQVqq2KlV+Hy82N05LHvkW2aBFqmJuNZ/IQd1OKWBgn8fnRcKkxiig?=
- =?us-ascii?Q?qV/HkoZaWMLsQrFOUqKPp523HpXrTJ/EJjKMhwcHT7dOzEHdjHe22t0C0Slh?=
- =?us-ascii?Q?TG1sAf60gasfmbiX1+iiRxQK4S/+37FnRnkrrzvd6wqAvQRZv5uc9pfeDr1x?=
- =?us-ascii?Q?TI1HhaGS8MAfGL9Z3puXFRNzQb6VclwgOEZsM4jho8ILSDahEhZPKpDGZd0Y?=
- =?us-ascii?Q?xnH+1h/YsWPTBnEIKsVDDL25fqNVbCHM4VkgsqDqxW5jNywWQfW5a3MJxnIy?=
- =?us-ascii?Q?B6vL/+RQfU9XfI3sMvl5Rm+C26anGUWMb7C8HuN3OA0Q4Doxj1OJ6T7iMlgD?=
- =?us-ascii?Q?n6nyVvArEK2nagg0HwnkThG9xzE8S7zyMvJOyjbw8+UsP5Sy7EwzkL8Mhrep?=
- =?us-ascii?Q?l5J0MXgztJxvIZjs18y5YnoLH7Krcf7458CLclNgO74LT8C+4Gqc07yE7J5J?=
- =?us-ascii?Q?n23Y2QuGnhn5nFtpuvGWcRmTpF4djeTI3j9ttggZ11DP+CPNCBoeLKBvHJhG?=
- =?us-ascii?Q?X4yFCK0Ok+dx8rKANofQEHU3/pU7cd08ez9+mNCXCAmmNfVYCDoH/qExUTOe?=
- =?us-ascii?Q?TVk3px5I9TGJCI00UZ+hs7QESk3qPs+qPfZ83jI5JMNJz3rmRxHRXeYgXt2R?=
- =?us-ascii?Q?9ukKfMKqWqO0RClE5mZNgSS9QTgT38odgAP53JtYY8q+yG0unaSi4OMo8/Yv?=
- =?us-ascii?Q?WkC/ZoEnN6xDzTkaU9axF7gbSBVyOQI96jso6KB69trP5SnBFD4DqqF54tvC?=
- =?us-ascii?Q?+OLrMeas9aUJ98iHtwmDCw6ZiLjiZlcloexX21av0USkS+KKtOOaG+Tf/63s?=
- =?us-ascii?Q?aNKU0szMHCAHrm2KcXS/StFRgel1C1+9+Exbfca2qdA5YEZ3/Z/7U7gi/VhZ?=
- =?us-ascii?Q?L+J6LWbwnkQyfWpkjt2LPCFvPsOwLBSSQhvs+d4WUuiwflQDfBlTL7b/Q62e?=
- =?us-ascii?Q?vakql2tIoyxcl+uhXoV8AxeWDlJ44cr7ZFI/Wr//9vOnWxkaRSTEJ+y8Qx8J?=
- =?us-ascii?Q?am99UEOnzV7IvbC11u43gQuKdNDZ5SIYOSMGUoYEYLcu1qMAIEo9EDLMdAvB?=
- =?us-ascii?Q?Q6ZGXb/2csXELumr0gaoEg36zfLZdRmvFMYvkSv4do/1nA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6039.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E2KCoyEsfKWUiCE3O1FTUJK/m7rQcXhQVLzbm2i471wozn6BToB2KPvvfC7J?=
- =?us-ascii?Q?gQ5RRQVDpKgBkEGn2mfFsHpv27GIlaezowJjOb+uSTbpms/zY7d8GHub9gQU?=
- =?us-ascii?Q?fz1BCggWK0MuGT9npOIUd/V3JeI+AsYF93uZMpudKLQQi7Vl2gU6RQVEIpsL?=
- =?us-ascii?Q?5ayG1u5NKWMgJDE//eXYUDr6L2kl+vN3/gUmB6sXoESLuu0ifBbe86o2UtQc?=
- =?us-ascii?Q?EY3CASmNnEDF+7666pka7laYQG6XIV2ajbknY+aRlpQcgtF9Ws0DJmzt5oiW?=
- =?us-ascii?Q?tifeIQU62rEka6vIP0+8JalQhi1j3EVUM/iuco7CgXzh4VkVUsmZmV6hZLKg?=
- =?us-ascii?Q?AQsTtkK1xQpO3Fz/mahe3WGFKTldj5YaqdeUFNOhbd9ZBgb/kgcA48QvE2DY?=
- =?us-ascii?Q?vRNmk6ZJfFXGvY5xh9zct/89n+k6JB8ZREdBczz+KY6kPhqadXSffkLYP/p/?=
- =?us-ascii?Q?2p60rfg6nQYVfqXB5A8/vZvD5UvYYnBZgjO2WmIXxyCRVdfwNM6P5EE0zZEN?=
- =?us-ascii?Q?HnXTPkwF1vG/PqpCkl0HLW8Ajjum4t21SRVVdyyGn0i53+bSZvqB2SnkVxIl?=
- =?us-ascii?Q?jljDr51SBPHMn5QXmXmIf9Q6awl+Wa7pCzacBnUXnrNyY8n7GJfVRnjUdtYB?=
- =?us-ascii?Q?/epR5bt+gUcKceqY/lJCcyERLPvH/S2k+dtzpxXz8DWZXXzcxS6L5bsbsys1?=
- =?us-ascii?Q?r/kW6G+mDAzPUBgamZafEtawZh+p25BkDXVScQMt+XuSUPu3K/zeWoA2TgT+?=
- =?us-ascii?Q?GxtvZ3Fj06q5bGYDtaSlClxJcVv2aeIR5iQscivn+Qef6D/ngFEiZM+VahvA?=
- =?us-ascii?Q?ife4Ma9OkE+CiXpRyM+E2/aDVcVEklFM+SgZmsE62B6YMlH6x8V9qnjHaiYU?=
- =?us-ascii?Q?+q2NdNrjDfabCKE8kWCfciaEmrdlueVSWDQ80WOMxaYMfubYbZM6JPL233D5?=
- =?us-ascii?Q?B6WJeS2v8frYVLoBoHr5fSzZ8GjEdaNoT5WXuyF4GeO1RsFEXHsSnM8CMXH9?=
- =?us-ascii?Q?HQKSqnMdxoRkJRfnSTV93IQRekEABt7h6bUjlcrrcQ+H/j6r0RQZdnecWb3d?=
- =?us-ascii?Q?tmn2KAWHwUUZGrnkHFADKpDiAx35rOaJz4fHXa/PyTZBr0/7lgWlA8umwQGQ?=
- =?us-ascii?Q?z8ueUfFkM01YzYlDOwiwX8k2qPqdMmJXb1qNvAJhEDD3s3cpxJ/oVepNp8iy?=
- =?us-ascii?Q?F+82IUbVET09qx2EUKFAA4z3Vc2/tWV+TMgmwEh7mkRqxUoMNluN7H/U8M1S?=
- =?us-ascii?Q?NaJg0Ex27TFJDwBYreJJBwaWPEesLxCIWL7NaedN5ecs74HYw7JUSOPDTnPn?=
- =?us-ascii?Q?CJrjlsdgPKQVvqQvOx9fqXOth1sFhd+mRk2dr779LiHbWFBvaENBnYod718e?=
- =?us-ascii?Q?kMJvtcAqAPvD5AH7XZ3k+rEYyuGOGBpGq3Gwk+sNpFQF6ustF3b1rJWO1fkT?=
- =?us-ascii?Q?jWrN5Pw090q/ES88KJCCU9V0Wu7oRgb0jQgPAFoZilou1mse1PtFm2uJFL4w?=
- =?us-ascii?Q?Hly3u00exKvCTmlpvtdmu4rvfD+nauGgW8y0XOP8CjMsRTHgtDPdHAkrGQBY?=
- =?us-ascii?Q?NQqk7gWQL3JlJa0QyNnI3i3BOe45ZeMiRVDb7xJk?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35d41b4f-4ddc-4688-e951-08dc9a728603
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6039.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2024 08:39:44.7845
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jvrJDiGKXSgsiomGFcWOI0OCRzE47pp1DPUZKvioc3ZZA1TxZo2ESBhKE/tKB53DP4lXrIh311UhQQMs7/6ByQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5867
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Tue, Jul 02, 2024 at 02:50:38PM +0800, Shawn Guo wrote:
-> On Tue, Jul 02, 2024 at 06:22:26AM +0000, Peng Fan wrote:
-> > > dtcheck warnings: (new ones prefixed by >>)
-> > > >> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: /: failed to
-> > > match
-> > > >> any schema with compatible: ['fsl,imx95-19x19-evk', 'fsl,imx95']
-> > > >> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: /: failed to
-> > > match
-> > > >> any schema with compatible: ['fsl,imx95-19x19-evk', 'fsl,imx95']
-> > >    arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: scmi:
-> > > protocol@19: Unevaluated properties are not allowed
-> > > ('regusdhc2vmmcgrp', 'uart1grp', 'usdhc1-100mhzgrp', 'usdhc1-
-> > > 200mhzgrp', 'usdhc1grp', 'usdhc2-100mhzgrp', 'usdhc2-200mhzgrp',
-> > > 'usdhc2gpiogrp', 'usdhc2grp' were unexpected)
-> > 
-> > The binding is in Linus' pinctrl tree.
-> 
-> Hi lkp forks,
-> 
-> Thanks for all those reports!  But could you stop such "make W=1 dtbs"
-> testing against my imx/dt64 (and imx/dt) branch but testing linux-next
-> instead?  Binding changes may go via different trees.
+On Mon, 1 Jul 2024 17:30:57 +0200
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-Got it, these 2 branches will be ignored for dtbs testing. Sorry for
-the noises.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> head:   e2afe21f9b0bfa3f188cd5a60940b07a85d65e9a
+> commit: cfc4c76b75ab68a95976e0db725baff385c4136d [15/61] iio: adc: ad7173: Add support for AD411x devices
+> config: x86_64-randconfig-161-20240623 (https://download.01.org/0day-ci/archive/20240623/202406232046.DKfBJq6o-lkp@intel.com/config)
+> compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202406232046.DKfBJq6o-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/adc/ad7173.c:1254 ad7173_fw_parse_channel_config() error: uninitialized symbol 'is_current_chan'.
+
+Thanks. Initializing to false or setting it in the else should do the job.
+
+The IIO Tree is a complex mess of merges as the moment, so I'll apply a patch
+on top.  If anyone wants to spin one that would save me a few mins.
+
+Jonathan
 
 > 
-> Shawn
+> vim +/is_current_chan +1254 drivers/iio/adc/ad7173.c
 > 
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1184  static int ad7173_fw_parse_channel_config(struct iio_dev *indio_dev)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1185  {
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1186  	struct ad7173_channel *chans_st_arr, *chan_st_priv;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1187  	struct ad7173_state *st = iio_priv(indio_dev);
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1188  	struct device *dev = indio_dev->dev.parent;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1189  	struct iio_chan_spec *chan_arr, *chan;
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1190  	unsigned int ain[AD7173_NO_AINS_PER_CHANNEL], chan_index = 0;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1191  	int ref_sel, ret, is_current_chan, num_channels;
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1192  
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1193  	num_channels = device_get_child_node_count(dev);
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1194  
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1195  	if (st->info->has_temp)
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1196  		num_channels++;
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1197  
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1198  	if (num_channels == 0)
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1199  		return dev_err_probe(dev, -ENODATA, "No channels specified\n");
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1200  
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1201  	if (num_channels > st->info->num_channels)
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1202  		return dev_err_probe(dev, -EINVAL,
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1203  			"Too many channels specified. Maximum is %d, not including temperature channel if supported.\n",
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1204  			st->info->num_channels);
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1205  
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1206  	indio_dev->num_channels = num_channels;
+> 51d5a38b21113a Dumitru Ceclan   2024-06-07  1207  	st->num_channels = num_channels;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1208  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1209  	chan_arr = devm_kcalloc(dev, sizeof(*indio_dev->channels),
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1210  				st->num_channels, GFP_KERNEL);
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1211  	if (!chan_arr)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1212  		return -ENOMEM;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1213  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1214  	chans_st_arr = devm_kcalloc(dev, st->num_channels, sizeof(*st->channels),
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1215  				    GFP_KERNEL);
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1216  	if (!chans_st_arr)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1217  		return -ENOMEM;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1218  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1219  	indio_dev->channels = chan_arr;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1220  	st->channels = chans_st_arr;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1221  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1222  	if (st->info->has_temp) {
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1223  		chan_arr[chan_index] = ad7173_temp_iio_channel_template;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1224  		chan_st_priv = &chans_st_arr[chan_index];
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1225  		chan_st_priv->ain =
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1226  			AD7173_CH_ADDRESS(chan_arr[chan_index].channel,
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1227  					  chan_arr[chan_index].channel2);
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1228  		chan_st_priv->cfg.bipolar = false;
+> ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1229  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1230  		chan_st_priv->cfg.ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1231  		st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1232  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1233  		chan_index++;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1234  	}
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1235  
+> cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1236  	device_for_each_child_node_scoped(dev, child) {
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1237  		chan = &chan_arr[chan_index];
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1238  		*chan = ad7173_channel_template;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1239  		chan_st_priv = &chans_st_arr[chan_index];
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1240  		ret = fwnode_property_read_u32_array(child, "diff-channels",
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1241  						     ain, ARRAY_SIZE(ain));
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1242  		if (ret) {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1243  			ret = fwnode_property_read_u32(child, "single-channel",
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1244  						       ain);
+> cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1245  			if (ret)
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1246  				return dev_err_probe(dev, ret,
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1247  					"Channel must define one of diff-channels or single-channel.\n");
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1248  
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1249  			is_current_chan = fwnode_property_read_bool(child, "adi,current-channel");
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1250  		} else {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1251  			chan->differential = true;
 > 
+> is_current_chan not initialized on this path.
+> 
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1252  		}
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1253  
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07 @1254  		if (is_current_chan) {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1255  			ret = ad4111_validate_current_ain(st, ain);
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1256  			if (ret)
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1257  				return ret;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1258  		} else {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1259  			if (!chan->differential) {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1260  				ret = fwnode_property_read_u32(child,
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1261  					"common-mode-channel", ain + 1);
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1262  				if (ret)
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1263  					return dev_err_probe(dev, ret,
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1264  						"common-mode-channel must be defined for single-ended channels.\n");
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1265  			}
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1266  			ret = ad7173_validate_voltage_ain_inputs(st, ain[0], ain[1]);
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1267  			if (ret)
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1268  				return ret;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1269  		}
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1270  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1271  		ret = fwnode_property_match_property_string(child,
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1272  							    "adi,reference-select",
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1273  							    ad7173_ref_sel_str,
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1274  							    ARRAY_SIZE(ad7173_ref_sel_str));
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1275  		if (ret < 0)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1276  			ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1277  		else
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1278  			ref_sel = ret;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1279  
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1280  		ret = ad7173_validate_reference(st, ref_sel);
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1281  		if (ret)
+> 87477bf7433028 Dumitru Ceclan   2024-06-07  1282  			return ret;
+> cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1283  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1284  		if (ref_sel == AD7173_SETUP_REF_SEL_INT_REF)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1285  			st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1286  		chan_st_priv->cfg.ref_sel = ref_sel;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1287  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1288  		chan->address = chan_index;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1289  		chan->scan_index = chan_index;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1290  		chan->channel = ain[0];
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1291  		chan_st_priv->chan_reg = chan_index;
+> ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1292  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1293  		chan_st_priv->cfg.odr = 0;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1294  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1295  		chan_st_priv->cfg.bipolar = fwnode_property_read_bool(child, "bipolar");
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1296  		if (chan_st_priv->cfg.bipolar)
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1297  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_OFFSET);
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1298  
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1299  		if (is_current_chan) {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1300  			chan->type = IIO_CURRENT;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1301  			chan->differential = false;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1302  			chan->channel2 = 0;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1303  			chan_st_priv->ain = ad4111_current_channel_config[ain[0]];
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1304  		} else {
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1305  			chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1306  			chan->channel2 = ain[1];
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1307  			chan_st_priv->ain = AD7173_CH_ADDRESS(ain[0], ain[1]);
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1308  		}
+> cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1309  
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1310  		chan_index++;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1311  	}
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1312  	return 0;
+> 76a1e6a4280211 Dumitru Ceclan   2024-02-28  1313  }
+> 
+
