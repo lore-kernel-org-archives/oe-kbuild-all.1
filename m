@@ -1,79 +1,64 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD8320127E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 21:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90857201276
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 21:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719955637; cv=none; b=uGGugXeSGMpfGuCDeS/JvBBswvQpFpaGrzNf8myPS1dL8E0GdXQ/j43PYd/EZyGq8c+Llo/3EvQZT3bcR1zBl8B3uAiuvHLcZxpgL5B7dToAj9NcOtYd00hVKOEiZkCUBmdYPz9yuaetUL7rvXILNN5CbkPUnWUcTgle+WkJRSY=
+	t=1719957153; cv=none; b=Iu2PpjXRauzzu6Mi/wJkDfVVIdkm97tlNkCwLA3+KGo/sXTH6pLajfMzxLInQoRAhTnMHaP5Q79RwhhD1vP0jvLEBt82oiEC3FY2tDi4D8IWdt42oxAKTqjA27OWNpRXzU+uAQYO/EzCeDcgMBgU2BFLSb6+KjqiKzK0nT8hG2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719955637; c=relaxed/simple;
-	bh=O+o3Ib11ciLZU7Bvqliq2+mbTCErwHIwUfXdIcVPsOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=GLvXlfwqJqIJT6OaNScp74XwlFVRLe++2PWSsgpJwVwO5fR33P7ynq8CEJ0ILnrqx+ObdgdGhM6OGg8TVSyLPw0Meo7G5m3qo4iTUoeqz5ltOMlZKubE+5HLRKnIhGrlMbXmoqMOED2ecREoH73oy+e9Dy3vPN3Jn6CCjPBtrLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gfueg6SP; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719957153; c=relaxed/simple;
+	bh=2vi2262ofkIpSqDu0RdKa2alzQl8bJKkhCzzzh5dGsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YfuKdV+L7Ochj9R+TWpzOmh4R2tcOsqyFogay2xflE4vR4AxS5DSNQSpS3yPi3q5t3KxR8bQMyDDT7Ngzd8lRtUrQIpomsmD9thfA9UBZQLI55THl7RxJNG9PmP5tQfql6RbR2SRAwvFNlkRaK7K1rni7whnvR5VKKr3sI+zTeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bS4O5DkC; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gfueg6SP"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-250c0555a63so2325527fac.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Jul 2024 14:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719955635; x=1720560435; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nTzF53NuroztRgrbHB394lFrc7XZKur8WQZSwEHeFpA=;
-        b=gfueg6SP76kEUnci6ky0CPtBHVLOhfgTguxmvRQKMhuyddFLeRHjhX2chNLb22utSI
-         Z6NnjB18+0s0Bj10JSMM2TGTJOs8WGP/i6AQS/4fNDKQ0akTWKUm2iVeb/WeLZ0FMGSu
-         WRGJ1CcQlhDQohiiPBdqD4Ra5fIokH9lHUAAtMEJ+2USCmRLOO0CM1wMb69tccqUhNTM
-         LQYLcfH5cV8jiLFmljRkD7jm3UYXtnTjhd/r45ZYg0qO6qT7uXB5sGnoD20zHjaBF8ey
-         X/88TjxZE/PDG75t0S8C2hDMJr1tpHE7po9xBmIOk0bzpyiiqouA7uVqLYrH/rGykbD9
-         44CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719955635; x=1720560435;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nTzF53NuroztRgrbHB394lFrc7XZKur8WQZSwEHeFpA=;
-        b=JWms2T+AQvg21akDfGISl1L2MMEDB0l6oC4HVaiidOZQmxq3dZ9kRSAy2cKVVRL8CG
-         slRN5cYvWc3l7Nh8dxbCDsYULheAHzpZGEO7IKvEvtBHopGVmu00mDydlI9WFVIkvsFO
-         jA6d9ZXvNPjOtONavihIZfL89ZAsHImtpH5Mfl81MX/vF9uPQjgGgc/w8lTyR1Fq+lTo
-         Mdqs7AlfscafR2RvP3zcdF1He9v7NgtwOw1PQo7l7saIl18KJNZcOrxi95sluPinXY2K
-         R3NmVVn1WhfX4TJZxKDOTy8xZ1ae3D+xh9lLtcD5E81KRxpz41GsHIIkr/NPRdQiwuQZ
-         kRGA==
-X-Forwarded-Encrypted: i=1; AJvYcCWiM6chmCMuk8DKPTjpG3/cXagQOhe0n7Bf6MCWY9ZbWWuK70aa3ZjxP+JoKRoC5VKc3oDEfsB0STpd9aEi1BzYteRZ06kFnoJbA7BHMg==
-X-Gm-Message-State: AOJu0YxUHq9wRG3Ba/3QF13NP8lmZ6KJHmTgwxvwU2D8k3NXbbeBnyif
-	0PjuR2Tmc1tLyMJIaYKoUivWNLXE+qYDIQzxevu/yLRPWD2T+SgoK3fJBOJtOVo=
-X-Google-Smtp-Source: AGHT+IEXkSehpzi4dO+e44Mjuzyc/L9KJG1nFcAOno11tON/+OnVJMgXU857jRLULOgie6mk2dtQcQ==
-X-Received: by 2002:a05:6871:b09:b0:254:c41a:2b34 with SMTP id 586e51a60fabf-25db33f824emr8393430fac.22.1719955635025;
-        Tue, 02 Jul 2024 14:27:15 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:a6f1:b7be:4c8c:bf62])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25d8e37ee64sm2386570fac.47.2024.07.02.14.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 14:27:14 -0700 (PDT)
-Date: Tue, 2 Jul 2024 23:27:12 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, iansdannapel@gmail.com,
-	Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko.stuebner@cherry.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-fpga@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ian Dannapel <iansdannapel@gmail.com>
-Subject: Re: [PATCH v2 1/3] fpga: Add Efinix Trion & Titanium serial SPI
- programming driver
-Message-ID: <6286e61c-6822-40d4-a43e-617a4ce257ca@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bS4O5DkC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719957151; x=1751493151;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2vi2262ofkIpSqDu0RdKa2alzQl8bJKkhCzzzh5dGsE=;
+  b=bS4O5DkCSgOBGRWPe9oWkfla1NF6ToiK+Jp8hjq82WystNZ6CqFj9+fK
+   Rk6OxylRrH+zUsDYSZTKx53LxxSA7NNoGCbVG7bx6/w4gI71PnW6dxT3B
+   XRz2/7VChszv03sDwJnp+59EiMao8X4noOrQcmjpfARUOu+IUQGzFMrS1
+   PdXwWKYoYcp3du47sEdGXvNrgJQVn+TbGv2LrwXV6NwIRTEyEqRqNgh+2
+   /Yw/bhof1+yRP34FgprkTZ3XJOAdH6b/zoQYKFylPH98Inwer9AgV/CAU
+   kSHa8OHk19b3cHRcx8Hzyeb5tHBb+/JShMDR8mO/5uu0nby+zmBBOfy4J
+   w==;
+X-CSE-ConnectionGUID: D+n4zxHMS5iPB20oUSiXkw==
+X-CSE-MsgGUID: 8sBtCCXeSbuchfwOYi93BA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17279507"
+X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
+   d="scan'208";a="17279507"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 14:52:30 -0700
+X-CSE-ConnectionGUID: ZPpZJ0HyQKC37SE5SYai4A==
+X-CSE-MsgGUID: j3LNAZn7SSqsw/VaADq4sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
+   d="scan'208";a="46452243"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2024 14:52:26 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sOlQE-000Oiv-39;
+	Tue, 02 Jul 2024 21:52:22 +0000
+Date: Wed, 3 Jul 2024 05:51:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi Sun <yi.sun@unisoc.com>, sunyibuaa@gmail.com, tj@kernel.org,
+	jiangshanlai@gmail.com, jaegeuk@kernel.org, chao@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ebiggers@google.com,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, kent.overstreet@linux.dev,
+	niuzhiguo84@gmail.com, Hao_hao.Wang@unisoc.com,
+	yunlongxing23@gmail.com, yi.sun@unisoc.com
+Subject: Re: [PATCH v2 1/2] workqueue: new struct io_work
+Message-ID: <202407030547.MbODytSE-lkp@intel.com>
+References: <20240701075138.1144575-2-yi.sun@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,73 +67,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240628152348.61133-2-iansdannapel@gmail.com>
+In-Reply-To: <20240701075138.1144575-2-yi.sun@unisoc.com>
 
-Hi,
+Hi Yi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on jaegeuk-f2fs/dev-test]
+[also build test ERROR on jaegeuk-f2fs/dev tj-wq/for-next linus/master v6.10-rc6 next-20240702]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/iansdannapel-gmail-com/fpga-Add-Efinix-Trion-Titanium-serial-SPI-programming-driver/20240630-044745
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240628152348.61133-2-iansdannapel%40gmail.com
-patch subject: [PATCH v2 1/3] fpga: Add Efinix Trion & Titanium serial SPI programming driver
-config: powerpc-randconfig-r081-20240701 (https://download.01.org/0day-ci/archive/20240703/202407030525.VHF3He6K-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-Sun/workqueue-new-struct-io_work/20240701-155343
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20240701075138.1144575-2-yi.sun%40unisoc.com
+patch subject: [PATCH v2 1/2] workqueue: new struct io_work
+config: arc-tb10x_defconfig (https://download.01.org/0day-ci/archive/20240703/202407030547.MbODytSE-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407030547.MbODytSE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407030525.VHF3He6K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407030547.MbODytSE-lkp@intel.com/
 
-smatch warnings:
-drivers/fpga/efinix-trion-spi-passive.c:174 efinix_spi_probe() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +174 drivers/fpga/efinix-trion-spi-passive.c
-
-4c272ecc14b70f Ian Dannapel 2024-06-28  152  static int efinix_spi_probe(struct spi_device *spi)
-4c272ecc14b70f Ian Dannapel 2024-06-28  153  {
-4c272ecc14b70f Ian Dannapel 2024-06-28  154  	struct efinix_spi_conf *conf;
-4c272ecc14b70f Ian Dannapel 2024-06-28  155  	struct fpga_manager *mgr;
-4c272ecc14b70f Ian Dannapel 2024-06-28  156  
-4c272ecc14b70f Ian Dannapel 2024-06-28  157  	conf = devm_kzalloc(&spi->dev, sizeof(*conf), GFP_KERNEL);
-4c272ecc14b70f Ian Dannapel 2024-06-28  158  	if (!conf)
-4c272ecc14b70f Ian Dannapel 2024-06-28  159  		return -ENOMEM;
-4c272ecc14b70f Ian Dannapel 2024-06-28  160  
-4c272ecc14b70f Ian Dannapel 2024-06-28  161  	conf->spi = spi;
-4c272ecc14b70f Ian Dannapel 2024-06-28  162  
-4c272ecc14b70f Ian Dannapel 2024-06-28  163  	conf->creset = devm_gpiod_get(&spi->dev, "creset", GPIOD_OUT_HIGH);
-4c272ecc14b70f Ian Dannapel 2024-06-28  164  	if (IS_ERR(conf->creset))
-4c272ecc14b70f Ian Dannapel 2024-06-28  165  		return dev_err_probe(&spi->dev, PTR_ERR(conf->creset),
-4c272ecc14b70f Ian Dannapel 2024-06-28  166  				"Failed to get RESET gpio\n");
-4c272ecc14b70f Ian Dannapel 2024-06-28  167  
-4c272ecc14b70f Ian Dannapel 2024-06-28  168  	conf->cs = devm_gpiod_get(&spi->dev, "cs", GPIOD_OUT_HIGH);
-4c272ecc14b70f Ian Dannapel 2024-06-28  169  	if (IS_ERR(conf->cs))
-4c272ecc14b70f Ian Dannapel 2024-06-28  170  		return dev_err_probe(&spi->dev, PTR_ERR(conf->cs),
-4c272ecc14b70f Ian Dannapel 2024-06-28  171  				"Failed to get CHIP_SELECT gpio\n");
-4c272ecc14b70f Ian Dannapel 2024-06-28  172  
-4c272ecc14b70f Ian Dannapel 2024-06-28  173  	if (!(spi->mode & SPI_CPHA) || !(spi->mode & SPI_CPOL))
-4c272ecc14b70f Ian Dannapel 2024-06-28 @174  		return dev_err_probe(&spi->dev, PTR_ERR(conf->cs),
-
-s/conf->cs/-EINVAL/
-
-4c272ecc14b70f Ian Dannapel 2024-06-28  175  				"Unsupported SPI mode, set CPHA and CPOL\n");
-4c272ecc14b70f Ian Dannapel 2024-06-28  176  
-4c272ecc14b70f Ian Dannapel 2024-06-28  177  	conf->cdone = devm_gpiod_get_optional(&spi->dev, "cdone", GPIOD_IN);
-4c272ecc14b70f Ian Dannapel 2024-06-28  178  	if (IS_ERR(conf->cdone))
-4c272ecc14b70f Ian Dannapel 2024-06-28  179  		return dev_err_probe(&spi->dev, PTR_ERR(conf->cdone),
-4c272ecc14b70f Ian Dannapel 2024-06-28  180  				"Failed to get CDONE gpio\n");
-4c272ecc14b70f Ian Dannapel 2024-06-28  181  
-4c272ecc14b70f Ian Dannapel 2024-06-28  182  	mgr = devm_fpga_mgr_register(&spi->dev,
-4c272ecc14b70f Ian Dannapel 2024-06-28  183  				"Efinix SPI Passive Programming FPGA Manager",
-4c272ecc14b70f Ian Dannapel 2024-06-28  184  					&efinix_spi_ops, conf);
-4c272ecc14b70f Ian Dannapel 2024-06-28  185  
-4c272ecc14b70f Ian Dannapel 2024-06-28  186  	return PTR_ERR_OR_ZERO(mgr);
-4c272ecc14b70f Ian Dannapel 2024-06-28  187  }
+   arc-elf-ld: kernel/workqueue.o: in function `may_adjust_io_work_task_ioprio':
+   kernel/workqueue.c:2682:(.text+0xbb0): undefined reference to `set_task_ioprio'
+>> arc-elf-ld: kernel/workqueue.c:2682:(.text+0xbb0): undefined reference to `set_task_ioprio'
+   arc-elf-ld: kernel/workqueue.o: in function `restore_io_work_task_ioprio':
+   kernel/workqueue.c:2698:(.text+0xbc8): undefined reference to `set_task_ioprio'
+   arc-elf-ld: kernel/workqueue.c:2698:(.text+0xbc8): undefined reference to `set_task_ioprio'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
