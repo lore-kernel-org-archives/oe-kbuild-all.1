@@ -1,442 +1,964 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31548489
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 01:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3F58F44
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jul 2024 01:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719884575; cv=none; b=d/Kmhj52993Y3ZI8vUsol+orLiiEeQgAG+TjOgxfQaHuMGS0tsyoYGMkYazle8AXoVLLGtionDDHk9rhjS2H+ncS/w+FrJap+bPAflX5rh7Y1aTLpSH9frc24CTzCZPGm77WXNmyz9fgpZonKsiJvgMmlDGrXGS/jc8hnhKCEsI=
+	t=1719884584; cv=none; b=CvVDpcI4WUZIN3yoRPmnrUi1fJSYPaDA7MGANaYRdNlzGHqKDobo1mfYDXnw7mMfZ1OpNK0gpAfAtt9sjFvp86nGOzILBTZlvMW6UKwCTuWf86iSS3wi37ydEVjJFF/U5Gp7IX+MLM4LsbvCcdvKG+6CAmaAHRW5rkdR0zG7/Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719884575; c=relaxed/simple;
-	bh=OHBTSny2iTO439FToTAckQa91A3VxnjYZ5f5hBO05v8=;
+	s=arc-20240116; t=1719884584; c=relaxed/simple;
+	bh=4CnkSHctL0jqedhrp80LreU/gTu09BBBo9wxC5cqVVQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sNHHRmcpURgzMAvME+PLjygJsFldNdz2mmtWgPwSDGITkJDurCOd4qkRvA7PUFGRPr7yHTMx2fE5+l5a+Y/exGWHrcwAHoGeTeA6wFP4MssN2ZN1lnWVnf9n62DIvB4jRDTmMgRFJrp+d/a86qNUWUeUw6FCElEm/55P5UUxkJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MUBFFS/b; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Rcbv0kwvnvhRcgZw5U1Pxj7oIdZDrjNc4aIAsEeaVsUs79HpF6Vvvm3SQhcjfmNuWj3PMXtxPBIpphqN89GfIe8PCx3IO4AXWvFFL2nwNkHygqqmJm4hjW4PRp0xrTsEbmRbtKZ3oY94P3Qc3dOOjbBP84kcdvAqmeIHV7zEL9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MEwR5vSV; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MUBFFS/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEwR5vSV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719884567; x=1751420567;
+  t=1719884576; x=1751420576;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHBTSny2iTO439FToTAckQa91A3VxnjYZ5f5hBO05v8=;
-  b=MUBFFS/bHbtXshGHg2QmC282luBjIcvCuDczfSX29vkzg5qPG1SBYO7i
-   m4R8mIqMS2wCoBCgVqH4iRrew9wiNmjUIAexVCtEuMJrxZZZMykoCKq8g
-   cjFdsN6MEC9cobb6EC/I28l6ci4yoxuI4hASWQ47LXW5EZVURtITawyD7
-   oqXExbVxIP559ttxe8V99lVG81woUbBzBUNhM9saVrcS4t+YhFCJmnOc7
-   juBmXVbCUC7NcDjarJ2njwmuD81Ehci80Pf69kLQSmjrLwtvjAW+Mn/2K
-   wrYuLvf+RbfRTzfFgBdXCGUZfsLpBZHst0MTmi2e810hqIyKKgZ8OBEmL
+  bh=4CnkSHctL0jqedhrp80LreU/gTu09BBBo9wxC5cqVVQ=;
+  b=MEwR5vSVwQu17jVhkQk4XaJ0+q1PqM37lioahD6pxrfnKGs7YBNwYzqp
+   VXSQ16qADLdzw1tHir/DpSsPDaAbN/apJ1fGF0qF48usA08fcD/Q2aA1V
+   Px51+BBWUhCes5jYgXSUjg54z7jhK6YgBTH0ijomedkp//HXuxa5zbfXp
+   T/qCdNJJKY3QgU4LV2vNIjI55KR6Nn8tl0ZSR82KWWFvqRWKDD4JYbUe/
+   FUnutoVm+4fJG3DHjNsulYWbYvYPH0a5u+RmihLWcLKWU7OcgJll5YzNI
+   ecemYEd2O+vfiKvYa3LcDin0HuzSHRuBqBrN0lKAW7+3hP2gekopKwRjG
    Q==;
-X-CSE-ConnectionGUID: ppzJw9kGSEWRiz0G0DDd5A==
-X-CSE-MsgGUID: 1LalqGFwQ4ORvlPin2JgAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="28170741"
+X-CSE-ConnectionGUID: BhZCPEI0QSa59PMvNbGJyQ==
+X-CSE-MsgGUID: DU9OjJ6ZTuGjBOWgMYu+5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="28170743"
 X-IronPort-AV: E=Sophos;i="6.09,177,1716274800"; 
-   d="scan'208";a="28170741"
+   d="scan'208";a="28170743"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 18:42:46 -0700
-X-CSE-ConnectionGUID: q/hWkXPKRd6CXqDH4jUZfA==
-X-CSE-MsgGUID: Acg9S8cNQQe4TKKu4Dku0w==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 18:42:47 -0700
+X-CSE-ConnectionGUID: K9ZeSRr/RyyrHT8x9oOiJQ==
+X-CSE-MsgGUID: ub81YEygS2qU1pTTe2EOuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,177,1716274800"; 
-   d="scan'208";a="50169032"
+   d="scan'208";a="50169030"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Jul 2024 18:42:43 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Jul 2024 18:42:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOSXY-000Nal-2R;
+	id 1sOSXY-000Nai-2C;
 	Tue, 02 Jul 2024 01:42:40 +0000
-Date: Tue, 2 Jul 2024 09:41:58 +0800
+Date: Tue, 2 Jul 2024 09:42:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: [shawnguo:imx/dt64 36/91]
- arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb:
- interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one
- must be fixed:
-Message-ID: <202407020951.DGI0PM5s-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Kuldeep Singh <kuldeep.singh@nxp.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [broonie-ci:spi-6.11 12/13]
+ arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb:
+ spi@2120000: Unevaluated properties are not allowed ('dma-names', 'dmas',
+ 'little-endian' were unexpected)
+Message-ID: <202407020935.u2X1KV37-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="tlk3i323ZzTY9mpa"
+Content-Type: multipart/mixed; boundary="Hzand8DAJ2NIfbGw"
 Content-Disposition: inline
 
 
---tlk3i323ZzTY9mpa
+--Hzand8DAJ2NIfbGw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
-head:   9db27bc55bd8363570c5a259ff4dc77bd6a0b2cd
-commit: a27f49644fb4dfd010f7c8707fa58172803684cb [36/91] arm64: dts: imx8mp: Add imx8mp-specific irqsteer compatible
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git spi-=
+6.11
+head:   6c387fb263363347185bd7a213ad175c174d35dc
+commit: 94f19d076218a193d170da6d5ab2a87c080cc69c [12/13] spi: dt-bindings: =
+fsl-dspi: Convert to yaml format
 config: arm64-randconfig-051-20240702
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326=
+ba38a991250a8587a399a260b0f7af2c9166a)
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build):
+reproduce (this is a W=3D1 build):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407020951.DGI0PM5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407020935.u2X1KV37-lkp@i=
+ntel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: hdmi@3d: 'v3p3-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /soc@0/bus@30800000/mmc@30b40000/wifi@1: failed to match any schema with compatible: ['marvell,sd8997']
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: the=
+rmal-zones: 'core-cluster', 'ddr-controller' do not match any of the regexe=
+s: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: sys=
+con@1e60000: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: efu=
+se@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unex=
+pected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/clock-controller@1300000: failed to match any schema with compatible: ['f=
+sl,ls1028a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: spi=
+@2120000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'lit=
+tle-endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1028a-es=
+dhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1028a-es=
+dhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/mmc@2150000: failed to match any schema with compatible: ['fsl,ls1028a-es=
+dhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/mmc@2150000: failed to match any schema with compatible: ['fsl,ls1028a-es=
+dhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-g=
+pio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-g=
+pio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-g=
+pio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-g=
+pio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: /so=
+c/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-g=
+pio', 'fsl,qoriq-gpio']
 --
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: sai@30c30000: Unevaluated properties are not allowed ('#clock-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: thermal-zone=
+s: 'core-cluster', 'ddr-controller' do not match any of the regexes: '^[a-z=
+A-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: syscon@1e600=
+00: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: efuse@1e8000=
+0: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/clock-c=
+ontroller@1300000: failed to match any schema with compatible: ['fsl,ls1028=
+a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: spi@2120000:=
+ Unevaluated properties are not allowed ('dma-names', 'dmas', 'little-endia=
+n' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/mmc@214=
+0000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fs=
+l,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/mmc@214=
+0000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fs=
+l,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/mmc@215=
+0000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fs=
+l,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/mmc@215=
+0000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fs=
+l,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@23=
+00000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fs=
+l,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@23=
+00000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fs=
+l,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@23=
+10000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fs=
+l,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@23=
+10000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fs=
+l,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: /soc/gpio@23=
+20000: failed to match any schema with compatible: ['fsl,ls1028a-gpio', 'fs=
+l,qoriq-gpio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: thermal=
+-zones: 'core-cluster', 'ddr-controller' do not match any of the regexes: '=
+^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: syscon@=
+1e60000: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: efuse@1=
+e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/cl=
+ock-controller@1300000: failed to match any schema with compatible: ['fsl,l=
+s1028a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: spi@212=
+0000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'little-=
+endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: /soc/gp=
+io@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: thermal=
+-zones: 'core-cluster', 'ddr-controller' do not match any of the regexes: '=
+^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: syscon@=
+1e60000: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: efuse@1=
+e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/cl=
+ock-controller@1300000: failed to match any schema with compatible: ['fsl,l=
+s1028a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: spi@212=
+0000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'little-=
+endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: /soc/gp=
+io@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
 --
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: thermal=
+-zones: 'core-cluster', 'ddr-controller' do not match any of the regexes: '=
+^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: syscon@=
+1e60000: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: efuse@1=
+e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/cl=
+ock-controller@1300000: failed to match any schema with compatible: ['fsl,l=
+s1028a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: spi@212=
+0000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'little-=
+endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: /soc/gp=
+io@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
 --
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:261.9-273.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: typec@3d: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/extcon/extcon-ptn5150.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: hdmi@32fd8000: Unevaluated properties are not allowed ('ddc-i2c-bus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,imx8mp-hdmi-tx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: au=
+dio-codec@1a: 'AVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: au=
+dio-codec@1a: 'CPVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: au=
+dio-codec@1a: 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: au=
+dio-codec@1a: 'DCVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: au=
+dio-codec@1a: 'MICVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/wlf,wm8904.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: sp=
+i@2120000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'li=
+ttle-endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1028a-e=
+sdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/mmc@2140000: failed to match any schema with compatible: ['fsl,ls1028a-e=
+sdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls1028a-e=
+sdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/mmc@2150000: failed to match any schema with compatible: ['fsl,ls1028a-e=
+sdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-=
+gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1028a-=
+gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-=
+gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1028a-=
+gpio', 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /s=
+oc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1028a-=
+gpio', 'fsl,qoriq-gpio']
 --
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm=
+,gic-v3.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: thermal=
+-zones: 'core-cluster', 'ddr-controller' do not match any of the regexes: '=
+^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: syscon@=
+1e60000: compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: efuse@1=
+e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/cl=
+ock-controller@1300000: failed to match any schema with compatible: ['fsl,l=
+s1028a-clockgen']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: spi@212=
+0000: Unevaluated properties are not allowed ('dma-names', 'dmas', 'little-=
+endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/mm=
+c@2140000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/mm=
+c@2150000: failed to match any schema with compatible: ['fsl,ls1028a-esdhc'=
+, 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gp=
+io@2300000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gp=
+io@2310000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: /soc/gp=
+io@2320000: failed to match any schema with compatible: ['fsl,ls1028a-gpio'=
+, 'fsl,qoriq-gpio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.ya=
+ml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: syscon@1e60000: compa=
+tible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: efuse@1e80000: Uneval=
+uated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp=
+=2Eyaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/clock-controller=
+@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockge=
+n']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/i2c@2000000/fpga=
+@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'f=
+sl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/i2c@2000000/fpga=
+@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'f=
+sl,fpga-qixis-i2c', 'simple-mfd']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: spi@2100000: Unevalua=
+ted properties are not allowed ('dma-names', 'dmas', 'little-endian' were u=
+nexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: spi@2110000: Unevalua=
+ted properties are not allowed ('dma-names', 'dmas', 'little-endian' were u=
+nexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: spi@2120000: Unevalua=
+ted properties are not allowed ('dma-names', 'dmas', 'little-endian' were u=
+nexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/mmc@2140000: fai=
+led to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/mmc@2140000: fai=
+led to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/mmc@2150000: fai=
+led to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/mmc@2150000: fai=
+led to match any schema with compatible: ['fsl,ls1028a-esdhc', 'fsl,esdhc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /soc/gpio@2300000: fa=
+iled to match any schema with compatible: ['fsl,ls1028a-gpio', 'fsl,qoriq-g=
+pio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: /extcon-usb0: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2040000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2050000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2050000: Une=
+valuated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2060000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: i2c@2070000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: spi@2100000: com=
+patible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3.dtb: spi@2110000: com=
+patible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@204000=
+0: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@205000=
+0: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@205000=
+0: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@206000=
+0: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: i2c@207000=
+0: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: spi@210000=
+0: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-bluebox3-rev-a.dtb: spi@211000=
+0: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2040000: =
+clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2040000: =
+Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2050000: =
+clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2060000: =
+clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: i2c@2070000: =
+clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: spi@2100000: =
+compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: spi@2110000: =
+compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2040000: cl=
+ock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2040000: Un=
+evaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2050000: cl=
+ock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2060000: cl=
+ock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: i2c@2070000: cl=
+ock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: spi@2100000: co=
+mpatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: spi@2110000: co=
+mpatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2030000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2040000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2050000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2060000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: i2c@2070000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: spi@2100000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: spi@2100000: Unevalua=
+ted properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: spi@2110000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: spi@2110000: Unevalua=
+ted properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-qds.dtb: spi@2120000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
 --
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2040000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2040000: Unevalua=
+ted properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2050000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2060000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: i2c@2070000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: spi@2100000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-rdb.dtb: spi@2110000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2040000: Une=
+valuated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2050000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2050000: Une=
+valuated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2060000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: i2c@2070000: clo=
+ck-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: spi@2100000: com=
+patible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: spi@2110000: com=
+patible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 --
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2030000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2040000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2050000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2060000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: i2c@2070000: clock-na=
+mes:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: spi@2100000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: spi@2100000: Unevalua=
+ted properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: spi@2110000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: spi@2110000: Unevalua=
+ted properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2162a-qds.dtb: spi@2120000: compatib=
+le: 'oneOf' conditional failed, one must be fixed:
 --
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw7905-2x.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw7905-2x.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw7905-2x.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: ethernet@30bf0000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: interrupt-controller@32fc2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: interrupt-controller@32fc2000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: /soc@0/bus@32c00000/interrupt-controller@32fc2000: failed to match any schema with compatible: ['fsl,imx8mp-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@=
+2040000: Unevaluated properties are not allowed ('clock-names' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@=
+2050000: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@=
+2050000: Unevaluated properties are not allowed ('clock-names' was unexpect=
+ed)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@=
+2060000: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: i2c@=
+2070000: clock-names:0: 'ipg' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: spi@=
+2100000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/fsl,dspi.yaml#
+   arch/arm64/boot/dts/freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb: spi@=
+2110000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,lx2160a-dspi', 'fsl,ls2085a-dspi'] is too long
+   	'fsl,lx2160a-dspi' is not one of ['fsl,ls1012a-dspi', 'fsl,ls1028a-dspi=
+', 'fsl,ls1043a-dspi', 'fsl,ls1046a-dspi', 'fsl,ls1088a-dspi']
+   	'fsl,ls2080a-dspi' was expected
+   	'fsl,ls1021a-v1.0-dspi' was expected
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---tlk3i323ZzTY9mpa
+--Hzand8DAJ2NIfbGw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
-        # https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git/commit/?id=a27f49644fb4dfd010f7c8707fa58172803684cb
-        git remote add shawnguo https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-        git fetch --no-tags shawnguo imx/dt64
-        git checkout a27f49644fb4dfd010f7c8707fa58172803684cb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=94f19d076218a193d170da6d5ab2a87c080cc69c
+        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
+        git fetch --no-tags broonie-ci spi-6.11
+        git checkout 94f19d076218a193d170da6d5ab2a87c080cc69c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
         ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash dtbs_check
 
---tlk3i323ZzTY9mpa
+--Hzand8DAJ2NIfbGw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 6.10.0-rc1 Kernel Configuration
+# Linux/arm64 6.10.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 19.0.0git (git://gitmirror/llvm_project 326ba38a991250a8587a399a260b0f7af2c9166a)"
 CONFIG_GCC_VERSION=0
@@ -2152,7 +2674,7 @@ CONFIG_SERIAL_MSM=m
 CONFIG_SERIAL_SIFIVE=m
 # CONFIG_SERIAL_LANTIQ is not set
 CONFIG_SERIAL_SCCNXP=m
-# CONFIG_SERIAL_SC16IS7XX_CORE is not set
+# CONFIG_SERIAL_SC16IS7XX is not set
 # CONFIG_SERIAL_TIMBERDALE is not set
 # CONFIG_SERIAL_BCM63XX is not set
 # CONFIG_SERIAL_ALTERA_JTAGUART is not set
@@ -7909,4 +8431,4 @@ CONFIG_RUST_KERNEL_DOCTESTS=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Documentation
 
---tlk3i323ZzTY9mpa--
+--Hzand8DAJ2NIfbGw--
