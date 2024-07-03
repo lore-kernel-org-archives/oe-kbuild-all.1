@@ -1,63 +1,61 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCCC174EFE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 14:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD9F17966C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 14:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720016454; cv=none; b=azKMW00FiGrmNiBMGuG4MsG8KA3/Ixzzk8vCQaADQvSk7EJVvhgPkMYLMcapqxcmzn0wzI+yHCyBJmye5BwmCq+Zlv2ZHnHC/4DnRjYMJ8Mrga8QIdJ3WUCl4tuCxopR3BOf/HJzb4hBZkwSOQAmm2L6PjxI7uy1RwJq/qwtNLo=
+	t=1720016880; cv=none; b=EFdD708nxcouqaiwndsPUXSNuT/eoTQwMYQXqQCCex5/UlS2hiBbL/f3gt+Rl71HQzUEdBwTRS96Mwe3f4RF1QMy/bJOXyegSxpLGDSGLENFEytGaaS0yVJ7jXuW2Z1u5/ORb9BEJQXECMowdILzdmTuI0L5u0vkz8WpHNP0n2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720016454; c=relaxed/simple;
-	bh=lqCvilgHnv+7FohAQ4T1vjFpZ3+Zam8pAgCND10TAT4=;
+	s=arc-20240116; t=1720016880; c=relaxed/simple;
+	bh=y20MdQaDd7ZUt2zXD9NeiPb9gqRyU+p+EVHjjtNdcgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OaCxlEFB9BmMaUGDTYzdgUkSOhTMt7h7TMsSghQYwi+RofhdrKWUBT9WzXLGfPJg1FBfQ38UaE1lEJFLsoadOQpqTDGw8Z3kLVYwpdOqRPlgkIm1CY7xE6G2UkNbdCxKtMwAFcrB8a0K/I2kqQQjJt5EAjqIlpZ9T9SRpQw/XkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qw57uERR; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Goy4OQOUOmBsS9faU44LUNi1IBkup7h8/yUrtLaQ82sIDfILiIU69grS8sS2LwmLTiowRw20NlqFx71fQfOaLqQg7S5dVl0SRmCkvGAsb9fuyZzoaQN1XsZfgMHA9kwYkCucdV1rkBztkgwVYR1kxnd6lzUIxZN2BQdY4d95EmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRMpv8F3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qw57uERR"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-25982aa59efso2459715fac.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jul 2024 07:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720016452; x=1720621252; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
-        b=qw57uERR3flKehXZV0GLQ2BdupDy6BEuzb4Rg49hUaLyGpNgw41E5U2FDfL2dUnUe6
-         51w0FODfWpAcPo3YUCeq7iQs7O+lJrvJ8/C6BpuVT4aSoCwy3AjmdhprYJZEKl9HUs9c
-         jpnNOrk1XziBFa4w97+EMea6FxDO6JbqMn+7iPr0rYuqBldCeJFrjPU7KFw1Eo0Tk5l/
-         9wizcHDN9reXRVNBXtUjQ6TL41P7R+bPXrpQSC5THuDbuFm1AfwL+GPxVTjw3TTMpLXe
-         laSPYeMqdnbPFTacQ2RLl+9XVYwzgQem7ijLxE1HncX0THagWBPNuXsNUsmEADGwr+iE
-         vZXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720016452; x=1720621252;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
-        b=cNQLFpRr8DfF9guq2UgjMP7PlLUtrGMshI57dpfxB+a4I7yRq3jBEw6alBE/glDB9w
-         A+sWvwLzAu0y1Y5dkg9tDn15ECWVyOxp11xtuf1zpYHR2JjvCuPWFhJRk69CW8uetemW
-         Kjbzw5kRiM5J551Tw2Y5ayQcIcyrIQftldrxpP90Az+U1u4fGnYAiawnltEj8cG9cb+f
-         dQO4SEtNXeT4hFfEi8C1o/QQikHUmtqjHw9mEdIOBh71eLwBYdvMAWQhBIhwTJhl/GSO
-         to302J+Z2J4ZzLElk1RMaM0s+zWp+gOd248sx8UAeNNBDm/U1nybAIBDKmb9X9hBzQIy
-         0SFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgGVa+TQkPnSluFeLICT9Hz3O5TeT8Ec7R4d++rlvQ07QS1fHtM1dz4OJGPQ4W9nQ1R2Z1+2VEDaCHS+lTVdPdmvdr25gEcTQT8dui+Q==
-X-Gm-Message-State: AOJu0Yw4zrpthK4SAyhTYNfJeic426NRH/5CkgyHaAYIkAfl3kobM8ga
-	9r95TyxQBXnwIpefoOMf5jelOIzV9ZrEb56osIPmxPBJr+tHY06Vpldnu+QYfDc=
-X-Google-Smtp-Source: AGHT+IHpgd9xHebwYRYsECSEOPMLy6oRLK2ztQA5kLhWR35q3B7a+UhtHgAzMPXDJr9RIzDvDjvu6w==
-X-Received: by 2002:a05:6870:8a0c:b0:25e:12b9:be40 with SMTP id 586e51a60fabf-25e12b9e979mr1303575fac.25.1720016451691;
-        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:5b79:ebe0:e3cb:2ba6])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25e036fd73csm564136fac.26.2024.07.03.07.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
-Date: Wed, 3 Jul 2024 16:20:49 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 16/17] fs/netfs/read_collect.c:170
- netfs_consume_read_data() error: we previously assumed 'folioq' could be
- null (see line 110)
-Message-ID: <6cc43674-4d95-49b6-a279-4b0c7f7f4ceb@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRMpv8F3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720016878; x=1751552878;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y20MdQaDd7ZUt2zXD9NeiPb9gqRyU+p+EVHjjtNdcgE=;
+  b=hRMpv8F3lTND6dbrp1CTzsjPJ43UJWLemEnzuTsUh+ySbgAqniGVNzGy
+   zDw87a0zVE516eU40fdjs/INQn6yGT+NBMWyH0dMKn9XxHOFy5fYWkKkY
+   Xm1Ve6fAYkDYntovJxvE5UXoHvPvet829mqqZSr/A7aJX7+NkrXbou4nZ
+   A9Fiku+WWlxqgc7TSgztAlg48S1yDpTqXj4NroQQdMWGbTwnMXslXj+LL
+   l+Lr0nOW8o77KJlpVJQ2Xp4xi/rdsqPNareNOxqfbc2WtsqM2YBDDjhmX
+   VjM5Gw7voztQs1ebDlRJVdmjujbdYe2V3c93FCOMr44/RJCnJaHuOjl9K
+   Q==;
+X-CSE-ConnectionGUID: IjGsUEtWTwuWFSigoBozNg==
+X-CSE-MsgGUID: e7PDRJfRSOuiNNnYkmt6Bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="28387350"
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="28387350"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 07:27:58 -0700
+X-CSE-ConnectionGUID: HancOvnISqmA9SJOzeTD7g==
+X-CSE-MsgGUID: 3Rks9b0sR+GDZl3mKRgSGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="69459233"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Jul 2024 07:27:55 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sP0xd-000PqA-2s;
+	Wed, 03 Jul 2024 14:27:53 +0000
+Date: Wed, 3 Jul 2024 22:27:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Shawn Guo <shawnguo@kernel.org>
+Subject: [linux-next:master 8736/9748]
+ arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: watchdog@2ad0000:
+ Unevaluated properties are not allowed ('big-endian' was unexpected)
+Message-ID: <202407040022.ChwakxXg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,124 +65,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   87ff2bfa2eb1cac0a80d376b99b244e96f582721
-commit: 5a2bec0ed38eec31673fd7c48b558c29db922e1a [16/17] netfs: Speed up buffered reading
-config: i386-randconfig-141-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031405.z0FPKCLr-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b58e108042b0ed28a71cd7edf5175999955b233
+commit: 38397efe228326ab4f7928ee9e0c1f1f752d56a5 [8736/9748] arm64: dts: fsl-ls1043a: remove unused clk-name at watchdog node
+config: arm64-randconfig-051-20240702 (https://download.01.org/0day-ci/archive/20240704/202407040022.ChwakxXg-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407040022.ChwakxXg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407031405.z0FPKCLr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407040022.ChwakxXg-lkp@intel.com/
 
-smatch warnings:
-fs/netfs/read_collect.c:170 netfs_consume_read_data() error: we previously assumed 'folioq' could be null (see line 110)
-
-vim +/folioq +170 fs/netfs/read_collect.c
-
-5a2bec0ed38eec David Howells 2024-07-02   81  static bool netfs_consume_read_data(struct netfs_io_subrequest *subreq, bool was_async)
-5a2bec0ed38eec David Howells 2024-07-02   82  {
-5a2bec0ed38eec David Howells 2024-07-02   83  	struct netfs_io_subrequest *prev, *next;
-5a2bec0ed38eec David Howells 2024-07-02   84  	struct netfs_io_request *rreq = subreq->rreq;
-5a2bec0ed38eec David Howells 2024-07-02   85  	struct folio_queue *folioq = subreq->curr_folioq;
-5a2bec0ed38eec David Howells 2024-07-02   86  	size_t avail, prev_donated, next_donated, fsize, part, excess;
-5a2bec0ed38eec David Howells 2024-07-02   87  	loff_t fpos, start;
-5a2bec0ed38eec David Howells 2024-07-02   88  	loff_t fend;
-5a2bec0ed38eec David Howells 2024-07-02   89  	int slot = subreq->curr_folioq_slot;
-5a2bec0ed38eec David Howells 2024-07-02   90  
-5a2bec0ed38eec David Howells 2024-07-02   91  	if (WARN(subreq->transferred > subreq->len,
-5a2bec0ed38eec David Howells 2024-07-02   92  		 "Subreq overread: R%x[%x] %zu > %zu",
-5a2bec0ed38eec David Howells 2024-07-02   93  		 rreq->debug_id, subreq->debug_index,
-5a2bec0ed38eec David Howells 2024-07-02   94  		 subreq->transferred, subreq->len))
-5a2bec0ed38eec David Howells 2024-07-02   95  		subreq->transferred = subreq->len;
-5a2bec0ed38eec David Howells 2024-07-02   96  
-5a2bec0ed38eec David Howells 2024-07-02   97  next_folio:
-5a2bec0ed38eec David Howells 2024-07-02   98  	fsize = PAGE_SIZE << subreq->curr_folio_order;
-5a2bec0ed38eec David Howells 2024-07-02   99  	fpos = round_down(subreq->start + subreq->consumed, fsize);
-5a2bec0ed38eec David Howells 2024-07-02  100  	fend = fpos + fsize;
-5a2bec0ed38eec David Howells 2024-07-02  101  
-5a2bec0ed38eec David Howells 2024-07-02  102  	if (WARN_ON_ONCE(!folioq) ||
-
-Presumably we're never going to trigger this warning...
-
-5a2bec0ed38eec David Howells 2024-07-02  103  	    WARN_ON_ONCE(!folioq_folio(folioq, slot)) ||
-5a2bec0ed38eec David Howells 2024-07-02  104  	    WARN_ON_ONCE(folioq_folio(folioq, slot)->index != fpos / PAGE_SIZE)) {
-5a2bec0ed38eec David Howells 2024-07-02  105  		pr_err("R=%08x[%x] s=%llx-%llx ctl=%zx/%zx/%zx sl=%u\n",
-5a2bec0ed38eec David Howells 2024-07-02  106  		       rreq->debug_id, subreq->debug_index,
-5a2bec0ed38eec David Howells 2024-07-02  107  		       subreq->start, subreq->start + subreq->transferred,
-5a2bec0ed38eec David Howells 2024-07-02  108  		       subreq->consumed, subreq->transferred, subreq->len,
-5a2bec0ed38eec David Howells 2024-07-02  109  		       slot);
-5a2bec0ed38eec David Howells 2024-07-02 @110  		if (folioq) {
-5a2bec0ed38eec David Howells 2024-07-02  111  			struct folio *folio = folioq_folio(folioq, slot);
-5a2bec0ed38eec David Howells 2024-07-02  112  
-5a2bec0ed38eec David Howells 2024-07-02  113  			pr_err("folioq: %02x%02x%02x%02x\n",
-5a2bec0ed38eec David Howells 2024-07-02  114  			       folioq->orders[0], folioq->orders[1],
-5a2bec0ed38eec David Howells 2024-07-02  115  			       folioq->orders[2], folioq->orders[3]);
-5a2bec0ed38eec David Howells 2024-07-02  116  			if (folio)
-5a2bec0ed38eec David Howells 2024-07-02  117  				pr_err("folio: %llx-%llx ix=%llx o=%u qo=%u\n",
-5a2bec0ed38eec David Howells 2024-07-02  118  				       fpos, fend - 1, folio_pos(folio), folio_order(folio),
-5a2bec0ed38eec David Howells 2024-07-02  119  				       folioq_folio_order(folioq, slot));
-5a2bec0ed38eec David Howells 2024-07-02  120  		}
-5a2bec0ed38eec David Howells 2024-07-02  121  	}
-5a2bec0ed38eec David Howells 2024-07-02  122  
-5a2bec0ed38eec David Howells 2024-07-02  123  donation_changed:
-5a2bec0ed38eec David Howells 2024-07-02  124  	/* Try to consume the current folio if we've hit or passed the end of
-5a2bec0ed38eec David Howells 2024-07-02  125  	 * it.  There's a possibility that this subreq doesn't start at the
-5a2bec0ed38eec David Howells 2024-07-02  126  	 * beginning of the folio, in which case we need to donate to/from the
-5a2bec0ed38eec David Howells 2024-07-02  127  	 * preceding subreq.
-5a2bec0ed38eec David Howells 2024-07-02  128  	 *
-5a2bec0ed38eec David Howells 2024-07-02  129  	 * We also need to include any potential donation back from the
-5a2bec0ed38eec David Howells 2024-07-02  130  	 * following subreq.
-5a2bec0ed38eec David Howells 2024-07-02  131  	 */
-5a2bec0ed38eec David Howells 2024-07-02  132  	prev_donated = READ_ONCE(subreq->prev_donated);
-5a2bec0ed38eec David Howells 2024-07-02  133  	next_donated =  READ_ONCE(subreq->next_donated);
-5a2bec0ed38eec David Howells 2024-07-02  134  	if (prev_donated || next_donated) {
-5a2bec0ed38eec David Howells 2024-07-02  135  		spin_lock(&rreq->lock);
-5a2bec0ed38eec David Howells 2024-07-02  136  		prev_donated = subreq->prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  137  		next_donated =  subreq->next_donated;
-5a2bec0ed38eec David Howells 2024-07-02  138  		subreq->start -= prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  139  		subreq->len += prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  140  		subreq->transferred += prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  141  		prev_donated = subreq->prev_donated = 0;
-5a2bec0ed38eec David Howells 2024-07-02  142  		if (subreq->transferred == subreq->len) {
-5a2bec0ed38eec David Howells 2024-07-02  143  			subreq->len += next_donated;
-5a2bec0ed38eec David Howells 2024-07-02  144  			subreq->transferred += next_donated;
-5a2bec0ed38eec David Howells 2024-07-02  145  			next_donated = subreq->next_donated = 0;
-5a2bec0ed38eec David Howells 2024-07-02  146  		}
-5a2bec0ed38eec David Howells 2024-07-02  147  		trace_netfs_sreq(subreq, netfs_sreq_trace_add_donations);
-5a2bec0ed38eec David Howells 2024-07-02  148  		spin_unlock(&rreq->lock);
-5a2bec0ed38eec David Howells 2024-07-02  149  	}
-5a2bec0ed38eec David Howells 2024-07-02  150  
-5a2bec0ed38eec David Howells 2024-07-02  151  	avail = subreq->transferred;
-5a2bec0ed38eec David Howells 2024-07-02  152  	if (avail == subreq->len)
-5a2bec0ed38eec David Howells 2024-07-02  153  		avail += next_donated;
-5a2bec0ed38eec David Howells 2024-07-02  154  	start = subreq->start;
-5a2bec0ed38eec David Howells 2024-07-02  155  	if (subreq->consumed == 0) {
-5a2bec0ed38eec David Howells 2024-07-02  156  		start -= prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  157  		avail += prev_donated;
-5a2bec0ed38eec David Howells 2024-07-02  158  	} else {
-5a2bec0ed38eec David Howells 2024-07-02  159  		start += subreq->consumed;
-5a2bec0ed38eec David Howells 2024-07-02  160  		avail -= subreq->consumed;
-5a2bec0ed38eec David Howells 2024-07-02  161  	}
-5a2bec0ed38eec David Howells 2024-07-02  162  	part = umin(avail, fsize);
-5a2bec0ed38eec David Howells 2024-07-02  163  
-5a2bec0ed38eec David Howells 2024-07-02  164  	trace_netfs_progress(subreq, start, avail, part);
-5a2bec0ed38eec David Howells 2024-07-02  165  
-5a2bec0ed38eec David Howells 2024-07-02  166  	if (start + avail >= fend) {
-5a2bec0ed38eec David Howells 2024-07-02  167  		if (fpos == start) {
-5a2bec0ed38eec David Howells 2024-07-02  168  			/* Flush, unlock and mark for caching any folio we've just read. */
-5a2bec0ed38eec David Howells 2024-07-02  169  			subreq->consumed = fend - subreq->start;
-5a2bec0ed38eec David Howells 2024-07-02 @170  			netfs_unlock_read_folio(subreq, rreq, folioq_folio(folioq, slot));
-                                                                                                                   ^^^^^^
-Unchecked dereference.
-
-5a2bec0ed38eec David Howells 2024-07-02  171  			folioq_mark2(folioq, slot);
-5a2bec0ed38eec David Howells 2024-07-02  172  			if (subreq->consumed >= subreq->len)
-5a2bec0ed38eec David Howells 2024-07-02  173  				goto remove_subreq;
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000: failed to match any schema with compatible: ['fsl,qe', 'simple-bus']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/qeic@80: failed to match any schema with compatible: ['fsl,qe-ic']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: aux-bus: '#address-cells', '#size-cells', 'compatible', 'dma-ranges', 'ranges', 'sata@3200000', 'usb@2f00000', 'usb@3000000', 'usb@3100000' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: aux-bus: 'panel' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/aux-bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3400000: fsl,pcie-scfg:0: [23, 0] is too long
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/qeic@80: failed to match any schema with compatible: ['fsl,qe-ic']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/ucc@2000: failed to match any schema with compatible: ['fsl,ucc-hdlc']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: aux-bus: '#address-cells', '#size-cells', 'compatible', 'dma-ranges', 'ranges', 'sata@3200000', 'usb@2f00000', 'usb@3000000', 'usb@3100000' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: aux-bus: 'panel' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/aux-bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3400000: fsl,pcie-scfg:0: [22, 0] is too long
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000: failed to match any schema with compatible: ['fsl,qe', 'simple-bus']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/qeic@80: failed to match any schema with compatible: ['fsl,qe-ic']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/si@700: failed to match any schema with compatible: ['fsl,ls1043-qe-si', 'fsl,t1040-qe-si']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/siram@1000: failed to match any schema with compatible: ['fsl,ls1043-qe-siram', 'fsl,t1040-qe-siram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/muram@10000: failed to match any schema with compatible: ['fsl,qe-muram', 'fsl,cpm-muram']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/uqe@2400000/muram@10000/data-only@0: failed to match any schema with compatible: ['fsl,qe-muram-data', 'fsl,cpm-muram-data']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: aux-bus: '#address-cells', '#size-cells', 'compatible', 'dma-ranges', 'ranges', 'sata@3200000', 'usb@2f00000', 'usb@3000000', 'usb@3100000' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: aux-bus: 'panel' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/dp-aux-bus.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/aux-bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller1@1571000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller2@1572000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/msi-controller3@1573000: failed to match any schema with compatible: ['fsl,ls1043a-msi']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3400000: fsl,pcie-scfg:0: [25, 0] is too long
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
