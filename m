@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F4F12FB2D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 09:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6A813D600
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 09:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719997681; cv=none; b=lAT01JgGwiuMM0C3doLXKaEMtboDnK6X25PLMvwWu9myRnWJZVMDL1cXgVQgKNnJGcE63w/cSI7Vkjr/FLVFF77tXCFhr40ttA7k5lbXFVDyak3SW4xoqeM31FsHMuRW7mGkGSc+2mPouvYSZmLB73KseeJuKjjreHIjiRQf5Co=
+	t=1719998293; cv=none; b=SUuhRa9rON9NJYwKbgVqol/mOtcTTqWtcbpJlUks0FpqclpJ60ftBp6bQVm/vDass5f7Bozu8vpA2gUTQjV6YXm5sPwC4vreONfEPZZ9VVKsCet1jS8cj+b/lit39Kkjfs27STa1Zax46s/v42nAYF4xYWurGYYyim7HwAfI9ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719997681; c=relaxed/simple;
-	bh=GM9Gi4rAOyebS/YBxhDe8AQrM7TNsspnnkIbWgnS+fM=;
+	s=arc-20240116; t=1719998293; c=relaxed/simple;
+	bh=MusREK28ZLsKz0pbaeGtZuQVpIamelXv8STA0z23QSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iP5j0s1oL9QRGrf3sw2WCIkUYrf021INOdSOKSLbcyZKJhGtc3a/3av/dxP1rfL6VYnTGFZ+5UZRrgSgA6QL50l1bk2oyAAUmlL5rKGi4gi8JrbDuMOmjWsFoy/ISHB5pLM3gNKscV6GhmvOHmQaTOJjlV2G6dsRc2BfqfAn8k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwQ8yyWs; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=tEvx7q1F8iPhFdOyDFjdeK7fWElqJ95bbxol4SdhFRY8luKZUFkHHIhdpNmy3oW8ng4VSFwQAy0pUFESoJ11JaiQtBG4qjTNxntIbMgrqwhrus1WlAEkWwCL5OwJeb9I9MO2xK+nzNM+UYasMLjmbTuFWR+fehlXI+25mfS1eGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkJeYDeE; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwQ8yyWs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkJeYDeE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719997679; x=1751533679;
+  t=1719998291; x=1751534291;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GM9Gi4rAOyebS/YBxhDe8AQrM7TNsspnnkIbWgnS+fM=;
-  b=gwQ8yyWsdVytRc/muFkVIwIuTGDNyll9P5NWoMKexaC8r7ZIhtvJw+dY
-   uj11eZKifpA85vRE7CTH6reddHqUxZxrRp1QGiD/gugqUKIOaOOfyRvsG
-   oMiwa7qTiz9ZgDFjbxG4rjx1+R0pg/P8MIu4Wxp/5IIlUGwi1hHRsHeQA
-   1B6FL3ZlkvvsNvs0LpvdM+GDOvsRTNS9ZaB10p51bLr70KejcwEZOHfmt
-   CebmRJ/Y6eO/ELWp/oqX6pfneLW8KOPacdrtUuG6sDjprr0SKKVau0HEr
-   Rj4AmxFGXklRYsxM0FkoBTdBKd9D4OkCKpr1M45r35qwn7WTtNCVbuKrl
-   A==;
-X-CSE-ConnectionGUID: S6zNzjQlSG2nGydMvtFFxw==
-X-CSE-MsgGUID: Oo82bq41QrKTkTuya0ya5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="20120099"
+  bh=MusREK28ZLsKz0pbaeGtZuQVpIamelXv8STA0z23QSY=;
+  b=mkJeYDeEpsMLNJNckSXN1iSy3VDOiR0gtrFw7eFweLimx0Nk3BHm3nt9
+   hTAb8OhHLpuzjuLswKqoZlF68lK8iiVb894+BKABgUqEJocbiVsyOvjiO
+   JrWDaets5rdCnuyIbS45es4eZpN2KakwJB8UMHj6Dht0nfpZMInTfDLCf
+   dIRcASchEPw8VdFoy4+UHihQrW9Ea4d4Ht3gX6/sTei/EJg6/9+pL50ia
+   NNqQ3L21RnSUT9KGcndCZ9WHhOWDM0VEdT+Rzg0GU0JrAEEWjMqCjYDVG
+   K3JBLjWmSDdp8riKLTTvjQPDyKQXDJAGzvhg5N4/2WXLlnRjLsmmPLlwg
+   g==;
+X-CSE-ConnectionGUID: Slnj6rU1Txi33dklvGy+gQ==
+X-CSE-MsgGUID: X3fi6ha8Sn6lS5q2M6jMHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="27889794"
 X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="20120099"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 02:07:58 -0700
-X-CSE-ConnectionGUID: E00roestRF+FZ9F9nC3uFQ==
-X-CSE-MsgGUID: cmUW5ECvQAa0Vh0BDhqgNA==
+   d="scan'208";a="27889794"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 02:18:11 -0700
+X-CSE-ConnectionGUID: 4whfEHsjRhqj/DwzVVs1pw==
+X-CSE-MsgGUID: qig9yo1VQVWq4aM9FI3pJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="50503252"
+   d="scan'208";a="51142740"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Jul 2024 02:07:56 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2024 02:18:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOvxy-000PZO-2d;
-	Wed, 03 Jul 2024 09:07:54 +0000
-Date: Wed, 3 Jul 2024 17:07:11 +0800
+	id 1sOw7o-000PaA-1t;
+	Wed, 03 Jul 2024 09:18:04 +0000
+Date: Wed, 3 Jul 2024 17:17:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [linux-next:master 9442/10451]
- drivers/platform/cznic/turris-omnia-mcu-gpio.c:1027:10: error: no member
- named 'of_gpio_n_cells' in 'struct gpio_chip'
-Message-ID: <202407031646.trNSwajF-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9885/10451] kernel/rcu/tree_stall.h:797:undefined
+ reference to `csd_lock_is_stuck'
+Message-ID: <202407031722.nBIh2u7x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,137 +65,117 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: dfa556e45ae9ecc199e598222debc8f1883a7cce [9442/10451] platform: cznic: turris-omnia-mcu: Add support for MCU connected GPIOs
-config: s390-randconfig-r054-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031646.trNSwajF-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407031646.trNSwajF-lkp@intel.com/reproduce)
+commit: 3be88389f46263f166973e80e528dcc9268e24cb [9885/10451] rcu: Summarize RCU CPU stall warnings during CSD-lock stalls
+config: x86_64-randconfig-a014-20211016 (https://download.01.org/0day-ci/archive/20240703/202407031722.nBIh2u7x-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407031722.nBIh2u7x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407031646.trNSwajF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407031722.nBIh2u7x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/platform/cznic/turris-omnia-mcu-gpio.c:13:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/platform/cznic/turris-omnia-mcu-gpio.c:16:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/platform/cznic/turris-omnia-mcu-gpio.c:16:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/platform/cznic/turris-omnia-mcu-gpio.c:16:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/platform/cznic/turris-omnia-mcu-gpio.c:1027:10: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-    1027 |         mcu->gc.of_gpio_n_cells = 3;
-         |         ~~~~~~~ ^
->> drivers/platform/cznic/turris-omnia-mcu-gpio.c:1028:10: error: no member named 'of_xlate' in 'struct gpio_chip'
-    1028 |         mcu->gc.of_xlate = omnia_gpio_of_xlate;
-         |         ~~~~~~~ ^
-   13 warnings and 2 errors generated.
+   ld: vmlinux.o: in function `check_cpu_stall':
+>> kernel/rcu/tree_stall.h:797:(.text+0x273b89): undefined reference to `csd_lock_is_stuck'
 
 
-vim +1027 drivers/platform/cznic/turris-omnia-mcu-gpio.c
+vim +797 kernel/rcu/tree_stall.h
 
-   999	
-  1000	int omnia_mcu_register_gpiochip(struct omnia_mcu *mcu)
-  1001	{
-  1002		bool new_api = mcu->features & OMNIA_FEAT_NEW_INT_API;
-  1003		struct device *dev = &mcu->client->dev;
-  1004		unsigned long irqflags;
-  1005		int err;
-  1006	
-  1007		err = devm_mutex_init(dev, &mcu->lock);
-  1008		if (err)
-  1009			return err;
-  1010	
-  1011		mcu->gc.request = omnia_gpio_request;
-  1012		mcu->gc.get_direction = omnia_gpio_get_direction;
-  1013		mcu->gc.direction_input = omnia_gpio_direction_input;
-  1014		mcu->gc.direction_output = omnia_gpio_direction_output;
-  1015		mcu->gc.get = omnia_gpio_get;
-  1016		mcu->gc.get_multiple = omnia_gpio_get_multiple;
-  1017		mcu->gc.set = omnia_gpio_set;
-  1018		mcu->gc.set_multiple = omnia_gpio_set_multiple;
-  1019		mcu->gc.init_valid_mask = omnia_gpio_init_valid_mask;
-  1020		mcu->gc.can_sleep = true;
-  1021		mcu->gc.names = omnia_mcu_gpio_templates;
-  1022		mcu->gc.base = -1;
-  1023		mcu->gc.ngpio = ARRAY_SIZE(omnia_gpios);
-  1024		mcu->gc.label = "Turris Omnia MCU GPIOs";
-  1025		mcu->gc.parent = dev;
-  1026		mcu->gc.owner = THIS_MODULE;
-> 1027		mcu->gc.of_gpio_n_cells = 3;
-> 1028		mcu->gc.of_xlate = omnia_gpio_of_xlate;
+   724	
+   725	static void check_cpu_stall(struct rcu_data *rdp)
+   726	{
+   727		bool self_detected;
+   728		unsigned long gs1;
+   729		unsigned long gs2;
+   730		unsigned long gps;
+   731		unsigned long j;
+   732		unsigned long jn;
+   733		unsigned long js;
+   734		struct rcu_node *rnp;
+   735	
+   736		lockdep_assert_irqs_disabled();
+   737		if ((rcu_stall_is_suppressed() && !READ_ONCE(rcu_kick_kthreads)) ||
+   738		    !rcu_gp_in_progress())
+   739			return;
+   740		rcu_stall_kick_kthreads();
+   741	
+   742		/*
+   743		 * Check if it was requested (via rcu_cpu_stall_reset()) that the FQS
+   744		 * loop has to set jiffies to ensure a non-stale jiffies value. This
+   745		 * is required to have good jiffies value after coming out of long
+   746		 * breaks of jiffies updates. Not doing so can cause false positives.
+   747		 */
+   748		if (READ_ONCE(rcu_state.nr_fqs_jiffies_stall) > 0)
+   749			return;
+   750	
+   751		j = jiffies;
+   752	
+   753		/*
+   754		 * Lots of memory barriers to reject false positives.
+   755		 *
+   756		 * The idea is to pick up rcu_state.gp_seq, then
+   757		 * rcu_state.jiffies_stall, then rcu_state.gp_start, and finally
+   758		 * another copy of rcu_state.gp_seq.  These values are updated in
+   759		 * the opposite order with memory barriers (or equivalent) during
+   760		 * grace-period initialization and cleanup.  Now, a false positive
+   761		 * can occur if we get an new value of rcu_state.gp_start and a old
+   762		 * value of rcu_state.jiffies_stall.  But given the memory barriers,
+   763		 * the only way that this can happen is if one grace period ends
+   764		 * and another starts between these two fetches.  This is detected
+   765		 * by comparing the second fetch of rcu_state.gp_seq with the
+   766		 * previous fetch from rcu_state.gp_seq.
+   767		 *
+   768		 * Given this check, comparisons of jiffies, rcu_state.jiffies_stall,
+   769		 * and rcu_state.gp_start suffice to forestall false positives.
+   770		 */
+   771		gs1 = READ_ONCE(rcu_state.gp_seq);
+   772		smp_rmb(); /* Pick up ->gp_seq first... */
+   773		js = READ_ONCE(rcu_state.jiffies_stall);
+   774		smp_rmb(); /* ...then ->jiffies_stall before the rest... */
+   775		gps = READ_ONCE(rcu_state.gp_start);
+   776		smp_rmb(); /* ...and finally ->gp_start before ->gp_seq again. */
+   777		gs2 = READ_ONCE(rcu_state.gp_seq);
+   778		if (gs1 != gs2 ||
+   779		    ULONG_CMP_LT(j, js) ||
+   780		    ULONG_CMP_GE(gps, js))
+   781			return; /* No stall or GP completed since entering function. */
+   782		rnp = rdp->mynode;
+   783		jn = jiffies + ULONG_MAX / 2;
+   784		self_detected = READ_ONCE(rnp->qsmask) & rdp->grpmask;
+   785		if (rcu_gp_in_progress() &&
+   786		    (self_detected || ULONG_CMP_GE(j, js + RCU_STALL_RAT_DELAY)) &&
+   787		    cmpxchg(&rcu_state.jiffies_stall, js, jn) == js) {
+   788			/*
+   789			 * If a virtual machine is stopped by the host it can look to
+   790			 * the watchdog like an RCU stall. Check to see if the host
+   791			 * stopped the vm.
+   792			 */
+   793			if (kvm_check_and_clear_guest_paused())
+   794				return;
+   795	
+   796			rcu_stall_notifier_call_chain(RCU_STALL_NOTIFY_NORM, (void *)j - gps);
+ > 797			if (READ_ONCE(csd_lock_suppress_rcu_stall) && csd_lock_is_stuck()) {
+   798				pr_err("INFO: %s detected stall, but suppressed full report due to a stuck CSD-lock.\n", rcu_state.name);
+   799			} else if (self_detected) {
+   800				/* We haven't checked in, so go dump stack. */
+   801				print_cpu_stall(gps);
+   802			} else {
+   803				/* They had a few time units to dump stack, so complain. */
+   804				print_other_cpu_stall(gs2, gps);
+   805			}
+   806	
+   807			if (READ_ONCE(rcu_cpu_stall_ftrace_dump))
+   808				rcu_ftrace_dump(DUMP_ALL);
+   809	
+   810			if (READ_ONCE(rcu_state.jiffies_stall) == jn) {
+   811				jn = jiffies + 3 * rcu_jiffies_till_stall_check() + 3;
+   812				WRITE_ONCE(rcu_state.jiffies_stall, jn);
+   813			}
+   814		}
+   815	}
+   816	
 
 -- 
 0-DAY CI Kernel Test Service
