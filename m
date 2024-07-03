@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1373913A27E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 11:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE768137910;
+	Wed,  3 Jul 2024 11:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720006155; cv=none; b=M7GZhtjXE+vRHvbuKLpd42qNvsdJ+fsZikkL31ncqrK//h+XNr2ciunZ83k2lPIIXYzzl1Cy63JJJMpQA9vZ749CtvqCOjpfA2doXklcU7Dh18Qf3Jkhq5hSpj54WJKCihCO8z5+DdGLNzcQ364BoWkaIH+C9K90NCYAXLpQrJc=
+	t=1720006815; cv=none; b=B6U9KX1CvozYDBBvCw7dkilnMmjHRZDGQ6O1injcioeEOnP1YUAn4V/9Qi3YYrnswMie0K2WmSjOc1iRj/JyIZ/pgW03zRcj94TbxSnMmwXG5dLnfQV9wVvyeDUsGiY6PDZcNzVmwTXsRwkYdoj7yqPSDcwecJ00uAoZsl3a2Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720006155; c=relaxed/simple;
-	bh=4P9M12W2Vl7p2rWNW2jsuWcaIUeYlsvvvMVJ9Aq86Dc=;
+	s=arc-20240116; t=1720006815; c=relaxed/simple;
+	bh=gGzduXQsbcHDOGbCXKRFQzBo6s/46Jc9BIE/FSN493k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jpPv46xR3O+eKvHzKKzJPYGWmf/0l76yZyDfRKXcekA7Q8dxlB8dN5cIokl03upkCdaHK9/L6gnOzbo1/PYfMdcxbFZc9qDSQSBbNSfo4BMIrJ0LgyODN9t59fBsaCNgIC3kI8cfMq3pWD9s4na38s9RrZ1ZAtrW9e1uWSUj7K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIXuoAWF; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=dxcZa02jBVrVXDec8itYWuqd/ygf0FQF4PqWP/AhfkPz2L7Cys5kzGa7A6zOKK7s7pL2Bg0r2tNdNwQ54o76nKSQGrbx6+WTnuBLbWlDN+uZgpbtAoZ3KRuEomZHXJX+bLm7N67OSL3dRDvDbadKq1h31LHTh1fBh/5BPO+mDqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQOR4v06; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIXuoAWF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQOR4v06"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720006153; x=1751542153;
+  t=1720006813; x=1751542813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4P9M12W2Vl7p2rWNW2jsuWcaIUeYlsvvvMVJ9Aq86Dc=;
-  b=oIXuoAWF3Gmg77OrxEvRmsOdRzpqeZLOs044JoqhK3jLuW7SXxjZ027t
-   HKA6TIK99kvxB1mPQKIhoBsf3snmUOJVhqi005ZPGbTeAY4uEn9FQRixC
-   pDOXk0WTtqc3phnNynycf/duSlQmjZcZpAYB+xtAYsNixktfy35OSR0cD
-   Mk6VLXsUc6HJsNWmsWKdSb6RiPZo5ZaguVbl0+KAy0LlOGCs3gHo6RJsj
-   WfO9WOHvDDO9hDm8v/hIR+RDirH5txPVRnHZhPCoT4O5HxuDFbo8O+LQd
-   G8zGHz0Ut0SnHS6x41U8NL/bA1pYZ1hdDsHoklM48L+zPXblJkSHG1aTz
-   Q==;
-X-CSE-ConnectionGUID: tkrIf+iLTRS3mbonXBUEMg==
-X-CSE-MsgGUID: e0KeH9N0RyGMejBB3SUrMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17182935"
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="17182935"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 04:29:12 -0700
-X-CSE-ConnectionGUID: VCkwf3ZrSLGuiyV2xH9JtA==
-X-CSE-MsgGUID: Db0BkjO0TQis9Ow15R146w==
+  bh=gGzduXQsbcHDOGbCXKRFQzBo6s/46Jc9BIE/FSN493k=;
+  b=XQOR4v064lbVAWVIvNamOLaLt8sYoy76WgBf7kXD6flwrt1m7to0Mh9i
+   CIqZB/aVVxX3o0JGyt5E2OEjyo6TIStC+Agda7MxulK0eTNngSH/PMh+9
+   WrSAIdS0y4FQkorITj+FZcuAK/UN93nfeqV6vR7yrx6fFK5FUkkIsJTUK
+   Cqm2QxITnOSd7BjnRYujHXB+h0petUovYzlvWdHLWhy8Q7Ocr84haipf/
+   gXFzmSX0WaCaacMG36b0gxjAwE3yAZFak7tI6+G250MsWoCl3+9D36emw
+   khW43zZ12fAuga7Q4gyHbqlHPH5gH0WQ8+44npVrdpxKtQRDU0hH798uV
+   w==;
+X-CSE-ConnectionGUID: XsLJ8iJ/SJeh/N/AmAHucQ==
+X-CSE-MsgGUID: Z+fiEW3KSLC4IiD/9EeQcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="27835756"
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="27835756"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 04:40:12 -0700
+X-CSE-ConnectionGUID: 4KJNRBk8TaCHsfFIQTaGOw==
+X-CSE-MsgGUID: rdxdzNj3Tqydy6O5puV84Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="46651805"
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="51182641"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jul 2024 04:29:11 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2024 04:40:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOyAe-000Peu-2D;
-	Wed, 03 Jul 2024 11:29:08 +0000
-Date: Wed, 3 Jul 2024 19:28:18 +0800
+	id 1sOyLI-000PfQ-30;
+	Wed, 03 Jul 2024 11:40:08 +0000
+Date: Wed, 3 Jul 2024 19:39:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/next 18/37] net/ipv4/tcp.c:2489:57: error: implicit
- declaration of function 'net_devmem_iov_binding_id'
-Message-ID: <202407031911.sDdltoiF-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:rmap_id 6/6] mm/internal.h:660:2: error: call to
+ undeclared function '__folio_prep_large_mapcount_metadata'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202407031902.jUw1oJIv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,188 +63,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zcrx/next
-head:   daa95af9ac26711b21e20be3c8d512d6de26bb11
-commit: e1154ae207d2ef9599be621dbec9a702e73e7db8 [18/37] inverse deps
-config: sh-randconfig-r081-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031911.sDdltoiF-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407031911.sDdltoiF-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux rmap_id
+head:   ff5e85c45e818366d70159de7e6e0d0cc781d2cb
+commit: ff5e85c45e818366d70159de7e6e0d0cc781d2cb [6/6] rmap_id
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240703/202407031902.jUw1oJIv-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407031902.jUw1oJIv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407031911.sDdltoiF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407031902.jUw1oJIv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
->> net/ipv4/tcp.c:2489:57: error: implicit declaration of function 'net_devmem_iov_binding_id' [-Werror=implicit-function-declaration]
-    2489 |                                 dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from mm/filemap.c:15:
+   In file included from include/linux/dax.h:6:
+   In file included from include/linux/mm.h:2250:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/filemap.c:51:
+>> mm/internal.h:660:2: error: call to undeclared function '__folio_prep_large_mapcount_metadata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^
+   1 warning and 1 error generated.
+--
+   In file included from mm/page-writeback.c:20:
+   In file included from include/linux/mm.h:2250:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page-writeback.c:40:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page-writeback.c:43:
+>> mm/internal.h:660:2: error: call to undeclared function '__folio_prep_large_mapcount_metadata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^
+   3 warnings and 1 error generated.
+--
+   In file included from mm/vmscan.c:15:
+   In file included from include/linux/mm.h:2250:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:30:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:67:
+>> mm/internal.h:660:2: error: call to undeclared function '__folio_prep_large_mapcount_metadata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^
+   mm/vmscan.c:401:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     401 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:1729:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    1729 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:2232:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2232 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2233:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2233 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:6259:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    6259 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   8 warnings and 1 error generated.
+--
+   In file included from mm/page_alloc.c:19:
+   In file included from include/linux/mm.h:2250:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page_alloc.c:44:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page_alloc.c:59:
+>> mm/internal.h:660:2: error: call to undeclared function '__folio_prep_large_mapcount_metadata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^
+>> mm/page_alloc.c:1079:4: error: call to undeclared function '__folio_undo_large_mapcount_metadata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1079 |                         __folio_undo_large_mapcount_metadata(page_folio(page),
+         |                         ^
+   mm/page_alloc.c:2939:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2939 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3056:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3056 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:4697:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    4697 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   6 warnings and 2 errors generated.
 
 
-vim +/net_devmem_iov_binding_id +2489 net/ipv4/tcp.c
+vim +/__folio_prep_large_mapcount_metadata +660 mm/internal.h
 
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2388  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2389  /* On error, returns the -errno. On success, returns number of bytes sent to the
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2390   * user. May not consume all of @remaining_len.
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2391   */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2392  static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2393  			      unsigned int offset, struct msghdr *msg,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2394  			      int remaining_len)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2395  {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2396  	struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2397  	struct tcp_xa_pool tcp_xa_pool;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2398  	unsigned int start;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2399  	int i, copy, n;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2400  	int sent = 0;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2401  	int err = 0;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2402  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2403  	tcp_xa_pool.max = 0;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2404  	tcp_xa_pool.idx = 0;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2405  	do {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2406  		start = skb_headlen(skb);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2407  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2408  		if (skb_frags_readable(skb)) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2409  			err = -ENODEV;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2410  			goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2411  		}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2412  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2413  		/* Copy header. */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2414  		copy = start - offset;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2415  		if (copy > 0) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2416  			copy = min(copy, remaining_len);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2417  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2418  			n = copy_to_iter(skb->data + offset, copy,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2419  					 &msg->msg_iter);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2420  			if (n != copy) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2421  				err = -EFAULT;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2422  				goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2423  			}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2424  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2425  			offset += copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2426  			remaining_len -= copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2427  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2428  			/* First a dmabuf_cmsg for # bytes copied to user
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2429  			 * buffer.
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2430  			 */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2431  			memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2432  			dmabuf_cmsg.frag_size = copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2433  			err = put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEAR,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2434  				       sizeof(dmabuf_cmsg), &dmabuf_cmsg);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2435  			if (err || msg->msg_flags & MSG_CTRUNC) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2436  				msg->msg_flags &= ~MSG_CTRUNC;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2437  				if (!err)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2438  					err = -ETOOSMALL;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2439  				goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2440  			}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2441  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2442  			sent += copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2443  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2444  			if (remaining_len == 0)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2445  				goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2446  		}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2447  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2448  		/* after that, send information of dmabuf pages through a
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2449  		 * sequence of cmsg
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2450  		 */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2451  		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2452  			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2453  			struct net_iov *niov;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2454  			u64 frag_offset;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2455  			int end;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2456  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2457  			/* !skb_frags_readable() should indicate that ALL the
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2458  			 * frags in this skb are dmabuf net_iovs. We're checking
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2459  			 * for that flag above, but also check individual frags
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2460  			 * here. If the tcp stack is not setting
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2461  			 * skb_frags_readable() correctly, we still don't want
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2462  			 * to crash here.
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2463  			 */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2464  			if (!skb_frag_net_iov(frag)) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2465  				net_err_ratelimited("Found non-dmabuf skb with net_iov");
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2466  				err = -ENODEV;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2467  				goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2468  			}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2469  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2470  			niov = skb_frag_net_iov(frag);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2471  			end = start + skb_frag_size(frag);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2472  			copy = end - offset;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2473  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2474  			if (copy > 0) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2475  				copy = min(copy, remaining_len);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2476  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2477  				frag_offset = net_iov_virtual_addr(niov) +
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2478  					      skb_frag_off(frag) + offset -
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2479  					      start;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2480  				dmabuf_cmsg.frag_offset = frag_offset;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2481  				dmabuf_cmsg.frag_size = copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2482  				err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2483  							 skb_shinfo(skb)->nr_frags - i);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2484  				if (err)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2485  					goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2486  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2487  				/* Will perform the exchange later */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2488  				dmabuf_cmsg.frag_token = tcp_xa_pool.tokens[tcp_xa_pool.idx];
-a9069ffbd67ea1 Pavel Begunkov 2024-06-24 @2489  				dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2490  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2491  				offset += copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2492  				remaining_len -= copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2493  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2494  				err = put_cmsg(msg, SOL_SOCKET,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2495  					       SO_DEVMEM_DMABUF,
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2496  					       sizeof(dmabuf_cmsg),
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2497  					       &dmabuf_cmsg);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2498  				if (err || msg->msg_flags & MSG_CTRUNC) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2499  					msg->msg_flags &= ~MSG_CTRUNC;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2500  					if (!err)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2501  						err = -ETOOSMALL;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2502  					goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2503  				}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2504  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2505  				atomic_long_inc(&niov->pp_ref_count);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2506  				tcp_xa_pool.netmems[tcp_xa_pool.idx++] = skb_frag_netmem(frag);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2507  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2508  				sent += copy;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2509  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2510  				if (remaining_len == 0)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2511  					goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2512  			}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2513  			start = end;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2514  		}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2515  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2516  		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2517  		if (!remaining_len)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2518  			goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2519  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2520  		/* if remaining_len is not satisfied yet, we need to go to the
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2521  		 * next frag in the frag_list to satisfy remaining_len.
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2522  		 */
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2523  		skb = skb_shinfo(skb)->frag_list ?: skb->next;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2524  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2525  		offset = offset - start;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2526  	} while (skb);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2527  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2528  	if (remaining_len) {
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2529  		err = -EFAULT;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2530  		goto out;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2531  	}
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2532  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2533  out:
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2534  	tcp_xa_pool_commit(sk, &tcp_xa_pool);
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2535  	if (!sent)
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2536  		sent = err;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2537  
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2538  	return sent;
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2539  }
-0bf6cf62c0e850 Mina Almasry   2024-06-13  2540  
-
-:::::: The code at line 2489 was first introduced by commit
-:::::: a9069ffbd67ea119a4e6b0a6efd994d60381e2cc net: name TCP devmem specific helpers as such
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Pavel Begunkov <asml.silence@gmail.com>
+   650	
+   651	static inline void prep_compound_head(struct page *page, unsigned int order)
+   652	{
+   653		struct folio *folio = (struct folio *)page;
+   654	
+   655		folio_set_order(folio, order);
+   656		atomic_set(&folio->_large_mapcount, -1);
+   657		atomic_set(&folio->_entire_mapcount, -1);
+   658		atomic_set(&folio->_nr_pages_mapped, 0);
+   659		atomic_set(&folio->_pincount, 0);
+ > 660		__folio_prep_large_mapcount_metadata(folio, order);
+   661		if (order > 1)
+   662			INIT_LIST_HEAD(&folio->_deferred_list);
+   663	}
+   664	
 
 -- 
 0-DAY CI Kernel Test Service
