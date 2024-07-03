@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC4B440C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 00:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED222623
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 00:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719966083; cv=none; b=STru7ngGPms/4SHBBP9G8xeQ0HSDApnn5/YSTwQL+vpBPbYBj9uEPIrThnXFI6QNO1kAXbBbjGQ35E6ASC6IDTR6fueKaa6oDmvLMVJOK+O4s5tyDkHgVvXkxOmkI77SCqIGbwHVe2YngOT2t2ZqNFm/wMJMhqCDoPLmsJtWmTo=
+	t=1719966752; cv=none; b=Rh3SkoP5mbvt4gaHDC2cBmaLl02++RuE9rp/pYEPc+GqgHSK1DrwAR7NVdOW2IjArHXkSKyP0yD+mKWh0eGY1uAXy7Ryg+LIVj+PYHZxmxuFwnRHJh3SCfZ6FfikMDmOYSopd5/6nHFW6oDGtkndAJLw4YFJAA72m20rctTCdO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719966083; c=relaxed/simple;
-	bh=t0zZFb652AJXBBbHHXzV6WRi79WNeV/pPvKJVOhFP3A=;
+	s=arc-20240116; t=1719966752; c=relaxed/simple;
+	bh=Hei4qscZoPJCJQT3mQkoFJ7P/1t4V1SMQ8U6hfXEZ6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=brnHO1KAa+8aT0tPl7vaVPz1WtGLwXPWxtC8WWtjI44HspDH2i4Zhhzfq9vBthBygkmTm0hV5+bPBXYm6NBUV9dbZWDuYDvCdvH11oQXHZDCmlaFXAYTNAa3xP6s4pTUKKzmH8BPopFFPl+FYe/T1ASrDkurgLxxlGsCZ4BTvgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6+/uf+U; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=GAhVf1i+jh/kokkURwfbqTnYdgBH1ZSjhHI0/MmJUvJ2WDQkW+O9i79NUNa6dOAMCd2lA9aIL68mMQU8dqMHsmjPgrvctnrRodP3R/1Fp8vVNDrAdsbm4dct4X+qEnwDdqXXeERBeKiWz8nA+NK3bDfqJUcQRAFjeRWm9gi4COM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/w3Cldb; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6+/uf+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/w3Cldb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719966081; x=1751502081;
+  t=1719966750; x=1751502750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t0zZFb652AJXBBbHHXzV6WRi79WNeV/pPvKJVOhFP3A=;
-  b=f6+/uf+UPaL0sbnZEVevUvpwM7WTNqCQHevVqCBp7nt9WPkMWCsPdj9G
-   q0t/hT1VWnFPKmcHLcYHAo/pC65T8LuWui50uekIBqP48oUUJLZ4zaKCR
-   I83wltHm377stfZxSsD+UJpVATAvdq43fn8NysCTm2YjtP4uydCLAWa8Y
-   zW4MM2xd6WsvjVFPvxEPnyg5PMpMgUHWFxaEiz6qwM23bvMLKxHw1q4VN
-   3FtcVjccdOJDm0Vr4luFyiZpvU4gPmp8OMhDli+pwbwXdP3B+m9BZOX1H
-   qgcClEsnPiBK68ElN86mUDkH9mXKDkk13ouJe60Q9Q339qBbRQyWanZ+w
+  bh=Hei4qscZoPJCJQT3mQkoFJ7P/1t4V1SMQ8U6hfXEZ6M=;
+  b=k/w3CldbjrRr8pNhSPfn3wRwt0K4TVuoL6PTnYi8voQowONidBjiP2jW
+   dPCv0qoTmDJX6jIjmrDeKfu38DTepeVL9XgvSu2WIlnqrKu/cZBxHQmB2
+   MzWuT48vF1IvKc/n4t4P/SYfqbyPgBnvdqRRptk+lyKq4cQfxxottG05O
+   xEtvfpk+dbkvjZcVHdiRKbxXMn2H/5UX4IHLc5qc4g8pa5uKCbCcRgFBT
+   ZXVBnZVxuUA495rHu4ty/q0hw4UuzLhq7Sg5J1hr4/c9U/PVIROYKytDp
+   W+2/M8tC/4RG3DfhaMBAOVn+IhUVIyldXglm4iet27qsBvql0aIFqc/Hh
    w==;
-X-CSE-ConnectionGUID: YYX2G6TlTIS6LESIicGchg==
-X-CSE-MsgGUID: fJ/YCOItTL6z/IZe9FTkOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17304693"
+X-CSE-ConnectionGUID: s0sHjnk4SeSUxxMlZQGf+Q==
+X-CSE-MsgGUID: EXgeXkzRTHqu29CPpvBe3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="16896001"
 X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
-   d="scan'208";a="17304693"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 17:21:20 -0700
-X-CSE-ConnectionGUID: OlnnymCITl29VKNZK3Myvg==
-X-CSE-MsgGUID: Ld9qSdu1RTyy26OWcGqtIQ==
+   d="scan'208";a="16896001"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 17:32:29 -0700
+X-CSE-ConnectionGUID: A15nU7AvRXCHE8OkQd1NkA==
+X-CSE-MsgGUID: 2Q794jPQSEOVAIzc6tpbzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,180,1716274800"; 
-   d="scan'208";a="51247724"
+   d="scan'208";a="77228885"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jul 2024 17:21:19 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Jul 2024 17:32:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOnkK-000P0J-0e;
-	Wed, 03 Jul 2024 00:21:16 +0000
-Date: Wed, 3 Jul 2024 08:20:29 +0800
+	id 1sOnv8-000P1C-1f;
+	Wed, 03 Jul 2024 00:32:26 +0000
+Date: Wed, 3 Jul 2024 08:31:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/000-devicetree 82/187]
- arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: compatible:0:
- 'apple,t6020-dart' is not one of ['apple,t8103-dart',
- 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-Message-ID: <202407030831.teOkAOt9-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 48/154] fs/bcachefs/sysfs.c:444:42:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202407030803.OqBsyayc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,255 +63,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
-commit: 521888111990907edc2a5abc2a4f372902389620 [82/187] arm64: dts: apple: Add j180d (Mac Pro 2023) device tree
-config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240703/202407030831.teOkAOt9-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407030831.teOkAOt9-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   b869786d2e8f385020c647f06218cfae6c48ab79
+commit: dd74fce05d1783abd351d944290be26eec77db7a [48/154] bcachefs: Allocator now directly wakes up copygc when necessary
+config: x86_64-randconfig-122-20240703 (https://download.01.org/0day-ci/archive/20240703/202407030803.OqBsyayc-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407030803.OqBsyayc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407030831.teOkAOt9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407030803.OqBsyayc-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@2a9808000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/fifo@2a9b14000: failed to match any schema with compatible: ['apple,t6020-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/fifo@2a9b14000: failed to match any schema with compatible: ['apple,t6020-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/fifo@2a9b14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@389304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@389304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@389304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@389304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@38930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@38930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@38930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@38930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@389c08000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
-   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
-   	'apple,m3-mailbox-v2' was expected
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@39b008000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@39b008000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@39b008000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
-   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: i2c@39b040000: Unevaluated properties are not allowed ('compatible' was unexpected)
---
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/power-management@404e80000: failed to match any schema with compatible: ['apple,t6020-pmgr', 'apple,pmgr', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@0: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/power-management@404e80000/power-controller@0: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@100: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/power-management@404e80000/power-controller@100: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@108: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/power-management@404e80000/power-controller@108: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@702f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@702f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@702280000: iommus: [[208, 0], [209, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@b02f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@b02f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@b02280000: iommus: [[214, 0], [215, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@b03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@b03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@f02f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@f02f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@f02280000: iommus: [[220, 0], [221, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@1302f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@1302f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@1302280000: iommus: [[226, 0], [227, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@1302280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/power-management@404e80000: failed to match any schema with compatible: ['apple,t6020-pmgr', 'apple,pmgr', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@0: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/power-management@404e80000/power-controller@0: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@100: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/power-management@404e80000/power-controller@100: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-controller@108: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/power-management@404e80000/power-controller@108: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@702f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@702f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@702f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@702280000: iommus: [[308, 0], [309, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@b02f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@b02f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@b02f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@b02280000: iommus: [[314, 0], [315, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@b03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@b03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@f02f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@f02f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@f02f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@f02280000: iommus: [[320, 0], [321, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f00000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f00000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@1302f00000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f80000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@1302f80000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@1302f80000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@1302280000: iommus: [[326, 0], [327, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: usb@1302280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6020-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6020-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@347408000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
-   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
-   	'apple,m3-mailbox-v2' was expected
-   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/mbox@347408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: sart@34bc50000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['apple,t6020-sart', 'apple,t6000-sart'] is too long
-   	'apple,t8112-sart' was expected
-   	'apple,t6020-sart' is not one of ['apple,t6000-sart', 'apple,t8103-sart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,sart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/sart@34bc50000: failed to match any schema with compatible: ['apple,t6020-sart', 'apple,t6000-sart']
->> arch/arm64/boot/dts/apple/t6022-j180d.dtb: nvme@34bcc0000: compatible:0: 'apple,t6020-nvme-ans2' is not one of ['apple,t8103-nvme-ans2', 'apple,t8112-nvme-ans2', 'apple,t6000-nvme-ans2']
-   	from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml#
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/nvme@34bcc0000: failed to match any schema with compatible: ['apple,t6020-nvme-ans2', 'apple,nvme-ans2']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /sound: failed to match any schema with compatible: ['apple,j180-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /sound: failed to match any schema with compatible: ['apple,j180-macaudio', 'apple,macaudio']
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/sysfs.c: note: in included file:
+   fs/bcachefs/bcachefs.h:998:9: sparse: sparse: array of flexible structures
+>> fs/bcachefs/sysfs.c:444:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *copygc_thread @@
+   fs/bcachefs/sysfs.c:444:42: sparse:     expected struct task_struct *tsk
+   fs/bcachefs/sysfs.c:444:42: sparse:     got struct task_struct [noderef] __rcu *copygc_thread
+
+vim +444 fs/bcachefs/sysfs.c
+
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  434  
+1ada160618d66bc Kent Overstreet 2020-06-15  435  STORE(bch2_fs)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  436  {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  437  	struct bch_fs *c = container_of(kobj, struct bch_fs, kobj);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  438  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  439  	if (attr == &sysfs_copy_gc_enabled) {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  440  		ssize_t ret = strtoul_safe(buf, c->copy_gc_enabled)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  441  			?: (ssize_t) size;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  442  
+e6d1161530bcd63 Kent Overstreet 2020-07-11  443  		if (c->copygc_thread)
+e6d1161530bcd63 Kent Overstreet 2020-07-11 @444  			wake_up_process(c->copygc_thread);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  445  		return ret;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  446  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  447  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  448  	if (attr == &sysfs_rebalance_enabled) {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  449  		ssize_t ret = strtoul_safe(buf, c->rebalance.enabled)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  450  			?: (ssize_t) size;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  451  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  452  		rebalance_wakeup(c);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  453  		return ret;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  454  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  455  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  456  	sysfs_pd_controller_store(rebalance,	&c->rebalance.pd);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  457  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  458  	sysfs_strtoul(promote_whole_extents,	c->promote_whole_extents);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  459  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  460  	/* Debugging: */
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  461  
+3c471b65889aa22 Kent Overstreet 2023-11-26  462  	if (!test_bit(BCH_FS_started, &c->flags))
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  463  		return -EPERM;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  464  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  465  	/* Debugging: */
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  466  
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  467  	if (!bch2_write_ref_tryget(c, BCH_WRITE_REF_sysfs))
+c45c866761671dd Kent Overstreet 2021-12-24  468  		return -EROFS;
+c45c866761671dd Kent Overstreet 2021-12-24  469  
+5147b9ae7687589 Kent Overstreet 2024-04-20  470  	if (attr == &sysfs_trigger_btree_cache_shrink) {
+c45c866761671dd Kent Overstreet 2021-12-24  471  		struct shrink_control sc;
+c45c866761671dd Kent Overstreet 2021-12-24  472  
+c45c866761671dd Kent Overstreet 2021-12-24  473  		sc.gfp_mask = GFP_KERNEL;
+c45c866761671dd Kent Overstreet 2021-12-24  474  		sc.nr_to_scan = strtoul_or_return(buf);
+ecae0bd5173b101 Linus Torvalds  2023-11-02  475  		c->btree_cache.shrink->scan_objects(c->btree_cache.shrink, &sc);
+c45c866761671dd Kent Overstreet 2021-12-24  476  	}
+c45c866761671dd Kent Overstreet 2021-12-24  477  
+5147b9ae7687589 Kent Overstreet 2024-04-20  478  	if (attr == &sysfs_trigger_btree_key_cache_shrink) {
+5147b9ae7687589 Kent Overstreet 2024-04-20  479  		struct shrink_control sc;
+5147b9ae7687589 Kent Overstreet 2024-04-20  480  
+5147b9ae7687589 Kent Overstreet 2024-04-20  481  		sc.gfp_mask = GFP_KERNEL;
+5147b9ae7687589 Kent Overstreet 2024-04-20  482  		sc.nr_to_scan = strtoul_or_return(buf);
+5147b9ae7687589 Kent Overstreet 2024-04-20  483  		c->btree_key_cache.shrink->scan_objects(c->btree_cache.shrink, &sc);
+5147b9ae7687589 Kent Overstreet 2024-04-20  484  	}
+b8eec675912ecb7 Kent Overstreet 2022-09-17  485  
+68e142405cf4cf0 Kent Overstreet 2024-04-06  486  	if (attr == &sysfs_trigger_gc)
+451570a5bc5f72c Kent Overstreet 2020-06-15  487  		bch2_gc_gens(c);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  488  
+8058ea64c31c870 Kent Overstreet 2022-04-07  489  	if (attr == &sysfs_trigger_discards)
+8058ea64c31c870 Kent Overstreet 2022-04-07  490  		bch2_do_discards(c);
+8058ea64c31c870 Kent Overstreet 2022-04-07  491  
+0e96f5dcd7ff678 Kent Overstreet 2022-06-13  492  	if (attr == &sysfs_trigger_invalidates)
+0e96f5dcd7ff678 Kent Overstreet 2022-06-13  493  		bch2_do_invalidates(c);
+0e96f5dcd7ff678 Kent Overstreet 2022-06-13  494  
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  495  	if (attr == &sysfs_trigger_journal_flush) {
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  496  		bch2_journal_flush_all_pins(&c->journal);
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  497  		bch2_journal_meta(&c->journal);
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  498  	}
+bdae2a7e6020e1c Kent Overstreet 2024-04-13  499  
+
+:::::: The code at line 444 was first introduced by commit
+:::::: e6d1161530bcd632ad10b6aa0ad511abb146dbcc bcachefs: Make copygc thread global
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
