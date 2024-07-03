@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4600A3CF73;
-	Wed,  3 Jul 2024 13:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCCC174EFE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 14:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720014834; cv=none; b=U/flI2ejLmtCsL+HeWOxhqQD+LyVCDQeZri+AH+2WMbCf10Kd5u/a9hH3MbVrcww/3P7/AIhDz2f1zWD5eOgBLFialS10nnzb5oDyzoD7PTlSdRF6ABIftwA+K+sW5ZwlyJC3Zf5pH14MzZ1ZkJTW3tBy1tQ4howkYLRSTXJsl8=
+	t=1720016454; cv=none; b=azKMW00FiGrmNiBMGuG4MsG8KA3/Ixzzk8vCQaADQvSk7EJVvhgPkMYLMcapqxcmzn0wzI+yHCyBJmye5BwmCq+Zlv2ZHnHC/4DnRjYMJ8Mrga8QIdJ3WUCl4tuCxopR3BOf/HJzb4hBZkwSOQAmm2L6PjxI7uy1RwJq/qwtNLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720014834; c=relaxed/simple;
-	bh=NbdUNCvtQF5QCNbUZD0HXRp9so82kXqy3ao2EDqptwE=;
+	s=arc-20240116; t=1720016454; c=relaxed/simple;
+	bh=lqCvilgHnv+7FohAQ4T1vjFpZ3+Zam8pAgCND10TAT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XxsFWeJushYIyKZkBz1+Ncs4EQ+UbgwHW8wtrIILKr5WfNGLfe1/yVkv+fFB0kYqXWDeMilqv5I/KUkVqQPy7ICAqSc/PM8whcyk66F5pahbyKy/kPVQzSPebOVB7JxH8pgC/6wGpYw7CNE6FSi5nFgmY4zYPrJoHKrmJv/4wWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRhJz10t; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=OaCxlEFB9BmMaUGDTYzdgUkSOhTMt7h7TMsSghQYwi+RofhdrKWUBT9WzXLGfPJg1FBfQ38UaE1lEJFLsoadOQpqTDGw8Z3kLVYwpdOqRPlgkIm1CY7xE6G2UkNbdCxKtMwAFcrB8a0K/I2kqQQjJt5EAjqIlpZ9T9SRpQw/XkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qw57uERR; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRhJz10t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720014832; x=1751550832;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NbdUNCvtQF5QCNbUZD0HXRp9so82kXqy3ao2EDqptwE=;
-  b=ZRhJz10tZhpg4oL8j1/0H8y1riakyR1BxbUSSOiOOTxB5xRfY/JxmQy0
-   1ckcHNrkRGEHOGKqxb8NWMNiReMGmphl4xPmgxdpmBHPeWX5BcJcur7lX
-   xskAN8bqd5v67kVoUx/iEl1qAAMyGHF8xaaqeZRqRg+vNnjnpfuUKfFiC
-   ZZyq7eA6QWhWmISXBYq6nTupoQ/njYqET50hAwGvJDNHq1HlIzxluKoZD
-   UDJiqhjrjUoL2236V79GVJD6u38i8PHAIKF+upmWnRvBNCJKeqBOJRFi0
-   igTtPYstvl00kp+yRmHqoGa+T9mp4LBSO9+52pz4abh03XNKok+EIWR6+
-   Q==;
-X-CSE-ConnectionGUID: IYokFp+4TfSR1AxBGGbMEQ==
-X-CSE-MsgGUID: ls5B5B9pT9u3hKvc6EZeXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="27918846"
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="27918846"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 06:53:51 -0700
-X-CSE-ConnectionGUID: iqNV4PAnQnK967FDZaXrUA==
-X-CSE-MsgGUID: vothbto/R6e/mSJ6dXM4pg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="50860503"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jul 2024 06:53:50 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sP0Qe-000Png-1B;
-	Wed, 03 Jul 2024 13:53:48 +0000
-Date: Wed, 3 Jul 2024 21:52:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mordechay Goodstein <mordechay.goodstein@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: [uml:pending 5/33] arch/um/kernel/time.c:936:13: warning: no
- previous prototype for function 'time_exit'
-Message-ID: <202407032133.WIlBsHgE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qw57uERR"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-25982aa59efso2459715fac.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jul 2024 07:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720016452; x=1720621252; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
+        b=qw57uERR3flKehXZV0GLQ2BdupDy6BEuzb4Rg49hUaLyGpNgw41E5U2FDfL2dUnUe6
+         51w0FODfWpAcPo3YUCeq7iQs7O+lJrvJ8/C6BpuVT4aSoCwy3AjmdhprYJZEKl9HUs9c
+         jpnNOrk1XziBFa4w97+EMea6FxDO6JbqMn+7iPr0rYuqBldCeJFrjPU7KFw1Eo0Tk5l/
+         9wizcHDN9reXRVNBXtUjQ6TL41P7R+bPXrpQSC5THuDbuFm1AfwL+GPxVTjw3TTMpLXe
+         laSPYeMqdnbPFTacQ2RLl+9XVYwzgQem7ijLxE1HncX0THagWBPNuXsNUsmEADGwr+iE
+         vZXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720016452; x=1720621252;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
+        b=cNQLFpRr8DfF9guq2UgjMP7PlLUtrGMshI57dpfxB+a4I7yRq3jBEw6alBE/glDB9w
+         A+sWvwLzAu0y1Y5dkg9tDn15ECWVyOxp11xtuf1zpYHR2JjvCuPWFhJRk69CW8uetemW
+         Kjbzw5kRiM5J551Tw2Y5ayQcIcyrIQftldrxpP90Az+U1u4fGnYAiawnltEj8cG9cb+f
+         dQO4SEtNXeT4hFfEi8C1o/QQikHUmtqjHw9mEdIOBh71eLwBYdvMAWQhBIhwTJhl/GSO
+         to302J+Z2J4ZzLElk1RMaM0s+zWp+gOd248sx8UAeNNBDm/U1nybAIBDKmb9X9hBzQIy
+         0SFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgGVa+TQkPnSluFeLICT9Hz3O5TeT8Ec7R4d++rlvQ07QS1fHtM1dz4OJGPQ4W9nQ1R2Z1+2VEDaCHS+lTVdPdmvdr25gEcTQT8dui+Q==
+X-Gm-Message-State: AOJu0Yw4zrpthK4SAyhTYNfJeic426NRH/5CkgyHaAYIkAfl3kobM8ga
+	9r95TyxQBXnwIpefoOMf5jelOIzV9ZrEb56osIPmxPBJr+tHY06Vpldnu+QYfDc=
+X-Google-Smtp-Source: AGHT+IHpgd9xHebwYRYsECSEOPMLy6oRLK2ztQA5kLhWR35q3B7a+UhtHgAzMPXDJr9RIzDvDjvu6w==
+X-Received: by 2002:a05:6870:8a0c:b0:25e:12b9:be40 with SMTP id 586e51a60fabf-25e12b9e979mr1303575fac.25.1720016451691;
+        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:5b79:ebe0:e3cb:2ba6])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25e036fd73csm564136fac.26.2024.07.03.07.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
+Date: Wed, 3 Jul 2024 16:20:49 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 16/17] fs/netfs/read_collect.c:170
+ netfs_consume_read_data() error: we previously assumed 'folioq' could be
+ null (see line 110)
+Message-ID: <6cc43674-4d95-49b6-a279-4b0c7f7f4ceb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +67,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/uml/linux pending
-head:   d2fcea450854bc95fb9185aeb9e87354a3c290bc
-commit: 4e9de8a682eb227933bb95c0fbc14402cacf37f3 [5/33] um: time-travel: support time-travel protocol broadcast messages
-config: um-randconfig-001-20240703 (https://download.01.org/0day-ci/archive/20240703/202407032133.WIlBsHgE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407032133.WIlBsHgE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   87ff2bfa2eb1cac0a80d376b99b244e96f582721
+commit: 5a2bec0ed38eec31673fd7c48b558c29db922e1a [16/17] netfs: Speed up buffered reading
+config: i386-randconfig-141-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031405.z0FPKCLr-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407032133.WIlBsHgE-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407031405.z0FPKCLr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/netfs/read_collect.c:170 netfs_consume_read_data() error: we previously assumed 'folioq' could be null (see line 110)
 
-   In file included from arch/um/kernel/time.c:10:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from arch/um/kernel/time.c:10:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from arch/um/kernel/time.c:10:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from arch/um/kernel/time.c:14:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/um/kernel/time.c:936:13: warning: no previous prototype for function 'time_exit' [-Wmissing-prototypes]
-     936 | void __exit time_exit(void)
-         |             ^
-   arch/um/kernel/time.c:936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     936 | void __exit time_exit(void)
-         | ^
-         | static 
-   14 warnings generated.
+vim +/folioq +170 fs/netfs/read_collect.c
 
+5a2bec0ed38eec David Howells 2024-07-02   81  static bool netfs_consume_read_data(struct netfs_io_subrequest *subreq, bool was_async)
+5a2bec0ed38eec David Howells 2024-07-02   82  {
+5a2bec0ed38eec David Howells 2024-07-02   83  	struct netfs_io_subrequest *prev, *next;
+5a2bec0ed38eec David Howells 2024-07-02   84  	struct netfs_io_request *rreq = subreq->rreq;
+5a2bec0ed38eec David Howells 2024-07-02   85  	struct folio_queue *folioq = subreq->curr_folioq;
+5a2bec0ed38eec David Howells 2024-07-02   86  	size_t avail, prev_donated, next_donated, fsize, part, excess;
+5a2bec0ed38eec David Howells 2024-07-02   87  	loff_t fpos, start;
+5a2bec0ed38eec David Howells 2024-07-02   88  	loff_t fend;
+5a2bec0ed38eec David Howells 2024-07-02   89  	int slot = subreq->curr_folioq_slot;
+5a2bec0ed38eec David Howells 2024-07-02   90  
+5a2bec0ed38eec David Howells 2024-07-02   91  	if (WARN(subreq->transferred > subreq->len,
+5a2bec0ed38eec David Howells 2024-07-02   92  		 "Subreq overread: R%x[%x] %zu > %zu",
+5a2bec0ed38eec David Howells 2024-07-02   93  		 rreq->debug_id, subreq->debug_index,
+5a2bec0ed38eec David Howells 2024-07-02   94  		 subreq->transferred, subreq->len))
+5a2bec0ed38eec David Howells 2024-07-02   95  		subreq->transferred = subreq->len;
+5a2bec0ed38eec David Howells 2024-07-02   96  
+5a2bec0ed38eec David Howells 2024-07-02   97  next_folio:
+5a2bec0ed38eec David Howells 2024-07-02   98  	fsize = PAGE_SIZE << subreq->curr_folio_order;
+5a2bec0ed38eec David Howells 2024-07-02   99  	fpos = round_down(subreq->start + subreq->consumed, fsize);
+5a2bec0ed38eec David Howells 2024-07-02  100  	fend = fpos + fsize;
+5a2bec0ed38eec David Howells 2024-07-02  101  
+5a2bec0ed38eec David Howells 2024-07-02  102  	if (WARN_ON_ONCE(!folioq) ||
 
-vim +/time_exit +936 arch/um/kernel/time.c
+Presumably we're never going to trigger this warning...
 
-   935	
- > 936	void __exit time_exit(void)
-   937	{
-   938		kobject_put(bc_time_kobject);
-   939	}
-   940	
+5a2bec0ed38eec David Howells 2024-07-02  103  	    WARN_ON_ONCE(!folioq_folio(folioq, slot)) ||
+5a2bec0ed38eec David Howells 2024-07-02  104  	    WARN_ON_ONCE(folioq_folio(folioq, slot)->index != fpos / PAGE_SIZE)) {
+5a2bec0ed38eec David Howells 2024-07-02  105  		pr_err("R=%08x[%x] s=%llx-%llx ctl=%zx/%zx/%zx sl=%u\n",
+5a2bec0ed38eec David Howells 2024-07-02  106  		       rreq->debug_id, subreq->debug_index,
+5a2bec0ed38eec David Howells 2024-07-02  107  		       subreq->start, subreq->start + subreq->transferred,
+5a2bec0ed38eec David Howells 2024-07-02  108  		       subreq->consumed, subreq->transferred, subreq->len,
+5a2bec0ed38eec David Howells 2024-07-02  109  		       slot);
+5a2bec0ed38eec David Howells 2024-07-02 @110  		if (folioq) {
+5a2bec0ed38eec David Howells 2024-07-02  111  			struct folio *folio = folioq_folio(folioq, slot);
+5a2bec0ed38eec David Howells 2024-07-02  112  
+5a2bec0ed38eec David Howells 2024-07-02  113  			pr_err("folioq: %02x%02x%02x%02x\n",
+5a2bec0ed38eec David Howells 2024-07-02  114  			       folioq->orders[0], folioq->orders[1],
+5a2bec0ed38eec David Howells 2024-07-02  115  			       folioq->orders[2], folioq->orders[3]);
+5a2bec0ed38eec David Howells 2024-07-02  116  			if (folio)
+5a2bec0ed38eec David Howells 2024-07-02  117  				pr_err("folio: %llx-%llx ix=%llx o=%u qo=%u\n",
+5a2bec0ed38eec David Howells 2024-07-02  118  				       fpos, fend - 1, folio_pos(folio), folio_order(folio),
+5a2bec0ed38eec David Howells 2024-07-02  119  				       folioq_folio_order(folioq, slot));
+5a2bec0ed38eec David Howells 2024-07-02  120  		}
+5a2bec0ed38eec David Howells 2024-07-02  121  	}
+5a2bec0ed38eec David Howells 2024-07-02  122  
+5a2bec0ed38eec David Howells 2024-07-02  123  donation_changed:
+5a2bec0ed38eec David Howells 2024-07-02  124  	/* Try to consume the current folio if we've hit or passed the end of
+5a2bec0ed38eec David Howells 2024-07-02  125  	 * it.  There's a possibility that this subreq doesn't start at the
+5a2bec0ed38eec David Howells 2024-07-02  126  	 * beginning of the folio, in which case we need to donate to/from the
+5a2bec0ed38eec David Howells 2024-07-02  127  	 * preceding subreq.
+5a2bec0ed38eec David Howells 2024-07-02  128  	 *
+5a2bec0ed38eec David Howells 2024-07-02  129  	 * We also need to include any potential donation back from the
+5a2bec0ed38eec David Howells 2024-07-02  130  	 * following subreq.
+5a2bec0ed38eec David Howells 2024-07-02  131  	 */
+5a2bec0ed38eec David Howells 2024-07-02  132  	prev_donated = READ_ONCE(subreq->prev_donated);
+5a2bec0ed38eec David Howells 2024-07-02  133  	next_donated =  READ_ONCE(subreq->next_donated);
+5a2bec0ed38eec David Howells 2024-07-02  134  	if (prev_donated || next_donated) {
+5a2bec0ed38eec David Howells 2024-07-02  135  		spin_lock(&rreq->lock);
+5a2bec0ed38eec David Howells 2024-07-02  136  		prev_donated = subreq->prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  137  		next_donated =  subreq->next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  138  		subreq->start -= prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  139  		subreq->len += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  140  		subreq->transferred += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  141  		prev_donated = subreq->prev_donated = 0;
+5a2bec0ed38eec David Howells 2024-07-02  142  		if (subreq->transferred == subreq->len) {
+5a2bec0ed38eec David Howells 2024-07-02  143  			subreq->len += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  144  			subreq->transferred += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  145  			next_donated = subreq->next_donated = 0;
+5a2bec0ed38eec David Howells 2024-07-02  146  		}
+5a2bec0ed38eec David Howells 2024-07-02  147  		trace_netfs_sreq(subreq, netfs_sreq_trace_add_donations);
+5a2bec0ed38eec David Howells 2024-07-02  148  		spin_unlock(&rreq->lock);
+5a2bec0ed38eec David Howells 2024-07-02  149  	}
+5a2bec0ed38eec David Howells 2024-07-02  150  
+5a2bec0ed38eec David Howells 2024-07-02  151  	avail = subreq->transferred;
+5a2bec0ed38eec David Howells 2024-07-02  152  	if (avail == subreq->len)
+5a2bec0ed38eec David Howells 2024-07-02  153  		avail += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  154  	start = subreq->start;
+5a2bec0ed38eec David Howells 2024-07-02  155  	if (subreq->consumed == 0) {
+5a2bec0ed38eec David Howells 2024-07-02  156  		start -= prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  157  		avail += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  158  	} else {
+5a2bec0ed38eec David Howells 2024-07-02  159  		start += subreq->consumed;
+5a2bec0ed38eec David Howells 2024-07-02  160  		avail -= subreq->consumed;
+5a2bec0ed38eec David Howells 2024-07-02  161  	}
+5a2bec0ed38eec David Howells 2024-07-02  162  	part = umin(avail, fsize);
+5a2bec0ed38eec David Howells 2024-07-02  163  
+5a2bec0ed38eec David Howells 2024-07-02  164  	trace_netfs_progress(subreq, start, avail, part);
+5a2bec0ed38eec David Howells 2024-07-02  165  
+5a2bec0ed38eec David Howells 2024-07-02  166  	if (start + avail >= fend) {
+5a2bec0ed38eec David Howells 2024-07-02  167  		if (fpos == start) {
+5a2bec0ed38eec David Howells 2024-07-02  168  			/* Flush, unlock and mark for caching any folio we've just read. */
+5a2bec0ed38eec David Howells 2024-07-02  169  			subreq->consumed = fend - subreq->start;
+5a2bec0ed38eec David Howells 2024-07-02 @170  			netfs_unlock_read_folio(subreq, rreq, folioq_folio(folioq, slot));
+                                                                                                                   ^^^^^^
+Unchecked dereference.
+
+5a2bec0ed38eec David Howells 2024-07-02  171  			folioq_mark2(folioq, slot);
+5a2bec0ed38eec David Howells 2024-07-02  172  			if (subreq->consumed >= subreq->len)
+5a2bec0ed38eec David Howells 2024-07-02  173  				goto remove_subreq;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
