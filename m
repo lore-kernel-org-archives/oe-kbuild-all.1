@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6B74409
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 14:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B3F181311
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 15:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720018150; cv=none; b=sT9ZJf9N6rRs8mOF8mSApIkZYMaxV+KvD5j6ZIBlGRuq5WWNqL2aNItOa3+s/I+3JnHs3xSaxcdY1uteA7XmKoU0/3OZjlOO9VvmkX1df8jn3pmEjY+8pN4+3+gejTKznwrb3hgLBowofugc0RQC0KsbOy/Jty7vqz2/rtpzMy8=
+	t=1720021367; cv=none; b=U8Rks7tv3xJ/N9uZ6BnJA3I9bpbon662ksJsO9RUIZE3hluNOhNiqoBWL7wkmg5HNbsH15DuDz7Vv5yshLrbe1QpockUbeJxjTLMEz0RMMWXK9rZhxnvwVPWei5wJRpeQPOtIdlHBLucg19gvtFj0wIyHmdfk6W3/25hPtzHsQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720018150; c=relaxed/simple;
-	bh=5m97/A8siXIK5t2s+1k9wIzDDXG29EINGlfj+WIgM50=;
+	s=arc-20240116; t=1720021367; c=relaxed/simple;
+	bh=+AihdfUpmwWLDFFWHwa21OtW1ZkYTlwt+AShpx03GGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UjN4nPaikup1Xhivr7t/nTii7F56Ln02dSABb7M73wIvQbatcbJrLOEcCw+WGnCQhYafwob5MW9anE9kKOnVdHcoOFUcRCbDGbtywhe0dlD8qHpN7llakJ3NiTtv/RYfiyp0mQauYQwj10IdR0/NFYLDUxQ3/53OCNxSaqVd6Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auG4uTju; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Jmqs3+S3VRc9NFZoWFisMcBcyiGiWj/jd6s8++l0NuHhHFUgX8zzeYyUHLNu7bu9cr+jd8Yk8uKrRMzrSvqalrDBaJKSey4wAVNqD8BR+pQADVKvIpj0cztGVlAm7ndc7FVq+ljVP1gNJgudUZ22N8CEZZX+NDfodOKwx/izK3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUg4PTZx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auG4uTju"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUg4PTZx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720018150; x=1751554150;
+  t=1720021366; x=1751557366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5m97/A8siXIK5t2s+1k9wIzDDXG29EINGlfj+WIgM50=;
-  b=auG4uTjuaS0MAF2PBIYHMqxtZ136Q+iGPS5batuD9tJS58kIzP5mAW5P
-   9bODFxcvbmmLUGAIsH4TyOoZIaEJ2uIEXeBm9QyeeaYgVyU4cIXIc7a5F
-   vb40MQE1zGoJoeaFcl5lEa5NSM8JgaQg1o9Izo04Cq6ChvgUHkkDHTclY
-   oyDNk9lyJempTh0hufEqN1gxJmO1v1T0ZFwwHU9kLat/dlrACHpkGjM9g
-   VwHXOyqSN/+gnFQSuPPfUtqA1jDo+jYWut9MN3pH73rPMZ0sgeCE9CGyQ
-   q7u3PrecVFYrwSJB9IjAVgjWgZ8JtSp7JqGWwsDel0WmXJwxKoloGubRE
-   Q==;
-X-CSE-ConnectionGUID: EeRyv9bgQGabltBtod8T2A==
-X-CSE-MsgGUID: M0kUjMCnR6yonuJ82o1ySw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="21063347"
+  bh=+AihdfUpmwWLDFFWHwa21OtW1ZkYTlwt+AShpx03GGA=;
+  b=RUg4PTZx66vw3YLoU/VKd3cjhBKB3zAccZbXD21pCXZsXxE3CYE2c/u1
+   2IQXjfCVHyB6Yx5GXx+9MjoMGgk/gLsKNhnduX8LAIizQHDq/XwCxxi+i
+   egEGfYEGIzwD3Bcszy9gAH2Ix/o6jAu0LlSyhbp2kNOpt0TlGQ5+UYXoE
+   JUifw0/LwHSxX5aPHg3N9PQKn7y6NVBZ44Ky+wbD0c/otqbVcefkkRW/7
+   ch9E7DUi00C7EBt5LQ+76v21F7Fwj+A2VUaY4WdBlTt/wN995FjF66ewL
+   /GRwtwQWrcI7ezj8Sh2RHbKWYlWFzCyrk8Bl3sScyPq/vrTE+FSy0LYZu
+   A==;
+X-CSE-ConnectionGUID: ut7btt1aR9WX6RAlgojhRQ==
+X-CSE-MsgGUID: J7vfzGSEQtidU5lUiLJkXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17129067"
 X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="21063347"
+   d="scan'208";a="17129067"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 07:49:08 -0700
-X-CSE-ConnectionGUID: X6KZsNZMTAKy7pDRPQusnA==
-X-CSE-MsgGUID: TLuSU5nFT+Gc0nTxo7QV2g==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 08:42:45 -0700
+X-CSE-ConnectionGUID: I2CwxlN9Sx6HWet2C/qZGw==
+X-CSE-MsgGUID: P830gC2yQVea7U4dc4NK9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="46709076"
+   d="scan'208";a="46725798"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jul 2024 07:49:07 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 Jul 2024 08:42:44 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sP1I8-000PrX-1m;
-	Wed, 03 Jul 2024 14:49:04 +0000
-Date: Wed, 3 Jul 2024 22:48:16 +0800
+	id 1sP280-000PuS-2c;
+	Wed, 03 Jul 2024 15:42:40 +0000
+Date: Wed, 3 Jul 2024 23:42:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Gary Guo <gary@garyguo.net>
-Subject: [nbdd0121:vtable-wip 9/12] warning: field `0` is never read
-Message-ID: <202407032239.rzq7idXs-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Kees Cook <keescook@chromium.org>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ alloc_tag_restore+0x3c (section: .text.unlikely) -> initcall_level_names
+ (section: .init.data)
+Message-ID: <202407032306.gi9nZsBi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +67,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nbdd0121/linux vtable-wip
-head:   4ba0d31988d203e6238a9ae7170f01978f12534a
-commit: 8d994e776994c16396a9bd5ac05891909371457c [9/12] rust: Kbuild: enable `proc-macro2`, `quote` and `syn`
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240703/202407032239.rzq7idXs-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407032239.rzq7idXs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9d22f7a6655941fc8b2b942ed354ec780936b3e
+commit: b951aaff503502a7fe066eeed2744ba8a6413c89 mm: enable page allocation tagging
+date:   10 weeks ago
+config: xtensa-randconfig-r051-20240703 (https://download.01.org/0day-ci/archive/20240703/202407032306.gi9nZsBi-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407032306.gi9nZsBi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407032239.rzq7idXs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407032306.gi9nZsBi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> warning: field `0` is never read
-   --> rust/proc-macro2/marker.rs:17:39
-   |
-   17 | pub(crate) struct ProcMacroAutoTraits(Rc<()>);
-   |                   ------------------- ^^^^^^
-   |                   |
-   |                   field in this struct
-   |
-   = note: `#[warn(dead_code)]` on by default
-   help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
-   |
-   17 | pub(crate) struct ProcMacroAutoTraits(());
-   |                                       ~~
---
->> warning: struct `SourceFile` is never constructed
-   --> rust/proc-macro2/fallback.rs:312:19
-   |
-   312 | pub(crate) struct SourceFile {
-   |                   ^^^^^^^^^^
---
->> warning: methods `path` and `is_real` are never used
-   --> rust/proc-macro2/fallback.rs:318:12
-   |
-   316 | impl SourceFile {
-   | --------------- methods in this implementation
-   317 |     /// Get the path to this source file as a string.
-   318 |     pub fn path(&self) -> PathBuf {
-   |            ^^^^
-   ...
-   322 |     pub fn is_real(&self) -> bool {
-   |            ^^^^^^^
---
->> warning: struct `LineColumn` is never constructed
-   --> rust/proc-macro2/fallback.rs:338:19
-   |
-   338 | pub(crate) struct LineColumn {
-   |                   ^^^^^^^^^^
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_restore+0x3c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_clear_tail+0x44 (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
 
 -- 
 0-DAY CI Kernel Test Service
