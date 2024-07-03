@@ -1,101 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D634213D892
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 22:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B1B13D638
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 22:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720044534; cv=none; b=MNyflgd6p+PZukkyK51V+JEtHv9sNgGMaaP4pBpxDIHNIVDpqc8BRMIap15EMix7KLgf5DdEkKiNndkgl8ROyVSWo4Xr1ZGe7RKnNBb1vL1BzMOR4STuf3bUdX+qLT3SWryLNwla9m+aTy/QxuOuAy7mzlDI/oPVQoMAAebIPSw=
+	t=1720045063; cv=none; b=Q2ZZwgy0CAg7jn9r6BUljP5GJOruFKccgbh6MqjqRws++oMnm+6ZAFfmiK1xgI26ulxzCzT1SXnGLT22ZKfWKODdf11hHpMfIFV4etbEQ526JhSvXrUCFsOft93Zyr7TscL7KtSkU7p4kgpK+YnM7tF8lDwpoYgafmDy7ncASxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720044534; c=relaxed/simple;
-	bh=JEZ6TRR/qEa/OtVS74VRKopXIiYzQD4dK6JvKLql10o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Og/6M/7b5QTcLoYDoau5Ti5RGpFFasml8Wd+0c6NyvuftzolR01JWFgdSudct83Vl5/NsDKx2zRx10gBbedrhEJAIdSkSpponKN5kZe9JYZhndLnQoQdCFD2FRWyhno7/698h01eHm4IVsXHLuTP8zkpJIBBIeKPiy1+STZJUFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AaWFkzyV; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720045063; c=relaxed/simple;
+	bh=DaQtQUezy9Cd6dPj/vQJgAG0+5hzPIdQv4yBLL7Tw+I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kz6H8N+rbzZibpFhbin7jgSIV+VCHLAEctMtx2Y13E5NnpXk50yP3D0hwQdyCFnfjBmKd1KzmIXBRL8WVOdv8nWZWtmk2j6aSGhyalYtECB4IqD4tC8WpBKkytw67IhmlU0BCEF+JDcwaM1Qr+zknLUDzy9ePu7m3mBvRuXbKLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SLh4FMa2; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AaWFkzyV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720044533; x=1751580533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JEZ6TRR/qEa/OtVS74VRKopXIiYzQD4dK6JvKLql10o=;
-  b=AaWFkzyV9JJHWZtk7pxTlco174iWVt+8rO9G7fHGnCsLNcUmLM4jvFj/
-   hxWCkq5Lov5snwD6InAaXxBbF36K8iISwWMi+iKJ79glVAlhfN7W2KXeL
-   gf29TLj/wWLtJQAp87e4F/rgvGOah6ZyxeH1k0kxAVd2MAlc/xq9Jqqj0
-   T55vIuVXTddXpZ/9cMyJE33OREMVatF/WLZu2OpfUROZkoD9KQg7SoL+x
-   1Jgc+L3VuVpdE3zoA0LQvFuFTGYRYlq2lfs/7qH/Q3Lg6bwy5oqQKTD/r
-   DYtp5+i25NYdN0JKHRujZc5cVBXCIpkdTW+OkwBSPsD0zGvjbqWkg96Jp
-   g==;
-X-CSE-ConnectionGUID: 4EpW7D0NSVybY7mNDLKkzA==
-X-CSE-MsgGUID: uPeOFJ03TYqjn/zIIorrrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28695422"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="28695422"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 15:08:52 -0700
-X-CSE-ConnectionGUID: P0NeAZQwT9Cc7Dk23N0/iQ==
-X-CSE-MsgGUID: fuEXcWVCQnSq//ohJI8vxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="50989716"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jul 2024 15:08:50 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sP89g-000QHC-1g;
-	Wed, 03 Jul 2024 22:08:48 +0000
-Date: Thu, 4 Jul 2024 06:08:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>, Andy Shevchenko <andy@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 9444/10451] rtc-ds1307.c:undefined reference to
- `watchdog_init_timeout'
-Message-ID: <202407040610.iyExANv0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SLh4FMa2"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e03a63ec15eso6132276.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jul 2024 15:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720045060; x=1720649860; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kBFY0AezQv8pUC4Zn75QewV+jmxCpy323lgmyp3n110=;
+        b=SLh4FMa25+IVnKw4Ap9+smSGWLnm55ZcPhGzl/pvBdrS89CIn4JwDqciAXGokJ0LZG
+         C8VQPEOw2PVPUKvow0/WfBUHyWh+0DjOV1TZo+AfvxY7Ojp3+Z6lNSXhFjNxug40/yud
+         jc2TnEMxliwyD1n3ugp/q0GCUIeRs+A47T5HY/kzFK9FXnJnWIEl4j1uNVet2Dtt0Fq/
+         tUUC8cIda2DgpwU423OMubzXZopIbC8tNCy6B/YUW3jVDiMbgreCdLsCFjt/IiaJ1md9
+         GXblmW7dUpGGLyove0qKp0E8o+GoUx/fjq4ZZNnX1gvIfzk7PawzZExPZTwVwM9rDwAV
+         QAkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720045060; x=1720649860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kBFY0AezQv8pUC4Zn75QewV+jmxCpy323lgmyp3n110=;
+        b=aM/FyBc91+yYi2P+HnnIVDfO+nk9BVfsM/jGcaS5jzwJHfFuv7KvvC1s0H1H2Nm36n
+         iKankikAan1powFXRuzie16Icf5ipYg8xeZcQbA9+R71fJLUyz1ssADsINRF7Q5wKe3n
+         AnCzwuqsNs8IJemYZnf/GlOhUVu5MvRu56h1QBfha4r/SN3E5q4wca34DtlaVQPw7LWH
+         71aJztijHPgy4iuVkPwvIGdtLr3D0/69k0+fkvIh1WGtbTdWiJmgAYyIjArNJZNcr/7g
+         Ki/RNOMfxpRCXlJ5xTXX6WHzjoj1GZLRkoQxCXtEnyiMOG43CYbiBZDCTNEoNTJqdCgd
+         UUiA==
+X-Gm-Message-State: AOJu0YwmawSBcKcPm38x4nLtajDOmY0nuTDfZ8+GfKTRd96PFc/SuBEV
+	TD6LrMv0G1/HWg+W7m8O1HsMP3PDIrOOdmuLYfkLuC5/GQOKC0dvT9LU2areYl+I/dRSxiIQgy/
+	Wsn1tznbVyx3WmqR0erqiOGz7tvUi1aFpaGt4
+X-Google-Smtp-Source: AGHT+IF+YHjIjtyJP3TQiVa5IYtgSjacB1lIHVSnp746reC92x+NB1avh2v9/xG67hBD7Y6DlOQnEo7BO3UvXnbsAwM=
+X-Received: by 2002:a05:690c:650f:b0:64a:3d6c:476d with SMTP id
+ 00721157ae682-64c71803990mr143734497b3.25.1720045060293; Wed, 03 Jul 2024
+ 15:17:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202407032306.gi9nZsBi-lkp@intel.com>
+In-Reply-To: <202407032306.gi9nZsBi-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 3 Jul 2024 15:17:27 -0700
+Message-ID: <CAJuCfpEtRLSiAmv_5+bo-oW_Lnx+=v=rasgVerdVJyoaFQ-R5w@mail.gmail.com>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ alloc_tag_restore+0x3c (section: .text.unlikely) -> initcall_level_names
+ (section: .init.data)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: ab89fb5fb92c77a9486b6769bc8681251f094c67 [9444/10451] platform: cznic: turris-omnia-mcu: Add support for MCU watchdog
-config: nios2-randconfig-r133-20240703 (https://download.01.org/0day-ci/archive/20240704/202407040610.iyExANv0-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240704/202407040610.iyExANv0-lkp@intel.com/reproduce)
+On Wed, Jul 3, 2024 at 8:42=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   e9d22f7a6655941fc8b2b942ed354ec780936b3e
+> commit: b951aaff503502a7fe066eeed2744ba8a6413c89 mm: enable page allocati=
+on tagging
+> date:   10 weeks ago
+> config: xtensa-randconfig-r051-20240703 (https://download.01.org/0day-ci/=
+archive/20240703/202407032306.gi9nZsBi-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240703/202407032306.gi9nZsBi-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407032306.gi9nZsBi-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+>
+> WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+> >> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_re=
+store+0x3c (section: .text.unlikely) -> initcall_level_names (section: .ini=
+t.data)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407040610.iyExANv0-lkp@intel.com/
+Fix posted at: https://lore.kernel.org/all/20240703221520.4108464-1-surenb@=
+google.com/
 
-All errors (new ones prefixed by >>):
-
-   nios2-linux-ld: drivers/rtc/rtc-ds1307.o: in function `ds1307_probe':
->> rtc-ds1307.c:(.text+0x254c): undefined reference to `watchdog_init_timeout'
->> rtc-ds1307.c:(.text+0x254c): relocation truncated to fit: R_NIOS2_CALL26 against `watchdog_init_timeout'
->> nios2-linux-ld: rtc-ds1307.c:(.text+0x255c): undefined reference to `devm_watchdog_register_device'
->> rtc-ds1307.c:(.text+0x255c): relocation truncated to fit: R_NIOS2_CALL26 against `devm_watchdog_register_device'
-   nios2-linux-ld: drivers/platform/cznic/turris-omnia-mcu-watchdog.o: in function `omnia_mcu_register_watchdog':
->> turris-omnia-mcu-watchdog.c:(.text+0x25c): undefined reference to `watchdog_init_timeout'
->> turris-omnia-mcu-watchdog.c:(.text+0x25c): relocation truncated to fit: R_NIOS2_CALL26 against `watchdog_init_timeout'
->> nios2-linux-ld: turris-omnia-mcu-watchdog.c:(.text+0x35c): undefined reference to `devm_watchdog_register_device'
->> turris-omnia-mcu-watchdog.c:(.text+0x35c): relocation truncated to fit: R_NIOS2_CALL26 against `devm_watchdog_register_device'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WATCHDOG_CORE
-   Depends on [n]: WATCHDOG [=n]
-   Selected by [y]:
-   - TURRIS_OMNIA_MCU [=y] && CZNIC_PLATFORMS [=y] && (MACH_ARMADA_38X || COMPILE_TEST [=y]) && I2C [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_cle=
+ar_tail+0x44 (section: .text.unlikely) -> __setup_str_initcall_blacklist (s=
+ection: .init.rodata)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
