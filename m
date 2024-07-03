@@ -1,159 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A3417C60;
-	Wed,  3 Jul 2024 05:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDE841A81
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 06:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719984514; cv=none; b=lnCWg7BV2FpqueGdCs7upUG7v3iRcPKrLk+s4EXz6qYG/0cK/NOqY7tjRbYFcQfEnOzInFI20HMAu2R15E/bAGXhLzLsh8khHvPcsyXOmAEToc98TnBAikuKS2MmYa9Jgjw2NJQ5uVuKbpbwMdgK/4NSfu5Sph6uQNC63aaDaPM=
+	t=1719988522; cv=none; b=KVCI20bpXxTAVrs7xsZYZWm+EPeISdZVS3n9dyo0CdMgjyIb7HM9xyhuYY9LCdoFXqYSUY7cYc5l1n62Bi5hOwFMmum1jDGs1zBkWgnAvlkuoKT0FmrwzCtvRk+yFZek+AaLX9qkARK4i4IAtas3MuBDg3z5931zv4ZGfd5Efyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719984514; c=relaxed/simple;
-	bh=NmcpM8ZbjK5/C928dVQ7tpbGMaR2fDk4l+jdHDUk0dY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NopGkaFoDBKSciAHMGuXKN05wpJN3mr29RV8pUKAWoFpGKE15Rd/TNl7xh39l+vkDgqLh7z4McsimYf9lPSvqHcpnm9io61a8EVYWAMzSvgbVNFwWFL/3HwSCppkv0i9kqdY2DcoguMRAgfzj1D/StJPOXZmGvUFvH/gKm0Gkts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLLBfu42; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719988522; c=relaxed/simple;
+	bh=tT2PNV5mIIJM8n+lJZtS6m5bAXNCcAvJvAqQv5Azako=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZjOmwq3qQp1nsYRPEQ99P8e4GMpAlUC2h8yRh6cYlQitF9pPShXafdH3WMkOT4vFs1pgz+1rAz6IZUNMtZpQMySC3DICjfKUQbMhTnAOrhONLfTq/oTFU3gK/ELf998y21loGOpLJsY8zRrmgZn9rqkZyGySH3qtkxJvQHqGI0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iuiDctk8; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLLBfu42"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719984512; x=1751520512;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NmcpM8ZbjK5/C928dVQ7tpbGMaR2fDk4l+jdHDUk0dY=;
-  b=KLLBfu42Ztt4KqKPu06Sb/JSoo3M4ZCliCCTViSyNiD/7Ti6fRmR70El
-   qif+WaPZsx80SOMl1OtcdQD+EZOww+L8pfDMi4fVbD3udUHQ7jRPyRSUd
-   kCczvva2K+ffjDdjfBICqinnRR993ybrTDKhKvYcd1LvZUPhJVKUvNysk
-   OCicmeryLF7r8i8m76bngtjkiadps9gvXnh2TZz7hCoZ+4U2c4PTUWdsQ
-   g8t9Nsmaa7T/JTLyUHvbb2ia7T4/Ycj+zKN2gMrhkSYBd73p7sEmDwvRT
-   3fJgwvK6OthPjFULwzHi2fzvCRk+n0hEV2qoxxS18f5cV/bEQZLgO+wAg
-   g==;
-X-CSE-ConnectionGUID: U3S3qLrsRWyovaEwm4Jh+Q==
-X-CSE-MsgGUID: Cp0FcypNR2uUSLkl6/kYKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="21064702"
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="21064702"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 22:28:31 -0700
-X-CSE-ConnectionGUID: RgdYGRE6Qnu1alhN+7ihPA==
-X-CSE-MsgGUID: 85M9myFyRYmrgre2tt2Psg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="83688463"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Jul 2024 22:28:30 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sOsXb-000PKQ-29;
-	Wed, 03 Jul 2024 05:28:27 +0000
-Date: Wed, 3 Jul 2024 13:27:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Vdovydchenko <xzeol@yahoo.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] hwmon: add MP5920 driver
-Message-ID: <202407031340.i4o4meQh-lkp@intel.com>
-References: <20240702115252.981416-3-xzeol@yahoo.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iuiDctk8"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3d55c0fadd2so3150435b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Jul 2024 23:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719988520; x=1720593320; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EEJYHncpw1XAexoBXGrUYV7ZeFGCexGspe/6zDPbhBg=;
+        b=iuiDctk8M6g2jyGk65Jnc8j08AU+3uS4AxVggfIDpfNOC8ROJws856ezCXBSm5LFAz
+         2OHVw9IPM48p6XL6hgm1xnDXUIF1tygQv8jbULCAGw6LmP0qX3gx5VlVNZmjdDSmOLvM
+         u43Dy+HBS+TuVWh0GOeuV/LWE0eSFbvyYk/ElfbWaxiqLThqGUf45ybsAn3PcPTuwXWp
+         23KnHTEQEMmxILQtaVQJYFylZ9FWcApPYUzdVozH8udKcT9nqtKpCcosrTbI9glfACJ/
+         vhVubSlJ/JVLzYBhV4R4rMfJh1mQaJ/DVjzhIxBwbfC+MSaDgDRjjJ8n9CLvfEldVwVQ
+         ntlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719988520; x=1720593320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EEJYHncpw1XAexoBXGrUYV7ZeFGCexGspe/6zDPbhBg=;
+        b=ARUvDXBcUeqBgcOkhSbXsn/le8EiM8HPifHmLGFmP2LJBt3h2M9P2xJuoHvI4I/5q8
+         +VcvjeYOfkDy5O9zzH46M3u8e+KUDcN71LTwxIwQA1IKVrzPW3TwLlpjdfaSntT4hfGy
+         ZehO6JD+f1iZJtPto/r8dCMCaxyaemzeaWxwJcL9Vec+iexFTSjJIAfAf0Pf7jQyTun9
+         zqZZoz3iF7hD9pdYbU96LdNt/zlJTq4X8AVgWnMYliZkCk2w4M2oBlnrDjTMGbVFhkS3
+         V+uxZPGJSkDDvGw85roqUwtHpSpv1APjHft/PHVFEHdw7OFOeK/XqyrFSM5v+2Xe5xnD
+         gO5Q==
+X-Gm-Message-State: AOJu0YyLR5jUCPtn7NU3P6W6srtOZwnoLKl7zMMgBqSc9uEpVv4RLE2k
+	9L4i3sZGEV5LpMGoieges6KWUHNsQZwBaqPvSo8LcoGN8ne/mDb0Cy7ZUsLQvNUBi2gzbDuFt5c
+	nt1PUYwqbZrDVT7EoNlmKxggEaVg=
+X-Google-Smtp-Source: AGHT+IHkd16vhF4pJnMHEOP6LLZOXApnHSbqLZIWIZtuumB45E9FE6Xlxt3wM4/BdqC86SG56mR2N6Z95cmLbZmamT4=
+X-Received: by 2002:a05:6808:200b:b0:3d6:838b:8286 with SMTP id
+ 5614622812f47-3d6b2d19c2emr13789397b6e.16.1719988519945; Tue, 02 Jul 2024
+ 23:35:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240702115252.981416-3-xzeol@yahoo.com>
+References: <20240604085401.14733-1-qiang.zhang1211@gmail.com>
+ <202406051045.FpU0Oi69-lkp@intel.com> <CALm+0cXzhGBa6v4d=Ky2QWJbfD_9neQJQWPGOp9USAaf=ghsWQ@mail.gmail.com>
+In-Reply-To: <CALm+0cXzhGBa6v4d=Ky2QWJbfD_9neQJQWPGOp9USAaf=ghsWQ@mail.gmail.com>
+From: Z qiang <qiang.zhang1211@gmail.com>
+Date: Wed, 3 Jul 2024 14:35:08 +0800
+Message-ID: <CALm+0cWRKsFThLzMS_AL16SVJJba0W-iCvgF4_P019LYs1cmEw@mail.gmail.com>
+Subject: Re: [PATCH v2] rcu-tasks: Fix access non-existent percpu rtpcp
+ variable in rcu_tasks_need_gpcb()
+To: kernel test robot <lkp@intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, jpoimboe@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+CC: objtool maintainers
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on next-20240702]
-[cannot apply to robh/for-next krzk-dt/for-next linus/master v6.10-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Vdovydchenko/dt-bindings-hwmon-Add-MPS-mp5920/20240702-202656
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240702115252.981416-3-xzeol%40yahoo.com
-patch subject: [PATCH v4 2/2] hwmon: add MP5920 driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240703/202407031340.i4o4meQh-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407031340.i4o4meQh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407031340.i4o4meQh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/hwmon/pmbus/mp5920.c:2:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/pmbus/mp5920.c:49:48: warning: field precision should have type 'int', but argument has type 'unsigned long' [-Wformat]
-      49 |                 return dev_err_probe(dev, -ENODEV, "Model '%.*s' not supported\n",
-         |                                                            ~~^~
-      50 |                                      sizeof(buf), buf);
-         |                                      ~~~~~~~~~~~
-   6 warnings generated.
-
-
-vim +49 drivers/hwmon/pmbus/mp5920.c
-
-    33	
-    34	static int mp5920_probe(struct i2c_client *client)
-    35	{
-    36		struct device *dev =  &client->dev;
-    37		int ret;
-    38		u8 buf[I2C_SMBUS_BLOCK_MAX];
-    39	
-    40		if (!i2c_check_functionality(client->adapter,
-    41					     I2C_FUNC_SMBUS_READ_WORD_DATA))
-    42			return -ENODEV;
-    43	
-    44		ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-    45		if (ret < 0)
-    46			return dev_err_probe(dev, ret, "Failed to read PMBUS_MFR_MODEL\n");
-    47	
-    48		if (ret != 6 || strncmp(buf, "MP5920", 6)) {
-  > 49			return dev_err_probe(dev, -ENODEV, "Model '%.*s' not supported\n",
-    50					     sizeof(buf), buf);
-    51		}
-    52	
-    53		return pmbus_do_probe(client, &mp5920_info);
-    54	}
-    55	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Jul 3, 2024 at 11:38=E2=80=AFAM Z qiang <qiang.zhang1211@gmail.com>=
+ wrote:
+>
+> >
+> > Hi Zqiang,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on paulmck-rcu/dev]
+> > [also build test WARNING on linus/master v6.10-rc2 next-20240604]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Zqiang/rcu-tasks=
+-Fix-access-non-existent-percpu-rtpcp-variable-in-rcu_tasks_need_gpcb/20240=
+604-165702
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-r=
+cu.git dev
+> > patch link:    https://lore.kernel.org/r/20240604085401.14733-1-qiang.z=
+hang1211%40gmail.com
+> > patch subject: [PATCH v2] rcu-tasks: Fix access non-existent percpu rtp=
+cp variable in rcu_tasks_need_gpcb()
+> > config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20=
+240605/202406051045.FpU0Oi69-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240605/202406051045.FpU0Oi69-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406051045.FpU0Oi69-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+>
+> Hi, Huacai
+>
+> I don=E2=80=99t know why the following warning appears when compiling wit=
+h
+> loongarch64-linux-gcc.
+>
+> >
+> > >> kernel/rcu/update.o: warning: objtool: unexpected relocation symbol =
+type in .rela.discard.unreachable
+>
+> A similar problem also occurred at this link:
+> https://lore.kernel.org/oe-kbuild-all/202406211339.BCuCbD2g-lkp@intel.com=
+/
+>
+> Is there a patch fix for this warning?
+>
+> Looking forward to your reply :) .
+>
+> Thanks
+> Zqiang
+>
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
