@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AE51741C9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 12:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C781E4A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jul 2024 12:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720010666; cv=none; b=p++vY7RUXAr3nSJIHVQHrpvdPXN98B6xfyl48Cb2dRBd3ApQMgeerFKg4zNyywLxaMav5Zw8wVailB4FYRyWBT3c/9bv11TKGA1j5SSzueho6j1OgW97KDbv/FF5C9FS0hFDL2qMH6Rj4fiVP3c6fmycfK5uPksD5sJsgVWg+mg=
+	t=1720010724; cv=none; b=R4june8VVKuGkNhwswplunuLW500terOgnINKopgUMsCZFQ1m0jNTm6ldhK1maHTsI+9s1UeVmo57nRrknzbREDIBu2JlA4inEzrmJYJP5Z8ga9raStnl+1/9cqwx5itmhYes6j3hT7J9ptTeDQcsE5MOLENYwUXveRk+Tw6s5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720010666; c=relaxed/simple;
-	bh=2jbQ4+bRVEE0MODicf7UTdRBm68QrQUJU5Ei7evh/is=;
+	s=arc-20240116; t=1720010724; c=relaxed/simple;
+	bh=ZUcizFH83xGavf4FZOrxDi5D0UuQhI8FIc+rhBQjRyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E7TJ2Vrl3poU+Rec2xyJESSYdzw//LwQdgF89abKSnhXUwqMus0lLJ1BmrA7CxPf8q2Ky+bMfvTcci8MZDkFTtUqeyJ/2ggYhLRRYDwjTxO2M/dhNyagK7FE/LAOVjI5601wBKUjMyAC08Ckp9j5B6KyFLrvDrTJkBAiIMtG0d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ao1OxWLp; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=OZyIo5cRPnu42lDPAX0i366Sd0QYaDLh+STXpeqhMikcngmD2PBeAirz0k33B30qb0Ri9Q59sXvXtdBUFO/+HxeEFzs+7nU7BSJvCdLy5NZXLWWkzYAUOvR9MjBX1IWPcDi4bbbDzPI/VXXr/Gdc5nZvbCw/Oa6nxTVRnO+z/Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3B5DXhr; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ao1OxWLp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3B5DXhr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720010664; x=1751546664;
+  t=1720010722; x=1751546722;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2jbQ4+bRVEE0MODicf7UTdRBm68QrQUJU5Ei7evh/is=;
-  b=ao1OxWLp8QtEZ8tJ3SJF1+x5lW6GEhL2/hwuoBQcLNO1CD1Ii+xUoQX+
-   0SuXFtb/IWwutZQFTP786flzfN0bIii02Q/GZhNZLQuko5HEAvPxlui+x
-   Z9VurJcWklnHMxd2gPAReKyrN7uqWjzjCcqxVcLPptdRw6UN15Os3Nm2D
-   yPZ+1BFhXSGG7Je98I6GOzIup9z9JOKz4ItabVXmYEUaVpSaNEyRfaJnM
-   iDAv0jpvDIwdR4oyWkcddfOymTDVFcRG+WGXGSvYTAzOCA/0yIliwEpbW
-   KQF7lWJQE93vt6XXP0twbUuAAHgzRp+UrsH/DW3ZYCk5mI57u5CWg80rd
+  bh=ZUcizFH83xGavf4FZOrxDi5D0UuQhI8FIc+rhBQjRyM=;
+  b=X3B5DXhrtnJEI4ngpziWr5wfcXV/OFf9zNwhIIwuNly7QulKPJYVrMNU
+   8pcrlkYfKVXtP3FxQKnFJkXXUO3Nbld0ziGpwBzQBFSxfY1kj4fyZ84WY
+   0wALuJsyRqP59LqDLphZtEDm1z5B4NWaqD8bMoAhu17lsU0l8NR98He3M
+   2MX3ipP9Zb6noCgPooja4Af6Tr5Rbi3W2lb46UihRFJ7o4n/oU3gWh97x
+   tFcaa++iEvGhBgO5ibAiSc4I++fOW0AarHfYYgFTZEpLDoOq3IjEY+yVj
+   at+rIPmRTx2b6xFHeG0uYkd5Q2ccY9IbRm6visrukksgMrDQAgfXfQPF3
    A==;
-X-CSE-ConnectionGUID: JzItXVtXRMqKUzBv8NmUbA==
-X-CSE-MsgGUID: lnjgsN6NQweldXkDG7nFmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17355634"
+X-CSE-ConnectionGUID: bk/fRnZeS9GgKbbGvKVx1Q==
+X-CSE-MsgGUID: PP+2LBJASQSxMs3v3ggMgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="34775986"
 X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="17355634"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 05:44:24 -0700
-X-CSE-ConnectionGUID: 2eTjDtrCTTqOSAiWUY7d2g==
-X-CSE-MsgGUID: N6sVDhVbRwyrM7jh6o/jvA==
+   d="scan'208";a="34775986"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 05:45:22 -0700
+X-CSE-ConnectionGUID: lVcs/KljTpKy5jOs5jEHWg==
+X-CSE-MsgGUID: vXLkknA0SJib9uzbq93Tjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="46668790"
+   d="scan'208";a="50848579"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jul 2024 05:44:22 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Jul 2024 05:45:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sOzLP-000PiP-1O;
-	Wed, 03 Jul 2024 12:44:19 +0000
-Date: Wed, 3 Jul 2024 20:43:25 +0800
+	id 1sOzMN-000PiZ-2U;
+	Wed, 03 Jul 2024 12:45:19 +0000
+Date: Wed, 3 Jul 2024 20:44:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Subject: [rafael-pm:bleeding-edge 136/137]
- drivers/thermal/uniphier_thermal.c:269:13: warning: unused variable 'i'
-Message-ID: <202407032000.Lvc01b58-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:rmap_id 6/6] mm/internal.h:660:9: error: implicit
+ declaration of function '__folio_prep_large_mapcount_metadata'
+Message-ID: <202407032056.KcYDU2wQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,98 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   afefac1395033609973da997224eceaece6dadf5
-commit: 9b418d5c9b5a55f320ee2fef00825ec9a8cf582f [136/137] thermal: uniphier: Use thermal_zone_for_each_trip() for walking trip points
-config: i386-buildonly-randconfig-002-20240703 (https://download.01.org/0day-ci/archive/20240703/202407032000.Lvc01b58-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407032000.Lvc01b58-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux rmap_id
+head:   ff5e85c45e818366d70159de7e6e0d0cc781d2cb
+commit: ff5e85c45e818366d70159de7e6e0d0cc781d2cb [6/6] rmap_id
+config: sh-randconfig-r081-20240703 (https://download.01.org/0day-ci/archive/20240703/202407032056.KcYDU2wQ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240703/202407032056.KcYDU2wQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407032000.Lvc01b58-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407032056.KcYDU2wQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/thermal/uniphier_thermal.c: In function 'uniphier_tm_probe':
->> drivers/thermal/uniphier_thermal.c:269:13: warning: unused variable 'i' [-Wunused-variable]
-     269 |         int i, ret, irq;
-         |             ^
+   In file included from mm/filemap.c:51:
+   mm/internal.h: In function 'prep_compound_head':
+>> mm/internal.h:660:9: error: implicit declaration of function '__folio_prep_large_mapcount_metadata' [-Werror=implicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from mm/page_alloc.c:59:
+   mm/internal.h: In function 'prep_compound_head':
+>> mm/internal.h:660:9: error: implicit declaration of function '__folio_prep_large_mapcount_metadata' [-Werror=implicit-function-declaration]
+     660 |         __folio_prep_large_mapcount_metadata(folio, order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c: In function 'free_pages_prepare':
+>> mm/page_alloc.c:1079:25: error: implicit declaration of function '__folio_undo_large_mapcount_metadata' [-Werror=implicit-function-declaration]
+    1079 |                         __folio_undo_large_mapcount_metadata(page_folio(page),
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/i +269 drivers/thermal/uniphier_thermal.c
+vim +/__folio_prep_large_mapcount_metadata +660 mm/internal.h
 
-   261	
-   262	static int uniphier_tm_probe(struct platform_device *pdev)
-   263	{
-   264		struct trip_walk_data twd = { .crit_temp = INT_MAX, .index = 0 };
-   265		struct device *dev = &pdev->dev;
-   266		struct regmap *regmap;
-   267		struct device_node *parent;
-   268		struct uniphier_tm_dev *tdev;
- > 269		int i, ret, irq;
-   270	
-   271		tdev = devm_kzalloc(dev, sizeof(*tdev), GFP_KERNEL);
-   272		if (!tdev)
-   273			return -ENOMEM;
-   274		tdev->dev = dev;
-   275	
-   276		tdev->data = of_device_get_match_data(dev);
-   277		if (WARN_ON(!tdev->data))
-   278			return -EINVAL;
-   279	
-   280		irq = platform_get_irq(pdev, 0);
-   281		if (irq < 0)
-   282			return irq;
-   283	
-   284		/* get regmap from syscon node */
-   285		parent = of_get_parent(dev->of_node); /* parent should be syscon node */
-   286		regmap = syscon_node_to_regmap(parent);
-   287		of_node_put(parent);
-   288		if (IS_ERR(regmap)) {
-   289			dev_err(dev, "failed to get regmap (error %ld)\n",
-   290				PTR_ERR(regmap));
-   291			return PTR_ERR(regmap);
-   292		}
-   293		tdev->regmap = regmap;
-   294	
-   295		ret = uniphier_tm_initialize_sensor(tdev);
-   296		if (ret) {
-   297			dev_err(dev, "failed to initialize sensor\n");
-   298			return ret;
-   299		}
-   300	
-   301		ret = devm_request_threaded_irq(dev, irq, uniphier_tm_alarm_irq,
-   302						uniphier_tm_alarm_irq_thread,
-   303						0, "thermal", tdev);
-   304		if (ret)
-   305			return ret;
-   306	
-   307		platform_set_drvdata(pdev, tdev);
-   308	
-   309		tdev->tz_dev = devm_thermal_of_zone_register(dev, 0, tdev,
-   310							     &uniphier_of_thermal_ops);
-   311		if (IS_ERR(tdev->tz_dev)) {
-   312			dev_err(dev, "failed to register sensor device\n");
-   313			return PTR_ERR(tdev->tz_dev);
-   314		}
-   315	
-   316		/* set alert temperatures */
-   317		twd.tdev = tdev;
-   318		thermal_zone_for_each_trip(tdev->tz_dev, uniphier_tm_trip_walk_cb, &twd);
-   319	
-   320		if (twd.crit_temp > CRITICAL_TEMP_LIMIT) {
-   321			dev_err(dev, "critical trip is over limit(>%d), or not set\n",
-   322				CRITICAL_TEMP_LIMIT);
-   323			return -EINVAL;
-   324		}
-   325	
-   326		uniphier_tm_enable_sensor(tdev);
-   327	
-   328		return 0;
-   329	}
-   330	
+   650	
+   651	static inline void prep_compound_head(struct page *page, unsigned int order)
+   652	{
+   653		struct folio *folio = (struct folio *)page;
+   654	
+   655		folio_set_order(folio, order);
+   656		atomic_set(&folio->_large_mapcount, -1);
+   657		atomic_set(&folio->_entire_mapcount, -1);
+   658		atomic_set(&folio->_nr_pages_mapped, 0);
+   659		atomic_set(&folio->_pincount, 0);
+ > 660		__folio_prep_large_mapcount_metadata(folio, order);
+   661		if (order > 1)
+   662			INIT_LIST_HEAD(&folio->_deferred_list);
+   663	}
+   664	
 
 -- 
 0-DAY CI Kernel Test Service
