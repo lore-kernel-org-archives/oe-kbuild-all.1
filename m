@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6982813D630
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 10:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368361BC4E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 10:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720088115; cv=none; b=ubxHZO8fixhcQt5sMjTuHY+FqB3I2TPY2L66peESFoRPar2hzf2TUCqtXCfZP0zq7FWHR+fOQCBHmsVjnFBW45VkTbfubWZDC9r37MhNkIdAa4SdWuzoak92tDucWrB2MJPrlVIIHAQFkDzuL80rceh6pcvdSWNjs5fkKxYsovg=
+	t=1720088853; cv=none; b=A112jjdB6XBsDft5XuIWAmSy1J0ruZQAcB8RzvJyivCKSK54oncBdkjlJUIshAnVvmmTrcyNjbuZHTydlaz9ZjPLe84c9RlBuwKh/EbCQ0chZ+qQt5T+WitQK4ng+xli86DgIpwLJJcZIqqDAxQymbBMkI8CtIdiu+R8C0JZ/9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720088115; c=relaxed/simple;
-	bh=FdJV1tg7evC674xNVCNZVhTLnsYYBHN7RFHgMzZ9qww=;
+	s=arc-20240116; t=1720088853; c=relaxed/simple;
+	bh=H16CKDtQp78AyLpfRN6q+55rL0pZKc/qLiQxVT1U6vc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gAo4rvrW1IwrGRsnEZf3EoMPWGkhgnXVffF38bfp3N/grFdulz2mppoUOYUfXJl9yRZ5YC75m8BY20K2jLsHmHp10gUq6aV4bs4AK0ldYRmA0WJ0jkIL/n1A+CnHsE0ZWCeo11DPEKUmy35ZdqeJ8srW48pOkpqzkI5tOGD6D24=
+	 Content-Type:Content-Disposition:In-Reply-To; b=hFfTyIhxhDLnRrkm8HqYSyRzWv8BXsy3dxRoHGvJSiv+DftahCdlP5YYcDwb9IkuAS8thPxP8w/albDvoSsSX16PQd3F00/ImS4i5G3EGa0ph65d0SfTDfWKWX0qxVZZTjDtvELP5H8T6WpJ6uGqcA6WoNoxaSC0hpwregvvK2A=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96510C3277B;
-	Thu,  4 Jul 2024 10:15:13 +0000 (UTC)
-Date: Thu, 4 Jul 2024 11:15:11 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328FFC3277B;
+	Thu,  4 Jul 2024 10:27:30 +0000 (UTC)
+Date: Thu, 4 Jul 2024 11:27:28 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Marc Zyngier <maz@kernel.org>
 Cc: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>,
@@ -25,7 +25,7 @@ Cc: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>,
 Subject: Re: [linux-next:master 9019/10049]
  drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not
  used
-Message-ID: <ZoZ2LwcSGWRHIUWV@arm.com>
+Message-ID: <ZoZ5ECjjgFNCaPYj@arm.com>
 References: <202407021807.cBuWVBVa-lkp@intel.com>
  <ZoZiwNbzoFQi5-Vg@arm.com>
  <86cynt4jem.wl-maz@kernel.org>
@@ -120,7 +120,9 @@ On Thu, Jul 04, 2024 at 10:05:05AM +0100, Marc Zyngier wrote:
 > 
 > if you decide to push a fix on top of this branch.
 
-Thanks.
+Ah, it's also used in the CONFIG_ACPI block further down. So
+__maybe_unused may be easier. Or add some #if defined(CONFIG_SMP) ||
+defined(CONFIG_ACPI) but it seems too verbose.
 
 -- 
 Catalin
