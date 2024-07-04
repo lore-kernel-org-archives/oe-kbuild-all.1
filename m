@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779D22F26
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 04:05:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC60A182B2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 04:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720065934; cv=none; b=EkIEIEaanor/MhhoTA9HZ7cs5OBnIKg6mW8d5TSR2UndOFjBvOy4gyXBjsu+klRT8hRUB0My06DOm/uoVE3CEBUqy93rFjiousbYRQs3SY7JDQNTKDEJTTYODUdar9OMS1/3809MaSry7od37xXX1/c9tMLjtRsAOYpWa3z1lgM=
+	t=1720065936; cv=none; b=uTOTHk4hwaeO/rE1DSZ4sSroOGvL5NxfmK2Encuoha0OHQVDoPNwxjsdG53sDAcf8XvMfJJsjdsUE+jw2mBac6WdadwbcUmev88rB4JmFQOTlWSMr4uvxP966ZtoXmrGPaqb/MVikVL8Y2f9MlMUDtTUFf2ReaZfW4b+krTaIHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720065934; c=relaxed/simple;
-	bh=Kxs4RqdJJEymlu7ouyJIQeVHpA2tkjhaXpeX3t+PKT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lS0uejVXCjeBY31iEZikdbevC5M18LrWw/9fevhPkOErN9kaYtBJvRZeeL6SPvLYDPNIdXK7mgy4iRPEqzCMegTaNHn5i/BKqvNpZRpgdDJCLQRYThvBIwxyXbtj8Jh1ugyXFoHjIqY3gNb3ltcwJiuY8AHn4a0k+vT0U1UFkwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0PlXAs0; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1720065936; c=relaxed/simple;
+	bh=P44tfmjf45/fAraZ4HxFHHFhv2Bepuiv4L7PsKKCOeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q0FFGKqq7OKnhrM6bMQ83EmF6XzwZpbx7SYCTgWk2QHtlBDhPED2/GkyHmGQ2M5n4L63g3LtWaaLz/VXbh9YN/FZ34AYVqJMwgh12HJGcMMShOwzPFC80V16ud3beWGJ7Ji/Ukwyt9XjqsqtjJyF0bISAZudEzceZViacZ9nxTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S01jAOdS; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0PlXAs0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S01jAOdS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720065932; x=1751601932;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kxs4RqdJJEymlu7ouyJIQeVHpA2tkjhaXpeX3t+PKT4=;
-  b=Q0PlXAs0Pm0VzMkRnhgN4MTpndY7Sc6G8LrYH/n6DZpEgLbJymp8IRgv
-   u8I4VZhiUHDEhp3r17uVky4iEVDoig2izquGrPlfU6z8z68dg3AHK8yUK
-   qsaW+nNUeKU6840g5NWxK72yur5BnzIC8dxXHAggcJk//JSc9lL1MhT+l
-   oQbHRsbGUpbmfwz34LDNjmXCQbAddnrHMnt4wCSrhzy38DCZEDsyjuCT2
-   bCdsm4+JWOZ7kaiEiuxZU5KfZR4J+lID8wo+REZPp0cc55sOEDQ5rlRGI
-   7FtLcyxKTMpHO1Mpmuv363kUCFWlbPdY8VmX4x7FhO+QwkLWgcmWM2eyC
-   Q==;
-X-CSE-ConnectionGUID: FZt8pmdDRhmkDUNMP+Jsww==
-X-CSE-MsgGUID: 9yYY665KRMSvVfxNsQjA+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28716086"
+  t=1720065935; x=1751601935;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P44tfmjf45/fAraZ4HxFHHFhv2Bepuiv4L7PsKKCOeQ=;
+  b=S01jAOdSyzQCMhzamLCZVzShry/d43xs0+bXO8ZQjxea+OjPhTERHpH0
+   URjDIdOnwa7sKMToA4cvQhSYczSrz8lE85jLnHqZNdZr+zN8eBRk5p9r1
+   J8+4+NJSiqcSetBd8QPRNz4PqtlP+sKuxoJeWLkQmHihOjbaz/1bq3kZ+
+   c7szvn/sjAEjKOz5D3kmoMvEc4fAfPjtpSl6pad5MZCGf/Th0OTHDw0mp
+   pjKO2+trgUNDiTbw2+y5PstLnObmjV8gRpkT4wbHn9mIXo6aQ/4gzdIzp
+   XFYLZPPpEq5i38UlFBbPEVXkzqXcKWDIdv3pu3RXkFXAyCXxW/CILVioI
+   A==;
+X-CSE-ConnectionGUID: H+8O2aWjQ2Sud29qafFnGA==
+X-CSE-MsgGUID: qcxd7EGVQWSRvky/Alcjtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28716088"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="28716086"
+   d="scan'208";a="28716088"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 21:05:32 -0700
-X-CSE-ConnectionGUID: LhBOO622RV2XMHWjbxqOOw==
-X-CSE-MsgGUID: jLKfCE7UTgyuGC3pqrIx6Q==
+X-CSE-ConnectionGUID: r9eTa1JHShmU5eS5NBiQrg==
+X-CSE-MsgGUID: 3VSDuoVLS0aDSIPuqqquxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="77199993"
+   d="scan'208";a="77199994"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 03 Jul 2024 21:05:31 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPDiq-000QXJ-1y;
+	id 1sPDiq-000QXG-1p;
 	Thu, 04 Jul 2024 04:05:28 +0000
-Date: Thu, 4 Jul 2024 12:05:23 +0800
+Date: Thu, 4 Jul 2024 12:05:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Sandeen <sandeen@redhat.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] fuse: Convert to new uid/gid option parsing helpers
-Message-ID: <202407041403.RjnfZJDJ-lkp@intel.com>
-References: <4e1a4efa-4ca5-4358-acee-40efd07c3c44@redhat.com>
+Subject: [android-common:android13-5.15 5/6]
+ include/trace/trace_events.h:27:23: warning: 'str__fuse__trace_system_name'
+ defined but not used
+Message-ID: <202407041148.IFFFekvL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,251 +62,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4e1a4efa-4ca5-4358-acee-40efd07c3c44@redhat.com>
 
-Hi Eric,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mszeredi-fuse/for-next]
-[also build test WARNING on linus/master v6.10-rc6 next-20240703]
-[cannot apply to brauner-vfs/vfs.all]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Sandeen/fuse-verify-g-u-id-mount-options-correctly/20240703-162239
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/4e1a4efa-4ca5-4358-acee-40efd07c3c44%40redhat.com
-patch subject: [PATCH 2/2] fuse: Convert to new uid/gid option parsing helpers
-config: i386-randconfig-053-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041403.RjnfZJDJ-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041403.RjnfZJDJ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   18a82ede80f44f64c4a8a9387fb4c921ef795255
+commit: e9fd05e64568bfb9fe1fb4c319d7be17ab1c448a [5/6] ANDROID: vendor_hooks: add vendor hooks for fuse request
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240704/202407041148.IFFFekvL-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041148.IFFFekvL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041403.RjnfZJDJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041148.IFFFekvL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/fs_parser.h:120:70: warning: excess elements in scalar initializer
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                                                         ^
-   include/linux/fs_parser.h:112:12: note: in definition of macro '__fsparam'
-      .flags = FLAGS, \
-               ^~~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   include/linux/fs_parser.h:120:70: note: (near initialization for 'fuse_fs_parameters[3].data')
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                                                         ^
-   include/linux/fs_parser.h:112:12: note: in definition of macro '__fsparam'
-      .flags = FLAGS, \
-               ^~~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   include/linux/fs_parser.h:113:3: error: field name not in record or union initializer
-      .data = DATA \
-      ^
-   include/linux/fs_parser.h:120:32: note: in expansion of macro '__fsparam'
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                   ^~~~~~~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   include/linux/fs_parser.h:113:3: note: (near initialization for 'fuse_fs_parameters[3].data')
-      .data = DATA \
-      ^
-   include/linux/fs_parser.h:120:32: note: in expansion of macro '__fsparam'
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                   ^~~~~~~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   include/linux/stddef.h:8:14: warning: excess elements in scalar initializer
-    #define NULL ((void *)0)
-                 ^
-   include/linux/fs_parser.h:113:11: note: in definition of macro '__fsparam'
-      .data = DATA \
-              ^~~~
-   include/linux/fs_parser.h:120:73: note: in expansion of macro 'NULL'
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                                                            ^~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'fuse_fs_parameters[3].data')
-    #define NULL ((void *)0)
-                 ^
-   include/linux/fs_parser.h:113:11: note: in definition of macro '__fsparam'
-      .data = DATA \
-              ^~~~
-   include/linux/fs_parser.h:120:73: note: in expansion of macro 'NULL'
-    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
-                                                                            ^~~~
-   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-     ^~~~~~~~~~~
-   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
-    static const struct fs_parameter_spec fuse_fs_parameters[] = {
-                                                                 ^
-   fs/fuse/inode.c:743:2:
-     fsparam_uid ("user_id",  OPT_USER_ID),
-     {
-   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
-    static const struct fs_parameter_spec fuse_fs_parameters[] = {
-                                                                 ^
-   fs/fuse/inode.c:743:2:
-     fsparam_uid ("user_id",  OPT_USER_ID),
-     {
-   fs/fuse/inode.c:747:41:
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-                                            }
-   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
-    static const struct fs_parameter_spec fuse_fs_parameters[] = {
-                                                                 ^
-   fs/fuse/inode.c:743:2:
-     fsparam_uid ("user_id",  OPT_USER_ID),
-     {
-   fs/fuse/inode.c:747:41:
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-                                            }
-   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
-    static const struct fs_parameter_spec fuse_fs_parameters[] = {
-                                                                 ^
-   fs/fuse/inode.c:743:2:
-     fsparam_uid ("user_id",  OPT_USER_ID),
-     {
-   fs/fuse/inode.c:747:41:
-     fsparam_u32 ("max_read",  OPT_MAX_READ),
-                                            }
-   fs/fuse/inode.c: In function 'fuse_parse_param':
-   fs/fuse/inode.c:804:16: error: 'struct fs_parse_result' has no member named 'uid'
-      kuid = result.uid;
-                   ^
-   fs/fuse/inode.c:804:8: error: incompatible types when assigning to type 'kuid_t' {aka 'struct <anonymous>'} from type 'const struct fs_parameter_spec *'
-      kuid = result.uid;
-           ^
->> fs/fuse/inode.c:804:3: warning: statement with no effect [-Wunused-value]
-      kuid = result.uid;
-      ^~~~
-   fs/fuse/inode.c:816:16: error: 'struct fs_parse_result' has no member named 'gid'
-      kgid = result.gid;
-                   ^
-   fs/fuse/inode.c:816:8: error: incompatible types when assigning to type 'kgid_t' {aka 'struct <anonymous>'} from type 'const struct fs_parameter_spec *'
-      kgid = result.gid;
-           ^
-   fs/fuse/inode.c:816:3: warning: statement with no effect [-Wunused-value]
-      kgid = result.gid;
-      ^~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/skmsg.h:12,
+                    from drivers/android/vendor_hooks.c:22:
+   include/net/sock.h: In function '__dst_negative_advice':
+   include/net/sock.h:2095:35: warning: cast between incompatible function types from 'struct dst_entry * (*)(struct dst_entry *)' to 'void (*)(struct sock *, struct dst_entry *)' [-Wcast-function-type]
+    2095 |                 negative_advice = (android_dst_ops_negative_advice_new_t)dst->ops->negative_advice;
+         |                                   ^
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fuse.h:24,
+                    from drivers/android/vendor_hooks.c:116:
+   include/trace/trace_events.h: At top level:
+>> include/trace/trace_events.h:27:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/tmpfile.h:39,
+                    from drivers/android/vendor_hooks.c:115:
+   include/trace/trace_events.h:27:23: warning: 'str__tmpfile__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/delayacct.h:65,
+                    from drivers/android/vendor_hooks.c:114:
+   include/trace/trace_events.h:27:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psi.h:25,
+                    from drivers/android/vendor_hooks.c:113:
+   include/trace/trace_events.h:27:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/loop.h:21,
+                    from drivers/android/vendor_hooks.c:112:
+   include/trace/trace_events.h:27:23: warning: 'str__loop__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/direct_io.h:21,
+                    from drivers/android/vendor_hooks.c:111:
+   include/trace/trace_events.h:27:23: warning: 'str__direct_io__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +804 fs/fuse/inode.c
+vim +/str__fuse__trace_system_name +27 include/trace/trace_events.h
 
-   752	
-   753	static int fuse_parse_param(struct fs_context *fsc, struct fs_parameter *param)
-   754	{
-   755		struct fs_parse_result result;
-   756		struct fuse_fs_context *ctx = fsc->fs_private;
-   757		int opt;
-   758		kuid_t kuid;
-   759		kgid_t kgid;
-   760	
-   761		if (fsc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
-   762			/*
-   763			 * Ignore options coming from mount(MS_REMOUNT) for backward
-   764			 * compatibility.
-   765			 */
-   766			if (fsc->oldapi)
-   767				return 0;
-   768	
-   769			return invalfc(fsc, "No changes allowed in reconfigure");
-   770		}
-   771	
-   772		opt = fs_parse(fsc, fuse_fs_parameters, param, &result);
-   773		if (opt < 0)
-   774			return opt;
-   775	
-   776		switch (opt) {
-   777		case OPT_SOURCE:
-   778			if (fsc->source)
-   779				return invalfc(fsc, "Multiple sources specified");
-   780			fsc->source = param->string;
-   781			param->string = NULL;
-   782			break;
-   783	
-   784		case OPT_SUBTYPE:
-   785			if (ctx->subtype)
-   786				return invalfc(fsc, "Multiple subtypes specified");
-   787			ctx->subtype = param->string;
-   788			param->string = NULL;
-   789			return 0;
-   790	
-   791		case OPT_FD:
-   792			ctx->fd = result.uint_32;
-   793			ctx->fd_present = true;
-   794			break;
-   795	
-   796		case OPT_ROOTMODE:
-   797			if (!fuse_valid_type(result.uint_32))
-   798				return invalfc(fsc, "Invalid rootmode");
-   799			ctx->rootmode = result.uint_32;
-   800			ctx->rootmode_present = true;
-   801			break;
-   802	
-   803		case OPT_USER_ID:
- > 804			kuid = result.uid;
-   805			/*
-   806			 * The requested uid must be representable in the
-   807			 * filesystem's idmapping.
-   808			 */
-   809			if (!kuid_has_mapping(fsc->user_ns, kuid))
-   810				return invalfc(fsc, "Invalid user_id");
-   811			ctx->user_id = kuid;
-   812			ctx->user_id_present = true;
-   813			break;
-   814	
-   815		case OPT_GROUP_ID:
-   816			kgid = result.gid;
-   817			/*
-   818			 * The requested gid must be representable in the
-   819			 * filesystem's idmapping.
-   820			 */
-   821			if (!kgid_has_mapping(fsc->user_ns, kgid))
-   822				return invalfc(fsc, "Invalid group_id");
-   823			ctx->group_id = kgid;
-   824			ctx->group_id_present = true;
-   825			break;
-   826	
-   827		case OPT_DEFAULT_PERMISSIONS:
-   828			ctx->default_permissions = true;
-   829			break;
-   830	
-   831		case OPT_ALLOW_OTHER:
-   832			ctx->allow_other = true;
-   833			break;
-   834	
-   835		case OPT_MAX_READ:
-   836			ctx->max_read = result.uint_32;
-   837			break;
-   838	
-   839		case OPT_BLKSIZE:
-   840			if (!ctx->is_bdev)
-   841				return invalfc(fsc, "blksize only supported for fuseblk");
-   842			ctx->blksize = result.uint_32;
-   843			break;
-   844	
-   845		default:
-   846			return -EINVAL;
-   847		}
-   848	
-   849		return 0;
-   850	}
-   851	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
