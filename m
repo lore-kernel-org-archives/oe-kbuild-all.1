@@ -1,65 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8FE1755B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 03:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9895B1946B;
+	Thu,  4 Jul 2024 03:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720063510; cv=none; b=kf3nh2U9Fzc+nj5wn3ekpLfU83VXczfgw4tkFosjdEsqEZkwy1ZRwg1wDJ7HPkUYK57KZs2QwtiAVG6O45aGAMr15REXO3pc9VCwj+jyE9fWKPYRVR5xbmHmddYiLpZwMVXSyAFw0Dn2VzFp3g3YzlV7lkYCCz3D6zOuJLgF7yc=
+	t=1720064357; cv=none; b=CJh/tZaiD5ZbiGYRBM28wYxGwn1yAuFyM6X7JHifGIKrKqYIFF1YwDFZxuNPKPJFw7uRWxF6J04/x1E8BYwD/KtIqccHYK2BCOUhQT29zNd08YoRrv10T9jiEn+vLzNBpJnUn64snZGekU0Gh9GeGR6EDLYgxK8AgHaanHB4rFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720063510; c=relaxed/simple;
-	bh=zU6qpY0WXOayAjKKhaGeYLZN/KKJNHrTSK4h7q6oXnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AJxYVJuMe2PbTTX98isMZIreSHYoxBZsajickDi65m8MkY8VkeuoclYGbulwpIBwXlMy+Ej9l708e1e0o4brjxYdpHe55dJUW0VCfuYdZd3c/+8PuQj4LrCvg8+/jyC+EL7YY1gDitLMThEZpxv62MJlkFbUwDXn9oYBLmaOx3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIV7BBI2; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1720064357; c=relaxed/simple;
+	bh=rSZWX0gWlKWv/j9j9F4F3Urou4mvlKJB7ifrwMMcz9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cne9b8OyEllpXW+8Ev/Q+cAOLPkRuvQQJ0mjkfd1wwg8I8fUFobqq0RmWy+dbxT1szCOnLhPJf8rUO3sfEjOnQSR5tF1Xx/nPB2dSUoZk5GsQVCZyBQi17TAigZuXE0imiQ4kStE2iRRZZDWfIsktaINrTyBPNAXYjS0/VWSs/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4BXizSo; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIV7BBI2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4BXizSo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720063508; x=1751599508;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zU6qpY0WXOayAjKKhaGeYLZN/KKJNHrTSK4h7q6oXnY=;
-  b=RIV7BBI2tQWGgB5BEP/3Htepb3et5uBwNYIcBc5kVhBfh+7KRZJtBzqt
-   k1didVdHnP1ipJCKbTybVgifvD+d+EAE6uPcrw+2k0JJgNG3IdSJlkABN
-   ZC8wvGbCaG9sYdsBaGlkmj97rMO+CAKl7/C2raGy2o5x1xam5XbLmNPXT
-   vOvZ5XbybU517ZwE7B4QhnNM1ZV/jpq/a1pxMSMdevYANRdq5trGtATTN
-   PKdwGxkGvL23xBs+0tlRIXH6ZSZ++/8roKMOBTRyaZodBTZLVkgvfMKN9
-   V22o0FQupiVCt/EvMT/hk/FIqxSYk7HwQpFcsdWzNDytCtpjdoXOdn5YK
-   g==;
-X-CSE-ConnectionGUID: 0m7HkhaGQkS48ZVhlUDBcw==
-X-CSE-MsgGUID: eSO6WjD6SyCcmrwVFXkJ2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="17434539"
+  t=1720064356; x=1751600356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rSZWX0gWlKWv/j9j9F4F3Urou4mvlKJB7ifrwMMcz9w=;
+  b=W4BXizSoHL11aIoePohIIHqf8ZgRAdxO+hVY1eAuyouHflmVTkunHGzW
+   3TaQj1uPnC9n5MXRlqDTGdjH2keXrkazN/8Cgu1pTZ0sPP9a78nHjC7Mt
+   hQ/dkWlvMUsC5z46o+KCEiXJG0EM4UPDKnciic/2AYm5hZcgUIOFZ6Msq
+   iZiTFADZL339+3XNycYv5T666thfDFk3ZSawx4slrtp9/yMe1ZQJ5HvB0
+   ggYafH1BRM+jp1ldvONfEghVMzfiYYUEQGf4UNmPkpyweVQ4nIgkPOwVN
+   //cwQ+0CPozvolyfDqq1R1T6f4G5mpIhtXmuGwvygJY7fyVoHYNUmpjyI
+   Q==;
+X-CSE-ConnectionGUID: UoC7RnKHS8aBWYZ9WT4foQ==
+X-CSE-MsgGUID: yj0JuRphT9SOxwMqDugSzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="42745991"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17434539"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 20:25:07 -0700
-X-CSE-ConnectionGUID: kcaPNf0RSeG41Sg8oEJutQ==
-X-CSE-MsgGUID: WBbnk18xQRi0rtCihibsXw==
+   d="scan'208";a="42745991"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 20:39:14 -0700
+X-CSE-ConnectionGUID: KPbiy3BOTv2zmQuVt+flyA==
+X-CSE-MsgGUID: cc6XAiE4SLqCt3rnpjN/aQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="46245188"
+   d="scan'208";a="46472076"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Jul 2024 20:25:05 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2024 20:39:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPD5j-000QV8-2M;
-	Thu, 04 Jul 2024 03:25:03 +0000
-Date: Thu, 4 Jul 2024 11:24:09 +0800
+	id 1sPDJL-000QVm-2I;
+	Thu, 04 Jul 2024 03:39:07 +0000
+Date: Thu, 4 Jul 2024 11:38:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [pci:dt-bindings 10/11] arch/arm64/boot/dts/qcom/x1e80100-crd.dtb:
- pci@1bf8000: reg: [[0, 29327360, 0, 12288], [0, 1879048192, 0, 3869], [0,
- 1879052064, 0, 168], [0, 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]]
- is too short
-Message-ID: <202407041154.pTMBERxA-lkp@intel.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
+Message-ID: <202407041157.odTZAYZ6-lkp@intel.com>
+References: <20240626130347.520750-2-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,200 +76,193 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240626130347.520750-2-alexghiti@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git dt-bind=
-ings
-head:   a50a3d6870292c08a4e941449ba4ddc8339a2b14
-commit: 9d02ca5cda560bdce0f349bece5204bdae339f8f [10/11] dt-bindings: PCI: =
-qcom: x1e80100: Make the MHI reg region mandatory
-config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci/arch=
-ive/20240704/202407041154.pTMBERxA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240704/202407041154.pTMBERxA-lkp@intel.com/reproduce)
+Hi Alexandre,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.10-rc6 next-20240703]
+[cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240626130347.520750-2-alexghiti%40rivosinc.com
+patch subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
+config: riscv-randconfig-002-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041154.pTMBERxA-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041157.odTZAYZ6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fd5000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-phy-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-phy-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 293273=
-60, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0, 18790=
-52288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg-names: ['par=
-f', 'dbi', 'elbi', 'atu', 'config'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names:=
- ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@7: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c=
-432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@a: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi@c=
-432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@b: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
---
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fd5000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-phy-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-phy-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-pll-supply'=
- is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-us=
-b43dp-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg: [[0, 293273=
-60, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0, 18790=
-52288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg-names: ['par=
-f', 'dbi', 'elbi', 'atu', 'config'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.y=
-aml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names:=
- ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@7: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c=
-432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@a: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi@c=
-432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360',=
- 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@b: compatible:0: 'qcom,s=
-mb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom,p=
-m6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qcom,=
-pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'qco=
-m,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'qco=
-m,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350', '=
-qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550b'=
-, 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,pm8=
-916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,pm8=
-994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qcom=
-,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994', '=
-qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm815=
-5au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', 'qc=
-om,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qcom=
-,smb2351']
+All errors (new ones prefixed by >>):
 
---=20
+>> kernel/sched/core.c:11873:7: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
+                       ^
+   include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
+           raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
+           ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+                  ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
+   #define raw_cmpxchg arch_cmpxchg
+                       ^
+   arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
+           _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
+           ^
+   arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
+                   __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
+                   ^
+   arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
+                   asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
+                   ^
+   kernel/sched/core.c:11840:7: note: possible target of asm goto statement
+           if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+                ^
+   include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
+           raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
+           ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+                  ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
+   #define raw_cmpxchg arch_cmpxchg
+                       ^
+   arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
+           _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
+           ^
+   arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
+                   __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
+                   ^
+   arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
+                                                                           \
+                                                                           ^
+   kernel/sched/core.c:11872:2: note: jump exits scope of variable with __attribute__((cleanup))
+           scoped_guard (irqsave) {
+           ^
+   include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
+           for (CLASS(_name, scope)(args),                                 \
+                             ^
+   kernel/sched/core.c:11840:7: error: cannot jump from this asm goto statement to one of its possible targets
+           if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+                ^
+   include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
+           raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
+           ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+                  ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
+   #define raw_cmpxchg arch_cmpxchg
+                       ^
+   arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
+           _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
+           ^
+   arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
+                   __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
+                   ^
+   arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
+                   asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
+                   ^
+   kernel/sched/core.c:11873:7: note: possible target of asm goto statement
+                   if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
+                       ^
+   include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
+           raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+           ^
+   include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
+           ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+                  ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
+   #define raw_cmpxchg arch_cmpxchg
+                       ^
+   arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
+           _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
+           ^
+   arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
+                   __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
+                   ^
+   arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
+                                                                           \
+                                                                           ^
+   kernel/sched/core.c:11872:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+           scoped_guard (irqsave) {
+           ^
+   include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
+           for (CLASS(_name, scope)(args),                                 \
+                             ^
+   2 errors generated.
+
+
+vim +11873 kernel/sched/core.c
+
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11821  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11822  static void sched_mm_cid_remote_clear(struct mm_struct *mm, struct mm_cid *pcpu_cid,
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11823  				      int cpu)
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11824  {
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11825  	struct rq *rq = cpu_rq(cpu);
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11826  	struct task_struct *t;
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11827  	int cid, lazy_cid;
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11828  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11829  	cid = READ_ONCE(pcpu_cid->cid);
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11830  	if (!mm_cid_is_valid(cid))
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11831  		return;
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11832  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11833  	/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11834  	 * Clear the cpu cid if it is set to keep cid allocation compact.  If
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11835  	 * there happens to be other tasks left on the source cpu using this
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11836  	 * mm, the next task using this mm will reallocate its cid on context
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11837  	 * switch.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11838  	 */
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11839  	lazy_cid = mm_cid_set_lazy_put(cid);
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11840  	if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11841  		return;
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11842  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11843  	/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11844  	 * The implicit barrier after cmpxchg per-mm/cpu cid before loading
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11845  	 * rq->curr->mm matches the scheduler barrier in context_switch()
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11846  	 * between store to rq->curr and load of prev and next task's
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11847  	 * per-mm/cpu cid.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11848  	 *
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11849  	 * The implicit barrier after cmpxchg per-mm/cpu cid before loading
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11850  	 * rq->curr->mm_cid_active matches the barrier in
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11851  	 * sched_mm_cid_exit_signals(), sched_mm_cid_before_execve(), and
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11852  	 * sched_mm_cid_after_execve() between store to t->mm_cid_active and
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11853  	 * load of per-mm/cpu cid.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11854  	 */
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11855  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11856  	/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11857  	 * If we observe an active task using the mm on this rq after setting
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11858  	 * the lazy-put flag, that task will be responsible for transitioning
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11859  	 * from lazy-put flag set to MM_CID_UNSET.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11860  	 */
+0e34600ac9317d Peter Zijlstra    2023-06-09  11861  	scoped_guard (rcu) {
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11862  		t = rcu_dereference(rq->curr);
+0e34600ac9317d Peter Zijlstra    2023-06-09  11863  		if (READ_ONCE(t->mm_cid_active) && t->mm == mm)
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11864  			return;
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11865  	}
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11866  
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11867  	/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11868  	 * The cid is unused, so it can be unset.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11869  	 * Disable interrupts to keep the window of cid ownership without rq
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11870  	 * lock small.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11871  	 */
+0e34600ac9317d Peter Zijlstra    2023-06-09  11872  	scoped_guard (irqsave) {
+223baf9d17f25e Mathieu Desnoyers 2023-04-20 @11873  		if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  11874  			__mm_cid_put(mm, cid);
+0e34600ac9317d Peter Zijlstra    2023-06-09  11875  	}
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  11876  }
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  11877  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
