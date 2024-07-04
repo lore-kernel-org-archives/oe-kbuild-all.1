@@ -1,62 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A843E47B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 06:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87227200A3;
+	Thu,  4 Jul 2024 07:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720074726; cv=none; b=Dr6PBJd+oNgYgUURt//kTGj1ZGttcMkxZlnzVw+xUt8qSaILctQPO1x6xJC8LLMsUl+ZWxgVPUPEtiTmPlK3ZxDTGdqiARKk8TKLRKnO/RXb+dlNOFhafuYSLhuDKhggNcjclTqahcQyy4D9/TFZlTXGS7qXYeNjzVR1Qc3lNHs=
+	t=1720077608; cv=none; b=apCyaVXZiCzbb1paaQ5Y7OqCjydvwiigkpH9+7DedFU7vcSjMCPPURZobPjPOmALY/BnOxl8eE/z1nZeEq+NXY67SnCFjHyBuSWhvNWP2I/r1GFaVYLhRqdMMrZhG19mRaT4kFjShrciQIFEt0fWPTypTr2IGDMenwHZ+mAKmYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720074726; c=relaxed/simple;
-	bh=nB9aZvNyayCjhushwfLcqfz7slocWn98DaEg4SKkQ2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YeOZ8EfJ/U2XEkKUJnOz+FutPL1zAYPVLYZtI8QQoFdTO5uE0xiSTEeukDHweuugSpJhJyMFW4BQIYdpXid11pk2XgOsPXySmSiaFAJVx8dT6KgYIcOG7SgvC8IqtfEP6/osz6abkW5is/qb+ybdhfXItPEC2EDRSujPSPNy/dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HmkN53mH; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720077608; c=relaxed/simple;
+	bh=gHWMHslRI8lW3lNZ78emYfmyUUytiCwE7709u2zTBrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7RU9Fr2DEx+GH3jurJIFtXTO1Ej3WXWi2xnrAQg1D+R9ZGH0li3VZ69X+iIUfwR3NjpAePjdevu7A7BCSmO2W32NwaBBuQH9HKU5phHP+UZ5VjwotQPRtiqleeIYJetgz0em+A1wS2VUwBXQw5JLXHWkHD5+3jGyMR8WZ5jbzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNT6WK4U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmkN53mH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720074725; x=1751610725;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nB9aZvNyayCjhushwfLcqfz7slocWn98DaEg4SKkQ2U=;
-  b=HmkN53mHTFyj5flBmD27T5IVbDULkx9CT7+nsavoyM4o2Sr0SW3fQHWJ
-   Q3RkFyklyxlQiwCFIApLbCPrZTmxLE8rMgd9nOP7yHXSwlEBM2xlvXNYA
-   Eu9iYApC2alew4rU0R8k3fF3HhgmN3RjP0YY8IwQl+dKIr/c+zF8jNeNy
-   KfJwgx6Lr6D59YOJMLdLeU42HI9pva+bHJVkQuJrOGpxboh0Bo9g5MS/1
-   spz0jxpX/047Vl05cyaUMH8UmLBBL25KuswWVFgffDHDWQRNznLkuEmyb
-   Sn8LjrAuskcXmsPTnfQe5qkdkGFLuDfxVaUPbzP+dtfdfrzy6nVty3ed+
-   g==;
-X-CSE-ConnectionGUID: Q/X/TrJORZm78QhKkOA7Nw==
-X-CSE-MsgGUID: yT8lvzgGRp6LP51CSrzI8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="17546051"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17546051"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 23:32:04 -0700
-X-CSE-ConnectionGUID: eQfZMSh/Rx6mjlQFT4pGVA==
-X-CSE-MsgGUID: tcnsjlQNSoCG3eIlGFP9yg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="46460126"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Jul 2024 23:32:03 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPG0e-000QfD-2i;
-	Thu, 04 Jul 2024 06:32:00 +0000
-Date: Thu, 4 Jul 2024 14:31:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>
-Subject: [linux-next:master 4347/10451]
- arch/loongarch/include/asm/uprobes.h:12:33: error: initializer element is
- not constant
-Message-ID: <202407041440.PhFCml1P-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNT6WK4U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD396C3277B;
+	Thu,  4 Jul 2024 07:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720077608;
+	bh=gHWMHslRI8lW3lNZ78emYfmyUUytiCwE7709u2zTBrc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uNT6WK4UoIx9eW8wzDWQWQ116qT3CSQP5OdnMPKH7ggRmT+GabHfL0lhNLrjkemuW
+	 s1/qMAJDRHPhvkntupX+c6G0UvNikyH80tN+3t5a0G86vcf7zgOTs51NwLuo8VDHzV
+	 SdHYico0DcSWJcY1iigrUWmZ49VRflnF+HsIFy5z9dz7tuWlrFU+ixSWVoi6voELIs
+	 /z2/faRA+x721g/Mlr2ew8JSFwNxvACBMln+PJZoZkmuhHaxuZyDQv7fR7ud/vMJwK
+	 NXafH5NnpTygo1VZbG57fSLDYMDUL6bVWBudWtg2Z/8RfSDqtBYOL/qvmJBKMQaEig
+	 vHJ2m5Q1VcAag==
+Date: Thu, 4 Jul 2024 16:20:06 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Abel Vesa <abel.vesa@linaro.org>, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, "Rob Herring (Arm)" <robh@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [pci:dt-bindings 10/11]
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29327360,
+ 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,
+ 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
+Message-ID: <20240704072006.GA2768618@rocinante>
+References: <202407041154.pTMBERxA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,52 +47,207 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202407041154.pTMBERxA-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: ff474a78cef5cb5f32be52fe25b78441327a2e7c [4347/10451] uprobe: Add uretprobe syscall to speed up return probe
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240704/202407041440.PhFCml1P-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041440.PhFCml1P-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041440.PhFCml1P-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git dt-bi=
+ndings
+> head:   a50a3d6870292c08a4e941449ba4ddc8339a2b14
+> commit: 9d02ca5cda560bdce0f349bece5204bdae339f8f [10/11] dt-bindings: PCI=
+: qcom: x1e80100: Make the MHI reg region mandatory
+> config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci/ar=
+chive/20240704/202407041154.pTMBERxA-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> dtschema version: 2024.6.dev3+g650bf2d
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240704/202407041154.pTMBERxA-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407041154.pTMBERxA-lkp=
+@intel.com/
+>=20
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fd5000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-phy-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-phy-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 2932=
+7360, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0, 187=
+9052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100=
+=2Eyaml#
+> >> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg-names: ['p=
+arf', 'dbi', 'elbi', 'atu', 'config'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100=
+=2Eyaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-name=
+s: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+>    	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@7: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
+>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yam=
+l#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi=
+@c432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360=
+', 'qcom,spmi-pmic']
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@a: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
+>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yam=
+l#
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/spmi=
+@c432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360=
+', 'qcom,spmi-pmic']
+>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@b: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
+> --
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fd5000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-phy-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-phy-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-pll-suppl=
+y' is a required property
+>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-=
+usb43dp-phy.yaml#
+> >> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg: [[0, 2932=
+7360, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0, 187=
+9052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100=
+=2Eyaml#
+> >> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg-names: ['p=
+arf', 'dbi', 'elbi', 'atu', 'config'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100=
+=2Eyaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-name=
+s: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+>    	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@7: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
+>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yam=
+l#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi=
+@c432000/pmic@7: failed to match any schema with compatible: ['qcom,smb2360=
+', 'qcom,spmi-pmic']
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@a: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
+>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yam=
+l#
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/spmi=
+@c432000/pmic@a: failed to match any schema with compatible: ['qcom,smb2360=
+', 'qcom,spmi-pmic']
+>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@b: compatible:0: 'qcom=
+,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', 'qcom=
+,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b', 'qco=
+m,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm8009', 'q=
+com,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,pm8150', 'q=
+com,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', 'qcom,pm8350',=
+ 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550', 'qcom,pm8550=
+b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom,pm8909', 'qcom,p=
+m8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qcom,pm8953', 'qcom,p=
+m8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180', 'qcom,pmc8180c', 'qc=
+om,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pmi8962', 'qcom,pmi8994',=
+ 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', 'qcom,pmk8550', 'qcom,pmm8=
+155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,pmr735a', 'qcom,pmr735b', '=
+qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'qcom,pmx65', 'qcom,pmx75', 'qc=
+om,smb2351']
 
-All errors (new ones prefixed by >>):
+I removed this patch from the dt-bindings branch for the time being.
 
-   In file included from include/linux/uprobes.h:49,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/highmem.h:5,
-                    from kernel/events/uprobes.c:13:
-   kernel/events/uprobes.c: In function 'arch_uprobe_trampoline':
->> arch/loongarch/include/asm/uprobes.h:12:33: error: initializer element is not constant
-      12 | #define UPROBE_SWBP_INSN        larch_insn_gen_break(BRK_UPROBE_BP)
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   kernel/events/uprobes.c:1479:39: note: in expansion of macro 'UPROBE_SWBP_INSN'
-    1479 |         static uprobe_opcode_t insn = UPROBE_SWBP_INSN;
-         |                                       ^~~~~~~~~~~~~~~~
-
-
-vim +12 arch/loongarch/include/asm/uprobes.h
-
-19bc6cb6409289 Tiezhu Yang 2023-06-29  11  
-19bc6cb6409289 Tiezhu Yang 2023-06-29 @12  #define UPROBE_SWBP_INSN	larch_insn_gen_break(BRK_UPROBE_BP)
-19bc6cb6409289 Tiezhu Yang 2023-06-29  13  #define UPROBE_SWBP_INSN_SIZE	LOONGARCH_INSN_SIZE
-19bc6cb6409289 Tiezhu Yang 2023-06-29  14  
-
-:::::: The code at line 12 was first introduced by commit
-:::::: 19bc6cb6409289106d38f9ad1b2ecf73980df6b5 LoongArch: Add uprobes support
-
-:::::: TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
