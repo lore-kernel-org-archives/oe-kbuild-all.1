@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E931A38F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 07:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7351A0B07
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 07:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720079794; cv=none; b=t068qQKF4axPZZNtPGlfKBRGr9LW13ieVeD6LQ4StNxuL7UH0IP/PFCu9gHjAHaVgYYHhkV2A7Hc8amcxcjJrXQR8HzRSgmz7t3pwTE8YHmppqwyromisqh5USPlV7U3u/2pR+fXoEPqLa+VVQhcdYxVOqa1Cwvg4nvNMeGdlCI=
+	t=1720079804; cv=none; b=gXVzb4/RFJCXVavRDHZDwEWpjay5JZMqKvAyFHCn7smiWFSUVEEt8a4j9USBnNn4E8Ucre8ykACAIuvtWkuqp4/S5R1BYKx4WBCYo8bsq7xMewb+vi5lykL/XXNxV7LJEnHwGIDYruXKk8QeroyLEoBhke+M2ABn0PcNynxDhsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720079794; c=relaxed/simple;
-	bh=AjQyGUJZ0vfY7qZ8Lmdw5nPCnEsUxgopR1OuiDeFoYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tXFffeNw0YmEPNquWt80fsx/bXFrn688FYl8TdO7SYBSNrt85QErfWts2qKwiulGOhYvRn2vg80iHVlMbtmJNtOSa9hnZo370409b9cRaSmBnrxT7aA38QjMrKwTJCUI6Ase92ukC2NgmaeH1LJTO6S5D162HeAkG1Nnb9MTizo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtspfWWm; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1720079804; c=relaxed/simple;
+	bh=8iGfkKkupkVtdArArJBy1e0ziM4522a9mw/ffDLDUzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EJkHqLFOaTAveM/rnD6p7jlUz+ZHZv9F7KOhf4O5UxSa3VnWlwud1UxvuGGupHhGeboqkQTyu5CdbnXS2Df4AdQb+3ToWJukBM+exq0M5/Ttc6dOy/eE/zm/czOxs7zJiysn8vji2EB8aFiToppl71wQO8DE8hEO54UPeQGUBbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EzaElVhQ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtspfWWm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EzaElVhQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720079792; x=1751615792;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AjQyGUJZ0vfY7qZ8Lmdw5nPCnEsUxgopR1OuiDeFoYo=;
-  b=BtspfWWm5GdwRPevBZL1NwW08bHIw8+eIvF48K3T2OyHQk4j7qDHsgZa
-   AUaLAbLqIk8CzOK4fiJnG6I74YVI/VJvlqCJHMzHl/IqHqlq6YaKjNqoL
-   LrmoFMisI+O/q3xOoqo97msvnfNETJgm1KsYZfJ7Lt64CIs9biiQN7VcO
-   EExlWwQfYcYKdo8DmqExU9PRHTLMxQLXtnX6m8ocSshhzQYrQjtyqANma
-   xKdc0aEUnq5XYGIc62q5BBFOtY35fynJKwF/eO2Xr3cR7z7Kz3YC0GSIc
-   XzuDh1BhgNklYByU7PO9D+3MhmCOauZIUOOq+pO5hSgWKL9fBj0sHsEXf
+  t=1720079802; x=1751615802;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8iGfkKkupkVtdArArJBy1e0ziM4522a9mw/ffDLDUzY=;
+  b=EzaElVhQ2YxxFfkrgO8H/y2xBJhzC69VqPSxQmgIWibtuWHr3CC5CnQ8
+   QxjB7Wq/mJzrX6KO3MqYiFOXVQv3U2ypozdoQt/DJk/0e68OgGGPnp9as
+   1E4Xnjl0BO2JyGPdcKGtp0N/WU2RUK4q1sDvzlqvrz30Y3wkaTXnNdjHg
+   Z68LIozRLhgLMjJfdWVK2EF+rbmwBDXdeY0txgwHezd9ohoKBMNxSUGEY
+   NNavIuLak9BcsZkupVbzdOfZz8lKduxQgpnbKKQbYs+CxlIonYk/9GXN4
+   My+xKj2731lqW0vtkb//3PZuicFHv9sK2tGurAS1OEaYKqz1N/90Ycxq+
    w==;
-X-CSE-ConnectionGUID: p6zHqjZuT7qBu8fIAqDvRw==
-X-CSE-MsgGUID: 9+AJ6OZUTzOtkL1rq9s/2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="34792124"
+X-CSE-ConnectionGUID: lhQKkCy/QTii5u11fOYgLA==
+X-CSE-MsgGUID: 3SreUM9QRHG3j5QWfHkMYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28738403"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="34792124"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 00:56:15 -0700
-X-CSE-ConnectionGUID: 2YDfhjTxQdCe2Yn4QD7Jkw==
-X-CSE-MsgGUID: 01nKX0/rTTqXDDG/vnNDOg==
+   d="scan'208";a="28738403"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 00:56:13 -0700
+X-CSE-ConnectionGUID: sS7SETWBQeKhYkdD5sERUQ==
+X-CSE-MsgGUID: De98GaL+S6Om9JXxxt2bDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="46660403"
+   d="scan'208";a="69706934"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jul 2024 00:56:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2024 00:56:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPHK4-000QjA-1y;
+	id 1sPHK4-000Qj8-1p;
 	Thu, 04 Jul 2024 07:56:08 +0000
-Date: Thu, 4 Jul 2024 15:56:02 +0800
+Date: Thu, 4 Jul 2024 15:56:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: zelong dong <zelong.dong@amlogic.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Kevin Hilman <khilman@baylibre.com>, Rob Herring <robh@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	kelvin.zhang@amlogic.com, Zelong Dong <zelong.dong@amlogic.com>
-Subject: Re: [PATCH 3/3] arm64: dts: amlogic: Add Amlogic A5 reset controller
-Message-ID: <202407041520.P9v4H7Sq-lkp@intel.com>
-References: <20240703061610.37217-4-zelong.dong@amlogic.com>
+To: Pierre-Hugues Husson <phhusson@freebox.fr>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Marc Gonzalez <mgonzalez@freebox.fr>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [qcom:arm64-for-6.11 265/269]
+ arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb:
+ /soc@0/video-codec@cc00000: failed to match any schema with compatible:
+ ['qcom,msm8998-venus']
+Message-ID: <202407041503.PX9dQPOP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,44 +65,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703061610.37217-4-zelong.dong@amlogic.com>
 
-Hi zelong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240703]
-[cannot apply to robh/for-next pza/reset/next pza/imx-drm/next v6.10-rc6 v6.10-rc5 v6.10-rc4 linus/master v6.10-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zelong-dong/dt-bindings-reset-Add-compatible-and-DT-bindings-for-Amlogic-A4-A5-Reset-Controller/20240703-184517
-base:   next-20240703
-patch link:    https://lore.kernel.org/r/20240703061610.37217-4-zelong.dong%40amlogic.com
-patch subject: [PATCH 3/3] arm64: dts: amlogic: Add Amlogic A5 reset controller
-config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041520.P9v4H7Sq-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.11
+head:   968178e35e78e566f75dbb7fbfc4dd1436ce8309
+commit: 1c6285e10d76b0cfb5b0384dc9c02e266a2ffd0a [265/269] arm64: dts: qcom: msm8998: add venus node
+config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041503.PX9dQPOP-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041520.P9v4H7Sq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041503.PX9dQPOP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041520.P9v4H7Sq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041503.PX9dQPOP-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: reset-controller@2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['amlogic,a4-reset', 'amlogic,a5-reset', 'amlogic,meson-s4-reset'] is too long
-   	'amlogic,a4-reset' is not one of ['amlogic,meson8b-reset', 'amlogic,meson-gxbb-reset', 'amlogic,meson-axg-reset', 'amlogic,meson-a1-reset', 'amlogic,meson-s4-reset', 'amlogic,t7-reset']
-   	'amlogic,meson-s4-reset' was expected
-   	from schema $id: http://devicetree.org/schemas/reset/amlogic,meson-reset.yaml#
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
 --
->> arch/arm64/boot/dts/amlogic/amlogic-a5-a113x2-av400.dtb: reset-controller@2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['amlogic,a4-reset', 'amlogic,a5-reset', 'amlogic,meson-s4-reset'] is too long
-   	'amlogic,a4-reset' is not one of ['amlogic,meson8b-reset', 'amlogic,meson-gxbb-reset', 'amlogic,meson-axg-reset', 'amlogic,meson-a1-reset', 'amlogic,meson-s4-reset', 'amlogic,t7-reset']
-   	'amlogic,meson-s4-reset' was expected
-   	from schema $id: http://devicetree.org/schemas/reset/amlogic,meson-reset.yaml#
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: phy@c012000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: /extcon-usb: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: phy@c012000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: phy@c012000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: /extcon-usb: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: phy@c012000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: /extcon-usb: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: phy@c012000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
+   arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: /extcon-usb: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+--
+   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2849.27-2904.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8998.dtsi:2925.27-2980.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: /soc@0/video-codec@cc00000: failed to match any schema with compatible: ['qcom,msm8998-venus']
+   arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: wifi@18800000: 'qcom,no-msa-ready-indicator' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
