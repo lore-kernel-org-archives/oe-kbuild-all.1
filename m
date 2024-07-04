@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DC5FC0B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 02:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D8101C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 02:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720061057; cv=none; b=rziKWEPxqRYk++foKPjmMlAz1PlPaxurI0pHrP8pkiLsafblbnkLiFzHDIKLZc1fewCh6uqKLV6vQaHzPuoGX/lAAj8JUHkrwbMGm3qqWcNcjmEDUHtRyc7oTd21hY4pYcftoohFBamVKDtI85eg/m0TQVRUYZYCYfeNLtH1+OQ=
+	t=1720061186; cv=none; b=tTqNsF5Ur5xk3IJVmJHxsNONSY3TbrSCfB+NBjr8+j0ZD0W0ZG6FUppRyChfB3aZHxduBpEA0iGQtaZxR7LhGGONGxKOcn05vrzpecAPG7XazrYvjtXpj1/M4zpN2kSLbulHdioh5gKCWaXfxUJgY3MLocilTG8h30nMf+z8baA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720061057; c=relaxed/simple;
-	bh=6w61LsO1NaJb1M3/Po/b5KVK7ORdY3Gdx0sypFMxeKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WtYp9VfgGqlPUXTOwGPHF2yZx8KXCShBsnkOoAw5EGORjM7N2XD2jrtqsMVQQPhEi+X0VCa03VB76AG9RZ8RffbISIQl44m9Dx3/td4S1n0lYw0FSU8aS7Gcvom0POFtYiFSybSxwd3hz1IKsC5eYaGIT4/1V7alPDeorVPB7i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4/pDux5; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1720061186; c=relaxed/simple;
+	bh=t8qE3We53Na00zt5abu3IlQE7nzPjYeoyhAYo9iwov0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rUBaJwh+HFSbPIiF0p8qQ0x5jPFIztzHu9VK+mK375Yv7VSoc90j/BIhhiB5PLIY1y3OzTAYi0oChB2W8shAIKax9auYFi4jHJfw1ywluhaI2oXjO9D1vTwgLUjN5wZ6C642uTp+esiWrgBuQDUrXL1bZ/BoHaOHRnH92sXnZIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6H6387p; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4/pDux5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6H6387p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720061055; x=1751597055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6w61LsO1NaJb1M3/Po/b5KVK7ORdY3Gdx0sypFMxeKM=;
-  b=V4/pDux5A3yNTlUYe7Yz/hLdYHW5nmcM7CtEjN1bYYOy37RyW93Sir2n
-   WROThI9By39T+jNoUOk57REUt55jMQ3U4VULnjcr5BSpHbXB5skcXg4Lq
-   6vQ7HrX44hPZLxxGZ/kRAeEfIt9sW2E+Pp0beTEKi+yNcuA58TCn39Mki
-   4KJU6EWGVT9HkpwsaDPDs36zX0j9NAbY5+pOrZZtnRqswRavG1wd/xk4d
-   9buGf+HyLFbFjjC2RYeO/rUe4KC0g7OEnZLRRM4LP2PksZTd/+oHde7g8
-   tkHzq9kx8mZZ/FxvJiS5vYfER3GkYJDW6qrwnXn+43bihHvBolzbHBtq8
+  t=1720061185; x=1751597185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t8qE3We53Na00zt5abu3IlQE7nzPjYeoyhAYo9iwov0=;
+  b=G6H6387pEM42lJSii35XR7dQGyHFMqywD4vMsl+wQR55UXt59XxlBboo
+   zlTE9hmqtt9dUYB/nEvvQiauPTs2YVO85NOguR0ZpuwrrXKGfZ7Pqu88Z
+   6FUZ1nVdh+FtrmOJPKe6ruWBokJYcecxDniXq3+WBpQz8wNn3/WNrTauc
+   Z9+RRSnc+3whTWLUMWAFr7yj7C/3rvFg+4ADWWhK2+ucvsv+IVTQt4ImQ
+   6B4axH9OI3iZVgAzrWPfqgS2+JfDi3F6cO3EyGXh2Sjqd1d7RJQTNflcP
+   SqFYeZsIEhnBcaMnpgPQWc52IxXYT2q9CZB8GEnUKB3IoRR1s+EI++4JK
    A==;
-X-CSE-ConnectionGUID: IG2ZhHEmTcyPDvDIdu8eyw==
-X-CSE-MsgGUID: 8hMgaRcKTEClvul4xAOKXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27921505"
+X-CSE-ConnectionGUID: PaZRILaJRwGyvFYD+v4eyA==
+X-CSE-MsgGUID: vY+Ow/kASrGk19b+06/7ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="16973329"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="27921505"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 19:44:14 -0700
-X-CSE-ConnectionGUID: QxH2eUDSR/mNA2x5g0+M7w==
-X-CSE-MsgGUID: NhTXM6bsRSSIbnxsCQVtkw==
+   d="scan'208";a="16973329"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 19:46:24 -0700
+X-CSE-ConnectionGUID: Gde1qrjUQNK5XjNOTOZTeg==
+X-CSE-MsgGUID: setmmUkuTcWqN3a6OUy9bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="46239249"
+   d="scan'208";a="69650378"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Jul 2024 19:44:14 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Jul 2024 19:46:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPCSB-000QSM-1y;
-	Thu, 04 Jul 2024 02:44:11 +0000
-Date: Thu, 4 Jul 2024 10:43:23 +0800
+	id 1sPCUE-000QSY-0D;
+	Thu, 04 Jul 2024 02:46:18 +0000
+Date: Thu, 4 Jul 2024 10:44:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:rust/cpufreq-dt 13/25] error[E0425]: cannot find function
- `free_cpumask_var` in crate `bindings`
-Message-ID: <202407041055.YnpcrqwG-lkp@intel.com>
+To: admiyo@os.amperecomputing.com, Sudeep Holla <sudeep.holla@arm.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Robert Moore <robert.moore@intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Huisong Li <lihuisong@huawei.com>
+Subject: Re: [PATCH v4 1/3] mctp pcc: Check before sending MCTP PCC response
+ ACK
+Message-ID: <202407041052.926ISbwR-lkp@intel.com>
+References: <20240702225845.322234-2-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +74,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240702225845.322234-2-admiyo@os.amperecomputing.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git rust/cpufreq-dt
-head:   fc96c25e42aef96de62122e2c94fd81fab04a35c
-commit: dc75de8999bf63494b76d71afde92122985c1f9d [13/25] rust: Add bindings for cpumask
-config: x86_64-buildonly-randconfig-003-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041055.YnpcrqwG-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041055.YnpcrqwG-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.10-rc6 next-20240703]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20240703-163558
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240702225845.322234-2-admiyo%40os.amperecomputing.com
+patch subject: [PATCH v4 1/3] mctp pcc: Check before sending MCTP PCC response ACK
+config: i386-buildonly-randconfig-004-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041052.926ISbwR-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041052.926ISbwR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041055.YnpcrqwG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041052.926ISbwR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `free_cpumask_var` in crate `bindings`
-   --> rust/kernel/cpumask.rs:80:32
-   |
-   80 |             unsafe { bindings::free_cpumask_var(self.ptr) }
-   |                                ^^^^^^^^^^^^^^^^ not found in `bindings`
+>> drivers/mailbox/pcc.c:115: warning: Function parameter or struct member 'shmem_base_addr' not described in 'pcc_chan_info'
+
+
+vim +115 drivers/mailbox/pcc.c
+
+800cda7b63f22b Sudeep Holla 2021-09-17   82  
+80b2bdde002c52 Sudeep Holla 2021-09-17   83  /**
+80b2bdde002c52 Sudeep Holla 2021-09-17   84   * struct pcc_chan_info - PCC channel specific information
+80b2bdde002c52 Sudeep Holla 2021-09-17   85   *
+0f2591e21b2e85 Sudeep Holla 2021-09-17   86   * @chan: PCC channel information with Shared Memory Region info
+bf18123e78f4d1 Sudeep Holla 2021-09-17   87   * @db: PCC register bundle for the doorbell register
+bf18123e78f4d1 Sudeep Holla 2021-09-17   88   * @plat_irq_ack: PCC register bundle for the platform interrupt acknowledge
+bf18123e78f4d1 Sudeep Holla 2021-09-17   89   *	register
+c45ded7e11352d Sudeep Holla 2021-09-17   90   * @cmd_complete: PCC register bundle for the command complete check register
+c45ded7e11352d Sudeep Holla 2021-09-17   91   * @cmd_update: PCC register bundle for the command complete update register
+c45ded7e11352d Sudeep Holla 2021-09-17   92   * @error: PCC register bundle for the error status register
+f92ae90e52bb09 Sudeep Holla 2021-09-17   93   * @plat_irq: platform interrupt
+60c40b06fa6869 Huisong Li   2023-08-01   94   * @type: PCC subspace type
+3db174e478cb0b Huisong Li   2023-08-01   95   * @plat_irq_flags: platform interrupt flags
+3db174e478cb0b Huisong Li   2023-08-01   96   * @chan_in_use: this flag is used just to check if the interrupt needs
+3db174e478cb0b Huisong Li   2023-08-01   97   *		handling when it is shared. Since only one transfer can occur
+3db174e478cb0b Huisong Li   2023-08-01   98   *		at a time and mailbox takes care of locking, this flag can be
+3db174e478cb0b Huisong Li   2023-08-01   99   *		accessed without a lock. Note: the type only support the
+3db174e478cb0b Huisong Li   2023-08-01  100   *		communication from OSPM to Platform, like type3, use it, and
+3db174e478cb0b Huisong Li   2023-08-01  101   *		other types completely ignore it.
+80b2bdde002c52 Sudeep Holla 2021-09-17  102   */
+80b2bdde002c52 Sudeep Holla 2021-09-17  103  struct pcc_chan_info {
+0f2591e21b2e85 Sudeep Holla 2021-09-17  104  	struct pcc_mbox_chan chan;
+bf18123e78f4d1 Sudeep Holla 2021-09-17  105  	struct pcc_chan_reg db;
+bf18123e78f4d1 Sudeep Holla 2021-09-17  106  	struct pcc_chan_reg plat_irq_ack;
+c45ded7e11352d Sudeep Holla 2021-09-17  107  	struct pcc_chan_reg cmd_complete;
+c45ded7e11352d Sudeep Holla 2021-09-17  108  	struct pcc_chan_reg cmd_update;
+c45ded7e11352d Sudeep Holla 2021-09-17  109  	struct pcc_chan_reg error;
+ddd70a454be0e5 Adam Young   2024-07-02  110  	void __iomem *shmem_base_addr;
+f92ae90e52bb09 Sudeep Holla 2021-09-17  111  	int plat_irq;
+60c40b06fa6869 Huisong Li   2023-08-01  112  	u8 type;
+3db174e478cb0b Huisong Li   2023-08-01  113  	unsigned int plat_irq_flags;
+3db174e478cb0b Huisong Li   2023-08-01  114  	bool chan_in_use;
+80b2bdde002c52 Sudeep Holla 2021-09-17 @115  };
+80b2bdde002c52 Sudeep Holla 2021-09-17  116  
 
 -- 
 0-DAY CI Kernel Test Service
