@@ -1,89 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7F61A2C1E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 16:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FC31B29CF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 16:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720109189; cv=none; b=WWYGxZ00hyTgc+3T+owhe2QwNuM4tUlc4Ka8pRFwZaTC2/5Mdt/lO8MPtoLFwGwEwpCis3VaW3AQ8pEOKaxJ/MfssMjwgO+tnJsmQG5gABjXzfU43LLVRRovyztA2YAYzHRyCebkgAvaTpp/gfzhAFUjzqbmhexB+g0XBRfj8wI=
+	t=1720110456; cv=none; b=HrPTrbkJH2cSKW4kf6X/cNKBcyYrZrm8xKxTMPlkwuFWZhxA6QiH20hBswF6l5ztwl/p37CxiEJa36yo8TnWFjcHrZRz2vHSOCDOqyMrl1bKIaF9fRYLXHDTfV/sEWxlBLYZDsaKI9AbhzrJ++xvE7n2xOtBXzZ4B8OTysEOByg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720109189; c=relaxed/simple;
-	bh=Bf/uulT+ovbqajv7inkxywrOwrdPrjO8sVhrhf3lWNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DwLEQveE4+kwotdTzXzHa0IoIUcYEL4cRtpNc2GJyjyw+MIascF45nP+9GMiKr5e3vTpUzDNX6Vw2URp4jkndyYEC+IjiqVJwFNG1xogNENynfnuLiKBqAHtrw85xFRSPJascy0suXYewnDIBJrWFKQTOJPV7A+hSgTYmydigII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NJKAQaFB; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720110456; c=relaxed/simple;
+	bh=cLbax7w8hCqvVgykek/avE2LE7rUynfVykQnAlriJRw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tjYrP3loxx+o8CBh3movI97lIajfRt56uTRz9NaFJnjISAZf2lJ2vues0QmvBRMTzUt2fLVTrJyz8z1yKpY1Go5gE2hvs2V3gLr8zi+qZgmo3SucLwZwP6tZPnINJNsCRjco438+QvkLACqWysjxxNh1XUBG3PVNmkMqZmbvxY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FtAmTwv0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NJKAQaFB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720109187; x=1751645187;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bf/uulT+ovbqajv7inkxywrOwrdPrjO8sVhrhf3lWNY=;
-  b=NJKAQaFBeU4jZOdmA3HzzuFiOtUVbhwI9dFtxVAJX9rPuZkxBCs2FVMI
-   4ZrPNVieb0DqCF9BaIHAoV5VGlj3hp8Wa7GktznhH2WqgXcngxxRCmti7
-   QKFVBw8702Ani6rwkaFipPpZvBWc1lygDJmdPH/T8ECLkGHdmWj0S4jCS
-   kxEpaKYUJv/DsxeX3OeMgs+f+3k2t3wJuLEWvpXGU5RWejvdm30r3Adfi
-   ah6T+B/MiDyWWf4fW7gc5NqSYlSMsz/rNukugu2GmuM1cybDvlDN4H8NO
-   02A6M7/APtNa9uQzjAQC3iw7k2KMrSxSJqECROus0oImTbUfYNKi5MigD
-   w==;
-X-CSE-ConnectionGUID: EYR/qLOaT86jeDwpqZ/HpA==
-X-CSE-MsgGUID: VO/6NfulQYmeE0LO29fFVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17049631"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17049631"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 09:06:19 -0700
-X-CSE-ConnectionGUID: 2xu6K5kzQeaCsWrtg5l42Q==
-X-CSE-MsgGUID: xyffRTHpTkOpkVNTepFpYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="77385125"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jul 2024 09:06:18 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPOyN-000R9x-0Z;
-	Thu, 04 Jul 2024 16:06:15 +0000
-Date: Fri, 5 Jul 2024 00:05:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FtAmTwv0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D008C3277B;
+	Thu,  4 Jul 2024 16:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720110456;
+	bh=cLbax7w8hCqvVgykek/avE2LE7rUynfVykQnAlriJRw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FtAmTwv0BhpOAgNuf2xM0PMOCI5jJVC3qbUtNtcqZgw0ZATa2ue7zH01yxHMpO3qs
+	 Z4ddXbwPNDuM/69bt2vAlgBCx6I/QzkOrLQuHvHtz0is7lEV6efBphdtYfl7gb9xxK
+	 aDCTY7Dpo7bYvYOP6ZZAi8KJoGudUd4VF+rCB7Vho0ekYNUntsn1lol7BuIJSS4Hc6
+	 lN183LNldf9WlPrnr2pOM7riQnzulQGIIAWNl36GMkpIuZGi2reHRzTcZIRJE19QzN
+	 /USbN67o5BEcTVRRJAENlfMG55SWnsgL4Mhz6JYrmky7SNvR03b10TH6RlEDJfNpO/
+	 oVgQwAWLNgwOw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sPPIz-009okh-Jl;
+	Thu, 04 Jul 2024 17:27:33 +0100
+Date: Thu, 04 Jul 2024 17:27:33 +0100
+Message-ID: <87a5ixp1fu.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: kernel test robot <lkp@intel.com>,
+	James Morse <james.morse@arm.com>,
+	oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [linux-next:master 9094/10451] powerpc64-linux-ld: warning: orphan
- section `.bss..Lubsan_data73' from `kernel/ptrace.o' being placed in section
- `.bss..Lubsan_data73'
-Message-ID: <202407042347.9lW8j7i2-lkp@intel.com>
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [linux-next:master 9019/10049] drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used
+In-Reply-To: <ZoZ5ECjjgFNCaPYj@arm.com>
+References: <202407021807.cBuWVBVa-lkp@intel.com>
+	<ZoZiwNbzoFQi5-Vg@arm.com>
+	<86cynt4jem.wl-maz@kernel.org>
+	<ZoZ5ECjjgFNCaPYj@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: catalin.marinas@arm.com, lkp@intel.com, james.morse@arm.com, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org, rmk+kernel@armlinux.org.uk, Jonathan.Cameron@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: cbdfb23849b330b0156760ee0d73348e020b8cdd [9094/10451] mm/zsmalloc: use a proper page type
-config: powerpc64-randconfig-r023-20220414 (https://download.01.org/0day-ci/archive/20240704/202407042347.9lW8j7i2-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407042347.9lW8j7i2-lkp@intel.com/reproduce)
+On Thu, 04 Jul 2024 11:27:28 +0100,
+Catalin Marinas <catalin.marinas@arm.com> wrote:
+> 
+> On Thu, Jul 04, 2024 at 10:05:05AM +0100, Marc Zyngier wrote:
+> > On Thu, 04 Jul 2024 09:52:16 +0100,
+> > Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > > 
+> > > On Tue, Jul 02, 2024 at 06:40:12PM +0800, kernel test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > head:   82e4255305c554b0bb18b7ccf2db86041b4c8b6e
+> > > > commit: d633da5d3ab1a0eb26a2213d65da1e189e82f8ab [9019/10049] irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs
+> > > > config: arm-randconfig-r034-20220810 (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/config)
+> > > > compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407021807.cBuWVBVa-lkp@intel.com/
+> > > > 
+> > > > All warnings (new ones prefixed by >>):
+> > > > 
+> > > > >> drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used [-Wunused-variable]
+> > > >       47 | static struct cpumask broken_rdists __read_mostly;
+> > > >          |                       ^~~~~~~~~~~~~
+> > > > 
+> > > > 
+> > > > vim +/broken_rdists +47 drivers/irqchip/irq-gic-v3.c
+> > > 
+> > > This can happen when building on arm32 with SMP disabled. So we either
+> > > add a __maybe_unused annotation or we move the variable further down in
+> > > the CONFIG_SMP block. Marc, what's your preference?
+> > > 
+> > > -----------8<----------------------
+> > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > > index c29b424d1d0c..6393f3d780e9 100644
+> > > --- a/drivers/irqchip/irq-gic-v3.c
+> > > +++ b/drivers/irqchip/irq-gic-v3.c
+> > > @@ -47,7 +47,7 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> > >  
+> > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> > >  
+> > > -static struct cpumask broken_rdists __read_mostly;
+> > > +static struct cpumask broken_rdists __read_mostly __maybe_unused;
+> > >  
+> > >  struct redist_region {
+> > >  	void __iomem		*redist_base;
+> > > -----------8<----------------------
+> > > 
+> > > or,
+> > > 
+> > > -----------8<----------------------
+> > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > > index c29b424d1d0c..187948f41bb3 100644
+> > > --- a/drivers/irqchip/irq-gic-v3.c
+> > > +++ b/drivers/irqchip/irq-gic-v3.c
+> > > @@ -47,8 +47,6 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> > >  
+> > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> > >  
+> > > -static struct cpumask broken_rdists __read_mostly;
+> > > -
+> > >  struct redist_region {
+> > >  	void __iomem		*redist_base;
+> > >  	phys_addr_t		phys_base;
+> > > @@ -1316,6 +1314,8 @@ static void gic_cpu_init(void)
+> > >  
+> > >  #ifdef CONFIG_SMP
+> > >  
+> > > +static struct cpumask broken_rdists __read_mostly;
+> > > +
+> > >  #define MPIDR_TO_SGI_RS(mpidr)	(MPIDR_RS(mpidr) << ICC_SGI1R_RS_SHIFT)
+> > >  #define MPIDR_TO_SGI_CLUSTER_ID(mpidr)	((mpidr) & ~0xFUL)
+> > 
+> > The second version seems to be the most logical one, since we already
+> > have this SMP-only block (note to self: constraint GICv3 support to
+> > SMP only at the earliest opportunity).
+> > 
+> > Feel free to add my
+> > 
+> > Acked-by: Marc Zyngier <maz@kernel.org>
+> > 
+> > if you decide to push a fix on top of this branch.
+> 
+> Ah, it's also used in the CONFIG_ACPI block further down. So
+> __maybe_unused may be easier. Or add some #if defined(CONFIG_SMP) ||
+> defined(CONFIG_ACPI) but it seems too verbose.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407042347.9lW8j7i2-lkp@intel.com/
+Ah, of course. Go for the __maybe_unused then, it's not a big deal.
 
-All warnings (new ones prefixed by >>):
+My Ack still stands.
 
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data73' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data73'
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data73' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data73'
->> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data73' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data73'
+Thanks,
+
+	M.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Without deviation from the norm, progress is not possible.
