@@ -1,59 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF0E1ABCD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 13:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE661AEFE7;
+	Thu,  4 Jul 2024 14:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720100591; cv=none; b=ec4vzwbmSBsQmw7XN3h6I4WUl9g8z0Gz7udFK0Sv3GVt5nL6SotskPl//cjZt0rUNys4veyqnPkRIio2vTVPcMWtnU5KXQ+YH46jih3vpheUVV3yHeWBI5AMC2NK6TZHbPEZ9tdvyOATl0Mr8BR8Eqex40S+KgrBcw5qMi0M53s=
+	t=1720102641; cv=none; b=ag8JXqF3PgzZ0phbU21W1Fgip+Noj6fH5SYe4FncAcCkfDL0ZrIXAP70RI/hd/LCJnV9NnuepHv2+zDovNDVj4FeVGBVKLxRzxUAtVp5D/2WouOGUDJoR6l18nYuM0bj766S/OVUpjH+ZKg2z/CkEvhnSkOTKkFGSUZrc7vl/Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720100591; c=relaxed/simple;
-	bh=L428f3W1Vf7roKBQKdLEyAvdXvNOaTPKegVgEkbocok=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WFh6yvtZVU1Bpa9bwMLU02mGfwVlosUMNtl0vfqf+TEl5WibqHo8UGC3i7+vbYDZAochP58y1ibVEA91chdZvmeEGSdDu928arSxNoMiG77DGeh2CwEw1JZI2PF9p4sSP3ItMjFbkURyngJTLugmtGQzWfaLzW3sr99bwa9Xsuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJ8ibo6y; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720102641; c=relaxed/simple;
+	bh=NTEkeVWFX9WMfFqfduEV0Oz357OTuGc2THuDt0lLwiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmFbgWg+HjZ0cej05oSQGuUnGBRjJjombZrYf1Hl+rzuun7CAcUmtq30q1/HJVmrUV1YKqdzH6EOJpMlH2FF3k+NMNNMLWfFX1sTZV7Sf1Xg1XnnXOVTONYU+cg0REXwHnQmkJwMjjr9mbfGDl0WTueBj79DJEv84AAY5fpV6AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mipZ7g1m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJ8ibo6y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720100590; x=1751636590;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L428f3W1Vf7roKBQKdLEyAvdXvNOaTPKegVgEkbocok=;
-  b=UJ8ibo6ycTskIw3GKGqhS0DbsfvF0rKVRzHsl3Xb5SqDO5l8XEQy0Ulm
-   bpxub4O066xFuidvqv4qCHRl7iGbhDvaYw2D3u5p/iz62W3pZXD3r8Css
-   z6AWQK754mioFQoHFa6ZOPH2VpcahwWyIdRNSt84t3Ads6F438smdmenM
-   yecObDSNG4lPV91lSBVun22iDqRfhhuhLeUrvXTVn7z62AKRDvDy78d6R
-   CRrV4PvEZpUhlHRkZgPP70bTGCQSjVOyS2S27qNWz2oqYkaSFc4Au8LZl
-   9QX4/5qxWWEjDsr7nEXFyXF9W9csWHhghpPz0N9BILPBqoqv98XfbCYDH
-   Q==;
-X-CSE-ConnectionGUID: b0bKoB5HRvWD4VRJ3wwJ9g==
-X-CSE-MsgGUID: tJ6EvLW3R86ccXbFwYU1lw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17217076"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17217076"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 06:43:10 -0700
-X-CSE-ConnectionGUID: oJ6v0KdsSTamD4B0l9oXIw==
-X-CSE-MsgGUID: Iu+q3anmQzG7ao1znTb97g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="77734769"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Jul 2024 06:43:08 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPMjq-000R2o-1v;
-	Thu, 04 Jul 2024 13:43:06 +0000
-Date: Thu, 4 Jul 2024 21:42:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 41/53]
- drivers/iommu/generic_pt/pt_alloc.c:56:49: error: 'NR_IOMMU_PAGES'
- undeclared
-Message-ID: <202407042112.wOzaDz4T-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mipZ7g1m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD826C3277B;
+	Thu,  4 Jul 2024 14:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720102641;
+	bh=NTEkeVWFX9WMfFqfduEV0Oz357OTuGc2THuDt0lLwiw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mipZ7g1mOE4nImWzjY6Jzs0DNKVjtia5LK8idfImTPMbRGI3rwJJb8f6mRL3/8svP
+	 NjMTS8AZ0AjD+LVPgOQsIGNNzfJd8KjJ1/MuYwRdm0QIvglkLQv0NDEAgWBpEVcGCy
+	 kvTtc46rpRFY0aFyb6JS4QSx3x7+0dsxcuZVoM0d3EbhSK4JmYceZNOdQmg9HOj9SR
+	 t5O1pDeVrafIM47fE9GG4UaKctcUZhl4aI+alsLW+au9fon1fqIkyTV6vYhWNGvp5G
+	 FGKoYwTqG61HiBswwwSBb21f1D9lEk75Yyz0OTyEd2Nt542d+yH1eWKVoeN1Avk2QC
+	 L2mTVCGeNEZKQ==
+Date: Thu, 4 Jul 2024 23:17:19 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Philip Li <philip.li@intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	kernel test robot <lkp@intel.com>, Abel Vesa <abel.vesa@linaro.org>,
+	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [pci:dt-bindings 10/11]
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29327360,
+ 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,
+ 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
+Message-ID: <20240704141719.GA1215610@rocinante>
+References: <202407041154.pTMBERxA-lkp@intel.com>
+ <20240704072006.GA2768618@rocinante>
+ <bd96c9e5-9342-41b8-aa14-2db4828e37f3@kernel.org>
+ <20240704073908.GA2877677@rocinante>
+ <ZoZjKN1N8QfRYn7n@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +52,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZoZjKN1N8QfRYn7n@rli9-mobl>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   2bf23486e7eae67485953abf3529ad2d3a90384b
-commit: 12980891d978237b73dacbbb96a3ca45f6eda6d2 [41/53] genpt: Add an allocator for page table levels
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240704/202407042112.wOzaDz4T-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407042112.wOzaDz4T-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407042112.wOzaDz4T-lkp@intel.com/
+> > > > I removed this patch from the dt-bindings branch for the time being.
 
-All errors (new ones prefixed by >>):
+I will add this patch back to the branch.
 
-   drivers/iommu/generic_pt/pt_alloc.c: In function 'pt_radix_alloc':
->> drivers/iommu/generic_pt/pt_alloc.c:56:49: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
-      56 |         mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-         |                                                 ^~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/pt_alloc.c:56:49: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/generic_pt/pt_alloc.c: In function 'pt_radix_free_list':
-   drivers/iommu/generic_pt/pt_alloc.c:72:57: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
-      72 |                 mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, -pgcnt);
-         |                                                         ^~~~~~~~~~~~~~
+> > > These reports are useless. I suggest ignore all of them...
+> > 
+> > I see.  Just a lot of noise then...
+> 
+> Sorry about this, we will skip these reports in future as discussed in [1]
+> to avoid false positive.
+> 
+> [1] https://lore.kernel.org/oe-kbuild-all/ZoZhvjDsHSHtvpP3@rli9-mobl/
 
+No worries.  Thank you for taking care of this!  Much appreciated.
 
-vim +/NR_IOMMU_PAGES +56 drivers/iommu/generic_pt/pt_alloc.c
-
-    28	
-    29	void *pt_radix_alloc(struct pt_common *owner, int nid, size_t log2size,
-    30			     gfp_t gfp)
-    31	{
-    32		struct pt_radix_meta *meta;
-    33		unsigned int order = log2size - PAGE_SHIFT;
-    34		struct folio *folio;
-    35	
-    36		/*
-    37		 * FIXME we need to support sub page size tables, eg to allow a 4K table
-    38		 * on a 64K kernel. This should be done by allocating extra memory
-    39		 * per page and placing the pointer in the meta. The extra memory can
-    40		 * contain the additional list heads and rcu's required.
-    41		 */
-    42		if (log2size < PAGE_SHIFT)
-    43			order = 0;
-    44	
-    45		nid = NUMA_NO_NODE; // FIXME
-    46		folio = (struct folio *)alloc_pages_node(
-    47			nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-    48		if (!folio)
-    49			return ERR_PTR(-ENOMEM);
-    50	
-    51		meta = folio_to_meta(folio);
-    52		meta->owner = owner;
-    53		meta->free_next = NULL;
-    54		meta->log2size = log2size;
-    55	
-  > 56		mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-    57		lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, 1UL << order);
-    58	
-    59		return folio_address(folio);
-    60	}
-    61	EXPORT_SYMBOL_NS_GPL(pt_radix_alloc, GENERIC_PT);
-    62	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
