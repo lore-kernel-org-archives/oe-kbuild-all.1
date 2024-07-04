@@ -1,71 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D8101C4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 02:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282CF171A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 02:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720061186; cv=none; b=tTqNsF5Ur5xk3IJVmJHxsNONSY3TbrSCfB+NBjr8+j0ZD0W0ZG6FUppRyChfB3aZHxduBpEA0iGQtaZxR7LhGGONGxKOcn05vrzpecAPG7XazrYvjtXpj1/M4zpN2kSLbulHdioh5gKCWaXfxUJgY3MLocilTG8h30nMf+z8baA=
+	t=1720061861; cv=none; b=qERyjVIlF0nN9yrF8J1QHwziHTNUmj1OGDxGOkUKAtbQb+hqj7Vud3RPv9NB3ltZyUMT6RDVArQnGEuLsnYZcb7O2LBhpr2w+AKU0TWraUVfsntQVeSHJzG2Eu90thEGS7MnHF7nGQjfoP5sFHNqttwuYBFRO1/X2S/iZlX8g0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720061186; c=relaxed/simple;
-	bh=t8qE3We53Na00zt5abu3IlQE7nzPjYeoyhAYo9iwov0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rUBaJwh+HFSbPIiF0p8qQ0x5jPFIztzHu9VK+mK375Yv7VSoc90j/BIhhiB5PLIY1y3OzTAYi0oChB2W8shAIKax9auYFi4jHJfw1ywluhaI2oXjO9D1vTwgLUjN5wZ6C642uTp+esiWrgBuQDUrXL1bZ/BoHaOHRnH92sXnZIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6H6387p; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1720061861; c=relaxed/simple;
+	bh=W/KC+KhzpkfKDEdTW3mOu7A5LDn3BsJbEs51/OJkyvY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PNWyBIlHbKnwscgJYabpeJnoz31aBYJHOG/A4UH+EcGig2duCp6YpWjoqx0cxdcKTWQ2t7jYJK4L6nT4wfdeCvRM7ZT4Rv3dvLSEzmDSUCLDxUPmE4wnMC5J8SfUqaxEoR7zLUdsT88SPHNki+s9bzhcG4rJ0Qu4Zh6DLom7b28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MJryIJBk; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6H6387p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MJryIJBk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720061185; x=1751597185;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t8qE3We53Na00zt5abu3IlQE7nzPjYeoyhAYo9iwov0=;
-  b=G6H6387pEM42lJSii35XR7dQGyHFMqywD4vMsl+wQR55UXt59XxlBboo
-   zlTE9hmqtt9dUYB/nEvvQiauPTs2YVO85NOguR0ZpuwrrXKGfZ7Pqu88Z
-   6FUZ1nVdh+FtrmOJPKe6ruWBokJYcecxDniXq3+WBpQz8wNn3/WNrTauc
-   Z9+RRSnc+3whTWLUMWAFr7yj7C/3rvFg+4ADWWhK2+ucvsv+IVTQt4ImQ
-   6B4axH9OI3iZVgAzrWPfqgS2+JfDi3F6cO3EyGXh2Sjqd1d7RJQTNflcP
-   SqFYeZsIEhnBcaMnpgPQWc52IxXYT2q9CZB8GEnUKB3IoRR1s+EI++4JK
-   A==;
-X-CSE-ConnectionGUID: PaZRILaJRwGyvFYD+v4eyA==
-X-CSE-MsgGUID: vY+Ow/kASrGk19b+06/7ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="16973329"
+  t=1720061860; x=1751597860;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W/KC+KhzpkfKDEdTW3mOu7A5LDn3BsJbEs51/OJkyvY=;
+  b=MJryIJBkw+qaq4Nm+PgpvC+RMrUzgLAmJ0llLOvkmnahxYPE9ARJ/AH8
+   Op7eUZpnqyFcLIt4dm/ZT/ES3Jr0n+dwydJ2gbC17SaD2pdNj8GEmFiHC
+   AhBUavacTrnolw7Ve92gIjxTIzSkPc5lrZC5RcgHjVOcPGzbzy1fyUyxB
+   p4dRJ9b1Vv0XEhwWEgV75QptqMDEA3dF239Z6qLa0IGN1oT6ZhC8BlgXd
+   yF+4YY/1km0+NTxdyVFHsp/4BVmR2lChRMv2RtydDHfFHIuqocSf4jEXy
+   AQ7OfqbaNXVcUL9tYeFZkt5bBFK2FyFd2XqOIrRVi9X0B1iHDBsDWbEDs
+   g==;
+X-CSE-ConnectionGUID: ipVbtqYFTNqSpviWXFLyyA==
+X-CSE-MsgGUID: BGQVT6IAQIiaWK6pDOXAtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="16974030"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="16973329"
+   d="scan'208";a="16974030"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 19:46:24 -0700
-X-CSE-ConnectionGUID: Gde1qrjUQNK5XjNOTOZTeg==
-X-CSE-MsgGUID: setmmUkuTcWqN3a6OUy9bA==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 19:57:40 -0700
+X-CSE-ConnectionGUID: Z6S1+6RVSkSwTGNkwtv4tA==
+X-CSE-MsgGUID: WAJDVA6UTSi4gcct2E9ArQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="69650378"
+   d="scan'208";a="69653801"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jul 2024 19:46:21 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Jul 2024 19:57:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPCUE-000QSY-0D;
-	Thu, 04 Jul 2024 02:46:18 +0000
-Date: Thu, 4 Jul 2024 10:44:58 +0800
+	id 1sPCfA-000QTC-2c;
+	Thu, 04 Jul 2024 02:57:36 +0000
+Date: Thu, 4 Jul 2024 10:57:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Sudeep Holla <sudeep.holla@arm.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Robert Moore <robert.moore@intel.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Len Brown <lenb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH v4 1/3] mctp pcc: Check before sending MCTP PCC response
- ACK
-Message-ID: <202407041052.926ISbwR-lkp@intel.com>
-References: <20240702225845.322234-2-admiyo@os.amperecomputing.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:auth-null 6/7] drivers/char/tpm/tpm2-sessions.c:86:12:
+ warning: 'tpm2_create_primary' declared 'static' but never defined
+Message-ID: <202407041054.2eSgWco7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,74 +61,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240702225845.322234-2-admiyo@os.amperecomputing.com>
 
-Hi,
+Hi Jarkko,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.10-rc6 next-20240703]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20240703-163558
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240702225845.322234-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH v4 1/3] mctp pcc: Check before sending MCTP PCC response ACK
-config: i386-buildonly-randconfig-004-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041052.926ISbwR-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041052.926ISbwR-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git auth-null
+head:   864a82f7fbae0628e13654024490290adb4f4540
+commit: 504dfb31a7e7566d4a7dca9bbfd3d2d04ba14eb6 [6/7] tpm: Address !chip->auth in tpm_buf_append_name()
+config: x86_64-buildonly-randconfig-004-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041054.2eSgWco7-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041054.2eSgWco7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041052.926ISbwR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041054.2eSgWco7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mailbox/pcc.c:115: warning: Function parameter or struct member 'shmem_base_addr' not described in 'pcc_chan_info'
+>> drivers/char/tpm/tpm2-sessions.c:86:12: warning: 'tpm2_create_primary' declared 'static' but never defined [-Wunused-function]
+      86 | static int tpm2_create_primary(struct tpm_chip *chip, u32 hierarchy,
+         |            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +115 drivers/mailbox/pcc.c
+vim +86 drivers/char/tpm/tpm2-sessions.c
 
-800cda7b63f22b Sudeep Holla 2021-09-17   82  
-80b2bdde002c52 Sudeep Holla 2021-09-17   83  /**
-80b2bdde002c52 Sudeep Holla 2021-09-17   84   * struct pcc_chan_info - PCC channel specific information
-80b2bdde002c52 Sudeep Holla 2021-09-17   85   *
-0f2591e21b2e85 Sudeep Holla 2021-09-17   86   * @chan: PCC channel information with Shared Memory Region info
-bf18123e78f4d1 Sudeep Holla 2021-09-17   87   * @db: PCC register bundle for the doorbell register
-bf18123e78f4d1 Sudeep Holla 2021-09-17   88   * @plat_irq_ack: PCC register bundle for the platform interrupt acknowledge
-bf18123e78f4d1 Sudeep Holla 2021-09-17   89   *	register
-c45ded7e11352d Sudeep Holla 2021-09-17   90   * @cmd_complete: PCC register bundle for the command complete check register
-c45ded7e11352d Sudeep Holla 2021-09-17   91   * @cmd_update: PCC register bundle for the command complete update register
-c45ded7e11352d Sudeep Holla 2021-09-17   92   * @error: PCC register bundle for the error status register
-f92ae90e52bb09 Sudeep Holla 2021-09-17   93   * @plat_irq: platform interrupt
-60c40b06fa6869 Huisong Li   2023-08-01   94   * @type: PCC subspace type
-3db174e478cb0b Huisong Li   2023-08-01   95   * @plat_irq_flags: platform interrupt flags
-3db174e478cb0b Huisong Li   2023-08-01   96   * @chan_in_use: this flag is used just to check if the interrupt needs
-3db174e478cb0b Huisong Li   2023-08-01   97   *		handling when it is shared. Since only one transfer can occur
-3db174e478cb0b Huisong Li   2023-08-01   98   *		at a time and mailbox takes care of locking, this flag can be
-3db174e478cb0b Huisong Li   2023-08-01   99   *		accessed without a lock. Note: the type only support the
-3db174e478cb0b Huisong Li   2023-08-01  100   *		communication from OSPM to Platform, like type3, use it, and
-3db174e478cb0b Huisong Li   2023-08-01  101   *		other types completely ignore it.
-80b2bdde002c52 Sudeep Holla 2021-09-17  102   */
-80b2bdde002c52 Sudeep Holla 2021-09-17  103  struct pcc_chan_info {
-0f2591e21b2e85 Sudeep Holla 2021-09-17  104  	struct pcc_mbox_chan chan;
-bf18123e78f4d1 Sudeep Holla 2021-09-17  105  	struct pcc_chan_reg db;
-bf18123e78f4d1 Sudeep Holla 2021-09-17  106  	struct pcc_chan_reg plat_irq_ack;
-c45ded7e11352d Sudeep Holla 2021-09-17  107  	struct pcc_chan_reg cmd_complete;
-c45ded7e11352d Sudeep Holla 2021-09-17  108  	struct pcc_chan_reg cmd_update;
-c45ded7e11352d Sudeep Holla 2021-09-17  109  	struct pcc_chan_reg error;
-ddd70a454be0e5 Adam Young   2024-07-02  110  	void __iomem *shmem_base_addr;
-f92ae90e52bb09 Sudeep Holla 2021-09-17  111  	int plat_irq;
-60c40b06fa6869 Huisong Li   2023-08-01  112  	u8 type;
-3db174e478cb0b Huisong Li   2023-08-01  113  	unsigned int plat_irq_flags;
-3db174e478cb0b Huisong Li   2023-08-01  114  	bool chan_in_use;
-80b2bdde002c52 Sudeep Holla 2021-09-17 @115  };
-80b2bdde002c52 Sudeep Holla 2021-09-17  116  
+f09fc6cee0dcfc Jarkko Sakkinen 2024-05-28  85  
+eb24c9788cd90d James Bottomley 2024-04-29 @86  static int tpm2_create_primary(struct tpm_chip *chip, u32 hierarchy,
+eb24c9788cd90d James Bottomley 2024-04-29  87  			       u32 *handle, u8 *name);
+eb24c9788cd90d James Bottomley 2024-04-29  88  
+
+:::::: The code at line 86 was first introduced by commit
+:::::: eb24c9788cd90db397b3e41322aff4a5557623b4 tpm: disable the TPM if NULL name changes
+
+:::::: TO: James Bottomley <James.Bottomley@HansenPartnership.com>
+:::::: CC: Jarkko Sakkinen <jarkko@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
