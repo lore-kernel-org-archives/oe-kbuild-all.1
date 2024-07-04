@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5B6171A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 03:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779D22F26
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 04:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720065080; cv=none; b=Ik8xzsCYRSI/lJFzlDNPBRiErR7Wtma2JCa7GzcRjoGUxkfGJxRVMqPIUd8/KC7VNIdPb74cAyOreu4RBjA14Xj2rlVlrGeGmQh5eTDGraDti8FHvqfoFhxD3WE4H1kO4h5nLn3LgpXJPQXLYJ1anxAJbZCfD5vGAozmj5fCAvI=
+	t=1720065934; cv=none; b=EkIEIEaanor/MhhoTA9HZ7cs5OBnIKg6mW8d5TSR2UndOFjBvOy4gyXBjsu+klRT8hRUB0My06DOm/uoVE3CEBUqy93rFjiousbYRQs3SY7JDQNTKDEJTTYODUdar9OMS1/3809MaSry7od37xXX1/c9tMLjtRsAOYpWa3z1lgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720065080; c=relaxed/simple;
-	bh=aHPJDKtwcn3tykeDTM6Fa7/HnplsO9w6CYb/PRGykSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B0Vu2LsnCcdmNxQONneGpPcscUEwwNAok6dY6sthEhNaH9wRBCiavox1sWiu+ZBC3EQNzJhIudqCp2DbUHcYNZ4E5ij69sSLRGM5W+XmlkiqVxzGct82NnTorEKVSNorZWf8eUr8c8T0Y10FW6R5sc8Qg+XdT28Vy+EPNml4ScA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqBAyOG8; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1720065934; c=relaxed/simple;
+	bh=Kxs4RqdJJEymlu7ouyJIQeVHpA2tkjhaXpeX3t+PKT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lS0uejVXCjeBY31iEZikdbevC5M18LrWw/9fevhPkOErN9kaYtBJvRZeeL6SPvLYDPNIdXK7mgy4iRPEqzCMegTaNHn5i/BKqvNpZRpgdDJCLQRYThvBIwxyXbtj8Jh1ugyXFoHjIqY3gNb3ltcwJiuY8AHn4a0k+vT0U1UFkwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0PlXAs0; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqBAyOG8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0PlXAs0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720065078; x=1751601078;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aHPJDKtwcn3tykeDTM6Fa7/HnplsO9w6CYb/PRGykSM=;
-  b=hqBAyOG8+4+sS8Oh3A43ev1g2wFxkKN0YynUcK6uUEnCM/StdjdEeJty
-   B4BznEN0hCAnLxmxkSwpgEn8Pkw7SeoT/ZEiO03prTOK/IKXYbKLW5SqA
-   iGWvW0h4NQaa5Z8EMsw4+9usTOnMeI6NL8icBqG3hJnsvfXz0OlprMdk4
-   HSKADfcjMItAbMt3r3ycCWwuKEeBLfCpMv2QTanCu5OPQyVKt6p1+ju9i
-   pm2XIgsoLSaTcAHEpqcJkTUDQ41GhL47JOnJe8GFgwHkzQDOlojqRgUrq
-   hEqEB1JwW3+fRI2ClJlI/5ACl5Tl7l/6SXXtL6ihwf2fffgEEuML09i+F
-   w==;
-X-CSE-ConnectionGUID: /QcSO7zBSHmp6A14twyymQ==
-X-CSE-MsgGUID: /1nsEgNBSb+VrVRk1deH2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27939978"
+  t=1720065932; x=1751601932;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Kxs4RqdJJEymlu7ouyJIQeVHpA2tkjhaXpeX3t+PKT4=;
+  b=Q0PlXAs0Pm0VzMkRnhgN4MTpndY7Sc6G8LrYH/n6DZpEgLbJymp8IRgv
+   u8I4VZhiUHDEhp3r17uVky4iEVDoig2izquGrPlfU6z8z68dg3AHK8yUK
+   qsaW+nNUeKU6840g5NWxK72yur5BnzIC8dxXHAggcJk//JSc9lL1MhT+l
+   oQbHRsbGUpbmfwz34LDNjmXCQbAddnrHMnt4wCSrhzy38DCZEDsyjuCT2
+   bCdsm4+JWOZ7kaiEiuxZU5KfZR4J+lID8wo+REZPp0cc55sOEDQ5rlRGI
+   7FtLcyxKTMpHO1Mpmuv363kUCFWlbPdY8VmX4x7FhO+QwkLWgcmWM2eyC
+   Q==;
+X-CSE-ConnectionGUID: FZt8pmdDRhmkDUNMP+Jsww==
+X-CSE-MsgGUID: 9yYY665KRMSvVfxNsQjA+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="28716086"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="27939978"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 20:51:18 -0700
-X-CSE-ConnectionGUID: UKW19AJZS/6es3D7fMz2ZQ==
-X-CSE-MsgGUID: HAdPUATJSGygV7ygZiV1iA==
+   d="scan'208";a="28716086"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 21:05:32 -0700
+X-CSE-ConnectionGUID: LhBOO622RV2XMHWjbxqOOw==
+X-CSE-MsgGUID: jLKfCE7UTgyuGC3pqrIx6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51417529"
+   d="scan'208";a="77199993"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2024 20:51:17 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Jul 2024 21:05:31 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPDV4-000QWI-1m;
-	Thu, 04 Jul 2024 03:51:14 +0000
-Date: Thu, 4 Jul 2024 11:50:40 +0800
+	id 1sPDiq-000QXJ-1y;
+	Thu, 04 Jul 2024 04:05:28 +0000
+Date: Thu, 4 Jul 2024 12:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
+To: Eric Sandeen <sandeen@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:dev 31/49] include/linux/llist.h:248:undefined reference
- to `csd_lock_is_stuck'
-Message-ID: <202407041118.erfQIPG6-lkp@intel.com>
+Subject: Re: [PATCH 2/2] fuse: Convert to new uid/gid option parsing helpers
+Message-ID: <202407041403.RjnfZJDJ-lkp@intel.com>
+References: <4e1a4efa-4ca5-4358-acee-40efd07c3c44@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,46 +62,251 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4e1a4efa-4ca5-4358-acee-40efd07c3c44@redhat.com>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   98800981bc4f02066887d7f0bd41cb7070fbcc94
-commit: c19a6725b01918d24073ac60c4f08d49723c8e8f [31/49] rcu: Extract synchronize_rcu_expedited_stall() from synchronize_rcu_expedited_wait()
-config: riscv-randconfig-r123-20240131 (https://download.01.org/0day-ci/archive/20240704/202407041118.erfQIPG6-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041118.erfQIPG6-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on linus/master v6.10-rc6 next-20240703]
+[cannot apply to brauner-vfs/vfs.all]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Sandeen/fuse-verify-g-u-id-mount-options-correctly/20240703-162239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/4e1a4efa-4ca5-4358-acee-40efd07c3c44%40redhat.com
+patch subject: [PATCH 2/2] fuse: Convert to new uid/gid option parsing helpers
+config: i386-randconfig-053-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041403.RjnfZJDJ-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041403.RjnfZJDJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041118.erfQIPG6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041403.RjnfZJDJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   riscv64-linux-ld: kernel/rcu/tree.o: in function `llist_add':
->> include/linux/llist.h:248:(.text+0x9398): undefined reference to `csd_lock_is_stuck'
+   include/linux/fs_parser.h:120:70: warning: excess elements in scalar initializer
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                                                         ^
+   include/linux/fs_parser.h:112:12: note: in definition of macro '__fsparam'
+      .flags = FLAGS, \
+               ^~~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   include/linux/fs_parser.h:120:70: note: (near initialization for 'fuse_fs_parameters[3].data')
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                                                         ^
+   include/linux/fs_parser.h:112:12: note: in definition of macro '__fsparam'
+      .flags = FLAGS, \
+               ^~~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   include/linux/fs_parser.h:113:3: error: field name not in record or union initializer
+      .data = DATA \
+      ^
+   include/linux/fs_parser.h:120:32: note: in expansion of macro '__fsparam'
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                   ^~~~~~~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   include/linux/fs_parser.h:113:3: note: (near initialization for 'fuse_fs_parameters[3].data')
+      .data = DATA \
+      ^
+   include/linux/fs_parser.h:120:32: note: in expansion of macro '__fsparam'
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                   ^~~~~~~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   include/linux/stddef.h:8:14: warning: excess elements in scalar initializer
+    #define NULL ((void *)0)
+                 ^
+   include/linux/fs_parser.h:113:11: note: in definition of macro '__fsparam'
+      .data = DATA \
+              ^~~~
+   include/linux/fs_parser.h:120:73: note: in expansion of macro 'NULL'
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                                                            ^~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   include/linux/stddef.h:8:14: note: (near initialization for 'fuse_fs_parameters[3].data')
+    #define NULL ((void *)0)
+                 ^
+   include/linux/fs_parser.h:113:11: note: in definition of macro '__fsparam'
+      .data = DATA \
+              ^~~~
+   include/linux/fs_parser.h:120:73: note: in expansion of macro 'NULL'
+    #define fsparam_u32(NAME, OPT) __fsparam(fs_param_is_u32, NAME, OPT, 0, NULL)
+                                                                            ^~~~
+   fs/fuse/inode.c:747:2: note: in expansion of macro 'fsparam_u32'
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+     ^~~~~~~~~~~
+   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
+    static const struct fs_parameter_spec fuse_fs_parameters[] = {
+                                                                 ^
+   fs/fuse/inode.c:743:2:
+     fsparam_uid ("user_id",  OPT_USER_ID),
+     {
+   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
+    static const struct fs_parameter_spec fuse_fs_parameters[] = {
+                                                                 ^
+   fs/fuse/inode.c:743:2:
+     fsparam_uid ("user_id",  OPT_USER_ID),
+     {
+   fs/fuse/inode.c:747:41:
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+                                            }
+   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
+    static const struct fs_parameter_spec fuse_fs_parameters[] = {
+                                                                 ^
+   fs/fuse/inode.c:743:2:
+     fsparam_uid ("user_id",  OPT_USER_ID),
+     {
+   fs/fuse/inode.c:747:41:
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+                                            }
+   fs/fuse/inode.c:739:62: warning: missing braces around initializer [-Wmissing-braces]
+    static const struct fs_parameter_spec fuse_fs_parameters[] = {
+                                                                 ^
+   fs/fuse/inode.c:743:2:
+     fsparam_uid ("user_id",  OPT_USER_ID),
+     {
+   fs/fuse/inode.c:747:41:
+     fsparam_u32 ("max_read",  OPT_MAX_READ),
+                                            }
+   fs/fuse/inode.c: In function 'fuse_parse_param':
+   fs/fuse/inode.c:804:16: error: 'struct fs_parse_result' has no member named 'uid'
+      kuid = result.uid;
+                   ^
+   fs/fuse/inode.c:804:8: error: incompatible types when assigning to type 'kuid_t' {aka 'struct <anonymous>'} from type 'const struct fs_parameter_spec *'
+      kuid = result.uid;
+           ^
+>> fs/fuse/inode.c:804:3: warning: statement with no effect [-Wunused-value]
+      kuid = result.uid;
+      ^~~~
+   fs/fuse/inode.c:816:16: error: 'struct fs_parse_result' has no member named 'gid'
+      kgid = result.gid;
+                   ^
+   fs/fuse/inode.c:816:8: error: incompatible types when assigning to type 'kgid_t' {aka 'struct <anonymous>'} from type 'const struct fs_parameter_spec *'
+      kgid = result.gid;
+           ^
+   fs/fuse/inode.c:816:3: warning: statement with no effect [-Wunused-value]
+      kgid = result.gid;
+      ^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +248 include/linux/llist.h
+vim +804 fs/fuse/inode.c
 
-476c5818c37a78 Peter Zijlstra 2020-08-29  238  
-1230db8e1543c0 Huang Ying     2011-09-08  239  /**
-1230db8e1543c0 Huang Ying     2011-09-08  240   * llist_add - add a new entry
-1230db8e1543c0 Huang Ying     2011-09-08  241   * @new:	new entry to be added
-1230db8e1543c0 Huang Ying     2011-09-08  242   * @head:	the head for your lock-less list
-781f7fd916fc77 Huang Ying     2011-09-08  243   *
-fc23af34b00ef4 Andrew Morton  2011-10-31  244   * Returns true if the list was empty prior to adding this entry.
-1230db8e1543c0 Huang Ying     2011-09-08  245   */
-781f7fd916fc77 Huang Ying     2011-09-08  246  static inline bool llist_add(struct llist_node *new, struct llist_head *head)
-1230db8e1543c0 Huang Ying     2011-09-08  247  {
-e9a17bd73a29e5 Oleg Nesterov  2013-07-08 @248  	return llist_add_batch(new, new, head);
-1230db8e1543c0 Huang Ying     2011-09-08  249  }
-1230db8e1543c0 Huang Ying     2011-09-08  250  
-
-:::::: The code at line 248 was first introduced by commit
-:::::: e9a17bd73a29e5323c37ec5ffe50fc0e825d3d03 llist: llist_add() can use llist_add_batch()
-
-:::::: TO: Oleg Nesterov <oleg@redhat.com>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+   752	
+   753	static int fuse_parse_param(struct fs_context *fsc, struct fs_parameter *param)
+   754	{
+   755		struct fs_parse_result result;
+   756		struct fuse_fs_context *ctx = fsc->fs_private;
+   757		int opt;
+   758		kuid_t kuid;
+   759		kgid_t kgid;
+   760	
+   761		if (fsc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
+   762			/*
+   763			 * Ignore options coming from mount(MS_REMOUNT) for backward
+   764			 * compatibility.
+   765			 */
+   766			if (fsc->oldapi)
+   767				return 0;
+   768	
+   769			return invalfc(fsc, "No changes allowed in reconfigure");
+   770		}
+   771	
+   772		opt = fs_parse(fsc, fuse_fs_parameters, param, &result);
+   773		if (opt < 0)
+   774			return opt;
+   775	
+   776		switch (opt) {
+   777		case OPT_SOURCE:
+   778			if (fsc->source)
+   779				return invalfc(fsc, "Multiple sources specified");
+   780			fsc->source = param->string;
+   781			param->string = NULL;
+   782			break;
+   783	
+   784		case OPT_SUBTYPE:
+   785			if (ctx->subtype)
+   786				return invalfc(fsc, "Multiple subtypes specified");
+   787			ctx->subtype = param->string;
+   788			param->string = NULL;
+   789			return 0;
+   790	
+   791		case OPT_FD:
+   792			ctx->fd = result.uint_32;
+   793			ctx->fd_present = true;
+   794			break;
+   795	
+   796		case OPT_ROOTMODE:
+   797			if (!fuse_valid_type(result.uint_32))
+   798				return invalfc(fsc, "Invalid rootmode");
+   799			ctx->rootmode = result.uint_32;
+   800			ctx->rootmode_present = true;
+   801			break;
+   802	
+   803		case OPT_USER_ID:
+ > 804			kuid = result.uid;
+   805			/*
+   806			 * The requested uid must be representable in the
+   807			 * filesystem's idmapping.
+   808			 */
+   809			if (!kuid_has_mapping(fsc->user_ns, kuid))
+   810				return invalfc(fsc, "Invalid user_id");
+   811			ctx->user_id = kuid;
+   812			ctx->user_id_present = true;
+   813			break;
+   814	
+   815		case OPT_GROUP_ID:
+   816			kgid = result.gid;
+   817			/*
+   818			 * The requested gid must be representable in the
+   819			 * filesystem's idmapping.
+   820			 */
+   821			if (!kgid_has_mapping(fsc->user_ns, kgid))
+   822				return invalfc(fsc, "Invalid group_id");
+   823			ctx->group_id = kgid;
+   824			ctx->group_id_present = true;
+   825			break;
+   826	
+   827		case OPT_DEFAULT_PERMISSIONS:
+   828			ctx->default_permissions = true;
+   829			break;
+   830	
+   831		case OPT_ALLOW_OTHER:
+   832			ctx->allow_other = true;
+   833			break;
+   834	
+   835		case OPT_MAX_READ:
+   836			ctx->max_read = result.uint_32;
+   837			break;
+   838	
+   839		case OPT_BLKSIZE:
+   840			if (!ctx->is_bdev)
+   841				return invalfc(fsc, "blksize only supported for fuseblk");
+   842			ctx->blksize = result.uint_32;
+   843			break;
+   844	
+   845		default:
+   846			return -EINVAL;
+   847		}
+   848	
+   849		return 0;
+   850	}
+   851	
 
 -- 
 0-DAY CI Kernel Test Service
