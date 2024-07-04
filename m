@@ -1,59 +1,34 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A436194C9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 09:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6982813D630
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 10:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720084781; cv=none; b=I+tHElOl4IaoCb90BhHwjn5O62/giK2lZbXwMNcQHAQL+Hzp/c+WVuFMx4CWZuASyY44Q00vUfsUcR6OdMo0Tl77E8kuZD6jVQdiEytkv1IMurcSz0sYlPZgICv/9KDQ+TkSCsNrjOJVIK/PgrpHLmPqtOwg7y/KYjwJ3IBstRY=
+	t=1720088115; cv=none; b=ubxHZO8fixhcQt5sMjTuHY+FqB3I2TPY2L66peESFoRPar2hzf2TUCqtXCfZP0zq7FWHR+fOQCBHmsVjnFBW45VkTbfubWZDC9r37MhNkIdAa4SdWuzoak92tDucWrB2MJPrlVIIHAQFkDzuL80rceh6pcvdSWNjs5fkKxYsovg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720084781; c=relaxed/simple;
-	bh=ViPqzG5t2WrIZh66xXZPiuuhNE2xregO+rhRqqaKZbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=idyl/20kysjRlV/dUa1Fh7hV3YCml4iIjYx5vHZx17ZuBPlPHptZqU4Plj3XZVZDStZnpmf9olZgWHdveBV2E/Gpr6Ka3LU2M1y7Hhkp1LhfEXC32fi+KzWcL0oN2Ews0SzlU2D6bPJ6xIXridLt2fzAACs4d527YGtVZf2hjw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RomRwBHl; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RomRwBHl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720084780; x=1751620780;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ViPqzG5t2WrIZh66xXZPiuuhNE2xregO+rhRqqaKZbY=;
-  b=RomRwBHlwUWvqy7PO/i87TscL2iTEZ5UGhtgz6s8wn8iKy7DLq+4giwh
-   PV1YFNsXjf8y6+gcMY//B/5CdFmewgwBiHbKujAhtisp1d6opELVhO0Yy
-   zo7A1Xqx58kL/fl7xjNuX2NKJ0Kv/kA7KkZY9nwTCGs6SdA4/HrpylRVR
-   BipYd4AYRcSVTCDwmPTAeMqFq3rAQKxDRENF5HkaiA9RdlH1vkXWf8vAi
-   aFr7dFJCxcQaPGXWAA/c4h6JBD+bmiuAWUt6WsO085l9hv88vi7Vur/nd
-   7gLLfnQIVR9lZJ6Gy6bkuHtGcMeEab2d25C2yvE/+CZVc0l4DBmN6EwGp
-   w==;
-X-CSE-ConnectionGUID: uL2DIGFaTSW+P1ackAxEVA==
-X-CSE-MsgGUID: T+Ij8zDwQz+RPlDz4PKu0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="17493975"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17493975"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 02:19:40 -0700
-X-CSE-ConnectionGUID: l11bZ6sbQuag2O7exPy0Tw==
-X-CSE-MsgGUID: PaafoWc3TpC29UYvMK7Rog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51716672"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Jul 2024 02:19:38 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPIcp-000Qny-2d;
-	Thu, 04 Jul 2024 09:19:35 +0000
-Date: Thu, 4 Jul 2024 17:18:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, NeilBrown <neil@brown.name>
-Subject: [snitzer:nfs-localio-for-6.11.v11 21/22] fs/nfs/localio.c:172:26:
- sparse: sparse: symbol 'nfslocalio_version1' was not declared. Should it be
- static?
-Message-ID: <202407041742.lEQps4zV-lkp@intel.com>
+	s=arc-20240116; t=1720088115; c=relaxed/simple;
+	bh=FdJV1tg7evC674xNVCNZVhTLnsYYBHN7RFHgMzZ9qww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAo4rvrW1IwrGRsnEZf3EoMPWGkhgnXVffF38bfp3N/grFdulz2mppoUOYUfXJl9yRZ5YC75m8BY20K2jLsHmHp10gUq6aV4bs4AK0ldYRmA0WJ0jkIL/n1A+CnHsE0ZWCeo11DPEKUmy35ZdqeJ8srW48pOkpqzkI5tOGD6D24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96510C3277B;
+	Thu,  4 Jul 2024 10:15:13 +0000 (UTC)
+Date: Thu, 4 Jul 2024 11:15:11 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [linux-next:master 9019/10049]
+ drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not
+ used
+Message-ID: <ZoZ2LwcSGWRHIUWV@arm.com>
+References: <202407021807.cBuWVBVa-lkp@intel.com>
+ <ZoZiwNbzoFQi5-Vg@arm.com>
+ <86cynt4jem.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +37,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <86cynt4jem.wl-maz@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-6.11.v11
-head:   9f9cc9ee2e9824da9be4973d7111019b07a04613
-commit: 1a48ef6d4bb31130cf6af9708f6d0d76d8a09f69 [21/22] nfs: implement client support for NFS_LOCALIO_PROGRAM
-config: um-randconfig-r122-20240703 (https://download.01.org/0day-ci/archive/20240704/202407041742.lEQps4zV-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041742.lEQps4zV-lkp@intel.com/reproduce)
+On Thu, Jul 04, 2024 at 10:05:05AM +0100, Marc Zyngier wrote:
+> On Thu, 04 Jul 2024 09:52:16 +0100,
+> Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > 
+> > On Tue, Jul 02, 2024 at 06:40:12PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > head:   82e4255305c554b0bb18b7ccf2db86041b4c8b6e
+> > > commit: d633da5d3ab1a0eb26a2213d65da1e189e82f8ab [9019/10049] irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs
+> > > config: arm-randconfig-r034-20220810 (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/config)
+> > > compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407021807.cBuWVBVa-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > > >> drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used [-Wunused-variable]
+> > >       47 | static struct cpumask broken_rdists __read_mostly;
+> > >          |                       ^~~~~~~~~~~~~
+> > > 
+> > > 
+> > > vim +/broken_rdists +47 drivers/irqchip/irq-gic-v3.c
+> > 
+> > This can happen when building on arm32 with SMP disabled. So we either
+> > add a __maybe_unused annotation or we move the variable further down in
+> > the CONFIG_SMP block. Marc, what's your preference?
+> > 
+> > -----------8<----------------------
+> > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > index c29b424d1d0c..6393f3d780e9 100644
+> > --- a/drivers/irqchip/irq-gic-v3.c
+> > +++ b/drivers/irqchip/irq-gic-v3.c
+> > @@ -47,7 +47,7 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> >  
+> >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> >  
+> > -static struct cpumask broken_rdists __read_mostly;
+> > +static struct cpumask broken_rdists __read_mostly __maybe_unused;
+> >  
+> >  struct redist_region {
+> >  	void __iomem		*redist_base;
+> > -----------8<----------------------
+> > 
+> > or,
+> > 
+> > -----------8<----------------------
+> > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > index c29b424d1d0c..187948f41bb3 100644
+> > --- a/drivers/irqchip/irq-gic-v3.c
+> > +++ b/drivers/irqchip/irq-gic-v3.c
+> > @@ -47,8 +47,6 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> >  
+> >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> >  
+> > -static struct cpumask broken_rdists __read_mostly;
+> > -
+> >  struct redist_region {
+> >  	void __iomem		*redist_base;
+> >  	phys_addr_t		phys_base;
+> > @@ -1316,6 +1314,8 @@ static void gic_cpu_init(void)
+> >  
+> >  #ifdef CONFIG_SMP
+> >  
+> > +static struct cpumask broken_rdists __read_mostly;
+> > +
+> >  #define MPIDR_TO_SGI_RS(mpidr)	(MPIDR_RS(mpidr) << ICC_SGI1R_RS_SHIFT)
+> >  #define MPIDR_TO_SGI_CLUSTER_ID(mpidr)	((mpidr) & ~0xFUL)
+> 
+> The second version seems to be the most logical one, since we already
+> have this SMP-only block (note to self: constraint GICv3 support to
+> SMP only at the earliest opportunity).
+> 
+> Feel free to add my
+> 
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> 
+> if you decide to push a fix on top of this branch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041742.lEQps4zV-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> fs/nfs/localio.c:172:26: sparse: sparse: symbol 'nfslocalio_version1' was not declared. Should it be static?
-   fs/nfs/localio.c:508:1: sparse: sparse: context imbalance in 'nfs_copy_boot_verifier' - different lock contexts for basic block
-
-vim +/nfslocalio_version1 +172 fs/nfs/localio.c
-
-   170	
-   171	static unsigned int nfs_localio_counts[ARRAY_SIZE(nfs_localio_procedures)];
- > 172	const struct rpc_version nfslocalio_version1 = {
-   173		.number			= 1,
-   174		.nrprocs		= ARRAY_SIZE(nfs_localio_procedures),
-   175		.procs			= nfs_localio_procedures,
-   176		.counts			= nfs_localio_counts,
-   177	};
-   178	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Catalin
