@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2281A257F;
-	Thu,  4 Jul 2024 07:32:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C91A2544
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 07:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720078327; cv=none; b=X0zek9a4pj+2KIUG5fBPkrIPEuiLHVrL56fmZImnrIe1PWeN9gLV6fZ8ovOBOHLtROYXJoYTx1ybVL9T+ZRKmlJ7Ge+7epZWD1zu15wL7hM06ZpLdgKt2NBsyyvC4mqC++7Ds60ZnpiyLNKk4AGIpDobCAcY+ce7DhTLl7v9AgE=
+	t=1720078472; cv=none; b=aboex28m1U0Cjw2cgODnd1YEbEKuTLday7Q6bnXjH92qzCVlkH+8X7m9Fy5ID4pHoYhuI/nW9dF3aikjb07JdVJK3TvBsj4+xzHwcSSSqfINbWUduAjGIPoJhYkvUES69yQuu6TuanbRkwd2lj7M7gwe11b/VMlcMfXmAfsMod0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720078327; c=relaxed/simple;
-	bh=Ql1Em3h/0KA0urovhORf1G2Q9wT24RdY1/KPfejhN3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IPssEKtVRllSlCpPzWY2YGhB9LLbFMaVbakMbHMbtLy4rw0MPiqPff7huv5b2ga2DXDxkpB8Kfm/NkpRTiXlSQMVCY09Kmm1pBb44kskiRR4mdFXHJYAiQrtvvljJD3d+Fb3QhoXBRdyUPqgtZb+n7WtnuLsz966t4XCT0XLGyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSWQ0XMp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720078472; c=relaxed/simple;
+	bh=YoqqIOrpp7/VH6uhlh/des7QyLHRQFC21cHICZYZUF0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kfxBFkPZ9gj2+NIgboa7tIMUlvsEhhZbDju5pi3qRpQmYpJt3lSqlslkxdhcNBW536aCX8CC3iDOPQJfDuM/KXlZOZB58MX0oStmBb+tSSIXiD5vuZVSelfZjX97Wjd6u9sZx+KqT+gNPRdyv3IPK48rv0uB6sdI4E3CmLc5V8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6ojG39d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSWQ0XMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C5D9C3277B;
-	Thu,  4 Jul 2024 07:32:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6ojG39d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CA3C3277B;
+	Thu,  4 Jul 2024 07:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720078327;
-	bh=Ql1Em3h/0KA0urovhORf1G2Q9wT24RdY1/KPfejhN3U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XSWQ0XMpkbi4j9FXVi6kQN07A+41RHcrlbTwXIhugyGTJvDE+771gGMyoaITVvebR
-	 QKWwqX1kNVshLeUELiAjfPKsY5nXPpea593Zv7lasqZPrQngsgjS9ubjNUYiLYdQ29
-	 IyQC5gO3qtfy+Wxu0MtId+ffFN2lWZlonU4lvamiw470J1gX3s30gx29VnQWQXYmJR
-	 owOQn1+hmuXMSbpuAHdzXk5cbBYIEIEwC57mXqpj6TpFe12uMjlE7a03lVHj/YDh9q
-	 qOU3j74Wgh9hVNmyr2gU9sqFOkSdKWdFe6bgiNWS8GJmTcteUk/imiLQH3kkCCDxS3
-	 Gf/RIawA0Zqww==
-Message-ID: <bd96c9e5-9342-41b8-aa14-2db4828e37f3@kernel.org>
-Date: Thu, 4 Jul 2024 09:32:01 +0200
+	s=k20201202; t=1720078470;
+	bh=YoqqIOrpp7/VH6uhlh/des7QyLHRQFC21cHICZYZUF0=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=S6ojG39ds5+HImbqdUmeAzwmF7bqlpdgRRJOc1wfXrs5Ronn0/YA1JUgAoGqHW0xM
+	 r/4ZI5A5qjW5HZtaH9Q/o2UJjui0/Hx2owBAL77QZ8WSvilwCkU9Ie0o9jzF/cJ8l8
+	 OBX56z+QPW5cxUT3MB6gf0nIzSwkFg6IdFkO9VfPfhf94iV1gDoq56r0UXmY6z9Imf
+	 d6c4hxCKMNhenXbQgiZWPPStgzLGmIwEwqLQR1uGPXoWRhoS82aEJEee6ygK5BRQ0S
+	 zVEJ8NLZwtw8uFo+1aHusfW1CV1GWyZXfMb6dr2uxH0OSu/mGnZ6BFo14zUpfD4MI/
+	 KVAto60Moup3w==
+Message-ID: <d5921989-102d-41bc-9b1a-98f8b39d2ed9@kernel.org>
+Date: Thu, 4 Jul 2024 09:34:24 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,18 +35,20 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [pci:dt-bindings 10/11]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29327360,
- 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0, 1879052288,
- 0, 4096], [0, 1880096768, 0, 1048576]] is too short
-To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- kernel test robot <lkp@intel.com>
-Cc: Abel Vesa <abel.vesa@linaro.org>, oe-kbuild-all@lists.linux.dev,
- linux-pci@vger.kernel.org, "Rob Herring (Arm)" <robh@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-References: <202407041154.pTMBERxA-lkp@intel.com>
- <20240704072006.GA2768618@rocinante>
+Subject: Re: [mediatek:v6.10-next/dts64 44/53]
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /soc/syscon@10006000: failed to
+ match any schema with compatible: ['mediatek,mt8365-scpsys', 'syscon',
+ 'simple-mfd']
 From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh@kernel.org>
+References: <202406151352.R650eixq-lkp@intel.com>
+ <1fcb8eb0-add5-4b0d-8aba-98db7b6677fc@kernel.org>
+ <Zm2M4C0E5rhrK90+@rli9-mobl>
+ <09d83e32-762c-4e49-a581-5af4bcc0872f@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -91,215 +93,69 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240704072006.GA2768618@rocinante>
+In-Reply-To: <09d83e32-762c-4e49-a581-5af4bcc0872f@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On 04/07/2024 09:20, Krzysztof Wilczy=C5=84ski wrote:
-> Hello,
->=20
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git dt=
--bindings
->> head:   a50a3d6870292c08a4e941449ba4ddc8339a2b14
->> commit: 9d02ca5cda560bdce0f349bece5204bdae339f8f [10/11] dt-bindings: =
-PCI: qcom: x1e80100: Make the MHI reg region mandatory
->> config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci=
-/archive/20240704/202407041154.pTMBERxA-lkp@intel.com/config)
->> compiler: aarch64-linux-gcc (GCC) 13.2.0
->> dtschema version: 2024.6.dev3+g650bf2d
->> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
-chive/20240704/202407041154.pTMBERxA-lkp@intel.com/reproduce)
+On 15/06/2024 19:54, Krzysztof Kozlowski wrote:
+> On 15/06/2024 14:45, Philip Li wrote:
+>> On Sat, Jun 15, 2024 at 11:30:48AM +0200, Krzysztof Kozlowski wrote:
+>>> On 15/06/2024 04:59, kernel test robot wrote:
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.10-next/dts64
+>>>> head:   2f950510411a33d98eea28c22d7880eeb48adb61
+>>>> commit: b5ded35667ce9eb330083116e67af1f2f7886102 [44/53] arm64: dts: mediatek: mt8365: use a specific SCPSYS compatible
+>>>> config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/config)
+>>>> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+>>>> dtschema version: 2024.6.dev1+g833054f
+>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151352.R650eixq-lkp@intel.com/
+>>>>
+>>>
+>>> MFD patches are pending.
+>>>
+>>> I have doubts that kernel test robot reports on each, known DTS failure
+>>> are useful.
 >>
->> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202407041154.pTMBERxA-=
-lkp@intel.com/
->>
->> dtcheck warnings: (new ones prefixed by >>)
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fd5000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-phy-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fda000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-phy-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@fdf000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29=
-327360, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,=
- 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
->>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80=
-100.yaml#
->>>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg-names: [=
-'parf', 'dbi', 'elbi', 'atu', 'config'] is too short
->>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80=
-100.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-n=
-ames: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
->>    	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#=
+>> Hi Krzysztof, thanks for the info. Do you mean we can ignore the DTS failure on this v6.10-next/dts64
+>> branch or we need ignore certain patterns of DTS failure (that is caused by pending MFD patches) so
+>> to avoid useless reports?
+> 
+> +Cc Rob and Conor,
+> 
+> I meant, regardless which branch and repo you test, there will be a lot
+> of false positives in DTS checks. The problem is that often patchset
+> consists of DTS, DT bindings and driver changes. The DTS goes separate
+> repo or separate branch than bindings.
+> 
+> If you test them independently, you often get warnings, but these are
+> expected.
+> 
+> What matters it is linux-next, but even there patches can end up with
+> some delays, thus causing warnings.
+> 
+> I don't have a clear solution, but I am afraid that after seeing many
+> false positives people start ignoring all of such reports, regardless
+> whether they are real or not.
+> 
 
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@7: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.=
-yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/s=
-pmi@c432000/pmic@7: failed to match any schema with compatible: ['qcom,sm=
-b2360', 'qcom,spmi-pmic']
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@a: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.=
-yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: /soc@0/arbiter@c400000/s=
-pmi@c432000/pmic@a: failed to match any schema with compatible: ['qcom,sm=
-b2360', 'qcom,spmi-pmic']
->>    arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pmic@b: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->> --
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fd5000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-phy-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fda000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-phy-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@fdf000: 'vdda-pll-su=
-pply' is a required property
->>    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-q=
-mp-usb43dp-phy.yaml#
->>>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg: [[0, 29=
-327360, 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,=
- 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
->>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80=
-100.yaml#
->>>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pci@1bf8000: reg-names: [=
-'parf', 'dbi', 'elbi', 'atu', 'config'] is too short
->>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80=
-100.yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-n=
-ames: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
->>    	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#=
+So now it turns out people actually remove patches based on these
+incorrect reports.
 
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@7: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.=
-yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/s=
-pmi@c432000/pmic@7: failed to match any schema with compatible: ['qcom,sm=
-b2360', 'qcom,spmi-pmic']
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@a: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->>    	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.=
-yaml#
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/arbiter@c400000/s=
-pmi@c432000/pmic@a: failed to match any schema with compatible: ['qcom,sm=
-b2360', 'qcom,spmi-pmic']
->>    arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pmic@b: compatible:0: 'q=
-com,smb2360' is not one of ['qcom,pm2250', 'qcom,pm6125', 'qcom,pm6150', =
-'qcom,pm6150l', 'qcom,pm6350', 'qcom,pm660', 'qcom,pm660l', 'qcom,pm7250b=
-', 'qcom,pm7550ba', 'qcom,pm7325', 'qcom,pm8004', 'qcom,pm8005', 'qcom,pm=
-8009', 'qcom,pm8010', 'qcom,pm8019', 'qcom,pm8028', 'qcom,pm8110', 'qcom,=
-pm8150', 'qcom,pm8150b', 'qcom,pm8150c', 'qcom,pm8150l', 'qcom,pm8226', '=
-qcom,pm8350', 'qcom,pm8350b', 'qcom,pm8350c', 'qcom,pm8450', 'qcom,pm8550=
-', 'qcom,pm8550b', 'qcom,pm8550ve', 'qcom,pm8550vs', 'qcom,pm8841', 'qcom=
-,pm8909', 'qcom,pm8916', 'qcom,pm8937', 'qcom,pm8941', 'qcom,pm8950', 'qc=
-om,pm8953', 'qcom,pm8994', 'qcom,pm8998', 'qcom,pma8084', 'qcom,pmc8180',=
- 'qcom,pmc8180c', 'qcom,pmd9635', 'qcom,pmi632', 'qcom,pmi8950', 'qcom,pm=
-i8962', 'qcom,pmi8994', 'qcom,pmi8998', 'qcom,pmk8002', 'qcom,pmk8350', '=
-qcom,pmk8550', 'qcom,pmm8155au', 'qcom,pmm8654au', 'qcom,pmp8074', 'qcom,=
-pmr735a', 'qcom,pmr735b', 'qcom,pmr735d', 'qcom,pms405', 'qcom,pmx55', 'q=
-com,pmx65', 'qcom,pmx75', 'qcom,smb2351']
->=20
-> I removed this patch from the dt-bindings branch for the time being.
+I am not sure that you understand how DT bindings and DTS work. They are
+applied on different trees, therefore all your emails create huge amount
+of false positives.
 
+I started receiving a lot of emails from you and it's getting time
+consuming to even sort them.
 
-These reports are useless. I suggest ignore all of them...
+These emails confuse other maintainers because it looks like a valid
+warning report, but it is not.
+
+Either improve your system or do not send these emails.
 
 Best regards,
 Krzysztof
