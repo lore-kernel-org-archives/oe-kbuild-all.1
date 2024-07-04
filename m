@@ -1,162 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C91A2544
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 07:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C8214A624;
+	Thu,  4 Jul 2024 07:39:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720078472; cv=none; b=aboex28m1U0Cjw2cgODnd1YEbEKuTLday7Q6bnXjH92qzCVlkH+8X7m9Fy5ID4pHoYhuI/nW9dF3aikjb07JdVJK3TvBsj4+xzHwcSSSqfINbWUduAjGIPoJhYkvUES69yQuu6TuanbRkwd2lj7M7gwe11b/VMlcMfXmAfsMod0=
+	t=1720078750; cv=none; b=coVUKulTDjVAIKULKQInNZRhyZ0kB6LjiiCFSnGChJqMPLbHd+VswN5C9wLP53Ot/SgDr25HKUvOWOMiexM+NtdvR0RMaD2GOtL3S163HpponxWmioPqcdGfbhK8Xh2vS7zNBE6TRmKX3JmZ0I9rqSJAUajedAg7lgQR3H2tLr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720078472; c=relaxed/simple;
-	bh=YoqqIOrpp7/VH6uhlh/des7QyLHRQFC21cHICZYZUF0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kfxBFkPZ9gj2+NIgboa7tIMUlvsEhhZbDju5pi3qRpQmYpJt3lSqlslkxdhcNBW536aCX8CC3iDOPQJfDuM/KXlZOZB58MX0oStmBb+tSSIXiD5vuZVSelfZjX97Wjd6u9sZx+KqT+gNPRdyv3IPK48rv0uB6sdI4E3CmLc5V8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6ojG39d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720078750; c=relaxed/simple;
+	bh=SH1InqgjQCt3Rxrp6YwQLbrSn27Wjwp5zfeISaPz7rc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aFq4+n94DhEndpVp7zb5EzSim31wr5nnXJs2Cc1fAIeXuNf0s90g8vZsJG2YBhMfAFFhTwqcCsakwdl1MxmqMcyLAlztPLDGRySW0Ei93/XX6FS0uLcAGw3aPaPjFi3QcfVrnQrspSNpdXUY3VZSq5NeRPmoEiii96iDO/p6C8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSDh0a8Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6ojG39d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CA3C3277B;
-	Thu,  4 Jul 2024 07:34:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSDh0a8Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB02C3277B;
+	Thu,  4 Jul 2024 07:39:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720078470;
-	bh=YoqqIOrpp7/VH6uhlh/des7QyLHRQFC21cHICZYZUF0=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=S6ojG39ds5+HImbqdUmeAzwmF7bqlpdgRRJOc1wfXrs5Ronn0/YA1JUgAoGqHW0xM
-	 r/4ZI5A5qjW5HZtaH9Q/o2UJjui0/Hx2owBAL77QZ8WSvilwCkU9Ie0o9jzF/cJ8l8
-	 OBX56z+QPW5cxUT3MB6gf0nIzSwkFg6IdFkO9VfPfhf94iV1gDoq56r0UXmY6z9Imf
-	 d6c4hxCKMNhenXbQgiZWPPStgzLGmIwEwqLQR1uGPXoWRhoS82aEJEee6ygK5BRQ0S
-	 zVEJ8NLZwtw8uFo+1aHusfW1CV1GWyZXfMb6dr2uxH0OSu/mGnZ6BFo14zUpfD4MI/
-	 KVAto60Moup3w==
-Message-ID: <d5921989-102d-41bc-9b1a-98f8b39d2ed9@kernel.org>
-Date: Thu, 4 Jul 2024 09:34:24 +0200
+	s=k20201202; t=1720078750;
+	bh=SH1InqgjQCt3Rxrp6YwQLbrSn27Wjwp5zfeISaPz7rc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hSDh0a8Qq/cYWpXvCZaDTMxrEVKQbEWeHygrhrFaIF2QPtiTdgJPlf4Tv+MC0Srul
+	 eE5auaBmYlwlcS4SjDPlYHyLunPNn04LW45KcEzHR+iXn9zIWcHoTgzMxgZIhJfc7T
+	 AEqU6kh7FwZzQgAwcWwoyUmxrkJLNEjduwuM3r6JINVKQsH+18muXJtLVeATOAQBwH
+	 FdkrMFWD/5IDQaV8plL/zdVTQTHgglsP7O7WGaliNPJW0bjKaa0Q0LlvK6dvd7Do2H
+	 7A1xFQZf/Luvjc66ZRG1DCWRQC/4y9sxFHAeFmU71vAYMLuMxxYm1E7Se0N/r2L3LA
+	 kl3KiMMEBfieA==
+Date: Thu, 4 Jul 2024 16:39:08 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Abel Vesa <abel.vesa@linaro.org>,
+	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [pci:dt-bindings 10/11]
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29327360,
+ 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,
+ 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
+Message-ID: <20240704073908.GA2877677@rocinante>
+References: <202407041154.pTMBERxA-lkp@intel.com>
+ <20240704072006.GA2768618@rocinante>
+ <bd96c9e5-9342-41b8-aa14-2db4828e37f3@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [mediatek:v6.10-next/dts64 44/53]
- arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /soc/syscon@10006000: failed to
- match any schema with compatible: ['mediatek,mt8365-scpsys', 'syscon',
- 'simple-mfd']
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Mergnat <amergnat@baylibre.com>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>
-References: <202406151352.R650eixq-lkp@intel.com>
- <1fcb8eb0-add5-4b0d-8aba-98db7b6677fc@kernel.org>
- <Zm2M4C0E5rhrK90+@rli9-mobl>
- <09d83e32-762c-4e49-a581-5af4bcc0872f@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <09d83e32-762c-4e49-a581-5af4bcc0872f@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd96c9e5-9342-41b8-aa14-2db4828e37f3@kernel.org>
 
-On 15/06/2024 19:54, Krzysztof Kozlowski wrote:
-> On 15/06/2024 14:45, Philip Li wrote:
->> On Sat, Jun 15, 2024 at 11:30:48AM +0200, Krzysztof Kozlowski wrote:
->>> On 15/06/2024 04:59, kernel test robot wrote:
->>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.10-next/dts64
->>>> head:   2f950510411a33d98eea28c22d7880eeb48adb61
->>>> commit: b5ded35667ce9eb330083116e67af1f2f7886102 [44/53] arm64: dts: mediatek: mt8365: use a specific SCPSYS compatible
->>>> config: arm64-randconfig-051-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/config)
->>>> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
->>>> dtschema version: 2024.6.dev1+g833054f
->>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151352.R650eixq-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202406151352.R650eixq-lkp@intel.com/
->>>>
->>>
->>> MFD patches are pending.
->>>
->>> I have doubts that kernel test robot reports on each, known DTS failure
->>> are useful.
->>
->> Hi Krzysztof, thanks for the info. Do you mean we can ignore the DTS failure on this v6.10-next/dts64
->> branch or we need ignore certain patterns of DTS failure (that is caused by pending MFD patches) so
->> to avoid useless reports?
+[...]
+> > I removed this patch from the dt-bindings branch for the time being.
 > 
-> +Cc Rob and Conor,
 > 
-> I meant, regardless which branch and repo you test, there will be a lot
-> of false positives in DTS checks. The problem is that often patchset
-> consists of DTS, DT bindings and driver changes. The DTS goes separate
-> repo or separate branch than bindings.
-> 
-> If you test them independently, you often get warnings, but these are
-> expected.
-> 
-> What matters it is linux-next, but even there patches can end up with
-> some delays, thus causing warnings.
-> 
-> I don't have a clear solution, but I am afraid that after seeing many
-> false positives people start ignoring all of such reports, regardless
-> whether they are real or not.
-> 
+> These reports are useless. I suggest ignore all of them...
 
-So now it turns out people actually remove patches based on these
-incorrect reports.
+I see.  Just a lot of noise then...
 
-I am not sure that you understand how DT bindings and DTS work. They are
-applied on different trees, therefore all your emails create huge amount
-of false positives.
-
-I started receiving a lot of emails from you and it's getting time
-consuming to even sort them.
-
-These emails confuse other maintainers because it looks like a valid
-warning report, but it is not.
-
-Either improve your system or do not send these emails.
-
-Best regards,
-Krzysztof
-
+	Krzysztof
