@@ -1,74 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE661AEFE7;
-	Thu,  4 Jul 2024 14:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631931B010D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720102641; cv=none; b=ag8JXqF3PgzZ0phbU21W1Fgip+Noj6fH5SYe4FncAcCkfDL0ZrIXAP70RI/hd/LCJnV9NnuepHv2+zDovNDVj4FeVGBVKLxRzxUAtVp5D/2WouOGUDJoR6l18nYuM0bj766S/OVUpjH+ZKg2z/CkEvhnSkOTKkFGSUZrc7vl/Gs=
+	t=1720103100; cv=none; b=hrsneElHVmUaGBYoXIEsfR0b6yOIeftIqEl2P7YsNBGra3eHR5yRTPEb93ld7305EWmpZ3tIVmqXauSNS0dcriMHCaDuoQT87ihZk1z5wA0LzRmQh1qQD1ms9h8meBuyul3ATjuQ2KkCybm1ICf3MJDP3KFuZWK1LlORK53oSWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720102641; c=relaxed/simple;
-	bh=NTEkeVWFX9WMfFqfduEV0Oz357OTuGc2THuDt0lLwiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmFbgWg+HjZ0cej05oSQGuUnGBRjJjombZrYf1Hl+rzuun7CAcUmtq30q1/HJVmrUV1YKqdzH6EOJpMlH2FF3k+NMNNMLWfFX1sTZV7Sf1Xg1XnnXOVTONYU+cg0REXwHnQmkJwMjjr9mbfGDl0WTueBj79DJEv84AAY5fpV6AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mipZ7g1m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720103100; c=relaxed/simple;
+	bh=Oqc1kIvawjDD3JjU/rwE9hsGmIBdWcUho5wv1EzGPUc=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
+	 Message-ID:Content-Type; b=A2NQh8Oo8NkHQgKRaTMMlUoTefGCXqZayDGCUk1A1jlzYkVJeWv/Dh+PkHc6BZWCLvpywy7RJujMkJmlfCoeHs10TVL46f6EltrAzAOS+aVgmPnnXpqruuaihcGC9bY1THxvpUPkbb+PNg54yVfsz1ETx3vetpQhfyzc46vSpho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UKGGSnYR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mipZ7g1m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD826C3277B;
-	Thu,  4 Jul 2024 14:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720102641;
-	bh=NTEkeVWFX9WMfFqfduEV0Oz357OTuGc2THuDt0lLwiw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mipZ7g1mOE4nImWzjY6Jzs0DNKVjtia5LK8idfImTPMbRGI3rwJJb8f6mRL3/8svP
-	 NjMTS8AZ0AjD+LVPgOQsIGNNzfJd8KjJ1/MuYwRdm0QIvglkLQv0NDEAgWBpEVcGCy
-	 kvTtc46rpRFY0aFyb6JS4QSx3x7+0dsxcuZVoM0d3EbhSK4JmYceZNOdQmg9HOj9SR
-	 t5O1pDeVrafIM47fE9GG4UaKctcUZhl4aI+alsLW+au9fon1fqIkyTV6vYhWNGvp5G
-	 FGKoYwTqG61HiBswwwSBb21f1D9lEk75Yyz0OTyEd2Nt542d+yH1eWKVoeN1Avk2QC
-	 L2mTVCGeNEZKQ==
-Date: Thu, 4 Jul 2024 23:17:19 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: Philip Li <philip.li@intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	kernel test robot <lkp@intel.com>, Abel Vesa <abel.vesa@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [pci:dt-bindings 10/11]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pci@1bf8000: reg: [[0, 29327360,
- 0, 12288], [0, 1879048192, 0, 3869], [0, 1879052064, 0, 168], [0,
- 1879052288, 0, 4096], [0, 1880096768, 0, 1048576]] is too short
-Message-ID: <20240704141719.GA1215610@rocinante>
-References: <202407041154.pTMBERxA-lkp@intel.com>
- <20240704072006.GA2768618@rocinante>
- <bd96c9e5-9342-41b8-aa14-2db4828e37f3@kernel.org>
- <20240704073908.GA2877677@rocinante>
- <ZoZjKN1N8QfRYn7n@rli9-mobl>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UKGGSnYR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720103098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Viy8HdaN4+40puNKdYZufZ+ZXeaWYcdygO3ONj2dCJ8=;
+	b=UKGGSnYRMKJ2AFXzByASMz6QDl5pC/Oo0XloiVNddY8ccTXnynoJ/bqRiHzP/kD9W7aVu5
+	4qi4fBuIVsuQnQYBRGa+bN0DJlaa6h/74J/NrAnRRecIIaoXVSPwiY5kp4HtAhdWuwozr3
+	Vyk3+9aSutjlQn1jOR0Ym8515PZrD60=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-328-7My1DXewOoyl3hrRXAtX8g-1; Thu,
+ 04 Jul 2024 10:24:54 -0400
+X-MC-Unique: 7My1DXewOoyl3hrRXAtX8g-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E29681955F44;
+	Thu,  4 Jul 2024 14:24:52 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.111])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5CA851956046;
+	Thu,  4 Jul 2024 14:24:51 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <8386790b-e941-4cb3-b966-fcc10d2b9e6e@suswa.mountain>
+References: <8386790b-e941-4cb3-b966-fcc10d2b9e6e@suswa.mountain> <4c2dd2d5-1360-4611-b2a6-d63013104a8c@suswa.mountain> <3043603.1719933536@warthog.procyon.org.uk>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-writeback 17/17] fs/netfs/buffered_read.c:280 netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZoZjKN1N8QfRYn7n@rli9-mobl>
+Date: Thu, 04 Jul 2024 15:24:50 +0100
+Message-ID: <3302713.1720103090@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3302712.1720103090.1@warthog.procyon.org.uk>
 
-Hello,
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-> > > > I removed this patch from the dt-bindings branch for the time being.
-
-I will add this patch back to the branch.
-
-> > > These reports are useless. I suggest ignore all of them...
-> > 
-> > I see.  Just a lot of noise then...
+> > Is the problem that smatch thinks we can fall through to done is source
+> > isn't any of those four values?  (There are three other source values in
+> > the enum that apply to the write side)
 > 
-> Sorry about this, we will skip these reports in future as discussed in [1]
-> to avoid false positive.
-> 
-> [1] https://lore.kernel.org/oe-kbuild-all/ZoZhvjDsHSHtvpP3@rli9-mobl/
+> Yes.  That's the issue.  The kbuild-bot can't use cross function
+> information so it doesn't know the return values from
+> netfs_cache_prepare_read().  Probably this warning goes away if you have
+> the cross function database built.
 
-No worries.  Thank you for taking care of this!  Much appreciated.
+I'll think about adding a catchall or something.
 
-	Krzysztof
+> Sorry for the noise.
+
+Better the noise now than a bug report later ;-)
+
+David
+
