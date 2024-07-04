@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547ED53370;
-	Thu,  4 Jul 2024 06:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A295120330
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jul 2024 06:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720073357; cv=none; b=CJ3A9QuNnHrSxZxKCTBPaMbl8D6IzEb8VmbVykyGxAfB3BERIF+4JAzpTO61ZpZg12WhDdsTC9Xq8T6leJ+FjP4R+H07seX1UumDJImUmacKHDz3VYV0mACHOQpf+m/nzmjLMflFxtJ2C7lXRTovzNS5U9l5H2ld0PVyQ72hHZg=
+	t=1720073975; cv=none; b=BGXDnML4aLNvU3mtAuHCsKK23h3xbXmPSPrpJFKvVHUcILBCf7qWQoFIYJpr+jG3weOXZlGkLjxCdY/2JWmr7wdwuU76lQamYR9R5IbmWkcokMGcdWJoaigMku2FB6fhDQnzGJHv7Dm2jVJ8/meSxfXP+yk3p3FSMJCBIVL3mAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720073357; c=relaxed/simple;
-	bh=NAEfW1Rm4pXh5jwCrw8zGZXy9DqVW2BjlR6Z5pMqLvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uKOstzGBU660OUQje7YeGnkYt2lp7TtrYPjYMrnT9GVeKJzsyvmz0b64beRkYLssW0gsIIIdxnhxHYfauol9c25p71Bo5yhYoF8ckqnA3Z6DWHfL2tacIafABePtgUkagtdastUGDJgsELYyewHttgAKSxQLPfPeHRv9tytV90c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMYBY0XX; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1720073975; c=relaxed/simple;
+	bh=kT/jwocNhrSqtfRLikNGWSWAyqE6z1s60kL9pzAzpBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lsxMuNC/QP7AZAk1E5oVrgEwHp+u3BYiyZ8AUlA+VUBcgWFNYBJ1SfPhfYMXKg1KBYOr8dWSDngZnfJEBzOhEDkeHip8AG+M3+fcMrBRG83U5UQA7pBhtpbOrf428Aho+13GgL7Criuza8WeF4DEOuBQq3gsf6nN4Dybri8prE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DT5+rxDU; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMYBY0XX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DT5+rxDU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720073355; x=1751609355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NAEfW1Rm4pXh5jwCrw8zGZXy9DqVW2BjlR6Z5pMqLvU=;
-  b=LMYBY0XX8OnGkSXntzCsWrwYT8D4wSQ6GRMGXHINkRes0DjQM4QNjyGR
-   wwHMFL9uEWzVpm9kqUAaF0F473yi2PNACkIEzoCCF+tEyUvbHud7n8m2v
-   uzpGGvmOefmxnqjDqwdPVZjDGpLzd6xFR4XiRhicFjx2O5AwsRvHgaUZQ
-   KXHDvRgtfA4/LDfyT9gDZZojHpvP66EiyEY8meZGJJXBlYqwKyqP6Tvft
-   RFtZBeQpgW93qqMwtACzj+S4rJEB7sgib40xGaK9gU2wFGrwbY+aKmAWW
-   mtnbu6fGMXdOwScGg7Sq9wUDvUyj/Y3Vm7W/gDeqbO82XXUdgwlckA7pc
-   g==;
-X-CSE-ConnectionGUID: JEAe3qlTT1uZLKQNdkFqRA==
-X-CSE-MsgGUID: 0YMAeu1ZSPu5PBbtjMuUrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27948456"
+  t=1720073973; x=1751609973;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kT/jwocNhrSqtfRLikNGWSWAyqE6z1s60kL9pzAzpBo=;
+  b=DT5+rxDUvU9LAdsAcyKBg9BW5VVeNRG1v55FlI1c2Hxr6Yi+ST+WAH+S
+   ydy0kfxDf00A7JP5vkZtAILnUTQWdCB7UfuIjw++iKJqboTk1gQUPLOjB
+   Ls97ORngrqw96FkOAGjeD5hYAZw2zwBLXiBSRK+Qtt7MrgKfxunRYIL9F
+   NYHATQPP43++eOPJh015cjedCCtuWLYWsfGKhQXpQ68DV8EiAh1HuAlrr
+   Say/WxYjetmMCWdtSx2FqMD2EdhW/z54sB1ztC+xbtwpClkFAxv1JsOjH
+   MPk1XImUlRsdvTonIVUTQwSpuok5ugdlEIP8HS1CaDcYEiy83UhX8ZnmV
+   w==;
+X-CSE-ConnectionGUID: oJrN1GOkSBGBqnN8+w3K0A==
+X-CSE-MsgGUID: Mb/0xy2IQGi1LN4CVRKbEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="21141507"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="27948456"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 23:09:14 -0700
-X-CSE-ConnectionGUID: 6SBds+EjSXOqnpNUb1rF6g==
-X-CSE-MsgGUID: UrqdOjPiSqmnOb6m2wEKfQ==
+   d="scan'208";a="21141507"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 23:19:33 -0700
+X-CSE-ConnectionGUID: 85LKvXvuSuqXvR/ljJOREQ==
+X-CSE-MsgGUID: r0GPS2CeTmaKyORD3KWcvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="47233541"
+   d="scan'208";a="46380956"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Jul 2024 23:09:11 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2024 23:19:32 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPFeW-000QdO-0n;
-	Thu, 04 Jul 2024 06:09:08 +0000
-Date: Thu, 4 Jul 2024 14:08:11 +0800
+	id 1sPFoY-000Qe9-0B;
+	Thu, 04 Jul 2024 06:19:30 +0000
+Date: Thu, 4 Jul 2024 14:19:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH v4 3/3] mctp pcc: Implement MCTP over PCC Transport
-Message-ID: <202407041340.ve4NQPsF-lkp@intel.com>
-References: <20240702225845.322234-4-admiyo@os.amperecomputing.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [uml:pending 6/33] arch/um/os-Linux/file.c:530:18: sparse: sparse:
+ Variable length array is used.
+Message-ID: <202407041459.3SYg4TEi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,168 +61,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240702225845.322234-4-admiyo@os.amperecomputing.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.10-rc6 next-20240703]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20240703-163558
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20240702225845.322234-4-admiyo%40os.amperecomputing.com
-patch subject: [PATCH v4 3/3] mctp pcc: Implement MCTP over PCC Transport
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240704/202407041340.ve4NQPsF-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/uml/linux pending
+head:   9828ed5dd7c1064a6c90030f13778287a0d228f2
+commit: 0aeae40caf0be447610aabab50a03e3c2f8f511c [6/33] um: generalize os_rcv_fd
+config: um-randconfig-r132-20240703 (https://download.01.org/0day-ci/archive/20240704/202407041459.3SYg4TEi-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041340.ve4NQPsF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041459.3SYg4TEi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407041340.ve4NQPsF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407041459.3SYg4TEi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/um/os-Linux/file.c:478:32: sparse: sparse: Using plain integer as NULL pointer
+>> arch/um/os-Linux/file.c:530:18: sparse: sparse: Variable length array is used.
 
-         |                                                   ^
-   In file included from drivers/net/mctp/mctp-pcc.c:8:
-   In file included from include/linux/if_arp.h:22:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/mctp/mctp-pcc.c:8:
-   In file included from include/linux/if_arp.h:22:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/net/mctp/mctp-pcc.c:17:
-   include/acpi/acpi_drivers.h:72:43: warning: declaration of 'struct acpi_pci_root' will not be visible outside of this function [-Wvisibility]
-      72 | struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root);
-         |                                           ^
-   drivers/net/mctp/mctp-pcc.c:207:19: error: incomplete definition of type 'struct acpi_device'
-     207 |         dev_dbg(&acpi_dev->dev, "Adding mctp_pcc device for HID  %s\n",
-         |                  ~~~~~~~~^
-   include/linux/dev_printk.h:165:18: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                         ^~~
-   include/linux/dynamic_debug.h:274:7: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                            ^~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/acpi.h:793:8: note: forward declaration of 'struct acpi_device'
-     793 | struct acpi_device;
-         |        ^
-   drivers/net/mctp/mctp-pcc.c:208:3: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     208 |                 acpi_device_hid(acpi_dev));
-         |                 ^
-   drivers/net/mctp/mctp-pcc.c:208:3: note: did you mean 'acpi_device_dep'?
-   include/acpi/acpi_bus.h:41:6: note: 'acpi_device_dep' declared here
-      41 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
-         |      ^
-   drivers/net/mctp/mctp-pcc.c:209:15: error: call to undeclared function 'acpi_device_handle'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     209 |         dev_handle = acpi_device_handle(acpi_dev);
-         |                      ^
-   drivers/net/mctp/mctp-pcc.c:209:13: error: incompatible integer to pointer conversion assigning to 'acpi_handle' (aka 'void *') from 'int' [-Wint-conversion]
-     209 |         dev_handle = acpi_device_handle(acpi_dev);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/mctp/mctp-pcc.c:213:20: error: incomplete definition of type 'struct acpi_device'
-     213 |                 dev_err(&acpi_dev->dev, "FAILURE to lookup PCC indexes from CRS");
-         |                          ~~~~~~~~^
-   include/linux/dev_printk.h:154:44: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                   ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/acpi.h:793:8: note: forward declaration of 'struct acpi_device'
-     793 | struct acpi_device;
-         |        ^
-   drivers/net/mctp/mctp-pcc.c:218:17: error: incomplete definition of type 'struct acpi_device'
-     218 |         dev = &acpi_dev->dev;
-         |                ~~~~~~~~^
-   include/linux/acpi.h:793:8: note: forward declaration of 'struct acpi_device'
-     793 | struct acpi_device;
-         |        ^
-   drivers/net/mctp/mctp-pcc.c:264:10: error: incomplete definition of type 'struct acpi_device'
-     264 |         acpi_dev->driver_data = mctp_pcc_dev;
-         |         ~~~~~~~~^
-   include/linux/acpi.h:793:8: note: forward declaration of 'struct acpi_device'
-     793 | struct acpi_device;
-         |        ^
->> drivers/net/mctp/mctp-pcc.c:293:40: error: call to undeclared function 'acpi_driver_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     293 |         struct mctp_pcc_ndev *mctp_pcc_ndev = acpi_driver_data(adev);
-         |                                               ^
->> drivers/net/mctp/mctp-pcc.c:293:24: error: incompatible integer to pointer conversion initializing 'struct mctp_pcc_ndev *' with an expression of type 'int' [-Wint-conversion]
-     293 |         struct mctp_pcc_ndev *mctp_pcc_ndev = acpi_driver_data(adev);
-         |                               ^               ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/mctp/mctp-pcc.c:305:27: error: variable has incomplete type 'struct acpi_driver'
-     305 | static struct acpi_driver mctp_pcc_driver = {
-         |                           ^
-   drivers/net/mctp/mctp-pcc.c:305:15: note: forward declaration of 'struct acpi_driver'
-     305 | static struct acpi_driver mctp_pcc_driver = {
-         |               ^
-   drivers/net/mctp/mctp-pcc.c:316:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     316 | module_acpi_driver(mctp_pcc_driver);
-         | ^
-         | int
-   drivers/net/mctp/mctp-pcc.c:316:20: error: a parameter list without types is only allowed in a function definition
-     316 | module_acpi_driver(mctp_pcc_driver);
-         |                    ^
-   8 warnings and 12 errors generated.
+vim +530 arch/um/os-Linux/file.c
 
-
-vim +/acpi_driver_data +293 drivers/net/mctp/mctp-pcc.c
-
-   290	
-   291	static void mctp_pcc_driver_remove(struct acpi_device *adev)
-   292	{
- > 293		struct mctp_pcc_ndev *mctp_pcc_ndev = acpi_driver_data(adev);
-   294	
-   295		pcc_mbox_free_channel(mctp_pcc_ndev->out_chan);
-   296		pcc_mbox_free_channel(mctp_pcc_ndev->in_chan);
-   297		mctp_unregister_netdev(mctp_pcc_ndev->mdev.dev);
-   298	}
-   299	
+   514	
+   515	/**
+   516	 * os_rcv_fd_msg - receive message with (optional) FDs
+   517	 * @fd: the FD to receive from
+   518	 * @fds: the array for FDs to write to
+   519	 * @n_fds: number of FDs to receive (@fds array size)
+   520	 * @data: the message buffer
+   521	 * @data_len: the size of the message to receive
+   522	 *
+   523	 * Receive a message with FDs.
+   524	 *
+   525	 * Returns: the size of the received message, or an error code
+   526	 */
+   527	ssize_t os_rcv_fd_msg(int fd, int *fds, unsigned int n_fds,
+   528			      void *data, size_t data_len)
+   529	{
+ > 530		char buf[CMSG_SPACE(sizeof(*fds) * n_fds)];
+   531		struct cmsghdr *cmsg;
+   532		struct iovec iov = {
+   533			.iov_base = data,
+   534			.iov_len = data_len,
+   535		};
+   536		struct msghdr msg = {
+   537			.msg_iov = &iov,
+   538			.msg_iovlen = 1,
+   539			.msg_control = buf,
+   540			.msg_controllen = sizeof(buf),
+   541		};
+   542		int n;
+   543	
+   544		n = recvmsg(fd, &msg, 0);
+   545		if (n < 0)
+   546			return -errno;
+   547	
+   548		cmsg = CMSG_FIRSTHDR(&msg);
+   549		if (!cmsg ||
+   550		    cmsg->cmsg_level != SOL_SOCKET ||
+   551		    cmsg->cmsg_type != SCM_RIGHTS)
+   552			return n;
+   553	
+   554		memcpy(fds, CMSG_DATA(cmsg), cmsg->cmsg_len);
+   555		return n;
+   556	}
+   557	
 
 -- 
 0-DAY CI Kernel Test Service
