@@ -1,69 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBE513665A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 11:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDE11487C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 11:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720177649; cv=none; b=tMNWSQ+g+5PKBPAy06Qtj22VduQqEtqUz8MtRRngJ8wcQMZVTm2Lk/q8fzlpqTN+ezTknilQ3AvLJSObq3IV8sYcTlotlHc3KB6NI71LOhjp+xU9DzzDqEJ/roWpX8zc/1HnMpoCrLmbspgYsl+Jm86Mh4wigEbafxSKsapGpJA=
+	t=1720178255; cv=none; b=gK0njmVTMz0sXWzbTQmkBxqBWgPN3uXJR1sRu4GsrLUaNxwyqltQtx6eRjuJhDuGkV8+gbhIo3k1m7ytUvEGge1EMT8slh00JG+lGTf4Wjvp1iar15D4qimMvQxuevsfgxDonVSeItXh07GRCoiBmiInpqIEajbQI3XnkFM51fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720177649; c=relaxed/simple;
-	bh=0nUinA24UAUinlu6pUh1CLN4Sx/3gtSsYrL50QJPbKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkQe59sFOAkJlLOLcZedWQKQrJpnjgUyxrRPnUTeRKFj4WJ4+z0PyN4M6rKZn3M+azgIhxSouFmh7h7MUWQ0NqWUpxJWfZU2vQuBY5FmMaBPn47/2FmjNE8YFR0//c1NY5wXWxqYDUsStpXsBZrVnRtMzIbxdrVkUMA8SydMrps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkLifBIh; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1720178255; c=relaxed/simple;
+	bh=4kjIsMkisVWOOrAn29QfTJ9XNkfHii7d/nQS0eygjQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OFocoMQOYuIDcqSDAjkuLuQgQQQyRryC15HoSpxODrTkYMjGL2oDS+5as96j/y5/MDHRsp+Nu2W3S070leDzGy17A7Qfv/JtrDHX2J61GlkD2x0nR0TtDCDxbqotyEoa/uLgpJCWwsRZ6QW4o9U6km2CbtfYh5HsQZ3LWiblLgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hl5aEj9I; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkLifBIh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hl5aEj9I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720177648; x=1751713648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0nUinA24UAUinlu6pUh1CLN4Sx/3gtSsYrL50QJPbKE=;
-  b=BkLifBIhjaJH+odIxEHMuLsP+RmKMbJLlpF8jtG1dfvlSBc8285ERB5k
-   NTwuLfcMBz8CJHERMV8PHMKMYk6VXBKj0huKQS+TKFjd/yRrTZhpJeoVZ
-   hfXRNo4eRh+ocHy3KsIwATuV5Xhnb11rCRAe5/99OioDBgujCtn//lGfx
-   LYiRHsD5tErdcpN/TCPp/mqHR5XUAH+TMuH01sf9en46xglRkCg5wEdKb
-   qcoVSBx3s2ucHS2jGY6nT+PrjYod/ixDfet1uPra7ytpqCOSUMDVmPZa/
-   j5bh9tElkxta8U/3NM2nqiXjtojn+qwZqu2aH37RwINT9/Zwsa9y7wFeg
+  t=1720178253; x=1751714253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4kjIsMkisVWOOrAn29QfTJ9XNkfHii7d/nQS0eygjQk=;
+  b=Hl5aEj9IaAgMgpKSr5UDh8q01pZNQ0/cahVWUPEwSy+0RuIiArXyzUto
+   NEmyHoxQ03zJy5ucZR6TfHH7JOnJobwgVBd3ouEnGTnP576csrcugKBcT
+   8GI7BKk9TEzhLqhfvLRq2lRtdS1SN/IGxbm1ihIEtRe8IdkasmmoWm+TS
+   LWawgBOyIT3uJfromzhgffLOrXiI76Gwp+jNgXDF5Kp9Fc8vbTzYgNgnY
+   Hc4wE31FFRuggEERzxuZQ+hAknzRpa5fn0mmURQv+GWnE4+XU3XNzRYqa
+   caRWEqEpgnnzm37JbmaosRRkxjiUfdKlRIygWF16BzJVQAYHQupwEA7fj
    w==;
-X-CSE-ConnectionGUID: LIsIhJ75TVehFh8Q89CQvA==
-X-CSE-MsgGUID: 6oFzIKNnRhGfoLhZ+Hyc8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17188051"
+X-CSE-ConnectionGUID: v66Kq6z8QIKhLbSlciniNg==
+X-CSE-MsgGUID: scUmXxgmToyj5+Y0AJxHtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17188937"
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="17188051"
+   d="scan'208";a="17188937"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 04:06:35 -0700
-X-CSE-ConnectionGUID: 2Szdt3w5RWCWbuoreaNbZg==
-X-CSE-MsgGUID: GzXInrnrRX+4ZUMv6mpKKg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 04:17:33 -0700
+X-CSE-ConnectionGUID: AFFlLE3ARoaxWAjU3cY83w==
+X-CSE-MsgGUID: gHPq2jGyTImu2FkZuFuPzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="46823769"
+   d="scan'208";a="46825818"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2024 04:06:31 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2024 04:17:32 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPglp-000SIN-0d;
-	Fri, 05 Jul 2024 11:06:29 +0000
-Date: Fri, 5 Jul 2024 19:06:07 +0800
+	id 1sPgwT-000SJA-2J;
+	Fri, 05 Jul 2024 11:17:29 +0000
+Date: Fri, 5 Jul 2024 19:17:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
-	Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-Subject: Re: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-Message-ID: <202407051851.5P18lNVW-lkp@intel.com>
-References: <20240703172228.11166-10-gcarlos@disroot.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Matthew Auld <matthew.auld@intel.com>
+Subject: [drm-xe:drm-xe-next 6/7] drivers/gpu/drm/xe/xe_pt.c:931:73: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202407051904.cZVyDRlA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,134 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703172228.11166-10-gcarlos@disroot.org>
 
-Hi Carlos,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Eduardo-Gallo-Filho/drm-tests-Stop-using-deprecated-dev_private-member-on-drm_framebuffer-tests/20240704-234045
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240703172228.11166-10-gcarlos%40disroot.org
-patch subject: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
-config: arc-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   c55f79f317ab428ae6d005965bc07e37496f209f
+commit: a708f6501c692551e3d4ea618c44021f436730d9 [6/7] drm/xe: Update PT layer with better error handling
+config: openrisc-randconfig-r123-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051904.cZVyDRlA-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240705/202407051904.cZVyDRlA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051851.5P18lNVW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051904.cZVyDRlA-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_pt.c:931:73: sparse: sparse: Using plain integer as NULL pointer
+   drivers/gpu/drm/xe/xe_pt.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-ERROR: modpost: "drm_framebuffer_free" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
->> ERROR: modpost: "drm_mode_object_add" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
+vim +931 drivers/gpu/drm/xe/xe_pt.c
+
+   906	
+   907	static void xe_pt_abort_bind(struct xe_vma *vma,
+   908				     struct xe_vm_pgtable_update *entries,
+   909				     u32 num_entries, bool rebind)
+   910	{
+   911		int i, j;
+   912	
+   913		xe_pt_commit_locks_assert(vma);
+   914	
+   915		for (i = num_entries - 1; i >= 0; --i) {
+   916			struct xe_pt *pt = entries[i].pt;
+   917			struct xe_pt_dir *pt_dir;
+   918	
+   919			if (!rebind)
+   920				pt->num_live -= entries[i].qwords;
+   921	
+   922			if (!pt->level)
+   923				continue;
+   924	
+   925			pt_dir = as_xe_pt_dir(pt);
+   926			for (j = 0; j < entries[i].qwords; j++) {
+   927				u32 j_ = j + entries[i].ofs;
+   928				struct xe_pt *newpte = xe_pt_entry(pt_dir, j_);
+   929				struct xe_pt *oldpte = entries[i].pt_entries[j].pt;
+   930	
+ > 931				pt_dir->children[j_] = oldpte ? &oldpte->base : 0;
+   932				xe_pt_destroy(newpte, xe_vma_vm(vma)->flags, NULL);
+   933			}
+   934		}
+   935	}
+   936	
 
 -- 
 0-DAY CI Kernel Test Service
