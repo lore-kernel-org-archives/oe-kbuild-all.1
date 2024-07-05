@@ -1,548 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0147492
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 01:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA774DF4D;
+	Fri,  5 Jul 2024 01:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720144265; cv=none; b=Dp4N168g03nOrN5o2zCs2VU9Zt+DvkuqpcBycz2M81WDrCiTB+lo1/vdCnwN19vXYAIpMU8D9e8AuvrwfXdf4IW55+XjL4nteCvTbyCqd0IcMWiXS5+mNi7lkK2o/t2UOl90WnhKB6cSAFY1Nerxi7I0fUbSfFtUaz0g2wgxAmg=
+	t=1720144265; cv=none; b=PRZR5gCKxK9xEtsLaL0jhB+l3ZaSQK2iv/xC6vnzxSdM+ZitbyF+knUCbXd5SYxhBlp+WgVFEc0msRwR3+OsMbLaLVdAd4pF8Gwj1aIKPEc+z2Qo8RBAVkLTOBek7fbMubaUyGaEErlriqJ7qVHemwlUBmk/MGkMAbX/EJ9/9hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1720144265; c=relaxed/simple;
-	bh=xMNQCMUasj9tQHcdD7prnOJnYW+rkhCcpdiAygtBuhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ePxGtHlWXFRzQRrdpGCOFx5CaFcmT18CVuTnjEvUms8AD6BTo+YDSvcipfcksK/p94zGGAXWeo799UobSpp54cOUjhKhq9O0VHlMLm6kuoAVeURMJtqXnBoPmHcR/CqioM73FduVHbe8/1xi1X3oc1vqvPSWAnxRVJekJ0OGoMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=REhoJHTe; arc=none smtp.client-ip=192.198.163.19
+	bh=CRRfXqrbQs7tLcrxZpfuE5Kh1RIwcGT87Lps4lI9koU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJQLDtd5vJNt+CQOazZp+9ov/xkVr6ldnCd0SIqxgWYNnx0vJMws0QOGsWe6XkFqZhFu7KGXXBmmmdIYt8fCk4RTOl/48GppMojglP8kwSJM2PmlLk+sZTAn+3r3MRYoCjDuurE52SVvApu7+qzZQO502Ro8GqTWITpwMsPG9m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWYLNnSZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REhoJHTe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWYLNnSZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720144262; x=1751680262;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xMNQCMUasj9tQHcdD7prnOJnYW+rkhCcpdiAygtBuhE=;
-  b=REhoJHTeRw0l5Zd3PBtP/7BgIlI5w0cIjJN2RAUkxBa6T3CfqrZez3Cb
-   8+GkBFgRQNBfR5IvoO/cbPvVv7u0nGe5Pwi15zu7V5+OZy+pr1kziwowJ
-   9Px7Nf8h+9YXNc6X2/fFILYBbpM/afBFuxJeK6nE4exr0+/SCwatVC0VV
-   ocHvuTqjVMmrwh0pYKkj6A6D5YRb9/bN0/7XikcvIV4p3Czod+OI8EKir
-   zIi4KHB16eEDQqKsX5W7cHn0+tvE8Ukl/ZA/bz2tx4nCV2xyET26nGZi+
-   8jGFTeZW4yyfTMe38hgNOqAI/mKnhr8nlqDWCmQkyyuOZZOKjZjXU0vVk
-   A==;
-X-CSE-ConnectionGUID: GZG95rgsRl6xj7ra5nEJSA==
-X-CSE-MsgGUID: CjNPseCIQTas1iv2iRYDIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17149608"
+  t=1720144264; x=1751680264;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=CRRfXqrbQs7tLcrxZpfuE5Kh1RIwcGT87Lps4lI9koU=;
+  b=IWYLNnSZVCro8PlEsvNuvfTA8fz7bYy3XIloLaCvrQ5nYNA+meHOn2Og
+   C4lTjR/3NLQBY0U88EY/ydBpX3YhdIf5L61Wbo4MXQxDcRsAEdX624KPN
+   tUgZDQGrc2Lt0eoIe21JyD5pDO1ecvk5sIXI57MJp3PnOrqk7OtqOHtXG
+   CX8nHdP+/uKtYdGKrAJMbCSveuaRS85cypNxJsqVwqS2YrQYZxXUCt0OV
+   AxOXuLBGC36e1QeQ8FsXEctZ/IQdNdLy1QsJi66fWSImfm/TFkJUb/Gj5
+   J3DDHif2U3Sh7+qFicABOBW6JNMGbKPEvjbmmteWm6w7Nhm6bnC5KufG3
+   w==;
+X-CSE-ConnectionGUID: 9qS09iULR8mxQM3Asy6afw==
+X-CSE-MsgGUID: RdgzA5fzTr+F3+EsWEPk5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21239040"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17149608"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 18:51:01 -0700
-X-CSE-ConnectionGUID: BIR0OR+tT3ulcr/qA/tOJw==
-X-CSE-MsgGUID: tMx6YAKTRHmmi/rlavpsOQ==
+   d="scan'208";a="21239040"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 18:51:04 -0700
+X-CSE-ConnectionGUID: wGr7m+PyRo+lra4tO7HwPw==
+X-CSE-MsgGUID: Fawo+R7ISN+VwmUeHScWeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="47170461"
+   d="scan'208";a="46699156"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2024 18:51:00 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Jul 2024 18:50:59 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPY6D-000RlG-2B;
+	id 1sPY6D-000RlE-27;
 	Fri, 05 Jul 2024 01:50:57 +0000
-Date: Fri, 5 Jul 2024 09:50:04 +0800
+Date: Fri, 5 Jul 2024 09:50:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 14560/15088]
- drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:109:57: error: no
- member named 'entity' in 'struct v4l2_subdev'
-Message-ID: <202407050931.ZG4N4jmZ-lkp@intel.com>
+To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH v2 4/4] clk: eyeq: add driver
+Message-ID: <202407050921.S41aCBdD-lkp@intel.com>
+References: <20240703-mbly-clk-v2-4-fe8c6199a579@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240703-mbly-clk-v2-4-fe8c6199a579@bootlin.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   2166fa6b0c817630441a03552541b022f35cfc03
-commit: 60e566f1ebecf5c38e7718cc52e5a482505b6742 [14560/15088] CHROMIUM: media: add Intel IPU6 drivers
-config: x86_64-randconfig-011-20240705 (https://download.01.org/0day-ci/archive/20240705/202407050931.ZG4N4jmZ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407050931.ZG4N4jmZ-lkp@intel.com/reproduce)
+Hi Théo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f2661062f16b2de5d7b6a5c42a9a5c96326b8454]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/Revert-dt-bindings-clock-mobileye-eyeq5-clk-add-bindings/20240704-211515
+base:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
+patch link:    https://lore.kernel.org/r/20240703-mbly-clk-v2-4-fe8c6199a579%40bootlin.com
+patch subject: [PATCH v2 4/4] clk: eyeq: add driver
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240705/202407050921.S41aCBdD-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407050921.S41aCBdD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407050931.ZG4N4jmZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407050921.S41aCBdD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:109:57: error: no member named 'entity' in 'struct v4l2_subdev'
-     109 |         struct media_pipeline *mp = media_entity_pipeline(&sd->entity);
-         |                                                            ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:124:35: error: no member named 'entity' in 'struct v4l2_subdev'
-     124 |         struct media_pad *pad = &asd->sd.entity.pads[sel->pad];
-         |                                  ~~~~~~~ ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:156:3: error: field designator 'link_validate' does not refer to any field in type 'const struct v4l2_subdev_pad_ops'
-     156 |         .link_validate = __subdev_link_validate,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:171:19: error: use of undeclared identifier 'v4l2_subdev_link_validate'; did you mean '__subdev_link_validate'?
-     171 |         .link_validate = v4l2_subdev_link_validate,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          __subdev_link_validate
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:105:1: note: '__subdev_link_validate' declared here
-     105 | __subdev_link_validate(struct v4l2_subdev *sd, struct media_link *link,
-         | ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:171:19: error: incompatible function pointer types initializing 'int (*)(struct media_link *)' with an expression of type 'int (struct v4l2_subdev *, struct media_link *, struct v4l2_subdev_format *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-     171 |         .link_validate = v4l2_subdev_link_validate,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:182:10: error: no member named 'entity' in 'struct v4l2_subdev'
-     182 |         if (sd->entity.pads[fmt->pad].flags & MEDIA_PAD_FL_SINK) {
-         |             ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:191:17: error: no member named 'entity' in 'struct v4l2_subdev'
-     191 |         } else if (sd->entity.pads[fmt->pad].flags & MEDIA_PAD_FL_SOURCE) {
-         |                    ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:244:22: error: no member named 'entity' in 'struct v4l2_subdev'
-     244 |         csi2_be_soc->asd.sd.entity.ops = &csi2_be_soc_entity_ops;
-         |         ~~~~~~~~~~~~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c:327:29: error: no member named 'entity' in 'struct v4l2_subdev'
-     327 |                                    &csi2_be_soc->asd.sd.entity,
-         |                                     ~~~~~~~~~~~~~~~~~~~ ^
-   9 errors generated.
---
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:350:6: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     350 |         u32 val, reg;
-         |             ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:450:57: error: no member named 'entity' in 'struct v4l2_subdev'
-     450 |         struct media_pipeline *mp = media_entity_pipeline(&sd->entity);
-         |                                                            ~~  ^
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:455:28: error: no member named 'entity' in 'v4l2_subdev'
-     455 |                 v4l2_get_subdev_hostdata(media_entity_to_v4l2_subdev
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-     456 |                                          (ip->external->entity));
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   1 warning and 2 errors generated.
---
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:146:10: error: call to undeclared function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     146 |                 return v4l2_subdev_get_try_format(sd, state, pad);
-         |                        ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:146:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_mbus_framefmt *' [-Wint-conversion]
-     146 |                 return v4l2_subdev_get_try_format(sd, state, pad);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:166:11: error: call to undeclared function 'v4l2_subdev_get_try_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     166 |                         return v4l2_subdev_get_try_crop(sd, state, pad);
-         |                                ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:166:11: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
-     166 |                         return v4l2_subdev_get_try_crop(sd, state, pad);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:168:11: error: call to undeclared function 'v4l2_subdev_get_try_compose'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     168 |                         return v4l2_subdev_get_try_compose(sd, state, pad);
-         |                                ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:168:11: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
-     168 |                         return v4l2_subdev_get_try_compose(sd, state, pad);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:207:25: error: no member named 'entity' in 'struct v4l2_subdev'
-     207 |         if (WARN_ON(pad >= sd->entity.num_pads))
-         |                            ~~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:210:22: error: no member named 'entity' in 'struct v4l2_subdev'
-     210 |         ffmts = kcalloc(sd->entity.num_pads,
-         |                         ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:216:22: error: no member named 'entity' in 'struct v4l2_subdev'
-     216 |         crops = kcalloc(sd->entity.num_pads,
-         |                         ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:222:24: error: no member named 'entity' in 'struct v4l2_subdev'
-     222 |         compose = kcalloc(sd->entity.num_pads,
-         |                           ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:229:22: error: no member named 'entity' in 'struct v4l2_subdev'
-     229 |         for (i = 0; i < sd->entity.num_pads; i++) {
-         |                         ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:248:19: error: no member named 'entity' in 'struct v4l2_subdev'
-     248 |                 if (WARN_ON(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-         |                             ~~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:260:19: error: no member named 'entity' in 'struct v4l2_subdev'
-     260 |                 if (WARN_ON(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE)) {
-         |                             ~~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:265:23: error: no member named 'entity' in 'struct v4l2_subdev'
-     265 |                 for (i = 1; i < sd->entity.num_pads; i++) {
-         |                                 ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:266:14: error: no member named 'entity' in 'struct v4l2_subdev'
-     266 |                         if (!(sd->entity.pads[i].flags &
-         |                               ~~  ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:284:19: error: no member named 'entity' in 'struct v4l2_subdev'
-     284 |                 if (WARN_ON(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SINK)) {
-         |                             ~~  ^
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:423:35: error: no member named 'entity' in 'struct v4l2_subdev'
-     423 |         struct media_pad *pad = &asd->sd.entity.pads[sel->pad];
-         |                                  ~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:514:6: error: no member named 'entity' in 'struct v4l2_subdev'
-     514 |             media_entity_to_v4l2_subdev(link->source->entity);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:373:74: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-subdev.c:514:6: error: no member named 'entity' in 'v4l2_subdev'
-     514 |             media_entity_to_v4l2_subdev(link->source->entity);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
->> drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:483:62: error: no member named 'entity' in 'struct video_device'
-     483 |         struct media_pipeline *mp = media_entity_pipeline(&av->vdev.entity);
-         |                                                            ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:592:62: error: no member named 'entity' in 'struct video_device'
-     592 |         struct media_pad *pad = media_pad_remote_pad_first(av->vdev.entity.pads);
-         |                                                            ~~~~~~~~ ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:602:7: error: no member named 'entity' in 'v4l2_subdev'
-     602 |         sd = media_entity_to_v4l2_subdev(pad->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:718:43: error: no member named 'entity' in 'struct video_device'
-     718 |         first = !media_entity_pipeline(&av->vdev.entity);
-         |                                         ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:736:60: error: no member named 'entity' in 'struct video_device'
-     736 |         ip = to_ipu_isys_pipeline(media_entity_pipeline(&av->vdev.entity));
-         |                                                          ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.h:98:16: note: expanded from macro 'to_ipu_isys_pipeline'
-      98 |         container_of((__pipe), struct ipu_isys_pipeline, pipe)
-         |                       ^~~~~~
-   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:736:60: error: no member named 'entity' in 'struct video_device'
-     736 |         ip = to_ipu_isys_pipeline(media_entity_pipeline(&av->vdev.entity));
-         |                                                          ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.h:98:16: note: expanded from macro 'to_ipu_isys_pipeline'
-      98 |         container_of((__pipe), struct ipu_isys_pipeline, pipe)
-         |                       ^~~~~~
-   include/linux/container_of.h:20:30: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                     ^~~
-   include/linux/compiler_types.h:373:63: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:736:60: error: no member named 'entity' in 'struct video_device'
-     736 |         ip = to_ipu_isys_pipeline(media_entity_pipeline(&av->vdev.entity));
-         |                                                          ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.h:98:16: note: expanded from macro 'to_ipu_isys_pipeline'
-      98 |         container_of((__pipe), struct ipu_isys_pipeline, pipe)
-         |                       ^~~~~~
-   include/linux/container_of.h:21:23: note: expanded from macro 'container_of'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                                     ^~~
-   include/linux/compiler_types.h:373:63: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:792:62: error: no member named 'entity' in 'struct video_device'
-     792 |         struct media_pipeline *mp = media_entity_pipeline(&av->vdev.entity);
-         |                                                            ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-queue.c:880:62: error: no member named 'entity' in 'struct video_device'
-     880 |         struct media_pipeline *mp = media_entity_pipeline(&av->vdev.entity);
-         |                                                            ~~~~~~~~ ^
-   9 errors generated.
---
->> drivers/media/pci/intel/ipu6/../ipu-isys-video.c:162:40: error: no member named 'entity' in 'struct video_device'
-     162 |         rval = v4l2_pipeline_pm_get(&av->vdev.entity);
-         |                                      ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:207:33: error: no member named 'entity' in 'struct video_device'
-     207 |         v4l2_pipeline_pm_put(&av->vdev.entity);
-         |                               ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:236:33: error: no member named 'entity' in 'struct video_device'
-     236 |         v4l2_pipeline_pm_put(&av->vdev.entity);
-         |                               ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:265:46: error: no member named 'entity' in 'struct video_device'
-     265 |         struct media_pad *pad = other_pad(&av->vdev.entity.pads[0]);
-         |                                            ~~~~~~~~ ^
->> drivers/media/pci/intel/ipu6/../ipu-isys-video.c:275:7: error: no member named 'entity' in 'v4l2_subdev'
-     275 |         sd = media_entity_to_v4l2_subdev(pad->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:316:46: error: no member named 'entity' in 'struct video_device'
-     316 |         struct media_pad *pad = other_pad(&av->vdev.entity.pads[0]);
-         |                                            ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:324:7: error: no member named 'entity' in 'v4l2_subdev'
-     324 |         sd = media_entity_to_v4l2_subdev(pad->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-video.c:561:7: error: no member named 'entity' in 'struct v4l2_subdev'
-     561 |         sd = media_entity_to_v4l2_subdev(entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:373:74: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:561:7: error: no member named 'entity' in 'v4l2_subdev'
-     561 |         sd = media_entity_to_v4l2_subdev(entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> drivers/media/pci/intel/ipu6/../ipu-isys-video.c:561:5: error: assigning to 'struct v4l2_subdev *' from incompatible type 'void'
-     561 |         sd = media_entity_to_v4l2_subdev(entity);
-         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:586:7: error: no member named 'entity' in 'struct v4l2_subdev'
-     586 |         sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:373:74: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:586:7: error: no member named 'entity' in 'v4l2_subdev'
-     586 |         sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:586:5: error: assigning to 'struct v4l2_subdev *' from incompatible type 'void'
-     586 |         sd = media_entity_to_v4l2_subdev(link->source->entity);
-         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:588:54: error: no member named 'entity' in 'struct video_device'
-     588 |                 ip->external = media_pad_remote_pad_first(av->vdev.entity.pads);
-         |                                                           ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:638:62: error: no member named 'entity' in 'struct video_device'
-     638 |         struct media_pipeline *mp = media_entity_pipeline(&av->vdev.entity);
-         |                                                            ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:660:62: error: no member named 'entity' in 'struct video_device'
-     660 |         struct media_pipeline *mp = media_entity_pipeline(&av->vdev.entity);
-         |                                                            ~~~~~~~~ ^
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:681:7: error: no member named 'entity' in 'struct v4l2_subdev'
-     681 |         sd = media_entity_to_v4l2_subdev(ip->external->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:373:74: note: expanded from macro '__same_type'
-     373 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:681:7: error: no member named 'entity' in 'v4l2_subdev'
-     681 |         sd = media_entity_to_v4l2_subdev(ip->external->entity);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1105:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
-    1105 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^                                             ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   drivers/media/pci/intel/ipu6/../ipu-isys-video.c:681:5: error: assigning to 'struct v4l2_subdev *' from incompatible type 'void'
-     681 |         sd = media_entity_to_v4l2_subdev(ip->external->entity);
-         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-..
+   In file included from drivers/clk/clk-eyeq.c:30:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/clk/clk-eyeq.c:30:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/clk/clk-eyeq.c:30:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/clk/clk-eyeq.c:264:9: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     264 |                 val = readq(priv->base + pll->reg64);
+         |                       ^
+   drivers/clk/clk-eyeq.c:724:9: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     724 |                 val = readq(base + pll->reg64);
+         |                       ^
+   6 warnings and 2 errors generated.
 
 
-vim +109 drivers/media/pci/intel/ipu6/../ipu-isys-csi2-be-soc.c
+vim +/readq +264 drivers/clk/clk-eyeq.c
 
-   103	
-   104	static int
-   105	__subdev_link_validate(struct v4l2_subdev *sd, struct media_link *link,
-   106			       struct v4l2_subdev_format *source_fmt,
-   107			       struct v4l2_subdev_format *sink_fmt)
-   108	{
- > 109		struct media_pipeline *mp = media_entity_pipeline(&sd->entity);
-   110		struct ipu_isys_pipeline *ip = container_of(mp,
-   111							    struct ipu_isys_pipeline,
-   112							    pipe);
-   113	
-   114		ip->csi2_be_soc = to_ipu_isys_csi2_be_soc(sd);
-   115		return ipu_isys_subdev_link_validate(sd, link, source_fmt, sink_fmt);
-   116	}
-   117	
-   118	static int
-   119	ipu_isys_csi2_be_soc_set_sel(struct v4l2_subdev *sd,
-   120				     struct v4l2_subdev_state *state,
-   121				     struct v4l2_subdev_selection *sel)
-   122	{
-   123		struct ipu_isys_subdev *asd = to_ipu_isys_subdev(sd);
-   124		struct media_pad *pad = &asd->sd.entity.pads[sel->pad];
-   125	
-   126		if (sel->target == V4L2_SEL_TGT_CROP &&
-   127		    pad->flags & MEDIA_PAD_FL_SOURCE &&
-   128		    asd->valid_tgts[sel->pad].crop) {
-   129			enum isys_subdev_prop_tgt tgt =
-   130			    IPU_ISYS_SUBDEV_PROP_TGT_SOURCE_CROP;
-   131			struct v4l2_mbus_framefmt *ffmt =
-   132				__ipu_isys_get_ffmt(sd, state, sel->pad, sel->which);
-   133	
-   134			if (get_supported_code_index(ffmt->code) < 0) {
-   135				/* Non-bayer formats can't be odd lines cropped */
-   136				sel->r.left &= ~1;
-   137				sel->r.top &= ~1;
-   138			}
-   139	
-   140			sel->r.width = clamp(sel->r.width, IPU_ISYS_MIN_WIDTH,
-   141					     IPU_ISYS_MAX_WIDTH);
-   142	
-   143			sel->r.height = clamp(sel->r.height, IPU_ISYS_MIN_HEIGHT,
-   144					      IPU_ISYS_MAX_HEIGHT);
-   145	
-   146			*__ipu_isys_get_selection(sd, state, sel->target, sel->pad,
-   147						  sel->which) = sel->r;
-   148			ipu_isys_subdev_fmt_propagate(sd, state, NULL, &sel->r,
-   149						      tgt, sel->pad, sel->which);
-   150			return 0;
-   151		}
-   152		return -EINVAL;
-   153	}
-   154	
-   155	static const struct v4l2_subdev_pad_ops csi2_be_soc_sd_pad_ops = {
- > 156		.link_validate = __subdev_link_validate,
-   157		.get_fmt = ipu_isys_subdev_get_ffmt,
-   158		.set_fmt = ipu_isys_subdev_set_ffmt,
-   159		.get_selection = ipu_isys_subdev_get_sel,
-   160		.set_selection = ipu_isys_csi2_be_soc_set_sel,
-   161		.enum_mbus_code = ipu_isys_subdev_enum_mbus_code,
-   162	};
-   163	
-   164	static struct v4l2_subdev_ops csi2_be_soc_sd_ops = {
-   165		.core = &csi2_be_soc_sd_core_ops,
-   166		.video = &csi2_be_soc_sd_video_ops,
-   167		.pad = &csi2_be_soc_sd_pad_ops,
-   168	};
-   169	
-   170	static struct media_entity_operations csi2_be_soc_entity_ops = {
- > 171		.link_validate = v4l2_subdev_link_validate,
-   172	};
-   173	
+   249	
+   250	static void eqc_probe_init_plls(struct device *dev, struct eqc_priv *priv)
+   251	{
+   252		const struct eqc_match_data *data = priv->data;
+   253		unsigned long mult, div, acc;
+   254		const struct eqc_pll *pll;
+   255		struct clk_hw *hw;
+   256		unsigned int i;
+   257		u32 r0, r1;
+   258		u64 val;
+   259		int ret;
+   260	
+   261		for (i = 0; i < data->pll_count; i++) {
+   262			pll = &data->plls[i];
+   263	
+ > 264			val = readq(priv->base + pll->reg64);
+   265			r0 = val;
+   266			r1 = val >> 32;
+   267	
+   268			ret = eqc_pll_parse_registers(r0, r1, &mult, &div, &acc);
+   269			if (ret) {
+   270				dev_warn(dev, "failed parsing state of %s\n", pll->name);
+   271				priv->cells->hws[pll->index] = ERR_PTR(ret);
+   272				continue;
+   273			}
+   274	
+   275			hw = clk_hw_register_fixed_factor_with_accuracy_fwname(dev,
+   276					dev->of_node, pll->name, "ref", 0, mult, div, acc);
+   277			priv->cells->hws[pll->index] = hw;
+   278			if (IS_ERR(hw))
+   279				dev_warn(dev, "failed registering %s: %pe\n", pll->name, hw);
+   280		}
+   281	}
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
