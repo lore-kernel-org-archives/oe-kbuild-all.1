@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA32C7344F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 04:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342A84AEF6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 04:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720152170; cv=none; b=KwA3xlu19nhHKZdJuMBHz4NyMbSe3zoBscvOwti8Dquhk/2Yg1F/y88Mo/r6AyucyEf61lfPPGwxuyr3GeEJpcmQMA0rKyOdXCaa894VbaMsIWELrW8Yt3/AvtHjonHlovTbISix+fRHKv/8oh1nZbnfnYbwdR7f18OJWCjatgM=
+	t=1720152831; cv=none; b=rssABKmFmxtTT6z4I9z97anYaMTaPUCx7T1l7jiP6iob4pN8AtcJysGFFw45E8ViStXAgTdP3s/N3s4Xe9WAB434MzoLDTO7Gn6gzvw5Pu7icv3GSJsep8FA7vDpXRltJ+iwz98jfvyFUKdUSKmsZH8w552mIDE7eXi/S2ZP2dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720152170; c=relaxed/simple;
-	bh=NTs8cdPmXydAT7wf+ZRCPvOrg5JcTb7r2luwDH/A6qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YZo1lDJ2O0r4J9sc4981iMRNTt4gsV/pdGcSyT9stGGDu6yfKxA/1A5Yv79wnmlMvltDM2nrTtMQP1cpjzzxW7t1kqEFjtPdfJlGfmnsULdelN2dcUoOQk0EJN/zE6ICWvLyoz2W5H1uFPnfGQk35eVi+pBCNJtskvQX61tEv8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E5xu9kPu; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1720152831; c=relaxed/simple;
+	bh=DgJOfUyOSxVhQfMvmhTpdQIhTot3ud+pCunclUi06xE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHFdolMf4Q7ZyQPYUfOYhUBQPT37eXeMhkMOdKsEfkGenWmKbi3ZgHUmxNMnj63iBdN7BELx2OUltGjnsjbmLthZG13/Tae/mMH3jWGOxt4zqlOaO0xoi6HhfFw/E2h4huqRy9tYK/LgjSpouYq5icSQWI8W3D7Kf/dwPQ/7AGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtbwNWY4; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E5xu9kPu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtbwNWY4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720152169; x=1751688169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NTs8cdPmXydAT7wf+ZRCPvOrg5JcTb7r2luwDH/A6qw=;
-  b=E5xu9kPuDQf9qj3iE5Xu9XctKKT3VOjLzbGb7xWDJ8IdD5E0QJrZS9zx
-   UY2I/ejAbU7EPtEkIGHcwH8QNiVn7zQSZjI4Xa+95aJUDVb7EXJvgCEct
-   LhqTJpzyuVTkR9tObvaEteBV27rJQ7mVUTg/nwPdGFv9N7H9Hu3N1mzPu
-   N3HzUurDWCcD6df/LLbbUeH1TM1QkRF6YIq7OO7dNBCsvujY4aojI9qvo
-   hNIxRDybNOyJwrDisFeqzKhNgptc+Ui2kn67YvnffwYdhq77BE3BGtgt+
-   8DM6wlnBGm9xEKMf6QDIVMIyCMOzqh+X+65DbkgUHpXuENED3KDqPenAN
-   g==;
-X-CSE-ConnectionGUID: nyZ+alrgRnatzD8bWCWtYA==
-X-CSE-MsgGUID: UAt/WepQQmSce3FoOgjMVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17081659"
+  t=1720152830; x=1751688830;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DgJOfUyOSxVhQfMvmhTpdQIhTot3ud+pCunclUi06xE=;
+  b=PtbwNWY4EaAJx61UdRgse02mRMgOTmFf1tsqXRanT5w2np0mge6W/wnt
+   /WvGaLEO3I2YDrf75ZN6TzwqHqIfRdESd2wgcgbx5mZXTrmTIWl+AIOxd
+   YvLi8XjI5t5UEmWXTGSBWyV1dvnjUfvCT/bQ8fN29AvTA2f/TTscazB5s
+   qgpIIkKNPL9McLesj4BaBCCGwIK4zNrWcnHLLm+xtQxBhrzm/0ArHWVHt
+   DaTI8UImY9XA7OuY957FAsTW4058RsQt2dBYAy96+jwe3UI6Ls3PWhS0q
+   XigIVSoDM0/NjPwJ1suL7GJjIcEqcf2CIKhvnBKIJwbKA6LTwgd5gy7RW
+   A==;
+X-CSE-ConnectionGUID: g3wyIevTQBuezqKTepf52g==
+X-CSE-MsgGUID: KEpmyf4ISC6LWCoWulf/pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17542351"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17081659"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:02:48 -0700
-X-CSE-ConnectionGUID: miGB7wAdTG+jVSj2Eq3mJA==
-X-CSE-MsgGUID: gczDXJkkTSy5j3tWShrBdQ==
+   d="scan'208";a="17542351"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:13:49 -0700
+X-CSE-ConnectionGUID: h6gQyRWgSs6tkoY6PEIYgw==
+X-CSE-MsgGUID: 1toK6P7UQbKpG292BlGNQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51091746"
+   d="scan'208";a="47196195"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Jul 2024 21:02:46 -0700
+  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2024 21:13:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPa9k-000Rt5-1I;
-	Fri, 05 Jul 2024 04:02:44 +0000
-Date: Fri, 5 Jul 2024 12:02:15 +0800
+	id 1sPaKO-000RtI-28;
+	Fri, 05 Jul 2024 04:13:44 +0000
+Date: Fri, 5 Jul 2024 12:13:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Pirko <jiri@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Subject: [mst-vhost:vhost 45/58] drivers/s390/virtio/virtio_ccw.c:708:22:
- error: 'vq_info' undeclared; did you mean 'vqs_info'?
-Message-ID: <202407051121.VASLAYUt-lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] riscv: uaccess: use 'asm goto output' for get_user
+Message-ID: <202407051159.ArkAPA6L-lkp@intel.com>
+References: <20240625040500.1788-5-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,115 +66,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240625040500.1788-5-jszhang@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git vhost
-head:   b3dab3dfaa73df6bde78cb52f6bc03f57c4d056c
-commit: f07c2dc394264dd811776de1dec9544f2181f2e4 [45/58] virtio: convert find_vqs() op implementations to find_vqs_info()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240705/202407051121.VASLAYUt-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051121.VASLAYUt-lkp@intel.com/reproduce)
+Hi Jisheng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-implement-user_access_begin-and-families/20240626-005352
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240625040500.1788-5-jszhang%40kernel.org
+patch subject: [PATCH 4/4] riscv: uaccess: use 'asm goto output' for get_user
+config: riscv-randconfig-r121-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051159.ArkAPA6L-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240705/202407051159.ArkAPA6L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051121.VASLAYUt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051159.ArkAPA6L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/s390/virtio/virtio_ccw.c: In function 'virtio_ccw_find_vqs':
->> drivers/s390/virtio/virtio_ccw.c:708:22: error: 'vq_info' undeclared (first use in this function); did you mean 'vqs_info'?
-     708 |                 if (!vq_info->name) {
-         |                      ^~~~~~~
-         |                      vqs_info
-   drivers/s390/virtio/virtio_ccw.c:708:22: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/compiler_types.h:174,
+                    from <command-line>:
+   net/rfkill/core.c: In function 'rfkill_fop_ioctl':
+>> arch/riscv/include/asm/uaccess.h:104:26: error: '__lo' undeclared (first use in this function)
+     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
+         |                          ^~~~
+   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
+      84 |         do { asm volatile goto(x); asm (""); } while (0)
+         |                                ^
+   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
+     148 |                 __get_user_8((x), __gu_ptr, label);             \
+         |                 ^~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
+     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
+     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
+     226 |                 __get_user((x), __p) :                          \
+         |                 ^~~~~~~~~~
+   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
+    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
+         |                     ^~~~~~~~
+   arch/riscv/include/asm/uaccess.h:104:26: note: each undeclared identifier is reported only once for each function it appears in
+     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
+         |                          ^~~~
+   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
+      84 |         do { asm volatile goto(x); asm (""); } while (0)
+         |                                ^
+   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
+     148 |                 __get_user_8((x), __gu_ptr, label);             \
+         |                 ^~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
+     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
+     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
+     226 |                 __get_user((x), __p) :                          \
+         |                 ^~~~~~~~~~
+   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
+    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
+         |                     ^~~~~~~~
+>> arch/riscv/include/asm/uaccess.h:104:39: error: '__hi' undeclared (first use in this function)
+     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
+         |                                       ^~~~
+   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
+      84 |         do { asm volatile goto(x); asm (""); } while (0)
+         |                                ^
+   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
+     148 |                 __get_user_8((x), __gu_ptr, label);             \
+         |                 ^~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
+     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
+     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
+     226 |                 __get_user((x), __p) :                          \
+         |                 ^~~~~~~~~~
+   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
+    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
+         |                     ^~~~~~~~
+>> arch/riscv/include/asm/uaccess.h:105:24: error: '__ptr' undeclared (first use in this function); did you mean '__p'?
+     105 |                 : "m" (__ptr[__LSW]), "m" (__ptr[__MSW])        \
+         |                        ^~~~~
+   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
+      84 |         do { asm volatile goto(x); asm (""); } while (0)
+         |                                ^
+   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
+     148 |                 __get_user_8((x), __gu_ptr, label);             \
+         |                 ^~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
+     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
+     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
+     226 |                 __get_user((x), __p) :                          \
+         |                 ^~~~~~~~~~
+   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
+    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
+         |                     ^~~~~~~~
 
 
-vim +708 drivers/s390/virtio/virtio_ccw.c
+vim +/__lo +104 arch/riscv/include/asm/uaccess.h
 
-   689	
-   690	static int virtio_ccw_find_vqs(struct virtio_device *vdev, unsigned nvqs,
-   691				       struct virtqueue *vqs[],
-   692				       struct virtqueue_info vqs_info[],
-   693				       struct irq_affinity *desc)
-   694	{
-   695		struct virtio_ccw_device *vcdev = to_vc_device(vdev);
-   696		struct virtqueue_info *vqi;
-   697		dma64_t *indicatorp = NULL;
-   698		int ret, i, queue_idx = 0;
-   699		struct ccw1 *ccw;
-   700		dma32_t indicatorp_dma = 0;
-   701	
-   702		ccw = ccw_device_dma_zalloc(vcdev->cdev, sizeof(*ccw), NULL);
-   703		if (!ccw)
-   704			return -ENOMEM;
-   705	
-   706		for (i = 0; i < nvqs; ++i) {
-   707			vqi = &vqs_info[i];
- > 708			if (!vq_info->name) {
-   709				vqs[i] = NULL;
-   710				continue;
-   711			}
-   712	
-   713			vqs[i] = virtio_ccw_setup_vq(vdev, queue_idx++, vqi->callback,
-   714						     vqi->name, vqi->ctx, ccw);
-   715			if (IS_ERR(vqs[i])) {
-   716				ret = PTR_ERR(vqs[i]);
-   717				vqs[i] = NULL;
-   718				goto out;
-   719			}
-   720		}
-   721		ret = -ENOMEM;
-   722		/*
-   723		 * We need a data area under 2G to communicate. Our payload is
-   724		 * the address of the indicators.
-   725		*/
-   726		indicatorp = ccw_device_dma_zalloc(vcdev->cdev,
-   727						   sizeof(*indicatorp),
-   728						   &indicatorp_dma);
-   729		if (!indicatorp)
-   730			goto out;
-   731		*indicatorp = indicators_dma(vcdev);
-   732		if (vcdev->is_thinint) {
-   733			ret = virtio_ccw_register_adapter_ind(vcdev, vqs, nvqs, ccw);
-   734			if (ret)
-   735				/* no error, just fall back to legacy interrupts */
-   736				vcdev->is_thinint = false;
-   737		}
-   738		ccw->cda = indicatorp_dma;
-   739		if (!vcdev->is_thinint) {
-   740			/* Register queue indicators with host. */
-   741			*indicators(vcdev) = 0;
-   742			ccw->cmd_code = CCW_CMD_SET_IND;
-   743			ccw->flags = 0;
-   744			ccw->count = sizeof(*indicatorp);
-   745			ret = ccw_io_helper(vcdev, ccw, VIRTIO_CCW_DOING_SET_IND);
-   746			if (ret)
-   747				goto out;
-   748		}
-   749		/* Register indicators2 with host for config changes */
-   750		*indicatorp = indicators2_dma(vcdev);
-   751		*indicators2(vcdev) = 0;
-   752		ccw->cmd_code = CCW_CMD_SET_CONF_IND;
-   753		ccw->flags = 0;
-   754		ccw->count = sizeof(*indicatorp);
-   755		ret = ccw_io_helper(vcdev, ccw, VIRTIO_CCW_DOING_SET_CONF_IND);
-   756		if (ret)
-   757			goto out;
-   758	
-   759		if (indicatorp)
-   760			ccw_device_dma_free(vcdev->cdev, indicatorp,
-   761					    sizeof(*indicatorp));
-   762		ccw_device_dma_free(vcdev->cdev, ccw, sizeof(*ccw));
-   763		return 0;
-   764	out:
-   765		if (indicatorp)
-   766			ccw_device_dma_free(vcdev->cdev, indicatorp,
-   767					    sizeof(*indicatorp));
-   768		ccw_device_dma_free(vcdev->cdev, ccw, sizeof(*ccw));
-   769		virtio_ccw_del_vqs(vdev);
-   770		return ret;
-   771	}
-   772	
+    94	
+    95	#ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+    96	#define __get_user_8(x, ptr, label)				\
+    97		asm_goto_output(					\
+    98			"1:\n"						\
+    99			"	lw %0, %2\n"				\
+   100			"2:\n"						\
+   101			"	lw %1, %3\n"				\
+   102			_ASM_EXTABLE_UACCESS_ERR(1b, %l4, %0)		\
+   103			_ASM_EXTABLE_UACCESS_ERR(2b, %l4, %0)		\
+ > 104			: "=&r" (__lo), "=r" (__hi)			\
+ > 105			: "m" (__ptr[__LSW]), "m" (__ptr[__MSW])	\
+   106			: : label)
+   107	
 
 -- 
 0-DAY CI Kernel Test Service
