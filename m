@@ -1,40 +1,68 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DCED38DD4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 09:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F09A13665A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 09:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720170192; cv=none; b=C2EAYEuP6ZwoZ1MPbRBmwLErOMGB4Qz6BTpR4AFmiBmpe9/Hy/USXHQoi1w2xKdyRIJYUMqiDsVaoH0ULyriNWdcCsTMpIoeyg6ZWfpOzWnxOPX8oylwhBYZeiAmBJVNjIqDK4/k6uFTWFVIZKIq97MYFWDFTLdWAtS3hQrzxDc=
+	t=1720170717; cv=none; b=o2Sr9Zuq2h5C3SSZhlPdl4xA3TsRRFFWwXSTxex3nlnrOrkdQ7dYrqdxMFa84jxZp46XRt6h9iBq5llBSoXTHCRdaW0oxatcIANJ3wwCKILDnDUmF5NmIIBDk4mhXU+TuHGBl/nus4c6PlSPDimCeXNeqHy25ZQlxDI06g8mpdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720170192; c=relaxed/simple;
-	bh=s0ASB9R5U6c5ijqsIoHVU3z6qpQzMSkly5hTmUJnkcs=;
+	s=arc-20240116; t=1720170717; c=relaxed/simple;
+	bh=CnlF5E4a5lr4vVeUZDKo/2jjL1AfhYBBcKFIy4jthv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tf89rgriP8eYmc1etPFn29UJvPbNip14bSwqaDKC/WN8pT1oLqAa/c6fQAkfAE4uF2tcCItOhaYjC6+kwReSRh+N9gabvlHnDKKL1xMoiOcpwzQbIMXTUw95uruZ9MhFiA6wyZaa9S/mh+oDplfWomq5txfI0rMm4Tw72YDBj9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73467367;
-	Fri,  5 Jul 2024 02:03:34 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C0B63F762;
-	Fri,  5 Jul 2024 02:03:08 -0700 (PDT)
-Date: Fri, 5 Jul 2024 10:03:06 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [linux-next:master 9019/10049]
- drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not
- used
-Message-ID: <Zoe2yiHKJqxneAhq@arm.com>
-References: <202407021807.cBuWVBVa-lkp@intel.com>
- <ZoZiwNbzoFQi5-Vg@arm.com>
- <86cynt4jem.wl-maz@kernel.org>
- <ZoZ5ECjjgFNCaPYj@arm.com>
- <87a5ixp1fu.wl-maz@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qcF39dIFQsl6P1W1uZiQOq5VFQLxSttPR8284YDRwyhc6uwQjVablyCiFEZaaIXXKi+vwbho1iAnQTlFRLor+pS1VjR/ZZpvthRkf1jQuFmmYCVR5pmHEIHZ7bBau+5Y+p6Gks2wu5Lg7VaakcVViwA60+kJYKPivrvqtXE3PhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQ7yZt1H; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQ7yZt1H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720170715; x=1751706715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CnlF5E4a5lr4vVeUZDKo/2jjL1AfhYBBcKFIy4jthv8=;
+  b=FQ7yZt1HR+5M32ayVk3wxrVUmnDuHYEtNmY8UFXu569GBPZhMvCu2hxM
+   9CMep/oDPCjKrz1fCSH/FMMXf+euOGV3q5+q+tZfwbYioGxnpeLv+mmpQ
+   WYS+2yZvNyMAkMNz9y0nJoky2z2oRArkcOCJTcekc66S1oFGpLS6UbWCQ
+   VAclCg2OLe3a6dgda7DbZJ4UGGEzjSeus3cLAekBWkGEbf2w1tYgRYnDR
+   ilLzJrRRwObQRtWidNWJ56Wn6b9K5hpPDu20Q8jic/gFZ3x5qcMh2OdM0
+   wo6wNigi8Lvb4fAjTmsgNyyxvw6u1/F+QQ+GPQwfRTdQiy7AnROvwfc6e
+   A==;
+X-CSE-ConnectionGUID: AhEONQqhRx61wy3rmt2B7A==
+X-CSE-MsgGUID: a0lFWxMIR22+DQIYRMCVYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="20362105"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="20362105"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 02:11:55 -0700
+X-CSE-ConnectionGUID: MUT4jryPTyesu5F/VdEC4A==
+X-CSE-MsgGUID: JQ705aqCRrSj5eeLcxr05g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="46937506"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 05 Jul 2024 02:11:52 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sPeyr-000SAm-1J;
+	Fri, 05 Jul 2024 09:11:49 +0000
+Date: Fri, 5 Jul 2024 17:11:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris Lu <chris.lu@mediatek.com>, Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Von Dentz <luiz.dentz@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
+	Aaron Hou <aaron.hou@mediatek.com>,
+	Steve Lee <steve.lee@mediatek.com>,
+	linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-mediatek <linux-mediatek@lists.infradead.org>,
+	Chris Lu <chris.lu@mediatek.com>
+Subject: Re: [PATCH v7 8/8] Bluetooth: btusb: mediatek: add ISO data
+ transmission functions
+Message-ID: <202407051652.C743BIjp-lkp@intel.com>
+References: <20240704060116.16600-9-chris.lu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,102 +71,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a5ixp1fu.wl-maz@kernel.org>
+In-Reply-To: <20240704060116.16600-9-chris.lu@mediatek.com>
 
-On Thu, Jul 04, 2024 at 05:27:33PM +0100, Marc Zyngier wrote:
-> On Thu, 04 Jul 2024 11:27:28 +0100,
-> Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > 
-> > On Thu, Jul 04, 2024 at 10:05:05AM +0100, Marc Zyngier wrote:
-> > > On Thu, 04 Jul 2024 09:52:16 +0100,
-> > > Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > > 
-> > > > On Tue, Jul 02, 2024 at 06:40:12PM +0800, kernel test robot wrote:
-> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > > head:   82e4255305c554b0bb18b7ccf2db86041b4c8b6e
-> > > > > commit: d633da5d3ab1a0eb26a2213d65da1e189e82f8ab [9019/10049] irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs
-> > > > > config: arm-randconfig-r034-20220810 (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/config)
-> > > > > compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407021807.cBuWVBVa-lkp@intel.com/
-> > > > > 
-> > > > > All warnings (new ones prefixed by >>):
-> > > > > 
-> > > > > >> drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used [-Wunused-variable]
-> > > > >       47 | static struct cpumask broken_rdists __read_mostly;
-> > > > >          |                       ^~~~~~~~~~~~~
-> > > > > 
-> > > > > 
-> > > > > vim +/broken_rdists +47 drivers/irqchip/irq-gic-v3.c
-> > > > 
-> > > > This can happen when building on arm32 with SMP disabled. So we either
-> > > > add a __maybe_unused annotation or we move the variable further down in
-> > > > the CONFIG_SMP block. Marc, what's your preference?
-> > > > 
-> > > > -----------8<----------------------
-> > > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-> > > > index c29b424d1d0c..6393f3d780e9 100644
-> > > > --- a/drivers/irqchip/irq-gic-v3.c
-> > > > +++ b/drivers/irqchip/irq-gic-v3.c
-> > > > @@ -47,7 +47,7 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
-> > > >  
-> > > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
-> > > >  
-> > > > -static struct cpumask broken_rdists __read_mostly;
-> > > > +static struct cpumask broken_rdists __read_mostly __maybe_unused;
-> > > >  
-> > > >  struct redist_region {
-> > > >  	void __iomem		*redist_base;
-> > > > -----------8<----------------------
-> > > > 
-> > > > or,
-> > > > 
-> > > > -----------8<----------------------
-> > > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-> > > > index c29b424d1d0c..187948f41bb3 100644
-> > > > --- a/drivers/irqchip/irq-gic-v3.c
-> > > > +++ b/drivers/irqchip/irq-gic-v3.c
-> > > > @@ -47,8 +47,6 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
-> > > >  
-> > > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
-> > > >  
-> > > > -static struct cpumask broken_rdists __read_mostly;
-> > > > -
-> > > >  struct redist_region {
-> > > >  	void __iomem		*redist_base;
-> > > >  	phys_addr_t		phys_base;
-> > > > @@ -1316,6 +1314,8 @@ static void gic_cpu_init(void)
-> > > >  
-> > > >  #ifdef CONFIG_SMP
-> > > >  
-> > > > +static struct cpumask broken_rdists __read_mostly;
-> > > > +
-> > > >  #define MPIDR_TO_SGI_RS(mpidr)	(MPIDR_RS(mpidr) << ICC_SGI1R_RS_SHIFT)
-> > > >  #define MPIDR_TO_SGI_CLUSTER_ID(mpidr)	((mpidr) & ~0xFUL)
-> > > 
-> > > The second version seems to be the most logical one, since we already
-> > > have this SMP-only block (note to self: constraint GICv3 support to
-> > > SMP only at the earliest opportunity).
-> > > 
-> > > Feel free to add my
-> > > 
-> > > Acked-by: Marc Zyngier <maz@kernel.org>
-> > > 
-> > > if you decide to push a fix on top of this branch.
-> > 
-> > Ah, it's also used in the CONFIG_ACPI block further down. So
-> > __maybe_unused may be easier. Or add some #if defined(CONFIG_SMP) ||
-> > defined(CONFIG_ACPI) but it seems too verbose.
-> 
-> Ah, of course. Go for the __maybe_unused then, it's not a big deal.
-> 
-> My Ack still stands.
+Hi Chris,
 
-Thanks.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on next-20240703]
+[cannot apply to bluetooth/master linus/master v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Lu/Bluetooth-btusb-mediatek-remove-the-unnecessary-goto-tag/20240705-043833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240704060116.16600-9-chris.lu%40mediatek.com
+patch subject: [PATCH v7 8/8] Bluetooth: btusb: mediatek: add ISO data transmission functions
+config: i386-buildonly-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051652.C743BIjp-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051652.C743BIjp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051652.C743BIjp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_recv_acl':
+   btmtk.c:(.text+0x749): undefined reference to `usb_disable_autosuspend'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_submit_wmt_recv_urb':
+   btmtk.c:(.text+0x789): undefined reference to `usb_alloc_urb'
+   ld: btmtk.c:(.text+0x81d): undefined reference to `usb_anchor_urb'
+   ld: btmtk.c:(.text+0x829): undefined reference to `usb_submit_urb'
+   ld: btmtk.c:(.text+0x836): undefined reference to `usb_free_urb'
+   ld: btmtk.c:(.text+0x880): undefined reference to `usb_unanchor_urb'
+   ld: btmtk.c:(.text+0x889): undefined reference to `usb_free_urb'
+   ld: btmtk.c:(.text+0x89e): undefined reference to `usb_free_urb'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_submit_intr_urb':
+   btmtk.c:(.text+0x8db): undefined reference to `usb_alloc_urb'
+   ld: btmtk.c:(.text+0x991): undefined reference to `usb_anchor_urb'
+   ld: btmtk.c:(.text+0x99a): undefined reference to `usb_submit_urb'
+   ld: btmtk.c:(.text+0x9a7): undefined reference to `usb_free_urb'
+   ld: btmtk.c:(.text+0xa18): undefined reference to `usb_unanchor_urb'
+   ld: btmtk.c:(.text+0xa28): undefined reference to `usb_free_urb'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_suspend':
+   btmtk.c:(.text+0xa92): undefined reference to `usb_kill_anchored_urbs'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_hci_wmt_sync':
+   btmtk.c:(.text+0xb15): undefined reference to `usb_autopm_get_interface'
+   ld: btmtk.c:(.text+0xb51): undefined reference to `usb_autopm_put_interface'
+   ld: btmtk.c:(.text+0xc0f): undefined reference to `usb_autopm_put_interface'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_isointf_init.constprop.0':
+   btmtk.c:(.text+0xefc): undefined reference to `usb_set_interface'
+>> ld: btmtk.c:(.text+0x1063): undefined reference to `usb_kill_anchored_urbs'
+   ld: drivers/bluetooth/btmtk.o: in function `alloc_mtk_intr_urb':
+   btmtk.c:(.text+0x113c): undefined reference to `usb_alloc_urb'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_wmt_recv':
+   btmtk.c:(.text+0x12bb): undefined reference to `usb_anchor_urb'
+   ld: btmtk.c:(.text+0x12c7): undefined reference to `usb_submit_urb'
+   ld: btmtk.c:(.text+0x13e6): undefined reference to `usb_unanchor_urb'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_reg_read':
+   btmtk.c:(.text+0x14cb): undefined reference to `usb_control_msg'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_uhw_reg_write':
+   btmtk.c:(.text+0x1559): undefined reference to `usb_control_msg'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_uhw_reg_read':
+   btmtk.c:(.text+0x1609): undefined reference to `usb_control_msg'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_intr_complete':
+   btmtk.c:(.text+0x170f): undefined reference to `usb_anchor_urb'
+   ld: btmtk.c:(.text+0x171b): undefined reference to `usb_submit_urb'
+   ld: btmtk.c:(.text+0x1779): undefined reference to `usb_unanchor_urb'
 
 -- 
-Catalin
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
