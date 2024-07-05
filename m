@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342A84AEF6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 04:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE495336A;
+	Fri,  5 Jul 2024 05:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720152831; cv=none; b=rssABKmFmxtTT6z4I9z97anYaMTaPUCx7T1l7jiP6iob4pN8AtcJysGFFw45E8ViStXAgTdP3s/N3s4Xe9WAB434MzoLDTO7Gn6gzvw5Pu7icv3GSJsep8FA7vDpXRltJ+iwz98jfvyFUKdUSKmsZH8w552mIDE7eXi/S2ZP2dM=
+	t=1720156444; cv=none; b=PGikqDO1QmJUgeJLUm5rp0L54a8vQqpkS8avRI+FZxgBR3BcHp1CkatWKaxb00l8N//N7xJXC4a4FnfQhvwSaiiiPFOOnt1nLhf0sPYQ/n+VvuAhTNJuWeGUS5cqK0/s/7YQ6x2BkeVf1ryh00u5/q8+4l78Igimo+Ide/4Ph1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720152831; c=relaxed/simple;
-	bh=DgJOfUyOSxVhQfMvmhTpdQIhTot3ud+pCunclUi06xE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IHFdolMf4Q7ZyQPYUfOYhUBQPT37eXeMhkMOdKsEfkGenWmKbi3ZgHUmxNMnj63iBdN7BELx2OUltGjnsjbmLthZG13/Tae/mMH3jWGOxt4zqlOaO0xoi6HhfFw/E2h4huqRy9tYK/LgjSpouYq5icSQWI8W3D7Kf/dwPQ/7AGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtbwNWY4; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1720156444; c=relaxed/simple;
+	bh=0QiehtPQWVwVVbvSJaYwZEESd7T6YpVbOToGzvzWNJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A2/DQfN31tvWEWDXa4cbqAPrLHF6K5o7aNIl+C8GB46uXVNr6ADLqUBnAmRTbZ2V6Fo0YkbaALYnRCrN8e2lyFBFDVf6S45GBK1n+geaGWrRa+yIAeFI9QQNnfUOC39/oBpYdrP3t4UsJxK6Go6i29WRdHvjFTiKPjJrmIcRfzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kz8UpOrF; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtbwNWY4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz8UpOrF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720152830; x=1751688830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DgJOfUyOSxVhQfMvmhTpdQIhTot3ud+pCunclUi06xE=;
-  b=PtbwNWY4EaAJx61UdRgse02mRMgOTmFf1tsqXRanT5w2np0mge6W/wnt
-   /WvGaLEO3I2YDrf75ZN6TzwqHqIfRdESd2wgcgbx5mZXTrmTIWl+AIOxd
-   YvLi8XjI5t5UEmWXTGSBWyV1dvnjUfvCT/bQ8fN29AvTA2f/TTscazB5s
-   qgpIIkKNPL9McLesj4BaBCCGwIK4zNrWcnHLLm+xtQxBhrzm/0ArHWVHt
-   DaTI8UImY9XA7OuY957FAsTW4058RsQt2dBYAy96+jwe3UI6Ls3PWhS0q
-   XigIVSoDM0/NjPwJ1suL7GJjIcEqcf2CIKhvnBKIJwbKA6LTwgd5gy7RW
-   A==;
-X-CSE-ConnectionGUID: g3wyIevTQBuezqKTepf52g==
-X-CSE-MsgGUID: KEpmyf4ISC6LWCoWulf/pQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17542351"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17542351"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:13:49 -0700
-X-CSE-ConnectionGUID: h6gQyRWgSs6tkoY6PEIYgw==
-X-CSE-MsgGUID: 1toK6P7UQbKpG292BlGNQg==
+  t=1720156442; x=1751692442;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0QiehtPQWVwVVbvSJaYwZEESd7T6YpVbOToGzvzWNJU=;
+  b=Kz8UpOrFICspAWTVs0l3oGJbAL65l5SW9mKshIi8YcV/pWii/+h4BPOO
+   LwL+yT3ENKq9vjaTmZkjjFWNe4PW9pBaWGGFFLc3gt/xpRP9nxteM3pbw
+   l+UbcuMdYQWEBIz6085+Kj+abIgkvOSoJodauFPI4WgrIDBA/GlHA0fkt
+   W8y4jfnDVdv9SPaQSUE0vaBxCsblK9ka2YNm8JzPmas8VG5VM3dB146gj
+   jkL3FrpVb+t6WwyUwmMVnCE+uP9aX8ZCnft2d1fNlXau0Ctf116+qEVQO
+   BpMsbtRu1kwjp6aOWiDcEai6suR1MA+8UOpIABtBN9sED4lwRshH8O1HK
+   Q==;
+X-CSE-ConnectionGUID: ngZJcTHMQticRR0ID+d7Cw==
+X-CSE-MsgGUID: CMzt2ALAR629JN5jct1gIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42861789"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="42861789"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:13:59 -0700
+X-CSE-ConnectionGUID: CFRtXw1+TLyHS2JwuXVIIA==
+X-CSE-MsgGUID: OTqRayQrSSywb9/+FHcQbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="47196195"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="69976611"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2024 21:13:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2024 22:13:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPaKO-000RtI-28;
-	Fri, 05 Jul 2024 04:13:44 +0000
-Date: Fri, 5 Jul 2024 12:13:30 +0800
+	id 1sPbGe-000RxE-0a;
+	Fri, 05 Jul 2024 05:13:56 +0000
+Date: Fri, 5 Jul 2024 13:12:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] riscv: uaccess: use 'asm goto output' for get_user
-Message-ID: <202407051159.ArkAPA6L-lkp@intel.com>
-References: <20240625040500.1788-5-jszhang@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [pza:sl-dma-demo 1/3] drivers/dma/sl-dma.c:176:2: error: call to
+ undeclared function 'writeq'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202407051257.TRpgbYnD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,138 +62,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625040500.1788-5-jszhang@kernel.org>
 
-Hi Jisheng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-implement-user_access_begin-and-families/20240626-005352
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240625040500.1788-5-jszhang%40kernel.org
-patch subject: [PATCH 4/4] riscv: uaccess: use 'asm goto output' for get_user
-config: riscv-randconfig-r121-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051159.ArkAPA6L-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240705/202407051159.ArkAPA6L-lkp@intel.com/reproduce)
+tree:   https://git.pengutronix.de/git/pza/linux sl-dma-demo
+head:   378de31c99885b2a8fbe24ebaead11139d892f28
+commit: 3b9d53b21baa3734a355a4466f9e741161df4dc8 [1/3] dmaengine: sl-dma: Add Smartlogic HCC DMA IP Core driver
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240705/202407051257.TRpgbYnD-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051257.TRpgbYnD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051159.ArkAPA6L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051257.TRpgbYnD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/compiler_types.h:174,
-                    from <command-line>:
-   net/rfkill/core.c: In function 'rfkill_fop_ioctl':
->> arch/riscv/include/asm/uaccess.h:104:26: error: '__lo' undeclared (first use in this function)
-     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
-         |                          ^~~~
-   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
-      84 |         do { asm volatile goto(x); asm (""); } while (0)
-         |                                ^
-   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
-     148 |                 __get_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
-     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
-     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
-     226 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
-    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
-         |                     ^~~~~~~~
-   arch/riscv/include/asm/uaccess.h:104:26: note: each undeclared identifier is reported only once for each function it appears in
-     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
-         |                          ^~~~
-   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
-      84 |         do { asm volatile goto(x); asm (""); } while (0)
-         |                                ^
-   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
-     148 |                 __get_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
-     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
-     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
-     226 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
-    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
-         |                     ^~~~~~~~
->> arch/riscv/include/asm/uaccess.h:104:39: error: '__hi' undeclared (first use in this function)
-     104 |                 : "=&r" (__lo), "=r" (__hi)                     \
-         |                                       ^~~~
-   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
-      84 |         do { asm volatile goto(x); asm (""); } while (0)
-         |                                ^
-   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
-     148 |                 __get_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
-     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
-     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
-     226 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
-    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
-         |                     ^~~~~~~~
->> arch/riscv/include/asm/uaccess.h:105:24: error: '__ptr' undeclared (first use in this function); did you mean '__p'?
-     105 |                 : "m" (__ptr[__LSW]), "m" (__ptr[__MSW])        \
-         |                        ^~~~~
-   include/linux/compiler-gcc.h:84:32: note: in definition of macro 'asm_goto_output'
-      84 |         do { asm volatile goto(x); asm (""); } while (0)
-         |                                ^
-   arch/riscv/include/asm/uaccess.h:148:17: note: in expansion of macro '__get_user_8'
-     148 |                 __get_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:159:9: note: in expansion of macro '__get_user_nocheck'
-     159 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:196:9: note: in expansion of macro '__get_user_error'
-     196 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:226:17: note: in expansion of macro '__get_user'
-     226 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   net/rfkill/core.c:1373:21: note: in expansion of macro 'get_user'
-    1373 |                 if (get_user(size, (__u32 __user *)arg)) {
-         |                     ^~~~~~~~
+   In file included from drivers/dma/sl-dma.c:23:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/dma/sl-dma.c:23:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/dma/sl-dma.c:23:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/dma/sl-dma.c:23:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/dma/sl-dma.c:176:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     176 |         writeq(value, sl_dma->bar + offset);
+         |         ^
+   drivers/dma/sl-dma.c:956:39: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     955 |                 "Preparing transfer for %s channel %u, address = 0x%llx, len = %u\n",
+         |                                                                    ~~~~
+         |                                                                    %x
+     956 |                 sl_dma_direction_name(ch), ch->num, sg_dma_address(sgl),
+         |                                                     ^~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/scatterlist.h:31:28: note: expanded from macro 'sg_dma_address'
+      31 | #define sg_dma_address(sg)      ((sg)->dma_address)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/dma/sl-dma.c:1002:3: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     999 |                 "Preparing transfer for %s channel %u, %s = 0x%llx, size = %lu\n",
+         |                                                               ~~~~
+         |                                                               %x
+    1000 |                 sl_dma_direction_name(ch), ch->num,
+    1001 |                 ch->direction == DMA_DEV_TO_MEM ? "dst_start" : "src_start",
+    1002 |                 ch->direction == DMA_DEV_TO_MEM ? xt->dst_start : xt->src_start,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/dma/sl-dma.c:1003:3: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     999 |                 "Preparing transfer for %s channel %u, %s = 0x%llx, size = %lu\n",
+         |                                                                            ~~~
+         |                                                                            %zu
+    1000 |                 sl_dma_direction_name(ch), ch->num,
+    1001 |                 ch->direction == DMA_DEV_TO_MEM ? "dst_start" : "src_start",
+    1002 |                 ch->direction == DMA_DEV_TO_MEM ? xt->dst_start : xt->src_start,
+    1003 |                 xt->numf ? xt->sgl[0].size : 0);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/dma/sl-dma.c:1017:4: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1016 |                         "Size %lu differs from channel transfer size %u\n",
+         |                               ~~~
+         |                               %zu
+    1017 |                         xt->sgl[0].size, ch->transfer_size);
+         |                         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/dma/sl-dma.c:1149:40: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+    1148 |                 dev_dbg(sl_dma->dev, "Issue transfer on %s channel %u, addr = 0x%llx\n",
+         |                                                                                 ~~~~
+         |                                                                                 %x
+    1149 |                         sl_dma_direction_name(ch), ch->num, desc->addr);
+         |                                                             ^~~~~~~~~~
 
 
-vim +/__lo +104 arch/riscv/include/asm/uaccess.h
+vim +/writeq +176 drivers/dma/sl-dma.c
 
-    94	
-    95	#ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-    96	#define __get_user_8(x, ptr, label)				\
-    97		asm_goto_output(					\
-    98			"1:\n"						\
-    99			"	lw %0, %2\n"				\
-   100			"2:\n"						\
-   101			"	lw %1, %3\n"				\
-   102			_ASM_EXTABLE_UACCESS_ERR(1b, %l4, %0)		\
-   103			_ASM_EXTABLE_UACCESS_ERR(2b, %l4, %0)		\
- > 104			: "=&r" (__lo), "=r" (__hi)			\
- > 105			: "m" (__ptr[__LSW]), "m" (__ptr[__MSW])	\
-   106			: : label)
-   107	
+   173	
+   174	static inline void sl_dma_writeq(struct sl_dma *sl_dma, u32 offset, u64 value)
+   175	{
+ > 176		writeq(value, sl_dma->bar + offset);
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
