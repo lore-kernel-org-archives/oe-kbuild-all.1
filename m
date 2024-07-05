@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2526114B95E;
-	Fri,  5 Jul 2024 13:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2822B14D6E0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 14:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720186911; cv=none; b=KpwnrS1TY0uVDmVuYO0PitvgCgTNrdjA9tG6VZyDDdUgP8TmoBfBF4qeQniazM61xwyNMLyNoGRS6uWoU8cRyKvfonEf4cDPwSICi+1qWSwyvo0wVnZTKcslF+AuRUPc0ob6opu+lBdSv7cMes4mZIFMb0AhkHLEJK+qgcIY4Zk=
+	t=1720188173; cv=none; b=We7HTQ07aMQhxwyiPbpBBxqGSZo81U0qGUsu9foZ5hFsqflwaPI5X1jxqKc6RaJtaEL25dD1gePNiv9GYo2oX+JY/KMIz6rzi4yFtwWzF3rNmpK+a5iqzzKidUBCAbq+twM+8GUoBMVDbGY5UIcbbUU1n4ynAS/R4gunsVXfWZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720186911; c=relaxed/simple;
-	bh=thZNfYC8uPof+gGtq8OfZdddZaeF5427/D5+IHIKChc=;
+	s=arc-20240116; t=1720188173; c=relaxed/simple;
+	bh=Ey1kRqQMEA9yWomml3zQYIK4tI58rc7XAbEtt0BRUMU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrXxvWFbTF4qsGDzvnoy7i6kN4tOTzdcNwJ+MsrgXVjkT2UiV38QvggmBygeuQS+qMyXh15EttIbMcsKfYPSVyOAabdlo9itENBzzFZP+rDztsJF1/1bciMuBv5IGzBBWZDyO5AdxEfIA7gUsWYC0Et2jmIsczzrEhMC4KBLMgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJgm9eYG; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=rC0ODjGgjxA4Z/XVgz2IzMaUEumX5sdc5/0yA1XmwXf2t4WCkcH3jVEJYBQ191Ly2O7X8w92OkvirjShTRlNZ/MZ6/AjIgHoUW94HaAwfyutkOV1ShmzcXYAe04sQqeXRoE/4hr/U3ZeVZzKwDLYVImzh8u9NXcZY3aK5RMNKX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiO/YbMh; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJgm9eYG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiO/YbMh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720186909; x=1751722909;
+  t=1720188171; x=1751724171;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=thZNfYC8uPof+gGtq8OfZdddZaeF5427/D5+IHIKChc=;
-  b=UJgm9eYGJkEq78IApomXcW7kjpW2zx45GU5eRieAPw3lJrPNdyxZDzx0
-   h/DxFfZUM1oROMOX0B5avNDkXDtaQi7vq7uCaSEl5lDtqGz1cEmbporLq
-   B8mvxpgzcp3N1Jy0sw9wAwiYs3b5W+LTNrsW8MVuDb44hD+n5Omao03+t
-   ExxfZ2wqVyqsqiTzYCV/DUBwjGvLLnluOYwQnln1k0Enq0XiwWtQkAwWU
-   zXfuusYnnd2cb+MifqIHhdjXQWTZIDhlg2uTQfS1b3uKCBt4VLsmQr1W+
-   LXtPMTfgBGpQ2KygK3bQzM3FAney7dQSRe6huJDEgGk29xgr0gNe0JQpZ
-   A==;
-X-CSE-ConnectionGUID: fWoYaBAOQd6UVJJgJQmZGw==
-X-CSE-MsgGUID: Pg3AawhOQeqj5Oc/aOlXEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21249288"
+  bh=Ey1kRqQMEA9yWomml3zQYIK4tI58rc7XAbEtt0BRUMU=;
+  b=ZiO/YbMh7Y714lF1ZnyykNdgtZwISdj278dFKwAa/IYGB1HVpMz7hVuo
+   KgvBZuR2OAvLdvMOBi1jzgSVR65QJzksduGiy2FndWNizzTFoWAu2OOla
+   XO5mtRrpnoDZPgDZfNwiAymcdoovqAVFCXkfwQOellUpqqlfVgQRjNTMl
+   wI7pikUOMRBnLpDLSaHDPcGoR5HCDIreu4i4mSWXkJFzzgwWiB15wls/v
+   6UEOCKo3IcIkx16t+6eq0RiEHF9yAulV+5EYeanK5Ndvvw4GF98vtJUFo
+   AA9Mn70UXJcyC5aMDJOgjyg90MDgoFNd3EzaQ2E2z55EV6swuTvpLIMg0
+   g==;
+X-CSE-ConnectionGUID: fDFGuI3ZShq4GMT1/gpCUQ==
+X-CSE-MsgGUID: QhZ4aA54SI+u+DYyuQhpyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17614469"
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="21249288"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 06:41:48 -0700
-X-CSE-ConnectionGUID: UevxvWyYTG2PP6AGyswH4Q==
-X-CSE-MsgGUID: 2hTyJIfTRpO7KhNrmdxPFQ==
+   d="scan'208";a="17614469"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 07:02:50 -0700
+X-CSE-ConnectionGUID: i4huqPTzQh+odbRjHbOcRQ==
+X-CSE-MsgGUID: fIi+5rV6TeOAKVZhGxFuNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="52068164"
+   d="scan'208";a="51309171"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jul 2024 06:41:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jul 2024 07:02:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPjC2-000SQq-0h;
-	Fri, 05 Jul 2024 13:41:42 +0000
-Date: Fri, 5 Jul 2024 21:41:36 +0800
+	id 1sPjWO-000SRc-2e;
+	Fri, 05 Jul 2024 14:02:44 +0000
+Date: Fri, 5 Jul 2024 22:02:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: alexs@kernel.org, Vitaly Wool <vitaly.wool@konsulko.com>,
 	Miaohe Lin <linmiaohe@huawei.com>,
@@ -56,12 +56,12 @@ To: alexs@kernel.org, Vitaly Wool <vitaly.wool@konsulko.com>,
 	willy@infradead.org, senozhatsky@chromium.org, david@redhat.com,
 	42.hyeyoo@gmail.com, Yosry Ahmed <yosryahmed@google.com>,
 	nphamcs@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Alex Shi <alexs@kernel.org>
 Subject: Re: [PATCH v2 01/20] mm/zsmalloc: add zpdesc memory descriptor for
  zswap.zpool
-Message-ID: <202407052121.e5LTYhXc-lkp@intel.com>
+Message-ID: <202407052114.eLXLN20k-lkp@intel.com>
 References: <20240703040613.681396-2-alexs@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,97 +83,74 @@ url:    https://github.com/intel-lab-lkp/linux/commits/alexs-kernel-org/mm-zsmal
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20240703040613.681396-2-alexs%40kernel.org
 patch subject: [PATCH v2 01/20] mm/zsmalloc: add zpdesc memory descriptor for zswap.zpool
-config: i386-buildonly-randconfig-004-20240705 (https://download.01.org/0day-ci/archive/20240705/202407052121.e5LTYhXc-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407052121.e5LTYhXc-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407052114.eLXLN20k-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407052114.eLXLN20k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407052121.e5LTYhXc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407052114.eLXLN20k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/zsmalloc.c:65:
->> mm/zpdesc.h:48:1: error: no member named 'memcg_data' in 'page'
-      48 | ZPDESC_MATCH(memcg_data, memcg_data);
-         | ^            ~~~~~~~~~~
-   mm/zpdesc.h:40:16: note: expanded from macro 'ZPDESC_MATCH'
-      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
-         |                       ^                     ~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from mm/zsmalloc.c:40:
+>> include/linux/stddef.h:16:33: error: 'struct page' has no member named 'memcg_data'
       16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
          |                                                        ^~~~
-   In file included from mm/zsmalloc.c:65:
->> mm/zpdesc.h:48:1: error: no member named 'memcg_data' in 'zpdesc'
-      48 | ZPDESC_MATCH(memcg_data, memcg_data);
-         | ^                        ~~~~~~~~~~
-   mm/zpdesc.h:40:45: note: expanded from macro 'ZPDESC_MATCH'
+   mm/zpdesc.h:40:9: note: in expansion of macro 'static_assert'
       40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
-         |                                                    ^                       ~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+         |         ^~~~~~~~~~~~~
+   mm/zpdesc.h:40:23: note: in expansion of macro 'offsetof'
+      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
+         |                       ^~~~~~~~
+   mm/zpdesc.h:48:1: note: in expansion of macro 'ZPDESC_MATCH'
+      48 | ZPDESC_MATCH(memcg_data, memcg_data);
+         | ^~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: 'struct zpdesc' has no member named 'memcg_data'
       16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
          |                                                        ^~~~
-   2 errors generated.
+   mm/zpdesc.h:40:9: note: in expansion of macro 'static_assert'
+      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
+         |         ^~~~~~~~~~~~~
+   mm/zpdesc.h:40:52: note: in expansion of macro 'offsetof'
+      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
+         |                                                    ^~~~~~~~
+   mm/zpdesc.h:48:1: note: in expansion of macro 'ZPDESC_MATCH'
+      48 | ZPDESC_MATCH(memcg_data, memcg_data);
+         | ^~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   mm/zpdesc.h:40:9: note: in expansion of macro 'static_assert'
+      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
+         |         ^~~~~~~~~~~~~
+   mm/zpdesc.h:40:23: note: in expansion of macro 'offsetof'
+      40 |         static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
+         |                       ^~~~~~~~
+   mm/zpdesc.h:48:1: note: in expansion of macro 'ZPDESC_MATCH'
+      48 | ZPDESC_MATCH(memcg_data, memcg_data);
+         | ^~~~~~~~~~~~
 
 
-vim +48 mm/zpdesc.h
+vim +16 include/linux/stddef.h
 
-     9	
-    10	/*
-    11	 * struct zpdesc -	Memory descriptor for zpool memory, now is for zsmalloc
-    12	 * @flags:		Page flags, PG_private: identifies the first component page
-    13	 * @lru:		Indirectly used by page migration
-    14	 * @mops:		Used by page migration
-    15	 * @next:		Next zpdesc in a zspage in zsmalloc zpool
-    16	 * @handle:		For huge zspage in zsmalloc zpool
-    17	 * @zspage:		Pointer to zspage in zsmalloc
-    18	 * @memcg_data:		Memory Control Group data.
-    19	 *
-    20	 * This struct overlays struct page for now. Do not modify without a good
-    21	 * understanding of the issues.
-    22	 */
-    23	struct zpdesc {
-    24		unsigned long flags;
-    25		struct list_head lru;
-    26		struct movable_operations *mops;
-    27		union {
-    28			/* Next zpdescs in a zspage in zsmalloc zpool */
-    29			struct zpdesc *next;
-    30			/* For huge zspage in zsmalloc zpool */
-    31			unsigned long handle;
-    32		};
-    33		struct zspage *zspage;
-    34		unsigned long _zp_pad_1;
-    35	#ifdef CONFIG_SLAB_OBJ_EXT
-    36		unsigned long memcg_data;
-    37	#endif
-    38	};
-    39	#define ZPDESC_MATCH(pg, zp) \
-    40		static_assert(offsetof(struct page, pg) == offsetof(struct zpdesc, zp))
-    41	
-    42	ZPDESC_MATCH(flags, flags);
-    43	ZPDESC_MATCH(lru, lru);
-    44	ZPDESC_MATCH(mapping, mops);
-    45	ZPDESC_MATCH(index, next);
-    46	ZPDESC_MATCH(index, handle);
-    47	ZPDESC_MATCH(private, zspage);
-  > 48	ZPDESC_MATCH(memcg_data, memcg_data);
-    49	#undef ZPDESC_MATCH
-    50	static_assert(sizeof(struct zpdesc) <= sizeof(struct page));
-    51	
+6e2182874324727 Richard Knutsson 2006-09-30  14  
+^1da177e4c3f415 Linus Torvalds   2005-04-16  15  #undef offsetof
+14e83077d55ff4b Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+3876488444e7123 Denys Vlasenko   2015-03-09  17  
 
 -- 
 0-DAY CI Kernel Test Service
