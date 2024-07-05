@@ -1,194 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC62AD39
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 14:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720189821; cv=fail; b=UOzh2udf8JwijWev8egGNXHxeDQsXrXH6FhFGJWbsVfmfqGsQ+cxo/BjrqrR12PgVfscx5/tKN1avZ28E8jDEiesbwDeEulVX08TGltFPe/vmRoeNWUgX8FoL+8WYpRpVX9nOZNtt1EBCXO0+Gm6XYn8Xv4NVyK1p2t4fiyr0dE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720189821; c=relaxed/simple;
-	bh=Z3I9yvb/lGoeXyLMvFvFKeO76/QB3T2UThtROLJ1sWk=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Hqwf1yiuaGiwEPdne3IQgKt7YnFj9TaqzvLcf34P/YGX2K8pF5PZsUAI7ARltJCxbMgKBl+jmygqg6+KwcDn9M4vyKaYPRHVAvsW9F2jmSBMaexExew7SLos+RPmQZ8zgd3Fxj7gCMobMnCkhkIRd27pTll8OVjR4ZEStSbczK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDaTGlW7; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F101B16A921
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 14:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720189838; cv=none; b=UIIc6Ei8Bc2Xm17U3kGnr16f7D+pDfL8mlszZu74u89I30LVT7YxefJiTIBuHYCX4S3OpTycoz0tgyL01dMzhoN1jodn9/Q1s2VFYglXp5WC1AA7YTt/BqkL0wYP0+8Y426bNLCfRiLTTioYblzvOhbaUyuE6VRQKaiBd6mao68=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720189838; c=relaxed/simple;
+	bh=PO9/FWxxHmBZwy653yLyqGX9V3+5cab8W0a6ZCWszXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cUns3M3rTjczBUxcMt5kLePjsWV6EYIm3fdJbhqMeZF+RgScGHxpajCEeCWcJ+Td2C/8vTp32CwZi/KNvx/DtFi07bPxRUOlSpBpKbIOEWnTJW4S05UxJIjREb1srcISn5PiMpxm0DxCQ8sHJu+K2f33ptSecffe3L1yMBwqX9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r9+n4dsO; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDaTGlW7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720189820; x=1751725820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z3I9yvb/lGoeXyLMvFvFKeO76/QB3T2UThtROLJ1sWk=;
-  b=cDaTGlW7KO6l6YF7cpBNOqZWx8efju0AtwaAVlXv/Cqs9h69gaSRjJ7G
-   laVxTMy61dyX/BjLOsB13MoWsjyomCATwBHuVRd2RB7yJcnOnqfyIOWJV
-   2pghP9QdEDkW45VgKT4S5ci66lVlmszeJ6lRTM0KAHbgQcgGDJeh+E7W8
-   BWf9vGdoQTOlvWpWIGrVcMK5whpZczQdI/deIVkNmukb1u3Itrf89u8Qx
-   3gDDhO2tNSgWPYQbNEz895zOuUF4ijdRnNaDvHR022KGCiIKWrne1jSI0
-   hKq9urpKP2MkOjB9Ga8G0NNJpInEGMtwE04lNSyZW3dN+mMGsSGpsacc9
-   g==;
-X-CSE-ConnectionGUID: nAsXykBLQsSeGNdN4p92BA==
-X-CSE-MsgGUID: A2uConWlSSuKEkphWK/67w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17131410"
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
-   d="scan'208";a="17131410"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 07:30:19 -0700
-X-CSE-ConnectionGUID: nKbpEdACT+mJgFpXR8XrIQ==
-X-CSE-MsgGUID: 5lgz8CV+RpaDDyXUetnWeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
-   d="scan'208";a="51313979"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Jul 2024 07:30:19 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 5 Jul 2024 07:30:18 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 5 Jul 2024 07:30:18 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 5 Jul 2024 07:30:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V4ECnXj6MttsS43IxQbFBxPywu/tUmCcIi4IHE8iUOyBXUl6StwUxItezLoX/rSAlFgLKzIamjzIesqLDItA5pZU0yBYOkP4K3aYWpZAITsQN7p9Mw8+gK3mJSvAc5vavJAZOkkuW7eqaz9WSeAwQzGQLbtfqynX1hv/0XT6zsu0XmImJcYV+gtxvGfkGdHVIQBVTVgs9b6iSSyBUChcYmRjfs55iWwhNr7uhr5wHaz56Z0pIKlHYEk8RFfJgiw6QRFakNqTE/0FYcIZITGfYTyTvNcGt4b/2djsIeXueLQaZ3ELD2I6tMytl2zJbd3w+LydJdqIoR+sasndK9a7fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5U2sGMgeK3IDS+sduZuYgjNChEXPKyrno8mIRFa93lU=;
- b=OZA6U9pgEwWpjqgYH9UjfeJ3L2f1EIku/bnxuHt8TD/6UYr5d9pYk/zRsE0YUcwjscPloFyrXr/0NU5X5RdEkiYBuWJrthweWN+5ucHmx6zExIGj2zCj0Z6Z9Uj+Rw13PLueTzdW1YhHvUVrAqqjaGLnoq+p2XBBlXsPSbST4kccSpFXbFYWamRxDhYRM5jJZU3BhUTd05ELClDuUr2dLSdvzdZkm2mxSf2Y769K6Wg49pEO5tOBQGxuITjiIC9+gCMVAdsazjPBjPPTFB6E3bvwz6qL1r6gpJSaVgZ5ayG5qAy6JzUd+JGziJ6x6bBC1Z7ODMwvXrOnAFYuQKbOJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6) by
- PH8PR11MB8040.namprd11.prod.outlook.com (2603:10b6:510:238::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Fri, 5 Jul
- 2024 14:30:15 +0000
-Received: from DS7PR11MB6039.namprd11.prod.outlook.com
- ([fe80::3f0c:a44c:f6a2:d3a9]) by DS7PR11MB6039.namprd11.prod.outlook.com
- ([fe80::3f0c:a44c:f6a2:d3a9%3]) with mapi id 15.20.7741.017; Fri, 5 Jul 2024
- 14:30:14 +0000
-Date: Fri, 5 Jul 2024 22:30:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [drm-xe:drm-xe-next 1/2] drivers/gpu/drm/xe/xe_gt.c:
- generated/xe_wa_oob.h is included more than once.
-Message-ID: <ZogDbequBUxgcgMU@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
- To DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r9+n4dsO"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5c46c8ccfa7so811955eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Jul 2024 07:30:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720189835; x=1720794635; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eL0uaa5I05VLy2KdRezNaQwM9PiFEMQyHzE8lT7svVg=;
+        b=r9+n4dsOx4wBLMCAq24FIMQ1G9oH+HFwYj6QMSFvJTrTRaes2LUAcb4EFq3lo//H5w
+         S7fluHm3gVjA7NxoffS0uPEjpsS8G9X/cav7t69CXtpJUzOtM1fZ46oYDZIHQjf9R9vP
+         4DGeiucmOTkvV79XigHY42Y008mDEk1PMCSVpyJdRjCUOSSbd6mdqu02XF1ApJ4Qp50A
+         +iWrNpq4+s86kWMVbsVFwn51giJRli4XsK5tevhAmDyMsXCI6nV1jBeFRMiGITegzgKV
+         put2BjMzf/5L16tKLMEpOR3cJVw3AN9ie0plBf2e+mFRWX8iMZ1ioRYoM4/ypHc6KULj
+         5A1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720189835; x=1720794635;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eL0uaa5I05VLy2KdRezNaQwM9PiFEMQyHzE8lT7svVg=;
+        b=OwK4nk53QMblQP5jhKI+RA1wkQHPFrOc+18jTaZ4X6cBLj3Ucc3McEgvGgvSAJKdKw
+         muHp1hXiRPE6j1x/HUSa/xdEl2vgQqJIDeIjZxAOBn9yRL+t/C1XitJjGYLbweg+d3bU
+         CoxqTJUI7bhf5rRpILJUzAI6Tu0n2UdBOal5fWODojsIbDN2CgOKR04TLIFK29Ah2GA/
+         igW5o1VaQTBdcm5DV2wR4J+DFMIJHeBzUWODKBdYvVLqejpJZSMtuuaBvK4wK0eCwdOa
+         UgAzqqP6y1fzg8wIuxsQepBLBsUS1nzu6yCm1BsUnI/JtduRqEoddYYPMIneJg9MJJzO
+         P4QA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVmrCSR3ikgUoIor5PUU6FjPNZouSAGofHkXdlPsajHk5famErpPXrapYXdLMAf9rveIELDuIeo5JUbQFKjTMHgxAHzoZ7UU6kEy2G9Q==
+X-Gm-Message-State: AOJu0YyXnC+T69Z1krQj+ghdqN3/mLFQpNBeo7UNOggbfkMPSHakuBoE
+	pa/95cMUjHsZimAA2yyqI31Xw9Nu05+n3ozwHF5X1WGZlcf/6mAr/i7ASvbV3Ik=
+X-Google-Smtp-Source: AGHT+IE2RmEOLrbjJxMPo3WbrADfoI8B6egfY2Aa1ozlRCyKnZqM2VjHYxD51eiRAL6+KtFGq6W02g==
+X-Received: by 2002:a4a:de4f:0:b0:5c6:6029:b1cd with SMTP id 006d021491bc7-5c66029b48dmr880548eaf.8.1720189834834;
+        Fri, 05 Jul 2024 07:30:34 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:45d:774f:47f7:bb6a])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c4149d263fsm2045897eaf.48.2024.07.05.07.30.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 07:30:34 -0700 (PDT)
+Date: Fri, 5 Jul 2024 16:30:32 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Guo Mengqi <guomengqi3@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21813/23252]
+ drivers/uio/uio_hv_generic.c:311 hv_uio_probe() warn: 'pdata->recv_buf'
+ double freed
+Message-ID: <d9d1d0db-daa9-46b5-b11b-3b2a6856d74d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB6039:EE_|PH8PR11MB8040:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbf88ffe-b4c4-42c4-238d-08dc9cfefc39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z8USmjpYZ9JSdA7c0P3VYDMWcNOW5bSgZ1NHT/pVKF5TX+zPFQf9LEAp0xkG?=
- =?us-ascii?Q?NpMK/ihTMGHm8oiBrCwl5o/qUOKHblUK85xfHLkbWp6uOlJGNs9QOhLdcbMk?=
- =?us-ascii?Q?TRPQiEw0mXuqE1lpr3Oko4ccZIDl/D4ZzI0E3fDtrH3jpqSEXrs1bllH1uju?=
- =?us-ascii?Q?XxsNGBO1d1nsxcQI8ErtLu2b0yKwzR+lf4g9JL5AXJ70bQ80uXiitckBc4f9?=
- =?us-ascii?Q?XgMsL3GXYat1f5uF+dY74YzgNGXRoXdCBpAtQ0d/w+nxrNlXkL4EGp6xEqui?=
- =?us-ascii?Q?UslfBZl3poh+uFAuILkI7ouqsqB6qFxaMHGyvEeh+YMVYsg5PsAplYTD4SQe?=
- =?us-ascii?Q?6aPGrtJag/sbbjdisUBLKKWlwt80D7Exu9hWFVw1TadExxypJaeze6p0Fr9a?=
- =?us-ascii?Q?DsVjykncQEenyiP+rMsLIDvpsQwF9siQ4/WccTo0WH6sIE9Pra/9pJHJ9Cjz?=
- =?us-ascii?Q?ClXycY0zYptEB3o+TmaFjsdFJf2GFX8B2iW/6v9y4Hg77BjxiPgJdZrcZh6D?=
- =?us-ascii?Q?0Wf4R7NuGFbOwY8HCqkGX3Thrg2guS9h+oFrb2d7Ar+PlVgYzLEwcyMgRVgh?=
- =?us-ascii?Q?he40mDXLDdTn6LvbAPwX2VoJVMd2XVVFE7HFOziio4W2BwbK1Vy0I+BPlu9X?=
- =?us-ascii?Q?YmxcWuud6iR4jE4tAeMduAXcRNvCBFSjTtSvDbHfpgRgn7X3la2zzQoSxbNa?=
- =?us-ascii?Q?gY5otJS5+afPS8LTkpV9cW/GcOCcvNnVVEU5Uh/Qm4WTrfaDekYi1SQ2JHid?=
- =?us-ascii?Q?oVPYtf1KHPN6MNBqzGZ+arwiY5es00Hg/QBOPt0Fz4XkkPeDGp0NtvHnHQ8T?=
- =?us-ascii?Q?MI5wEtwzwPRLKZ82U5VtgPMEQIz19EEmnfayHgKqsBV+T9WAeERevh9iMc9N?=
- =?us-ascii?Q?zvdvmwCVZGmbh3e5UAm71+JxSfYyU+aPWHqRR+kfc4h/86GAqw6bWivv4iqP?=
- =?us-ascii?Q?UzERbPh6C370Zw1saMcdIGOvs3SXiILSGFS+8gpU03T2hlsq2Gz6hGHOEGfh?=
- =?us-ascii?Q?6lmKIc8183zwNBs+2OlGiuPAyCGqG/g2pbdye2wbX/2RIdp+slGWOYJinN/S?=
- =?us-ascii?Q?Ztpkww6RWXri9zbj+FMwFWtthCoW06dEQxerfd7ByJUAVMZN4wtDPyJHYu+b?=
- =?us-ascii?Q?jDyVK2xqAWrme2jpCxRgfZKow/+8y8t8CkO80qp/3nFnE2GHcTUNPVEBc+SA?=
- =?us-ascii?Q?gTQfQl3qca1aNAtYG9AsT746GJbon3IuKkIVZkfrKrSDMyriiR8pyUgcGnbC?=
- =?us-ascii?Q?FX39Zj0GGGZa+RFCcL6/Y2BxdAz8+5g70Uy2nmEUyqCc+UQVXPbcjBKKQZKA?=
- =?us-ascii?Q?/mI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6039.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6jM/g7CKbOgGGTuQeJJKWjofzE+6P4CYtD0X0cfcHDXM6Ub+qiVr0842jrMb?=
- =?us-ascii?Q?eeiYYcvXYxI2UyFIS+p3iIq1i2gLcd3VgZGsCpdSoimX6ETx8Kh9BXeCYRyX?=
- =?us-ascii?Q?kwFnLl2ir3timPSYbYp4jtCie1OVXXPwFr2A6BDpx0Tm+20ZYELjcTIcVvyy?=
- =?us-ascii?Q?bSVEsTtGWwIGc/eGVOvYWTTgiHCQphKX+V8l7r0SdInhedB9f2R/ZUHMswX3?=
- =?us-ascii?Q?TfyevQ9gF2k6CSv9u9F2omm/3Y2qmElu6iscOUVhsdeiRSDYyVlsDSgEVoU7?=
- =?us-ascii?Q?eb3YYyCMA4Y4FbziFU2o7AY/al0jqi/lHtnvtt0HBo2xQ059qstKrX+wfTpQ?=
- =?us-ascii?Q?uN779dw+I3n6g+JSdVjEqbJU+83WpM2s9lxkzvDIKVg20N67PtzTZ+bNgTz5?=
- =?us-ascii?Q?9XLkDew9z9I6lwMtB2/Ge3qfszZtW9Wb27lP+jeClGyTCVFCm5SoafTigbSX?=
- =?us-ascii?Q?E7BcRqsA7o6zPkWAqKtFJwxuuKF1Qxk4SYl8Snyc46JZjdfoH5cBN9rcm1pr?=
- =?us-ascii?Q?vDVHzoVI2ixXvazGMtJ2slxepaA/FHm0a8eIoCzDVZykJCzx5AM1V4tlMEPF?=
- =?us-ascii?Q?xFNtWiDlnzP/ekDh05XyB4lLOx4cfhBRq7iHKfbNtVbEacW80O2qOuksGQ0Z?=
- =?us-ascii?Q?JzYZlfiLBdtrC2FibY8rMoraqV1GxPZdfU0U7RgvznfNeUEZ0gfFrLCfEM2p?=
- =?us-ascii?Q?Tsjdo1bHDu6Kaokz/mPYoj8mNcKZcNT6U9KxSMtwT6ExfgHevxgxcJSaPKNX?=
- =?us-ascii?Q?LeLplWVB6SXrKA+W+s9W5t6tIPCwmCCOXSx2lbI+AL7EUfaychjPZRvkS/LJ?=
- =?us-ascii?Q?JJns0iFoyAb5wMuzBBehCB2RzrAzIMDZN8NRCVW78K789XLtoH6WMzBkNtD2?=
- =?us-ascii?Q?o+niOFDI0/Pi17UklNLunlt4wWhoF49Nz1o3dk28YQVXKOaRMJNYoajUOwxv?=
- =?us-ascii?Q?cuTmpMfGC1uCsDD3iQ6Sy51oMSqPIYmztghnYm29KyPEJJsLAYKNrcNpMFuE?=
- =?us-ascii?Q?yFi68kOcshcA3HDlKikBcruHg7B1qXFFwgWo2OBJ0Mmskk//TIAgf+oZED1Q?=
- =?us-ascii?Q?LZ9zih+dJrdSzv+7ovG88PKVkSCdcMb6Ew1cbO/NrLraF3PYnEZX4UNEtEl0?=
- =?us-ascii?Q?u8tVodhSbzuwrhjztJvCzbYXq7tQCWLX+4bzDOlXcvegfUYCrPEe2xnwiL12?=
- =?us-ascii?Q?nyf+BSjPu666cX+wLmTsE5lgo0HfmSpZIMbuIH/LrC8cTbx90x7inSWIfhUc?=
- =?us-ascii?Q?dS0NRS31RTklKwgffEBY5oElFWoVIqrn7tqiLo8Z9oYvaL3aMzEDQ+P3uqhU?=
- =?us-ascii?Q?Kfr3ApVlgmp6D3nHB6oyvf5edSQ3qAaWdWtTU2WF/jwFmA3g+IWPDNE6lg+E?=
- =?us-ascii?Q?4Q7qQkj35zsJO7ZoYb2hjUqYVaTh34bpz5rv+JzPH0fcXRsRFvg/K+mndbe1?=
- =?us-ascii?Q?3NJgeyurYidJ8bNvShl998khNwct1VHmXIIAOuIeAX1t8Dc7mUXMPmH2Cz4Q?=
- =?us-ascii?Q?N8BGO3aJC5WH2orxEMwFUQMDoogjZ6CzNqcvfQ3D5nTMKYVSaZwG3ELX/poI?=
- =?us-ascii?Q?tT4eanZJTxtNWUdCOg7LF/cAt0nuvvszIbytcN6JgYx/jkbalXuzB5q676dw?=
- =?us-ascii?Q?aA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbf88ffe-b4c4-42c4-238d-08dc9cfefc39
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6039.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 14:30:14.9390
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TQbfpIoO94Pi1KjFuzhuUQxjWbDp/sdTYVGsHnq+mr8CkptH2EW3VbStelinv2b1BCFLAYbeBgBudGkE+/uN5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8040
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   c55f79f317ab428ae6d005965bc07e37496f209f
-commit: 01570b446939c3538b1aa3d059837f49fa14a3ae [1/2] drm/xe/bmg: implement Wa_16023588340
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1b4ca2a2c1253c9e2d2428cc4fae541fdf3b326d
+commit: 807378830df3ae30f0c5b956174bba0281ec0f5e [21813/23252] uio_hv_generic: Fix a memory leak in error handling paths
+config: x86_64-randconfig-161-20240704 (https://download.01.org/0day-ci/archive/20240705/202407050741.OaaupcUL-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407052122.AzuWSPuo-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407050741.OaaupcUL-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_gt.c: generated/xe_wa_oob.h is included more than once.
+smatch warnings:
+drivers/uio/uio_hv_generic.c:311 hv_uio_probe() warn: 'pdata->recv_buf' double freed
+drivers/uio/uio_hv_generic.c:311 hv_uio_probe() warn: 'pdata->send_buf' double freed
 
-vim +12 drivers/gpu/drm/xe/xe_gt.c
+vim +311 drivers/uio/uio_hv_generic.c
 
-     9	
-    10	#include <drm/drm_managed.h>
-    11	#include <drm/xe_drm.h>
-  > 12	#include <generated/xe_wa_oob.h>
-    13	
-  > 14	#include <generated/xe_wa_oob.h>
-    15	
+95096f2fbd1018 Stephen Hemminger  2016-12-03  192  static int
+95096f2fbd1018 Stephen Hemminger  2016-12-03  193  hv_uio_probe(struct hv_device *dev,
+95096f2fbd1018 Stephen Hemminger  2016-12-03  194  	     const struct hv_vmbus_device_id *dev_id)
+95096f2fbd1018 Stephen Hemminger  2016-12-03  195  {
+95096f2fbd1018 Stephen Hemminger  2016-12-03  196  	struct hv_uio_private_data *pdata;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  197  	int ret;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  198  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  199  	pdata = kzalloc(sizeof(*pdata), GFP_KERNEL);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  200  	if (!pdata)
+95096f2fbd1018 Stephen Hemminger  2016-12-03  201  		return -ENOMEM;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  202  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  203  	ret = vmbus_open(dev->channel, HV_RING_SIZE * PAGE_SIZE,
+95096f2fbd1018 Stephen Hemminger  2016-12-03  204  			 HV_RING_SIZE * PAGE_SIZE, NULL, 0,
+135db384a2efde Stephen Hemminger  2018-04-16  205  			 hv_uio_channel_cb, dev->channel);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  206  	if (ret)
+95096f2fbd1018 Stephen Hemminger  2016-12-03  207  		goto fail;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  208  
+06028d15177a1b Stephen Hemminger  2018-01-09  209  	/* Communicating with host has to be via shared memory not hypercall */
+06028d15177a1b Stephen Hemminger  2018-01-09  210  	if (!dev->channel->offermsg.monitor_allocated) {
+06028d15177a1b Stephen Hemminger  2018-01-09  211  		dev_err(&dev->device, "vmbus channel requires hypercall\n");
+06028d15177a1b Stephen Hemminger  2018-01-09  212  		ret = -ENOTSUPP;
+06028d15177a1b Stephen Hemminger  2018-01-09  213  		goto fail_close;
+06028d15177a1b Stephen Hemminger  2018-01-09  214  	}
+06028d15177a1b Stephen Hemminger  2018-01-09  215  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  216  	dev->channel->inbound.ring_buffer->interrupt_mask = 1;
+2141a8457f16ba Stephen Hemminger  2018-01-04  217  	set_channel_read_mode(dev->channel, HV_CALL_ISR);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  218  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  219  	/* Fill general uio info */
+95096f2fbd1018 Stephen Hemminger  2016-12-03  220  	pdata->info.name = "uio_hv_generic";
+95096f2fbd1018 Stephen Hemminger  2016-12-03  221  	pdata->info.version = DRIVER_VERSION;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  222  	pdata->info.irqcontrol = hv_uio_irqcontrol;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  223  	pdata->info.irq = UIO_IRQ_CUSTOM;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  224  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  225  	/* mem resources */
+95096f2fbd1018 Stephen Hemminger  2016-12-03  226  	pdata->info.mem[TXRX_RING_MAP].name = "txrx_rings";
+95096f2fbd1018 Stephen Hemminger  2016-12-03  227  	pdata->info.mem[TXRX_RING_MAP].addr
+81ddc6592e779e Stephen Hemminger  2019-11-21  228  		= (uintptr_t)page_address(dev->channel->ringbuffer_page);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  229  	pdata->info.mem[TXRX_RING_MAP].size
+9c40546c012c8d Stephen Hemminger  2018-01-04  230  		= dev->channel->ringbuffer_pagecount << PAGE_SHIFT;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  231  	pdata->info.mem[TXRX_RING_MAP].memtype = UIO_MEM_LOGICAL;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  232  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  233  	pdata->info.mem[INT_PAGE_MAP].name = "int_page";
+9c40546c012c8d Stephen Hemminger  2018-01-04  234  	pdata->info.mem[INT_PAGE_MAP].addr
+72d1465789506c Arnd Bergmann      2018-01-10  235  		= (uintptr_t)vmbus_connection.int_page;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  236  	pdata->info.mem[INT_PAGE_MAP].size = PAGE_SIZE;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  237  	pdata->info.mem[INT_PAGE_MAP].memtype = UIO_MEM_LOGICAL;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  238  
+9c40546c012c8d Stephen Hemminger  2018-01-04  239  	pdata->info.mem[MON_PAGE_MAP].name = "monitor_page";
+9c40546c012c8d Stephen Hemminger  2018-01-04  240  	pdata->info.mem[MON_PAGE_MAP].addr
+72d1465789506c Arnd Bergmann      2018-01-10  241  		= (uintptr_t)vmbus_connection.monitor_pages[1];
+95096f2fbd1018 Stephen Hemminger  2016-12-03  242  	pdata->info.mem[MON_PAGE_MAP].size = PAGE_SIZE;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  243  	pdata->info.mem[MON_PAGE_MAP].memtype = UIO_MEM_LOGICAL;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  244  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  245  	pdata->recv_buf = vzalloc(RECV_BUFFER_SIZE);
+e7d214642a19b8 Stephen Hemminger  2018-01-09  246  	if (pdata->recv_buf == NULL) {
+e7d214642a19b8 Stephen Hemminger  2018-01-09  247  		ret = -ENOMEM;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  248  		goto fail_close;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  249  	}
+e7d214642a19b8 Stephen Hemminger  2018-01-09  250  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  251  	ret = vmbus_establish_gpadl(dev->channel, pdata->recv_buf,
+e7d214642a19b8 Stephen Hemminger  2018-01-09  252  				    RECV_BUFFER_SIZE, &pdata->recv_gpadl);
+807378830df3ae Christophe JAILLET 2024-03-09  253  	if (ret) {
+807378830df3ae Christophe JAILLET 2024-03-09  254  		vfree(pdata->recv_buf);
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^
+Freed
+
+e7d214642a19b8 Stephen Hemminger  2018-01-09  255  		goto fail_close;
+807378830df3ae Christophe JAILLET 2024-03-09  256  	}
+e7d214642a19b8 Stephen Hemminger  2018-01-09  257  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  258  	/* put Global Physical Address Label in name */
+e7d214642a19b8 Stephen Hemminger  2018-01-09  259  	snprintf(pdata->recv_name, sizeof(pdata->recv_name),
+e7d214642a19b8 Stephen Hemminger  2018-01-09  260  		 "recv:%u", pdata->recv_gpadl);
+e7d214642a19b8 Stephen Hemminger  2018-01-09  261  	pdata->info.mem[RECV_BUF_MAP].name = pdata->recv_name;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  262  	pdata->info.mem[RECV_BUF_MAP].addr
+d6088e9a89f7c6 Arnd Bergmann      2018-01-12  263  		= (uintptr_t)pdata->recv_buf;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  264  	pdata->info.mem[RECV_BUF_MAP].size = RECV_BUFFER_SIZE;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  265  	pdata->info.mem[RECV_BUF_MAP].memtype = UIO_MEM_VIRTUAL;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  266  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  267  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  268  	pdata->send_buf = vzalloc(SEND_BUFFER_SIZE);
+e7d214642a19b8 Stephen Hemminger  2018-01-09  269  	if (pdata->send_buf == NULL) {
+e7d214642a19b8 Stephen Hemminger  2018-01-09  270  		ret = -ENOMEM;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  271  		goto fail_close;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  272  	}
+e7d214642a19b8 Stephen Hemminger  2018-01-09  273  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  274  	ret = vmbus_establish_gpadl(dev->channel, pdata->send_buf,
+e7d214642a19b8 Stephen Hemminger  2018-01-09  275  				    SEND_BUFFER_SIZE, &pdata->send_gpadl);
+807378830df3ae Christophe JAILLET 2024-03-09  276  	if (ret) {
+807378830df3ae Christophe JAILLET 2024-03-09  277  		vfree(pdata->send_buf);
+                                                                      ^^^^^^^^^^^^^^^
+Freed.
+
+e7d214642a19b8 Stephen Hemminger  2018-01-09  278  		goto fail_close;
+807378830df3ae Christophe JAILLET 2024-03-09  279  	}
+e7d214642a19b8 Stephen Hemminger  2018-01-09  280  
+e7d214642a19b8 Stephen Hemminger  2018-01-09  281  	snprintf(pdata->send_name, sizeof(pdata->send_name),
+e7d214642a19b8 Stephen Hemminger  2018-01-09  282  		 "send:%u", pdata->send_gpadl);
+e7d214642a19b8 Stephen Hemminger  2018-01-09  283  	pdata->info.mem[SEND_BUF_MAP].name = pdata->send_name;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  284  	pdata->info.mem[SEND_BUF_MAP].addr
+d6088e9a89f7c6 Arnd Bergmann      2018-01-12  285  		= (uintptr_t)pdata->send_buf;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  286  	pdata->info.mem[SEND_BUF_MAP].size = SEND_BUFFER_SIZE;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  287  	pdata->info.mem[SEND_BUF_MAP].memtype = UIO_MEM_VIRTUAL;
+e7d214642a19b8 Stephen Hemminger  2018-01-09  288  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  289  	pdata->info.priv = pdata;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  290  	pdata->device = dev;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  291  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  292  	ret = uio_register_device(&dev->device, &pdata->info);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  293  	if (ret) {
+95096f2fbd1018 Stephen Hemminger  2016-12-03  294  		dev_err(&dev->device, "hv_uio register failed\n");
+95096f2fbd1018 Stephen Hemminger  2016-12-03  295  		goto fail_close;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  296  	}
+95096f2fbd1018 Stephen Hemminger  2016-12-03  297  
+ca3cda6fcf1e92 Stephen Hemminger  2018-01-09  298  	vmbus_set_chn_rescind_callback(dev->channel, hv_uio_rescind);
+37b96a4931dba0 Stephen Hemminger  2018-02-05  299  	vmbus_set_sc_create_callback(dev->channel, hv_uio_new_channel);
+ca3cda6fcf1e92 Stephen Hemminger  2018-01-09  300  
+9ab877a6ccf820 Stephen Hemminger  2018-04-16  301  	ret = sysfs_create_bin_file(&dev->channel->kobj, &ring_buffer_bin_attr);
+9ab877a6ccf820 Stephen Hemminger  2018-04-16  302  	if (ret)
+9ab877a6ccf820 Stephen Hemminger  2018-04-16  303  		dev_notice(&dev->device,
+9ab877a6ccf820 Stephen Hemminger  2018-04-16  304  			   "sysfs create ring bin file failed; %d\n", ret);
+9ab877a6ccf820 Stephen Hemminger  2018-04-16  305  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  306  	hv_set_drvdata(dev, pdata);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  307  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  308  	return 0;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  309  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  310  fail_close:
+e7d214642a19b8 Stephen Hemminger  2018-01-09 @311  	hv_uio_cleanup(dev, pdata);
+                                                                       ^^^
+Double frees
+
+95096f2fbd1018 Stephen Hemminger  2016-12-03  312  	vmbus_close(dev->channel);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  313  fail:
+95096f2fbd1018 Stephen Hemminger  2016-12-03  314  	kfree(pdata);
+95096f2fbd1018 Stephen Hemminger  2016-12-03  315  
+95096f2fbd1018 Stephen Hemminger  2016-12-03  316  	return ret;
+95096f2fbd1018 Stephen Hemminger  2016-12-03  317  }
 
 -- 
 0-DAY CI Kernel Test Service
