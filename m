@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE495336A;
-	Fri,  5 Jul 2024 05:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8143A1D53F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 05:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720156444; cv=none; b=PGikqDO1QmJUgeJLUm5rp0L54a8vQqpkS8avRI+FZxgBR3BcHp1CkatWKaxb00l8N//N7xJXC4a4FnfQhvwSaiiiPFOOnt1nLhf0sPYQ/n+VvuAhTNJuWeGUS5cqK0/s/7YQ6x2BkeVf1ryh00u5/q8+4l78Igimo+Ide/4Ph1g=
+	t=1720156502; cv=none; b=SYfBq+ejuh4NnW1i2nvOxwzNBZuHJFq5jzvOwig+wrbjSlujIWo8gFmikdUmrqpgX07NHy8oA7SLp0lYcvLjBooTH84bfS5hLVVm14IK9ziNk1gYQf0GZPjPdFFhepjioLCc53pEvsPLOpfXIxT73NNF7wlQf58A+pHc1g5NiF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720156444; c=relaxed/simple;
-	bh=0QiehtPQWVwVVbvSJaYwZEESd7T6YpVbOToGzvzWNJU=;
+	s=arc-20240116; t=1720156502; c=relaxed/simple;
+	bh=eiCuqXPddz2DfRaEyKdTtTsEAFAmAd9jO3O8u8WmZkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A2/DQfN31tvWEWDXa4cbqAPrLHF6K5o7aNIl+C8GB46uXVNr6ADLqUBnAmRTbZ2V6Fo0YkbaALYnRCrN8e2lyFBFDVf6S45GBK1n+geaGWrRa+yIAeFI9QQNnfUOC39/oBpYdrP3t4UsJxK6Go6i29WRdHvjFTiKPjJrmIcRfzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kz8UpOrF; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=AWxxzbc7hC/KE68klvI29Jm2tl9U+THxGKMj40cCvtiZxfMv7SYl8+RkQ1Vnfx1kpRNH6nCBjzx0uYKjuKvIomcMLcFq3g44Wla2hBaMP0llW1alxiX9bDU597GcxtZ78Xk9G0PuDV41E6ZQp9dnu2PuGVWXvc7UcMNb5czzQMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5NusZHn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz8UpOrF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5NusZHn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720156442; x=1751692442;
+  t=1720156500; x=1751692500;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0QiehtPQWVwVVbvSJaYwZEESd7T6YpVbOToGzvzWNJU=;
-  b=Kz8UpOrFICspAWTVs0l3oGJbAL65l5SW9mKshIi8YcV/pWii/+h4BPOO
-   LwL+yT3ENKq9vjaTmZkjjFWNe4PW9pBaWGGFFLc3gt/xpRP9nxteM3pbw
-   l+UbcuMdYQWEBIz6085+Kj+abIgkvOSoJodauFPI4WgrIDBA/GlHA0fkt
-   W8y4jfnDVdv9SPaQSUE0vaBxCsblK9ka2YNm8JzPmas8VG5VM3dB146gj
-   jkL3FrpVb+t6WwyUwmMVnCE+uP9aX8ZCnft2d1fNlXau0Ctf116+qEVQO
-   BpMsbtRu1kwjp6aOWiDcEai6suR1MA+8UOpIABtBN9sED4lwRshH8O1HK
-   Q==;
-X-CSE-ConnectionGUID: ngZJcTHMQticRR0ID+d7Cw==
-X-CSE-MsgGUID: CMzt2ALAR629JN5jct1gIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42861789"
+  bh=eiCuqXPddz2DfRaEyKdTtTsEAFAmAd9jO3O8u8WmZkA=;
+  b=a5NusZHn3AJ7R7/ousjgNRXIPnfZw312Xp43zEDRdMV1QsxbOp5Ebgos
+   eQXbq5RVleYJq6l7UKdr9F4DnvapLRwPlVOJ87CoRzBj+yH6/xRZvCvgK
+   DJ2Xl/JpNChAh3Hf4ThYdfd9PZSFqnTZRpyWbibhNTQgozCTN90pJpBwT
+   JL1kYSGt/z0hiOxl3dNVzA+1YL+aFlgLCQspsHo0THAo3Sba+CwJGL1sn
+   D4GCw89XEnSJjbZ8BhJMPu98OXF7nYx0KuzdkFuGPkas3i7dvMVCtCbCM
+   jVIIPc+b5NMoZSCvS1+Fgp8c7x0MJ16AEyhWZKVSDozK6bF8pTWZqvf2F
+   w==;
+X-CSE-ConnectionGUID: VOELOhN4QuesPDF3CD8wKg==
+X-CSE-MsgGUID: Sj4e2GbcQtOXgphd4Bw4uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="28830784"
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="42861789"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:13:59 -0700
-X-CSE-ConnectionGUID: CFRtXw1+TLyHS2JwuXVIIA==
-X-CSE-MsgGUID: OTqRayQrSSywb9/+FHcQbA==
+   d="scan'208";a="28830784"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:15:00 -0700
+X-CSE-ConnectionGUID: S/Qx0kuoTP+oDM7h7M5r+w==
+X-CSE-MsgGUID: dRQkk2bBRuWi0NYn0uVXxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="69976611"
+   d="scan'208";a="46705998"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2024 22:13:58 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Jul 2024 22:14:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPbGe-000RxE-0a;
-	Fri, 05 Jul 2024 05:13:56 +0000
-Date: Fri, 5 Jul 2024 13:12:45 +0800
+	id 1sPbHc-000RxO-15;
+	Fri, 05 Jul 2024 05:14:56 +0000
+Date: Fri, 5 Jul 2024 13:14:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [pza:sl-dma-demo 1/3] drivers/dma/sl-dma.c:176:2: error: call to
- undeclared function 'writeq'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202407051257.TRpgbYnD-lkp@intel.com>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [tiwai-sound:for-next 5/6] ERROR: modpost:
+ "snd_pcm_set_sync_per_card" [sound/pci/emu10k1/snd-emu10k1.ko] undefined!
+Message-ID: <202407051343.1Sz8AKFt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,174 +63,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.pengutronix.de/git/pza/linux sl-dma-demo
-head:   378de31c99885b2a8fbe24ebaead11139d892f28
-commit: 3b9d53b21baa3734a355a4466f9e741161df4dc8 [1/3] dmaengine: sl-dma: Add Smartlogic HCC DMA IP Core driver
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240705/202407051257.TRpgbYnD-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051257.TRpgbYnD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   5f9f982dd71b418aeba7a0b37f87312545c06df4
+commit: d712c58c55d9a4b4cc88ec2e1f8cd2e3b82359b5 [5/6] ALSA: pcm: optimize and clarify stream synchronization ID API
+config: i386-randconfig-r064-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051343.1Sz8AKFt-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051343.1Sz8AKFt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051257.TRpgbYnD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051343.1Sz8AKFt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/dma/sl-dma.c:23:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/dma/sl-dma.c:23:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/dma/sl-dma.c:23:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/dma/sl-dma.c:23:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/dma/sl-dma.c:176:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     176 |         writeq(value, sl_dma->bar + offset);
-         |         ^
-   drivers/dma/sl-dma.c:956:39: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     955 |                 "Preparing transfer for %s channel %u, address = 0x%llx, len = %u\n",
-         |                                                                    ~~~~
-         |                                                                    %x
-     956 |                 sl_dma_direction_name(ch), ch->num, sg_dma_address(sgl),
-         |                                                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/scatterlist.h:31:28: note: expanded from macro 'sg_dma_address'
-      31 | #define sg_dma_address(sg)      ((sg)->dma_address)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/dma/sl-dma.c:1002:3: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     999 |                 "Preparing transfer for %s channel %u, %s = 0x%llx, size = %lu\n",
-         |                                                               ~~~~
-         |                                                               %x
-    1000 |                 sl_dma_direction_name(ch), ch->num,
-    1001 |                 ch->direction == DMA_DEV_TO_MEM ? "dst_start" : "src_start",
-    1002 |                 ch->direction == DMA_DEV_TO_MEM ? xt->dst_start : xt->src_start,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   drivers/dma/sl-dma.c:1003:3: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     999 |                 "Preparing transfer for %s channel %u, %s = 0x%llx, size = %lu\n",
-         |                                                                            ~~~
-         |                                                                            %zu
-    1000 |                 sl_dma_direction_name(ch), ch->num,
-    1001 |                 ch->direction == DMA_DEV_TO_MEM ? "dst_start" : "src_start",
-    1002 |                 ch->direction == DMA_DEV_TO_MEM ? xt->dst_start : xt->src_start,
-    1003 |                 xt->numf ? xt->sgl[0].size : 0);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   drivers/dma/sl-dma.c:1017:4: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1016 |                         "Size %lu differs from channel transfer size %u\n",
-         |                               ~~~
-         |                               %zu
-    1017 |                         xt->sgl[0].size, ch->transfer_size);
-         |                         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   drivers/dma/sl-dma.c:1149:40: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-    1148 |                 dev_dbg(sl_dma->dev, "Issue transfer on %s channel %u, addr = 0x%llx\n",
-         |                                                                                 ~~~~
-         |                                                                                 %x
-    1149 |                         sl_dma_direction_name(ch), ch->num, desc->addr);
-         |                                                             ^~~~~~~~~~
-
-
-vim +/writeq +176 drivers/dma/sl-dma.c
-
-   173	
-   174	static inline void sl_dma_writeq(struct sl_dma *sl_dma, u32 offset, u64 value)
-   175	{
- > 176		writeq(value, sl_dma->bar + offset);
-   177	}
-   178	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/test_udelay.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/clocksource-wdtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/backtracetest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ref_tracker.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/ali-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/amd64-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/nvidia-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/sis-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/sworks-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+>> ERROR: modpost: "snd_pcm_set_sync_per_card" [sound/pci/emu10k1/snd-emu10k1.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
