@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0310745038
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 20:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC0413B5B2;
+	Fri,  5 Jul 2024 21:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720212248; cv=none; b=kowHv2jFA2bFOLd2pXwecYmG4IoQcdYVMe5pSpSUYGGEknVGODiUV1g4nKf68EluHLBqH/u+QscmI/5xlChbhFxQead/EWKZaYnQ2H0jsFLeoViAdsobzjXpINYEclcVQwMEBtMv/ZWG9RvvgJtHrPSgOojTne/iazMGV5zLQWY=
+	t=1720216034; cv=none; b=pucJKBnPuD/bDQ8SC6xYSOq2cTIbQIcJchyKUo6J82oTkgKy3WaZMOXZ8aVUADFmM320nY/IHhfPIH1Ha74LhBi7H6mP+UzcewgTKLFRfjIe4ZFJBMqOPTMo89qM/79lJbE4OEyE+nUQuwuV4FIqr2hXyxJztQPpKE03ZY+WKSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720212248; c=relaxed/simple;
-	bh=1gpjZkT2oK/a7mEOfJO2WW2rt4oeuAr1ieZrktm7tPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JZr13lvte+58vxONiyg3ldWAuKiPgG0e/F3J50r+VDulioudU/knGaTzLtmxjLxtH1jXOcTBIzZlK0Ld3tITeGogysfGK2nKt+Ct2szXZQQDQkiGEm/sVsy6qA2LhE8bD3FaoRI8iT0CwkaEjakOlDos1Nhpnkz96TPui8OujeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Flhhr3WE; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1720216034; c=relaxed/simple;
+	bh=DO9YI6U87/AdMasnKM6dLVn1EA/TZFiL2Gbj0GMnUZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H92ENaMcRJmj9Fs3fxsJtsmXmN1VmsGOTD6q7TELG6wz6ah7XhCZwtyVh2Z86BO6xTzK4ixzLCNEHU2h1ztYxLX/TuiDr/yo3ZoJXcnDv4bTTnhk+WmnBkPhpRjuwA3DY85GrAR8bccHX8leTppBK6hQpth2joNbInmHxMUHC2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=muGtsAxj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Flhhr3WE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="muGtsAxj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720212246; x=1751748246;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1gpjZkT2oK/a7mEOfJO2WW2rt4oeuAr1ieZrktm7tPM=;
-  b=Flhhr3WEBKNjZDhJHXavJsYyoGJOP5BnyQjOHUiufFv+sK8mg1vByVQB
-   lUUnDes+yjGuOdXOmyonPQ9xFohCDsoEauxIZuMw//JHHH8vtg39zESSC
-   Zi0SPuUGTUFjfd5t8XtWwT0KgSqRjTOhhdNpgy79hdICO/ClV9ZT7tDg4
-   +Nav0MqIeP/GdRwDzE2fczg2BEaDLr1iemBDFt593qdK5kUlgVS2zPCjO
-   snU7cEB0GOXMoIlJ45Ash/1y50agAvN6ViJzu9MJ1lvhak8QOiOafj+6N
-   YBnZWJTggR70qKSjsvKNca5byA1T2ZZ3N1RkC70ueFXwmMJ6OGx0LD/6F
-   Q==;
-X-CSE-ConnectionGUID: KMyH/3TaQlelk7IAl061eA==
-X-CSE-MsgGUID: ZTMqJ13tRX+yssTWwfK8Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17377462"
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
-   d="scan'208";a="17377462"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 13:44:05 -0700
-X-CSE-ConnectionGUID: nMoX5aqHRjycOd1A/JXbRw==
-X-CSE-MsgGUID: S5nIKl64QYi0iPBO1YKgxw==
+  t=1720216032; x=1751752032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DO9YI6U87/AdMasnKM6dLVn1EA/TZFiL2Gbj0GMnUZ4=;
+  b=muGtsAxjD/Igzsv+LCo4NmSKZsOQBFuEN/zhBlUgW7htJV0jzxntUk1n
+   ErLXjna8TRyItrOO7220YNMTLsgwhb8BQmc58FE8ylXfqy3sR61BNf5z5
+   wHiRl2V2l4D2WaDfj8nOPLxYJWI3EESI6VzyASIglba4dtwbPuFQQ4QgP
+   ltgfYCklIA74gyTIWJKtYL7gimXIgCZQUzlM3PEyAGJywHrn+BmUwO4aD
+   1sdh8Exh5WUwEzQyvL6F+VO+yjPJu0q3uO90HjW3Q/TdrDdAxLZUS3YRa
+   mhqmW+6s/kkw6RQ1QxIu8UoYRqkBnCMv8Vn+WZ+luTurqcZO2HxVg+l3M
+   A==;
+X-CSE-ConnectionGUID: kQ/2Uv0+SIWieoIV6WTaKg==
+X-CSE-MsgGUID: hVqEG2e/R++cRt5wyA2yPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="40018477"
+X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
+   d="scan'208";a="40018477"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 14:47:12 -0700
+X-CSE-ConnectionGUID: aIZrDO3KQ0C9qQiMHrZZJA==
+X-CSE-MsgGUID: OxqEUSBdR2KL+507Z7R3SA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
-   d="scan'208";a="52140110"
+X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
+   d="scan'208";a="47040794"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jul 2024 13:44:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 05 Jul 2024 14:47:09 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPpmj-000SqK-0t;
-	Fri, 05 Jul 2024 20:44:01 +0000
-Date: Sat, 6 Jul 2024 04:43:37 +0800
+	id 1sPqlm-000Svc-39;
+	Fri, 05 Jul 2024 21:47:06 +0000
+Date: Sat, 6 Jul 2024 05:46:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:perf/uprobes 11/11] kernel/events/uprobes.c:1775:39:
- error: passing argument 2 of 'task_work_cancel' from incompatible pointer
- type
-Message-ID: <202407060447.AaD2BYhG-lkp@intel.com>
+To: Sunyeal Hong <sunyeal.hong@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sunyeal Hong <sunyeal.hong@samsung.com>
+Subject: Re: [PATCH 5/5] clk: samsung: add top clock support for Exynos Auto
+ v920 SoC
+Message-ID: <202407060546.Zqh1m0PR-lkp@intel.com>
+References: <20240705021110.2495344-6-sunyeal.hong@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +72,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240705021110.2495344-6-sunyeal.hong@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/uprobes
-head:   f0a4c81bcedcbd0d96180c9f48119c73b6b0066f
-commit: b9867ee7d141bc8791e501495bafdfdb97283196 [11/11] perf/uprobe: Add uretprobe timer
-config: i386-buildonly-randconfig-002-20240706 (https://download.01.org/0day-ci/archive/20240706/202407060447.AaD2BYhG-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407060447.AaD2BYhG-lkp@intel.com/reproduce)
+Hi Sunyeal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on pinctrl-samsung/for-next krzk-dt/for-next linus/master v6.10-rc6 next-20240703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sunyeal-Hong/dt-bindings-clock-add-Exynos-Auto-v920-SoC-CMU-bindings/20240705-195227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240705021110.2495344-6-sunyeal.hong%40samsung.com
+patch subject: [PATCH 5/5] clk: samsung: add top clock support for Exynos Auto v920 SoC
+config: arm64-randconfig-003-20240706 (https://download.01.org/0day-ci/archive/20240706/202407060546.Zqh1m0PR-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407060546.Zqh1m0PR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407060447.AaD2BYhG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407060546.Zqh1m0PR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/events/uprobes.c: In function 'uprobe_free_utask':
->> kernel/events/uprobes.c:1775:39: error: passing argument 2 of 'task_work_cancel' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1775 |         task_work_cancel(utask->task, &utask->ri_task_work);
-         |                                       ^~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       struct callback_head *
-   In file included from kernel/events/uprobes.c:26:
-   include/linux/task_work.h:33:62: note: expected 'task_work_func_t' {aka 'void (*)(struct callback_head *)'} but argument is of type 'struct callback_head *'
-      33 | struct callback_head *task_work_cancel(struct task_struct *, task_work_func_t);
-         |                                                              ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/clk/samsung/clk-exynosautov920.c:1131:40: warning: unused variable 'peric0_gate_clks' [-Wunused-const-variable]
+   static const struct samsung_gate_clock peric0_gate_clks[] __initconst = {
+                                          ^
+   1 warning generated.
 
 
-vim +/task_work_cancel +1775 kernel/events/uprobes.c
+vim +/peric0_gate_clks +1131 drivers/clk/samsung/clk-exynosautov920.c
 
-  1754	
-  1755	/*
-  1756	 * Called with no locks held.
-  1757	 * Called in context of an exiting or an exec-ing thread.
-  1758	 */
-  1759	void uprobe_free_utask(struct task_struct *t)
-  1760	{
-  1761		struct uprobe_task *utask = t->utask;
-  1762		struct return_instance *ri;
-  1763	
-  1764		if (!utask)
-  1765			return;
-  1766	
-  1767		if (utask->active_uprobe)
-  1768			srcu_read_unlock(&uretprobes_srcu, utask->active_srcu_idx);
-  1769	
-  1770		ri = utask->return_instances;
-  1771		while (ri)
-  1772			ri = free_ret_instance(ri);
-  1773	
-  1774		timer_delete_sync(&utask->ri_timer);
-> 1775		task_work_cancel(utask->task, &utask->ri_task_work);
-  1776		xol_free_insn_slot(t);
-  1777		kfree(utask);
-  1778		t->utask = NULL;
-  1779	}
-  1780	
+  1130	
+> 1131	static const struct samsung_gate_clock peric0_gate_clks[] __initconst = {
+  1132	};
+  1133	
 
 -- 
 0-DAY CI Kernel Test Service
