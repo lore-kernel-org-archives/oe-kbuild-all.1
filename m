@@ -1,112 +1,206 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDEF13A252;
-	Fri,  5 Jul 2024 10:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBE513665A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 11:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720173840; cv=none; b=q13Alp1OODoTnHnsgUs90P6IOYWGnPEUY/Kp1ANtCe77Gc6y0enVUH4t9K5qG43DucJtwem4nY80e3PJSoBHSH5gPeLVPDcWZs1AKWLeGVR5Gmhmu+s5aKTcl/lcE86Ttaexecv2Jey+2QIpD+qtga7al++qbT0fOekjL9rsRlE=
+	t=1720177649; cv=none; b=tMNWSQ+g+5PKBPAy06Qtj22VduQqEtqUz8MtRRngJ8wcQMZVTm2Lk/q8fzlpqTN+ezTknilQ3AvLJSObq3IV8sYcTlotlHc3KB6NI71LOhjp+xU9DzzDqEJ/roWpX8zc/1HnMpoCrLmbspgYsl+Jm86Mh4wigEbafxSKsapGpJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720173840; c=relaxed/simple;
-	bh=WgDu9ZpACAJvm7Pa4gqk+rNT3auetxE4+ckzl7sJ1ig=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=ozOyeiiFL78nCEZNQUXlBGd2JFuBODbkB7PkvBJVSpeDQkxpcjqgIvRk39NaUlsKebEHrYOHAzX+vg8qqWsteLmAjYivQRc6zV/YP/zv6xK9E1u1CsXrb20ddPnRKDTqLp0IGc7n/jIDbGZoJbUm6+82NzlUbmyv7vrWSVFhxLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TVq8H7Lj; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1720177649; c=relaxed/simple;
+	bh=0nUinA24UAUinlu6pUh1CLN4Sx/3gtSsYrL50QJPbKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HkQe59sFOAkJlLOLcZedWQKQrJpnjgUyxrRPnUTeRKFj4WJ4+z0PyN4M6rKZn3M+azgIhxSouFmh7h7MUWQ0NqWUpxJWfZU2vQuBY5FmMaBPn47/2FmjNE8YFR0//c1NY5wXWxqYDUsStpXsBZrVnRtMzIbxdrVkUMA8SydMrps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkLifBIh; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TVq8H7Lj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BDA511C0012;
-	Fri,  5 Jul 2024 10:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720173836;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=63549/JWR8ZN81iPpBOmB7VHeCd6i6W3nkUlZJSwKPA=;
-	b=TVq8H7Ljl3Cxhy3s5+zVlF60lJwrKbloXTFbbA1uBzXwUN4L9IFxGZn0Ppmd7mjAhknM+t
-	dH28EleXtEiNik7Uu/HeIMf50fGEPNEHmYegErsdPcqWQ8WIr3Ltcoi9ddSmvN1MFjvHej
-	Btbt/MHZBMveLeIv+jeblBjBMafXI4Cu8gZYUXeQk7SgWekwoRykFGXrmM9cWokCDbQS8M
-	rsW0UKLi2KY8RY3GeouyXr4KxL6EiaaAtlNrMX/lr5vXEL53BXRtB3ADULbpULwT4QTDEA
-	gq98IZRL1BGKxBdYhfcf9uW8g17wE/ONuaYHUDFYHruhwheM2i0T/G3STUP24A==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkLifBIh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720177648; x=1751713648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0nUinA24UAUinlu6pUh1CLN4Sx/3gtSsYrL50QJPbKE=;
+  b=BkLifBIhjaJH+odIxEHMuLsP+RmKMbJLlpF8jtG1dfvlSBc8285ERB5k
+   NTwuLfcMBz8CJHERMV8PHMKMYk6VXBKj0huKQS+TKFjd/yRrTZhpJeoVZ
+   hfXRNo4eRh+ocHy3KsIwATuV5Xhnb11rCRAe5/99OioDBgujCtn//lGfx
+   LYiRHsD5tErdcpN/TCPp/mqHR5XUAH+TMuH01sf9en46xglRkCg5wEdKb
+   qcoVSBx3s2ucHS2jGY6nT+PrjYod/ixDfet1uPra7ytpqCOSUMDVmPZa/
+   j5bh9tElkxta8U/3NM2nqiXjtojn+qwZqu2aH37RwINT9/Zwsa9y7wFeg
+   w==;
+X-CSE-ConnectionGUID: LIsIhJ75TVehFh8Q89CQvA==
+X-CSE-MsgGUID: 6oFzIKNnRhGfoLhZ+Hyc8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17188051"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="17188051"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 04:06:35 -0700
+X-CSE-ConnectionGUID: 2Szdt3w5RWCWbuoreaNbZg==
+X-CSE-MsgGUID: GzXInrnrRX+4ZUMv6mpKKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="46823769"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2024 04:06:31 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sPglp-000SIN-0d;
+	Fri, 05 Jul 2024 11:06:29 +0000
+Date: Fri, 5 Jul 2024 19:06:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Arthur Grillo <arthurgrillo@riseup.net>,
+	Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
+	Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Subject: Re: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
+Message-ID: <202407051851.5P18lNVW-lkp@intel.com>
+References: <20240703172228.11166-10-gcarlos@disroot.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 05 Jul 2024 12:03:55 +0200
-Message-Id: <D2HIQELPOBJD.1HJZS16QJSSZJ@bootlin.com>
-Cc: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
- <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Vladimir Kondratiev"
- <vladimir.kondratiev@mobileye.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
- <gregory.clement@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
- <tawfik.bayouk@mobileye.com>
-To: "kernel test robot" <lkp@intel.com>, "Michael Turquette"
- <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Subject: Re: [PATCH v2 4/4] clk: eyeq: add driver
-X-Mailer: aerc 0.17.0-0-g6ea74eb30457
-References: <20240703-mbly-clk-v2-4-fe8c6199a579@bootlin.com>
- <202407050921.S41aCBdD-lkp@intel.com>
-In-Reply-To: <202407050921.S41aCBdD-lkp@intel.com>
-X-GND-Sasl: theo.lebrun@bootlin.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703172228.11166-10-gcarlos@disroot.org>
 
-Hello,
+Hi Carlos,
 
-*Grasp*, I forgot addressing this topic.
+kernel test robot noticed the following build errors:
 
-On Fri Jul 5, 2024 at 3:50 AM CEST, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.10-rc6 next-20240703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[...]
+url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Eduardo-Gallo-Filho/drm-tests-Stop-using-deprecated-dev_private-member-on-drm_framebuffer-tests/20240704-234045
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240703172228.11166-10-gcarlos%40disroot.org
+patch subject: [PATCH v3 9/9] drm/tests: Add test for drm_framebuffer_free()
+config: arc-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051851.5P18lNVW-lkp@intel.com/reproduce)
 
-> All errors (new ones prefixed by >>):
->
->    In file included from drivers/clk/clk-eyeq.c:30:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:548:31: warning: performing pointer
->        arithmetic on a null pointer has undefined behavior [-Wnull-pointe=
-r-arithmetic]
->      548 |         val =3D __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
-[...]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051851.5P18lNVW-lkp@intel.com/
 
-Ignoring all the warnings relative to <linux/io.h> as they appear on all
-objects using this config, nothing specific to clk-eyeq.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> >> drivers/clk/clk-eyeq.c:264:9: error: call to undeclared function
-> >>     'readq'; ISO C99 and later do not support implicit function
-> >>     declarations [-Wimplicit-function-declaration]
->      264 |                 val =3D readq(priv->base + pll->reg64);
->          |                       ^
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+ERROR: modpost: "drm_framebuffer_free" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
+>> ERROR: modpost: "drm_mode_object_add" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
 
-Options are:
-
- - #include <linux/io-64-nonatomic-lo-hi.h> or
-            <linux/io-64-nonatomic-hi-lo.h> or
-
- - in Kconfig, add "depends on 64BIT # for readq()"
-
-I'm leaning towards the Kconfig option. Build testing this driver on
-32bit platforms makes no sense, this is a SoC clk platform driver used
-on 64bit SoCs. Including a compat layer is a more complex solution.
-
-I'll wait a bit before sending next revision.
-You can ping if you want it straight away of course.
-
-Thanks,
-
---
-Th=C3=A9o Lebrun, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
