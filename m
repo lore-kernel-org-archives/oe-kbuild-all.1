@@ -1,60 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08621C6A0;
-	Fri,  5 Jul 2024 06:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F80B13D28F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 06:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720159809; cv=none; b=AtlQ3kDYHYCEu5sRquoB/aJucSZV2LlzSfAeri8SydDrkLRJncvxBFQF9G7osEqVot85DfypSpaZRuRtHjGmOL3Yu7A+XPKgDby3D76l45qnEq3lxC38ihu95LiPspK6ymjUyOIJjouXgGwnZ3o3HzNoy1/io85C7SIhH7IU3cU=
+	t=1720159811; cv=none; b=L3tC/ZLX9DVlKoTQ/cX9nJTF1Oo856li57+F/cU6EjJHGiA+amO50AIgNYTBVcS2PUj0me8+nMyzZrQaVQu2Z4plrkBlaBPoQDjT98p8sjlPse38HNEuNbfA8iVbY5hyYPdkEyWcBmMwbbQvUNfyxAIK6Q7fCOLn7fwJZmn/SYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720159809; c=relaxed/simple;
-	bh=vTcx2+1lCMBfWrPZ13b428fkp2SjuNVrG8fTeuvkDww=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CAGxj5Zyf7sibJkUc8AOVj7p61dPB+G4MjzG9btGQVkk/Nzaa+vhRrCLpfZh3P30G8/n/qnaRlRAecDU/lMteYCSwVvRATZd7xfTPqRYi9xhQWqThv+sQuaKzV52fT/4fwCGKGpDMm6Rru7JZ9r6E3+6us9MG1PfNb0tQqxAFnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsRCFO0A; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1720159811; c=relaxed/simple;
+	bh=2M0fguvjxnITBIXwZE83kBtpWTCgS/US+uG4BdqttDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=etcWjTmuAtTW5YkViRmB1glOG6zmG1ACm5VEFQA7tbVHwn5OGX9n8vQ7aKss4hN5rU7X6KazunD0XWgjWcz+HrNJv/wi1/WfPRiphFTZwPJ3q5bBkJ3E4uMOlGKHH53pua/PEZCBjaJlpNrl6ELHFhzZhcbelXTaBLGSOnnwkIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwrsw+z/; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsRCFO0A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwrsw+z/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720159808; x=1751695808;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vTcx2+1lCMBfWrPZ13b428fkp2SjuNVrG8fTeuvkDww=;
-  b=YsRCFO0A1ra+xClkAgeAF4vUgVoUm3LuOYu1JSiLsCjSxywG0IMuWbjo
-   LTLYD5sLMNo4mJU1HbRIWORK3X1lziugEaMthMKZaJER80qUMXroeec84
-   GZwaIsLR07xAoS+mR0mXTCOgmlcPiadZSGm+Bs7CRKRxsxPFWpmVx5u34
-   6muxvLkV9btAZDzsOkIitLa8FEgYWx1dMSOHQXuowAsC9OnzDPbIhQV9F
-   JTd/DAxzr4up74tunB9YdhksBiFe4G2aZdLC4xSk0zuomqeMbAwcGHkjc
-   iCX9zzugS3DkeRmomH5B5WclFLPQKhrb6vvMy0+MOZ8aeHtKXpkFrSTJR
+  t=1720159809; x=1751695809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2M0fguvjxnITBIXwZE83kBtpWTCgS/US+uG4BdqttDE=;
+  b=nwrsw+z/aEfOOg0pNskqE/DDs4t5HLn0Ab8b7yfHv4T5IIxwQqd/Th+b
+   3qQCCD4O4s+F6bj46sO8qALcrf/59d+xTzPcAlZBA0Rc7MEsDWmnTWEfi
+   9QWRM43CqH2aDUETlYh6h7rrGWtdXFuO0wJu+4Avkh0abVmcayq2k5u6P
+   RueZoGNQlFVjExjMTi2oisjtcnqufV6ZlGrTiLbFSTSqkEG5oTFJCHkiq
+   UcHR8uaA4qhaerz8hlU7CibdIphlhHqbvhwvmXAoPfUcT9lq2W2ovNaf7
+   LlZymDEeb0pElPv6vINnBCHihlTmepgMCmA/b18VIhFtgDA0aTdAZmzab
    Q==;
-X-CSE-ConnectionGUID: 8jPxptDASnqkUMaT5gPehQ==
-X-CSE-MsgGUID: vKRekkbsSE6n0iSdoCB2iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17587067"
+X-CSE-ConnectionGUID: 17yE66VMRRiCTg0JrnOgDA==
+X-CSE-MsgGUID: J6H5H+WEQQWOFGXdlRYZiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17587069"
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="17587067"
+   d="scan'208";a="17587069"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 23:10:08 -0700
-X-CSE-ConnectionGUID: hU/CBXYEQB2djr27ycd+WA==
-X-CSE-MsgGUID: +PBv/BLxTIagLVNxVlwYyQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 23:10:09 -0700
+X-CSE-ConnectionGUID: faNjunHSSmudEYsE/gcmUA==
+X-CSE-MsgGUID: K4hQdQ3qSj68keOXZfwe/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="77518697"
+   d="scan'208";a="77518698"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jul 2024 23:10:06 -0700
+  by orviesa002.jf.intel.com with ESMTP; 04 Jul 2024 23:10:07 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPc8x-000S0i-1X;
+	id 1sPc8x-000S0l-21;
 	Fri, 05 Jul 2024 06:10:03 +0000
-Date: Fri, 5 Jul 2024 14:09:37 +0800
+Date: Fri, 5 Jul 2024 14:09:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Petr Machata <petrm@nvidia.com>
-Subject: [linux-next:master 8719/10451] ld.lld: error: section .pci_fixup
- virtual address range overlaps with __bug_table
-Message-ID: <202407051359.IdUPkWid-lkp@intel.com>
+To: Chris Lu <chris.lu@mediatek.com>, Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Von Dentz <luiz.dentz@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
+	Aaron Hou <aaron.hou@mediatek.com>,
+	Steve Lee <steve.lee@mediatek.com>,
+	linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-mediatek <linux-mediatek@lists.infradead.org>,
+	Chris Lu <chris.lu@mediatek.com>
+Subject: Re: [PATCH v7 5/8] Bluetooth: btmtk: move btusb_mtk_hci_wmt_sync to
+ btmtk.c
+Message-ID: <202407051325.i8Ac4Nz9-lkp@intel.com>
+References: <20240704060116.16600-6-chris.lu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +71,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240704060116.16600-6-chris.lu@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: a39c84d796254e6b1662ca0c46dbc313379e9291 [8719/10451] ethtool: cmis_cdb: Add a layer for supporting CDB commands
-config: riscv-randconfig-001-20240704 (https://download.01.org/0day-ci/archive/20240705/202407051359.IdUPkWid-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051359.IdUPkWid-lkp@intel.com/reproduce)
+Hi Chris,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on next-20240703]
+[cannot apply to bluetooth/master linus/master v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Lu/Bluetooth-btusb-mediatek-remove-the-unnecessary-goto-tag/20240705-043833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20240704060116.16600-6-chris.lu%40mediatek.com
+patch subject: [PATCH v7 5/8] Bluetooth: btmtk: move btusb_mtk_hci_wmt_sync to btmtk.c
+config: i386-buildonly-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051325.i8Ac4Nz9-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051325.i8Ac4Nz9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051359.IdUPkWid-lkp@intel.com/
-
-Note: the linux-next/master HEAD 0b58e108042b0ed28a71cd7edf5175999955b233 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051325.i8Ac4Nz9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: section .pci_fixup virtual address range overlaps with __bug_table
-   >>> .pci_fixup range is [0xFFFFFFFF826C79D8, 0xFFFFFFFF826CB9DF]
-   >>> __bug_table range is [0xFFFFFFFF826CA788, 0xFFFFFFFF8270CE6B]
---
->> ld.lld: error: section __bug_table virtual address range overlaps with __ksymtab
-   >>> __bug_table range is [0xFFFFFFFF826CA788, 0xFFFFFFFF8270CE6B]
-   >>> __ksymtab range is [0xFFFFFFFF826CB9E0, 0xFFFFFFFF826EE86F]
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_submit_wmt_recv_urb':
+   btmtk.c:(.text+0x731): undefined reference to `usb_alloc_urb'
+>> ld: btmtk.c:(.text+0x7c5): undefined reference to `usb_anchor_urb'
+>> ld: btmtk.c:(.text+0x7d1): undefined reference to `usb_submit_urb'
+>> ld: btmtk.c:(.text+0x7de): undefined reference to `usb_free_urb'
+>> ld: btmtk.c:(.text+0x820): undefined reference to `usb_unanchor_urb'
+   ld: btmtk.c:(.text+0x829): undefined reference to `usb_free_urb'
+   ld: btmtk.c:(.text+0x83e): undefined reference to `usb_free_urb'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_hci_wmt_sync':
+   btmtk.c:(.text+0x8bd): undefined reference to `usb_autopm_get_interface'
+>> ld: btmtk.c:(.text+0x8f9): undefined reference to `usb_autopm_put_interface'
+   ld: btmtk.c:(.text+0x9bf): undefined reference to `usb_autopm_put_interface'
+   ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_wmt_recv':
+   btmtk.c:(.text+0xb67): undefined reference to `usb_anchor_urb'
+   ld: btmtk.c:(.text+0xb73): undefined reference to `usb_submit_urb'
+   ld: btmtk.c:(.text+0xc8e): undefined reference to `usb_unanchor_urb'
 
 -- 
 0-DAY CI Kernel Test Service
