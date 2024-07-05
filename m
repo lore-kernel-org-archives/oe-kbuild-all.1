@@ -1,52 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A4881E;
-	Fri,  5 Jul 2024 17:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240001B963;
+	Fri,  5 Jul 2024 18:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720200473; cv=none; b=jQ36da4Zvzcya1ZCH9R6IFzWW1FBrHCMQ6Lk9BBEs0DXX/7Goqu06h5509O1REWw9f0apq++C5mKxCl1hnpc+J1oTeY7yG7WyOhqBkYEdh0xf+qoy3lurd1n+oKvsyrMeShzaWXbLvTOmni9i9IlnJ2as9ZX6o9P7J/8v1pCHxA=
+	t=1720203300; cv=none; b=Ksiq8vHS7+7SxDplCx9ydexmpK/qNRy+/KtHHt7bYm4kvkCWFJw5tCg/f4yIzgnzq0CWgWOej5Q4C6Jp9Re6sEMSG0mQxhe9AfHF7QCOQqw/CWc711Jo0n2EVqi19m84vDOvvNOr2q+Mxj2JdK/mFNuCKyz1aKYowyGEBT/GW6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720200473; c=relaxed/simple;
-	bh=UFVPAqRzqVT/p6Fkd12jSpwFaK0O3pMzpk6h3778Y08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSkOQnOleMyADWofUhuEL1pGZSlo5RUckyXbd7fBIwyQMzrgjc2wd8xATdLfWyl7UIHIuXySE8jdLvKiBufTcNjRQM6AtomxUrRWBaW4lCgOarzGcv8aYaXr0hTzpPgsQgOf1YGgscvs6GK5C29SME+tSDlsFrHBaSJwLc8zrOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+GP2NpY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720203300; c=relaxed/simple;
+	bh=1yUskJF5r77KmHf7/IA03V7zymkcDKZmE6W2B18ANvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Hg9MkQFEALYz1TzjODzjPIRbSPZAYffq0gQYVOTRHb0/Re+HEDdj2YoelEafl1o6tnef7i8WtDE46Sd17H+Wc/aYE+aPw5dENubzD4m9LdT4U2pzau7aVu4xq54BXJAU9sg/ipKTum9/Iu/2kSKgrNILUaVHGEs5lVwhjEGg8M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvBtvluy; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+GP2NpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC732C116B1;
-	Fri,  5 Jul 2024 17:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720200473;
-	bh=UFVPAqRzqVT/p6Fkd12jSpwFaK0O3pMzpk6h3778Y08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r+GP2NpY0ut/WIX+ybo8MYYpHvTp8h6a8vetEwsE/CbsZlhV+S991AWIZQb+Jg+40
-	 Xub3zFx2IpPojnRyBNL0MkZVtnDZt1V/zZhl2sEeONoOWw7jyoGc9lHYogye7A1WBo
-	 AUHbhFUiJizR4/QRRv0a+vBtq65BJGzTWnCT2Szffa42qipZHQBkX0x4WA8bnciHcB
-	 UPLGQqqHEWbqWMA7tm9Mn/iIcyaFG654UF2ohEHfnpUJ+60mEL8CkilSUEoc8wGBlu
-	 bIOKp4D2LiBLowXpcxchn5BGGI1OhqAU8JU1YXF57oGQbB9lLjEY0fx8VJDrSuQL0R
-	 KLTiruSZV+s+A==
-Date: Fri, 5 Jul 2024 10:27:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Message-ID: <20240705172750.GF987634@thelio-3990X>
-References: <20240626130347.520750-2-alexghiti@rivosinc.com>
- <202407041157.odTZAYZ6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvBtvluy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720203298; x=1751739298;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1yUskJF5r77KmHf7/IA03V7zymkcDKZmE6W2B18ANvE=;
+  b=RvBtvluyzuve+3ny+742X9IgqJCQeg/SG2I8XRIjcD1uguVuKKQavMJy
+   CySMsBcpHM54jfwEmAd6cTcSLRoCovcz11DSs0zm46JFb2uaUQ5X80XfS
+   WNGQrqhHUKUDApXt16Re4yPepH+oP7/5WniF7lIbv6EROoQBrjjY5aEMe
+   IZpxVBeDBJJIXMbYhk0AZqvOFoP56t8NQzpNen3ngGstiHmQbPCG/Kkgo
+   nu/dRatKdETWuuikucnqsL3Ojh3ArF9jcEx7CsQmjahlBotWyHM6iPkt+
+   IlmeJ5hDH73TirD2RtLpdDo1RaQ6iqg9DKFCIoP+VkRiYIVcDiugq6JUq
+   A==;
+X-CSE-ConnectionGUID: vnljpCVlTnuvetvS2YZejQ==
+X-CSE-MsgGUID: CAN6RIAEQL6eH36H62GxNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="12410706"
+X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
+   d="scan'208";a="12410706"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 11:14:56 -0700
+X-CSE-ConnectionGUID: GJYPcKArQhiKKzOfZ7O6lg==
+X-CSE-MsgGUID: Gp+QWFnRRYaVbHyDL/6kHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,185,1716274800"; 
+   d="scan'208";a="51359316"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jul 2024 11:14:56 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sPnSP-000Shc-2Y;
+	Fri, 05 Jul 2024 18:14:53 +0000
+Date: Sat, 6 Jul 2024 02:14:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:perf/uprobes 9/11] kernel/rcu/srcutree.c:724:1: error:
+ expected identifier or '('
+Message-ID: <202407060220.GLzM9U1O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,148 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202407041157.odTZAYZ6-lkp@intel.com>
 
-On Thu, Jul 04, 2024 at 11:38:46AM +0800, kernel test robot wrote:
-> Hi Alexandre,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on soc/for-next]
-> [also build test ERROR on linus/master v6.10-rc6 next-20240703]
-> [cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-> patch link:    https://lore.kernel.org/r/20240626130347.520750-2-alexghiti%40rivosinc.com
-> patch subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-> config: riscv-randconfig-002-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407041157.odTZAYZ6-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> kernel/sched/core.c:11873:7: error: cannot jump from this asm goto statement to one of its possible targets
->                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
->                        ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
->                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
->                    ^
->    kernel/sched/core.c:11840:7: note: possible target of asm goto statement
->            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
->                 ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
->                                                                            \
->                                                                            ^
->    kernel/sched/core.c:11872:2: note: jump exits scope of variable with __attribute__((cleanup))
->            scoped_guard (irqsave) {
->            ^
->    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
->            for (CLASS(_name, scope)(args),                                 \
->                              ^
->    kernel/sched/core.c:11840:7: error: cannot jump from this asm goto statement to one of its possible targets
->            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
->                 ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
->                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
->                    ^
->    kernel/sched/core.c:11873:7: note: possible target of asm goto statement
->                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
->                        ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
->                                                                            \
->                                                                            ^
->    kernel/sched/core.c:11872:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
->            scoped_guard (irqsave) {
->            ^
->    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
->            for (CLASS(_name, scope)(args),                                 \
->                              ^
->    2 errors generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/uprobes
+head:   b9867ee7d141bc8791e501495bafdfdb97283196
+commit: 6b39b0e14b07a435cba021ae102a95ded6e6cab1 [9/11] srcu: Add __srcu_clone_read_lock()
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240706/202407060220.GLzM9U1O-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407060220.GLzM9U1O-lkp@intel.com/reproduce)
 
-Ugh, this is an unfortunate interaction with clang's jump scope analysis
-and asm goto in LLVM releases prior to 17 :/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407060220.GLzM9U1O-lkp@intel.com/
 
-https://github.com/ClangBuiltLinux/linux/issues/1886#issuecomment-1645979992
+All errors (new ones prefixed by >>):
 
-Unfortunately, 'if (0)' does not prevent this (the analysis runs early
-in the front end as far as I understand it), we would need to workaround
-this with full preprocessor guards...
+   In file included from kernel/rcu/srcutree.c:26:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/rcu/srcutree.c:724:1: error: expected identifier or '('
+     724 | {
+         | ^
+   1 warning and 1 error generated.
 
-Another alternative would be to require LLVM 17+ for RISC-V, which may
-not be the worst alternative, since I think most people doing serious
-work with clang will probably be living close to tip of tree anyways
-because of all the extension work that goes on upstream.
 
-I am open to other thoughts though.
+vim +724 kernel/rcu/srcutree.c
 
-Cheers,
-Nathan
+   722	
+   723	void __srcu_clone_read_lock(struct srcu_struct *ssp, int idx);
+ > 724	{
+   725		this_cpu_inc(ssp->sda->srcu_lock_count[idx].counter);
+   726	}
+   727	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
