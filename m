@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7AD2B9A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 02:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E3F2BB06;
+	Fri,  5 Jul 2024 02:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720146174; cv=none; b=M/kTJyRw0SY2+Jta0R8rLvWc+f0N2n7p5LFp7fSINCfjUpHAik0IAdHUVwe20lHiJRgziclSjV3Po2Hnms+E26Wvf4b6lVN6FUckrlsGZRd1R/3DDxMITJpM9k4fD13nQwyHnZyeopkPr6ankUYvwOOfUZvR3KTELEXFAXJxn8I=
+	t=1720146898; cv=none; b=KrGdimRWE/FGY6LR7nQOHP3p4aMuMjnW4mbEpwuBht1slRVJQaypxTYNJMZ13HEJ3lQF/+0f5Zi2O0PYhuFFEz0IqTBtaoMaSywn9IGfdnvWBe3XVfjJHctCTg43KOXhYgAGPHP3RqR8SliPBBAG699c71YyVi3jDikSxkHIDDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720146174; c=relaxed/simple;
-	bh=XD/f5KAgcK01TW8VxVOI/FtGkmr+hOD82xZoESN1LnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwhtY6p835TYWXR3KHz33pFwXwSrTi4qDl6i8rHlw0qPj+LV6TnjXviG6pbEqMi4dpfU809bvVFixNbG9bnZd+aE6oQ/lFZN0b5so0oWrh8KLD9fDRz1BkZQqCYb5ZGCixATbUSQrsRCSrtOna5vEKebyhbtrThvk08Mnm0mAzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DceIXzxO; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1720146898; c=relaxed/simple;
+	bh=rkVF/DAXfPHy18XqSPe0Nbqx52ncchR5iUUAGbwAGwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VkK23ggt94z0hSAj2n5ItnA1jg9CSeY0Bgdhrfha3LJurZh4Mcb/9so/V8cKzkA0HI51sEKOpIZFeoKQDYjxbqwieSLEPuQWA7/a0wehfE52ZnkDMnHYIieIA8emMuUnctGel+rabPlbIQ6VaOvy5WJFVi6ZS5YHMJwYj6wpep0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDG5lisa; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DceIXzxO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDG5lisa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720146172; x=1751682172;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XD/f5KAgcK01TW8VxVOI/FtGkmr+hOD82xZoESN1LnA=;
-  b=DceIXzxO+tiwZXkaiFiQHeqLj9MqbFyc9to8dTVC1dCBoY4q9Tsc2Sop
-   hw9FinXLZF4SzJKNdCVLCuYtRe6lep7hdMTxjCi7oDDc6D1hRGOcofei5
-   4906tRtjtzb8fUnLLkFTQkzhgTVwiqV221ois00IbR2dGHpEvnFIS3Y3N
-   SjMzCjzDxUR56DwA5RS9V6D/8jLVMBQ/E/0XZSke89YTN6MYj2qTRvN3o
-   +K4I4D5Nj00kSnX6GJ0VZlNR/Lsw74Z2j5mEwKTeWYtg6VG4E+oTUJ5Yv
-   JT1VSzwuUBYhvNSRe4W9KFrNDnr8YcJ/eiWPQl9OHNjchHV2ZpJfT1dKo
-   Q==;
-X-CSE-ConnectionGUID: 5LQP/bQLQ6mcet98Ctybfg==
-X-CSE-MsgGUID: 1eNX9+I3Ta2VOUSghbFO8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17250494"
+  t=1720146896; x=1751682896;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rkVF/DAXfPHy18XqSPe0Nbqx52ncchR5iUUAGbwAGwQ=;
+  b=cDG5lisagquHZxI8IXla3h6SFI858eM9oUnb+hZdBulfK1yNNHEBEmvX
+   6BiFnO2VxMHtGmICfrEl96cBxcRcUnqOCPKBfpXpg3I3ULmkB20mZtoy+
+   4m6jF+MwoC6YiolIPIorSmqGfg0JiuaXBJ3t3+u60LKBnjwwG/X7zCKZ+
+   PLsWqJAlF8uMW4t642gSCwtAn7huZlEfDXQ1WZmSSiPIbmSkEY5l5gK/O
+   ZfSyS1BLcQOmXTOCVWTpSgvdszvJQbz6S7K4J+wWT6FVHD/J1rdU4qh0t
+   jRvjuAcgBXxDiaOSRSdfps+2fVLrTWP3wVBOlv1cuchxoRsxrnA9DLWUb
+   A==;
+X-CSE-ConnectionGUID: rvGqI5K+TL2bIIXKEHe4lw==
+X-CSE-MsgGUID: EVloE7E/QyuBPsxIJcBb6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42853938"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17250494"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 19:22:47 -0700
-X-CSE-ConnectionGUID: EM9i0E2KQiaTlR0AqJmkfw==
-X-CSE-MsgGUID: EczCoBGHSvO4UUz5lUwtfg==
+   d="scan'208";a="42853938"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 19:34:56 -0700
+X-CSE-ConnectionGUID: HkL/BSCqSCS9u/h6ZSz7JA==
+X-CSE-MsgGUID: Jqb3rm9HQnaVCRSBUWSnhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51172775"
+   d="scan'208";a="47394565"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Jul 2024 19:22:45 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Jul 2024 19:34:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPYaw-000RnA-2R;
-	Fri, 05 Jul 2024 02:22:42 +0000
-Date: Fri, 5 Jul 2024 10:22:40 +0800
+	id 1sPYmi-000RoA-1L;
+	Fri, 05 Jul 2024 02:34:52 +0000
+Date: Fri, 5 Jul 2024 10:33:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] riscv: uaccess: use 'asm goto' for put_user()
-Message-ID: <202407051058.kE7ADWxJ-lkp@intel.com>
-References: <20240625040500.1788-4-jszhang@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to-build 11/17]
+ arch/arm64/kernel/signal32.c:454:24: error: use of undeclared identifier
+ '__NR_compat32_restart_syscall'
+Message-ID: <202407051021.yeRUriTc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,355 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240625040500.1788-4-jszhang@kernel.org>
 
-Hi Jisheng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-implement-user_access_begin-and-families/20240626-005352
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240625040500.1788-4-jszhang%40kernel.org
-patch subject: [PATCH 3/4] riscv: uaccess: use 'asm goto' for put_user()
-config: riscv-randconfig-r121-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051058.kE7ADWxJ-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240705/202407051058.kE7ADWxJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
+head:   25862feffc419d0d195fdb118ae11b9c11b437d3
+commit: a4ffc1f764d6cb9456b93c264c6fce25bb38d7aa [11/17] arm64: rework compat syscall macros
+config: arm64-randconfig-001-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051021.yeRUriTc-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051021.yeRUriTc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051058.kE7ADWxJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051021.yeRUriTc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/compat.h:17,
-                    from arch/riscv/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/riscv/kernel/process.c:10:
-   arch/riscv/kernel/process.c: In function 'get_unalign_ctl':
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/process.c:57:16: note: in expansion of macro 'put_user'
-      57 |         return put_user(tsk->thread.align_ctl, (unsigned long __user *)adr);
-         |                ^~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/process.c:57:16: note: in expansion of macro 'put_user'
-      57 |         return put_user(tsk->thread.align_ctl, (unsigned long __user *)adr);
-         |                ^~~~~~~~
---
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/compat.h:17,
-                    from arch/riscv/kernel/signal.c:9:
-   arch/riscv/kernel/signal.c: In function 'setup_sigcontext':
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:290:16: note: in expansion of macro '__put_user'
-     290 |         err |= __put_user(0, &sc->sc_extdesc.reserved);
-         |                ^~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:290:16: note: in expansion of macro '__put_user'
-     290 |         err |= __put_user(0, &sc->sc_extdesc.reserved);
-         |                ^~~~~~~~~~
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:292:16: note: in expansion of macro '__put_user'
-     292 |         err |= __put_user(END_MAGIC, &sc_ext_ptr->magic);
-         |                ^~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:292:16: note: in expansion of macro '__put_user'
-     292 |         err |= __put_user(END_MAGIC, &sc_ext_ptr->magic);
-         |                ^~~~~~~~~~
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:293:16: note: in expansion of macro '__put_user'
-     293 |         err |= __put_user(END_HDR_SIZE, &sc_ext_ptr->size);
-         |                ^~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:293:16: note: in expansion of macro '__put_user'
-     293 |         err |= __put_user(END_HDR_SIZE, &sc_ext_ptr->size);
-         |                ^~~~~~~~~~
-   arch/riscv/kernel/signal.c: In function 'setup_rt_frame':
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:336:16: note: in expansion of macro '__put_user'
-     336 |         err |= __put_user(0, &frame->uc.uc_flags);
-         |                ^~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:336:16: note: in expansion of macro '__put_user'
-     336 |         err |= __put_user(0, &frame->uc.uc_flags);
-         |                ^~~~~~~~~~
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:337:16: note: in expansion of macro '__put_user'
-     337 |         err |= __put_user(NULL, &frame->uc.uc_link);
-         |                ^~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/kernel/signal.c:337:16: note: in expansion of macro '__put_user'
-     337 |         err |= __put_user(NULL, &frame->uc.uc_link);
-         |                ^~~~~~~~~~
---
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:82,
-                    from arch/riscv/kernel/sys_hwprobe.c:7:
-   arch/riscv/kernel/sys_hwprobe.c: In function 'hwprobe_get_values':
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/sys_hwprobe.c:278:23: note: in expansion of macro 'put_user'
-     278 |                 ret = put_user(pair.key, &pairs->key);
-         |                       ^~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/sys_hwprobe.c:278:23: note: in expansion of macro 'put_user'
-     278 |                 ret = put_user(pair.key, &pairs->key);
-         |                       ^~~~~~~~
->> arch/riscv/include/asm/uaccess.h:211:46: error: expected ')' before ':' token
-     211 |                         "m" (__ptr[__MSW]) : : label);          \
-         |                                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/sys_hwprobe.c:280:31: note: in expansion of macro 'put_user'
-     280 |                         ret = put_user(pair.value, &pairs->value);
-         |                               ^~~~~~~~
-   arch/riscv/include/asm/uaccess.h:202:30: note: to match this '('
-     202 |         __asm__ __volatile__ (                                  \
-         |                              ^
-   arch/riscv/include/asm/uaccess.h:228:17: note: in expansion of macro '__put_user_8'
-     228 |                 __put_user_8((x), __gu_ptr, label);             \
-         |                 ^~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:238:9: note: in expansion of macro '__put_user_nocheck'
-     238 |         __put_user_nocheck(x, ptr, err_label);                  \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:274:9: note: in expansion of macro '__put_user_error'
-     274 |         __put_user_error(__val, __gu_ptr, __pu_err);            \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:301:17: note: in expansion of macro '__put_user'
-     301 |                 __put_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   arch/riscv/kernel/sys_hwprobe.c:280:31: note: in expansion of macro 'put_user'
-     280 |                         ret = put_user(pair.value, &pairs->value);
-         |                               ^~~~~~~~
+   In file included from arch/arm64/kernel/signal32.c:12:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/arm64/kernel/signal32.c:454:24: error: use of undeclared identifier '__NR_compat32_restart_syscall'
+     454 |        regs->regs[7] = __NR_compat32_restart_syscall;
+         |                        ^
+   1 warning and 1 error generated.
 
 
-vim +211 arch/riscv/include/asm/uaccess.h
+vim +/__NR_compat32_restart_syscall +454 arch/arm64/kernel/signal32.c
 
-   193	
-   194	#ifdef CONFIG_64BIT
-   195	#define __put_user_8(x, ptr, label) \
-   196		__put_user_asm("sd", x, ptr, label)
-   197	#else /* !CONFIG_64BIT */
-   198	#define __put_user_8(x, ptr, label)				\
-   199	do {								\
-   200		u32 __user *__ptr = (u32 __user *)(ptr);		\
-   201		u64 __x = (__typeof__((x)-(x)))(x);			\
-   202		__asm__ __volatile__ (					\
-   203			"1:\n"						\
-   204			"	sw %z0, %2\n"				\
-   205			"2:\n"						\
-   206			"	sw %z1, %3\n"				\
-   207			_ASM_EXTABLE(1b, %l4)				\
-   208			_ASM_EXTABLE(2b, %l4)				\
-   209			: : "rJ" (__x), "rJ" (__x >> 32),		\
-   210				"m" (__ptr[__LSW]),			\
- > 211				"m" (__ptr[__MSW]) : : label);		\
-   212	} while (0)
-   213	#endif /* CONFIG_64BIT */
-   214	
+   451	
+   452	void compat_setup_restart_syscall(struct pt_regs *regs)
+   453	{
+ > 454	       regs->regs[7] = __NR_compat32_restart_syscall;
+   455	}
+   456	
 
 -- 
 0-DAY CI Kernel Test Service
