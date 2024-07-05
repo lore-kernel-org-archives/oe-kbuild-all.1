@@ -1,60 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A3145FED
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 08:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DCED38DD4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 09:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720169975; cv=none; b=nmx3z8Q9HjXSw2GDoZ7C1E4jsfaSiAbZiEVtz0IKRA6cyms6B7feemUBIuy2h888Sf1Hpr4CO2dwVXe265lX7ABZp22DJuJ/D4zOXC709cbY0y4Rs9DWLzEy9Hhy+FO+TucvGz3F1hVAm+7Nrayvgf5+H6BVTWEprTqRzUr75KY=
+	t=1720170192; cv=none; b=C2EAYEuP6ZwoZ1MPbRBmwLErOMGB4Qz6BTpR4AFmiBmpe9/Hy/USXHQoi1w2xKdyRIJYUMqiDsVaoH0ULyriNWdcCsTMpIoeyg6ZWfpOzWnxOPX8oylwhBYZeiAmBJVNjIqDK4/k6uFTWFVIZKIq97MYFWDFTLdWAtS3hQrzxDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720169975; c=relaxed/simple;
-	bh=6henrfhxDIYbwuIBIQNjKE2nbQwCrY2SLRuF4qPRbMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pdsDYT+SoeaR0xMOqJe2CrlJtPgz5+Sk1vcxuYNE578vEQ+5ickwaG1FmIpJBRHjfrqwojeCcndJxx+nbSYPNNN4vkTAjIMb0X3yrek9+73w+Ugs+JHDv7aLI+60BovoJZXUoJyH3rgB1wYqK+KxAykS7TH+h7VOVeX5bcqY7Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKaUvTl2; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKaUvTl2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720169974; x=1751705974;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6henrfhxDIYbwuIBIQNjKE2nbQwCrY2SLRuF4qPRbMM=;
-  b=UKaUvTl2b1DoIduXWF9YKsGImUAlBfYerBhwfMt5Kl4EFiC/x6ucFt6o
-   /9H3BD0S4Sunf7TCv+bmSKgcrWMqQKbVfKHOLDxoj1NwiNz2TNFaBbAij
-   nSM/kSNfJPJFsdVute158DVoeRUqDlStdWfqmOeoDBdCqMIpePzz/tRUQ
-   DrevECQC2hNyawJEe0IYzGJH/L5mzQDEiku7QHtUw7EQfiKNZfRX2YfgZ
-   +WXcwL2M4tHzHieaxmnVYLYR4wFFYbUR1RW+XrPppmMUgB/v5cndEt87V
-   wzMb8rUAUcG8UaG0c0lsbH8717Gkd0L1EMXNPRUpDzHstgWBhs/wjatvS
-   g==;
-X-CSE-ConnectionGUID: tFgs0h18QXCZje3MLc8F8w==
-X-CSE-MsgGUID: oWpZ+syRRvaYJHE/sKoVGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17587914"
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="17587914"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 01:59:33 -0700
-X-CSE-ConnectionGUID: PlBfqt6yQ3WVr1lo9I85jA==
-X-CSE-MsgGUID: mm30ruSuS8+CfVuFAH/J0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="46932748"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Jul 2024 01:59:32 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPemv-000SAK-1Z;
-	Fri, 05 Jul 2024 08:59:29 +0000
-Date: Fri, 5 Jul 2024 16:59:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 14612/15088]
- drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:159:11:
- error: incompatible pointer to integer conversion returning 'void *' from a
- function with result type 'int'
-Message-ID: <202407051613.p0UdJzBo-lkp@intel.com>
+	s=arc-20240116; t=1720170192; c=relaxed/simple;
+	bh=s0ASB9R5U6c5ijqsIoHVU3z6qpQzMSkly5hTmUJnkcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tf89rgriP8eYmc1etPFn29UJvPbNip14bSwqaDKC/WN8pT1oLqAa/c6fQAkfAE4uF2tcCItOhaYjC6+kwReSRh+N9gabvlHnDKKL1xMoiOcpwzQbIMXTUw95uruZ9MhFiA6wyZaa9S/mh+oDplfWomq5txfI0rMm4Tw72YDBj9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73467367;
+	Fri,  5 Jul 2024 02:03:34 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C0B63F762;
+	Fri,  5 Jul 2024 02:03:08 -0700 (PDT)
+Date: Fri, 5 Jul 2024 10:03:06 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [linux-next:master 9019/10049]
+ drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not
+ used
+Message-ID: <Zoe2yiHKJqxneAhq@arm.com>
+References: <202407021807.cBuWVBVa-lkp@intel.com>
+ <ZoZiwNbzoFQi5-Vg@arm.com>
+ <86cynt4jem.wl-maz@kernel.org>
+ <ZoZ5ECjjgFNCaPYj@arm.com>
+ <87a5ixp1fu.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +43,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87a5ixp1fu.wl-maz@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   2166fa6b0c817630441a03552541b022f35cfc03
-commit: c7f8bcb2b8858a5291cd7c06cc48e6520bbd7c8a [14612/15088] CHROMIUM: media: camx: Cache eeprom content
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240705/202407051613.p0UdJzBo-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051613.p0UdJzBo-lkp@intel.com/reproduce)
+On Thu, Jul 04, 2024 at 05:27:33PM +0100, Marc Zyngier wrote:
+> On Thu, 04 Jul 2024 11:27:28 +0100,
+> Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > 
+> > On Thu, Jul 04, 2024 at 10:05:05AM +0100, Marc Zyngier wrote:
+> > > On Thu, 04 Jul 2024 09:52:16 +0100,
+> > > Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > > > 
+> > > > On Tue, Jul 02, 2024 at 06:40:12PM +0800, kernel test robot wrote:
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > > head:   82e4255305c554b0bb18b7ccf2db86041b4c8b6e
+> > > > > commit: d633da5d3ab1a0eb26a2213d65da1e189e82f8ab [9019/10049] irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs
+> > > > > config: arm-randconfig-r034-20220810 (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/config)
+> > > > > compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240702/202407021807.cBuWVBVa-lkp@intel.com/reproduce)
+> > > > > 
+> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > the same patch/commit), kindly add following tags
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407021807.cBuWVBVa-lkp@intel.com/
+> > > > > 
+> > > > > All warnings (new ones prefixed by >>):
+> > > > > 
+> > > > > >> drivers/irqchip/irq-gic-v3.c:47:23: warning: 'broken_rdists' defined but not used [-Wunused-variable]
+> > > > >       47 | static struct cpumask broken_rdists __read_mostly;
+> > > > >          |                       ^~~~~~~~~~~~~
+> > > > > 
+> > > > > 
+> > > > > vim +/broken_rdists +47 drivers/irqchip/irq-gic-v3.c
+> > > > 
+> > > > This can happen when building on arm32 with SMP disabled. So we either
+> > > > add a __maybe_unused annotation or we move the variable further down in
+> > > > the CONFIG_SMP block. Marc, what's your preference?
+> > > > 
+> > > > -----------8<----------------------
+> > > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > > > index c29b424d1d0c..6393f3d780e9 100644
+> > > > --- a/drivers/irqchip/irq-gic-v3.c
+> > > > +++ b/drivers/irqchip/irq-gic-v3.c
+> > > > @@ -47,7 +47,7 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> > > >  
+> > > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> > > >  
+> > > > -static struct cpumask broken_rdists __read_mostly;
+> > > > +static struct cpumask broken_rdists __read_mostly __maybe_unused;
+> > > >  
+> > > >  struct redist_region {
+> > > >  	void __iomem		*redist_base;
+> > > > -----------8<----------------------
+> > > > 
+> > > > or,
+> > > > 
+> > > > -----------8<----------------------
+> > > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > > > index c29b424d1d0c..187948f41bb3 100644
+> > > > --- a/drivers/irqchip/irq-gic-v3.c
+> > > > +++ b/drivers/irqchip/irq-gic-v3.c
+> > > > @@ -47,8 +47,6 @@ static u8 dist_prio_nmi __ro_after_init = GICV3_PRIO_NMI;
+> > > >  
+> > > >  #define GIC_IRQ_TYPE_PARTITION	(GIC_IRQ_TYPE_LPI + 1)
+> > > >  
+> > > > -static struct cpumask broken_rdists __read_mostly;
+> > > > -
+> > > >  struct redist_region {
+> > > >  	void __iomem		*redist_base;
+> > > >  	phys_addr_t		phys_base;
+> > > > @@ -1316,6 +1314,8 @@ static void gic_cpu_init(void)
+> > > >  
+> > > >  #ifdef CONFIG_SMP
+> > > >  
+> > > > +static struct cpumask broken_rdists __read_mostly;
+> > > > +
+> > > >  #define MPIDR_TO_SGI_RS(mpidr)	(MPIDR_RS(mpidr) << ICC_SGI1R_RS_SHIFT)
+> > > >  #define MPIDR_TO_SGI_CLUSTER_ID(mpidr)	((mpidr) & ~0xFUL)
+> > > 
+> > > The second version seems to be the most logical one, since we already
+> > > have this SMP-only block (note to self: constraint GICv3 support to
+> > > SMP only at the earliest opportunity).
+> > > 
+> > > Feel free to add my
+> > > 
+> > > Acked-by: Marc Zyngier <maz@kernel.org>
+> > > 
+> > > if you decide to push a fix on top of this branch.
+> > 
+> > Ah, it's also used in the CONFIG_ACPI block further down. So
+> > __maybe_unused may be easier. Or add some #if defined(CONFIG_SMP) ||
+> > defined(CONFIG_ACPI) but it seems too verbose.
+> 
+> Ah, of course. Go for the __maybe_unused then, it's not a big deal.
+> 
+> My Ack still stands.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051613.p0UdJzBo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:18:
-   In file included from drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.h:16:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:37:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2222:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c:159:11: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
-     159 |                         return ERR_PTR(ret);
-         |                                ^~~~~~~~~~~~
-   5 warnings and 1 error generated.
-
-
-vim +159 drivers/media/platform/camx/cam_sensor_module/cam_eeprom/cam_eeprom_dev.c
-
-   141	
-   142	static int cam_eeprom_cache_content(struct cam_eeprom_ctrl_t *e_ctrl)
-   143	{
-   144		int ret;
-   145		int i;
-   146	
-   147		e_ctrl->eeprom_content = kzalloc(e_ctrl->memory_bytes, GFP_KERNEL);
-   148		if (!e_ctrl->eeprom_content)
-   149			return -ENOMEM;
-   150	
-   151		for (i = 0; i < e_ctrl->memory_bytes; i += I2C_REG_DATA_MAX) {
-   152			int block = umin(I2C_REG_DATA_MAX, e_ctrl->memory_bytes - i);
-   153	
-   154			ret = cam_eeprom_nvmem_read(e_ctrl, i,
-   155						    e_ctrl->eeprom_content + i, block);
-   156			if (ret) {
-   157				kfree(e_ctrl->eeprom_content);
-   158				e_ctrl->eeprom_content = NULL;
- > 159				return ERR_PTR(ret);
-   160			}
-   161		}
-   162	
-   163		return 0;
-   164	}
-   165	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Catalin
