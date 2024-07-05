@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494F0146A79
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 23:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344F83A8CB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 23:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720221076; cv=none; b=oBIMxIupVFdIWNh8mWbo+MenYBgZmYtujaABkN0sPVGVltaUuVSdWOBVadbUKi0C4PfNv5/BiNln9RWtdsIFnJCwKyAPHZKZVPl5SpB9kxglmX3rLygyqM4PJqZF/LuXhSk399qtsyh7HNkzoHjlwBV4mVVHprGuiYcPCT2hWqo=
+	t=1720222336; cv=none; b=LKPi6nWWT5bAbjW/CVZsrPY+gBnYlvTzALCsjPLXqkEcNVMIGjaw1yAmbaL+2TIU4BgWQzTRuq+OYxuQFHwwBbmMXDOlPI1SKGvettYHC6zvbruB/phm+f9pJfGtfPfuojifkh6WuNW07dREryX/AYqs5FuvEZx4uHfdVobwcjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720221076; c=relaxed/simple;
-	bh=7Xc3sHgjsMmdHomlBEiECJUfFN8wD8B2teBsCGlCAKo=;
+	s=arc-20240116; t=1720222336; c=relaxed/simple;
+	bh=FrvzwNnuDeBJUqKjWeH66XJeIuy8owcJUf5tx/fB+Dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nJPCIgLkxG+cc9WzeQhiB2GMtP5nZju41S+BfFJOfc50YLqmcvJSa6hjwRgDSl1FB1i3iAIuUbzw4ofte3LenmVv7uUEJ8uL2lLWq4CZR77ZWudCkwvtzy3VRlQ5QToCeWBPlQ/7hAaFGKdxP1HDtON6Zk5qPi2oc3LQ1p/iXww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UyjvSVoh; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=faoL/0IutSTe/FPdbNAi2g2JZrDOl0+0ls10DWJy7mjwXQDmbHZNL69nqneRWjdvT6advCq4vh2nw9SGl1+Zs8KCbQAcbt/hsJUxZimy/G9ULajTWWcBd4Yt9NzsHb0JDHnMBu5XW+ZKlLzj8nsMElyXU6AsxHaog5pmL7n3Kkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdfItrwl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UyjvSVoh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdfItrwl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720221074; x=1751757074;
+  t=1720222334; x=1751758334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Xc3sHgjsMmdHomlBEiECJUfFN8wD8B2teBsCGlCAKo=;
-  b=UyjvSVohEODE63yaN4FwPjSEWH4l9c1Fd8T3yxA1CyRQeWcOkFOFI0Sq
-   pFrc1rGPTTUFrGV8I+HWhpfzGmO6hrWlB04QXnyAzKXX0R/jRg+OYPKk2
-   PK0g/ZB6Rlvw+PvGgYlm/qZ0boxPAuE7zpokKztpnEdMXhmaOEqMNBEFP
-   xKgxojjmiEEOWhshj368FtwLdHOcu+LkYhSNF7l0RIvyyS2WOm0AZTHPd
-   j6f9nL1rnzeB8h1yjNNM8B6uyk1DiNWy3C5TlDilmhEOCsVEW09tq0H6j
-   sB/G0ZbhqR4SkKs2KDDVM20CGD5Uuc5gyUbUNPURCNh1ErCD26RC39QrQ
-   g==;
-X-CSE-ConnectionGUID: jcvwDqwuQIiQ4s/S5VAn7w==
-X-CSE-MsgGUID: D3LXvx4mQzmGEa0iEPajPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17382533"
+  bh=FrvzwNnuDeBJUqKjWeH66XJeIuy8owcJUf5tx/fB+Dc=;
+  b=ZdfItrwl8nOrsztlHupVq6t2z6CohIQyCML86R4gOI4/tq7bif2FQash
+   M/CWW0gjvbeUC3rpT8i2EvnO7a/czerwl1PLFK+PMShRxu8A+IqgEuyMs
+   XUph1NxXHvIEY5R2WMKqvihbDNz8e7I085i8y4PuFc6sXhMDsaLa2hqff
+   GiL39LB5O87cGeI3JI9MhItJtrpKg3SwQUNmSBG6l/BFU9h8k3O6NtWtW
+   lpJlCQcTgbbb2YUCIGELe6vTdWTBi+CF/Kuh2K3nSp9PY5qrZ7ZQHcJix
+   fLe46ZkWCJrwNegJxapVEFUS4S1WCFMPWp3NElJYsuIo66s6l59MKvRU4
+   A==;
+X-CSE-ConnectionGUID: 2DZOEJilR0erSB80fPp4ng==
+X-CSE-MsgGUID: udQvDkvtT8ylDcasTiNJBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17617442"
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="17382533"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 16:11:13 -0700
-X-CSE-ConnectionGUID: +m/iu/qzTzKkWleoM86cJA==
-X-CSE-MsgGUID: mLXHnC2dRZy68kfgRsplEw==
+   d="scan'208";a="17617442"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 16:32:13 -0700
+X-CSE-ConnectionGUID: YAntD/1ESPy8/q98QjaxDw==
+X-CSE-MsgGUID: smkyZprjTn+RB6pBHvRnpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="52158910"
+   d="scan'208";a="46943466"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jul 2024 16:11:13 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jul 2024 16:32:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPs57-000T0C-35;
-	Fri, 05 Jul 2024 23:11:09 +0000
-Date: Sat, 6 Jul 2024 07:10:55 +0800
+	id 1sPsPS-000T1M-2P;
+	Fri, 05 Jul 2024 23:32:10 +0000
+Date: Sat, 6 Jul 2024 07:31:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20240705 18/20]
- drivers/vfio/iommufd.c:208:13: warning: unused variable 'rc'
-Message-ID: <202407060714.PoGJAQxm-lkp@intel.com>
+Subject: [masahiroy:for-next 23/38] ld.lld: error: relocation R_RISCV_HI20
+ cannot be used against symbol 'text_mutex'; recompile with -fPIC
+Message-ID: <202407060754.3pf25tgI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +62,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20240705
-head:   e8ad31c5d95dbf6e57bdc334f3fb9e1e917c94c3
-commit: 8e601c85c6ffb6533e64fdfb8af9b7a67387c2a4 [18/20] vfio-iommufd: Support pasid [at|de]tach for physical VFIO devices
-config: arm64-randconfig-001-20240706 (https://download.01.org/0day-ci/archive/20240706/202407060714.PoGJAQxm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407060714.PoGJAQxm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+head:   b00a162ad262a06bd6e40b074ad432a0730a2b6c
+commit: 92f36521656282918231059b0ce03a52100058c4 [23/38] kconfig: refactor choice value calculation
+config: riscv-randconfig-r132-20240705 (https://download.01.org/0day-ci/archive/20240706/202407060754.3pf25tgI-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce: (https://download.01.org/0day-ci/archive/20240706/202407060754.3pf25tgI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407060714.PoGJAQxm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407060754.3pf25tgI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/vfio/iommufd.c: In function 'vfio_iommufd_physical_pasid_detach_ioas':
->> drivers/vfio/iommufd.c:208:13: warning: unused variable 'rc' [-Wunused-variable]
-     208 |         int rc;
-         |             ^~
-
-
-vim +/rc +208 drivers/vfio/iommufd.c
-
-   204	
-   205	void vfio_iommufd_physical_pasid_detach_ioas(struct vfio_device *vdev,
-   206						     u32 pasid)
-   207	{
- > 208		int rc;
-   209	
-   210		lockdep_assert_held(&vdev->dev_set->lock);
-   211	
-   212		if (WARN_ON(!vdev->iommufd_device))
-   213			return;
-   214	
-   215		if (!ida_exists(&vdev->pasids, pasid))
-   216			return;
-   217	
-   218		iommufd_device_pasid_detach(vdev->iommufd_device, pasid);
-   219		ida_free(&vdev->pasids, pasid);
-   220	}
-   221	EXPORT_SYMBOL_GPL(vfio_iommufd_physical_pasid_detach_ioas);
-   222	
+>> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol 'text_mutex'; recompile with -fPIC
+   >>> defined in vmlinux.a(kernel/extable.o)
+   >>> referenced by errata.c:0 (arch/riscv/errata/thead/errata.c:0)
+   >>>               arch/riscv/errata/thead/errata.o:(thead_errata_patch_func) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol 'text_mutex'; recompile with -fPIC
+   >>> defined in vmlinux.a(kernel/extable.o)
+   >>> referenced by errata.c:0 (arch/riscv/errata/thead/errata.c:0)
+   >>>               arch/riscv/errata/thead/errata.o:(thead_errata_patch_func) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
