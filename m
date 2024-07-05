@@ -1,175 +1,236 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA6438DD4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 05:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D91C6A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jul 2024 05:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720157172; cv=none; b=qlcTtr9HJuPIsq5i8tk8BHXYxYacIK3Q2ZProDkYAp4Qf/KaTBPrU6Qs4nUcBpV+zK0OFOcZKMocu9OfVQpamjBGbx8X+Iy+iyG3Df0xkuH2kXfMF+yoscmXM4bSn1Pva7S2YErFpHjV5PJxEli6fbhUJIUfiYYpb2FMuykBcac=
+	t=1720157174; cv=none; b=lSW/x3T11l8HctzyDEEun7ZpRyRjmTYA5c5Y7d39+u5sOn2HOQuhCgE4JaVfYYpnxQMf5Nt4ZSxIQ6koQ8AKtno4TR9dlHVuAQu0+4lVi6kJUaVRcAk6Ji89PIVJd07RpXR0wmFVmdj9/3oI05kokrfHYImen0qlclC/nZHgwJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720157172; c=relaxed/simple;
-	bh=WKKSXR7Ookw987oxt3BTH76kZEJjT4oD6xijxXwa3KE=;
+	s=arc-20240116; t=1720157174; c=relaxed/simple;
+	bh=2lQo+bMefJwliVlp/YMYr0t+WsZu310VR+iFGIJ5Epo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HczzC8pHVBSMpDrny02PRNTbrIVagdG08kgBzU7eHyYZtl7dTIixjL0AnBehWQ/8iV6Lh9Yj5cT6eiuCKHds1UOwgsjPR5Cy8shxgYT5WJAzQs9rrkfbkGp5AcHYjO1aO/DQPr4ubpVmzX1DdAyEReojOLsV9ckMehtae08dePE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpr9JOI8; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=JObf5ijBqwX/vn34kAIz3v+UvtYdiO7lAYtkM6Z4iCqmPrxn22gPNbpIX7g8RuMf/4seJ2pq2RYWSQnXFcImz/B5X88ykXJ+PIWTNCUBM2SYCx4OovoY0Ksb4OHNHQQgBPSieXHRTrG8GzA0UmiAtrZox5sYHX2VoLR2X3REmNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRwNc51G; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpr9JOI8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRwNc51G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720157171; x=1751693171;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WKKSXR7Ookw987oxt3BTH76kZEJjT4oD6xijxXwa3KE=;
-  b=Tpr9JOI8XeEvDVYdushnzpXs2Rz/SKJ9VlKdHC+hEX0mNkCfp9GaMVOR
-   h/bSCEQAsIC/J9RaDGgzMrp/a+LzHUGLx7uNj1mfiJI+G8FErTgtr8qCN
-   Feme+Gnnj+A/VugGCsctwR5SdTU1Mv160CHuvpvJLMiPgSSaHvsbQXEZA
-   9mLpImdWYe2mGHpsIf6Co4G7qmtUf9BG7Z4+Bck5G2B9bHPwoRZfOTxWr
-   1lbBmaHroKqR4iHQMLZVmrs3K6y3peVSTfURvPvADaPFmYQ0vQM+6BZHv
-   7AUnLO7IG84J11/vrl6ln5O3Gu7YC2KBUvDIjDVG2Wd9EOUfSRi6CHKVG
-   Q==;
-X-CSE-ConnectionGUID: G1P8gDkrTYSMNvfV3Z3R7g==
-X-CSE-MsgGUID: lt0XqtbMTB+WrEumjYh2uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="28041750"
+  t=1720157172; x=1751693172;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2lQo+bMefJwliVlp/YMYr0t+WsZu310VR+iFGIJ5Epo=;
+  b=nRwNc51Gw1dCDMfWAR9WEFnEyxq/9reIMV/BhXl7F7thF5cRiAigS4NS
+   2xmoxVnoainK85e02lRZeGiYvH+aNJe01Dyot/Wz4wQQfErUhOWlTmCYd
+   n77H1plWbgkvX3yd2ylOrDk2qCvEdl0+WE1DpS0iV5JpfxGIM0axVFs0n
+   Pna1h6cB7DB9YxDZ+u7lvvfu/0Y1ywyANjA6R6bgBlHBIxDCaHQ7wllra
+   XdX+H+8BKzqXMqtwTcHRJdC/TVdANLiAQqUgZgKomhkKZcroZ/R0MZ5ZY
+   xNqq4DlJgDpWxxPBnEWQ0hAU02Nowls8uFmFyXvC2CCFvPCpmFstkDGd8
+   A==;
+X-CSE-ConnectionGUID: mepoVtOmSDu5ohaba3pj8w==
+X-CSE-MsgGUID: EMyZaVRURm6E2MpAath4Xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="34980414"
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="28041750"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:26:10 -0700
-X-CSE-ConnectionGUID: ElbszR18Q/e5mbg20FXhrw==
-X-CSE-MsgGUID: PsaV00SETeSAc3frJtNddw==
+   d="scan'208";a="34980414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:26:11 -0700
+X-CSE-ConnectionGUID: SfbwWpHrQtiK1YocrS3UgQ==
+X-CSE-MsgGUID: 6gQSSAWVQNuzA+qoUZb9MA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
-   d="scan'208";a="47206975"
+   d="scan'208";a="51375583"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2024 22:26:08 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Jul 2024 22:26:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPbSP-000RyH-2k;
+	id 1sPbSP-000RyF-2b;
 	Fri, 05 Jul 2024 05:26:05 +0000
 Date: Fri, 5 Jul 2024 13:25:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Philippe Cornu <philippe.cornu@foss.st.com>
-Subject: [linux-next:master 8708/10451] ERROR: modpost: "of_clk_del_provider"
- [drivers/gpu/drm/stm/lvds.ko] undefined!
-Message-ID: <202407051310.in127CIa-lkp@intel.com>
+	Jens Axboe <axboe@kernel.dk>, Hannes Reinecke <hare@suse.de>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: [linux-next:master 5890/10451] drivers/block/loop.c:1009:23: error:
+ variable 'inode' set but not used
+Message-ID: <202407051354.6aghuOMj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: aca1cbc1c9860e39736d33626e5a1b45ff762f0a [8708/10451] drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
-config: hexagon-randconfig-r062-20240704 (https://download.01.org/0day-ci/archive/20240705/202407051310.in127CIa-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051310.in127CIa-lkp@intel.com/reproduce)
+commit: a17ece76bcfe7b86327b19cae1652d7c62068a30 [5890/10451] loop: regularize upgrading the block size for direct I/O
+config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240705/202407051354.6aghuOMj-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051354.6aghuOMj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407051310.in127CIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407051354.6aghuOMj-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-mediatek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
->> ERROR: modpost: "of_clk_del_provider" [drivers/gpu/drm/stm/lvds.ko] undefined!
->> ERROR: modpost: "clk_hw_unregister" [drivers/gpu/drm/stm/lvds.ko] undefined!
->> ERROR: modpost: "clk_hw_register" [drivers/gpu/drm/stm/lvds.ko] undefined!
->> ERROR: modpost: "of_clk_hw_simple_get" [drivers/gpu/drm/stm/lvds.ko] undefined!
->> ERROR: modpost: "of_clk_add_hw_provider" [drivers/gpu/drm/stm/lvds.ko] undefined!
-ERROR: modpost: "clk_hw_get_rate" [drivers/gpu/drm/stm/lvds.ko] undefined!
+   drivers/block/loop.c: In function 'loop_configure':
+>> drivers/block/loop.c:1009:23: error: variable 'inode' set but not used [-Werror=unused-but-set-variable]
+    1009 |         struct inode *inode;
+         |                       ^~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/inode +1009 drivers/block/loop.c
+
+473516b361936c Christoph Hellwig   2024-02-13  1003  
+05bdb9965305bb Christoph Hellwig   2023-06-08  1004  static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+3448914e8cc550 Martijn Coenen      2020-05-13  1005  			  struct block_device *bdev,
+3448914e8cc550 Martijn Coenen      2020-05-13  1006  			  const struct loop_config *config)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1007  {
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1008  	struct file *file = fget(config->fd);
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1009  	struct inode *inode;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1010  	struct address_space *mapping;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1011  	int error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1012  	loff_t size;
+85b0a54a82e4fb Jan Kara            2018-11-08  1013  	bool partscan;
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1014  	bool is_loop;
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1015  
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1016  	if (!file)
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1017  		return -EBADF;
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1018  	is_loop = is_loop_device(file);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1019  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1020  	/* This is safe, since we have a reference from open(). */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1021  	__module_get(THIS_MODULE);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1022  
+33ec3e53e7b186 Jan Kara            2019-05-16  1023  	/*
+33ec3e53e7b186 Jan Kara            2019-05-16  1024  	 * If we don't hold exclusive handle for the device, upgrade to it
+33ec3e53e7b186 Jan Kara            2019-05-16  1025  	 * here to avoid changing device under exclusive owner.
+33ec3e53e7b186 Jan Kara            2019-05-16  1026  	 */
+05bdb9965305bb Christoph Hellwig   2023-06-08  1027  	if (!(mode & BLK_OPEN_EXCL)) {
+0718afd47f70cf Christoph Hellwig   2023-06-01  1028  		error = bd_prepare_to_claim(bdev, loop_configure, NULL);
+ecbe6bc0003bfd Christoph Hellwig   2020-07-16  1029  		if (error)
+757ecf40b7e029 Jan Kara            2018-11-08  1030  			goto out_putf;
+33ec3e53e7b186 Jan Kara            2019-05-16  1031  	}
+33ec3e53e7b186 Jan Kara            2019-05-16  1032  
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1033  	error = loop_global_lock_killable(lo, is_loop);
+33ec3e53e7b186 Jan Kara            2019-05-16  1034  	if (error)
+33ec3e53e7b186 Jan Kara            2019-05-16  1035  		goto out_bdev;
+757ecf40b7e029 Jan Kara            2018-11-08  1036  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1037  	error = -EBUSY;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1038  	if (lo->lo_state != Lo_unbound)
+757ecf40b7e029 Jan Kara            2018-11-08  1039  		goto out_unlock;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1040  
+d2ac838e4cd7e5 Theodore Ts'o       2018-05-07  1041  	error = loop_validate_file(file, bdev);
+d2ac838e4cd7e5 Theodore Ts'o       2018-05-07  1042  	if (error)
+757ecf40b7e029 Jan Kara            2018-11-08  1043  		goto out_unlock;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1044  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1045  	mapping = file->f_mapping;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1046  	inode = mapping->host;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1047  
+3448914e8cc550 Martijn Coenen      2020-05-13  1048  	if ((config->info.lo_flags & ~LOOP_CONFIGURE_SETTABLE_FLAGS) != 0) {
+3448914e8cc550 Martijn Coenen      2020-05-13  1049  		error = -EINVAL;
+3448914e8cc550 Martijn Coenen      2020-05-13  1050  		goto out_unlock;
+3448914e8cc550 Martijn Coenen      2020-05-13  1051  	}
+3448914e8cc550 Martijn Coenen      2020-05-13  1052  
+3448914e8cc550 Martijn Coenen      2020-05-13  1053  	if (config->block_size) {
+af3c570fb0df42 Xie Yongji          2021-10-26  1054  		error = blk_validate_block_size(config->block_size);
+3448914e8cc550 Martijn Coenen      2020-05-13  1055  		if (error)
+3448914e8cc550 Martijn Coenen      2020-05-13  1056  			goto out_unlock;
+3448914e8cc550 Martijn Coenen      2020-05-13  1057  	}
+3448914e8cc550 Martijn Coenen      2020-05-13  1058  
+3448914e8cc550 Martijn Coenen      2020-05-13  1059  	error = loop_set_status_from_info(lo, &config->info);
+3448914e8cc550 Martijn Coenen      2020-05-13  1060  	if (error)
+3448914e8cc550 Martijn Coenen      2020-05-13  1061  		goto out_unlock;
+3448914e8cc550 Martijn Coenen      2020-05-13  1062  
+05bdb9965305bb Christoph Hellwig   2023-06-08  1063  	if (!(file->f_mode & FMODE_WRITE) || !(mode & BLK_OPEN_WRITE) ||
+283e7e5d249f48 Al Viro             2015-04-03  1064  	    !file->f_op->write_iter)
+3448914e8cc550 Martijn Coenen      2020-05-13  1065  		lo->lo_flags |= LO_FLAGS_READ_ONLY;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1066  
+d292dc80686aea Christoph Hellwig   2022-03-30  1067  	if (!lo->workqueue) {
+87579e9b7d8dc3 Dan Schatzberg      2021-06-28  1068  		lo->workqueue = alloc_workqueue("loop%d",
+87579e9b7d8dc3 Dan Schatzberg      2021-06-28  1069  						WQ_UNBOUND | WQ_FREEZABLE,
+d292dc80686aea Christoph Hellwig   2022-03-30  1070  						0, lo->lo_number);
+87579e9b7d8dc3 Dan Schatzberg      2021-06-28  1071  		if (!lo->workqueue) {
+87579e9b7d8dc3 Dan Schatzberg      2021-06-28  1072  			error = -ENOMEM;
+757ecf40b7e029 Jan Kara            2018-11-08  1073  			goto out_unlock;
+87579e9b7d8dc3 Dan Schatzberg      2021-06-28  1074  		}
+d292dc80686aea Christoph Hellwig   2022-03-30  1075  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1076  
+bb430b69422640 Alyssa Ross         2023-03-20  1077  	/* suppress uevents while reconfiguring the device */
+bb430b69422640 Alyssa Ross         2023-03-20  1078  	dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 1);
+bb430b69422640 Alyssa Ross         2023-03-20  1079  
+ab6860f62bfe32 Christoph Hellwig   2023-08-11  1080  	disk_force_media_change(lo->lo_disk);
+7a2f0ce19f2e2e Christoph Hellwig   2020-11-03  1081  	set_disk_ro(lo->lo_disk, (lo->lo_flags & LO_FLAGS_READ_ONLY) != 0);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1082  
+3448914e8cc550 Martijn Coenen      2020-05-13  1083  	lo->use_dio = lo->lo_flags & LO_FLAGS_DIRECT_IO;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1084  	lo->lo_device = bdev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1085  	lo->lo_backing_file = file;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1086  	lo->old_gfp_mask = mapping_gfp_mask(mapping);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1087  	mapping_set_gfp_mask(mapping, lo->old_gfp_mask & ~(__GFP_IO|__GFP_FS));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1088  
+3448914e8cc550 Martijn Coenen      2020-05-13  1089  	if (!(lo->lo_flags & LO_FLAGS_READ_ONLY) && file->f_op->fsync)
+21d0727f639e4b Jens Axboe          2016-03-30  1090  		blk_queue_write_cache(lo->lo_queue, true, false);
+68db1961bbf4e1 Nikanth Karthikesan 2009-03-24  1091  
+a17ece76bcfe7b Christoph Hellwig   2024-06-17  1092  	error = loop_reconfigure_limits(lo, config->block_size);
+473516b361936c Christoph Hellwig   2024-02-13  1093  	if (WARN_ON_ONCE(error))
+473516b361936c Christoph Hellwig   2024-02-13  1094  		goto out_unlock;
+85560117d00f5d Martijn Coenen      2019-09-04  1095  
+56a85fd8376ef3 Holger Hoffstätte   2019-02-12  1096  	loop_update_rotational(lo);
+2e5ab5f379f96a Ming Lei            2015-08-17  1097  	loop_update_dio(lo);
+ee86273062cbb3 Milan Broz          2010-08-23  1098  	loop_sysfs_init(lo);
+79e5dc59e2974a Martijn Coenen      2020-08-25  1099  
+79e5dc59e2974a Martijn Coenen      2020-08-25  1100  	size = get_loop_size(lo, file);
+5795b6f5607f7e Martijn Coenen      2020-05-13  1101  	loop_set_size(lo, size);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1102  
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1103  	/* Order wrt reading lo_state in loop_validate_file(). */
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1104  	wmb();
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1105  
+6c9979185c7ef4 Serge Hallyn        2006-09-29  1106  	lo->lo_state = Lo_bound;
+e03c8dd14915fa Kay Sievers         2011-08-23  1107  	if (part_shift)
+e03c8dd14915fa Kay Sievers         2011-08-23  1108  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
+85b0a54a82e4fb Jan Kara            2018-11-08  1109  	partscan = lo->lo_flags & LO_FLAGS_PARTSCAN;
+fe6a8fc5ed2f00 Lennart Poettering  2020-08-10  1110  	if (partscan)
+b9684a71fca793 Christoph Hellwig   2022-05-27  1111  		clear_bit(GD_SUPPRESS_PART_SCAN, &lo->lo_disk->state);
+c1681bf8a7b1b9 Anatol Pomozov      2013-04-01  1112  
+bb430b69422640 Alyssa Ross         2023-03-20  1113  	/* enable and uncork uevent now that we are done */
+bb430b69422640 Alyssa Ross         2023-03-20  1114  	dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 0);
+bb430b69422640 Alyssa Ross         2023-03-20  1115  
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1116  	loop_global_unlock(lo, is_loop);
+85b0a54a82e4fb Jan Kara            2018-11-08  1117  	if (partscan)
+0384264ea8a39b Christoph Hellwig   2021-06-24  1118  		loop_reread_partitions(lo);
+bb430b69422640 Alyssa Ross         2023-03-20  1119  
+05bdb9965305bb Christoph Hellwig   2023-06-08  1120  	if (!(mode & BLK_OPEN_EXCL))
+37c3fc9abb25cd Christoph Hellwig   2020-11-25  1121  		bd_abort_claiming(bdev, loop_configure);
+498ef5c777d9c8 Christoph Hellwig   2022-03-30  1122  
+bb430b69422640 Alyssa Ross         2023-03-20  1123  	return 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1124  
+757ecf40b7e029 Jan Kara            2018-11-08  1125  out_unlock:
+3ce6e1f662a910 Tetsuo Handa        2021-07-06  1126  	loop_global_unlock(lo, is_loop);
+33ec3e53e7b186 Jan Kara            2019-05-16  1127  out_bdev:
+05bdb9965305bb Christoph Hellwig   2023-06-08  1128  	if (!(mode & BLK_OPEN_EXCL))
+37c3fc9abb25cd Christoph Hellwig   2020-11-25  1129  		bd_abort_claiming(bdev, loop_configure);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1130  out_putf:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1131  	fput(file);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1132  	/* This is safe: open() is still holding a reference. */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1133  	module_put(THIS_MODULE);
+bb430b69422640 Alyssa Ross         2023-03-20  1134  	return error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1135  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1136  
+
+:::::: The code at line 1009 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
