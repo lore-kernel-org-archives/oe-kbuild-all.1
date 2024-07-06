@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C237EA927;
-	Sat,  6 Jul 2024 02:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77D28FC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 03:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720231824; cv=none; b=W9WL9CnNxZtmjihlssPENemyjvIBVB+DrMnWxrodYF12CFe23cB8eQsLVq/+BTkDebhe0ykYzSDyUrla4wEBvsPz7B1jvlyj48v8CmtEJiQHCobmxnbaBhdtDt7aE06Dm4J0Wg8DsYZeijTGNHYWCP91UkYBkd5YR6JR4P5WMhU=
+	t=1720235246; cv=none; b=qyHqlmRxnZJcHRoBePCDySIn86v4ArYOyXr5IUbZ6U5XUSJFF4qMpkkI+tB7YkqD7na0pRF/6N2BdywXfePsg8+ZJ3cgKSDOtZ+dzROG4+c+aFBOMaRbfQV7/OdF5z6BVftQEt6iOtecw0ot0ZsChgNVqtA5rgB5e/Vqwh5U6cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720231824; c=relaxed/simple;
-	bh=y5OYvQ7qoNRRu/fAFV6HRl2+kvQ30bbSzm1awHnw//o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+XKr7NZYwf4ca5C6Hp+YeDjqQ23+prE645d7/VqMcNRI8b/Kr0P9YtE5HIE6JwveGmK0m2470niQRGdTHCAAuAza/e/pvpPzLIo7BRciPbNb/AHUPT0hcT4vUFUA3+Fcz9XNffAGW7iJWGimnpMcdkShXGL1YiAalAyQjZDz1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KdYWKldN; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1720235246; c=relaxed/simple;
+	bh=0rKw7I5rDZx2/GnDqq6KdQVbUjE9Cu4gTeCsc/qRQ9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TcIkrW7pDzwS/lvTxfDXe2/4x6gH2UECZDzJMBjxnVUyFrV7vMTX2MlBEDeoBZw/ReE9TUaOiRvEA91+yBEo+hCRMru77sBfC+D6JW+E90HHaLurmNtYKn9D8DXWwbAwurks3t4ewOrGR/bNEU2CpTzoADd4skIGvhPAUxWJGPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BOX6o5Bh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KdYWKldN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BOX6o5Bh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720231822; x=1751767822;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y5OYvQ7qoNRRu/fAFV6HRl2+kvQ30bbSzm1awHnw//o=;
-  b=KdYWKldNIlE0kO2T2sb3IZJ1TBf+RlprG6Huc0/W2n/Jdd7P85DNYled
-   xaNmCi0XC8mVmEGijDzBBi1xrz9xMxFTj3Li6CzBIuMEZs6UqTedzmkrK
-   EFGgXNiPmLUrnp8Wsg2bUKsFK9ct+aA16WJgoDRuntm/EQh1AeOXXn/d3
-   yUxZPV1GtPq7aKB/0XffPkvXNIaTGAisQ+QeseCH2+omNMOibpyyWF3VX
-   nhng5rARoO0d5SeWkIrlJEUwEWDZ3tyvV+1dQRnvTOHJkzOhRf/dGE9zd
-   I8fnLOa0tiBod4hKXwG4Pa9mfog1q64u8pS3ODbrbxn0tgmV3soNRs82j
-   Q==;
-X-CSE-ConnectionGUID: IB8RnPZSTymMD1dNshlObA==
-X-CSE-MsgGUID: VDhj3oX4QY6qid5speJq5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17648377"
+  t=1720235243; x=1751771243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0rKw7I5rDZx2/GnDqq6KdQVbUjE9Cu4gTeCsc/qRQ9c=;
+  b=BOX6o5BhsUvfYG7WKGewa6AL/bkAbpUSuK7GRMs75FRbZQkTz3ORuJML
+   9VVba895euLezeHKh9pnNkAmxiawgydV/QuXhOPrZbhlzOBVJbdjLHTiE
+   tbO43evi3l8xgzkqf8DZqlm6ZQLJ7fbXRRPDQdJ6ILNgMWe0IgfUWCKza
+   TpKwvcfKGH1cCXWwiroaYkN/xv7EHWzPCJogcWwxV3xQ80ITRQWgSBrdq
+   gab6qg3Vr/C4zt7I7OmAivNUhi/G2sfzlyIzGBcxpmVN8O+GPNnFHKDy8
+   wISo+6E04xMnhTJ/tjr+ExnPI2NYzSklJffwnJeoNxj/Jj2EQV6oC5Dl7
+   g==;
+X-CSE-ConnectionGUID: rmGlk6lQT56eaA86hL511w==
+X-CSE-MsgGUID: 1+r+ZXCpQA6CYi4j8qonWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42940023"
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="17648377"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 19:10:21 -0700
-X-CSE-ConnectionGUID: Ml9y3AEqS7+6VF+aXGLSxA==
-X-CSE-MsgGUID: 0N/MBXoHRkGeR6P0qAju8g==
+   d="scan'208";a="42940023"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 20:07:23 -0700
+X-CSE-ConnectionGUID: Jhz6cSBMQG6k6jdCnkc9qg==
+X-CSE-MsgGUID: /NoQmDfpTKOpI/yL3zcTQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="47079091"
+   d="scan'208";a="70207339"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Jul 2024 19:10:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jul 2024 20:07:22 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPusU-000TCS-02;
-	Sat, 06 Jul 2024 02:10:18 +0000
-Date: Sat, 6 Jul 2024 10:08:52 +0800
+	id 1sPvlf-000TFU-2N;
+	Sat, 06 Jul 2024 03:07:19 +0000
+Date: Sat, 6 Jul 2024 11:06:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nemesa Garg <nemesa.garg@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/5] drm/i915/display: Compute the scaler filter
- coefficients
-Message-ID: <202407060905.l9gatVXa-lkp@intel.com>
-References: <20240705090205.72302-3-nemesa.garg@intel.com>
+To: "Jason A. Donenfeld" <zx2c4@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, zx2c4@kernel.org
+Subject: [crng-random:master 1/3] mm/mmap.c:1281:21: error: 'MAP_WIPEONFORK'
+ undeclared; did you mean 'MADV_WIPEONFORK'?
+Message-ID: <202407061113.O6gcsauL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +61,245 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240705090205.72302-3-nemesa.garg@intel.com>
 
-Hi Nemesa,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-Introduce-sharpness-mode-property/20240705-214049
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240705090205.72302-3-nemesa.garg%40intel.com
-patch subject: [PATCH 2/5] drm/i915/display: Compute the scaler filter coefficients
-config: x86_64-buildonly-randconfig-001-20240706 (https://download.01.org/0day-ci/archive/20240706/202407060905.l9gatVXa-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407060905.l9gatVXa-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git master
+head:   697bca32b465ad0ea612c08c83486ae02aa8eee1
+commit: 97d029dda97a762e1258b7e27af13e1d08bf1edb [1/3] mm: add VM_DROPPABLE for designating always lazily freeable mappings
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240706/202407061113.O6gcsauL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061113.O6gcsauL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407060905.l9gatVXa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061113.O6gcsauL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_dsi.c:9:
-   In file included from drivers/gpu/drm/i915/display/intel_dsi.h:30:
-   In file included from drivers/gpu/drm/i915/display/intel_display_types.h:58:
->> drivers/gpu/drm/i915/display/intel_sharpen_filter.h:6:9: error: '__INTEL_SHARPEN_FLITER_H__' is used as a header guard here, followed by #define of a different macro [-Werror,-Wheader-guard]
-       6 | #ifndef __INTEL_SHARPEN_FLITER_H__
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_sharpen_filter.h:7:9: note: '__INTEL_SHARPEN_FILTER_H__' is defined here; did you mean '__INTEL_SHARPEN_FLITER_H__'?
-       7 | #define __INTEL_SHARPEN_FILTER_H__
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         __INTEL_SHARPEN_FLITER_H__
-   1 error generated.
+   mm/mmap.c: In function 'do_mmap':
+>> mm/mmap.c:1281:21: error: 'MAP_WIPEONFORK' undeclared (first use in this function); did you mean 'MADV_WIPEONFORK'?
+    1281 |         if (flags & MAP_WIPEONFORK)
+         |                     ^~~~~~~~~~~~~~
+         |                     MADV_WIPEONFORK
+   mm/mmap.c:1281:21: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/mmap.c:1283:21: error: 'MAP_DONTDUMP' undeclared (first use in this function); did you mean 'MADV_DONTDUMP'?
+    1283 |         if (flags & MAP_DONTDUMP)
+         |                     ^~~~~~~~~~~~
+         |                     MADV_DONTDUMP
+>> mm/mmap.c:1285:21: error: 'MAP_DROPPABLE' undeclared (first use in this function); did you mean 'VM_DROPPABLE'?
+    1285 |         if (flags & MAP_DROPPABLE) {
+         |                     ^~~~~~~~~~~~~
+         |                     VM_DROPPABLE
 
 
-vim +/__INTEL_SHARPEN_FLITER_H__ +6 drivers/gpu/drm/i915/display/intel_sharpen_filter.h
+vim +1281 mm/mmap.c
 
-   > 6	#ifndef __INTEL_SHARPEN_FLITER_H__
-     7	#define __INTEL_SHARPEN_FILTER_H__
-     8	
+  1210	
+  1211	/*
+  1212	 * The caller must write-lock current->mm->mmap_lock.
+  1213	 */
+  1214	unsigned long do_mmap(struct file *file, unsigned long addr,
+  1215				unsigned long len, unsigned long prot,
+  1216				unsigned long flags, vm_flags_t vm_flags,
+  1217				unsigned long pgoff, unsigned long *populate,
+  1218				struct list_head *uf)
+  1219	{
+  1220		struct mm_struct *mm = current->mm;
+  1221		int pkey = 0;
+  1222	
+  1223		*populate = 0;
+  1224	
+  1225		if (!len)
+  1226			return -EINVAL;
+  1227	
+  1228		/*
+  1229		 * Does the application expect PROT_READ to imply PROT_EXEC?
+  1230		 *
+  1231		 * (the exception is when the underlying filesystem is noexec
+  1232		 *  mounted, in which case we don't add PROT_EXEC.)
+  1233		 */
+  1234		if ((prot & PROT_READ) && (current->personality & READ_IMPLIES_EXEC))
+  1235			if (!(file && path_noexec(&file->f_path)))
+  1236				prot |= PROT_EXEC;
+  1237	
+  1238		/* force arch specific MAP_FIXED handling in get_unmapped_area */
+  1239		if (flags & MAP_FIXED_NOREPLACE)
+  1240			flags |= MAP_FIXED;
+  1241	
+  1242		if (!(flags & MAP_FIXED))
+  1243			addr = round_hint_to_min(addr);
+  1244	
+  1245		/* Careful about overflows.. */
+  1246		len = PAGE_ALIGN(len);
+  1247		if (!len)
+  1248			return -ENOMEM;
+  1249	
+  1250		/* offset overflow? */
+  1251		if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
+  1252			return -EOVERFLOW;
+  1253	
+  1254		/* Too many mappings? */
+  1255		if (mm->map_count > sysctl_max_map_count)
+  1256			return -ENOMEM;
+  1257	
+  1258		/*
+  1259		 * addr is returned from get_unmapped_area,
+  1260		 * There are two cases:
+  1261		 * 1> MAP_FIXED == false
+  1262		 *	unallocated memory, no need to check sealing.
+  1263		 * 1> MAP_FIXED == true
+  1264		 *	sealing is checked inside mmap_region when
+  1265		 *	do_vmi_munmap is called.
+  1266		 */
+  1267	
+  1268		if (prot == PROT_EXEC) {
+  1269			pkey = execute_only_pkey(mm);
+  1270			if (pkey < 0)
+  1271				pkey = 0;
+  1272		}
+  1273	
+  1274		/* Do simple checking here so the lower-level routines won't have
+  1275		 * to. we assume access permissions have been handled by the open
+  1276		 * of the memory object, so we don't do any here.
+  1277		 */
+  1278		vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
+  1279				mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+  1280	
+> 1281		if (flags & MAP_WIPEONFORK)
+  1282			vm_flags |= VM_WIPEONFORK;
+> 1283		if (flags & MAP_DONTDUMP)
+  1284			vm_flags |= VM_DONTDUMP;
+> 1285		if (flags & MAP_DROPPABLE) {
+  1286			/* MAP_DROPPABLE is only supported on anonymous memory. */
+  1287			if ((flags & MAP_DROPPABLE) && (file || !(flags & MAP_PRIVATE)))
+  1288				return -EINVAL;
+  1289			vm_flags |= VM_DROPPABLE;
+  1290		}
+  1291	
+  1292		/* Obtain the address to map to. we verify (or select) it and ensure
+  1293		 * that it represents a valid section of the address space.
+  1294		 */
+  1295		addr = __get_unmapped_area(file, addr, len, pgoff, flags, vm_flags);
+  1296		if (IS_ERR_VALUE(addr))
+  1297			return addr;
+  1298	
+  1299		if (flags & MAP_FIXED_NOREPLACE) {
+  1300			if (find_vma_intersection(mm, addr, addr + len))
+  1301				return -EEXIST;
+  1302		}
+  1303	
+  1304		if (flags & MAP_LOCKED)
+  1305			if (!can_do_mlock())
+  1306				return -EPERM;
+  1307	
+  1308		if (!mlock_future_ok(mm, vm_flags, len))
+  1309			return -EAGAIN;
+  1310	
+  1311		if (file) {
+  1312			struct inode *inode = file_inode(file);
+  1313			unsigned long flags_mask;
+  1314	
+  1315			if (!file_mmap_ok(file, inode, pgoff, len))
+  1316				return -EOVERFLOW;
+  1317	
+  1318			flags_mask = LEGACY_MAP_MASK;
+  1319			if (file->f_op->fop_flags & FOP_MMAP_SYNC)
+  1320				flags_mask |= MAP_SYNC;
+  1321	
+  1322			switch (flags & MAP_TYPE) {
+  1323			case MAP_SHARED:
+  1324				/*
+  1325				 * Force use of MAP_SHARED_VALIDATE with non-legacy
+  1326				 * flags. E.g. MAP_SYNC is dangerous to use with
+  1327				 * MAP_SHARED as you don't know which consistency model
+  1328				 * you will get. We silently ignore unsupported flags
+  1329				 * with MAP_SHARED to preserve backward compatibility.
+  1330				 */
+  1331				flags &= LEGACY_MAP_MASK;
+  1332				fallthrough;
+  1333			case MAP_SHARED_VALIDATE:
+  1334				if (flags & ~flags_mask)
+  1335					return -EOPNOTSUPP;
+  1336				if (prot & PROT_WRITE) {
+  1337					if (!(file->f_mode & FMODE_WRITE))
+  1338						return -EACCES;
+  1339					if (IS_SWAPFILE(file->f_mapping->host))
+  1340						return -ETXTBSY;
+  1341				}
+  1342	
+  1343				/*
+  1344				 * Make sure we don't allow writing to an append-only
+  1345				 * file..
+  1346				 */
+  1347				if (IS_APPEND(inode) && (file->f_mode & FMODE_WRITE))
+  1348					return -EACCES;
+  1349	
+  1350				vm_flags |= VM_SHARED | VM_MAYSHARE;
+  1351				if (!(file->f_mode & FMODE_WRITE))
+  1352					vm_flags &= ~(VM_MAYWRITE | VM_SHARED);
+  1353				fallthrough;
+  1354			case MAP_PRIVATE:
+  1355				if (!(file->f_mode & FMODE_READ))
+  1356					return -EACCES;
+  1357				if (path_noexec(&file->f_path)) {
+  1358					if (vm_flags & VM_EXEC)
+  1359						return -EPERM;
+  1360					vm_flags &= ~VM_MAYEXEC;
+  1361				}
+  1362	
+  1363				if (!file->f_op->mmap)
+  1364					return -ENODEV;
+  1365				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+  1366					return -EINVAL;
+  1367				break;
+  1368	
+  1369			default:
+  1370				return -EINVAL;
+  1371			}
+  1372		} else {
+  1373			switch (flags & MAP_TYPE) {
+  1374			case MAP_SHARED:
+  1375				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+  1376					return -EINVAL;
+  1377				/*
+  1378				 * Ignore pgoff.
+  1379				 */
+  1380				pgoff = 0;
+  1381				vm_flags |= VM_SHARED | VM_MAYSHARE;
+  1382				break;
+  1383			case MAP_PRIVATE:
+  1384				/*
+  1385				 * Set pgoff according to addr for anon_vma.
+  1386				 */
+  1387				pgoff = addr >> PAGE_SHIFT;
+  1388				break;
+  1389			default:
+  1390				return -EINVAL;
+  1391			}
+  1392		}
+  1393	
+  1394		/*
+  1395		 * Set 'VM_NORESERVE' if we should not account for the
+  1396		 * memory use of this mapping.
+  1397		 */
+  1398		if (flags & MAP_NORESERVE) {
+  1399			/* We honor MAP_NORESERVE if allowed to overcommit */
+  1400			if (sysctl_overcommit_memory != OVERCOMMIT_NEVER)
+  1401				vm_flags |= VM_NORESERVE;
+  1402	
+  1403			/* hugetlb applies strict overcommit unless MAP_NORESERVE */
+  1404			if (file && is_file_hugepages(file))
+  1405				vm_flags |= VM_NORESERVE;
+  1406		}
+  1407	
+  1408		addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
+  1409		if (!IS_ERR_VALUE(addr) &&
+  1410		    ((vm_flags & VM_LOCKED) ||
+  1411		     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
+  1412			*populate = len;
+  1413		return addr;
+  1414	}
+  1415	
 
 -- 
 0-DAY CI Kernel Test Service
