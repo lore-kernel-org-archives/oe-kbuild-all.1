@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D5350246
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 12:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34958249F;
+	Sat,  6 Jul 2024 12:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720267670; cv=none; b=VT1sA2cx/dzahyfgmIiyNMr/tPFvDDqDNhGnqBBHGdxM7qOCv9J83lJ/ucM5vYbWcmd9pQqvGyKy8BNumkQMvTw0v8bKZMubxsnZmBhdKwaQELs3LhCId5zuUUfbuAk8uVuLKg4F9g10mTr+NXqbqI808mmwuqSPxWE4VYeuv8g=
+	t=1720268992; cv=none; b=d9gGDWIXuzlMXhgl2IFfE0jALDkzbcq8ElvZ9nmB55WfzZqLCMION0F84RFTJyLNi8arBxqn1RZWLBNtPjP09Bmg9B8pPIGMV4Ehlk9LXLq32VAc9ImrnrVlqYq2Tla66/TkyQBdZV0+JHxVdn+ATQeTWOKJGh33hiz+MGHoae8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720267670; c=relaxed/simple;
-	bh=knhoTdgUpfDNyLJQ9HKWCHBcLy70fpWtaG2Q+BUyskg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tw8l9rR2S4dj5IY83fmlbCIDIwAUCsoN5Sx4PnRLpMAhF2oBxkinyqaea52PhoqPeLD/OlcI4V3zshPp4iUYlMjjWvMmEbT7zB+wVjOI+bds2Oi+FOMD0s2+ucON+aMV6FcCMqbwCUhloJJfk2yy5S+yWI+1F4JVGYiBNPwsvg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRJwk3VD; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1720268992; c=relaxed/simple;
+	bh=rRgH2oCgIVBI4bxPpPIIoaZBEeVmjbWkS6rsCxKYLW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TY2tu5LXSOWh38ZKEMmhLb5a39xfUjktyf7Px+0bgDxt9H7y1G5URvsdU8jydWUGzA2WTzaxliK/1nsCnerpPRGLdNlRK0VP5GfDsEyNoCFTUbS75cu1nrpGKWERelO2z8F4yfkd2R4/uS/AqZhssdHmzOcz2Ovjsv+Msp4t6bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGsOaiTo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRJwk3VD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGsOaiTo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720267668; x=1751803668;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=knhoTdgUpfDNyLJQ9HKWCHBcLy70fpWtaG2Q+BUyskg=;
-  b=jRJwk3VDODVC08RfmUF8M8lgvqmfM9Z9Ej0RWIRwRQ9rPn/Q4czTnpGu
-   mbZWMK7+Cae9UQKNNOP0HOaKOZch0UJEtWGbFDZdip8frLj21W00Zv50b
-   oHUEt5L24bF+M/ufEKMdBpNbck3xDZnkz6XJy1cfM9j9y3hjTXsxHf1r/
-   2NBgzTYPuJcmpmaMlQJgxyKzgQ3HCH2y3lxYVJbpgaLTqasnXp1kN68Eq
-   2NutXHxNIUJK8aFKLVlX+CimFDixqbDCWU4/AO3fNfPsSIYJ9J6JLA8vR
-   3RzqD6kwpJMG1pMPxM4AJXXcKazTC/XP8VFZNgG8yrvwwZ8hiMXR39Iov
-   A==;
-X-CSE-ConnectionGUID: y4SOpjKhRua5hHI6sH6foQ==
-X-CSE-MsgGUID: 6/7YeOW3RJOljXIso3ozdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="40040511"
+  t=1720268991; x=1751804991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rRgH2oCgIVBI4bxPpPIIoaZBEeVmjbWkS6rsCxKYLW8=;
+  b=PGsOaiToifMgeV3QCvy+FLMr+8rqHCj3SP2M9MD1bwYA3PBcgNGo3ow9
+   YKX88bzniRzJcwNkk71Rj15DnI70K8OZiNILvOoXlPqnVa33h0CdoOe74
+   k/M7nDa5detogb49dMThULE5FvWBeAiK+cbO5um4Q1OXjUTKCkgG6MWXs
+   a+FfQl4/ZvCnafecFtNX6US3XljNymWME1oKD7HMamOUpgKmn+1m6Lnj0
+   m27lSCxdVAop8yc+4+UJ3gTHqeYYl7zEV7wFgtkIMn/LCVhG592UgSa7W
+   WxZQBewC/BA54CGja5rsW+F54lzI4TwCED7vabicxwJbZbhhYuAzdoI2r
+   g==;
+X-CSE-ConnectionGUID: mHf4aWs+SDeTDj3D/r2YLg==
+X-CSE-MsgGUID: ub2g4MclRgm+QOG7kTKLKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="40040881"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="40040511"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 05:07:47 -0700
-X-CSE-ConnectionGUID: tudvSjpiTUq+jzSN+RmMQQ==
-X-CSE-MsgGUID: 3/Mlj3qkT4iQXoA3W30CmQ==
+   d="scan'208";a="40040881"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 05:29:50 -0700
+X-CSE-ConnectionGUID: nvOb8kdjRMWzA2iZCYYqWQ==
+X-CSE-MsgGUID: gS55DvXWTJyZ4/a/Uq8g5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="47062396"
+   d="scan'208";a="70270904"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Jul 2024 05:07:45 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jul 2024 05:29:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ4Cd-000Tky-2F;
-	Sat, 06 Jul 2024 12:07:43 +0000
-Date: Sat, 6 Jul 2024 20:06:58 +0800
+	id 1sQ4Xw-000TmW-33;
+	Sat, 06 Jul 2024 12:29:44 +0000
+Date: Sat, 6 Jul 2024 20:28:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 16/20] drm/i915/fbdev: Extract
- intel_fbdev_fb_prefer_stolen()
-Message-ID: <202407061958.ScN1NFtC-lkp@intel.com>
-References: <20240705145254.3355-17-ville.syrjala@linux.intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Wang <peter.wang@mediatek.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [bvanassche:ufs-for-next 8/16]
+ drivers/ufs/host/ufs-mediatek.c:696:7: error: call to undeclared function
+ 'is_mcq_enabled'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202407062054.2zIEi5xR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,135 +65,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240705145254.3355-17-ville.syrjala@linux.intel.com>
 
-Hi Ville,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-xe/drm-xe-next drm-tip/drm-tip next-20240703]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.10-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-fbc-Extract-intel_fbc_has_fences/20240706-041642
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240705145254.3355-17-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 16/20] drm/i915/fbdev: Extract intel_fbdev_fb_prefer_stolen()
-config: x86_64-randconfig-014-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061958.ScN1NFtC-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061958.ScN1NFtC-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux ufs-for-next
+head:   af7795f671d9d49b9178c6112e63793c0d456861
+commit: 89779c1d84437f088bc72ddcca19ec6c36db3ab6 [8/16] scsi: ufs: Inline is_mcq_enabled()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240706/202407062054.2zIEi5xR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407062054.2zIEi5xR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407061958.ScN1NFtC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407062054.2zIEi5xR-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/platform_profile.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/via-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax_cxl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1740.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/ibm_rtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/firmware_attributes_class.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/siemens/simatic-ipc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
->> ERROR: modpost: "intel_fbdev_fb_prefer_stolen" [drivers/gpu/drm/i915/i915.ko] undefined!
+   In file included from drivers/ufs/host/ufs-mediatek.c:18:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ufs/host/ufs-mediatek.c:696:7: error: call to undeclared function 'is_mcq_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     696 |         if (!is_mcq_enabled(hba))
+         |              ^
+   drivers/ufs/host/ufs-mediatek.c:714:7: error: call to undeclared function 'is_mcq_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     714 |         if (!is_mcq_enabled(hba))
+         |              ^
+   drivers/ufs/host/ufs-mediatek.c:1311:6: error: call to undeclared function 'is_mcq_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1311 |         if (is_mcq_enabled(hba)) {
+         |             ^
+   5 warnings and 3 errors generated.
+
+
+vim +/is_mcq_enabled +696 drivers/ufs/host/ufs-mediatek.c
+
+54770cbebe2caa drivers/scsi/ufs/ufs-mediatek.c Stanley Chu 2020-11-16  690  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  691  static void ufs_mtk_mcq_disable_irq(struct ufs_hba *hba)
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  692  {
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  693  	struct ufs_mtk_host *host = ufshcd_get_variant(hba);
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  694  	u32 irq, i;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  695  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21 @696  	if (!is_mcq_enabled(hba))
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  697  		return;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  698  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  699  	if (host->mcq_nr_intr == 0)
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  700  		return;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  701  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  702  	for (i = 0; i < host->mcq_nr_intr; i++) {
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  703  		irq = host->mcq_intr_info[i].irq;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  704  		disable_irq(irq);
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  705  	}
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  706  	host->is_mcq_intr_enabled = false;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  707  }
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  708  
+
+:::::: The code at line 696 was first introduced by commit
+:::::: e0dc13e5a3cb9de98fd00b7718738f9eef4bd0ce scsi: ufs: ufs-mediatek: Disable MCQ IRQ when clock off
+
+:::::: TO: Peter Wang <peter.wang@mediatek.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
