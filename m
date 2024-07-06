@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E91D4D8A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 08:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD09228F0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 09:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720254819; cv=none; b=ut3xtEC/tvOuxErpiPaXRrXYO5HXt4q5y6+vSDkQolFW8O+AiYEYYCk5twHyCSSxR72BED5U5V1/2XfsKWQL9P0SHxUr2ymjy1b+6igaPqnc8e9S+wDCZpnvLx78OvrpFPwU2dISnfKooHFy5pJis00pB86E1OEykocQAHNLuL8=
+	t=1720257401; cv=none; b=BPEr6WQfAahauL2qafQn4Yvdw2MErIiexCbgZ5ex3/KU7n6Unei+ANYjxYce9/BVUF22NwthRwO7C4uWCoPbrZ/8k1xsTpti50PC8smq8s+KZtofuTGQvawQxuMKGZG9/g+luKPobJ7FNjjEol1HtHTPnN5gf83wGgn3mo5HF/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720254819; c=relaxed/simple;
-	bh=gweVUkEpsyKJeMAR+yP604+Q865gQcQV9BkPOORMKFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFf129TUfMMMQv27edqPUCL3SmQfJQN99sCv7okTCtu8IDIXoFKpyVEuloLv053E4Ztrf+UPgb1wUd3j0DkKLxZWyFZcjQBd9kRtTv+EFg8pbrkv19i2Oj4LkEiImkPfJBkta/9VvD2y08FcCu55dVarqtqlk0zrQNH7lGj4sIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAuj91tl; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1720257401; c=relaxed/simple;
+	bh=2xY8k7s12lWOyITz/Jw7wseVSS3zPHn9wtNuZCwP+5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kXkrBeaVVhoodDhxwpxzhoHvdiSbetyAKcIAPpoMPtXucmvlnnvzxmG6xFCJ/lskjYlf3I4xwX1f39U2IAdcklhdOr1YWGZeeDMQ5FyDWrTxGMQOeSYLb6oq7NTI0DnCdxFT8dDCbuktent5+eah6npwj2p91Wd4t8dB4nRfc9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8ogsXbZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAuj91tl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8ogsXbZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720254817; x=1751790817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gweVUkEpsyKJeMAR+yP604+Q865gQcQV9BkPOORMKFc=;
-  b=SAuj91tlNC1/MHIKYsVtdYdnXXIwXlbPSM/1p49q6UqSrUtuRAjAGDOx
-   9a7VceXeEx4XKhRbgmuy05ZHrtHo2XpRHR3/lXHKSbxzgkzLmRrXJS20b
-   ThwS1drNfgjbNsCnb5homK2CKsIjouCjD0+2+z3ZxVYDJzw8bSPCLQ3NO
-   y4c3qXfOzR+uFRuxjTLXctTJqRAdMvtsxz/s1AtZK4g4nAjRmIizOW455
-   UsX7fYfBgRM8V4Ics//iotLcqmbgStZ/ywPP6IRu//U8kouL5d1BEZgNc
-   nZ+eKnfJhSa98rTFkk6WTB/YMOCL+zXNn5cGLieYcZoFIKS+RQ8fEAQ9w
+  t=1720257399; x=1751793399;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2xY8k7s12lWOyITz/Jw7wseVSS3zPHn9wtNuZCwP+5Q=;
+  b=n8ogsXbZcI+Vnep0CASxwi4DyGqAqviawjGFxnpH3SzMhDRWiRZnV7wD
+   NcsRn74BYJxHr0eI5roanW+BYMdXq2An5Mycl0YOIH9jI+RJOruydoR7h
+   ShqjM2tRc4fgYy+Nh+rOgVRK33NAKags1RiZ5OBdWz2piP9VvVAWqBQKr
+   FQ6d1s4vO69afGoiC1Be7T3a+Z0XyORkZlwoZRDNVRshwLZcwO9EZiQan
+   Bcc8buD91MhKCspdzZYWIbHJ/o8Y/sF4acfwnFE+U3HjfDR+Roo4kDss2
+   CokYev/J71c8mfNQMZL3o2t47hvGkv4yaMJbxXiC/2bxAgsDk6i/B5VkX
    A==;
-X-CSE-ConnectionGUID: S8AeseQCRJmhjplgvjXw5Q==
-X-CSE-MsgGUID: QaALyLAfQ3KHFH9wdfj4Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="34966869"
+X-CSE-ConnectionGUID: 8gL79R7MQsmZZmpIlb5XLw==
+X-CSE-MsgGUID: KL17pK+ISbeBcYsKyAJvOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="20430082"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="34966869"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 01:33:37 -0700
-X-CSE-ConnectionGUID: +6MHJ8tASyijdlSEPfvsFQ==
-X-CSE-MsgGUID: tf2SDI7TS0CzyEzgmnh1ZA==
+   d="scan'208";a="20430082"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 02:16:38 -0700
+X-CSE-ConnectionGUID: Id7H+ENjTLO4z53DSAmITA==
+X-CSE-MsgGUID: fdQT+3LyRxq/DtKBbVQB8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="47702042"
+   d="scan'208";a="46992362"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Jul 2024 01:33:34 -0700
+  by orviesa010.jf.intel.com with ESMTP; 06 Jul 2024 02:16:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ0rL-000TVw-1h;
-	Sat, 06 Jul 2024 08:33:31 +0000
-Date: Sat, 6 Jul 2024 16:33:17 +0800
+	id 1sQ1X0-000TXm-0D;
+	Sat, 06 Jul 2024 09:16:34 +0000
+Date: Sat, 6 Jul 2024 17:16:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	manivannan.sadhasivam@linaro.org, fancer.lancer@gmail.com,
-	vkoul@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_shazhuss@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
-	quic_vbadigan@quicinc.com,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] dmaengine: dw-edma: Add change to remove
- watermark interrupt enablement
-Message-ID: <202407061620.Z6kfeKgF-lkp@intel.com>
-References: <1720187733-5380-3-git-send-email-quic_msarkar@quicinc.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Wang <peter.wang@mediatek.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [bvanassche:ufs-for-next 8/16]
+ drivers/ufs/host/ufs-mediatek.c:696:14: error: implicit declaration of
+ function 'is_mcq_enabled'; did you mean 'is_zswap_enabled'?
+Message-ID: <202407061733.eetmpf3b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,81 +63,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1720187733-5380-3-git-send-email-quic_msarkar@quicinc.com>
 
-Hi Mrinmay,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on mani-mhi/mhi-next linus/master v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mrinmay-Sarkar/dmaengine-dw-edma-Add-fix-to-unmask-the-interrupt-bit-for-HDMA/20240706-040233
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/1720187733-5380-3-git-send-email-quic_msarkar%40quicinc.com
-patch subject: [PATCH v1 2/2] dmaengine: dw-edma: Add change to remove watermark interrupt enablement
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240706/202407061620.Z6kfeKgF-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061620.Z6kfeKgF-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux ufs-for-next
+head:   af7795f671d9d49b9178c6112e63793c0d456861
+commit: 89779c1d84437f088bc72ddcca19ec6c36db3ab6 [8/16] scsi: ufs: Inline is_mcq_enabled()
+config: arm64-randconfig-001-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061733.eetmpf3b-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061733.eetmpf3b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407061620.Z6kfeKgF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061733.eetmpf3b-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `__kernel_entry':
->> (.text+0x0): relocation truncated to fit: R_MIPS_26 against `kernel_entry'
-   arch/mips/kernel/head.o: in function `smp_bootstrap':
->> (.ref.text+0xd8): relocation truncated to fit: R_MIPS_26 against `start_secondary'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x10): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x18): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0x50): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x58): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x90): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x98): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0xd0): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xd8): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x108): additional relocation overflows omitted from the output
---
-   drivers/dma/dw-edma/dw-hdma-v0-core.c: In function 'dw_hdma_v0_core_write_chunk':
->> drivers/dma/dw-edma/dw-hdma-v0-core.c:198:30: warning: unused variable 'chan' [-Wunused-variable]
-     198 |         struct dw_edma_chan *chan = chunk->chan;
-         |                              ^~~~
+   drivers/ufs/host/ufs-mediatek.c: In function 'ufs_mtk_mcq_disable_irq':
+>> drivers/ufs/host/ufs-mediatek.c:696:14: error: implicit declaration of function 'is_mcq_enabled'; did you mean 'is_zswap_enabled'? [-Werror=implicit-function-declaration]
+     696 |         if (!is_mcq_enabled(hba))
+         |              ^~~~~~~~~~~~~~
+         |              is_zswap_enabled
+   cc1: some warnings being treated as errors
 
 
-vim +/chan +198 drivers/dma/dw-edma/dw-hdma-v0-core.c
+vim +696 drivers/ufs/host/ufs-mediatek.c
 
-e74c39573d35e9 Cai Huoqing    2023-05-20  194  
-e74c39573d35e9 Cai Huoqing    2023-05-20  195  static void dw_hdma_v0_core_write_chunk(struct dw_edma_chunk *chunk)
-e74c39573d35e9 Cai Huoqing    2023-05-20  196  {
-e74c39573d35e9 Cai Huoqing    2023-05-20  197  	struct dw_edma_burst *child;
-e74c39573d35e9 Cai Huoqing    2023-05-20 @198  	struct dw_edma_chan *chan = chunk->chan;
-e74c39573d35e9 Cai Huoqing    2023-05-20  199  	u32 control = 0, i = 0;
-e74c39573d35e9 Cai Huoqing    2023-05-20  200  
-e74c39573d35e9 Cai Huoqing    2023-05-20  201  	if (chunk->cb)
-e74c39573d35e9 Cai Huoqing    2023-05-20  202  		control = DW_HDMA_V0_CB;
-e74c39573d35e9 Cai Huoqing    2023-05-20  203  
-882e8634dc8dd2 Mrinmay Sarkar 2024-07-05  204  	list_for_each_entry(child, &chunk->burst->list, list)
-e74c39573d35e9 Cai Huoqing    2023-05-20  205  		dw_hdma_v0_write_ll_data(chunk, i++, control, child->sz,
-e74c39573d35e9 Cai Huoqing    2023-05-20  206  					 child->sar, child->dar);
-e74c39573d35e9 Cai Huoqing    2023-05-20  207  
-e74c39573d35e9 Cai Huoqing    2023-05-20  208  	control = DW_HDMA_V0_LLP | DW_HDMA_V0_TCB;
-e74c39573d35e9 Cai Huoqing    2023-05-20  209  	if (!chunk->cb)
-e74c39573d35e9 Cai Huoqing    2023-05-20  210  		control |= DW_HDMA_V0_CB;
-e74c39573d35e9 Cai Huoqing    2023-05-20  211  
-e74c39573d35e9 Cai Huoqing    2023-05-20  212  	dw_hdma_v0_write_ll_link(chunk, i, control, chunk->ll_region.paddr);
-e74c39573d35e9 Cai Huoqing    2023-05-20  213  }
-e74c39573d35e9 Cai Huoqing    2023-05-20  214  
+54770cbebe2caa drivers/scsi/ufs/ufs-mediatek.c Stanley Chu 2020-11-16  690  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  691  static void ufs_mtk_mcq_disable_irq(struct ufs_hba *hba)
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  692  {
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  693  	struct ufs_mtk_host *host = ufshcd_get_variant(hba);
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  694  	u32 irq, i;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  695  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21 @696  	if (!is_mcq_enabled(hba))
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  697  		return;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  698  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  699  	if (host->mcq_nr_intr == 0)
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  700  		return;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  701  
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  702  	for (i = 0; i < host->mcq_nr_intr; i++) {
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  703  		irq = host->mcq_intr_info[i].irq;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  704  		disable_irq(irq);
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  705  	}
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  706  	host->is_mcq_intr_enabled = false;
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  707  }
+e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  708  
+
+:::::: The code at line 696 was first introduced by commit
+:::::: e0dc13e5a3cb9de98fd00b7718738f9eef4bd0ce scsi: ufs: ufs-mediatek: Disable MCQ IRQ when clock off
+
+:::::: TO: Peter Wang <peter.wang@mediatek.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
