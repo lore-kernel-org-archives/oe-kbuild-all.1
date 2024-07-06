@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C0F13A86C;
-	Sat,  6 Jul 2024 14:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9138E13C80F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 16:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720277339; cv=none; b=VRYM36mnhmrZiNOvUFOTTYk6iVFW1gH3byL1y71V9ANQYrIHCnGavs9NmkyxDtkX37v3mz+TQf1PzNUiCMfbzMm5Q5uPLfIzkoyzcIiUQhXAglCLxizY87iMnFNcx7wj8qenKttjxEbDZ+NrajD2D4i3MmFy8V+BChcpxFGkZ8k=
+	t=1720282323; cv=none; b=fKsUslEh9ka8APF1aVs+O9Nikb6IE+ozxtlAeRLxjg3DF7w8F+pl+HE3RRpYahpdC1hEKgIG6B+FfSATUDsWOjAUB7bWNrPXGyJrbH2vWOmRg4ScfkB8nUF7tpyUihV2NGku0/SrTXUSQaeug4pZ7m94iKYqHpBIz/UvhzfW1uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720277339; c=relaxed/simple;
-	bh=370gzflcqIj0o0QFIyiPerHqbKPqedzV/Dmy0NGbF9o=;
+	s=arc-20240116; t=1720282323; c=relaxed/simple;
+	bh=gSW11jhg9H27i3aM9QIGhGVKTILFEaQeQMvBowvIAOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P1HFBBicomJc7nRCQCfTpsaPho9aam1Qo3XiEED56wEaSSfKkzZUfEv8GI6PpWigjGLDY1igwh4aws+nGV9/wT7erc2m7iOnm543sCAiuRp7d0KMeMK1fSnIK3HgzqYXjEcNfIqGcpx5/gtEsqb2hgg4EtUi/N1GVH7AezyYA9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZvwUZd+N; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=X7iQdKUKiXq0XRb6dya+UHXpyDbhQPf3UbQRj3bmqvvSvcLxLeP/4oCEZo9bA/i9Zxlru+hUhEAsfhsVIevMZ/DCBh9J8mqxU10QGIuq+BB9ekNJkqDZbq100iT1G/UefIyda7luvg2Jtcny88WXVXorHJmr820Mb6qkG1j7hEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcwhlhMA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZvwUZd+N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcwhlhMA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720277337; x=1751813337;
+  t=1720282322; x=1751818322;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=370gzflcqIj0o0QFIyiPerHqbKPqedzV/Dmy0NGbF9o=;
-  b=ZvwUZd+Nr3olralooi1FuATA2xU9Y4B5neg7X+1YeYZlsZnOeSaPx6rQ
-   5BydI6HDsGOQgRAo335TpWibXRccH8Om3fqHXbMXX6i27Wnf/bZwC0fSK
-   wZqesm/K1MUE6qR6DqbGNLabmOQSWcfVDOXgOETXMOKAWCz3XVNHQ5bQ1
-   1yESDEqr852zH9VRSvKE+jfxBT/2jOs8ZmQutP8rLckftrFBIeK7vrDXI
-   Cty+AAnzTnqLRuRFR4y9/h+VvmZ6ut293Q+u4lhIr6f9v4s4EkOOBj+tY
-   7f/ylQAe9ZgUQqJmpIsoPGNUo0ME7KmqRpEkwPwHGItdHWU3f6GoNkads
+  bh=gSW11jhg9H27i3aM9QIGhGVKTILFEaQeQMvBowvIAOY=;
+  b=JcwhlhMA8CPJ9zhbWvfrh6++2FAUj2bbyvcWdugFpJpGxFKLs4dtb4GT
+   slVJ5aom0UMXQcpIgC7FJ4FqX33MvWajKo5ocTfiUuCSDYtAO2GTMlKy4
+   TTmcQEZK9uJ8ZD7vF+N4NFt09Ki10by2Di8PTxYArKyXCw5qEpLtrj9QD
+   wi4kSK5UJ7Jf57kIx2v0iA1i6WdklGVy1ReWcl0f9bcqE3TP3vRPjO5Kh
+   f58k6MgrHLjlk+7SJOFaMWoRNQjNUNGvy4sDhnrD+Dtn9R88k94KOy73I
+   o/EdKssqqnkTXVe7qcK63K7/kpwhayQgFVShwRHvxkbbhTHvyVdT+0QNY
    A==;
-X-CSE-ConnectionGUID: Bf2Syld/QnGD7PN2zAILaw==
-X-CSE-MsgGUID: nDuQ4Bo4RPi9aNk7lw0GJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="20438055"
+X-CSE-ConnectionGUID: uSx2MQGtQTqeTPt6XjinVA==
+X-CSE-MsgGUID: 3QuOmc2FQTOdpoFule+h4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="35072664"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="20438055"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 07:48:56 -0700
-X-CSE-ConnectionGUID: PXmBaVWfSaaFUj4p2Bu43w==
-X-CSE-MsgGUID: 7mENXdOTR9ykdux1+ulbuQ==
+   d="scan'208";a="35072664"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 09:12:01 -0700
+X-CSE-ConnectionGUID: LpAQ6cX8RIOl59NzR/PQXQ==
+X-CSE-MsgGUID: Q8BSbeETTg2N0aAvITXIOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="52285833"
+   d="scan'208";a="46879247"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 06 Jul 2024 07:48:54 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 Jul 2024 09:12:00 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ6ia-000Tul-0f;
-	Sat, 06 Jul 2024 14:48:52 +0000
-Date: Sat, 6 Jul 2024 22:48:47 +0800
+	id 1sQ810-000Tzu-04;
+	Sat, 06 Jul 2024 16:11:58 +0000
+Date: Sun, 7 Jul 2024 00:11:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Jason A. Donenfeld" <zx2c4@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, zx2c4@kernel.org
-Subject: [crng-random:jd/vdso-test-harness 1/4] mm/mmap.c:1281:14: error: use
- of undeclared identifier 'MAP_WIPEONFORK'
-Message-ID: <202407062212.YDkgDaHC-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, zx2c4@kernel.org
+Subject: [crng-random:jd/vdso-test-harness 1/4] mm/mmap.c:1281:21: error:
+ 'MAP_WIPEONFORK' undeclared; did you mean 'MADV_WIPEONFORK'?
+Message-ID: <202407070028.sU8yBXtP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,49 +65,34 @@ Content-Disposition: inline
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git jd/vdso-test-harness
 head:   bc6504b8712589af209747a0b269445bce72e002
 commit: 6a0dc09f49aae4dcd556d7fbf71bb04deefd7fb4 [1/4] mm: add VM_DROPPABLE for designating always lazily freeable mappings
-config: mips-jazz_defconfig (https://download.01.org/0day-ci/archive/20240706/202407062212.YDkgDaHC-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407062212.YDkgDaHC-lkp@intel.com/reproduce)
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240707/202407070028.sU8yBXtP-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070028.sU8yBXtP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407062212.YDkgDaHC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407070028.sU8yBXtP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/mmap.c:14:
-   In file included from include/linux/backing-dev.h:16:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/mips/include/asm/cacheflush.h:13:
-   In file included from include/linux/mm.h:2266:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/mmap.c:16:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/mmap.c:1281:14: error: use of undeclared identifier 'MAP_WIPEONFORK'
+   mm/mmap.c: In function 'do_mmap':
+>> mm/mmap.c:1281:21: error: 'MAP_WIPEONFORK' undeclared (first use in this function); did you mean 'MADV_WIPEONFORK'?
     1281 |         if (flags & MAP_WIPEONFORK)
-         |                     ^
->> mm/mmap.c:1283:14: error: use of undeclared identifier 'MAP_DONTDUMP'
+         |                     ^~~~~~~~~~~~~~
+         |                     MADV_WIPEONFORK
+   mm/mmap.c:1281:21: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/mmap.c:1283:21: error: 'MAP_DONTDUMP' undeclared (first use in this function); did you mean 'MADV_DONTDUMP'?
     1283 |         if (flags & MAP_DONTDUMP)
-         |                     ^
->> mm/mmap.c:1285:14: error: use of undeclared identifier 'MAP_DROPPABLE'
+         |                     ^~~~~~~~~~~~
+         |                     MADV_DONTDUMP
+>> mm/mmap.c:1285:21: error: 'MAP_DROPPABLE' undeclared (first use in this function); did you mean 'VM_DROPPABLE'?
     1285 |         if (flags & MAP_DROPPABLE) {
-         |                     ^
-   3 warnings and 3 errors generated.
+         |                     ^~~~~~~~~~~~~
+         |                     VM_DROPPABLE
 
 
-vim +/MAP_WIPEONFORK +1281 mm/mmap.c
+vim +1281 mm/mmap.c
 
   1210	
   1211	/*
