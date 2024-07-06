@@ -1,60 +1,79 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD09228F0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 09:16:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4696728F0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 09:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720257401; cv=none; b=BPEr6WQfAahauL2qafQn4Yvdw2MErIiexCbgZ5ex3/KU7n6Unei+ANYjxYce9/BVUF22NwthRwO7C4uWCoPbrZ/8k1xsTpti50PC8smq8s+KZtofuTGQvawQxuMKGZG9/g+luKPobJ7FNjjEol1HtHTPnN5gf83wGgn3mo5HF/0=
+	t=1720257404; cv=none; b=e1FnUJ+NycZLObmRKnjJGbkcx4tRP3XsFyc5x+zg7aRoD6i6zCQ7xIXUwtlt3/W0ONMjAyikLSJXH2PZam32G9iXlCio4Z4WyJN2yHlOT66BDM81oCAmfGuzCMJHRf7wLA3SLEHKM4qMM5BGZqQWql0wO5BVBdEzfCYKC4WDs4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720257401; c=relaxed/simple;
-	bh=2xY8k7s12lWOyITz/Jw7wseVSS3zPHn9wtNuZCwP+5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kXkrBeaVVhoodDhxwpxzhoHvdiSbetyAKcIAPpoMPtXucmvlnnvzxmG6xFCJ/lskjYlf3I4xwX1f39U2IAdcklhdOr1YWGZeeDMQ5FyDWrTxGMQOeSYLb6oq7NTI0DnCdxFT8dDCbuktent5+eah6npwj2p91Wd4t8dB4nRfc9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8ogsXbZ; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1720257404; c=relaxed/simple;
+	bh=mSOe5IL52tQA3CSWmiOZHQq3AKs7OVITM1J54jxHzi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nniyybQ66XfTEUK6AKy/E38BDl2vjYfm1ReFHqE7TGsDwRC1PMAAMQntAHOI7SZjB41YFY8CJS1AoEMyLnN6+6AY8SIi0/CtDSgkC4ul4lEzqyYw9MImD+67m5PWPkrNkKj8ZXQhNDbzYih2Da0TsijfcD1K2TfEg0/NcEkIkCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxo/lbZy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8ogsXbZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxo/lbZy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720257399; x=1751793399;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2xY8k7s12lWOyITz/Jw7wseVSS3zPHn9wtNuZCwP+5Q=;
-  b=n8ogsXbZcI+Vnep0CASxwi4DyGqAqviawjGFxnpH3SzMhDRWiRZnV7wD
-   NcsRn74BYJxHr0eI5roanW+BYMdXq2An5Mycl0YOIH9jI+RJOruydoR7h
-   ShqjM2tRc4fgYy+Nh+rOgVRK33NAKags1RiZ5OBdWz2piP9VvVAWqBQKr
-   FQ6d1s4vO69afGoiC1Be7T3a+Z0XyORkZlwoZRDNVRshwLZcwO9EZiQan
-   Bcc8buD91MhKCspdzZYWIbHJ/o8Y/sF4acfwnFE+U3HjfDR+Roo4kDss2
-   CokYev/J71c8mfNQMZL3o2t47hvGkv4yaMJbxXiC/2bxAgsDk6i/B5VkX
-   A==;
-X-CSE-ConnectionGUID: 8gL79R7MQsmZZmpIlb5XLw==
-X-CSE-MsgGUID: KL17pK+ISbeBcYsKyAJvOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="20430082"
+  t=1720257402; x=1751793402;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mSOe5IL52tQA3CSWmiOZHQq3AKs7OVITM1J54jxHzi0=;
+  b=dxo/lbZyxjtqxUNPD+PsvZ0Iao+/sq1uWv+xMU8Vkz6pxU7yiktTJiVa
+   VwQHBbup3PAlLcLRX6cQ0Ej2775so9JQtkcWo3yFB6qh7DpcjhQLhM25F
+   qm5QRYxDXCWok8G8zliQ2PEEfMFbpPS4PxDeFQCyOpLSxy/eNlHP79ijC
+   tKfwt5D3hRYQNz9qVkDuDMAy+Q+b8JHJBqlBDId3y8GN9IallHSwWgE4f
+   XHheoJJzRTfRZ5QefXNbxxZvQFyz8xt9QObn7hixy8roeH1nv25V83l0y
+   SPHCC1JmvlgVu5CE4umcI1PkgtSwZhaFJbOH79c0ws4HbpVCGBUXErcSo
+   Q==;
+X-CSE-ConnectionGUID: 3JshJp0fTxqlT3HBPZHzvw==
+X-CSE-MsgGUID: e5lfkpjGSi+8QGMa44/u4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="20430085"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="20430082"
+   d="scan'208";a="20430085"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 02:16:38 -0700
-X-CSE-ConnectionGUID: Id7H+ENjTLO4z53DSAmITA==
-X-CSE-MsgGUID: fdQT+3LyRxq/DtKBbVQB8Q==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 02:16:42 -0700
+X-CSE-ConnectionGUID: eg+P6/jNRVOu0yid8K+2YA==
+X-CSE-MsgGUID: pRuJzgJKTeKhngIITJkerQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="46992362"
+   d="scan'208";a="46992364"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 06 Jul 2024 02:16:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ1X0-000TXm-0D;
+	id 1sQ1X0-000TXk-04;
 	Sat, 06 Jul 2024 09:16:34 +0000
-Date: Sat, 6 Jul 2024 17:16:05 +0800
+Date: Sat, 6 Jul 2024 17:16:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, Peter Wang <peter.wang@mediatek.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [bvanassche:ufs-for-next 8/16]
- drivers/ufs/host/ufs-mediatek.c:696:14: error: implicit declaration of
- function 'is_mcq_enabled'; did you mean 'is_zswap_enabled'?
-Message-ID: <202407061733.eetmpf3b-lkp@intel.com>
+To: Peter Xu <peterx@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Matthew Wilcox <willy@infradead.org>,
+	Mel Gorman <mgorman@suse.de>, Dave Jiang <dave.jiang@intel.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Rik van Riel <riel@surriel.com>, Vlastimil Babka <vbabka@suse.cz>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	"Kirill A . Shutemov" <kirill@shutemov.name>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Borislav Petkov <bp@alien8.de>, peterx@redhat.com,
+	Hugh Dickins <hughd@google.com>,
+	Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH v2 7/8] mm/x86: Add missing pud helpers
+Message-ID: <202407061716.WH5NMiL2-lkp@intel.com>
+References: <20240703212918.2417843-8-peterx@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +82,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240703212918.2417843-8-peterx@redhat.com>
 
-tree:   https://github.com/bvanassche/linux ufs-for-next
-head:   af7795f671d9d49b9178c6112e63793c0d456861
-commit: 89779c1d84437f088bc72ddcca19ec6c36db3ab6 [8/16] scsi: ufs: Inline is_mcq_enabled()
-config: arm64-randconfig-001-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061733.eetmpf3b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061733.eetmpf3b-lkp@intel.com/reproduce)
+Hi Peter,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Xu/mm-dax-Dump-start-address-in-fault-handler/20240705-013812
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240703212918.2417843-8-peterx%40redhat.com
+patch subject: [PATCH v2 7/8] mm/x86: Add missing pud helpers
+config: i386-randconfig-011-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061716.WH5NMiL2-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061716.WH5NMiL2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407061733.eetmpf3b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061716.WH5NMiL2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/ufs/host/ufs-mediatek.c: In function 'ufs_mtk_mcq_disable_irq':
->> drivers/ufs/host/ufs-mediatek.c:696:14: error: implicit declaration of function 'is_mcq_enabled'; did you mean 'is_zswap_enabled'? [-Werror=implicit-function-declaration]
-     696 |         if (!is_mcq_enabled(hba))
-         |              ^~~~~~~~~~~~~~
-         |              is_zswap_enabled
-   cc1: some warnings being treated as errors
+   In file included from arch/x86/include/asm/atomic.h:8,
+                    from include/linux/atomic.h:7,
+                    from include/linux/jump_label.h:256,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/irqflags.h:9,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/x86/mm/pgtable.c:2:
+   In function 'pudp_establish',
+       inlined from 'pudp_invalidate' at arch/x86/mm/pgtable.c:649:14:
+>> arch/x86/include/asm/cmpxchg.h:67:25: error: call to '__xchg_wrong_size' declared with attribute error: Bad argument size for xchg
+      67 |                         __ ## op ## _wrong_size();                      \
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:78:33: note: in expansion of macro '__xchg_op'
+      78 | #define arch_xchg(ptr, v)       __xchg_op((ptr), (v), xchg, "")
+         |                                 ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   arch/x86/include/asm/pgtable.h:1415:24: note: in expansion of macro 'xchg'
+    1415 |                 return xchg(pudp, pud);
+         |                        ^~~~
 
 
-vim +696 drivers/ufs/host/ufs-mediatek.c
+vim +/__xchg_wrong_size +67 arch/x86/include/asm/cmpxchg.h
 
-54770cbebe2caa drivers/scsi/ufs/ufs-mediatek.c Stanley Chu 2020-11-16  690  
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  691  static void ufs_mtk_mcq_disable_irq(struct ufs_hba *hba)
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  692  {
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  693  	struct ufs_mtk_host *host = ufshcd_get_variant(hba);
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  694  	u32 irq, i;
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  695  
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21 @696  	if (!is_mcq_enabled(hba))
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  697  		return;
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  698  
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  699  	if (host->mcq_nr_intr == 0)
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  700  		return;
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  701  
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  702  	for (i = 0; i < host->mcq_nr_intr; i++) {
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  703  		irq = host->mcq_intr_info[i].irq;
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  704  		disable_irq(irq);
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  705  	}
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  706  	host->is_mcq_intr_enabled = false;
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  707  }
-e0dc13e5a3cb9d drivers/ufs/host/ufs-mediatek.c Peter Wang  2023-12-21  708  
-
-:::::: The code at line 696 was first introduced by commit
-:::::: e0dc13e5a3cb9de98fd00b7718738f9eef4bd0ce scsi: ufs: ufs-mediatek: Disable MCQ IRQ when clock off
-
-:::::: TO: Peter Wang <peter.wang@mediatek.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  37  
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  38  /* 
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  39   * An exchange-type operation, which takes a value and a pointer, and
+7f5281ae8a8e7f8 Li Zhong            2013-04-25  40   * returns the old value.
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  41   */
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  42  #define __xchg_op(ptr, arg, op, lock)					\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  43  	({								\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  44  	        __typeof__ (*(ptr)) __ret = (arg);			\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  45  		switch (sizeof(*(ptr))) {				\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  46  		case __X86_CASE_B:					\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  47  			asm volatile (lock #op "b %b0, %1\n"		\
+2ca052a3710fac2 Jeremy Fitzhardinge 2012-04-02  48  				      : "+q" (__ret), "+m" (*(ptr))	\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  49  				      : : "memory", "cc");		\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  50  			break;						\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  51  		case __X86_CASE_W:					\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  52  			asm volatile (lock #op "w %w0, %1\n"		\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  53  				      : "+r" (__ret), "+m" (*(ptr))	\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  54  				      : : "memory", "cc");		\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  55  			break;						\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  56  		case __X86_CASE_L:					\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  57  			asm volatile (lock #op "l %0, %1\n"		\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  58  				      : "+r" (__ret), "+m" (*(ptr))	\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  59  				      : : "memory", "cc");		\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  60  			break;						\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  61  		case __X86_CASE_Q:					\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  62  			asm volatile (lock #op "q %q0, %1\n"		\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  63  				      : "+r" (__ret), "+m" (*(ptr))	\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  64  				      : : "memory", "cc");		\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  65  			break;						\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  66  		default:						\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30 @67  			__ ## op ## _wrong_size();			\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  68  		}							\
+31a8394e069e47d Jeremy Fitzhardinge 2011-09-30  69  		__ret;							\
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  70  	})
+e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  71  
 
 -- 
 0-DAY CI Kernel Test Service
