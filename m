@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1446917BB4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 04:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AC079F3;
+	Sat,  6 Jul 2024 05:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720241791; cv=none; b=u66tQCmNIqEDR40jMjOJEsY+Vu7ObQUim6KB6rbAqn5hhbBj9GCIsbLq3ev9/vtHOgHGpJu0hcFas4Zw0D9wLjs3Safs/3dE4iS3PRrrNY3rXUTi7dWsG0esZGMbJ0DHlySsOCHYwmYy4Z56FRCLp8yGZNfPZyC6YxRtqj8Pgp0=
+	t=1720243053; cv=none; b=hEm7A26yLoANa2VhWMckfr6dM5otHs5oLuuq4m87zcjbx2JPirbbDM1TCvNVdgyjuSFbr/kW/2lIJqTqCeDLCAPkO7YS4vhQaXg8y9eV0ZcLoXVm3bGxdTYo3OKwcF7OqbBcORsv2BkN1jaaKvIDiyySGhJiXSxFIqoHIbPw7Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720241791; c=relaxed/simple;
-	bh=b969Y5eBAm3SFGup/DJgRDb2zIT28sfvv3Hu1dxSJxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XGXgiViWZAzB6ab5rUuTrTxM4AoSEZIMWehOzz1UpOE2IIs9YqGqamirf4XqC5UglIkIsyEriIvBv1Ulf2eIJR0pRCb363dMiodkd8ioH4yNKJhuC4PNR8J36baI+RsL/OCns3Kuf+I6fowz2PkbaFsYmfANqN4adP2pYjDY4QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C449so+M; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1720243053; c=relaxed/simple;
+	bh=RFvdfc5SP26/erCYWy3Bh1P2+7EZnv+hwzsSCZjL4tM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AmbuafrNSghGPWlsvE6bxQPC0V+oI7N6ECq8J71R9FRm8ISX5/U2jZCvljh+YVca8Zx8zw8zfiQnxqM1rYhoP4Zi3Vx5JX/TEdyRmKYyE2f5LsbS3y/d75tj/fqdBJcQgTo669TJd+eWL3459VWmQEE4cKBuEDw+UypNQrRt/Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/FXWOz3; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C449so+M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/FXWOz3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720241789; x=1751777789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b969Y5eBAm3SFGup/DJgRDb2zIT28sfvv3Hu1dxSJxg=;
-  b=C449so+M9/U6rS9FRsLvBdbrwLUAGjd5ClwsLyDmg/LXFoRcY9jVDvEg
-   NtaDTcrvwFsMpeePchqkF6DqEKwI0w3bPtVIg4zimUJt/lqLgi9eu79cQ
-   IX9LJ1pGK6y0DnXglYyUSqpw8A6TapPdLkuMsXff9l72PEaIPHW4UesX4
-   /2tmTCjII6qHuzfVTjNS6aeVFKWTj3vyi26RjOA07QUOrXjUXPtom0vnj
-   GGEEGPn+E9kTHBIR5HVCKRPFSTobpcDQkccMMdMV0utgWG5ffJpuNgDmc
-   SPIHdAW2zXAIX36Cd+vx8NKTfwEislt/1RWahi8Zy3gIM/O1+M6dR7Hb9
-   w==;
-X-CSE-ConnectionGUID: bOL9DX3rSr+iF6VoFELQbw==
-X-CSE-MsgGUID: 43rFATltRWKSs9qB2Pi7uA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42943034"
+  t=1720243052; x=1751779052;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RFvdfc5SP26/erCYWy3Bh1P2+7EZnv+hwzsSCZjL4tM=;
+  b=f/FXWOz3aFi+XPpF4fFdjEY1a/SMkoWotMhUJM7p9SXibOLj2AMQ9/CL
+   4Q5vbf+erwHjYrKE0wV5aLvgixDt5CRoHHrkYmUkqqxxQHwH/VmTFMBAY
+   rQ6jk8kXASaMVUdyp/Rjtsol8cj1yBJ3NJMX4FX5mWE7Nvxbicis8rcvJ
+   FAK8qwi+e4of3+mDU7HdDjheDK61t0hAbvYA2wBdEWurrY6HGqH6wS4o7
+   LGgumt31TnF2hq3vZz9Fmkem4OP9YnSBoJBPBdm5TrwGZwUZmZv4UhvvK
+   RLbz59FLcrtO9u4T8MCx8uHeJKaWFolfd+TLg34BT/Xffk0tir+6PUEtE
+   Q==;
+X-CSE-ConnectionGUID: cE7bOx/1T0O9Ho3+A9Z9DA==
+X-CSE-MsgGUID: va/DseXdSTSz04IpG5rmzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="28192542"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="42943034"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 21:56:28 -0700
-X-CSE-ConnectionGUID: tCh5x/NETDqxzgGBvifSeQ==
-X-CSE-MsgGUID: +deCcvbWR+aQboieb5fVaA==
+   d="scan'208";a="28192542"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 22:17:32 -0700
+X-CSE-ConnectionGUID: YVCQsgiNSwWQjpuk1p5tAw==
+X-CSE-MsgGUID: CZdNPP4XSZaL+D5Sv3OlhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="52205668"
+   d="scan'208";a="51626836"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jul 2024 21:56:27 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jul 2024 22:17:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPxTE-000TKG-2C;
-	Sat, 06 Jul 2024 04:56:24 +0000
-Date: Sat, 6 Jul 2024 12:55:56 +0800
+	id 1sPxnZ-000TLE-11;
+	Sat, 06 Jul 2024 05:17:25 +0000
+Date: Sat, 6 Jul 2024 13:16:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:numa/cleanups 4/5]
- arch/mips/include/asm/mach-loongson64/mmzone.h:19: warning: "NODE_DATA"
- redefined
-Message-ID: <202407061253.DVScBxOr-lkp@intel.com>
+To: Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>
+Subject: Re: [PATCH v2 2/3] iio: adc: sophgo-saradc: Add driver for Sophgo
+ SARADC
+Message-ID: <202407061311.ZEmwMY8m-lkp@intel.com>
+References: <20240705-sg2002-adc-v2-2-83428c20a9b2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +77,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240705-sg2002-adc-v2-2-83428c20a9b2@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git numa/cleanups
-head:   d74c3f8819fd25059208bb373a2635814b6e3317
-commit: 32648bd86c675b79c12f80ccced0ffdbd14eac3a [4/5] arch, mm: move defintion of node_data to generic code
-config: mips-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240706/202407061253.DVScBxOr-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061253.DVScBxOr-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d20f6b3d747c36889b7ce75ee369182af3decb6b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bonnefille/dt-bindings-iio-adc-sophgo-cv18xx-saradc-yaml-Add-Sophgo-SARADC-binding-documentation/20240706-040736
+base:   d20f6b3d747c36889b7ce75ee369182af3decb6b
+patch link:    https://lore.kernel.org/r/20240705-sg2002-adc-v2-2-83428c20a9b2%40bootlin.com
+patch subject: [PATCH v2 2/3] iio: adc: sophgo-saradc: Add driver for Sophgo SARADC
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240706/202407061311.ZEmwMY8m-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061311.ZEmwMY8m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407061253.DVScBxOr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061311.ZEmwMY8m-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/mips/include/asm/mmzone.h:12,
-                    from include/linux/mmzone.h:1569,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/compat.h:17,
-                    from arch/mips/kernel/asm-offsets.c:12:
->> arch/mips/include/asm/mach-loongson64/mmzone.h:19: warning: "NODE_DATA" redefined
-      19 | #define NODE_DATA(n)            (node_data[n])
-         | 
-   In file included from include/linux/cpumask.h:17,
-                    from include/linux/smp.h:13,
-                    from arch/mips/include/asm/cpu-type.h:12,
-                    from arch/mips/include/asm/timex.h:19,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/compat.h:10:
-   include/linux/numa.h:34: note: this is the location of the previous definition
-      34 | #define NODE_DATA(nid)  (node_data[nid])
-         | 
---
-   In file included from arch/mips/include/asm/mmzone.h:12,
-                    from include/linux/mmzone.h:1569,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/mips/include/asm/hardirq.h:16,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/kvm_host.h:7,
-                    from arch/mips/kvm/loongson_ipi.c:11:
->> arch/mips/include/asm/mach-loongson64/mmzone.h:19: warning: "NODE_DATA" redefined
-      19 | #define NODE_DATA(n)            (node_data[n])
-         | 
-   In file included from include/linux/cpumask.h:17,
-                    from arch/mips/include/asm/processor.h:15,
-                    from arch/mips/include/asm/thread_info.h:16,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/mips/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/alloc_tag.h:11,
-                    from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5:
-   include/linux/numa.h:34: note: this is the location of the previous definition
-      34 | #define NODE_DATA(nid)  (node_data[nid])
-         | 
-   arch/mips/kvm/loongson_ipi.c:190:6: warning: no previous prototype for 'kvm_init_loongson_ipi' [-Wmissing-prototypes]
-     190 | void kvm_init_loongson_ipi(struct kvm *kvm)
-         |      ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/mips/include/asm/mmzone.h:12,
-                    from include/linux/mmzone.h:1569,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/compat.h:17,
-                    from arch/mips/kernel/asm-offsets.c:12:
->> arch/mips/include/asm/mach-loongson64/mmzone.h:19: warning: "NODE_DATA" redefined
-      19 | #define NODE_DATA(n)            (node_data[n])
-         | 
-   In file included from include/linux/cpumask.h:17,
-                    from include/linux/smp.h:13,
-                    from arch/mips/include/asm/cpu-type.h:12,
-                    from arch/mips/include/asm/timex.h:19,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/compat.h:10:
-   include/linux/numa.h:34: note: this is the location of the previous definition
-      34 | #define NODE_DATA(nid)  (node_data[nid])
-         | 
+>> drivers/iio/adc/sophgo-cv18xx-adc.c:85:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+      85 |                 struct cv18xx_adc *saradc = iio_priv(indio_dev);
+         |                 ^
+   1 warning generated.
 
 
-vim +/NODE_DATA +19 arch/mips/include/asm/mach-loongson64/mmzone.h
+vim +85 drivers/iio/adc/sophgo-cv18xx-adc.c
 
-c46173183657bbd arch/mips/include/asm/mach-loongson/mmzone.h   Huacai Chen   2014-06-26  18  
-49a49eabeaed12d arch/mips/include/asm/mach-loongson64/mmzone.h Mike Rapoport 2024-06-27 @19  #define NODE_DATA(n)		(node_data[n])
-c46173183657bbd arch/mips/include/asm/mach-loongson/mmzone.h   Huacai Chen   2014-06-26  20  
-
-:::::: The code at line 19 was first introduced by commit
-:::::: 49a49eabeaed12dd1806ab32778272c6d391c514 MIPS: loongson64: rename __node_data to node_data
-
-:::::: TO: Mike Rapoport <rppt@kernel.org>
-:::::: CC: Mike Rapoport <rppt@kernel.org>
+    78	
+    79	static int cv18xx_adc_read_raw(struct iio_dev *indio_dev,
+    80					  struct iio_chan_spec const *chan,
+    81					  int *val, int *val2, long mask)
+    82	{
+    83		switch (mask) {
+    84		case IIO_CHAN_INFO_RAW:
+  > 85			struct cv18xx_adc *saradc = iio_priv(indio_dev);
+    86			u32 sample;
+    87			int ret;
+    88	
+    89			scoped_guard(mutex, &saradc->lock) {
+    90				cv18xx_adc_start_measurement(saradc, chan->scan_index);
+    91				ret = cv18xx_adc_wait(saradc);
+    92				if (ret < 0)
+    93					return ret;
+    94	
+    95				sample = readl(saradc->regs + CV18XX_ADC_CH_RESULT_REG(chan->scan_index));
+    96			}
+    97			if (!(sample & CV18XX_ADC_CH_VALID))
+    98				return -ENODATA;
+    99	
+   100			*val = sample & CV18XX_ADC_CH_RESULT;
+   101			return IIO_VAL_INT;
+   102		case IIO_CHAN_INFO_SCALE:
+   103			*val = 3300;
+   104			*val2 = 12;
+   105			return IIO_VAL_FRACTIONAL_LOG2;
+   106		default:
+   107			return -EINVAL;
+   108		}
+   109	}
+   110	
 
 -- 
 0-DAY CI Kernel Test Service
