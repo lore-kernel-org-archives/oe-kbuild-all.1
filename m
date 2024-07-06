@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD90B502BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 11:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D5350246
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 12:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720264428; cv=none; b=KSCjrGeT0FLlJtXoPIbo7Sdy6P9pKc+FaMDji7vQwo/GYK8Vy48J37WvF2vNKQlBQhDM0GsvNnnjajUNpXsxdUjCkiuXFNC7ZKEwXE+iFvSU9APXcT1XAkhVaPOm8KNtIn3GsDDVlXwEZMlupFbLdknbIOM1koOnvxmGQxuoV8w=
+	t=1720267670; cv=none; b=VT1sA2cx/dzahyfgmIiyNMr/tPFvDDqDNhGnqBBHGdxM7qOCv9J83lJ/ucM5vYbWcmd9pQqvGyKy8BNumkQMvTw0v8bKZMubxsnZmBhdKwaQELs3LhCId5zuUUfbuAk8uVuLKg4F9g10mTr+NXqbqI808mmwuqSPxWE4VYeuv8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720264428; c=relaxed/simple;
-	bh=gTn1gxChF+AnLmVYi9zYChJ2t7bCR+Q5zs+W+Sfp71Y=;
+	s=arc-20240116; t=1720267670; c=relaxed/simple;
+	bh=knhoTdgUpfDNyLJQ9HKWCHBcLy70fpWtaG2Q+BUyskg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0ckoy61kmCLn15xvySRc2NMQ6/x5/1a0Nu1tBwDcsVbi5qWKqxYgpdkDcbvZMb8EYzQ0YH0Lv+FMuoXbP3AebNy86/2TgTGPuM23iJ6bvkxlC+AQdtLTtdoUswxQBtTNEWwbQQklcN6dB+YVDbPKl1rt2FjgTxJiwOG4BkjGno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTt80UCb; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tw8l9rR2S4dj5IY83fmlbCIDIwAUCsoN5Sx4PnRLpMAhF2oBxkinyqaea52PhoqPeLD/OlcI4V3zshPp4iUYlMjjWvMmEbT7zB+wVjOI+bds2Oi+FOMD0s2+ucON+aMV6FcCMqbwCUhloJJfk2yy5S+yWI+1F4JVGYiBNPwsvg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRJwk3VD; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTt80UCb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRJwk3VD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720264427; x=1751800427;
+  t=1720267668; x=1751803668;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gTn1gxChF+AnLmVYi9zYChJ2t7bCR+Q5zs+W+Sfp71Y=;
-  b=BTt80UCbyixhcGWV8ogE2vaUaACqSjsVQHQY9dwyRD2H9AufSsieXyAL
-   BNU1Ie2cOz6BNb3ilkFxY15wEql1AFdg9xQlWT2lZu/Up2QwwGv9OECQO
-   JuA+otFL/Db2g9MJvzMiCesjCGWB71761Bt+Nx3C1dWB+y3Wd6dHeDGGe
-   JrS3o4/uySLflAFCXFNJBmTvY6uWbRnvovLg2/mBbqxEPeaGOpvMHup2w
-   H9QLE4Sx48rfO/m9WB7so3hRh/xB2MTizKEZ85Xop0kELtfOAHqoOLaSA
-   p5BdaT8Bm8eouSFntFtvqIN5r+0TWtTLeXMVWdqNAmLJa3L3Bximi3M48
-   g==;
-X-CSE-ConnectionGUID: s4Olsi+rQdSunpXmL8Iu1Q==
-X-CSE-MsgGUID: Rkdj9Xm+Qo6SLQeDfiERew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17348115"
+  bh=knhoTdgUpfDNyLJQ9HKWCHBcLy70fpWtaG2Q+BUyskg=;
+  b=jRJwk3VDODVC08RfmUF8M8lgvqmfM9Z9Ej0RWIRwRQ9rPn/Q4czTnpGu
+   mbZWMK7+Cae9UQKNNOP0HOaKOZch0UJEtWGbFDZdip8frLj21W00Zv50b
+   oHUEt5L24bF+M/ufEKMdBpNbck3xDZnkz6XJy1cfM9j9y3hjTXsxHf1r/
+   2NBgzTYPuJcmpmaMlQJgxyKzgQ3HCH2y3lxYVJbpgaLTqasnXp1kN68Eq
+   2NutXHxNIUJK8aFKLVlX+CimFDixqbDCWU4/AO3fNfPsSIYJ9J6JLA8vR
+   3RzqD6kwpJMG1pMPxM4AJXXcKazTC/XP8VFZNgG8yrvwwZ8hiMXR39Iov
+   A==;
+X-CSE-ConnectionGUID: y4SOpjKhRua5hHI6sH6foQ==
+X-CSE-MsgGUID: 6/7YeOW3RJOljXIso3ozdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="40040511"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="17348115"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 04:13:47 -0700
-X-CSE-ConnectionGUID: ncFW8IFhRb2LNx+hL5z19Q==
-X-CSE-MsgGUID: Rl78OCbuQf+8QE+nwI3lSg==
+   d="scan'208";a="40040511"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 05:07:47 -0700
+X-CSE-ConnectionGUID: tudvSjpiTUq+jzSN+RmMQQ==
+X-CSE-MsgGUID: 3/Mlj3qkT4iQXoA3W30CmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="47028304"
+   d="scan'208";a="47062396"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Jul 2024 04:13:44 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 06 Jul 2024 05:07:45 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ3ML-000Thg-2k;
-	Sat, 06 Jul 2024 11:13:41 +0000
-Date: Sat, 6 Jul 2024 19:13:41 +0800
+	id 1sQ4Cd-000Tky-2F;
+	Sat, 06 Jul 2024 12:07:43 +0000
+Date: Sat, 6 Jul 2024 20:06:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
-	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Nicolas Pitre <npitre@baylibre.com>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] asm-generic/div64: reimplement __arch_xprod64()
-Message-ID: <202407061823.qXqNlq8o-lkp@intel.com>
-References: <20240705022334.1378363-3-nico@fluxnic.net>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 16/20] drm/i915/fbdev: Extract
+ intel_fbdev_fb_prefer_stolen()
+Message-ID: <202407061958.ScN1NFtC-lkp@intel.com>
+References: <20240705145254.3355-17-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,129 +64,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240705022334.1378363-3-nico@fluxnic.net>
+In-Reply-To: <20240705145254.3355-17-ville.syrjala@linux.intel.com>
 
-Hi Nicolas,
+Hi Ville,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on arm/for-next arm/fixes soc/for-next linus/master v6.10-rc6 next-20240703]
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-xe/drm-xe-next drm-tip/drm-tip next-20240703]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.10-rc6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Pitre/ARM-div64-remove-custom-__arch_xprod_64/20240705-195905
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20240705022334.1378363-3-nico%40fluxnic.net
-patch subject: [PATCH 2/2] asm-generic/div64: reimplement __arch_xprod64()
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240706/202407061823.qXqNlq8o-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061823.qXqNlq8o-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-fbc-Extract-intel_fbc_has_fences/20240706-041642
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240705145254.3355-17-ville.syrjala%40linux.intel.com
+patch subject: [PATCH 16/20] drm/i915/fbdev: Extract intel_fbdev_fb_prefer_stolen()
+config: x86_64-randconfig-014-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061958.ScN1NFtC-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061958.ScN1NFtC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407061823.qXqNlq8o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407061958.ScN1NFtC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   security/keys/proc.c: In function 'proc_keys_show':
-   security/keys/proc.c:215:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                                             ^
-   security/keys/proc.c:215:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:213:44: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                                            ^
-   security/keys/proc.c:213:25: note: 'sprintf' output between 3 and 18 bytes into a destination of size 16
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> security/keys/proc.c:211:40: warning: '%llu' directive writing between 1 and 19 bytes into a region of size 16 [-Wformat-overflow=]
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                                        ^~~~
-   security/keys/proc.c:211:39: note: directive argument in the range [0, 1229782946264575725]
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                                       ^~~~~~~
-   security/keys/proc.c:211:25: note: 'sprintf' output between 3 and 21 bytes into a destination of size 16
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +211 security/keys/proc.c
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  152  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  153  static int proc_keys_show(struct seq_file *m, void *v)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  154  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  155  	struct rb_node *_p = v;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  156  	struct key *key = rb_entry(_p, struct key, serial_node);
-ab5c69f01313c80 Eric Biggers   2017-09-27  157  	unsigned long flags;
-927942aabbbe506 David Howells  2010-06-11  158  	key_ref_t key_ref, skey_ref;
-074d58989569b39 Baolin Wang    2017-11-15  159  	time64_t now, expiry;
-03dab869b7b239c David Howells  2016-10-26  160  	char xbuf[16];
-363b02dab09b322 David Howells  2017-10-04  161  	short state;
-074d58989569b39 Baolin Wang    2017-11-15  162  	u64 timo;
-06ec7be557a1259 Michael LeMay  2006-06-26  163  	int rc;
-06ec7be557a1259 Michael LeMay  2006-06-26  164  
-4bdf0bc30031414 David Howells  2013-09-24  165  	struct keyring_search_context ctx = {
-ede0fa98a900e65 Eric Biggers   2019-02-22  166  		.index_key		= key->index_key,
-4aa68e07d845562 Eric Biggers   2017-09-18  167  		.cred			= m->file->f_cred,
-462919591a1791e David Howells  2014-09-16  168  		.match_data.cmp		= lookup_user_key_possessed,
-462919591a1791e David Howells  2014-09-16  169  		.match_data.raw_data	= key,
-462919591a1791e David Howells  2014-09-16  170  		.match_data.lookup_type	= KEYRING_SEARCH_LOOKUP_DIRECT,
-dcf49dbc8077e27 David Howells  2019-06-26  171  		.flags			= (KEYRING_SEARCH_NO_STATE_CHECK |
-dcf49dbc8077e27 David Howells  2019-06-26  172  					   KEYRING_SEARCH_RECURSE),
-4bdf0bc30031414 David Howells  2013-09-24  173  	};
-4bdf0bc30031414 David Howells  2013-09-24  174  
-028db3e290f15ac Linus Torvalds 2019-07-10  175  	key_ref = make_key_ref(key, 0);
-927942aabbbe506 David Howells  2010-06-11  176  
-927942aabbbe506 David Howells  2010-06-11  177  	/* determine if the key is possessed by this process (a test we can
-927942aabbbe506 David Howells  2010-06-11  178  	 * skip if the key does not indicate the possessor can view it
-927942aabbbe506 David Howells  2010-06-11  179  	 */
-028db3e290f15ac Linus Torvalds 2019-07-10  180  	if (key->perm & KEY_POS_VIEW) {
-028db3e290f15ac Linus Torvalds 2019-07-10  181  		rcu_read_lock();
-e59428f721ee096 David Howells  2019-06-19  182  		skey_ref = search_cred_keyrings_rcu(&ctx);
-028db3e290f15ac Linus Torvalds 2019-07-10  183  		rcu_read_unlock();
-927942aabbbe506 David Howells  2010-06-11  184  		if (!IS_ERR(skey_ref)) {
-927942aabbbe506 David Howells  2010-06-11  185  			key_ref_put(skey_ref);
-927942aabbbe506 David Howells  2010-06-11  186  			key_ref = make_key_ref(key, 1);
-927942aabbbe506 David Howells  2010-06-11  187  		}
-927942aabbbe506 David Howells  2010-06-11  188  	}
-927942aabbbe506 David Howells  2010-06-11  189  
-4aa68e07d845562 Eric Biggers   2017-09-18  190  	/* check whether the current task is allowed to view the key */
-f5895943d91b41b David Howells  2014-03-14  191  	rc = key_task_permission(key_ref, ctx.cred, KEY_NEED_VIEW);
-06ec7be557a1259 Michael LeMay  2006-06-26  192  	if (rc < 0)
-028db3e290f15ac Linus Torvalds 2019-07-10  193  		return 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  194  
-074d58989569b39 Baolin Wang    2017-11-15  195  	now = ktime_get_real_seconds();
-^1da177e4c3f415 Linus Torvalds 2005-04-16  196  
-028db3e290f15ac Linus Torvalds 2019-07-10  197  	rcu_read_lock();
-028db3e290f15ac Linus Torvalds 2019-07-10  198  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  199  	/* come up with a suitable timeout value */
-ab5c69f01313c80 Eric Biggers   2017-09-27  200  	expiry = READ_ONCE(key->expiry);
-39299bdd2546688 David Howells  2023-12-09  201  	if (expiry == TIME64_MAX) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  202  		memcpy(xbuf, "perm", 5);
-074d58989569b39 Baolin Wang    2017-11-15  203  	} else if (now >= expiry) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  204  		memcpy(xbuf, "expd", 5);
-7b1b9164598286f David Howells  2009-09-02  205  	} else {
-074d58989569b39 Baolin Wang    2017-11-15  206  		timo = expiry - now;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  207  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  208  		if (timo < 60)
-074d58989569b39 Baolin Wang    2017-11-15  209  			sprintf(xbuf, "%llus", timo);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  210  		else if (timo < 60*60)
-074d58989569b39 Baolin Wang    2017-11-15 @211  			sprintf(xbuf, "%llum", div_u64(timo, 60));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  212  		else if (timo < 60*60*24)
-074d58989569b39 Baolin Wang    2017-11-15  213  			sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  214  		else if (timo < 60*60*24*7)
-074d58989569b39 Baolin Wang    2017-11-15 @215  			sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  216  		else
-074d58989569b39 Baolin Wang    2017-11-15  217  			sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  218  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  219  
-363b02dab09b322 David Howells  2017-10-04  220  	state = key_read_state(key);
-363b02dab09b322 David Howells  2017-10-04  221  
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/platform_profile.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/via-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax_cxl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1740.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/ibm_rtl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/firmware_attributes_class.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/siemens/simatic-ipc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+>> ERROR: modpost: "intel_fbdev_fb_prefer_stolen" [drivers/gpu/drm/i915/i915.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
