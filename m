@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A343D57E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 19:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2259B6F2FB;
+	Sun,  7 Jul 2024 19:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720381282; cv=none; b=Q5wI4cFvy6H3m0gsTO5UlF3RDjqPJ78zPK/MXPKZDN4/QPPULjIJnPPfYo3BFNrvSEPyiq6gGsIdAuMgafMVZ3ng4V/vF20dyyKPe6V+uc5njc1qkV4qVL51vLj1yxS1Pxl9F5g7OSRhcd5LTIdXkN9fffKn+kYg64LaR21YaCY=
+	t=1720381284; cv=none; b=JcETCkJ6HsOk5vQtjLJCvs1Dk77P1i+OYG/xxvcoEWaZicjAYWqh3XsvOBtP8VNoMmx1A0GsjrSYK3LspDs3yHoOfaWDOjTP2ngJM5alMnx+EJvXyItxAju7hjbLoQf69PWmW/67573iLwBnQC7ht2aVetQD5oVGBhw1dGnl2xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720381282; c=relaxed/simple;
-	bh=24s7GAiJqumgDMoJwbnNmAYEdsxrDnWAFn3353foY5U=;
+	s=arc-20240116; t=1720381284; c=relaxed/simple;
+	bh=kYO/PXycSIMCVZ1dSA2pHriPbtYjljDjWcl/Y1G1BWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZvurIMVrMXkTRin3YQGNQGajVk4briFHrTaupct/Eg0edS4X02ybgHr+ej8xzIxa7Ad0AQQEngbrihNdhGUMFhSEnHoBOFdlBWWrRiDvApSSfbLH8b8hULBke/YRhqcCGXkVW+aERGjZksD6DxLGQtaUf+fcpYUMpN8OHXG/Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fn4Rllxt; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=ba9eqI97HstSVIgRe2QqiA1Tc4o5fQUfhoXZ75fDuHbNeUcsbb2CHQJ4YCKFKrTXrqpIXhMLAkNGpNOYzw2+Q6c9PkbJw9FRJzmbQJztRGmULAnrvtnysbqMy0Z6l4wkqV0wKIt51BssAky+Yk1dGXn8QFTe8n3uWsvLJRwdAmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hD5QUBCR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fn4Rllxt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hD5QUBCR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720381278; x=1751917278;
+  t=1720381282; x=1751917282;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=24s7GAiJqumgDMoJwbnNmAYEdsxrDnWAFn3353foY5U=;
-  b=fn4RllxtGPMMkyWpOfzbo3vPZ/+LgbZ3PRFcNSLNcYA37xMP0soQvmxa
-   FF9O8EqmVUbu3vG1rFEDoKsvvTl6gH9W2Ix4GpMVfBZrEM7hALDLCVYiv
-   FDD5aye+DEX6Gv7h9oBQHKD9TX/d56McOd21C4LUOmowX5R/KqizEe7VD
-   OnCGXaTw8CSQs2tm+Z6mJnSir61YSi48hjXneYeLv7rHm3YPpi3GUzQ5x
-   o0dihUzo6QkfT4z5OgxGWPRbeE8A3bkD2rVIJqDEn0KXglVq6ktgI8iD6
-   VLoG5SQWyWVMJCGt3mrb3ekSlnmpSLzqlPU6cRrOM27jcLEzXADpGD1X/
+  bh=kYO/PXycSIMCVZ1dSA2pHriPbtYjljDjWcl/Y1G1BWg=;
+  b=hD5QUBCRLWWW9rKL57YV/n5KV4agErGFYg23RExUHdUHnwLcDhcv9zs5
+   Oy9ZiKmzIRCc5tKzN2ebgi1/ZN7VoOW9PcbX/S5jdZ6TSp4mqLDgM7gXT
+   Kdj3nKUqTJVWtZta0+bHaqkW2l962Si4DFkXFD/DTTH6QE1p9TmlWLd+w
+   uZXdrGLOOQQU2ko1vBjyZLoAL9uva+myd4ajG/TbQfoH01TNMUopalTfu
+   xKLVBiiFO8aMsX/l+0hCYOrGaTEmDXr92oFkHuDCuRY/yfsydf8567eaz
+   rKN4Z9aoXhLXNhM/uCoLv4B9fBbTU29NAMcPL9NLttjqho0ZF9n6jfo7d
    Q==;
-X-CSE-ConnectionGUID: M+O0BTJbQkuEQbm2Uotbgw==
-X-CSE-MsgGUID: fvkxqQz4RqS06uHsVUdsvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28979896"
+X-CSE-ConnectionGUID: 55dsizCqRO2g2yj+JNcieQ==
+X-CSE-MsgGUID: 8iafSy1+RpWR3RnBZoXXsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28979902"
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="28979896"
+   d="scan'208";a="28979902"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 12:41:18 -0700
-X-CSE-ConnectionGUID: 9mRhFq3/TVWowy/6X5agIg==
-X-CSE-MsgGUID: jFpu7DR2TtaMQ7p9tGY2Ew==
+X-CSE-ConnectionGUID: 4+vQzwEASpyZbLDuxJjJAw==
+X-CSE-MsgGUID: 3a7ExpBfSPeXZbUFG1sNlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="47080366"
+   d="scan'208";a="47080364"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 07 Jul 2024 12:41:15 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQXl3-000VEK-1W;
+	id 1sQXl3-000VEI-1S;
 	Sun, 07 Jul 2024 19:41:13 +0000
-Date: Mon, 8 Jul 2024 03:40:29 +0800
+Date: Mon, 8 Jul 2024 03:40:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
 	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Nicolas Pitre <npitre@baylibre.com>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Nicolas Pitre <npitre@baylibre.com>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 4/4] __arch_xprod64(): make __always_inline when
  optimizing for performance
-Message-ID: <202407080355.VUEmeBsv-lkp@intel.com>
+Message-ID: <202407080326.fBdpm1Tq-lkp@intel.com>
 References: <20240707171919.1951895-5-nico@fluxnic.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,37 +82,123 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Pitre/lib-math-te
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
 patch link:    https://lore.kernel.org/r/20240707171919.1951895-5-nico%40fluxnic.net
 patch subject: [PATCH v2 4/4] __arch_xprod64(): make __always_inline when optimizing for performance
-config: arm-randconfig-002-20240708 (https://download.01.org/0day-ci/archive/20240708/202407080355.VUEmeBsv-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407080355.VUEmeBsv-lkp@intel.com/reproduce)
+config: arm-randconfig-003-20240708 (https://download.01.org/0day-ci/archive/20240708/202407080326.fBdpm1Tq-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407080326.fBdpm1Tq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407080355.VUEmeBsv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407080326.fBdpm1Tq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/math.h:6,
-                    from include/linux/kernel.h:27,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/sched.h:16,
-                    from arch/arm/kernel/asm-offsets.c:11:
->> arch/arm/include/asm/div64.h:60:1: error: return type defaults to 'int' [-Werror=implicit-int]
-      60 | __arch_xprod_64(uint64_t m, uint64_t n, bool bias)
-         | ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:117: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=2335528022
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2 shuffle=2335528022
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=2335528022
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=2335528022
-   make: Target 'prepare' not remade because of errors.
+   In file included from arch/arm/kernel/asm-offsets.c:11:
+   In file included from include/linux/sched.h:16:
+   In file included from include/linux/cpumask.h:11:
+   In file included from include/linux/kernel.h:27:
+   In file included from include/linux/math.h:6:
+>> arch/arm/include/asm/div64.h:60:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+   __arch_xprod_64(uint64_t m, uint64_t n, bool bias)
+   ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                                            ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                            ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                                            ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+   _SIG_SET_BINOP(sigorsets, _sig_or)
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+                   a3 = a->sig[3]; a2 = a->sig[2];                         \
+                        ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
 
 
 vim +/int +60 arch/arm/include/asm/div64.h
