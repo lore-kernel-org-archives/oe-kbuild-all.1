@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF18AD48
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 10:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC20817C6D
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 10:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720349210; cv=none; b=BSYGA8VUxZLoJRdw3q41Kn7vRNditrLBbNJhch0dLEVn7k/r/AAvOVs+LpnGxhMTQQrhI26sapTOjXMWi7v1fq22Mqz5yVABi7WPlxsB6rk9Az5bsaEijGLWkqkC21fb1xyi+G4R9ZtT/+sLuYSbzloLg7YkcaDI1TIaquwaTcU=
+	t=1720349213; cv=none; b=q2hYh9T9zlLXmMqLEu3UiFU3uCZ6CJGwq/9YV8SBG70xNk4mCGB02uQALusmeZeFsiRuiZp0BC6pK+z4w1+Hy3rwN+Io2/P+uKXXbz20ZLb72Sw1AC/oMpIeSKmlbNWsqfRB5Jh2QVE/kkG0YRf7e4kxCP71ZsT5HnOErhSvSjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720349210; c=relaxed/simple;
-	bh=exK+VozV3qpdIp3ksSqUWp1g/rSfLwup3F8ZjkTwvXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qQxnU7KtZ6POD8oNkoA4zskIza1U4kaRe4KZbyyi/jldSRRid6Z3FWFNY7sHnJT2iaAquv7Hpsd7clZyf8ayFj6tWYfOf9bnRYYRFd6refdWCskWInqY0OLGaqdQyASDvzCDJoPj0HFDwlaYsFSUOwc8Bh0JyxFJVX9Xzafz6U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5YZMtw+; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1720349213; c=relaxed/simple;
+	bh=lI3/KfnioEuh5+ylCPr3j/RxylNpDbodDucYeSXM8Rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kQnyI4NnqidxS0OSzCZEQ3TC63swvMXjqeYeKP6DebCl8v9nFTkjFUd8AA70AQXd4vXfbDEzpAb5OEN2aNlP0o1w4zD70iyvvbPHJXqL8ExjVtchwafq8wC9hDspdjH0V5BjMQ/RNyUiuI6DL+slctixFxRFVIR3bJTlflXaElw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpDs86De; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5YZMtw+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpDs86De"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720349209; x=1751885209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=exK+VozV3qpdIp3ksSqUWp1g/rSfLwup3F8ZjkTwvXo=;
-  b=k5YZMtw+dDdsLy6noa+RUgL6DWOQvqoP3Lck4T+S0LuBeLR4nSJWE9un
-   LseYAMUCWPImdQlDOuvV2mJKvkLYibJglZ/7P7V06ic80Z9clrozi3Oku
-   u1EfG6OABEejqGqBZY3gR1Q9tHJiqS5PTvxQEgqBB77WLb4fTFOrU4KXn
-   W3E3dKDEg4EC0gEFkfhsKmDfahkxV+k/tDcHHQ/lYx7/zVVOacxf4FHee
-   iaFdU3WuRBio3kWdSho1OxixNRCt8PSER6/suHA89Rk+B9vEEtcoSSO+v
-   clqWVD7rR7QTGF2XceCO4FOGs0H5FhXN4nHoTctbYS0Ks3Zi88xgqI77o
-   A==;
-X-CSE-ConnectionGUID: D3pU33nBT0mpkJDUxSz++A==
-X-CSE-MsgGUID: BHq+gaHPSW63iikqrv38Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="21332430"
+  t=1720349211; x=1751885211;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lI3/KfnioEuh5+ylCPr3j/RxylNpDbodDucYeSXM8Rw=;
+  b=JpDs86DeTSGDO//pDOQ77ol3vq/mxVF5I2UM8P5rzi+NnCnQHvxHmm6Y
+   WEO/y/bjCh99OV8Ba5iUbykqbmeIA2BdcygfkQdCzBB/H3CtiHkH28BHf
+   NyP5egnhCTtn7eRDuuBWD2F3z5M4ROM5hoEN1BDB9Ebvon5T7zaV3biGX
+   o4k9oSexeuVG5GF3LGaAWJSvn1WKvYJNAsTFOetPAjKaJKGMb3EoPX8dp
+   ZQrF/mLz4M4DnqE1++620GD6OP16kXBKRFvv3U10ufv+OTIP+F3vr6tL0
+   t9AKXZt2IRZKg6k4yteF9TGi3+EZLpajtMhAuO+gsHP4NAolpNc/4OEeo
+   Q==;
+X-CSE-ConnectionGUID: NjYxp6a0TXKx/IMvtpX3mA==
+X-CSE-MsgGUID: pMvb0BE+Tk2/Z2eX8tbORw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="21332431"
 X-IronPort-AV: E=Sophos;i="6.09,189,1716274800"; 
-   d="scan'208";a="21332430"
+   d="scan'208";a="21332431"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 03:46:49 -0700
-X-CSE-ConnectionGUID: Mzm2CI5lRlCUQnQM4PeaaQ==
-X-CSE-MsgGUID: Jck35UM7Q8mSjOI0uEke9A==
+X-CSE-ConnectionGUID: XNN6K6wDRrKoPfzASYsCsg==
+X-CSE-MsgGUID: bh69zq9mStOf+2YnLKjdKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,189,1716274800"; 
-   d="scan'208";a="70445012"
+   d="scan'208";a="70445009"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 07 Jul 2024 03:46:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQPPo-000UrO-30;
-	Sun, 07 Jul 2024 10:46:44 +0000
+	id 1sQPPp-000UrQ-02;
+	Sun, 07 Jul 2024 10:46:45 +0000
 Date: Sun, 7 Jul 2024 18:45:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/5] drm/i915/display: Add support for histogram
-Message-ID: <202407071817.Z3qAXXBn-lkp@intel.com>
-References: <20240705095551.1244154-2-arun.r.murthy@intel.com>
+To: Hari Nagalla <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y-cicd 25/42]
+ drivers/remoteproc/ti_k3_dsp_remoteproc.c:101: warning: Function parameter
+ or member 'shut_comp' not described in 'k3_dsp_rproc'
+Message-ID: <202407071834.cVQqBwiP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +63,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240705095551.1244154-2-arun.r.murthy@intel.com>
 
-Hi Arun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next linus/master v6.10-rc6 next-20240703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arun-R-Murthy/drm-i915-display-Add-support-for-histogram/20240705-233245
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240705095551.1244154-2-arun.r.murthy%40intel.com
-patch subject: [PATCH 1/5] drm/i915/display: Add support for histogram
-config: i386-buildonly-randconfig-004-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071817.Z3qAXXBn-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407071817.Z3qAXXBn-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
+head:   fb89cd4d622ce6cc1b7b254ae21298570d437a08
+commit: ad1343ca42653d9262860d721cd5186bb456a133 [25/42] remoteproc: k3-dsp: support for graceful shutdown of remote cores
+config: arm64-randconfig-001-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071834.cVQqBwiP-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407071834.cVQqBwiP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407071817.Z3qAXXBn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407071834.cVQqBwiP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/i915/display/intel_histogram.o: in function `intel_histogram_update':
->> intel_histogram.c:(.text+0x2b3): undefined reference to `__udivdi3'
+>> drivers/remoteproc/ti_k3_dsp_remoteproc.c:101: warning: Function parameter or member 'shut_comp' not described in 'k3_dsp_rproc'
+   drivers/remoteproc/ti_k3_dsp_remoteproc.c:111: warning: Function parameter or member 'core' not described in 'is_core_in_wfi'
+   drivers/remoteproc/ti_k3_dsp_remoteproc.c:111: warning: Excess function parameter 'kproc' description in 'is_core_in_wfi'
+
+
+vim +101 drivers/remoteproc/ti_k3_dsp_remoteproc.c
+
+6edbe024ba1777 Suman Anna   2020-07-21   69  
+6edbe024ba1777 Suman Anna   2020-07-21   70  /**
+6edbe024ba1777 Suman Anna   2020-07-21   71   * struct k3_dsp_rproc - k3 DSP remote processor driver structure
+6edbe024ba1777 Suman Anna   2020-07-21   72   * @dev: cached device pointer
+6edbe024ba1777 Suman Anna   2020-07-21   73   * @rproc: remoteproc device handle
+6edbe024ba1777 Suman Anna   2020-07-21   74   * @mem: internal memory regions data
+6edbe024ba1777 Suman Anna   2020-07-21   75   * @num_mems: number of internal memory regions
+6edbe024ba1777 Suman Anna   2020-07-21   76   * @rmem: reserved memory regions data
+6edbe024ba1777 Suman Anna   2020-07-21   77   * @num_rmems: number of reserved memory regions
+6edbe024ba1777 Suman Anna   2020-07-21   78   * @reset: reset control handle
+6edbe024ba1777 Suman Anna   2020-07-21   79   * @data: pointer to DSP-specific device data
+6edbe024ba1777 Suman Anna   2020-07-21   80   * @tsp: TI-SCI processor control handle
+6edbe024ba1777 Suman Anna   2020-07-21   81   * @ti_sci: TI-SCI handle
+6edbe024ba1777 Suman Anna   2020-07-21   82   * @ti_sci_id: TI-SCI device identifier
+6edbe024ba1777 Suman Anna   2020-07-21   83   * @mbox: mailbox channel handle
+6edbe024ba1777 Suman Anna   2020-07-21   84   * @client: mailbox client to request the mailbox channel
+6edbe024ba1777 Suman Anna   2020-07-21   85   */
+6edbe024ba1777 Suman Anna   2020-07-21   86  struct k3_dsp_rproc {
+6edbe024ba1777 Suman Anna   2020-07-21   87  	struct device *dev;
+6edbe024ba1777 Suman Anna   2020-07-21   88  	struct rproc *rproc;
+6edbe024ba1777 Suman Anna   2020-07-21   89  	struct k3_dsp_mem *mem;
+6edbe024ba1777 Suman Anna   2020-07-21   90  	int num_mems;
+6edbe024ba1777 Suman Anna   2020-07-21   91  	struct k3_dsp_mem *rmem;
+6edbe024ba1777 Suman Anna   2020-07-21   92  	int num_rmems;
+6edbe024ba1777 Suman Anna   2020-07-21   93  	struct reset_control *reset;
+6edbe024ba1777 Suman Anna   2020-07-21   94  	const struct k3_dsp_dev_data *data;
+6edbe024ba1777 Suman Anna   2020-07-21   95  	struct ti_sci_proc *tsp;
+6edbe024ba1777 Suman Anna   2020-07-21   96  	const struct ti_sci_handle *ti_sci;
+6edbe024ba1777 Suman Anna   2020-07-21   97  	u32 ti_sci_id;
+6edbe024ba1777 Suman Anna   2020-07-21   98  	struct mbox_chan *mbox;
+6edbe024ba1777 Suman Anna   2020-07-21   99  	struct mbox_client client;
+ad1343ca42653d Hari Nagalla 2024-07-02  100  	struct completion shut_comp;
+6edbe024ba1777 Suman Anna   2020-07-21 @101  };
+6edbe024ba1777 Suman Anna   2020-07-21  102  
+
+:::::: The code at line 101 was first introduced by commit
+:::::: 6edbe024ba17777b065e0d0b8aeca9789a4d880b remoteproc: k3-dsp: Add a remoteproc driver of K3 C66x DSPs
+
+:::::: TO: Suman Anna <s-anna@ti.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
