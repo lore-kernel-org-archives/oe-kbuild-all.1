@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E4078C9A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jul 2024 23:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC41136A;
+	Sun,  7 Jul 2024 01:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720310368; cv=none; b=QnyZMFODqxY7Xj0/c/CzX4K8IZNZalMo+LoZfXrM6PkKxagOdM2YZKLtOqEkkrvwB0O/bZ6CtbbLLlHMxheAlMQZ6Agf5007PYuxmr4HR3lgiXkhYL1HqZdCBxe4j10SyEbEyqYThMwGKqVMUAgD9QedE44RBU7SCMJiEUCsfMI=
+	t=1720315951; cv=none; b=XyWO36iWrD5qEhijvTEcHyrM/rkI4Zlelwqc9/3rIpogYpHKfGrZNTK+XtJfb0nUNa5nYd7feC5qA/9N4REHAPhA4I4gm78tXT+3YKfH8DmjTjeg8+YZt1gqwRISl0AmbfZMq7AnvKXJVz0e4rfMGBvnX2HfliYOZiGUFnh20h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720310368; c=relaxed/simple;
-	bh=Cg/cHlDMqI292fb90I/mMPCW+V/qqn4P7IaWNQJc7pE=;
+	s=arc-20240116; t=1720315951; c=relaxed/simple;
+	bh=o6UPxlrZWlUTwnJHPoouIAjTB4S4+KqX6H7B4WlISIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cVi+b8/mfdpSYzjROoEih/FST/r53kNGXmLaDMAfj52quWJjbeVYyU5oi/Ghyv9moCFvOKnktoOsNMlfw/3q6o79kH2u9AQuzS1M74efE3Xwsh7/sD4FhgbZ8Apig9lmbADfcRXu2PWPaATKXRIX4TLYJSo9vZ+TaiIioYNmVys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lavu10sl; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=DxbfLDYgLLEVodFAc0QnP9hNZ1vkg9ZoPjIbqY/pYsbF1swdEXbvU8bIBK9T2Y78ikSfk2e9EY95+ElC2KMsU4kKGX2MS0QdFO+ax/VGdmfnx454D/ZyaVpEofga/6mn+YkayM+vYp8DlOidz33Dbb0y5qL3V7mbCG8UWA7nOwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m7n7Wu+8; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lavu10sl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m7n7Wu+8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720310367; x=1751846367;
+  t=1720315950; x=1751851950;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cg/cHlDMqI292fb90I/mMPCW+V/qqn4P7IaWNQJc7pE=;
-  b=Lavu10slC+7uoRmIp2bSG0tffGDhz0wdMyfgd3zMF/GywWg2yEy3V4M0
-   6Y/Pv7Rw+ORq1PMabovk9DG6se/Y5DBLA0nnpncTJA8D7j3GpAhD/NxqK
-   HtFrYIXzHH1xzGNaS/djw3/MJyHlTiXioL9O4UJvc8stVtbRC12SzW/IV
-   9WVBh0nXnRTKOwcwL02Chj/qDVxR5hcFvx1ycX9LleI2bKAWM89oIik1b
-   WGKBdSlD9bmpGSiXTar6SgCfGpYaNhiWC6gUi8B3uxYw9gR2Gcf+VyNyX
-   l0HrGDDmSzlKCbSAZTwbCZksdSJWBY/GSfXPknRRt9aADeBmJuhFKKiYV
-   A==;
-X-CSE-ConnectionGUID: mN6HtIjoTCOOlnR6ZuvjTA==
-X-CSE-MsgGUID: Yqomie+1TlyAJ1gLJcYq8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="28160159"
-X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
-   d="scan'208";a="28160159"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 16:59:25 -0700
-X-CSE-ConnectionGUID: mHy882u4QrG/4USbrW1iGg==
-X-CSE-MsgGUID: dn5/EfhUTeKLQGPJAH8uYQ==
+  bh=o6UPxlrZWlUTwnJHPoouIAjTB4S4+KqX6H7B4WlISIM=;
+  b=m7n7Wu+8AA20nHCIXoz/XDSfa6ar3dnTRIOH4P0mAcePqnomWHiRElZu
+   JLl4qBEyxMm/cfpNaZ1sNjbWvU6bBnyMP+zz3s3mpxMQQ5trUy1XUZ5Cs
+   R2a4WEwpNHhnqFOWHNi0LWtVrO3jWyxC1/NoGxfFyhm1HZCQqMhSKppDF
+   FFzAiK0Y56A+l4tCwizaDrrEP/CQNF6eUUsAOwa/MMltoR0TcwbMqk/2o
+   aeSUHzTfkbael8CKzsMOy+wYdXzgdZdQiHVZ+W5BxCO5h6K7G0N7Dbmxx
+   aVamziiWH8Q4lYjMPWMApWHRz2IPG/KEMdDlVdH05VK3xr5PYerQ/b0tY
+   Q==;
+X-CSE-ConnectionGUID: 2JqRehm9RdunDYoEVk4HOw==
+X-CSE-MsgGUID: eDVFh3T7Q1Olz9qdTc3uyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="17266194"
+X-IronPort-AV: E=Sophos;i="6.09,189,1716274800"; 
+   d="scan'208";a="17266194"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 18:32:27 -0700
+X-CSE-ConnectionGUID: mhUyIMiNSKSN5677zU2kYQ==
+X-CSE-MsgGUID: fQvj5nkTSc6tb0nxbb2fdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
-   d="scan'208";a="47230786"
+X-IronPort-AV: E=Sophos;i="6.09,189,1716274800"; 
+   d="scan'208";a="47057057"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jul 2024 16:59:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Jul 2024 18:32:26 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQFJJ-000UQC-1Y;
-	Sat, 06 Jul 2024 23:59:21 +0000
-Date: Sun, 7 Jul 2024 07:58:28 +0800
+	id 1sQGlL-000UTO-2T;
+	Sun, 07 Jul 2024 01:32:23 +0000
+Date: Sun, 7 Jul 2024 09:32:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: drivers/iommu/io-pgtable-arm.c:330:13: error: void value not ignored
- as it ought to be
-Message-ID: <202407070708.Bm6Ker3L-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: [trace:probes/for-next 16/16] kernel/trace/trace_kprobe.c:810:9:
+ error: call to undeclared function 'find_module'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202407070917.VVUCBlaS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +64,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22f902dfc51eb3602ff9b505ac3980f6ff77b1df
-commit: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
-date:   1 year, 1 month ago
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240707/202407070708.Bm6Ker3L-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070708.Bm6Ker3L-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/for-next
+head:   9d8616034f161222a4ac166c1b42b6d79961c005
+commit: 9d8616034f161222a4ac166c1b42b6d79961c005 [16/16] tracing/kprobes: Add symbol counting check when module loads
+config: arm-randconfig-004-20240707 (https://download.01.org/0day-ci/archive/20240707/202407070917.VVUCBlaS-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070917.VVUCBlaS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407070708.Bm6Ker3L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407070917.VVUCBlaS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
->> drivers/iommu/io-pgtable-arm.c:330:13: error: void value not ignored as it ought to be
-     330 |         old = cmpxchg64_relaxed(ptep, curr, new);
-         |             ^
---
-   drivers/iommu/io-pgtable-dart.c: In function 'dart_install_table':
->> drivers/iommu/io-pgtable-dart.c:168:13: error: void value not ignored as it ought to be
-     168 |         old = cmpxchg64_relaxed(ptep, curr, new);
-         |             ^
-   drivers/iommu/io-pgtable-dart.c:157:25: warning: variable 'new' set but not used [-Wunused-but-set-variable]
-     157 |         dart_iopte old, new;
-         |                         ^~~
+   In file included from kernel/trace/trace_kprobe.c:10:
+   In file included from include/linux/bpf-cgroup.h:5:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/trace/trace_kprobe.c:810:9: error: call to undeclared function 'find_module'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     810 |                 mod = find_module(modname);
+         |                       ^
+   kernel/trace/trace_kprobe.c:810:9: note: did you mean 'init_module'?
+   include/linux/module.h:76:12: note: 'init_module' declared here
+      76 | extern int init_module(void);
+         |            ^
+>> kernel/trace/trace_kprobe.c:810:7: error: incompatible integer to pointer conversion assigning to 'struct module *' from 'int' [-Wint-conversion]
+     810 |                 mod = find_module(modname);
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +330 drivers/iommu/io-pgtable-arm.c
+vim +/find_module +810 kernel/trace/trace_kprobe.c
 
-c896c132b01895 Laurent Pinchart   2014-12-14  310  
-fb3a95795da53d Robin Murphy       2017-06-22  311  static arm_lpae_iopte arm_lpae_install_table(arm_lpae_iopte *table,
-fb3a95795da53d Robin Murphy       2017-06-22  312  					     arm_lpae_iopte *ptep,
-2c3d273eabe8b1 Robin Murphy       2017-06-22  313  					     arm_lpae_iopte curr,
-9abe2ac834851a Hector Martin      2021-11-20  314  					     struct arm_lpae_io_pgtable *data)
-fb3a95795da53d Robin Murphy       2017-06-22  315  {
-2c3d273eabe8b1 Robin Murphy       2017-06-22  316  	arm_lpae_iopte old, new;
-9abe2ac834851a Hector Martin      2021-11-20  317  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
-e1d3c0fd701df8 Will Deacon        2014-11-14  318  
-9abe2ac834851a Hector Martin      2021-11-20  319  	new = paddr_to_iopte(__pa(table), data) | ARM_LPAE_PTE_TYPE_TABLE;
-fb3a95795da53d Robin Murphy       2017-06-22  320  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
-fb3a95795da53d Robin Murphy       2017-06-22  321  		new |= ARM_LPAE_PTE_NSTABLE;
-e1d3c0fd701df8 Will Deacon        2014-11-14  322  
-77f3445866c39d Will Deacon        2017-06-23  323  	/*
-77f3445866c39d Will Deacon        2017-06-23  324  	 * Ensure the table itself is visible before its PTE can be.
-77f3445866c39d Will Deacon        2017-06-23  325  	 * Whilst we could get away with cmpxchg64_release below, this
-77f3445866c39d Will Deacon        2017-06-23  326  	 * doesn't have any ordering semantics when !CONFIG_SMP.
-77f3445866c39d Will Deacon        2017-06-23  327  	 */
-77f3445866c39d Will Deacon        2017-06-23  328  	dma_wmb();
-2c3d273eabe8b1 Robin Murphy       2017-06-22  329  
-2c3d273eabe8b1 Robin Murphy       2017-06-22 @330  	old = cmpxchg64_relaxed(ptep, curr, new);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  331  
-4f41845b340783 Will Deacon        2019-06-25  332  	if (cfg->coherent_walk || (old & ARM_LPAE_PTE_SW_SYNC))
-2c3d273eabe8b1 Robin Murphy       2017-06-22  333  		return old;
-2c3d273eabe8b1 Robin Murphy       2017-06-22  334  
-2c3d273eabe8b1 Robin Murphy       2017-06-22  335  	/* Even if it's not ours, there's no point waiting; just kick it */
-41e1eb2546e9c8 Isaac J. Manjarres 2021-06-16  336  	__arm_lpae_sync_pte(ptep, 1, cfg);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  337  	if (old == curr)
-2c3d273eabe8b1 Robin Murphy       2017-06-22  338  		WRITE_ONCE(*ptep, new | ARM_LPAE_PTE_SW_SYNC);
-2c3d273eabe8b1 Robin Murphy       2017-06-22  339  
-2c3d273eabe8b1 Robin Murphy       2017-06-22  340  	return old;
-e1d3c0fd701df8 Will Deacon        2014-11-14  341  }
-e1d3c0fd701df8 Will Deacon        2014-11-14  342  
-
-:::::: The code at line 330 was first introduced by commit
-:::::: 2c3d273eabe8b1ed3b3cffe2c79643b1bf7e2d4a iommu/io-pgtable-arm: Support lockless operation
-
-:::::: TO: Robin Murphy <robin.murphy@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+   796	
+   797	static int validate_probe_symbol(char *symbol)
+   798	{
+   799		struct module *mod = NULL;
+   800		char *modname = NULL, *p;
+   801		int ret = 0;
+   802	
+   803		p = strchr(symbol, ':');
+   804		if (p) {
+   805			modname = symbol;
+   806			symbol = p + 1;
+   807			*p = '\0';
+   808			/* Return 0 (defer) if the module does not exist yet. */
+   809			rcu_read_lock_sched();
+ > 810			mod = find_module(modname);
+   811			if (mod && !try_module_get(mod))
+   812				mod = NULL;
+   813			rcu_read_unlock_sched();
+   814			if (!mod)
+   815				goto out;
+   816		}
+   817	
+   818		ret = validate_module_probe_symbol(modname, symbol);
+   819	out:
+   820		if (p)
+   821			*p = ':';
+   822		if (mod)
+   823			module_put(mod);
+   824		return ret;
+   825	}
+   826	
 
 -- 
 0-DAY CI Kernel Test Service
