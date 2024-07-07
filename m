@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41865B
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 15:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94726225A8;
+	Sun,  7 Jul 2024 16:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720366962; cv=none; b=eb9hB1VyxWbvcMP+XYSu69cNsylxKqdYVUIs7th76QqjKmfmZkxlyuE2gt2JMo1HBMAM67QoZVKBYeVV610RGkcQqjHVyRdpeM7F5W2l1jbD1e0+Kroe9GMlQb5NZRpwaRQfkOq4jPOeWBfh+OkhP1ELvU+0CJZNNf2IuxmKUwQ=
+	t=1720368228; cv=none; b=nqazl0X+I6EjAOwBXdOc0XpLZnNJKWqrSnaoRMRicM+SXb9mu0UukvVkBKOcKflkkWrWiU1Kyl1UBmd3Zr/CvVQQyhypmZdT9WP7j4R5CiYMq85TPDDTiE/QKfRapoeBcdFAXR3tP8oMn9vAtj2hFeMnHrvdDHhR/37qG5Hshbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720366962; c=relaxed/simple;
-	bh=TOjveuk8gNTJzypDoLoiB6jfK1c/IGHgQF4rLPNLmK4=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t6qRePj15CAyj57AVCiW7IEP0Qb2fvqoaXZ/jEhDeonch5GLt47BiCQMoHy/+dSmc4JRejVORjhxPiCVYmrbr3R6XTpPhV7PQ2jxh0agfA+uW0/EwSYegBivR5YgSfWLfuinBU0ZJOV90G8paOxN1+nBuKOh3WD9dJ+DF9g3kcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/Vkd1/F; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1720368228; c=relaxed/simple;
+	bh=+C98fktP2PvVUClWe+Ihb8xDaQzuDfLxCpAMjLAICOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sEe7wu/t+qRNPoWHmBreQ6trBzutYlpDugd5kuu0/UdVWmyfLmXPFMcr1FAcOqsU5o9eYXYEqa5xZfk5NP8IB+dtk9+fDa7ozkGHrx9Cwy6/eqgq8h8Bkcht+bKv/ueM0NotZOouARs8M3Zpyc7mbkgrVSR8wo/kcWeACZ8/2yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEe/JAKt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/Vkd1/F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEe/JAKt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720366960; x=1751902960;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=TOjveuk8gNTJzypDoLoiB6jfK1c/IGHgQF4rLPNLmK4=;
-  b=H/Vkd1/FyBAy5FqcbqGm8ym68H045b9rhRxbcOY8jq3ZMmD3YNLCgM4f
-   CIMU7Lw61IvlbG0xKHNLN8SnzsdzE/ZNApiBV+FiFRD/sy0vBJJNKIHI2
-   MJhaOV8qfRK05SI6OR3U6pV4mpX8ZJmFEk3a6wXNl4pisVoSPta6BI/5I
-   WAbyDBYbN1CbJ6Ro71qMyIzEfu9KLvuaol9fNcgnXWhOqv92ve4ikfCSF
-   AZTGbt9OlrT/We1Xa75Hh7MSNIpa9bOT+C9mpul9pmFShxQJpFrCRX+ij
-   +Rlu+ml18I0mKSwC4acVIYIrddcho0kNy+edrS0z3wG5O9xmx8CjN6YXP
-   w==;
-X-CSE-ConnectionGUID: nclucQZ7QxOUooDVzyu5ew==
-X-CSE-MsgGUID: 2yi92n4eTH6it3v0ou6MYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17446470"
+  t=1720368225; x=1751904225;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+C98fktP2PvVUClWe+Ihb8xDaQzuDfLxCpAMjLAICOE=;
+  b=SEe/JAKtyVjlEGal+UM3k20W8sL+7+busMziGhc8tlKei+aGvlj1z7hv
+   t0ZCjiyUEhLBhL0l1Wytj9MiohyiFFco1TyXcVPxHyVHQ6BtPRwPTqLmw
+   Ot43cZc4gngFQVvLYAr9p96aWudu5D7jqRMfrUSAyPnvCRFclMXnnX921
+   ibplSwbyXrkzqDMxZ15YLOjzQQjZuyGZ6cB72td7PS7//sA0bPu0WxsSI
+   IjjVjl/3d9GOoYYsvTSKD7nr/wXlD3Vp6+gwfXAwBVjpEBEGTYdZ2Fl6h
+   eRdE/Lr49rw7piMQ/Ttr0GG4oRf3duXrkhGgfAOgQH6GcwpB5AtOBitjY
+   A==;
+X-CSE-ConnectionGUID: Fq0NeBBXSZy4/uA6tGVnDw==
+X-CSE-MsgGUID: tku8Wc3SRwCytENf45UgvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17390521"
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="17446470"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 08:42:39 -0700
-X-CSE-ConnectionGUID: oGaMaBRgTm+uJ+xqaQ0CHA==
-X-CSE-MsgGUID: vFo61zv5QKO++M08CDpkbQ==
+   d="scan'208";a="17390521"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 09:03:44 -0700
+X-CSE-ConnectionGUID: yQJthOFoQWGPoURzIEQO+Q==
+X-CSE-MsgGUID: mFpJMzK7Sf2t0YVMMwJOLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="47052011"
+   d="scan'208";a="47175035"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Jul 2024 08:42:37 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2024 09:03:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQU27-000V3Z-2X;
-	Sun, 07 Jul 2024 15:42:35 +0000
-Date: Sun, 7 Jul 2024 23:42:14 +0800
+	id 1sQUMU-000V4Q-0o;
+	Sun, 07 Jul 2024 16:03:38 +0000
+Date: Mon, 8 Jul 2024 00:03:11 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Vibhore Vardhan <vibhore@ti.com>, Dhruva Gole <d-gole@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 31/42]
- drivers/pmdomain/ti/ti_sci_pm_domains.c:55: warning: Function parameter or
- member 'wkup_constraint' not described in 'ti_sci_pm_domain'
-Message-ID: <202407072320.12w1A07v-lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sudeep.holla@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone
+ driver
+Message-ID: <202407072316.PqU8yj52-lkp@intel.com>
+References: <20240707002055.1835121-6-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +73,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240707002055.1835121-6-cristian.marussi@arm.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   fb89cd4d622ce6cc1b7b254ae21298570d437a08
-commit: 5c852e970e3823547eaeb9c49e0a8ae4a9dd6679 [31/42] pmdomain: ti_sci: add wakeup constraint management
-config: arm64-randconfig-001-20240707 (https://download.01.org/0day-ci/archive/20240707/202407072320.12w1A07v-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407072320.12w1A07v-lkp@intel.com/reproduce)
+Hi Cristian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on next-20240703]
+[cannot apply to linus/master v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240707002055.1835121-6-cristian.marussi%40arm.com
+patch subject: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone driver
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240707/202407072316.PqU8yj52-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407072316.PqU8yj52-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407072320.12w1A07v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407072316.PqU8yj52-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:55: warning: Function parameter or member 'lat_constraint' not described in 'ti_sci_pm_domain'
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:55: warning: Function parameter or member 'constraint_sent' not described in 'ti_sci_pm_domain'
->> drivers/pmdomain/ti/ti_sci_pm_domains.c:55: warning: Function parameter or member 'wkup_constraint' not described in 'ti_sci_pm_domain'
+>> drivers/firmware/arm_scmi/scmi_transport_smc.c:157:58: warning: variable 'size' is uninitialized when used here [-Wuninitialized]
+                   void __iomem *ptr = (void __iomem *)scmi_info->shmem + size - 8;
+                                                                          ^~~~
+   drivers/firmware/arm_scmi/scmi_transport_smc.c:136:22: note: initialize the variable 'size' to silence this warning
+           resource_size_t size;
+                               ^
+                                = 0
+   1 warning generated.
 
 
-vim +55 drivers/pmdomain/ti/ti_sci_pm_domains.c
+vim +/size +157 drivers/firmware/arm_scmi/scmi_transport_smc.c
 
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  35  
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  36  /**
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  37   * struct ti_sci_pm_domain: TI specific data needed for power domain
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  38   * @idx: index of the device that identifies it with the system
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  39   *	 control processor.
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  40   * @exclusive: Permissions for exclusive request or shared request of the
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  41   *	       device.
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  42   * @pd: generic_pm_domain for use with the genpd framework
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  43   * @node: link for the genpd list
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  44   * @parent: link to the parent TI SCI genpd provider
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  45   */
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  46  struct ti_sci_pm_domain {
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  47  	int idx;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  48  	u8 exclusive;
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  49  	struct generic_pm_domain pd;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  50  	struct list_head node;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c      Tero Kristo  2020-09-11  51  	struct ti_sci_genpd_provider *parent;
-ca11e100862310 drivers/pmdomain/ti/ti_sci_pm_domains.c Kevin Hilman 2024-07-03  52  	s32 lat_constraint;
-ca11e100862310 drivers/pmdomain/ti/ti_sci_pm_domains.c Kevin Hilman 2024-07-03  53  	bool constraint_sent;
-5c852e970e3823 drivers/pmdomain/ti/ti_sci_pm_domains.c Kevin Hilman 2024-07-03  54  	bool wkup_constraint;
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04 @55  };
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c      Dave Gerlach 2017-04-04  56  
-
-:::::: The code at line 55 was first introduced by commit
-:::::: 52835d59fc6cc7f3c3cfdb4a194ddc9ebd6c0c31 soc: ti: Add ti_sci_pm_domains driver
-
-:::::: TO: Dave Gerlach <d-gerlach@ti.com>
-:::::: CC: Santosh Shilimkar <ssantosh@kernel.org>
+0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  129  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  130  static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  131  			  bool tx)
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  132  {
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  133  	struct device *cdev = cinfo->dev;
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  134  	unsigned long cap_id = ULONG_MAX;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  135  	struct scmi_smc *scmi_info;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  136  	resource_size_t size;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  137  	struct resource res;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  138  	u32 func_id;
+d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  139  	int ret;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  140  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  141  	if (!tx)
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  142  		return -ENODEV;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  143  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  144  	scmi_info = devm_kzalloc(dev, sizeof(*scmi_info), GFP_KERNEL);
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  145  	if (!scmi_info)
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  146  		return -ENOMEM;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  147  
+728a057b6ab114 drivers/firmware/arm_scmi/scmi_transport_smc.c Cristian Marussi 2024-07-07  148  	scmi_info->shmem = core->shmem->setup_iomap(cinfo, dev, tx);
+6c5d3315c40fa0 drivers/firmware/arm_scmi/smc.c                Peng Fan         2024-07-07  149  	if (IS_ERR(scmi_info->shmem))
+6c5d3315c40fa0 drivers/firmware/arm_scmi/smc.c                Peng Fan         2024-07-07  150  		return PTR_ERR(scmi_info->shmem);
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  151  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  152  	ret = of_property_read_u32(dev->of_node, "arm,smc-id", &func_id);
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  153  	if (ret < 0)
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  154  		return ret;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  155  
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  156  	if (of_device_is_compatible(dev->of_node, "qcom,scmi-smc")) {
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09 @157  		void __iomem *ptr = (void __iomem *)scmi_info->shmem + size - 8;
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  158  		/* The capability-id is kept in last 8 bytes of shmem.
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  159  		 *     +-------+ <-- 0
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  160  		 *     | shmem |
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  161  		 *     +-------+ <-- size - 8
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  162  		 *     | capId |
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  163  		 *     +-------+ <-- size
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  164  		 */
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  165  		memcpy_fromio(&cap_id, ptr, sizeof(cap_id));
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  166  	}
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  167  
+5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  168  	if (of_device_is_compatible(dev->of_node, "arm,scmi-smc-param")) {
+5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  169  		scmi_info->param_page = SHMEM_PAGE(res.start);
+5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  170  		scmi_info->param_offset = SHMEM_OFFSET(res.start);
+5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  171  	}
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  172  	/*
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  173  	 * If there is an interrupt named "a2p", then the service and
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  174  	 * completion of a message is signaled by an interrupt rather than by
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  175  	 * the return of the SMC call.
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  176  	 */
+d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  177  	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  178  	if (scmi_info->irq > 0) {
+d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  179  		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
+d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  180  				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  181  		if (ret) {
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  182  			dev_err(dev, "failed to setup SCMI smc irq\n");
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  183  			return ret;
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  184  		}
+f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  185  	} else {
+f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  186  		cinfo->no_completion_irq = true;
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  187  	}
+dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  188  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  189  	scmi_info->func_id = func_id;
+da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  190  	scmi_info->cap_id = cap_id;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  191  	scmi_info->cinfo = cinfo;
+0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  192  	smc_channel_lock_init(scmi_info);
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  193  	cinfo->transport_info = scmi_info;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  194  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  195  	return 0;
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  196  }
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  197  
 
 -- 
 0-DAY CI Kernel Test Service
