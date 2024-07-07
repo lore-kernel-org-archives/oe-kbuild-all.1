@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD42D1DFF7;
-	Sun,  7 Jul 2024 17:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2645441A94
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 17:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720371954; cv=none; b=n/uw59z0tVPmOx7ndVNt4eRDjyfGmCSwZHU/GHi29ulMW5qEKoopCbsMZg9rpDKvJra8uCgHA/VYKqhLipPsA9uWlZoXwrgXYG7MuHpGJnAEQyV/MHY12bg+jPeSnYzGBwbfSrX8mSGmVcPV5sqEsHi75q3F/lC8cr+37+im9Ec=
+	t=1720371955; cv=none; b=BIZ/lVPZnHZU1NOCAreGOFxErhPXdJGYd6uWIz/so7AFioJfPX3I7R3NQZtcOWHXMOHSaq7GbIjMPLILufKX8Hf8YErS0YwWUSEW80bMgelErwIqtk0pBlWwDrLkrw3fhMhuLHSpW+LFqv4c/ubXPBs9IS6UBji52v4NW0Hpk0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720371954; c=relaxed/simple;
-	bh=i6KGoCpJnCx3OiRmHrSxCsSRTwsgE6tNYNiKvNjiXJE=;
+	s=arc-20240116; t=1720371955; c=relaxed/simple;
+	bh=u8Meb/dYXOa9lPZ3tsjI6WBaXcW++50mEYg32Y6caWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eeeBfj+5GZQIWqVAMsB/spZFzLIYyd2nSQ6Yb4HIEy4ZPjsk5tzoJ94Q37JlEv9gQ9DFQdwUul4YqhIDxXG5L5XWvPsFhMwPBx+i5AEUbVOBiOZbpgA+TW6BEO8lCm0Y50OiEsEPcfgpwuN4r6z+YHinhXwgUO1P216Gn9M8x+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G1gCzkS8; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Bv2Q2T+7ilvkbmJNneWIc7FgrQ9RkPaiUeOX+jRnDH2zE1X8EALmtIb1V074TVVqQdxrLYNZgX487tiJbaELd0S6BGTg6GTc1++70tW1PkvKcBIcaQ6ypP7dWxQYYb1UJlPViwH+2FDMl1uOfx2OMksbXmAlzxD+ZeaDCXl005Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfradczR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G1gCzkS8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfradczR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720371952; x=1751907952;
+  t=1720371953; x=1751907953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i6KGoCpJnCx3OiRmHrSxCsSRTwsgE6tNYNiKvNjiXJE=;
-  b=G1gCzkS8wUDj0Hdzx9UY0izXuo8qLRIvx4PKMgqH2eGZrIvPYaUjwbhh
-   6U0KzC3tKErOsBF9NyRg+DlEtsO3oBWOXOcMTalB6+5JxiTj7lvPt4gcL
-   c4V63xHY4q5tl83Rlh1gP0yGPkmuFJu2UI9V/hJYUCTye3xtx8Qik7/bP
-   oMBxS6/9t3N7xAOa8drs26OqeWMFqDy7hdWtBKmsC1FfpeCwc61yZOqdE
-   XIe8SFLJvg2xZDYiP8eNwT3d6GkFWUm4Zh9AcgRjRbYfOrZR9fR1VaSnP
-   ks0rJsADberIyKTKMvXTZuf4Wc9xNle4S282Yb7oERkI7S/Aa/F0ICFxm
-   g==;
-X-CSE-ConnectionGUID: 66Tz8rZ5S9mMsBvRpMFI+Q==
-X-CSE-MsgGUID: r9BfGPtST7K8C9fHnSyYkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17449459"
+  bh=u8Meb/dYXOa9lPZ3tsjI6WBaXcW++50mEYg32Y6caWQ=;
+  b=RfradczRL+KVaodIniCdGx3xKHTmRNBEaw/wzEhfMGa1K028Nh+Xr3UM
+   pX20TLbhQLU8VOL9bxLcPaUaU7ciJv3NrlCQSMAmJ492Vr24SfOSuNWAE
+   RI/ySFq6wQS+1QiNzc07rsc8bpq1kyv6o8PAhw/36z2BOXHTa/aEFlOOi
+   hzIZgYW2fQdvLMqWouRNbli1weGkfSqwO09gm07iSvKFL10Q+dEFuiFQy
+   xOPdCowdBlvR8lFXV2CTedWjxLJtUrhOksiaqshnWYm+ItunGKOic4qLm
+   SP9A/AJ+KS7UesGwH6ziWPz4LMKyr/viZ4xrghEefRevNjBaQ9tEC3Ova
+   w==;
+X-CSE-ConnectionGUID: RxcrUqERRm+n3JBZT78kDw==
+X-CSE-MsgGUID: sNEdWcdGRqiFYlshPhDuqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="21388294"
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="17449459"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 10:05:51 -0700
-X-CSE-ConnectionGUID: yELR9w6MReW9RDk5jh5uEg==
-X-CSE-MsgGUID: DwJJsYfRSg+HmdElycOrYQ==
+   d="scan'208";a="21388294"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 10:05:52 -0700
+X-CSE-ConnectionGUID: xoieaW66QCm29LTRB8qTdQ==
+X-CSE-MsgGUID: 9y4umAzHQfariwlouT7ASg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="51643398"
+   d="scan'208";a="47394627"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Jul 2024 10:05:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2024 10:05:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQVKe-000V8S-0C;
+	id 1sQVKe-000V8M-00;
 	Sun, 07 Jul 2024 17:05:48 +0000
-Date: Mon, 8 Jul 2024 01:05:11 +0800
+Date: Mon, 8 Jul 2024 01:05:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgtime 5/13] arch/powerpc/include/asm/cmpxchg.h:636:2:
- error: call to '__compiletime_assert_35' declared with 'error' attribute:
- Unsupported size for __cmpxchg
-Message-ID: <202407080156.STNjCTNk-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kees Cook <keescook@chromium.org>
+Subject: ERROR: modpost: "mem_alloc_profiling_key"
+ [arch/powerpc/kvm/kvm-hv.ko] undefined!
+Message-ID: <202407080044.DWMC9N9I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +65,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgtime
-head:   ce2d8b57e9c187fac67576e9577736d268780ba9
-commit: 034a5675908ff1a97b0e6f0f209373e97d969972 [5/13] fs: add infrastructure for multigrain timestamps
-config: powerpc-randconfig-001-20240707 (https://download.01.org/0day-ci/archive/20240708/202407080156.STNjCTNk-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407080156.STNjCTNk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c6653f49e4fd3b0d52c12a1fc814d6c5b234ea15
+commit: d224eb0287fbd84f4f13eca042c7f08f87138f3b codetag: debug: mark codetags for reserved pages as empty
+date:   2 months ago
+config: powerpc64-randconfig-r112-20240707 (https://download.01.org/0day-ci/archive/20240708/202407080044.DWMC9N9I-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240708/202407080044.DWMC9N9I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407080156.STNjCTNk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407080044.DWMC9N9I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from fs/inode.c:9:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from fs/inode.c:7:
-   In file included from include/linux/fs.h:6:
-   In file included from include/linux/wait_bit.h:8:
-   In file included from include/linux/wait.h:9:
-   In file included from include/linux/spinlock.h:63:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:14:
-   In file included from include/linux/atomic.h:7:
-   In file included from arch/powerpc/include/asm/atomic.h:11:
->> arch/powerpc/include/asm/cmpxchg.h:636:2: error: call to '__compiletime_assert_35' declared with 'error' attribute: Unsupported size for __cmpxchg
-     636 |         BUILD_BUG_ON_MSG(1, "Unsupported size for __cmpxchg");
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:510:2: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:220:1: note: expanded from here
-     220 | __compiletime_assert_35
-         | ^
-   1 warning and 1 error generated.
-
-
-vim +636 arch/powerpc/include/asm/cmpxchg.h
-
-ae3a197e3d0bfe David Howells    2012-03-28  619  
-ae3a197e3d0bfe David Howells    2012-03-28  620  static __always_inline unsigned long
-da58b23cb976ab Michael Ellerman 2016-11-24  621  __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new,
-ae3a197e3d0bfe David Howells    2012-03-28  622  	  unsigned int size)
-ae3a197e3d0bfe David Howells    2012-03-28  623  {
-ae3a197e3d0bfe David Howells    2012-03-28  624  	switch (size) {
-d0563a1297e234 Pan Xinhui       2016-04-27  625  	case 1:
-d0563a1297e234 Pan Xinhui       2016-04-27  626  		return __cmpxchg_u8(ptr, old, new);
-d0563a1297e234 Pan Xinhui       2016-04-27  627  	case 2:
-d0563a1297e234 Pan Xinhui       2016-04-27  628  		return __cmpxchg_u16(ptr, old, new);
-ae3a197e3d0bfe David Howells    2012-03-28  629  	case 4:
-ae3a197e3d0bfe David Howells    2012-03-28  630  		return __cmpxchg_u32(ptr, old, new);
-ae3a197e3d0bfe David Howells    2012-03-28  631  #ifdef CONFIG_PPC64
-ae3a197e3d0bfe David Howells    2012-03-28  632  	case 8:
-ae3a197e3d0bfe David Howells    2012-03-28  633  		return __cmpxchg_u64(ptr, old, new);
-ae3a197e3d0bfe David Howells    2012-03-28  634  #endif
-ae3a197e3d0bfe David Howells    2012-03-28  635  	}
-10d8b1480e6966 pan xinhui       2016-02-23 @636  	BUILD_BUG_ON_MSG(1, "Unsupported size for __cmpxchg");
-ae3a197e3d0bfe David Howells    2012-03-28  637  	return old;
-ae3a197e3d0bfe David Howells    2012-03-28  638  }
-ae3a197e3d0bfe David Howells    2012-03-28  639  
-
-:::::: The code at line 636 was first introduced by commit
-:::::: 10d8b1480e6966ba03cd3afad3b5d6eb5e341fae powerpc: Use BUILD_BUG_ON_MSG() for unsupported {cmp}xchg sizes
-
-:::::: TO: pan xinhui <xinhui.pan@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/elx/efct.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-bitbang.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x10 (section: .data) -> et8ek8_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpufreq/cpufreq-dt-platdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+>> ERROR: modpost: "mem_alloc_profiling_key" [arch/powerpc/kvm/kvm-hv.ko] undefined!
+>> ERROR: modpost: "page_ext_get" [arch/powerpc/kvm/kvm-hv.ko] undefined!
+>> ERROR: modpost: "page_ext_put" [arch/powerpc/kvm/kvm-hv.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
