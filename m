@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2645441A94
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 17:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89F62E64B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jul 2024 17:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720371955; cv=none; b=BIZ/lVPZnHZU1NOCAreGOFxErhPXdJGYd6uWIz/so7AFioJfPX3I7R3NQZtcOWHXMOHSaq7GbIjMPLILufKX8Hf8YErS0YwWUSEW80bMgelErwIqtk0pBlWwDrLkrw3fhMhuLHSpW+LFqv4c/ubXPBs9IS6UBji52v4NW0Hpk0c=
+	t=1720373216; cv=none; b=ZYHagL+ILiYx59Pwjcgn1sSvCk/jjcyozJErUiPSya9PVyORj8uLY/jX5JdQf2jzboCxDAD4cbPFE5OMAM5bZtLDc9rLr7FVyI1JW2y/OBNXqONsm2p8Fc6NWAGGb7iwjjHM84wHJyjJUbfO9LjcYN0/YNQRlskH7g/mPZcmFYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720371955; c=relaxed/simple;
-	bh=u8Meb/dYXOa9lPZ3tsjI6WBaXcW++50mEYg32Y6caWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bv2Q2T+7ilvkbmJNneWIc7FgrQ9RkPaiUeOX+jRnDH2zE1X8EALmtIb1V074TVVqQdxrLYNZgX487tiJbaELd0S6BGTg6GTc1++70tW1PkvKcBIcaQ6ypP7dWxQYYb1UJlPViwH+2FDMl1uOfx2OMksbXmAlzxD+ZeaDCXl005Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfradczR; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1720373216; c=relaxed/simple;
+	bh=OYb6luaHzFr8ZoLfLNacEZGLbdRKURpKjiUsxtVYI18=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uhnRz101JtD0jvSN3nLA6cZJRdKzUHW9eqObDwyxUbArDCBfIpvuyv8nGupLCc4lETEypxVXTJgmGLmm37WrCi5Mznoy/wNAIFY55dLdwthNKOYmLLvYVnLKWUjrSaJMDqLllYs0w/O43iL3Zzhls3B8vmqRS3FSiuZNDe9I8os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AN+sh8VF; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfradczR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AN+sh8VF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720371953; x=1751907953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u8Meb/dYXOa9lPZ3tsjI6WBaXcW++50mEYg32Y6caWQ=;
-  b=RfradczRL+KVaodIniCdGx3xKHTmRNBEaw/wzEhfMGa1K028Nh+Xr3UM
-   pX20TLbhQLU8VOL9bxLcPaUaU7ciJv3NrlCQSMAmJ492Vr24SfOSuNWAE
-   RI/ySFq6wQS+1QiNzc07rsc8bpq1kyv6o8PAhw/36z2BOXHTa/aEFlOOi
-   hzIZgYW2fQdvLMqWouRNbli1weGkfSqwO09gm07iSvKFL10Q+dEFuiFQy
-   xOPdCowdBlvR8lFXV2CTedWjxLJtUrhOksiaqshnWYm+ItunGKOic4qLm
-   SP9A/AJ+KS7UesGwH6ziWPz4LMKyr/viZ4xrghEefRevNjBaQ9tEC3Ova
-   w==;
-X-CSE-ConnectionGUID: RxcrUqERRm+n3JBZT78kDw==
-X-CSE-MsgGUID: sNEdWcdGRqiFYlshPhDuqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="21388294"
+  t=1720373215; x=1751909215;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=OYb6luaHzFr8ZoLfLNacEZGLbdRKURpKjiUsxtVYI18=;
+  b=AN+sh8VF7XqtUjRWZUEyXiGhG3tWud0ZonQlRNnaLTMY89TOzbWeV5vC
+   WCVNyppwehaZjQQJHcF/upzyEFDqWXwy/4c2VmfsJx6AodduTfGbFXycX
+   OqtDwsEoNkREHHaRBu7j9AxWeBEvi7PmTlfPZUZDxU7bNgLD4aY9D8jAg
+   C1PrlzM3ulep7Zn7ufzT97ocPLkamCXVePZcxALe5FINXozhzTuYsreq3
+   p3NuO99jwsLfZTAlCysePMHsg6sYFyhn75bnLiAkoSIidHgq3vwz+0LkS
+   frSp7FZ/WKmJJCHlHLbHfqK/AJh0dvfm76F+fmB8xddrY608dNLOLpXJ3
+   A==;
+X-CSE-ConnectionGUID: LiULixM/SBiKuYC7Wz85Vg==
+X-CSE-MsgGUID: Vr4jWLhuTQOODw8nZP07HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28967770"
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="21388294"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 10:05:52 -0700
-X-CSE-ConnectionGUID: xoieaW66QCm29LTRB8qTdQ==
-X-CSE-MsgGUID: 9y4umAzHQfariwlouT7ASg==
+   d="scan'208";a="28967770"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 10:26:54 -0700
+X-CSE-ConnectionGUID: fm+zI1fYQ+6Kt0R2l5Yzow==
+X-CSE-MsgGUID: HKkGaukIQnWVMr44ieYkGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,190,1716274800"; 
-   d="scan'208";a="47394627"
+   d="scan'208";a="70502281"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2024 10:05:51 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jul 2024 10:26:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQVKe-000V8M-00;
-	Sun, 07 Jul 2024 17:05:48 +0000
-Date: Mon, 8 Jul 2024 01:05:03 +0800
+	id 1sQVez-000V9O-2g;
+	Sun, 07 Jul 2024 17:26:49 +0000
+Date: Mon, 8 Jul 2024 01:25:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: ERROR: modpost: "mem_alloc_profiling_key"
- [arch/powerpc/kvm/kvm-hv.ko] undefined!
-Message-ID: <202407080044.DWMC9N9I-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y-cicd 32/42]
+ drivers/remoteproc/ti_k3_r5_remoteproc.c:119: warning: Function parameter or
+ member 'qos_req' not described in 'k3_r5_cluster'
+Message-ID: <202407080156.CbL4oY1W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,124 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c6653f49e4fd3b0d52c12a1fc814d6c5b234ea15
-commit: d224eb0287fbd84f4f13eca042c7f08f87138f3b codetag: debug: mark codetags for reserved pages as empty
-date:   2 months ago
-config: powerpc64-randconfig-r112-20240707 (https://download.01.org/0day-ci/archive/20240708/202407080044.DWMC9N9I-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240708/202407080044.DWMC9N9I-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
+head:   fb89cd4d622ce6cc1b7b254ae21298570d437a08
+commit: 346bc05aa1c20a00eebce3b5a0a75e1f2fdc4985 [32/42] remoteproc: k3_r5: add/expose resume latency constraint
+config: arm64-randconfig-001-20240707 (https://download.01.org/0day-ci/archive/20240708/202407080156.CbL4oY1W-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407080156.CbL4oY1W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407080044.DWMC9N9I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407080156.CbL4oY1W-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/elx/efct.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-bitbang.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x10 (section: .data) -> et8ek8_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpufreq/cpufreq-dt-platdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
->> ERROR: modpost: "mem_alloc_profiling_key" [arch/powerpc/kvm/kvm-hv.ko] undefined!
->> ERROR: modpost: "page_ext_get" [arch/powerpc/kvm/kvm-hv.ko] undefined!
->> ERROR: modpost: "page_ext_put" [arch/powerpc/kvm/kvm-hv.ko] undefined!
+>> drivers/remoteproc/ti_k3_r5_remoteproc.c:119: warning: Function parameter or member 'qos_req' not described in 'k3_r5_cluster'
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:178: warning: Function parameter or member 'shut_comp' not described in 'k3_r5_rproc'
+
+
+vim +119 drivers/remoteproc/ti_k3_r5_remoteproc.c
+
+7508ea19b20da8 Suman Anna    2020-11-18  103  
+6dedbd1d544389 Suman Anna    2020-10-02  104  /**
+6dedbd1d544389 Suman Anna    2020-10-02  105   * struct k3_r5_cluster - K3 R5F Cluster structure
+6dedbd1d544389 Suman Anna    2020-10-02  106   * @dev: cached device pointer
+6dedbd1d544389 Suman Anna    2020-10-02  107   * @mode: Mode to configure the Cluster - Split or LockStep
+6dedbd1d544389 Suman Anna    2020-10-02  108   * @cores: list of R5 cores within the cluster
+7dcf3e00aa951f Apurva Nandan 2024-05-02  109   * @core_transition: wait queue to sync core state changes
+7508ea19b20da8 Suman Anna    2020-11-18  110   * @soc_data: SoC-specific feature data for a R5FSS
+6dedbd1d544389 Suman Anna    2020-10-02  111   */
+6dedbd1d544389 Suman Anna    2020-10-02  112  struct k3_r5_cluster {
+6dedbd1d544389 Suman Anna    2020-10-02  113  	struct device *dev;
+6dedbd1d544389 Suman Anna    2020-10-02  114  	enum cluster_mode mode;
+6dedbd1d544389 Suman Anna    2020-10-02  115  	struct list_head cores;
+7dcf3e00aa951f Apurva Nandan 2024-05-02  116  	wait_queue_head_t core_transition;
+7508ea19b20da8 Suman Anna    2020-11-18  117  	const struct k3_r5_soc_data *soc_data;
+346bc05aa1c20a Kevin Hilman  2024-07-03  118  	struct dev_pm_qos_request qos_req;
+6dedbd1d544389 Suman Anna    2020-10-02 @119  };
+6dedbd1d544389 Suman Anna    2020-10-02  120  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 6dedbd1d544389d6ab1727423348572a11e9df5d remoteproc: k3-r5: Add a remoteproc driver for R5F subsystem
+
+:::::: TO: Suman Anna <s-anna@ti.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
