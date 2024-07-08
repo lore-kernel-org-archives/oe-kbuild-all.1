@@ -1,134 +1,90 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9988E148FEE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 17:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E5E17C9E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 18:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720461299; cv=none; b=ug67dAg/3FuLKxUiFoHEtZWPz3aqi237gp1eitnQbC91r4TpboaQ0Zoa+11aQLN17LSPNbNtyro0hltpjc5EgsLhOFfhAz5s+okkNm9A1mUKiOFlbxMntrdEPtYeXdJ3rrmKRV9ws3cDH2aljeM0t0UcNNqBn1brDOpZPBzs2pY=
+	t=1720464727; cv=none; b=SZRB9LhrfR773jBizAuJ0MASSX37N+iXfCDsJBC9rsdahfvC/apZPH5yMzCt+EzVj/yjV+vFGcDjWmeSJvS6+iz/miL6NG19rPf/gjh92S3qbo4kCD/ZbYpo0stHvaIHD+ZB8ZQQefg/WXyHV05MGNSqUSp2ZbW4DNk6tS2jUk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720461299; c=relaxed/simple;
-	bh=VsRbpkHXh35QTCvvMw6HcLrDLL7F93VydYFlcaJ99c4=;
+	s=arc-20240116; t=1720464727; c=relaxed/simple;
+	bh=tqWuK5etaboPZQImIxopM9Jo8EdfI5lbnyOw6jdv+B4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UUPprj+M68NJGcwAgAt8zN5y6QGBy9V3f20/BhJm8NopJj2756qxCK9LtUUp67nJevoC+ir+HKiEs0F9lhwhrbs4UVSYYz9XFG3mb/P5vOpKByJuq7n1i80HRwCoZeXJYxcpTqMvUlixMjizH+r5AGfmm15hU4qH86Tp2tMLaYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HZzgL6Hp; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=Jj1xyzdf6QWj3lhazRf7e8tCKIwMmpiqErbhhc97cnVR9Xvjm5E+XZddV+VvwYE/uXsD87yAhu3uMRsP0/PeCxaIvg7Izc2yyvsGZ12OTxBI/00UeJxrmnUqabhVjpdCQh3Z88fVmGqznyWPES27GzANCXRc+/Bk+Gsm7HPNqpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qBAxHSi/; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HZzgL6Hp"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6b5f46191b5so19922806d6.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jul 2024 10:54:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qBAxHSi/"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-65011d9bd75so36306807b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jul 2024 11:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1720461295; x=1721066095; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XUxVyXvmH2ZHRP4WWiJD1IGEJI8jwRuhGplxULpfTlQ=;
-        b=HZzgL6HpSjdRR08YnyqenZlDuK5oxTf1JcjIox1m2AxwkGdixrDk2MmCWjpLkYiVJA
-         XuRb47BRG+NMptPnk/DT75Cw/vfPNvFXfnikk6dQnWV0LGfrjC2lKqj2pIcruK40Igyy
-         r1XBoy0EvgGCLe/3P9NxMwWam2isi/ipxabV8=
+        d=linaro.org; s=google; t=1720464724; x=1721069524; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ot4kTSF8yh1w4GxdmGA9PVDM7xfI4y+fgzfFZkCuStU=;
+        b=qBAxHSi/BXeYrQhEKndaf+e3bfyVkM2G61cGgRjRPr7l380C/ld532/kYyvUAKoMVk
+         GeFstBlQSXSFrBXD8xEYvMD5dtJ6Nc587tav25ScB2Wnxq5OFqt5EgOXgWw7TblGPE5V
+         Sb8Gsi2quPL9ZG8+Z2MhIg/NtXZnzwsL8Uppwvj0KNgT+qam4MUmtciHzGoSn6Y1v2lc
+         dj8OhIE0Izph07ASHLjSu2Zbbm36G0pc0I68JpCcwjwZkHDciyN27pKEAxdkT7sUTYPi
+         46iG9xq8i2IIvkAo0krasRFn3KBAAY1AHWcopLr/8q6ux4gELOEy8KXaRBaT5outfmdP
+         Jjrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720461295; x=1721066095;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XUxVyXvmH2ZHRP4WWiJD1IGEJI8jwRuhGplxULpfTlQ=;
-        b=Q/LFepS46Di1b/BgUEe89ew7s4wMwfxCYknt/KlkHDVroGtZ6++P3zGI8ir/YfPoLU
-         Kro2ZFszFyBJfHuHtoWUrsuugVoaBxVBchk5byMacl7GU3t61skLPcTYP5ML3AKCmxnQ
-         7BwuYMMzJebw8t2aG/T91pEp4TtZKnthFoJ1VBU5j12GIDPVuk8B56c7XWVlTfj/E4Vd
-         9lkRlMDjM4ZDktTlJl8SQTgpnvhm5aKBiWd75fGoUa3yAlRZ+nEIKmg4IcLRxbcpI8Ul
-         n6tWQMBo9atQIGSlJM3ci7WPzcvG6YDH/PzBqioQabl14Gp5LkdKPNVlXw4QrEuTT+/6
-         hZrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSc8koSx1eAi3hPk4C45dJgV2l1FOWlRZJaNoUO3wXWxI5397q+FmwT3XgFPu3t/7Azz8XVaVTwoSgg/mfs4oOFaMYqIc6mmBKCSKOYg==
-X-Gm-Message-State: AOJu0YyJxtLy8IN30p6e22+72UbpUgGFwG+U6ok3tB29kfxmWAOPIy0J
-	q6akqnN8dTjyGM7zJgm/ZlMFt7327kK6Mg1rc2tf43rMypEOsVlE3n5VVcQW4I9zuoZSAeiXKUo
-	=
-X-Google-Smtp-Source: AGHT+IE7HItky7Phr7Vn5X/fGTFA7dhRo8UY+K/GK+eU0mm/enTP6TWYcfTm+Oidfov4GXpJjzFOjQ==
-X-Received: by 2002:a05:6214:2389:b0:6b5:3bc:388f with SMTP id 6a1803df08f44-6b61bd12a29mr5296696d6.32.1720461295225;
-        Mon, 08 Jul 2024 10:54:55 -0700 (PDT)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b61b9ef23csm1528376d6.48.2024.07.08.10.54.54
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 10:54:54 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-44664ad946eso21661cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jul 2024 10:54:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOleRiByJV1lDYZMYUHqy5/lhU89PDpqhfck12Km/W/kCFFELZxPGDKPele5pH1K83geW4OwRgIAhKNKDD1+LoxjaojfyuIMTVSYlEZA==
-X-Received: by 2002:ac8:5158:0:b0:447:e393:fed1 with SMTP id
- d75a77b69052e-447fc292838mr25411cf.7.1720461293738; Mon, 08 Jul 2024 10:54:53
- -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720464724; x=1721069524;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ot4kTSF8yh1w4GxdmGA9PVDM7xfI4y+fgzfFZkCuStU=;
+        b=UJMe22wOYEYqrIeQoIQbhGi9drPASS2ZdMDx57zVFKZEB9xwKKWr1SqCmQSM3A9d2C
+         M+05/LGjHkCqaYumeaMsmc57tz8HMDF+49lQMxKvvqC62D7E1P27PVO5LizfdZk/F9eg
+         nev3qzJBUEfPKZpWRfwoZuauFYr7ebMNaJYNAahqOxRzc5CIoBccY6sTrQ1IbonmqgkR
+         2ii3WQsLwtKvqJ73J7yVhPn/R0TGKPv+C03AVCbU6uNwUWHl8UWckG1W4pJJI+WFW1UI
+         2X2Y1bEWfnEmClw/rbU+YZDPvsZgk2tvV2jHUZe64EJ2E/TRy5tsOg251zC5or71nH/8
+         9KoQ==
+X-Gm-Message-State: AOJu0YxJyniG+8RqVT9aS77q4YAFJ2WInc+IqzrH8eFKcGT2POuWv0wk
+	RW6l9NkH799yYIZWk8a7sP6zyCh4NnpSFQOZ8JlTMdFf/gE7nXYcev3Cb7xEufIiP980HtA+JfS
+	SfJF/PY3Tz0CNO7zpOMXM3byFqXwj+ED6J07LkQ==
+X-Google-Smtp-Source: AGHT+IFR7gbAn6A3MRL1AfoMWZF2uz4RbuEyXAZ/HHmFFeMUbx4BF8viefzYRuWwlD1ZUNWc6rK12EMZmKqAAQHZ0Ec=
+X-Received: by 2002:a05:690c:4b06:b0:62c:c684:b1e1 with SMTP id
+ 00721157ae682-658ef249fc6mr7552327b3.29.1720464724390; Mon, 08 Jul 2024
+ 11:52:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <137ec596-b946-4076-a0c4-30f3b3285e36@suswa.mountain>
-In-Reply-To: <137ec596-b946-4076-a0c4-30f3b3285e36@suswa.mountain>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 8 Jul 2024 10:54:42 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VVO-B-LQanadhV+n-jSywoEYGMb0Wyo1hCgiAbodeWxA@mail.gmail.com>
-Message-ID: <CAD=FV=VVO-B-LQanadhV+n-jSywoEYGMb0Wyo1hCgiAbodeWxA@mail.gmail.com>
-Subject: Re: [linux-next:master 4298/8232] drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c:366
- sharp_panel_remove() error: we previously assumed 'sharp' could be null (see
- line 365)
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Neil Armstrong <neil.armstrong@linaro.org>
+References: <202407090029.a72M25wz-lkp@intel.com>
+In-Reply-To: <202407090029.a72M25wz-lkp@intel.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Date: Mon, 8 Jul 2024 20:51:53 +0200
+Message-ID: <CACMJSesFR4L4wYFDX0xJKGqfZ80vq0HG3J+7Y1kWqodjqTS_Vw@mail.gmail.com>
+Subject: Re: [linux-next:master 10192/10451] WARNING: modpost: vmlinux:
+ section mismatch in reference: mgmt_index_removed+0x24 (section: .text) ->
+ .LBB3864 (section: .init.text)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, Jul 1, 2024 at 8:45=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
+On Mon, 8 Jul 2024 at 18:15, kernel test robot <lkp@intel.com> wrote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-> commit: d7d473d8464e7b9931c0b19f68ea0df807e01b4c [4298/8232] drm/panel: s=
-harp-lq101r1sx01: Don't call disable at shutdown/remove
-> config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/a=
-rchive/20240626/202406261525.SkhtM3ZV-lkp@intel.com/config)
-> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   0b58e108042b0ed28a71cd7edf5175999955b233
+> commit: d009853d746532353e0d1517c75289bb7dbf0450 [10192/10451] Merge branch 'gpio/for-current' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+> config: riscv-randconfig-r033-20230517 (https://download.01.org/0day-ci/archive/20240709/202407090029.a72M25wz-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090029.a72M25wz-lkp@intel.com/reproduce)
 >
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202406261525.SkhtM3ZV-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407090029.a72M25wz-lkp@intel.com/
 >
-> smatch warnings:
-> drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c:366 sharp_panel_remove() =
-error: we previously assumed 'sharp' could be null (see line 365)
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
 >
-> vim +/sharp +366 drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
->
-> 79abca2b399009 Uwe Kleine-K=C3=B6nig 2022-07-08  355  static void sharp_p=
-anel_remove(struct mipi_dsi_device *dsi)
-> 1976dbca047ed7 Thierry Reding   2014-08-01  356  {
-> 1976dbca047ed7 Thierry Reding   2014-08-01  357         struct sharp_pane=
-l *sharp =3D mipi_dsi_get_drvdata(dsi);
-> 1976dbca047ed7 Thierry Reding   2014-08-01  358         int err;
-> 1976dbca047ed7 Thierry Reding   2014-08-01  359
-> 1976dbca047ed7 Thierry Reding   2014-08-01  360         err =3D mipi_dsi_=
-detach(dsi);
-> 1976dbca047ed7 Thierry Reding   2014-08-01  361         if (err < 0)
-> 1976dbca047ed7 Thierry Reding   2014-08-01  362                 dev_err(&=
-dsi->dev, "failed to detach from DSI host: %d\n", err);
-> 1976dbca047ed7 Thierry Reding   2014-08-01  363
-> d7d473d8464e7b Douglas Anderson 2024-06-04  364         /* only detach fr=
-om host for the DSI-LINK2 interface */
-> 1976dbca047ed7 Thierry Reding   2014-08-01 @365         if (!sharp)
->
-> Reversed if statement?
->
-> d7d473d8464e7b Douglas Anderson 2024-06-04 @366                 sharp_pan=
-el_del(sharp);
-> 1976dbca047ed7 Thierry Reding   2014-08-01  367  }
 
-Indeed. Thanks for the catch. Fix posted at:
+While I can confirm this can be reproduced easily, I am not sure if
+this has anything to do with GPIO? Looks like it's an unrelated issue.
 
-https://lore.kernel.org/r/20240708105221.1.I576751c661c7edb6b804dda405d10e2=
-e71153e32@changeid
+Bart
