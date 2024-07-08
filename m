@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79C2B662
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 03:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972712582
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 03:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720409690; cv=none; b=W3IGL5fuBMPpx5oab63ozb9ORPzZHxXM0QS0ECZNTRo2JnyRKUZW69tOZrWEUC3KEKZzSQoU9n6swrpZbhrg/bIK5EVoY2YmKzNJr07Kog8A/lysCMi1PW9jJwyUY6KLCWfpqCBFZgM6rxrKU4JH719tx942uYAdlEYmcdvw5S8=
+	t=1720410470; cv=none; b=W09dQK+Y9BhXum7PHSNfTQsfTSuiNubiN/AEVyAR6+xSkU7uHPzv9AVVMKsMp8942jhD+WvAOOUBgOAOJCmCFdVjefsKM1UlboStBTF0m7yCGe1ASu4Rm8+fj/Q5CcfOL+ghS34FsH9fIHD5oWk9tpqPnCzgHS7V7JTUrXCuZ4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720409690; c=relaxed/simple;
-	bh=GD2rdxOTo9hGgD+yhC+RP/5SgVsNHMDeEIY8g/XvHkA=;
+	s=arc-20240116; t=1720410470; c=relaxed/simple;
+	bh=8dd5cK5AsFYWKWdJa9gcHKZUXqPf4RTzpoJww/t+Kzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F2z3guczH9AwIqfCaFyaswecUelARK1f7lp7xGrCreQEijAeGUCtjMzkcX58FkWnucP95PcBk/K8SLcBLz5rt5c5QQdPs8TAeaJnw82qZpz2LSMKyCKYLUpvKifDHNBm/l2KjRGGOCngNvd3YRC6xNKsPdCRrYVMHGRHIU71Vjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V40rCD7j; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=TAp5iDTTWn4DeTzUVqEyA8BKOT89/MMrcMIcZ4vSI2AHNkBflyUZJrMWVpu40sQ7FwN+/U5aI3T6AjhrNDwU2zz/zPi+EvDit8kc0CB0/8os1U6W6aoMjZkGljqreiiBoK4bBsgR6KUh6caaji17OI0i/CKmtxan2s9nVC7sy1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQhzBUZK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V40rCD7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQhzBUZK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720409688; x=1751945688;
+  t=1720410469; x=1751946469;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GD2rdxOTo9hGgD+yhC+RP/5SgVsNHMDeEIY8g/XvHkA=;
-  b=V40rCD7j9BAhOKdOLsfXS9WsBUyS18sK7YdhRsi3g+QKN8LfwBjuF1cG
-   wl26NRL0bY3+X7NhCux3WUudsuYpf7mFk94fZgAe5ZtV6m5lkB2cVwkb2
-   O4Ui5GVlU8CEYN1K7jVJ6Qvg5xtVs0QDGOrheJ6Hkhfmn7t7hFCJIxGFT
-   T79ZahNld/KnsBCznRIk1gDb1asZfBi2Zd5ld/iqOQ6YRGU/Q4IWrY0qm
-   THI7g3cScG9zejDoyEt4tXyl5Iu6Nq0//fYiuCwYi04OXOTWnu/uyWnOn
-   LHmuQJwTW7j+h8WMD2/dk3KX563lwS0GHxkSoc9gj1S/39g0C+aWyqx1K
-   g==;
-X-CSE-ConnectionGUID: 5nk9iwqDRKSAEEwEgDpXzw==
-X-CSE-MsgGUID: kZPz+fOATFi9adaag8B8wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28994602"
+  bh=8dd5cK5AsFYWKWdJa9gcHKZUXqPf4RTzpoJww/t+Kzk=;
+  b=lQhzBUZKTAQonExRAKlW//8ybYM82XPsl8Avw/jHJDSq3B79c88xxRg2
+   2xlj4yd4TgxupWKVjar2l9B8hZf3ja/K3mTUfD2OvTq+s6ZH5Xj3W0CD7
+   jZuTvyvkVk4ot8l/EQmrHzW+/qNDgoA6euUMvVZOFQdP5A41XI5LaUMAa
+   C5EDi+UIK3pqwXNAcSD+P8Va1tVDLeOtcCZTgjfoDKNGuGE/iBqeGHDtf
+   YxRk6hnNwiPdq5GhaJxWzS1b7uxH7c1Ptr0vKQisDQcFKLx+RhPNY43/2
+   wHiKywo2WBAejMstXD4x2COIkwym8mHAmnsTT3AKs7IlvnPY3YS4DisJe
+   Q==;
+X-CSE-ConnectionGUID: pTd3i++hSeyiy7M5BK6oRw==
+X-CSE-MsgGUID: XBJDCehOSrmRkRT8atOd3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="21407759"
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="28994602"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 20:34:48 -0700
-X-CSE-ConnectionGUID: cscn3CJxTQCTm7vm9XMLkg==
-X-CSE-MsgGUID: 5ML2VYLbQZy7IP3/YYicqA==
+   d="scan'208";a="21407759"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 20:47:48 -0700
+X-CSE-ConnectionGUID: wrhUEzjGT1CLYQv8INdKgA==
+X-CSE-MsgGUID: lUkKx6/OSHW4ozTDFCQXGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="78514516"
+   d="scan'208";a="78116677"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Jul 2024 20:34:46 -0700
+  by orviesa002.jf.intel.com with ESMTP; 07 Jul 2024 20:47:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQf9H-000VUP-1n;
-	Mon, 08 Jul 2024 03:34:43 +0000
-Date: Mon, 8 Jul 2024 11:34:01 +0800
+	id 1sQfLs-000VUe-2m;
+	Mon, 08 Jul 2024 03:47:44 +0000
+Date: Mon, 8 Jul 2024 11:47:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
+To: Steev Klimaszewski <steev@kali.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3342/10596] include/linux/pgplib.h:26:15:
- warning: declaration of 'enum pgp_packet_tag' will not be visible outside of
- this function
-Message-ID: <202407081159.yhVjEfsw-lkp@intel.com>
+Subject: [steev:lenovo-x13s-linux-6.9.y 94/98]
+ drivers/soc/qcom/qcom_pd_mapper.c:160:6: error: incompatible integer to
+ pointer conversion assigning to 'struct servreg_get_domain_list_resp *' from
+ 'int'
+Message-ID: <202407081127.6ZtttgaO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,171 +64,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3b421b6002e287e38790cbdad4a3e08baf7e1bc4
-commit: 43d4042e06d2bf96adf67d25e8d91653507a4cf9 [3342/10596] KEYS: Provide a function to load keys from a PGP keyring blob
-config: arm64-randconfig-r131-20240707 (https://download.01.org/0day-ci/archive/20240708/202407081159.yhVjEfsw-lkp@intel.com/config)
+tree:   https://github.com/steev/linux lenovo-x13s-linux-6.9.y
+head:   1bf5cfad6ed9289682bfd255ca6a931bad2b6dee
+commit: dea5860e8cc39a242675ac67daf815c3eb5738c7 [94/98] soc: qcom: add pd-mapper implementation
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240708/202407081127.6ZtttgaO-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce: (https://download.01.org/0day-ci/archive/20240708/202407081159.yhVjEfsw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407081127.6ZtttgaO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407081159.yhVjEfsw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407081127.6ZtttgaO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from crypto/asymmetric_keys/pgp_preload.c:19:
->> include/linux/pgplib.h:26:15: warning: declaration of 'enum pgp_packet_tag' will not be visible outside of this function [-Wvisibility]
-      26 |                               enum pgp_packet_tag type,
-         |                                    ^
-   include/linux/pgplib.h:36:23: error: field has incomplete type 'enum pgp_key_version'
-      36 |         enum pgp_key_version version : 8;
-         |                              ^
-   include/linux/pgplib.h:36:7: note: forward declaration of 'enum pgp_key_version'
-      36 |         enum pgp_key_version version : 8;
-         |              ^
-   include/linux/pgplib.h:37:23: error: field has incomplete type 'enum pgp_pubkey_algo'
-      37 |         enum pgp_pubkey_algo pubkey_algo : 8;
-         |                              ^
-   include/linux/pgplib.h:37:7: note: forward declaration of 'enum pgp_pubkey_algo'
-      37 |         enum pgp_pubkey_algo pubkey_algo : 8;
-         |              ^
-   crypto/asymmetric_keys/pgp_preload.c:63:10: warning: declaration of 'enum pgp_packet_tag' will not be visible outside of this function [-Wvisibility]
-      63 |                                 enum pgp_packet_tag type, u8 headerlen,
-         |                                      ^
-   crypto/asymmetric_keys/pgp_preload.c:63:25: error: variable has incomplete type 'enum pgp_packet_tag'
-      63 |                                 enum pgp_packet_tag type, u8 headerlen,
-         |                                                     ^
-   crypto/asymmetric_keys/pgp_preload.c:63:10: note: forward declaration of 'enum pgp_packet_tag'
-      63 |                                 enum pgp_packet_tag type, u8 headerlen,
-         |                                      ^
-   crypto/asymmetric_keys/pgp_preload.c:107:36: error: use of undeclared identifier 'PGP_PKT_PUBLIC_KEY'
-     107 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY);
-         |                                           ^
-   crypto/asymmetric_keys/pgp_preload.c:108:25: error: incompatible function pointer types assigning to 'int (*)(struct pgp_parse_context *, enum pgp_packet_tag, u8, const u8 *, size_t)' (aka 'int (*)(struct pgp_parse_context *, enum pgp_packet_tag, unsigned char, const unsigned char *, unsigned long)') from 'int (struct pgp_parse_context *, enum pgp_packet_tag, u8, const u8 *, size_t)' (aka 'int (struct pgp_parse_context *, enum pgp_packet_tag, unsigned char, const unsigned char *, unsigned long)') [-Wincompatible-function-pointer-types]
-     108 |         ctx.pgp.process_packet = found_pgp_key;
-         |                                ^ ~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_preload.c:101:12: warning: no previous prototype for function 'preload_pgp_keys' [-Wmissing-prototypes]
-     101 | int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
-         |            ^
-   crypto/asymmetric_keys/pgp_preload.c:101:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     101 | int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
-         | ^
-         | static 
-   3 warnings and 5 errors generated.
---
-   In file included from crypto/asymmetric_keys/pgp_public_key.c:19:
-   In file included from include/linux/mpi.h:21:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2193:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from crypto/asymmetric_keys/pgp_public_key.c:20:
->> include/linux/pgplib.h:26:15: warning: declaration of 'enum pgp_packet_tag' will not be visible outside of this function [-Wvisibility]
-      26 |                               enum pgp_packet_tag type,
-         |                                    ^
-   include/linux/pgplib.h:36:23: error: field has incomplete type 'enum pgp_key_version'
-      36 |         enum pgp_key_version version : 8;
-         |                              ^
-   include/linux/pgplib.h:36:7: note: forward declaration of 'enum pgp_key_version'
-      36 |         enum pgp_key_version version : 8;
-         |              ^
-   include/linux/pgplib.h:37:23: error: field has incomplete type 'enum pgp_pubkey_algo'
-      37 |         enum pgp_pubkey_algo pubkey_algo : 8;
-         |                              ^
-   include/linux/pgplib.h:37:7: note: forward declaration of 'enum pgp_pubkey_algo'
-      37 |         enum pgp_pubkey_algo pubkey_algo : 8;
-         |              ^
-   crypto/asymmetric_keys/pgp_public_key.c:63:2: error: call to undeclared function 'kenter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      63 |         kenter("");
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:65:22: error: use of undeclared identifier 'PGP_KEY_VERSION_4'
-      65 |         n = (pgp->version < PGP_KEY_VERSION_4) ? 8 : 6;
-         |                             ^
-   crypto/asymmetric_keys/pgp_public_key.c:67:9: error: call to undeclared function 'mpi_key_length'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      67 |                 ret = mpi_key_length(key_ptr, keylen, nb + i, nn + i);
-         |                       ^
-   crypto/asymmetric_keys/pgp_public_key.c:95:21: error: use of undeclared identifier 'PGP_KEY_VERSION_4'
-      95 |         if (pgp->version < PGP_KEY_VERSION_4) {
-         |                            ^
-   crypto/asymmetric_keys/pgp_public_key.c:115:2: error: call to undeclared function 'kleave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     115 |         kleave(" = %d", ret);
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:134:42: error: use of undeclared identifier 'PGP_KEY_VERSION_4'
-     134 |         tfm = crypto_alloc_shash(pgp->version < PGP_KEY_VERSION_4 ?
-         |                                                 ^
-   crypto/asymmetric_keys/pgp_public_key.c:191:2: error: call to undeclared function 'kleave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     191 |         kleave(" = %d", ret);
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:199:12: warning: declaration of 'enum pgp_packet_tag' will not be visible outside of this function [-Wvisibility]
-     199 |                                   enum pgp_packet_tag type,
-         |                                        ^
-   crypto/asymmetric_keys/pgp_public_key.c:199:27: error: variable has incomplete type 'enum pgp_packet_tag'
-     199 |                                   enum pgp_packet_tag type,
-         |                                                       ^
-   crypto/asymmetric_keys/pgp_public_key.c:199:12: note: forward declaration of 'enum pgp_packet_tag'
-     199 |                                   enum pgp_packet_tag type,
-         |                                        ^
-   crypto/asymmetric_keys/pgp_public_key.c:211:2: error: call to undeclared function 'kenter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     211 |         kenter(",%u,%u,,%zu", type, headerlen, datalen);
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:213:14: error: use of undeclared identifier 'PGP_PKT_USER_ID'
-     213 |         if (type == PGP_PKT_USER_ID) {
-         |                     ^
-   crypto/asymmetric_keys/pgp_public_key.c:216:3: error: call to undeclared function 'kleave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     216 |                 kleave(" = 0 [user ID]");
+   drivers/soc/qcom/qcom_pd_mapper.c:79:13: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                           ^
+   drivers/soc/qcom/qcom_pd_mapper.c:79:11: error: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_service *' from 'int' [-Wint-conversion]
+      79 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:89:11: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      89 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                  ^
+   drivers/soc/qcom/qcom_pd_mapper.c:89:9: error: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_domain *' from 'int' [-Wint-conversion]
+      89 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:93:4: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      93 |                         kfree(service);
+         |                         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:140:4: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     140 |                         kfree(domain);
+         |                         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:144:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     144 |                 kfree(service);
          |                 ^
-   crypto/asymmetric_keys/pgp_public_key.c:221:3: error: call to undeclared function 'kleave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     221 |                 kleave(" = -ENOKEY [already]");
-         |                 ^
-   crypto/asymmetric_keys/pgp_public_key.c:234:25: error: use of undeclared identifier 'PGP_PUBKEY__LAST'
-     234 |         if (pgp.pubkey_algo >= PGP_PUBKEY__LAST)
-         |                                ^
-   crypto/asymmetric_keys/pgp_public_key.c:236:9: error: use of undeclared identifier 'pgp_to_public_key_algo'
-     236 |         algo = pgp_to_public_key_algo[pgp.pubkey_algo];
+   drivers/soc/qcom/qcom_pd_mapper.c:160:8: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     160 |         rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |               ^
+>> drivers/soc/qcom/qcom_pd_mapper.c:160:6: error: incompatible integer to pointer conversion assigning to 'struct servreg_get_domain_list_resp *' from 'int' [-Wint-conversion]
+     160 |         rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:211:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     211 |         kfree(rsp);
+         |         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:557:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     557 |         kfree(data);
+         |         ^
+   drivers/soc/qcom/qcom_pd_mapper.c:585:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     585 |         data = kzalloc(sizeof(*data), GFP_KERNEL);
          |                ^
-   crypto/asymmetric_keys/pgp_public_key.c:252:2: error: call to undeclared function 'kleave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     252 |         kleave(" = 0 [use]");
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:310:2: error: call to undeclared function 'kenter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     310 |         kenter("");
-         |         ^
-   crypto/asymmetric_keys/pgp_public_key.c:313:36: error: use of undeclared identifier 'PGP_PKT_PUBLIC_KEY'
-     313 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY) |
-         |                                           ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   3 warnings and 20 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+>> drivers/soc/qcom/qcom_pd_mapper.c:585:7: error: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_data *' from 'int' [-Wint-conversion]
+     585 |         data = kzalloc(sizeof(*data), GFP_KERNEL);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pd_mapper.c:594:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     594 |                 kfree(data);
+         |                 ^
+   14 errors generated.
 
 
-vim +26 include/linux/pgplib.h
+vim +160 drivers/soc/qcom/qcom_pd_mapper.c
 
-b78af6579e15dc David Howells 2023-09-12  19  
-b78af6579e15dc David Howells 2023-09-12  20  /*
-b78af6579e15dc David Howells 2023-09-12  21   * PGP library packet parser
-b78af6579e15dc David Howells 2023-09-12  22   */
-b78af6579e15dc David Howells 2023-09-12  23  struct pgp_parse_context {
-b78af6579e15dc David Howells 2023-09-12  24  	u64 types_of_interest;
-b78af6579e15dc David Howells 2023-09-12  25  	int (*process_packet)(struct pgp_parse_context *context,
-b78af6579e15dc David Howells 2023-09-12 @26  			      enum pgp_packet_tag type,
-b78af6579e15dc David Howells 2023-09-12  27  			      u8 headerlen,
-b78af6579e15dc David Howells 2023-09-12  28  			      const u8 *data,
-b78af6579e15dc David Howells 2023-09-12  29  			      size_t datalen);
-b78af6579e15dc David Howells 2023-09-12  30  };
-b78af6579e15dc David Howells 2023-09-12  31  
-
-:::::: The code at line 26 was first introduced by commit
-:::::: b78af6579e15dcdff86504da90af77f3e890270e PGPLIB: Basic packet parser
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: zgzxx <zhangguangzhi3@huawei.com>
+   147	
+   148	static void qcom_pdm_get_domain_list(struct qmi_handle *qmi,
+   149					     struct sockaddr_qrtr *sq,
+   150					     struct qmi_txn *txn,
+   151					     const void *decoded)
+   152	{
+   153		struct qcom_pdm_data *data = container_of(qmi, struct qcom_pdm_data, handle);
+   154		const struct servreg_get_domain_list_req *req = decoded;
+   155		struct servreg_get_domain_list_resp *rsp;
+   156		struct qcom_pdm_service *service;
+   157		u32 offset;
+   158		int ret;
+   159	
+ > 160		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+   161		if (!rsp)
+   162			return;
+   163	
+   164		offset = req->domain_offset_valid ? req->domain_offset : 0;
+   165	
+   166		rsp->resp.result = QMI_RESULT_SUCCESS_V01;
+   167		rsp->resp.error = QMI_ERR_NONE_V01;
+   168	
+   169		rsp->db_rev_count_valid = true;
+   170		rsp->db_rev_count = 1;
+   171	
+   172		rsp->total_domains_valid = true;
+   173		rsp->total_domains = 0;
+   174	
+   175		mutex_lock(&qcom_pdm_mutex);
+   176	
+   177		service = qcom_pdm_find(data, req->service_name);
+   178		if (service) {
+   179			struct qcom_pdm_domain *domain;
+   180	
+   181			rsp->domain_list_valid = true;
+   182			rsp->domain_list_len = 0;
+   183	
+   184			list_for_each_entry(domain, &service->domains, list) {
+   185				u32 i = rsp->total_domains++;
+   186	
+   187				if (i >= offset && i < SERVREG_DOMAIN_LIST_LENGTH) {
+   188					u32 j = rsp->domain_list_len++;
+   189	
+   190					strscpy(rsp->domain_list[j].name, domain->name,
+   191						sizeof(rsp->domain_list[i].name));
+   192					rsp->domain_list[j].instance = domain->instance_id;
+   193	
+   194					pr_debug("PDM: found %s / %d\n", domain->name,
+   195						 domain->instance_id);
+   196				}
+   197			}
+   198		}
+   199	
+   200		pr_debug("PDM: service '%s' offset %d returning %d domains (of %d)\n", req->service_name,
+   201			 req->domain_offset_valid ? req->domain_offset : -1, rsp->domain_list_len, rsp->total_domains);
+   202	
+   203		ret = qmi_send_response(qmi, sq, txn, SERVREG_GET_DOMAIN_LIST_REQ,
+   204					SERVREG_GET_DOMAIN_LIST_RESP_MAX_LEN,
+   205					servreg_get_domain_list_resp_ei, rsp);
+   206		if (ret)
+   207			pr_err("Error sending servreg response: %d\n", ret);
+   208	
+   209		mutex_unlock(&qcom_pdm_mutex);
+   210	
+   211		kfree(rsp);
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
