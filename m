@@ -1,219 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27BA7494;
-	Mon,  8 Jul 2024 20:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720469511; cv=fail; b=IjZDgDzZ0MFEfPYJr0U2acT+Jk74GsKkvECxDN6Yw5M7SqYvuYSwcFiBB859vFryWz5E11T3IFzZkgyX/Z+A6zKrUpPqGO9uJJkReyyxOu7LdJNEBf/OpsYZegDaCm4UffzTegAHoa2AxpAeH8F56MhtHhfDp6vMiPUo1boyZ0M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720469511; c=relaxed/simple;
-	bh=ZgHh6WixyHaMF4J4VUW+cV9lon7qBFntd6+f1Q5/yl8=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RAHeWgy7ZLT0F6ZNDKWLAXTLt9FrNfGfsKBJReXHNiA9RzAd2d5Yf/PhyVkbCwbqVLClHUJ99Ww4kyfEeQCm9GQMyOCuc5FOnj065YHcFAD3tV7ql1TBVLpNdee5T3wg3Siu5zhAWAJtPloup5NVyQcqCJrwHHzkVoRPN4xBRcw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYNkxYn0; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0153F383A1;
+	Mon,  8 Jul 2024 20:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720469790; cv=none; b=axJjXuO8RLK1R6RovPxQTsz8E1MVSW/p1AwYsZm34UparU2yenz7MsXLhw1ePLsuQIwxPXTiDD+xXlV0dyZe82v8R3fZrzKks3CV8LS/xrAk/oSRU9bs+x7LvCj/WyTkZqMYva7uqwZnVfxVRVAMZDqtmDTdnMf9/VmmRz9hUNE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720469790; c=relaxed/simple;
+	bh=D7MSzBtksyzEzHld1Uj/aeTSTmrwtYg9MMVPgVBiHTs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nENq2qxTU4YXjFOLFLFCiCf1Txehs1NLKLJxh0Y9neZ1K9qoHGhx0C7cK+JuqxSaHgdBs8fmKSXWEGX9rsu0IP/2Wzunrmne8meUgPzaGPDjwZcsMI0qR6/Rg0GJANT3jjTKCVu6VBPCxI8CzWMSozsZ+ockiWBheeppl2CkeBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpUAQeAy; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYNkxYn0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpUAQeAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720469509; x=1752005509;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZgHh6WixyHaMF4J4VUW+cV9lon7qBFntd6+f1Q5/yl8=;
-  b=FYNkxYn0UZ6XVZeOSGba1UbJbb5qZ1bUocrPa/wFepUIAwW2+hbYeEKs
-   G1MfYGBF0/4o21xmnraNGSqQ2GL0KuNU2VLfnDV/agD+CEFuMs23WkHAu
-   QwDXExmgmKMz2ypyg+rxAogCU7JUvWDG0+pgJ+EEpdwOqOBP9VYi5OCxz
-   VSxszewDVyA+/waavUaVxCjuO+QcGbQsfDTi4tcWdYE9+C/qqHD7b+QaR
-   6D5gzlyPFSglWdFsV8tJBUjWyZjEjINiX18xp1Q0GZsdv2Eak6WXHpmRO
-   +N8/N5b3+n9GWagUtqqi8VMLYZpabe3bwZfXpougzcYv1oNEJf5tQv/yL
-   A==;
-X-CSE-ConnectionGUID: PkoueijcRu+4H3e+CgkQ1A==
-X-CSE-MsgGUID: pKfsQZdaQdqT2pv5gOUG4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="28299399"
+  t=1720469790; x=1752005790;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D7MSzBtksyzEzHld1Uj/aeTSTmrwtYg9MMVPgVBiHTs=;
+  b=OpUAQeAy/Ulu2zQHrZorCMAn9KXxJsGlJD/xNjs6elXqJKQYHRGgjK9Q
+   vSzQ6TDsbcUDOsqgm3I7mgLJ8JL8JRkINJ1KveIbLZPVgrL6ZdcWLPmvE
+   aW/K2WyMWFc4ff0YM6wqUGDfevRNaSDhIx78uCTNs5LsF4/JSwFVnzdhl
+   cQ8kLdzGz8S0C+/CjbLIGGoLgL7PhVzZD8tE56XwLr48xJmax1IU1adwM
+   rOkz1BJgnufZbklmMiSWFCBZmJqzi5qhUJVH6h1jQLnvHKWJGHOON+If4
+   qAGd1Sb5/mf/mdQga7MSO2J5rpvgzUF22HM7833+c4NrN+XX2BHLtcoAP
+   Q==;
+X-CSE-ConnectionGUID: mej8f+rCTme8gD/lLoBRrA==
+X-CSE-MsgGUID: 6aqh+UvmSTu2e3dz5k/CDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17797121"
 X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
-   d="scan'208";a="28299399"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 13:11:48 -0700
-X-CSE-ConnectionGUID: HnUnKwarQ/urKDufReu3xg==
-X-CSE-MsgGUID: IEQGrPnPS1+b4bTU7HXe5g==
+   d="scan'208";a="17797121"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 13:16:29 -0700
+X-CSE-ConnectionGUID: Yv3M7AEoRxCJJp/0/J2LHA==
+X-CSE-MsgGUID: 8PrfitQTTDqhYzEC6Xrsgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
-   d="scan'208";a="78761801"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jul 2024 13:11:48 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 8 Jul 2024 13:11:47 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IOcbwu4ZjehXMcOAKiipEmXdgsxz1MSTmdhS/1yE+DngkJ/JunPHzo5IQICZaFfUEuuJmJvYrZWd34Jej1c59sDpWCp3Fw7xBZj0EFD3ZStmAyBN86IXwI7q01jxUkhqq2pd+AuzuqQUWx9+SWkr60NSleUpm2egGCE69UifNQfUrtVF+Ve2Qp0gJ+i/gn+RgyUfcqGSeay69YmlX/ZZeMuEuVdeb56KNdESe4CGA/2Njzz2suBRvJf585IAeYhdlpVmoRTii/JChak+Ft3kYNIq3yPjnVCpFWFg9xlDvDsaLdxzrwIwzuzq5kgPaBzqIHan0IZYtJHq4g2bRxVfEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7Ebz0ESrlh6oZCAoDQZOc4UVued7bX8jUoSNqNYs44I=;
- b=RSWQfWDJPZ/gVLYWHjbCPPa96tILsryZd4RwrqT/ADYei7lIHS9tiRzG0WjBvgjPrG11VVCJHkbetrvCOZ5SA4e2Q6B5+bi8cQPamWAIg456MMYe0tMxJwSj0lH4ZDkg/6k47IQSScz4boWOPhTjE0omhlZ8uYqwf+qTFRjB0ODlSKXN85R/Gey92Qkg/XlfaE+7R3oKVt+WsmgkCLCM/osn6xcOVPX4sEVVd0i0FyKz6sV8B7lOzcMsJK/kU0LtooR4recGZsJ70hVQg6BRRwnioPraCConKVBRP+xwYniAVhmVB1YVo2ojcaMmgeNdl2+6S8Rg8lGHSQx7H8mEEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL3PR11MB6435.namprd11.prod.outlook.com (2603:10b6:208:3bb::9)
- by BY1PR11MB8054.namprd11.prod.outlook.com (2603:10b6:a03:52f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Mon, 8 Jul
- 2024 20:11:44 +0000
-Received: from BL3PR11MB6435.namprd11.prod.outlook.com
- ([fe80::23a7:1661:19d4:c1ab]) by BL3PR11MB6435.namprd11.prod.outlook.com
- ([fe80::23a7:1661:19d4:c1ab%4]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
- 20:11:44 +0000
-Message-ID: <adf76cbf-49df-c43c-ffcc-458f9afef48a@intel.com>
-Date: Mon, 8 Jul 2024 13:11:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-wired-lan] [tnguy-next-queue:dev-queue 12/92]
- drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875
- ice_vc_fdir_parse_raw() warn: missing error code 'status'
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-	Junfeng Guo <junfeng.guo@intel.com>
-CC: Ahmed Zaki <ahmed.zaki@intel.com>, Marcin Szycik
-	<marcin.szycik@linux.intel.com>, <oe-kbuild-all@lists.linux.dev>, "Intel
- Wired LAN" <intel-wired-lan@lists.osuosl.org>
-References: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
-Content-Language: en-US
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-In-Reply-To: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0041.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::16) To BL3PR11MB6435.namprd11.prod.outlook.com
- (2603:10b6:208:3bb::9)
+   d="scan'208";a="47701192"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2024 13:16:26 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sQume-000W0U-0I;
+	Mon, 08 Jul 2024 20:16:24 +0000
+Date: Tue, 9 Jul 2024 04:16:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:kvm-arm64-fix-pkvm-sve-vl 5/5]
+ arch/arm64/kvm/reset.c:55:29: error: call to undeclared function
+ 'sve_max_cpu_vl'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202407090403.VAerDWzY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL3PR11MB6435:EE_|BY1PR11MB8054:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d81b129-97ed-497c-0ccb-08dc9f8a3046
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?amN5THVhVGliYnllVUlGZFd5R2RKNkMySVYwV0V3WHR2TnRDWDNuRTFoZFZM?=
- =?utf-8?B?NHhjWWpqaUg5bGZBKzJ2MTk0OVQ5ZkVOK3BvV1J0cXVlMGlMbXJaSmQ2ckFY?=
- =?utf-8?B?YlN5OWdVclB3QkVrQVRHY2R5d3dWelNCZWlad0ptSS8rNDlZV3B3QU12Z1R6?=
- =?utf-8?B?L28yTDN4Q2srSTEyeFZwUTBiNVBnQ1pIOW1Jb3lDMEIvWmU2dGtNd2d2MFhZ?=
- =?utf-8?B?dDVvZjFUYlZWbWRsL0dCanhYaE0xc1Znek81N1hud0NRcXRQVWpmQk80ZlJD?=
- =?utf-8?B?K1NYZDludGdKRjBKMm83aWVxMmNBQmdibXJySktWLzZrMk00MzZ6bndYVFFV?=
- =?utf-8?B?UGo1dU1JQ0FpTEJVWmFxcWtveHErZHV3eWJsRGtiK0IyWXFZMjZhOXp4MFhz?=
- =?utf-8?B?aFVHMU42cW1rTldXSGduVVcrK0xoL3hibG1lU1c2dG51Y2dYdU13ZGRCOHN2?=
- =?utf-8?B?ajg0YkNudmNKcEhnNFhIWWZUUEtsV0NjMlVscW5acVR2SHVGN2FxZ21ud0s0?=
- =?utf-8?B?RWxXdXJyQVhkS0xBajBPcXY1dFVLbVBZZTZkSFZob2pMbC9qM0xQVWRGSE9m?=
- =?utf-8?B?VXk4UnJuK1B5VHJ5UHJCMWdqZ3F1eXU5cUsrK1hGN3FqT3FCNTJWeVFpMmpy?=
- =?utf-8?B?Qmd6NkNHbUlPQXRRMFk5WEpLNmtWWnBMVzFvMTdPcHRuN2NQWDE4Q0F0Tlhi?=
- =?utf-8?B?SkFxa2VnaG9tVHAyL3VMSzRQdjhWWnlibjE5bkEvSG9xYUkvZDUvWTB4S3F1?=
- =?utf-8?B?K0lVRGhSTTREWGVhTE94QWhaOWIzU1FzSFFtMnl5V2twQ0xjYlBscWYzTEI1?=
- =?utf-8?B?SHZSVndBOW9abVlOUDhWMWVBc3h2bmwzMnVEazd3Y081QjZCSlR1OU1KUTFt?=
- =?utf-8?B?UTl1QnVJRFJvTmhwYWhqYWlIVWNmcTZOcEU0UnI1N2hzbnZBbDBUL05oakkz?=
- =?utf-8?B?RTlubzR6ZzlZWXBRQ1FPeGxYSHZNdjJlaXJWMjA4b09MNFVwYzNBaTJoZkl0?=
- =?utf-8?B?djhHL0k3bURUeEtCdmhHTDNjN0szaG5pNUc4U1RDUlFpTk5GQ3k3THprYjJ3?=
- =?utf-8?B?WXhxM3lJWlRNSnlrblQ2Rm9OREJoaGdQRUxING9JNFNkQmpESmpXZnhEUDh1?=
- =?utf-8?B?d01hdlBwMEttQXM2Q25rQXpYRlUwMmFlRXpWNjdrd2YzZnJmWHFnWFFxeTAr?=
- =?utf-8?B?K2lvbTJ5TjEzaDQ0bDJNYnVTdHlkL0tQZU9uV3JLUlVobzFwMFZLbHcxZ0E4?=
- =?utf-8?B?R3hkS25CSHRwaUVpUUdESzU4eHptcEpoNnB3cXdNZ2h0U01iUGVhYTlEamZt?=
- =?utf-8?B?S1haS0RnVlUrSi91Z1h6M3N5b0Q1TllUMzdVQlMzOHZwWjRRclVxbzJiNlZO?=
- =?utf-8?B?aENra2FZMURWRzl4b0R0UHhqT1BjSjVYMGJSTHpYRzhuLzJGWS9obUlVSGtm?=
- =?utf-8?B?c1lTRms1WDJzTnZjYURBTjUvOUJ2SDlFdTZVQ0luTzdDaDA2dGVPai9vV2xF?=
- =?utf-8?B?SW95S003TzBBb2NzU2d6ZThyMWtONTZ0dDlYamVkbFd1UEM4MWZoNDNnbWJI?=
- =?utf-8?B?WVU4b0tVODlNajZBSVJ3N2J6dS9FZmJHZForUGcxZkFvdlY3MXM4VXNYcTMr?=
- =?utf-8?B?aHZEYnc1cUlrR2JjOWx1bkFRMDZGKzdvb09nV1NyMnBCcXFYeUU0NFlpRDdP?=
- =?utf-8?B?cUYwMjY2UG1WZnRtMkRTVXRJeU8reGRCNWFOOW9GM0pqZWJTRWp0Yk52cG9w?=
- =?utf-8?Q?J3Ef9leT94CKQm3/YQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR11MB6435.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vkh4OTh4M3JVaFRoVitHeU8vMzlsekxrajN4ZDVYTXY3bmt1WkZBSUdtQVBX?=
- =?utf-8?B?bHg1bzRRUEt3aXU5SWxON0g3RWxjc3UzUTdvRUZaU3pXb1ZscWVUbWJsY3Ri?=
- =?utf-8?B?MzRXQjUyR1NrVVBjbkFJenRmMkY5elpTajZuK1pobEg4bVVlN3Y3eEhvTXNs?=
- =?utf-8?B?OE1HdVdTSmZzYzFlaFFnYW5MWjFJY3pLZFgyTGFhZVVNRmI5VlM3NXNHeERs?=
- =?utf-8?B?ZHp4NGF4ajEwRHk2SmorVkVlSGs0eVFWWlZkcGdvTGpNNmVhRFdhMEI2dHMr?=
- =?utf-8?B?TUkvZUFvV3FvUEZvRWtmWm5SbmU3NjZVWFEwbmN5UTJ5WTkvYm5MZ2Q0MVJp?=
- =?utf-8?B?V25jN0hYeVhEeCtZcmRTNzNYbnZKUCtMUGRpNHRhODFqWXoyR0pUeHVvL0ZF?=
- =?utf-8?B?enI1RGJSdE8vQjVrWitJdi85UTlDK0NySTBvTnRMTEszVnRlUDIrZFRzYUJq?=
- =?utf-8?B?YVQ0TUdjMCs3L1ZwUlFxczZSTWhWeG9BbjdJeldKWm91bWxuUVFEbHc5ZEt1?=
- =?utf-8?B?c2xVOWlHdEFYeWxUZmQ0M2NPdFN1cFVlV255RXp2azhxNk9CL3pBWTh1Z2pa?=
- =?utf-8?B?NVlEaHdFUFp4ZGh3RnhKc292T1l2TFA1YmtDdTlILzYrUmtNMmU2czRYNHdW?=
- =?utf-8?B?RVhpMjRIMlJybVprUnBHSTh0MW1qclNXc1lGeE1ZbEdZbFc5UFN1VkEwbFkv?=
- =?utf-8?B?eEZZZmNIR0xZaGdYR3ZoT1drb3JLYXVUTm5aOWMrRmV5NkY5RE9sQUhFVE5R?=
- =?utf-8?B?R0tnMTFMWVk5ZVVlSWhHVjMxaHY5YWVsTFh3VFA3cFg1dTlnSFNNTzFCM0J1?=
- =?utf-8?B?bVFvckFKVEpFUXAzanRpdFlJMzdpcEtTYWl2NzhDYkphRlc4aVM2U2Y5Y0Q4?=
- =?utf-8?B?RmNXMXVPVHNRa1k2YTRwYjc0OXg4bkxQemt4S2FISVV2ZHJ1eFQyZjhwRXVs?=
- =?utf-8?B?NmlPc1NWWkFFYW9MMGtiV3F6Z1NtUjZqYnEyLzgxYi9VcFMrd2JHSTk4d3pO?=
- =?utf-8?B?R25rWkF5NTV5NWZjQTRlS04xQ0hWTUtudkQ2YjFhallLU3ZmVEhiZzhteis3?=
- =?utf-8?B?S1NmT01QbU53U094M3ZJR0N6OWtNT2lUT0ljYTUyZFEra3dodnBqZDkyVURC?=
- =?utf-8?B?ZlBHb1YzbnZCNDFrd0E5YUk5UU1IQ094R1gvM1J2WThYM3BvcjRhY1drUHFG?=
- =?utf-8?B?aE5hOER1bWo4TXZ0STFZak9rRmlqYUUxU0hnbmF3SW1qOWZ3T2s5QWI3d1F0?=
- =?utf-8?B?VDVCTFduVXpvRWRHWnlGdUU1Q0tlSVlJV2xLU3dSckp4Q0pNK0JEaXFlTm1T?=
- =?utf-8?B?VFlUSTk2V0x4NWxpZGtodzE3Z0RNY2p2cHdxaFNIOHlZSUNUazlJdWIxOUJm?=
- =?utf-8?B?azN4cmlzUnVMZHIyN2x3T2FTSURPU1EycEsvcjVNZG5PMkZQclY5eHdocVlY?=
- =?utf-8?B?dExzd2pSY0kyb0d6UXdDQTJaQ0ZzQWw0NmgxVC9qbnFFajhVbDRhN20wMkEw?=
- =?utf-8?B?eXE4WmgxekE4NGFqYlZ4eS9xTzBTeHZnNkhjbzJpbS8wSVlBVkpubGdMSy9P?=
- =?utf-8?B?WTM0Y1pOSlcxelBodUJ2YWJIMXBWb1gyMGNUMXBIZXYvbUJqTi9PaHN3ME45?=
- =?utf-8?B?UEFoNzBadytJZlp0Z21LS3VGZndKdGQ3TExFdjNxK093dTJLeW9RL3h2OTRa?=
- =?utf-8?B?b0pqT08rVit4ZW12WllWeFBXbS9tcHZNQlBteWJ3em1VZlJhendOelRHVDlZ?=
- =?utf-8?B?UGdlVlF5NjkydVIwQUZLQ201Nm5xSXE0NmllRDYyNW5xcC8yVzJ6Ynl6Vkdh?=
- =?utf-8?B?Wk94TzBSa2prclYyOXk3dy9SY00vb3UzOWF2UlpHeUt4TUg3TGMydXdrNUhI?=
- =?utf-8?B?UFcwTXJlUzZCd0JYTU9udG41MTNWczRQaVdLSUlyVzRrM3Uyd3FBcTRpTE8w?=
- =?utf-8?B?SlEzRnFtOEVnUjZsTDhqSmFiM0RDUi9kMHMzNlBHS0pLYUpaQ3JmbXdualhJ?=
- =?utf-8?B?Q3BmeWxUOTljNEkxTzUyZ1lKR1RERzZEaTBiaDJZQVBSdEhuVUdNWTRlWGJL?=
- =?utf-8?B?YWdDdDdqUU5GeHJKZkRub21XaC8zRGlXM2RYVXNmS29tYmE4MW1GMGc3Q3Q5?=
- =?utf-8?B?WUErN2tqK1dzY0sxQWdGaDV3dWZuM3NLeVRIWWtaVUJYNUZLTTVObFZWVGxt?=
- =?utf-8?B?TlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d81b129-97ed-497c-0ccb-08dc9f8a3046
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6435.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 20:11:44.5703
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EuOO6wDOItyUI3RdddZLKSWPv2wDvd+z6Hew7mgzddr+zVhH8oy4J21m2vjh7lCEaZFxctyuAXjUkq1zprvPsjWsLD8NtdBs5WdgIpq78Aw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8054
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Mark,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-fix-pkvm-sve-vl
+head:   f56ea0fbdcb8321483246b871bea3dc6abdca327
+commit: f56ea0fbdcb8321483246b871bea3dc6abdca327 [5/5] KVM: arm64: Avoid underallocating storage for host SVE state
+config: arm64-randconfig-004-20240709 (https://download.01.org/0day-ci/archive/20240709/202407090403.VAerDWzY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090403.VAerDWzY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407090403.VAerDWzY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm64/kvm/reset.c:13:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/reset.c:55:29: error: call to undeclared function 'sve_max_cpu_vl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      55 |                 kvm_host_sve_max_cpu_vl = sve_max_cpu_vl();
+         |                                           ^
+   arch/arm64/kvm/reset.c:55:29: note: did you mean 'sve_max_vl'?
+   arch/arm64/include/asm/fpsimd.h:339:19: note: 'sve_max_vl' declared here
+     339 | static inline int sve_max_vl(void)
+         |                   ^
+   5 warnings and 1 error generated.
 
 
+vim +/sve_max_cpu_vl +55 arch/arm64/kvm/reset.c
 
-On 7/8/2024 8:44 AM, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-> head:   d051d5283b530af3f9627c8e600aa581bc6c1958
-> commit: 23eb6f4d18624231cd3f57f322814591f38b3837 [12/92] ice: enable FDIR filters from raw binary patterns for VFs
-> config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240707/202407070634.aTz9Naa1-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202407070634.aTz9Naa1-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875 ice_vc_fdir_parse_raw() warn: missing error code 'status'
+    50	
+    51	int __init kvm_arm_init_sve(void)
+    52	{
+    53		if (system_supports_sve()) {
+    54			kvm_sve_max_vl = sve_max_virtualisable_vl();
+  > 55			kvm_host_sve_max_cpu_vl = sve_max_cpu_vl();
+    56			kvm_nvhe_sym(kvm_host_sve_max_cpu_vl) = kvm_host_sve_max_cpu_vl;
+    57	
+    58			/*
+    59			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
+    60			 * to be extended with multiple register slice support in
+    61			 * order to support vector lengths greater than
+    62			 * VL_ARCH_MAX:
+    63			 */
+    64			if (WARN_ON(kvm_sve_max_vl > VL_ARCH_MAX))
+    65				kvm_sve_max_vl = VL_ARCH_MAX;
+    66	
+    67			/*
+    68			 * Don't even try to make use of vector lengths that
+    69			 * aren't available on all CPUs, for now:
+    70			 */
+    71			if (kvm_sve_max_vl < sve_max_vl())
+    72				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
+    73					kvm_sve_max_vl);
+    74		}
+    75	
+    76		return 0;
+    77	}
+    78	
 
-Thanks for the report Dan. I spoke with Ahmed and he will get this fix 
-into his next version.
-
-Thanks,
-Tony
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
