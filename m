@@ -1,70 +1,60 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC706143C47
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 15:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7148148310
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 16:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720454119; cv=none; b=cQsjNeWTUv/v1JzSlFErTD7r+hjt8Fdvgxn8Gx1DEvxKhW1eSgkYr3ZEAFnHucvr66nQeYyAkh9+qfW7rBHrJBcowkGttLAfYbcIcfxUtL/lhCSKDQBwNrwldNffU8XnmMnjFynEdRu3mSmry4P0a/U6Ayndieapt5wQ6Mlzr5o=
+	t=1720455335; cv=none; b=UpkXKVNvC/9dT62Ud2Se3TpPz3tsQNCDerfku9w5LN/jpBI9XMWbxsu4uTPoNlJISyTf3vFqpyAbMwgA5E0XJeDPSHVNft/yK+l1HE8mt4ssSnXbgKXonIUmcT7h1Ujkw+BQqVhKnASuDIwIan29flwLhVa/bOgkbKAuAgd7A6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720454119; c=relaxed/simple;
-	bh=cvBWKng3YeJPwbCLrAjHXr8nxo5lDxnqr7GqSHo/A44=;
+	s=arc-20240116; t=1720455335; c=relaxed/simple;
+	bh=eCGKMvZqCTQCOn9cLvnDPiuvvwedDhAW1b8sQ9cVxVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IQFjEtGt6+Tqft7ZOJNAOM5K8YOdf3b0bCy23Qkro7MORUWpoujeY7/NhwMJudrkwAFpzxMCTpByqcczZ3WkaSlvCq6G/jDlfZ/PA07hNOIzt50VABTwvOKeDUn2UXieqa0+kRN+kGJSLfljzgjOEbhwDgkng4CJm1pD4b7qHk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l3MdqgeN; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SvYxxVIL40yhzNI9h8sgISHvn15bXB+Bs+3Bc3mtsVWmhU21WpDbC/2tYJS6NkqPR5hVe/GuC+d/fo0arAa2sYU0NB0nFhOue7My/kAcJDJxj0jpncuyN2dN/mI9CqHX5KvxDYoOGv4M4Y/CNi885qoY1Xmpnzr5zMiz8pRGn74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnVBUFWw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l3MdqgeN"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-25e150603a6so2088566fac.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jul 2024 08:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720454116; x=1721058916; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJuaMngDvL/ozTXoGo0oV92KGi7PV5ovmEPBZpZiQRY=;
-        b=l3MdqgeNZCUehWZeHVcxTPlRaO65fJwARBaZvQT09mgICqza5FHgkUGb+f2+gDrvnB
-         6Aypgwy8Yn+T8hZfInbl7lR9blKXpbE+tfChVuy5ZdUqfBPCaQUlV8LnGGsc3f/zW/1z
-         1l/sfMm3qz3PaRhUusg5jjD3hT2yo61lLOY8VVfFgoGq7bnH8t39VlYE30sjcBkRVHFJ
-         3jpOWDOUraCkUMgMncenKONULNstypr88uCeDL/nUViy4OIrK0GJSU+T8iNV1yotmAgh
-         kMqg2SOSRQW7r6GJgR4rjhLFzykPbX8bPEN3ArrtXFvVrP9FE7MFVNRltaD1/zIGJsjo
-         Tn6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720454116; x=1721058916;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BJuaMngDvL/ozTXoGo0oV92KGi7PV5ovmEPBZpZiQRY=;
-        b=EKiafJjkmqvMeNgSSAvEpXX6u/Wqzrzh9RKoDoU7FLQyhKFAqPwpajKqtm6Ylvyf8D
-         q9v7CokmwHM88O3bu6/58+7D6Dyj0fYx82sEUSoEdU28/9FieCK7hesrZhVI+7St+Mz5
-         2T5vgkB10gCqR9U0Ryk7fhw5VAIaNImjrAIUEmQUSqqKEhvwPBA4O3vBl1plC2Y9ob2U
-         G4Pgq8N3IV8bUgmaI1I3WIIToeiaca3ylxJ3IKQvEXqwO6K18+fJnSlNn4FX93jmakQV
-         HVy1i0nNcPgL8ZCuClXBcI0WsGor1ePkOTuLdbBd+q/kRkxWF5Ol4SoGUCqBozcJo9m9
-         cMLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCmFZF1j6bW0rM8YcKqj2g84dFBL7dwzepBvcDq45jwxozG2mNpBy2/dF55KI/TydCoV6dowm7MCHl6eyMcUZRs3+um1H/L/s9xj8Xnw==
-X-Gm-Message-State: AOJu0Yy+nfn99oY3jGQyYFxbfwmVUbp0OH+dd36TRL4AexpkFo2PdGdT
-	Uu3NbmyvhcFAoQAOr5f+Jjut7WvYmPTo0xaEMtSYm+kx4MLjGok777p6I7OAiXI=
-X-Google-Smtp-Source: AGHT+IG6B3+NMl1Hiaxxb/+k2s6LmYwoH7OVJEFQUH5dePCXbN3KkTq+YCAQZ0+N/4FRlQumpJ6Ocw==
-X-Received: by 2002:a05:6870:b50b:b0:25d:fab0:b6f3 with SMTP id 586e51a60fabf-25e2bf6358fmr9556896fac.59.1720454115970;
-        Mon, 08 Jul 2024 08:55:15 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:6fc:b7f5:4853:aff3])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25ea9feb5a5sm45381fac.19.2024.07.08.08.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 08:55:15 -0700 (PDT)
-Date: Mon, 8 Jul 2024 17:55:13 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, yskelg@gmail.com,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, shjy180909@gmail.com,
-	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yunseong Kim <yskelg@gmail.com>
-Subject: Re: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-Message-ID: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnVBUFWw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720455333; x=1751991333;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eCGKMvZqCTQCOn9cLvnDPiuvvwedDhAW1b8sQ9cVxVA=;
+  b=FnVBUFWwv2VKsJXUAk5Yp931bd3HXEQmhsNcZ1oYyfblu1miJkUJjWHV
+   +uaDcozgSs8J8Jui6mOY7OLziGLkR+3L61BwSIAzzZ3FS4vZt+dmzRBWf
+   61SJ+0sm458BZ3tDk3edMgHg18LtKN4d5mV0SfvyF+a+W4h792BUCTqMU
+   tu1sxrE26W3WN6tmqRYyV31XR9eBYToiv0JlmPCHrEi+KKC/WWeg8Q5u1
+   Ll/usxLKJWayvIdBXxZaB9O5Bq/BidScGBVUJ56/s4VE/lIxMjbD1cMS/
+   dVSqhHpq0dSYB45XNk+vVjTsnT9hNAXM0xTgdNBeBvXtgYjHS5sMbjZZy
+   w==;
+X-CSE-ConnectionGUID: nyqg9EGpSNeeFriEz1SCvQ==
+X-CSE-MsgGUID: qhDVydu9TDia03Fhs48YDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="20568603"
+X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
+   d="scan'208";a="20568603"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 09:15:32 -0700
+X-CSE-ConnectionGUID: vnTcu+tVRcW6VGvX+GnlKw==
+X-CSE-MsgGUID: vDE/iBuRQzuv1YCn0/YrwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
+   d="scan'208";a="47631485"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2024 09:15:31 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sQr1U-000VrO-39;
+	Mon, 08 Jul 2024 16:15:28 +0000
+Date: Tue, 9 Jul 2024 00:15:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 10192/10451] WARNING: modpost: vmlinux: section
+ mismatch in reference: mgmt_index_removed+0x24 (section: .text) -> .LBB3864
+ (section: .init.text)
+Message-ID: <202407090029.a72M25wz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,89 +63,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240623120147.35554-3-yskelg@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/yskelg-gmail-com/s390-zcrypt-optimize-memory-allocation-in-online_show/20240626-071004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20240623120147.35554-3-yskelg%40gmail.com
-patch subject: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-config: s390-randconfig-r081-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071714.4AUEoeUD-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b58e108042b0ed28a71cd7edf5175999955b233
+commit: d009853d746532353e0d1517c75289bb7dbf0450 [10192/10451] Merge branch 'gpio/for-current' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+config: riscv-randconfig-r033-20230517 (https://download.01.org/0day-ci/archive/20240709/202407090029.a72M25wz-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090029.a72M25wz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407071714.4AUEoeUD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407090029.a72M25wz-lkp@intel.com/
 
-smatch warnings:
-drivers/s390/crypto/zcrypt_card.c:103 online_store() warn: iterator used outside loop: 'zq'
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/zq +103 drivers/s390/crypto/zcrypt_card.c
-
-ac2b96f351d7d2 Harald Freudenberger 2018-08-17   60  static ssize_t online_store(struct device *dev,
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   61  			    struct device_attribute *attr,
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   62  			    const char *buf, size_t count)
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   63  {
-b5adbbf896d837 Julian Wiedmann      2021-06-07   64  	struct zcrypt_card *zc = dev_get_drvdata(dev);
-4f2fcccdb547b0 Harald Freudenberger 2020-07-02   65  	struct ap_card *ac = to_ap_card(dev);
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   66  	struct zcrypt_queue *zq;
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   67  	int online, id, i = 0, maxzqs = 0;
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   68  	struct zcrypt_queue **zq_uelist = NULL;
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   69  
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   70  	if (sscanf(buf, "%d\n", &online) != 1 || online < 0 || online > 1)
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   71  		return -EINVAL;
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   72  
-cfaef6516e9ac6 Ingo Franzki         2023-10-26   73  	if (online && (!ac->config || ac->chkstop))
-4f2fcccdb547b0 Harald Freudenberger 2020-07-02   74  		return -ENODEV;
-4f2fcccdb547b0 Harald Freudenberger 2020-07-02   75  
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   76  	zc->online = online;
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   77  	id = zc->card->id;
-cccd85bfb7bf67 Harald Freudenberger 2016-11-24   78  
-3f74eb5f78198a Harald Freudenberger 2021-10-15   79  	ZCRYPT_DBF_INFO("%s card=%02x online=%d\n", __func__, id, online);
-cccd85bfb7bf67 Harald Freudenberger 2016-11-24   80  
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   81  	ap_send_online_uevent(&ac->ap_dev, online);
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   82  
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   83  	spin_lock(&zcrypt_list_lock);
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   84  	/*
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   85  	 * As we are in atomic context here, directly sending uevents
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   86  	 * does not work. So collect the zqueues in a dynamic array
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   87  	 * and process them after zcrypt_list_lock release. As we get/put
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   88  	 * the zqueue objects, we make sure they exist after lock release.
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   89  	 */
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   90  	list_for_each_entry(zq, &zc->zqueues, list)
-2ff6be56a27c2d Yunseong Kim         2024-06-23   91  		if (!!zq->online != !!online)
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   92  			maxzqs++;
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   93  	if (maxzqs > 0)
-2ff6be56a27c2d Yunseong Kim         2024-06-23   94  		zq_uelist = kcalloc(maxzqs, sizeof(*zq_uelist), GFP_ATOMIC);
-e28d2af43614eb Ingo Tuchscherer     2016-08-25   95  	list_for_each_entry(zq, &zc->zqueues, list)
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   96  		if (zcrypt_queue_force_online(zq, online))
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   97  			if (zq_uelist) {
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   98  				zcrypt_queue_get(zq);
-df6f508c68dbc6 Harald Freudenberger 2021-04-13   99  				zq_uelist[i++] = zq;
-df6f508c68dbc6 Harald Freudenberger 2021-04-13  100  			}
-e28d2af43614eb Ingo Tuchscherer     2016-08-25  101  	spin_unlock(&zcrypt_list_lock);
-2ff6be56a27c2d Yunseong Kim         2024-06-23  102  	while (i--) {
-df6f508c68dbc6 Harald Freudenberger 2021-04-13 @103  		ap_send_online_uevent(&zq->queue->ap_dev, online);
-                                                                                       ^^
-zq is an invalid pointer here.  It's an offset off the list head.
-There used to be a "zq = zq_uelist[i];" before this function call but
-the patch deleted it.
-
-2ff6be56a27c2d Yunseong Kim         2024-06-23  104  		zcrypt_queue_put(zq_uelist[i]);
-df6f508c68dbc6 Harald Freudenberger 2021-04-13  105  	}
-df6f508c68dbc6 Harald Freudenberger 2021-04-13  106  	kfree(zq_uelist);
-df6f508c68dbc6 Harald Freudenberger 2021-04-13  107  
-e28d2af43614eb Ingo Tuchscherer     2016-08-25  108  	return count;
-e28d2af43614eb Ingo Tuchscherer     2016-08-25  109  }
+WARNING: modpost: vmlinux: section mismatch in reference: bt_sock_create+0xdc (section: .text) -> .LBB118 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x46 (section: .text) -> kvm_riscv_gstage_vmid_detect (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x4e (section: .text) -> kvm_riscv_gstage_vmid_detect (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x52 (section: .text) -> kvm_riscv_gstage_vmid_detect (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x5c (section: .text) -> kvm_riscv_gstage_vmid_detect (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x86 (section: .text) -> .LBE116 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x8e (section: .text) -> .LBB124 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0xa2 (section: .text) -> .LBE124 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0xa8 (section: .text) -> .LBB125 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0xba (section: .text) -> .LBE125 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0xe0 (section: .text) -> .LBE118 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x11e (section: .text) -> .LBB121 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: bt_accept_dequeue+0x132 (section: .text) -> .LBE121 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_cc_read_rssi+0xaa (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_cc_read_rssi+0xf4 (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0x4 (section: .text) -> proc_execdomains_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0x78 (section: .text) -> mm_cache_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0x7c (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0x80 (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0xd8 (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_phy_update_evt+0xdc (section: .text) -> proc_caches_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_io_capa_request_evt+0x2e6 (section: .text) -> fork_idle (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_io_capa_request_evt+0x2ec (section: .text) -> fork_idle (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_io_capa_request_evt+0x2f8 (section: .text) -> fork_idle (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_io_capa_request_evt+0x336 (section: .text) -> mm_cache_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x2a (section: .text) -> .LBB9166 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x54 (section: .text) -> .LBE9166 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x5a (section: .text) -> .LBE9166 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x82 (section: .text) -> .LBB9168 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x8e (section: .text) -> .LBE9168 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x92 (section: .text) -> .LBB9170 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0xb0 (section: .text) -> .LBE9170 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0xb6 (section: .text) -> .LBE9170 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0xc2 (section: .text) -> .LBE9170 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0xe4 (section: .text) -> .LBB9172 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0xec (section: .text) -> .LBE9172 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x1a4 (section: .text) -> .LBE9168 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_create_big_complete_evt+0x2ae (section: .text) -> .LBB9172 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rpa_expired+0x1e (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: service_cache_off+0x16 (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_device_id+0x20 (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_name_complete+0x28 (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_name_complete+0x4e (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_name_complete+0x92 (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_name_complete+0xac (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: add_uuid_sync+0x14 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_class_sync+0x1e (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_class_sync+0x36 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x16 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x1a (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x24 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x4e (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x66 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x8e (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x9a (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0xc4 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0xdc (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x100 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_init_hdev+0x10c (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_features+0xf2 (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0x30 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0x40 (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0x4c (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0x5e (section: .text) -> kernel_exit_sysctls_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0xaa (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0xc4 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0xcc (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mesh_send+0xee (section: .text) -> kernel_exit_sysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: load_irks+0x1c8 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: load_irks+0x1ce (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: load_irks+0x1d2 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x34 (section: .text) -> __TRACE_SYSTEM_RCU_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x50 (section: .text) -> __TRACE_SYSTEM_HRTIMER_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0xcc (section: .text) -> __TRACE_SYSTEM_SCHED_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x142 (section: .text) -> __TRACE_SYSTEM_TASKLET_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x1b8 (section: .text) -> __TRACE_SYSTEM_IRQ_POLL_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x28a (section: .text) -> __TRACE_SYSTEM_BLOCK_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x294 (section: .text) -> __TRACE_SYSTEM_BLOCK_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x2fa (section: .text) -> __TRACE_SYSTEM_BLOCK_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x30c (section: .text) -> __TRACE_SYSTEM_NET_RX_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x324 (section: .text) -> __TRACE_SYSTEM_NET_TX_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_exp_features_info+0x328 (section: .text) -> __TRACE_SYSTEM_TIMER_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: set_blocked_keys+0x24 (section: .text) -> __TRACE_SYSTEM_HI_SOFTIRQ (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: read_controller_cap+0x50 (section: .text) -> softirq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: get_missing_options+0x38 (section: .text) -> softirq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: set_bondable+0xe8 (section: .text) -> .L0  (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: read_local_oob_ext_data+0x596 (section: .text) -> arch_early_irq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_get_connectable+0x1a (section: .text) -> ioresources_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_advertising_removed+0x3c (section: .text) -> arch_probe_nr_irqs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_new_settings+0x48 (section: .text) -> arch_early_irq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_smp_complete+0x36 (section: .text) -> arch_probe_nr_irqs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_smp_complete+0x3c (section: .text) -> arch_probe_nr_irqs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_phy_configuration_changed+0x4e (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_adv_monitor_removed+0x30 (section: .text) -> softirq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_adv_monitor_removed+0x40 (section: .text) -> spawn_ksoftirqd (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_adv_monitor_removed+0x7e (section: .text) -> softirq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_added+0x1e (section: .text) -> softirq_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_added+0x32 (section: .text) -> arch_probe_nr_irqs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_added+0x82 (section: .text) -> .LBB3862 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_added+0xa2 (section: .text) -> .LBE3862 (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_removed+0x24 (section: .text) -> .LBB3864 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mgmt_index_removed+0x32 (section: .text) -> arch_probe_nr_irqs (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_add_cid+0x6c (section: .text) -> init_fs_exec_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_chan_create+0x6a (section: .text) -> init_fs_exec_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_read_buffer_size_sync+0x3e (section: .text) -> nsproxy_cache_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_read_buffer_size_sync+0x44 (section: .text) -> ksysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: hci_le_read_buffer_size_sync+0xa6 (section: .text) -> ksysfs_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: conn_min_interval_set+0x78 (section: .text) -> sched_core_sysctl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: resolv_list_show+0x36 (section: .text) -> setup_resched_latency_warn_ms (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x22 (section: .text) -> setup_schedstats (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x38 (section: .text) -> init_idle (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x46 (section: .text) -> .LBB14297 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x76 (section: .text) -> .LBB14298 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x7a (section: .text) -> .LBB14298 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_simultaneous_discovery_write+0x82 (section: .text) -> .LBB14298 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_strict_duplicate_filter_write+0x22 (section: .text) -> .LBB14303 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: quirk_strict_duplicate_filter_write+0x38 (section: .text) -> .LBE14303 (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_wait_for_reply_request_def+0x34 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_wait_for_reply_request_def+0x4e (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_wait_for_reply_request_rtt+0x72 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_reserve_xprt+0x58 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_reserve_xprt_cong+0x58 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_connect+0x132 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: xprt_connect+0x1b2 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_rpc_socket_shutdown+0x2e (section: .text) -> init_sched_fair_class (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_rpc_socket_nospace+0x16 (section: .text) -> cpu_idle_poll_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_xprt_connect+0x16 (section: .text) -> cpu_idle_poll_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_xprt_connect+0x28 (section: .text) -> cpu_idle_poll_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_xprt_disconnect_auto+0x28 (section: .text) -> cpu_idle_nopoll_setup (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_xprt_retransmit+0x28 (section: .text) -> sched_rt_sysctl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: __traceiter_xprt_ping+0x16 (section: .text) -> sched_dl_sysctl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: perf_trace_rpc_clnt_clone_err+0x92 (section: .text) -> __setup_str_cpu_idle_nopoll_setup (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: perf_trace_rpc_clnt_clone_err+0xaa (section: .text) -> __setup_str_cpu_idle_poll_setup (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: perf_trace_rpc_task_status+0x2e (section: .text) -> __setup_cpu_idle_nopoll_setup (section: .init.setup)
+WARNING: modpost: vmlinux: section mismatch in reference: perf_trace_rpc_task_status+0x42 (section: .text) -> __setup_cpu_idle_poll_setup (section: .init.setup)
+WARNING: modpost: vmlinux: section mismatch in reference: perf_trace_rpc_task_status+0xb8 (section: .text) -> __setup_cpu_idle_poll_setup (section: .init.setup)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_xdr_buf_class+0x86 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_clnt_class+0x58 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_clnt_clone_err+0x60 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_task_status+0x62 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_task_running+0x7c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_failure+0x60 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_buf_alloc+0x76 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_call_rpcerror+0x70 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_socket_nospace+0x72 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_transmit+0x98 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_writelock_event+0x80 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_cong_event+0x9c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_reserve+0x8c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpcb_setport+0x70 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_pmap_register+0x6e (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xdr_msg_class+0x92 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xdr_buf_class+0xa6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_wake_up+0x54 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_alloc_arg_err+0x5c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_lifetime_class+0x7e (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_xprt_lifetime_class+0xd6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xs_data_ready+0xcc (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xs_stream_read_request+0x110 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_tls_class+0xdc (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_authenticate+0x110 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_rqst_event+0xec (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_rqst_status+0xf6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_replace_page_err+0xfa (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xprt_enqueue+0xb6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xprt_event+0xb6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xprt_accept+0x130 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_deferred_event+0x9c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_request+0xf2 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_reply_event+0x152 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_retransmit+0x126 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xs_socket_event+0xc2 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xs_socket_event_done+0xce (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_process+0x14a (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xprt_dequeue+0xee (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_xprt_create_err+0x106 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpcb_register+0xe2 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xs_stream_read_data+0xdc (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_xprt_ping+0xd4 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_xprt_event+0x102 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_xdr_alignment+0x136 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_xdr_overflow+0x140 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_stats_latency+0x16a (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_clnt_new_err+0xd4 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_clnt_new+0x15c (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_register_class+0xb6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_tcp_recv_short+0xb4 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_class+0xac (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_tcp_state+0xba (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_unregister+0x9e (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpcb_unregister+0x9e (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_accept_class+0xaa (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svcsock_marker+0xce (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_cache_event+0x98 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpcb_getport+0xc6 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_rpc_task_queued+0xf0 (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_event_raw_event_svc_stats_latency+0x17a (section: .text) -> init_fs_namei_sysctls (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: rpcb_getport_async+0xc8 (section: .text) -> fcntl_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: seconds_since_boot+0x58 (section: .text) -> lockdep_proc_init (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: trace_cache_entry_make_negative+0x16 (section: .text) -> init_lockevent_counts (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: gss_unwrap_resp_integ+0x19c (section: .text) -> .LBE6652 (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
