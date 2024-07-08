@@ -1,33 +1,60 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B4A37E761
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 11:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE88956773
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 11:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720438973; cv=none; b=R4JqBSBQxko0sE+UeEOvBPAcbmF2XqIxz2UebmA2mEsz3JTSZAM/a/oGAHDGabRU3H/whrCn6UAZYmjAqUjQ5UzwOlCYzltvhmLl1MRMGyaBWxrIIXyWh5rGq+EkVU0qcSsgdbLcdfEX1qMHSZthYa+nYuv01+WpZv6zeFx1wdM=
+	t=1720439561; cv=none; b=ioGkmmc1ug/p6dEF7l670Rp5Er56ZcqQfegUwvgyNVvHFR5tPaiLP81x6eJn2ZWBI8P1NT/Bqyxpl9nbq/11TvwfVzBYoIfg5xQgkA+qVwhn09ROf8sYzr302H82/b/FDVEiihMC2nZmJ6JfRkfvJXIXs0YXw+GN4gQMeVzZwjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720438973; c=relaxed/simple;
-	bh=4vFXVKuWIHwg/IH+N20SCXgY/5pu/tTatiMroPqVcsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nfcj8lSwuwSfNnuXOEBtTgX2eUfwLZjGr+n7KA6KEveknlYkWhByKr2JDuHFlMhwmgoRMuyxJmlAF1uH2S1vMD+8Cv/uqJRzMAksKl/NgFEYMVGlxh7z1Z7KR8RWLd4K8dwfgzAWpeEaxjZw3jZV6Fa5MtDQvap97Q+W3hi/sjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6ADC01042;
-	Mon,  8 Jul 2024 04:43:15 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25CBA3F641;
-	Mon,  8 Jul 2024 04:42:49 -0700 (PDT)
-Date: Mon, 8 Jul 2024 12:42:43 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: drivers/iommu/io-pgtable-arm.c:330:13: error: void value not
- ignored as it ought to be
-Message-ID: <ZovQs87beTB6iRfs@J2N7QTR9R3>
-References: <202407070708.Bm6Ker3L-lkp@intel.com>
+	s=arc-20240116; t=1720439561; c=relaxed/simple;
+	bh=0b+60Dqr8Zjwy8dIr2QC8XwXad+b+rUtjH26uTJe8AQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JkqCGpQALi5lVxi9/Hs/F6YiWY1DBga2g+kHPuVtmZ28UT6E1ghsj06rLVgz2jidWOY3QtxQ+wAbk166N4mloreSek8tHaBsaS4gaMBP6vdxQAiFu+DP0oewk/u+HXLIeuK350QGfeaaQhsu5CYFOR9/ASLRwB9tSld51G+/RAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaSvSGfY; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaSvSGfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720439558; x=1751975558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0b+60Dqr8Zjwy8dIr2QC8XwXad+b+rUtjH26uTJe8AQ=;
+  b=ZaSvSGfYEAMdmMd9m7kJAZeCraf5u6YOBSEyQ/i/nx1Os0gJ30pNEe2o
+   KRG/ysOaPAS9vEJCgzeyDqqH8ZVRsxYgdSwOWBnjnBfM9uiHxY68ydxpe
+   day3IEm769HY1A7P+OEYAP9FiEI++EIiZDwLUe/qcvVSDc56qk3i3SbC9
+   eQAlT7RxvYMBvQsQIZ6QVy7Fw9JwL1koRhXil2GJLhZtDQr1uKxpTOEcW
+   ly9G/4vQZup+3+ZSslFV458X1P5ngzJ1diPgEgswSvt7fQZ9y/ju92Zct
+   lXHPlEj4vcrwKGob7QyzysiVvizMuQQN/JPMOUTkd2L3ufNjBNQsrSHoJ
+   Q==;
+X-CSE-ConnectionGUID: nhwsWpWZSTa1FTK2oK8mCw==
+X-CSE-MsgGUID: neE0IDBrTVqgS/VWuIBz7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="21504386"
+X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
+   d="scan'208";a="21504386"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 04:52:38 -0700
+X-CSE-ConnectionGUID: wEH/bR27T7GYzz15fqgHhg==
+X-CSE-MsgGUID: WxhVTPsHRTuoTfUTmztynw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
+   d="scan'208";a="47443782"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Jul 2024 04:52:37 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sQmv4-000ViY-2f;
+	Mon, 08 Jul 2024 11:52:34 +0000
+Date: Mon, 8 Jul 2024 19:52:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [axboe-block:for-next 22/23] block/blk-merge.c:220: warning:
+ Function parameter or struct member 'len' not described in
+ 'get_max_segment_size'
+Message-ID: <202407081932.BfTTk7Zm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -36,124 +63,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202407070708.Bm6Ker3L-lkp@intel.com>
 
-On Sun, Jul 07, 2024 at 07:58:28AM +0800, kernel test robot wrote:
-> Hi Mark,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   22f902dfc51eb3602ff9b505ac3980f6ff77b1df
-> commit: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
-> date:   1 year, 1 month ago
-> config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240707/202407070708.Bm6Ker3L-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070708.Bm6Ker3L-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407070708.Bm6Ker3L-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
-> >> drivers/iommu/io-pgtable-arm.c:330:13: error: void value not ignored as it ought to be
->      330 |         old = cmpxchg64_relaxed(ptep, curr, new);
->          |             ^
-> --
->    drivers/iommu/io-pgtable-dart.c: In function 'dart_install_table':
-> >> drivers/iommu/io-pgtable-dart.c:168:13: error: void value not ignored as it ought to be
->      168 |         old = cmpxchg64_relaxed(ptep, curr, new);
->          |             ^
->    drivers/iommu/io-pgtable-dart.c:157:25: warning: variable 'new' set but not used [-Wunused-but-set-variable]
->      157 |         dart_iopte old, new;
->          |                         ^~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+head:   7f8851d381f71952787db6a1a71bef4d286f3df0
+commit: 09595e0c9d654743483197b2f21dd4ec37c90a27 [22/23] block: pass a phys_addr_t to get_max_segment_size
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240708/202407081932.BfTTk7Zm-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407081932.BfTTk7Zm-lkp@intel.com/reproduce)
 
-The warning here is due to an extant bug for which the error message has
-changed, see the example logs below.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407081932.BfTTk7Zm-lkp@intel.com/
 
-The issue here is that the drivers/iommu/io-pgtable-* code wants cmpxchg64(),
-but arch/arc doesn't provide arch_cmpxchg64()  in some configurations. The
-drivers/iommu/Kconfig file tries to detect this based on
-CONFIG_GENERIC_ATOMIC64, but that doesn't actually describe whether cmpxchg64()
-exists, and AFAICT we have no config symbol that does describe that.
+All warnings (new ones prefixed by >>):
 
-Immediately before this patch, we'd still see a build error:
+>> block/blk-merge.c:220: warning: Function parameter or struct member 'len' not described in 'get_max_segment_size'
+>> block/blk-merge.c:220: warning: Excess function parameter 'max_len' description in 'get_max_segment_size'
 
-| [mark@lakrids:~/src/linux]% git describe HEAD  
-| v6.4-rc2-33-g1815da1718aa4
-| [mark@lakrids:~/src/linux]% git clean -qfdx
-| [mark@lakrids:~/src/linux]% usekorg 13.2.0 make ARCH=arc CROSS_COMPILE=arc-linux- -s allmodconfig
-| [mark@lakrids:~/src/linux]% usekorg 13.2.0 make ARCH=arc CROSS_COMPILE=arc-linux- -s drivers/iommu/io-pgtable-arm.o
-| In file included from ./include/linux/atomic.h:80,
-|                  from drivers/iommu/io-pgtable-arm.c:12:
-| drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
-| ./include/linux/atomic/atomic-arch-fallback.h:60:32: error: implicit declaration of function 'arch_cmpxchg64'; did you mean 'arch_cmpxchg'? [-Werror=implicit-function-declaration]
-|    60 | #define arch_cmpxchg64_relaxed arch_cmpxchg64
-|       |                                ^~~~~~~~~~~~~~
-| ./include/linux/atomic/atomic-raw.h:1063:9: note: in expansion of macro 'arch_cmpxchg64_relaxed'
-|  1063 |         arch_cmpxchg64_relaxed(__VA_ARGS__)
-|       |         ^~~~~~~~~~~~~~~~~~~~~~
-| ./include/linux/atomic/atomic-instrumented.h:2029:9: note: in expansion of macro 'raw_cmpxchg64_relaxed'
-|  2029 |         raw_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-|       |         ^~~~~~~~~~~~~~~~~~~~~
-| drivers/iommu/io-pgtable-arm.c:330:15: note: in expansion of macro 'cmpxchg64_relaxed'
-|   330 |         old = cmpxchg64_relaxed(ptep, curr, new);
-|       |               ^~~~~~~~~~~~~~~~~
-| cc1: all warnings being treated as errors
-| make[3]: *** [scripts/Makefile.build:252: drivers/iommu/io-pgtable-arm.o] Error 1
-| make[2]: *** [scripts/Makefile.build:494: drivers/iommu] Error 2
-| make[1]: *** [scripts/Makefile.build:494: drivers] Error 2
-| make: *** [Makefile:2026: .] Error 2
 
-... which is the same as before the series which added this patch:
+vim +220 block/blk-merge.c
 
-| [mark@lakrids:~/src/linux]% git describe HEAD                                                                      
-| v6.4-rc2
-| [mark@lakrids:~/src/linux]% git clean -qfdx  
-| [mark@lakrids:~/src/linux]% usekorg 13.2.0 make ARCH=arc CROSS_COMPILE=arc-linux- -s allmodconfig
-| [mark@lakrids:~/src/linux]% usekorg 13.2.0 make ARCH=arc CROSS_COMPILE=arc-linux- -s drivers/iommu/io-pgtable-arm.o
-| In file included from ./include/linux/atomic.h:80,
-|                  from drivers/iommu/io-pgtable-arm.c:12:
-| drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
-| ./include/linux/atomic/atomic-arch-fallback.h:60:32: error: implicit declaration of function 'arch_cmpxchg64'; did you mean 'arch_cmpxchg'? [-Werror=implicit-function-declaration]
-|    60 | #define arch_cmpxchg64_relaxed arch_cmpxchg64
-|       |                                ^~~~~~~~~~~~~~
-| ./include/linux/atomic/atomic-instrumented.h:2034:9: note: in expansion of macro 'arch_cmpxchg64_relaxed'
-|  2034 |         arch_cmpxchg64_relaxed(__ai_ptr, __VA_ARGS__); \
-|       |         ^~~~~~~~~~~~~~~~~~~~~~
-| drivers/iommu/io-pgtable-arm.c:330:15: note: in expansion of macro 'cmpxchg64_relaxed'
-|   330 |         old = cmpxchg64_relaxed(ptep, curr, new);
-|       |               ^~~~~~~~~~~~~~~~~
-| cc1: all warnings being treated as errors
-| make[3]: *** [scripts/Makefile.build:252: drivers/iommu/io-pgtable-arm.o] Error 1
-| make[2]: *** [scripts/Makefile.build:494: drivers/iommu] Error 2
-| make[1]: *** [scripts/Makefile.build:494: drivers] Error 2
-| make: *** [Makefile:2026: .] Error 2
+d0e5fbb01a67e4 Ming Lei          2016-01-23  208  
+95465318849f75 Bart Van Assche   2022-10-25  209  /**
+95465318849f75 Bart Van Assche   2022-10-25  210   * get_max_segment_size() - maximum number of bytes to add as a single segment
+95465318849f75 Bart Van Assche   2022-10-25  211   * @lim: Request queue limits.
+09595e0c9d6547 Christoph Hellwig 2024-07-06  212   * @paddr: address of the range to add
+09595e0c9d6547 Christoph Hellwig 2024-07-06  213   * @max_len: maximum length available to add at @paddr
+95465318849f75 Bart Van Assche   2022-10-25  214   *
+09595e0c9d6547 Christoph Hellwig 2024-07-06  215   * Returns the maximum number of bytes of the range starting at @paddr that can
+09595e0c9d6547 Christoph Hellwig 2024-07-06  216   * be added to a single segment.
+95465318849f75 Bart Van Assche   2022-10-25  217   */
+aa261f20589d89 Bart Van Assche   2022-10-25  218  static inline unsigned get_max_segment_size(const struct queue_limits *lim,
+09595e0c9d6547 Christoph Hellwig 2024-07-06  219  		phys_addr_t paddr, unsigned int len)
+dcebd755926b0f Ming Lei          2019-02-15 @220  {
+4a2f704eb2d831 Ming Lei          2020-01-11  221  	/*
+95465318849f75 Bart Van Assche   2022-10-25  222  	 * Prevent an overflow if mask = ULONG_MAX and offset = 0 by adding 1
+95465318849f75 Bart Van Assche   2022-10-25  223  	 * after having calculated the minimum.
+4a2f704eb2d831 Ming Lei          2020-01-11  224  	 */
+09595e0c9d6547 Christoph Hellwig 2024-07-06  225  	return min_t(unsigned long, len,
+09595e0c9d6547 Christoph Hellwig 2024-07-06  226  		min(lim->seg_boundary_mask - (lim->seg_boundary_mask & paddr),
+09595e0c9d6547 Christoph Hellwig 2024-07-06  227  		    (unsigned long)lim->max_segment_size - 1) + 1);
+dcebd755926b0f Ming Lei          2019-02-15  228  }
+dcebd755926b0f Ming Lei          2019-02-15  229  
 
-We could probably make the error message a bit nicer in future, but I
-don't think this is a bug in the commit in question, and regardless we
-should figure out a way to detect the presence/absence of cmpxchg64().
+:::::: The code at line 220 was first introduced by commit
+:::::: dcebd755926b0f39dd1e3ef75bd3b46943400df0 block: use bio_for_each_bvec() to compute multi-page bvec count
 
-Since GCC errors out on the return type first, we'd need something like
-the below to get a nice error message.
+:::::: TO: Ming Lei <ming.lei@redhat.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
-Mark.
-
----->8----
-diff --git a/scripts/atomic/gen-atomic-fallback.sh b/scripts/atomic/gen-atomic-fallback.sh
-index 86aca4f9f315a..3dd8844b9af53 100755
---- a/scripts/atomic/gen-atomic-fallback.sh
-+++ b/scripts/atomic/gen-atomic-fallback.sh
-@@ -193,8 +193,8 @@ gen_xchg_order_fallback()
-        fi
- 
-        printf "#else\n"
--       printf "extern void raw_${xchg}${order}_not_implemented(void);\n"
--       printf "#define raw_${xchg}${order}(...) raw_${xchg}${order}_not_implemented()\n"
-+       printf "#define raw_${xchg}${order}(ptr, ...) \\\\\n"
-+       printf "        ({ BUILD_BUG_ON_MSG(1, \"raw_${xchg}${order}() not implemented\"); (typeof(*(ptr)))0UL; })\n"
-        printf "#endif\n\n"
- }
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
