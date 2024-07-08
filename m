@@ -1,91 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077205674E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 22:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78C714EC42
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 22:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720476816; cv=none; b=W9+ugQVKOrssG/LvmTj/H45oR/62sstYDfsp3gHo5gaBzZth6Fxt/EfJ5lnYVVASOySybT2iesSD+m8oHNZAs5lPeIzMNE9tNq2KnO0HJsLcaWlv4aiwD3eYg6ZSs+xOAsbdnMmL0ot0tWpZ/njE0b0eyl1KOfUl+pkq5chhRUI=
+	t=1720478241; cv=none; b=EXC1cccTl115UcZqzhapb+8AT85SWJNJHitsw+53oF1kjP/QUb2ua0Zpqa33gCCiJzdXjJfVVncrFdwdFdnLECblm2zHxLChjJWtPUCfkFjWucU0TPBdu1PoI7cw/ygAvYrva91s9Dwu8dPghG0l3ZFG/a/dKsWJ5cFPzPDuVK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720476816; c=relaxed/simple;
-	bh=DC1LlKEm1w/fgZ5XPSPBySuVhFHJDQTj+rDfpvB5IkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RonA0n4oruVXQrN6vwIVn6I4iOK2Nai8fRnQYcpq45oArNLaO901hsxMGEixqLaqHMnNGVYjuj8gkutC/ZXxd/3dZfyGJ2D41CyoIYDo8GSbr/XPsURZhzAZSOvPJMPa1Dj9h85VpH/XrkEPVEdTEVvgOnSj3rpvcbNNKo/z1ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKxLyBY1; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720478241; c=relaxed/simple;
+	bh=gW/J3hP8c0gkZojozpY+H5CmSP7s5WOn2nDpFXPGMSI=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=FETlbnJCY2arEa4Vpz2dV1x9dRvncwQFc2BsVTqnCu2ZgnYxOoQHFjJ5sd0Fi/4SNSQT/sza8CirIkgD97O0E7R7lAsGFZMCOm60nSqJYdU0gCCQag6I0WdPDz1/qMCuDAepxuquPwEUNBl/3l//m1kGkHoL7glSllWoZRFVMx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MH4Sl2g/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKxLyBY1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720476815; x=1752012815;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DC1LlKEm1w/fgZ5XPSPBySuVhFHJDQTj+rDfpvB5IkM=;
-  b=nKxLyBY1AlbkBj1YcMZT4pRvWf/7QCp7PkU/QaxgCwUEk23Ous06K4Jx
-   B1fpc6bMPTZepczKr8UIbTjzj63N/dmm3Tj4LUdUgcNOtJgANmiv8YDs0
-   NzlCYAW2ZnSoMW2lvyMBMIDb7gEfx8gXdrsihjAfYN/7WBK+wFbZizFwv
-   nkQVeBuL+Q7VMMQrTmmqkGZ0jg4O2UhG9mlkR98Rg6nfqHXfaG/6YGrIW
-   HraPFaIQvxP4x+LwVvZ31hv/MVpFAPOuVtH9Hf0oPHfWC/XxgAQ9bBVgz
-   IoHTAa8qQb4kcS5fj8IJN4tHesCsTfwcNQuRJABUER/ro5JTUopRkr0NS
-   w==;
-X-CSE-ConnectionGUID: +2r29RcGQ6eybtAs0+2kwg==
-X-CSE-MsgGUID: 9c9GVIFdQSm7Unv/q4LkQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17838405"
-X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="17838405"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 15:13:34 -0700
-X-CSE-ConnectionGUID: v5l4vE8VTBq8584fL3wZqg==
-X-CSE-MsgGUID: 62LySIIERn+SGYdHH6Gf6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="47560606"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Jul 2024 15:13:32 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sQwby-000W4w-0L;
-	Mon, 08 Jul 2024 22:13:30 +0000
-Date: Tue, 9 Jul 2024 06:13:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Kees Cook <keescook@chromium.org>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- alloc_tag_save+0x24 (section: .text.unlikely) -> initcall_level_names
- (section: .init.data)
-Message-ID: <202407090645.ruIapj8y-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MH4Sl2g/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B48EC116B1;
+	Mon,  8 Jul 2024 22:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720478240;
+	bh=gW/J3hP8c0gkZojozpY+H5CmSP7s5WOn2nDpFXPGMSI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MH4Sl2g/udtu/q4oI+kvd9X/k8N2wbuDYVgAkBqa6+W6oXZonS4OjpmgfwFUirT2h
+	 Z+7FO9HPpkhupytX9v2qQCeomaXeAYBtkRTNj6ZGyvh85GdcKS7n/GF1281vn9+gTW
+	 D+vaW01XrlCL0jUfJhqj9urjMTzFt+QzkieDp20KxK8F6DUyRuDxXC7Qs+6ZATJbK+
+	 rEGgu50osFFonPNKXCDlxCy3/dT7SsXz6dxx0AXaCb+hj+ErGgh5tl4VzIRqB0cWBg
+	 tAitSQ2Y/3L4rY61iaapNI1ENFedbA4HPU/pTBVe7ozvKAGfu7k4OiSXgek1rebJWw
+	 dRhgsSEu7m9hA==
+Date: Tue, 9 Jul 2024 07:37:17 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Steven Rostedt (Google)"
+ <rostedt@goodmis.org>
+Subject: Re: [trace:probes/for-next 16/16]
+ kernel/trace/trace_kprobe.c:810:21: warning: assignment to 'struct module
+ *' from 'int' makes pointer from integer without a cast
+Message-Id: <20240709073717.3cb33be27decc9ff393def13@kernel.org>
+In-Reply-To: <202407070744.RcLkn8sq-lkp@intel.com>
+References: <202407070744.RcLkn8sq-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   256abd8e550ce977b728be79a74e1729438b4948
-commit: b951aaff503502a7fe066eeed2744ba8a6413c89 mm: enable page allocation tagging
-date:   2 months ago
-config: xtensa-randconfig-r132-20240707 (https://download.01.org/0day-ci/archive/20240709/202407090645.ruIapj8y-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240709/202407090645.ruIapj8y-lkp@intel.com/reproduce)
+On Sun, 7 Jul 2024 07:58:29 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407090645.ruIapj8y-lkp@intel.com/
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/for-next
+> head:   9d8616034f161222a4ac166c1b42b6d79961c005
+> commit: 9d8616034f161222a4ac166c1b42b6d79961c005 [16/16] tracing/kprobes: Add symbol counting check when module loads
+> config: arc-randconfig-001-20240707 (https://download.01.org/0day-ci/archive/20240707/202407070744.RcLkn8sq-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070744.RcLkn8sq-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407070744.RcLkn8sq-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/trace/trace_kprobe.c: In function 'validate_probe_symbol':
+>    kernel/trace/trace_kprobe.c:810:23: error: implicit declaration of function 'find_module'; did you mean 'init_module'? [-Werror=implicit-function-declaration]
+>      810 |                 mod = find_module(modname);
+>          |                       ^~~~~~~~~~~
+>          |                       init_module
+> >> kernel/trace/trace_kprobe.c:810:21: warning: assignment to 'struct module *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      810 |                 mod = find_module(modname);
+>          |                     ^
+>    cc1: some warnings being treated as errors
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
->> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_save+0x24 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-WARNING: modpost: vmlinux: section mismatch in reference: bitmap_copy_clear_tail+0x5c (section: .text.unlikely) -> __setup_str_initcall_blacklist (section: .init.rodata)
+Oops, find_module() is not exposed when CONFIG_MODULES=n...
+
+Let me update it.
+
+> 
+> 
+> vim +810 kernel/trace/trace_kprobe.c
+> 
+>    796	
+>    797	static int validate_probe_symbol(char *symbol)
+>    798	{
+>    799		struct module *mod = NULL;
+>    800		char *modname = NULL, *p;
+>    801		int ret = 0;
+>    802	
+>    803		p = strchr(symbol, ':');
+>    804		if (p) {
+>    805			modname = symbol;
+>    806			symbol = p + 1;
+>    807			*p = '\0';
+>    808			/* Return 0 (defer) if the module does not exist yet. */
+>    809			rcu_read_lock_sched();
+>  > 810			mod = find_module(modname);
+>    811			if (mod && !try_module_get(mod))
+>    812				mod = NULL;
+>    813			rcu_read_unlock_sched();
+>    814			if (!mod)
+>    815				goto out;
+>    816		}
+>    817	
+>    818		ret = validate_module_probe_symbol(modname, symbol);
+>    819	out:
+>    820		if (p)
+>    821			*p = ':';
+>    822		if (mod)
+>    823			module_put(mod);
+>    824		return ret;
+>    825	}
+>    826	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
