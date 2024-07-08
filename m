@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553751C36
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 02:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9699A934
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 02:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720405197; cv=none; b=J9mSj1EVwOw5AHlKHpySQo5MLnZa6jHbfSHFEE6zRA89PTnilZ4bnrxTgv6OvO/XGkdyNHUO4FQECqCvZymoQmUFPG0tyu3NduqRMvnaPxsdKYVIP1nNj9NccoGiLyS+6sp2fV0iDSY44+17ztPZda20VS3Qa61q7RNkuIo+QRw=
+	t=1720407065; cv=none; b=j3tM3LIyVQgkqHRH8jOmumZGvIZAZO81vKNXwPjBmUz/TCEgStMfIrQffKKXDzVLB7Sue3p1H7et3BOolmIyhkmr+wey5EUxSWFq4bDAShk6M2XDY3Q3GTyFM2vAUOuPq/fHye2+JP0qTaCoOXH0TZRhY62CfXKjeIH+KHlxc+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720405197; c=relaxed/simple;
-	bh=s9T/2wtxWK+ztTESZCfPEBhpQtw2HvuPyDZ+kNdyPXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N9k5QLrguxv7Vm2xA2E9WB2PB7WLbWGDSs9/kMFdrYZuQXDrZfAZED+N3pmLbAJ2q/iHsCVlUakoKHVWIVWKRhBrmUy8VfscTsN2wH439a7Qr3R6ef+12YORQ0KqE73+RD38BcCJsW1A/jDbFfiwn5jq9fxQCKG70Vf8dsy19hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDMizDYm; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1720407065; c=relaxed/simple;
+	bh=8U/KKNUgtZbIRxtxIbvDwEyZnFJGjzjyPQLqFISVrws=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eCED0dZ0lKx5WqTXOA4tP0E1Xx1/fZiZtn43jG++O3vIJnekKl6nuLpYatqbhuo10n22x+SQSM6xKuTqcZAyotm1GxGMRgsh8DZhx4RicB8WI3qwYl8VKZ9xfv6ULE6UW/pe8LIcUSRtZmIOXjNIjsES9LOfl9Um9V8S1pHoxy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ReSkdX7S; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDMizDYm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ReSkdX7S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720405196; x=1751941196;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s9T/2wtxWK+ztTESZCfPEBhpQtw2HvuPyDZ+kNdyPXY=;
-  b=nDMizDYmmJWNOJoRhhrfjlj2ABSH51Vj9rfKtG2pWRjGNb8mkHmDzFt0
-   IksWyoMOvj/v6k8sjJeVulVMmrMBPmoSQLaN+adpj91sIDtde6K/OVShb
-   vMkGLlafC7nnfnwopkg7hNHh9MpkzFFB0iE3PG0cjSJRDsScR6wdIZv0J
-   Kki/LFMRYubwxhsJDEpIClnzouQo6Qrji29zCYziVQosXPfCOlSiUPACA
-   M7/IHVmTvmk2q58n5bGqliQEKuB8xkz6QjgZXg1+WaFYPiHY7WixQgZzm
-   d9Z2ZWgGAo1jV1WY3ObdtcTEA8KwDoV5fn2RsgusMz8GER0YW3x0NDkPw
+  t=1720407062; x=1751943062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8U/KKNUgtZbIRxtxIbvDwEyZnFJGjzjyPQLqFISVrws=;
+  b=ReSkdX7SxgK2v7VKy+gzpFOefL4LPSzNoR4paY0TZKAX4fPy+/3RjFkS
+   SG76rNFOC9F+yNlC4Duwcei4gIg0Obi8dSTJDZsC6N9CQdRJTljA+nLcv
+   oAvX3XnUIGR17cARhuGZAb+yJglzLWzhB42liT5QF8vG/pkaI51ONgflt
+   6VtNhYIQByZ/YXx69765dx4IebN5apWMWMHv22uuUg5KFEk8Kygvh+wQ7
+   1JC6OJkiKJ6As2TbUmpOSgtp0JWUHWoEZd1dqL4QnYnnSOd2LPHEfTEKW
+   pBKrpNATTn4JsaQqcwqv5BXMhbAi3T3FDG2E/LMNjWdDb0fZAJ6DyTL6c
    g==;
-X-CSE-ConnectionGUID: b6QNWlLoRxqfxX3bGFTmCg==
-X-CSE-MsgGUID: wWwxZ7zVTtaumk4nsNcUeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28263347"
+X-CSE-ConnectionGUID: HWZgB5nOQwCpfr3cia2Qkw==
+X-CSE-MsgGUID: cpbUQNXnTdSOZ6/pDx/uKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="21462545"
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="28263347"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 19:19:56 -0700
-X-CSE-ConnectionGUID: rNcI9kJ9S9ubPcMhpYSQ4A==
-X-CSE-MsgGUID: TV5niTMcTxigUSMI2Wg9yA==
+   d="scan'208";a="21462545"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 19:51:02 -0700
+X-CSE-ConnectionGUID: xE7Fd/7QSc231D7jEp8GOw==
+X-CSE-MsgGUID: 7FgtrYdLR369FzmA9Nrtxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="51797881"
+   d="scan'208";a="47252084"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Jul 2024 19:19:51 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2024 19:51:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQdyn-000VSA-1g;
-	Mon, 08 Jul 2024 02:19:49 +0000
-Date: Mon, 8 Jul 2024 10:19:35 +0800
+	id 1sQeSw-000VSv-2L;
+	Mon, 08 Jul 2024 02:50:58 +0000
+Date: Mon, 8 Jul 2024 10:50:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
-	souvik.chakravarty@arm.com, Peng Fan <peng.fan@nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH 1/8] firmware: arm_scmi: Introduce setup_shmem_iomap
-Message-ID: <202407080937.AYEaDXCD-lkp@intel.com>
-References: <20240707002055.1835121-2-cristian.marussi@arm.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9671/9748]
+ arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: syscon@1e60000:
+ compatible: ['syscon'] is too short
+Message-ID: <202407081303.KkcTtwoD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,77 +63,210 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240707002055.1835121-2-cristian.marussi@arm.com>
 
-Hi Cristian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on next-20240703]
-[cannot apply to linus/master v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240707002055.1835121-2-cristian.marussi%40arm.com
-patch subject: [PATCH 1/8] firmware: arm_scmi: Introduce setup_shmem_iomap
-config: arm-randconfig-r111-20240708 (https://download.01.org/0day-ci/archive/20240708/202407080937.AYEaDXCD-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce: (https://download.01.org/0day-ci/archive/20240708/202407080937.AYEaDXCD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b58e108042b0ed28a71cd7edf5175999955b233
+commit: 2428f1f8c8fb6ed020c8d6acac8a30dcc0c99579 [9671/9748] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+config: arm64-randconfig-051-20240702 (https://download.01.org/0day-ci/archive/20240708/202407081303.KkcTtwoD-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407081303.KkcTtwoD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407080937.AYEaDXCD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407081303.KkcTtwoD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/shmem.c:170:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem *[assigned] addr @@
-   drivers/firmware/arm_scmi/shmem.c:170:16: sparse:     expected void *
-   drivers/firmware/arm_scmi/shmem.c:170:16: sparse:     got void [noderef] __iomem *[assigned] addr
-   drivers/firmware/arm_scmi/shmem.c:139:6: sparse: sparse: symbol 'setup_shmem_iomap' redeclared with different type (different address spaces):
-   drivers/firmware/arm_scmi/shmem.c:139:6: sparse:    void *extern [addressable] [noderef] [toplevel] __iomem setup_shmem_iomap( ... )
-   drivers/firmware/arm_scmi/shmem.c: note: in included file:
-   drivers/firmware/arm_scmi/common.h:330:14: sparse: note: previously declared as:
-   drivers/firmware/arm_scmi/common.h:330:14: sparse:    void [noderef] __iomem *extern [addressable] [toplevel] setup_shmem_iomap( ... )
-
-vim +170 drivers/firmware/arm_scmi/shmem.c
-
-   138	
-   139	void *__iomem
-   140	setup_shmem_iomap(struct scmi_chan_info *cinfo, struct device *dev, bool tx)
-   141	{
-   142		const char *desc = tx ? "Tx" : "Rx";
-   143		int ret, idx = tx ? 0 : 1;
-   144		struct device *cdev = cinfo->dev;
-   145		struct device_node *shmem;
-   146		resource_size_t size;
-   147		struct resource res;
-   148		void __iomem *addr;
-   149	
-   150		shmem = of_parse_phandle(cdev->of_node, "shmem", idx);
-   151		if (!of_device_is_compatible(shmem, "arm,scmi-shmem")) {
-   152			of_node_put(shmem);
-   153			return ERR_PTR(-ENXIO);
-   154		}
-   155	
-   156		ret = of_address_to_resource(shmem, 0, &res);
-   157		of_node_put(shmem);
-   158		if (ret) {
-   159			dev_err(cdev, "failed to get SCMI %s shared memory\n", desc);
-   160			return ERR_PTR(ret);
-   161		}
-   162	
-   163		size = resource_size(&res);
-   164		addr = devm_ioremap(dev, res.start, size);
-   165		if (!addr) {
-   166			dev_err(dev, "failed to ioremap SCMI %s shared memory\n", desc);
-   167			return ERR_PTR(-EADDRNOTAVAIL);
-   168		}
-   169	
- > 170		return addr;
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: interrupt-controller@6000000: msi-controller@6020000: '#msi-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic-v3.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: syscon@1e60000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: pcie@1f0000000: ranges: [[2181038080, 1, 4160749568, 1, 4160749568, 0, 1441792], [3254779904, 1, 4162191360, 1, 4162191360, 0, 458752], [2181038080, 1, 4162650112, 1, 4162650112, 0, 131072], [3254779904, 1, 4162781184, 1, 4162781184, 0, 131072], [2181038080, 1, 4162912256, 1, 4162912256, 0, 131072], [3254779904, 1, 4163043328, 1, 4163043328, 0, 131072], [2181038080, 1, 4227858432, 1, 4227858432, 0, 4194304]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/host-generic-pci.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pcie@1f0000000/ethernet@0,0: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pcie@1f0000000/ethernet@0,1: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pcie@1f0000000/ethernet@0,2: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pcie@1f0000000/mdio@0,3: failed to match any schema with compatible: ['pci1957,ee01', 'fsl,enetc-mdio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: ethernet@0,4: compatible:0: 'pci1957,ee02' is not one of ['fsl,etsec-ptp', 'fsl,fman-ptp-timer', 'fsl,dpaa2-ptp', 'fsl,enetc-ptp']
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: ethernet@0,4: compatible: ['pci1957,ee02', 'fsl,enetc-ptp'] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pcie@1f0000000/ethernet@0,6: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/ierb@1f0800000: failed to match any schema with compatible: ['fsl,ls1028a-enetc-ierb']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2800000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2810000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2820000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2830000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2840000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2850000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /soc/pwm@2860000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: interrupt-controller@6000000: msi-controller@6020000: '#msi-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic-v3.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: syscon@1e60000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: pcie@1f0000000: ranges: [[2181038080, 1, 4160749568, 1, 4160749568, 0, 1441792], [3254779904, 1, 4162191360, 1, 4162191360, 0, 458752], [2181038080, 1, 4162650112, 1, 4162650112, 0, 131072], [3254779904, 1, 4162781184, 1, 4162781184, 0, 131072], [2181038080, 1, 4162912256, 1, 4162912256, 0, 131072], [3254779904, 1, 4163043328, 1, 4163043328, 0, 131072], [2181038080, 1, 4227858432, 1, 4227858432, 0, 4194304]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/host-generic-pci.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pcie@1f0000000/ethernet@0,0: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pcie@1f0000000/ethernet@0,1: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pcie@1f0000000/ethernet@0,2: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pcie@1f0000000/mdio@0,3: failed to match any schema with compatible: ['pci1957,ee01', 'fsl,enetc-mdio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: ethernet@0,4: compatible:0: 'pci1957,ee02' is not one of ['fsl,etsec-ptp', 'fsl,fman-ptp-timer', 'fsl,dpaa2-ptp', 'fsl,enetc-ptp']
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: ethernet@0,4: compatible: ['pci1957,ee02', 'fsl,enetc-ptp'] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pcie@1f0000000/ethernet@0,6: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/ierb@1f0800000: failed to match any schema with compatible: ['fsl,ls1028a-enetc-ierb']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2800000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2810000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2820000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2830000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2840000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2850000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /soc/pwm@2860000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: interrupt-controller@6000000: msi-controller@6020000: '#msi-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic-v3.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: syscon@1e60000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: pcie@1f0000000: ranges: [[2181038080, 1, 4160749568, 1, 4160749568, 0, 1441792], [3254779904, 1, 4162191360, 1, 4162191360, 0, 458752], [2181038080, 1, 4162650112, 1, 4162650112, 0, 131072], [3254779904, 1, 4162781184, 1, 4162781184, 0, 131072], [2181038080, 1, 4162912256, 1, 4162912256, 0, 131072], [3254779904, 1, 4163043328, 1, 4163043328, 0, 131072], [2181038080, 1, 4227858432, 1, 4227858432, 0, 4194304]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/host-generic-pci.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pcie@1f0000000/ethernet@0,0: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pcie@1f0000000/ethernet@0,1: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pcie@1f0000000/ethernet@0,2: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pcie@1f0000000/mdio@0,3: failed to match any schema with compatible: ['pci1957,ee01', 'fsl,enetc-mdio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: ethernet@0,4: compatible:0: 'pci1957,ee02' is not one of ['fsl,etsec-ptp', 'fsl,fman-ptp-timer', 'fsl,dpaa2-ptp', 'fsl,enetc-ptp']
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: ethernet@0,4: compatible: ['pci1957,ee02', 'fsl,enetc-ptp'] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pcie@1f0000000/ethernet@0,6: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/ierb@1f0800000: failed to match any schema with compatible: ['fsl,ls1028a-enetc-ierb']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2800000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2810000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2820000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2830000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2840000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2850000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /soc/pwm@2860000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: interrupt-controller@6000000: msi-controller@6020000: '#msi-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic-v3.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: syscon@1e60000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: pcie@1f0000000: ranges: [[2181038080, 1, 4160749568, 1, 4160749568, 0, 1441792], [3254779904, 1, 4162191360, 1, 4162191360, 0, 458752], [2181038080, 1, 4162650112, 1, 4162650112, 0, 131072], [3254779904, 1, 4162781184, 1, 4162781184, 0, 131072], [2181038080, 1, 4162912256, 1, 4162912256, 0, 131072], [3254779904, 1, 4163043328, 1, 4163043328, 0, 131072], [2181038080, 1, 4227858432, 1, 4227858432, 0, 4194304]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/host-generic-pci.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pcie@1f0000000/ethernet@0,0: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pcie@1f0000000/ethernet@0,1: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pcie@1f0000000/ethernet@0,2: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pcie@1f0000000/mdio@0,3: failed to match any schema with compatible: ['pci1957,ee01', 'fsl,enetc-mdio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: ethernet@0,4: compatible:0: 'pci1957,ee02' is not one of ['fsl,etsec-ptp', 'fsl,fman-ptp-timer', 'fsl,dpaa2-ptp', 'fsl,enetc-ptp']
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: ethernet@0,4: compatible: ['pci1957,ee02', 'fsl,enetc-ptp'] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pcie@1f0000000/ethernet@0,6: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/ierb@1f0800000: failed to match any schema with compatible: ['fsl,ls1028a-enetc-ierb']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2800000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2810000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2820000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2830000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2840000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2850000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /soc/pwm@2860000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: interrupt-controller@6000000: msi-controller@6020000: '#msi-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,gic-v3.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: syscon@1e60000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: efuse@1e80000: Unevaluated properties are not allowed ('unique-id@1c' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/fsl,layerscape-sfp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/clock-controller@1300000: failed to match any schema with compatible: ['fsl,ls1028a-clockgen']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/i2c@2000000/fpga@66: failed to match any schema with compatible: ['fsl,ls1028aqds-fpga', 'fsl,fpga-qixis-i2c', 'simple-mfd']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/spi@2100000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/spi@2110000: failed to match any schema with compatible: ['fsl,ls1028a-dspi', 'fsl,ls1021a-v1.0-dspi']
+--
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/usb@3100000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/usb@3110000: failed to match any schema with compatible: ['fsl,ls1028a-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/dma-controller@8380000: failed to match any schema with compatible: ['fsl,ls1028a-qdma', 'fsl,ls1021a-qdma']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: pcie@1f0000000: ranges: [[2181038080, 1, 4160749568, 1, 4160749568, 0, 1441792], [3254779904, 1, 4162191360, 1, 4162191360, 0, 458752], [2181038080, 1, 4162650112, 1, 4162650112, 0, 131072], [3254779904, 1, 4162781184, 1, 4162781184, 0, 131072], [2181038080, 1, 4162912256, 1, 4162912256, 0, 131072], [3254779904, 1, 4163043328, 1, 4163043328, 0, 131072], [2181038080, 1, 4227858432, 1, 4227858432, 0, 4194304]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/host-generic-pci.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pcie@1f0000000/ethernet@0,0: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pcie@1f0000000/ethernet@0,1: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pcie@1f0000000/ethernet@0,2: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pcie@1f0000000/mdio@0,3: failed to match any schema with compatible: ['pci1957,ee01', 'fsl,enetc-mdio']
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: ethernet@0,4: compatible:0: 'pci1957,ee02' is not one of ['fsl,etsec-ptp', 'fsl,fman-ptp-timer', 'fsl,dpaa2-ptp', 'fsl,enetc-ptp']
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: ethernet@0,4: compatible: ['pci1957,ee02', 'fsl,enetc-ptp'] is too long
+   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pcie@1f0000000/ethernet@0,6: failed to match any schema with compatible: ['pci1957,e100', 'fsl,enetc']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/ierb@1f0800000: failed to match any schema with compatible: ['fsl,ls1028a-enetc-ierb']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2800000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2810000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2820000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2830000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2840000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2850000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /soc/pwm@2860000: failed to match any schema with compatible: ['fsl,vf610-ftm-pwm']
 
 -- 
 0-DAY CI Kernel Test Service
