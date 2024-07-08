@@ -1,397 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E68E1FA3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 19:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720468531; cv=none; b=AbQwUzc5DeXZrYck1yPn3TTNIyPRvU3RXYS6c+qk5hbtX5AP1AUVFGVlkRf1GiURGW08zadFcDGoby4dD2RIGncW9iYHzd0O0TogxGkkTK4l9/ZRcdK5P8g7B4s4hJkDDFXRsBlO7vbh1ti59SxnRA80bfWfxvx651AOGkAZXJI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720468531; c=relaxed/simple;
-	bh=IlWgjUigIecelfrryQiyH5B0EpoxIe6DUCoLuMTVKJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VABV25QKw3R0xrLbnZ+ZG0kDAmYg1ZxCx8R67giOfU5sW+VklZhy2SPWKPvISYVOVPLB/t8I4CoC9UenkHJSPolCiVEtPMkd7vx4Hrth3SCzPan8qHuZmMNDDscXWX0gRy9g44VuwzFM3ma4qnSVRNOwTD3vLvBYemMq5oCfX8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEanr/O8; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27BA7494;
+	Mon,  8 Jul 2024 20:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720469511; cv=fail; b=IjZDgDzZ0MFEfPYJr0U2acT+Jk74GsKkvECxDN6Yw5M7SqYvuYSwcFiBB859vFryWz5E11T3IFzZkgyX/Z+A6zKrUpPqGO9uJJkReyyxOu7LdJNEBf/OpsYZegDaCm4UffzTegAHoa2AxpAeH8F56MhtHhfDp6vMiPUo1boyZ0M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720469511; c=relaxed/simple;
+	bh=ZgHh6WixyHaMF4J4VUW+cV9lon7qBFntd6+f1Q5/yl8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RAHeWgy7ZLT0F6ZNDKWLAXTLt9FrNfGfsKBJReXHNiA9RzAd2d5Yf/PhyVkbCwbqVLClHUJ99Ww4kyfEeQCm9GQMyOCuc5FOnj065YHcFAD3tV7ql1TBVLpNdee5T3wg3Siu5zhAWAJtPloup5NVyQcqCJrwHHzkVoRPN4xBRcw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYNkxYn0; arc=fail smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEanr/O8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYNkxYn0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720468528; x=1752004528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IlWgjUigIecelfrryQiyH5B0EpoxIe6DUCoLuMTVKJs=;
-  b=OEanr/O8/BMlguPSPHromOndPpZKYr4h6olupvx0GfgzeSRBxrUWZUtn
-   SI3zPIi0USziusw34He/zk25W/aDHQU+Ty6H8PLYur4ElLqgI92Mw5zEc
-   bfVMQTKCgWbxO7zPLFl38dClrwvk8pa5zqlL0ATLsldED8ZXQtOVq+iE/
-   6Y5HXrINv/k+uiJce7PKZEaDzMAZ4XtURlm3grZMQz6OgtiLD5Wv5a9vv
-   F10blbfOwr5VB0svd6SOAZWXTXACbeA6HghdGiP/GNWYZSx417+GkLKmW
-   cYAPytRPx+JV+n4eCugKGjHzfhik4zJFWMvHTD1xsjcSJoQViUnPKMtb+
-   g==;
-X-CSE-ConnectionGUID: AVa0DN04QRacmRRJd6F4+Q==
-X-CSE-MsgGUID: xjeMEr0ZSOKCMkoBgBwp6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="35226879"
+  t=1720469509; x=1752005509;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ZgHh6WixyHaMF4J4VUW+cV9lon7qBFntd6+f1Q5/yl8=;
+  b=FYNkxYn0UZ6XVZeOSGba1UbJbb5qZ1bUocrPa/wFepUIAwW2+hbYeEKs
+   G1MfYGBF0/4o21xmnraNGSqQ2GL0KuNU2VLfnDV/agD+CEFuMs23WkHAu
+   QwDXExmgmKMz2ypyg+rxAogCU7JUvWDG0+pgJ+EEpdwOqOBP9VYi5OCxz
+   VSxszewDVyA+/waavUaVxCjuO+QcGbQsfDTi4tcWdYE9+C/qqHD7b+QaR
+   6D5gzlyPFSglWdFsV8tJBUjWyZjEjINiX18xp1Q0GZsdv2Eak6WXHpmRO
+   +N8/N5b3+n9GWagUtqqi8VMLYZpabe3bwZfXpougzcYv1oNEJf5tQv/yL
+   A==;
+X-CSE-ConnectionGUID: PkoueijcRu+4H3e+CgkQ1A==
+X-CSE-MsgGUID: pKfsQZdaQdqT2pv5gOUG4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="28299399"
 X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
-   d="scan'208";a="35226879"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 12:55:27 -0700
-X-CSE-ConnectionGUID: mVcd6xBgQniTYnU+0ulN2w==
-X-CSE-MsgGUID: XtmsLIZKS1OdO2G5Wh3Gqw==
+   d="scan'208";a="28299399"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 13:11:48 -0700
+X-CSE-ConnectionGUID: HnUnKwarQ/urKDufReu3xg==
+X-CSE-MsgGUID: IEQGrPnPS1+b4bTU7HXe5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,192,1716274800"; 
-   d="scan'208";a="47528195"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Jul 2024 12:55:26 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sQuSJ-000Vzx-0O;
-	Mon, 08 Jul 2024 19:55:23 +0000
-Date: Tue, 9 Jul 2024 03:55:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 6084/10451]
- arch/powerpc/boot/dts/mpc8377_rdb.dtb: sdhci@2e000: compatible:0:
- 'fsl,mpc8377-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc',
- 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc',
- 'fsl,ls1012a-esdhc', 'fsl,ls1028a-es...
-Message-ID: <202407090332.In2CvPd2-lkp@intel.com>
+   d="scan'208";a="78761801"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jul 2024 13:11:48 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 8 Jul 2024 13:11:47 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 8 Jul 2024 13:11:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IOcbwu4ZjehXMcOAKiipEmXdgsxz1MSTmdhS/1yE+DngkJ/JunPHzo5IQICZaFfUEuuJmJvYrZWd34Jej1c59sDpWCp3Fw7xBZj0EFD3ZStmAyBN86IXwI7q01jxUkhqq2pd+AuzuqQUWx9+SWkr60NSleUpm2egGCE69UifNQfUrtVF+Ve2Qp0gJ+i/gn+RgyUfcqGSeay69YmlX/ZZeMuEuVdeb56KNdESe4CGA/2Njzz2suBRvJf585IAeYhdlpVmoRTii/JChak+Ft3kYNIq3yPjnVCpFWFg9xlDvDsaLdxzrwIwzuzq5kgPaBzqIHan0IZYtJHq4g2bRxVfEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7Ebz0ESrlh6oZCAoDQZOc4UVued7bX8jUoSNqNYs44I=;
+ b=RSWQfWDJPZ/gVLYWHjbCPPa96tILsryZd4RwrqT/ADYei7lIHS9tiRzG0WjBvgjPrG11VVCJHkbetrvCOZ5SA4e2Q6B5+bi8cQPamWAIg456MMYe0tMxJwSj0lH4ZDkg/6k47IQSScz4boWOPhTjE0omhlZ8uYqwf+qTFRjB0ODlSKXN85R/Gey92Qkg/XlfaE+7R3oKVt+WsmgkCLCM/osn6xcOVPX4sEVVd0i0FyKz6sV8B7lOzcMsJK/kU0LtooR4recGZsJ70hVQg6BRRwnioPraCConKVBRP+xwYniAVhmVB1YVo2ojcaMmgeNdl2+6S8Rg8lGHSQx7H8mEEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6435.namprd11.prod.outlook.com (2603:10b6:208:3bb::9)
+ by BY1PR11MB8054.namprd11.prod.outlook.com (2603:10b6:a03:52f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Mon, 8 Jul
+ 2024 20:11:44 +0000
+Received: from BL3PR11MB6435.namprd11.prod.outlook.com
+ ([fe80::23a7:1661:19d4:c1ab]) by BL3PR11MB6435.namprd11.prod.outlook.com
+ ([fe80::23a7:1661:19d4:c1ab%4]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
+ 20:11:44 +0000
+Message-ID: <adf76cbf-49df-c43c-ffcc-458f9afef48a@intel.com>
+Date: Mon, 8 Jul 2024 13:11:41 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-wired-lan] [tnguy-next-queue:dev-queue 12/92]
+ drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875
+ ice_vc_fdir_parse_raw() warn: missing error code 'status'
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Junfeng Guo <junfeng.guo@intel.com>
+CC: Ahmed Zaki <ahmed.zaki@intel.com>, Marcin Szycik
+	<marcin.szycik@linux.intel.com>, <oe-kbuild-all@lists.linux.dev>, "Intel
+ Wired LAN" <intel-wired-lan@lists.osuosl.org>
+References: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
+Content-Language: en-US
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+In-Reply-To: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0041.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::16) To BL3PR11MB6435.namprd11.prod.outlook.com
+ (2603:10b6:208:3bb::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6435:EE_|BY1PR11MB8054:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d81b129-97ed-497c-0ccb-08dc9f8a3046
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?amN5THVhVGliYnllVUlGZFd5R2RKNkMySVYwV0V3WHR2TnRDWDNuRTFoZFZM?=
+ =?utf-8?B?NHhjWWpqaUg5bGZBKzJ2MTk0OVQ5ZkVOK3BvV1J0cXVlMGlMbXJaSmQ2ckFY?=
+ =?utf-8?B?YlN5OWdVclB3QkVrQVRHY2R5d3dWelNCZWlad0ptSS8rNDlZV3B3QU12Z1R6?=
+ =?utf-8?B?L28yTDN4Q2srSTEyeFZwUTBiNVBnQ1pIOW1Jb3lDMEIvWmU2dGtNd2d2MFhZ?=
+ =?utf-8?B?dDVvZjFUYlZWbWRsL0dCanhYaE0xc1Znek81N1hud0NRcXRQVWpmQk80ZlJD?=
+ =?utf-8?B?K1NYZDludGdKRjBKMm83aWVxMmNBQmdibXJySktWLzZrMk00MzZ6bndYVFFV?=
+ =?utf-8?B?UGo1dU1JQ0FpTEJVWmFxcWtveHErZHV3eWJsRGtiK0IyWXFZMjZhOXp4MFhz?=
+ =?utf-8?B?aFVHMU42cW1rTldXSGduVVcrK0xoL3hibG1lU1c2dG51Y2dYdU13ZGRCOHN2?=
+ =?utf-8?B?ajg0YkNudmNKcEhnNFhIWWZUUEtsV0NjMlVscW5acVR2SHVGN2FxZ21ud0s0?=
+ =?utf-8?B?RWxXdXJyQVhkS0xBajBPcXY1dFVLbVBZZTZkSFZob2pMbC9qM0xQVWRGSE9m?=
+ =?utf-8?B?VXk4UnJuK1B5VHJ5UHJCMWdqZ3F1eXU5cUsrK1hGN3FqT3FCNTJWeVFpMmpy?=
+ =?utf-8?B?Qmd6NkNHbUlPQXRRMFk5WEpLNmtWWnBMVzFvMTdPcHRuN2NQWDE4Q0F0Tlhi?=
+ =?utf-8?B?SkFxa2VnaG9tVHAyL3VMSzRQdjhWWnlibjE5bkEvSG9xYUkvZDUvWTB4S3F1?=
+ =?utf-8?B?K0lVRGhSTTREWGVhTE94QWhaOWIzU1FzSFFtMnl5V2twQ0xjYlBscWYzTEI1?=
+ =?utf-8?B?SHZSVndBOW9abVlOUDhWMWVBc3h2bmwzMnVEazd3Y081QjZCSlR1OU1KUTFt?=
+ =?utf-8?B?UTl1QnVJRFJvTmhwYWhqYWlIVWNmcTZOcEU0UnI1N2hzbnZBbDBUL05oakkz?=
+ =?utf-8?B?RTlubzR6ZzlZWXBRQ1FPeGxYSHZNdjJlaXJWMjA4b09MNFVwYzNBaTJoZkl0?=
+ =?utf-8?B?djhHL0k3bURUeEtCdmhHTDNjN0szaG5pNUc4U1RDUlFpTk5GQ3k3THprYjJ3?=
+ =?utf-8?B?WXhxM3lJWlRNSnlrblQ2Rm9OREJoaGdQRUxING9JNFNkQmpESmpXZnhEUDh1?=
+ =?utf-8?B?d01hdlBwMEttQXM2Q25rQXpYRlUwMmFlRXpWNjdrd2YzZnJmWHFnWFFxeTAr?=
+ =?utf-8?B?K2lvbTJ5TjEzaDQ0bDJNYnVTdHlkL0tQZU9uV3JLUlVobzFwMFZLbHcxZ0E4?=
+ =?utf-8?B?R3hkS25CSHRwaUVpUUdESzU4eHptcEpoNnB3cXdNZ2h0U01iUGVhYTlEamZt?=
+ =?utf-8?B?S1haS0RnVlUrSi91Z1h6M3N5b0Q1TllUMzdVQlMzOHZwWjRRclVxbzJiNlZO?=
+ =?utf-8?B?aENra2FZMURWRzl4b0R0UHhqT1BjSjVYMGJSTHpYRzhuLzJGWS9obUlVSGtm?=
+ =?utf-8?B?c1lTRms1WDJzTnZjYURBTjUvOUJ2SDlFdTZVQ0luTzdDaDA2dGVPai9vV2xF?=
+ =?utf-8?B?SW95S003TzBBb2NzU2d6ZThyMWtONTZ0dDlYamVkbFd1UEM4MWZoNDNnbWJI?=
+ =?utf-8?B?WVU4b0tVODlNajZBSVJ3N2J6dS9FZmJHZForUGcxZkFvdlY3MXM4VXNYcTMr?=
+ =?utf-8?B?aHZEYnc1cUlrR2JjOWx1bkFRMDZGKzdvb09nV1NyMnBCcXFYeUU0NFlpRDdP?=
+ =?utf-8?B?cUYwMjY2UG1WZnRtMkRTVXRJeU8reGRCNWFOOW9GM0pqZWJTRWp0Yk52cG9w?=
+ =?utf-8?Q?J3Ef9leT94CKQm3/YQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR11MB6435.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vkh4OTh4M3JVaFRoVitHeU8vMzlsekxrajN4ZDVYTXY3bmt1WkZBSUdtQVBX?=
+ =?utf-8?B?bHg1bzRRUEt3aXU5SWxON0g3RWxjc3UzUTdvRUZaU3pXb1ZscWVUbWJsY3Ri?=
+ =?utf-8?B?MzRXQjUyR1NrVVBjbkFJenRmMkY5elpTajZuK1pobEg4bVVlN3Y3eEhvTXNs?=
+ =?utf-8?B?OE1HdVdTSmZzYzFlaFFnYW5MWjFJY3pLZFgyTGFhZVVNRmI5VlM3NXNHeERs?=
+ =?utf-8?B?ZHp4NGF4ajEwRHk2SmorVkVlSGs0eVFWWlZkcGdvTGpNNmVhRFdhMEI2dHMr?=
+ =?utf-8?B?TUkvZUFvV3FvUEZvRWtmWm5SbmU3NjZVWFEwbmN5UTJ5WTkvYm5MZ2Q0MVJp?=
+ =?utf-8?B?V25jN0hYeVhEeCtZcmRTNzNYbnZKUCtMUGRpNHRhODFqWXoyR0pUeHVvL0ZF?=
+ =?utf-8?B?enI1RGJSdE8vQjVrWitJdi85UTlDK0NySTBvTnRMTEszVnRlUDIrZFRzYUJq?=
+ =?utf-8?B?YVQ0TUdjMCs3L1ZwUlFxczZSTWhWeG9BbjdJeldKWm91bWxuUVFEbHc5ZEt1?=
+ =?utf-8?B?c2xVOWlHdEFYeWxUZmQ0M2NPdFN1cFVlV255RXp2azhxNk9CL3pBWTh1Z2pa?=
+ =?utf-8?B?NVlEaHdFUFp4ZGh3RnhKc292T1l2TFA1YmtDdTlILzYrUmtNMmU2czRYNHdW?=
+ =?utf-8?B?RVhpMjRIMlJybVprUnBHSTh0MW1qclNXc1lGeE1ZbEdZbFc5UFN1VkEwbFkv?=
+ =?utf-8?B?eEZZZmNIR0xZaGdYR3ZoT1drb3JLYXVUTm5aOWMrRmV5NkY5RE9sQUhFVE5R?=
+ =?utf-8?B?R0tnMTFMWVk5ZVVlSWhHVjMxaHY5YWVsTFh3VFA3cFg1dTlnSFNNTzFCM0J1?=
+ =?utf-8?B?bVFvckFKVEpFUXAzanRpdFlJMzdpcEtTYWl2NzhDYkphRlc4aVM2U2Y5Y0Q4?=
+ =?utf-8?B?RmNXMXVPVHNRa1k2YTRwYjc0OXg4bkxQemt4S2FISVV2ZHJ1eFQyZjhwRXVs?=
+ =?utf-8?B?NmlPc1NWWkFFYW9MMGtiV3F6Z1NtUjZqYnEyLzgxYi9VcFMrd2JHSTk4d3pO?=
+ =?utf-8?B?R25rWkF5NTV5NWZjQTRlS04xQ0hWTUtudkQ2YjFhallLU3ZmVEhiZzhteis3?=
+ =?utf-8?B?S1NmT01QbU53U094M3ZJR0N6OWtNT2lUT0ljYTUyZFEra3dodnBqZDkyVURC?=
+ =?utf-8?B?ZlBHb1YzbnZCNDFrd0E5YUk5UU1IQ094R1gvM1J2WThYM3BvcjRhY1drUHFG?=
+ =?utf-8?B?aE5hOER1bWo4TXZ0STFZak9rRmlqYUUxU0hnbmF3SW1qOWZ3T2s5QWI3d1F0?=
+ =?utf-8?B?VDVCTFduVXpvRWRHWnlGdUU1Q0tlSVlJV2xLU3dSckp4Q0pNK0JEaXFlTm1T?=
+ =?utf-8?B?VFlUSTk2V0x4NWxpZGtodzE3Z0RNY2p2cHdxaFNIOHlZSUNUazlJdWIxOUJm?=
+ =?utf-8?B?azN4cmlzUnVMZHIyN2x3T2FTSURPU1EycEsvcjVNZG5PMkZQclY5eHdocVlY?=
+ =?utf-8?B?dExzd2pSY0kyb0d6UXdDQTJaQ0ZzQWw0NmgxVC9qbnFFajhVbDRhN20wMkEw?=
+ =?utf-8?B?eXE4WmgxekE4NGFqYlZ4eS9xTzBTeHZnNkhjbzJpbS8wSVlBVkpubGdMSy9P?=
+ =?utf-8?B?WTM0Y1pOSlcxelBodUJ2YWJIMXBWb1gyMGNUMXBIZXYvbUJqTi9PaHN3ME45?=
+ =?utf-8?B?UEFoNzBadytJZlp0Z21LS3VGZndKdGQ3TExFdjNxK093dTJLeW9RL3h2OTRa?=
+ =?utf-8?B?b0pqT08rVit4ZW12WllWeFBXbS9tcHZNQlBteWJ3em1VZlJhendOelRHVDlZ?=
+ =?utf-8?B?UGdlVlF5NjkydVIwQUZLQ201Nm5xSXE0NmllRDYyNW5xcC8yVzJ6Ynl6Vkdh?=
+ =?utf-8?B?Wk94TzBSa2prclYyOXk3dy9SY00vb3UzOWF2UlpHeUt4TUg3TGMydXdrNUhI?=
+ =?utf-8?B?UFcwTXJlUzZCd0JYTU9udG41MTNWczRQaVdLSUlyVzRrM3Uyd3FBcTRpTE8w?=
+ =?utf-8?B?SlEzRnFtOEVnUjZsTDhqSmFiM0RDUi9kMHMzNlBHS0pLYUpaQ3JmbXdualhJ?=
+ =?utf-8?B?Q3BmeWxUOTljNEkxTzUyZ1lKR1RERzZEaTBiaDJZQVBSdEhuVUdNWTRlWGJL?=
+ =?utf-8?B?YWdDdDdqUU5GeHJKZkRub21XaC8zRGlXM2RYVXNmS29tYmE4MW1GMGc3Q3Q5?=
+ =?utf-8?B?WUErN2tqK1dzY0sxQWdGaDV3dWZuM3NLeVRIWWtaVUJYNUZLTTVObFZWVGxt?=
+ =?utf-8?B?TlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d81b129-97ed-497c-0ccb-08dc9f8a3046
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6435.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 20:11:44.5703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EuOO6wDOItyUI3RdddZLKSWPv2wDvd+z6Hew7mgzddr+zVhH8oy4J21m2vjh7lCEaZFxctyuAXjUkq1zprvPsjWsLD8NtdBs5WdgIpq78Aw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8054
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: 1f14028666386d806d00dd6e95da95327b146ded [6084/10451] dt-bindings: mmc: Convert fsl-esdhc.txt to yaml
-config: powerpc-randconfig-051-20240708 (https://download.01.org/0day-ci/archive/20240709/202407090332.In2CvPd2-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090332.In2CvPd2-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407090332.In2CvPd2-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: at24@50: $nodename:0: 'at24@50' does not match '^eeprom@[0-9a-f]{1,2}$'
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: at24@50: Unevaluated properties are not allowed ('$nodename' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/sleep-nexus/i2c@3000/mcu@a: failed to match any schema with compatible: ['fsl,mc9s08qg8-mpc8377erdb', 'fsl,mcu-mpc8349emitx']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/sleep-nexus/i2c@3000/mcu@a: failed to match any schema with compatible: ['fsl,mc9s08qg8-mpc8377erdb', 'fsl,mcu-mpc8349emitx']
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: sdhci@2e000: compatible:0: 'fsl,mpc8377-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: sdhci@2e000: $nodename:0: 'sdhci@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: sdhci@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/sleep-nexus/sdhci@2e000: failed to match any schema with compatible: ['fsl,mpc8377-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/spi@7000: failed to match any schema with compatible: ['fsl,spi']
---
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: at24@50: $nodename:0: 'at24@50' does not match '^eeprom@[0-9a-f]{1,2}$'
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: at24@50: Unevaluated properties are not allowed ('$nodename' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: sdhci@2e000: compatible:0: 'fsl,mpc8377-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: sdhci@2e000: $nodename:0: 'sdhci@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: sdhci@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/sleep-nexus/sdhci@2e000: failed to match any schema with compatible: ['fsl,mpc8377-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/spi@7000: failed to match any schema with compatible: ['fsl,spi']
---
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: at24@50: $nodename:0: 'at24@50' does not match '^eeprom@[0-9a-f]{1,2}$'
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: at24@50: Unevaluated properties are not allowed ('$nodename' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/sleep-nexus/i2c@3000/mcu@a: failed to match any schema with compatible: ['fsl,mc9s08qg8-mpc8379erdb', 'fsl,mcu-mpc8349emitx']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/sleep-nexus/i2c@3000/mcu@a: failed to match any schema with compatible: ['fsl,mc9s08qg8-mpc8379erdb', 'fsl,mcu-mpc8349emitx']
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sdhci@2e000: compatible:0: 'fsl,mpc8379-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sdhci@2e000: $nodename:0: 'sdhci@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sdhci@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/sleep-nexus/sdhci@2e000: failed to match any schema with compatible: ['fsl,mpc8379-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/spi@7000: failed to match any schema with compatible: ['fsl,spi']
---
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,c293-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: sdhc@2e000: compatible:0: 'fsl,c293-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,c293-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: crypto@80000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v6.0', 'fsl,sec-v5.0', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v6.0' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: crypto@80000: jr@1000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v6.0-job-ring', 'fsl,sec-v5.2-job-ring', 'fsl,sec-v5.0-job-ring', 'fsl,sec-v4.4-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
---
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sdhc@114000: compatible:0: 'fsl,p5020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sdhc@114000: $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sdhc@114000: Unevaluated properties are not allowed ('compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/sdhc@114000: failed to match any schema with compatible: ['fsl,p5020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: i2c@118000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: i2c@118000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: i2c@119000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@10000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@14000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@18000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@1c000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@20000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /qman-portals@ff4200000/qman-portal@24000: failed to match any schema with compatible: ['fsl,qman-portal']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: soc@ffe000000: soc-sram-error: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/spi@110000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/spi@110000/network_clock@1: failed to match any schema with compatible: ['zarlink,zl30343']
->> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: sdhc@114000: compatible:0: 'fsl,p2041-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: sdhc@114000: $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/sdhc@114000: failed to match any schema with compatible: ['fsl,p2041-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: i2c@119000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: i2c@119100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/sata@18000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/sata@19000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: sdhc@2e000: compatible:0: 'fsl,p1010-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1010-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: crypto@30000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/sata@18000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/sata@19000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: sdhc@2e000: compatible:0: 'fsl,p1010-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1010-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: crypto@30000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/sata@18000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/sata@19000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: sdhc@2e000: compatible:0: 'fsl,p1010-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1010-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: crypto@30000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/sata@18000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/sata@19000: failed to match any schema with compatible: ['fsl,pq-sata-v2']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1010-l2-cache-controller', 'fsl,p1014-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: sdhc@2e000: compatible:0: 'fsl,p1010-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1010-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: crypto@30000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.4', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.4' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1020-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: sdhc@2e000: compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
---
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/gpio-controller@fc00: failed to match any schema with compatible: ['fsl,pq3-gpio']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/l2-cache-controller@20000: failed to match any schema with compatible: ['fsl,p1020-l2-cache-controller']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/dma@21300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/dma@21300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: sdhc@2e000: compatible:0: 'fsl,p1020-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: sdhc@2e000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/sdhc@2e000: failed to match any schema with compatible: ['fsl,p1020-esdhc', 'fsl,esdhc']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+On 7/8/2024 8:44 AM, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+> head:   d051d5283b530af3f9627c8e600aa581bc6c1958
+> commit: 23eb6f4d18624231cd3f57f322814591f38b3837 [12/92] ice: enable FDIR filters from raw binary patterns for VFs
+> config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240707/202407070634.aTz9Naa1-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202407070634.aTz9Naa1-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875 ice_vc_fdir_parse_raw() warn: missing error code 'status'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for the report Dan. I spoke with Ahmed and he will get this fix 
+into his next version.
+
+Thanks,
+Tony
