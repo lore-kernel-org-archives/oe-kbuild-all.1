@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8CF56452
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 22:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A481514C3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 23:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720479278; cv=none; b=aGKojE62FwBb+WPfNH7CixM7mSqzyGx2Bs9dQpEHIXSwj/uupXFlR4zCRIO0uEwSlu/kLkck8YXRT2OzudaV2TDPZz7dqy80gRgMkv8Dof2KdT24FES7YDFx9yESsz29X/vmxd34xS0c6g4MtRCoje+xRmE7wM9hccPsAUsyrDM=
+	t=1720483123; cv=none; b=o0sucgOaakvUPRqgnpWjcWIAzrTrwQ95qxG/cPCWWqb4R701fR8tTg3barbjJDeITpHOLljNqLQWoLsZXAjwVfUgdMW3HvIbUAZ8Pg7Yf8xhvHDfa906Clqy5R0euNCMrhAY1q7p/APKF+DUGI0yfndoNwPtbmGeUbFAHLyPDBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720479278; c=relaxed/simple;
-	bh=sr8xqLf8Eb4p9NInwGmIHBMefEn6kbp4oVbByDQPv14=;
+	s=arc-20240116; t=1720483123; c=relaxed/simple;
+	bh=2TCn8fQ0aSpKFKwPnFZSKNe4i3sslkG6fdu5wkCW21M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LZ689DOSNgJ2UAx+CNNQQH2gV1KmZBUdEq+S5vOBsa6FiOZz+3/fVmIsI9zACri56KyZo9XTgtmgTxVoRiY99mY6XcsZccwHDmyfSZ8UHIOAk3R1BO9513+MUrF3Y+YUdb2FA6F2CVuge8Kg0MUKKayKv99Yb2+bDIJ9aJVOOVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aob+MO5R; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=G7vkH7/QxYnCzMINXjh2hnaJyTBdSqBUE9d/ir1i3MQ+qViqWj/RqIizfoVyJ9cwJPh6m8XkkLZHgbfEU6IlhkGGNsNtaya1jqmPUPqIDhZVE/88JW7CdR7YzgmIMVokR+XfJl4RS7Q2KVG0zTR/IITCQNFsWliumZPh4QIke7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDzKDbre; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aob+MO5R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDzKDbre"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720479277; x=1752015277;
+  t=1720483122; x=1752019122;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sr8xqLf8Eb4p9NInwGmIHBMefEn6kbp4oVbByDQPv14=;
-  b=aob+MO5R5J0IJ7SnUbKhge1cP/gqbo+fwtzO/1W2CRqsGT1gZWidOMke
-   81b6NNbdUW3i+23tR2Hv6Kj4XPzopi//qieD3sCCKVtlLg0T4b3s7NPUd
-   RuFx1CmLragv/viuKgj+WjKsXx3gOgqYW3U+ZanEUzamneUJHN/xOYgO0
-   W+NZLuxuRprtO6kuKpnGmjtxViaYk+ia0f4yvTVOtWIpkZIp5b/JyrsEH
-   buphIpl5VqGigL14NgSvkWzBLZ1f9T2Pe4z28jfGLMTvnOLYWhrGdDnAy
-   dR/R+ugAYTm+iFL97jaau33J1sFL+FHSN69KHxf1S3CPBqXg1KODGb7Dx
-   A==;
-X-CSE-ConnectionGUID: EyKBuFQnSvaVwOBaYXkyCQ==
-X-CSE-MsgGUID: o66Oei1FSHySIFOvgCZtDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17658072"
+  bh=2TCn8fQ0aSpKFKwPnFZSKNe4i3sslkG6fdu5wkCW21M=;
+  b=JDzKDbreXt9r+sk5gTJAhTDX8bXGARO/wTjL5HmLgnio8TLkauIxxfxT
+   O/28e46qMPIkm8jsxTnkUqrwvEfAaddS+03ZghKfwP5LcwkfwWQmtwA9R
+   cGKQ4p0nkyJw/tFXI99hKsEEDigusFVF2BaxTasVOuGw0t6jzs+Eak0ly
+   8ElIL1V0Kl+HCDIYMgmta2AB7hddm9VOnMt5G7XqZOcje4OPEQnad9fK5
+   X8hKWULw8ZYZnCPeJtM/rrBxmDBERJTXv3RW3ag9tLChj1L0M2SlWlU7Y
+   PgPDjxLKYozcjiCriFd3BQway3g6PFVWQ6FBBNaRYtJwubqwp05bh+2il
+   Q==;
+X-CSE-ConnectionGUID: E6m8K11oSxeaEwi+s+jarg==
+X-CSE-MsgGUID: Jhr6GHZ2S+6SNtbfnJv59A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="21523578"
 X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="17658072"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 15:54:36 -0700
-X-CSE-ConnectionGUID: lg+XLFRoQnCwktJkbH4/3A==
-X-CSE-MsgGUID: RWHX0LoCQWibHwxjtgChkQ==
+   d="scan'208";a="21523578"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 16:58:41 -0700
+X-CSE-ConnectionGUID: F9V+XFLKTOWjV9Dcr1bz3Q==
+X-CSE-MsgGUID: oOo0/W/3TEGycM9hGlmUtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="78802646"
+   d="scan'208";a="47754928"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Jul 2024 15:54:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2024 16:58:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQxFf-000W6I-0A;
-	Mon, 08 Jul 2024 22:54:31 +0000
-Date: Tue, 9 Jul 2024 06:54:07 +0800
+	id 1sQyFg-000W9K-2f;
+	Mon, 08 Jul 2024 23:58:36 +0000
+Date: Tue, 9 Jul 2024 07:57:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Burton <paulburton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Chao-ying Fu <cfu@wavecomp.com>,
-	Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
-	Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [daniel-lezcano:timers/drivers/next 4/7]
- drivers/clocksource/mips-gic-timer.c:176:25: error: implicit declaration of
- function 'read_gic_redir_counter'; did you mean 'read_gic_counter'?
-Message-ID: <202407090637.CQkE1Tv9-lkp@intel.com>
+To: Nuno Sa <nuno.sa@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
+Subject: [nsa:b4/dev-iio-backend-add-debugfs 17/17]
+ drivers/iio/adc/adi-axi-adc.c:93:22: warning: unused variable '__val'
+Message-ID: <202407090700.tFpFNnTM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,121 +62,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   http://git.linaro.org/people/daniel.lezcano/linux timers/drivers/next
-head:   008addaf6139ac2f0a913d8d49a3fa2525cb10db
-commit: 0fa128b58eb848fdfd62b08ba072cbe80f05ba41 [4/7] clocksource/drivers/mips-gic-timer: Always use cluster 0 counter as clocksource
-config: mips-malta_kvm_defconfig (https://download.01.org/0day-ci/archive/20240709/202407090637.CQkE1Tv9-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090637.CQkE1Tv9-lkp@intel.com/reproduce)
+tree:   https://github.com/nunojsa/linux b4/dev-iio-backend-add-debugfs
+head:   4120536adfc0bc741c466d38ae50ffb9760576e3
+commit: 4120536adfc0bc741c466d38ae50ffb9760576e3 [17/17] reset me
+config: i386-buildonly-randconfig-001-20240709 (https://download.01.org/0day-ci/archive/20240709/202407090700.tFpFNnTM-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090700.tFpFNnTM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407090637.CQkE1Tv9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407090700.tFpFNnTM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/clocksource/mips-gic-timer.c: In function 'gic_hpt_read_multicluster':
->> drivers/clocksource/mips-gic-timer.c:176:25: error: implicit declaration of function 'read_gic_redir_counter'; did you mean 'read_gic_counter'? [-Werror=implicit-function-declaration]
-     176 |                 count = read_gic_redir_counter();
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         read_gic_counter
->> drivers/clocksource/mips-gic-timer.c:180:14: error: implicit declaration of function 'read_gic_redir_counter_32h'; did you mean 'read_gic_counter_32h'? [-Werror=implicit-function-declaration]
-     180 |         hi = read_gic_redir_counter_32h();
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |              read_gic_counter_32h
->> drivers/clocksource/mips-gic-timer.c:182:22: error: implicit declaration of function 'read_gic_redir_counter_32l'; did you mean 'read_gic_counter_32l'? [-Werror=implicit-function-declaration]
-     182 |                 lo = read_gic_redir_counter_32l();
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      read_gic_counter_32l
-   drivers/clocksource/mips-gic-timer.c: In function '__gic_clocksource_init':
->> drivers/clocksource/mips-gic-timer.c:233:13: error: implicit declaration of function 'mips_cps_multicluster_cpus'; did you mean 'mips_cps_numclusters'? [-Werror=implicit-function-declaration]
-     233 |         if (mips_cps_multicluster_cpus()) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |             mips_cps_numclusters
-   cc1: some warnings being treated as errors
+   drivers/iio/adc/adi-axi-adc.c: In function 'axi_adc_enable':
+>> drivers/iio/adc/adi-axi-adc.c:93:22: warning: unused variable '__val' [-Wunused-variable]
+      93 |         unsigned int __val;
+         |                      ^~~~~
 
 
-vim +176 drivers/clocksource/mips-gic-timer.c
+vim +/__val +93 drivers/iio/adc/adi-axi-adc.c
 
-   167	
-   168	static u64 gic_hpt_read_multicluster(struct clocksource *cs)
-   169	{
-   170		unsigned int hi, hi2, lo;
-   171		u64 count;
-   172	
-   173		mips_cm_lock_other(0, 0, 0, CM_GCR_Cx_OTHER_BLOCK_GLOBAL);
-   174	
-   175		if (mips_cm_is64) {
- > 176			count = read_gic_redir_counter();
-   177			goto out;
-   178		}
-   179	
- > 180		hi = read_gic_redir_counter_32h();
-   181		while (true) {
- > 182			lo = read_gic_redir_counter_32l();
-   183	
-   184			/* If hi didn't change then lo didn't wrap & we're done */
-   185			hi2 = read_gic_redir_counter_32h();
-   186			if (hi2 == hi)
-   187				break;
-   188	
-   189			/* Otherwise, repeat with the latest hi value */
-   190			hi = hi2;
-   191		}
-   192	
-   193		count = (((u64)hi) << 32) + lo;
-   194	out:
-   195		mips_cm_unlock_other();
-   196		return count;
-   197	}
-   198	
-   199	static struct clocksource gic_clocksource = {
-   200		.name			= "GIC",
-   201		.read			= gic_hpt_read,
-   202		.flags			= CLOCK_SOURCE_IS_CONTINUOUS,
-   203		.vdso_clock_mode	= VDSO_CLOCKMODE_GIC,
-   204	};
-   205	
-   206	static void gic_clocksource_unstable(char *reason)
-   207	{
-   208		if (gic_clock_unstable)
-   209			return;
-   210	
-   211		gic_clock_unstable = true;
-   212	
-   213		pr_info("GIC timer is unstable due to %s\n", reason);
-   214	
-   215		clocksource_mark_unstable(&gic_clocksource);
-   216	}
-   217	
-   218	static int __init __gic_clocksource_init(void)
-   219	{
-   220		unsigned int count_width;
-   221		int ret;
-   222	
-   223		/* Set clocksource mask. */
-   224		count_width = read_gic_config() & GIC_CONFIG_COUNTBITS;
-   225		count_width >>= __ffs(GIC_CONFIG_COUNTBITS);
-   226		count_width *= 4;
-   227		count_width += 32;
-   228		gic_clocksource.mask = CLOCKSOURCE_MASK(count_width);
-   229	
-   230		/* Calculate a somewhat reasonable rating value. */
-   231		gic_clocksource.rating = 200 + gic_frequency / 10000000;
-   232	
- > 233		if (mips_cps_multicluster_cpus()) {
-   234			gic_clocksource.read = &gic_hpt_read_multicluster;
-   235			gic_clocksource.vdso_clock_mode = VDSO_CLOCKMODE_NONE;
-   236		}
-   237	
-   238		ret = clocksource_register_hz(&gic_clocksource, gic_frequency);
-   239		if (ret < 0)
-   240			pr_warn("Unable to register clocksource\n");
-   241	
-   242		return ret;
-   243	}
-   244	
+ef04070692a216 Michael Hennerich 2020-03-24   89  
+794ef0e57854d7 Nuno Sa           2024-02-10   90  static int axi_adc_enable(struct iio_backend *back)
+ef04070692a216 Michael Hennerich 2020-03-24   91  {
+794ef0e57854d7 Nuno Sa           2024-02-10   92  	struct adi_axi_adc_state *st = iio_backend_get_priv(back);
+70a0e10f8ab62b Nuno Sa           2024-05-31  @93  	unsigned int __val;
+21aa971d3e295c Nuno Sa           2023-12-07   94  	int ret;
+ef04070692a216 Michael Hennerich 2020-03-24   95  
+202b89f4b778d8 Nuno Sa           2024-05-31   96  	guard(mutex)(&st->lock);
+794ef0e57854d7 Nuno Sa           2024-02-10   97  	ret = regmap_set_bits(st->regmap, ADI_AXI_REG_RSTN,
+794ef0e57854d7 Nuno Sa           2024-02-10   98  			      ADI_AXI_REG_RSTN_MMCM_RSTN);
+21aa971d3e295c Nuno Sa           2023-12-07   99  	if (ret)
+21aa971d3e295c Nuno Sa           2023-12-07  100  		return ret;
+ef04070692a216 Michael Hennerich 2020-03-24  101  
+70a0e10f8ab62b Nuno Sa           2024-05-31  102  	/*
+70a0e10f8ab62b Nuno Sa           2024-05-31  103  	 * Make sure the DRP (Dynamic Reconfiguration Port) is locked. Not all
+70a0e10f8ab62b Nuno Sa           2024-05-31  104  	 * designs really use it but if they don't we still get the lock bit
+70a0e10f8ab62b Nuno Sa           2024-05-31  105  	 * set. So let's do it all the time so the code is generic.
+70a0e10f8ab62b Nuno Sa           2024-05-31  106  	 */
+4120536adfc0bc Nuno Sa           2024-07-08  107  	//ret = regmap_read_poll_timeout(st->regmap, ADI_AXI_ADC_REG_DRP_STATUS,
+4120536adfc0bc Nuno Sa           2024-07-08  108  	//			       __val, __val & ADI_AXI_ADC_DRP_LOCKED,
+4120536adfc0bc Nuno Sa           2024-07-08  109  	//			       100, 1000);
+4120536adfc0bc Nuno Sa           2024-07-08  110  	//if (ret)
+4120536adfc0bc Nuno Sa           2024-07-08  111  	//	return ret;
+70a0e10f8ab62b Nuno Sa           2024-05-31  112  
+794ef0e57854d7 Nuno Sa           2024-02-10  113  	return regmap_set_bits(st->regmap, ADI_AXI_REG_RSTN,
+794ef0e57854d7 Nuno Sa           2024-02-10  114  			       ADI_AXI_REG_RSTN_RSTN | ADI_AXI_REG_RSTN_MMCM_RSTN);
+ef04070692a216 Michael Hennerich 2020-03-24  115  }
+ef04070692a216 Michael Hennerich 2020-03-24  116  
+
+:::::: The code at line 93 was first introduced by commit
+:::::: 70a0e10f8ab62ba82b080347ca0a119e14e964c9 iio: adc: adi-axi-adc: make sure DRP is locked on enable
+
+:::::: TO: Nuno Sa <nuno.sa@analog.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
