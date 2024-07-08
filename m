@@ -1,147 +1,188 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5FD14E2F6;
-	Mon,  8 Jul 2024 22:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8CF56452
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jul 2024 22:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720479118; cv=none; b=EJ02YVrKlOcJkJ7gqzQ1rdOsd17Go7rNvE+EnLfetYMMG7CfwIKzGNBZ9Y8tFVimAYKlFoDRzPw9OgPKE36fPW7ryusb0GPFzxacN/mdhm57fMlAykGUUvwIIdKR+i6Hb78YXe7O3isVn9FtOSDUhfhfelxzfiw4ykcXkywihVg=
+	t=1720479278; cv=none; b=aGKojE62FwBb+WPfNH7CixM7mSqzyGx2Bs9dQpEHIXSwj/uupXFlR4zCRIO0uEwSlu/kLkck8YXRT2OzudaV2TDPZz7dqy80gRgMkv8Dof2KdT24FES7YDFx9yESsz29X/vmxd34xS0c6g4MtRCoje+xRmE7wM9hccPsAUsyrDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720479118; c=relaxed/simple;
-	bh=BaeSK8VL0osIikIB9i5thgSjcGWi7CWbmFZlyc7yXoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qyWNQeRnABKDDVHQEw7l0FozOQJnjjWSzNkYCb638DQHOG14WFg1KdN6zCNLv8YbAn5GZRL6QGs4T0hGDKQ5JckrbWfFmxiwL1diFWciT8Xgn5P4dW8MUZxtQ4a2oj7pBuODSgZnO6eMo/dJHb609jm2tY/yZWMDkYvNFz97I5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVWmoHMJ; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720479278; c=relaxed/simple;
+	bh=sr8xqLf8Eb4p9NInwGmIHBMefEn6kbp4oVbByDQPv14=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LZ689DOSNgJ2UAx+CNNQQH2gV1KmZBUdEq+S5vOBsa6FiOZz+3/fVmIsI9zACri56KyZo9XTgtmgTxVoRiY99mY6XcsZccwHDmyfSZ8UHIOAk3R1BO9513+MUrF3Y+YUdb2FA6F2CVuge8Kg0MUKKayKv99Yb2+bDIJ9aJVOOVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aob+MO5R; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVWmoHMJ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fb4a807708so35471755ad.2;
-        Mon, 08 Jul 2024 15:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720479116; x=1721083916; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8srVywQNWWPgpGI5XryznETXjclcLlACCGDSu9pPwTw=;
-        b=eVWmoHMJ/uFjCD1HPAzSCqWzojxfQs1la0UA4rq1E/1lt20cWIf88P7hQYuP/u+gEC
-         QDMb32v8EJGXWaqPMxT/UT4EsDhAlS2IZO4Fw+nBdqYNsPGLPc1RNTOxqnxOAfihifDB
-         A9v7EnuvVNm/atrYPvTxRkGLo2eEUtguy5BbmwotE7fwphycXy0N+qvF2ab2J8G3+b2+
-         tOyi+3rWIoc+joRqYAC/fcnQJYIioM+3pchmyY6d7/cF3d3T+iMkzUAUHx9OfDQ7p2QA
-         AfkMI+jFOBjD/ZDuI1OsJCaNWMzaOPLMWIyfqmZyINvwaPxhKGWckC16IpDSmTTLeN2a
-         dvCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720479116; x=1721083916;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8srVywQNWWPgpGI5XryznETXjclcLlACCGDSu9pPwTw=;
-        b=PVtMycmdM4E/0vLJnzNo8kKwW7z0Zr6l4fw5zWVHxhIaEV+cxyfYjlYZPFbOElhWZp
-         mtMbYJs+IJpch4o0jUQ53xgkM3TV9a6uzK2t/qyJT+oq+y8xDpZFXLeQnhh6LLvvqB9O
-         MrauSC/pDGeMhlipNqgcHFFje3H3/b5FrfaPomhs4YbEXKUja0pXhKxcAL+FxrdTEo5Q
-         cLDwTumKmxDj2OY/XaJKp2xXGsAKQMGFpM4g1ZSdx6jlsWLt2Sgfv3f+Cb81LZ7EbFk0
-         +mKTeL8ONGBxnHKxRU5QGanketmH2R9zdewz6grF5a6Z+8eUf8hPOAgCFT6x9QQj1oSn
-         V5TA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXcVe5wR78pZN/vDBOQMM9kFef22z2i+FmPBTgdNEzqDlf4wdUbD7mkf5GwKmluAWFnjsl/HhM07rktCxZaQPfLPVRM5KERsI4KYdhhymK4xvZPuX2+u13Eea16sg8bvKvfH4zYw/SEg==
-X-Gm-Message-State: AOJu0Yy1oEBUSwDXmlRO0671EhN2tR3+PPBCrcAdP+9QxeNRqFE4aesA
-	KB4sskVWKR2/JdETvgvptEAlthk1UrC7m3L7q5LpexDFar069mY+
-X-Google-Smtp-Source: AGHT+IE4gALPYWza3/xf9ND9sKmPMlgPWyMMwEpsRiHkm4yhjH+VkTr6mvBRquiS6avJMGz+Qs4CRw==
-X-Received: by 2002:a17:902:c40e:b0:1fb:80cb:f577 with SMTP id d9443c01a7336-1fbb6d23bdamr5769945ad.5.1720479116408;
-        Mon, 08 Jul 2024 15:51:56 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a11890sm3823825ad.7.2024.07.08.15.51.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 15:51:56 -0700 (PDT)
-Message-ID: <56d2ff54-3c3a-4fb3-8006-72e183faa8bc@gmail.com>
-Date: Tue, 9 Jul 2024 07:51:51 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aob+MO5R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720479277; x=1752015277;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sr8xqLf8Eb4p9NInwGmIHBMefEn6kbp4oVbByDQPv14=;
+  b=aob+MO5R5J0IJ7SnUbKhge1cP/gqbo+fwtzO/1W2CRqsGT1gZWidOMke
+   81b6NNbdUW3i+23tR2Hv6Kj4XPzopi//qieD3sCCKVtlLg0T4b3s7NPUd
+   RuFx1CmLragv/viuKgj+WjKsXx3gOgqYW3U+ZanEUzamneUJHN/xOYgO0
+   W+NZLuxuRprtO6kuKpnGmjtxViaYk+ia0f4yvTVOtWIpkZIp5b/JyrsEH
+   buphIpl5VqGigL14NgSvkWzBLZ1f9T2Pe4z28jfGLMTvnOLYWhrGdDnAy
+   dR/R+ugAYTm+iFL97jaau33J1sFL+FHSN69KHxf1S3CPBqXg1KODGb7Dx
+   A==;
+X-CSE-ConnectionGUID: EyKBuFQnSvaVwOBaYXkyCQ==
+X-CSE-MsgGUID: o66Oei1FSHySIFOvgCZtDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17658072"
+X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
+   d="scan'208";a="17658072"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 15:54:36 -0700
+X-CSE-ConnectionGUID: lg+XLFRoQnCwktJkbH4/3A==
+X-CSE-MsgGUID: RWHX0LoCQWibHwxjtgChkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
+   d="scan'208";a="78802646"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jul 2024 15:54:33 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sQxFf-000W6I-0A;
+	Mon, 08 Jul 2024 22:54:31 +0000
+Date: Tue, 9 Jul 2024 06:54:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Burton <paulburton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Chao-ying Fu <cfu@wavecomp.com>,
+	Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
+	Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: [daniel-lezcano:timers/drivers/next 4/7]
+ drivers/clocksource/mips-gic-timer.c:176:25: error: implicit declaration of
+ function 'read_gic_redir_counter'; did you mean 'read_gic_counter'?
+Message-ID: <202407090637.CQkE1Tv9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Harald Freudenberger <freude@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, shjy180909@gmail.com,
- linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+tree:   http://git.linaro.org/people/daniel.lezcano/linux timers/drivers/next
+head:   008addaf6139ac2f0a913d8d49a3fa2525cb10db
+commit: 0fa128b58eb848fdfd62b08ba072cbe80f05ba41 [4/7] clocksource/drivers/mips-gic-timer: Always use cluster 0 counter as clocksource
+config: mips-malta_kvm_defconfig (https://download.01.org/0day-ci/archive/20240709/202407090637.CQkE1Tv9-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090637.CQkE1Tv9-lkp@intel.com/reproduce)
 
-On 7/9/24 12:55 오전, Dan Carpenter wrote:
-> Hi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/yskelg-gmail-com/s390-zcrypt-optimize-memory-allocation-in-online_show/20240626-071004
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-> patch link:    https://lore.kernel.org/r/20240623120147.35554-3-yskelg%40gmail.com
-> patch subject: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-> config: s390-randconfig-r081-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071714.4AUEoeUD-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202407071714.4AUEoeUD-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/s390/crypto/zcrypt_card.c:103 online_store() warn: iterator used outside loop: 'zq'
-> 
-> vim +/zq +103 drivers/s390/crypto/zcrypt_card.c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407090637.CQkE1Tv9-lkp@intel.com/
 
-Thank you for the review. I decided not to work on my patch anymore
-after the review because my patch was problematic and not useful.
+All errors (new ones prefixed by >>):
 
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   90  	list_for_each_entry(zq, &zc->zqueues, list)
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23   91  		if (!!zq->online != !!online)
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   92  			maxzqs++;
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   93  	if (maxzqs > 0)
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23   94  		zq_uelist = kcalloc(maxzqs, sizeof(*zq_uelist), GFP_ATOMIC);
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25   95  	list_for_each_entry(zq, &zc->zqueues, list)
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   96  		if (zcrypt_queue_force_online(zq, online))
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   97  			if (zq_uelist) {
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   98  				zcrypt_queue_get(zq);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   99  				zq_uelist[i++] = zq;
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  100  			}
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  101  	spin_unlock(&zcrypt_list_lock);
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23  102  	while (i--) {
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13 @103  		ap_send_online_uevent(&zq->queue->ap_dev, online);
->                                                                                        ^^
-> zq is an invalid pointer here.  It's an offset off the list head.
-> There used to be a "zq = zq_uelist[i];" before this function call but
-> the patch deleted it.
-
-My patch doesn't mean much to me at this point, but if it needed to be
-fixed, I think it should have been.
-
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23  104  		zcrypt_queue_put(zq_uelist[i]);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  105  	}
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  106  	kfree(zq_uelist);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  107  
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  108  	return count;
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  109  }
+   drivers/clocksource/mips-gic-timer.c: In function 'gic_hpt_read_multicluster':
+>> drivers/clocksource/mips-gic-timer.c:176:25: error: implicit declaration of function 'read_gic_redir_counter'; did you mean 'read_gic_counter'? [-Werror=implicit-function-declaration]
+     176 |                 count = read_gic_redir_counter();
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+         |                         read_gic_counter
+>> drivers/clocksource/mips-gic-timer.c:180:14: error: implicit declaration of function 'read_gic_redir_counter_32h'; did you mean 'read_gic_counter_32h'? [-Werror=implicit-function-declaration]
+     180 |         hi = read_gic_redir_counter_32h();
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |              read_gic_counter_32h
+>> drivers/clocksource/mips-gic-timer.c:182:22: error: implicit declaration of function 'read_gic_redir_counter_32l'; did you mean 'read_gic_counter_32l'? [-Werror=implicit-function-declaration]
+     182 |                 lo = read_gic_redir_counter_32l();
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      read_gic_counter_32l
+   drivers/clocksource/mips-gic-timer.c: In function '__gic_clocksource_init':
+>> drivers/clocksource/mips-gic-timer.c:233:13: error: implicit declaration of function 'mips_cps_multicluster_cpus'; did you mean 'mips_cps_numclusters'? [-Werror=implicit-function-declaration]
+     233 |         if (mips_cps_multicluster_cpus()) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |             mips_cps_numclusters
+   cc1: some warnings being treated as errors
 
 
-I've been doing some Linux kernel research on the IBM Cloud s390x VPC
-and running syzkaller and Linux kernel tests tools to send out useful
-patches. :)
+vim +176 drivers/clocksource/mips-gic-timer.c
 
+   167	
+   168	static u64 gic_hpt_read_multicluster(struct clocksource *cs)
+   169	{
+   170		unsigned int hi, hi2, lo;
+   171		u64 count;
+   172	
+   173		mips_cm_lock_other(0, 0, 0, CM_GCR_Cx_OTHER_BLOCK_GLOBAL);
+   174	
+   175		if (mips_cm_is64) {
+ > 176			count = read_gic_redir_counter();
+   177			goto out;
+   178		}
+   179	
+ > 180		hi = read_gic_redir_counter_32h();
+   181		while (true) {
+ > 182			lo = read_gic_redir_counter_32l();
+   183	
+   184			/* If hi didn't change then lo didn't wrap & we're done */
+   185			hi2 = read_gic_redir_counter_32h();
+   186			if (hi2 == hi)
+   187				break;
+   188	
+   189			/* Otherwise, repeat with the latest hi value */
+   190			hi = hi2;
+   191		}
+   192	
+   193		count = (((u64)hi) << 32) + lo;
+   194	out:
+   195		mips_cm_unlock_other();
+   196		return count;
+   197	}
+   198	
+   199	static struct clocksource gic_clocksource = {
+   200		.name			= "GIC",
+   201		.read			= gic_hpt_read,
+   202		.flags			= CLOCK_SOURCE_IS_CONTINUOUS,
+   203		.vdso_clock_mode	= VDSO_CLOCKMODE_GIC,
+   204	};
+   205	
+   206	static void gic_clocksource_unstable(char *reason)
+   207	{
+   208		if (gic_clock_unstable)
+   209			return;
+   210	
+   211		gic_clock_unstable = true;
+   212	
+   213		pr_info("GIC timer is unstable due to %s\n", reason);
+   214	
+   215		clocksource_mark_unstable(&gic_clocksource);
+   216	}
+   217	
+   218	static int __init __gic_clocksource_init(void)
+   219	{
+   220		unsigned int count_width;
+   221		int ret;
+   222	
+   223		/* Set clocksource mask. */
+   224		count_width = read_gic_config() & GIC_CONFIG_COUNTBITS;
+   225		count_width >>= __ffs(GIC_CONFIG_COUNTBITS);
+   226		count_width *= 4;
+   227		count_width += 32;
+   228		gic_clocksource.mask = CLOCKSOURCE_MASK(count_width);
+   229	
+   230		/* Calculate a somewhat reasonable rating value. */
+   231		gic_clocksource.rating = 200 + gic_frequency / 10000000;
+   232	
+ > 233		if (mips_cps_multicluster_cpus()) {
+   234			gic_clocksource.read = &gic_hpt_read_multicluster;
+   235			gic_clocksource.vdso_clock_mode = VDSO_CLOCKMODE_NONE;
+   236		}
+   237	
+   238		ret = clocksource_register_hz(&gic_clocksource, gic_frequency);
+   239		if (ret < 0)
+   240			pr_warn("Unable to register clocksource\n");
+   241	
+   242		return ret;
+   243	}
+   244	
 
-Warm regards,
-
-Yunseong kim
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
