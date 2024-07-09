@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2A915B116
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 17:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30D46BFB0;
+	Tue,  9 Jul 2024 18:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720547095; cv=none; b=XmpeDPPLdwBidRQ4yitxVXKZ9Fay5fgBYUvGiIZD/0PIQtl2zIOVGleMklPaWkYIyVAVSC7e13WBarqoUvRixVGNxkniLXwX65BEQUFtVsl6J7JZFTr9JX1D1uq3/nqJlMzFpok3DM7hmgDV4CZDqC04WRznulpmtC/8HDzHAWU=
+	t=1720548477; cv=none; b=gxv56I4W4sFqap0RMkRbBI50lVS5kFW+N2IZgIm4kK1vx5iB4XxHk7E9LWcA7NpHs9o3eFM+sRmGTJpqwDE/lLx6j/kUkl+mBfKqDm3XYVQ9LjHb1TysfENabz/nShaef1x2bjZgu56hU0m+Tzz0lRZMob1SP3BZtMKHt/HkHE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720547095; c=relaxed/simple;
-	bh=u9XLx+Ia3rWiyFS0rUUdolU3JGRmULOP2+TVRG+SQmw=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J7yEFGvuWw4Soe7UyMdvzkDANul+6ihH3BvktgLfa8jCZ5UUbTZRgH/J2XNvl4jsGjXhFehjtsSMUWyB+zyj9X1EKv5idyaCJv6qsc3gsxMungJfO0zyHhYS/UqZqHE4fEJBdJu3gSGI4rvsLxkySj8BpqYS0Cncs3/c2IzpjoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIIOfYkH; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1720548477; c=relaxed/simple;
+	bh=qrUzN8iAXN6LvBd2i2jNUgBvTEMvs6JsT+iLk2FnUnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VNndjsJ4payjcx0HMprcsDUT6Nom3RRK1QXY8BxFQtU5zFcQOqly3+F0ZZMhRXSQSF9TZs3KhKm+mYBmPUfd6ST+qsVXgjVebJNdG6ijQ0ONwzrXfIz7v/r1hXEhsB+t95hHQbiadYXXML3DSFHlE+kuDzkrLn74jfd1KBaWJu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtsPLFMw; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIIOfYkH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtsPLFMw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720547093; x=1752083093;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=u9XLx+Ia3rWiyFS0rUUdolU3JGRmULOP2+TVRG+SQmw=;
-  b=UIIOfYkHFDhF74AwJ6xoshY1n7y1ygsP3lDBZd/jwzVkp/6Bka0ol+6F
-   pxtj6RiVa3geMMer6WcsPdCZkqSpAURjpqSK0x3IABPbLtD/le8qyJKVh
-   tHn1nUPsVqjY9JUFRBzQ6MsoN7FepehHJeQjb1UwpI8hJeik0gA3z0OO6
-   7/S5cCUkI+1DnTsfkiPXwTn8hAhA2cClsluOpQVPliJ/ebGTNZSsgkQ8Q
-   upZeIjLNkeymUQ/E9W/PJujLaFmJdpmdFt7Rl7SNdvBS5q2vbfhSs328J
-   II/f6pCpe4PY+0+rB+n0GnV7W0XaMgZKWT+v+/v1NJ2bdq7QDPTYHMmZN
-   w==;
-X-CSE-ConnectionGUID: AXM2fHUEQI2LGNmTQKaVWA==
-X-CSE-MsgGUID: RxXzXfg+RtqJ9R0Lq7D05g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="21693848"
+  t=1720548475; x=1752084475;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qrUzN8iAXN6LvBd2i2jNUgBvTEMvs6JsT+iLk2FnUnE=;
+  b=DtsPLFMwQMThGXsGBSUYK192dlA5Z4aQYWIVhRt+8Fh4zr+4Et/EQegB
+   gCaqjPZR8q/HndxZLjd3fykBT9Mk5pSSHeAVAUZckKbAZOk5GYM4JhI5v
+   4EExA9l/Jk8P1nWP9By0Db9W7QVhCssB/Uz+wiNacak7w1feQa5ZivuhY
+   4F16+95YQkEFUoGbCokRfUW4gsty2TKTGTxSNcz42rAMPX2xOpftfIbsV
+   1K+Mebn6bLx96n0DpzaV/W1M6Xrk70oRQkIn6g4hZv4tD1lcbOYwuUtmt
+   hNLAhvC+lUip5ct9K/7PhwkD24dgCF67llXsIDccvZrSeM2xNFxMe5J4D
+   Q==;
+X-CSE-ConnectionGUID: 08ETd0EYT8OYMuFh2j8ZGA==
+X-CSE-MsgGUID: VXX7xmLET3uMgL9pP3ackw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="28416735"
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="21693848"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 10:44:53 -0700
-X-CSE-ConnectionGUID: 1bO9TGA6S2uJB4vUdbsD6A==
-X-CSE-MsgGUID: TcQ8ZhCRTsyaP4yD9PiRbA==
+   d="scan'208";a="28416735"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 11:07:54 -0700
+X-CSE-ConnectionGUID: jRBsUFI9TSasEFs/2T9CrQ==
+X-CSE-MsgGUID: xaHH32hSTKCK0csP7ZOZQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="71161223"
+   d="scan'208";a="48028816"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jul 2024 10:44:51 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2024 11:07:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sREtU-000WxK-39;
-	Tue, 09 Jul 2024 17:44:48 +0000
-Date: Wed, 10 Jul 2024 01:44:43 +0800
+	id 1sRFFl-000WyO-2f;
+	Tue, 09 Jul 2024 18:07:49 +0000
+Date: Wed, 10 Jul 2024 02:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>, MD Danish Anwar <danishanwar@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 2/92] ERROR: modpost:
- "prueth_dma_rx_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko]
- undefined!
-Message-ID: <202407100130.HuDfVKzf-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 61/62] drivers/leds/leds-lp5521.c:189:15:
+ error: too many arguments provided to function-like macro invocation
+Message-ID: <202407100245.4payjdih-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,123 +63,421 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   32fb3aae72f286cd0d023455b5fc9e4c6b9859f5
-commit: e673ece4927225dce61ccbb2d32d4b4970918c20 [2/92] net: ethernet: ti: icssg_prueth: Use page_pool API for RX buffer allocation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240710/202407100130.HuDfVKzf-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   b9bd590268485652b928110b5543057543b5d02b
+commit: efd0d1cbb8c5dd1049922e839fa7d85811facd53 [61/62] leds: leds-lp55xx: Convert mutex lock/unlock to guard API
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240710/202407100245.4payjdih-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407100130.HuDfVKzf-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407100245.4payjdih-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407100130.HuDfVKzf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407100245.4payjdih-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "prueth_dma_rx_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "icssg_queue_pop" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "icssg_queue_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+   In file included from drivers/leds/leds-lp5521.c:15:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-lp5521.c:189:15: error: too many arguments provided to function-like macro invocation
+     189 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+>> drivers/leds/leds-lp5521.c:189:2: error: use of undeclared identifier 'guard'
+     189 |         guard(mutex, &chip->lock);
+         |         ^
+   5 warnings and 2 errors generated.
+--
+   In file included from drivers/leds/leds-lp5523.c:15:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-lp5523.c:192:15: error: too many arguments provided to function-like macro invocation
+     192 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+>> drivers/leds/leds-lp5523.c:192:2: error: use of undeclared identifier 'guard'
+     192 |         guard(mutex, &chip->lock);
+         |         ^
+   5 warnings and 2 errors generated.
+--
+   In file included from drivers/leds/leds-lp5562.c:13:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-lp5562.c:175:15: error: too many arguments provided to function-like macro invocation
+     175 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+>> drivers/leds/leds-lp5562.c:175:2: error: use of undeclared identifier 'guard'
+     175 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp5562.c:272:15: error: too many arguments provided to function-like macro invocation
+     272 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp5562.c:272:2: error: use of undeclared identifier 'guard'
+     272 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp5562.c:324:15: error: too many arguments provided to function-like macro invocation
+     324 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp5562.c:324:2: error: use of undeclared identifier 'guard'
+     324 |         guard(mutex, &chip->lock);
+         |         ^
+   5 warnings and 6 errors generated.
+--
+   In file included from drivers/leds/leds-lp5569.c:10:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-lp5569.c:400:15: error: too many arguments provided to function-like macro invocation
+     400 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+>> drivers/leds/leds-lp5569.c:400:2: error: use of undeclared identifier 'guard'
+     400 |         guard(mutex, &chip->lock);
+         |         ^
+   5 warnings and 2 errors generated.
+--
+   In file included from drivers/leds/leds-lp55xx-common.c:17:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/leds/leds-lp55xx-common.c:18:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/leds/leds-lp55xx-common.c:18:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/leds/leds-lp55xx-common.c:18:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/leds/leds-lp55xx-common.c:276:15: error: too many arguments provided to function-like macro invocation
+     276 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+>> drivers/leds/leds-lp55xx-common.c:276:2: error: use of undeclared identifier 'guard'
+     276 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:291:15: error: too many arguments provided to function-like macro invocation
+     291 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:291:2: error: use of undeclared identifier 'guard'
+     291 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:409:15: error: too many arguments provided to function-like macro invocation
+     409 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:409:2: error: use of undeclared identifier 'guard'
+     409 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:637:15: error: too many arguments provided to function-like macro invocation
+     637 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:637:2: error: use of undeclared identifier 'guard'
+     637 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:676:15: error: too many arguments provided to function-like macro invocation
+     676 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:676:2: error: use of undeclared identifier 'guard'
+     676 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:704:15: error: too many arguments provided to function-like macro invocation
+     704 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:704:2: error: use of undeclared identifier 'guard'
+     704 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:803:15: error: too many arguments provided to function-like macro invocation
+     803 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:803:2: error: use of undeclared identifier 'guard'
+     803 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:827:15: error: too many arguments provided to function-like macro invocation
+     827 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:827:2: error: use of undeclared identifier 'guard'
+     827 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:851:15: error: too many arguments provided to function-like macro invocation
+     851 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:851:2: error: use of undeclared identifier 'guard'
+     851 |         guard(mutex, &chip->lock);
+         |         ^
+   drivers/leds/leds-lp55xx-common.c:870:15: error: too many arguments provided to function-like macro invocation
+     870 |         guard(mutex, &chip->lock);
+         |                      ^
+   include/linux/cleanup.h:163:9: note: macro 'guard' defined here
+     163 | #define guard(_name) \
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   17 warnings and 20 errors generated.
+
+
+vim +189 drivers/leds/leds-lp5521.c
+
+   180	
+   181	static ssize_t lp5521_selftest(struct device *dev,
+   182				       struct device_attribute *attr,
+   183				       char *buf)
+   184	{
+   185		struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+   186		struct lp55xx_chip *chip = led->chip;
+   187		int ret;
+   188	
+ > 189		guard(mutex, &chip->lock);
+   190	
+   191		ret = lp5521_run_selftest(chip, buf);
+   192	
+   193		return sysfs_emit(buf, "%s\n", ret ? "FAIL" : "OK");
+   194	}
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
