@@ -1,108 +1,102 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B2415573B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 15:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD17215EFC9;
+	Tue,  9 Jul 2024 15:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720538012; cv=none; b=nzvJgEl11N9kPtY3gbK79tvPWqUwjLLEKNnoNqn4pbUuiuezEYl3tbB5UcT7KiNI/+hwTC/3cioS3EIcXJDanlKtpCEC7kRiMRnTzaEK1S6Ae6K8Jg52SmQKO+8KTj4RuT28zAh89UMRHmAKK8U3oTNE/UBhaKBfGelnGk5A1ps=
+	t=1720538130; cv=none; b=f4KANkvretFjDr/hUHzKINTYEQ7Cud2dsbO0R5qhOQK4BeuWUPcNgCBDD5N1VswqBeRYNDXEYKak+btM0KswonG2zKPiMkJqRGLnVaj+0Rm1KIGEZAP1a25+kX1A/jyZQh54KKyVvYK0y4CavfgxnnaiU5LAO0is2jQ7TZggOag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720538012; c=relaxed/simple;
-	bh=Bv4GniJA/sj8UsDp9l+RW+trQ+0mazivTmVqArHdQLk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gND9tamJKmulbV3QWfztPb1OzZDVekSKhvbRfXHy3p8KSoGMReDRwqtMltBujbmytMv/eer3AtKO5tpudrfXwRGsG3oeCYR7k97fiwbaGB5Dj+m9bAY/coqqnrLXipn4xYdrUl4doEV3xmhtwjAVyy+ePI1Y/sZ/BOTWVavpFpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=iBMBSNK6; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="iBMBSNK6"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2eebc76119aso2568561fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Jul 2024 08:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1720538008; x=1721142808; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r0+8oXKbZHWt9fS8V1upPHfv28NABY6xBNNKsQNZ9WA=;
-        b=iBMBSNK6z2Evg+NUeMjLpvUqomHVwT1E8UBO1FBrv9ik/p8i8qQazARb74YAWa4jwZ
-         /SS91giAcZaxrn/MNQCHGopz41fubnNZXf0mSuRA/o45dgeWni5EgatCva7Shz9FZtMJ
-         iRR8OqBMSx29Gm345t7nFFdQ8LQSiB7pWN+YZgDsdnBKqdvaabIbVSYf1fgB+GCc+hzf
-         xpiOy/OxUvTZKEPpljr+4o/rocPv8eG2Wg1u8J6g0Pe3BW6qPMUM2OKtutUslgQppznF
-         NYF3L/ZwxsS/qFOPuuIYbX6VdhPK2pXHVsSG9s+MiqS/xXCQZH20lcY7idIcB+AhrLNA
-         jH6w==
+	s=arc-20240116; t=1720538130; c=relaxed/simple;
+	bh=NxYiReVyL7Qx3FKsMTdfYtPeRiBpPB4fnwq6SS2LE3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZiDEvZSjOF3ltwpYN+y31QhzmH/s3uOxGmMoupxLb9kxK6/mgQp03xQvHoBUlMwnCZW8q8Qqk01Bw/73OOlfGMi202IjHmYqvdZOKBekToOvaySynblcqIe5HSIBeKA9jCHKei4bOFs+KCBwKd3faoQTlmgxWOinaW/cpCIndk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7523f0870cso647999866b.3;
+        Tue, 09 Jul 2024 08:15:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720538008; x=1721142808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r0+8oXKbZHWt9fS8V1upPHfv28NABY6xBNNKsQNZ9WA=;
-        b=qqcj9ZtzCVcISImrGTI48EWyrIXQbRFy8KYaaEOQOvRu7CE7WRMA4cdvQZlbHwt39v
-         jplHJXhJAl7VJpTznet7PTnNE9tir+cSM/+6oubLYHnzUPjOjxi7gxvRreWRQnrYK8sE
-         3gFzitpDwdt4nhBgxOWGbqxYKE3hG+KddGW9hnZdlp2MaR+ijEPFTRV1R64GYFiC89nj
-         xXpXhuQgPHRs1c7cWATVzdsM7EA2ZfHyaKfsdnd9W5JoKmW/4yptE4cjR6NznvzVmDzX
-         oy4/VSIY0gwiAlXacqtNVI3lv4sqrYp6/fjuARxt/hhWTkeJRROJA8NxelooKMEBtdws
-         1OgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJPdvH1ENOQ4mKZNaOR5Ux0KrT09G/7k0SDDR6JNFQVQY/wOzQG0wNaucc3wujs9yyDMbIEJlGugxSWsLOPQa7+i+mTBSeH4kt3O3AbA==
-X-Gm-Message-State: AOJu0YwjvWTL2PWDnTcsQJPGbaHR0BGD1kU1RmdODfqeKaLrdEQrfMG7
-	YNmuQMJIyPdLGZEseJSWFgruJTKu8U77vobltROeF6A3OBgMZ7zeTTO9GzgXKAhExHHM/1lJRUo
-	FPWU2CmySSbacSUx0ithyEby2xU4sZ4eNkZjnvg==
-X-Google-Smtp-Source: AGHT+IHgYMXg/ILH+Z1RFkRd83+nynSuzeIb7DgXToJ/UUOD4UjAR2FZCHBNgvwgAGTUIzwaSBYjtVIo+NzISepySXU=
-X-Received: by 2002:a2e:9dd3:0:b0:2ec:51b5:27c8 with SMTP id
- 38308e7fff4ca-2eeb3171537mr19395601fa.32.1720538008481; Tue, 09 Jul 2024
- 08:13:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720538127; x=1721142927;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=udOmhMw6nVnLDB7CnXYCG2+/atZ0tO+NBuzOh1Ic4BU=;
+        b=gCE7QuR5u5bBKJdks93X1YOkzZe2CSMJmeEiBHCiX3g0KvZdittOlXH3GsRCH+V25u
+         4XeggmJzpe6K2yc2CHVmP2MFhjptWuIW97czkFyPVwgKkS5FmUycvcQFkDlhEFzc7dkj
+         B3zl8MQa7VBz4e/lI0PMAM+or97bc/wVKqZvd3e+UK/iNKX3DnTdqWyDRJYZL2BYfwxk
+         oYTDnfz5LtKUSBCNPnCXROQ4LymesPz9ZzXVBo+zN5OvhsNrGJUlff4OTXy8xs138M8d
+         Oj70T6HO2ITYhtNrH2LmxbSJK7aEPDbhC514vc5mam3F0TpUBpsFoKGEi8XhO65vg8XE
+         uwRg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdoCLq5BQD/z2huVCQ21/0wH92+0kpF1S3Lv6XM5Hfl139ow6qRXBqSE97aTZXhfHyiSHaTNQ5HNJkjpJxeIw6h0Cr/dU5vfXLF617bCZOxTWMpR1l8F6ht/Ibt7o637KaqWw=
+X-Gm-Message-State: AOJu0YzbDlDy5wQvGbPcF0VtoUeezVUU3pgkdtvMuEmzSpNr9K1Ebtzt
+	K7JqP3Md7ir9BWt3VwN345cs/QQ2wVImKA6niGhkq7r1dWmWzIRZ
+X-Google-Smtp-Source: AGHT+IF35/Mch11jtk1xVIeWdVFdvciZZUw5TTShgdZrcKMKdHljQsWt+u2oBbViFk5ZTk6F/AOa7g==
+X-Received: by 2002:a17:906:c083:b0:a6f:49b1:dec5 with SMTP id a640c23a62f3a-a780b705231mr177181466b.46.1720538126122;
+        Tue, 09 Jul 2024 08:15:26 -0700 (PDT)
+Received: from gmail.com (fwdproxy-lla-001.fbsv.net. [2a03:2880:30ff:1::face:b00c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a853a62sm83568866b.157.2024.07.09.08.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 08:15:25 -0700 (PDT)
+Date: Tue, 9 Jul 2024 08:15:23 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Vladimir Oltean <olteanv@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kuba@kernel.org, horms@kernel.org, Roy.Pledge@nxp.com,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+Message-ID: <Zo1UC/grXeIocGu5@gmail.com>
+References: <20240624162128.1665620-1-leitao@debian.org>
+ <202406261920.l5pzM1rj-lkp@intel.com>
+ <20240626140623.7ebsspddqwc24ne4@skbuf>
+ <Zn2yGBuwiW/BYvQ7@gmail.com>
+ <20240708133746.ea62kkeq2inzcos5@skbuf>
+ <Zow5FUmOADrqUpM9@gmail.com>
+ <20240709135811.c7tqh3ocfumg6ctt@skbuf>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202407092245.BPnW2mr6-lkp@intel.com>
-In-Reply-To: <202407092245.BPnW2mr6-lkp@intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 9 Jul 2024 17:13:17 +0200
-Message-ID: <CAMRc=Mf_j0qTk8_q37uvbRyWHK_5M2D-dF_6hiELSBRGcy5KKg@mail.gmail.com>
-Subject: Re: [brgl:gpio/for-next 38/38] drivers/gpio/gpio-virtuser.c:400:24:
- warning: variable 'trimmed' set but not used
-To: kernel test robot <lkp@intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240709135811.c7tqh3ocfumg6ctt@skbuf>
 
-On Tue, Jul 9, 2024 at 4:22=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gp=
-io/for-next
-> head:   337049890b8cbbb4fb527c58976ea19f4dc747a0
-> commit: 91581c4b3f29e2e22aeb1a62e842d529ca638b2d [38/38] gpio: virtuser: =
-new virtual testing driver for the GPIO API
-> config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/=
-20240709/202407092245.BPnW2mr6-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240709/202407092245.BPnW2mr6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407092245.BPnW2mr6-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/gpio/gpio-virtuser.c: In function 'gpio_virtuser_direction_do_=
-write':
-> >> drivers/gpio/gpio-virtuser.c:400:24: warning: variable 'trimmed' set b=
-ut not used [-Wunused-but-set-variable]
->      400 |         char buf[32], *trimmed;
->          |                        ^~~~~~~
->
->
-> vim +/trimmed +400 drivers/gpio/gpio-virtuser.c
->
+Hello Vladimir,
 
-Fix sent out.
+On Tue, Jul 09, 2024 at 04:58:11PM +0300, Vladimir Oltean wrote:
 
-Bart
+> On Mon, Jul 08, 2024 at 12:08:05PM -0700, Breno Leitao wrote:
+> > I thought about a patch like the following (compile tested only). What
+> > do you think?
+> 
+> To be honest, there are several things I don't really like about this
+> patch.
+> 
+> - I really struggled with applying it in the current format. Could you
+>   please post the output of git format-patch in the future?
+
+This is the output of `git format-patch` shifted right by a tab.
+
+> - You addressed dpaa_set_coalesce() but not also dpaa_fq_setup()
+> - You misrepresented the patch content by saying you only allocate size
+>   for online CPUs in the commit message. But you allocate for all
+>   possible CPUs.
+> - You only kfree(needs_revert) in the error (revert_values) case, but
+>   not in the normal (return 0) case.
+> - The netdev coding style is to sort the lines with variable
+>   declarations in reverse order of line length (they call this "reverse
+>   Christmas tree"). Your patch broke that order.
+> - You should use kcalloc() instead of kmalloc_array() + memset()
+> 
+> I have prepared and tested the attached alternative patch on a board and
+> I am preparing to submit it myself, if you don't have any objection.
+
+Sure, not a problem. You just asked how that would be possible, and I
+decided to craft patch to show what I had in mind. I am glad we have a
+way moving forward.
+
+Thanks for solving it.
