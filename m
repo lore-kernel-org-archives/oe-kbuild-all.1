@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B45619D898
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 15:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A9F19EEA1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 16:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720540720; cv=none; b=j3UqPbR2G+R2/3+nYu6fTjLrb2yagKerfAjGO/RjsNca4MtE2ueRKY5vbJ5BmwB1PcqM3RUfOFPKPPHjAkwYUeRq2+kjjLdV8aRgTJDG/XKSYmKhOwRn5U/RwNDklU+mm5CubRvKgU4ZF/c9FVeFU9c1a0hKTXRz7VnK3MDkXTY=
+	t=1720542707; cv=none; b=R1RJeQMc7NKwzsZNkOoCvr8RZXHgZaoA8ouQpIqKEeva5gjjEhI80kUc7E87bU8QTtmD0ZwRWoKsYQ30Z7b69Q90ymjmEn/I3uLDBdogYt15rXADMHbJ50G5aA+e/Uxt064lpU90BG+Iwqjm549cLFwlkVAs24T2rlvcYrUMwfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720540720; c=relaxed/simple;
-	bh=WcM3XtJpC23p/eycXG9yt83ylI33UeksYD/uyggtCAs=;
+	s=arc-20240116; t=1720542707; c=relaxed/simple;
+	bh=XcQ49hqGAOVM4dEwjUrILHKdEQRjWjwuZRldnwSqrNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bVpW8pdEFG7D0gksuK1o0bRyWGaW5lzqNNJbzY2nzIrWOw9OWn6k+ArwXD54hpTPkRFLjXQZwYPMKyzqAuyvZ1cKdPea22M1/N3FEuIMhOrI8pAuX396unIP5DGwNevYN7oInNps8gGyR0YUyU1Kehm2d+aMQvUUsU12ZWBCrSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CU8ElfN5; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=WWZnZpKDwbUYgqcjGWWaXZz3wpAtG4vEL8E/j3BMsso/9WbNyp0HIr66s0oJD/agk41/TALzCmyYOkv8b3Ziminp0BTXUbplF+e7A2cHEFhQYn/hzfpkqdBHWtYdq2MpENrls3KGlTB2dkqRW6JbGEssHxSe5Ri5ZNYbyMZs1+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gh1/6NFA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CU8ElfN5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gh1/6NFA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720540719; x=1752076719;
+  t=1720542706; x=1752078706;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WcM3XtJpC23p/eycXG9yt83ylI33UeksYD/uyggtCAs=;
-  b=CU8ElfN5sQ9shj7RuN1HzQLpQXaNjXFyAl3T2W3wgbCwmAexsBHPzn0G
-   up8XmYCabbByxJYNNNDXCs5/CvqXRql8U2Vie8IGd3cZwkKbmhX8V3MB+
-   XQ/PH45Km7CrGz/3+oPhbHLoi3DSgGAjcyVYiRpU9NoXWoFxOXsQQf5xa
-   aj8rQYyqtrA18qFRFQUETM5h4isZI5xQCOXy8tGSIAqpgqZMG/BXOr1sY
-   yqBm2z6HSHsXpa6DE9WIUP6FaVyjvcEMlZgfjJnWA2W22IkDh9VTpZs/M
-   LoiyCs1nSqPCp7xzA7KKvYmhWjO33Wokp7IqNMA3R9bH9Yl92WMOSgpIA
-   Q==;
-X-CSE-ConnectionGUID: PTNh4l0LQ8mnSO5INPt39g==
-X-CSE-MsgGUID: FodI6uC4TROP6RQNM/i+UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="17913360"
+  bh=XcQ49hqGAOVM4dEwjUrILHKdEQRjWjwuZRldnwSqrNI=;
+  b=Gh1/6NFADd0bejhzLFP8BXQmS9JJNEkrnO9H/6RrVmzocwyoFejV6tyT
+   tTmbpIMmbd3QzibNBl38GL5OhtCygXs5aycg5oIVws3PScfJUdk1ox2Lc
+   Of1+YI1Ec3y5vEDOnNim0wssG1e41nRwgoTlqyRWPwJ8Yh2NTAbI4LwBb
+   CsNSSOBge7J8SrJ7HoNlgysnDnwEHpjcEr5su+vWuoKTxHV1t4nIo3G2R
+   8AZVrzW9DZ3CQZgCwkPySrbvfGjUOxdboNiFiSNMtNCv/b7vm3TKJW7Jw
+   Jgsq4A4GOlRSTMtefvfIPGEWgujnqVZONr3KIYKRpVau7sT5ib7C0MvSy
+   w==;
+X-CSE-ConnectionGUID: lgGLY901TwW4F28+BkXiJg==
+X-CSE-MsgGUID: ojAeZPwLSH+gEujm3NOc2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="35244064"
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="17913360"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 08:58:38 -0700
-X-CSE-ConnectionGUID: jjciNo+TRbKSM/+5Xb30Wg==
-X-CSE-MsgGUID: m7dbOsfATUil5PUcJHnNVQ==
+   d="scan'208";a="35244064"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 09:31:46 -0700
+X-CSE-ConnectionGUID: fx2Foft1R7W4MvuJ46gQVQ==
+X-CSE-MsgGUID: nbMLG6UoQEScEfWB/PyVEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="47783294"
+   d="scan'208";a="52855151"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Jul 2024 08:58:36 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2024 09:31:44 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRDEg-000Wom-1Y;
-	Tue, 09 Jul 2024 15:58:34 +0000
-Date: Tue, 9 Jul 2024 23:57:53 +0800
+	id 1sRDkj-000Wt0-1W;
+	Tue, 09 Jul 2024 16:31:41 +0000
+Date: Wed, 10 Jul 2024 00:30:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	Lee Jones <lee@kernel.org>
-Subject: [lee-leds:for-leds-next 61/62]
- drivers/leds/leds-lp55xx-common.c:798:17: warning: unused variable 'ret'
-Message-ID: <202407092320.CLSkqq2U-lkp@intel.com>
+To: Chris Lu <chris.lu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Subject: [bluetooth-next:master 71/76] sh4-linux-ld:
+ drivers/bluetooth/btmtk.c:1237:undefined reference to
+ `usb_kill_anchored_urbs'
+Message-ID: <202407100005.eDlKsDOu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,173 +64,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   b9bd590268485652b928110b5543057543b5d02b
-commit: efd0d1cbb8c5dd1049922e839fa7d85811facd53 [61/62] leds: leds-lp55xx: Convert mutex lock/unlock to guard API
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240709/202407092320.CLSkqq2U-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   c6052c312e85011cd31237804900013f63420403
+commit: 7eac027d1b204b4d0c8acb2bf21e443f8a078cbf [71/76] Bluetooth: btusb: mediatek: add ISO data transmission functions
+config: sh-buildonly-randconfig-r006-20220515 (https://download.01.org/0day-ci/archive/20240710/202407100005.eDlKsDOu-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092320.CLSkqq2U-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407100005.eDlKsDOu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407092320.CLSkqq2U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407100005.eDlKsDOu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_led_brightness':
-   drivers/leds/leds-lp55xx-common.c:276:33: error: macro "guard" passed 2 arguments, but takes just 1
-     276 |         guard(mutex, &chip->lock);
-         |                                 ^
-   In file included from drivers/leds/leds-lp55xx-common.c:13:
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:276:9: error: 'guard' undeclared (first use in this function)
-     276 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c:276:9: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_multicolor_brightness':
-   drivers/leds/leds-lp55xx-common.c:291:33: error: macro "guard" passed 2 arguments, but takes just 1
-     291 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:291:9: error: 'guard' undeclared (first use in this function)
-     291 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'led_current_store':
-   drivers/leds/leds-lp55xx-common.c:409:33: error: macro "guard" passed 2 arguments, but takes just 1
-     409 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:409:9: error: 'guard' undeclared (first use in this function)
-     409 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'run_engine_store':
-   drivers/leds/leds-lp55xx-common.c:637:33: error: macro "guard" passed 2 arguments, but takes just 1
-     637 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:637:9: error: 'guard' undeclared (first use in this function)
-     637 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_mode':
-   drivers/leds/leds-lp55xx-common.c:676:33: error: macro "guard" passed 2 arguments, but takes just 1
-     676 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:676:9: error: 'guard' undeclared (first use in this function)
-     676 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_load':
-   drivers/leds/leds-lp55xx-common.c:704:33: error: macro "guard" passed 2 arguments, but takes just 1
-     704 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:704:9: error: 'guard' undeclared (first use in this function)
-     704 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_engine_leds':
-   drivers/leds/leds-lp55xx-common.c:803:33: error: macro "guard" passed 2 arguments, but takes just 1
-     803 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:803:9: error: 'guard' undeclared (first use in this function)
-     803 |         guard(mutex, &chip->lock);
-         |         ^~~~~
->> drivers/leds/leds-lp55xx-common.c:798:17: warning: unused variable 'ret' [-Wunused-variable]
-     798 |         ssize_t ret;
-         |                 ^~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_show_master_fader':
-   drivers/leds/leds-lp55xx-common.c:827:33: error: macro "guard" passed 2 arguments, but takes just 1
-     827 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:827:9: error: 'guard' undeclared (first use in this function)
-     827 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_master_fader':
-   drivers/leds/leds-lp55xx-common.c:851:33: error: macro "guard" passed 2 arguments, but takes just 1
-     851 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:851:9: error: 'guard' undeclared (first use in this function)
-     851 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_show_master_fader_leds':
-   drivers/leds/leds-lp55xx-common.c:870:33: error: macro "guard" passed 2 arguments, but takes just 1
-     870 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:870:9: error: 'guard' undeclared (first use in this function)
-     870 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-   drivers/leds/leds-lp55xx-common.c: In function 'lp55xx_store_master_fader_leds':
-   drivers/leds/leds-lp55xx-common.c:901:33: error: macro "guard" passed 2 arguments, but takes just 1
-     901 |         guard(mutex, &chip->lock);
-         |                                 ^
-   include/linux/cleanup.h:163: note: macro "guard" defined here
-     163 | #define guard(_name) \
-         | 
-   drivers/leds/leds-lp55xx-common.c:901:9: error: 'guard' undeclared (first use in this function)
-     901 |         guard(mutex, &chip->lock);
-         |         ^~~~~
-
-
-vim +/ret +798 drivers/leds/leds-lp55xx-common.c
-
-8913c2c1472885 Christian Marangi 2024-06-26  789  
-8913c2c1472885 Christian Marangi 2024-06-26  790  ssize_t lp55xx_store_engine_leds(struct device *dev,
-8913c2c1472885 Christian Marangi 2024-06-26  791  				 struct device_attribute *attr,
-8913c2c1472885 Christian Marangi 2024-06-26  792  				 const char *buf, size_t len, int nr)
-8913c2c1472885 Christian Marangi 2024-06-26  793  {
-8913c2c1472885 Christian Marangi 2024-06-26  794  	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
-8913c2c1472885 Christian Marangi 2024-06-26  795  	struct lp55xx_chip *chip = led->chip;
-8913c2c1472885 Christian Marangi 2024-06-26  796  	struct lp55xx_engine *engine = &chip->engines[nr - 1];
-8913c2c1472885 Christian Marangi 2024-06-26  797  	u16 mux = 0;
-8913c2c1472885 Christian Marangi 2024-06-26 @798  	ssize_t ret;
-8913c2c1472885 Christian Marangi 2024-06-26  799  
-8913c2c1472885 Christian Marangi 2024-06-26  800  	if (lp55xx_mux_parse(chip, buf, &mux, len))
-8913c2c1472885 Christian Marangi 2024-06-26  801  		return -EINVAL;
-8913c2c1472885 Christian Marangi 2024-06-26  802  
-efd0d1cbb8c5dd Christian Marangi 2024-06-27  803  	guard(mutex, &chip->lock);
-8913c2c1472885 Christian Marangi 2024-06-26  804  
-8913c2c1472885 Christian Marangi 2024-06-26  805  	chip->engine_idx = nr;
-8913c2c1472885 Christian Marangi 2024-06-26  806  
-8913c2c1472885 Christian Marangi 2024-06-26  807  	if (engine->mode != LP55XX_ENGINE_LOAD)
-efd0d1cbb8c5dd Christian Marangi 2024-06-27  808  		return -EINVAL;
-8913c2c1472885 Christian Marangi 2024-06-26  809  
-8913c2c1472885 Christian Marangi 2024-06-26  810  	if (lp55xx_load_mux(chip, mux, nr))
-efd0d1cbb8c5dd Christian Marangi 2024-06-27  811  		return -EINVAL;
-8913c2c1472885 Christian Marangi 2024-06-26  812  
-efd0d1cbb8c5dd Christian Marangi 2024-06-27  813  	return len;
-8913c2c1472885 Christian Marangi 2024-06-26  814  }
-8913c2c1472885 Christian Marangi 2024-06-26  815  EXPORT_SYMBOL_GPL(lp55xx_store_engine_leds);
-8913c2c1472885 Christian Marangi 2024-06-26  816  
-
-:::::: The code at line 798 was first introduced by commit
-:::::: 8913c2c14728851f110e0d439d5bb2360c767cd2 leds: leds-lp55xx: Generalize sysfs engine_leds
-
-:::::: TO: Christian Marangi <ansuelsmth@gmail.com>
-:::::: CC: Lee Jones <lee@kernel.org>
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_submit_wmt_recv_urb':
+   drivers/bluetooth/btmtk.c:573:(.text+0x754): undefined reference to `usb_alloc_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:573:(.text+0x760): undefined reference to `usb_free_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:573:(.text+0x778): undefined reference to `usb_anchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:573:(.text+0x77c): undefined reference to `usb_submit_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:573:(.text+0x78c): undefined reference to `usb_unanchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_submit_intr_urb':
+   drivers/bluetooth/btmtk.c:1208:(.text+0x8c8): undefined reference to `usb_alloc_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1208:(.text+0x8d0): undefined reference to `usb_free_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1208:(.text+0x8e0): undefined reference to `usb_anchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1208:(.text+0x8e4): undefined reference to `usb_submit_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1208:(.text+0x8f4): undefined reference to `usb_unanchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_suspend':
+   drivers/bluetooth/btmtk.c:1268:(.text+0x95c): undefined reference to `usb_kill_anchored_urbs'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_hci_wmt_sync':
+   drivers/bluetooth/btmtk.c:671:(.text+0xae0): undefined reference to `usb_autopm_get_interface'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:671:(.text+0xaec): undefined reference to `usb_autopm_put_interface'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_recv_acl':
+   drivers/bluetooth/btmtk.c:966:(.text+0xde0): undefined reference to `usb_disable_autosuspend'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_isointf_init.constprop.0':
+   drivers/bluetooth/btmtk.c:1237:(.text+0xfa8): undefined reference to `usb_set_interface'
+>> sh4-linux-ld: drivers/bluetooth/btmtk.c:1237:(.text+0xfc0): undefined reference to `usb_kill_anchored_urbs'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_wmt_recv':
+   drivers/bluetooth/btmtk.c:520:(.text+0x11b4): undefined reference to `usb_anchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:520:(.text+0x11b8): undefined reference to `usb_submit_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:520:(.text+0x11c8): undefined reference to `usb_unanchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `alloc_mtk_intr_urb':
+   drivers/bluetooth/btmtk.c:1054:(.text+0x12bc): undefined reference to `usb_alloc_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_reg_read':
+   drivers/bluetooth/btmtk.c:803:(.text+0x1350): undefined reference to `usb_control_msg'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_uhw_reg_write':
+   drivers/bluetooth/btmtk.c:748:(.text+0x13f8): undefined reference to `usb_control_msg'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_uhw_reg_read':
+   drivers/bluetooth/btmtk.c:777:(.text+0x14cc): undefined reference to `usb_control_msg'
+   sh4-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_intr_complete':
+   drivers/bluetooth/btmtk.c:1159:(.text+0x1788): undefined reference to `usb_anchor_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1159:(.text+0x178c): undefined reference to `usb_submit_urb'
+   sh4-linux-ld: drivers/bluetooth/btmtk.c:1159:(.text+0x17a0): undefined reference to `usb_unanchor_urb'
 
 -- 
 0-DAY CI Kernel Test Service
