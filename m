@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0BF136657
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 09:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CF12E62D;
+	Tue,  9 Jul 2024 10:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720517497; cv=none; b=iwhLlGWlBA2maB/g73oLxqcYRwr5zEunRLusSp2MMfe+7UHIBIe1OrCU+LsEf3hE7UHSTTNIRKqrR1N1mVschK00PCb+WRihnE9GJrgH4PNPn2YzAg+KSyUFk0sZAR5yVxJPLUJjxOXZGXKWJJNfs0Z7DSK0BkpaMxfl2RLX2X0=
+	t=1720521267; cv=none; b=WCyX63h8HajOmPjydczAPURCu1tJS7aPKj5DddQyJT20WdWU9Pcms6bDZISFKcO2HhXmqkT39zm+ajPRP40Ckbw7RJU3Fl+kfR6c8ut8lRiS0Ep8cqP+8rTjat5/ZnvcqsCcbXWOo4YwF/Im6ifi33cYWNTUQTJVdrnijKQVQJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720517497; c=relaxed/simple;
-	bh=m/BqefdgEQbHAhE1smATGFxGZYPaDSPKhK5e2S/MDy8=;
+	s=arc-20240116; t=1720521267; c=relaxed/simple;
+	bh=Md5F1DrIuPGntBdX+Co3/MNh5k+sGrraSKYBdA4OA1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VhXeO++A2jFX6R1QeWUcjfvByXGRuTYhnB1qHsuaMdeQR+u1qkLpGU1BKJXzXVeSpUNpY5BSFgYxpQQSe604bHKoD5F9h8Pj5f9p06o3Z+BoaapxIG50SJa88MSDmvtg7mb3FKRYB9SDjMnpO+YzeLBmNQd8P7AVMnA1YnDnb60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1Tn1UoW; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=A/1J8RERUidZW0RVdcfyEY45LQTu7jeQwZFv6GcS6hVoHVPvYh+29AusPUndBYBJiwiuE/SrWB8ZsbW2yynVh2D9cwsj3CrJAcxOrO8u63bPGFCtdJFdoysbrBJSk98Uhht23Y5w6DaHzIWpdoBSv5X8pNH+gh3tSnggtAje5tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jSI/A0Ci; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1Tn1UoW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSI/A0Ci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720517495; x=1752053495;
+  t=1720521265; x=1752057265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m/BqefdgEQbHAhE1smATGFxGZYPaDSPKhK5e2S/MDy8=;
-  b=J1Tn1UoW5HkhCiukHRWFwPVB17rBPQStD6M2ioUZG5nKgFGQsLz3932T
-   ux1IJvpg7kgQG1+kLdgLg2Jhq5rYOFvXpQMTuXM3IaZdukZ5Q48nEs2ux
-   s1qjN9EI3Ps9Xx8bRztuX/NpQYVmtDjlNgbQYBDj20Nelxb5O7CF0Ok+f
-   EUSLMi5wnvJZBNhQToIjrXVonlcu0kkaKilvqlyQc1X4Utrkl8pmjkCmF
-   MJmJEbEjShh43f6B1fDXuq0MmEibj57GeD2w/t1BCyvY8fq82l1lDxwth
-   hlhg73LZQ24f1tlzfM4ijtoI35808ir7Lbw1Rc4rut/IrRLATuHY32ZqG
-   g==;
-X-CSE-ConnectionGUID: kzMoDn62SXiZcaAdV+KEcA==
-X-CSE-MsgGUID: rlVX73+MToCKOeYfrKJnTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="21627141"
+  bh=Md5F1DrIuPGntBdX+Co3/MNh5k+sGrraSKYBdA4OA1c=;
+  b=jSI/A0Ci18PEJNpXB+a9U6ePrJA7kPNJCYv+a915mp52V6+4b8cgtKw5
+   ClxQC6lcoBaArRX32VjMTTWRLjueIhDQyD7ui5t5RD6RHIxdtPiDhbZ5x
+   poKckaaEHQKCoe0YhaI9xuHgvmCrmecdwk3R0ZD6JWnACtlfQHupQO0k2
+   wQzbTsdNvd1m/YhHesOHkDFz9FbJHuL37Xf0VMNb3y9Nxn0wz4086dO/F
+   fMddQMvQkJCVBbvy3wX/wPwy3nipEmCdC8KY/GzDbIWRM1FAFtgEl9dhd
+   mHkAkaSwqXRDLm2KrhSLwAXjs8BzHPA0zHWy/bpHbc7BRKxKXmcL4OW+f
+   w==;
+X-CSE-ConnectionGUID: Ts9+UcKBSgyoc0tyoaFNzw==
+X-CSE-MsgGUID: FqAUL9nrTf28GwsxbwPVEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17870390"
 X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
-   d="scan'208";a="21627141"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 02:31:23 -0700
-X-CSE-ConnectionGUID: TV4L7YxrQBmbh8HG13gDWw==
-X-CSE-MsgGUID: YQqmaqeaTZePpll06Q4YMw==
+   d="scan'208";a="17870390"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 03:34:25 -0700
+X-CSE-ConnectionGUID: cc/WzAh1TKmDV+I1uhi08A==
+X-CSE-MsgGUID: gEJ3D0RfTdyt9WP0JWGs0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
-   d="scan'208";a="47896902"
+   d="scan'208";a="47780120"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jul 2024 02:31:21 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2024 03:34:23 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sR7Bv-000WW4-0P;
-	Tue, 09 Jul 2024 09:31:19 +0000
-Date: Tue, 9 Jul 2024 17:30:22 +0800
+	id 1sR8Av-000WZX-0N;
+	Tue, 09 Jul 2024 10:34:21 +0000
+Date: Tue, 9 Jul 2024 18:33:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 28/28] fs/attr.c:381: warning: Function parameter
- or struct member 'di' not described in 'notify_change'
-Message-ID: <202407091717.fnKlCviH-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [kees:dev/slab-v6.11/typed-alloc/v1 3/5]
+ drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of
+ 'typeof' to bit-field
+Message-ID: <202407091812.ND3JWAqy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +63,381 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   6f4f5017a9ee4feb212a5aa21decbeebc763340e
-commit: 6f4f5017a9ee4feb212a5aa21decbeebc763340e [28/28] fs: add delegated_inode structure for handling delegation breaks
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240709/202407091717.fnKlCviH-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091717.fnKlCviH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/slab-v6.11/typed-alloc/v1
+head:   6e7fe92b1c5b0a4fd99772e8769e8adf7d296bc1
+commit: cc4265a19e8f49c42f22458ab1ea9273cf4dfad5 [3/5] slab: Detect negative size values and saturate
+config: x86_64-randconfig-011-20240709 (https://download.01.org/0day-ci/archive/20240709/202407091812.ND3JWAqy-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091812.ND3JWAqy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407091717.fnKlCviH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407091812.ND3JWAqy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/attr.c:381: warning: Function parameter or struct member 'di' not described in 'notify_change'
->> fs/attr.c:381: warning: Excess function parameter 'delegated_inode' description in 'notify_change'
---
->> fs/xattr.c:278: warning: Function parameter or struct member 'di' not described in '__vfs_setxattr_locked'
->> fs/xattr.c:278: warning: Excess function parameter 'delegated_inode' description in '__vfs_setxattr_locked'
->> fs/xattr.c:537: warning: Function parameter or struct member 'di' not described in '__vfs_removexattr_locked'
->> fs/xattr.c:537: warning: Excess function parameter 'delegated_inode' description in '__vfs_removexattr_locked'
---
->> fs/namei.c:4395: warning: Function parameter or struct member 'di' not described in 'vfs_unlink'
->> fs/namei.c:4395: warning: Excess function parameter 'delegated_inode' description in 'vfs_unlink'
->> fs/namei.c:4644: warning: Function parameter or struct member 'di' not described in 'vfs_link'
->> fs/namei.c:4644: warning: Excess function parameter 'delegated_inode' description in 'vfs_link'
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+     330 |         fu->cmd.buf = kmalloc(fu->ep_out->maxpacket, GFP_KERNEL);
+         |                       ^
+   include/linux/slab.h:697:32: note: expanded from macro 'kmalloc'
+     697 |         unsigned char:  kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:697:32: note: expanded from macro 'kmalloc'
+     697 |         unsigned char:  kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:698:32: note: expanded from macro 'kmalloc'
+     698 |         unsigned short: kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:698:32: note: expanded from macro 'kmalloc'
+     698 |         unsigned short: kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:699:32: note: expanded from macro 'kmalloc'
+     699 |         unsigned int:   kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:699:32: note: expanded from macro 'kmalloc'
+     699 |         unsigned int:   kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:700:32: note: expanded from macro 'kmalloc'
+     700 |         unsigned long:  kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:700:32: note: expanded from macro 'kmalloc'
+     700 |         unsigned long:  kmalloc_sized(__force_integral_expr(p), gfp), \
+         |                                       ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:10: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                        ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:9: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                       ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:692:4: note: expanded from macro '__size_force_positive'
+     692 |                         __force_integral_expr(x);               \
+         |                         ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:10: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                        ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:9: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                       ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:701:32: note: expanded from macro 'kmalloc'
+     701 |         signed char:    kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:692:4: note: expanded from macro '__size_force_positive'
+     692 |                         __force_integral_expr(x);               \
+         |                         ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:702:32: note: expanded from macro 'kmalloc'
+     702 |         signed short:   kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:10: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                        ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:702:32: note: expanded from macro 'kmalloc'
+     702 |         signed short:   kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:9: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                       ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:702:32: note: expanded from macro 'kmalloc'
+     702 |         signed short:   kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:692:4: note: expanded from macro '__size_force_positive'
+     692 |                         __force_integral_expr(x);               \
+         |                         ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:702:32: note: expanded from macro 'kmalloc'
+     702 |         signed short:   kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:10: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                        ^
+   include/linux/compiler_types.h:468:2: note: expanded from macro '__force_integral_expr'
+     468 |         ___force_integral_expr(x, int, 0)
+         |         ^
+   include/linux/compiler_types.h:466:25: note: expanded from macro '___force_integral_expr'
+     466 |         __builtin_choose_expr(!__is_ptr(x), (x), (type)val)
+         |                                ^
+   include/linux/compiler_types.h:462:22: note: expanded from macro '__is_ptr'
+     462 | #define __is_ptr(p)             __same_type(p, __decay(p))
+         |                                 ^
+   include/linux/compiler_types.h:451:62: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                              ^
+>> drivers/usb/gadget/function/f_tcm.c:330:16: error: invalid application of 'typeof' to bit-field
+   include/linux/slab.h:702:32: note: expanded from macro 'kmalloc'
+     702 |         signed short:   kmalloc_sized(__size_force_positive(p), gfp), \
+         |                                       ^
+   include/linux/slab.h:691:9: note: expanded from macro '__size_force_positive'
+     691 |                 typeof(__force_integral_expr(x)) __forced_val = \
+         |                       ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +381 fs/attr.c
+vim +/typeof +330 drivers/usb/gadget/function/f_tcm.c
 
-7bb698f09bdd01 Andreas Gruenbacher 2021-07-28  351  
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  352  /**
-fe12cfc17429a4 Jay                 2024-01-09  353   * notify_change - modify attributes of a filesystem object
-abf08576afe315 Christian Brauner   2023-01-13  354   * @idmap:	idmap of the mount the inode was found from
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  355   * @dentry:	object affected
-3fae17468a96f3 Matthew Wilcox      2018-07-03  356   * @attr:	new attributes
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  357   * @delegated_inode: returns inode, if the inode is delegated
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  358   *
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  359   * The caller must hold the i_mutex on the affected object.
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  360   *
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  361   * If notify_change discovers a delegation in need of breaking,
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  362   * it will return -EWOULDBLOCK and return a reference to the inode in
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  363   * delegated_inode.  The caller should then break the delegation and
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  364   * retry.  Because breaking a delegation may take a long time, the
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  365   * caller should drop the i_mutex before doing so.
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  366   *
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  367   * Alternatively, a caller may pass NULL for delegated_inode.  This may
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  368   * be appropriate for callers that expect the underlying filesystem not
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  369   * to be NFS exported.  Also, passing NULL is fine for callers holding
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  370   * the file open for write, as there can be no conflicting delegation in
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  371   * that case.
-2f221d6f7b881d Christian Brauner   2021-01-21  372   *
-abf08576afe315 Christian Brauner   2023-01-13  373   * If the inode has been found through an idmapped mount the idmap of
-abf08576afe315 Christian Brauner   2023-01-13  374   * the vfsmount must be passed through @idmap. This function will then
-abf08576afe315 Christian Brauner   2023-01-13  375   * take care to map the inode according to @idmap before checking
-2f221d6f7b881d Christian Brauner   2021-01-21  376   * permissions. On non-idmapped mounts or if permission checking is to be
-abf08576afe315 Christian Brauner   2023-01-13  377   * performed on the raw inode simply pass @nop_mnt_idmap.
-27ac0ffeac80ba J. Bruce Fields     2011-09-20  378   */
-abf08576afe315 Christian Brauner   2023-01-13  379  int notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
-6f4f5017a9ee4f Jeff Layton         2024-07-08  380  		  struct iattr *attr, struct delegated_inode *di)
-^1da177e4c3f41 Linus Torvalds      2005-04-16 @381  {
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  304  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  305  static int bot_prepare_reqs(struct f_uas *fu)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  306  {
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  307  	int ret;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  308  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  309  	fu->bot_req_in = usb_ep_alloc_request(fu->ep_in, GFP_KERNEL);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  310  	if (!fu->bot_req_in)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  311  		goto err;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  312  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  313  	fu->bot_req_out = usb_ep_alloc_request(fu->ep_out, GFP_KERNEL);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  314  	if (!fu->bot_req_out)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  315  		goto err_out;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  316  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  317  	fu->cmd.req = usb_ep_alloc_request(fu->ep_out, GFP_KERNEL);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  318  	if (!fu->cmd.req)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  319  		goto err_cmd;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  320  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  321  	fu->bot_status.req = usb_ep_alloc_request(fu->ep_in, GFP_KERNEL);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  322  	if (!fu->bot_status.req)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  323  		goto err_sts;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  324  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  325  	fu->bot_status.req->buf = &fu->bot_status.csw;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  326  	fu->bot_status.req->length = US_BULK_CS_WRAP_LEN;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  327  	fu->bot_status.req->complete = bot_status_complete;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  328  	fu->bot_status.csw.Signature = cpu_to_le32(US_BULK_CS_SIGN);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  329  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11 @330  	fu->cmd.buf = kmalloc(fu->ep_out->maxpacket, GFP_KERNEL);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  331  	if (!fu->cmd.buf)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  332  		goto err_buf;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  333  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  334  	fu->cmd.req->complete = bot_cmd_complete;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  335  	fu->cmd.req->buf = fu->cmd.buf;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  336  	fu->cmd.req->length = fu->ep_out->maxpacket;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  337  	fu->cmd.req->context = fu;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  338  
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  339  	ret = bot_enqueue_cmd_cbw(fu);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  340  	if (ret)
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  341  		goto err_queue;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  342  	return 0;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  343  err_queue:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  344  	kfree(fu->cmd.buf);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  345  	fu->cmd.buf = NULL;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  346  err_buf:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  347  	usb_ep_free_request(fu->ep_in, fu->bot_status.req);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  348  err_sts:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  349  	usb_ep_free_request(fu->ep_out, fu->cmd.req);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  350  	fu->cmd.req = NULL;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  351  err_cmd:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  352  	usb_ep_free_request(fu->ep_out, fu->bot_req_out);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  353  	fu->bot_req_out = NULL;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  354  err_out:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  355  	usb_ep_free_request(fu->ep_in, fu->bot_req_in);
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  356  	fu->bot_req_in = NULL;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  357  err:
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  358  	pr_err("BOT: endpoint setup failed\n");
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  359  	return -ENOMEM;
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  360  }
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  361  
 
-:::::: The code at line 381 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 330 was first introduced by commit
+:::::: 08a1cb0f65fde6f0da1db77b847ea78dc3c102cb usb: gadget: tcm: factor out f_tcm
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Andrzej Pietrasiewicz <andrzej.p@samsung.com>
+:::::: CC: Nicholas Bellinger <nab@linux-iscsi.org>
 
 -- 
 0-DAY CI Kernel Test Service
