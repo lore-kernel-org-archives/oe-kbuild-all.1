@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8B62746F;
-	Tue,  9 Jul 2024 01:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2236940858
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jul 2024 02:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720487624; cv=none; b=lV2RXZAdnpTN4DLkBAyG4U017VXBzJNRA/+v594sjebaPgsdhCvSdgoRl7JeByQIIg4Fk2egvPOzlvJrQUfxHx4unGQ4ajJum5eq96stns8WnsViZzzVj7dEKZmMJbR24By186CO8aEDXiutygtb1HJdXAFI+9Immq2dSBzuQ0E=
+	t=1720492139; cv=none; b=JFT6FIHBdBq0uFX9E3DavPGXOA92HK2HmDqQmZJhoqhVoFfg6CEVrlAKB+2FxLwf9pNCKCR4ibY2hhV9KDw4klnVX+kJ9H6sfCDk8CnCDvXGmz5fHTLk788LPomLQKwebX0t8SrxqyORC/uzwAiSQXNzPQFk4/HGaUONkg8usHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720487624; c=relaxed/simple;
-	bh=RL2nzavEFmTdPgytejsONtIPz++Im7ZHpcYJyZperJ0=;
+	s=arc-20240116; t=1720492139; c=relaxed/simple;
+	bh=M3a/iRksigszTZMDafgbwDaqi0HIM1UQLzOcbeQRu/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IScTuNegkfTPxCZdkBgqicBmkO/dgIi7hNrNeYC6upSpA9NqYPEhQADX5h4wFohUxAWF/8e71OVprMpEdCtg5z5G3YBIyUN/bUBj+kdCn/KdhMBKu94CGQTd+XQHO8DAd0JxiOot8z3hABUyxYRwHhuseLz+B6f7Ux+LRYorBQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnemUNXi; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=qD+6NfmA3dcPP4bDXG6V4mSm/2OqQMCuah9dKftglyE/++IG0A25FToCVQUuWFKRfoydoZT+WpXh+/DxKjOk6OWdmExoYYOp+A8AM2fSQujv0eLPXAI+zLawcGrp7MhQ9KzG43Omme9LjRcEAn7QyKpeqiGzfEErXQensMIhtvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgFozmTc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnemUNXi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgFozmTc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720487623; x=1752023623;
+  t=1720492138; x=1752028138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RL2nzavEFmTdPgytejsONtIPz++Im7ZHpcYJyZperJ0=;
-  b=BnemUNXisdJ+XjZyJMlfJZAcSpMv/2KuBlK5ZMJjh7bEXkgm2B7ttQ9L
-   Hv2zXawmK2bhQFTIGPMZeqUCvG5Hv8+4o01YCVuPxZWjkhDUAfCRUYazh
-   VJXZ57JfCTdgbQ0rBSAOC6fYH5rOWrlFfM5KMCg8HW6j32fP+nsS48j7t
-   UfE8QFS7JyEetTsDJ6Q2TLjovQXaXih0ocAn6j/l/TnOQJSsLSUHN+oZP
-   P6bHADXVos+jf6et3tN+H/QHN4bPMl+oMJxGm43g+OlBGVYRaWLegLJU+
-   a07kRsAj2L1EF7lqaqqtJ7azQk+EveEw6COyCtbAWfTT1i7JeImE8dHcY
-   Q==;
-X-CSE-ConnectionGUID: ORQZtSNcTV6+nMjavE5pBQ==
-X-CSE-MsgGUID: 4DGLviPYR/mLmJzKxmdN9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17587885"
+  bh=M3a/iRksigszTZMDafgbwDaqi0HIM1UQLzOcbeQRu/I=;
+  b=WgFozmTcIQs8EskAa6lbFBU7jIxDmmnkFq3P8ZtjIdVWQoH53jlYuuh/
+   Cew+sVQTiCDtiKMw2oFfJzGd8yNvs8i087yMWxDdF5of/Fc1y3NMC0g8l
+   fsh3JajUhe6VZtw/u3T8+msEPyotvWhBiL8kX81ltUehIq6vOhvp8kDg2
+   7xPZVXdvqGvE2cXHVxGRBCYLgQ1WPFnUZJt1kWu4XXn2U/luTW6/XJF34
+   /rgNozqws5UjJ1Ah/EAhcoDdtcamJFWnNr1/MH1zWmpy9VcYN73xK9vJE
+   nl0hpZyluT2TxAbnBtwAnJmvbVX/7rorBQNTW2BTc9LWkLkUIFEdxrFhH
+   A==;
+X-CSE-ConnectionGUID: LCWvKjHbS/66ngT20ff92A==
+X-CSE-MsgGUID: ZkOFX90bQO2WqThiNZQN8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="17855473"
 X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="17587885"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 18:13:42 -0700
-X-CSE-ConnectionGUID: iEtsmX5oRdK6p+U8978hog==
-X-CSE-MsgGUID: PI6vWzClTHmzq3OeE42Lag==
+   d="scan'208";a="17855473"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 19:28:57 -0700
+X-CSE-ConnectionGUID: 7WR8ksrgTiGvOfwV49VPhw==
+X-CSE-MsgGUID: p5hXCkcxRP6ezFcKs6i8Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="47607816"
+   d="scan'208";a="70894275"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Jul 2024 18:13:40 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2024 19:28:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQzQI-000WBy-0x;
-	Tue, 09 Jul 2024 01:13:38 +0000
-Date: Tue, 9 Jul 2024 09:13:12 +0800
+	id 1sR0b8-000WFU-0Q;
+	Tue, 09 Jul 2024 02:28:54 +0000
+Date: Tue, 9 Jul 2024 10:28:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: En-Wei Wu <en-wei.wu@canonical.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: [wireless-next:main 24/27]
- drivers/net/wireless/virtual/virt_wifi.c:151:10: error: initializer element
- is not a compile-time constant
-Message-ID: <202407090944.mpwLHGt9-lkp@intel.com>
+To: Nuno Sa <nuno.sa@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
+Subject: [nsa:b4/dev-iio-backend-add-debugfs 11/17] ld:
+ drivers/iio/adc/ad9467.o:include/linux/iio/backend.h:12: multiple definition
+ of `d'; drivers/iio/industrialio-backend.o:include/linux/iio/backend.h:12:
+ first defined here
+Message-ID: <202407091022.qRT8WFxt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,52 +64,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   b3603133d3b727b0b07a7094ab74cf27c8aee3bd
-commit: b5d14b0c6716fad7f0c94ac6e1d6f60a49f985c7 [24/27] wifi: virt_wifi: avoid reporting connection success with wrong SSID
-config: i386-randconfig-015-20240709 (https://download.01.org/0day-ci/archive/20240709/202407090944.mpwLHGt9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407090944.mpwLHGt9-lkp@intel.com/reproduce)
+tree:   https://github.com/nunojsa/linux b4/dev-iio-backend-add-debugfs
+head:   4120536adfc0bc741c466d38ae50ffb9760576e3
+commit: e18cc5c6741984280b0142955a2ea49bc6bf5484 [11/17] iio: backend: add debugFs interface
+config: i386-randconfig-012-20240709 (https://download.01.org/0day-ci/archive/20240709/202407091022.qRT8WFxt-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091022.qRT8WFxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407090944.mpwLHGt9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407091022.qRT8WFxt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/virtual/virt_wifi.c:151:10: error: initializer element is not a compile-time constant
-     151 |                 .len = strlen(VIRT_WIFI_SSID),
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +151 drivers/net/wireless/virtual/virt_wifi.c
-
-   140	
-   141	static void virt_wifi_inform_bss(struct wiphy *wiphy)
-   142	{
-   143		u64 tsf = div_u64(ktime_get_boottime_ns(), 1000);
-   144		struct cfg80211_bss *informed_bss;
-   145		static const struct {
-   146			u8 tag;
-   147			u8 len;
-   148			u8 ssid[8];
-   149		} __packed ssid = {
-   150			.tag = WLAN_EID_SSID,
- > 151			.len = strlen(VIRT_WIFI_SSID),
-   152			.ssid = VIRT_WIFI_SSID,
-   153		};
-   154	
-   155		informed_bss = cfg80211_inform_bss(wiphy, &channel_5ghz,
-   156						   CFG80211_BSS_FTYPE_PRESP,
-   157						   fake_router_bssid, tsf,
-   158						   WLAN_CAPABILITY_ESS, 0,
-   159						   (void *)&ssid, sizeof(ssid),
-   160						   DBM_TO_MBM(-50), GFP_KERNEL);
-   161		cfg80211_put_bss(wiphy, informed_bss);
-   162	}
-   163	
+>> ld: drivers/iio/adc/ad9467.o:include/linux/iio/backend.h:12: multiple definition of `d'; drivers/iio/industrialio-backend.o:include/linux/iio/backend.h:12: first defined here
 
 -- 
 0-DAY CI Kernel Test Service
