@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070D23BBD8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jul 2024 03:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C648E1B86FC;
+	Wed, 10 Jul 2024 06:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720583947; cv=none; b=gDv2OvOcFYFB7S46NG4NluoyacjjOZzRjNhPB8mcCvZ2N3XiaLSTihev02m26XrCELZENsStyFyVOuuFtREq13g5Yb3jNhTJKCBBhh47rPIOJ124eqjbhGwfnRs87HHI6PMQKOFUI3NdKSspW8MkR1iQF2iwtR9yvVXflcuOWDM=
+	t=1720592599; cv=none; b=hyvQtfES1NUOs3eBRm6rc/W7ys2uEXwVCvYZsxHqlC4FVqNZvt72GtTwCdSCihfIfwhyxINOrtvE/ccw9TYdooM0xtK8dHbzGEQYCegi+xasgHOokJWGlXBM7sirlyCUo8+3GBQB3DLbzzybwpMpatShTpotBluN89M/YdcF0dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720583947; c=relaxed/simple;
-	bh=3kLjoZ8sSQ0/8h+BBG+jv7IwapBuzTW8LAxaDJ0zndM=;
+	s=arc-20240116; t=1720592599; c=relaxed/simple;
+	bh=/TvsurnhB6C/PUGJHAdCkcNeId66og3TYCf/6A7k1Vk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FB2hPy3gN+J7gsMTTmjaO1seJXNujM5D+0f3OygrmRDye2prA5pxSBL6wEgeTi4wJw5Uo7cuBr09giYlxkKWOjCuyncDywOfihgvKivW5+4XiXGCHYuDqfzi2Uuvh+kRkou2A67LGN5XTI6dFv7hJmBAsHjm8VFQeu4psvVKk1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIv0K/7+; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=bYH/aJmz5mEtmdFjjMVdsPnAddLaXAeNMCX/BUCgZUOKReoGJf5Obw3gy3mmIVPyrA2a1n79I2ymT7HvIHa7l8O11ZrC2i5+TApbGomCpVcABOblFET3E97sSfmFW8a/LbPY2mcEHOcqKu5WUhXP32S71C2WOo6kVt1EitZpmvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHO5HmiC; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIv0K/7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHO5HmiC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720583945; x=1752119945;
+  t=1720592598; x=1752128598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3kLjoZ8sSQ0/8h+BBG+jv7IwapBuzTW8LAxaDJ0zndM=;
-  b=OIv0K/7+546SdWPFR7i9XAZQeBvmIqDay/hhTean1iZA+3nQvVcjLci9
-   UB7m8olBj5kx/G0zKMh0zMseIRsT08T8AJNiDGxJJC/ntNFslpvW34PbX
-   GJ+QaSojrXPARzx4LdITiDaSEfJ6YUyy6tYTh7cYLUxCs6OyNBiCWqd7n
-   pgfaKX+M+MwXJtjnVTBytyShIFWxAPkJMQuQEaf3mH+H/zOtmKpXIJrbT
-   NAsySi0oAUWEWKEbNwOpS/s6D41l5EEhtZv37+3iMkHCAY2h0MbSNnDOX
-   81v1H8B2n+dk000uFpSizRw5PWZhhEWHWVc7YlQKPFzYl6q+ZHqz1pOHS
-   A==;
-X-CSE-ConnectionGUID: 2wIVfOHfT0K9R84i06uaXw==
-X-CSE-MsgGUID: NalXhrXDQaKfNLzUyB6vTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="43300448"
-X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
-   d="scan'208";a="43300448"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 20:59:04 -0700
-X-CSE-ConnectionGUID: Bauc+iQYRC2mlpiZEuSf7g==
-X-CSE-MsgGUID: PQkpcupKSESedVvLGloCnA==
+  bh=/TvsurnhB6C/PUGJHAdCkcNeId66og3TYCf/6A7k1Vk=;
+  b=bHO5HmiCKPoiWRnimx8iqRGzh9NNzoTKFwltaM9H6wB/XzbJOUXjKjzH
+   w+n11RWUgDL0TpoYIUoDddqO2dne38IpvtcXtmbfzwi7Zb4Mq+UR7jfxq
+   2fbh6tcu3yi/UpbzgalevBshrxMgmsff20oQaOHupCOEwfFrRPsWGmXBl
+   Xewq/itfBzcYrIN6Dl1GCvI5esrG/C1Nni3wHlOQglHrXvCi9bXXRzxMC
+   lBo7eTpEnqFt2nLmChtAqP/SNCsXMx72jGW50EVCf5WTQOtbDFkfl9zs0
+   u4tsUB/R/roF6dabT7Qzh+B3CUEKSm5mAJYLHN2cOaZjXbKh5hEnMtZBs
+   w==;
+X-CSE-ConnectionGUID: ElF4GabhSACMOFaNSmFbjA==
+X-CSE-MsgGUID: 19BEwVXxRKG0k9Bap5Ml+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="21759579"
+X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
+   d="scan'208";a="21759579"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 23:23:17 -0700
+X-CSE-ConnectionGUID: XSaCXtgrTXCM6w69irxJVg==
+X-CSE-MsgGUID: FeCYn0BSTOq2FkzdGUZzkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
-   d="scan'208";a="48067090"
+X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
+   d="scan'208";a="52392384"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2024 20:59:03 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jul 2024 23:23:14 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sROTt-000XQk-16;
-	Wed, 10 Jul 2024 03:59:01 +0000
-Date: Wed, 10 Jul 2024 11:58:40 +0800
+	id 1sRQjR-000XXC-2Z;
+	Wed, 10 Jul 2024 06:23:13 +0000
+Date: Wed, 10 Jul 2024 14:23:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:perf/uprobes 7/12] kernel/events/uprobes.c:2153:26:
- error: 'struct uprobe' has no member named 'register_rwsem'; did you mean
- 'register_mutex'?
-Message-ID: <202407101158.fhXDe0E8-lkp@intel.com>
+To: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:lkp_test 2/3] ld.lld: error: relocation R_PPC_ADDR16_HI
+ cannot be used against symbol 'init_task'; recompile with -fPIC
+Message-ID: <202407101447.efuvkKx3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +63,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/uprobes
-head:   73ff94f5e22f2853e1595f9781995b5c3990065c
-commit: 672488bd391cab9b2bb22d3ba6b05cc80566f0c8 [7/12] perf/uprobe: SRCU-ify uprobe->consumer list
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240710/202407101158.fhXDe0E8-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407101158.fhXDe0E8-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   6f965980c14d57134111fba4732a34e957364a1f
+commit: 3d122ee2c2b04ba7d8efb548c2fec189488f6e98 [2/3] firmware: xilinx: Add Pinctrl Get Attribute ID
+config: powerpc-randconfig-002-20240710 (https://download.01.org/0day-ci/archive/20240710/202407101447.efuvkKx3-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407101447.efuvkKx3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407101158.fhXDe0E8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407101447.efuvkKx3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/events/uprobes.c: In function 'handler_chain':
->> kernel/events/uprobes.c:2153:26: error: 'struct uprobe' has no member named 'register_rwsem'; did you mean 'register_mutex'?
-    2153 |         up_read(&uprobe->register_rwsem);
-         |                          ^~~~~~~~~~~~~~
-         |                          register_mutex
-
-
-vim +2153 kernel/events/uprobes.c
-
-3a9ea0520f38def Oleg Nesterov  2012-05-29  2107  
-672488bd391cab9 Peter Zijlstra 2024-07-05  2108  #define for_each_consumer_rcu(pos, head) \
-672488bd391cab9 Peter Zijlstra 2024-07-05  2109  	for (pos = rcu_dereference_raw(head); pos; \
-672488bd391cab9 Peter Zijlstra 2024-07-05  2110  	     pos = rcu_dereference_raw(pos->next))
-672488bd391cab9 Peter Zijlstra 2024-07-05  2111  
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2112  static void handler_chain(struct uprobe *uprobe, struct pt_regs *regs)
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2113  {
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2114  	struct uprobe_consumer *uc;
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2115  	int remove = UPROBE_HANDLER_REMOVE;
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2116  	bool need_prep = false; /* prepare return uprobe, when needed */
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2117  	bool had_handler = false;
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2118  
-672488bd391cab9 Peter Zijlstra 2024-07-05  2119  	guard(srcu)(&uprobes_srcu);
-672488bd391cab9 Peter Zijlstra 2024-07-05  2120  
-672488bd391cab9 Peter Zijlstra 2024-07-05  2121  	for_each_consumer_rcu(uc, uprobe->consumers) {
-ea024870cf10687 Anton Arapov   2013-04-03  2122  		int rc = 0;
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2123  
-ea024870cf10687 Anton Arapov   2013-04-03  2124  		if (uc->handler) {
-ea024870cf10687 Anton Arapov   2013-04-03  2125  			rc = uc->handler(uc, regs);
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2126  			WARN(rc & ~UPROBE_HANDLER_MASK,
-d75f773c86a2b8b Sakari Ailus   2019-03-25  2127  				"bad rc=0x%x from %ps()\n", rc, uc->handler);
-ea024870cf10687 Anton Arapov   2013-04-03  2128  		}
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2129  
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2130  		if (uc->ret_handler)
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2131  			need_prep = true;
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2132  
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2133  		/*
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2134  		 * A single handler that does not mask out REMOVE, means the
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2135  		 * probe stays.
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2136  		 */
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2137  		had_handler = true;
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2138  		remove &= rc;
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2139  	}
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2140  
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2141  	/*
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2142  	 * If there were no handlers called, nobody asked for it to be removed
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2143  	 * but also nobody got to mask the value. Fix it up.
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2144  	 */
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2145  	if (!had_handler)
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2146  		remove = 0;
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2147  
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2148  	if (need_prep && !remove)
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2149  		prepare_uretprobe(uprobe, regs); /* put bp at return */
-0dfd0eb8e4d72de Anton Arapov   2013-04-03  2150  
-ec74f3d52897ffb Peter Zijlstra 2024-07-09  2151  	if (remove)
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2152  		unapply_uprobe(uprobe, current->mm);
-da1816b1caeccdf Oleg Nesterov  2012-12-29 @2153  	up_read(&uprobe->register_rwsem);
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2154  }
-da1816b1caeccdf Oleg Nesterov  2012-12-29  2155  
-
-:::::: The code at line 2153 was first introduced by commit
-:::::: da1816b1caeccdff04531e763bb35d7caa3ed19f uprobes: Teach handler_chain() to filter out the probed task
-
-:::::: TO: Oleg Nesterov <oleg@redhat.com>
-:::::: CC: Oleg Nesterov <oleg@redhat.com>
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'init_task'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/init_task.o)
+   >>> referenced by head_44x.S:100 (arch/powerpc/kernel/head_44x.S:100)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x3E) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'init_task'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/init_task.o)
+   >>> referenced by head_44x.S:101 (arch/powerpc/kernel/head_44x.S:101)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x42) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'abatron_pteptrs'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/mm/nohash/mmu_context.o)
+   >>> referenced by head_44x.S:212 (arch/powerpc/kernel/head_44x.S:212)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0xBE) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'abatron_pteptrs'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/mm/nohash/mmu_context.o)
+   >>> referenced by head_44x.S:213 (arch/powerpc/kernel/head_44x.S:213)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0xC2) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HI cannot be used against symbol 'start_kernel'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/main.o)
+   >>> referenced by head_44x.S:224 (arch/powerpc/kernel/head_44x.S:224)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0xDE) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'start_kernel'; recompile with -fPIC
+   >>> defined in vmlinux.a(init/main.o)
+   >>> referenced by head_44x.S:225 (arch/powerpc/kernel/head_44x.S:225)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0xE2) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HA cannot be used against symbol 'critirq_ctx'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/irq.o)
+   >>> referenced by head_44x.S:251 (arch/powerpc/kernel/head_44x.S:251)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x106) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'critirq_ctx'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/irq.o)
+   >>> referenced by head_44x.S:251 (arch/powerpc/kernel/head_44x.S:251)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x10A) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HA cannot be used against symbol 'critirq_ctx'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/irq.o)
+   >>> referenced by head_44x.S:254 (arch/powerpc/kernel/head_44x.S:254)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x286) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_LO cannot be used against symbol 'critirq_ctx'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/irq.o)
+   >>> referenced by head_44x.S:254 (arch/powerpc/kernel/head_44x.S:254)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x28A) in archive vmlinux.a
+--
+>> ld.lld: error: relocation R_PPC_ADDR16_HA cannot be used against symbol 'mcheckirq_ctx'; recompile with -fPIC
+   >>> defined in vmlinux.a(arch/powerpc/kernel/irq.o)
+   >>> referenced by head_44x.S:256 (arch/powerpc/kernel/head_44x.S:256)
+   >>>               arch/powerpc/kernel/head_44x.o:(.head.text+0x406) in archive vmlinux.a
+..
 
 -- 
 0-DAY CI Kernel Test Service
