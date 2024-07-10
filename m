@@ -1,70 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690317D412
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jul 2024 11:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409007D412
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jul 2024 11:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720611243; cv=fail; b=fbMaNIv7EIRKJ1F2XvtRZZZBM27nXHpbqeGveHqSeKmsB2FNuLGgu1q6jknaVUaG9pZIhT8w4mkhvhATLHF1hZR60eePWQjapedfgtqM+JPaTZzaMPDvqK0ZhLIVBTeaelc1SoEjRxQfP+tKdlBBjnEcm7yL6B0XG0nl1AExNtw=
+	t=1720611322; cv=fail; b=dtipcQrPdLhTqsdCJtn/KZzssVRqNqFsowEJPzNJAqq39B/YcNMXId82AMzZR3G8GP56FloON/ZE+sfong02MKW6If2unTd4lIlJMWrAOGd08EkA4YngG4pYmOECSfE+b1I5Va+t5D0ullgcHtdfRsZKUh1+R6eY3lSQF1HVOvU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720611243; c=relaxed/simple;
-	bh=KsWC7AuhxLlPx8ZmrvbvoL6XdLzt5XpQO+uX00RnOFE=;
+	s=arc-20240116; t=1720611322; c=relaxed/simple;
+	bh=0hLTpy1UEogtQZvkBXZYMOs6KkA5llLh3xaCTtcX4Jw=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=p/5eVDMXnnbQMwXt2a9nrhhUW7fnwV8Xer2kqTqq0jmvIMdmR1nyzuxtCwCsz8ujALRsYlyv9sPJUqgIhuAwDb6NIoW0pWL0QqRxT/Aj3cnpj7Gq8dCnBDhSdrhNBBq4Ceobu3bSBK2X7e75GSczm2TSyemRJeC3h9vNTFO9j3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DHy7kIIT; arc=fail smtp.client-ip=192.198.163.10
+	 Content-Disposition:MIME-Version; b=L1HXjq1xwujM314GRCH1h+t1pMKo/1rwN2OZeiaN1oW5PU9Ir4so0xrg9ILWOxa4MX0xNzV08kecknnGRwvzb/V1Ivz9YM1Kni2oGjcIcQgZdlsKftKDWSnrQgHqQXrgvyzTRSiWS0q8adGa1yWAW0PRbaMC56mu5sV/hI3L2f0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4Hr4zQd; arc=fail smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DHy7kIIT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4Hr4zQd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720611242; x=1752147242;
+  t=1720611318; x=1752147318;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KsWC7AuhxLlPx8ZmrvbvoL6XdLzt5XpQO+uX00RnOFE=;
-  b=DHy7kIITZ9QIY1WnEnyU7oKOg/uSjH+GomcWsyI15sNrp8+A8JsZOewy
-   gpHW8DQu8rotoaG1+00GLWQVZ7tFvX8DEsCabUCMVIp9p5jPdKXs8PeO8
-   PLBRCkrrJKGdelCcYAjED9wdf1/6R6jJM97Taiv/jBPv/ltxPRNeC1fBk
-   j57+H5lzat4aKRXx+quwEOy6Ci4jrcmCaLndCSnOl18FMHdztSNGr56nX
-   Wt/5e4E9q21Ac6IDsD/rMzJfDQLZza7FZgWuT+wmDvYlG0/NyY9ssK61X
-   B//TPyCLGebk9Jc1zvkoLkjjyKcObFzZ69K+/KmjLk3zofPcfUxCNyARR
-   Q==;
-X-CSE-ConnectionGUID: hSAnHgxzTTGKogFySOxrIg==
-X-CSE-MsgGUID: CC+c249eRlibcVEGC0CHMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="29326800"
+  bh=0hLTpy1UEogtQZvkBXZYMOs6KkA5llLh3xaCTtcX4Jw=;
+  b=l4Hr4zQdT2NgCg3opoCZSwn1ykI2LtzGAyXmOMM2TLR4Ac3vCSEKfeZr
+   GVVIHemtYHEHPSiidFC8CvL2/nubCtnhRy/0e2hoIlsiIGV+4e4kBoUy9
+   de7lutofqBmydeZU1tyJrsV52itUErbNgrxmyJbMXZErbpGv3JnzHul/z
+   Fl/ai4DemHxSkxmr95hnwHGt8OedfgrGpNn3UjTcp/OzaJ0LSxgyWN6nU
+   a3LgA5H1gnQWAiXHeucf4kcpkFiTBPD6U9N7P6oEp9xBeLETiOQPvoNeT
+   ohftIBN63ydWopFhK5andbDAap4haj4KCpt/XrV3kLEKri2+xoY2m4aAS
+   g==;
+X-CSE-ConnectionGUID: 283YuHSIRD2QunOC5VZOUg==
+X-CSE-MsgGUID: L9IEhHI8RQSulHAnQ5+jiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="21689341"
 X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
-   d="scan'208";a="29326800"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 04:34:01 -0700
-X-CSE-ConnectionGUID: welUiymqQROvDlrintT3FQ==
-X-CSE-MsgGUID: O/CZhQY9Tr6Agv6E3kxRLw==
+   d="scan'208";a="21689341"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 04:35:18 -0700
+X-CSE-ConnectionGUID: 4P6LLC+VSEycoY7Ou68+Qw==
+X-CSE-MsgGUID: lXsidPFkSZKCVy2SuNqv4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,197,1716274800"; 
-   d="scan'208";a="48198819"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 04:33:35 -0700
+   d="scan'208";a="48169027"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 04:33:15 -0700
 Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 04:33:34 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 04:33:34 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
  fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 04:33:34 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ 15.1.2507.39; Wed, 10 Jul 2024 04:33:15 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 10 Jul 2024 04:33:14 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 04:33:14 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
  by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 10 Jul 2024 04:33:34 -0700
+ 15.1.2507.39; Wed, 10 Jul 2024 04:33:14 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZNaCF/fi2sZ5ltPRXCUExSUolKjS6+9tyXkEImLZHmW1dtb318cpVccxLZLgDMvzNsyu5utEhipgG2qNMSGzBNlfrq6aNl/FnGI5wSO2908m3j4Ublba5stPZQUPaPfdN7JOi985DY47MqGhFv6wcr/1YPu+tyJdNqutdEXZV8MfRFQfooR2dpTzumFPFCB+tXBZ+mC2PxhywLK0FF79LXnlRn2JJT8vfgkwtXpZHAzrj+aS2Jgwlsm8fmNUddruJrhGLsr07/GdP01w1Li5mJfp+1MBUNt1NQKWxuoCxl54xmxqsUtsx+KbrKZZyH0ijkXYF2DtwjJRSkWjsSdzgA==
+ b=EJwrA0BK5ckqAzuga6EEiRGc1KnL8ggfEhIL3p+rz8HLnZva3WspFZZSX8OEdPj41YuOZCP4Jo0qpvc+pUJ5iblVWRIEWVkuimS8QFI+/i7Dh+kB/HY8+dbqNshSqbpLJvs+Bu+fVnYkjXqstF1JECjarBv1/lUN7J0dqU3q60muC1O+69FNUuC22z5gI3k2vXJEU6iPwTcQSnv/fisnUhrrsoXb1D7hJN60bCpGBAOpA6SgtDaBvdO6wLRLFPUZlc3jQT3idAaKuKt/MMORsyzHSqf21zjcUe/ZJACBquaDoKlUJY8FIcUPnYR4loeSwqfHycc2jzMRJ19JgwBDpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=akPu6YmomDq9s7g5z7GbbdcGtnhNzKmqmn8MFsUu6L0=;
- b=C+lGY0oYmmdIOwfqj6GY3bY6J1S4STMFUUapn2AOs0BtElJqtRcQDwAmb8XGg+yh54OYKkPPAOzauIzr18cM6CzeNscESvcO33S/zMn93r+D7AX9UbhpES0qQSWvyQc62cwDZLNC6HfmYyu5R4uBQ8xLKpgtDox+j+1s+dxYkss1PJeuEUv6VhZvMs/YfrWvYd/gsa4Rl0H/lpZLgpgcU2nPF50Upmg8W5O+/NA0Gmrgm+xU5VBXgmlLfeYBx/wQFCQ7g+aBNiaQidgR6a6XmvbeTQy8fR8/EtkO98rqINTP4u9qx/jiSeIEMG4UbnYkZhNg8zh7459dM/KIwxRN1g==
+ bh=gkW4EloBzKU1qEtXGDVkXBVpZlwJMmVKzjcgZzShQtM=;
+ b=YmSW2+KUhv7nkPz3d5UcWwj9ANDNgd5vXAkbsUssG6XbVsG6LJ9h08zKKxmpJAcui5V0NRHqEN4gzz3ekBFeo86L/5vxN8YmYSe1E5rk9EwD1nV1WusynIeoqDHpb5SvMqXruRUjvD9XFaZdMBsws5DpiQsn7MC9L5YeADwtotaUDOZVhdEYZLJ+DvIxAwshuv+LG1tggNw8wupZy4CBGvqgCk0nUM6tb6yuuLX2y8XNVvQl8YEs8ch5Mt6Y7yEGPr00V/muk0kAKAT3OS0XtnR5QfrW8I6ICUPSoCd5O2xjtofrKpckpBMsi+tCmffA+sw8/LQ49AZX2ZFzHHplnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -73,23 +73,23 @@ Authentication-Results: dkim=none (message not signed)
 Received: from DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6) by
  DM4PR11MB6408.namprd11.prod.outlook.com (2603:10b6:8:b7::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7762.20; Wed, 10 Jul 2024 11:33:31 +0000
+ 15.20.7762.20; Wed, 10 Jul 2024 11:33:11 +0000
 Received: from DS7PR11MB6039.namprd11.prod.outlook.com
  ([fe80::3f0c:a44c:f6a2:d3a9]) by DS7PR11MB6039.namprd11.prod.outlook.com
  ([fe80::3f0c:a44c:f6a2:d3a9%3]) with mapi id 15.20.7741.033; Wed, 10 Jul 2024
- 11:33:31 +0000
-Date: Wed, 10 Jul 2024 19:33:23 +0800
+ 11:33:10 +0000
+Date: Wed, 10 Jul 2024 19:32:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Pavel Machek
-	<pavel@denx.de>
+To: <cros-kernel-buildreports@googlegroups.com>, Guenter Roeck
+	<groeck@google.com>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [cip:linux-6.1.y-cip 43/44]
- arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator-vcc-sdhi1:
- Unevaluated properties are not allowed ('gpios' was unexpected)
-Message-ID: <Zo5xg24jS9e+sItD@rli9-mobl>
+Subject: [chrome-os:chromeos-6.6 160/164]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: gpu@13040000:
+ clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [129, 0]] is too long
+Message-ID: <Zo5xa4KMjZhEAVqm@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
+X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
  To DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -100,97 +100,553 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS7PR11MB6039:EE_|DM4PR11MB6408:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8422c625-ed4d-46e2-50cd-08dca0d4204f
+X-MS-Office365-Filtering-Correlation-Id: a1fa51a0-2460-424b-200c-08dca0d412d7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?PwLZMXogkk3D0Mw0MHKJZfzlobWbLI7UHy62Z2J/5MaumXjM1WJW+dyFkLvY?=
- =?us-ascii?Q?pKKkMpdphM7mD9PkuhJ5KF+mPvCfst8Jkiw2Ff4nKhxDEp5mHwwg5fuy0pze?=
- =?us-ascii?Q?ylretsaygdLRqaI7I079uvDd/P7C6S6TJDonl+z77Gc3RC71ibJSPq0Z/jiI?=
- =?us-ascii?Q?Z4J6o4SvmHWAugNSDOi355WQgBiUFRR2N7lPQwuxShXxUutkXNhbT/rODqK8?=
- =?us-ascii?Q?bb6uD6nWIj1ccMczt77HsZD17JzlxUIWS2K/bNRzDnDg8dBGtaoJu7YMfnB/?=
- =?us-ascii?Q?QZ4IDk3D/KH9ZtaW/SU373UtzfL462LAaRFR52jM78aUA+1K9f4yfhnW+Hfu?=
- =?us-ascii?Q?WZpesun+XtP/gmO0EH0bu2e/uuaBzFURpUuC7p9PI39JGwOlgEJc7aAoWUEn?=
- =?us-ascii?Q?eblJA3ED5wi9DiZklBfEnXY43n8W7JhlxD7ZbK1FG6vZLsz2uDiAe7l32Lf1?=
- =?us-ascii?Q?ZuZ1cMS6J2+r19a6o0B9v+DlgGK1B0yxiJSzw60sby8LLsPPA5wSmo966r62?=
- =?us-ascii?Q?BFjAruDQBaNbbqGoIt51ajIcXfsXOqqb+dSKt/sjuSVJ/WSg3HfjI5h8vr1P?=
- =?us-ascii?Q?L515Oae+7Ql/BjPn2p1UZTOnFrXE2ZZbsvn/rUBWVashuNY2BzajyqbwU0YT?=
- =?us-ascii?Q?T5JqNSRUnKZKNIjTBkPAXPxP3f9pr1CjXXbNW5B8i7A0JTkxNKadREfnd0SZ?=
- =?us-ascii?Q?2nCYPuxb7GQjyu2QJx0tZJmQRX+eRf1f6J4EcB30SLv/l5N2yE1Tyr7ZAKfr?=
- =?us-ascii?Q?eKUIIyZvkuBjZXFZmWpLLJwjC69WR/Q0qGvNDwufCO2kveK+68nMW3Ih8ese?=
- =?us-ascii?Q?fS31FdOD1SkZZ1H30NWY+79j6w+JyVxO9JmwEc1vIvMG/lwLUETAm+vNcdCA?=
- =?us-ascii?Q?jrEYh3fEtsZwJUXYmNPgtIpiEC5oqfUk4gNTiwXmQz/DQWRvF2lh9Ys9GHFF?=
- =?us-ascii?Q?jO3vH5w6CMZhA98eu9VGpKbXNuGAIMnm9aeDzV5bEfWi7ucZ5IRb5ygDBhUd?=
- =?us-ascii?Q?83keSrsfhCT+STSox/mlv+Qc+AmLel3801CA410eVPPFoOIx09swBF37ixBz?=
- =?us-ascii?Q?BTbrn4YynIB1dQSmWc7cLlGs8M6Ir3aekZtibn6fknquf52KBum4SO4dApKN?=
- =?us-ascii?Q?vs1LvxZiSV1YrMacaOMJFY1UwaHXwOFoZ6IwC5HiPWUbVY5WW7fFhXaYaRTf?=
- =?us-ascii?Q?+yUNPT0zVe6TaLgYMMftOZtEEzsBbRfSuV6ONVQddUHDBvivehYLTtX/5k0f?=
- =?us-ascii?Q?Ey736noV5W1cHmHCTRHtQfVlBnGDrKhp1+oViFbCVK+/grWX84CxxvSxuO8i?=
- =?us-ascii?Q?ZT0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6039.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1+cTi8Vhb63EXNzqqKGsg/alDtJ5H8uOjladyd4SNRQGIFpcZeKuOVtjpzAP?=
+ =?us-ascii?Q?yh6/QLaqm3SbvgIoR6vm08fR5uaHvl9tw7Hf3wKWzqqw82dbMeBwv2kenLzi?=
+ =?us-ascii?Q?3Vc6+FtTms9cF2DOIMaygaWRAcKboyzdZ6g9jP3/nmcGqHXES2Gu2qYPeABO?=
+ =?us-ascii?Q?k+emLxUHPzwxNx0u1jPFzKj+j63NBeFFbBdjb97PiU5jk0n2BF9mwUMsqIb/?=
+ =?us-ascii?Q?ChT6lIqEVrFM9CfTiqe5yQNDZyH2MpmQBhBqQ0Ar9/753021K038Qzbwtcj3?=
+ =?us-ascii?Q?F515ine/S5uFv0atlZ43DoPvtHFxZNjLiA9f0Y0GH4j6ufXsylhODPxJKoR0?=
+ =?us-ascii?Q?JkkCBIYzLyR0jYQ1IzYYAXXR8BjivjfU6ChQXIAE1iLMdQkD2Cgb8Falovkg?=
+ =?us-ascii?Q?QeZr/+AAbz6Sivds/ewb768SnK0glmE3Bdp2TSt8qPKmxRopcGgeanx3xxh4?=
+ =?us-ascii?Q?CQT9ghv15TRRZ0XWL+etgBhoYwmo+LE92oLxUGaDBs9a50qs0+oimM8uKZ5R?=
+ =?us-ascii?Q?TYSu7FcvdMdCjf6vJuUuEWSFjoq1hwrmDMypYyBRkxznVeFoi93SNe1CDEXd?=
+ =?us-ascii?Q?Ww0uIN4yS4PC0j3/97MFMtW411irTA+uenhK/g8/NQNNQFo0utotp1TI33Uc?=
+ =?us-ascii?Q?+fcCg0W8g7wyerCVksyHdvzjJZ4C0Rfsy7G06rAvvSfDb0Ijirgped+qg6kz?=
+ =?us-ascii?Q?GviRU0Hn8oIy6W8o+bV9kgj9Z8upLcL20MphTLMoNFZs6XlPShoR5N11Z579?=
+ =?us-ascii?Q?S9lgSH2V4mlCrlGP1vpYn2vJM/JIgxW0dYXasWs8K5GdUbMXZ7afl1MRimtX?=
+ =?us-ascii?Q?UkhsapIp5MwQyo7IjeGkMlPK1KG9heuaPhOYirzWftyMpwnBKV1eNWcAqTnN?=
+ =?us-ascii?Q?euhL4tqhv+srvcX1y1UetO7yZsjcT6MnKdxY2C80A0dwa/Ix8wZUPnfh/bmj?=
+ =?us-ascii?Q?sI4y5LsTVqldBAML4XKb30ALXivL/Eh0CZITntiIXuD1V1rqAUZEBlYg5907?=
+ =?us-ascii?Q?usbyRSLCzf08zPSXGK0/39OLaqK/ovjed3+Xa3ScidtQgwAwV5p/yxsBILxu?=
+ =?us-ascii?Q?DPRnndRSoiutBGdQ98UIcC/7Lsq5xxqNYwnaR82WX9NenW7w6BBsJAotKmIw?=
+ =?us-ascii?Q?j9j9OXyQL0Z+1QtaeC59zkC4ca2QtMDMxcioUHUpw5QSHVp9dZu0NsFiz9rE?=
+ =?us-ascii?Q?cSpvpzPa2/t96A1bwB/4LbVq+lqgEJXaapjVROdgk1UuS0/Gd9DEfuIlSumA?=
+ =?us-ascii?Q?tCxDrWfyR7/DGcSfq/Rosjmxs1hgHBiPRHJJVEvhHnnZNdzVK5igBYGTYwEV?=
+ =?us-ascii?Q?HfO2Jwxy8gnFJeqkGpkAsAp7Aab+xr2m1Wact797Q2QRcrWRhlhb11deu4og?=
+ =?us-ascii?Q?h+YbkoQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6039.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YG1qew3KZVcH/dyBYKDASnTa1pBfymanTicwzco3clvFHs+K3tQ2bxETdgTZ?=
- =?us-ascii?Q?YLcQBm7MMEcYNbxSLwFV8pKHv0Ohdg0x31Bexlyk94LlqXLyK3HPzUplXzlm?=
- =?us-ascii?Q?+jkfiTin0EmIfFlfOBOtqoqiZUWG5qSSTolGZVMurbQdwyabca9iqsJxkAec?=
- =?us-ascii?Q?fH3X6MG5neRV5uVFj0p9YyjnOS8Cf7bgB9bGIy2oEkHMo06aJ2VCdcJIsaKK?=
- =?us-ascii?Q?mNLGYjvgfWVo2P+aPc4fvfDqQAKSyhMpopfOPQO0Xt/o8YrxmumRYKpYjg4y?=
- =?us-ascii?Q?YgwSCJoYlYgfpCyzkSArdBLiqTtnG8k+02RnyU/ZfmtoqHzhXkrZckTRulxM?=
- =?us-ascii?Q?VKHeofOMo5G7UW3qrSAa97BK8+5U2p8D9nb7AEwUH0Xfc1TZPnCYncExaojp?=
- =?us-ascii?Q?wSCoNtxJ6/JKWyEDfS+spTXlRjsSqGhDYRv3faI9QHvhoL2LCecaHu43jxNE?=
- =?us-ascii?Q?NTD8caXAwIN7oy52OduUWTlOzpOI4PO8jCPl7mhyxUg1gKIMeZ0ltjzq/aid?=
- =?us-ascii?Q?52x0uxME6uS8SVbhFxjyI30jJmUuqiFNir1ZWl/wsI2zBCZqvN5EctVCBX+h?=
- =?us-ascii?Q?6Tem+fTohNRVZ/dOr++rnkPhQqSXD1bFuDCFxv5ak2hmvwg8UdnVb+chZbU2?=
- =?us-ascii?Q?uRShOYXFfIcRDa7w7n2M6+t4a6MFa+SZ9+oAKg5JcVyBca3V4mATZuX9YjIL?=
- =?us-ascii?Q?YFLytgXvqhrMpjZcOk9dU4fykydkC3n3mNZFot7GCO0OBX5ZDYBHgAswHWuS?=
- =?us-ascii?Q?wN+U6sdFNlmNtLoy3IkW+4JWxVjSFx+2nbXuppbGhg5/YOG9wSK73GLMh2Nq?=
- =?us-ascii?Q?bd8rrHNjZ5JsKBa2DxsIRJrPdLb91mHnlFeDNyMqQrnAid6KNSlmZzNiV12K?=
- =?us-ascii?Q?ZH/Fpsqnx4ibJxSifaLyzLgdlzRWW+T86UuC9vFjnIPqfjQckWYw863UqqtN?=
- =?us-ascii?Q?T4kDgP6mbzVeGHA0TDNPtCeRf7fT1o6sl4cNUdPwftztkla/2nAnAyTssQSj?=
- =?us-ascii?Q?d0HexWAGNp5kskQI4So+qAqlcwhuLPVG7T3ZGMY+VsCCzRk2uF46YvwcIVuA?=
- =?us-ascii?Q?sKS/IkHvx8R441W+qf2P4FVA1yiRFIfmOGBiNIFa09p18mNZiWbFMrDNSQPY?=
- =?us-ascii?Q?xNChihdPuDwQt7QvA4yQd0Uil60Cngw3jiE1Wzh0FPqPc14/MyMI2dpSrB6G?=
- =?us-ascii?Q?/VYiLbmKGaGW3O/IrFx3Hz64uIPOFoBlu3DJROZOVrEZt1Jwhwfmv0GiygQs?=
- =?us-ascii?Q?mXMfLStfl4PU3fDsNfOCwrwMGkdOGs05jSSU8edrlTy0lC+KPnj2ZCVa/sYt?=
- =?us-ascii?Q?nwq/HN+3rlDiyISLdU/uOlEwTGWusNqjk6xNE1s/4gfQSXd3hEbFKe6XMMck?=
- =?us-ascii?Q?EJqjGKNiuWeflB5eyNXhvtXgrjPdr9MOsIeJMmEiWzARzlpdpsjmlJc1Qbm2?=
- =?us-ascii?Q?XOyWlmqzoub1o1fIlQRDJtgokRK8X02jNkA7z/QRivi2elqVXkEkshpkmFtc?=
- =?us-ascii?Q?ZEar5cOBaIX8QXAVblHHP6E6iMtulVtNeCNXI6EbEPzEXXwS3cvSr0ZANXvm?=
- =?us-ascii?Q?Px4PIL9USoB7d+qn2Fg4GLstlZzefiH7YKv7+X7foBZO3TfpcWQgf2PELU4C?=
- =?us-ascii?Q?TQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8422c625-ed4d-46e2-50cd-08dca0d4204f
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vjy2g06HcWatLEoV2JhNpXm7IOwrhOJ78QKOoXd9XSlCqP0Jyhb+NTdi/BA/?=
+ =?us-ascii?Q?jgycD9Hi+DAPkYV4Sei2iBO9WNKcILGUBKwnr/oEXC6V5yQnX1PuC6Phc2UF?=
+ =?us-ascii?Q?10xyynQ4xWgYCwxT5W1Kb2eqOEHf4asuC6CiwWDCxLlHGQ+FHNB8KZuByAhQ?=
+ =?us-ascii?Q?J1aNdH0pUKkn6wFrlO5gPbxErV7+1lbguhaqh8viR9okcKZUAwCKBu6z912j?=
+ =?us-ascii?Q?6iqBrp3tNMW9G+aIQ/PgHn0M6l26tPswq4mHxKRrHYHsSC/trSIkU2W74Z9R?=
+ =?us-ascii?Q?cLzJMwECkqMtR7F7Ipu+fnDYbk/TuiqYCe/f/C0xSCMdtrC4bflokcFWnkUz?=
+ =?us-ascii?Q?i6X6dC8qW2zvLflqyhX5G44HzCed0GJzMQn3pQUAwXpMAaD4nPYAZSH7RZ2F?=
+ =?us-ascii?Q?jq023Fk93ByraBFKZLnESpZ7JgzUsqritpXmX6/K9o8VKmtHWZBBks2MP6Bm?=
+ =?us-ascii?Q?99eNThBvIJwfHzM31hf1Kafa0NfXHiiKxqPUsJAR7eEl/NS4MyBPboawyU+v?=
+ =?us-ascii?Q?YKW/nCp9hlDdLsgrkOeDcBwsixTi/yLr5/ByZuMH27TnyaPFYWsRYjXojh/b?=
+ =?us-ascii?Q?9mwkBCIF5eciVA+tUXxNMozD0lHP4ki1C5KzCskVhNCginTsU6AuQe3Rv7zc?=
+ =?us-ascii?Q?16IBbNqjNhybAsRgMIKIY5buqpMu0QM22tPg6nzNO43/B/BShLpZiFY84ZEW?=
+ =?us-ascii?Q?vGvskpIQulv7yh2BwElIZBMcOBsEF1R7Wli/7mi45bxOfgvaPpG3lu3XRtfO?=
+ =?us-ascii?Q?/wyPKQpS9ypc+31PDDLFCjdyOb3M/DCegdsUqSL9LruQEDEGoB6PwUngPy4E?=
+ =?us-ascii?Q?VefpV2ND9gKvJg5Evas6y/aEj9QHIshOruHBfj/egCaSbExbr/CBBW4keN3U?=
+ =?us-ascii?Q?Qyjz907IKymzICRMYUuAO8wIkXJ2KbGqWNtLBmpY+NtB2cBi+9GIgWGKI05z?=
+ =?us-ascii?Q?9MgkSnS1QNkaJlmMNzOLvK9tBBuLZeMrQ04maG/Qoyk0X4qiOvIIq6f13FZn?=
+ =?us-ascii?Q?2k1uVazVvxk9EdNwHSw8NXEPxl8mtGbXJoFaOVjpY/Oz1UyuIQN+DYmk+Nk3?=
+ =?us-ascii?Q?YqaibGSIzUpmj0e7ZUPUiicE/sWp7QVNtxAxeiw+tsKnubW9C9AN3bYZEP8y?=
+ =?us-ascii?Q?QO0kF3jr3iJ996KkEsvDzf28zxftNRUW4HEYLEgmyuy+2k/6PUnYwrosaTGr?=
+ =?us-ascii?Q?kQdIwF2/Qtkyu2oKyh64mTlHCQG658oBOw28dAnJ+nkor/jB01lTRF5j28NA?=
+ =?us-ascii?Q?WrlBXxdl4nTlo21XYIeNS4bPXPvCX6XdZanBisTY/sc0kZ7FQSblfQakHMah?=
+ =?us-ascii?Q?uY3b30UZP+MntXrx/0+spvjfHrSeKJJv2zE1HdaFxoF1oiZAybAbI4oAR7tb?=
+ =?us-ascii?Q?AOw2BTPyMfid5jmkjwq9Vg5ibltVErX0ZlbWvc7f63+5Qteosqi5js2Jc6b/?=
+ =?us-ascii?Q?rnV88TK0sAAXhX7QMKJ+lObJKGOBlsqPO9qAnyzy68VCkzFVADXSvnplwlM5?=
+ =?us-ascii?Q?DQ0SQuNTH+sLzgU3aM4Fgy8pMNO++MDhgffrJEXwON1scQLSdXTT2s4c1Q62?=
+ =?us-ascii?Q?bZErQTPg9rZqgBOOTwAGvckHM6YF2u30j+K6s9Tw1SjM8kM9/M+F8pYhkpAN?=
+ =?us-ascii?Q?Bw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1fa51a0-2460-424b-200c-08dca0d412d7
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6039.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 11:33:31.8181
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 11:33:10.8425
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1F2Z8iRo0sGvfM3BAfeC0kVJUH2tDe/jaOhL8bmsTeZ1oowYdbervQxbndHJ/GnL68lk6JWudvGzUrYEWRAlkw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: m6qTpNqGlDajT3FiLcHXhoKYg0bOBX5OmGgozsQr6PIhUVuQIJOEcSRw8+riPDAB/DNhdiIJkMZ+p4rcGNmjYw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6408
 X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip
-head:   36ec072fc37c836df41fdb600a933321aa4804bd
-commit: 10856d08795dbc4727c7e5d8b192e885a88e9694 [43/44] arm64: dts: renesas: rzg3s-smarc: Enable SDHI1
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-051-20240708 (https://download.01.org/0day-ci/archive/20240709/202407092017.KXJYKxF4-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   f53f50981a5fbdcd5edaa2989bc612da2f193c61
+commit: a71be723fdc4217f3c2a774c151d5be0f452b409 [160/164] CHROMIUM: arm64: mt8186: dts: add proprietary clock names
+:::::: branch date: 19 hours ago
+:::::: commit date: 24 hours ago
+config: arm64-randconfig-051-20240708 (https://download.01.org/0day-ci/archive/20240709/202407092244.0PH9aBqr-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092017.KXJYKxF4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092244.0PH9aBqr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407092017.KXJYKxF4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407092244.0PH9aBqr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator0: Unevaluated properties are not allowed ('gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator2: Unevaluated properties are not allowed ('gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
->> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator-vcc-sdhi1: Unevaluated properties are not allowed ('gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [129, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: gpu@13040000: sram-supply: False schema does not allow [[132]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kingler.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-krabby.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magikarp360.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [125, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: gpu@13040000: sram-supply: False schema does not allow [[128]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: gpu@13040000: clocks: [[46, 2], [3, 10], [3, 10], [46, 75], [128, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196612.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [125, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: gpu@13040000: sram-supply: False schema does not allow [[128]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [125, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: gpu@13040000: sram-supply: False schema does not allow [[128]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: gpu@13040000: clocks: [[46, 2], [3, 10], [3, 10], [46, 75], [128, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: gpu@13040000: clocks: [[46, 2], [3, 10], [3, 10], [46, 75], [128, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [127, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: gpu@13040000: sram-supply: False schema does not allow [[130]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: gpu@13040000: clocks: [[46, 2], [3, 10], [3, 10], [46, 75], [128, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: gpu@13040000: clocks: [[46, 2], [3, 10], [3, 10], [46, 75], [128, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: usb@11280000: #address-cells:0:0: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: usb@11280000: #size-cells:0:0: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: gpu@13040000: clocks: [[45, 2], [3, 10], [3, 10], [45, 75], [126, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: cci: 'proc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/interconnect/mediatek,cci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /soc/lvts@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /soc/svs@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-svs']
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: gpu@13040000: clocks: [[43, 2], [3, 10], [3, 10], [43, 75], [75, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8186-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: vcodec_dec@16000000: 'vcodec_core@16025000' does not match any of the regexes: '^video-codec@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: jpgenc@17030000: iommus: [[80, 233], [80, 234], [80, 235], [80, 236]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: jpgenc@17030000: '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
