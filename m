@@ -1,154 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8692B9C6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jul 2024 03:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E46B2A1A4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jul 2024 03:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720580622; cv=none; b=kT6zsews/8RoSW8Ko6wk4AquylW5ONu5McsCA4knKsrTkxQHPuoeCBGafsSu+VXlLsOa5iEb4iD7I/JzoQK/NqkxRugOaj4EaUmtx/wuzpR3gF3waiOdE6N0fG3M/DNeLshgcno4AOJ3qrpVkLbTa0Mp55n64+A21GAxHGFTzbs=
+	t=1720582689; cv=none; b=mib0qiyYvJ/kxnJFr9za4xTn1gEt+vZfOOd532oXwzv2kBnHtXA8k7cX2oCWAyoAb9hzc+biBtxS+c503dXDp5FAz6sM0tOwteuSe1WVKp0kcAXunPTlrAZ1AjhrbCHYI4l1MnyV+1UdMcEqc5MPKBVbbNK+rtKvljfA7F0Dqok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720580622; c=relaxed/simple;
-	bh=tlwF+GqVgDmGxbGIB1sVzEy+PHeIxLFeqrd6ZM52SRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=beto010sxGxdgcI6anVmMS0tneievgNd+Ed3m23VgkitN/vX2YDmg+cMRxLo0a4hktno7iyvmB3bPg3w++P77SNNgTKNqYcZ0iaFnMpTt2cjgHyGscikQl2wTMgZSWIq0G4hQ0fC0ryJldcNfDEbenhsPJK7VshPIEtVv6BDuNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OAsbxGeV; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1720582689; c=relaxed/simple;
+	bh=M2ROzHQROcrCllh9+iB4Unb61gbzwCLA055NO3yeYwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bi0VvALSkC5HapVxnlDNMHNTvycJq/RerwVjcigWuYmtz1sBqfFIxMubOQM9Lo+kSl4toOzpwSKAehfXnF0Xw5jJEvLZ9FUkVQielcU/Uz2MrDu4wGbNsMr3GJi+l3cxufsz8IWcTBJBD7GbPJZt5x38AxqofuhjOAkzY8KGRY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XM1TguvA; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OAsbxGeV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720580619;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=XyPPqfQp9qSPs1l/QcTcBtu+sHsBQSt08JDgJab+NGo=;
-	b=OAsbxGeVDK66Y186mTCCLQwqFC1BC6BqLtd1uO1rnHDXMv+dcEWY82XzyhNqE6ZJQOTuig
-	YY5coeCCrBEAQ91FZ9oqjfu1KNvVLY6lAxV4TLc/t7ZP/AmhP84pcaPvA+67WcCFi8xI8P
-	ewhkaufIdI53NEKZVTILP1TIuh/HSiY=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-390-3o_Ngrr0OGKg83_GBZ6WpA-1; Tue, 09 Jul 2024 23:03:33 -0400
-X-MC-Unique: 3o_Ngrr0OGKg83_GBZ6WpA-1
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2c8402d08b4so3961554a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Jul 2024 20:03:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720580612; x=1721185412;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XyPPqfQp9qSPs1l/QcTcBtu+sHsBQSt08JDgJab+NGo=;
-        b=R04YZeDOkVMQ5eutn3FhbCl1Ime6YweXpdXMC3vIAq5UFd6abhp/coq7smYxVD63wG
-         RpA8vvuQtR9ERkh5LZPfaqYObIlod/eODECd3G/Ipot9nCcwW6/y/nvk3jkV5ln+FU5D
-         2CEuOFfkuuoFNgXCcW05W5gU3dqsyLHRpHwiapiQ4Nh0GZsBZabinCCzAik8WvJLroyy
-         AULmIfUfiw4NXsygm9SgF5YZZqTbn+kCH5bCGdAOkGMAB22IdF0dvIui03XuL8In9nl8
-         erhxYyQgrHPyHmQ3nVkKDLocCBhZl8zh2ttojCDbx4oTT73MrSA1waeOX3sgx5MbHTmC
-         W4Ow==
-X-Gm-Message-State: AOJu0Yyg6Gc4Y6aabucydhl8Ri6P+RS1LEJ9bK1cvANZhPPaOyd6vqqc
-	RmWS4jAm1GK3Q6VFNyzMyed/84eDEmgZHGdtFvL7e75Olj3Xhw0KRRRRU7uEg0QS2SQSsa++WtK
-	Rc2n+HfFnQW7XM3Jv1h5Znsblo70jX9cu4aYzSbtWoClGOF8K3o7R2cPR4wSNNXU=
-X-Received: by 2002:a05:6a20:3ca6:b0:1bc:ba48:15ae with SMTP id adf61e73a8af0-1c2984e1210mr4331279637.58.1720580611922;
-        Tue, 09 Jul 2024 20:03:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHb8tgnmtGh9HvWFbWsJUaDI3ODHRy36uIz9qutuvunNHtcntQGNcC8j3b27oIAcEaC8d+zLA==
-X-Received: by 2002:a05:6a20:3ca6:b0:1bc:ba48:15ae with SMTP id adf61e73a8af0-1c2984e1210mr4331264637.58.1720580611416;
-        Tue, 09 Jul 2024 20:03:31 -0700 (PDT)
-Received: from [172.20.2.228] ([4.28.11.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ad52ddsm22915335ad.303.2024.07.09.20.03.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jul 2024 20:03:31 -0700 (PDT)
-Message-ID: <6c6b2f14-9034-44c0-9ac2-81365086a788@redhat.com>
-Date: Wed, 10 Jul 2024 05:03:28 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XM1TguvA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720582687; x=1752118687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M2ROzHQROcrCllh9+iB4Unb61gbzwCLA055NO3yeYwQ=;
+  b=XM1TguvAzS1tIUaGWk5NSjeIO86gbgvyzG3vhu6qfi4Zob7HeDUL1FUh
+   fSiG61XpAedElKqVGPUl3gdkTbj7akxcsfmFzs8qNOskqtplPbyR86C4o
+   fpy/yYK0rh3yzOJHK1eDS32TczxEerZqnjmCBvH1oPvbCb9THBY6ZmPdz
+   7q6ou8AwhQfS4RvPkPv3hNpLuu9/oBpWJELU1A+fC7kp5Y08+3EiAbfzW
+   EXGLP7sL0h12hEBCTssJ6+4Z/dK0LWZM/PHcCnnAp8coVVfffw5SGAdIq
+   +DIWFH9pGYXp3lvLmgMAlHmq2dv2Fdkk4p5q1VYMt57XfjOWQVOOtOHey
+   g==;
+X-CSE-ConnectionGUID: fpJnWrXWS3yroEdlQ1OMLA==
+X-CSE-MsgGUID: CARusYRSSKy9ZaQjRzy83w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="18017366"
+X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
+   d="scan'208";a="18017366"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 20:38:07 -0700
+X-CSE-ConnectionGUID: J5tEipYOQ46fM4Cj3kAsVA==
+X-CSE-MsgGUID: VoKJNgA6SHaJKU/R7rmmiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
+   d="scan'208";a="71297673"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Jul 2024 20:38:02 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRO9Y-000XPu-2D;
+	Wed, 10 Jul 2024 03:38:00 +0000
+Date: Wed, 10 Jul 2024 11:37:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone
+ driver
+Message-ID: <202407101157.p2OvSFcO-lkp@intel.com>
+References: <20240707002055.1835121-6-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 9094/10451] WARNING: modpost: vmlinux: section
- mismatch in reference: remove_device+0x4e (section: .text) -> .L604 (section:
- .init.text)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <202407100540.VWczFcnh-lkp@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <202407100540.VWczFcnh-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240707002055.1835121-6-cristian.marussi@arm.com>
 
-On 09.07.24 23:55, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   82d01fe6ee52086035b201cfa1410a3b04384257
-> commit: cbdfb23849b330b0156760ee0d73348e020b8cdd [9094/10451] mm/zsmalloc: use a proper page type
-> config: riscv-randconfig-r033-20230517 (https://download.01.org/0day-ci/archive/20240710/202407100540.VWczFcnh-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240710/202407100540.VWczFcnh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407100540.VWczFcnh-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+Hi Cristian,
 
-I assume this is completely unrelated to my commit. If not, please 
-someone shout :)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on next-20240709]
+[cannot apply to linus/master v6.10-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240707002055.1835121-6-cristian.marussi%40arm.com
+patch subject: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone driver
+config: arm64-randconfig-r131-20240709 (https://download.01.org/0day-ci/archive/20240710/202407101157.p2OvSFcO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240710/202407101157.p2OvSFcO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407101157.p2OvSFcO-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/scmi_transport_smc.c:276:24: sparse: sparse: symbol 'scmi_smc_desc' was not declared. Should it be static?
+
+vim +/scmi_smc_desc +276 drivers/firmware/arm_scmi/scmi_transport_smc.c
+
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  275  
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08 @276  const struct scmi_desc scmi_smc_desc = {
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  277  	.ops = &scmi_smc_ops,
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  278  	.max_rx_timeout_ms = 30,
+7adb2c8aaaa6a3 drivers/firmware/arm_scmi/smc.c                Etienne Carriere 2020-10-08  279  	.max_msg = 20,
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  280  	.max_msg_size = 128,
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  281  	/*
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  282  	 * Setting .sync_cmds_atomic_replies to true for SMC assumes that,
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  283  	 * once the SMC instruction has completed successfully, the issued
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  284  	 * SCMI command would have been already fully processed by the SCMI
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  285  	 * platform firmware and so any possible response value expected
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  286  	 * for the issued command will be immmediately ready to be fetched
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  287  	 * from the shared memory area.
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  288  	 */
+117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  289  	.sync_cmds_completed_on_ret = true,
+0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  290  	.atomic_enabled = IS_ENABLED(CONFIG_ARM_SCMI_TRANSPORT_SMC_ATOMIC_ENABLE),
+1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  291  };
+728a057b6ab114 drivers/firmware/arm_scmi/scmi_transport_smc.c Cristian Marussi 2024-07-07  292  
 
 -- 
-Cheers,
-
-David / dhildenb
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
