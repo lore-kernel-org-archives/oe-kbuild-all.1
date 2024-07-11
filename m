@@ -1,62 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAB0143732
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7585314A601;
+	Thu, 11 Jul 2024 13:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720704270; cv=none; b=n5i/OZlZxKeLL4brtc4FRjZCpWp90luwR4j80Qd/+hiYLayBrIOTD6fsjVTuU6xDWmMBjVMmjNc2S3DeZ7UGzkULG1rcL7SpI+WsfbCe2O2V6JnFZPju3bzaMjvmZ8wpV9tf+1U9MS5qpCnkzsanEfUrJCBA27trJhR+rgMBm34=
+	t=1720704271; cv=none; b=Ez/zWOzKNxwGr9lj/mM2MjPUX+NUl2TnG1mz1Ts4Q8p8dZPj4EXj5BAD9qtrT+b73h5n9+aoznr2+J526YljZePZvjdgECg6N0OYa0Qq8bW3oJiGP2f/Stf1QF2MiCTywx4rQJR+AFWwi/mIdthcUUAnJJ53YW/R2dL/NPg5WTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720704270; c=relaxed/simple;
-	bh=R5kLr8ubZ0C8IgpQPPgaeWov3kRvVeAFgfyQ5td8KRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pw3983GQQ4DOpeHmYwCfY9bRaybD0Hr130/Kr4fcnZANMIqV3M0U7dRMmX5BPJIKVNgWWtfRhKv2cK8yj7s4JdG+6SVDzDYB1zS+tVpmLnibwRTaQN7ZHm7pgUNb3tEMR8Gz0c8IUCWwWUaYmO3adCXj1LwD9U10q2djKzxxqzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mnc6QU45; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1720704271; c=relaxed/simple;
+	bh=KAnGBHpCxcNlVVtwdfdNAWR48fJas1MfIdvTMUQRyEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AsZ+ePkpU51UZ6PjXp/m6Y7JULvl6FFEtumI79MIReBjgylGMslhUEr16XfYLbZDUSPawacyp9lJ8K8QdDbIItjSnYnsqHz+xs2Y3PnvbFupalcBtToFxB5UUi1w+zAYBtYBbm5ewDy+EgiyfpcQbrOhasgQ4nGgbhkMj2fuEyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=haSB2/xE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mnc6QU45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="haSB2/xE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1720704269; x=1752240269;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R5kLr8ubZ0C8IgpQPPgaeWov3kRvVeAFgfyQ5td8KRI=;
-  b=Mnc6QU45mc3NGS0RHrTvBNR5cwYvODdtHErEGZ//PlbxQvpaOACfsDFU
-   dMe2/uCigKlO8THT2D4VB8KFgewqKhtSdZX16nEcNACSj1jGEa6E+bfmI
-   j6dWvfh2efXUpc42wBiGVgff4rhj+ZITQ87Od4jWdLr5quDWPwaN2gP9C
-   Hj2GJ4ftpbrb1Cz5smOflJcbxovNIo1XNsLDrx/SrDxTVjJNPSZloXaYc
-   10qG5q8s2MtVG+qhmm1N9tLDEKuFYj51jIHXCXcOFnFnaZaePIWijAkcO
-   CksCoMwpGayYokS9HHSAiAJNqki8ch4kj8znerMhyBECjCHUaBcC3tvAK
-   Q==;
-X-CSE-ConnectionGUID: 6zrh5HUsQqG/haNWYlozow==
-X-CSE-MsgGUID: PGZmU1w+SLSLFCDxsjWW1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="28676485"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KAnGBHpCxcNlVVtwdfdNAWR48fJas1MfIdvTMUQRyEU=;
+  b=haSB2/xEW7znONVEKYqXH77iAxJymTjFNu/wpSuM8bH5oCwop85fdHBR
+   8QiSSC+E72M80+5hJz5NaOiwdcplrKFcFC4v6/KQZx0jawBRoh3HaU9V7
+   uoN7Joym8p8xfmMyKdSK5hsK6od/sG8Y0cif0wRO23CSz90f8639lccSm
+   8Gm4V47Djy+yIDJ1p3aMZyX3A4H63FpCyrgKDCuo5FhNNOvssmLr8Hh74
+   ecGVH2nk1cVXj4ZloNexOCy1L31Y8yDZL5qo8ZkOzeBunHx/eHINl1Br2
+   GTSC5nVUcaf/MbR0wJw9EGVX7SBjschxOBZmwqzh7ETl44kf/QORFI9Z8
+   g==;
+X-CSE-ConnectionGUID: fouj+wqvSGqs12Bx0t0s9Q==
+X-CSE-MsgGUID: WI64HkRTT5C2RT9eECG3Jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18027818"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="28676485"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 06:24:28 -0700
-X-CSE-ConnectionGUID: FlSzbzV8SMqIITFebgkOnA==
-X-CSE-MsgGUID: ct45O1VORNyQoZSHcJERNA==
+   d="scan'208";a="18027818"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 06:24:29 -0700
+X-CSE-ConnectionGUID: pEL7xV6+SeaKGCCdyc7XKQ==
+X-CSE-MsgGUID: Bzn3bDKVSPeVyTDsl7qAwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="53376104"
+   d="scan'208";a="53733484"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jul 2024 06:24:26 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Jul 2024 06:24:26 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRtmZ-000ZJx-2r;
+	id 1sRtmZ-000ZJu-2d;
 	Thu, 11 Jul 2024 13:24:23 +0000
-Date: Thu, 11 Jul 2024 21:23:53 +0800
+Date: Thu, 11 Jul 2024 21:23:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 11857/12643]
- arch/powerpc/boot/dts/sequoia.dts:214.14-235.7: Warning
- (avoid_unnecessary_addr_size): /plb/opb/ebc/ndfc@3,0: unnecessary
- #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"
- property
-Message-ID: <202407112103.sQCuUmZr-lkp@intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	virtualization@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] virtio_balloon: add work around for out of spec
+ QEMU
+Message-ID: <202407112126.plGUWi8I-lkp@intel.com>
+References: <19d916257b76148f89de7386389eeb7267b1b61c.1720611677.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,231 +71,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <19d916257b76148f89de7386389eeb7267b1b61c.1720611677.git.mst@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-commit: 12d638f48c082831388358cc12a1c6ee58185ad8 [11857/12643] scripts/dtc: Update to upstream version v1.7.0-93-g1df7b047fe43
-config: powerpc-ppc44x_defconfig (https://download.01.org/0day-ci/archive/20240711/202407112103.sQCuUmZr-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112103.sQCuUmZr-lkp@intel.com/reproduce)
+Hi Michael,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240710]
+[cannot apply to uml/next remoteproc/rproc-next s390/features linus/master uml/fixes v6.10-rc7 v6.10-rc6 v6.10-rc5 v6.10-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-S-Tsirkin/virtio_balloon-add-work-around-for-out-of-spec-QEMU/20240711-004346
+base:   next-20240710
+patch link:    https://lore.kernel.org/r/19d916257b76148f89de7386389eeb7267b1b61c.1720611677.git.mst%40redhat.com
+patch subject: [PATCH v2 1/2] virtio_balloon: add work around for out of spec QEMU
+config: i386-randconfig-005-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112126.plGUWi8I-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112126.plGUWi8I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407112103.sQCuUmZr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407112126.plGUWi8I-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/sequoia.dts:52.9-55.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/sequoia.dts:163.13-373.5: Warning (unit_address_vs_reg): /plb/opb: node has a reg or ranges property, but no unit name
->> arch/powerpc/boot/dts/sequoia.dts:214.14-235.7: Warning (avoid_unnecessary_addr_size): /plb/opb/ebc/ndfc@3,0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+All errors (new ones prefixed by >>):
 
-vim +214 arch/powerpc/boot/dts/sequoia.dts
+>> drivers/virtio/virtio_balloon.c:603:55: error: too few arguments to function call, expected 5, have 4
+     602 |                         err = virtio_find_vqs(vb->vdev,
+         |                               ~~~~~~~~~~~~~~~
+     603 |                                               VIRTIO_BALLOON_VQ_REPORTING, vqs_info, NULL);
+         |                                                                                          ^
+   include/linux/virtio_config.h:225:5: note: 'virtio_find_vqs' declared here
+     225 | int virtio_find_vqs(struct virtio_device *vdev, unsigned int nvqs,
+         |     ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     226 |                     struct virtqueue *vqs[],
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~
+     227 |                     struct virtqueue_info vqs_info[],
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     228 |                     struct irq_affinity *desc)
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-71f349799b34c8b David Gibson      2008-05-15   16  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   17  / {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   18  	#address-cells = <2>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   19  	#size-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   20  	model = "amcc,sequoia";
-d60ff953652f0a2 Valentine Barshak 2007-08-29   21  	compatible = "amcc,sequoia";
-71f349799b34c8b David Gibson      2008-05-15   22  	dcr-parent = <&{/cpus/cpu@0}>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   23  
-8aaed98c1e28a2c Stefan Roese      2007-12-15   24  	aliases {
-8aaed98c1e28a2c Stefan Roese      2007-12-15   25  		ethernet0 = &EMAC0;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   26  		ethernet1 = &EMAC1;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   27  		serial0 = &UART0;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   28  		serial1 = &UART1;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   29  		serial2 = &UART2;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   30  		serial3 = &UART3;
-8aaed98c1e28a2c Stefan Roese      2007-12-15   31  	};
-8aaed98c1e28a2c Stefan Roese      2007-12-15   32  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   33  	cpus {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   34  		#address-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   35  		#size-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   36  
-72fda1148e14d2f Josh Boyer        2007-12-06   37  		cpu@0 {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   38  			device_type = "cpu";
-72fda1148e14d2f Josh Boyer        2007-12-06   39  			model = "PowerPC,440EPx";
-71f349799b34c8b David Gibson      2008-05-15   40  			reg = <0x00000000>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   41  			clock-frequency = <0>; /* Filled in by zImage */
-d60ff953652f0a2 Valentine Barshak 2007-08-29   42  			timebase-frequency = <0>; /* Filled in by zImage */
-71f349799b34c8b David Gibson      2008-05-15   43  			i-cache-line-size = <32>;
-71f349799b34c8b David Gibson      2008-05-15   44  			d-cache-line-size = <32>;
-71f349799b34c8b David Gibson      2008-05-15   45  			i-cache-size = <32768>;
-71f349799b34c8b David Gibson      2008-05-15   46  			d-cache-size = <32768>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   47  			dcr-controller;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   48  			dcr-access-method = "native";
-d60ff953652f0a2 Valentine Barshak 2007-08-29   49  		};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   50  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   51  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   52  	memory {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   53  		device_type = "memory";
-71f349799b34c8b David Gibson      2008-05-15   54  		reg = <0x00000000 0x00000000 0x00000000>; /* Filled in by zImage */
-d60ff953652f0a2 Valentine Barshak 2007-08-29   55  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   56  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   57  	UIC0: interrupt-controller0 {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   58  		compatible = "ibm,uic-440epx","ibm,uic";
-d60ff953652f0a2 Valentine Barshak 2007-08-29   59  		interrupt-controller;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   60  		cell-index = <0>;
-71f349799b34c8b David Gibson      2008-05-15   61  		dcr-reg = <0x0c0 0x009>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   62  		#address-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   63  		#size-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   64  		#interrupt-cells = <2>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   65  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   66  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   67  	UIC1: interrupt-controller1 {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   68  		compatible = "ibm,uic-440epx","ibm,uic";
-d60ff953652f0a2 Valentine Barshak 2007-08-29   69  		interrupt-controller;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   70  		cell-index = <1>;
-71f349799b34c8b David Gibson      2008-05-15   71  		dcr-reg = <0x0d0 0x009>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   72  		#address-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   73  		#size-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   74  		#interrupt-cells = <2>;
-71f349799b34c8b David Gibson      2008-05-15   75  		interrupts = <0x1e 0x4 0x1f 0x4>; /* cascade */
-d60ff953652f0a2 Valentine Barshak 2007-08-29   76  		interrupt-parent = <&UIC0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   77  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   78  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   79  	UIC2: interrupt-controller2 {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   80  		compatible = "ibm,uic-440epx","ibm,uic";
-d60ff953652f0a2 Valentine Barshak 2007-08-29   81  		interrupt-controller;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   82  		cell-index = <2>;
-71f349799b34c8b David Gibson      2008-05-15   83  		dcr-reg = <0x0e0 0x009>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   84  		#address-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   85  		#size-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   86  		#interrupt-cells = <2>;
-71f349799b34c8b David Gibson      2008-05-15   87  		interrupts = <0x1c 0x4 0x1d 0x4>; /* cascade */
-d60ff953652f0a2 Valentine Barshak 2007-08-29   88  		interrupt-parent = <&UIC0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   89  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   90  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   91  	SDR0: sdr {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   92  		compatible = "ibm,sdr-440epx", "ibm,sdr-440ep";
-71f349799b34c8b David Gibson      2008-05-15   93  		dcr-reg = <0x00e 0x002>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   94  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29   95  
-d60ff953652f0a2 Valentine Barshak 2007-08-29   96  	CPR0: cpr {
-d60ff953652f0a2 Valentine Barshak 2007-08-29   97  		compatible = "ibm,cpr-440epx", "ibm,cpr-440ep";
-71f349799b34c8b David Gibson      2008-05-15   98  		dcr-reg = <0x00c 0x002>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29   99  	};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  100  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  101  	plb {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  102  		compatible = "ibm,plb-440epx", "ibm,plb4";
-d60ff953652f0a2 Valentine Barshak 2007-08-29  103  		#address-cells = <2>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  104  		#size-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  105  		ranges;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  106  		clock-frequency = <0>; /* Filled in by zImage */
-d60ff953652f0a2 Valentine Barshak 2007-08-29  107  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  108  		SDRAM0: sdram {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  109  			compatible = "ibm,sdram-440epx", "ibm,sdram-44x-ddr2denali";
-71f349799b34c8b David Gibson      2008-05-15  110  			dcr-reg = <0x010 0x002>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  111  		};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  112  
-61d1baaea25dbcc Josh Boyer        2011-06-21  113  		CRYPTO: crypto@e0100000 {
-61d1baaea25dbcc Josh Boyer        2011-06-21  114  			compatible = "amcc,ppc440epx-crypto","amcc,ppc4xx-crypto";
-61d1baaea25dbcc Josh Boyer        2011-06-21  115  			reg = <0 0xE0100000 0x80400>;
-61d1baaea25dbcc Josh Boyer        2011-06-21  116  			interrupt-parent = <&UIC0>;
-61d1baaea25dbcc Josh Boyer        2011-06-21  117  			interrupts = <0x17 0x4>;
-61d1baaea25dbcc Josh Boyer        2011-06-21  118  		};
-61d1baaea25dbcc Josh Boyer        2011-06-21  119  
-61d1baaea25dbcc Josh Boyer        2011-06-21  120  		rng@e0120000 {
-61d1baaea25dbcc Josh Boyer        2011-06-21  121  			compatible = "amcc,ppc440epx-rng","amcc,ppc4xx-rng";
-61d1baaea25dbcc Josh Boyer        2011-06-21  122  			reg = <0 0xE0120000 0x150>;
-61d1baaea25dbcc Josh Boyer        2011-06-21  123  		};
-61d1baaea25dbcc Josh Boyer        2011-06-21  124  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  125  		DMA0: dma {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  126  			compatible = "ibm,dma-440epx", "ibm,dma-4xx";
-71f349799b34c8b David Gibson      2008-05-15  127  			dcr-reg = <0x100 0x027>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  128  		};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  129  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  130  		MAL0: mcmal {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  131  			compatible = "ibm,mcmal-440epx", "ibm,mcmal2";
-71f349799b34c8b David Gibson      2008-05-15  132  			dcr-reg = <0x180 0x062>;
-bd0076cc330f303 Valentine Barshak 2007-09-19  133  			num-tx-chans = <2>;
-bd0076cc330f303 Valentine Barshak 2007-09-19  134  			num-rx-chans = <2>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  135  			interrupt-parent = <&MAL0>;
-71f349799b34c8b David Gibson      2008-05-15  136  			interrupts = <0x0 0x1 0x2 0x3 0x4>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  137  			#interrupt-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  138  			#address-cells = <0>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  139  			#size-cells = <0>;
-71f349799b34c8b David Gibson      2008-05-15  140  			interrupt-map = </*TXEOB*/ 0x0 &UIC0 0xa 0x4
-71f349799b34c8b David Gibson      2008-05-15  141  					/*RXEOB*/ 0x1 &UIC0 0xb 0x4
-71f349799b34c8b David Gibson      2008-05-15  142  					/*SERR*/  0x2 &UIC1 0x0 0x4
-71f349799b34c8b David Gibson      2008-05-15  143  					/*TXDE*/  0x3 &UIC1 0x1 0x4
-71f349799b34c8b David Gibson      2008-05-15  144  					/*RXDE*/  0x4 &UIC1 0x2 0x4>;
-71f349799b34c8b David Gibson      2008-05-15  145  			interrupt-map-mask = <0xffffffff>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  146  		};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  147  
-f82f5a26723a055 Valentine Barshak 2007-10-09  148  		USB1: usb@e0000400 {
-796bcae7361c28c Vitaly Bordug     2008-11-09  149  			compatible = "ibm,usb-ohci-440epx", "ohci-be";
-71f349799b34c8b David Gibson      2008-05-15  150  			reg = <0x00000000 0xe0000400 0x00000060>;
-f82f5a26723a055 Valentine Barshak 2007-10-09  151  			interrupt-parent = <&UIC0>;
-71f349799b34c8b David Gibson      2008-05-15  152  			interrupts = <0x15 0x8>;
-f82f5a26723a055 Valentine Barshak 2007-10-09  153  		};
-f82f5a26723a055 Valentine Barshak 2007-10-09  154  
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  155  		USB0: ehci@e0000300 {
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  156  			compatible = "ibm,usb-ehci-440epx", "usb-ehci";
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  157  			interrupt-parent = <&UIC0>;
-71f349799b34c8b David Gibson      2008-05-15  158  			interrupts = <0x1a 0x4>;
-71f349799b34c8b David Gibson      2008-05-15  159  			reg = <0x00000000 0xe0000300 0x00000090 0x00000000 0xe0000390 0x00000070>;
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  160  			big-endian;
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  161  		};
-3c0c6cb5eb29317 Valentine Barshak 2007-09-25  162  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  163  		POB0: opb {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  164  		  	compatible = "ibm,opb-440epx", "ibm,opb";
-d60ff953652f0a2 Valentine Barshak 2007-08-29  165  			#address-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  166  			#size-cells = <1>;
-71f349799b34c8b David Gibson      2008-05-15  167  		  	ranges = <0x00000000 0x00000001 0x00000000 0x80000000
-71f349799b34c8b David Gibson      2008-05-15  168  			          0x80000000 0x00000001 0x80000000 0x80000000>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  169  		  	interrupt-parent = <&UIC1>;
-71f349799b34c8b David Gibson      2008-05-15  170  		  	interrupts = <0x7 0x4>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  171  		  	clock-frequency = <0>; /* Filled in by zImage */
-d60ff953652f0a2 Valentine Barshak 2007-08-29  172  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  173  			EBC0: ebc {
-d60ff953652f0a2 Valentine Barshak 2007-08-29  174  				compatible = "ibm,ebc-440epx", "ibm,ebc";
-71f349799b34c8b David Gibson      2008-05-15  175  				dcr-reg = <0x012 0x002>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  176  				#address-cells = <2>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  177  				#size-cells = <1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  178  				clock-frequency = <0>; /* Filled in by zImage */
-71f349799b34c8b David Gibson      2008-05-15  179  				interrupts = <0x5 0x1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  180  				interrupt-parent = <&UIC1>;
-d60ff953652f0a2 Valentine Barshak 2007-08-29  181  
-d60ff953652f0a2 Valentine Barshak 2007-08-29  182  				nor_flash@0,0 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  183  					compatible = "amd,s29gl256n", "cfi-flash";
-d60ff953652f0a2 Valentine Barshak 2007-08-29  184  					bank-width = <2>;
-71f349799b34c8b David Gibson      2008-05-15  185  					reg = <0x00000000 0x00000000 0x04000000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  186  					#address-cells = <1>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  187  					#size-cells = <1>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  188  					partition@0 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  189  						label = "Kernel";
-71f349799b34c8b David Gibson      2008-05-15  190  						reg = <0x00000000 0x00180000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  191  					};
-504ca43e5e681b8 Josh Boyer        2007-09-15  192  					partition@180000 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  193  						label = "ramdisk";
-71f349799b34c8b David Gibson      2008-05-15  194  						reg = <0x00180000 0x00200000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  195  					};
-504ca43e5e681b8 Josh Boyer        2007-09-15  196  					partition@380000 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  197  						label = "file system";
-71f349799b34c8b David Gibson      2008-05-15  198  						reg = <0x00380000 0x03aa0000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  199  					};
-504ca43e5e681b8 Josh Boyer        2007-09-15  200  					partition@3e20000 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  201  						label = "kozio";
-71f349799b34c8b David Gibson      2008-05-15  202  						reg = <0x03e20000 0x00140000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  203  					};
-504ca43e5e681b8 Josh Boyer        2007-09-15  204  					partition@3f60000 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  205  						label = "env";
-71f349799b34c8b David Gibson      2008-05-15  206  						reg = <0x03f60000 0x00040000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  207  					};
-504ca43e5e681b8 Josh Boyer        2007-09-15  208  					partition@3fa0000 {
-504ca43e5e681b8 Josh Boyer        2007-09-15  209  						label = "u-boot";
-71f349799b34c8b David Gibson      2008-05-15  210  						reg = <0x03fa0000 0x00060000>;
-504ca43e5e681b8 Josh Boyer        2007-09-15  211  					};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  212  				};
-d60ff953652f0a2 Valentine Barshak 2007-08-29  213  
-7b8d639cfc79673 Stefan Roese      2009-04-07 @214  				ndfc@3,0 {
 
-:::::: The code at line 214 was first introduced by commit
-:::::: 7b8d639cfc7967388d1cfe2a81e7e3c872a81a0d powerpc/4xx: Sequoia: Enable NAND support
+vim +603 drivers/virtio/virtio_balloon.c
 
-:::::: TO: Stefan Roese <sr@denx.de>
-:::::: CC: Josh Boyer <jwboyer@linux.vnet.ibm.com>
+   560	
+   561	static int init_vqs(struct virtio_balloon *vb)
+   562	{
+   563		struct virtqueue_info vqs_info[VIRTIO_BALLOON_VQ_MAX] = {};
+   564		struct virtqueue *vqs[VIRTIO_BALLOON_VQ_MAX];
+   565		int err;
+   566	
+   567		/*
+   568		 * Inflateq and deflateq are used unconditionally. The names[]
+   569		 * will be NULL if the related feature is not enabled, which will
+   570		 * cause no allocation for the corresponding virtqueue in find_vqs.
+   571		 */
+   572		vqs_info[VIRTIO_BALLOON_VQ_INFLATE].callback = balloon_ack;
+   573		vqs_info[VIRTIO_BALLOON_VQ_INFLATE].name = "inflate";
+   574		vqs_info[VIRTIO_BALLOON_VQ_DEFLATE].callback = balloon_ack;
+   575		vqs_info[VIRTIO_BALLOON_VQ_DEFLATE].name = "deflate";
+   576	
+   577		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_STATS_VQ)) {
+   578			vqs_info[VIRTIO_BALLOON_VQ_STATS].name = "stats";
+   579			vqs_info[VIRTIO_BALLOON_VQ_STATS].callback = stats_request;
+   580		}
+   581	
+   582		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_FREE_PAGE_HINT))
+   583			vqs_info[VIRTIO_BALLOON_VQ_FREE_PAGE].name = "free_page_vq";
+   584	
+   585		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING)) {
+   586			vqs_info[VIRTIO_BALLOON_VQ_REPORTING].name = "reporting_vq";
+   587			vqs_info[VIRTIO_BALLOON_VQ_REPORTING].callback = balloon_ack;
+   588		}
+   589	
+   590		err = virtio_find_vqs(vb->vdev, VIRTIO_BALLOON_VQ_MAX, vqs,
+   591				      vqs_info, NULL);
+   592		if (err) {
+   593			/*
+   594			 * Try to work around QEMU bug which since 2020 confused vq numbers
+   595			 * when VIRTIO_BALLOON_F_REPORTING but not
+   596			 * VIRTIO_BALLOON_F_FREE_PAGE_HINT are offered.
+   597			 */
+   598			if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING) &&
+   599			    !virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+   600				vqs_info[VIRTIO_BALLOON_VQ_FREE_PAGE].name = "reporting_vq";
+   601				vqs_info[VIRTIO_BALLOON_VQ_FREE_PAGE].callback = balloon_ack;
+   602				err = virtio_find_vqs(vb->vdev,
+ > 603						      VIRTIO_BALLOON_VQ_REPORTING, vqs_info, NULL);
+   604			}
+   605	
+   606			if (err)
+   607				return err;
+   608		}
+   609	
+   610		vb->inflate_vq = vqs[VIRTIO_BALLOON_VQ_INFLATE];
+   611		vb->deflate_vq = vqs[VIRTIO_BALLOON_VQ_DEFLATE];
+   612		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_STATS_VQ)) {
+   613			struct scatterlist sg;
+   614			unsigned int num_stats;
+   615			vb->stats_vq = vqs[VIRTIO_BALLOON_VQ_STATS];
+   616	
+   617			/*
+   618			 * Prime this virtqueue with one buffer so the hypervisor can
+   619			 * use it to signal us later (it can't be broken yet!).
+   620			 */
+   621			num_stats = update_balloon_stats(vb);
+   622	
+   623			sg_init_one(&sg, vb->stats, sizeof(vb->stats[0]) * num_stats);
+   624			err = virtqueue_add_outbuf(vb->stats_vq, &sg, 1, vb,
+   625						   GFP_KERNEL);
+   626			if (err) {
+   627				dev_warn(&vb->vdev->dev, "%s: add stat_vq failed\n",
+   628					 __func__);
+   629				return err;
+   630			}
+   631			virtqueue_kick(vb->stats_vq);
+   632		}
+   633	
+   634		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_FREE_PAGE_HINT))
+   635			vb->free_page_vq = vqs[VIRTIO_BALLOON_VQ_FREE_PAGE];
+   636	
+   637		if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_REPORTING))
+   638			vb->reporting_vq = vqs[VIRTIO_BALLOON_VQ_REPORTING];
+   639	
+   640		return 0;
+   641	}
+   642	
 
 -- 
 0-DAY CI Kernel Test Service
