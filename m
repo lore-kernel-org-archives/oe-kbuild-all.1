@@ -1,61 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA25A15ECE7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17F215ECE3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720703014; cv=none; b=CUA1C6cFhEI//GiGuysnJdN1rxRhH5zje7HYbYI0p2RSGKYprxw2hZWB9AszNySdO5a9+67K2atSuue2ETA4gZZ3OTDEDAGVRu1nQdAJEcH9yPec579nIrRN9CxWSEPlbo6OABXzrCZdcjQpzNdxKMaBC0ZM8DgzWpYfmBNPKko=
+	t=1720703017; cv=none; b=Y5V4xLLCJkFtNt8Uc2pmtiC0kczGLCYGcADkPm0jvepH3BJweV7vAq+7EQpgt5QQBKW41e+6zF3Fy0XTtxoutN7chESl52i22xLW4nnzfaE3ti8JnUeIK5rhH18qcVzejWN3RWhqEaz6wjxxPeJ4mdYcsu6HP08nF3YjTPeencU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720703014; c=relaxed/simple;
-	bh=mdW54hKPeINYRIPYgh5FFkfiBFIvWtRmXrBPjWfkDII=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JYfK8I4toK4YehSlyO3EM9KLUljOmVczz4zXTFKzqeRZp3wyURkfq16ua7tVXNIaO8l4u3Vu6Nj9eBIiBpkrhMPA9cqEo4uExwc2erxzvZlhAI3IG8M7V4M4Zaqmb9S8QpssRRE9ZyKRegWkus0+dY6cZ73pMha9kZYlr4uqaHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oArIx5jN; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1720703017; c=relaxed/simple;
+	bh=WksQQhS1iN4+Nz2CYL8nDdFPIRpmNFBZK+rD9iwIP3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eba8AwXX+6AhSnZw2mXVEaZs/noFqxvm7OFByDq+SyfxhJ3WIl7f9LcAOfQfiImfT2/yzgl53tK+rJSwIugyo6iC8sq+V7RWFflJTwH3TsIO/aIqbKRmtKJ00auGBEUvNOKL2DuJ/q5+ltFSh5itKsLRmLY7PgupM+TBtj47Jjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIHv4Gwx; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oArIx5jN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIHv4Gwx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720703013; x=1752239013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mdW54hKPeINYRIPYgh5FFkfiBFIvWtRmXrBPjWfkDII=;
-  b=oArIx5jN71JJjSbgFZgldVJaSPXU2GOr9NtOksopCJfdJB0eA8Q/GxGn
-   LTMdtJnxfDcmkZ5Lk81AS7epfOl8umExIMgQCvi/Z2qWXBVyKtRTKxm+B
-   oOiu33BuwSKDEPGMP8nYKG4y5A6wKVVWhC6E0rKQWeGHCmxehy+ioGSY9
-   +/kB9UfmhZFDjweCqpFWyzP5cyQWwKF2RaVVlOn1LsbzGVdzlKS6RpR/z
-   tSTZKLF5bdwD7qMgeP95HiZ3saSr/xp13PI9fYTfI4d35RNH1O8Q42sVZ
-   PFJibtyq9i9WWNu1JlhFdYq6244wS4R0tzTeg99LYciXtRGRHKb9UL7VP
-   w==;
-X-CSE-ConnectionGUID: Ob5xS7Y8S9yTOWi04vQPdA==
-X-CSE-MsgGUID: iMXjDYnVR+O/RQMun8GA2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17923965"
+  t=1720703015; x=1752239015;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WksQQhS1iN4+Nz2CYL8nDdFPIRpmNFBZK+rD9iwIP3c=;
+  b=cIHv4GwxvxMDy1FnUd8flxbu6gxZTH0mXrScA94hBc4PrA05c5ODOg5w
+   z/ViDtmdM5gc7zfO1xrW/zFDpWyvKhEJhss+6VgFaSyKgWIIwzHICNAMs
+   CF/gbAw0R6W1azFcAW8alp/dk88tXUPRBUDjUlURC8wxF8fcz3viWEu6x
+   gPkiUYrMzJXj5r0ZhKyrO5WisX5ViXsWdpcKRnqbU+nzsVWUMmGXIltmN
+   tKGXtn4Ab51moHtNXdPg2gIDivwpVU9n/pwW2D9q10yji06qXDmEMi8+B
+   NZ9NtmvsdcLgSgCYz/l/iQA+iG0KfHj5B28pLvgNKl29Jz3dn0L/y6vYt
+   Q==;
+X-CSE-ConnectionGUID: S/rsorIzTBOHD5eKTAhOFg==
+X-CSE-MsgGUID: p4QH0t2QTFugVMgYoCok9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17923972"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="17923965"
+   d="scan'208";a="17923972"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 06:02:27 -0700
-X-CSE-ConnectionGUID: JJCsjd9mQASZdT56oMCl+A==
-X-CSE-MsgGUID: pMKNkPXSRwyAdxXp/l/k5g==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 06:02:28 -0700
+X-CSE-ConnectionGUID: Wm7DtgDwQxmo22zAtIckZA==
+X-CSE-MsgGUID: ayBCDhSSQ1WDtC8+CHE8rQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="48626125"
+   d="scan'208";a="48626124"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 11 Jul 2024 06:02:25 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRtRH-000ZIP-0B;
+	id 1sRtRG-000ZIM-3D;
 	Thu, 11 Jul 2024 13:02:23 +0000
-Date: Thu, 11 Jul 2024 21:02:07 +0800
+Date: Thu, 11 Jul 2024 21:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 11606/12643] arm-linux-gnueabi-ld:
- arch/arm/mach-pxa/devices.o:undefined reference to `gpio_set_wake'
-Message-ID: <202407112039.cyyIQ3Js-lkp@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>,
+	Jan Dakinevich <jan.dakinevich@salutedevices.com>,
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH 7/8] reset: amlogic: add auxiliary reset driver support
+Message-ID: <202407112023.ixKkILn7-lkp@intel.com>
+References: <20240710162526.2341399-8-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,22 +68,257 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240710162526.2341399-8-jbrunet@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-commit: 917195d6f8293c35fcf9ed4bfe18f52cc1c9d2e6 [11606/12643] ARM: pxa: consolidate GPIO chip platform data
-config: arm-pxa3xx_defconfig (https://download.01.org/0day-ci/archive/20240711/202407112039.cyyIQ3Js-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112039.cyyIQ3Js-lkp@intel.com/reproduce)
+Hi Jerome,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pza/reset/next]
+[also build test ERROR on clk/clk-next linus/master v6.10-rc7 next-20240711]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/reset-amlogic-convert-driver-to-regmap/20240711-055833
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20240710162526.2341399-8-jbrunet%40baylibre.com
+patch subject: [PATCH 7/8] reset: amlogic: add auxiliary reset driver support
+config: i386-buildonly-randconfig-005-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112023.ixKkILn7-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112023.ixKkILn7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407112039.cyyIQ3Js-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407112023.ixKkILn7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arm-linux-gnueabi-ld: arch/arm/mach-pxa/devices.o:(.data+0x167c): undefined reference to `gpio_set_wake'
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/auxiliary_bus.h:11,
+                    from drivers/reset/reset-meson.c:8:
+   include/linux/module.h:131:42: error: redefinition of '__inittest'
+     131 |  static inline initcall_t __maybe_unused __inittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/auxiliary_bus.h:245:2: note: in expansion of macro 'module_driver'
+     245 |  module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:272:1: note: in expansion of macro 'module_auxiliary_driver'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:42: note: previous definition of '__inittest' was here
+     131 |  static inline initcall_t __maybe_unused __inittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:2: note: in expansion of macro 'module_driver'
+     303 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:232:1: note: in expansion of macro 'module_platform_driver'
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:6: error: redefinition of 'init_module'
+     133 |  int init_module(void) __copy(initfn)   \
+         |      ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/auxiliary_bus.h:245:2: note: in expansion of macro 'module_driver'
+     245 |  module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:272:1: note: in expansion of macro 'module_auxiliary_driver'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:6: note: previous definition of 'init_module' was here
+     133 |  int init_module(void) __copy(initfn)   \
+         |      ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:2: note: in expansion of macro 'module_driver'
+     303 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:232:1: note: in expansion of macro 'module_platform_driver'
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:139:42: error: redefinition of '__exittest'
+     139 |  static inline exitcall_t __maybe_unused __exittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/auxiliary_bus.h:245:2: note: in expansion of macro 'module_driver'
+     245 |  module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:272:1: note: in expansion of macro 'module_auxiliary_driver'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:139:42: note: previous definition of '__exittest' was here
+     139 |  static inline exitcall_t __maybe_unused __exittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:2: note: in expansion of macro 'module_driver'
+     303 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:232:1: note: in expansion of macro 'module_platform_driver'
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:141:7: error: redefinition of 'cleanup_module'
+     141 |  void cleanup_module(void) __copy(exitfn)  \
+         |       ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/auxiliary_bus.h:245:2: note: in expansion of macro 'module_driver'
+     245 |  module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:272:1: note: in expansion of macro 'module_auxiliary_driver'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:141:7: note: previous definition of 'cleanup_module' was here
+     141 |  void cleanup_module(void) __copy(exitfn)  \
+         |       ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:303:2: note: in expansion of macro 'module_driver'
+     303 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/reset/reset-meson.c:232:1: note: in expansion of macro 'module_platform_driver'
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/reset/reset-meson.c:292:5: error: redefinition of 'devm_meson_rst_aux_register'
+     292 | int devm_meson_rst_aux_register(struct device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/reset/reset-meson.c:20:
+   include/soc/amlogic/meson-auxiliary-reset.h:15:19: note: previous definition of 'devm_meson_rst_aux_register' was here
+      15 | static inline int devm_meson_rst_aux_register(struct device *dev,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/devm_meson_rst_aux_register +292 drivers/reset/reset-meson.c
+
+   224	
+   225	static struct platform_driver meson_reset_pltf_driver = {
+   226		.probe	= meson_reset_pltf_probe,
+   227		.driver = {
+   228			.name		= "meson_reset",
+   229			.of_match_table	= meson_reset_dt_ids,
+   230		},
+   231	};
+ > 232	module_platform_driver(meson_reset_pltf_driver);
+   233	
+   234	static const struct meson_reset_param meson_g12a_audio_param = {
+   235		.reset_ops	= &meson_reset_toggle_ops,
+   236		.reset_num	= 26,
+   237		.level_offset	= 0x24,
+   238	};
+   239	
+   240	static const struct meson_reset_param meson_sm1_audio_param = {
+   241		.reset_ops	= &meson_reset_toggle_ops,
+   242		.reset_num	= 39,
+   243		.level_offset	= 0x28,
+   244	};
+   245	
+   246	static const struct auxiliary_device_id meson_reset_aux_ids[] = {
+   247		{
+   248			.name = "axg-audio-clkc.rst-g12a",
+   249			.driver_data = (kernel_ulong_t)&meson_g12a_audio_param,
+   250		}, {
+   251			.name = "axg-audio-clkc.rst-sm1",
+   252			.driver_data = (kernel_ulong_t)&meson_sm1_audio_param,
+   253		},
+   254	};
+   255	MODULE_DEVICE_TABLE(auxiliary, meson_reset_aux_ids);
+   256	
+   257	static int meson_reset_aux_probe(struct auxiliary_device *adev,
+   258					 const struct auxiliary_device_id *id)
+   259	{
+   260		const struct meson_reset_param *param =
+   261			(const struct meson_reset_param *)(id->driver_data);
+   262		struct meson_reset_adev *raux =
+   263			to_meson_reset_adev(adev);
+   264	
+   265		return meson_reset_probe(&adev->dev, raux->map, param);
+   266	}
+   267	
+   268	static struct auxiliary_driver meson_reset_aux_driver = {
+   269		.probe		= meson_reset_aux_probe,
+   270		.id_table	= meson_reset_aux_ids,
+   271	};
+   272	module_auxiliary_driver(meson_reset_aux_driver);
+   273	
+   274	static void meson_rst_aux_release(struct device *dev)
+   275	{
+   276		struct auxiliary_device *adev = to_auxiliary_dev(dev);
+   277		struct meson_reset_adev *raux =
+   278			to_meson_reset_adev(adev);
+   279	
+   280		ida_free(&meson_rst_aux_ida, adev->id);
+   281		kfree(raux);
+   282	}
+   283	
+   284	static void meson_rst_aux_unregister_adev(void *_adev)
+   285	{
+   286		struct auxiliary_device *adev = _adev;
+   287	
+   288		auxiliary_device_delete(adev);
+   289		auxiliary_device_uninit(adev);
+   290	}
+   291	
+ > 292	int devm_meson_rst_aux_register(struct device *dev,
+   293					struct regmap *map,
+   294					const char *adev_name)
+   295	{
+   296		struct meson_reset_adev *raux;
+   297		struct auxiliary_device *adev;
+   298		int ret;
+   299	
+   300		raux = kzalloc(sizeof(*raux), GFP_KERNEL);
+   301		if (!raux)
+   302			return -ENOMEM;
+   303	
+   304		ret = ida_alloc(&meson_rst_aux_ida, GFP_KERNEL);
+   305		if (ret < 0)
+   306			goto raux_free;
+   307	
+   308		raux->map = map;
+   309	
+   310		adev = &raux->adev;
+   311		adev->id = ret;
+   312		adev->name = adev_name;
+   313		adev->dev.parent = dev;
+   314		adev->dev.release = meson_rst_aux_release;
+   315		device_set_of_node_from_dev(&adev->dev, dev);
+   316	
+   317		ret = auxiliary_device_init(adev);
+   318		if (ret)
+   319			goto ida_free;
+   320	
+   321		ret = __auxiliary_device_add(adev, dev->driver->name);
+   322		if (ret) {
+   323			auxiliary_device_uninit(adev);
+   324			return ret;
+   325		}
+   326	
+   327		return devm_add_action_or_reset(dev, meson_rst_aux_unregister_adev,
+   328						adev);
+   329	
+   330	ida_free:
+   331		ida_free(&meson_rst_aux_ida, adev->id);
+   332	raux_free:
+   333		kfree(raux);
+   334		return ret;
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
