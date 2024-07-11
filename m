@@ -1,82 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747BC15ECF9;
-	Thu, 11 Jul 2024 13:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6D15FD1B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720704275; cv=none; b=DcrtpGiFgQxfmVanrZV55YdZJZwbAjUaKizax53D199ElkrD1tJTdf1nJPMcAYU8BX1JZk/ROISac/EDJhON1/6+hnayk++4cNj6XTnW8kIa1Ga8InSFUVBc45cS0Fm88iaJWtL68DlhZwx+PgNOVCR6avSKOuGGoIyeHOCpJiQ=
+	t=1720705544; cv=none; b=g2F+YLiqeQsD/6asp8WjhjH5i3osllt669tEL24UB3u2/P7K2zN6EYJ9e5BGnljqIaIs+rvXcFqeq4c+HIQZiAnIbpZArje0USlv/axY4WmLPn+q1rl2mKQPzccG0yt4ggdP4luBRf7CQ3PnIe1rhtJwcUyGRaLfABSwnikCpts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720704275; c=relaxed/simple;
-	bh=w1u81luxRSKXuuP8bL2ZtVySjx/0jxSrRzrfaS7TWpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HqsHFzUONatg617mG+Jvr+lsFMhL3wcqPgYCg7oDffTzAhvD7BEMSW4upEKgQ66nsgg8lXqWqWMUXFrMm9ambFuwaiHEoPAJPuF5bqYFPJs+KQPuuvUSZFhHvuYuWkrdIcoUlm3TvHcv/vy7YZ7ARohRVn2IXSKOA9n/7NCwDmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnKlRyzT; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720705544; c=relaxed/simple;
+	bh=+Iln7HlV/GOtTEfShLuR5S0RfTCYfT7FF7RGjj6Tpk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ipftjegzT9YFeK9TP/sXkOUIduhTJkN1YIz7I0ct19R+074lo+wvkKf17IrLmpC8Dgixm0QgVC4THDuRNcsnIeanaItZzitJAI/6njwUfYvYLPzbWOfBoANjPyq0OsX/jHupaqV4B9LFh6lSuI5ai3lw1eIHqH0VfjiuHA51UD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WdhiuuvY; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnKlRyzT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720704274; x=1752240274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w1u81luxRSKXuuP8bL2ZtVySjx/0jxSrRzrfaS7TWpk=;
-  b=fnKlRyzTMusmSQxIr//bTdOI1F6boLgTfbRyVQUJnNsQyZPOY7wrhGDR
-   OVJhlorejfnUVWxDwHVLbCP2luSVg9K5/RGzYx5QYH2mknkAeEc2MKoZy
-   0iAzz6Q/jZPGk3T0DsDCqKdPbPiWnLEAJd2GEROsNHJj6UgdPqTFj1lwI
-   /yHfD7OGTnXPVQ20SqJx4tCKwPNWJuKRX0zg5SyK+U8Acf1A12nqA/Jt0
-   fB2EOBEy4pxASqpJsvqgbMp95mmV2QpM3NypwPYC6hxJTAUcGWnq2lwvQ
-   N/wylCQ9rNKZKOkFztasjAYZm2hYXjsckhqre+yEd1YAn+2Ll5+7/I8fS
-   w==;
-X-CSE-ConnectionGUID: KHuwuM5RQsetM6eFjqfPgA==
-X-CSE-MsgGUID: O7FLZ1HoTCGPAjopzjkdDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="28676500"
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="28676500"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 06:24:33 -0700
-X-CSE-ConnectionGUID: w68rnNGyTX+raf3+ra/vZQ==
-X-CSE-MsgGUID: xfhpknJGQvakxEtM1SwOLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="53376105"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jul 2024 06:24:27 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sRtmZ-000ZJz-2y;
-	Thu, 11 Jul 2024 13:24:23 +0000
-Date: Thu, 11 Jul 2024 21:23:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	Eric Farman <farman@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	linux-um@lists.infradead.org, linux-remoteproc@vger.kernel.org,
-	linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] virtio: fix vq # for balloon
-Message-ID: <202407112113.SzSpdDLK-lkp@intel.com>
-References: <3d655be73ce220f176b2c163839d83699f8faf43.1720611677.git.mst@redhat.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WdhiuuvY"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3d9e166b228so479506b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 06:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720705542; x=1721310342; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
+        b=WdhiuuvYdKACU62ejpt6Nx/6BqcfsEsVZ8wp6qsRNJk6h0BoaopU0VL7hWBgV5WJlH
+         R5BsfvXqQLpCTsF93Z1IAoHpxUYt/k5ZySGmLjduNeWbXvW3KrzpSM5l5ZCsrzLpvRgB
+         PTsrMhL08ucvDD/byoxtP6BBKxPFKRla2bpVVKeG9un/6JSzfryZ6anGngZR5ySZIDcF
+         +ALQjuY+bQEXburxI22m9wYThYYkXPRmt2yupbVhVnXUjpLxc4dw9JBRJzBGNgr3LBc9
+         4yF7R5c1pOeRrkQVcB9KE0QrwexSD+4ODcFUZKK0j37hPaynH9M7vojHB6JosLdB+oze
+         w9wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720705542; x=1721310342;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
+        b=Ihmkm9Z7CyaAWG7SYd1ddDPBOQswDNwovWUFE7rDxj7jl7AcrryTRZwOs35oifHEDC
+         ggZx9EaraQ7pL1zeedVRZn8qEi2oDWctaEz8pJiKMI3S76+uMqJ4RKmiF456mCmOtCzG
+         QhcT9euwJs8laS7vojCes9WAlmqKIHy06Wcx9tC99WHHfmQSrIlyC7Je0qO4epX/F3pa
+         87xGdPFM5b4mgQeXzFVl0u8nAuLG70cFobnMCmxaA3gNhG2xqh/ygX7hhFml1wTLhuxV
+         whwEaTKvkx/4aWdS1UyHJnN3spC/HDd4wOv8LJ26OtT5yk408z3zfuyKB7NAs0kWTvJ1
+         G9/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXrsgFGkgQ7WzQQtzTKI8DOAVEb4NMTceOyvW7Fi0ngtlgvjNbd0RwToefVtQitGYusOjX47Bs7B6Bu8EnuiFxcC5n+3stGock8w0p0Dw==
+X-Gm-Message-State: AOJu0Yww6hujqsMUrvrY01gaYUH8NCdHT6DtLYRD25jU4hZ0EQ/6iaEl
+	pX9pXFQWNu/SB9DcWG+UJQjA4w7JIOonBEb9xMxUtmIIQYR44r+sfBb7BcNKB5M=
+X-Google-Smtp-Source: AGHT+IHuSStKyv1vw4rebrVR41VqJjg4gYw0bG9v8vovrkdDDfnPzTbo9SMxFA2uD7kTzQ26icTzAg==
+X-Received: by 2002:a05:6808:30a2:b0:3d9:245c:422e with SMTP id 5614622812f47-3d93c00f60fmr8805699b6e.21.1720705541942;
+        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:931f:6bae:9ea3:382e])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d93ad13711sm1080412b6e.17.2024.07.11.06.45.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
+Date: Thu, 11 Jul 2024 08:45:40 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with
+ shared upstream link
+Message-ID: <1da3d82d-aff3-41b0-9a88-772280794f54@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,91 +66,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3d655be73ce220f176b2c163839d83699f8faf43.1720611677.git.mst@redhat.com>
+In-Reply-To: <20240710222716.797267-3-dave.jiang@intel.com>
 
-Hi Michael,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20240710]
-[cannot apply to uml/next remoteproc/rproc-next s390/features linus/master uml/fixes v6.10-rc7 v6.10-rc6 v6.10-rc5 v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-S-Tsirkin/virtio_balloon-add-work-around-for-out-of-spec-QEMU/20240711-004346
-base:   next-20240710
-patch link:    https://lore.kernel.org/r/3d655be73ce220f176b2c163839d83699f8faf43.1720611677.git.mst%40redhat.com
-patch subject: [PATCH v2 2/2] virtio: fix vq # for balloon
-config: i386-randconfig-014-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112113.SzSpdDLK-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112113.SzSpdDLK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-Preserve-the-CDAT-access_coordinate-for-an-endpoint/20240711-092210
+base:   v6.10-rc6
+patch link:    https://lore.kernel.org/r/20240710222716.797267-3-dave.jiang%40intel.com
+patch subject: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with shared upstream link
+config: i386-randconfig-141-20240711 (https://download.01.org/0day-ci/archive/20240711/202407111927.7Q2PF9i0-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407112113.SzSpdDLK-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407111927.7Q2PF9i0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/cxl/core/cdat.c:785 cxl_switch_gather_bandwidth() error: uninitialized symbol 'is_root'.
 
->> drivers/virtio/virtio_pci_common.c:391:1: error: version control conflict marker in file
-     391 | <<<<<<< HEAD
-         | ^
->> drivers/virtio/virtio_pci_common.c:392:30: error: use of undeclared identifier 'queue_idx'
-     392 |                 vqs[i] = vp_setup_vq(vdev, queue_idx++, vqi->callback,
-         |                                            ^
-   2 errors generated.
+vim +/is_root +785 drivers/cxl/core/cdat.c
 
+dfbcea34995e70 Dave Jiang 2024-07-10  749  static struct xarray *cxl_switch_gather_bandwidth(struct cxl_region *cxlr,
+dfbcea34995e70 Dave Jiang 2024-07-10  750  						  struct xarray *input_xa,
+dfbcea34995e70 Dave Jiang 2024-07-10  751  						  bool *gp_is_root)
+dfbcea34995e70 Dave Jiang 2024-07-10  752  {
+dfbcea34995e70 Dave Jiang 2024-07-10  753  	struct xarray *res_xa __free(free_perf_xa) =
+dfbcea34995e70 Dave Jiang 2024-07-10  754  		kzalloc(sizeof(*res_xa), GFP_KERNEL);
+dfbcea34995e70 Dave Jiang 2024-07-10  755  	struct access_coordinate coords[ACCESS_COORDINATE_MAX];
+dfbcea34995e70 Dave Jiang 2024-07-10  756  	struct cxl_perf_ctx *ctx, *us_ctx;
+dfbcea34995e70 Dave Jiang 2024-07-10  757  	unsigned long index, us_index;
+dfbcea34995e70 Dave Jiang 2024-07-10  758  	int dev_count = 0;
+dfbcea34995e70 Dave Jiang 2024-07-10  759  	int gp_count = 0;
+dfbcea34995e70 Dave Jiang 2024-07-10  760  	void *ptr;
+dfbcea34995e70 Dave Jiang 2024-07-10  761  	int rc;
+dfbcea34995e70 Dave Jiang 2024-07-10  762  
+dfbcea34995e70 Dave Jiang 2024-07-10  763  	if (!res_xa)
+dfbcea34995e70 Dave Jiang 2024-07-10  764  		return ERR_PTR(-ENOMEM);
+dfbcea34995e70 Dave Jiang 2024-07-10  765  	xa_init(res_xa);
+dfbcea34995e70 Dave Jiang 2024-07-10  766  
+dfbcea34995e70 Dave Jiang 2024-07-10  767  	xa_for_each(input_xa, index, ctx) {
+dfbcea34995e70 Dave Jiang 2024-07-10  768  		struct device *dev = (struct device *)index;
+dfbcea34995e70 Dave Jiang 2024-07-10  769  		struct cxl_port *port = ctx->port;
+dfbcea34995e70 Dave Jiang 2024-07-10  770  		struct cxl_port *parent_port = to_cxl_port(port->dev.parent);
+dfbcea34995e70 Dave Jiang 2024-07-10  771  		struct cxl_port *gp_port = to_cxl_port(parent_port->dev.parent);
+dfbcea34995e70 Dave Jiang 2024-07-10  772  		struct cxl_dport *dport = port->parent_dport;
+dfbcea34995e70 Dave Jiang 2024-07-10  773  		bool is_root;
 
-vim +391 drivers/virtio/virtio_pci_common.c
+needs to be initialized to false
 
-   365	
-   366	static int vp_find_vqs_intx(struct virtio_device *vdev, unsigned int nvqs,
-   367				    struct virtqueue *vqs[],
-   368				    struct virtqueue_info vqs_info[])
-   369	{
-   370		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
-   371		int i, err;
-   372	
-   373		vp_dev->vqs = kcalloc(nvqs, sizeof(*vp_dev->vqs), GFP_KERNEL);
-   374		if (!vp_dev->vqs)
-   375			return -ENOMEM;
-   376	
-   377		err = request_irq(vp_dev->pci_dev->irq, vp_interrupt, IRQF_SHARED,
-   378				dev_name(&vdev->dev), vp_dev);
-   379		if (err)
-   380			goto out_del_vqs;
-   381	
-   382		vp_dev->intx_enabled = 1;
-   383		vp_dev->per_vq_vectors = false;
-   384		for (i = 0; i < nvqs; ++i) {
-   385			struct virtqueue_info *vqi = &vqs_info[i];
-   386	
-   387			if (!vqi->name) {
-   388				vqs[i] = NULL;
-   389				continue;
-   390			}
- > 391	<<<<<<< HEAD
- > 392			vqs[i] = vp_setup_vq(vdev, queue_idx++, vqi->callback,
-   393					     vqi->name, vqi->ctx,
-   394	=======
-   395			vqs[i] = vp_setup_vq(vdev, i, callbacks[i], names[i],
-   396					     ctx ? ctx[i] : false,
-   397	>>>>>>> f814759f80b7... virtio: fix vq # for balloon
-   398					     VIRTIO_MSI_NO_VECTOR);
-   399			if (IS_ERR(vqs[i])) {
-   400				err = PTR_ERR(vqs[i]);
-   401				goto out_del_vqs;
-   402			}
-   403		}
-   404	
-   405		return 0;
-   406	out_del_vqs:
-   407		vp_del_vqs(vdev);
-   408		return err;
-   409	}
-   410	
+dfbcea34995e70 Dave Jiang 2024-07-10  774  
+dfbcea34995e70 Dave Jiang 2024-07-10  775  		dev_count++;
+dfbcea34995e70 Dave Jiang 2024-07-10  776  		if (is_cxl_root(gp_port)) {
+dfbcea34995e70 Dave Jiang 2024-07-10  777  			is_root = true;
+dfbcea34995e70 Dave Jiang 2024-07-10  778  			gp_count++;
+dfbcea34995e70 Dave Jiang 2024-07-10  779  		}
+dfbcea34995e70 Dave Jiang 2024-07-10  780  
+dfbcea34995e70 Dave Jiang 2024-07-10  781  		/*
+dfbcea34995e70 Dave Jiang 2024-07-10  782  		 * If the grandparent is cxl root, then index is the root port,
+dfbcea34995e70 Dave Jiang 2024-07-10  783  		 * otherwise it's the parent switch upstream device.
+dfbcea34995e70 Dave Jiang 2024-07-10  784  		 */
+dfbcea34995e70 Dave Jiang 2024-07-10 @785  		if (is_root)
+dfbcea34995e70 Dave Jiang 2024-07-10  786  			us_index = (unsigned long)port->parent_dport->dport_dev;
+dfbcea34995e70 Dave Jiang 2024-07-10  787  		else
+dfbcea34995e70 Dave Jiang 2024-07-10  788  			us_index = (unsigned long)parent_port->uport_dev;
+dfbcea34995e70 Dave Jiang 2024-07-10  789  
+dfbcea34995e70 Dave Jiang 2024-07-10  790  		us_ctx = xa_load(res_xa, us_index);
+dfbcea34995e70 Dave Jiang 2024-07-10  791  		if (!us_ctx) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
