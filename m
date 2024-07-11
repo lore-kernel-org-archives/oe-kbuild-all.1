@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8436E15ECE6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 14:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AED15252E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 14:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720706910; cv=none; b=eyB7LvP657l0DudeqUpTDYl4WSBDwNI3qY+XF2dN3lv56cSR6AH+bf0g6Je401N0mdh1yEO23iIt5gOh5HfupKpUqoyglNPIzVNqSC8w7lCKan+z306qslSQZjygsBXg0dfXM/Rrb7fL7cps7zRv5Tkf3ZzbcW1yxOZb6CdAhFs=
+	t=1720706914; cv=none; b=MnPqTUZI0zLBeSKnnvIj4SdeMDVqnTmeYe0+423VJrAs7Mj5AxOnJBVtuGEXWi6WX8NXXbVWTPu5vhx4GSdwHkKipI8TzLx1UaWcm4M4SOGY+ZXw3pxmGHSozwpcGmtRy7aD3F6kXbNjjTKLPWmOGHyN+6fyxJMVh5dFuMhMOVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720706910; c=relaxed/simple;
-	bh=+H+5/HFpD3To504i5/IL2vx2HcBIDWr52AeFjJHGooA=;
+	s=arc-20240116; t=1720706914; c=relaxed/simple;
+	bh=UpBA2d4B6PApZ6wUIxPd4/yk85DSTJSE09UulsReSdE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XOsneMY2MtJPUaOFp7C2JxnkNlIZyZX0XF78VcHTP8n95CcFtL6AMEjNWZmzqqFxzDZT+r3qEsWZw4CHz5E+ukKHpN28EDR0+EsqbPDmUMiU7EytFmdvATnU09SNq1TMGFlADfaGwPEa/KDx9LLM1p8yP3ZdwuyMTZ6NsA/lLko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dbv2v83z; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=LRkKDq7DerO2P3HShQPIV2rvHdeLIDHKSxKe5JWhabNXXAuZ4XDYXdZKCKQ8FFWGxum5p0u/C231Ubl96M5U8sW7GZyYhol91NqAp70XiorwUzhqEGj44KGJyak1te0Ul6oAmGWE6mjfqhJb71GVOoWPWAqFigXv3wQKZod14qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFtHCHFi; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dbv2v83z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFtHCHFi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720706908; x=1752242908;
+  t=1720706912; x=1752242912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+H+5/HFpD3To504i5/IL2vx2HcBIDWr52AeFjJHGooA=;
-  b=Dbv2v83z9ck2GHbVm4JoCMRAnrA96Lnd22JkZQCUTUf9XedwkywpC9M1
-   x8dQeumQGcBfnZgPFIX6lQzERcLzc1a2PngngzycYB/Ff9kkGo60tN6ze
-   JkbGlyZjQky2Eqxm+C29gXvL0lRIU1Rd76uWfSY1LGZCsb6nGx4QedFUo
-   Dvo04ZQWKleM+SIayD6TQVY9V705KeqEKg+3S2+ne2LDKgEV5bJloEPRj
-   TYjZNSDq0luhNMOQsCuS0rJamzHZYCFoIpqzo6ZUxIoMfoU4zvoan1lDU
-   1MV/4xct4NZ+YBYHGgnFGUNVfVblImjAfhxtzzjY1SbRXQoiHFiC1eSlq
-   A==;
-X-CSE-ConnectionGUID: AvzUuPSaTWmCmxUjGPd6XQ==
-X-CSE-MsgGUID: TvQ3eFevTOCj3lINe68Exw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18294500"
+  bh=UpBA2d4B6PApZ6wUIxPd4/yk85DSTJSE09UulsReSdE=;
+  b=mFtHCHFiQJAvlsaRg25nmTe8wfKx3199QKThZjeugXTZRu0kCbiPi5P/
+   5GZ1H8Y4jjrtN8IxszTQi4/g/122lbN+tL6RG/4CvkDSDZPKRiRkLG0Cw
+   M0jKncVil3H3X/A8+2J+b8imIe1yRDz1vASHF5vE32Ty/SBD1tKS8D5Rf
+   rR5XENR0SeDvyAeqZOwawmTUpvZ/hmfke8aeVb/h9h2VCgJ0BjWL4roXh
+   mSLJQJOzXF6TpxB7PAvJ41FZqu6+OjxGY9uxFwzNrzHWwl3zCUTc0nhE0
+   n12uFkMaU+p8aRdHvgC5nyfpbjJPZrpnU7wQyQsfGtLVnJvzF2+Dq7iVR
+   g==;
+X-CSE-ConnectionGUID: IRJgWbHuRMqjKtcRn9eWMg==
+X-CSE-MsgGUID: 3lewH6j2QPuO2Q5oqYd6BQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18294506"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="18294500"
+   d="scan'208";a="18294506"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:08:28 -0700
-X-CSE-ConnectionGUID: RjTs1arpTsm6zoJ5Xnts5w==
-X-CSE-MsgGUID: d5SGlARbR12jsaMAKxP4Gw==
+X-CSE-ConnectionGUID: uuqdsik/TGqq17RVOBdN0w==
+X-CSE-MsgGUID: lMiPUuUSS9WwpJwpHsYwlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="53161518"
+   d="scan'208";a="53161520"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2024 07:08:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRuTA-000ZM2-2w;
+	id 1sRuTA-000ZM4-33;
 	Thu, 11 Jul 2024 14:08:24 +0000
-Date: Thu, 11 Jul 2024 22:07:42 +0800
+Date: Thu, 11 Jul 2024 22:07:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:write-end 44/44] fs/libfs.c:950: warning: Function
- parameter or struct member 'folio' not described in 'simple_write_end'
-Message-ID: <202407112240.E9d1ClR3-lkp@intel.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Adam Ford <aford173@gmail.com>
+Subject: [jmondi:imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls 4/79] ERROR:
+ modpost: "of_clk_del_provider"
+ [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+Message-ID: <202407112215.hP2f6Gf9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +66,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache write-end
-head:   b88b8f43ca6661a6ee5e9cef00e15cdf93141141
-commit: b88b8f43ca6661a6ee5e9cef00e15cdf93141141 [44/44] fs: Convert aops->write_end to take a folio
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240711/202407112240.E9d1ClR3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112240.E9d1ClR3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls
+head:   360e44ff2e74395b492b91f6f54b285863cf9b17
+commit: a9430aecf306bda301d01a0698b4662f3205cdc3 [4/79] phy: freescale: add Samsung HDMI PHY
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240711/202407112215.hP2f6Gf9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112215.hP2f6Gf9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407112240.E9d1ClR3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407112215.hP2f6Gf9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> fs/libfs.c:950: warning: Function parameter or struct member 'folio' not described in 'simple_write_end'
->> fs/libfs.c:950: warning: Excess function parameter 'page' description in 'simple_write_end'
-
-
-vim +950 fs/libfs.c
-
-afddba49d18f34 Nicholas Piggin         2007-10-16  924  
-ad2a722f196d2b Boaz Harrosh            2010-01-12  925  /**
-ad2a722f196d2b Boaz Harrosh            2010-01-12  926   * simple_write_end - .write_end helper for non-block-device FSes
-8e88bfba77eec6 Randy Dunlap            2019-10-14  927   * @file: See .write_end of address_space_operations
-ad2a722f196d2b Boaz Harrosh            2010-01-12  928   * @mapping: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  929   * @pos: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  930   * @len: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  931   * @copied: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  932   * @page: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  933   * @fsdata: 		"
-ad2a722f196d2b Boaz Harrosh            2010-01-12  934   *
-ad2a722f196d2b Boaz Harrosh            2010-01-12  935   * simple_write_end does the minimum needed for updating a page after writing is
-ad2a722f196d2b Boaz Harrosh            2010-01-12  936   * done. It has the same API signature as the .write_end of
-ad2a722f196d2b Boaz Harrosh            2010-01-12  937   * address_space_operations vector. So it can just be set onto .write_end for
-ad2a722f196d2b Boaz Harrosh            2010-01-12  938   * FSes that don't need any other processing. i_mutex is assumed to be held.
-ad2a722f196d2b Boaz Harrosh            2010-01-12  939   * Block based filesystems should use generic_write_end().
-ad2a722f196d2b Boaz Harrosh            2010-01-12  940   * NOTE: Even though i_size might get updated by this function, mark_inode_dirty
-ad2a722f196d2b Boaz Harrosh            2010-01-12  941   * is not called, so a filesystem that actually does store data in .write_inode
-ad2a722f196d2b Boaz Harrosh            2010-01-12  942   * should extend on what's done here with a call to mark_inode_dirty() in the
-ad2a722f196d2b Boaz Harrosh            2010-01-12  943   * case that i_size has changed.
-04fff6416cb787 Al Viro                 2016-08-29  944   *
-a77f580a2d4645 Matthew Wilcox (Oracle  2022-04-29  945)  * Use *ONLY* with simple_read_folio()
-^1da177e4c3f41 Linus Torvalds          2005-04-16  946   */
-c1e3dbe9818e3c Christoph Hellwig       2021-06-28  947  static int simple_write_end(struct file *file, struct address_space *mapping,
-afddba49d18f34 Nicholas Piggin         2007-10-16  948  			loff_t pos, unsigned len, unsigned copied,
-b88b8f43ca6661 Matthew Wilcox (Oracle  2024-07-10  949) 			struct folio *folio, void *fsdata)
-afddba49d18f34 Nicholas Piggin         2007-10-16 @950  {
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  951) 	struct inode *inode = folio->mapping->host;
-ad2a722f196d2b Boaz Harrosh            2010-01-12  952  	loff_t last_pos = pos + copied;
-afddba49d18f34 Nicholas Piggin         2007-10-16  953  
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  954) 	/* zero the stale part of the folio if we did a short copy */
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  955) 	if (!folio_test_uptodate(folio)) {
-afddba49d18f34 Nicholas Piggin         2007-10-16  956  		if (copied < len) {
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  957) 			size_t from = offset_in_folio(folio, pos);
-ad2a722f196d2b Boaz Harrosh            2010-01-12  958  
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  959) 			folio_zero_range(folio, from + copied, len - copied);
-afddba49d18f34 Nicholas Piggin         2007-10-16  960  		}
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  961) 		folio_mark_uptodate(folio);
-04fff6416cb787 Al Viro                 2016-08-29  962  	}
-ad2a722f196d2b Boaz Harrosh            2010-01-12  963  	/*
-ad2a722f196d2b Boaz Harrosh            2010-01-12  964  	 * No need to use i_size_read() here, the i_size
-ad2a722f196d2b Boaz Harrosh            2010-01-12  965  	 * cannot change under us because we hold the i_mutex.
-ad2a722f196d2b Boaz Harrosh            2010-01-12  966  	 */
-ad2a722f196d2b Boaz Harrosh            2010-01-12  967  	if (last_pos > inode->i_size)
-ad2a722f196d2b Boaz Harrosh            2010-01-12  968  		i_size_write(inode, last_pos);
-afddba49d18f34 Nicholas Piggin         2007-10-16  969  
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  970) 	folio_mark_dirty(folio);
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  971) 	folio_unlock(folio);
-5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  972) 	folio_put(folio);
-afddba49d18f34 Nicholas Piggin         2007-10-16  973  
-afddba49d18f34 Nicholas Piggin         2007-10-16  974  	return copied;
-afddba49d18f34 Nicholas Piggin         2007-10-16  975  }
-c1e3dbe9818e3c Christoph Hellwig       2021-06-28  976  
-
-:::::: The code at line 950 was first introduced by commit
-:::::: afddba49d18f346e5cc2938b6ed7c512db18ca68 fs: introduce write_begin, write_end, and perform_write aops
-
-:::::: TO: Nick Piggin <npiggin@suse.de>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/nvidia_cspmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/sh/drivers/push-switch.o
+>> ERROR: modpost: "of_clk_del_provider" [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+>> ERROR: modpost: "__clk_get_name" [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+>> ERROR: modpost: "of_clk_src_simple_get" [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+>> ERROR: modpost: "of_clk_add_provider" [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+>> ERROR: modpost: "devm_clk_register" [drivers/phy/freescale/phy-fsl-samsung-hdmi.ko] undefined!
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
