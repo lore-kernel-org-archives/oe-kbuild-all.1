@@ -1,98 +1,147 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7A315FA66
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8436E15ECE6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 14:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720705836; cv=none; b=GbfHm8oBAugVDzbdZD1TbaY7o12T2+16X6Ko8GMLYnuYswaImPPCzILbEgDuLIhIo9/vTfK7ztrLWOpl88ftSd/J4UwtZ6k5XKccnqgrm5NIbKJENk35QQB2uaMCyo9lZa+e9GS+zjpemn98lRPGt4toPxTL0P8aBcBfbwonN4A=
+	t=1720706910; cv=none; b=eyB7LvP657l0DudeqUpTDYl4WSBDwNI3qY+XF2dN3lv56cSR6AH+bf0g6Je401N0mdh1yEO23iIt5gOh5HfupKpUqoyglNPIzVNqSC8w7lCKan+z306qslSQZjygsBXg0dfXM/Rrb7fL7cps7zRv5Tkf3ZzbcW1yxOZb6CdAhFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720705836; c=relaxed/simple;
-	bh=se61FPZzUA5HwQEvtVy2/8LlK6ztmeHr/a3V6wHR1ko=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n7JVcJiKkqIJA1JKWwbFuuXhvxKs0qlSK9hR+Oni6ufN9c1CM4vfwLyjqZKecOb2yPjkBo9yt8FFdpE7jIsM30tvw/UyarS04yAoSjgDRRDdMQEugD/jw0r/3lZO0RsdPsBz5oQHSooAgpQFwbWWP7WzcC87sY1MknPOWNGj3J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OEsQgmMF; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1720706910; c=relaxed/simple;
+	bh=+H+5/HFpD3To504i5/IL2vx2HcBIDWr52AeFjJHGooA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XOsneMY2MtJPUaOFp7C2JxnkNlIZyZX0XF78VcHTP8n95CcFtL6AMEjNWZmzqqFxzDZT+r3qEsWZw4CHz5E+ukKHpN28EDR0+EsqbPDmUMiU7EytFmdvATnU09SNq1TMGFlADfaGwPEa/KDx9LLM1p8yP3ZdwuyMTZ6NsA/lLko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dbv2v83z; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OEsQgmMF"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e035dc23a21so934381276.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 06:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1720705833; x=1721310633; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ywdrhTjQNxm59oHEeOA1QDJuGdM3/Aym7bJC9qh8zJA=;
-        b=OEsQgmMFDrjQ+ddEiI6c27VihmadErHxXE6Zh8p8sb2zPD6G8naKBu/+ipkyqjAwBW
-         nHX8lv0lS19VSp/6wAbiKU0nscF4/Bbkj7yFAUnpokzpH+w0FcKoI93eBui/ORcESYkk
-         BSUiOSxzk6lUV5qKiSdEsR6HDND7RR2+E7zmob9TCvrOzaVDSO/GlZyEzRcidyUQaShu
-         hCJIur4872OsLljZc5nHFcvXk3Z9IpXMfKZkzWsxXUM4qTXmDTWY+kdSnrFymgk7EMbQ
-         4NhjDEJi6lAS4T+GVybio519dWZlPcWdrG1/gyWefyBl3Xi2HmMfL27R9KqmSbcjqX5c
-         SLhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720705833; x=1721310633;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ywdrhTjQNxm59oHEeOA1QDJuGdM3/Aym7bJC9qh8zJA=;
-        b=ZzGVFGALxSsKGUOkKP9OtrQlu0tEinsThpjRzbnyRo23TqkWyVuw8bLqy2qIs/mCB6
-         POxH8LaF/3bj/Nf9sLZ5TERwzQKNxjsmW4l7ekljTtKz1tRX7kW/0hFTQUR1V6RXEcU/
-         a5XJCN4odDpC+q/hnzUbLyVMLPTifVKafy6aRoviiAgrPmj2jxmECvy9ssfS5NYr4YPv
-         koCySzNzDqLcuoPgbRR3B4eF0llsn1nfEcW2Fn7GBdBNfD78IaG7vVfjYj/EoC35k5d9
-         7bInXExl4bY171pIMEqMIba6zH5fnKLhm+2mAwMT+/MkovlQgQfvrJ5Q5/WKclHtziq5
-         71Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCXT6Ke1oCx++VMVj8wgoztl4Rd99Wu70VBphvC1iqt8G5YRXoP+5EmIXzoIVQhEaw8qXtRV5Ar2JKpUwHlHI3Ui3i6O5gUDKLLNj3L0AQ==
-X-Gm-Message-State: AOJu0YwEPV660wDNhDL1XRgz9ku8iax6cSQHDhPi8b0i6tLL0n7aMcUI
-	AqmklhFB4dnQ8zXrwclWXAa8UdGf7fyffpjmZHePtsTJtgXEQ2o9Y5a7ji35KeOJ3zrdXIkv2H+
-	GYF2t4OYvIRug9aP4X2QLV94B11ZphmqUqs3G
-X-Google-Smtp-Source: AGHT+IHaoYKq/YKmu2Z/szFpe1/WajGQX2D4bEfURKfajhpytclcvlib7RUfZXi4aqzgVDS/tAm9oTE4sjjzndcULwY=
-X-Received: by 2002:a25:5f11:0:b0:e03:64c1:2b0c with SMTP id
- 3f1490d57ef6-e041af3b488mr9807730276.0.1720705833125; Thu, 11 Jul 2024
- 06:50:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dbv2v83z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720706908; x=1752242908;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+H+5/HFpD3To504i5/IL2vx2HcBIDWr52AeFjJHGooA=;
+  b=Dbv2v83z9ck2GHbVm4JoCMRAnrA96Lnd22JkZQCUTUf9XedwkywpC9M1
+   x8dQeumQGcBfnZgPFIX6lQzERcLzc1a2PngngzycYB/Ff9kkGo60tN6ze
+   JkbGlyZjQky2Eqxm+C29gXvL0lRIU1Rd76uWfSY1LGZCsb6nGx4QedFUo
+   Dvo04ZQWKleM+SIayD6TQVY9V705KeqEKg+3S2+ne2LDKgEV5bJloEPRj
+   TYjZNSDq0luhNMOQsCuS0rJamzHZYCFoIpqzo6ZUxIoMfoU4zvoan1lDU
+   1MV/4xct4NZ+YBYHGgnFGUNVfVblImjAfhxtzzjY1SbRXQoiHFiC1eSlq
+   A==;
+X-CSE-ConnectionGUID: AvzUuPSaTWmCmxUjGPd6XQ==
+X-CSE-MsgGUID: TvQ3eFevTOCj3lINe68Exw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18294500"
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="18294500"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:08:28 -0700
+X-CSE-ConnectionGUID: RjTs1arpTsm6zoJ5Xnts5w==
+X-CSE-MsgGUID: d5SGlARbR12jsaMAKxP4Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="53161518"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2024 07:08:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRuTA-000ZM2-2w;
+	Thu, 11 Jul 2024 14:08:24 +0000
+Date: Thu, 11 Jul 2024 22:07:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:write-end 44/44] fs/libfs.c:950: warning: Function
+ parameter or struct member 'folio' not described in 'simple_write_end'
+Message-ID: <202407112240.E9d1ClR3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202407111803.LoTE3SJX-lkp@intel.com>
-In-Reply-To: <202407111803.LoTE3SJX-lkp@intel.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 11 Jul 2024 09:50:22 -0400
-Message-ID: <CAHC9VhT8o--Xwj-0TwBwa-n09qbQJzaYruCVyPtqdY_pw49hWw@mail.gmail.com>
-Subject: Re: [robertosassu:inode-free-security 1/1] include/linux/lsm_hook_defs.h:117:1:
- warning: omitting the parameter name in a function definition is a C23 extension
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 11, 2024 at 6:18=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://github.com/robertosassu/linux inode-free-security
-> head:   804df4ecdaed5aab1b4ba876acd207195090d9cb
-> commit: 804df4ecdaed5aab1b4ba876acd207195090d9cb [1/1] lsm: add the inode=
-_free_security_rcu() LSM implementation hook
-> config: s390-defconfig (https://download.01.org/0day-ci/archive/20240711/=
-202407111803.LoTE3SJX-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a=
-0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240711/202407111803.LoTE3SJX-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407111803.LoTE3SJX-lkp=
-@intel.com/
+tree:   git://git.infradead.org/users/willy/pagecache write-end
+head:   b88b8f43ca6661a6ee5e9cef00e15cdf93141141
+commit: b88b8f43ca6661a6ee5e9cef00e15cdf93141141 [44/44] fs: Convert aops->write_end to take a folio
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240711/202407112240.E9d1ClR3-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112240.E9d1ClR3-lkp@intel.com/reproduce)
 
-FWIW, I caught this when renaming the parameter based on other
-feedback on the RFC patch; it will be corrected when I post the next
-revision.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407112240.E9d1ClR3-lkp@intel.com/
 
---=20
-paul-moore.com
+All warnings (new ones prefixed by >>):
+
+>> fs/libfs.c:950: warning: Function parameter or struct member 'folio' not described in 'simple_write_end'
+>> fs/libfs.c:950: warning: Excess function parameter 'page' description in 'simple_write_end'
+
+
+vim +950 fs/libfs.c
+
+afddba49d18f34 Nicholas Piggin         2007-10-16  924  
+ad2a722f196d2b Boaz Harrosh            2010-01-12  925  /**
+ad2a722f196d2b Boaz Harrosh            2010-01-12  926   * simple_write_end - .write_end helper for non-block-device FSes
+8e88bfba77eec6 Randy Dunlap            2019-10-14  927   * @file: See .write_end of address_space_operations
+ad2a722f196d2b Boaz Harrosh            2010-01-12  928   * @mapping: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  929   * @pos: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  930   * @len: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  931   * @copied: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  932   * @page: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  933   * @fsdata: 		"
+ad2a722f196d2b Boaz Harrosh            2010-01-12  934   *
+ad2a722f196d2b Boaz Harrosh            2010-01-12  935   * simple_write_end does the minimum needed for updating a page after writing is
+ad2a722f196d2b Boaz Harrosh            2010-01-12  936   * done. It has the same API signature as the .write_end of
+ad2a722f196d2b Boaz Harrosh            2010-01-12  937   * address_space_operations vector. So it can just be set onto .write_end for
+ad2a722f196d2b Boaz Harrosh            2010-01-12  938   * FSes that don't need any other processing. i_mutex is assumed to be held.
+ad2a722f196d2b Boaz Harrosh            2010-01-12  939   * Block based filesystems should use generic_write_end().
+ad2a722f196d2b Boaz Harrosh            2010-01-12  940   * NOTE: Even though i_size might get updated by this function, mark_inode_dirty
+ad2a722f196d2b Boaz Harrosh            2010-01-12  941   * is not called, so a filesystem that actually does store data in .write_inode
+ad2a722f196d2b Boaz Harrosh            2010-01-12  942   * should extend on what's done here with a call to mark_inode_dirty() in the
+ad2a722f196d2b Boaz Harrosh            2010-01-12  943   * case that i_size has changed.
+04fff6416cb787 Al Viro                 2016-08-29  944   *
+a77f580a2d4645 Matthew Wilcox (Oracle  2022-04-29  945)  * Use *ONLY* with simple_read_folio()
+^1da177e4c3f41 Linus Torvalds          2005-04-16  946   */
+c1e3dbe9818e3c Christoph Hellwig       2021-06-28  947  static int simple_write_end(struct file *file, struct address_space *mapping,
+afddba49d18f34 Nicholas Piggin         2007-10-16  948  			loff_t pos, unsigned len, unsigned copied,
+b88b8f43ca6661 Matthew Wilcox (Oracle  2024-07-10  949) 			struct folio *folio, void *fsdata)
+afddba49d18f34 Nicholas Piggin         2007-10-16 @950  {
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  951) 	struct inode *inode = folio->mapping->host;
+ad2a722f196d2b Boaz Harrosh            2010-01-12  952  	loff_t last_pos = pos + copied;
+afddba49d18f34 Nicholas Piggin         2007-10-16  953  
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  954) 	/* zero the stale part of the folio if we did a short copy */
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  955) 	if (!folio_test_uptodate(folio)) {
+afddba49d18f34 Nicholas Piggin         2007-10-16  956  		if (copied < len) {
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  957) 			size_t from = offset_in_folio(folio, pos);
+ad2a722f196d2b Boaz Harrosh            2010-01-12  958  
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  959) 			folio_zero_range(folio, from + copied, len - copied);
+afddba49d18f34 Nicholas Piggin         2007-10-16  960  		}
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  961) 		folio_mark_uptodate(folio);
+04fff6416cb787 Al Viro                 2016-08-29  962  	}
+ad2a722f196d2b Boaz Harrosh            2010-01-12  963  	/*
+ad2a722f196d2b Boaz Harrosh            2010-01-12  964  	 * No need to use i_size_read() here, the i_size
+ad2a722f196d2b Boaz Harrosh            2010-01-12  965  	 * cannot change under us because we hold the i_mutex.
+ad2a722f196d2b Boaz Harrosh            2010-01-12  966  	 */
+ad2a722f196d2b Boaz Harrosh            2010-01-12  967  	if (last_pos > inode->i_size)
+ad2a722f196d2b Boaz Harrosh            2010-01-12  968  		i_size_write(inode, last_pos);
+afddba49d18f34 Nicholas Piggin         2007-10-16  969  
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  970) 	folio_mark_dirty(folio);
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  971) 	folio_unlock(folio);
+5522d9f7b2e6d2 Matthew Wilcox (Oracle  2023-08-21  972) 	folio_put(folio);
+afddba49d18f34 Nicholas Piggin         2007-10-16  973  
+afddba49d18f34 Nicholas Piggin         2007-10-16  974  	return copied;
+afddba49d18f34 Nicholas Piggin         2007-10-16  975  }
+c1e3dbe9818e3c Christoph Hellwig       2021-06-28  976  
+
+:::::: The code at line 950 was first introduced by commit
+:::::: afddba49d18f346e5cc2938b6ed7c512db18ca68 fs: introduce write_begin, write_end, and perform_write aops
+
+:::::: TO: Nick Piggin <npiggin@suse.de>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
