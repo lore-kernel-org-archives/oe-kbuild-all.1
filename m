@@ -1,284 +1,125 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F418BFC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 20:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEF12F385
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 21:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720730880; cv=none; b=a/UouMVfdoztqdxS79DD8vDD7Xhw0bCoONPXP6mx2W9MxQvLLzc/2iGg+P1ooQzFiGlBi2JO0R6IJyM5tmCUypvvVivsPfeTyaRYGOc37BS6MQqWQVsuKaG4HpjIqjpXnlTzbOAKsMtb2+0b9GcI7j07EXChL5v2keBOIygScec=
+	t=1720733993; cv=none; b=IoB8cPaCWv/YdCVlrA61vH06sS3QKNMGvlGtGFAxr3efBXxiV19qbYUoAme6GJcMtRczstR4bdt++gUTy0aUAFIvx+nBuyqvUsOhYUBM9PP9iRHfT4vVyckuAHPMP3K2btkBUFLtzLMXdHkHkCNENuDwejPgu7mfAekXCAQov5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720730880; c=relaxed/simple;
-	bh=aFDQRF4ylim0CVaguWsGm93vFqd6nUNkM1Ml56cdOXQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o42R0Bz8KcMJXAw9TVBe+OgMvUv+buECiyipbrzcS0IYQEgQEus6SEfJR/hpX7RRUf6M+9YW3fNdR48PWB1RA36Kt/MkOhkZioVxMC4D2AwBKMoUn5XhKfUWH8SdJbBvYyqQEi9DiLzSkQi7gxdbCBEjuQpQlvXkLGfDh8sb7Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XB9XejWU; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1720733993; c=relaxed/simple;
+	bh=FJwhU1ATWcSwsBsZYEN8T/d0tT2GteJjWIJ3ZDamQIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z+4+mTWxxOkFeN895q5cf3VHbD3pNNP4HAmnzYCQYmuZ51/5c0Siz+og/46g+9zN4zXcr1Q2X1CCkovFEJoqBCQ4+KzQ8b4TEp1pV8OAUs3itiY/SaBpdwAqEScyvcmsEd/dOg8co7WsxXcjOUKB9UXHngWiX2PR6l5yl0kn4WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYLD/9r3; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XB9XejWU"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e03c689addcso1265836276.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720730877; x=1721335677; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0yl8dUgw9EdkUkOPq8pdXJ6s8xN0KO2ME19oJSnxlNU=;
-        b=XB9XejWUetJgTkM1JzBfDyTTjzBCBowHa65d6v0Lsae3DQcYwBYqoO99mmDbibeIm+
-         vOCeJ10mgWZAdOM/28+IZ6dwhDntkkRrVFC8V5s2yIfo0GEy0jgRnGXK7vQsYKAnZ74D
-         BVhtN2ec9z/OV2PMD6hPtH+NuubM2Lz0v5BdT1rOETyWjjZQ1ssNGmQnTwUN+oosTg4T
-         ugj3f4lHf3pF5qcCwid3lqK+v3qPli2PNb/9PM0iw2nSViEjabzV0prE7SkcET74meb4
-         wX9HNg60gCh6JTljtzR2nL2K+YK5xZwk0zTL8YpyIQvP5y+t1Wwt/7Ont4oHd6cCTdRn
-         PgcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720730877; x=1721335677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0yl8dUgw9EdkUkOPq8pdXJ6s8xN0KO2ME19oJSnxlNU=;
-        b=HznxH6tSDgQ4gB20ztRJ5qdggCQlj+6mljwdiciruJMfzZ36VuWG1E/q8K3t93C1Ng
-         SDapPBkVJE6NJdiPYXBBsrrt92rzAW/+NT/BZ3uhTRKFh2tF1bfL6YH2py6Tc+NNoSzw
-         rUfUuFcFgU/tosc3+slw9apW8UEnlE78wcbJeYabLwHJRAsWglGQQ4vcZybvDT/zh4dU
-         SuC3fgwA8adT7CsjpFZTGJ/eEDZ0xctxJ4mFzCgcCfe9g/fgbO/SZpOnLN4UmVO8Vl4I
-         27m13QGo7pkM4UE9VD0kdn2PGwHsWC9JQTtRE//cxzQNKn1qqYBYdsvsYabECBpaR2Se
-         iYJA==
-X-Gm-Message-State: AOJu0YwUZEFb8gXKtFjwxm66DMd+reVK2SeYyYRddDV0YNvDh8JCavhv
-	ZZ3aFOV654KiLMYHT1zQ9/PG/RbEx0DafrPvN86k6/dKBOPFsZ5lb6pwJhvzAyostWjBGHx4tke
-	Ht4Otyb5tQ6yfTQEiOZS2sF9UuRlWYXOzzll8
-X-Google-Smtp-Source: AGHT+IH5fB277ElcxUlv3MxmnhQEGPYdTaljtEIFKk2nyr1M6yh3VDJvmRqlRtwOeqCu5nI4B5LvJceATIUi9E6D7YU=
-X-Received: by 2002:a81:8d51:0:b0:643:9a13:fae2 with SMTP id
- 00721157ae682-658ef3419b7mr103695177b3.28.1720730877018; Thu, 11 Jul 2024
- 13:47:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYLD/9r3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720733992; x=1752269992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FJwhU1ATWcSwsBsZYEN8T/d0tT2GteJjWIJ3ZDamQIE=;
+  b=RYLD/9r3STUgFxILQ3iil0k1YFIZXmfNRZ1H0yhR3uyGRfDgO1xmuUp8
+   HXERHkWxJITqCn4tj1UYqZ0uKwkdAXa1xKtsHyCLF9VU+hFLsAb6RNhRM
+   3LtmuBoCgGfGVZ9W+OgCq0gGMDpk8SpWp11w13S/PliLtYp+FHySMvtsg
+   vUwA9EgzxKWfz3CSpfFXWrZp/AhVPDdpvVmtesWUXQpKsM7lCX7usEITC
+   GQBQNVhkBM9PnyLEAPmylCP/5Yil+BnACDKUFye2vmCp2czDw8r6Au2a9
+   vXiwyfueedoD0wszISRoVQA3DioQE5vYy3pGS+6nQCLA8ZPYilEbJSw4O
+   w==;
+X-CSE-ConnectionGUID: 7Pp32kgcSkmj2S1BaOSDmw==
+X-CSE-MsgGUID: s73Ejv3oSNi8pXDsirVfBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="29547623"
+X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
+   d="scan'208";a="29547623"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 14:39:51 -0700
+X-CSE-ConnectionGUID: vtlt6qd7RWymUYWlr8f3Gw==
+X-CSE-MsgGUID: I8uVC4nXTnWoisSX8P8Z3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
+   d="scan'208";a="48438812"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2024 14:39:50 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sS1Vz-000ZwE-2M;
+	Thu, 11 Jul 2024 21:39:47 +0000
+Date: Fri, 12 Jul 2024 05:39:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:i2c-repeated-send-debug 1/1]
+ drivers/i2c/busses/i2c-microchip-corei2c.c:119: warning: Function parameter
+ or struct member 'next_is_read' not described in 'mchp_corei2c_dev'
+Message-ID: <202407120501.cnefBoMM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202407080044.DWMC9N9I-lkp@intel.com>
-In-Reply-To: <202407080044.DWMC9N9I-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 11 Jul 2024 13:47:44 -0700
-Message-ID: <CAJuCfpH7TBEwwsLxCuQmhW=mFHWSsPez3e4r84J7=FnF9gtiPw@mail.gmail.com>
-Subject: Re: ERROR: modpost: "mem_alloc_profiling_key" [arch/powerpc/kvm/kvm-hv.ko]
- undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jul 7, 2024 at 10:05=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   c6653f49e4fd3b0d52c12a1fc814d6c5b234ea15
-> commit: d224eb0287fbd84f4f13eca042c7f08f87138f3b codetag: debug: mark cod=
-etags for reserved pages as empty
-> date:   2 months ago
-> config: powerpc64-randconfig-r112-20240707 (https://download.01.org/0day-=
-ci/archive/20240708/202407080044.DWMC9N9I-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfd=
-cc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce: (https://download.01.org/0day-ci/archive/20240708/202407080044=
-.DWMC9N9I-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407080044.DWMC9N9I-lkp=
-@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git i2c-repeated-send-debug
+head:   ccaa11e74136b352c2b3b62aa54d3f9d09e90b4c
+commit: ccaa11e74136b352c2b3b62aa54d3f9d09e90b4c [1/1] try to fix repeated send + debugging code for it not working
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240712/202407120501.cnefBoMM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407120501.cnefBoMM-lkp@intel.com/reproduce)
 
-Fix is posted at:
-https://lore.kernel.org/all/20240711204626.1669138-1-surenb@google.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407120501.cnefBoMM-lkp@intel.com/
 
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250=
-/serial_cs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/seri=
-al_mctrl_gpio.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/p=
-anel-auo-a030jtn01.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/p=
-anel-innolux-ej030na.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/p=
-anel-novatek-nt39016.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/p=
-anel-orisetech-ota5601a.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/=
-lontium-lt9611.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/=
-sii9234.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bo=
-chs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_pan=
-el_orientation_quirks.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mip=
-i_dbi.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/reg=
-map-slimbus.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/reg=
-map-sccb.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gp=
-io.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_co=
-re.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_commo=
-n.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/elx/efct.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-bitbang=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/char=
-lcd.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44=
-780_common.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line=
--display.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_so=
-cket.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-f=
-map.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-=
-ccgx-ucsi.o
-> WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in re=
-ference: et8ek8_i2c_driver+0x10 (section: .data) -> et8ek8_remove (section:=
- .exit.text)
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/td=
-a9887.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/=
-marvell/mcam-core.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core=
-/v4l2-async.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core=
-/v4l2-fwnode.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-c=
-pro.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpufreq/cpufreq=
--dt-platdev.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds=
--rt4505.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google=
-/coreboot_table.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google=
-/framebuffer-coreboot.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google=
-/cbmem.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google=
-/vpd-sysfs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sh=
-a204a.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi=
--common.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensing=
-ton.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouc=
-h.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmo=
-use.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-montere=
-y.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalyn=
-x.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redrago=
-n.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.=
-o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan=
-.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewson=
-ic.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-hid.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-power-supply.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-audio-manager.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-gpio.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-spi.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus=
-/gb-spilib.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_cha=
-r.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
-r_performance.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
-r_powersave.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governo=
-r_userspace.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-b=
-oot-env.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-=
-gpio.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcv=
-f.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_u=
-til.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_c=
-mdset_0020.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_fu=
-ncs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmae=
-ngine.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-so=
-c-sigmadsp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-so=
-c-wm-adsp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-so=
-c-xlnx-i2s.o
-> >> ERROR: modpost: "mem_alloc_profiling_key" [arch/powerpc/kvm/kvm-hv.ko]=
- undefined!
-> >> ERROR: modpost: "page_ext_get" [arch/powerpc/kvm/kvm-hv.ko] undefined!
-> >> ERROR: modpost: "page_ext_put" [arch/powerpc/kvm/kvm-hv.ko] undefined!
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+>> drivers/i2c/busses/i2c-microchip-corei2c.c:119: warning: Function parameter or struct member 'next_is_read' not described in 'mchp_corei2c_dev'
+
+
+vim +119 drivers/i2c/busses/i2c-microchip-corei2c.c
+
+64a6f1c4987e02 Conor Dooley 2022-07-06   90  
+64a6f1c4987e02 Conor Dooley 2022-07-06   91  /**
+64a6f1c4987e02 Conor Dooley 2022-07-06   92   * struct mchp_corei2c_dev - Microchip CoreI2C device private data
+64a6f1c4987e02 Conor Dooley 2022-07-06   93   *
+64a6f1c4987e02 Conor Dooley 2022-07-06   94   * @base:		pointer to register struct
+64a6f1c4987e02 Conor Dooley 2022-07-06   95   * @dev:		device reference
+64a6f1c4987e02 Conor Dooley 2022-07-06   96   * @i2c_clk:		clock reference for i2c input clock
+64a6f1c4987e02 Conor Dooley 2022-07-06   97   * @buf:		pointer to msg buffer for easier use
+64a6f1c4987e02 Conor Dooley 2022-07-06   98   * @msg_complete:	xfer completion object
+64a6f1c4987e02 Conor Dooley 2022-07-06   99   * @adapter:		core i2c abstraction
+64a6f1c4987e02 Conor Dooley 2022-07-06  100   * @msg_err:		error code for completed message
+64a6f1c4987e02 Conor Dooley 2022-07-06  101   * @bus_clk_rate:	current i2c bus clock rate
+64a6f1c4987e02 Conor Dooley 2022-07-06  102   * @isr_status:		cached copy of local ISR status
+64a6f1c4987e02 Conor Dooley 2022-07-06  103   * @msg_len:		number of bytes transferred in msg
+64a6f1c4987e02 Conor Dooley 2022-07-06  104   * @addr:		address of the current slave
+64a6f1c4987e02 Conor Dooley 2022-07-06  105   */
+64a6f1c4987e02 Conor Dooley 2022-07-06  106  struct mchp_corei2c_dev {
+64a6f1c4987e02 Conor Dooley 2022-07-06  107  	void __iomem *base;
+64a6f1c4987e02 Conor Dooley 2022-07-06  108  	struct device *dev;
+64a6f1c4987e02 Conor Dooley 2022-07-06  109  	struct clk *i2c_clk;
+64a6f1c4987e02 Conor Dooley 2022-07-06  110  	u8 *buf;
+64a6f1c4987e02 Conor Dooley 2022-07-06  111  	struct completion msg_complete;
+64a6f1c4987e02 Conor Dooley 2022-07-06  112  	struct i2c_adapter adapter;
+64a6f1c4987e02 Conor Dooley 2022-07-06  113  	int msg_err;
+64a6f1c4987e02 Conor Dooley 2022-07-06  114  	u32 bus_clk_rate;
+64a6f1c4987e02 Conor Dooley 2022-07-06  115  	u32 isr_status;
+64a6f1c4987e02 Conor Dooley 2022-07-06  116  	u16 msg_len;
+64a6f1c4987e02 Conor Dooley 2022-07-06  117  	u8 addr;
+ccaa11e74136b3 Conor Dooley 2024-07-11  118  	bool next_is_read;
+64a6f1c4987e02 Conor Dooley 2022-07-06 @119  };
+64a6f1c4987e02 Conor Dooley 2022-07-06  120  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 64a6f1c4987e027339818b9d142257e7ede6dfe0 i2c: add support for microchip fpga i2c controllers
+
+:::::: TO: Conor Dooley <conor.dooley@microchip.com>
+:::::: CC: Wolfram Sang <wsa@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
