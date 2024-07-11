@@ -1,127 +1,85 @@
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02B1288B5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 16:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F99842ABA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 16:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720715400; cv=none; b=snCaHL35RceZxrxsMrlhEV55FuehgNdvQBVZKvbVailQWEhNvKwr2PRacQ5BJneV7sQSTp9ML4jVLTnr96yhPvArwqgfird2MoMoPZAPCy5kp3pIzGOKyadfiOiAee1xVaFaIMM/B/zPZbFshJ+3xLmdSsG7Znb1dlrOytLspFI=
+	t=1720715436; cv=none; b=LGsMlDX6rhlLuT40n3ivr6nYliHJSA2FFtBHAs+I7X95TVuOF1cKz8R13VLMoZ3XlWvCbrPMIZz+IIGj7//K5u1+88UkQapezavXXIYt2p2TSejNu/rjMQuxf9Ff8BIDX87Tu4Kdj4fgtzVDVGnvqRfGHxeh3mUSbdRZtnMSq6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720715400; c=relaxed/simple;
-	bh=DOf6DHBZgP1ICMc2Ldg1fy1PA0NSEu9Z6yTPriMP5tE=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=MCi80gUfl07lMn1aJkQq99++GnI7JJGzYthWAPSc0nGR7uC1VDEinjDBmlhwzhLKIhb+e3PFd8lBQJSdaWo3Z50fDWkF9zmo3NR6coeTPTunsgW+iUrvdQKIg9BR/t6Eqotu9QNJsCaF0BeLMM4jkILCuT1uosDsC0L2+c9H/7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ioslCiUy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WT2/chxF; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1720715436; c=relaxed/simple;
+	bh=pOb+S0ESEpGwGx04i6bNjuizlroFpCytYs9JzA5xHy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bs7gtQaw2BgQApLMgIqI64Y9nE7MK2rk+HFCtHA9q89FtE2uCl8is8a3duheLnpaC3/rBcjrXJqGl9aq6MtHLXkYsb3hqTVnsmuEbKv8yXerX8yx8ty/YcD9IC2QgDmRi/SYOcCsLaIBsNsxrfBciZQ4jPULWbLO36hWxuz/kC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n1QkJ7Kz; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ioslCiUy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WT2/chxF"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id DA13A1388523;
-	Thu, 11 Jul 2024 12:29:57 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 11 Jul 2024 12:29:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1720715397; x=1720801797; bh=qquh37mx6A
-	ELigM8QvDppKATxcr+EWO5DNiF/RkUA0c=; b=ioslCiUy/Z+a1BaX52/lQmpOCv
-	MLmVTD2pNbSIj3MKrBy6d68PQzD8V0+yNOXhZtVeea3w3sdfGVS41mjHr9mo5bCc
-	HC2tRBNUEkZdSxqsTbXTzT4Jvb3zykSGdhHhYEcJorf0Ccairc+7bneWDpNgJNKm
-	RlXahakZBvgkFGh7MbmbbATrloZcURHDeGphbVX2GOu1vL7I7TFJeI9x3d4txCXz
-	tKkJWE5I6PUQpIr9JLTHZ0HUroHU+jVyicLnT6PtDvrDkL0ExSVC/WUpmOy8mV/N
-	UuvtoU/oKxGm1DiDmnCGLJMl+D1rDnFkipijgBGXNrsueRDs/UyGFh1DdTrQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720715397; x=1720801797; bh=qquh37mx6AELigM8QvDppKATxcr+
-	EWO5DNiF/RkUA0c=; b=WT2/chxFM7QXRc9gcglIwqFKxgkE9WLhVoSvRbE9aHKX
-	+CNxbzzcVOVwJQ5ptxHfmpZXaDpLgX95TYVqoaDwrNzLhI20yysnH/IJwzBIA11B
-	74UOPnzzhvHD6kYGW3msmPD5Vuo23lkavsyquG3ic1mLFRhz5s223s1WjkV9AUoK
-	tIf5H4KBQMcgj1ubLY8UpV9M8js5OwpiyAHSTZUCAUXwioQhNDETvx0Tu8G8N/Rh
-	Tqn1zIOGpMlgr6ZD98Lj0R7+FlEQhEoLtuVUpoNSiuyGNce9wCjVilFa4D9i4kGD
-	a1WLQrFYT2paLu1pd+uc1FBB42H8UhdqYhbxRqY6LQ==
-X-ME-Sender: <xms:hAiQZjRhEc1F5tNwVr5r204Ywkphr5kalyRI9UsPsExQa0PqRqpt9w>
-    <xme:hAiQZkw3oemMuvsEYtu9WQevAHa5uZnvbl18KOfrxQXvXC8NaF0EEP6jttD6vJfB5
-    SU0LNNrz_q7FQeagns>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeeggddutddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:hAiQZo0rwyogTCBBZ3p25uIGLGQe3Acme_e8QOmR_Qz8KDCQ-QscPw>
-    <xmx:hAiQZjClGT-k7bqAZpZBJpkVUg8WbKS0-qkrKaIH8xsb369uq5SEOw>
-    <xmx:hAiQZsg52AynqrKnIlfWgDPP5KCiJ6GbJtV3qFUHf4wl0V4isA_tzA>
-    <xmx:hAiQZnrmQPFxhjtUsjmlKTsKp6SDpcv5c9MUrAC2HuC40wuPl2a09Q>
-    <xmx:hQiQZlvhzWNEisV03UGXFxqZgPFoNxkh0CC7a3ZCRezNM1kk6Uo9z7R_>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 796D3B6008D; Thu, 11 Jul 2024 12:29:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n1QkJ7Kz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720715434; x=1752251434;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pOb+S0ESEpGwGx04i6bNjuizlroFpCytYs9JzA5xHy0=;
+  b=n1QkJ7KzTBDJV9BMz7tXBgNN48mmY3/wiyZ9cK8ykcmJ5Y3PMNrXh7wr
+   rRvglOD2HIWtO/PYpVyqwHYBmFrCiX9RDIlvQyCSMLU0QBEvZaLFaC/VI
+   CXWR0GBYjtiazrvAP5YWh4kPO/YuXUoBhqPW8HwwqXIU1hxySEdGwKt30
+   8PoK3ANbb6wpYs4cJVl5weGnYcSnJ4KbGBZ2IhsNgV0iu9slB3LCBpB+z
+   KrwBtXrn+nWPK8qUoycRdoMgetlgdHwwL1j28UX9lUn6uuUuiFBdkDMWs
+   gdmVXVOYx6dfEGhlbv4qByBef9Zx6/E36rBjb35VfrJM5Dz6rJMBgH8vA
+   g==;
+X-CSE-ConnectionGUID: uKPXK/FtR9GcZkzQCXoopw==
+X-CSE-MsgGUID: hCBHMBHJTXW7Xx4rCjMFow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18259569"
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="18259569"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 09:30:34 -0700
+X-CSE-ConnectionGUID: 4Qw0l2qXSnWjuvCeBOAQzg==
+X-CSE-MsgGUID: YXOArIb2SBidyzv6GnsZ4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="53562977"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 11 Jul 2024 09:30:33 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRwgg-000ZVO-0R;
+	Thu, 11 Jul 2024 16:30:30 +0000
+Date: Fri, 12 Jul 2024 00:29:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1625/10661] ls2k500sfb.c:undefined reference to
+ `fg_console'
+Message-ID: <202407120045.vP3mrDfe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <875b2f65-bc6e-4b9a-b40d-d2827bc3d54e@app.fastmail.com>
-In-Reply-To: <202407112236.XxoETdP5-lkp@intel.com>
-References: <202407112236.XxoETdP5-lkp@intel.com>
-Date: Thu, 11 Jul 2024 18:29:36 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Johannes Berg" <johannes@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 12059/12643] drivers/ptp/ptp_pch.c:224:undefined
- reference to `ioread64_lo_hi'
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 11, 2024, at 16:52, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
-> master
-> head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-> commit: e435f39b57d5fb97b6df67c3d6ce2400e907a69c [12059/12643] 
-> asm-generic/iomap.h: don't check for readq/writeq
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   15f539c4a521c5ae892554d0046e24f050ec0e00
+commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [1625/10661] fbdev: add ls2k500sfb driver for ls2k500 bmc.
+config: loongarch-randconfig-r133-20240711 (https://download.01.org/0day-ci/archive/20240712/202407120045.vP3mrDfe-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240712/202407120045.vP3mrDfe-lkp@intel.com/reproduce)
 
-Ok, so this is a 64-bit architecture that defines its own
-readq(), includes asm-generic/iomap.h manually but does
-not set CONFIG_GENERIC_IOMAP.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407120045.vP3mrDfe-lkp@intel.com/
 
->    alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_rx_snap_read':
->>> drivers/ptp/ptp_pch.c:224:(.text+0x25c): undefined reference to `ioread64_lo_hi'
+All errors (new ones prefixed by >>):
 
-After the patch I merged, this configuration defines
-ioread64_lo_hi to itself but has no definition for it.
-Before the patch, we fell back to a pair of ioread32()
-calls
+   loongarch64-linux-ld: drivers/video/fbdev/ls2k500sfb.o: in function `.L131':
+>> ls2k500sfb.c:(.text+0x102c): undefined reference to `fg_console'
+>> loongarch64-linux-ld: ls2k500sfb.c:(.text+0x1030): undefined reference to `fg_console'
 
-#ifndef ioread64_lo_hi
-#define ioread64_lo_hi ioread64_lo_hi
-static inline u64 ioread64_lo_hi(const void __iomem *addr)
-{
-        u32 low, high;
-
-        low = ioread32(addr);
-        high = ioread32(addr + sizeof(u32));
-
-        return low + ((u64)high << 32);
-}
-#endif
-
-I need to think more about what we actually want to happen
-here, given how on x86 we have no ioread64/iowrite64
-and ioread64_lo_hi() turns into a 64-bit MMIO access,
-while on most other architectures ioread64() does
-a 64-bit access while ioread64_lo_hi() does a pair
-of 32-bit ones.
-
-      Arnd
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
