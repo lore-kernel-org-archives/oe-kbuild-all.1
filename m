@@ -1,66 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF2A16419
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 03:36:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3730B15AF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 03:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720668969; cv=fail; b=AqhUc3zFrZxxu1lPIqSV47xHUycJyFGl4EbeaBzYRr8L/I2ioXrgL/weCm/nCjZVU9IbM3V1NZOTGMvOC4nfk4LQlA4cu2+5PeyNfV+Pep3qsZDlm+DmsbOVNszgU+3mobTp5aj+JeLEfRrx2gHiVrwDH71dOnb333429JBxcTQ=
+	t=1720668982; cv=fail; b=Nf4lr5VxtX22J88O5fQnd+iR91RwZtQqkpwCH6XIa+gvNp+dPNT9cH3cy8ChFCeduYiyQBE4GkVJt3/rh/yBEx1Mmt3s0jhyxDKL5P5kYONFmK7yezBKLBlLpKIOxrPD1INVAaz7k/EoRY+i+j8xZdALB0cmATW+yFQ/YnqV8YE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720668969; c=relaxed/simple;
-	bh=K0jMapG0tD0KAmHeRwPGSyZdsJ3YK139/A3VV/FHbNE=;
+	s=arc-20240116; t=1720668982; c=relaxed/simple;
+	bh=fXJCUi9C5fE7g8ULcmi4IJILGJ0uWY3gM0pRzIqdfVM=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=c/zcjPz+Rl8rD0iTycg8m6yLm/K20qrZQI7db42B8l2oPE+wzRz5wmVoSLQkjIJLDbjNe8ThLen7immHNWWN0ingNhj/0swl1a6LzXmM/LptcUz0HmnDHAZPasnybG/4oWorPfOmET3gXMv6XXBOSOQ6oNlgGYhfQDAJIEYWz9Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvH8BnfL; arc=fail smtp.client-ip=198.175.65.21
+	 Content-Disposition:MIME-Version; b=MBUhR7v4w9RNbDwxDRfpRN2xEf97c0pFNoTo7PEZC49Mw2iljTS29bH43V+GDPPLhNMuHd0ud/FhoyinvQswWwOQJoBdr1BnT8sPaOMmsU47H97t3FFS7RIM05qMPtJWfYV0NyFkxfIZStNjKjHN6dTUuz6Uhx0FXa4WqbhhnHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJDkpJ4g; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvH8BnfL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJDkpJ4g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720668967; x=1752204967;
+  t=1720668980; x=1752204980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K0jMapG0tD0KAmHeRwPGSyZdsJ3YK139/A3VV/FHbNE=;
-  b=YvH8BnfLcEof6QtLHYleXsxJ2VifZOs+Igk4Fe3+VZYZw46V/933Qi5Q
-   wOOin34ewecHBJCJfwS7j0CEd4KgwC/Tett6dBOi5UHlPxX5VnwMcgXZg
-   5wRDYaqY5Z/nBRc7Lh9Ssei9ghho/bMBMd7cN6FPOVtagCOX/gsgeSukA
-   fD2fG/IeDIKd+GGipwOQmE3NmTxKiBK55IwbrjS2Njco6XZY1NLYnNMV8
-   JNUDaW5O5dBdWFEuTIsaNxIidBkG9g+vZBg2aIBuzCT0KpSOYMF0UFpaF
-   EMrHf3c9zZ1sUZW5H2Aay/olcfHglmI38BWy1OZEjb92aFEnQry74T4EP
-   w==;
-X-CSE-ConnectionGUID: vJVeHgGQQye20rYpvtyAXw==
-X-CSE-MsgGUID: SwZNezPRSLeDyyPLLmQ/BQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="17974853"
+  bh=fXJCUi9C5fE7g8ULcmi4IJILGJ0uWY3gM0pRzIqdfVM=;
+  b=VJDkpJ4gHwKRQpLl3WnG+HwTERaqYDcsFEb1sZjUyyVDzrB4Hn7Vh++t
+   pY2ZgWFUaxV6ZZue2IbJQ7zz0dVoT3OnKP7MJmIza3SZd2If6pX+n+eH5
+   +HS3DQyxV7nIbwy4DmyB8msMfa63tZVbm1uSQ9uprEX9ozJxpknqJNY7g
+   KGolf7s3Vqzwc+Zq/M0P6QY0JCCYkCPGydDBu/+3pWZAHNZLFBbCAMAUc
+   7fPk7KwimOMJjUpZv8JsrhjiL4HiYfos+axnaV8xjuAZHzUpxHXFUwvvX
+   QMMAnjR6Y3qNW20x+nzbDCpgvJud5opjrwJmFHwDrKFSzJ5E1R46ftZBA
+   A==;
+X-CSE-ConnectionGUID: PKk2I+C5R1+hR4SGCZiA9A==
+X-CSE-MsgGUID: QgSLOpL8SbalUusjSNCkpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="17974870"
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="17974853"
+   d="scan'208";a="17974870"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 20:36:06 -0700
-X-CSE-ConnectionGUID: 14rl4ESgRPCDDKT6jn+AfA==
-X-CSE-MsgGUID: IIvtCeHkSy+97ZSQ+vJVUg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 20:36:19 -0700
+X-CSE-ConnectionGUID: Zh0NE5qiSfK3/9acTe/Fug==
+X-CSE-MsgGUID: nEDKm9NDQUGyTRKQ0u3UPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="71643322"
+   d="scan'208";a="71643733"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 20:36:06 -0700
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 20:36:19 -0700
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 20:36:06 -0700
+ 15.1.2507.39; Wed, 10 Jul 2024 20:36:18 -0700
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
  orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 20:36:06 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 20:36:18 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
  edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 10 Jul 2024 20:36:05 -0700
+ 15.1.2507.39; Wed, 10 Jul 2024 20:36:18 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JaGQeFtvyaSqEUJdj8rcWDQj3Ygn8cmDYBpol0Z1czul65S13OK+Ydhj5/8N0U1EjlOkP7tbnDgL3KALAb5qHBHJyiHhc1jim6ZiulF2iSLk0AqqIDiow8z0EojyeIgxv9NCSBkX7UzpcV+S7SAax6bH4fCjd5SAZ98LJnLseym4pCncImUgPwU+Ldge46dTpgpkUOsVpZ+tzFAdzW2m9sihT93qJS/O8H5u/EcEBxMcD5mvSlqYazq7KyDJ9TSHyyuRIl0jvxck8SyDC5ThL5GS2wTHaPyRG1jIvobb4SmjTraIJ+2LAJbA4GuLlTKjmxdxFg3DhUD8bfOl3c6VIw==
+ b=iqawFtBLyhVRXeO82jw6JmBEawvFEpSEW1cTVpTTjHS/kJ3xBGKKbI5Tt7wFGteb6SC4BOYyTGrcUL7lFb8M4rjtycK2Tm4XjskAm/CmDs1Ot3PgzJAwNVAYDZEQeAZGRw0BhJomkruR/LxTqAm4YGMd80MoVd1/fJKfNccizYNgHvAheaQ2dEjRGzYWgDLniUYlhgNGUVUfgdLjXewDnmjPhuYN14P7fj4rDqF5XozN5sdi2LbcwTj7WsTzYJSCllJjy/MRdWzLDDpo91s3gSb/XCxkZSXynJnyD4pSUVJm0l1aCF4Zafr6nrpGwWqbf0Im26Has/PnXHFqDpSbLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FCKvDggF7/aRyh1p0+QmMI6EDX50P2y9Y4I6DSIBlAw=;
- b=goLTEE1d/GmvMUPMzmzApFwtdlUzJgNbQOD/k5sanFZ2OH9/7hV1e9mnlrha8iwi55C6AwPeXmAlqmoZF5W3Xz5KPnYSAlCmmSByGlLLTgnGn3hOcslXjuzfkih2gEO2wnVA4JfNrwJveFhqJW2R2pCBZsRO44KdEjMN1/7Z4SXjj8ah4ZIgZDcKxf+dy9IKD5UiB+6/NAnbzLOXQFgte+mbROYcn+56W84iDlO9m7P/XSwJs59KaOA7xYBeaU9nidwXjcA/KVeIlIRLlkMFfDqDCQq2xUEgjLEySUa2HfS3X++a8giq5aORCyvps6honiVTBHcHUBS8meL18KMT+w==
+ bh=FE2aagrEanHpLN2c9UhjQIpWfu9jwJlD0Fdm/uAfBL0=;
+ b=CDnwveIrcAfEuz5uqwB/W4qelAADb1HVUdkjpP7YcSQqJIjrhz8hhvvuQiAyH66q6lgo3QbBVaYtZrjjf3HlhViAg1u9VPl5tyaa9FN6lIWu4plfLmkPaqzGohXrQ/A4PtbHugovVD1iUtH5fAVWTzoK0gVE3W9q7PZucAQlBmt9J9fJdqU4eRhTWlvIoKhVXrTkhpkcpGV/KFNefcdkiiHx6sUxRPau0HgOXYXv3iIsP2diJZ3GspbU24JQwvohcmaEzy4yXKVKJz1p4cUznd+cHDCiKH5r4/2gL1UgrxUTdjqX0iOCfefpEdP6aCCitL7cJvLdMyIgaIVNU/rG5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,22 +70,22 @@ Received: from PH7PR11MB6029.namprd11.prod.outlook.com (2603:10b6:510:1d0::7)
  by CY5PR11MB6437.namprd11.prod.outlook.com (2603:10b6:930:36::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
- 2024 03:35:58 +0000
+ 2024 03:36:16 +0000
 Received: from PH7PR11MB6029.namprd11.prod.outlook.com
  ([fe80::8ad2:f4da:864:424d]) by PH7PR11MB6029.namprd11.prod.outlook.com
  ([fe80::8ad2:f4da:864:424d%7]) with mapi id 15.20.7741.033; Thu, 11 Jul 2024
- 03:35:58 +0000
-Date: Thu, 11 Jul 2024 11:35:51 +0800
+ 03:36:16 +0000
+Date: Thu, 11 Jul 2024 11:36:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [freescale-fslc:6.6-1.0.x-imx 3473/11740]
- Documentation/devicetree/bindings/phy/fsl,imx8mp-lvds-phy.yaml: port@0:
- Missing additionalProperties/unevaluatedProperties constraint
-Message-ID: <Zo9TF//MRU8eauoF@rli9-mobl>
+Subject: [freescale-fslc:6.6-2.0.x-imx 10939/11381]
+ Documentation/devicetree/bindings/remoteproc/nxp,isp-rproc.yaml:68:21:
+ [error] syntax error: mapping values are not allowed here (syntax)
+Message-ID: <Zo9TKG4W9GauHrof@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
+X-ClientProxiedBy: SG2PR04CA0151.apcprd04.prod.outlook.com (2603:1096:4::13)
  To PH7PR11MB6029.namprd11.prod.outlook.com (2603:10b6:510:1d0::7)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,96 +96,203 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB6029:EE_|CY5PR11MB6437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15cb793d-2d62-4e73-ddc6-08dca15a940c
+X-MS-Office365-Filtering-Correlation-Id: 0be23745-ff20-4315-cc5c-08dca15a9eed
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XBVZyq1FthlEV3xFQmbTpJHnvBVhSwlqihxAx/xPoPKx5c5YgKOtEVxEzPyF?=
- =?us-ascii?Q?T1TIikNoIZmaweQb/jp3sRDQa1Hb6sPH5sOxbyOgeeIXdX0nbAtukK/C0ogO?=
- =?us-ascii?Q?Hq+/0LmCTRYmtnctgqag9QdMZdhjMPsc8mc0dcTh9IO59O8euJUKJVe+8tMv?=
- =?us-ascii?Q?Mz46QdwRXaFNz3kOck8R5AQm0QQ3fE1iiZMqnO5+3tc7h1YbRQoNVlkBe2sW?=
- =?us-ascii?Q?BDnbvVgl1rMlY7d4J2WL+efWfoish+M8oTmlq8GJ58x3Dj4Nip1iAhvm9b5c?=
- =?us-ascii?Q?QSyoB1OpCdzpISEyqIytjPErscoSlyPNgiGz3yviQEhcU22MdoRuCiqC9KVs?=
- =?us-ascii?Q?h3FYEIENKA1Pl9m0iQIExyf8d6n2D5HyD0qRdGTjVvSkHUZJ5/HdjV5lCSXq?=
- =?us-ascii?Q?OvwOxwfXcmzXrToEym+Ou1KimVfRo+zwCSu4kVFyuU9zY8IlrRxpcHZh4YoI?=
- =?us-ascii?Q?eAVtKoXeuGBOKAG0LbfjXyVVtpyGQzSI7gvSj8/CASRA75nfXFMXnFlvQdZO?=
- =?us-ascii?Q?iyj2oYf7u6XnZHJqi9YgDa+Vy0ZpUBxpYZE/299T/uqoSPchnp8UpUApl+oP?=
- =?us-ascii?Q?h8ZWI2xaihhEwNE0AFCOFxPNp5B/OndmkQ6QoVdfL8ZiSt3/NBUH3lQYOte4?=
- =?us-ascii?Q?0I2yjiCGIojrygh5ty9GEox50ih/2SuRWzHI/v2zCglp6GgsPCmEABi0fZ/B?=
- =?us-ascii?Q?RcJ8netnjL5JaX73Goo3HA+CNLsZ2Vb0riaJN0t2Vtk0IodltcgvVdDs28KP?=
- =?us-ascii?Q?xlJyf50GGH80zJm96DLtdGuimj/CXO5LxC9kag82oS3PJiCan7vmhR7bHUNk?=
- =?us-ascii?Q?u6SysySukXJG8Mv64DMYBOGVX18lvmPfjbtFBnNIkoDx+DmBVDIHDyBi3pjD?=
- =?us-ascii?Q?rFSJ2wtq4uiCKroH4pvICD6Kb6gEi8bAQZsh/Tynhvoy0kewBOv6k8A6P940?=
- =?us-ascii?Q?+03zfY+W1GrtiYVbMZYlcFd4kZad71/BlJRT8p8kb4Em7bq1o6Yr/Q4q29rR?=
- =?us-ascii?Q?ZdA2OgZaBJVIcS7RcSAzhuF3xT5vg04Cpir4NF3urgde8wvdLfuvwk/BZ/ta?=
- =?us-ascii?Q?JQ0dhI1+2yOdwEqjcIv+evgxOKek6lxozt1x6dtOTeUyi6TE5F41oRt+dJJD?=
- =?us-ascii?Q?Uyulbn3JbvUtsYrIR24+DxogOGtDaiaihvGPzDRDZuSwpunvEyLTIONiG4uB?=
- =?us-ascii?Q?0O9XI8DOgOiGKa/XlOcb69MrEMryuBKsZJi6w/IP6xGMm5yKg4FbhWz5tPGV?=
- =?us-ascii?Q?87vf1QLGg+CIdqtWajSbx1IIfUhZCFe9SrHIGOyYvbcg6RHrSgUuSIsTiOLu?=
- =?us-ascii?Q?1Y+bJ5Rzcc8m+UH3BUSrpFNp+u2k2e8ybR41AUtUjcIuxNYpLeGxF1pD6LrP?=
- =?us-ascii?Q?xH1GYDk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6029.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tLtPG1MkGC8KH3kbOVPKo2lWRZY8IDSfWZRU9uTmSA6jHHMjsMflQN6r+8JH?=
+ =?us-ascii?Q?7UlCetWS0NbOOQIb83sxcRlqgvueDKsjAnB1+pGgIXDGHTQKfWAq6yCea0NC?=
+ =?us-ascii?Q?blXHnKrdbEp4v6znzxtCBlW/M+SfQ8lOLooiKZXW1FJcuof/4YIdsy7zNSA8?=
+ =?us-ascii?Q?kycUPK84qQacHnz+thnVjGI7ERDPEqq76ocxWkiX+dnp8FM1TgZcSn7Zbqq9?=
+ =?us-ascii?Q?qzPwDbHDRNAPUoPSLi25O99c6GdpbT0ZF6r0bKZefMrAsMCeUiezqts1vl2T?=
+ =?us-ascii?Q?n52oEs7MbOcFGnpnzIbUfvK0K/vHv0es+4Klwu9zqxvQARp2pqVjMI3sgOtg?=
+ =?us-ascii?Q?OFO5l+xLCSZseObNFchpReU5FFLrhQ7Ux7EA26EOvGwwuvvZ64uUJeCa1kBz?=
+ =?us-ascii?Q?sjcMQHe87a5drDWSPfuPQChFgQZLZcZG9cJ9AeVW5fKnei7pmlv5DD7sSyU+?=
+ =?us-ascii?Q?SYJezqC7MJI4b/R+3G2FA/mXhIMgkppWKLwCfrRpCWzhG0Pb1b57FW5xCAsE?=
+ =?us-ascii?Q?X7AE1VQhKkmLYORhvh9rTZk8OX65Go5fiHoUPrQnKuKCU7cGytRXQSTePSky?=
+ =?us-ascii?Q?e2iEOI/mSYsOTc+hNH/6uhiD3EAouv5PerLlBhmi4wmgtXD9+UFfOaRpT/oH?=
+ =?us-ascii?Q?85albxoRVyGzjFerSni48Rr/brlb329p/7bzfRHNB0o6xX73POge6+Hxpm5G?=
+ =?us-ascii?Q?+HyHpsr9/ih0PpFDTugySN8bRJv675sHLi5D7MHeFnxxOCI9KVfGvWmYJhEN?=
+ =?us-ascii?Q?7zY+4gJqrNjsHT53l+Zuz/I3MkXwZPHlbpC5eR1vmwaj/K8E7WfmjGvJpTA9?=
+ =?us-ascii?Q?4Kg4xtxxUvvBxLsZgmbb7QJfPBP9d7I+Xn42A21cBcjTPiOKU0Z4WiafGVFg?=
+ =?us-ascii?Q?5eZfb9NpLRZzvzTLBXtleGDFLtXHOt9kznz1VDGf860bZoC7thIiKfScGwNP?=
+ =?us-ascii?Q?aNMzX2TLxxtDeTicuR4PHMeDmPJeh8c/qTcJuaxVVx1654uSh0u78htWBApi?=
+ =?us-ascii?Q?wNz9KfPRAzRsDMR36fgYTm8a/BnedJN42bRtjUpOcdGqxQpI2GLwWFsA25Ce?=
+ =?us-ascii?Q?UlKBmBLM+6Gaf3grrjI0NQ4g5AHB6V2k5Te5ROp4kGE2hlcAJhAultVul4KL?=
+ =?us-ascii?Q?1DURMnNwAZG0QIj5ZgITUrlyW3/3wFqUYqXa3ONdeXT8Ac2pXB1QazAF0KZQ?=
+ =?us-ascii?Q?/BQbZZhf40yiz2RbMNMggCousPuSrkvj7702Yh09M6XK7SwplwU+cQAJTnog?=
+ =?us-ascii?Q?R9tJAaTXfMGkvdWzNMgOUxjT7/jnYGmaJWf9Jyk3//DKZnShlO00ExFn8Q9Q?=
+ =?us-ascii?Q?NbY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6029.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sh4PBx5xafkpwYD03aT+eGCcYWOicnTIbuFiKxHRAiNq+JYhZcLz4T1AfTCN?=
- =?us-ascii?Q?hgij7YwpVwwRCYUduvLGJ/gbprkBnvX1cOCykYyfJkYgoPEgO6yIzBPgaX6G?=
- =?us-ascii?Q?EYlsPFoEsSy9di9pWRqhXKOtVcaVaSnh0bMzoIDo4CFluVbGlfwewl5eRsZM?=
- =?us-ascii?Q?hsLhY3a+lTwt9SDd6YTAEdUsFOFSIqgO1+7r9rD11bh4I6lp7f5qGpkqTsOR?=
- =?us-ascii?Q?1cotD76VtdGZIkzy0aJjHXZAy1KXgZmtxf2l7GyLEQEE430cyh6krjFdXLwP?=
- =?us-ascii?Q?8RKykRjucR5cwWg21Y5N+lXg8GOsL4eNh1aNoe5UE4dYTDfiBtd3wVYxBqJ8?=
- =?us-ascii?Q?6lmzieO/VB0bsdLvEh9U9fqHD473gkSmYgKj1rjiadcnHdk9TQh07xgNrMwu?=
- =?us-ascii?Q?NyqwSQy6eBO/cVsorFaiVxNUpQRtYfmP2VIJ7+17A8wxUxmUJpDBQ0ctSQqW?=
- =?us-ascii?Q?gqGRh6ziFsvkcN6F66t6KkfpF+Acghs5Vteug6OYm8ahKz53e2VP2TqlkxjK?=
- =?us-ascii?Q?EbzUX75zwhNHVKF2H3kWAWZF0UUa67bB5l9akAFl2GR2L+cWAZy0ArEoOp7R?=
- =?us-ascii?Q?/3WdDQtQ0OkNdcDEYzXhQoL5795BpW+pSciSdM9uB5tantrESVUJ5kxP6juH?=
- =?us-ascii?Q?M+fzPh1L3o4i9D+GBaIqOBaBRT+SqJ6ywHpTkf3lqAbbUgqc+Szu02zVEKEq?=
- =?us-ascii?Q?U1GQipUfraCvRaraNm71albOK0+pNaD3oA8hYr5Q7cWsm5/4//vZf3/6FFCk?=
- =?us-ascii?Q?BS4tpY6os4J/VzEE6Cz+vwEaqWXgoqlMzaHyHoQIHkWC10jTnrv/4HSdJsmY?=
- =?us-ascii?Q?37PEytV7q/2cCtQiPGs5i/vrlfnkxyJQjM3KSmi60sVCntIXdmoVf03tDuHZ?=
- =?us-ascii?Q?unyMp+kcFm+/KzqpYo3PiS8Z4yrXHGsVeHAh2cETe4qc+WPrPJmbbRKPQzkb?=
- =?us-ascii?Q?S0RwcwtrEQfLn1E05nYXZO5J5yHe3C2SR3Q7/SEMuQGbDOvdxaEWNl59rjBc?=
- =?us-ascii?Q?qZ8BZzUuoJ8nRsz/RzoOczyfkkeneZBxv95BvxMk8eVrUK7HqmAincZogXSz?=
- =?us-ascii?Q?8py0f7QiKbRHPiQGEIUjjFGKIqaADKLwbVHRbCx6laBkcsjI7t85IoT73SAH?=
- =?us-ascii?Q?KqnuXmHhcP/yCzvqqIpUkIsAf1GbZZPuIpbdQ+Lp4GEQnIe46cgZHw0WRzni?=
- =?us-ascii?Q?YgFxhVAqXkcQTLPIzMY/VvUa3MkyiTv+JNejw1QutTogi+cnURtuv03B59tc?=
- =?us-ascii?Q?PM45TtBgkc63t94JH+Vh0XHD6/StOngwRpjXgzuDFEKOnVBXFuiulwDWMId7?=
- =?us-ascii?Q?UyMUTfKtYQ7Coolr+qHEMHAmDs31+eWY0qxA8MWALt5yPbFCmaP3mswArQ5v?=
- =?us-ascii?Q?iHmg0Y0Pf+7jRwg6d1EndLlBQdg6WNVmnkz7CLuv3Eptiz0+WcBqkqABlr3O?=
- =?us-ascii?Q?IwodHx3cjT4m+qTNRUqnsS8cd5cEJsH6QNFm9ppfLOuiLp7Wdqr8tkYdSkuF?=
- =?us-ascii?Q?qWIQAij+lLPpM/BABYUk98jlpEFSIQ6CaldvXhyxadO60phP9lRED58iKUyL?=
- =?us-ascii?Q?arCWRqxsWWVxcuHfVQVkh+F394+32ydPeoclmoEDkBxRD+ZO5s2aBQC/2UiO?=
- =?us-ascii?Q?OA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15cb793d-2d62-4e73-ddc6-08dca15a940c
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AYHqAF2O+LuCszFGcz1Yl6inzQpQw1mQPa1JmuCNjoLEf0daFPQDBHpMeWkU?=
+ =?us-ascii?Q?sBU0pkGhZSBJriM01mERJq2JK3zCrlPA20o0s1heNJatRKyxDebBmboTc2wM?=
+ =?us-ascii?Q?x7SmunyJzFdTL2kVed7/GHhY7Iyr6+rfres05vl03ID0YgYkPEBPqsvk8gjt?=
+ =?us-ascii?Q?88rneZttjnhLkc//ZLxKA6qsa9ISK+6i/mSGUtJtYG4BrrTH90sYa36QRnjV?=
+ =?us-ascii?Q?KNMxHT9jjfm6A5/WiPP5nCYS6dNnzmHSM9fdtU00/oDnG0tcyYXHRPuM4EP7?=
+ =?us-ascii?Q?ObgY6w2YT/WNal+uDPpFJLntzAEHxB4s5Iq1uIMZnqUAKGx/0ZFkJVF1Vbvl?=
+ =?us-ascii?Q?6Yvzs6gC5qp9s2cS72/Js4Y9E5bAzWT2vs+nJuEmU/DEM6j3cPGhclpJbwCb?=
+ =?us-ascii?Q?X/Kf0ffItj0SKC4s5c10dVS45bWWEBE8xK5Wv06k/gKfMboVec0u7hZE0EaF?=
+ =?us-ascii?Q?YSmKUT3lo3EzTqUIFGml6bQXIn115eqmRqEWEBHyGHf9cwzuPbQCoug2GxR7?=
+ =?us-ascii?Q?aCDvHKoXlWo5hGcR7OFA9D+k6D8WABFRVG5TyaXlLNV5g+NKnqHgG9wVeQ1D?=
+ =?us-ascii?Q?+dQbMDO3LG4ek7SS7AcVJvmQjecpiTpIWwUjT+mYx/T9F6wx1mKIB1YYP1nm?=
+ =?us-ascii?Q?+R3x9Ak7rlNLI55irvhdrxPjKRTULbNh3m00T/5Ok+pDS2M4r80dE6JUcP2d?=
+ =?us-ascii?Q?dcKuqiFpfMkj1uvcZCNhZeVg8hnS2/rxn5B2ZBxDequupEJ99iz1lYfVWbw8?=
+ =?us-ascii?Q?gqvS8bR3/L46dSH5sX0bLfgpYeEj2sH0/ZqGL5Pqj8OxMvdTZvXIY3eBwknV?=
+ =?us-ascii?Q?T8whH70oO6/hEo0UpETfax/j22O1L+eSuWtQzIMKbK+V4jqVgOrWxYe4N0qb?=
+ =?us-ascii?Q?6cEiFx95y+AbRvdCpbGVZ8y7g+DlLTIJahK5WuSvZ84AipElQ+hyOjZ6R1XZ?=
+ =?us-ascii?Q?s/BsGf5j1LXHXRfhRA6gIoElm0ukTwiKF9jnt+JLd7r83UT4G5/gzGeQuFRC?=
+ =?us-ascii?Q?EbnSCxtn+lmEuc+rLkV2lnSypQZrl44GfJbKblXnNbUhX4jM3UQNvoB5L25d?=
+ =?us-ascii?Q?cRWHtbw3eVX8kcHMUfuk55fcFl75aK8z/Ef1Xbs35shk0mT/xCYDWTlTEk9a?=
+ =?us-ascii?Q?6f5U/a3omZCqnIjmn0zOOLH9k+kSbZF4SmtKeAVI7Qa3CjsBL6C3LKUKvMiA?=
+ =?us-ascii?Q?BtzVm/2CMaSSpRIBGUxoqY/XarXofHdjeOCFjZcKeZTyeNSvHGu1bkaKEuYd?=
+ =?us-ascii?Q?1bsmlWoqNUk+fZQi76OR3/YQh8ihFsjbL98V3eavT7GBhevO/vwkU6Vy5f6d?=
+ =?us-ascii?Q?VXmuAdjaaBhfUdTTFJVHJhmlHEwVgl8IETTx2mz7w+OxqFItq6IAcLFilXix?=
+ =?us-ascii?Q?cHF6T9TEy7LrTJDozll0yXilWFYPZtYnJIIke3hFtCPZcJiXWV0tXOIuFIAi?=
+ =?us-ascii?Q?kQ2bkTNlGRfRZCf+lcEd5Txdqr+CGlS+piucDgvJhKo7xvMV9EKnpIioDjW4?=
+ =?us-ascii?Q?503B0s7jkmY/5btXjIShHnT+tA+RojAnir2k78yLY4rm/5b/OnftaxdUbD5Z?=
+ =?us-ascii?Q?Spbnmagi9jDzKruF6bUalKl/bBRKJMD9G50fkjEPxuI1VFyWLqBPnNOqlOLw?=
+ =?us-ascii?Q?RA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0be23745-ff20-4315-cc5c-08dca15a9eed
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6029.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 03:35:58.5161
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 03:36:16.7669
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ljinFmWm+K/+hJSYEHgkvzZq6U4TqrE1B4cNZCAQ576kEt9C/+urv24svXkzql1mnP2VchWKzeOvyh1LWCFNVw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nJ6gLCKLdfLEaWTawWx8DZAVSZOln1DRu5bi0cqkGuAtruabBTJcLdb6tLRka54K7ujwcOgWGmUkbN7hS3ivlw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6437
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
-head:   13ed4e83694299049a3d4449fdb61471292ef19b
-commit: 1deece590adeda0de30270d217597a921831f853 [3473/11740] MLK-23252-5 dt-bindings: phy: Add binding for Freescale i.MX8mp LVDS PHY
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: csky-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110359.6EPJ9ANz-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ee366aa641d84d61e265cd4f571394aa4e7d4e6d
+commit: 0d6dfa43d09c25e24c9b17f85432e57cbdcd64a6 [10939/11381] LF-11070-6: dt-bindings: firmware: Add nxp,isp-rproc yaml file
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: arc-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110412.64R7IeKf-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110359.6EPJ9ANz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110412.64R7IeKf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407110359.6EPJ9ANz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407110412.64R7IeKf-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/phy/fsl,imx8mp-lvds-phy.yaml: title: 'Freescale i.MX8MP LVDS PHY Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/phy/fsl,imx8mp-lvds-phy.yaml: port@0: Missing additionalProperties/unevaluatedProperties constraint
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:21:2: [error] missing starting space in comment (comments)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:22:2: [error] missing starting space in comment (comments)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:23:2: [error] missing starting space in comment (comments)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:24:2: [error] missing starting space in comment (comments)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:67:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:75:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:83:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:127:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+   Documentation/devicetree/bindings/vendor-prefixes.yaml:880:3: [error] duplication of key "^mixel,.*" in mapping (key-duplicates)
+   Documentation/devicetree/bindings/clock/imx8ulp-clock.yaml:64:6: [warning] wrong indentation: expected 4 but found 5 (indentation)
+>> Documentation/devicetree/bindings/remoteproc/nxp,isp-rproc.yaml:68:21: [error] syntax error: mapping values are not allowed here (syntax)
+   Documentation/devicetree/bindings/rtc/nxp,pcf2131.yaml:10:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/firmware/arm,scmi.yaml:244:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/firmware/arm,scmi.yaml:258:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/firmware/arm,scmi.yaml:259:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/firmware/nxp,isp-mu.yaml:14:1: [error] syntax error: could not find expected ':' (syntax)
+   Documentation/devicetree/bindings/net/fsl,netc.yaml:62:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
+   Documentation/devicetree/bindings/net/fsl,netc.yaml:76:14: [warning] wrong indentation: expected 14 but found 13 (indentation)
+   Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-common.yaml:115:13: [error] syntax error: mapping values are not allowed here (syntax)
+   Documentation/devicetree/bindings/display/fsl,lcdif.yaml:65:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+   Documentation/devicetree/bindings/mfd/nxp,imx-flexio.yaml:44:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+--
+>> Documentation/devicetree/bindings/remoteproc/nxp,isp-rproc.yaml:68:21: mapping values are not allowed in this context
+   Documentation/devicetree/bindings/net/engleder,tsnep.yaml: mdio: Missing additionalProperties/unevaluatedProperties constraint
+--
+   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-common.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/phy/fsl,samsung-hdmi-phy.yaml: ignoring, error in schema: properties: clock-names
+   Documentation/devicetree/bindings/firmware/nxp,isp-mu.yaml: ignoring, error parsing file
+>> Documentation/devicetree/bindings/remoteproc/nxp,isp-rproc.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/vendor-prefixes.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml: ignoring, error in schema: properties: out-default: description
+   Documentation/devicetree/bindings/display/fsl,lcdif.yaml: ignoring, error parsing file
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
+   Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml: fsl,cd-gpio-wakeup-disable: missing type definition
+   Documentation/devicetree/bindings/i2c/i2c-imx-flexio.yaml: sda: missing type definition
+   Documentation/devicetree/bindings/i2c/i2c-imx-flexio.yaml: scl: missing type definition
+
+vim +68 Documentation/devicetree/bindings/remoteproc/nxp,isp-rproc.yaml
+
+0d6dfa43d09c25 Robert Chiras 2023-12-20   8  
+0d6dfa43d09c25 Robert Chiras 2023-12-20   9  maintainers:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  10    - Robert Chiras <robert.chiras@nxp.com>
+0d6dfa43d09c25 Robert Chiras 2023-12-20  11  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  12  description: |
+0d6dfa43d09c25 Robert Chiras 2023-12-20  13    The Camera domain from i.MX95 has an M0 core with an attached OCRAM, where a
+0d6dfa43d09c25 Robert Chiras 2023-12-20  14    small code can be loaded and booted on M0. This driver handles the loading
+0d6dfa43d09c25 Robert Chiras 2023-12-20  15    of the firmware binary, configuring the OCRAM and starting/stopping the core.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  16  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  17  properties:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  18    compatible:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  19      enum:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  20        - nxp,imx95-isp-rproc
+0d6dfa43d09c25 Robert Chiras 2023-12-20  21  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  22    reg:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  23      maxItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  24  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  25    clocks:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  26      items:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  27        - description: m0 clock
+0d6dfa43d09c25 Robert Chiras 2023-12-20  28      minItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  29  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  30    power-domains:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  31      description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  32        List of phandle and PM domain specifier as documented in
+0d6dfa43d09c25 Robert Chiras 2023-12-20  33        Documentation/devicetree/bindings/power/power_domain.txt
+0d6dfa43d09c25 Robert Chiras 2023-12-20  34      minItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  35      maxItems: 4
+0d6dfa43d09c25 Robert Chiras 2023-12-20  36  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  37    nxp,blk-ctrl:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  38      $ref: /schemas/types.yaml#/definitions/phandle
+0d6dfa43d09c25 Robert Chiras 2023-12-20  39      description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  40        Phandle to syscon block which provide access for processor enablement.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  41  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  42    nxp,ocram-cfg:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  43      $ref: /schemas/types.yaml#/definitions/phandle
+0d6dfa43d09c25 Robert Chiras 2023-12-20  44      description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  45        Phandle to syscon block which provide access for OCRAM configuration.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  46  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  47    nxp,isp-firmware:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  48      description: |
+0d6dfa43d09c25 Robert Chiras 2023-12-20  49        Default name of the firmware to load to the remote processor.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  50  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  51    mba:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  52      description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  53        node describing the Master Boot Record, that the core will use to boot.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  54  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  55      properties:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  56        memory-region:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  57          description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  58            phandle to a node describing reserved memory (System RAM memory)
+0d6dfa43d09c25 Robert Chiras 2023-12-20  59            used by ISP (see bindings/reserved-memory/reserved-memory.txt)
+0d6dfa43d09c25 Robert Chiras 2023-12-20  60          minItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  61          maxItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  62  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  63          ocram-map:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  64            description:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  65              Optional property describing the size of the OCRAM that can be
+0d6dfa43d09c25 Robert Chiras 2023-12-20  66              used to load the firmware.
+0d6dfa43d09c25 Robert Chiras 2023-12-20  67  
+0d6dfa43d09c25 Robert Chiras 2023-12-20 @68              maxItems: 1
+0d6dfa43d09c25 Robert Chiras 2023-12-20  69  
+0d6dfa43d09c25 Robert Chiras 2023-12-20  70  required:
+0d6dfa43d09c25 Robert Chiras 2023-12-20  71    - compatible
+0d6dfa43d09c25 Robert Chiras 2023-12-20  72    - reg
+0d6dfa43d09c25 Robert Chiras 2023-12-20  73    - clocks
+0d6dfa43d09c25 Robert Chiras 2023-12-20  74    - power-domains
+0d6dfa43d09c25 Robert Chiras 2023-12-20  75    - mba
+0d6dfa43d09c25 Robert Chiras 2023-12-20  76  
 
 -- 
 0-DAY CI Kernel Test Service
