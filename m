@@ -1,243 +1,216 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6100412C549
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 14:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720709621; cv=none; b=FTfx+ENYauwDBP/7pDe3+/dBtch/YTXjoU49I+Y4H7o7KFw8Wb5PShf9eb9jCZOGYUbzj5NziMtxKs8oCg0mZh3usWxF3mMfRM0wnzf8L2fyR8KTA4NJJVdu3FipUzs84/WmR7CQP+2Uj0Z8JyuvWtAjTdYuJ3Ka+J22Tztv7nk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720709621; c=relaxed/simple;
-	bh=Xdo6KzK+BwhkuZtE0crdhVRZS8OZuhd/d3ki85RmBik=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bvh70oxbQrBaU/2AbP8elbiALPQy+1JDfiF5ZVZZm4254csmV23bRZGlfuhOHveamH7GP6Iodc66yRPkrtgrhDfs+hEjcInDIk1k/wDU4SGxrGLDpLjctE2qDOJSWv0MQA4jjVLBX8mY7Zb8FoJ9J8b/5JGdskAR/nY9khj8gSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7hN3hZL; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165D112C549
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 14:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720709934; cv=fail; b=ejt3P32gfwrBkFAHKlMoTidAt4b+JUo3Bpa222OGzAkp0XT8CmJWYkX7gAPB5Ap8WKAGzxxe/4ibibWEjHB0iicLKXp8098VSgMW+4Zzms2bi1tbIFrEafdT9ZMl/jvZLCnfynD0DvFbVN31kP90SCvI1Rt4YvHHWc5398OyL3I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720709934; c=relaxed/simple;
+	bh=jhqrBR6qZhr4qOYkw0R488uymhYibKY2QCmrAf3YIYM=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=ToeD/NuD2uAh71gfTmbYfq4HkddCn2Fsz0nxAuBbJzXacKqFaQFYQgtYQYALp6ffD0E1koEQ5+fVBdIkRVW5EyD+9l6wzcf68ao0mOxe73bm6aRn1I+t83ccEjZ7Lsnf3su5cAbXzRYtaRQfJ87lIgE/Lj63y+nI6lQA9Ge+dWM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fe1Mligw; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7hN3hZL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fe1Mligw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720709618; x=1752245618;
+  t=1720709932; x=1752245932;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xdo6KzK+BwhkuZtE0crdhVRZS8OZuhd/d3ki85RmBik=;
-  b=S7hN3hZLI2bFa/WzB8LNCKZh1iX1qh71GaFVWD2LRlQwIABw96FtY95G
-   SQIEa1R5zZDgzYgfbq1Z2LXajYTxFzLAWReWIK+l7TmwtR8rHlh/+Giz4
-   xUU1PoQDWwtRBG189WvMx4pAgP1mZ0VI7EjQ845VBx50Lr/fwSkXQwEbK
-   zUVTAI3cT1j0tFQYIyOjZOnvyv+u2D+H87kClaLL2AdVVlDPp1L5hUKJC
-   i/mgO6I6XZkSQIPA5Pc03tts2RCNwzVZfvBzVul8sHIl9yMHqDOo89eZA
-   IIT9XFdAQWX1oJyEvoiUoiYNyptd9jA+ARtlLNSZ+Cxry9Ngmp2cKOyEe
-   w==;
-X-CSE-ConnectionGUID: QyuiE3eERryYjjPoPRIFJg==
-X-CSE-MsgGUID: 1aZi1wwuT96E7jvnJxySDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="21003767"
+  bh=jhqrBR6qZhr4qOYkw0R488uymhYibKY2QCmrAf3YIYM=;
+  b=fe1MligwX5bE4G3eYYlWc0twQFZImZlmy3l1tqjLumsOI9M+1gTADmdg
+   kNmjuddZ356K2/gcCFlHeMnTNFzpsOA0nBabKg8PlGb5OgP2WO2/TB7QT
+   s76ZKoc3SvU0Kl+cKmbyPl96dxdBOBShu1JsJcoaxMTHc+7WJsHPU0Vry
+   10UvDMY0pGagV0XfcEW+auT6YW1PkXPToVjoTvrK4j8SPx/G0Da9F0pwf
+   AovleyckfNiyHPBJ1CicAQ92/KPqtBLdFWAue5NR7owZYgoRXpOw0kKdL
+   y+nhRSai4XFEMCnfFmDMhapec2knnd1bhaBHwx5L4HQwxd3lEsUQ5LdMH
+   Q==;
+X-CSE-ConnectionGUID: xg+TImtNQPelCqE6ud/BMw==
+X-CSE-MsgGUID: ocNFCnmtRzG2XIt657JfYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="21004749"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="21003767"
+   d="scan'208";a="21004749"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:53:30 -0700
-X-CSE-ConnectionGUID: Qi9VD8+tTHu3dmzozC9Jgw==
-X-CSE-MsgGUID: myuoAFsKQce+4/LR+J4jBw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:58:48 -0700
+X-CSE-ConnectionGUID: RuW51F1fS22d+pHA1w3cEw==
+X-CSE-MsgGUID: 6gY+E+QYQy+xb6oJFV+YGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="48467001"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Jul 2024 07:53:29 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sRvAk-000ZP8-1a;
-	Thu, 11 Jul 2024 14:53:26 +0000
-Date: Thu, 11 Jul 2024 22:52:57 +0800
+   d="scan'208";a="48468596"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Jul 2024 07:58:49 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 11 Jul 2024 07:58:47 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 11 Jul 2024 07:58:46 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 11 Jul 2024 07:58:46 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 11 Jul 2024 07:58:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gJDkpZ1uXpvVOZX8BeJCHoqeaeJxVOlBH2VsS4h3vnYnZz21gfVuX2E/XppngyQjhZT2Qb/qyxqXTlY2e8+BAGwcEBFV66wnLFac39z/+isnxLvmBpK01CF/x2xyVEG0wDG9W5+2/3mtvbBGQjuaXRw4Sni/u1o9GlHYgoC2Aqi0UPmwQo/fVSzUXzm4dQujOgFiQq1L4WQ/VgdgCzi5t7lAnjFwMoStuKYHjT2tpZo6srWLDGxpWHj+EgRoPhx9Ka92E5KnzAgpbag7eHuLa8SN9Kcxk0tr/cHyD53X9azq6NPyeK+ngZky40KmnldMe5E36QUkdRyrGKkV0EoLAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZBhkN75KnI0JGFgfuuqSE2NZavXSq+S4NynlBiPREuA=;
+ b=m1SxCk+yxQ2Sbrng3PMN9V7E00d7Q/ArE41zQzyuafRjzghwO3R2pT5nhEAAKdQFKDgw71hh+nMmcguR5xExYi1hfwbDl8RESMSMthNPl8zhEg9wMd4fKYfDvYdFJIMZRqTFUEBOqIcvnBI82OSumCzF9J+VoUC4mQniu9j/mI7hTkFrawv5a3CyA0238WBAr2ecKqdB3xATfFjff9fHBWIWn6wwpfWHfGwcSdURkxfdy/rgKLC1Y8UbPqSXMVg5xjIT2xk2OagkQDPx5kDsq/VetpuTLS2HEWRCmFbPaKG3H+Cw+qqvI6PWnPCcjNtpPzabOQgTnFv6CMn1x201Sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6) by
+ DS0PR11MB8113.namprd11.prod.outlook.com (2603:10b6:8:127::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7741.36; Thu, 11 Jul 2024 14:58:38 +0000
+Received: from DS7PR11MB6039.namprd11.prod.outlook.com
+ ([fe80::3f0c:a44c:f6a2:d3a9]) by DS7PR11MB6039.namprd11.prod.outlook.com
+ ([fe80::3f0c:a44c:f6a2:d3a9%3]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
+ 14:58:38 +0000
+Date: Thu, 11 Jul 2024 22:58:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [linux-next:master 12059/12643] drivers/ptp/ptp_pch.c:224:undefined
- reference to `ioread64_lo_hi'
-Message-ID: <202407112236.XxoETdP5-lkp@intel.com>
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Joel
+ Stanley" <joel@jms.id.au>
+Subject: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb:
+ i2c-mux@70: idle-state: [0] is not of type 'integer'
+Message-ID: <Zo/zFIXN1DFoAsuC@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0171.apcprd04.prod.outlook.com (2603:1096:4::33)
+ To DS7PR11MB6039.namprd11.prod.outlook.com (2603:10b6:8:76::6)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB6039:EE_|DS0PR11MB8113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89e1373b-502b-4587-89dc-08dca1b9f18e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?H/bhPeJjk3YRev3BWwopKUDNJ/N2GjjyXjeQ5EjCJk9dW1xVk8dZWB06AeId?=
+ =?us-ascii?Q?i+0HUM6YG+a4bu5e+ByGjsha22cm5UGuk4JKPKNkpIljZytfsutti5128YIr?=
+ =?us-ascii?Q?OnQgaEtK9ZbkXTcBbUmBBw0aukscxeuPvwtsQs0s/7aDWr4YhNgWKoajuF3p?=
+ =?us-ascii?Q?iRYtMJhmqHwNKm4Bk2sOUwqBr9PERPmsKbPIyEAfd6o1S+0oc/nMpNGQKsl/?=
+ =?us-ascii?Q?VXPPhQKhFn2PdxsDzLHqCVUo15IeuGav6HRZF2eS1vKlcjNoVg1zFvtMBN7/?=
+ =?us-ascii?Q?CjFbDTqTphgvI2Q10OIY9BMHIPW5e+ya77Dqa1I4lIYjZAVzakmo5kjFl6lc?=
+ =?us-ascii?Q?jlF/sGucxqr6Mu+XM0tMwm29qBmgMygfJJIUmaHBBjHqIIqpVSkQkqT427vB?=
+ =?us-ascii?Q?FSZobFHxZIppaLIxRtJtGSjXovvqNSHLMOLdP7dIGgE4DHD5VkzDZDKF0dmZ?=
+ =?us-ascii?Q?0GfyZ4sS9Vq4YeIWwoLcaWL6gbz1qL7DDtVfGlu3YcltsI8qffSMjF+Gydh4?=
+ =?us-ascii?Q?WD7M0T0mJRGTwJJJGlC4EI1R9Z8zjeQTEcQcGi3z3DvUzJ0a4fssbNlmwN47?=
+ =?us-ascii?Q?CMsB+TrWFjpCKXPriGvAWjA2hbna63lupirB8OWof8+6WDYYzRUDvQO5Oego?=
+ =?us-ascii?Q?/NhF1uvwq2upp1a1cGEvmPPgbkaISsoEAIELndwBh1/bNXEQqy00xaSBSHQF?=
+ =?us-ascii?Q?4tFncR8ssU8VH/3iiRek7Rva98O1xVMkKhnx3HFqq0joJtYMepm3/yIvC/gy?=
+ =?us-ascii?Q?j/uEEUX8A8AAZydSBRoKQHuQcGTlrB543Wd4w6xu3ya5stWetFUN9Op0xMJk?=
+ =?us-ascii?Q?Elu+gElMJ6/J6U1RhDyhPAlloZac3H4hkhcRB/bZAIdT4BYzgDOyfa6SxNlx?=
+ =?us-ascii?Q?fBtVF4pyPlS2sKGYgelxTKakNaAtipNULF2tTEaBKEpp72d4cRUcSGVNtzcU?=
+ =?us-ascii?Q?KTsABLm9Y2jQe77LRVj2LDET8vRXyosc7Kvv1cx7/w95E9UfbvTDBaKrDXho?=
+ =?us-ascii?Q?kHz36j2wevbXmaejQeDeDveSzULFzC9au9gHAZBny1pAYCYABSqldCho9DjL?=
+ =?us-ascii?Q?Hp0g2pU1Ps5KDBg0OfWSImxdjaNQsrdrs0jNv8BL4CEufsUglqH2aOHNwAT1?=
+ =?us-ascii?Q?gCLpo5pJf7Z5fnP6NputFDXtC/P1rO4uyAdr836Tjffx2ZqAmJ9inzjo59dw?=
+ =?us-ascii?Q?UL7loYOm4wJP3kIPSEilqxb+3TfWhtzSoOsPk52h3gstJROMcfYsS/gWGzNj?=
+ =?us-ascii?Q?M2Y+3Di6iJCtv9LTpgHiBaZT4eeZDb3XJCRnxcDT0wzz4fWV2G/zT8UZhiTY?=
+ =?us-ascii?Q?PBLXZaB4/8E8ndhI2rnqPDx5M5D11cMQFnxBB+N3l5kadUJFY2o4HZUbdyvj?=
+ =?us-ascii?Q?tY7yu2Y=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6039.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n31IdtuyGUad3uDharv1+KAl9za8Zq++kGj8FaXJwkIFg5nfhzfZYVixcFXR?=
+ =?us-ascii?Q?W1nG/m6zGCVugjGM57kjRPq8OsWYp+WTbVXwZUdAIPq6egc6lVIy6gXrqD0L?=
+ =?us-ascii?Q?rucuAv6/RC1sxdClrT5TXiai8IodExatkxr/iWGXCD3ErP7qQBbhBIe+tPwo?=
+ =?us-ascii?Q?xuKzUWQolcxeKwEZUGWgpcYX0Egay7ug+W3yY1YeH0iWlsMNJJw+RXooy9WM?=
+ =?us-ascii?Q?ycG/NQUXfHtJ36NdW+3emzGUWzwCH4UcSq2LppOvpOpM5QTWXFC9ayZ1E41F?=
+ =?us-ascii?Q?zD2bQwMdfq9JHt4+wk4lU8RrM+F1j2rWY+gsV7tWza8ATfNFkEGyOahwigMo?=
+ =?us-ascii?Q?5L+czq1r2ERHf3il9VDYiTHzFK27hKVYXi1L6DmyeTaNVELeknp6OE6FaLQs?=
+ =?us-ascii?Q?3H6L6C7GcjACbwTcC7SmaDaxybs8VVuBnJUUkucY8O7nrhy7X5b+Tr/Kvy7t?=
+ =?us-ascii?Q?NjfxHgrgSvA5aMnYYny8L5av4z5FEGWAF9cNCxFiu3zhJP+paB/jIXFsUal4?=
+ =?us-ascii?Q?NnFmoN9MWfYHn/yBFw+cmf43qbuzy2aQ0QHFJYDcYAb85/w7GCNxsty1DZpq?=
+ =?us-ascii?Q?PGyVzKlnbKiAqbdTodaEHQLepmPQhpo7Oj7wJ/B4cE+Z+kyBoLC06z1lZ7MS?=
+ =?us-ascii?Q?tu+Ps9WseFlvvMFGwKthlUHvHwBtyhDbJIxUZIKGD/oN8VP65oJ1ao4wfRnM?=
+ =?us-ascii?Q?rrMKI9NpeGaUK3QsX8xdSBTy1P34L82fVyZ6A6YCh34rpEtPYQ44SNwugXbh?=
+ =?us-ascii?Q?S9dHZKMb6dZyKQjCdHpAHqSowT2kNLlo8SfkgnZEKbQl+qz8x7ASx5HM0Dlw?=
+ =?us-ascii?Q?fBImozYlkrKec8+E7DslvQx4xG1pSDcK2rybsAHVx2jIDwhV8nxvPUyEudbZ?=
+ =?us-ascii?Q?NQ0sUDb2M1pKzRlQuYm4tSkFqSfmwUzaG/45AUb2z2QzK+zhww1Q7fPEalYr?=
+ =?us-ascii?Q?8gIBkvm6b3Rr/Ry3smdtZ4UPhalm5LuLhDPdkYgFCUgZvaCBKvFx1dUXx+u4?=
+ =?us-ascii?Q?hsIQFGynNCt44HEZdSx4wWeoCkHirKR8tAmbopi2/fnmiPlvfMsUaffs556K?=
+ =?us-ascii?Q?dmpKlEYRZ1Eh5BS+T2rg3bDpKVlBpbI1kdpeUS1SkCl8COniDwqVVl6o5DeW?=
+ =?us-ascii?Q?E6fUGQoe2Yd//TOI60kabiGkET2xUUMzb4J/cWSkgXRQcR81uc9QB4g8qDkt?=
+ =?us-ascii?Q?Hrq1eU+2oK9HGSsXnT/183QUUESq3ueFbPMv8fuPjsI3lHLeO/puUrpHLOEn?=
+ =?us-ascii?Q?xwZQB9B9c9r6ZduIIdU9VTPjcygm58RNYuF628cR4DCfi/IUWTAxKKPVBy4I?=
+ =?us-ascii?Q?RfgyjTepeKLl0KvftG+DBRmTJO7XZpzy7MtaWVjMstLlZLLlnnSyAIc8cMHt?=
+ =?us-ascii?Q?AcBRFGPfmx/FIsrNpVM2EaiBkeuefcF/QQklta9TZ//o298kv/oH0PSpSzuf?=
+ =?us-ascii?Q?G35BWjSXLU0mDjyj5oOkMNuMjVK33tqYjBF/Nii2O0YWOLNxE2VJgNKV4bZw?=
+ =?us-ascii?Q?dTlWPtJb6loXqX7uXUIdL47xwVTrsMiZiGB6anV5Q9aFaljqNiltg5bjQz/H?=
+ =?us-ascii?Q?pzvNNQ0Ny1b5oEfn2EjMV2mUETAJRDepAjU4V2EKI0OGSJUDl6kMnlvQQvXq?=
+ =?us-ascii?Q?6A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89e1373b-502b-4587-89dc-08dca1b9f18e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6039.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 14:58:38.0203
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OhKz0xjrOCSW8iN1dAsoJBvaD1fCE4FFUFUx0OYRd/ZuVCKSgIksJu7dcPYW4u/RZvm1vpg6MMk66w27IiBfTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8113
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-commit: e435f39b57d5fb97b6df67c3d6ce2400e907a69c [12059/12643] asm-generic/iomap.h: don't check for readq/writeq
-config: alpha-randconfig-r016-20220501 (https://download.01.org/0day-ci/archive/20240711/202407112236.XxoETdP5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112236.XxoETdP5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d9a2f29aefdadc86e450308ff056017a209c755
+commit: 2b8d94f4b4a4765dcbe4a48cb0d58b266c158a10 ARM: dts: aspeed: yosemite4: add Facebook Yosemite 4 BMC
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110931.S4axppJr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110931.S4axppJr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407112236.XxoETdP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407110931.S4axppJr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_rx_snap_read':
->> drivers/ptp/ptp_pch.c:224:(.text+0x25c): undefined reference to `ioread64_lo_hi'
->> alpha-linux-ld: drivers/ptp/ptp_pch.c:224:(.text+0x270): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_tx_snap_read':
-   drivers/ptp/ptp_pch.c:235:(.text+0x2ac): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:235:(.text+0x2c0): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_set_station_address':
->> drivers/ptp/ptp_pch.c:286:(.text+0x350): undefined reference to `iowrite64_lo_hi'
->> alpha-linux-ld: drivers/ptp/ptp_pch.c:286:(.text+0x358): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_systime_write':
-   drivers/ptp/ptp_pch.c:157:(.text+0x430): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:157:(.text+0x43c): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_systime_read':
-   drivers/ptp/ptp_pch.c:150:(.text+0x4cc): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:150:(.text+0x4d4): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_systime_write':
-   drivers/ptp/ptp_pch.c:157:(.text+0x4e8): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:157:(.text+0x4f4): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `isr':
->> drivers/ptp/ptp_pch.c:308:(.text+0x674): undefined reference to `ioread64_hi_lo'
->> alpha-linux-ld: drivers/ptp/ptp_pch.c:308:(.text+0x680): undefined reference to `ioread64_hi_lo'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:319:(.text+0x6e4): undefined reference to `ioread64_hi_lo'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:319:(.text+0x6f8): undefined reference to `ioread64_hi_lo'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_systime_read':
-   drivers/ptp/ptp_pch.c:150:(.text+0x7e0): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:150:(.text+0x7e8): undefined reference to `ioread64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_probe':
-   drivers/ptp/ptp_pch.c:496:(.text+0xc80): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:496:(.text+0xc90): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.o: in function `pch_set_station_address':
-   drivers/ptp/ptp_pch.c:286:(.text+0xd58): undefined reference to `iowrite64_lo_hi'
-   alpha-linux-ld: drivers/ptp/ptp_pch.c:286:(.text+0xd60): undefined reference to `iowrite64_lo_hi'
-
-
-vim +224 drivers/ptp/ptp_pch.c
-
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  218  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  219  u64 pch_rx_snap_read(struct pci_dev *pdev)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  220  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  221  	struct pch_dev *chip = pci_get_drvdata(pdev);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  222  	u64 ns;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  223  
-8664d49a815e34 Andy Shevchenko  2022-02-07 @224  	ns = ioread64_lo_hi(&chip->regs->rx_snap_lo);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  225  
-8664d49a815e34 Andy Shevchenko  2022-02-07  226  	return ns << TICKS_NS_SHIFT;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  227  }
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  228  EXPORT_SYMBOL(pch_rx_snap_read);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  229  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  230  u64 pch_tx_snap_read(struct pci_dev *pdev)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  231  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  232  	struct pch_dev *chip = pci_get_drvdata(pdev);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  233  	u64 ns;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  234  
-8664d49a815e34 Andy Shevchenko  2022-02-07  235  	ns = ioread64_lo_hi(&chip->regs->tx_snap_lo);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  236  
-8664d49a815e34 Andy Shevchenko  2022-02-07  237  	return ns << TICKS_NS_SHIFT;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  238  }
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  239  EXPORT_SYMBOL(pch_tx_snap_read);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  240  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  241  /* This function enables all 64 bits in system time registers [high & low].
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  242  This is a work-around for non continuous value in the SystemTime Register*/
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  243  static void pch_set_system_time_count(struct pch_dev *chip)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  244  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  245  	iowrite32(0x01, &chip->regs->stl_max_set_en);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  246  	iowrite32(0xFFFFFFFF, &chip->regs->stl_max_set);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  247  	iowrite32(0x00, &chip->regs->stl_max_set_en);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  248  }
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  249  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  250  static void pch_reset(struct pch_dev *chip)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  251  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  252  	/* Reset Hardware Assist */
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  253  	pch_block_reset(chip);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  254  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  255  	/* enable all 32 bits in system time registers */
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  256  	pch_set_system_time_count(chip);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  257  }
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  258  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  259  /**
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  260   * pch_set_station_address() - This API sets the station address used by
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  261   *				    IEEE 1588 hardware when looking at PTP
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  262   *				    traffic on the  ethernet interface
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  263   * @addr:	dress which contain the column separated address to be used.
-287f93ded67f48 Lee Jones        2021-03-12  264   * @pdev:	PCI device.
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  265   */
-17cdedf3b3649a Takahiro Shimizu 2012-04-20  266  int pch_set_station_address(u8 *addr, struct pci_dev *pdev)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  267  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  268  	struct pch_dev *chip = pci_get_drvdata(pdev);
-4e76b5c11d2511 Andy Shevchenko  2022-02-07  269  	bool valid;
-4e76b5c11d2511 Andy Shevchenko  2022-02-07  270  	u64 mac;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  271  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  272  	/* Verify the parameter */
-7d3ac5c7799152 Sahara           2013-03-26  273  	if ((chip->regs == NULL) || addr == (u8 *)NULL) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  274  		dev_err(&pdev->dev,
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  275  			"invalid params returning PCH_INVALIDPARAM\n");
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  276  		return PCH_INVALIDPARAM;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  277  	}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  278  
-4e76b5c11d2511 Andy Shevchenko  2022-02-07  279  	valid = mac_pton(addr, (u8 *)&mac);
-4e76b5c11d2511 Andy Shevchenko  2022-02-07  280  	if (!valid) {
-4e76b5c11d2511 Andy Shevchenko  2022-02-07  281  		dev_err(&pdev->dev, "invalid params returning PCH_INVALIDPARAM\n");
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  282  		return PCH_INVALIDPARAM;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  283  	}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  284  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  285  	dev_dbg(&pdev->dev, "invoking pch_station_set\n");
-8664d49a815e34 Andy Shevchenko  2022-02-07 @286  	iowrite64_lo_hi(mac, &chip->regs->ts_st);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  287  	return 0;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  288  }
-17cdedf3b3649a Takahiro Shimizu 2012-04-20  289  EXPORT_SYMBOL(pch_set_station_address);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  290  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  291  /*
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  292   * Interrupt service routine
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  293   */
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  294  static irqreturn_t isr(int irq, void *priv)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  295  {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  296  	struct pch_dev *pch_dev = priv;
-7d3ac5c7799152 Sahara           2013-03-26  297  	struct pch_ts_regs __iomem *regs = pch_dev->regs;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  298  	struct ptp_clock_event event;
-d09adf61002fd3 Andy Shevchenko  2022-02-07  299  	u32 ack = 0, val;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  300  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  301  	val = ioread32(&regs->event);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  302  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  303  	if (val & PCH_TSE_SNS) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  304  		ack |= PCH_TSE_SNS;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  305  		if (pch_dev->exts0_enabled) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  306  			event.type = PTP_CLOCK_EXTTS;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  307  			event.index = 0;
-d09adf61002fd3 Andy Shevchenko  2022-02-07 @308  			event.timestamp = ioread64_hi_lo(&regs->asms_hi);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  309  			event.timestamp <<= TICKS_NS_SHIFT;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  310  			ptp_clock_event(pch_dev->ptp_clock, &event);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  311  		}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  312  	}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  313  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  314  	if (val & PCH_TSE_SNM) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  315  		ack |= PCH_TSE_SNM;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  316  		if (pch_dev->exts1_enabled) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  317  			event.type = PTP_CLOCK_EXTTS;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  318  			event.index = 1;
-d09adf61002fd3 Andy Shevchenko  2022-02-07  319  			event.timestamp = ioread64_hi_lo(&regs->asms_hi);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  320  			event.timestamp <<= TICKS_NS_SHIFT;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  321  			ptp_clock_event(pch_dev->ptp_clock, &event);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  322  		}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  323  	}
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  324  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  325  	if (val & PCH_TSE_TTIPEND)
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  326  		ack |= PCH_TSE_TTIPEND; /* this bit seems to be always set */
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  327  
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  328  	if (ack) {
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  329  		iowrite32(ack, &regs->event);
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  330  		return IRQ_HANDLED;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  331  	} else
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  332  		return IRQ_NONE;
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  333  }
-863d08ece9bf11 Takahiro Shimizu 2012-03-07  334  
-
-:::::: The code at line 224 was first introduced by commit
-:::::: 8664d49a815e34f8e88489efb72c23826167adbe ptp_pch: Use ioread64_lo_hi() / iowrite64_lo_hi()
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@280: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@300: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@380: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@400: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@480: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@70: idle-state: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@70: Unevaluated properties are not allowed ('idle-state' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@500: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@71: idle-state: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@71: Unevaluated properties are not allowed ('idle-state' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@580: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@600: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
