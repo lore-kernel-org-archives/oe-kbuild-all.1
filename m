@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CBE16EBE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 18:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D88E15F40D;
+	Thu, 11 Jul 2024 19:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720723243; cv=none; b=K09Son7HAHs2aD1srPG84sNdfbsObom2+HQjKI13sUmoZ+thYKOIoCQExO2wKOYtZCn+uFE0y7LHG2o5ptCnFcQKvKhvs/xD3tf0nY8TyjKW2obaTErE34NmhxVMu7DoYnDETtnWKwTpSTHyGJHWV8cJtVJpkbwrWHlGdvkdtuk=
+	t=1720724627; cv=none; b=i5IXvCmihUfFUVhzZuoFYg18vagwcVeXXaQnSO+sGkoR/N7t3ud38TjV9crhwVCvI7IvCfJUMRkoxF+753fMrxwMZaoRWc9+hEwXwrrZ5/bRdhe5qXGZ0YAeegJNKecBSZAsUx1B0C4TDAiv2wC95I+sbJgW90cxHrdGhk+4voo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720723243; c=relaxed/simple;
-	bh=G+6tr1vVqwDnENC0OHf1R2vN8xCz2lAaGVHnxL9Gty0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SduBalRtgjZEM0TBqPsi9E4syRvvE5EFcZDrnXsnyHSoYJHsQZa7qBYQUZFxQEd0FJZgNO2fFOaFPPRvocLpMKsE5AjM4+q26Sya809nM9NyiepXWk1dj2qkEFIUhMY4OG2hhUIWARX9JlD6USSN5aDFNGukKCqKysMrmoJhMJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/nnGymM; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1720724627; c=relaxed/simple;
+	bh=KjDHsBomUHrlcuMySZ8NJg7L3Q0FPnsN62pBzRy47t0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIQ1i1l72R5NUCa5AS5JN8kTigbdlvfYutXLIAdVyC6JzIjk/nz/lgNIDomB13yColNlVFW9bv7aXd3LAET5UEgxkTzGT680k66QmZaVqUgYyJdQZ8quz5n/8lNFbXU7dqCQ14W5SMMmZVAFPCYvKb6sqiNPJNsPdAkIYEebAT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NoqSdTvw; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/nnGymM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NoqSdTvw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720723241; x=1752259241;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G+6tr1vVqwDnENC0OHf1R2vN8xCz2lAaGVHnxL9Gty0=;
-  b=N/nnGymMMeAsyeqdobatbgvxnaSbXl36EGx5WUeaG7hhUj18AtgoTQuG
-   q1I5+2hPWC5GvsMtB245+zkIuErsxeKHVI324vlGQOs/8SFOpw3RbVyak
-   TtReN8HdAPsruK9pUhQLoqNtT5rKlc1pDJbESAmENb5Po8SsDoi493bbK
-   GcGBA35gTwVoWNneWy0L76UhpKDNsRaZgaTN4W4GWSVqqk3YD9IcO4lD/
-   eFj05JKc2U4dYrkDbqFCQxDxzIvINnalAIKUa9oTyWc04hQnjYLwZ5NCU
-   UZDYqsrj/++hHuMjash4fW19VfW7aZDF3ReDZdhcVmxQ81z0DkhcuZeZn
-   Q==;
-X-CSE-ConnectionGUID: VkwJEF8dQha58TuLbp8n4A==
-X-CSE-MsgGUID: WpazUDSeSB+tkbzZITmW2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="35675837"
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="35675837"
+  t=1720724626; x=1752260626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KjDHsBomUHrlcuMySZ8NJg7L3Q0FPnsN62pBzRy47t0=;
+  b=NoqSdTvwGC4NG6uD1UlYQ5l3vpIGNvrolOQmwASKTri/DYCb4VE1k/jn
+   gAGOU+jYUX/YqykC5pNWFFt2i//MxAECOppJK886lpr4U7dATmubopAJa
+   +VJPbaPgwPBMA+qw76OzsqGj1e6HvB9Cg6345A0Rn9DnkBSypF1AM6qbg
+   +2uL9nBJX/8xFBuT6rrnMO67scl1WYhzOG7r8iNv3tJqx5XdZQV32NOK/
+   UM6gb2feAtEkGsHGodV78lB9BR8XCB3c8YeaY+610pNpMuPUl7fSJlUbv
+   t3f2l1xZubJsWvtzci3h3W9eJV0I+Jg+83wX1uH2y8njC6WkjPbHoUnXY
+   g==;
+X-CSE-ConnectionGUID: vpJUbuGPQgeBEQEatrUmZA==
+X-CSE-MsgGUID: 7yJwf7ruSMyGd6+guTv/JA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17753633"
+X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
+   d="scan'208";a="17753633"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 11:40:40 -0700
-X-CSE-ConnectionGUID: +4QK4/UNQPuCquq438teww==
-X-CSE-MsgGUID: wK37gRFxS7uFP1pmrDOayQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 12:03:45 -0700
+X-CSE-ConnectionGUID: 8bj9pQiWR/6B/B20EEpk+A==
+X-CSE-MsgGUID: ulTMRKI8TFan/Xihp4bMsA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="79351833"
+X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
+   d="scan'208";a="79358047"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Jul 2024 11:40:39 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Jul 2024 12:03:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRyia-000ZfW-2y;
-	Thu, 11 Jul 2024 18:40:36 +0000
-Date: Fri, 12 Jul 2024 02:40:25 +0800
+	id 1sRz4s-000ZiI-29;
+	Thu, 11 Jul 2024 19:03:38 +0000
+Date: Fri, 12 Jul 2024 03:03:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-next 33/33] fs/nfsd/localio.c:116: warning:
- Function parameter or struct member 'cl_nfssvc_dom' not described in
- 'nfsd_open_local_fh'
-Message-ID: <202407120219.GDEe5mgV-lkp@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jan Dakinevich <jan.dakinevich@salutedevices.com>,
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH 7/8] reset: amlogic: add auxiliary reset driver support
+Message-ID: <202407120208.ub5kh5K1-lkp@intel.com>
+References: <20240710162526.2341399-8-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +69,246 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240710162526.2341399-8-jbrunet@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
-head:   83e2a6e79d49a7eecc3ec2aa42212cd365df17b3
-commit: 495e691fbf633f01b563dc817bc0e55b6dce8267 [33/33] nfs/nfsd: switch nfsd_open_local_fh() to using nfsd_file_acquire_local()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240712/202407120219.GDEe5mgV-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407120219.GDEe5mgV-lkp@intel.com/reproduce)
+Hi Jerome,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pza/reset/next]
+[also build test ERROR on clk/clk-next linus/master v6.10-rc7 next-20240711]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/reset-amlogic-convert-driver-to-regmap/20240711-055833
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20240710162526.2341399-8-jbrunet%40baylibre.com
+patch subject: [PATCH 7/8] reset: amlogic: add auxiliary reset driver support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240712/202407120208.ub5kh5K1-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407120208.ub5kh5K1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407120219.GDEe5mgV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407120208.ub5kh5K1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfsd/localio.c:116: warning: Function parameter or struct member 'cl_nfssvc_dom' not described in 'nfsd_open_local_fh'
+   In file included from drivers/reset/reset-meson.c:8:
+   In file included from include/linux/auxiliary_bus.h:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/reset/reset-meson.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/reset/reset-meson.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/reset/reset-meson.c:11:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/reset/reset-meson.c:272:1: error: redefinition of '__inittest'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^
+   include/linux/auxiliary_bus.h:245:2: note: expanded from macro 'module_auxiliary_driver'
+     245 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:131:42: note: expanded from macro '\
+   module_init'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^
+   drivers/reset/reset-meson.c:232:1: note: previous definition is here
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^
+   include/linux/platform_device.h:303:2: note: expanded from macro 'module_platform_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:131:42: note: expanded from macro '\
+   module_init'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^
+>> drivers/reset/reset-meson.c:272:1: error: redefinition of 'init_module'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^
+   include/linux/auxiliary_bus.h:245:2: note: expanded from macro 'module_auxiliary_driver'
+     245 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:133:6: note: expanded from macro '\
+   module_init'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^
+   drivers/reset/reset-meson.c:232:1: note: previous definition is here
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^
+   include/linux/platform_device.h:303:2: note: expanded from macro 'module_platform_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:133:6: note: expanded from macro '\
+   module_init'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^
+>> drivers/reset/reset-meson.c:272:1: error: redefinition of '__exittest'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^
+   include/linux/auxiliary_bus.h:245:2: note: expanded from macro 'module_auxiliary_driver'
+     245 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:139:42: note: expanded from macro '\
+   module_exit'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^
+   drivers/reset/reset-meson.c:232:1: note: previous definition is here
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^
+   include/linux/platform_device.h:303:2: note: expanded from macro 'module_platform_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:139:42: note: expanded from macro '\
+   module_exit'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^
+>> drivers/reset/reset-meson.c:272:1: error: redefinition of 'cleanup_module'
+     272 | module_auxiliary_driver(meson_reset_aux_driver);
+         | ^
+   include/linux/auxiliary_bus.h:245:2: note: expanded from macro 'module_auxiliary_driver'
+     245 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:141:7: note: expanded from macro '\
+   module_exit'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^
+   drivers/reset/reset-meson.c:232:1: note: previous definition is here
+     232 | module_platform_driver(meson_reset_pltf_driver);
+         | ^
+   include/linux/platform_device.h:303:2: note: expanded from macro 'module_platform_driver'
+     303 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:141:7: note: expanded from macro '\
+   module_exit'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^
+   drivers/reset/reset-meson.c:292:5: error: redefinition of 'devm_meson_rst_aux_register'
+     292 | int devm_meson_rst_aux_register(struct device *dev,
+         |     ^
+   include/soc/amlogic/meson-auxiliary-reset.h:15:19: note: previous definition is here
+      15 | static inline int devm_meson_rst_aux_register(struct device *dev,
+         |                   ^
+   17 warnings and 5 errors generated.
 
 
-vim +116 fs/nfsd/localio.c
+vim +/__inittest +272 drivers/reset/reset-meson.c
 
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   89  
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   90  /**
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   91   * nfsd_open_local_fh - lookup a local filehandle @nfs_fh and map to @file
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   92   *
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   93   * @cl_nfssvc_net: the 'struct net' to use to get the proper nfsd_net
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   94   * @rpc_clnt: rpc_clnt that the client established, used for sockaddr and cred
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   95   * @cred: cred that the client established
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   96   * @nfs_fh: filehandle to lookup
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   97   * @fmode: fmode_t to use for open
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   98   * @pfilp: returned file pointer that maps to @nfs_fh
-a14e12f25fe366 Weston Andros Adamson 2024-06-25   99   *
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  100   * This function maps a local fh to a path on a local filesystem.
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  101   * This is useful when the nfs client has the local server mounted - it can
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  102   * avoid all the NFS overhead with reads, writes and commits.
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  103   *
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  104   * On successful return, caller is responsible for calling path_put. Also
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  105   * note that this is called from nfs.ko via find_symbol() to avoid an explicit
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  106   * dependency on knfsd. So, there is no forward declaration in a header file
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  107   * for it that is shared with the client.
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  108   */
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  109  int nfsd_open_local_fh(struct net *cl_nfssvc_net,
-495e691fbf633f Mike Snitzer          2024-07-08  110  			 struct auth_domain *cl_nfssvc_dom,
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  111  			 struct rpc_clnt *rpc_clnt,
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  112  			 const struct cred *cred,
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  113  			 const struct nfs_fh *nfs_fh,
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  114  			 const fmode_t fmode,
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  115  			 struct file **pfilp)
-a14e12f25fe366 Weston Andros Adamson 2024-06-25 @116  {
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  117  	int mayflags = NFSD_MAY_LOCALIO;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  118  	int status = 0;
-0819f4fa7cf510 Mike Snitzer          2024-06-12  119  	struct nfsd_net *nn;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  120  	const struct cred *save_cred;
-495e691fbf633f Mike Snitzer          2024-07-08  121  	struct svc_cred rq_cred;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  122  	struct svc_fh fh;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  123  	struct nfsd_file *nf;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  124  	__be32 beres;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  125  
-0819f4fa7cf510 Mike Snitzer          2024-06-12  126  	if (nfs_fh->size > NFS4_FHSIZE)
-0819f4fa7cf510 Mike Snitzer          2024-06-12  127  		return -EINVAL;
-0819f4fa7cf510 Mike Snitzer          2024-06-12  128  
-0819f4fa7cf510 Mike Snitzer          2024-06-12  129  	/* Not running in nfsd context, must safely get reference on nfsd_serv */
-0819f4fa7cf510 Mike Snitzer          2024-06-12  130  	cl_nfssvc_net = maybe_get_net(cl_nfssvc_net);
-0819f4fa7cf510 Mike Snitzer          2024-06-12  131  	if (!cl_nfssvc_net)
-0819f4fa7cf510 Mike Snitzer          2024-06-12  132  		return -ENXIO;
-0819f4fa7cf510 Mike Snitzer          2024-06-12  133  	nn = net_generic(cl_nfssvc_net, nfsd_net_id);
-0819f4fa7cf510 Mike Snitzer          2024-06-12  134  
-033fad6cf114d3 Mike Snitzer          2024-06-25  135  	/* The server may already be shutting down, disallow new localio */
-033fad6cf114d3 Mike Snitzer          2024-06-25  136  	if (unlikely(!nfsd_serv_try_get(nn))) {
-0819f4fa7cf510 Mike Snitzer          2024-06-12  137  		status = -ENXIO;
-0819f4fa7cf510 Mike Snitzer          2024-06-12  138  		goto out_net;
-0819f4fa7cf510 Mike Snitzer          2024-06-12  139  	}
-0819f4fa7cf510 Mike Snitzer          2024-06-12  140  
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  141  	/* Save creds before calling into nfsd */
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  142  	save_cred = get_current_cred();
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  143  
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  144  	/* nfs_fh -> svc_fh */
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  145  	fh_init(&fh, NFS4_FHSIZE);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  146  	fh.fh_handle.fh_size = nfs_fh->size;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  147  	memcpy(fh.fh_handle.fh_raw, nfs_fh->data, nfs_fh->size);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  148  
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  149  	if (fmode & FMODE_READ)
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  150  		mayflags |= NFSD_MAY_READ;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  151  	if (fmode & FMODE_WRITE)
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  152  		mayflags |= NFSD_MAY_WRITE;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  153  
-495e691fbf633f Mike Snitzer          2024-07-08  154  	rpcauth_map_to_svc_cred_local(rpc_clnt->cl_auth, cred, &rq_cred);
-495e691fbf633f Mike Snitzer          2024-07-08  155  
-495e691fbf633f Mike Snitzer          2024-07-08  156  	beres = nfsd_file_acquire_local(cl_nfssvc_net, &rq_cred, rpc_clnt->cl_vers,
-495e691fbf633f Mike Snitzer          2024-07-08  157  					cl_nfssvc_dom, &fh, mayflags, &nf);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  158  	if (beres) {
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  159  		status = nfs_stat_to_errno(be32_to_cpu(beres));
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  160  		goto out_fh_put;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  161  	}
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  162  	*pfilp = get_file(nf->nf_file);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  163  	nfsd_file_put(nf);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  164  out_fh_put:
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  165  	fh_put(&fh);
-495e691fbf633f Mike Snitzer          2024-07-08  166  	if (rq_cred.cr_group_info)
-495e691fbf633f Mike Snitzer          2024-07-08  167  		put_group_info(rq_cred.cr_group_info);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  168  	revert_creds(save_cred);
-033fad6cf114d3 Mike Snitzer          2024-06-25  169  	nfsd_serv_put(nn);
-0819f4fa7cf510 Mike Snitzer          2024-06-12  170  out_net:
-0819f4fa7cf510 Mike Snitzer          2024-06-12  171  	put_net(cl_nfssvc_net);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  172  	return status;
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  173  }
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  174  EXPORT_SYMBOL_GPL(nfsd_open_local_fh);
-a14e12f25fe366 Weston Andros Adamson 2024-06-25  175  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: a14e12f25fe366c2456249e0e6ddc04e096b06cc nfsd: add "localio" support
-
-:::::: TO: Weston Andros Adamson <dros@primarydata.com>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
+   267	
+   268	static struct auxiliary_driver meson_reset_aux_driver = {
+   269		.probe		= meson_reset_aux_probe,
+   270		.id_table	= meson_reset_aux_ids,
+   271	};
+ > 272	module_auxiliary_driver(meson_reset_aux_driver);
+   273	
 
 -- 
 0-DAY CI Kernel Test Service
