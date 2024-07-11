@@ -1,70 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7C015AF1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 03:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0676915AF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 03:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720669005; cv=fail; b=ibdfTDug06K9bmyclkx1xIUkSREu23WqKQavJNqOQl4G3NrJRuyHaN7NKNogQ2vXlw53QBjJjwbmtzFda+Xy/2Dm0HzTPk0GQwZBB5lT+5Z7p+RMfPAvBu3dvcnyCNid4brpUlYWjdGlbDdyiUvvtVdN7zdKhGqVY4T83r76PdI=
+	t=1720669036; cv=fail; b=qqmT9mvgGfhqoO0H1xLKm67i5DE/SFbX0dlZZqxhrSQaLjJGB9UQmqnrQRksFJnqmzxHQTNnncoEkxqZHnWg0Daq83pCXRFvFgnDFC+SiCQviC7vZ5TsNi4EP5csE4RMX93Cs6rvBVB66MWL97BIhms1jjctrOF7Pu6gMcEHzQU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720669005; c=relaxed/simple;
-	bh=gBRGbJIvnf6VfnqSbJ7f5knpVP29IKrycbsoElthZ0g=;
+	s=arc-20240116; t=1720669036; c=relaxed/simple;
+	bh=JGjl622j+P0Y1DtcsgiA/DKj2WAlAuYL/tLhPOuF71Q=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=WeJN7DWZgrX2RqNLVRNVK7eWPZglJohPtAZ4gwO85pfXbAesiT5i26vwCC5Yp2d7GozGOlxHuh8rjYMItneY7YbbrHWJZR+Jn+MwAhjMqI+IMnhogMyS+hQukge9QZ8IbH93wGPLQadcsGxJXTr+AoLmmfSzoS+Hgkh2eYhO5Xw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwvbUfxJ; arc=fail smtp.client-ip=198.175.65.18
+	 Content-Disposition:MIME-Version; b=UsU99K/8b+S8CAOTWXQsLltLMvEa+5Zg9qyT8KgB+HajqbKYY8gJzRyt2hSWFhtSSyvNbvsHGOvVSPDeTRLwAGwVgUeM/X7eFozoziZda1wxs3XSrF3mzRPFwe6DoLtpNT3i58bYy2lFvP1vRGr+TL7+jb9CvjG+LKfnI/TR2Bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9G+yFgN; arc=fail smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwvbUfxJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9G+yFgN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720669004; x=1752205004;
+  t=1720669034; x=1752205034;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gBRGbJIvnf6VfnqSbJ7f5knpVP29IKrycbsoElthZ0g=;
-  b=cwvbUfxJSdlgZOLppun7U/a4XLqqDnYbiDTp3d+eaQsXuEPusRKmiLBV
-   OD9NcLh6xsURSIY5lo4bbsMjR150PtgiGZ3vNRYajzfwh1UjUZT7U+jTi
-   k+AdV1BQ0f0M9ASxOPJy/6mYi91RDksnU5cHrrjMAPAhWjdI9vA8fN6Rd
-   gkomsXvSwYqKHW6DdOO1BnHhcR/IYyiSVwaHJbyy0kZJlk8ObIQcSJujp
-   1ozlBlvs4duxMNowCFiPS2JyG/BFnf17jFUnhN2Le9b5rdQ6cUjfG487C
-   /P4mXXmaay70y5poSrtYb85SGSLaP+wRAVcnkeyOFKRdckEA0UaEbGoDu
-   w==;
-X-CSE-ConnectionGUID: 80vUdX2ZR0CSOGr8t7vSaw==
-X-CSE-MsgGUID: oXNTwUKLTPqTRrekr2S9tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="18162028"
+  bh=JGjl622j+P0Y1DtcsgiA/DKj2WAlAuYL/tLhPOuF71Q=;
+  b=F9G+yFgNmdroGQpEk1z2x2vlU/DY/hbKvqjFSbhlG2yf9hMJfvRJkGDI
+   uYKxq0VxibK09TcU/24uUsPHjUMPHctOIMEgbjCSgdKT3diiRM3jU7T3v
+   KigdjMh9fkeypSRwXBjru5BtrV97wfP/osmUTmM8JJvpwBhx1MR5LbN24
+   jkdwtE3g9MuIwf6xce/dfmwqG5Y2cZll1fF4t7g2Iyf4WO9U8zfdQitva
+   bZkNo+mRkXhLbf4bTwLGmLQK6FEdweMofy2pyUZ4yB3pQcPwK90ISS9B7
+   1F4lcD6QcwqKLWX1xAyJTNqglRJ6g09HMjHOHBoCUQpyX/EydAuqwl5vi
+   g==;
+X-CSE-ConnectionGUID: w4TXRzCvTWK+a7Jmld5c+Q==
+X-CSE-MsgGUID: EvoR/HZ7QxOuYbKdGkmcvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="35460621"
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="18162028"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 20:36:43 -0700
-X-CSE-ConnectionGUID: DTkCwRPpTSC3w59ImWAvPA==
-X-CSE-MsgGUID: J8aBrrt7SmG7xDpaeyvd2g==
+   d="scan'208";a="35460621"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 20:37:13 -0700
+X-CSE-ConnectionGUID: GLoNEd/6R2u0i6miZ9Gdew==
+X-CSE-MsgGUID: HDjzQoRYT1ePS7zWS9jRkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="48180910"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 20:36:43 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 20:36:43 -0700
+   d="scan'208";a="48860215"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jul 2024 20:37:13 -0700
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 20:36:42 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ 15.1.2507.39; Wed, 10 Jul 2024 20:37:12 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 20:36:42 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Wed, 10 Jul 2024 20:37:12 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.47) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 10 Jul 2024 20:36:42 -0700
+ 15.1.2507.39; Wed, 10 Jul 2024 20:37:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZPnlr+Ar0Nx4rkv71kVRGBD0KMzwWFRCsws55iTkHepM7B3ALU3y8lPwMMo6Xaebl4hWKNuKoEPZ2xpDz4xAVJcZj6DAD0Y4S5coOVSgd2N6kuFsGms3iu5d7MSsRn1ra9tjh7MaPS6iUONUDPUQ3JBares+m97Uz9MetYkE/+l2a3eiCw/FBJX6BZdh4OgAJrvMJSsEK/QvHjo2Ks4saXqf77nq4eZCYhIPtTxjp/r21wMVGdQd3COc81JD2Hdg7wI0XFERfRAH3ZQT0u7ybDcwGt5M6jkydRUUmftmyzjd6pfM/0WZQXY2PpQ99vl2UnMgTNO5OdO3fflqBi7gmw==
+ b=kpdufYmleKt9SPdsPEeNbQU03lWvZHamfLQ1CjXIviLGmuF0vF93ONPRqc0cw4QeHHT8uJj6d/aHldpW7E86y2fWipegFpuaiy5EYrmaaYWQoHE/rX65rHXdUGNPk9HA30P5RdkTAyxyP3k9tRxtXftIQ0bSd0iwe8CvZeOYCu3xzU+3EIl4/q6pLRNXGOUA/3rCO5QMy0VqDDFrbHNQWHd0/DAp9w1fuQzDxi7z0u2gMVYf+JxYPbQiRNCJQDDQMIyHTc05PId/Pm8HcxIQXhWvT8aaQzI7/BmXzoDXFDupW+5+uRqgGuubUceUtK2+zbzzzC1JhCodnA/X0WNL3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/YazF6M6xzEHhVTCl5qsICdyvesajEXMk6irLSEJhKc=;
- b=gTd8DLw+UKXM7BQDulonhEeymYv9axPZQefyucrm4Q8+B+7pVUGJFuGvqlj+d/vgXOkd1YmYRNV2Ks70URoo4arVyiTswuBKDQERP+TzaSIN87H35rWN/izX6Ypq5Zzj/EFRd98RWeXavZO2+1SifjnaLQsM2q5RwjJhppquftOw/9r4LAOjTysSW2BLOJYibgslkMXhwDZn3siSJS0AuAdQiVCRyBwGm80YpuQeQpwSUPvHbQcsG5F7ucFCgWPK+WkPM7l8bmorEEji3m9umwFvuaRiPQRRVCG3HFCAMpRzirnm7WvBGb9TASzB7PYWlP/60rR7kpD0rNxcOPnPpg==
+ bh=O5kJWAMH50K38ey1LUp33OX4OIZeWEKI238ZcWL6iYw=;
+ b=JUWvp5iF9OuX8paFa0xSq/+YtpMjrJ6QrQ9EdDSL23qBVVgfJNWn/UQuBhHukes80GTqUkGw6MXrogOKPmHsbsJue1G1omc/BVzpQLf8OemfK2fjpflVVPjN8MVLb/n2vByy6+IQPov6goqIMm3f9rICc5LSAHvMOKp4Qw0D39Zj211uzfVWEshz76LVplYeIXmynl05csJ56I6BFK5jH3PD66T6Ti65gr2BegaWdbbygGoQlxw245lxPYlwU6e0WT3szqq5+GWy83FlAJ+TuWeQJIKHEIMztLrElo1w0YvtDYavcYNUat0GsOHief/DTQK27VIsPgZ3DsE0k5q3cQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -74,22 +70,23 @@ Received: from PH7PR11MB6029.namprd11.prod.outlook.com (2603:10b6:510:1d0::7)
  by CY5PR11MB6437.namprd11.prod.outlook.com (2603:10b6:930:36::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
- 2024 03:36:35 +0000
+ 2024 03:37:09 +0000
 Received: from PH7PR11MB6029.namprd11.prod.outlook.com
  ([fe80::8ad2:f4da:864:424d]) by PH7PR11MB6029.namprd11.prod.outlook.com
  ([fe80::8ad2:f4da:864:424d%7]) with mapi id 15.20.7741.033; Thu, 11 Jul 2024
- 03:36:35 +0000
-Date: Thu, 11 Jul 2024 11:36:27 +0800
+ 03:37:09 +0000
+Date: Thu, 11 Jul 2024 11:37:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [freescale-fslc:6.6-2.0.x-imx 10984/11381]
- Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.yaml:55:7:
- [error] no new line character at the end of file (new-line-at-end-of-file)
-Message-ID: <Zo9TO8kv9Ax/z/qu@rli9-mobl>
+Subject: [freescale-fslc:6.6-1.0.x-imx 2607/11740]
+ arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb:
+ /soc/i2c@e6510000/gpio@21: failed to match any schema with compatible:
+ ['onnn,pca9654']
+Message-ID: <Zo9TXpkA7+UhaRyY@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
+X-ClientProxiedBy: SG2PR04CA0174.apcprd04.prod.outlook.com (2603:1096:4::36)
  To PH7PR11MB6029.namprd11.prod.outlook.com (2603:10b6:510:1d0::7)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -100,140 +97,271 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB6029:EE_|CY5PR11MB6437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79f9ef7b-1bd4-4c1b-a054-08dca15aaa04
+X-MS-Office365-Filtering-Correlation-Id: 80948dd9-8b9e-4fbe-2fe1-08dca15abe17
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FE08P5sYEpAb2KrTD893DC+M0jcqy9+cMxcF7i0qckZqguXt454WX0LmNz+w?=
- =?us-ascii?Q?jRQTtlJGlZoot/jJ39CG0A8la1+rllpKcp7GkUIsc8b6JnCVtHfePSJyWLXb?=
- =?us-ascii?Q?D0xKSQsJMWkqe3Qy6FM7pzGfAviu0kXZ50WYU1kEnGvgXhpV+AbzjUq8kFfC?=
- =?us-ascii?Q?u4deLrj65kP86HXIxqxho/Jw4V/uTMSGMq9m9IgxjgYIcvLCHM0sCNVySGkj?=
- =?us-ascii?Q?Rk2rh2YXQ3u9YeuyyGFC7ggFhAzxjFPZVJQpLphNitT1tnPP4rOY3FacFduj?=
- =?us-ascii?Q?s+f6TL+GHfqJnpQ5E6ATyHwBDbO/09HJbNwqgxDco3kqnuxIHyKhXFfJ35zS?=
- =?us-ascii?Q?GBGHR1Wia0fTWH7B7Ca5A89gkPMxrHpVfMQ5z2cjQHrEbhdKqEVozMK0A+xN?=
- =?us-ascii?Q?Ii3H0ehxT77KDXsBoVOcIiTfOkyYNVynnlOdIc/Ho5LBkdPJ4GMX2E9/rulc?=
- =?us-ascii?Q?5+9MaR1yi98LvV+5QCKf+NyKADb6JeFYSg/5DWS7v+rrDPU1WnQumrG3QAPB?=
- =?us-ascii?Q?ioXMgXpXgD5Z4VHciQTLqCcRM5d0Fgu35nab8oknHTLfRSmxi0HsUYLA7yDk?=
- =?us-ascii?Q?U5IycZSZ27xJLCik5NTFBfPzzvGb7osIy6fRfAhF/0lmTArdxKIxNsh9mQxs?=
- =?us-ascii?Q?lNAaO0goPJS4V9I7GJcLRkg8cjlfdxhzd3uck83Qk9WOpgxQNQaHRZFKQ9P5?=
- =?us-ascii?Q?Nb8p9+cSmZEBYt04TZ4ja37NPtH1UzHqLMSw4xsno4tu8m5Oz2bql/HDvXHf?=
- =?us-ascii?Q?oc2+iZOIf+MplmUzXBQuPmX4HOk56SyXJuBSB4npiwHo1TR18J0cdfQPYbOB?=
- =?us-ascii?Q?hGpVmM6b2TAQalK+3LW8N32wz/XpI4CwfHZLmgqNOvEHl/13aYhjxPXUNMrw?=
- =?us-ascii?Q?7QXWLEJibEZvHIRL0ERtKhyLqFHT1Ayt3Pe5JhWsGznMhFdTj6stmASbGHTe?=
- =?us-ascii?Q?BoRt2NITkbUok9KgJB70mbONLU+1Yh1Lqe2IUAjfcJMIN7S0v+A5sAu/RArz?=
- =?us-ascii?Q?N08wSWiL0UHdjRNziOTywNzNJu3SBsn2Su3tNvIqV7hdg2VWhwI1QiKdE6T8?=
- =?us-ascii?Q?5nzcUMKmupJStj/CRB1LN0YdcviDD4JpDyUWVan6UvYLj9jovK0biNwvB48p?=
- =?us-ascii?Q?W+IWmKfWxQ0zZpyN2ALaVhn28aDeCuXRNodAF+X3L7GWjWgdxFsH7HVIcMuK?=
- =?us-ascii?Q?SN0YoJjPBAPwywi31HomOH/+P3rr9rOcKqnZcRV/mRW6f94fHxW2+TS4vACv?=
- =?us-ascii?Q?hr0BhvtDE0uXGS+KQjXOvCS2M21u3LRUR+GTNU/VpeknGlfsFTpOp84WbMBu?=
- =?us-ascii?Q?bYA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6029.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Y5C8JmKQFpHBeHmwBiduxfNFD6mvkEvJWRWXnE4rYdPuJEnkwravTuywvi7o?=
+ =?us-ascii?Q?AWYBhS2KLQd//xRVHnMeZM5UUT/EJyIB+gPm51y0x9kvDOJBQzIIgSU0JNwS?=
+ =?us-ascii?Q?9gt3356MjjFagNGk6WbKfrKpewfLIACdRXXMlDwDaJVec6dFssJ5QkPdAtZ9?=
+ =?us-ascii?Q?KqsZacfz88hGQOg79pr/mVIu2HiFhk87B3AbWddp8/0v7YNlN72czJJ3CQyn?=
+ =?us-ascii?Q?8cRnLglwa/TU3uWjWpG+JJSNAO5OQNXt5hy7nmJNLsGZLzLzSFPyedzcT5xg?=
+ =?us-ascii?Q?4j9x18Ls1cU4e6OvjwfwILTjb7odoPwNC9TlYmB3gio8RkF4PTf+LWA33sa3?=
+ =?us-ascii?Q?grxiuG4bBj5Vghqef82r4GtxZXYZ2FFQx9K1ELo9tLrCBrW5rFBYEEUMUg71?=
+ =?us-ascii?Q?V3umvPh0LxLUVgt8ZTGTL7sGrHMojQ5AFvWuWcneza6N112SxUWTz5rT/3GA?=
+ =?us-ascii?Q?SgxxWZW1GLlHp0hN6mDAc1H8HpHnwFfVMpifyWlENoZafIKcMCrSAO5sC6Gw?=
+ =?us-ascii?Q?WW3BhYSMILlVN1tdUGGvLPMfOeHv4KSLm77tixeKkHaFXPqh8nDV/Omnsk9m?=
+ =?us-ascii?Q?Dfb9ZcdchMqTfrZvDP8Mv1UhfcVdVsUcrcMXfpIhHO8R0wlIzW9uVVUSWxWI?=
+ =?us-ascii?Q?a7iBtAMyDKUvmKrLwLw8PumcKb6m5YbCy2c8AnTwFvcWYyiO4Cd6VG0Y9Fx3?=
+ =?us-ascii?Q?rpj/GrSTKkc4imqGCbVRKPTMLgFjgp+2gBnHh6urhOnbv8OdioMq1Wnj3Vf6?=
+ =?us-ascii?Q?ZJt/Fwu4G6ZJI3/bVoIOEfSEkhgUR3Q17FBZddkk+DmVmg3y0x5X0xqhESoY?=
+ =?us-ascii?Q?af78Pp/F5Npt/vM0n7EnYYolsEXhlC1AYgcODyWa2BmphWzOgy2nSAdwkWbZ?=
+ =?us-ascii?Q?qTnqbW4iWxCdOJ1iM81nx4di7gewMgkZrD+gpWatZDCR0Forpn7FnBMxQIoR?=
+ =?us-ascii?Q?FfCfApyXQGacdFad0f+xK+OLfyLxUKDM6fZtoNZ2/UBCpEqzirJubL8DT9tb?=
+ =?us-ascii?Q?u8wrrPAM1JzidGxToZXknx43QpmWnkrA0zYqNh4gNRPHFgOFyCVtmDmg7ZWg?=
+ =?us-ascii?Q?OhSMRAIM7sZuPbcS7JyDNqKRiVtaIbdzvgw9GrA/5g2PqxTSiK4MKHkbdVJa?=
+ =?us-ascii?Q?v5Np0Cq7ZJNqpCCgbYZH+fDCnbYh+pVqJWYtvw9ai7X78bmoXdpGhdYq4S8P?=
+ =?us-ascii?Q?yAM6QZcI2rhqNxsYYkdcfcn1Je/HXrowhrbmFpGZ1LeZ+AthOho4TpwIlpNF?=
+ =?us-ascii?Q?JP3c1MPm7UqAyRkrItxvvAnLSSRSJlwc9DasLUVPBRtykI9ymPv1U7YQm1+L?=
+ =?us-ascii?Q?D0AmOiLxUUqrZs1O/vKOAvsuvahZ1jKvFyuWx/k3Y4RSV/qMqKp/WaRaIbbT?=
+ =?us-ascii?Q?v9V14B0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6029.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i7Iwt+jS3xZ2mLikzWZMizem0aHVeANN0l3tGCRgK5VZbnUl1j1lRB1LEqm+?=
- =?us-ascii?Q?t4qKIofZ0ShsG+BQQ514WVxoBEWWGudRYCHkuthAdPOJGDqjNkYeb5GBPOtS?=
- =?us-ascii?Q?/oNazidu/2eUgHpfgGubQpT3UQKeEEW4qUQhNAdIMVM9RflxMofmyT4lQqPx?=
- =?us-ascii?Q?5bxlQCbLinL2TZ2xa8l8HQ2ckNPDQa9i3O7qrQHM/IftdXvTY9zFydsWnpFB?=
- =?us-ascii?Q?CiU+Eg0aR2tJOPdJH/IrD3Aj+nMZBXUYaNKDDlopLCLeZ5dv/k73Awmij2Az?=
- =?us-ascii?Q?31y2oHkUjo61p/9Kj0dXxgDeh2u1VJiOEsZsd9xexLH6ZnW01Ez9D0uCmfEm?=
- =?us-ascii?Q?O6z87ESV99dmSZ40MqWT9Ppv2ROilgRsKYzSQlmY3n/FaPD9sNESyJeJNyp+?=
- =?us-ascii?Q?QkEP8+ifju0ViTbWJOeYPSvfQoJI8YScO59FUt1bTYXIcRTbqbQzMFXc9WZM?=
- =?us-ascii?Q?DK/2jpIh4uxKBIZyX4Bkr7mNlhb+vQ1pujvL2971OJyVzbEGx1mBqg3EwSt7?=
- =?us-ascii?Q?XpgeYijWpGeFq2j6rpZmsRtMptQkG+V48g5nCUkbfN/kQDwzRyPE3Mq1YEpG?=
- =?us-ascii?Q?603vqYI80QVbIsGXVJ6r4oytOiUVdsCL62yuG25+Yan50ArIcJd7COdcNhux?=
- =?us-ascii?Q?iWsxCYPEXBt7tiLxnj2RJau4e0jn3AYb7dvko4kE+6i3uH/3YJY9dVjyJhqH?=
- =?us-ascii?Q?JsGbP57uHNUdpEPFxpLcnhTYB6KGwVJIzfePAEBrXmfSrOBAaco+S6Im/zwz?=
- =?us-ascii?Q?y25WqasjgYbxx0lv79mPgi/uFVoee+2sO7VhBYcUWu6s9/mELRnnPtQR6kif?=
- =?us-ascii?Q?a6eF5rCs97XSWf31ds5A0bvqY4a6l1zoQ6zP/AhI/alxR63fZEG6CTku0nt+?=
- =?us-ascii?Q?Uc8FNGZir+tlWt32e7tpJyJX/49tbgjGxB/WuzEoGdA0s8NKsgE5JZzHI5EA?=
- =?us-ascii?Q?NmM+Ful+TlsP3rxMoqdkzLDslUxyQs07NpwYbeqLiDRpgJDkfZg0IJ7s9LMp?=
- =?us-ascii?Q?eotS9m6BZl6IixsEagkQfHVHm+VsOjgHQM6tvSkdcwtuwHt7gA36T2VdDf3j?=
- =?us-ascii?Q?UgrFE1mNeojtc8v1XL6q/xQBXhFUmPIYIoyhd5jA2fXUHaOHtfhWJnhJOMVl?=
- =?us-ascii?Q?UupzqLYZyqJw9vFjBZwvnUKgsRbDRyRAJpSxGqhO+4PEyWuUAZaOdX4b1CwI?=
- =?us-ascii?Q?gGoXYBE5KTNU0aiCUEywojIzVLWK1pG77HWWkToQwExhJEPe1/nYpWDw4re0?=
- =?us-ascii?Q?wic60cYXvhDheyBgkJW93xF2NmUm4AbjRPq4M4xRRauekqzZt0DC5W4rjnjD?=
- =?us-ascii?Q?zHcjR40c20TmDRvuXZuT0lEyoC3cVZjziOKq2zw1gFLlxKwu27N5YHfD9AZF?=
- =?us-ascii?Q?j/6tVpF7SSFa56p+AB20tcxIrePqnN7T9LcHa08/zvqVkJh41gdh1Q5YQ4O2?=
- =?us-ascii?Q?w8kP5WSn7mEaD7bIgefn54w0XpL+0ImKggnmuwt10mE9ily3pILVK/H2GwOW?=
- =?us-ascii?Q?pLEsnWkc5JHjI6zn7Yl5VbWm754ZSUs91TuoPFelyntJw9vwhfBs5ZbyazQf?=
- =?us-ascii?Q?WLwieJGkpD7OUya0einDQSDptN6RaZopvxMuS00m9FChsv/JX4lqJMNATgxN?=
- =?us-ascii?Q?2Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79f9ef7b-1bd4-4c1b-a054-08dca15aaa04
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9iazI4ucI7tjN4n4OUnwvQOEgCBiYUNVz0EvbhUr8NnHZ7soyAoDdvDmQ1Hd?=
+ =?us-ascii?Q?MpP3ymyg0K4FEXavg+UbIUDPLhdgAYOBrNYTTQdsgFnf4Yh7EccWfs25IepC?=
+ =?us-ascii?Q?jA31XXZq5YW0ErtnbaypwTMClAK/4+vKK7nZIJVoSsV2a42W5sBOXD+htsUL?=
+ =?us-ascii?Q?/9IOUeYaIrSeJl7bgGXUjhLB4maW2RIH1sH4/zrJGDc/QIkF+vnZnMQuTPGh?=
+ =?us-ascii?Q?KDb+2GKxi0Xa2YVuctYUKgUTUHWC4UjBIUkewwq0bten6QUn+lqsqHalIU5l?=
+ =?us-ascii?Q?wavtR373lxrGRAvHNW8ZSSM+k2En+G+3WdNhBr/deq5JpK09kiqUwQ465rMy?=
+ =?us-ascii?Q?Zf18NaywKTdo38Pshbt5QIZDS2Sxh+f77okB/ZvOmkZVfxEBb0fO8b88NXiM?=
+ =?us-ascii?Q?hyAYxy786lnWMDYUj27uR1GxIOWXcZCJHJ63F1d5RUnShirAk/lwKg945mp/?=
+ =?us-ascii?Q?JKD/JEd8kcufWEt63UhNnXHYn7mtS621uZJ/OrZxRPLkaZxRueW7ic/5jPNb?=
+ =?us-ascii?Q?clrfs2k40txJ/lEmBep8KjjubuEYp9yP0MqUMN2HHjdzwS1aR+JnBD3cWi7C?=
+ =?us-ascii?Q?Sr7Fp3hX9+X65ZAVEDz1GZ4w6+n2wyJL1naKmylKGkWvslKgMW65lQaw0Glu?=
+ =?us-ascii?Q?ei+AL+CjgmdeSfXzxTVt3Tke6hau3DklMrbon0PGL/eVXJ+d31tXdrFYFjAe?=
+ =?us-ascii?Q?2BHowOD0otu1k+cZAtVrBD2fKt4GMLWKaV3JJVRmy3aUnhp6t4T71mLzYYKD?=
+ =?us-ascii?Q?0qHYfDgtw2+g4W2HBKij9wRUy9Fd++cCI2KAG0Dg3/bqHZivPNTDt91Av6GT?=
+ =?us-ascii?Q?mVrgsPMkS58tPTeB+oi1dDt3oSyiW3GjeMK0W4soLBh43x/kEbY23O5ZmBCR?=
+ =?us-ascii?Q?+FuX7ublSNoxTQoHBCNTm95IsGEdq0t0TgowUQtHqlROyfDs5XzFuE89kh90?=
+ =?us-ascii?Q?fhaBfuCloOHvdAMggLtSOCaaEadpBC9Ba3diOL8DlC6XlT6vGtttHbGGh+xe?=
+ =?us-ascii?Q?CtpxMJWrb68O/yVstZCtJuEfGS+gab9H+en9r97ACB3VjAbKbIiT1BOBixCb?=
+ =?us-ascii?Q?qga437+hkSjjxDiD1Zis9vmS0H3KbZbWnxPRgAEAGmf62XifI5FwNkQotoSt?=
+ =?us-ascii?Q?cc9MBNGOUmq1jNw954D2cuQ/fbnBVIsRO7ozW5LARV+fBZ7wWw6GVVLMVMKR?=
+ =?us-ascii?Q?ot1o0nkh2u5NBPJfnkOGMv7q2Qr8U3ZHwnkZQxBWeOdIyLbA3M3RaIGGEazS?=
+ =?us-ascii?Q?Ua8+u+reN7EkTus/nBdo9PS3vvFS8dpbHpUo3FhxBhZ3mJXhV68t5AVvyACz?=
+ =?us-ascii?Q?LpPQA3I2gJdGkUPW0mDPVOKbyx8eXwiGNKwJPeIAWny73e+PoVbzvQJ01bk+?=
+ =?us-ascii?Q?5Q1R3Fx9PIqREztIbRfAtKtRtvohhelXTClDk6elC6cxZJD/ciqHnJ6aY8xE?=
+ =?us-ascii?Q?lH+iTeSYxRnwTA3H1pvCc+NStPBjMv9Vh8qH4lVL58F5ChTDiCNfns8fhht2?=
+ =?us-ascii?Q?dUuSRG40Q943KrrEY0ceV1XelD/jVmaJ/8V7YZaKCG2TsY6r8Nuj2eTsZb8x?=
+ =?us-ascii?Q?e2+HmXHAQCNFkw/S27C08RK1oj51cmlNHNEI02on9N0qbHiBGXXVtw5AB0Ad?=
+ =?us-ascii?Q?Lw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80948dd9-8b9e-4fbe-2fe1-08dca15abe17
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6029.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 03:36:35.4283
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 03:37:09.0617
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RC4xm8JvnRE/BORnK6A0dwooSZTfzHrN/0UP1opSnXACMaDNoyZZ1IUpBfaCAOeRpvsF2lhbJ2Y1m72zdBVs+A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2FN1bqUC4ur97gxn9xV8s7NS4tKm5eHbVWBfw2+WLQJ2Br5LSVClaN3yGpX1VcmCoIp12d/7eDFZuP1AZfzMKw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6437
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ee366aa641d84d61e265cd4f571394aa4e7d4e6d
-commit: 97c48f97ddd6c52c9b348f183171c51c1f8caa60 [10984/11381] LF-11524-4: dt-bindings: touchscreen: Convert FTS touchscreen to json-schema
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: arc-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110546.mYeeQTYf-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+tree:   https://github.com/Freescale/linux-fslc 6.6-1.0.x-imx
+head:   13ed4e83694299049a3d4449fdb61471292ef19b
+commit: 5c8cf515d45b79e8a788443c1446204e742a1549 [2607/11740] MLK-19251-01 gpio: max732x: add output IO default voltage set
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 months ago
+config: arm64-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110641.8hUP1TOb-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110546.mYeeQTYf-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110641.8hUP1TOb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407110546.mYeeQTYf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407110641.8hUP1TOb-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:21:2: [error] missing starting space in comment (comments)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:22:2: [error] missing starting space in comment (comments)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:23:2: [error] missing starting space in comment (comments)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:24:2: [error] missing starting space in comment (comments)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:67:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:75:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:83:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/regulator/nxp,pf0900-regulator.yaml:127:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
-   Documentation/devicetree/bindings/net/fsl,netc.yaml:62:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
-   Documentation/devicetree/bindings/net/fsl,netc.yaml:76:14: [warning] wrong indentation: expected 14 but found 13 (indentation)
->> Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.yaml:55:7: [error] no new line character at the end of file (new-line-at-end-of-file)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:38:18: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:38:20: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:38:22: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:18: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:20: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:22: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:24: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:26: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:28: [warning] too few spaces after comma (commas)
-   Documentation/devicetree/bindings/arm/freescale/fsl,seco_mu.yaml:45:30: [warning] too few spaces after comma (commas)
-
-vim +55 Documentation/devicetree/bindings/input/touchscreen/focaltech,fts.yaml
-
-97c48f97ddd6c5 Carlos Song 2024-03-11  31  
-97c48f97ddd6c5 Carlos Song 2024-03-11  32  required:
-97c48f97ddd6c5 Carlos Song 2024-03-11  33    - compatible
-97c48f97ddd6c5 Carlos Song 2024-03-11  34    - reg
-97c48f97ddd6c5 Carlos Song 2024-03-11  35    - irq-gpio
-97c48f97ddd6c5 Carlos Song 2024-03-11  36    - max-touch-number
-97c48f97ddd6c5 Carlos Song 2024-03-11  37    - touchscreen-size-x
-97c48f97ddd6c5 Carlos Song 2024-03-11  38    - touchscreen-size-y
-97c48f97ddd6c5 Carlos Song 2024-03-11  39  
-97c48f97ddd6c5 Carlos Song 2024-03-11  40  examples:
-97c48f97ddd6c5 Carlos Song 2024-03-11  41    - |
-97c48f97ddd6c5 Carlos Song 2024-03-11  42      &i2c {
-97c48f97ddd6c5 Carlos Song 2024-03-11  43        #address-cells = <1>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  44        #size-cells = <0>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  45        clock-frequency = <400000>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  46  
-97c48f97ddd6c5 Carlos Song 2024-03-11  47        focaltech_touch: focaltech@38 {
-97c48f97ddd6c5 Carlos Song 2024-03-11  48          compatible = "focaltech,fts";
-97c48f97ddd6c5 Carlos Song 2024-03-11  49          reg = <0x38>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  50          irq-gpio = <&gpio3 27 GPIO_ACTIVE_HIGH>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  51          touchscreen-size-x = <1080>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  52          touchscreen-size-y = <1920>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  53          max-touch-number = <10>;
-97c48f97ddd6c5 Carlos Song 2024-03-11  54        };
-97c48f97ddd6c5 Carlos Song 2024-03-11 @55      };
+>> arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e6510000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e6510000/gpio@22: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e6510000/gpio@23: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: clock-controller@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: clock-controller@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e66d8000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: versaclock_som@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: versaclock_som@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: /soc/i2c@e66e0000/gpio@70: failed to match any schema with compatible: ['nxp,pca9538']
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: sound@ec500000: ports:port@0: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: sound@ec500000: ports:port@0:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: sound@ec500000: ports:port@1: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: sound@ec500000: ports:port@1:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+>> arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e6510000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e6510000/gpio@22: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e6510000/gpio@23: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: clock-controller@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: clock-controller@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e66d8000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: versaclock_som@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: versaclock_som@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: /soc/i2c@e66e0000/gpio@70: failed to match any schema with compatible: ['nxp,pca9538']
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: sound@ec500000: ports:port@0: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: sound@ec500000: ports:port@0:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: sound@ec500000: ports:port@1: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: sound@ec500000: ports:port@1:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: clock-generator@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: clock-generator@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: sound@ec500000: port: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: sound@ec500000: port:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb: sound@ec500000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1677.12-1687.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1705.12-1715.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1733.12-1743.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1761.12-1771.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e6510000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e6510000/gpio@22: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e6510000/gpio@23: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: clock-controller@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: clock-controller@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e66d8000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e66d8000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: versaclock_som@6a: 'idt,shutdown' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: versaclock_som@6a: 'idt,output-enable-active' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/idt,versaclock5.yaml#
+>> arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: /soc/i2c@e66e0000/gpio@70: failed to match any schema with compatible: ['nxp,pca9538']
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: sound@ec500000: ports:port@0: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: sound@ec500000: ports:port@0:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: sound@ec500000: ports:port@1: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: sound@ec500000: ports:port@1:endpoint: Unevaluated properties are not allowed ('phandle' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/renesas,rsnd.yaml#
+   arch/arm64/boot/dts/renesas/r8a774e1-beacon-rzg2h-kit.dtb: lvds: panel-timing:vsync-active: 3 is not one of [0, 1]
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+--
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1175.12-1185.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1203.12-1213.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1231.12-1241.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1259.12-1269.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1287.12-1297.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1315.12-1325.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1343.12-1353.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:1371.12-1381.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:2455.12-2465.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779a0.dtsi:2621.12-2631.7: Warning (graph_child_address): /soc/isp@fed30000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: /soc/i2c@e6500000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: /soc/i2c@e6500000/gpio@22: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: /soc/i2c@e6500000/gpio@23: failed to match any schema with compatible: ['onnn,pca9654']
+--
+>> arch/arm64/boot/dts/renesas/r8a779f0-spider.dtb: /soc/i2c@e6500000/gpio@20: failed to match any schema with compatible: ['ti,tca9554']
+--
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1191.12-1201.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1219.12-1229.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1247.12-1257.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1275.12-1285.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1303.12-1313.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1331.12-1341.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1359.12-1369.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1387.12-1397.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2067.12-2077.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: /soc/i2c@e6500000/gpio@20: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: /soc/i2c@e6500000/gpio@21: failed to match any schema with compatible: ['onnn,pca9654']
+   arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: /soc/i2c@e6500000/gpio@22: failed to match any schema with compatible: ['onnn,pca9654']
 
 -- 
 0-DAY CI Kernel Test Service
