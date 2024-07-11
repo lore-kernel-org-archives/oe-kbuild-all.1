@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E057E339B1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 06:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1E312EBC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 07:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720680673; cv=none; b=X7Cw4dl6zirLqlesNXfPPvZ5s+bMXpSqJ2IB9PPOrILRwX2inc94jd5nSmWogJAe4m6tuM/NjdKbt9KtGubiROeRQltK/0SiABw8dDNCbBEgLhGSr8K+25aAUNQklSTFVKMAhPS29+ZTsZThM3QZDdHLHCYzIgs11D+VQR77L1M=
+	t=1720681455; cv=none; b=cOMX5Rax1HwOdz7FRyIQi18/kQeg0ythWuIWNHWyvljjhBdxHEKSZ8MJ2TJG0S4KY7qHALSSxzhdx+c712siExLychyC48VcEMXhN6nhL4g2P1ZzznljYxxc6wrQWPyqq1YVFTcemb8oswDgnyQw47XG2WBfFKO1L4FkSRmYEEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720680673; c=relaxed/simple;
-	bh=Rv3OWXJonP8x//8Hto2s3B7Uo7xTdf/CK14XpcBXeEU=;
+	s=arc-20240116; t=1720681455; c=relaxed/simple;
+	bh=v+0naZUTisEFpVjmTi9c/KQYN76fCdjGYrj8FCYXBs8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kHD37nDTuAeTFcKnRx8fKgUbZrhZe1nWM2e7qQbqh9AD6IICsrsv3VfTaS79HIlLeFAMoOp3StRZqChr59uhzS1Kkg3OGt0sJl6v9/I6I6DCieGuV3527psnTiFB0H803FljnT1Yc7KaMYLqvhDXYFgckiVcoWKbDVuGr+sfUUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dT7Z9A1b; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=J98C/XjTZARbdjv8g7HOeqHJbp+/VWLEe76cbhu2h9JkSjAki58JPD3mUfuk2y0j+QX+UJNWtqbGTU6xS0snjm4JYvn1H21t82HfWve0m3OzeRdY2pLkVTcj61OnSyavWA410DtqnzGyhoc4Pkm6d+W9IkZoCst20+ZIpi2rVk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C99vVOzA; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dT7Z9A1b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C99vVOzA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720680672; x=1752216672;
+  t=1720681453; x=1752217453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rv3OWXJonP8x//8Hto2s3B7Uo7xTdf/CK14XpcBXeEU=;
-  b=dT7Z9A1bZpZXiUyA6cE/7Jr1ZtVgVfQdfpar46AS30VybhYz3ZtPDFPT
-   DZiv8pkG/rGBJCT1MJJ63qud5hwstL/GFAvk+yu5fVOGxTlAV9uQaEnH5
-   qltDotdJq+Iuh1sMvnR3yRDmilKczr2avZA1NiLJfjKNyWJMn6hr/kWA6
-   dQm8md/AWlrdz0UL3yrme0hP7FssJfYDz127tF/Yk4A9o2/aDx4Z4loGh
-   huvbLWQlpb0GrZcpMZy25wzIAQB1M0thenmyucUfYWa9WV9qaX9DhT6ZD
-   9lmC7M5bhCrNEagWN5hkkcHcgOKv+L1i3pm0wkgWRSR9h175qeGWmdi95
-   w==;
-X-CSE-ConnectionGUID: s4Ym2j/gSwaC7YEsvfHP0Q==
-X-CSE-MsgGUID: Ox1aQC/fT9q8b8xhr2P+0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="43462490"
+  bh=v+0naZUTisEFpVjmTi9c/KQYN76fCdjGYrj8FCYXBs8=;
+  b=C99vVOzAWAEXykj3JOuubt9H+nocloezntjvgpl6EyFOqTrxH1HmvB4a
+   rdbprIj7/ORWq20HjGjRpdFEohx5sToDRe6PGcVfo4wqHloMK9ojgId9/
+   4ppjQ3nZoy0DWz5xdZBRsHe6lc2vzYnptXDZbFHPU3frHC3p6wMasQ7WL
+   KR3L3FcR56k2NkuhQjkj11kqcvnq7yUmXU3FLB1e9jlAFT5r9pUC/kODo
+   ox6U0vi4ZL87xC471aiJxuGTaX79D6bvJkt/O07A7KcYEbdXFoIJe3e8y
+   +QZ7cZfPCg7/nVhgVjbBy52vLNiUp3CoGMv3AQeAWhqxnbbLMRar7G4IU
+   A==;
+X-CSE-ConnectionGUID: iOwAKW6/RDOLLeZ7EPnquw==
+X-CSE-MsgGUID: HgSIIIu4QxSLq+HRKzgEPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="18183336"
 X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="43462490"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 23:51:11 -0700
-X-CSE-ConnectionGUID: LwCgQ+Y9R+K2ik4Yt80p6g==
-X-CSE-MsgGUID: rWueBdoPTfqnFTotKLZteg==
+   d="scan'208";a="18183336"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 00:04:12 -0700
+X-CSE-ConnectionGUID: 4XU8MpdeQ3G0YRyyTp3gCg==
+X-CSE-MsgGUID: sKcCsLA6Tfi2CNu8IhTLrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="79595707"
+   d="scan'208";a="53642542"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Jul 2024 23:51:10 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Jul 2024 00:04:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRne0-000YuW-00;
-	Thu, 11 Jul 2024 06:51:08 +0000
-Date: Thu, 11 Jul 2024 14:50:49 +0800
+	id 1sRnqa-000YvI-1k;
+	Thu, 11 Jul 2024 07:04:08 +0000
+Date: Thu, 11 Jul 2024 15:03:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Renze Nicolai <renze@rnplus.nl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>
-Subject: arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@1:
- aspeed,fan-tach-ch: b'\x01' is not of type 'object', 'integer', 'array',
- 'boolean', 'null'
-Message-ID: <202407111415.giGVjJLu-lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:page_counters.2 1/4] include/linux/page_counter.h:71:28:
+ error: 'MCT_NR_WITH_GUARANTEES' undeclared here (not in a function)
+Message-ID: <202407111454.rT4FiZj1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,50 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d9a2f29aefdadc86e450308ff056017a209c755
-commit: f373cffbdc46f287dd01bb7c4cfbf0b8c9a52d4e ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-date:   2 months ago
-config: arm-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407111415.giGVjJLu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407111415.giGVjJLu-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git page_counters.2
+head:   34c52c20ddd81cc0cbd01d6f60cdf686704c59a4
+commit: 705fdb35274011a225cba5d0e488c3e29e6c3120 [1/4] mm: memcg: merge multiple page_counters into a single structure
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240711/202407111454.rT4FiZj1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407111454.rT4FiZj1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407111415.giGVjJLu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407111454.rT4FiZj1-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: sram@1e720000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: sgpio@1e780200: '#interrupt-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,sgpio.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/rtc@1e781000: failed to match any schema with compatible: ['aspeed,ast2500-rtc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/watchdog@1e785000: failed to match any schema with compatible: ['aspeed,ast2500-wdt']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/watchdog@1e785020: failed to match any schema with compatible: ['aspeed,ast2500-wdt']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/watchdog@1e785040: failed to match any schema with compatible: ['aspeed,ast2500-wdt']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: /ahb/apb/pwm-tacho-controller@1e786000: failed to match any schema with compatible: ['aspeed,ast2500-pwm-tacho']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@1: aspeed,fan-tach-ch: b'\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@2: aspeed,fan-tach-ch: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@3: aspeed,fan-tach-ch: b'\x04\x0b' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@4: aspeed,fan-tach-ch: b'\x06\r' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: fan@5: aspeed,fan-tach-ch: b'\x05\x0c' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: lpc@1e789000: lpc-snoop@90: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/memcontrol.h:18,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/riscv/kernel/asm-offsets.c:13:
+>> include/linux/page_counter.h:71:28: error: 'MCT_NR_WITH_GUARANTEES' undeclared here (not in a function)
+      71 |         unsigned long emin[MCT_NR_WITH_GUARANTEES];
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:117: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1208: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/MCT_NR_WITH_GUARANTEES +71 include/linux/page_counter.h
+
+    61	
+    62	struct page_counter {
+    63		/*
+    64		 * Make sure 'usage' does not share cacheline with any other field. The
+    65		 * memcg->memory.usage is a hot member of struct mem_cgroup.
+    66		 */
+    67		atomic_long_t usage[MCT_NR_ITEMS];
+    68		CACHELINE_PADDING(_pad1_);
+    69	
+    70		/* effective memory.min and memory.min usage tracking */
+  > 71		unsigned long emin[MCT_NR_WITH_GUARANTEES];
+    72		atomic_long_t min_usage[MCT_NR_WITH_GUARANTEES];
+    73		atomic_long_t children_min_usage[MCT_NR_WITH_GUARANTEES];
+    74	
+    75		/* effective memory.low and memory.low usage tracking */
+    76		unsigned long elow[MCT_NR_WITH_GUARANTEES];
+    77		atomic_long_t low_usage[MCT_NR_WITH_GUARANTEES];
+    78		atomic_long_t children_low_usage[MCT_NR_WITH_GUARANTEES];
+    79	
+    80		unsigned long watermark[MCT_NR_ITEMS];
+    81		unsigned long failcnt[MCT_NR_ITEMS];
+    82	
+    83		/* Keep all the read most fields in a separete cacheline. */
+    84		CACHELINE_PADDING(_pad2_);
+    85	
+    86		unsigned long min[MCT_NR_WITH_GUARANTEES];
+    87		unsigned long low[MCT_NR_WITH_GUARANTEES];
+    88		unsigned long high[MCT_NR_ITEMS];
+    89		unsigned long max[MCT_NR_ITEMS];
+    90	
+    91		struct page_counter *parent;
+    92	} ____cacheline_internodealigned_in_smp;
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
