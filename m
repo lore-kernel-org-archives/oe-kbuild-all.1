@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CAAD512;
-	Thu, 11 Jul 2024 03:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ED5BE4E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 04:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720670348; cv=none; b=j4k7YACnPWeE7jTdU44eQJYLBEB3h1Z/xIaUJxyb/VV9ihdOE/C0NILuiv2csf3Q4eAwfIbW2Z8OqiqcNEcCQnJqhevEKf2RuU5CJoop/BelanC9IAcM7kmsybpenKtSzuKtPL9xGDxY293wVqqUCS3wKw+vbgKo/kCVITIlojU=
+	t=1720672326; cv=none; b=TwrIrt91o2HcJhNSkxebE0SzWHVXzOwSc2xeZIYrQ/63YXpf7Izb/ukZaXf1jbErpJrjf7TIxzSug7DWyrqd64Ybay9bMFUm70MlcU9mCaUssI9o4GR1Rr00HeGZAKiqHQaMFadwQ+vqKOcRObeNBbH8kvHIDXcZyldbw/zAI1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720670348; c=relaxed/simple;
-	bh=2hTfSLerBEhuvk5r/a+JgnS4n9dpEaBnFa1d1Xb3oi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgF5u7lmclcliXe+KL5umwTTJ1zSWv5pxDGrn2dDVJXleZssbyRRkSAXVI9RruJg1UhT/QtGVyAeanHl2ag3ejwIhKAz+yQDDUIDh050H7N3Sh+tXkNaPDiEv9xK9o6mP6aXzx7Ruw4+YPU+YoLOnwf5UKPsFF03f0L8jXpS9Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bn9sp7Tz; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1720672326; c=relaxed/simple;
+	bh=2wL8HGRY7DUP5MIZReLyQZbrO1yxV65cyBn0vzR2ww8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gc/8whiXB9jufvLYCCckwPG7DQCL7i4OTFgp5qXdYGr/nMN9tIVu2j1usT0ye/5k0llZdMeBBMj0MsVdv2OS2qpM1lS8l1Tis8vM+6KDT3ZFVZUeJbIBkva6mwYYXiHne+vLVT0wEGgy6CGi/rtIkEFs3yjaFDtnBHsZM6f43Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kiw0qdRU; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bn9sp7Tz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kiw0qdRU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720670345; x=1752206345;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2hTfSLerBEhuvk5r/a+JgnS4n9dpEaBnFa1d1Xb3oi4=;
-  b=bn9sp7TzlZjPlGVNAeqtmut9U2i3G+I9MJBQICDgSyIphjBaOCUcbyZN
-   j9R/nSdT7Z63D+O5EsDLjECyWz7YwDtNTCJBYAm/B/qs/k0551I2JU80d
-   6yiL/hXFmT+Wgm5jFCG+rdljk7IBVSreNGx0RGekvYHGO1AvC2SJ7ts5J
-   9Qb8MFI2IxoaCBn15XfS+ybTZRlDAIte9ocYO3jVT6WsBuVIif5DXytuM
-   QbJsXYyVuNHE1H/wsj+E+fa1VPLXa+OHDW9PNprJI4ggiQWETNxG81Toh
-   PbcD4jfaQJeuh5ExZUAhgsXnqN695slqnqQ9LTUYXov3I9Q1Tje7ooxwd
+  t=1720672325; x=1752208325;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=2wL8HGRY7DUP5MIZReLyQZbrO1yxV65cyBn0vzR2ww8=;
+  b=Kiw0qdRUl06ab7DdXQe++VwMprOWhxSRJ+MgCz45c6xG4AArPp3y62iU
+   G39oRRJlYfbn13gPN2Pfj2X5Qx+LWiGq+AdUmRlunxeQCaaC1IME+T1VE
+   BQmI5NTKTSG/i5mvbdecoY+IlwmWnBPdB2So8trr4FkqW6w2JSfiTlotm
+   JtjfIutjpLLpeiGO6pp39fn6fczRfWgeeSMC9DGdVyJSn98pQqakZDWMd
+   6/Ms4IWjaepltrLI+7eOVwe4RuTIT2QzkY4fiV/oa3zhtMZ0H/iw+xWbN
+   WAlzXeqPTb7xRn3COeaQ9iIAy4WVHyeLpTYtU1jIj79J/p8HA/dpatOCi
    Q==;
-X-CSE-ConnectionGUID: M0NkK2d+Tue7pgZFYpmEpg==
-X-CSE-MsgGUID: IOg5dwfHRpanyT0IRPfUnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="18168816"
+X-CSE-ConnectionGUID: 8XTt08tMTWyRtkLbOPqsIg==
+X-CSE-MsgGUID: zinD6qE/STilvEx+JJc7cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="17871320"
 X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="18168816"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 20:59:05 -0700
-X-CSE-ConnectionGUID: ALcnlCyMQ7uK0Tk2qQQtpw==
-X-CSE-MsgGUID: 5del/KQDQQ+K0/aVdZeUkA==
+   d="scan'208";a="17871320"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 21:32:04 -0700
+X-CSE-ConnectionGUID: ozal0EhISaCSQ0j8S2pM1A==
+X-CSE-MsgGUID: MHon9vjPSgCKBwro6NYgzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="52730050"
+   d="scan'208";a="79152390"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Jul 2024 20:59:02 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 Jul 2024 21:32:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRkxP-000Yiy-31;
-	Thu, 11 Jul 2024 03:58:59 +0000
-Date: Thu, 11 Jul 2024 11:58:24 +0800
+	id 1sRlTN-000YmE-1j;
+	Thu, 11 Jul 2024 04:32:01 +0000
+Date: Thu, 11 Jul 2024 12:31:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Ved Shanbhogue <ved@rivosinc.com>, Matt Evans <mev@rivosinc.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH v3 4/4] riscv: Stop emitting preventive sfence.vma for
- new userspace mappings with Svvptc
-Message-ID: <202407111151.m5cK0E6R-lkp@intel.com>
-References: <20240702085034.48395-5-alexghiti@rivosinc.com>
+To: Pei Li <peili.dev@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] btrfs: Fix slab-use-after-free Read in
+ add_ra_bio_pages
+Message-ID: <Zo9gFtIM67Zs33BW@6724a33121ae>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,88 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240702085034.48395-5-alexghiti@rivosinc.com>
+In-Reply-To: <20240710-bug11-v2-1-e7bc61f32e5d@gmail.com>
 
-Hi Alexandre,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.10-rc7]
-[cannot apply to next-20240710]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Add-ISA-extension-parsing-for-Svvptc/20240702-171920
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240702085034.48395-5-alexghiti%40rivosinc.com
-patch subject: [PATCH v3 4/4] riscv: Stop emitting preventive sfence.vma for new userspace mappings with Svvptc
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240711/202407111151.m5cK0E6R-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407111151.m5cK0E6R-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407111151.m5cK0E6R-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from lib/test_bitops.c:10:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/riscv/include/asm/elf.h:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:9:
-   In file included from include/linux/sched/task.h:13:
-   In file included from include/linux/uaccess.h:11:
-   In file included from arch/riscv/include/asm/uaccess.h:12:
->> arch/riscv/include/asm/pgtable.h:498:1: error: label at end of compound statement is a C23 extension [-Werror,-Wc23-extensions]
-     498 | }
-         | ^
-   1 error generated.
-
-
-vim +498 arch/riscv/include/asm/pgtable.h
-
-07037db5d479f9 Palmer Dabbelt          2017-07-10  469  
-07037db5d479f9 Palmer Dabbelt          2017-07-10  470  #define pgd_ERROR(e) \
-07037db5d479f9 Palmer Dabbelt          2017-07-10  471  	pr_err("%s:%d: bad pgd " PTE_FMT ".\n", __FILE__, __LINE__, pgd_val(e))
-07037db5d479f9 Palmer Dabbelt          2017-07-10  472  
-07037db5d479f9 Palmer Dabbelt          2017-07-10  473  
-07037db5d479f9 Palmer Dabbelt          2017-07-10  474  /* Commit new configuration to MMU hardware */
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  475) static inline void update_mmu_cache_range(struct vm_fault *vmf,
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  476) 		struct vm_area_struct *vma, unsigned long address,
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  477) 		pte_t *ptep, unsigned int nr)
-07037db5d479f9 Palmer Dabbelt          2017-07-10  478  {
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  479  	asm goto(ALTERNATIVE("nop", "j %l[svvptc]", 0, RISCV_ISA_EXT_SVVPTC, 1)
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  480  		 : : : : svvptc);
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  481  
-07037db5d479f9 Palmer Dabbelt          2017-07-10  482  	/*
-07037db5d479f9 Palmer Dabbelt          2017-07-10  483  	 * The kernel assumes that TLBs don't cache invalid entries, but
-07037db5d479f9 Palmer Dabbelt          2017-07-10  484  	 * in RISC-V, SFENCE.VMA specifies an ordering constraint, not a
-07037db5d479f9 Palmer Dabbelt          2017-07-10  485  	 * cache flush; it is necessary even after writing invalid entries.
-07037db5d479f9 Palmer Dabbelt          2017-07-10  486  	 * Relying on flush_tlb_fix_spurious_fault would suffice, but
-07037db5d479f9 Palmer Dabbelt          2017-07-10  487  	 * the extra traps reduce performance.  So, eagerly SFENCE.VMA.
-07037db5d479f9 Palmer Dabbelt          2017-07-10  488  	 */
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  489) 	while (nr--)
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  490) 		local_flush_tlb_page(address + nr * PAGE_SIZE);
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  491  
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  492  svvptc:
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  493  	/*
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  494  	 * Svvptc guarantees that the new valid pte will be visible within
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  495  	 * a bounded timeframe, so when the uarch does not cache invalid
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  496  	 * entries, we don't have to do anything.
-b5bdff9ee1fdca Alexandre Ghiti         2024-07-02  497  	 */
-07037db5d479f9 Palmer Dabbelt          2017-07-10 @498  }
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  499) #define update_mmu_cache(vma, addr, ptep) \
-864609c6a0b5f0 Matthew Wilcox (Oracle  2023-08-02  500) 	update_mmu_cache_range(NULL, vma, addr, ptep, 1)
-07037db5d479f9 Palmer Dabbelt          2017-07-10  501  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] btrfs: Fix slab-use-after-free Read in add_ra_bio_pages
+Link: https://lore.kernel.org/stable/20240710-bug11-v2-1-e7bc61f32e5d%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
