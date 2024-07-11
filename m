@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613B12FF6E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 22:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D79913D8A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 23:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720736588; cv=none; b=D198ygyq6ox9/SuDkey8eVRz4H3rpEOZownVwyLnavOIkkfDohipl00HMZcJWjdrqFO3fNmFO2MQM+XJ37UyEr6ArXWr5GF9L5KsOLRIj/tA04ZcIAeXPK/Ow/y9r4rj0GOS5BIf0Df1xyY1NY4HvK7vgZCwCr7eDDuZIdZG5m0=
+	t=1720740960; cv=none; b=d6F0DUWDEYeimEBrazjRoooCKXzCA/5RqzWRgzktpu+2YxX9VRHd4dPNB2H7uBbi5jEaRgwVlE7dTA5HqBeHLJ3vFtLpYZucbLJGkH2C7flgzNKTY/5DAs337KE37trY4lqVX34syVug7dArQox8VhKFnQce7SBjduHh5uTORyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720736588; c=relaxed/simple;
-	bh=NMpOHPORZNiIszPd1xmJQDSXELAPTH4cuTGhM1HiWDo=;
+	s=arc-20240116; t=1720740960; c=relaxed/simple;
+	bh=qHjVZoTwSz2GKMmWckCQHBB1pwcGiH35g8AL+WK3yOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8Nbb+F4KCpDG72bCqp5P4ZCaBQNCzBEsuLe6HAhD/H3XimbCTmBziHN5AfK9BhBOab5l/7wdZZQuqpGLmBsi8d0QeKq69jVBaw2wesj/cUOsmpKDnLb4JRNyFkH4oMRJ4YlDyPNlggT5FnRiyTbOlrd4tR9DRt6UhkUFqh11IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DcgeeaA6; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=MFEsx/PVZufeF9EfxZ79UvhxtOrpZenkZap5ixjgCB9obqWTP0mdF6Yl7zK6k+q/sWI5bYaw8tsZnLAER63aipDqyutss+H0oEH8sbEzobgf+xwBAHiqepcXzczzLu03shhkI/MpDyVtPRpPYzPfUq/7XJ4tqO7dQq+ToM6447Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wxok5Wd7; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DcgeeaA6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wxok5Wd7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720736585; x=1752272585;
+  t=1720740958; x=1752276958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NMpOHPORZNiIszPd1xmJQDSXELAPTH4cuTGhM1HiWDo=;
-  b=DcgeeaA6vhePXCobiM5dqehX/KQhHoOzWE6D3G2bcXvCR2RGmsqjn23B
-   STXv6nw/4Skg1RrcMp/oQ4fuuDwmhIvSpxIqRKi8bSbvPgDy5No+kioya
-   8j1niJeYA+pAYaZWCmrU4DFyAMrlK68IUAeXaif0624dilT+6QQ0AIAN0
-   N3SxmJrnfXDN3pjkPCtHgHAu7qdrSADeMk6M/6sQO7FHC2PDe/GZslFA0
-   m7iFBQmd7E6YrFlkEipXO1habvNiwqGhY/Dr5AcYshYtNoDSJRShS6bVC
-   KBgUzBFDGyYLrNqomCkGg/bgN8SljlUAZWpVdhxNO3oRIi9vgqvP/4jWP
-   g==;
-X-CSE-ConnectionGUID: obbaJfT2QG+vRIbIyc4bUg==
-X-CSE-MsgGUID: kfJje/pUSJK/oBHxV3mLRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18273768"
+  bh=qHjVZoTwSz2GKMmWckCQHBB1pwcGiH35g8AL+WK3yOU=;
+  b=Wxok5Wd7eJXQEn2Adn2TgCPJPEitfwNf6KtoTsYeXfInsRpQxGYh5loi
+   euZ7wfOaey2m+gg+LxE63MnPSAleNsg9r5EY+Qq/KOO+3+Nf6/wpiVK3h
+   J6OJ9ZwqIqP5wyY38j3WszcS7KAfq+95YIUiUluD2arThN87xNOFEuweE
+   sfD83WYEr+gEl20Rsv4LAJjxK8UR3tpHiiSvMev4e9k9Qv85zEIUU86K9
+   T0fHLwX9esSdDcIWnK10wJocP5ygqVfCsStrP+GKe590G6/Bjv+JWPz1N
+   Xw5tOIeHDbA3SuxPBkAE9nwdU2pJx8NMW9ru+R6cirfv/BvbdM2CdPlyI
+   A==;
+X-CSE-ConnectionGUID: 16yR4aYYT4Wl5gkmw95gCw==
+X-CSE-MsgGUID: RuzAmMbMRRue1iXU91uFZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="35707122"
 X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
-   d="scan'208";a="18273768"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 15:22:54 -0700
-X-CSE-ConnectionGUID: jonTN6ofRV+9TxDzNF2iVA==
-X-CSE-MsgGUID: ALBlhl1uR1Wt5lvjuH4eMw==
+   d="scan'208";a="35707122"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 16:35:57 -0700
+X-CSE-ConnectionGUID: Favjr+KtTfqIBlXg5WX/tA==
+X-CSE-MsgGUID: 3uLIb1asRke8IlrC3hA7tQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,201,1716274800"; 
-   d="scan'208";a="53020136"
+   d="scan'208";a="53115306"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jul 2024 15:22:52 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jul 2024 16:35:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sS2Be-000Zzi-1X;
-	Thu, 11 Jul 2024 22:22:50 +0000
-Date: Fri, 12 Jul 2024 06:21:55 +0800
+	id 1sS3KL-000a4I-0Z;
+	Thu, 11 Jul 2024 23:35:53 +0000
+Date: Fri, 12 Jul 2024 07:35:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xianglai Li <lixianglai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3761/10661]
- arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:426:53: warning:
- 'kvmalloc_array' sizes specified with 'sizeof' in the earlier argument and
- not in the later argument
-Message-ID: <202407120630.mHZS1KSZ-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 65/65] drivers/leds/leds-lp5569.c:204:52:
+ error: passing argument 3 of 'lp55xx_read' from incompatible pointer type
+Message-ID: <202407120702.K20luS0E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tianrui,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   15f539c4a521c5ae892554d0046e24f050ec0e00
-commit: 07db411edd838080fb7c42b9f56bc08dd60d9af6 [3761/10661] LoongArch: KVM: Enable kvm config and add the makefile
-config: loongarch-randconfig-001-20240711 (https://download.01.org/0day-ci/archive/20240712/202407120630.mHZS1KSZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407120630.mHZS1KSZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   d9cc80b1c9b40a33c022e125b7f9555813c7f385
+commit: d9cc80b1c9b40a33c022e125b7f9555813c7f385 [65/65] leds: leds-lp5569: Enable chip after chip configuration
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240712/202407120702.K20luS0E-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407120702.K20luS0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407120630.mHZS1KSZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407120702.K20luS0E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function '__kvm_mmu_topup_memory_cache':
->> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:426:53: warning: 'kvmalloc_array' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-     426 |                 mc->objects = kvmalloc_array(sizeof(void *), capacity, gfp);
-         |                                                     ^~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:426:53: note: earlier argument should specify number of elements, later size of each element
+   In file included from drivers/leds/leds-lp5569.c:11:
+   drivers/leds/leds-lp5569.c: In function 'lp5569_post_init_device':
+>> drivers/leds/leds-lp5569.c:204:52: error: passing argument 3 of 'lp55xx_read' from incompatible pointer type [-Wincompatible-pointer-types]
+     204 |                           chip, LP5569_REG_STATUS, &val);
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    int *
+   include/linux/iopoll.h:46:28: note: in definition of macro 'read_poll_timeout'
+      46 |                 (val) = op(args); \
+         |                            ^~~~
+   In file included from drivers/leds/leds-lp5569.c:20:
+   drivers/leds/leds-lp55xx-common.h:229:62: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'int *'
+     229 | extern int lp55xx_read(struct lp55xx_chip *chip, u8 reg, u8 *val);
+         |                                                          ~~~~^~~
+>> drivers/leds/leds-lp5569.c:204:52: error: passing argument 3 of 'lp55xx_read' from incompatible pointer type [-Wincompatible-pointer-types]
+     204 |                           chip, LP5569_REG_STATUS, &val);
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    int *
+   include/linux/iopoll.h:51:36: note: in definition of macro 'read_poll_timeout'
+      51 |                         (val) = op(args); \
+         |                                    ^~~~
+   drivers/leds/leds-lp55xx-common.h:229:62: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'int *'
+     229 | extern int lp55xx_read(struct lp55xx_chip *chip, u8 reg, u8 *val);
+         |                                                          ~~~~^~~
 
 
-vim +426 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
+vim +/lp55xx_read +204 drivers/leds/leds-lp5569.c
 
-6926f95accee3f Sean Christopherson 2020-07-02  413  
-837f66c7120754 David Matlack       2022-06-22  414  int __kvm_mmu_topup_memory_cache(struct kvm_mmu_memory_cache *mc, int capacity, int min)
-6926f95accee3f Sean Christopherson 2020-07-02  415  {
-63f4b210414b65 Paolo Bonzini       2022-07-29  416  	gfp_t gfp = mc->gfp_custom ? mc->gfp_custom : GFP_KERNEL_ACCOUNT;
-6926f95accee3f Sean Christopherson 2020-07-02  417  	void *obj;
-6926f95accee3f Sean Christopherson 2020-07-02  418  
-6926f95accee3f Sean Christopherson 2020-07-02  419  	if (mc->nobjs >= min)
-6926f95accee3f Sean Christopherson 2020-07-02  420  		return 0;
-837f66c7120754 David Matlack       2022-06-22  421  
-837f66c7120754 David Matlack       2022-06-22  422  	if (unlikely(!mc->objects)) {
-837f66c7120754 David Matlack       2022-06-22  423  		if (WARN_ON_ONCE(!capacity))
-837f66c7120754 David Matlack       2022-06-22  424  			return -EIO;
-837f66c7120754 David Matlack       2022-06-22  425  
-837f66c7120754 David Matlack       2022-06-22 @426  		mc->objects = kvmalloc_array(sizeof(void *), capacity, gfp);
-837f66c7120754 David Matlack       2022-06-22  427  		if (!mc->objects)
-837f66c7120754 David Matlack       2022-06-22  428  			return -ENOMEM;
-837f66c7120754 David Matlack       2022-06-22  429  
-837f66c7120754 David Matlack       2022-06-22  430  		mc->capacity = capacity;
-837f66c7120754 David Matlack       2022-06-22  431  	}
-837f66c7120754 David Matlack       2022-06-22  432  
-837f66c7120754 David Matlack       2022-06-22  433  	/* It is illegal to request a different capacity across topups. */
-837f66c7120754 David Matlack       2022-06-22  434  	if (WARN_ON_ONCE(mc->capacity != capacity))
-837f66c7120754 David Matlack       2022-06-22  435  		return -EIO;
-837f66c7120754 David Matlack       2022-06-22  436  
-837f66c7120754 David Matlack       2022-06-22  437  	while (mc->nobjs < mc->capacity) {
-837f66c7120754 David Matlack       2022-06-22  438  		obj = mmu_memory_cache_alloc_obj(mc, gfp);
-6926f95accee3f Sean Christopherson 2020-07-02  439  		if (!obj)
-6926f95accee3f Sean Christopherson 2020-07-02  440  			return mc->nobjs >= min ? 0 : -ENOMEM;
-6926f95accee3f Sean Christopherson 2020-07-02  441  		mc->objects[mc->nobjs++] = obj;
-6926f95accee3f Sean Christopherson 2020-07-02  442  	}
-6926f95accee3f Sean Christopherson 2020-07-02  443  	return 0;
-6926f95accee3f Sean Christopherson 2020-07-02  444  }
-6926f95accee3f Sean Christopherson 2020-07-02  445  
-
-:::::: The code at line 426 was first introduced by commit
-:::::: 837f66c71207542283831d0762c5dca3db5b397a KVM: Allow for different capacities in kvm_mmu_memory_cache structs
-
-:::::: TO: David Matlack <dmatlack@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+   171	
+   172	static int lp5569_post_init_device(struct lp55xx_chip *chip)
+   173	{
+   174		int ret;
+   175		int val;
+   176	
+   177		val = LP5569_DEFAULT_CONFIG;
+   178		val |= FIELD_PREP(LP5569_CP_MODE_MASK, chip->pdata->charge_pump_mode);
+   179		ret = lp55xx_write(chip, LP5569_REG_MISC, val);
+   180		if (ret)
+   181			return ret;
+   182	
+   183		if (chip->pdata->clock_mode == LP55XX_CLOCK_INT) {
+   184			/* Internal clock MUST be configured before CLK output */
+   185			ret = lp55xx_update_bits(chip, LP5569_REG_MISC,
+   186						 LP5569_INTERNAL_CLK,
+   187						 LP5569_INTERNAL_CLK);
+   188			if (ret)
+   189				return ret;
+   190	
+   191			ret = lp55xx_update_bits(chip, LP5569_REG_IO_CONTROL,
+   192						 LP5569_CLK_OUTPUT,
+   193						 LP5569_CLK_OUTPUT);
+   194			if (ret)
+   195				return ret;
+   196		}
+   197	
+   198		ret = lp55xx_write(chip, LP5569_REG_ENABLE, LP5569_ENABLE);
+   199		if (ret)
+   200			return ret;
+   201	
+   202		read_poll_timeout(lp55xx_read, ret, !(val & LP5569_STARTUP_BUSY),
+   203				  LP5569_STARTUP_SLEEP, LP5569_STARTUP_SLEEP * 10, false,
+ > 204				  chip, LP5569_REG_STATUS, &val);
+   205	
+   206		return lp5569_init_program_engine(chip);
+   207	}
+   208	
 
 -- 
 0-DAY CI Kernel Test Service
