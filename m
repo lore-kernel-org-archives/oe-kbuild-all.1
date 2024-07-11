@@ -1,145 +1,98 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6D15FD1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7A315FA66
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 13:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720705544; cv=none; b=g2F+YLiqeQsD/6asp8WjhjH5i3osllt669tEL24UB3u2/P7K2zN6EYJ9e5BGnljqIaIs+rvXcFqeq4c+HIQZiAnIbpZArje0USlv/axY4WmLPn+q1rl2mKQPzccG0yt4ggdP4luBRf7CQ3PnIe1rhtJwcUyGRaLfABSwnikCpts=
+	t=1720705836; cv=none; b=GbfHm8oBAugVDzbdZD1TbaY7o12T2+16X6Ko8GMLYnuYswaImPPCzILbEgDuLIhIo9/vTfK7ztrLWOpl88ftSd/J4UwtZ6k5XKccnqgrm5NIbKJENk35QQB2uaMCyo9lZa+e9GS+zjpemn98lRPGt4toPxTL0P8aBcBfbwonN4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720705544; c=relaxed/simple;
-	bh=+Iln7HlV/GOtTEfShLuR5S0RfTCYfT7FF7RGjj6Tpk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ipftjegzT9YFeK9TP/sXkOUIduhTJkN1YIz7I0ct19R+074lo+wvkKf17IrLmpC8Dgixm0QgVC4THDuRNcsnIeanaItZzitJAI/6njwUfYvYLPzbWOfBoANjPyq0OsX/jHupaqV4B9LFh6lSuI5ai3lw1eIHqH0VfjiuHA51UD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WdhiuuvY; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720705836; c=relaxed/simple;
+	bh=se61FPZzUA5HwQEvtVy2/8LlK6ztmeHr/a3V6wHR1ko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n7JVcJiKkqIJA1JKWwbFuuXhvxKs0qlSK9hR+Oni6ufN9c1CM4vfwLyjqZKecOb2yPjkBo9yt8FFdpE7jIsM30tvw/UyarS04yAoSjgDRRDdMQEugD/jw0r/3lZO0RsdPsBz5oQHSooAgpQFwbWWP7WzcC87sY1MknPOWNGj3J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OEsQgmMF; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WdhiuuvY"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3d9e166b228so479506b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 06:45:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OEsQgmMF"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e035dc23a21so934381276.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 06:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720705542; x=1721310342; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
-        b=WdhiuuvYdKACU62ejpt6Nx/6BqcfsEsVZ8wp6qsRNJk6h0BoaopU0VL7hWBgV5WJlH
-         R5BsfvXqQLpCTsF93Z1IAoHpxUYt/k5ZySGmLjduNeWbXvW3KrzpSM5l5ZCsrzLpvRgB
-         PTsrMhL08ucvDD/byoxtP6BBKxPFKRla2bpVVKeG9un/6JSzfryZ6anGngZR5ySZIDcF
-         +ALQjuY+bQEXburxI22m9wYThYYkXPRmt2yupbVhVnXUjpLxc4dw9JBRJzBGNgr3LBc9
-         4yF7R5c1pOeRrkQVcB9KE0QrwexSD+4ODcFUZKK0j37hPaynH9M7vojHB6JosLdB+oze
-         w9wg==
+        d=paul-moore.com; s=google; t=1720705833; x=1721310633; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ywdrhTjQNxm59oHEeOA1QDJuGdM3/Aym7bJC9qh8zJA=;
+        b=OEsQgmMFDrjQ+ddEiI6c27VihmadErHxXE6Zh8p8sb2zPD6G8naKBu/+ipkyqjAwBW
+         nHX8lv0lS19VSp/6wAbiKU0nscF4/Bbkj7yFAUnpokzpH+w0FcKoI93eBui/ORcESYkk
+         BSUiOSxzk6lUV5qKiSdEsR6HDND7RR2+E7zmob9TCvrOzaVDSO/GlZyEzRcidyUQaShu
+         hCJIur4872OsLljZc5nHFcvXk3Z9IpXMfKZkzWsxXUM4qTXmDTWY+kdSnrFymgk7EMbQ
+         4NhjDEJi6lAS4T+GVybio519dWZlPcWdrG1/gyWefyBl3Xi2HmMfL27R9KqmSbcjqX5c
+         SLhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720705542; x=1721310342;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
-        b=Ihmkm9Z7CyaAWG7SYd1ddDPBOQswDNwovWUFE7rDxj7jl7AcrryTRZwOs35oifHEDC
-         ggZx9EaraQ7pL1zeedVRZn8qEi2oDWctaEz8pJiKMI3S76+uMqJ4RKmiF456mCmOtCzG
-         QhcT9euwJs8laS7vojCes9WAlmqKIHy06Wcx9tC99WHHfmQSrIlyC7Je0qO4epX/F3pa
-         87xGdPFM5b4mgQeXzFVl0u8nAuLG70cFobnMCmxaA3gNhG2xqh/ygX7hhFml1wTLhuxV
-         whwEaTKvkx/4aWdS1UyHJnN3spC/HDd4wOv8LJ26OtT5yk408z3zfuyKB7NAs0kWTvJ1
-         G9/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXrsgFGkgQ7WzQQtzTKI8DOAVEb4NMTceOyvW7Fi0ngtlgvjNbd0RwToefVtQitGYusOjX47Bs7B6Bu8EnuiFxcC5n+3stGock8w0p0Dw==
-X-Gm-Message-State: AOJu0Yww6hujqsMUrvrY01gaYUH8NCdHT6DtLYRD25jU4hZ0EQ/6iaEl
-	pX9pXFQWNu/SB9DcWG+UJQjA4w7JIOonBEb9xMxUtmIIQYR44r+sfBb7BcNKB5M=
-X-Google-Smtp-Source: AGHT+IHuSStKyv1vw4rebrVR41VqJjg4gYw0bG9v8vovrkdDDfnPzTbo9SMxFA2uD7kTzQ26icTzAg==
-X-Received: by 2002:a05:6808:30a2:b0:3d9:245c:422e with SMTP id 5614622812f47-3d93c00f60fmr8805699b6e.21.1720705541942;
-        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:931f:6bae:9ea3:382e])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d93ad13711sm1080412b6e.17.2024.07.11.06.45.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
-Date: Thu, 11 Jul 2024 08:45:40 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with
- shared upstream link
-Message-ID: <1da3d82d-aff3-41b0-9a88-772280794f54@suswa.mountain>
+        d=1e100.net; s=20230601; t=1720705833; x=1721310633;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ywdrhTjQNxm59oHEeOA1QDJuGdM3/Aym7bJC9qh8zJA=;
+        b=ZzGVFGALxSsKGUOkKP9OtrQlu0tEinsThpjRzbnyRo23TqkWyVuw8bLqy2qIs/mCB6
+         POxH8LaF/3bj/Nf9sLZ5TERwzQKNxjsmW4l7ekljTtKz1tRX7kW/0hFTQUR1V6RXEcU/
+         a5XJCN4odDpC+q/hnzUbLyVMLPTifVKafy6aRoviiAgrPmj2jxmECvy9ssfS5NYr4YPv
+         koCySzNzDqLcuoPgbRR3B4eF0llsn1nfEcW2Fn7GBdBNfD78IaG7vVfjYj/EoC35k5d9
+         7bInXExl4bY171pIMEqMIba6zH5fnKLhm+2mAwMT+/MkovlQgQfvrJ5Q5/WKclHtziq5
+         71Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCXT6Ke1oCx++VMVj8wgoztl4Rd99Wu70VBphvC1iqt8G5YRXoP+5EmIXzoIVQhEaw8qXtRV5Ar2JKpUwHlHI3Ui3i6O5gUDKLLNj3L0AQ==
+X-Gm-Message-State: AOJu0YwEPV660wDNhDL1XRgz9ku8iax6cSQHDhPi8b0i6tLL0n7aMcUI
+	AqmklhFB4dnQ8zXrwclWXAa8UdGf7fyffpjmZHePtsTJtgXEQ2o9Y5a7ji35KeOJ3zrdXIkv2H+
+	GYF2t4OYvIRug9aP4X2QLV94B11ZphmqUqs3G
+X-Google-Smtp-Source: AGHT+IHaoYKq/YKmu2Z/szFpe1/WajGQX2D4bEfURKfajhpytclcvlib7RUfZXi4aqzgVDS/tAm9oTE4sjjzndcULwY=
+X-Received: by 2002:a25:5f11:0:b0:e03:64c1:2b0c with SMTP id
+ 3f1490d57ef6-e041af3b488mr9807730276.0.1720705833125; Thu, 11 Jul 2024
+ 06:50:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240710222716.797267-3-dave.jiang@intel.com>
+References: <202407111803.LoTE3SJX-lkp@intel.com>
+In-Reply-To: <202407111803.LoTE3SJX-lkp@intel.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 11 Jul 2024 09:50:22 -0400
+Message-ID: <CAHC9VhT8o--Xwj-0TwBwa-n09qbQJzaYruCVyPtqdY_pw49hWw@mail.gmail.com>
+Subject: Re: [robertosassu:inode-free-security 1/1] include/linux/lsm_hook_defs.h:117:1:
+ warning: omitting the parameter name in a function definition is a C23 extension
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dave,
+On Thu, Jul 11, 2024 at 6:18=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://github.com/robertosassu/linux inode-free-security
+> head:   804df4ecdaed5aab1b4ba876acd207195090d9cb
+> commit: 804df4ecdaed5aab1b4ba876acd207195090d9cb [1/1] lsm: add the inode=
+_free_security_rcu() LSM implementation hook
+> config: s390-defconfig (https://download.01.org/0day-ci/archive/20240711/=
+202407111803.LoTE3SJX-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a=
+0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240711/202407111803.LoTE3SJX-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407111803.LoTE3SJX-lkp=
+@intel.com/
 
-kernel test robot noticed the following build warnings:
+FWIW, I caught this when renaming the parameter based on other
+feedback on the RFC patch; it will be corrected when I post the next
+revision.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-Preserve-the-CDAT-access_coordinate-for-an-endpoint/20240711-092210
-base:   v6.10-rc6
-patch link:    https://lore.kernel.org/r/20240710222716.797267-3-dave.jiang%40intel.com
-patch subject: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with shared upstream link
-config: i386-randconfig-141-20240711 (https://download.01.org/0day-ci/archive/20240711/202407111927.7Q2PF9i0-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407111927.7Q2PF9i0-lkp@intel.com/
-
-smatch warnings:
-drivers/cxl/core/cdat.c:785 cxl_switch_gather_bandwidth() error: uninitialized symbol 'is_root'.
-
-vim +/is_root +785 drivers/cxl/core/cdat.c
-
-dfbcea34995e70 Dave Jiang 2024-07-10  749  static struct xarray *cxl_switch_gather_bandwidth(struct cxl_region *cxlr,
-dfbcea34995e70 Dave Jiang 2024-07-10  750  						  struct xarray *input_xa,
-dfbcea34995e70 Dave Jiang 2024-07-10  751  						  bool *gp_is_root)
-dfbcea34995e70 Dave Jiang 2024-07-10  752  {
-dfbcea34995e70 Dave Jiang 2024-07-10  753  	struct xarray *res_xa __free(free_perf_xa) =
-dfbcea34995e70 Dave Jiang 2024-07-10  754  		kzalloc(sizeof(*res_xa), GFP_KERNEL);
-dfbcea34995e70 Dave Jiang 2024-07-10  755  	struct access_coordinate coords[ACCESS_COORDINATE_MAX];
-dfbcea34995e70 Dave Jiang 2024-07-10  756  	struct cxl_perf_ctx *ctx, *us_ctx;
-dfbcea34995e70 Dave Jiang 2024-07-10  757  	unsigned long index, us_index;
-dfbcea34995e70 Dave Jiang 2024-07-10  758  	int dev_count = 0;
-dfbcea34995e70 Dave Jiang 2024-07-10  759  	int gp_count = 0;
-dfbcea34995e70 Dave Jiang 2024-07-10  760  	void *ptr;
-dfbcea34995e70 Dave Jiang 2024-07-10  761  	int rc;
-dfbcea34995e70 Dave Jiang 2024-07-10  762  
-dfbcea34995e70 Dave Jiang 2024-07-10  763  	if (!res_xa)
-dfbcea34995e70 Dave Jiang 2024-07-10  764  		return ERR_PTR(-ENOMEM);
-dfbcea34995e70 Dave Jiang 2024-07-10  765  	xa_init(res_xa);
-dfbcea34995e70 Dave Jiang 2024-07-10  766  
-dfbcea34995e70 Dave Jiang 2024-07-10  767  	xa_for_each(input_xa, index, ctx) {
-dfbcea34995e70 Dave Jiang 2024-07-10  768  		struct device *dev = (struct device *)index;
-dfbcea34995e70 Dave Jiang 2024-07-10  769  		struct cxl_port *port = ctx->port;
-dfbcea34995e70 Dave Jiang 2024-07-10  770  		struct cxl_port *parent_port = to_cxl_port(port->dev.parent);
-dfbcea34995e70 Dave Jiang 2024-07-10  771  		struct cxl_port *gp_port = to_cxl_port(parent_port->dev.parent);
-dfbcea34995e70 Dave Jiang 2024-07-10  772  		struct cxl_dport *dport = port->parent_dport;
-dfbcea34995e70 Dave Jiang 2024-07-10  773  		bool is_root;
-
-needs to be initialized to false
-
-dfbcea34995e70 Dave Jiang 2024-07-10  774  
-dfbcea34995e70 Dave Jiang 2024-07-10  775  		dev_count++;
-dfbcea34995e70 Dave Jiang 2024-07-10  776  		if (is_cxl_root(gp_port)) {
-dfbcea34995e70 Dave Jiang 2024-07-10  777  			is_root = true;
-dfbcea34995e70 Dave Jiang 2024-07-10  778  			gp_count++;
-dfbcea34995e70 Dave Jiang 2024-07-10  779  		}
-dfbcea34995e70 Dave Jiang 2024-07-10  780  
-dfbcea34995e70 Dave Jiang 2024-07-10  781  		/*
-dfbcea34995e70 Dave Jiang 2024-07-10  782  		 * If the grandparent is cxl root, then index is the root port,
-dfbcea34995e70 Dave Jiang 2024-07-10  783  		 * otherwise it's the parent switch upstream device.
-dfbcea34995e70 Dave Jiang 2024-07-10  784  		 */
-dfbcea34995e70 Dave Jiang 2024-07-10 @785  		if (is_root)
-dfbcea34995e70 Dave Jiang 2024-07-10  786  			us_index = (unsigned long)port->parent_dport->dport_dev;
-dfbcea34995e70 Dave Jiang 2024-07-10  787  		else
-dfbcea34995e70 Dave Jiang 2024-07-10  788  			us_index = (unsigned long)parent_port->uport_dev;
-dfbcea34995e70 Dave Jiang 2024-07-10  789  
-dfbcea34995e70 Dave Jiang 2024-07-10  790  		us_ctx = xa_load(res_xa, us_index);
-dfbcea34995e70 Dave Jiang 2024-07-10  791  		if (!us_ctx) {
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+--=20
+paul-moore.com
