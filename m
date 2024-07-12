@@ -1,137 +1,330 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4632416F0C2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 10:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284581640B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 11:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720779775; cv=none; b=uBA+hA5m7pis8EzXc8gVshzvSKKVi/ZOj2K9QSOEwL+aQFUANN2Gt3ivAZ/+FB5+sUR4mNknSiIYMx+ogQQRYWlu8onebiI42msD5JEVTAtWeN4YK8JhxC3R0q+NBCxa3qZeZ3t/5DNbw+UKaMyRBDLIBjvBCD51BV3H1icumNY=
+	t=1720785127; cv=none; b=hf4Pg5RENQwghjyeuqrNgt8j921e9Lpm6UojxkrV//pb1bOOUNwjzget7HceUouEA4Ki9Iy+6RD7HoGx4pI5nT67XtZrEIsCsWCwevOCwEDE4moLjLBiSU+fs1nWHNk6yf+PKNRsyNbTl/QX8BUSyg0fgk+YhdeT/BGSo6+in5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720779775; c=relaxed/simple;
-	bh=hT9KYayQoZMuriArnvelrFa3Fs9eteN6/eNv3aXYLNQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=d4/sP/wIhwSZGjpYuJQQ+C770mowg4XQdu3wr1+8oyA4q21NCkAyb7Tog7Ygcvx/yXYwzatzy5eIxpbRPTz21KrmycAc661ifK2yBTZ2BXSgGSMAGfHw+DHP6VvHva0bauN3rcCsgM7rTQyswfQP672V6rKWLsZo5/LhJQp3u8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WL70s64tFz6K5t9;
-	Fri, 12 Jul 2024 18:21:17 +0800 (CST)
-Received: from lhrpeml500002.china.huawei.com (unknown [7.191.160.78])
-	by mail.maildlp.com (Postfix) with ESMTPS id 89046140B2A;
-	Fri, 12 Jul 2024 18:22:49 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- lhrpeml500002.china.huawei.com (7.191.160.78) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 12 Jul 2024 11:22:49 +0100
-Received: from lhrpeml500005.china.huawei.com ([7.191.163.240]) by
- lhrpeml500005.china.huawei.com ([7.191.163.240]) with mapi id 15.01.2507.039;
- Fri, 12 Jul 2024 11:22:49 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Linux
- Memory Management List" <linux-mm@kvack.org>, Will Deacon <will@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>, Jason Gunthorpe <jgg@nvidia.com>, "Kevin
- Tian" <kevin.tian@intel.com>
-Subject: RE: [linux-next:master 9539/12880]
- drivers/iommu/io-pgtable-arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR'
- undeclared
-Thread-Topic: [linux-next:master 9539/12880]
- drivers/iommu/io-pgtable-arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR'
- undeclared
-Thread-Index: AQHa1DSGChJrAKxTUkKXF/6p5xqHYbHy4YEw
-Date: Fri, 12 Jul 2024 10:22:49 +0000
-Message-ID: <84de5d98f80f4890943eada39b795fec@huawei.com>
-References: <202407121602.HL9ih1it-lkp@intel.com>
-In-Reply-To: <202407121602.HL9ih1it-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1720785127; c=relaxed/simple;
+	bh=bsD+Y3lBDQsozn6E7ODrLjRhG7eiCoBDGZkxWlj2klY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bWcvxzPQYYjx1p6HLisJf6HpWMmEV0s1MlQ3qROUiHXuijqBc8wxJBE+DLV0jFjb/zc/2TqKTsL/OTPOz6KLzGX+T55YEPfaXAzaWkxW0FAVfOJldRgT2pYbcK/pd5NXs45nBj3473AT9H/zeANkG1WtWsk1zky70RHWpBODhAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MCJll0Ey; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MCJll0Ey"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720785125; x=1752321125;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bsD+Y3lBDQsozn6E7ODrLjRhG7eiCoBDGZkxWlj2klY=;
+  b=MCJll0EyLA1cuUesEii1tA7vE/YwfHHaIiLd0V/oKNEGj07uRiTcWZx5
+   vt1iqf1tka1tan+sh3cDTIhrG30i5uSoJwUGGKoNiS7XSzbS2QFNkd/JD
+   beX5mYghChM71wIJKbrehYEBuX8c+FHSUXHnNHNEyAFXECZuuToUfRW0+
+   XaI/LuW/Yhhf+CXB4cyyK9zw26Ua9S4cdweLFpXyLmyawnrxvgMDJOnhj
+   RycZCmwA7Ejb+vwEdsIU/eJ927TfTIZ5C85m5lswQ8ATra66GzFOSSDsw
+   UQ+mOf/9ZD5NNydS7JJLsrxo1GiOGc8SVTIeaEB5GLtMjDy2uljZHgH9Y
+   g==;
+X-CSE-ConnectionGUID: 3l0s7YdtSXOFtMx84Vw1gQ==
+X-CSE-MsgGUID: BOsbmImUTfWooOSSw95Ztg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18171242"
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="18171242"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 04:51:26 -0700
+X-CSE-ConnectionGUID: r8iYMDWrQS2qIHSv20W1WA==
+X-CSE-MsgGUID: GWNudzkCSUS72bGX0haq0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="48797070"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 12 Jul 2024 04:51:23 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sSEo4-000aiu-0N;
+	Fri, 12 Jul 2024 11:51:20 +0000
+Date: Fri, 12 Jul 2024 19:50:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joshua Felmeden <jfelmeden@thegoodpenguin.co.uk>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] iio: humidity: Add support for ENS21x
+Message-ID: <202407121921.LHla7p7i-lkp@intel.com>
+References: <20240710-ens21x-v3-2-4e3fbcf2a7fb@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240710-ens21x-v3-2-4e3fbcf2a7fb@thegoodpenguin.co.uk>
 
+Hi Joshua,
 
+kernel test robot noticed the following build warnings:
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: Friday, July 12, 2024 9:21 AM
-> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-> Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-
-> mm@kvack.org>; Will Deacon <will@kernel.org>; Ryan Roberts
-> <ryan.roberts@arm.com>; Jason Gunthorpe <jgg@nvidia.com>; Kevin Tian
-> <kevin.tian@intel.com>
-> Subject: [linux-next:master 9539/12880] drivers/iommu/io-pgtable-
-> arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR' undeclared
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it
-> master
-> head:   3fe121b622825ff8cc995a1e6b026181c48188db
-> commit: 4fe88fd8b4aecb7f9680bf898811db76b94095a9 [9539/12880]
-> iommu/io-pgtable-arm: Add read_and_clear_dirty() support
-> config: arm-buildonly-randconfig-r005-20220402
-> (https://download.01.org/0day-ci/archive/20240712/202407121602.HL9ih1it-
-> lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> ci/archive/20240712/202407121602.HL9ih1it-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407121602.HL9ih1it-
-> lkp@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    drivers/iommu/io-pgtable-arm.c: In function 'io_pgtable_visit_dirty':
-> >> drivers/iommu/io-pgtable-arm.c:772:50: error:
-> 'IOMMU_DIRTY_NO_CLEAR' undeclared (first use in this function)
->      772 |                         if (!(walk_data->flags & IOMMU_DIRTY_N=
-O_CLEAR))
+[auto build test WARNING on 1ebab783647a9e3bf357002d5c4ff060c8474a0a]
 
-Looks like we need to move the IOMMU_DIRTY_NO_CLEAR define in iommu.h
-to cover !CONFIG_IOMMU_API case.
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Felmeden/dt-bindings-iio-humidity-add-ENS21x-sensor-family/20240711-022826
+base:   1ebab783647a9e3bf357002d5c4ff060c8474a0a
+patch link:    https://lore.kernel.org/r/20240710-ens21x-v3-2-4e3fbcf2a7fb%40thegoodpenguin.co.uk
+patch subject: [PATCH v3 2/2] iio: humidity: Add support for ENS21x
+config: loongarch-randconfig-r122-20240712 (https://download.01.org/0day-ci/archive/20240712/202407121921.LHla7p7i-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240712/202407121921.LHla7p7i-lkp@intel.com/reproduce)
 
----x---
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407121921.LHla7p7i-lkp@intel.com/
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 7bc8dff7cf6d..104ce84647d4 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -317,6 +317,9 @@ enum iommu_dev_features {
- #define IOMMU_PASID_INVALID    (-1U)
- typedef unsigned int ioasid_t;
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/humidity/ens21x.c:84:23: sparse: sparse: restricted __be32 degrades to integer
+>> drivers/iio/humidity/ens21x.c:143:26: sparse: sparse: cast to restricted __le32
+>> drivers/iio/humidity/ens21x.c:283:19: sparse: sparse: cast to restricted __le16
 
-+/* Read but do not clear any dirty bits */
-+#define IOMMU_DIRTY_NO_CLEAR (1 << 0)
-+
- #ifdef CONFIG_IOMMU_API
+vim +84 drivers/iio/humidity/ens21x.c
 
- /**
-@@ -353,9 +356,6 @@ struct iommu_dirty_bitmap {
-        struct iommu_iotlb_gather *gather;
- };
+    80	
+    81	/* calculate 17-bit crc7 */
+    82	static u8 ens21x_crc7(u32 val)
+    83	{
+  > 84		u32 val_be = (htonl(val & 0x1ffff) >> 0x8);
+    85	
+    86		return crc7_be(0xde, (u8 *)&val_be, 3) >> 1;
+    87	}
+    88	
+    89	static int ens21x_get_measurement(struct iio_dev *indio_dev, bool temp, int *val)
+    90	{
+    91		u32 regval, regval_le;
+    92		int ret, tries;
+    93		struct ens21x_dev *dev_data = iio_priv(indio_dev);
+    94	
+    95		/* assert read */
+    96		i2c_smbus_write_byte_data(dev_data->client, ENS21X_REG_SENS_START,
+    97					  temp ? ENS21X_SENS_START_T_START :
+    98						 ENS21X_SENS_START_H_START);
+    99	
+   100		/* wait for conversion to be ready */
+   101		switch (dev_data->part_id) {
+   102		case ENS210:
+   103		case ENS210A:
+   104			msleep(ENS210_CONST_CONVERSION_TIME);
+   105			break;
+   106		case ENS211:
+   107		case ENS212:
+   108			msleep(ENS212_CONST_CONVERSION_TIME);
+   109			break;
+   110		case ENS213A:
+   111		case ENS215:
+   112			msleep(ENS215_CONST_CONVERSION_TIME);
+   113			break;
+   114		default:
+   115			dev_err(&dev_data->client->dev, "unrecognised device");
+   116			return -ENODEV;
+   117		}
+   118	
+   119		tries = 10;
+   120		while (tries-- > 0) {
+   121			usleep_range(4000, 5000);
+   122			ret = i2c_smbus_read_byte_data(dev_data->client,
+   123						       ENS21X_REG_SENS_STAT);
+   124			if (ret < 0)
+   125				continue;
+   126			if (!(ret & (temp ? ENS21X_SENS_STAT_T_ACTIVE :
+   127					    ENS21X_SENS_STAT_H_ACTIVE)))
+   128				break;
+   129		}
+   130		if (tries < 0) {
+   131			dev_err(&indio_dev->dev, "timeout waiting for sensor reading\n");
+   132			return -EIO;
+   133		}
+   134	
+   135		/* perform read */
+   136		ret = i2c_smbus_read_i2c_block_data(
+   137			dev_data->client, temp ? ENS21X_REG_T_VAL : ENS21X_REG_H_VAL, 3,
+   138			(u8 *)&regval_le);
+   139		if (ret < 0) {
+   140			dev_err(&dev_data->client->dev, "failed to read register");
+   141			return -EIO;
+   142		} else if (ret == 3) {
+ > 143			regval = le32_to_cpu(regval_le);
+   144			if (ens21x_crc7(regval) == ((regval >> 17) & 0x7f)) {
+   145				*val = regval & 0xffff;
+   146				return IIO_VAL_INT;
+   147			}
+   148			/* crc fail */
+   149			dev_err(&indio_dev->dev, "ens invalid crc\n");
+   150			return -EIO;
+   151		}
+   152	
+   153		dev_err(&indio_dev->dev, "expected 3 bytes, received %d\n", ret);
+   154		return -EIO;
+   155	}
+   156	
+   157	static int ens21x_read_raw(struct iio_dev *indio_dev,
+   158				   struct iio_chan_spec const *channel, int *val,
+   159				   int *val2, long mask)
+   160	{
+   161		struct ens21x_dev *dev_data = iio_priv(indio_dev);
+   162		int ret = -EINVAL;
+   163	
+   164		switch (mask) {
+   165		case IIO_CHAN_INFO_RAW:
+   166			mutex_lock(&dev_data->lock);
+   167			ret = ens21x_get_measurement(
+   168				indio_dev, channel->type == IIO_TEMP, val);
+   169			mutex_unlock(&dev_data->lock);
+   170			break;
+   171		case IIO_CHAN_INFO_SCALE:
+   172			if (channel->type == IIO_TEMP) {
+   173				*val = ENS21X_CONST_TEMP_SCALE_INT;
+   174				*val2 = ENS21X_CONST_TEMP_SCALE_DEC;
+   175			} else {
+   176				*val = ENS21X_CONST_HUM_SCALE_INT;
+   177				*val2 = ENS21X_CONST_HUM_SCALE_DEC;
+   178			}
+   179			ret = IIO_VAL_INT_PLUS_MICRO;
+   180			break;
+   181		case IIO_CHAN_INFO_OFFSET:
+   182			if (channel->type == IIO_TEMP) {
+   183				*val = ENS21X_CONST_TEMP_OFFSET_INT;
+   184				*val2 = ENS21X_CONST_TEMP_OFFSET_DEC;
+   185				ret = IIO_VAL_INT_PLUS_MICRO;
+   186				break;
+   187			}
+   188			*val = 0;
+   189			ret =  IIO_VAL_INT;
+   190			break;
+   191		default:
+   192			break;
+   193		}
+   194		return ret;
+   195	}
+   196	
+   197	static const struct iio_chan_spec ens21x_channels[] = {
+   198		/* Temperature channel */
+   199		{
+   200			.type = IIO_TEMP,
+   201			.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+   202					      BIT(IIO_CHAN_INFO_SCALE) |
+   203					      BIT(IIO_CHAN_INFO_OFFSET),
+   204		},
+   205		/* Humidity channel */
+   206		{
+   207			.type = IIO_HUMIDITYRELATIVE,
+   208			.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+   209					      BIT(IIO_CHAN_INFO_SCALE) |
+   210					      BIT(IIO_CHAN_INFO_OFFSET),
+   211		}
+   212	};
+   213	
+   214	static const struct iio_info ens21x_info = {
+   215		.read_raw = ens21x_read_raw,
+   216	};
+   217	
+   218	static int ens21x_probe(struct i2c_client *client)
+   219	{
+   220		const struct i2c_device_id *id = i2c_client_get_device_id(client);
+   221		const struct of_device_id *match;
+   222		struct ens21x_dev *dev_data;
+   223		struct iio_dev *indio_dev;
+   224		uint16_t part_id_le, part_id;
+   225		int ret, tries;
+   226	
+   227		if (!i2c_check_functionality(client->adapter,
+   228				I2C_FUNC_SMBUS_WRITE_BYTE_DATA |
+   229				I2C_FUNC_SMBUS_WRITE_BYTE |
+   230				I2C_FUNC_SMBUS_READ_I2C_BLOCK)) {
+   231			dev_err(&client->dev,
+   232				"adapter does not support some i2c transactions\n");
+   233			return -EOPNOTSUPP;
+   234		}
+   235	
+   236		match = i2c_of_match_device(ens21x_of_match, client);
+   237		if (!match)
+   238			return -ENODEV;
+   239	
+   240		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*dev_data));
+   241		if (!indio_dev)
+   242			return -ENOMEM;
+   243	
+   244		dev_data = iio_priv(indio_dev);
+   245		i2c_set_clientdata(client, indio_dev);
+   246		dev_data->client = client;
+   247		mutex_init(&dev_data->lock);
+   248	
+   249		/* reset device */
+   250		ret = i2c_smbus_write_byte_data(client, ENS21X_REG_SYS_CTRL,
+   251						ENS21X_SYS_CTRL_SYS_RESET);
+   252		if (ret)
+   253			return ret;
+   254	
+   255		/* wait for device to become active */
+   256		usleep_range(4000, 5000);
+   257	
+   258		/* disable low power mode */
+   259		ret = i2c_smbus_write_byte_data(client, ENS21X_REG_SYS_CTRL, 0x00);
+   260		if (ret)
+   261			return ret;
+   262	
+   263		/* wait for device to become active */
+   264		tries = 10;
+   265		while (tries-- > 0) {
+   266			msleep(20);
+   267			ret = i2c_smbus_read_byte_data(client, ENS21X_REG_SYS_STAT);
+   268			if (ret < 0)
+   269				return ret;
+   270			if (ret & ENS21X_SYS_STAT_SYS_ACTIVE)
+   271				break;
+   272		}
+   273		if (tries < 0) {
+   274			dev_err(&client->dev,
+   275				"timeout waiting for ens21x to become active\n");
+   276			return -EIO;
+   277		}
+   278	
+   279		/* get part_id */
+   280		part_id_le = i2c_smbus_read_word_data(client, ENS21X_REG_PART_ID);
+   281		if (part_id_le < 0)
+   282			return part_id_le;
+ > 283		part_id = le16_to_cpu(part_id_le);
+   284	
+   285		if (part_id != id->driver_data) {
+   286			dev_err(&client->dev,
+   287				"Part ID does not match (0x%04x != 0x%04lx)\n", part_id,
+   288				id->driver_data);
+   289			return -ENODEV;
+   290		}
+   291	
+   292		/* reenable low power */
+   293		ret = i2c_smbus_write_byte_data(client, ENS21X_REG_SYS_CTRL,
+   294						ENS21X_SYS_CTRL_LOW_POWER_ENABLE);
+   295		if (ret)
+   296			return ret;
+   297	
+   298		dev_data->part_id = part_id;
+   299	
+   300		indio_dev->name = id->name;
+   301		indio_dev->modes = INDIO_DIRECT_MODE;
+   302		indio_dev->channels = ens21x_channels;
+   303		indio_dev->num_channels = ARRAY_SIZE(ens21x_channels);
+   304		indio_dev->info = &ens21x_info;
+   305	
+   306		return devm_iio_device_register(&client->dev, indio_dev);
+   307	}
+   308	
 
--/* Read but do not clear any dirty bits */
--#define IOMMU_DIRTY_NO_CLEAR (1 << 0)
--
- /**
-  * struct iommu_dirty_ops - domain specific dirty tracking operations
-  * @set_dirty_tracking: Enable or Disable dirty tracking on the iommu doma=
-in
-
-I will sent out a patch.
-
-Thanks,
-Shameer
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
