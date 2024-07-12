@@ -1,86 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE981C8C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 03:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1535DDBE;
+	Fri, 12 Jul 2024 03:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720754527; cv=none; b=JVASsgaciZlQkgGmDOBvUJXq87R7Xdkh1lH7Ga2Lbcv/Nv9lYg8ZBt0NfGtWFnv4A31NfhkQrknJ6+8zzJq6zLPNmxi8PkRhAdAuustym7zZsw1gHqkQIxW81XTWlaSh8an7AsDs7lgElJXhNzy64Es1y6y0UEqhiOrcE3kN9JY=
+	t=1720755367; cv=none; b=tQboExqkwociY2YAREOzSoq4SSUGC0kfk4hekzk/ADm+dBCXWrR6tahw523AmuCHRcyPWy6wS4zqOhVMACb/soVtQHiVzawm8th0psGHp65zhduK0AH0wVhakHvD+AuJiqm3WHKqzWADWVhLG8wg9Cer4q5mENEwkhQq0TSPetM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720754527; c=relaxed/simple;
-	bh=AnCL4iWoi92MAGUQJMJC6wnIVCROAMbzH6phHry9Vxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ms70C9Lv/mOd11CY8VzYAuDZ1PboXEpddhjUdCmRtpLy/A+vcum1GbUIGUJQMAmcJruZnTqVP1QYXx/OWcW+XRo0q/6eAkD0/s86/pR5UfnvHcnhxVwXy2zJGXO2co+g9UUKJFSjwyxQeqVymyDXN3XLC9cuEePIpcRg1x6AwWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzpdAUY5; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720755367; c=relaxed/simple;
+	bh=VRyGjFQolawRZImK+IOGOg0G+EPEMAJ0J9NsIWlAf8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O8Qur+gv/E9zdTY5y9V7IEY/FlGElYaPrfzgBHkcqoDH4sEE1OCPkpb72pOizK0hSdxjdc44RAPEKr5X6kEBUN2kelkioeaUIAnaHoa9TzDW/4iDoEe7T06dko7zyiEnABetGtRq7guzNqkQUZjllhCEOnqb1r6x2TIAKHpNiPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=b+FgFQJp; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzpdAUY5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720754525; x=1752290525;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AnCL4iWoi92MAGUQJMJC6wnIVCROAMbzH6phHry9Vxw=;
-  b=kzpdAUY5nwIcpq9O3BFqQavTnSDzMt61yMrYU1j9cpIMyzssqIR/j/zc
-   oa62q5u3QcDyfwrbNImtWZTonuVGUJWzDHvao5YIu3TpL+kPKmlH7Ig0n
-   gDqik0l14NNkmivR1aPmQf6KiOWY+wiug0r1wvAKVFxFlPpNcfkY9UaYL
-   hFJwfXyhRjXgQkYmVhLTp/LPTndSs28UK3xJ39Oj4t14wAWUheTdpkzco
-   X+auRdkqSEQjjc+8O8g3+QPFdVWKyG8OqVM69RRwOkdrZozJBrQ4x7jmU
-   Q0/Jjjg7OSyNlrt1k8fZLlr2upFLQi2J4jjnDZHnCSTXsVs6kcdSysMnx
-   A==;
-X-CSE-ConnectionGUID: 5DVqiF5fR1SUyqMsaggskA==
-X-CSE-MsgGUID: u/35azgKQ2+s/q8OzrBUgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18296470"
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="18296470"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 20:22:05 -0700
-X-CSE-ConnectionGUID: i0pumumzS76vJ3Bl8XZPdQ==
-X-CSE-MsgGUID: pXBGfgaaRsyXjvWGRrRylg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="53614314"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jul 2024 20:22:04 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sS6rB-000aIQ-0V;
-	Fri, 12 Jul 2024 03:22:01 +0000
-Date: Fri, 12 Jul 2024 11:21:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 12508/12643] ERROR: start_text address is
- c000000000000400, should be c000000000000200
-Message-ID: <202407121159.Djj8V7io-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="b+FgFQJp"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1720755362; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=zj6wPj6Zh6XgSISd6AOm8AXZp2rbbWBD8O1Iq+f1CSU=;
+	b=b+FgFQJpFuRWIa939opc58JgHrh/GlboB31XrXbfByoFB/1+GfG8hmZXgzpefFOGVltCAu+AerAenvfBHbibsKpfYLQKi2LLedstBPiYXf+lDXnuKgHN1kslNT9JcpQuMquC0Ph0WkSaIFl3H6109S6zjw5KEBcDGpVE/Ac594w=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033023225041;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0WAMhTxo_1720755361;
+Received: from 30.97.56.66(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WAMhTxo_1720755361)
+          by smtp.aliyun-inc.com;
+          Fri, 12 Jul 2024 11:36:02 +0800
+Message-ID: <8066aaff-e7df-42fa-8142-d7cb22af3835@linux.alibaba.com>
+Date: Fri, 12 Jul 2024 11:36:01 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] mm: shmem: move shmem_huge_global_enabled() into
+ shmem_allowable_huge_orders()
+To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
+ hughd@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, willy@infradead.org,
+ david@redhat.com, 21cnbao@gmail.com, ryan.roberts@arm.com, ziy@nvidia.com,
+ ioworker0@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <6e5858d345304d0428c1c2c2a25c289c062b4ea8.1720668581.git.baolin.wang@linux.alibaba.com>
+ <202407121052.Jbq6PSIi-lkp@intel.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <202407121052.Jbq6PSIi-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-commit: 37c34bb9e957411c48734d722bb33114835d70e1 [12508/12643] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
-config: powerpc64-randconfig-r031-20211017 (https://download.01.org/0day-ci/archive/20240712/202407121159.Djj8V7io-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121159.Djj8V7io-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407121159.Djj8V7io-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+On 2024/7/12 11:10, kernel test robot wrote:
+> Hi Baolin,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> [also build test ERROR on next-20240711]
+> [cannot apply to linus/master v6.10-rc7]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baolin-Wang/mm-shmem-simplify-the-suitable-huge-orders-validation-for-tmpfs/20240711-134512
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/6e5858d345304d0428c1c2c2a25c289c062b4ea8.1720668581.git.baolin.wang%40linux.alibaba.com
+> patch subject: [PATCH 3/3] mm: shmem: move shmem_huge_global_enabled() into shmem_allowable_huge_orders()
+> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240712/202407121052.Jbq6PSIi-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121052.Jbq6PSIi-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407121052.Jbq6PSIi-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> mm/shmem.c:1160:6: error: call to undeclared function 'shmem_huge_global_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      1160 |         if (shmem_huge_global_enabled(inode, 0, false, NULL, 0))
+>           |             ^
+>     1 error generated.
 
->> ERROR: start_text address is c000000000000400, should be c000000000000200
-   ERROR: try to enable LD_HEAD_STUB_CATCH config option
-   ERROR: see comments in arch/powerpc/tools/head_check.sh
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for reporting. I forgot to add a dummy function in case 
+CONFIG_TRANSPARENT_HUGEPAGE is not enabled. Will fix in next version.
