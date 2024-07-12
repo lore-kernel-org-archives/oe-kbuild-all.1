@@ -1,191 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FA4179AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 10:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4632416F0C2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 10:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720779503; cv=none; b=frjqBbs3jZV4OOwss23BfbKPyK2PP0VGwBkmG+e965G0+TltlHE1iOuJGzwOqXM0bOAMIFoc2Mkq9WmUzF1m5GgpGC2BlQ2AHSjR8h1TQSEtUXDPfsxEtJAxzG3+waDqy1GL1pIAyqQEHTNMpyFmk1T31r3iTvwY8fqv3ydXa28=
+	t=1720779775; cv=none; b=uBA+hA5m7pis8EzXc8gVshzvSKKVi/ZOj2K9QSOEwL+aQFUANN2Gt3ivAZ/+FB5+sUR4mNknSiIYMx+ogQQRYWlu8onebiI42msD5JEVTAtWeN4YK8JhxC3R0q+NBCxa3qZeZ3t/5DNbw+UKaMyRBDLIBjvBCD51BV3H1icumNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720779503; c=relaxed/simple;
-	bh=IMYiGUQS+XcZ3ByQEpe3QCPc/Fks44PMlB0Gl31MxRk=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gPAqSGvsoqCmt455Dadegr27yjnPQQJD1BY4fB0kjqz4LHSr7WtAub3eg9b6UnXlCUwTQ2Lk2kQtT2Z+SjJh1rltTaBt16FwRsw1FrP9MF85cZ/tL5Ht5/areiSffcute3a32QBFTkKFWuEFuSKChcinDSWrs8syD9qS2p5pmtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4cFuvvY; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4cFuvvY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720779501; x=1752315501;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=IMYiGUQS+XcZ3ByQEpe3QCPc/Fks44PMlB0Gl31MxRk=;
-  b=W4cFuvvYKhH7ZhSkE7O1BNeI4AXY/kSpeSM+v//9eLtwAoESVWFaoF1s
-   LaBYOB037gQfGR0/dEKcYNA78av/sfFxk3JkVsTQJK6YqUAZ1jWt2TUmG
-   fG/eeJhLcILAfE/33HyBQSdcqfjpl1BfWHmNB4vgdxBLySAqlVbB5kfvg
-   N0xMtd6v4ZYXz0VJ2MwzflIR/DFR0j1xV8m1kDh/LmWwJSxfkmSeV7QIT
-   2Po6ahZxWfJbwA63c9avgLfjTFFFkeNl3FBd2jRltzuwY3YaeaGHRTdSV
-   t8ASVH43T2zcIJtzPCLk6w0AFy3iBpgfI9OWUyLVa0GqLqc88lCUsCknT
-   w==;
-X-CSE-ConnectionGUID: 8CyL34V8T8amsUSUwCbL9A==
-X-CSE-MsgGUID: tkvRljOOQz6vjaR39JQQtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="35756358"
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="35756358"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 03:18:20 -0700
-X-CSE-ConnectionGUID: mlMWB/oeTFypmqLI9oYsNg==
-X-CSE-MsgGUID: UK3dbaUES6mif1CTDfEIlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="54053351"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2024 03:18:19 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sSDM0-000adm-17;
-	Fri, 12 Jul 2024 10:18:16 +0000
-Date: Fri, 12 Jul 2024 18:17:20 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:linux-4.19.y 97/184] net/ipv4/udp.c:2622: Error: unrecognized
- opcode `csrs sstatus,a2', extension `zicsr' required
-Message-ID: <202407121819.8jlaF37P-lkp@intel.com>
+	s=arc-20240116; t=1720779775; c=relaxed/simple;
+	bh=hT9KYayQoZMuriArnvelrFa3Fs9eteN6/eNv3aXYLNQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=d4/sP/wIhwSZGjpYuJQQ+C770mowg4XQdu3wr1+8oyA4q21NCkAyb7Tog7Ygcvx/yXYwzatzy5eIxpbRPTz21KrmycAc661ifK2yBTZ2BXSgGSMAGfHw+DHP6VvHva0bauN3rcCsgM7rTQyswfQP672V6rKWLsZo5/LhJQp3u8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WL70s64tFz6K5t9;
+	Fri, 12 Jul 2024 18:21:17 +0800 (CST)
+Received: from lhrpeml500002.china.huawei.com (unknown [7.191.160.78])
+	by mail.maildlp.com (Postfix) with ESMTPS id 89046140B2A;
+	Fri, 12 Jul 2024 18:22:49 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ lhrpeml500002.china.huawei.com (7.191.160.78) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 12 Jul 2024 11:22:49 +0100
+Received: from lhrpeml500005.china.huawei.com ([7.191.163.240]) by
+ lhrpeml500005.china.huawei.com ([7.191.163.240]) with mapi id 15.01.2507.039;
+ Fri, 12 Jul 2024 11:22:49 +0100
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: kernel test robot <lkp@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Linux
+ Memory Management List" <linux-mm@kvack.org>, Will Deacon <will@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>, Jason Gunthorpe <jgg@nvidia.com>, "Kevin
+ Tian" <kevin.tian@intel.com>
+Subject: RE: [linux-next:master 9539/12880]
+ drivers/iommu/io-pgtable-arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR'
+ undeclared
+Thread-Topic: [linux-next:master 9539/12880]
+ drivers/iommu/io-pgtable-arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR'
+ undeclared
+Thread-Index: AQHa1DSGChJrAKxTUkKXF/6p5xqHYbHy4YEw
+Date: Fri, 12 Jul 2024 10:22:49 +0000
+Message-ID: <84de5d98f80f4890943eada39b795fec@huawei.com>
+References: <202407121602.HL9ih1it-lkp@intel.com>
+In-Reply-To: <202407121602.HL9ih1it-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git linux-4.19.y
-head:   05a68fe2c1f4661c5641ad0d9fb0241503f126d7
-commit: f21612ee652c08b4a5a0bb11528035f57935fae1 [97/184] udp: fix incorrect parameter validation in the udp_lib_getsockopt() function
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240712/202407121819.8jlaF37P-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121819.8jlaF37P-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407121819.8jlaF37P-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/riscv/include/asm/irqflags.h: Assembler messages:
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a3,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
-   net/ipv4/udp.c:1584: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/ipv4/udp.c:1584: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
-   net/ipv4/udp.c:1577: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/ipv4/udp.c:1577: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a3,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a2,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a3,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a3,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a3,sstatus,2', extension `zicsr' required
-   net/ipv4/udp.c:2579: Error: unrecognized opcode `csrs sstatus,a6', extension `zicsr' required
-   net/ipv4/udp.c:2579: Error: unrecognized opcode `csrc sstatus,a6', extension `zicsr' required
->> net/ipv4/udp.c:2622: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
->> net/ipv4/udp.c:2622: Error: unrecognized opcode `csrc sstatus,a2', extension `zicsr' required
-   net/ipv4/udp.c:2466: Error: unrecognized opcode `csrs sstatus,a0', extension `zicsr' required
-   net/ipv4/udp.c:2466: Error: unrecognized opcode `csrc sstatus,a0', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc a4,sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
 
 
-vim +2622 net/ipv4/udp.c
 
-db8dac20d51993 David S. Miller   2008-03-06  2572  
-4c0a6cb0db19de Gerrit Renker     2006-11-27  2573  int udp_lib_getsockopt(struct sock *sk, int level, int optname,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2574  		       char __user *optval, int __user *optlen)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2575  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2576  	struct udp_sock *up = udp_sk(sk);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2577  	int val, len;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2578  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2579  	if (get_user(len, optlen))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2580  		return -EFAULT;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2581  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2582  	if (len < 0)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2583  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2584  
-f21612ee652c08 Gavrilov Ilia     2024-03-07  2585  	len = min_t(unsigned int, len, sizeof(int));
-f21612ee652c08 Gavrilov Ilia     2024-03-07  2586  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2587  	switch (optname) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2588  	case UDP_CORK:
-f6a6cced386920 Eric Dumazet      2021-09-27  2589  		val = READ_ONCE(up->corkflag);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2590  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2591  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2592  	case UDP_ENCAP:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2593  		val = up->encap_type;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2594  		break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2595  
-1c19448c9ba654 Tom Herbert       2014-05-23  2596  	case UDP_NO_CHECK6_TX:
-1c19448c9ba654 Tom Herbert       2014-05-23  2597  		val = up->no_check6_tx;
-1c19448c9ba654 Tom Herbert       2014-05-23  2598  		break;
-1c19448c9ba654 Tom Herbert       2014-05-23  2599  
-1c19448c9ba654 Tom Herbert       2014-05-23  2600  	case UDP_NO_CHECK6_RX:
-1c19448c9ba654 Tom Herbert       2014-05-23  2601  		val = up->no_check6_rx;
-1c19448c9ba654 Tom Herbert       2014-05-23  2602  		break;
-1c19448c9ba654 Tom Herbert       2014-05-23  2603  
-bec1f6f697362c Willem de Bruijn  2018-04-26  2604  	case UDP_SEGMENT:
-dd1f607cad1f3b Eric Dumazet      2021-06-30  2605  		val = READ_ONCE(up->gso_size);
-bec1f6f697362c Willem de Bruijn  2018-04-26  2606  		break;
-bec1f6f697362c Willem de Bruijn  2018-04-26  2607  
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2608  	/* The following two cannot be changed on UDP sockets, the return is
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2609  	 * always 0 (which corresponds to the full checksum coverage of UDP). */
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2610  	case UDPLITE_SEND_CSCOV:
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2611  		val = up->pcslen;
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2612  		break;
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2613  
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2614  	case UDPLITE_RECV_CSCOV:
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2615  		val = up->pcrlen;
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2616  		break;
-ba4e58eca8aa94 Gerrit Renker     2006-11-27  2617  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2618  	default:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2619  		return -ENOPROTOOPT;
-6516c65573fde5 Stephen Hemminger 2007-03-08  2620  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2621  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @2622  	if (put_user(len, optlen))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2623  		return -EFAULT;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2624  	if (copy_to_user(optval, &val, len))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2625  		return -EFAULT;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2626  	return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2627  }
-c482c568577a2b Eric Dumazet      2009-07-17  2628  EXPORT_SYMBOL(udp_lib_getsockopt);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2629  
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: Friday, July 12, 2024 9:21 AM
+> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-
+> mm@kvack.org>; Will Deacon <will@kernel.org>; Ryan Roberts
+> <ryan.roberts@arm.com>; Jason Gunthorpe <jgg@nvidia.com>; Kevin Tian
+> <kevin.tian@intel.com>
+> Subject: [linux-next:master 9539/12880] drivers/iommu/io-pgtable-
+> arm.c:772:50: error: 'IOMMU_DIRTY_NO_CLEAR' undeclared
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it
+> master
+> head:   3fe121b622825ff8cc995a1e6b026181c48188db
+> commit: 4fe88fd8b4aecb7f9680bf898811db76b94095a9 [9539/12880]
+> iommu/io-pgtable-arm: Add read_and_clear_dirty() support
+> config: arm-buildonly-randconfig-r005-20220402
+> (https://download.01.org/0day-ci/archive/20240712/202407121602.HL9ih1it-
+> lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
+> ci/archive/20240712/202407121602.HL9ih1it-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407121602.HL9ih1it-
+> lkp@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/iommu/io-pgtable-arm.c: In function 'io_pgtable_visit_dirty':
+> >> drivers/iommu/io-pgtable-arm.c:772:50: error:
+> 'IOMMU_DIRTY_NO_CLEAR' undeclared (first use in this function)
+>      772 |                         if (!(walk_data->flags & IOMMU_DIRTY_N=
+O_CLEAR))
 
-:::::: The code at line 2622 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+Looks like we need to move the IOMMU_DIRTY_NO_CLEAR define in iommu.h
+to cover !CONFIG_IOMMU_API case.
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+---x---
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 7bc8dff7cf6d..104ce84647d4 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -317,6 +317,9 @@ enum iommu_dev_features {
+ #define IOMMU_PASID_INVALID    (-1U)
+ typedef unsigned int ioasid_t;
+
++/* Read but do not clear any dirty bits */
++#define IOMMU_DIRTY_NO_CLEAR (1 << 0)
++
+ #ifdef CONFIG_IOMMU_API
+
+ /**
+@@ -353,9 +356,6 @@ struct iommu_dirty_bitmap {
+        struct iommu_iotlb_gather *gather;
+ };
+
+-/* Read but do not clear any dirty bits */
+-#define IOMMU_DIRTY_NO_CLEAR (1 << 0)
+-
+ /**
+  * struct iommu_dirty_ops - domain specific dirty tracking operations
+  * @set_dirty_tracking: Enable or Disable dirty tracking on the iommu doma=
+in
+
+I will sent out a patch.
+
+Thanks,
+Shameer
+
+
