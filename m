@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426A513D62F;
-	Fri, 12 Jul 2024 08:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17032E3E5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 08:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720771698; cv=none; b=CNHF4qmEtjoc9DYKot69r+VZEeU3+vHsllioJbWRglbdZQRjP9bVcCTP1CJowVFtNc60Bk7KkkT43NMba2Z4xiEHWQW+4ZRFJ7MomtDzxR9/laiDI4b/bRt4kJ1erapxbnawhuLxOAp+EM1tmycRDVbVvYPqPaepiNWyumNAvic=
+	t=1720772478; cv=none; b=iCiRdULFZRGOpiMA5R8LVibOL4QVU31MgipJuNVewuqKckwNPLYoH1e6fBnfBvFBRQTvz77TDN0fshw8wFbMNeqQovwX5CEgj2TBVgMU7CecZdvVtJYBSI/+d2SnjsmWRaEWIxMVVg0HKBhx5eOCBL0D30FIC4VUwuTThxl6fYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720771698; c=relaxed/simple;
-	bh=YFCaCbuDdnR5xY907cplHnDQQhE28XOuztb6zDOzfzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lgi+OvAKcHCT1Zou8VxDHsNPwGWqzRdSdQEBq3zg5mmC+tlTp2gzH9qhAENnGc2kviI7bKtJ6cucdWBJ8bNVBmtA+Ny+uSBf/X7XWJUK4pZmM1KcYtX9oTjaifrmj0EUTDZgrpEHo3dBLOcJpSKGdCT+SGFW3SNyLgmd1zllwLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dI4SRoVZ; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1720772478; c=relaxed/simple;
+	bh=RIaGVT6ur29bXRyn4Lb1OBIQcBF9J8UCksJiz693FlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e7lRJRYMKjbIFLBPBLOjyPG+GKFwLd4dSWw80Bz9UqZ2YtkOvJWoMXUk/Rn3AbNWLyiRncCCGLibyphP59ZRFmM8M/qBSXt9qiC4h+oucypm08by+hAqnSzvifMMSsNXWjVQRIUcoUcwjVfTTjaAPAg54b1CLEjvtG0KQRgZIDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a94Q4oOm; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dI4SRoVZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a94Q4oOm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720771696; x=1752307696;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YFCaCbuDdnR5xY907cplHnDQQhE28XOuztb6zDOzfzg=;
-  b=dI4SRoVZLDcQdWq+7w8CDrdGkTEOEwwcDydajDoS5GWIEEEaeasoPrcq
-   uWQOwehUGFR0hZZfBz2hEkJL0weJTHtq0lR/eeBoZJlAxCSbpxkqT+CCG
-   eROBFw20wZ8ES+lMxsFEIDDaewFPuOxG79VLS4WLH/+zRDUkvvmliXlk8
-   qQCXZ8BPdujDT+6Hi1PNjIQkdnILeMRIJbhewijtM2Qd5N/fQybo845ZJ
-   8CnjQa5Y7/5ZGaUBnCbKoBG6rA7wQCjb325nZ9WyzH64xu5St+AIotahZ
-   WpOvCJWdyNlMjxNafUlaJz+HETwQNBFkbL9VcOGrUCU0sEARwwuJ03Fn1
-   Q==;
-X-CSE-ConnectionGUID: rz67wlEQRbedzCDIMqaG0g==
-X-CSE-MsgGUID: F3n0GFjnRZiYwgV3Px95EQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="21959223"
+  t=1720772477; x=1752308477;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RIaGVT6ur29bXRyn4Lb1OBIQcBF9J8UCksJiz693FlM=;
+  b=a94Q4oOmx68WXSB9DBpo38jeAr/LPjmfCk1xkkoqzYO/8237hPSMu6h8
+   Xnf05PQOxLkzVpGVKr+Ca9lB0MuAEJlYKd/N444uBjmedr5NUpKDQucSz
+   0vUaRVR9XRQSTXLYdijuDSSnpK1vJ8c+2+D+Ke3TsBNCYTzaRR/V+a0ex
+   ivzVoDBLHZ2GhUX+9EQ67gFBMNTJysPmlvEcU2RJ629qwSUpM/MpBxTwQ
+   XbfAZfhxR/581Qbfbk3CyuwbFrlWBx/CbwXggmIWY0dX5y5vEJKZXeJZH
+   51BLKd9zzwpHhChVg7MTINyeV3iCausTbKB5zqJS9bolOfdwN+mDXYSVE
+   A==;
+X-CSE-ConnectionGUID: r3hUcfrmSRaeAmenQxSF5w==
+X-CSE-MsgGUID: 4rQvymjgQDWXObHHDhWhjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="22018807"
 X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="21959223"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 01:08:15 -0700
-X-CSE-ConnectionGUID: cFFVQiZ1RPKV5WRWw/NviQ==
-X-CSE-MsgGUID: XD7TAd8ZQZeKmMNOdXlj1w==
+   d="scan'208";a="22018807"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 01:21:16 -0700
+X-CSE-ConnectionGUID: cLl0d0+PTpaBfUo8cP/QQw==
+X-CSE-MsgGUID: 4sbqSBeNTymLuz/zoxwmnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="54029387"
+   d="scan'208";a="48941739"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2024 01:08:15 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Jul 2024 01:21:16 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSBK8-000aWl-1s;
-	Fri, 12 Jul 2024 08:08:12 +0000
-Date: Fri, 12 Jul 2024 16:08:01 +0800
+	id 1sSBWi-000aXM-2t;
+	Fri, 12 Jul 2024 08:21:12 +0000
+Date: Fri, 12 Jul 2024 16:20:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/8] arch/s390: Teach
- arch_get_unmapped_area{_topdown} to handle hugetlb mappings
-Message-ID: <202407121517.z2TFcGoE-lkp@intel.com>
-References: <20240710105042.30165-3-osalvador@suse.de>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 29/29] fs/locks.c:1533:39: error: 'struct
+ file_lock_core' has no member named 'fl_file'; did you mean 'flc_file'?
+Message-ID: <202407121659.Mn4FGP4P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,130 +61,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710105042.30165-3-osalvador@suse.de>
 
-Hi Oscar,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on s390/features powerpc/next powerpc/fixes deller-parisc/for-next linus/master v6.10-rc7 next-20240711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20240710-233828
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240710105042.30165-3-osalvador%40suse.de
-patch subject: [RFC PATCH 2/8] arch/s390: Teach arch_get_unmapped_area{_topdown} to handle hugetlb mappings
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240712/202407121517.z2TFcGoE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121517.z2TFcGoE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   1a45dc4f22747fa6674e3d7d4056900a712a88fd
+commit: 1a45dc4f22747fa6674e3d7d4056900a712a88fd [29/29] fs: add support for ignoring deleg breaks for dir change events
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240712/202407121659.Mn4FGP4P-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121659.Mn4FGP4P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407121517.z2TFcGoE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407121659.Mn4FGP4P-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/s390/mm/mmap.c:13:
-   In file included from include/linux/mm.h:2221:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/s390/mm/mmap.c:76:14: error: call to undeclared function 'is_file_hugepages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      76 |         if (filp && is_file_hugepages(filp))
-         |                     ^
->> arch/s390/mm/mmap.c:77:10: error: call to undeclared function 'huge_page_mask_align'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      77 |                 return huge_page_mask_align(filp);
-         |                        ^
-   arch/s390/mm/mmap.c:111:16: error: call to undeclared function 'is_file_hugepages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     111 |         if (!(file && is_file_hugepages(filp))
-         |                       ^
->> arch/s390/mm/mmap.c:111:8: error: use of undeclared identifier 'file'; did you mean 'filp'?
-     111 |         if (!(file && is_file_hugepages(filp))
-         |               ^~~~
-         |               filp
-   arch/s390/mm/mmap.c:85:51: note: 'filp' declared here
-      85 | unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr,
-         |                                                   ^
->> arch/s390/mm/mmap.c:112:3: error: expected ')'
-     112 |                 info.align_offset = pgoff << PAGE_SHIFT;
-         |                 ^
-   arch/s390/mm/mmap.c:111:5: note: to match this '('
-     111 |         if (!(file && is_file_hugepages(filp))
-         |            ^
-   arch/s390/mm/mmap.c:150:16: error: call to undeclared function 'is_file_hugepages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     150 |         if (!(file && is_file_hugepages(filp))
-         |                       ^
-   arch/s390/mm/mmap.c:150:8: error: use of undeclared identifier 'file'; did you mean 'filp'?
-     150 |         if (!(file && is_file_hugepages(filp))
-         |               ^~~~
-         |               filp
-   arch/s390/mm/mmap.c:121:59: note: 'filp' declared here
-     121 | unsigned long arch_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
-         |                                                           ^
-   arch/s390/mm/mmap.c:151:3: error: expected ')'
-     151 |                 info.align_offset = pgoff << PAGE_SHIFT;
-         |                 ^
-   arch/s390/mm/mmap.c:150:5: note: to match this '('
-     150 |         if (!(file && is_file_hugepages(filp))
-         |            ^
-   1 warning and 8 errors generated.
+   In file included from include/linux/stat.h:7,
+                    from include/linux/fs.h:10,
+                    from include/linux/fdtable.h:16,
+                    from fs/locks.c:53:
+   fs/locks.c: In function 'ignore_dir_deleg_break':
+>> fs/locks.c:1533:39: error: 'struct file_lock_core' has no member named 'fl_file'; did you mean 'flc_file'?
+    1533 |         if (!S_ISDIR(file_inode(fl->c.fl_file)->i_mode))
+         |                                       ^~~~~~~
+   include/uapi/linux/stat.h:23:28: note: in definition of macro 'S_ISDIR'
+      23 | #define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)
+         |                            ^
+>> fs/locks.c:1536:56: error: 'struct file_lock_core' has no member named 'fl_flags'; did you mean 'flc_flags'?
+    1536 |         if ((flags & LEASE_BREAK_DIR_CREATE) && (fl->c.fl_flags & FL_IGN_DIR_CREATE))
+         |                                                        ^~~~~~~~
+         |                                                        flc_flags
+   fs/locks.c:1538:56: error: 'struct file_lock_core' has no member named 'fl_flags'; did you mean 'flc_flags'?
+    1538 |         if ((flags & LEASE_BREAK_DIR_DELETE) && (fl->c.fl_flags & FL_IGN_DIR_DELETE))
+         |                                                        ^~~~~~~~
+         |                                                        flc_flags
+   fs/locks.c:1540:56: error: 'struct file_lock_core' has no member named 'fl_flags'; did you mean 'flc_flags'?
+    1540 |         if ((flags & LEASE_BREAK_DIR_RENAME) && (fl->c.fl_flags & FL_IGN_DIR_RENAME))
+         |                                                        ^~~~~~~~
+         |                                                        flc_flags
 
 
-vim +/is_file_hugepages +76 arch/s390/mm/mmap.c
+vim +1533 fs/locks.c
 
-    73	
-    74	static int get_align_mask(struct file *filp, unsigned long flags)
-    75	{
-  > 76		if (filp && is_file_hugepages(filp))
-  > 77			return huge_page_mask_align(filp);
-    78		if (!(current->flags & PF_RANDOMIZE))
-    79			return 0;
-    80		if (filp || (flags & MAP_SHARED))
-    81			return MMAP_ALIGN_MASK << PAGE_SHIFT;
-    82		return 0;
-    83	}
-    84	
-    85	unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr,
-    86					     unsigned long len, unsigned long pgoff,
-    87					     unsigned long flags)
-    88	{
-    89		struct mm_struct *mm = current->mm;
-    90		struct vm_area_struct *vma;
-    91		struct vm_unmapped_area_info info = {};
-    92	
-    93		if (len > TASK_SIZE - mmap_min_addr)
-    94			return -ENOMEM;
-    95	
-    96		if (flags & MAP_FIXED)
-    97			goto check_asce_limit;
-    98	
-    99		if (addr) {
-   100			addr = PAGE_ALIGN(addr);
-   101			vma = find_vma(mm, addr);
-   102			if (TASK_SIZE - len >= addr && addr >= mmap_min_addr &&
-   103			    (!vma || addr + len <= vm_start_gap(vma)))
-   104				goto check_asce_limit;
-   105		}
-   106	
-   107		info.length = len;
-   108		info.low_limit = mm->mmap_base;
-   109		info.high_limit = TASK_SIZE;
-   110		info.align_mask = get_align_mask(filp, flags);
- > 111		if (!(file && is_file_hugepages(filp))
- > 112			info.align_offset = pgoff << PAGE_SHIFT;
-   113		addr = vm_unmapped_area(&info);
-   114		if (offset_in_page(addr))
-   115			return addr;
-   116	
-   117	check_asce_limit:
-   118		return check_asce_limit(mm, addr, len);
-   119	}
-   120	
+  1528	
+  1529	static bool
+  1530	ignore_dir_deleg_break(struct file_lease *fl, unsigned int flags)
+  1531	{
+  1532		/* Not a directory inode? */
+> 1533		if (!S_ISDIR(file_inode(fl->c.fl_file)->i_mode))
+  1534			return false;
+  1535	
+> 1536		if ((flags & LEASE_BREAK_DIR_CREATE) && (fl->c.fl_flags & FL_IGN_DIR_CREATE))
+  1537			return true;
+  1538		if ((flags & LEASE_BREAK_DIR_DELETE) && (fl->c.fl_flags & FL_IGN_DIR_DELETE))
+  1539			return true;
+  1540		if ((flags & LEASE_BREAK_DIR_RENAME) && (fl->c.fl_flags & FL_IGN_DIR_RENAME))
+  1541			return true;
+  1542	
+  1543		return false;
+  1544	}
+  1545	
 
 -- 
 0-DAY CI Kernel Test Service
