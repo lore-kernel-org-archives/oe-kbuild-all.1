@@ -1,134 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1779A2C6B7;
-	Fri, 12 Jul 2024 18:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA58381A4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 19:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720810132; cv=none; b=ewwkjsCQws07JGEuz0itzVC0ch9T/zUCcV4yaTjLLZ2z1bwtrstBzwGrVtfmQkthk6S1xkuoJ+nGovhHG2TDm8E6nEZ3iv6Ty0N28S4v9l+BPtpwM1ryaBueA49PpczGHt/lHvMlDMQzz5o22E9YfQqNciblVHX2UzMF5LAc3nc=
+	t=1720813491; cv=none; b=dBeFXIE5GZ56ro08ZTfTWmaNJ9L62STornj+I7EhAlDhiXuKbFpv2e9P4q2FK4gTA5XOsGyKygObWiCo/O839uZiAWyKzuKF5qCqDZd62nBneAV444yVJk6QHdKKoVnrLRsprIOjflGa4d7IW8ZZpz82N1Tl+g6kFugrllgCqOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720810132; c=relaxed/simple;
-	bh=gdz48EmSjgoy/izHwN+e2FaoXzRR7IwtCVpXbxR4jNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=kReOD4NpX//EqNVz0+l7MHVv470RjFnyCBCUzfPZk+y+/pCQc0gvsWbJzssXXMqm6tmIYSGNVUYt8xWnN+Otat1yXWKQBBufKAUgpULJX8BWjHtprH2tf+xjBHFhewoZTXwYJctWa6KgCwLTVmwQ9GBiwufOb4fN9V+qQL0Uilw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwgfdLSn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720813491; c=relaxed/simple;
+	bh=Xs0O2s+oSugsI3ZvzFon2V/CPImOC2vIfiyCeloaF50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dv6db1EOA4B5B5OX/lfe40r+bUWDv8j5BhyAIBNslOKk2+YHfPJjegj93vaZjQxutsmk2kJ3b7ylI1+RiHUaAWrx41IBzc+1rUIiQoP/boYjEeGMCq8QcM/w1oU3b/db1zoiTwPCJA2GOTXDUFcrAQJGWQ+gT5DdtlVR4ErA4ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8zKat8A; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwgfdLSn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6DDC32782;
-	Fri, 12 Jul 2024 18:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720810131;
-	bh=gdz48EmSjgoy/izHwN+e2FaoXzRR7IwtCVpXbxR4jNQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=MwgfdLSngAJm7yURAc4SXppRMHlTQEY1QwDeu8yJ5QAl+eUNgYr0Kb3ChYE1BlOxa
-	 i16UNmPCS1L3cNiJxB/u8Z83Oa/GdVyRhhUr2uUWLQpv3yPibtSL8ZwR1pvLCMr2JS
-	 QNV+ogiYb0+qDbl5jxOfBv9Ak4QSINyZgSWqRlswxuBusurJDmP9bpOc/oJ1EEpYCX
-	 zIJciBobInXEx8PbnKk2vIoJHINughAaULKb2tF8I4SyO0YKl/XIjYUFS+YNaQ/t2r
-	 EI9Pz3O0A/bqBfHSBb4+4kjPImrdubMa5z3OD2tOfscbnWziKSZTDfM1iUEO2nCL0r
-	 1c9NXyLfziWZA==
-Date: Fri, 12 Jul 2024 13:48:49 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Zhou Shengqing <zhoushengqing@ttyinfo.com>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, lkp@intel.com,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] Subject: PCI: Enable io space 1k granularity for
- intel cpu root port
-Message-ID: <20240712184849.GA330337@bhelgaas>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8zKat8A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720813490; x=1752349490;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xs0O2s+oSugsI3ZvzFon2V/CPImOC2vIfiyCeloaF50=;
+  b=a8zKat8AnWbWtEITTe3xmFZVTgMbc7+n67jtUFi7OiOs7Jodyg+3AjVb
+   sjrASiY1ZES2Q62GXhLHeXuyAt7acJBSk97ADafgtYanf5yGO66OUs2D3
+   hZbq4DqR800QQPuacJuCT07aZBE715olyqDKsXUcE2uJQIS38zFBNdQOq
+   +YXHce3BjjlC4IIdXYtxEN3mseIPN7zepGWjBV7pZ6uOe7ycUM7ovIkc0
+   krSwi6QPzgCDwy0wYGnOvCmMZtPi4PZGH0uA8TlGs/HZohFGiOKJa9m+s
+   Ka/mjJImIzfaeTTW4I8g1FYD9RpnSfSRzr4LnNbVwsbbPBgrau/zz6OGa
+   A==;
+X-CSE-ConnectionGUID: xi2o524JQmC5ptacQQRGaQ==
+X-CSE-MsgGUID: Lw7wRxH5T8a65NbJ+Vc82A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18410746"
+X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
+   d="scan'208";a="18410746"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 12:44:50 -0700
+X-CSE-ConnectionGUID: KbSQTBy9RoSsODOpBO4kLw==
+X-CSE-MsgGUID: IYmtyCCoQICB0UX5f2j4pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
+   d="scan'208";a="80104949"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 12 Jul 2024 12:44:44 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sSMCA-000bCo-1u;
+	Fri, 12 Jul 2024 19:44:42 +0000
+Date: Sat, 13 Jul 2024 03:44:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com, Peng Fan <peng.fan@nxp.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH v2 1/8] firmware: arm_scmi: Introduce setup_shmem_iomap
+Message-ID: <202407130355.IWguWKJm-lkp@intel.com>
+References: <20240710173153.4060457-2-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240702035649.26039-1-zhoushengqing@ttyinfo.com>
+In-Reply-To: <20240710173153.4060457-2-cristian.marussi@arm.com>
 
-On Tue, Jul 02, 2024 at 03:56:49AM +0000, Zhou Shengqing wrote:
-> This patch add 1k granularity for intel root port bridge. Intel latest
-> server CPU support 1K granularity, And there is an BIOS setup item named
-> "EN1K", but linux doesn't support it. if an IIO has 5 IOU (SPR has 5 IOUs)
-> all are bifurcated 2x8.In a 2P server system,There are 20 P2P bridges
-> present. if keep 4K granularity allocation,it need 20*4=80k io space,
-> exceeding 64k. I test it in a 16*nvidia 4090s system under intel eaglestrem
-> platform. There are six 4090s that cannot be allocated I/O resources.
-> So I applied this patch. And I found a similar implementation in quirks.c,
-> but it only targets the Intel P64H2 platform.
+Hi Cristian,
 
-I think this has potential.  Can you include a more complete citation
-for the Intel spec?  Complete name, document number if available,
-revision, section?  Hopefully it's publically available?
+kernel test robot noticed the following build warnings:
 
-> Signed-off-by: Zhou Shengqing <zhoushengqing@ttyinfo.com>
-> ---
->  drivers/pci/quirks.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 568410e64ce6..f30083d51e15 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -2562,6 +2562,36 @@ static void quirk_p64h2_1k_io(struct pci_dev *dev)
->  }
->  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1460, quirk_p64h2_1k_io);
->  
-> +/* Enable 1k I/O space granularity on the intel root port */
-> +static void quirk_intel_rootport_1k_io(struct pci_dev *dev)
-> +{
-> +	struct pci_dev *d = NULL;
-> +	u16 en1k = 0;
-> +	struct pci_dev *root_port = pcie_find_root_port(dev);
-> +
-> +	if (!root_port)
-> +		return;
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on next-20240712]
+[cannot apply to linus/master v6.10-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This doesn't seem quite right to me.  The point is to set
-dev->io_window_1k when "dev" is a Root Port itself and when the EN1K
-bit is set in a [8086:09a2] device.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240711-062033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240710173153.4060457-2-cristian.marussi%40arm.com
+patch subject: [PATCH v2 1/8] firmware: arm_scmi: Introduce setup_shmem_iomap
+config: arm64-randconfig-r132-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130355.IWguWKJm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240713/202407130355.IWguWKJm-lkp@intel.com/reproduce)
 
-So I don't think we need to *look* for the Root Port, we just need to
-check that "dev" itself *is* a Root Port, e.g.,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130355.IWguWKJm-lkp@intel.com/
 
-  if (!pci_is_pcie(dev) || pci_pcie_type(dev) != PCI_EXP_TYPE_ROOT_PORT)
-    return;
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/shmem.c:153:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/firmware/arm_scmi/shmem.c:153:31: sparse:     expected void [noderef] __iomem *
+   drivers/firmware/arm_scmi/shmem.c:153:31: sparse:     got void *
+   drivers/firmware/arm_scmi/shmem.c:156:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/firmware/arm_scmi/shmem.c:156:31: sparse:     expected void [noderef] __iomem *
+   drivers/firmware/arm_scmi/shmem.c:156:31: sparse:     got void *
+   drivers/firmware/arm_scmi/shmem.c:165:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/firmware/arm_scmi/shmem.c:165:31: sparse:     expected void [noderef] __iomem *
+   drivers/firmware/arm_scmi/shmem.c:165:31: sparse:     got void *
+   drivers/firmware/arm_scmi/shmem.c:172:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/firmware/arm_scmi/shmem.c:172:31: sparse:     expected void [noderef] __iomem *
+   drivers/firmware/arm_scmi/shmem.c:172:31: sparse:     got void *
 
-> +	/*
-> +	 * Per intel sever CPU EDS vol2(register) spec,
-> +	 * Intel Memory Map/Intel VT-d configuration space,
-> +	 * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
-> +	 * bit 2.
-> +	 * Enable 1K (EN1K):
-> +	 * This bit when set, enables 1K granularity for I/O space decode
-> +	 * in each of the virtual P2P bridges
-> +	 * corresponding to root ports, and DMI ports.
-> +	 */
-> +	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+vim +153 drivers/firmware/arm_scmi/shmem.c
 
-To be safe, "d" (the [8086:09a2] device) should be on the same bus as
-"dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
-which would be a different bus, and they presumably are not influenced
-by the EN1K bit.
+   138	
+   139	void __iomem *setup_shmem_iomap(struct scmi_chan_info *cinfo,
+   140					struct device *dev, bool tx,
+   141					struct resource *res)
+   142	{
+   143		struct device_node *shmem __free(device_node);
+   144		const char *desc = tx ? "Tx" : "Rx";
+   145		int ret, idx = tx ? 0 : 1;
+   146		struct device *cdev = cinfo->dev;
+   147		struct resource lres = {};
+   148		resource_size_t size;
+   149		void __iomem *addr;
+   150	
+   151		shmem = of_parse_phandle(cdev->of_node, "shmem", idx);
+   152		if (!shmem)
+ > 153			return ERR_PTR(-ENODEV);
 
-> +		pci_read_config_word(d, 0x1c0, &en1k);
-> +		if (en1k & 0x4) {
-> +			pci_info(d, "INTEL: System should support 1k io window\n");
-
-If we log this, I think it should be with "dev", not "d", since we
-likely will have several Root Ports, and this would lead to several
-identical messages.  Maybe something like this:
-
-  pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
-
-> +			dev->io_window_1k = 1;
-> +		}
-> +	}
-> +}
-> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL,	PCI_ANY_ID,	quirk_intel_rootport_1k_io);
-> +
->  /*
->   * Under some circumstances, AER is not linked with extended capabilities.
->   * Force it to be linked by setting the corresponding control bit in the
-> -- 
-> 2.39.2
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
