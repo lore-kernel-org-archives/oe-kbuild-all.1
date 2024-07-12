@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1B529D1C;
-	Fri, 12 Jul 2024 22:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA865A10B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 22:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720822993; cv=none; b=u1DHyDIAzlCueDdW4rM5WKkdAFD0owWPUeMO426neau9vm60Y/lvuxlWSsCaEtFFT8DcQJqpTPv2rzNvza8J/+Q9TjfH81iB4hRG/dR3MoQcLiREBLOwmmCGKjtXWV4nUSPjj6/u5QDIJdVIYODnc34aDKw08AVoLagjsUp6s+c=
+	t=1720824357; cv=none; b=mFrJ1auD5alPCSvZEseAvZm3zv/iGtdnTALbs89Gxs9CVjwhj8ygmO56DyTLOBjaLrBDzyzd5ly2b2kn/8ZcCl8yifNR70oUdLOEo4OZTCLlQUnrNOo80/59UlJwIwFkialwg3AuOElxZuoQ5wPNn5PUhTlBNUuxD1JM/YRJtg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720822993; c=relaxed/simple;
-	bh=K6N5CSC4H/en2ay5Qoh+pUoG1uPZKGk6EcbBsHokIc0=;
+	s=arc-20240116; t=1720824357; c=relaxed/simple;
+	bh=0Qv0tnuJtuXSWEWqZay3RBPKpl8dK30QovUrNJ0WvZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hSlNXLtinaRyFeQ1oPTYbmTnAyLoSPqCVRJk6rpuFZ4cmqJYPeF0JpS6u+nR0XOWEeWfpul5L1XLJtkwxLU5k5V2vuPPXzXE2Ue69AfuNwOaSuC95sRe+guvViKh0awOwaI9pHeT/QhfhROOpiSXF/twVxdTEf2Um7puEGCw7KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkME25JV; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=VDy7SrZetG9UHK4kDIdfX5Zl2xHBBBUaicsbAiT/KcE9dTSZmSM5l10Nlrfw1qJbVgeN6aMgs9+8tZz5/w9kdDGKI9T6zX0EEkTi/JIafg3Jtzg9ebRUf6YT2n10gVy2gPHzgSkE2cuGzEGJa/S3QxvEc1RYfigOiImDXIa6Mo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sp41rG/b; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkME25JV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp41rG/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720822992; x=1752358992;
+  t=1720824356; x=1752360356;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K6N5CSC4H/en2ay5Qoh+pUoG1uPZKGk6EcbBsHokIc0=;
-  b=MkME25JVKQYYvINaQMcnlPVQG6Zn+FkAFo/81xRfvw2BfeJr8KlA73NG
-   vmBpk8aakgJeFupyJa2DWLLgiGWPvmFSoyQaMBTg3jRKLU7bbtUXR9aUq
-   /H1f2OyRE3Vrv8iPj3I9Es/Z2V4EXnKKp3pBALUSCaEHsPb0SHwrz8oM0
-   5OUGLWYOLpY1WAI2zfNSEqsMvt67EHnfQvJtIhx7d0SX04aap45DOUj23
-   3PKeTTvd4l4I6ZMZMxESGpp40zhuTd95xOKLEoq8LUrQ5VMADIPCzVQQL
-   nzo7hZyJOwTZB8DAz6tKKSrJWbhqj45phVc5JV7uYS3lDvMO12hSZWOWD
-   w==;
-X-CSE-ConnectionGUID: 7WGXcnR+TtqbXBaqpCaYIA==
-X-CSE-MsgGUID: 27is5B8hQJeNYw1YYU6NDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="22098625"
+  bh=0Qv0tnuJtuXSWEWqZay3RBPKpl8dK30QovUrNJ0WvZs=;
+  b=Sp41rG/bZjn8YkKR4y2lvGHL+jMXBcejii0JJs29JSTbaHDaL3C9jULp
+   RzW4W3H5IF6oTAMW97H0VKgjVJssq/MECwQCfJyGsYtLvrQpAqUGKKSrU
+   PDRg9lxNRflZ/0cvzXnzTGpQxjy6qXWnt1NGBMHH98/kjEwH+/AIXQ1ST
+   OzAKPP8fVpUZmCHgqMqqNMq1jlvc4p8G7hl5DqCCtM+7SmeatqaNZVEc7
+   ps/YLP+0jE4TPjKpp5Kbpgx/r9O4116KDfKqoE2UFZHQoGt0a8s938haH
+   iOE30SndVVRqNpu+SQVStU33g9DaMVdig2cwYM9BmwfmciVqPhP0by6ug
+   Q==;
+X-CSE-ConnectionGUID: Zoid6GP2S3GzbFqyP6hHGg==
+X-CSE-MsgGUID: x0WkcEAzTliSLYXNbflNAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="22152407"
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="22098625"
+   d="scan'208";a="22152407"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 15:23:11 -0700
-X-CSE-ConnectionGUID: tJ4W7IPiT8efceDp4IVijw==
-X-CSE-MsgGUID: t0g6glJhRtifbom/d/AWLA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 15:45:55 -0700
+X-CSE-ConnectionGUID: B8eCIzbxR0uO3P7A3qK0sQ==
+X-CSE-MsgGUID: Yc3RkAqHQUi71V6hAhxzhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="53871737"
+   d="scan'208";a="53875232"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jul 2024 15:22:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Jul 2024 15:45:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSOfA-000bN6-0Q;
-	Fri, 12 Jul 2024 22:22:48 +0000
-Date: Sat, 13 Jul 2024 06:22:43 +0800
+	id 1sSP1Q-000bOc-37;
+	Fri, 12 Jul 2024 22:45:48 +0000
+Date: Sat, 13 Jul 2024 06:44:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: wangshuaijie@awinic.com, jic23@kernel.org, lars@metafoo.de,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	waqar.hameed@axis.com, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	wangshuaijie@awinic.com, liweilei@awinic.com, kangjiajun@awinic.com
-Subject: Re: [PATCH V3 2/2] Add support for Awinic proximity sensor
-Message-ID: <202407130649.s20WgzXd-lkp@intel.com>
-References: <20240712113200.2468249-3-wangshuaijie@awinic.com>
+To: Valentin Caron <valentin.caron@foss.st.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Valentin Caron <valentin.caron@foss.st.com>
+Subject: Re: [PATCH 2/4] rtc: stm32: add pinctrl and pinmux interfaces
+Message-ID: <202407130612.OEicZbNE-lkp@intel.com>
+References: <20240711140843.3201530-3-valentin.caron@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,148 +72,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240712113200.2468249-3-wangshuaijie@awinic.com>
+In-Reply-To: <20240711140843.3201530-3-valentin.caron@foss.st.com>
 
-Hi,
+Hi Valentin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 43db1e03c086ed20cc75808d3f45e780ec4ca26e]
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on atorgue-stm32/stm32-next robh/for-next linus/master v6.10-rc7 next-20240712]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-Add-YAML-to-Awinic-proximity-sensor/20240712-194024
-base:   43db1e03c086ed20cc75808d3f45e780ec4ca26e
-patch link:    https://lore.kernel.org/r/20240712113200.2468249-3-wangshuaijie%40awinic.com
-patch subject: [PATCH V3 2/2] Add support for Awinic proximity sensor
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240713/202407130649.s20WgzXd-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Caron/dt-bindings-rtc-stm32-describe-pinmux-nodes/20240711-233937
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20240711140843.3201530-3-valentin.caron%40foss.st.com
+patch subject: [PATCH 2/4] rtc: stm32: add pinctrl and pinmux interfaces
+config: hexagon-randconfig-r132-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130612.OEicZbNE-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130649.s20WgzXd-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240713/202407130612.OEicZbNE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130649.s20WgzXd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130612.OEicZbNE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/rtc/rtc-stm32.c:192:31: sparse: sparse: symbol 'stm32_rtc_pinctrl_pins' was not declared. Should it be static?
 
-   In file included from drivers/iio/proximity/aw9610x.c:9:
-   In file included from drivers/iio/proximity/aw_sar.h:4:
-   In file included from drivers/iio/proximity/aw_sar_type.h:5:
-   In file included from drivers/iio/proximity/aw_sar_comm_interface.h:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/iio/proximity/aw9610x.c:9:
-   In file included from drivers/iio/proximity/aw_sar.h:4:
-   In file included from drivers/iio/proximity/aw_sar_type.h:5:
-   In file included from drivers/iio/proximity/aw_sar_comm_interface.h:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/iio/proximity/aw9610x.c:9:
-   In file included from drivers/iio/proximity/aw_sar.h:4:
-   In file included from drivers/iio/proximity/aw_sar_type.h:5:
-   In file included from drivers/iio/proximity/aw_sar_comm_interface.h:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/iio/proximity/aw9610x.c:9:
-   In file included from drivers/iio/proximity/aw_sar.h:4:
-   In file included from drivers/iio/proximity/aw_sar_type.h:5:
-   In file included from drivers/iio/proximity/aw_sar_comm_interface.h:6:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iio/proximity/aw9610x.c:709:16: warning: stack frame size (1432) exceeds limit (1024) in 'aw9610x_awrw_set' [-Wframe-larger-than]
-     709 | static ssize_t aw9610x_awrw_set(void *data, const char *buf, size_t count)
-         |                ^
-   8 warnings generated.
+vim +/stm32_rtc_pinctrl_pins +192 drivers/rtc/rtc-stm32.c
 
-
-vim +/aw9610x_awrw_set +709 drivers/iio/proximity/aw9610x.c
-
-   708	
- > 709	static ssize_t aw9610x_awrw_set(void *data, const char *buf, size_t count)
-   710	{
-   711		struct aw_sar *p_sar = (struct aw_sar *)data;
-   712		struct aw9610x *aw9610x = (struct aw9610x *)p_sar->priv_data;
-   713		unsigned int datatype[3] = { 0 };
-   714	
-   715		if (sscanf(buf, "%u %u %u", &datatype[0], &datatype[1], &datatype[2]) == 3) {
-   716			aw9610x->aw_i2c_package.addr_bytes = (unsigned char)datatype[0];
-   717			aw9610x->aw_i2c_package.data_bytes = (unsigned char)datatype[1];
-   718			aw9610x->aw_i2c_package.reg_num = (unsigned char)datatype[2];
-   719	
-   720			aw9610x_addrblock_load(p_sar, buf);
-   721			if (count > 7 + 5 * aw9610x->aw_i2c_package.addr_bytes)
-   722				aw9610x_datablock_load(p_sar, buf);
-   723		}
-   724	
-   725		return count;
-   726	}
-   727	
+   191	
+ > 192	const struct pinctrl_pin_desc stm32_rtc_pinctrl_pins[] = {
+   193		PINCTRL_PIN(OUT1, "out1"),
+   194		PINCTRL_PIN(OUT2, "out2"),
+   195		PINCTRL_PIN(OUT2_RMP, "out2_rmp"),
+   196	};
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
