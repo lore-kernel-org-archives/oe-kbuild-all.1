@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCCB18654
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 05:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F83113D502
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 06:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720762330; cv=none; b=btpowvoXrXmRN3HovRBmJgdnzwTYAxMUPWZ4yBbuzwUYBV6Juf1Ub7rpxTfDimWEN2GEh9mWG0zNAs79eI8DsS2kGbYb89gBZ2rch2F3nsMeHBSOyU2boFcXzMXGXYS61sEODBLzt103mkvKY8OP10LaBaT1DRmfKeCGzlDSZys=
+	t=1720765712; cv=none; b=Exwihwv1ZnxYBIiQeV63jIvh8tMacpBm8cemWeIGkjGRBIT0nYIx5ksEUoNTrSRFkGm63vdcGewsjJHSnBF60mpzUq268onfEhGom0eEUeS2nOm5e3acPkJv2cnW5aZ6gZ25kEfssBQjuRIFyUqvz7yUTRI3xzKokTorgoB8PpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720762330; c=relaxed/simple;
-	bh=o/GZtIpql5AkqtKAsUGUBoHUME9+u1yJNDfMsayr2Y0=;
+	s=arc-20240116; t=1720765712; c=relaxed/simple;
+	bh=MUcOyJsudZLGTgBP988DnazpviWuzG5Kw1tAmSwmzFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GiXgGKevz2Tvycx6g+sXsznqCUxabzZd2oWXVX/Q5dWmoRx6z3LBUjSLJFnWb+EH5KZPvrkrblSnxCsU0WL+0FmYDz3R7yiIf4yk9jOwycqIDvB1CwzLq0dcCZWsYzCnnK/32XrkRvcppdPErVxDWHu3rd1olP2jsbPGDfs1lME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSDwtwcC; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=TZiU49dpjx4IqSFfX3tTiIHduE+kG/z+KyireMqRZUQKkGSQ2dF9gTk9cpN1bET8DuMKe0ZaKSNBZakacbeGiv775YZ4XBDIBnq2YKjMTBzGNu0r3Qo+nzb4dvPqrJsmOCF8H4nR3uZNiBPZznGAxz4RxxNukj4ezw+ts+TP5FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOVtEo30; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSDwtwcC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOVtEo30"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720762328; x=1752298328;
+  t=1720765710; x=1752301710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/GZtIpql5AkqtKAsUGUBoHUME9+u1yJNDfMsayr2Y0=;
-  b=LSDwtwcClb5THkJ10WdZWe4P04XdYcUXmlGcd5isSqALVuQ0HEaRN42J
-   XyZ/Xwzeiu8LQ1tMYSLZHvMmXRuieYR2W1JG0g9UHaA2azfhVvEkT/+3f
-   +VvozhfqxDzzLDYTB0q8R2ZVsY7hcBemHE+ZuW/4up01s2aTqtaFJE7Qb
-   NHzGupykguPW8MpxsnIdQSrgPwaQGvzABDxNW10tRB+SsikzCDXoN018s
-   yOxc2z72cOUfqrxXOx3PiojhOYCJumGqThIHFfymaxajRnmEdNTaezToJ
-   1fNrbkX+aeASdE9Jnks65v/EjyDL2hh9MD0ddDc3m63DvCNUXiJoZ6Cg8
+  bh=MUcOyJsudZLGTgBP988DnazpviWuzG5Kw1tAmSwmzFQ=;
+  b=TOVtEo30zrzXyJjeFxeOgfkScILJVzNRdkio1xStj9GO5NMPhpt1oN+I
+   M77BN4zHHy5Iin5WPK2Vzar3r5T+XVa4gM4CsHdqxbaDlqxuQeJbgXBCf
+   tkhhPGMbmxH6ytTDuXh7AXqTIuU0waL1OctlztcpaJDe6W06YZNEUHQ2h
+   GXBNJKfovB+lm9KbygCe5+KjTO0at+Wc0DDYrcJ6cV+MrpIXETsFbGhGO
+   T509BtVxmI8f0Gdle9oa+USHFg57l8yMr54JOg9o55KkV6azuD0FSy10U
+   f4u6l+gIIYjisjIla27WzBnr+Fd8a5ql4zbXDFRtwE3rbQAydo/2/9RoR
    Q==;
-X-CSE-ConnectionGUID: KvGsqVEbSjGf98vwIL1Olw==
-X-CSE-MsgGUID: thV3dADYSy+qtdZHPLafvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18053450"
+X-CSE-ConnectionGUID: e9zI+DWKSSSdLzREEz+bdw==
+X-CSE-MsgGUID: /aYLZuOoS2CyX+78OP2uoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18034976"
 X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="18053450"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 22:32:07 -0700
-X-CSE-ConnectionGUID: WJQRR6S1SjOGXW7QbOL3dw==
-X-CSE-MsgGUID: 2dsNbNPdT3izgEUZ3Hwikw==
+   d="scan'208";a="18034976"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 23:28:11 -0700
+X-CSE-ConnectionGUID: a3yuIcjKQ0uhiU+21xTQqQ==
+X-CSE-MsgGUID: jad8xzTORN+0DKMkc/Tk6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
-   d="scan'208";a="53992123"
+   d="scan'208";a="48721613"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Jul 2024 22:32:07 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jul 2024 23:28:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sS8t2-000aMm-0S;
-	Fri, 12 Jul 2024 05:32:04 +0000
-Date: Fri, 12 Jul 2024 13:31:35 +0800
+	id 1sS9lI-000aQs-1K;
+	Fri, 12 Jul 2024 06:28:08 +0000
+Date: Fri, 12 Jul 2024 14:27:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:page_counters.2 1/4] mm/page_counter.c:428:44: error:
- 'MCT_MEM' undeclared
-Message-ID: <202407121317.67vJzrWz-lkp@intel.com>
+Subject: [rgushchin:page_counters.2 1/4] mm/page_counter.c:428:37: error: use
+ of undeclared identifier 'MCT_MEM'
+Message-ID: <202407121412.92eOyzLq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,22 +65,52 @@ Content-Disposition: inline
 tree:   https://github.com/rgushchin/linux.git page_counters.2
 head:   571d579e86f7cf22a1eb87727e098ba67eced2f3
 commit: f007ecfdec69e8f8241e261cff63049b14281c02 [1/4] mm: memcg: merge multiple page_counters into a single structure
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240712/202407121317.67vJzrWz-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121317.67vJzrWz-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-006-20240712 (https://download.01.org/0day-ci/archive/20240712/202407121412.92eOyzLq-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121412.92eOyzLq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407121317.67vJzrWz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407121412.92eOyzLq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page_counter.c: In function 'page_counter_calculate_protection':
->> mm/page_counter.c:428:44: error: 'MCT_MEM' undeclared (first use in this function)
+>> mm/page_counter.c:428:37: error: use of undeclared identifier 'MCT_MEM'
      428 |         usage = page_counter_read(counter, MCT_MEM);
-         |                                            ^~~~~~~
-   mm/page_counter.c:428:44: note: each undeclared identifier is reported only once for each function it appears in
+         |                                            ^
+   mm/page_counter.c:433:17: error: use of undeclared identifier 'MCT_MEM'
+     433 |                 counter->emin[MCT_MEM] = READ_ONCE(counter->min[MCT_MEM]);
+         |                               ^
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+     433 |                 counter->emin[MCT_MEM] = READ_ONCE(counter->min[MCT_MEM]);
+         |                                                                 ^
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:433:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:17: error: use of undeclared identifier 'MCT_MEM'
+     434 |                 counter->elow[MCT_MEM] = READ_ONCE(counter->low[MCT_MEM]);
+         |                               ^
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+     434 |                 counter->elow[MCT_MEM] = READ_ONCE(counter->low[MCT_MEM]);
+         |                                                                 ^
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:434:51: error: use of undeclared identifier 'MCT_MEM'
+   mm/page_counter.c:438:43: error: use of undeclared identifier 'MCT_MEM'
+     438 |         parent_usage = page_counter_read(parent, MCT_MEM);
+         |                                                  ^
+   mm/page_counter.c:440:27: error: use of undeclared identifier 'MCT_MEM'
+     440 |         WRITE_ONCE(counter->emin[MCT_MEM],
+         |                                  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
 vim +/MCT_MEM +428 mm/page_counter.c
