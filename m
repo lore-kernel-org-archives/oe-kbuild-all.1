@@ -1,66 +1,58 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E662010F9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 05:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCCB18654
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 05:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720762315; cv=none; b=LqP9X2gBbAl86cOldK2BdVDj+dRnqDhApu17Ox6vOI/DEVCtLec322NCj8fakEAaHMThxzYSs7cR+bJyzdcrVPYmOzVlTpO2EYg+Y5cKbChHoLtNaMhp8t9m6abpfbAeL1HCUCJ/XQM4+F/bVkLjn4zFXKu9zWmssA36ATNCBic=
+	t=1720762330; cv=none; b=btpowvoXrXmRN3HovRBmJgdnzwTYAxMUPWZ4yBbuzwUYBV6Juf1Ub7rpxTfDimWEN2GEh9mWG0zNAs79eI8DsS2kGbYb89gBZ2rch2F3nsMeHBSOyU2boFcXzMXGXYS61sEODBLzt103mkvKY8OP10LaBaT1DRmfKeCGzlDSZys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720762315; c=relaxed/simple;
-	bh=x2JOE/uacKMukO6DCIjF1M7rRkfHpBMegk9c54hKBGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BEcvk035cmPFrpnADTTAcEozkOz80et0CNAhCgdI5QN6SQUvd1QvPhTHfTguxyRs4F+oipbOaLP5ZOBseMYIRe4Voc1825k9Wooh5ZGWqsjCxioz5Qrck9p+2CGR0gtsqr7IxxHa//jxzCcqfsRIahgCwgbaNXRnpG4TJWDEwVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fF3O6TKl; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720762330; c=relaxed/simple;
+	bh=o/GZtIpql5AkqtKAsUGUBoHUME9+u1yJNDfMsayr2Y0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GiXgGKevz2Tvycx6g+sXsznqCUxabzZd2oWXVX/Q5dWmoRx6z3LBUjSLJFnWb+EH5KZPvrkrblSnxCsU0WL+0FmYDz3R7yiIf4yk9jOwycqIDvB1CwzLq0dcCZWsYzCnnK/32XrkRvcppdPErVxDWHu3rd1olP2jsbPGDfs1lME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSDwtwcC; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fF3O6TKl"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70b03ffbb3aso1371844b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jul 2024 22:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720762313; x=1721367113; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SeQtQzD+TY/s/klR7RJ4kIYjtc2hGiXPqKcrH4XsHsE=;
-        b=fF3O6TKljcOTvl++5PJezFYmYiQKG9NJYNWX2cKnLErRmNaa3bdGYxJxZWgPk8MrNs
-         iXCmMpvvpG2NjYLF7w8TRZRKvlnud226GyPGzeAUfQ/4Hlq9gx94APBcPNImwq2q50X0
-         m++cjedSExvnifYRO3d6sM8oUDGLGjdXw+Wvvm8X2A5YaiOa/h+QJPb+WDPXrK3b4cm7
-         JD/5lHtJCkjhmPhe78BRMaEYIAmJ0PP4AZDYLj3n9CQwdsYPwkg6kIwSJ1g1ZONTUgCe
-         6Y+SY1aBMcr0gxJH++8F/Lr5xEB9M8Xqe+GtoijGTyGUG1nf4gsltKwGlfNoUXOmKsbk
-         mRQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720762313; x=1721367113;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SeQtQzD+TY/s/klR7RJ4kIYjtc2hGiXPqKcrH4XsHsE=;
-        b=oDHawNxo9Y9a89GJn/ta34XWL02hXMHdAyNBEvaJGo+s9bfn4fXllQH7dbRlWTf8T5
-         IKyz0sXApdqGMzCfc4z9+DKBAJA5dmUyFi26YcIbCYcdJbXXUzWloD1tp4ue8LGut0zd
-         yyEIiusOrudqRtSuUDOA2md6JQJYFN7Qrqm9XowpRwm+6LlWNWomMtSdBmcFQgCKc1mM
-         ebO6ckME+Q/DY1lcshu/EHzq0Q6gWKm6dBAPQu2gNaNp3Ix7vWpCmhHMuJuVN/ccsM7E
-         gyMtBV4lFKDLzKdGobBySXd8FNLv7QseEqsEtVULecQRwj4MuydeKI0wRcxV0UazwidD
-         0i5Q==
-X-Gm-Message-State: AOJu0Yw+mAI9mixIKaI5U5esSloLOo0IACZaIxXr7ZaC4Hf6zeJignIW
-	ij4iF8v/ssVmZhdXvAKav3wocLmqj4hg1qafxxeKJh2N7xadlz3kWVyPIQ==
-X-Google-Smtp-Source: AGHT+IGdaKY0AIbjwG8LXoYxvlUUmEwWy/AA2wakjj9WqtAkEKgjhBNAomLkbI3bq4pOhm/vO7HWVw==
-X-Received: by 2002:a05:6a00:1388:b0:705:c30d:d6c3 with SMTP id d2e1a72fcca58-70b4353c1b9mr12412533b3a.11.1720762312999;
-        Thu, 11 Jul 2024 22:31:52 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:acda:de52:5c83:f72d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b439e9583sm6562582b3a.208.2024.07.11.22.31.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 22:31:52 -0700 (PDT)
-Date: Thu, 11 Jul 2024 22:31:50 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [linux-next:master 11606/12643] arm-linux-gnueabi-ld:
- arch/arm/mach-pxa/devices.o:undefined reference to `gpio_set_wake'
-Message-ID: <ZpC_xsx0t9KFgCCh@google.com>
-References: <202407112039.cyyIQ3Js-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSDwtwcC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720762328; x=1752298328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o/GZtIpql5AkqtKAsUGUBoHUME9+u1yJNDfMsayr2Y0=;
+  b=LSDwtwcClb5THkJ10WdZWe4P04XdYcUXmlGcd5isSqALVuQ0HEaRN42J
+   XyZ/Xwzeiu8LQ1tMYSLZHvMmXRuieYR2W1JG0g9UHaA2azfhVvEkT/+3f
+   +VvozhfqxDzzLDYTB0q8R2ZVsY7hcBemHE+ZuW/4up01s2aTqtaFJE7Qb
+   NHzGupykguPW8MpxsnIdQSrgPwaQGvzABDxNW10tRB+SsikzCDXoN018s
+   yOxc2z72cOUfqrxXOx3PiojhOYCJumGqThIHFfymaxajRnmEdNTaezToJ
+   1fNrbkX+aeASdE9Jnks65v/EjyDL2hh9MD0ddDc3m63DvCNUXiJoZ6Cg8
+   Q==;
+X-CSE-ConnectionGUID: KvGsqVEbSjGf98vwIL1Olw==
+X-CSE-MsgGUID: thV3dADYSy+qtdZHPLafvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18053450"
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="18053450"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 22:32:07 -0700
+X-CSE-ConnectionGUID: WJQRR6S1SjOGXW7QbOL3dw==
+X-CSE-MsgGUID: 2dsNbNPdT3izgEUZ3Hwikw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="53992123"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jul 2024 22:32:07 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sS8t2-000aMm-0S;
+	Fri, 12 Jul 2024 05:32:04 +0000
+Date: Fri, 12 Jul 2024 13:31:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:page_counters.2 1/4] mm/page_counter.c:428:44: error:
+ 'MCT_MEM' undeclared
+Message-ID: <202407121317.67vJzrWz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +61,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202407112039.cyyIQ3Js-lkp@intel.com>
 
-Hi Arnd,
+tree:   https://github.com/rgushchin/linux.git page_counters.2
+head:   571d579e86f7cf22a1eb87727e098ba67eced2f3
+commit: f007ecfdec69e8f8241e261cff63049b14281c02 [1/4] mm: memcg: merge multiple page_counters into a single structure
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240712/202407121317.67vJzrWz-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121317.67vJzrWz-lkp@intel.com/reproduce)
 
-On Thu, Jul 11, 2024 at 09:02:07PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-> commit: 917195d6f8293c35fcf9ed4bfe18f52cc1c9d2e6 [11606/12643] ARM: pxa: consolidate GPIO chip platform data
-> config: arm-pxa3xx_defconfig (https://download.01.org/0day-ci/archive/20240711/202407112039.cyyIQ3Js-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112039.cyyIQ3Js-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407112039.cyyIQ3Js-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arm-linux-gnueabi-ld: arch/arm/mach-pxa/devices.o:(.data+0x167c): undefined reference to `gpio_set_wake'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407121317.67vJzrWz-lkp@intel.com/
 
-Sorry about this. I think the easiest way of fixing this is:
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
-index d050a4c78f97..7695cfce01a1 100644
---- a/arch/arm/mach-pxa/devices.c
-+++ b/arch/arm/mach-pxa/devices.c
-@@ -633,6 +633,7 @@ struct platform_device pxa27x_device_pwm1 = {
- };
- #endif /* CONFIG_PXA27x || CONFIG_PXA3xx */
- 
-+#if defined(CONFIG_PXA25x) || defined(CONFIG_PXA27x)
- const struct software_node pxa2xx_gpiochip_node = {
- 	.name	= "gpio-pxa",
- };
-@@ -684,6 +685,7 @@ struct platform_device pxa27x_device_gpio = {
- 		.platform_data	= &pxa2xx_gpio_info,
- 	},
- };
-+#endif /* CONFIG_PXA25x || CONFIG_PXA27x */
- 
- static struct resource pxa_dma_resource[] = {
- 	[0] = {
+   mm/page_counter.c: In function 'page_counter_calculate_protection':
+>> mm/page_counter.c:428:44: error: 'MCT_MEM' undeclared (first use in this function)
+     428 |         usage = page_counter_read(counter, MCT_MEM);
+         |                                            ^~~~~~~
+   mm/page_counter.c:428:44: note: each undeclared identifier is reported only once for each function it appears in
 
-If you are OK with this I'll submit proper patch.
 
-Thanks!
+vim +/MCT_MEM +428 mm/page_counter.c
+
+   398	
+   399	
+   400	/**
+   401	 * page_counter_calculate_protection - check if memory consumption is in the normal range
+   402	 * @root: the top ancestor of the sub-tree being checked
+   403	 * @memcg: the memory cgroup to check
+   404	 * @recursive_protection: Whether to use memory_recursiveprot behavior.
+   405	 *
+   406	 * Calculates elow/emin thresholds for given page_counter.
+   407	 *
+   408	 * WARNING: This function is not stateless! It can only be used as part
+   409	 *          of a top-down tree iteration, not for isolated queries.
+   410	 */
+   411	void page_counter_calculate_protection(struct page_counter *root,
+   412					       struct page_counter *counter,
+   413					       bool recursive_protection)
+   414	{
+   415		unsigned long usage, parent_usage;
+   416		struct page_counter *parent = counter->parent;
+   417	
+   418		/*
+   419		 * Effective values of the reclaim targets are ignored so they
+   420		 * can be stale. Have a look at mem_cgroup_protection for more
+   421		 * details.
+   422		 * TODO: calculation should be more robust so that we do not need
+   423		 * that special casing.
+   424		 */
+   425		if (root == counter)
+   426			return;
+   427	
+ > 428		usage = page_counter_read(counter, MCT_MEM);
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
