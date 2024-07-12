@@ -1,108 +1,111 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE96176243
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 16:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9359C176224
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 16:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720802070; cv=none; b=s2jUCUSjLYfY8JI9Ypneb3N7xjwExFV/+x1ASVX8PnfiFD+rSei9cmC7T9ZQgo4Tnlw5mb3petc7I8Sdpd17qTKrPNQ6z9qS/rmJlGpclyTsfGtkd37HI0JOyqtzFX01oX+4FBImxGaxrnvaMC3fBIL4GRek2Jo2b60LPLXhQ2s=
+	t=1720802860; cv=none; b=NH0szXaZ+zAtTaVeiKTIkDzXdBrQhI5ojshX4IRFtM7mrul9rsszFZsKuzrz90gOzBzQSwtz7Co0KauoX+3n9b18p3yMLIn3kgHSFCsMhNxa/PGWVDpkogJ2ASL0R9xPQgiUtLdAllhTszjyEQBr4jAgwxJWS99kX2bz+uSKA64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720802070; c=relaxed/simple;
-	bh=Ko5ApnctGqxTLJF9SLd3BZfsxJs9G8s9AyRIX4oqdd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V3N7g6M3CNhUbIlPgE9yv1J9edVTHcC5/gZJ0rdpRx8g5EynJ1Cf4zpgE2jgc0oHnW0khLg1O7Rsggp2XleW9+OqUfRjXW/k1AsH3TtQEGLSVXang7NF+wrg/7VDnwjCyNrnfdyWQYYEzNqRi9m4OQEvouWZ8rqNBVF5tY3Wu8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=GnDUJyae; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1720802860; c=relaxed/simple;
+	bh=wu495sbP3mMtrqp/dvQfo0V3p5D15aa0eP5cjifE8eM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ilA2n+voVgLGOBjrYHS9aq72hV5I5RlPKj7Sk8Psb02GYA9XoIk1O9KU1ke+t/BbjTtWvXRgnSKP8Sf4UKcvSa+aL714J318HAaTxbDT7EZWZYdP5+X6fgh5V1nTV+pUq+N69EFtmzwcBHdwDUY2NW+4GMgExRJgb7Zm0dH6Fu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SF6nfHcx; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="GnDUJyae"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a77e392f59fso295314766b.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 09:34:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720802067; x=1721406867; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ko5ApnctGqxTLJF9SLd3BZfsxJs9G8s9AyRIX4oqdd4=;
-        b=GnDUJyae1WRrKRQF3MEVK7aVKIsJFNr92gUdP9dAVclqh0hYWzHjrTJbBVzXpGHuHS
-         yRaKA3tw78u4mH9NtAu9jTD/KPjAOJ4PY2NU+ofhwdB9JNh5a0hYvw07swhGInk+IvDx
-         f0EbBT3qihB0FfmGOLGe6h3d7Z1PCXRwJB7XVSEr3b/yz1HYmnaX1zTIezB3dC9DMLgg
-         R9Dpy4vgO7xSrMk0B1nzpay7XM0csvmsxtJgLI2an+2dLCY8DyaW4CvC6ieiGD84s7ye
-         AuxRL1cjfMSYnHK14Um8O11WmAZmwk+Z14o/eGkD8QDjX8aPIm76NxomgcXERhYOZcAU
-         dAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720802067; x=1721406867;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ko5ApnctGqxTLJF9SLd3BZfsxJs9G8s9AyRIX4oqdd4=;
-        b=gHdexmG+dhqbAUpg63DGzLKdLKUHyxHoccAFCKIdsl7n8drBIxb/kxQl996CUk3GCE
-         MqF9XqDmzhePXjdmIvqsRJJjNRwj0Z0EZd6xAfrbp4oX3UXWfcFblKJcmKbqNUj+naaz
-         TjUpeOjhCK/qnVcTL+VeQ8WSBSoHX3eqKQoZfnpzexXotJTLcWjbYah7wBK4k7jQ+Cq1
-         HYPw65vRdvdMPAghRtecIS7IrR/Kw5zepmTy4eXv5kolcPeXE276wP82AXWptVWuoRO0
-         z0puUxfDQTCBNiIjZSYCcKPawe23Jwr35NPG3V0whgnj9NVPnhiDJ+1T5Bbxwc2kfbvG
-         UKTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWv42Btfi6Vb/jQiFdksi9ZvxkFVbO6dxTDmmy2MBqdnXu5viBrxxmpKdYEImPeDhUksHWVv6e/77utSQDB/gJcQHNjrSFBHIK8bxtAmg==
-X-Gm-Message-State: AOJu0YwAK+sQLBOkZvRfUwk6hVGAgAG4e3MBpRIcP20TH1lxy1WF/R/x
-	xSk968Fu/0xFPiXay3/bVX3chqGwDGntpYqNwGiRfhVAvWvB7ZS26J53geDThsg=
-X-Google-Smtp-Source: AGHT+IFIkSLn+xMw/ggbyUGVHPR8oXe4gw9aACxLjgf3iesFhHrqTH2XCriTFDtXu1o/lJmDVUkazw==
-X-Received: by 2002:a17:906:39d6:b0:a72:9963:eb8e with SMTP id a640c23a62f3a-a780b6b307emr658574666b.28.1720802067472;
-        Fri, 12 Jul 2024 09:34:27 -0700 (PDT)
-Received: from localhost (p50915eb1.dip0.t-ipconnect.de. [80.145.94.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a6bc6c0sm359609866b.44.2024.07.12.09.34.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 09:34:27 -0700 (PDT)
-Date: Fri, 12 Jul 2024 18:34:26 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com, 
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] hwmon: (adt7475) Add support for configuring
- initial PWM state
-Message-ID: <xqniwjyz7jrf2vb46uql5eag6fttgybzbg36laqmfarplmxu6a@bgdksqe5dq6f>
-References: <20240711234614.3104839-4-chris.packham@alliedtelesis.co.nz>
- <202407122021.YFqdjjQS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SF6nfHcx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720802859; x=1752338859;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wu495sbP3mMtrqp/dvQfo0V3p5D15aa0eP5cjifE8eM=;
+  b=SF6nfHcxv9A3qahlQuC8s8cPCUXZ6mYme+stQABK9wNjHP9bgfoKyZu1
+   e4ubfpsxjrxD/OUqAgUl9UFQ9TsLb1MHyVzESYXcYsyxXiQsrGPDv/Qla
+   3XrBDgfxbTQcglhakVowC+cS+J8mVoaPjuX9RJFubOH8WF7pSuzwe6Geo
+   Jo7ZGzthkjCIhA0y4CKUzcZJUN0jkXf2IJSgHJtKJurO/n+WnzkI0k0UF
+   BVPQDwsneBWKPEPRsMjsq5BCC1d3yxVBXUAQoGYeoBx600vGlUGi1TiW5
+   jNPuTKxjy5HxInoHS52cwvpmlST63Aa3ZkjbWwfJ1H1f2VlarRZIxmiBN
+   Q==;
+X-CSE-ConnectionGUID: w+cwyx5bSciAsxg3Vj+a/A==
+X-CSE-MsgGUID: hz8ciAY5TmuvyaT8lvLc+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="17872911"
+X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
+   d="scan'208";a="17872911"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 09:47:37 -0700
+X-CSE-ConnectionGUID: 08QrzsNxQEi3+hQNOYu2Mw==
+X-CSE-MsgGUID: lmy+EmbMRo6bsMFWGvt9rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
+   d="scan'208";a="54157230"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2024 09:47:36 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sSJQk-000b0w-0b;
+	Fri, 12 Jul 2024 16:47:34 +0000
+Date: Sat, 13 Jul 2024 00:46:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Malloy Liu <liuqi1610@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21349/23271]
+ drivers/mmc/host/phytium-sdci.c:1483:23: error: lvalue required as unary '&'
+ operand
+Message-ID: <202407130055.5P1q7PDM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uvbasbsoovfjy5qv"
-Content-Disposition: inline
-In-Reply-To: <202407122021.YFqdjjQS-lkp@intel.com>
-
-
---uvbasbsoovfjy5qv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hello,
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   07c988f00903b4f0fbf9c31cea24351fbf885b1c
+commit: d65622e6edee11f7fcbd295bdb5aef86e12dfef3 [21349/23271] mmc: add support for Phytium MMC
+config: arm64-randconfig-001-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130055.5P1q7PDM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130055.5P1q7PDM-lkp@intel.com/reproduce)
 
-On Fri, Jul 12, 2024 at 08:45:52PM +0800, kernel test robot wrote:
-> >> ERROR: modpost: "__udivdi3" [drivers/hwmon/adt7475.ko] undefined!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130055.5P1q7PDM-lkp@intel.com/
 
-FTR, this happens if you use a long division using plain /. You have to
-use on of the helper functions for that.
+All errors (new ones prefixed by >>):
 
-Best regards
-Uwe
+   drivers/mmc/host/phytium-sdci.c: In function 'phytium_sdci_start_data':
+   drivers/mmc/host/phytium-sdci.c:271:14: warning: variable 'read' set but not used [-Wunused-but-set-variable]
+     271 |         bool read, res;
+         |              ^~~~
+   drivers/mmc/host/phytium-sdci.c: In function 'phytium_sdci_dma_irq':
+   drivers/mmc/host/phytium-sdci.c:1018:29: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
+    1018 |         struct mmc_command *cmd;
+         |                             ^~~
+   drivers/mmc/host/phytium-sdci.c: At top level:
+>> drivers/mmc/host/phytium-sdci.c:1483:23: error: lvalue required as unary '&' operand
+    1483 |                 .pm = &phytium_sdci_dev_pm_ops,
+         |                       ^
 
---uvbasbsoovfjy5qv
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+vim +1483 drivers/mmc/host/phytium-sdci.c
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaRWw8ACgkQj4D7WH0S
-/k5Sjgf9En6EDzoXQtBhmc4s/93+KbRCAlhxs/MIhtH1wfGU2SInNC6Bzzi7TW1l
-z1/4LG4VW0QIru/jNxRZWC+ko1Y1aboC/ZpBDeHKsLl4drbzivFSg13dEL2xv/dS
-+QuuW3BFKf/iaMBL/o1BSga0zLTwJabS0CaWWrtv+SokR0lkzFG7bDnMjECGyvg3
-BymdnZMJSS0gutvVumXYrj3WXMM1vaVxDgB9g4Eliqnt99mRqoKt79V1fuJac1pd
-tdqn6QWKRUnePqLaTMe2bKdYXIrzERZIFWFATlUeQ858I0F8a1Zjdik9HMVM/UGz
-SW9L1yZzboDZhwHzxM+KryaI9xspyA==
-=nT91
------END PGP SIGNATURE-----
+  1475	
+  1476	static struct platform_driver phytium_sdci_driver = {
+  1477		.probe = phytium_sdci_probe,
+  1478		.remove = phytium_sdci_remove,
+  1479		.driver = {
+  1480			.name = "sdci-phytium",
+  1481			.of_match_table = phytium_sdci_of_ids,
+  1482			.acpi_match_table = phytium_sdci_acpi_ids,
+> 1483			.pm = &phytium_sdci_dev_pm_ops,
+  1484		},
+  1485	};
+  1486	
 
---uvbasbsoovfjy5qv--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
