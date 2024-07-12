@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9F73FB9F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 22:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B000B1BC3C;
+	Fri, 12 Jul 2024 23:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720824357; cv=none; b=k8jpLszSSec3+P07igPQkP5ymwO+oRd/qhBC75X7DLcQz4TEJlVVFnD8PlF5Fn2KYbC+BzMiSt8uBXHJrAmFIpJgdzvMRLr/9lNthhgbdR4EKa28yQ58V9vvplm6jGfxoXgt2yeFGwomwtx8sw1RK+o88GdobewHjhFcaJGfTJg=
+	t=1720825675; cv=none; b=mPBwA2uHEzWgjxSk03pc+9RRtwV8ISb6YFh9bxuD2WSP3kH3MGRe+xsBb4xNPVrf8JOfzuE+72SyF7BDyh9Yt/nPviOm0gOoSplwkFVMBhvGXM+QXPT4QWSjkJt+0T9sy6ptXPI/5Oy0l94FxcZJNvzAwWapJGJ54EDnQIlwWmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720824357; c=relaxed/simple;
-	bh=9rg1NXM9FzU8DLG6AHYhQ30lueZeefBdwKmeRgmPHh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dk0ccKyO34VvbOQR8tRkvdwQjt8nYcgTtpccrkM2sygl+cUyvjJww3CbyzsjvIfuQJj9DWThHqJLjFLiII77HgqlXF4LCLR58FT2d+vlEWpAtUA6hNjbazqnPv4iPIfVHXPIE/TzFVGqdasvmxZRo2/MoyPdBzKFeQa6KyGwRsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2ozC//A; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1720825675; c=relaxed/simple;
+	bh=FlJzMkZUonaDBUYlMK8y3nTq3YsCaK08EgrMcWax4y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fb+8Z8a/K8rN0+j9FO4Uak/fDt1Xy97rkJdLc+/rgnyzKPGcnvgzwco7K6KMSqdzucaPdlc/QwhssbQbHm10MRqMdQR6HdcQvWodMeDvvxueG946ovpbM+D4haoCB1Hnaxz9lyy15qST1v9KdIeBAoU/c6MkPhWcYVARq/b94e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frDz4I6m; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2ozC//A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frDz4I6m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720824355; x=1752360355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9rg1NXM9FzU8DLG6AHYhQ30lueZeefBdwKmeRgmPHh0=;
-  b=i2ozC//AeDp16imcDpmSYcSuuu6ZPKGlbNwKn8QvCFaJZNpnlB8UUUEz
-   6cL+sgsL6FijU2oVhNJDmbRFHUEdkmLSVnfZ44pXhtz4Qk+1Pwl+5enXr
-   03JD36f7yCQWhNfTXf/yYeiHzrvUozEu6nVlYrN0aRCQ6TOJBvR7R6bJB
-   5N/zfRta3XA7LdLvp6tkRADT6bmjfRwyZsmRv+p7TUp8gq8qK5zArLieP
-   QPv5DSH/zxYRKEa3idkwtG3rbqjtU3y8GshbdfqYi/rA3lA+mFf7WeX3G
-   lwQCIlebOTUif9sbKaysYssGn8nJnperFMTEl3AKbmkHShWdipTvh6cFR
-   w==;
-X-CSE-ConnectionGUID: uhgHkfcjT56xyICg1/9Gqw==
-X-CSE-MsgGUID: e2rXZ4sXQSqt3Dh88M5aCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="35826589"
+  t=1720825673; x=1752361673;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FlJzMkZUonaDBUYlMK8y3nTq3YsCaK08EgrMcWax4y8=;
+  b=frDz4I6mHF7B34PG6Cb0ftTWugTze1Y1h6qlcZr29LEhysFWyTmGwLQM
+   rtOMi0Ev7lKu5yACZW+9duOHrSHpQPdWOuIAUDQ9dPKi9M5wdQWMiPlE5
+   Zfw2rhIE7FMp3WPMPZuylbVw1086UYjVPBIWvhhQlKp7Ck2g3ZjB59niR
+   8mBusUXwFObrzztZvr5IQBLjqI7VfPw/cEZIhuLXsiEufkZCBuspZQS3G
+   /JX10HIBGZOU+uC5A+4dcSk0EH9Oirdxph38WynvgGeYoauiQayrSjnty
+   XnQnxmkm5HMu1yUifAz+9knc8yu7j7E9AQTJFgXLTU84zsiWEIo7bNBA1
+   Q==;
+X-CSE-ConnectionGUID: 2iH+Vx73TFOPN8qfA2hM1A==
+X-CSE-MsgGUID: N+4A38AjTYmu1keyQcLf8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="29432882"
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="35826589"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 15:45:55 -0700
-X-CSE-ConnectionGUID: z0P74SadSIq1+/xHfks/ow==
-X-CSE-MsgGUID: 6lnJn73fTuWXKZhem8Tnfw==
+   d="scan'208";a="29432882"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 16:07:53 -0700
+X-CSE-ConnectionGUID: Wvolja3yS7qTfD+GV7OWvQ==
+X-CSE-MsgGUID: I08Aao9LQHGeNQ6lv7ndcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="54231240"
+   d="scan'208";a="49444965"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2024 15:45:51 -0700
+  by orviesa006.jf.intel.com with ESMTP; 12 Jul 2024 16:07:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSP1R-000bOg-01;
-	Fri, 12 Jul 2024 22:45:49 +0000
-Date: Sat, 13 Jul 2024 06:44:58 +0800
+	id 1sSPMj-000bQA-2V;
+	Fri, 12 Jul 2024 23:07:49 +0000
+Date: Sat, 13 Jul 2024 07:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <ioworker0@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ryan Roberts <ryan.roberts@arm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] mm: mTHP stats for pagecache folio allocations
-Message-ID: <202407130620.DbyYULnj-lkp@intel.com>
-References: <20240711072929.3590000-3-ryan.roberts@arm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt 2/10]
+ drivers/iommu/generic_pt/pt_alloc.c:56:42: error: use of undeclared
+ identifier 'NR_IOMMU_PAGES'
+Message-ID: <202407130736.0MFZvTRI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,94 +62,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240711072929.3590000-3-ryan.roberts@arm.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20240712]
-[cannot apply to linus/master v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/mm-Cleanup-count_mthp_stat-definition/20240711-154455
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240711072929.3590000-3-ryan.roberts%40arm.com
-patch subject: [PATCH v1 2/2] mm: mTHP stats for pagecache folio allocations
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240713/202407130620.DbyYULnj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130620.DbyYULnj-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   262ff230b5cf17a8a573be8dbee522de7a36a87a
+commit: 5082473c62fd387bdbf136fb1eef8c78b0dc1633 [2/10] genpt: Add an allocator for page table levels
+config: um-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407130736.0MFZvTRI-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130736.0MFZvTRI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130620.DbyYULnj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130736.0MFZvTRI-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/crct10dif-ce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/aes-neon-bs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-imx27.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-mediatek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-pciback/xen-pciback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/edac/layerscape_edac_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ufs/host/ufs-qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/nvidia_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
->> ERROR: modpost: "mthp_stats" [fs/btrfs/btrfs.ko] undefined!
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:5:
+   In file included from drivers/iommu/generic_pt/pt_alloc.h:9:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/iommu/generic_pt/pt_alloc.c:56:42: error: use of undeclared identifier 'NR_IOMMU_PAGES'
+      56 |         mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
+         |                                                 ^
+   drivers/iommu/generic_pt/pt_alloc.c:72:43: error: use of undeclared identifier 'NR_IOMMU_PAGES'
+      72 |                 mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, -pgcnt);
+         |                                                         ^
+   1 warning and 2 errors generated.
+
+
+vim +/NR_IOMMU_PAGES +56 drivers/iommu/generic_pt/pt_alloc.c
+
+   > 5	#include "pt_alloc.h"
+     6	
+     7	#include <linux/mm.h>
+     8	
+     9	#define RADIX_MATCH(pg, rl)                        \
+    10		static_assert(offsetof(struct page, pg) == \
+    11			      offsetof(struct pt_radix_meta, rl))
+    12	RADIX_MATCH(flags, __page_flags);
+    13	RADIX_MATCH(rcu_head, rcu_head);	/* Ensure bit 0 is clear */
+    14	RADIX_MATCH(mapping, __page_mapping);
+    15	RADIX_MATCH(private, free_next);
+    16	RADIX_MATCH(page_type, __page_type);
+    17	RADIX_MATCH(_refcount, __page_refcount);
+    18	#ifdef CONFIG_MEMCG
+    19	RADIX_MATCH(memcg_data, memcg_data);
+    20	#endif
+    21	#undef RADIX_MATCH
+    22	static_assert(sizeof(struct pt_radix_meta) <= sizeof(struct page));
+    23	
+    24	static inline struct folio *meta_to_folio(struct pt_radix_meta *meta)
+    25	{
+    26		return (struct folio *)meta;
+    27	}
+    28	
+    29	void *pt_radix_alloc(struct pt_common *owner, int nid, size_t log2size,
+    30			     gfp_t gfp)
+    31	{
+    32		struct pt_radix_meta *meta;
+    33		unsigned int order = log2size - PAGE_SHIFT;
+    34		struct folio *folio;
+    35	
+    36		/*
+    37		 * FIXME we need to support sub page size tables, eg to allow a 4K table
+    38		 * on a 64K kernel. This should be done by allocating extra memory
+    39		 * per page and placing the pointer in the meta. The extra memory can
+    40		 * contain the additional list heads and rcu's required.
+    41		 */
+    42		if (log2size < PAGE_SHIFT)
+    43			order = 0;
+    44	
+    45		nid = NUMA_NO_NODE; // FIXME
+    46		folio = (struct folio *)alloc_pages_node(
+    47			nid, gfp | __GFP_ZERO | __GFP_COMP, order);
+    48		if (!folio)
+    49			return ERR_PTR(-ENOMEM);
+    50	
+    51		meta = folio_to_meta(folio);
+    52		meta->owner = owner;
+    53		meta->free_next = NULL;
+    54		meta->log2size = log2size;
+    55	
+  > 56		mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
+    57		lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, 1UL << order);
+    58	
+    59		return folio_address(folio);
+    60	}
+    61	EXPORT_SYMBOL_NS_GPL(pt_radix_alloc, GENERIC_PT);
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
