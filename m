@@ -1,292 +1,218 @@
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAE813D51D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 06:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0D739B;
+	Fri, 12 Jul 2024 06:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720766565; cv=none; b=qGKgGIK7rClqOw8CFEp1u5mqJUjFIqziWAGVwZT2uFSgr45O87bp4cf+Wj2StpiidvicWCGEfLl24aYI26HxgEXIhmexSfEqFbB73Tvp/L6wDPwkROfQDR6U6SOLfaxhdE4ypMpA2UfCbE9C9a2ab2f5EOPeoGB5Uf1+ewHAyAc=
+	t=1720767020; cv=none; b=dyymvxa2nO8AHZ9/4dWc91qXebBoEucTHNOBWoIRazJ5lXiJF6wF7v5ort37pOp9LC3orUUyJF5rrNAoQ6wWoZEowD/+8QVE3oe8JIiphDgd9ruk2dQBqXSRkcc4mH1jMYd4DmxOdfwnBD+NBfbnQw+KJ4jgP9HtrE+uKOIe2UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720766565; c=relaxed/simple;
-	bh=JzByVkDjvgfsS2aCnmnQPCTpnHRUNJlKoNXnsiVkpdI=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=EASjjnd/etx3Ruo31MVYr6LicO+jXIzwACafrCHmeLwKRhTe5EYlBhu5O+qcIzEO8rAPn0g7mD4a1DxuYQO6RNrPLxAj8SMrF3jBfyMgYnjp9GrKSMhnTA6hNAZnsEf+zOX9PLruRmJbjW2/X8nvTcShhJS58xsY1XmEakpKgIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QJN29OHp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=v54ihLbQ; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1720767020; c=relaxed/simple;
+	bh=eLi3fYikhmZmAiWojiYM4xhueLbPTdJEVJAlqd18vvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ai3pVObaSkBYtHdJsjIX0flRLYmL1T93omKqO0ixyHWUNsqti4uVrhDxr/KwYM5DWqabA//8C9BRiqckleEbgRNAQlJohezWqw+7sOYoiRCW9mUfeATUuCuUHoroFJdl1NluH3isQG5G5YuOLzh/vHFOnsBmmjnePY3azQRfzSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsSiJECI; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QJN29OHp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="v54ihLbQ"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 442EB13810FB;
-	Fri, 12 Jul 2024 02:42:41 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Fri, 12 Jul 2024 02:42:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1720766561; x=1720852961; bh=kA+mlMK4ns
-	lRzk/Foy9FPc6aVy+bUIWN+/xIUkmQGXg=; b=QJN29OHpS3sm6iIxfH0pgLcosh
-	8mMDeWYOusxLy4n6rltHCSFGTVCIf8CWbEGRGObHZIbDBQ28/2WHczNz4cr5n+yy
-	Zmg16PdxBsGYypr8m9GHHeJVi8VY+fE01u+klgyseHfw0EAQv60zSYjp8aEV8v2y
-	qpex+p+ig9YalVxjWLoS1DJQlQ4MDyt/62O3TStlBtWUZlWl2PkHNLKEngICBK0W
-	6a/aqlhbJaFSnsiuW22pYQEKcXZPS5hORBDHnc6TiUmLDOSyfHyfU2IiqwBcjrGW
-	LIZx9COBFH1Nqk8Ab0AzaPWXi0uDC6u6P66dNyuJu0th26m6743TtEAJyQ8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720766561; x=1720852961; bh=kA+mlMK4nslRzk/Foy9FPc6aVy+b
-	UIWN+/xIUkmQGXg=; b=v54ihLbQWUXMplZOwkzaFGguiKpnEW1CvUvN7Zjmh0Lx
-	ZqceloeGTKr7g2zeQoVinwq98CZhl79jWEeUmUFmx8mSzJ56MITWC67PTRT5KD5S
-	yUmg+TO9TaIQOKEXFreoOwpTlg0gqYVZptb3kSf9le9KOUvuYMSf/dpl3qHj6DnM
-	W7tLcLPPy1gNuBlV6KJ4HhLQJK6SuWF8yo5be2krP6m2F7xWdBNySCPkgZmT71nA
-	2HuKC4JdAnTVn1ZkC4DSiCuxLH2KWW4AIK3E643vhMKa+4NFtSlMclGhQJHjcWr9
-	jfFPuOV9PuZJiHMkNUxONxX9Z43AkmlgmJRl97OD8g==
-X-ME-Sender: <xms:YNCQZo7xoNalbgk7zwVEv_6qjCXqVRNNBpbcbSha7gTzDOusbDutWg>
-    <xme:YNCQZp6JahYSStSPyUJKvddmm5QqRs4PKplHeNg6YxvrNf2zDMQiFJTA9gaeejYIg
-    e6NeNhKhWu_h33RVcU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeehgdduuddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:YNCQZnfkCBw6FDqLGemTgjpGC_tv5je_yvlWM5_sZ7AnBo32hp5Ucw>
-    <xmx:YNCQZtKcowHELiiVqFbdLZubNrd0BwaekLfiK4mlyeASRlfHehHASQ>
-    <xmx:YNCQZsI1apt8ZnGdb7VKUH0SaM4QfguhhjHsgKJ-2pMHG-FDOAayTA>
-    <xmx:YNCQZuzLQ-T1JJ0__7kR4w5H3-lgT4qsXX_2zMP7SLdB7Jd1bEoUPw>
-    <xmx:YdCQZhHaXnEaQ3NkUqclrNAdW6JYJCCfUxKdpy-NA2syFBL17AY0gF5G>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DCCC0B6008D; Fri, 12 Jul 2024 02:42:39 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsSiJECI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720767018; x=1752303018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eLi3fYikhmZmAiWojiYM4xhueLbPTdJEVJAlqd18vvM=;
+  b=jsSiJECIG9G6RiXle6UjcUB28iPH/DD/56hdg8SOgbi2mFJYHSYh4uZA
+   47cDT6NB2aj+FO7MZIvFaLLteabD+tZXIJ2/fEJtXGZ2U7GOd9pTEHe6F
+   85C0Ntf9HXoF0AWU2OtinN53m+BdPc0gJ5waayWUA7YoEAZSr5QppSU4h
+   DHP19IUXiqA+MGPhNu7apxGeUphGVnRuf9gL6XI6ZcxC1bGDK31vx8HZ3
+   3vpRzLzmd9pbrRFYlTv2Vfu1FXh4+pUarguRos+NLGxh0akzlsSK0lz2K
+   CdMR+XDiP+hUK178UHKHbhOhps7vHQZnB+vxi6tIHm4DwB9/U/IXk6n5m
+   Q==;
+X-CSE-ConnectionGUID: 7/H2QAC4QyiIesL6mFvo+Q==
+X-CSE-MsgGUID: LXqN12vWSoSCr3shTJRWxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="21101408"
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="21101408"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 23:50:17 -0700
+X-CSE-ConnectionGUID: LvxdULpuRNimbwC0rZ2gzA==
+X-CSE-MsgGUID: b+ApyV3URIKQWbGRuPOesg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,202,1716274800"; 
+   d="scan'208";a="54009317"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jul 2024 23:50:12 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sSA6c-000aSv-0i;
+	Fri, 12 Jul 2024 06:50:10 +0000
+Date: Fri, 12 Jul 2024 14:49:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tao Zhang <quic_taozha@quicinc.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Leo Yan <leo.yan@linux.dev>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Tao Zhang <quic_taozha@quicinc.com>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] coresight: Add source filtering for multi-port
+ output
+Message-ID: <202407121454.IxYqSYDp-lkp@intel.com>
+References: <20240711081750.21792-3-quic_taozha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <0de0aeba-da02-4fa6-a1f8-a468dcbfac58@app.fastmail.com>
-In-Reply-To: <ZpC_xsx0t9KFgCCh@google.com>
-References: <202407112039.cyyIQ3Js-lkp@intel.com>
- <ZpC_xsx0t9KFgCCh@google.com>
-Date: Fri, 12 Jul 2024 08:41:58 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "kernel test robot" <lkp@intel.com>
-Subject: Re: [linux-next:master 11606/12643] arm-linux-gnueabi-ld:
- arch/arm/mach-pxa/devices.o:undefined reference to `gpio_set_wake'
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240711081750.21792-3-quic_taozha@quicinc.com>
 
-On Fri, Jul 12, 2024, at 07:31, Dmitry Torokhov wrote:
-> @@ -684,6 +685,7 @@ struct platform_device pxa27x_device_gpio = {
->  		.platform_data	= &pxa2xx_gpio_info,
->  	},
->  };
-> +#endif /* CONFIG_PXA25x || CONFIG_PXA27x */
-> 
->  static struct resource pxa_dma_resource[] = {
->  	[0] = {
->
-> If you are OK with this I'll submit proper patch.
+Hi Tao,
 
-Right, that's probably the easiest way. I was trying a more
-elaborate change (see below), but there is a good chance I
-introduce another regression in that, so let's go with
-your patch. Please send it directly to soc@kernel.org
-Cc:linux-arm-kernel and I'll pick it up.
+kernel test robot noticed the following build warnings:
 
-One more thing I noticed: if you are doing more patches
-to convert devices in board files to use software nodes,
-we should probably try to move them away from static
-platform_device definitions towards a dynamic
-platform_device_register_simple() or similar interface
-at the same time.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.10-rc7 next-20240711]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-    Arnd
+url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Zhang/dt-bindings-arm-qcom-coresight-static-replicator-Add-property-for-source-filtering/20240711-162200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240711081750.21792-3-quic_taozha%40quicinc.com
+patch subject: [PATCH v2 2/3] coresight: Add source filtering for multi-port output
+config: arm-randconfig-004-20240712 (https://download.01.org/0day-ci/archive/20240712/202407121454.IxYqSYDp-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240712/202407121454.IxYqSYDp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407121454.IxYqSYDp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwtracing/coresight/coresight-platform.c:261:23: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+                                     "Filter source %s is not a source device\n");
+                                                    ~^
+   include/linux/dev_printk.h:156:62: note: expanded from macro 'dev_warn'
+           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                       ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+   #define dev_fmt(fmt) fmt
+                        ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ^~~
+   1 warning generated.
 
 
-diff --git a/arch/arm/mach-pxa/devices.c b/arch/arm/mach-pxa/devices.c
-index d050a4c78f97..8813a5d179ed 100644
---- a/arch/arm/mach-pxa/devices.c
-+++ b/arch/arm/mach-pxa/devices.c
-@@ -633,58 +633,6 @@ struct platform_device pxa27x_device_pwm1 = {
- };
- #endif /* CONFIG_PXA27x || CONFIG_PXA3xx */
- 
--const struct software_node pxa2xx_gpiochip_node = {
--	.name	= "gpio-pxa",
--};
--
--struct resource pxa_resource_gpio[] = {
--	{
--		.start	= 0x40e00000,
--		.end	= 0x40e0ffff,
--		.flags	= IORESOURCE_MEM,
--	}, {
--		.start	= IRQ_GPIO0,
--		.end	= IRQ_GPIO0,
--		.name	= "gpio0",
--		.flags	= IORESOURCE_IRQ,
--	}, {
--		.start	= IRQ_GPIO1,
--		.end	= IRQ_GPIO1,
--		.name	= "gpio1",
--		.flags	= IORESOURCE_IRQ,
--	}, {
--		.start	= IRQ_GPIO_2_x,
--		.end	= IRQ_GPIO_2_x,
--		.name	= "gpio_mux",
--		.flags	= IORESOURCE_IRQ,
--	},
--};
--
--static struct pxa_gpio_platform_data pxa2xx_gpio_info = {
--	.irq_base	= PXA_GPIO_TO_IRQ(0),
--	.gpio_set_wake	= gpio_set_wake,
--};
--
--struct platform_device pxa25x_device_gpio = {
--	.name		= "pxa25x-gpio",
--	.id		= -1,
--	.num_resources	= ARRAY_SIZE(pxa_resource_gpio),
--	.resource	= pxa_resource_gpio,
--	.dev		= {
--		.platform_data	= &pxa2xx_gpio_info,
--	},
--};
--
--struct platform_device pxa27x_device_gpio = {
--	.name		= "pxa27x-gpio",
--	.id		= -1,
--	.num_resources	= ARRAY_SIZE(pxa_resource_gpio),
--	.resource	= pxa_resource_gpio,
--	.dev		= {
--		.platform_data	= &pxa2xx_gpio_info,
--	},
--};
--
- static struct resource pxa_dma_resource[] = {
- 	[0] = {
- 		.start	= 0x40000000,
-diff --git a/arch/arm/mach-pxa/mfp-pxa2xx.c b/arch/arm/mach-pxa/mfp-pxa2xx.c
-index f5a3d890f682..e0ac1f525f77 100644
---- a/arch/arm/mach-pxa/mfp-pxa2xx.c
-+++ b/arch/arm/mach-pxa/mfp-pxa2xx.c
-@@ -15,12 +15,16 @@
- #include <linux/kernel.h>
- #include <linux/init.h>
- #include <linux/io.h>
-+#include <linux/ioport.h>
-+#include <linux/property.h>
-+#include <linux/platform_device.h>
- #include <linux/syscore_ops.h>
- #include <linux/soc/pxa/cpu.h>
- 
- #include "pxa2xx-regs.h"
- #include "mfp-pxa2xx.h"
- #include "mfp-pxa27x.h"
-+#include "irqs.h"
- 
- #include "generic.h"
- 
-@@ -151,24 +155,6 @@ void pxa2xx_mfp_config(unsigned long *mfp_cfgs, int num)
- 	}
- }
- 
--void pxa2xx_mfp_set_lpm(int mfp, unsigned long lpm)
--{
--	unsigned long flags, c;
--	int gpio;
--
--	gpio = __mfp_validate(mfp);
--	if (gpio < 0)
--		return;
--
--	local_irq_save(flags);
--
--	c = gpio_desc[gpio].config;
--	c = (c & ~MFP_LPM_STATE_MASK) | lpm;
--	__mfp_config_gpio(gpio, c);
--
--	local_irq_restore(flags);
--}
--
- int gpio_set_wake(unsigned int gpio, unsigned int on)
- {
- 	struct gpio_desc *d;
-@@ -221,7 +207,49 @@ int gpio_set_wake(unsigned int gpio, unsigned int on)
- 	return 0;
- }
- 
-+const struct software_node pxa2xx_gpiochip_node = {
-+	.name	= "gpio-pxa",
-+};
-+
-+struct resource pxa_resource_gpio[] = {
-+	{
-+		.start	= 0x40e00000,
-+		.end	= 0x40e0ffff,
-+		.flags	= IORESOURCE_MEM,
-+	}, {
-+		.start	= IRQ_GPIO0,
-+		.end	= IRQ_GPIO0,
-+		.name	= "gpio0",
-+		.flags	= IORESOURCE_IRQ,
-+	}, {
-+		.start	= IRQ_GPIO1,
-+		.end	= IRQ_GPIO1,
-+		.name	= "gpio1",
-+		.flags	= IORESOURCE_IRQ,
-+	}, {
-+		.start	= IRQ_GPIO_2_x,
-+		.end	= IRQ_GPIO_2_x,
-+		.name	= "gpio_mux",
-+		.flags	= IORESOURCE_IRQ,
-+	},
-+};
-+
-+static struct pxa_gpio_platform_data pxa2xx_gpio_info = {
-+	.irq_base	= PXA_GPIO_TO_IRQ(0),
-+	.gpio_set_wake	= gpio_set_wake,
-+};
-+
- #ifdef CONFIG_PXA25x
-+struct platform_device pxa25x_device_gpio = {
-+	.name		= "pxa25x-gpio",
-+	.id		= -1,
-+	.num_resources	= ARRAY_SIZE(pxa_resource_gpio),
-+	.resource	= pxa_resource_gpio,
-+	.dev		= {
-+		.platform_data	= &pxa2xx_gpio_info,
-+	},
-+};
-+
- static void __init pxa25x_mfp_init(void)
- {
- 	int i;
-@@ -247,6 +275,16 @@ static inline void pxa25x_mfp_init(void) {}
- #endif /* CONFIG_PXA25x */
- 
- #ifdef CONFIG_PXA27x
-+struct platform_device pxa27x_device_gpio = {
-+	.name		= "pxa27x-gpio",
-+	.id		= -1,
-+	.num_resources	= ARRAY_SIZE(pxa_resource_gpio),
-+	.resource	= pxa_resource_gpio,
-+	.dev		= {
-+		.platform_data	= &pxa2xx_gpio_info,
-+	},
-+};
-+
- static int pxa27x_pkwr_gpio[] = {
- 	13, 16, 17, 34, 36, 37, 38, 39, 90, 91, 93, 94,
- 	95, 96, 97, 98, 99, 100, 101, 102
+vim +261 drivers/hwtracing/coresight/coresight-platform.c
+
+   185	
+   186	/*
+   187	 * of_coresight_parse_endpoint : Parse the given output endpoint @ep
+   188	 * and fill the connection information in @pdata->out_conns
+   189	 *
+   190	 * Parses the local port, remote device name and the remote port.
+   191	 *
+   192	 * Returns :
+   193	 *	 0	- If the parsing completed without any fatal errors.
+   194	 *	-Errno	- Fatal error, abort the scanning.
+   195	 */
+   196	static int of_coresight_parse_endpoint(struct device *dev,
+   197					       struct device_node *ep,
+   198					       struct coresight_platform_data *pdata)
+   199	{
+   200		int ret = 0;
+   201		struct of_endpoint endpoint, rendpoint;
+   202		struct device_node *rparent = NULL;
+   203		struct device_node *rep = NULL;
+   204		struct device *rdev = NULL;
+   205		struct fwnode_handle *rdev_fwnode;
+   206		struct coresight_connection conn = {};
+   207		struct coresight_connection *new_conn;
+   208	
+   209		do {
+   210			/* Parse the local port details */
+   211			if (of_graph_parse_endpoint(ep, &endpoint))
+   212				break;
+   213			/*
+   214			 * Get a handle on the remote endpoint and the device it is
+   215			 * attached to.
+   216			 */
+   217			rep = of_graph_get_remote_endpoint(ep);
+   218			if (!rep)
+   219				break;
+   220			rparent = of_coresight_get_port_parent(rep);
+   221			if (!rparent)
+   222				break;
+   223			if (of_graph_parse_endpoint(rep, &rendpoint))
+   224				break;
+   225	
+   226			rdev_fwnode = of_fwnode_handle(rparent);
+   227			/* If the remote device is not available, defer probing */
+   228			rdev = coresight_find_device_by_fwnode(rdev_fwnode);
+   229			if (!rdev) {
+   230				ret = -EPROBE_DEFER;
+   231				break;
+   232			}
+   233	
+   234			conn.src_port = endpoint.port;
+   235			/*
+   236			 * Hold the refcount to the target device. This could be
+   237			 * released via:
+   238			 * 1) coresight_release_platform_data() if the probe fails or
+   239			 *    this device is unregistered.
+   240			 * 2) While removing the target device via
+   241			 *    coresight_remove_match()
+   242			 */
+   243			conn.dest_fwnode = fwnode_handle_get(rdev_fwnode);
+   244			conn.dest_port = rendpoint.port;
+   245	
+   246			/*
+   247			 * Get the firmware node of the filter source through the
+   248			 * reference. This could be used to filter the source in
+   249			 * building path.
+   250			 */
+   251			conn.filter_src_fwnode =
+   252				fwnode_find_reference(&ep->fwnode, "filter-src", 0);
+   253			if (IS_ERR(conn.filter_src_fwnode))
+   254				conn.filter_src_fwnode = NULL;
+   255			else {
+   256				conn.filter_src_dev =
+   257				 coresight_find_csdev_by_fwnode(conn.filter_src_fwnode);
+   258				if (conn.filter_src_dev && (conn.filter_src_dev->type
+   259				    != CORESIGHT_DEV_TYPE_SOURCE))
+   260					dev_warn(&conn.filter_src_dev->dev,
+ > 261					  "Filter source %s is not a source device\n");
+   262			}
+   263	
+   264			new_conn = coresight_add_out_conn(dev, pdata, &conn);
+   265			if (IS_ERR_VALUE(new_conn)) {
+   266				fwnode_handle_put(conn.dest_fwnode);
+   267				return PTR_ERR(new_conn);
+   268			}
+   269			/* Connection record updated */
+   270		} while (0);
+   271	
+   272		of_node_put(rparent);
+   273		of_node_put(rep);
+   274		put_device(rdev);
+   275	
+   276		return ret;
+   277	}
+   278	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
