@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64650176255
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 16:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EA117C6B;
+	Fri, 12 Jul 2024 17:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720802862; cv=none; b=ryLEfEYPRtnjBcAJOTwXgvxia9IigEpIxCw5ettuG8/pfut90EFk4JHkrBv6V179MNb7J134rlVJGDcvgeD79tTLji3kwzd4QCcovRAqQwksvqcNP/Of9l0GMWnqNWTE3100fDl6hgUZbrsvLSfn3u27eFSAlPMnQN/KgwiL2P4=
+	t=1720805384; cv=none; b=BhMTZBXxmJKcDtuElUyLtKFgCCJW5AQzMxVt2ENdbMP4E0uYlPUqfDU53QHyDX6bTbFc2TEoYA2xYopVWjaWDujpRYq0Uw4g2dDfAVev3QxmiTZ/WvQcibdnD8Oo3tsRaXdKD1k345KFnfuc0Fx2VLIREFaPS7IOm/11KE5pipY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720802862; c=relaxed/simple;
-	bh=sZr1WjEx/HNWaFD1OqFKqz13Kis0xX6pGMRmaVR7Gec=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oZUxSxXR6x4SEEyrQ+A0BbR9ErCg1lyfw0GwivzYBuhxynj+cT4IahzJne1l0RPL9WGpvDuVhlSFQ16q9zZmaI4hOgFpG9hxYMvAp+8Fiwn0n79V/qsxeUVwey18Tl8vflWCcTONeY7LZsiRW9X7cxQNtaQ4lIRH/HWmEOvEUHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euIibarc; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1720805384; c=relaxed/simple;
+	bh=GqmJPE8sgqpX9VeGIOeO25JPzcNMk0gwXeLt6HY5sg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMpxrKbJWT6sc/vGVxM7swDwb1Gv9iu6iH/U2NClVfWlGgxWzOlLzgLmjnHRDDvPZD1VRGGQf/+OwGtOOLd1M1nJleL2WFRHKG7y92zcueRvaWlDf1AWR/9iatPKdcBvgS2ZhELRMXVaihinIIe3G/gJrCJ4Q/0AYt3ERq/7VsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvjdjphW; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euIibarc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvjdjphW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720802860; x=1752338860;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sZr1WjEx/HNWaFD1OqFKqz13Kis0xX6pGMRmaVR7Gec=;
-  b=euIibarcCV0N2Pbg2p2bCl6useZJCXfR5HwLKDlJyMrN5C7xlW+Ex7Xw
-   Rpp/F6bBzPQ6tDmIn/UPXK5CxHlbiO1CAZfrVpU/47WH08getNPjlPBtc
-   FZ9VkkpihTZIrfJm/BZ35/ctc4POyXlvOo9LuzChBbjwmhnJaydcSG3Vz
-   qLEEUXldxaiRErmGTrJiJKGT1Xmtz3LXKRLyG/sAn6l1DQAavgsNb9CFd
-   ePrbBMWmH7W9Vrpl7NjntiWli6uEt5iNWqTxEpkfxtpltcOfJ+hZrTK60
-   50b6vs+WnLkAeX3Lxck+sfPMjBULVMPkkN4t2k9Y8fHQAktqR5wmUH5uT
-   g==;
-X-CSE-ConnectionGUID: +snrwrsHQ4WkZrwyTseqXw==
-X-CSE-MsgGUID: w/GWpCvPTZaC9We21VotTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="17872914"
+  t=1720805383; x=1752341383;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GqmJPE8sgqpX9VeGIOeO25JPzcNMk0gwXeLt6HY5sg0=;
+  b=TvjdjphWGoCznkFgOjZXxBomUszNYtWMe0/PAUYdFO6vNFDtzq/JG0QP
+   RLh71PF7TzTHyonx1PRJpLeMivwf+p00akUftBROzqXIT8TpzqONH5FAX
+   7gOW9oJ+F3EZHQrk23AgeBL/dOZoN37P7sCVd02JBtGvMx3w7fAc8gnYv
+   e3p2bS5guqAR0p2VRZ985nS5ua4uZxNrlDSXWkYVZiIBik/BU30Z7LMh9
+   G7LfQ0RTjOpUqZ8JTpNkyOik5WWPdx5ozKaQJ9nORUxkOJCOHKt8sutuj
+   59dvPoahdO+Hlzfftn3qnF1r3hl2LiF7mHuzxDYP4HjzGaQIPbhqfzMQs
+   Q==;
+X-CSE-ConnectionGUID: 4C/O883sQfyA5MRI02tcbQ==
+X-CSE-MsgGUID: tzvcKwF2SqGvxsPV/D3D6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="43673617"
 X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
-   d="scan'208";a="17872914"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 09:47:38 -0700
-X-CSE-ConnectionGUID: bdtxWTK7SeW6evmu0liMQQ==
-X-CSE-MsgGUID: q/rkbEoeR4uk0aF1suPv6A==
+   d="scan'208";a="43673617"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 10:29:42 -0700
+X-CSE-ConnectionGUID: GBGCSghEQXOC50Rlkknqfg==
+X-CSE-MsgGUID: nkeYEaObR9GnHgZcyp6dBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
-   d="scan'208";a="54157231"
+   d="scan'208";a="49636237"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jul 2024 09:47:36 -0700
+  by orviesa007.jf.intel.com with ESMTP; 12 Jul 2024 10:29:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSJQk-000b0y-0f;
-	Fri, 12 Jul 2024 16:47:34 +0000
-Date: Sat, 13 Jul 2024 00:46:47 +0800
+	id 1sSK5Q-000b4A-03;
+	Fri, 12 Jul 2024 17:29:36 +0000
+Date: Sat, 13 Jul 2024 01:29:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 2/10]
- drivers/iommu/generic_pt/pt_alloc.c:56:49: error: 'NR_IOMMU_PAGES'
- undeclared
-Message-ID: <202407130034.Bu3yHQfH-lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, ukleinek@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH v5 3/3] hwmon: (adt7475) Add support for configuring
+ initial PWM state
+Message-ID: <202407130140.VeUsxIqE-lkp@intel.com>
+References: <20240711234614.3104839-4-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +68,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240711234614.3104839-4-chris.packham@alliedtelesis.co.nz>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   262ff230b5cf17a8a573be8dbee522de7a36a87a
-commit: 5082473c62fd387bdbf136fb1eef8c78b0dc1633 [2/10] genpt: Add an allocator for page table levels
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240713/202407130034.Bu3yHQfH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130034.Bu3yHQfH-lkp@intel.com/reproduce)
+Hi Chris,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.10-rc7 next-20240712]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/dt-bindings-hwmon-Add-adt7475-fan-pwm-properties/20240712-074936
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240711234614.3104839-4-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH v5 3/3] hwmon: (adt7475) Add support for configuring initial PWM state
+config: arm-randconfig-002-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130140.VeUsxIqE-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130140.VeUsxIqE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130034.Bu3yHQfH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130140.VeUsxIqE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/iommu/generic_pt/pt_alloc.c: In function 'pt_radix_alloc':
->> drivers/iommu/generic_pt/pt_alloc.c:56:49: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
-      56 |         mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-         |                                                 ^~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/pt_alloc.c:56:49: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/generic_pt/pt_alloc.c: In function 'pt_radix_free_list':
-   drivers/iommu/generic_pt/pt_alloc.c:72:57: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
-      72 |                 mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, -pgcnt);
-         |                                                         ^~~~~~~~~~~~~~
-
-
-vim +/NR_IOMMU_PAGES +56 drivers/iommu/generic_pt/pt_alloc.c
-
-    28	
-    29	void *pt_radix_alloc(struct pt_common *owner, int nid, size_t log2size,
-    30			     gfp_t gfp)
-    31	{
-    32		struct pt_radix_meta *meta;
-    33		unsigned int order = log2size - PAGE_SHIFT;
-    34		struct folio *folio;
-    35	
-    36		/*
-    37		 * FIXME we need to support sub page size tables, eg to allow a 4K table
-    38		 * on a 64K kernel. This should be done by allocating extra memory
-    39		 * per page and placing the pointer in the meta. The extra memory can
-    40		 * contain the additional list heads and rcu's required.
-    41		 */
-    42		if (log2size < PAGE_SHIFT)
-    43			order = 0;
-    44	
-    45		nid = NUMA_NO_NODE; // FIXME
-    46		folio = (struct folio *)alloc_pages_node(
-    47			nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-    48		if (!folio)
-    49			return ERR_PTR(-ENOMEM);
-    50	
-    51		meta = folio_to_meta(folio);
-    52		meta->owner = owner;
-    53		meta->free_next = NULL;
-    54		meta->log2size = log2size;
-    55	
-  > 56		mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-    57		lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, 1UL << order);
-    58	
-    59		return folio_address(folio);
-    60	}
-    61	EXPORT_SYMBOL_NS_GPL(pt_radix_alloc, GENERIC_PT);
-    62	
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/meson/pinctrl-meson.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-ee-pwrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/ti/vpe/ti-vpdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-hammer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/hwmon/adt7475.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
