@@ -1,202 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EA117C6B;
-	Fri, 12 Jul 2024 17:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1779A2C6B7;
+	Fri, 12 Jul 2024 18:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720805384; cv=none; b=BhMTZBXxmJKcDtuElUyLtKFgCCJW5AQzMxVt2ENdbMP4E0uYlPUqfDU53QHyDX6bTbFc2TEoYA2xYopVWjaWDujpRYq0Uw4g2dDfAVev3QxmiTZ/WvQcibdnD8Oo3tsRaXdKD1k345KFnfuc0Fx2VLIREFaPS7IOm/11KE5pipY=
+	t=1720810132; cv=none; b=ewwkjsCQws07JGEuz0itzVC0ch9T/zUCcV4yaTjLLZ2z1bwtrstBzwGrVtfmQkthk6S1xkuoJ+nGovhHG2TDm8E6nEZ3iv6Ty0N28S4v9l+BPtpwM1ryaBueA49PpczGHt/lHvMlDMQzz5o22E9YfQqNciblVHX2UzMF5LAc3nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720805384; c=relaxed/simple;
-	bh=GqmJPE8sgqpX9VeGIOeO25JPzcNMk0gwXeLt6HY5sg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fMpxrKbJWT6sc/vGVxM7swDwb1Gv9iu6iH/U2NClVfWlGgxWzOlLzgLmjnHRDDvPZD1VRGGQf/+OwGtOOLd1M1nJleL2WFRHKG7y92zcueRvaWlDf1AWR/9iatPKdcBvgS2ZhELRMXVaihinIIe3G/gJrCJ4Q/0AYt3ERq/7VsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvjdjphW; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720810132; c=relaxed/simple;
+	bh=gdz48EmSjgoy/izHwN+e2FaoXzRR7IwtCVpXbxR4jNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=kReOD4NpX//EqNVz0+l7MHVv470RjFnyCBCUzfPZk+y+/pCQc0gvsWbJzssXXMqm6tmIYSGNVUYt8xWnN+Otat1yXWKQBBufKAUgpULJX8BWjHtprH2tf+xjBHFhewoZTXwYJctWa6KgCwLTVmwQ9GBiwufOb4fN9V+qQL0Uilw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwgfdLSn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvjdjphW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720805383; x=1752341383;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GqmJPE8sgqpX9VeGIOeO25JPzcNMk0gwXeLt6HY5sg0=;
-  b=TvjdjphWGoCznkFgOjZXxBomUszNYtWMe0/PAUYdFO6vNFDtzq/JG0QP
-   RLh71PF7TzTHyonx1PRJpLeMivwf+p00akUftBROzqXIT8TpzqONH5FAX
-   7gOW9oJ+F3EZHQrk23AgeBL/dOZoN37P7sCVd02JBtGvMx3w7fAc8gnYv
-   e3p2bS5guqAR0p2VRZ985nS5ua4uZxNrlDSXWkYVZiIBik/BU30Z7LMh9
-   G7LfQ0RTjOpUqZ8JTpNkyOik5WWPdx5ozKaQJ9nORUxkOJCOHKt8sutuj
-   59dvPoahdO+Hlzfftn3qnF1r3hl2LiF7mHuzxDYP4HjzGaQIPbhqfzMQs
-   Q==;
-X-CSE-ConnectionGUID: 4C/O883sQfyA5MRI02tcbQ==
-X-CSE-MsgGUID: tzvcKwF2SqGvxsPV/D3D6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="43673617"
-X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
-   d="scan'208";a="43673617"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 10:29:42 -0700
-X-CSE-ConnectionGUID: GBGCSghEQXOC50Rlkknqfg==
-X-CSE-MsgGUID: nkeYEaObR9GnHgZcyp6dBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,203,1716274800"; 
-   d="scan'208";a="49636237"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Jul 2024 10:29:38 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sSK5Q-000b4A-03;
-	Fri, 12 Jul 2024 17:29:36 +0000
-Date: Sat, 13 Jul 2024 01:29:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, ukleinek@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH v5 3/3] hwmon: (adt7475) Add support for configuring
- initial PWM state
-Message-ID: <202407130140.VeUsxIqE-lkp@intel.com>
-References: <20240711234614.3104839-4-chris.packham@alliedtelesis.co.nz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwgfdLSn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6DDC32782;
+	Fri, 12 Jul 2024 18:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720810131;
+	bh=gdz48EmSjgoy/izHwN+e2FaoXzRR7IwtCVpXbxR4jNQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=MwgfdLSngAJm7yURAc4SXppRMHlTQEY1QwDeu8yJ5QAl+eUNgYr0Kb3ChYE1BlOxa
+	 i16UNmPCS1L3cNiJxB/u8Z83Oa/GdVyRhhUr2uUWLQpv3yPibtSL8ZwR1pvLCMr2JS
+	 QNV+ogiYb0+qDbl5jxOfBv9Ak4QSINyZgSWqRlswxuBusurJDmP9bpOc/oJ1EEpYCX
+	 zIJciBobInXEx8PbnKk2vIoJHINughAaULKb2tF8I4SyO0YKl/XIjYUFS+YNaQ/t2r
+	 EI9Pz3O0A/bqBfHSBb4+4kjPImrdubMa5z3OD2tOfscbnWziKSZTDfM1iUEO2nCL0r
+	 1c9NXyLfziWZA==
+Date: Fri, 12 Jul 2024 13:48:49 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Zhou Shengqing <zhoushengqing@ttyinfo.com>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, lkp@intel.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] Subject: PCI: Enable io space 1k granularity for
+ intel cpu root port
+Message-ID: <20240712184849.GA330337@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240711234614.3104839-4-chris.packham@alliedtelesis.co.nz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240702035649.26039-1-zhoushengqing@ttyinfo.com>
 
-Hi Chris,
+On Tue, Jul 02, 2024 at 03:56:49AM +0000, Zhou Shengqing wrote:
+> This patch add 1k granularity for intel root port bridge. Intel latest
+> server CPU support 1K granularity, And there is an BIOS setup item named
+> "EN1K", but linux doesn't support it. if an IIO has 5 IOU (SPR has 5 IOUs)
+> all are bifurcated 2x8.In a 2P server system,There are 20 P2P bridges
+> present. if keep 4K granularity allocation,it need 20*4=80k io space,
+> exceeding 64k. I test it in a 16*nvidia 4090s system under intel eaglestrem
+> platform. There are six 4090s that cannot be allocated I/O resources.
+> So I applied this patch. And I found a similar implementation in quirks.c,
+> but it only targets the Intel P64H2 platform.
 
-kernel test robot noticed the following build errors:
+I think this has potential.  Can you include a more complete citation
+for the Intel spec?  Complete name, document number if available,
+revision, section?  Hopefully it's publically available?
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.10-rc7 next-20240712]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Signed-off-by: Zhou Shengqing <zhoushengqing@ttyinfo.com>
+> ---
+>  drivers/pci/quirks.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index 568410e64ce6..f30083d51e15 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -2562,6 +2562,36 @@ static void quirk_p64h2_1k_io(struct pci_dev *dev)
+>  }
+>  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1460, quirk_p64h2_1k_io);
+>  
+> +/* Enable 1k I/O space granularity on the intel root port */
+> +static void quirk_intel_rootport_1k_io(struct pci_dev *dev)
+> +{
+> +	struct pci_dev *d = NULL;
+> +	u16 en1k = 0;
+> +	struct pci_dev *root_port = pcie_find_root_port(dev);
+> +
+> +	if (!root_port)
+> +		return;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/dt-bindings-hwmon-Add-adt7475-fan-pwm-properties/20240712-074936
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240711234614.3104839-4-chris.packham%40alliedtelesis.co.nz
-patch subject: [PATCH v5 3/3] hwmon: (adt7475) Add support for configuring initial PWM state
-config: arm-randconfig-002-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130140.VeUsxIqE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130140.VeUsxIqE-lkp@intel.com/reproduce)
+This doesn't seem quite right to me.  The point is to set
+dev->io_window_1k when "dev" is a Root Port itself and when the EN1K
+bit is set in a [8086:09a2] device.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130140.VeUsxIqE-lkp@intel.com/
+So I don't think we need to *look* for the Root Port, we just need to
+check that "dev" itself *is* a Root Port, e.g.,
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+  if (!pci_is_pcie(dev) || pci_pcie_type(dev) != PCI_EXP_TYPE_ROOT_PORT)
+    return;
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/meson/pinctrl-meson.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-ee-pwrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/ti/vpe/ti-vpdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-hammer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/hwmon/adt7475.ko] undefined!
+> +	/*
+> +	 * Per intel sever CPU EDS vol2(register) spec,
+> +	 * Intel Memory Map/Intel VT-d configuration space,
+> +	 * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
+> +	 * bit 2.
+> +	 * Enable 1K (EN1K):
+> +	 * This bit when set, enables 1K granularity for I/O space decode
+> +	 * in each of the virtual P2P bridges
+> +	 * corresponding to root ports, and DMI ports.
+> +	 */
+> +	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+To be safe, "d" (the [8086:09a2] device) should be on the same bus as
+"dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
+which would be a different bus, and they presumably are not influenced
+by the EN1K bit.
+
+> +		pci_read_config_word(d, 0x1c0, &en1k);
+> +		if (en1k & 0x4) {
+> +			pci_info(d, "INTEL: System should support 1k io window\n");
+
+If we log this, I think it should be with "dev", not "d", since we
+likely will have several Root Ports, and this would lead to several
+identical messages.  Maybe something like this:
+
+  pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+
+> +			dev->io_window_1k = 1;
+> +		}
+> +	}
+> +}
+> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL,	PCI_ANY_ID,	quirk_intel_rootport_1k_io);
+> +
+>  /*
+>   * Under some circumstances, AER is not linked with extended capabilities.
+>   * Force it to be linked by setting the corresponding control bit in the
+> -- 
+> 2.39.2
+> 
