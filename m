@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561241420A8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 21:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128AE1448DA;
+	Sat, 13 Jul 2024 21:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720905111; cv=none; b=cAWpp7UT44yIYbvCDVpBULS9gdvfdVthU8t/y5B2hyY/JkQth6so5A3K6rs23cbBfhQDXwCVNzkQ0uQOe3FCHvr6R3yip9minb8IAdUfdbu9YujeGUw6nwgTDjl3xnWMcrqfkC2XFRToqC48tH33ZuvDrMsrEdPU6Tq4a721kdI=
+	t=1720905169; cv=none; b=hyDnsmr8VhYNiUuGAKgBI4gMXWLPE01GWHmaJqcGzYkInYnQVg2GXVtkyAuf5djkdRxPOIjxodxwtqI7juvS89D6mk809XTrTKrsYAGxpMMoB6GjJJovtEcsfyDvuyD4Ocf8KFUfaeRf3QZE/OF6oTLc/fLW8GPAWlLC87s8HGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720905111; c=relaxed/simple;
-	bh=oaFByJPL12+FUprAqJYDqhzErP7nO44Id9JmB2tyyXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxpONg1MIQ7i5sKJFR5vkkmRogGzK8yYhhru4eAU81ce+7/mjQ3xGcuTxvGtyTtPZL2IDrEC6oHj6BRaN6R/6DSqYXocOp1YWLWZYXRgNDFdMOVkND7HRB23o07llOuO0PzIM637VilrBPPBtAdmikA7O/kd2bkyu7ZULYf1SNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXhYp/jk; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1720905169; c=relaxed/simple;
+	bh=OHdB2EOIsbKMToubj5nhEqq8SrZ7xvFa8o/dicF6Gr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OU9lrNm0yDM8HHaFJzVY+axyIccjFXCbTBheilAT580ClYDxBVkMQZwA5iqM/MB1yCUDKmStR0A0McDnwTp1T48D/Y3+NeXGcmXJoFiHvYMjJ+5u4MxgeT3cqVt1kTQKRNZD6fb4wVcDEh2sCJaadeuN8GCv9gOw22ynY3z1zGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fsjORkCg; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXhYp/jk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fsjORkCg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720905110; x=1752441110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oaFByJPL12+FUprAqJYDqhzErP7nO44Id9JmB2tyyXM=;
-  b=XXhYp/jkrAsXdtF8sCK0N9p7kA9P1SeSqH1j7kso9D2ljyViUdR9NMGX
-   8TT/JlSn1XhQQ18EvR/R/Xvss3utZ5eCcaXweji8+2TyLsgy8pwg33jaL
-   ThX1KFHK7Lqf2+CLOX+1t+Jye90HnmGy4tHRLr86KZhyfAaqTw3gFD2zF
-   EYxbCcSa99V9hWB5Myk7Ca45NWa+1huvPxAxrtrwaFrep/OR7eaaR6Cbn
-   qCg6LVI5UA5H/EtbfPLWbVVr1fOxu7DKycB9jzIutXuMoHXeU2dFfqpIX
-   rZSFrZrpj05U+FSA+53TN3Wb78yaMD2MEgLXBWLPtD1xsRr+der+9qGqu
-   w==;
-X-CSE-ConnectionGUID: IXTyk0qqRAi0G8ndjTZREw==
-X-CSE-MsgGUID: L/+xKx27T/axvMmk1ptjOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18456491"
+  t=1720905168; x=1752441168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OHdB2EOIsbKMToubj5nhEqq8SrZ7xvFa8o/dicF6Gr8=;
+  b=fsjORkCgad7GpqxrotvmT06VpzZ1eNp9lb5DmAEz/W8m8RKftIROz4R/
+   qoMhZ6yT4lzk1TpAXwmmbghGSdKN9k7L/XLzEYYqzNveblxmw3kGm7Ywh
+   BMrdtM8aNJnaS1iiNdNyZ42wjSq5u3zV1UToiKEFtW8FOgIcuVxQ/3Tn7
+   qHis8pt1HAbdpy2NnvzDOkYvYDyqK9J1KCRj9eOiAlsUX7uk1lIke6asf
+   tjeuubJd3yHYaRoHnv0G4DwWqZfiJFNZuNZj+xmsBerBnfPf6WIUe1ofG
+   XnmozLr9GoiSdDj0WvxOJcUKbl5/5oeQjb/uO8QRjLFqNroFyyqXIW6IE
+   Q==;
+X-CSE-ConnectionGUID: a1LgzTNzSXeXDKObxkTpIw==
+X-CSE-MsgGUID: CNjrBMsRRhGp4JNScxEC6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="29002886"
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="18456491"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 14:11:49 -0700
-X-CSE-ConnectionGUID: WzhOHMcnS0euBvTBoE/FTA==
-X-CSE-MsgGUID: rvDBRUFGThm1yHvQDCddyw==
+   d="scan'208";a="29002886"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 14:12:47 -0700
+X-CSE-ConnectionGUID: o/5523AmSw6NxKOfxKmYgw==
+X-CSE-MsgGUID: jqRL+JbZQLiaCnqGxjbagg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="54173404"
+   d="scan'208";a="49315084"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Jul 2024 14:11:46 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Jul 2024 14:12:46 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSk1v-000ckQ-2f;
-	Sat, 13 Jul 2024 21:11:43 +0000
-Date: Sun, 14 Jul 2024 05:11:14 +0800
+	id 1sSk2t-000ckW-2p;
+	Sat, 13 Jul 2024 21:12:43 +0000
+Date: Sun, 14 Jul 2024 05:11:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH RESEND v9 2/2] dmaengine: Loongson1: Add Loongson-1 APB
- DMA driver
-Message-ID: <202407140536.iIizeGVy-lkp@intel.com>
-References: <20240711-loongson1-dma-v9-2-5ce8b5e85a56@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org
+Subject: [groeck-staging:hwmon-staging 104/137]
+ drivers/hwmon/emc2103.c:380:2: warning: unannotated fall-through between
+ switch labels
+Message-ID: <202407140515.mXPztiXi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,92 +63,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240711-loongson1-dma-v9-2-5ce8b5e85a56@gmail.com>
 
-Hi Keguang,
+Hi Guenter,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on d35b2284e966c0bef3e2182a5c5ea02177dd32e4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang-via-B4-Relay/dt-bindings-dma-Add-Loongson-1-APB-DMA/20240711-191657
-base:   d35b2284e966c0bef3e2182a5c5ea02177dd32e4
-patch link:    https://lore.kernel.org/r/20240711-loongson1-dma-v9-2-5ce8b5e85a56%40gmail.com
-patch subject: [PATCH RESEND v9 2/2] dmaengine: Loongson1: Add Loongson-1 APB DMA driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407140536.iIizeGVy-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140536.iIizeGVy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-staging
+head:   a8f382d6e448547fa649f47443668d4a5336e271
+commit: bb44b8b0b1e1bae9123fef3cbcf0b4a40887e3a3 [104/137] hwmon: (emc2103) Convert to use regmap and with_info API
+config: i386-buildonly-randconfig-004-20240714 (https://download.01.org/0day-ci/archive/20240714/202407140515.mXPztiXi-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140515.mXPztiXi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407140536.iIizeGVy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407140515.mXPztiXi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:598,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:6,
-                    from include/linux/string.h:374,
-                    from include/linux/scatterlist.h:5,
-                    from include/linux/dmapool.h:14,
-                    from drivers/dma/loongson1-apb-dma.c:8:
-   drivers/dma/loongson1-apb-dma.c: In function 'ls1x_dma_start':
->> drivers/dma/loongson1-apb-dma.c:137:34: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-     137 |         dev_dbg(chan2dev(dchan), "cookie=%d, starting hwdesc=%x\n",
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/dma/loongson1-apb-dma.c:137:9: note: in expansion of macro 'dev_dbg'
-     137 |         dev_dbg(chan2dev(dchan), "cookie=%d, starting hwdesc=%x\n",
-         |         ^~~~~~~
-   drivers/dma/loongson1-apb-dma.c:137:63: note: format string is defined here
-     137 |         dev_dbg(chan2dev(dchan), "cookie=%d, starting hwdesc=%x\n",
-         |                                                              ~^
-         |                                                               |
-         |                                                               unsigned int
-         |                                                              %llx
+>> drivers/hwmon/emc2103.c:380:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     380 |         default:
+         |         ^
+   drivers/hwmon/emc2103.c:380:2: note: insert 'break;' to avoid fall-through
+     380 |         default:
+         |         ^
+         |         break; 
+   drivers/hwmon/emc2103.c:188:18: warning: unused variable 'pwm_base_frequencies' [-Wunused-const-variable]
+     188 | static const u16 pwm_base_frequencies[] = {26000, 19531, 4882, 2441};
+         |                  ^~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +137 drivers/dma/loongson1-apb-dma.c
+vim +380 drivers/hwmon/emc2103.c
 
-   130	
-   131	static inline int ls1x_dma_start(struct ls1x_dma_chan *chan,
-   132					 dma_addr_t *hwdesc_phys)
-   133	{
-   134		struct dma_chan *dchan = &chan->vchan.chan;
-   135		int val, ret;
-   136	
- > 137		dev_dbg(chan2dev(dchan), "cookie=%d, starting hwdesc=%x\n",
-   138			dchan->cookie, *hwdesc_phys);
-   139	
-   140		val = *hwdesc_phys & DMA_ADDR_MASK;
-   141		val |= DMA_START;
-   142		val |= dchan->chan_id;
-   143		chan_writel(chan, DMA_CTRL, val);
-   144		ret = readl_poll_timeout(chan->reg_base + DMA_CTRL, val,
-   145					 !(val & DMA_START), 0, 3000);
-   146		if (ret)
-   147			dev_err(chan2dev(dchan), "failed to start DMA\n");
-   148	
-   149		return ret;
-   150	}
-   151	
+   338	
+   339	static umode_t emc2103_is_visible(const void *_data, enum hwmon_sensor_types type,
+   340					  u32 attr, int channel)
+   341	{
+   342		const struct emc2103_data *data = _data;
+   343	
+   344		switch (type) {
+   345		case hwmon_temp:
+   346			if (channel >= data->temp_count)
+   347				return 0;
+   348			switch (attr) {
+   349			case hwmon_temp_input:
+   350			case hwmon_temp_fault:
+   351			case hwmon_temp_min_alarm:
+   352			case hwmon_temp_max_alarm:
+   353				return 0444;
+   354			case hwmon_temp_min:
+   355			case hwmon_temp_max:
+   356				return 0644;
+   357			default:
+   358				break;
+   359			}
+   360			break;
+   361		case hwmon_fan:
+   362			switch (attr) {
+   363			case hwmon_fan_input:
+   364			case hwmon_fan_fault:
+   365				return 0444;
+   366			case hwmon_fan_div:
+   367			case hwmon_fan_target:
+   368				return 0644;
+   369			default:
+   370				break;
+   371			}
+   372			break;
+   373		case hwmon_pwm:
+   374			switch (attr) {
+   375			case hwmon_pwm_enable:
+   376				return 0644;
+   377			default:
+   378				break;
+   379			}
+ > 380		default:
+   381			break;
+   382		}
+   383		return 0;
+   384	}
+   385	
 
 -- 
 0-DAY CI Kernel Test Service
