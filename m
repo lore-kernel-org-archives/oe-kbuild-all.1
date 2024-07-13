@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B000B1BC3C;
-	Fri, 12 Jul 2024 23:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA281370
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 00:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720825675; cv=none; b=mPBwA2uHEzWgjxSk03pc+9RRtwV8ISb6YFh9bxuD2WSP3kH3MGRe+xsBb4xNPVrf8JOfzuE+72SyF7BDyh9Yt/nPviOm0gOoSplwkFVMBhvGXM+QXPT4QWSjkJt+0T9sy6ptXPI/5Oy0l94FxcZJNvzAwWapJGJ54EDnQIlwWmc=
+	t=1720831560; cv=none; b=tf72SDvNjwCFM+lmnYogeVJ0r3QwBqW/aC8ErpuC4sPmUr5UWnJGtsJkLr4u3ApaY9sAPyWRssBaULMYE9giV/dg6AUfXvdh9kmaFbubKOUMbwAu+SL/gPJz8e0PpToiNecs4hWi4O8xcvtkdB46Q7S8hF3pmhipZ9/4gC9bSEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720825675; c=relaxed/simple;
-	bh=FlJzMkZUonaDBUYlMK8y3nTq3YsCaK08EgrMcWax4y8=;
+	s=arc-20240116; t=1720831560; c=relaxed/simple;
+	bh=7Xi0YGnPP7HcAs58P+3KetQ9lfAky9kDQM9uHsNQi+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fb+8Z8a/K8rN0+j9FO4Uak/fDt1Xy97rkJdLc+/rgnyzKPGcnvgzwco7K6KMSqdzucaPdlc/QwhssbQbHm10MRqMdQR6HdcQvWodMeDvvxueG946ovpbM+D4haoCB1Hnaxz9lyy15qST1v9KdIeBAoU/c6MkPhWcYVARq/b94e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frDz4I6m; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=u0ZmqVHWss96h337r2HNnPTLdsuM94EtzbtMZ0Gu7HSf70Qzp//ANhGAJp/v9n5LhbJ+kd3UhL51ho+BjJt2GjnsWO/yolmlvYEny7SoZs8NDSZAksh98uBDuPgySav93r04TJWljnFsHcukjKTuC7R+4LV4dBbePhs9jCsuLWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCKEU5jI; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frDz4I6m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCKEU5jI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720825673; x=1752361673;
+  t=1720831558; x=1752367558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FlJzMkZUonaDBUYlMK8y3nTq3YsCaK08EgrMcWax4y8=;
-  b=frDz4I6mHF7B34PG6Cb0ftTWugTze1Y1h6qlcZr29LEhysFWyTmGwLQM
-   rtOMi0Ev7lKu5yACZW+9duOHrSHpQPdWOuIAUDQ9dPKi9M5wdQWMiPlE5
-   Zfw2rhIE7FMp3WPMPZuylbVw1086UYjVPBIWvhhQlKp7Ck2g3ZjB59niR
-   8mBusUXwFObrzztZvr5IQBLjqI7VfPw/cEZIhuLXsiEufkZCBuspZQS3G
-   /JX10HIBGZOU+uC5A+4dcSk0EH9Oirdxph38WynvgGeYoauiQayrSjnty
-   XnQnxmkm5HMu1yUifAz+9knc8yu7j7E9AQTJFgXLTU84zsiWEIo7bNBA1
-   Q==;
-X-CSE-ConnectionGUID: 2iH+Vx73TFOPN8qfA2hM1A==
-X-CSE-MsgGUID: N+4A38AjTYmu1keyQcLf8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="29432882"
+  bh=7Xi0YGnPP7HcAs58P+3KetQ9lfAky9kDQM9uHsNQi+Q=;
+  b=XCKEU5jIRVN/OT7+kBdGf6zpkU3LxABhbstDBYUmyFKJ4kC1ALzHdSBm
+   pvOiJOz154WhrWdF2cg11u2NxbuWPfxx7JrlBy6bSg4hbKLAta3ICL2tA
+   OE02zBqI53D3GgJL8vFM4VKGmlyPthr5hxxqO/x8s83I4hsZLa1f8k9hI
+   JNp6B6pSLpMFpFivKFWTIrptdGzuRZ4fsTQcKsFkoJb5P345r+DmXoNH1
+   Zz82q7uBRm1W26zVcpsSmmZ3GX7ksM3dBCVaTNCR3KGxsQ+E66jkz6QJ8
+   nvOwZMVIdaAKOCWPQ3TEm7Vo2WvI/6QdGgdM2kNHoJADCu5PFoc5zXqjQ
+   w==;
+X-CSE-ConnectionGUID: VgHJuneXQXWP2YYZb5RWSA==
+X-CSE-MsgGUID: EpOccQkiSYKyGBgJLCtnIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="40822428"
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="29432882"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 16:07:53 -0700
-X-CSE-ConnectionGUID: Wvolja3yS7qTfD+GV7OWvQ==
-X-CSE-MsgGUID: I08Aao9LQHGeNQ6lv7ndcQ==
+   d="scan'208";a="40822428"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 17:45:57 -0700
+X-CSE-ConnectionGUID: fZ4BFwLaSeiXDmxlBt3f0w==
+X-CSE-MsgGUID: wm4zO1rmRKqjHJc/mF3Xtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="49444965"
+   d="scan'208";a="49150568"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Jul 2024 16:07:52 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 Jul 2024 17:45:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSPMj-000bQA-2V;
-	Fri, 12 Jul 2024 23:07:49 +0000
-Date: Sat, 13 Jul 2024 07:07:36 +0800
+	id 1sSQtd-000bUf-2G;
+	Sat, 13 Jul 2024 00:45:53 +0000
+Date: Sat, 13 Jul 2024 08:45:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 2/10]
- drivers/iommu/generic_pt/pt_alloc.c:56:42: error: use of undeclared
- identifier 'NR_IOMMU_PAGES'
-Message-ID: <202407130736.0MFZvTRI-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 10945/12880]
+ arch/powerpc/boot/dts/fsl/b4420qds.dtb: global-utilities@e1000: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202407130834.LU8N7pGT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,95 +66,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   262ff230b5cf17a8a573be8dbee522de7a36a87a
-commit: 5082473c62fd387bdbf136fb1eef8c78b0dc1633 [2/10] genpt: Add an allocator for page table levels
-config: um-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407130736.0MFZvTRI-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130736.0MFZvTRI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fe121b622825ff8cc995a1e6b026181c48188db
+commit: 0d796569e13b7b2d2a98880d3f0968dff8105f07 [10945/12880] dt-bindings: clock: qoriq-clock: convert to yaml format
+config: powerpc-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407130834.LU8N7pGT-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130834.LU8N7pGT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130736.0MFZvTRI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407130834.LU8N7pGT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/iommu/generic_pt/pt_alloc.c:5:
-   In file included from drivers/iommu/generic_pt/pt_alloc.h:9:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iommu/generic_pt/pt_alloc.c:56:42: error: use of undeclared identifier 'NR_IOMMU_PAGES'
-      56 |         mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-         |                                                 ^
-   drivers/iommu/generic_pt/pt_alloc.c:72:43: error: use of undeclared identifier 'NR_IOMMU_PAGES'
-      72 |                 mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, -pgcnt);
-         |                                                         ^
-   1 warning and 2 errors generated.
-
-
-vim +/NR_IOMMU_PAGES +56 drivers/iommu/generic_pt/pt_alloc.c
-
-   > 5	#include "pt_alloc.h"
-     6	
-     7	#include <linux/mm.h>
-     8	
-     9	#define RADIX_MATCH(pg, rl)                        \
-    10		static_assert(offsetof(struct page, pg) == \
-    11			      offsetof(struct pt_radix_meta, rl))
-    12	RADIX_MATCH(flags, __page_flags);
-    13	RADIX_MATCH(rcu_head, rcu_head);	/* Ensure bit 0 is clear */
-    14	RADIX_MATCH(mapping, __page_mapping);
-    15	RADIX_MATCH(private, free_next);
-    16	RADIX_MATCH(page_type, __page_type);
-    17	RADIX_MATCH(_refcount, __page_refcount);
-    18	#ifdef CONFIG_MEMCG
-    19	RADIX_MATCH(memcg_data, memcg_data);
-    20	#endif
-    21	#undef RADIX_MATCH
-    22	static_assert(sizeof(struct pt_radix_meta) <= sizeof(struct page));
-    23	
-    24	static inline struct folio *meta_to_folio(struct pt_radix_meta *meta)
-    25	{
-    26		return (struct folio *)meta;
-    27	}
-    28	
-    29	void *pt_radix_alloc(struct pt_common *owner, int nid, size_t log2size,
-    30			     gfp_t gfp)
-    31	{
-    32		struct pt_radix_meta *meta;
-    33		unsigned int order = log2size - PAGE_SHIFT;
-    34		struct folio *folio;
-    35	
-    36		/*
-    37		 * FIXME we need to support sub page size tables, eg to allow a 4K table
-    38		 * on a 64K kernel. This should be done by allocating extra memory
-    39		 * per page and placing the pointer in the meta. The extra memory can
-    40		 * contain the additional list heads and rcu's required.
-    41		 */
-    42		if (log2size < PAGE_SHIFT)
-    43			order = 0;
-    44	
-    45		nid = NUMA_NO_NODE; // FIXME
-    46		folio = (struct folio *)alloc_pages_node(
-    47			nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-    48		if (!folio)
-    49			return ERR_PTR(-ENOMEM);
-    50	
-    51		meta = folio_to_meta(folio);
-    52		meta->owner = owner;
-    53		meta->free_next = NULL;
-    54		meta->log2size = log2size;
-    55	
-  > 56		mod_node_page_state(folio_pgdat(folio), NR_IOMMU_PAGES, 1UL << order);
-    57		lruvec_stat_mod_folio(folio, NR_SECONDARY_PAGETABLE, 1UL << order);
-    58	
-    59		return folio_address(folio);
-    60	}
-    61	EXPORT_SYMBOL_NS_GPL(pt_radix_alloc, GENERIC_PT);
-    62	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/msi@41c00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,b4420-device-config', 'fsl,qoriq-device-config-2.0']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,b4420-device-config', 'fsl,qoriq-device-config-2.0']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: global-utilities@e1000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,b4420-clockgen', 'fsl,b4-clockgen', 'fsl,qoriq-clockgen-2.0'] is too long
+   	'fsl,b4420-clockgen' is not one of ['fsl,p2041-clockgen', 'fsl,p3041-clockgen', 'fsl,p4080-clockgen', 'fsl,p5020-clockgen', 'fsl,p5040-clockgen']
+   	'fsl,b4420-clockgen' is not one of ['fsl,t1023-clockgen', 'fsl,t1024-clockgen', 'fsl,t1040-clockgen', 'fsl,t1042-clockgen', 'fsl,t2080-clockgen', 'fsl,t2081-clockgen', 'fsl,t4240-clockgen']
+   	'fsl,b4420-clockgen' is not one of ['fsl,ls1012a-clockgen', 'fsl,ls1021a-clockgen', 'fsl,ls1028a-clockgen', 'fsl,ls1043a-clockgen', 'fsl,ls1046a-clockgen', 'fsl,ls1088a-clockgen', 'fsl,ls2080a-clockgen', 'fsl,lx2160a-clockgen']
+   	'fsl,qoriq-clockgen-1.0' was expected
+   	'fsl,qoriq-clockgen-2.0' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/fsl,qoriq-clock.yaml#
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,b4420-rcpm', 'fsl,qoriq-rcpm-2.0']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,b4420-rcpm', 'fsl,qoriq-rcpm-2.0']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,elo3-dma']
+--
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/msi@41c00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,b4860-device-config', 'fsl,qoriq-device-config-2.0']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,b4860-device-config', 'fsl,qoriq-device-config-2.0']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: global-utilities@e1000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,b4860-clockgen', 'fsl,b4-clockgen', 'fsl,qoriq-clockgen-2.0'] is too long
+   	'fsl,b4860-clockgen' is not one of ['fsl,p2041-clockgen', 'fsl,p3041-clockgen', 'fsl,p4080-clockgen', 'fsl,p5020-clockgen', 'fsl,p5040-clockgen']
+   	'fsl,b4860-clockgen' is not one of ['fsl,t1023-clockgen', 'fsl,t1024-clockgen', 'fsl,t1040-clockgen', 'fsl,t1042-clockgen', 'fsl,t2080-clockgen', 'fsl,t2081-clockgen', 'fsl,t4240-clockgen']
+   	'fsl,b4860-clockgen' is not one of ['fsl,ls1012a-clockgen', 'fsl,ls1021a-clockgen', 'fsl,ls1028a-clockgen', 'fsl,ls1043a-clockgen', 'fsl,ls1046a-clockgen', 'fsl,ls1088a-clockgen', 'fsl,ls2080a-clockgen', 'fsl,lx2160a-clockgen']
+   	'fsl,qoriq-clockgen-1.0' was expected
+   	'fsl,qoriq-clockgen-2.0' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/fsl,qoriq-clock.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,b4860-rcpm', 'fsl,qoriq-rcpm-2.0']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,b4860-rcpm', 'fsl,qoriq-rcpm-2.0']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,elo3-dma']
 
 -- 
 0-DAY CI Kernel Test Service
