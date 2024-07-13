@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528FD1849
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 08:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252F93C482;
+	Sat, 13 Jul 2024 08:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720859955; cv=none; b=LNQREZbbxVQpuFOXQpLwzrazhjcH+NT/omnV7eb1wxxIA2wUtU9wwgzgid6z7VLHbj9/Hwo6kmCdJ3MjZpwsuv/HNWkQg5/hMxK5AY+sgJGENAPwUgRcCwNtPv3m6AaVnvppnKZYsOnzNGOtmn0MUEWjcFTTKnLZoRK1VLtxx9A=
+	t=1720860678; cv=none; b=iaahqka3Ika/0aqEX386jNdyJxPpFxaWvgfWpgyZnMeTPymQvygipDd7LqlhOEmaSPifwCARxVJempGlMh2J1pXJi0X/qm5Ro7Qh7yM9RbOUEb1KZ5f3VJu8q1dNR6aI+IJlbYP18ZvXwwODP5qB18qkQRafMWfCQYzBxkNTuQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720859955; c=relaxed/simple;
-	bh=7Ehlij/hfs0O3RF04lOWinYMsT9WzZnkv318/p052kw=;
+	s=arc-20240116; t=1720860678; c=relaxed/simple;
+	bh=1o1g4gZYrN8TVmq5y5JEEypnsywvx7tYdlf5nmnIfdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NvH4ZwvzWhAtqIKlviZ2jVtsx8I8nT6gxSgLqAowcC3R8fHwAcaUaaHDTO83Mf084nlO1jOxkqpDqeqmhppMEJFqPf2YclJMCc8a1TIIp0yHQKurAeg6QL7PvAwDOsjB9WYY4r4r6S4gJfkJbLoJ4ONtZZZP1gmhZPRHkizFVU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzsw4PjF; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=c1XO6HYOpmf8b4yeJgIDZdHlotgC6aOcZmbf68ljRUsdExMN+JujREWk/LkX3zoeyQZHEZbbtjqqVEH3ikKFAWAKfssfsZnDy33kU8EIwNwShdcJOJ7SubwxKJ4Trprq+FCxsh1JMdA3FgjgPj8lb3gHlOUhWBQCgy+ifWDHnfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5cIyHQJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzsw4PjF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5cIyHQJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720859954; x=1752395954;
+  t=1720860677; x=1752396677;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7Ehlij/hfs0O3RF04lOWinYMsT9WzZnkv318/p052kw=;
-  b=kzsw4PjFcT6uluBrl3DA+tv+Ri8rF5qEIH38b3g1P3Kh+8pg8n2E6kz1
-   iR5HkbWz7k5tRRAyXP6JkGAolkMHUI8Gx0jX4c7jw7VdhCe9mtJDPoozu
-   U+tYO69poM81dQ++6JqBZ2uGZlZdT7QF5zoTnmDLZy1V7a4LTEN47NPNO
-   PW1kzifwNcQYb+7oQeRQlqvzXAkVfirFKFJJV8FeWDv7WVPMvW+GLwAhQ
-   kjjEs7wZjgB4BmzVFB3GXavaSDsBk1vmJ8l1NigSxcze927MXn5KRU1gF
-   TVYsJHItSGm8d9N5BoU9OmsoDNVsYVXacJT8joBNtxgFUaD4zWYVw1l0a
-   w==;
-X-CSE-ConnectionGUID: zm2RVK/xSw2ej3tZFjOoRQ==
-X-CSE-MsgGUID: 54PL0xxXRgSYs3eTsVnW8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="29698602"
+  bh=1o1g4gZYrN8TVmq5y5JEEypnsywvx7tYdlf5nmnIfdQ=;
+  b=P5cIyHQJKBxsztMtfvbk9VeCEvRqXAA5Xzf0Anyi2XzyV+B+GJN1tpGR
+   3sW9ia1o3wfz5mIpJt1+ubE1WzPVh9zK098xXNmi2Zhvr1kvEUN5gGNfh
+   tHO5yJyz6oRXO7ZY7FWy6EI/pGhsK5ja46fvxTESH++O6ax1Tr7CIFaCy
+   u8ZD8Xe3q8sS3B6OlOo9XOod7+nU6dgKsHXzkR7XgNH3+gkD8Wxctk3Do
+   LsxQh47q88aBuCG8/33df+RF35tOQ1Pv/LB7fB5e1UvLVJr5bpswczE2s
+   wS94M0SETNejx6UtafGHO1WGbzN/EujQoaYoUhModRVft8U7KGHDjDrwP
+   g==;
+X-CSE-ConnectionGUID: DbCEOeyxQjinRYSHL8TAyQ==
+X-CSE-MsgGUID: LgpteDC9Qmqeto/pR49pOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18175586"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="29698602"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 01:39:14 -0700
-X-CSE-ConnectionGUID: KPpkD71tS66ZzgJfslQW0w==
-X-CSE-MsgGUID: yfphIIOmQxyUiLc+/M67Tw==
+   d="scan'208";a="18175586"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 01:51:14 -0700
+X-CSE-ConnectionGUID: HEQp0rVUQHy31iVMhja4CQ==
+X-CSE-MsgGUID: u7SKODaJRFin95NnL/NO4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="86642299"
+   d="scan'208";a="54317316"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Jul 2024 01:39:10 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 01:51:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSYHb-000bt8-2S;
-	Sat, 13 Jul 2024 08:39:07 +0000
-Date: Sat, 13 Jul 2024 16:38:13 +0800
+	id 1sSYTE-000bte-0o;
+	Sat, 13 Jul 2024 08:51:08 +0000
+Date: Sat, 13 Jul 2024 16:50:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: superm1@kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"open list : PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	"open list : USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-	Daniel Drake <drake@endlessos.org>, Gary Li <Gary.Li@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH v3 1/5] PCI: Use an enum for reset type in pci_dev_wait()
-Message-ID: <202407131650.S68TetNP-lkp@intel.com>
-References: <20240712181246.811044-2-superm1@kernel.org>
+To: wangshuaijie@awinic.com, jic23@kernel.org, lars@metafoo.de,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	waqar.hameed@axis.com, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	wangshuaijie@awinic.com, liweilei@awinic.com, kangjiajun@awinic.com
+Subject: Re: [PATCH V3 2/2] Add support for Awinic proximity sensor
+Message-ID: <202407131612.g95L1k7k-lkp@intel.com>
+References: <20240712113200.2468249-3-wangshuaijie@awinic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,96 +66,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240712181246.811044-2-superm1@kernel.org>
+In-Reply-To: <20240712113200.2468249-3-wangshuaijie@awinic.com>
 
 Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.10-rc7 next-20240712]
-[cannot apply to pci/next pci/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 43db1e03c086ed20cc75808d3f45e780ec4ca26e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/superm1-kernel-org/PCI-Use-an-enum-for-reset-type-in-pci_dev_wait/20240713-022018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240712181246.811044-2-superm1%40kernel.org
-patch subject: [PATCH v3 1/5] PCI: Use an enum for reset type in pci_dev_wait()
-config: x86_64-randconfig-121-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131650.S68TetNP-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131650.S68TetNP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-Add-YAML-to-Awinic-proximity-sensor/20240712-194024
+base:   43db1e03c086ed20cc75808d3f45e780ec4ca26e
+patch link:    https://lore.kernel.org/r/20240712113200.2468249-3-wangshuaijie%40awinic.com
+patch subject: [PATCH V3 2/2] Add support for Awinic proximity sensor
+config: um-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131612.g95L1k7k-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131612.g95L1k7k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407131650.S68TetNP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131612.g95L1k7k-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/pci.c:184:12: sparse: sparse: symbol 'pci_reset_types' was not declared. Should it be static?
-   drivers/pci/pci.c:1208:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1208:36: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1208:36: sparse:     got int
-   drivers/pci/pci.c:1367:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [assigned] [usertype] state @@     got int @@
-   drivers/pci/pci.c:1367:15: sparse:     expected restricted pci_power_t [assigned] [usertype] state
-   drivers/pci/pci.c:1367:15: sparse:     got int
-   drivers/pci/pci.c:1369:50: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1369:69: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1422:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1422:28: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1422:28: sparse:     got int
-   drivers/pci/pci.c:1512:16: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1512:35: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1512:52: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1512:70: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1534:15: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:1534:15: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:1534:15: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:1546:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1546:28: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1546:28: sparse:     got int
-   drivers/pci/pci.c:1563:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1563:21: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1565:18: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1565:26: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1588:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1588:22: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1920:38: sparse: sparse: array of flexible structures
-   drivers/pci/pci.c:2370:44: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2689:60: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2690:30: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2861:20: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2861:38: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2884:49: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2884:67: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:4580:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4580:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4580:13: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:4585:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4585:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4585:13: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c: note: in included file (through include/linux/resource_ext.h, include/linux/acpi.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   drivers/pci/pci.c:1163:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
-   drivers/pci/pci.c:1163:24: sparse:     expected int
-   drivers/pci/pci.c:1163:24: sparse:     got restricted pci_power_t [usertype]
-   drivers/pci/pci.c:1163:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
-   drivers/pci/pci.c:1163:24: sparse:     expected int
-   drivers/pci/pci.c:1163:24: sparse:     got restricted pci_power_t [usertype]
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/pci_reset_types +184 drivers/pci/pci.c
-
-   183	
- > 184	const char * const pci_reset_types[] = {
-   185		"FLR",
-   186		"AF_FLR",
-   187		"PM D3HOT->D0",
-   188		"bus reset",
-   189		"resume",
-   190		"DPC",
-   191	};
-   192	
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/resource_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-stub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_dsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+>> ERROR: modpost: "power_supply_unreg_notifier" [drivers/iio/proximity/awinic_sar.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
