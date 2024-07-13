@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC64E1BDCF;
-	Sat, 13 Jul 2024 05:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB2219478
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 06:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720848612; cv=none; b=Fke9OBd3XVS6i4hQ+lYKszkp9R1eImfpURZw8Fq7HYPP37xXHS4RUHq/djOT8M5eOAUG7oqC6GanBSqHQPxVwSzLWcBpsTgKNMnUvzk8/wmBFG+V/1RkZdDjtnrmgqQ3gXFwHYi/KgzrTvxtqOOpp3wqD1uUothpEqFQFIe1F1Q=
+	t=1720850651; cv=none; b=XZa0m+U2/yFt/zhiYl0ywFCc6FkAX4hwtYDqmfzHO61fbHE95EIqAEb+/GXST6QZU3N1xvdXFkJbfPzA3ZAQrL2PiisiDpY/ycbMJUMIKQijmAdQWyZFxjW9vqX1QV1P9cFcK7/Gs2Eg5nt/QlPC3eVtJpF9Jzeqz6h7jXEzdw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720848612; c=relaxed/simple;
-	bh=jmwJ71WEXluaTqG3XovhPZ2kzJJLnXc/RYX99R4FzDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOiPnZ9hG6/G+QB3+PdvpXW7398B9yWP+yHPB7zZJ2b9nom82bZ5ibsGpX6LCw3DfIjf/P1fY4OE3rry/5soWWFN+VTew7INaFQPclw9lOChgirbGLb+A/dnyLmzeuGBzvJeYuIftq7Nd6kv95O9+kMIbrBbTeexuyHg0zVN7DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVx7qC+k; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1720850651; c=relaxed/simple;
+	bh=fMHSEiVDVilIwiKm3AEkKh+UYoaUv0cqaCS5RNYr0HE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KfJD3HdLR5n2L8pcJwF6nXViErMhuqMi3p85jXS798jN+InBKHXvQbP6hXGRQoaBwa1B6Zx+FNn52bfo6vpq9LsHVV7sxUffO8ja+Vwh41oF81/mKWYUPzGK0WTmXTIGoka9CvQD9K9dUAVA5C9/+JhKCUeu92hOrYp37SHs2OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dc+nvuN+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVx7qC+k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dc+nvuN+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720848610; x=1752384610;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jmwJ71WEXluaTqG3XovhPZ2kzJJLnXc/RYX99R4FzDw=;
-  b=hVx7qC+kwnMOPwchrVqZPwrH9XKOMLFqwIE5hTsCxhu08Oz5UEspDa/S
-   9SmXONrlXa8NRl7TSgUT5xg/4gvqcU1rj+WuO5Rjp9RTYbdhdsWHU7Q7d
-   zjPcBR/vWhev3/Cpj6pcvCREpGGyEra9aTG9evu84jTu0WxRVXXcEYLye
-   v8xJw/8GJnYWv0/n3IoKaLH1zBg1wjZtkJ+dOoC7sRBKB4Wir24IBNj2L
-   XtrjlFPh9vWytjoDRZifN4Yl+7Epe7+MdsvPss66QQrh8f46AFGQoGRRV
-   9sDGUR9GidCbL/nvzkLxqQZBVmj5jBink8bNAmWr3eC2lG7ZaKcB11koz
-   Q==;
-X-CSE-ConnectionGUID: B3wQCxjzRvGofY2QzosaoA==
-X-CSE-MsgGUID: yALUEidnQCOTFEAYACk5kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28894533"
+  t=1720850650; x=1752386650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fMHSEiVDVilIwiKm3AEkKh+UYoaUv0cqaCS5RNYr0HE=;
+  b=Dc+nvuN+W+TihSgzBzkezCJKaGnowZZ2xaU65eY/Qh3UZH7Ffrq72/CL
+   yzAwoEuRobHjsSxMeseNo2H2SAcaPlN4GdVN7sKZGPYkdk4mPj9u+fN9h
+   nmH6MG8SkG+yTxfK4zeE8Hkz0nFlvktY0VO1zvrCHhPe3BXS1AjD27RBZ
+   VD35lZlN8fgakFK1Ba3mj/mzI5PL7vE0pG4sq2GOIvroNT61WE73KJbwP
+   eWxzf1IO1gnVB902Pl5gGb9379DSdD4BsZO+rV54vvAoDc9d0hIKrYV+0
+   9tbtHQOrayWAH7l7/SfapiyoCFHvJjR+YMUyECSfx5t9UZqEYYN9Vubu1
+   A==;
+X-CSE-ConnectionGUID: AILWM/gMRP28l1F3DQhwHQ==
+X-CSE-MsgGUID: Ylb04gWFS2G63iGyPgJhjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="22171627"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="28894533"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 22:30:10 -0700
-X-CSE-ConnectionGUID: UePz+lSnTgGDV7cxYxkupQ==
-X-CSE-MsgGUID: m0al2iJcRAGaAvPo10n2CA==
+   d="scan'208";a="22171627"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 23:04:07 -0700
+X-CSE-ConnectionGUID: 2tKM5pw5SwS0XVUzl2Pzog==
+X-CSE-MsgGUID: wdR60672ROKjlK5IhfaHvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="48846570"
+   d="scan'208";a="53947899"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jul 2024 22:30:05 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Jul 2024 23:04:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSVKc-000bjX-1U;
-	Sat, 13 Jul 2024 05:30:02 +0000
-Date: Sat, 13 Jul 2024 13:29:28 +0800
+	id 1sSVrX-000bkk-10;
+	Sat, 13 Jul 2024 06:04:03 +0000
+Date: Sat, 13 Jul 2024 14:03:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, akpm@linux-foundation.org,
-	apais@linux.microsoft.com, ardb@kernel.org, bigeasy@linutronix.de,
-	brauner@kernel.org, ebiederm@xmission.com, jack@suse.cz,
-	keescook@chromium.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	nagvijay@microsoft.com, oleg@redhat.com, tandersen@netflix.com,
-	vincent.whitchurch@axis.com, viro@zeniv.linux.org.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	apais@microsoft.com, benhill@microsoft.com, ssengar@microsoft.com,
-	sunilmut@microsoft.com, vdso@hexbites.dev
-Subject: Re: [PATCH v2 1/1] binfmt_elf, coredump: Log the reason of the
- failed core dumps
-Message-ID: <202407131345.6cPoXZGa-lkp@intel.com>
-References: <20240712215223.605363-2-romank@linux.microsoft.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>
+Subject: [linux-next:master 10502/12880]
+ arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: leds:
+ led-wifi:linux,default-trigger: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202407131329.5dGfeMXn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,110 +65,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240712215223.605363-2-romank@linux.microsoft.com>
 
-Hi Roman,
+Hi Krzysztof,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on 831bcbcead6668ebf20b64fdb27518f1362ace3a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/binfmt_elf-coredump-Log-the-reason-of-the-failed-core-dumps/20240713-055749
-base:   831bcbcead6668ebf20b64fdb27518f1362ace3a
-patch link:    https://lore.kernel.org/r/20240712215223.605363-2-romank%40linux.microsoft.com
-patch subject: [PATCH v2 1/1] binfmt_elf, coredump: Log the reason of the failed core dumps
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240713/202407131345.6cPoXZGa-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131345.6cPoXZGa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fe121b622825ff8cc995a1e6b026181c48188db
+commit: 9d0120b72b972fb564940a252d994864fb9d6524 [10502/12880] ARM: dts: marvell: kirkwood: align LED node name with bindings
+config: arm-randconfig-051-20240712 (https://download.01.org/0day-ci/archive/20240713/202407131329.5dGfeMXn-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131329.5dGfeMXn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407131345.6cPoXZGa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131329.5dGfeMXn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from fs/coredump.c:6:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/coredump.c:875:34: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
-     874 |                         pr_err_ratelimited("Core dump of %s(PID %d) failed when writing out, error %ld\n",
-         |                                                                                                    ~~~
-         |                                                                                                    %zd
-     875 |                                 current->comm, current->pid, n);
-         |                                                              ^
-   include/linux/printk.h:672:45: note: expanded from macro 'pr_err_ratelimited'
-     672 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                            ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:658:17: note: expanded from macro 'printk_ratelimited'
-     658 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                        ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   fs/coredump.c:878:34: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
-     877 |                         pr_err_ratelimited("Core dump of %s(PID %d) partially written out, only %ld(of %d) bytes written\n",
-         |                                                                                                 ~~~
-         |                                                                                                 %zd
-     878 |                                 current->comm, current->pid, n, nr);
-         |                                                              ^
-   include/linux/printk.h:672:45: note: expanded from macro 'pr_err_ratelimited'
-     672 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                            ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:658:17: note: expanded from macro 'printk_ratelimited'
-     658 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                        ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:464:60: note: expanded from macro 'printk'
-     464 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
-     436 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   3 warnings generated.
-
-
-vim +875 fs/coredump.c
-
-   854	
-   855	/*
-   856	 * Core dumping helper functions.  These are the only things you should
-   857	 * do on a core-file: use only these functions to write out all the
-   858	 * necessary info.
-   859	 */
-   860	static int __dump_emit(struct coredump_params *cprm, const void *addr, int nr)
-   861	{
-   862		struct file *file = cprm->file;
-   863		loff_t pos = file->f_pos;
-   864		ssize_t n;
-   865		if (cprm->written + nr > cprm->limit)
-   866			return 0;
-   867	
-   868	
-   869		if (dump_interrupted())
-   870			return 0;
-   871		n = __kernel_write(file, addr, nr, &pos);
-   872		if (n != nr) {
-   873			if (n < 0)
-   874				pr_err_ratelimited("Core dump of %s(PID %d) failed when writing out, error %ld\n",
- > 875					current->comm, current->pid, n);
-   876			else
-   877				pr_err_ratelimited("Core dump of %s(PID %d) partially written out, only %ld(of %d) bytes written\n",
-   878					current->comm, current->pid, n, nr);
-   879	
-   880			return 0;
-   881		}
-   882		file->f_pos = pos;
-   883		cprm->written += n;
-   884		cprm->pos += n;
-   885	
-   886		return 1;
-   887	}
-   888	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: rtc@10300: compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
+   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: rtc@10300: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/sata@80000: failed to match any schema with compatible: ['marvell,orion-sata']
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: mvsdio@90000: $nodename:0: 'mvsdio@90000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
+   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: mvsdio@90000: Unevaluated properties are not allowed ('bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cap-sdio-irq', 'cd-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
+>> arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: leds: led-wifi:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+   	'phy0tpt' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'none', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+   	'phy0tpt' does not match '^cpu[0-9]*$'
+   	'phy0tpt' does not match '^hci[0-9]+-power$'
+   	'phy0tpt' does not match '^mmc[0-9]+$'
+   	'phy0tpt' does not match '^phy[0-9]+tx$'
+   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
+>> arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: leds: led-wifi: Unevaluated properties are not allowed ('linux,default-trigger' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
