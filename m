@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604461B28D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 19:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C085125B9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 20:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720897965; cv=none; b=aa0Lfz3dQH/fzYYKOWEAnDYO6W6g4MEOkCA20//PayAHn4b/uDIRf3EJiQX8aulW8TDs04XlEsO9hBAIzaTLx3RSA7dzBMlUX08Qufuf8rIFQD1wMsnqQ1WBuZhKdFKEGS923teDy8bWkchbN2kiDVrItC0PxSIbuB9HvdH1gkY=
+	t=1720901147; cv=none; b=H13UMedv5msGBal9mlCX+DK7d0oGxm7VnFR1sdoqSRqIVGyre4bsf6hNLyMxmKe+6Ps0UjZAZYqtH9TpQ3CIoctJGbV97eJxZ4zP4HE7bY7kL08LaL7vZINl3Qvltf7JzRpVA53LUf9KJ7uskErmYFBIXsYLo81b1VzMyGcxkrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720897965; c=relaxed/simple;
-	bh=lB18i+duSM41WCNSRA38kZEuYkNxldA3FoqPxs3Ma/0=;
+	s=arc-20240116; t=1720901147; c=relaxed/simple;
+	bh=GVr6IDMqTTpRc2P+sMQI3KkKKWauvABuT1HX6DkSu+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NaMnoGwS1f0suURU93SSVdkvpb1yE6f8C5sVrtSekK4pI1UU4/ARMFcGAVZYjzOJbaY1xnMzm+1pgVm97KJDZ4GNm83lz56V0Krg7WZ/aFYNyG3XTmzd7j7G6fEfFoo6z7vvGTPsTodrv+w616IBtVUhSgYBUTzDAcmw/h1T8RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGLXaf1o; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=pNn+hnlL0PGcssXpVV7/b56ZqC8uME8lclKqzf63mCF5Mi7WafshJ7yhrc9LH+ccVxnS+ILNPNtB2gct/UhoiwWbWucJ2NJqW++BgBv3eqYDBx+G9q7mqHosz6RLol5/MljKG2NRP+dgUU7SsPoBWSyptQrWLWi1oP+QI1kdsHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KS8Xr7No; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGLXaf1o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KS8Xr7No"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720897964; x=1752433964;
+  t=1720901145; x=1752437145;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lB18i+duSM41WCNSRA38kZEuYkNxldA3FoqPxs3Ma/0=;
-  b=VGLXaf1oewi+ObTl5Givxgnb884xb72ArexFrJ8DPvtbqrIz4aOiEjUf
-   SkjMb2kvhA0mr/iW02CKt6oPW66UFzwzGy13Y2BwwTHC+zONYIbQsl8D+
-   q6mCIaZtRqmBeQ4p7K6wh322QfOCZVOauN1D+DCCjYia+HDCXf01bFLqk
-   uohSxuCsyHO1KuPpcCsCw70lxxWnJHAVdAr7B0Sg6cjJ9AVVAmDVQMSkd
-   2yOXZ+65YAsHiD1xg1nRBWCGZWLH4vxATnzJKR6lBGMgz8UGR+RyTjHbU
-   yNqk72Lh9gKzKxvpNwjmzD8p7dfYtKrp4CruKk9R9f0e3ovU1mOHgkbLp
+  bh=GVr6IDMqTTpRc2P+sMQI3KkKKWauvABuT1HX6DkSu+Q=;
+  b=KS8Xr7NofMuA2noRhSzP6u99mB1swBxTOy51ZecHwHw/OidHUkLWDGC0
+   G8fQW6WZWlFJAse2QXKkeaDCzVAe938QCjiNNDB1CmzMiUnmo9mVvuQPg
+   obdV/fZ8r3qZmOnSuV+NY+57aI3iZ76w4Wz8qDkagGKBsyiVjwoNYKpAJ
+   HG1W4unzNAevhWmO6CT/9kGNTKXyE6I5Wkx+NMxFR0f22wmCReVrDJPW7
+   b8i29Jvdi66dUs66NIScWJtvuBWEuyOOx+7vid3SiRsVT4OT9DP9eCR5d
+   QYkzw6mLhC6OgodnBracG3eI/tcpnfInIe4UjECB61o31RVTLdmFo+XBA
    g==;
-X-CSE-ConnectionGUID: cM9EQRqYSua+HK6jbnFflQ==
-X-CSE-MsgGUID: iCTjCoqFSS+irNpFq8rcaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18167088"
+X-CSE-ConnectionGUID: vKbnz6+URCa2Eo1P0jwpgg==
+X-CSE-MsgGUID: B0Dk1ykURQWJWGrHXh//qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="12536523"
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="18167088"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 12:12:43 -0700
-X-CSE-ConnectionGUID: H2283+wVQNeQEmLjhOV7uA==
-X-CSE-MsgGUID: k6XQwb2oTCuOJ3KzEF5S1A==
+   d="scan'208";a="12536523"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 13:05:45 -0700
+X-CSE-ConnectionGUID: yRl7om74QJCmlUOUQnVxeQ==
+X-CSE-MsgGUID: Ghj8WNouRlOwnizIp8GLxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="49302257"
+   d="scan'208";a="49101861"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Jul 2024 12:12:42 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Jul 2024 13:05:43 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSiAh-000ceo-2o;
-	Sat, 13 Jul 2024 19:12:39 +0000
-Date: Sun, 14 Jul 2024 03:12:05 +0800
+	id 1sSj01-000chO-1q;
+	Sat, 13 Jul 2024 20:05:41 +0000
+Date: Sun, 14 Jul 2024 04:05:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mike Snitzer <snitzer@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-next 3/23] fs/nfs/nfs2xdr.c:65:12: warning:
- 'nfs_stat_to_errno' used but never defined
-Message-ID: <202407140320.S1BJSqmB-lkp@intel.com>
+Subject: [snitzer:nfs-localio-for-next 3/23] fs/nfs/nfs2xdr.c:65:12: error:
+ static declaration of 'nfs_stat_to_errno' follows non-static declaration
+Message-ID: <202407140300.53HVgOPs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,25 +65,25 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
 head:   85d53fa650a024c154c0befa31a72b4484290c47
 commit: 85c08fd7310ca8076283e88773002df86cf23ac6 [3/23] nfs_common: factor out nfs_errtbl and nfs_stat_to_errno
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407140320.S1BJSqmB-lkp@intel.com/config)
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240714/202407140300.53HVgOPs-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140320.S1BJSqmB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140300.53HVgOPs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407140320.S1BJSqmB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407140300.53HVgOPs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/nfs/nfs2xdr.c:65:12: error: static declaration of 'nfs_stat_to_errno' follows non-static declaration
+>> fs/nfs/nfs2xdr.c:65:12: error: static declaration of 'nfs_stat_to_errno' follows non-static declaration
       65 | static int nfs_stat_to_errno(enum nfs_stat);
          |            ^~~~~~~~~~~~~~~~~
    In file included from fs/nfs/nfs2xdr.c:25:
    include/linux/nfs_common.h:14:5: note: previous declaration of 'nfs_stat_to_errno' with type 'int(enum nfs_stat)'
       14 | int nfs_stat_to_errno(enum nfs_stat status);
          |     ^~~~~~~~~~~~~~~~~
->> fs/nfs/nfs2xdr.c:65:12: warning: 'nfs_stat_to_errno' used but never defined
+   fs/nfs/nfs2xdr.c:65:12: warning: 'nfs_stat_to_errno' used but never defined
       65 | static int nfs_stat_to_errno(enum nfs_stat);
          |            ^~~~~~~~~~~~~~~~~
 
