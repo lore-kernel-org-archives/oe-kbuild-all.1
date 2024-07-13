@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4ED47A53
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 12:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75B01DFC5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 13:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720874546; cv=none; b=OoZFQdVF+iew2X832+9fE6E4T8L5qGP+zrWJL+jorUMfVL56Td/hnRspE/VMBwMEZVVel75vgmMHmaVvyT2hTtXiLtG0zdEHB46XboZBuF/39diq6kJrW3ZiHQ6HiC5MxP3f2llumSMCanvjCHA7u6EuYe+keuaKTMfw/MSbZlU=
+	t=1720875743; cv=none; b=Grc4Y7zyu1fxnwJz3TKIL1aZW64NnaiU9F6gbKOnDMu1wKoPy5xdUtnfwXSRQid2vVnK16rYdzvWv+7aldOIQRXAxG5bR0+Wthl0DLBV2xrNu7cDcpizbaJiO6oiOeA7qAQJcxv0jenFQ+FYR0nduw54SL4K0wNMe78lB7KXwvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720874546; c=relaxed/simple;
-	bh=RkZOnT6YMC5COcaGvMUt7vuwc+JGYeeX8BB4xirSbk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jepaa7k9AAYc6mDWJwUXfKt8E+Iy1o88Wyzkr9FRWi7KkqEBznFZoCfdztXNOwn+UyFbzk3Ejj6SHNbmpwKDOVEYuXdnNp1a/2cBiQKsDiH4aM0+sVTC+goqisxl3+KRn0FvpaAIjQVtKIW65Y5hyrO7fYpJc7idF6GCM+8irvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y0ydgf3d; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1720875743; c=relaxed/simple;
+	bh=ptOGL8hgGUwZC1CcVSOlMSIku61WS7k57I5XBpluq9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CCXi7BaEp1C+3g+KZCHMUrSKhAlZdkit1WaM6CNW6s6GRtjZY/CQ2m5Uzsf6VUByuqjDLDy1lRc0w38/pWT1UGyk+P2cxdEmMIWGs4/fYnlhwAPSb+InyVe1mnLetmSFV/ApASo2eEOOdTWE6ZL6QpCC2UTIIqV6LS4XpW4M4Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtskWglW; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0ydgf3d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtskWglW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720874545; x=1752410545;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RkZOnT6YMC5COcaGvMUt7vuwc+JGYeeX8BB4xirSbk4=;
-  b=Y0ydgf3dusRawCsfN8xMLr0cNHLxEFzW0lc/T9M3TSQvYWTuyJrL0YYJ
-   QA+nMQvLP2LASyNPxNLnVDkVUitrYX+uFe1/OOMK7MwH+yQlHuLJc7GlI
-   yxDU8AHd1aPccVBhiV9nKhRnn+XlWeMigXTuexHA+msMWmJQ/E8nmW+IN
-   hPEBjr35mJulR6x0aOtiX9w8qQuFjKY8K3C06dq6MOqMLDY9M7WZFNmFZ
-   kmtUr41ywYteciUFeg7wPiOOS4YBEIt2jr01fI7LHduGEVBRZzJ/x8fnV
-   bQQ/Pk0okYtNZozzvhtYMbOVxkqN4f4+Pedd0Vriq9VZuH0e/Hzo2sA1J
-   w==;
-X-CSE-ConnectionGUID: EWWpDHR4RqW6R1XMFzZQNw==
-X-CSE-MsgGUID: hg0JYSVJQjCI8RQYyhhDmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="22126958"
+  t=1720875741; x=1752411741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ptOGL8hgGUwZC1CcVSOlMSIku61WS7k57I5XBpluq9c=;
+  b=BtskWglWuiOMHbSZwTFjmBCTyHfavZB9oFB4ybDA/3YCgoiutN1wmCDd
+   JpRv3pnCGMmPpO9ylxMmddrUes89taeGjNCm/gBb7+ynPWP++VxGVfV0D
+   ofPhrO+TYXgPNDaX7EesMghUhhxOwGaVAaMTGtuyKB/HVVRBZaI4mV5AS
+   4FifUbzSOPNy1Dr9nD5314tO8A503YHZmJzDct6RNfrxeerADOIkQk1Jn
+   NR5vRdYV+IpTgcD/4Viy6XgWas6v9GEAtfTArmoxVq1zqiOcarof4/n9Z
+   8LVi2XxPsn/d7QuxJikrFdohiqw9DzH7NCAklO9c8/FsAjwrYwy9GcrC4
+   Q==;
+X-CSE-ConnectionGUID: mtYzhLyiRsqaHci+K551wg==
+X-CSE-MsgGUID: lirUIX5CRX+FQHTJapWsqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="35740975"
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="22126958"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 05:42:25 -0700
-X-CSE-ConnectionGUID: 91LwFNLZRPC3ilSOyFGWNQ==
-X-CSE-MsgGUID: OnZ4kMcFTYePvsQ6hEWl0Q==
+   d="scan'208";a="35740975"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 06:02:21 -0700
+X-CSE-ConnectionGUID: vqmtKqmJQgGlZHTloI/9bg==
+X-CSE-MsgGUID: dorE3kZ6R0OK8AUf2zuprQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="49046677"
+   d="scan'208";a="49936594"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Jul 2024 05:42:19 -0700
+  by orviesa008.jf.intel.com with ESMTP; 13 Jul 2024 06:02:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSc4u-000c4T-2N;
-	Sat, 13 Jul 2024 12:42:16 +0000
-Date: Sat, 13 Jul 2024 20:41:29 +0800
+	id 1sScOH-000c58-0K;
+	Sat, 13 Jul 2024 13:02:17 +0000
+Date: Sat, 13 Jul 2024 21:02:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ravi Bangoria <ravi.bangoria@amd.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	seanjc@google.com, pbonzini@redhat.com, thomas.lendacky@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, ravi.bangoria@amd.com, hpa@zytor.com,
-	rmk+kernel@armlinux.org.uk, peterz@infradead.org,
-	james.morse@arm.com, lukas.bulwahn@gmail.com, arjan@linux.intel.com,
-	j.granados@samsung.com, sibs@chinatelecom.cn, nik.borisov@suse.com,
-	michael.roth@amd.com, nikunj.dadhania@amd.com, babu.moger@amd.com,
-	x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	santosh.shukla@amd.com, ananth.narayan@amd.com,
-	sandipan.das@amd.com, manali.shukla@amd.com, jmattson@google.com
-Subject: Re: [PATCH v2 1/4] x86/split_lock: Move Split and Bus lock code to a
- dedicated file
-Message-ID: <202407132059.uppmW6rR-lkp@intel.com>
-References: <20240712093943.1288-2-ravi.bangoria@amd.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:numa/memblks/v0.1 15/19] acpi.c:undefined reference to
+ `phys_to_target_node'
+Message-ID: <202407132010.kfCLONyr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,111 +61,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240712093943.1288-2-ravi.bangoria@amd.com>
 
-Hi Ravi,
+Hi Mike,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on tip/master]
-[also build test ERROR on next-20240712]
-[cannot apply to tip/x86/core kvm/queue linus/master tip/auto-latest kvm/linux-next v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Bangoria/x86-split_lock-Move-Split-and-Bus-lock-code-to-a-dedicated-file/20240712-175306
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20240712093943.1288-2-ravi.bangoria%40amd.com
-patch subject: [PATCH v2 1/4] x86/split_lock: Move Split and Bus lock code to a dedicated file
-config: i386-randconfig-015-20240713 (https://download.01.org/0day-ci/archive/20240713/202407132059.uppmW6rR-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407132059.uppmW6rR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git numa/memblks/v0.1
+head:   d024f77faa6fa51163d89871f2a255229097a1be
+commit: b167986837bb5d004f2dc131c553d1d267a8279d [15/19] mm: make range-to-target_node lookup facility a part of numa_memblks
+config: loongarch-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407132010.kfCLONyr-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407132010.kfCLONyr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407132059.uppmW6rR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407132010.kfCLONyr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/bus_lock.c: In function 'split_lock_warn':
->> arch/x86/kernel/cpu/bus_lock.c:219:21: error: 'struct task_struct' has no member named 'reported_split_lock'
-     219 |         if (!current->reported_split_lock)
-         |                     ^~
-   arch/x86/kernel/cpu/bus_lock.c:222:16: error: 'struct task_struct' has no member named 'reported_split_lock'
-     222 |         current->reported_split_lock = 1;
-         |                ^~
-   arch/x86/kernel/cpu/bus_lock.c: At top level:
-   arch/x86/kernel/cpu/bus_lock.c:250:6: error: redefinition of 'handle_guest_split_lock'
-     250 | bool handle_guest_split_lock(unsigned long ip)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/cpu/bus_lock.c:12:
-   arch/x86/include/asm/cpu.h:42:20: note: previous definition of 'handle_guest_split_lock' with type 'bool(long unsigned int)' {aka '_Bool(long unsigned int)'}
-      42 | static inline bool handle_guest_split_lock(unsigned long ip)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/bus_lock.c:292:6: error: redefinition of 'handle_user_split_lock'
-     292 | bool handle_user_split_lock(struct pt_regs *regs, long error_code)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/cpu/bus_lock.c:12:
-   arch/x86/include/asm/cpu.h:37:20: note: previous definition of 'handle_user_split_lock' with type 'bool(struct pt_regs *, long int)' {aka '_Bool(struct pt_regs *, long int)'}
-      37 | static inline bool handle_user_split_lock(struct pt_regs *regs, long error_code)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/bus_lock.c:300:6: error: redefinition of 'handle_bus_lock'
-     300 | void handle_bus_lock(struct pt_regs *regs)
-         |      ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/cpu/bus_lock.c:12:
-   arch/x86/include/asm/cpu.h:47:20: note: previous definition of 'handle_bus_lock' with type 'void(struct pt_regs *)'
-      47 | static inline void handle_bus_lock(struct pt_regs *regs) {}
-         |                    ^~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/bus_lock.c:401:13: error: redefinition of 'sld_setup'
-     401 | void __init sld_setup(struct cpuinfo_x86 *c)
-         |             ^~~~~~~~~
-   In file included from arch/x86/kernel/cpu/bus_lock.c:12:
-   arch/x86/include/asm/cpu.h:36:27: note: previous definition of 'sld_setup' with type 'void(struct cpuinfo_x86 *)'
-      36 | static inline void __init sld_setup(struct cpuinfo_x86 *c) {}
-         |                           ^~~~~~~~~
-
-
-vim +219 arch/x86/kernel/cpu/bus_lock.c
-
-   213	
-   214	static void split_lock_warn(unsigned long ip)
-   215	{
-   216		struct delayed_work *work;
-   217		int cpu;
-   218	
- > 219		if (!current->reported_split_lock)
-   220			pr_warn_ratelimited("#AC: %s/%d took a split_lock trap at address: 0x%lx\n",
-   221					    current->comm, current->pid, ip);
-   222		current->reported_split_lock = 1;
-   223	
-   224		if (sysctl_sld_mitigate) {
-   225			/*
-   226			 * misery factor #1:
-   227			 * sleep 10ms before trying to execute split lock.
-   228			 */
-   229			if (msleep_interruptible(10) > 0)
-   230				return;
-   231			/*
-   232			 * Misery factor #2:
-   233			 * only allow one buslocked disabled core at a time.
-   234			 */
-   235			if (down_interruptible(&buslock_sem) == -EINTR)
-   236				return;
-   237			work = &sl_reenable_unlock;
-   238		} else {
-   239			work = &sl_reenable;
-   240		}
-   241	
-   242		cpu = get_cpu();
-   243		schedule_delayed_work_on(cpu, work, 2);
-   244	
-   245		/* Disable split lock detection on this CPU to make progress */
-   246		sld_update_msr(false);
-   247		put_cpu();
-   248	}
-   249	
+   loongarch64-linux-ld: drivers/cxl/acpi.o: in function `.LVL656':
+>> acpi.c:(.text+0x24bc): undefined reference to `phys_to_target_node'
 
 -- 
 0-DAY CI Kernel Test Service
