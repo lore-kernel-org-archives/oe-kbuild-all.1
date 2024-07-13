@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF077125B9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 18:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A226A1DFC5;
+	Sat, 13 Jul 2024 19:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720894184; cv=none; b=Jqpex2n/92CJmZ98jJtBpOOYf6pVA/ynkfbHPKi3bAuZGxNJ+bfLdQrG5cTjolimfqxFSpHjUW0jKJig0vYfneei/tot5lHR8XEG/xljMJCfp8D38w+Qx0T6ldQmfxv8bGmktZ23yM5d6n/PlAdvaWRc4LdtRpM64K2wcAREBV8=
+	t=1720897305; cv=none; b=pKpOiZ0ddnKX18mrAHqbJPt1umhn9VluiyQ4NjbjPg74+fQchoXuP1KG4X57U4BoW7QcLOjIBDesG2XQ2KKErl9pxzuOVYFQcf4Szfw2fPFPY7vWhhlcD83MH6+vv0fNuoGKFsNpL1awkWDtxrxw/F1grc3P/M2sKB7R+kgBSvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720894184; c=relaxed/simple;
-	bh=2mESLXUe78nX+khI/8xRDq9tEkbwYSAKjZeFGlVsGAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bSrfpWlYTJoJubW33cy9MgW2xTsSV9TtHc9Kk4Sxys/gtKANqpTDobThb5og9IywjmgjDCDy0IFZIhZweK65IenEbUmuMfsa2URk71CqQc1L1Hd0xvEqTcHNo4UUYXDPlHsGthmOded0QP/FycNVIUjA4x/skyV4OYgWK2DeLtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdndYkLv; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1720897305; c=relaxed/simple;
+	bh=9BY+d/8izjTMVxxww5HYgFKulEppUH8bk0u3aKiLtDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=senvQ7LLQtDLzuXVGvXu3utUbI7qb3Fmbdk23lB6RpSZRUB4MslhHtNScAyxSiTXcWqtnVsTSMjTc/ln6+0EH1ouXTuWKxAMariRa+cAS2D82/wLRdCr+/LNlfvmqgaxQd9uicYv2NBB2nEC6Yp2Lx+r/RLoXiiikJz0ZxnaDbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1dHQIXa; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdndYkLv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1dHQIXa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720894182; x=1752430182;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2mESLXUe78nX+khI/8xRDq9tEkbwYSAKjZeFGlVsGAY=;
-  b=bdndYkLvkpc3+B25wz9c1b/aZQ4q5hgKmfXOl9tazRoKMY2QVC0Xc8Hb
-   2w3wFPWVoL+sW1P5X4zbaQ084MLFOSZVJqRzQhP03ajlKeiW+RAaY39C5
-   QVFMEnu7rKh/0FyXj0KKzPfoPn+h3Nu22GortuleMueJhpInxuYcd099g
-   7piaMoJ5IMRVolOpn6UtXZ9wFM9KYGOPrcKtNk4Xab5G7bzV55kauZlx5
-   41CmhWc9XpJxZkUv276uHasqbjgA6T4YwA95JxIhmaI1WtlMohuWB0NiS
-   0H6sub6sYZK2Sv+GwkCO9rxJAhxZDsdD8hekP6BTadTbwbSydGayhm+7p
-   A==;
-X-CSE-ConnectionGUID: ZEd5ByXMTbGYJxBm0n15UQ==
-X-CSE-MsgGUID: Ms2hzKlpSBSNSFwJk+QfEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="29714391"
+  t=1720897303; x=1752433303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9BY+d/8izjTMVxxww5HYgFKulEppUH8bk0u3aKiLtDE=;
+  b=U1dHQIXaicwsWyLZn1FrR8vfrdmYNd9LIveLeVDlP0vPofVa3Nwd5HPy
+   unhGIqBat6Lc4AXYWKHCNZ8N37Ucw+ABMVi52G1CLv9ekTJw3hxJcnkYR
+   bHWfyRMdVuFXzCBdj+aHRDOj/szh5MshG52NEX8NXyXshZGLvhsnGGo0C
+   vmN4iD34or+9aTSEvqtVVQ+Cif/CoN9oDXqwH99A2/3tIMEyTTquRLrXN
+   HoS/S0Z2HnidDh52rdVRzY7m36VzPuz8Pga2Q2gyRhDelxpAARCthykKY
+   8r8uS9k1CJa/bvvdBT1bJpcQuBhO0bGuPVhDc1ytH2K3UAh+5dDHkeHhf
+   g==;
+X-CSE-ConnectionGUID: Jky/VoWeTWCQk4ee8vqZkA==
+X-CSE-MsgGUID: b6QfDMOvRCOMERQRDCYk3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18474018"
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="29714391"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 11:09:41 -0700
-X-CSE-ConnectionGUID: j0OPtYGcStKYj7+zbBSgMA==
-X-CSE-MsgGUID: fKMTDkWvQLeNzzERKlRuYw==
+   d="scan'208";a="18474018"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 12:01:43 -0700
+X-CSE-ConnectionGUID: tZCrf5j0QPm1AaFQf17+og==
+X-CSE-MsgGUID: Ssmvl4GBQ6OpM5URljpwUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
-   d="scan'208";a="79901342"
+   d="scan'208";a="49866541"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jul 2024 11:09:40 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 Jul 2024 12:01:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sShBh-000cbW-0o;
-	Sat, 13 Jul 2024 18:09:37 +0000
-Date: Sun, 14 Jul 2024 02:08:54 +0800
+	id 1sSi03-000ceM-2F;
+	Sat, 13 Jul 2024 19:01:39 +0000
+Date: Sun, 14 Jul 2024 03:01:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huqiang Qin <huqiang.qin@amlogic.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>
-Subject: [linux-next:master 11608/12880]
- arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: watchdog@2100:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202407140220.61jYKFFf-lkp@intel.com>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 09/10] sched/fair: Add a class->task_woken
+ callback in preparation for per-task throttling
+Message-ID: <202407140243.hhdyC70l-lkp@intel.com>
+References: <20240711130004.2157737-10-vschneid@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,38 +63,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240711130004.2157737-10-vschneid@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fe121b622825ff8cc995a1e6b026181c48188db
-commit: 34b60b78550eedbb596274f0336d1f86a80fcd19 [11608/12880] arm64: dts: amlogic: add watchdog node for A4 SoCs
-config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240714/202407140220.61jYKFFf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140220.61jYKFFf-lkp@intel.com/reproduce)
+Hi Valentin,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on tip/master]
+[cannot apply to paulmck-rcu/dev linus/master tip/auto-latest v6.10-rc7 next-20240712]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Schneider/rcuwait-Split-type-definition-to-its-own-header/20240711-225336
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20240711130004.2157737-10-vschneid%40redhat.com
+patch subject: [RFC PATCH v3 09/10] sched/fair: Add a class->task_woken callback in preparation for per-task throttling
+config: i386-buildonly-randconfig-006-20240713 (https://download.01.org/0day-ci/archive/20240714/202407140243.hhdyC70l-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140243.hhdyC70l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407140220.61jYKFFf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407140243.hhdyC70l-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: watchdog@2100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['amlogic,a4-wdt', 'amlogic,t7-wdt'] is too long
-   	'amlogic,a4-wdt' is not one of ['amlogic,meson-gxbb-wdt', 'amlogic,t7-wdt']
-   	'amlogic,a4-wdt' is not one of ['amlogic,c3-wdt', 'amlogic,s4-wdt']
-   	from schema $id: http://devicetree.org/schemas/watchdog/amlogic,meson-gxbb-wdt.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: watchdog@2100: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/amlogic,meson-gxbb-wdt.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: /soc/bus@fe000000/watchdog@2100: failed to match any schema with compatible: ['amlogic,a4-wdt', 'amlogic,t7-wdt']
---
->> arch/arm64/boot/dts/amlogic/amlogic-a5-a113x2-av400.dtb: watchdog@2100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['amlogic,a4-wdt', 'amlogic,t7-wdt'] is too long
-   	'amlogic,a4-wdt' is not one of ['amlogic,meson-gxbb-wdt', 'amlogic,t7-wdt']
-   	'amlogic,a4-wdt' is not one of ['amlogic,c3-wdt', 'amlogic,s4-wdt']
-   	from schema $id: http://devicetree.org/schemas/watchdog/amlogic,meson-gxbb-wdt.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a5-a113x2-av400.dtb: watchdog@2100: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/amlogic,meson-gxbb-wdt.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a5-a113x2-av400.dtb: /soc/bus@fe000000/watchdog@2100: failed to match any schema with compatible: ['amlogic,a4-wdt', 'amlogic,t7-wdt']
+All errors (new ones prefixed by >>):
+
+>> kernel/sched/fair.c:13303:3: error: field designator 'task_woken' does not refer to any field in type 'const struct sched_class'
+    13303 |         .task_woken             = task_woken_fair,
+          |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +13303 kernel/sched/fair.c
+
+ 13301	
+ 13302	#ifdef CONFIG_CFS_BANDWIDTH
+ 13303		.task_woken             = task_woken_fair,
+ 13304	#endif
+ 13305	
 
 -- 
 0-DAY CI Kernel Test Service
