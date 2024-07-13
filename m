@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF11EB3D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 05:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E471BDCF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 05:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720847229; cv=none; b=XzoEH7Mz2voSf2ho3sW4M6YK8RlyCTC21RGzeklYz0hohpFdU8BQEaHn+sZwY7I8bs7rgv9TkMyB0Aav0VlaVIB7ehTNClk2xCBHz939Y2d1vpiiZpb5/+Z0LtppUD3MYXf2e4muWx/ohhpLun/HXV7K//syATtfEpEh3x3x2ss=
+	t=1720848609; cv=none; b=unVq+jv3hblgNWbubsVJ28GZCpO1WP2HQSbYsGsIltSXO23twO1zCu/Xhuyyj011UuciT9rRe/TieZ+fA9P4L39xP8FR5PRrZ2CyrD9XzhKv7FkMD121DID4YhA1HN9I0XzU585H2J5+FTZirfwtR4Fji492xv/U8uwFXJ9F9Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720847229; c=relaxed/simple;
-	bh=PM2y5DeeC9jedCFRGSQRUQvS/ImrQI2BscOIn0d34Bw=;
+	s=arc-20240116; t=1720848609; c=relaxed/simple;
+	bh=Z5pB8pGc2Zd60m0svPNa/1LbBFq6TdS8Vns2eFWFfrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k8lRbBrAEN2uvq7tE+w5NtuUJ3KXhNgeovWhXQpitSWuozfYqBEwtvisQZT6qMmQSW2zcAQmi6NdHrbtevo2Z69e2Z93IKGECnF8FQD2i92j6yM3hfHFFGglvVUnIN6u4IMP0H7aOM4/6EYLUMclwLw76tBs9pHc5mu/gQWdpJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZA3JTMJ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ZHDRNIIqx4aHuZ9yGJGIN9yfAAaTE4iMqLGjuBGgR0Yob2OSQCjRLsDYPBjz2JEOuSSF0ZX09lnDlFBCOJKWd2xz4lPvJbEm04pq64gKmnq5MdmCcIuCsPCTq5xCozyGaiqf6JmOvWfeUSMU9qD6CvNccmMsCb0bXPCle1N/DB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGN/Ymzo; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZA3JTMJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGN/Ymzo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720847227; x=1752383227;
+  t=1720848607; x=1752384607;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PM2y5DeeC9jedCFRGSQRUQvS/ImrQI2BscOIn0d34Bw=;
-  b=QZA3JTMJHs3J56KnV93obSH1fxQLSjLVtTE8zPJ9L8IIm4AA3IvyzEZm
-   Z6f6QveCwB2YXu0fXRiI5bsvcupA55m8IFcet7MjSCy+qRLrACsIN0Cop
-   70vcVdsczhg6py1n/2uEhTFF0ZSgVoNNTSyseHI1StCjC9bjv3vrRVZr8
-   a79ze2ZZ+859qOG0IX5+ISTSSYz091+VdClQr3aa68UDZSlJh5datKjrU
-   baFJrBCbUSAG3PY5zWFMW+rr4FinB4o7pzjhu6RNve7JVwjxtqEsRvVCi
-   jcAJjWwRWLuLKKt6S7dtbyWJOL2LMHa2tgIAyswJdzerQMbSmZOwhQKFO
-   g==;
-X-CSE-ConnectionGUID: nE/F2RQBQhGJIiOiB6nzBg==
-X-CSE-MsgGUID: etScPSfiQfSJ8//bEkm/4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18414894"
+  bh=Z5pB8pGc2Zd60m0svPNa/1LbBFq6TdS8Vns2eFWFfrE=;
+  b=dGN/YmzoATUl/cNiPoIMgseaK1WyZs4r+1aZThgM7QdWGwfP+QcL9ZCS
+   nSnGz/xaWwTuODs/kY23f7ooGAigLlzRpBHuZDE55xzHPraOeApqR11+f
+   nJQcaHSrH7oXoqnR5yz96J2M7U0ivSIbodpk4PzUkbM1rbUULOClLtb+r
+   Sh3U1n5P0nu7KKJjOIEPhWUbWHd546pAn+Mk58G/bpfVXh6+Iy9PWPlY9
+   MTXt0yixy4JX5Co1Ju7XCP3+i/8C6ijZGmkcLzOszSP6XyJ7hb469o7E4
+   WLP4chQVX5jPR4Eq+DpoSe6Kh5mEhFtIAtXUDZu/X/kTRMojFGebILbS1
+   w==;
+X-CSE-ConnectionGUID: ZCCHPuKaSIy9tXUs90j2/Q==
+X-CSE-MsgGUID: UekNyLIRQ8KM72zN0Qwqpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28894526"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="18414894"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 22:07:06 -0700
-X-CSE-ConnectionGUID: 5vdZk9RxRmetCkQuKZctJw==
-X-CSE-MsgGUID: vgVoP+//Q8GDrUBucCacAQ==
+   d="scan'208";a="28894526"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 22:30:06 -0700
+X-CSE-ConnectionGUID: nk9Dy1CARAymbF+4yeRX3Q==
+X-CSE-MsgGUID: eGp2hK88Q9eXLyWtpvrAGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="48994874"
+   d="scan'208";a="48846568"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jul 2024 22:07:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 12 Jul 2024 22:30:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSUyL-000bic-2n;
-	Sat, 13 Jul 2024 05:07:01 +0000
-Date: Sat, 13 Jul 2024 13:06:45 +0800
+	id 1sSVKc-000bjS-1J;
+	Sat, 13 Jul 2024 05:30:02 +0000
+Date: Sat, 13 Jul 2024 13:29:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [linux-next:master 11201/12880]
- arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio@fffff400:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202407131213.dNECvm67-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:slub-percpu-sheaves-v1r0 8/12] mm/slub.c:5029:18: warning:
+ 'i' is used uninitialized
+Message-ID: <202407131305.sMLSPyd9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,99 +62,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fe121b622825ff8cc995a1e6b026181c48188db
-commit: 337049890b8cbbb4fb527c58976ea19f4dc747a0 [11201/12880] dt-bindings: gpio: convert Atmel GPIO to json-schema
-config: arm-randconfig-051-20240712 (https://download.01.org/0day-ci/archive/20240713/202407131213.dNECvm67-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131213.dNECvm67-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-sheaves-v1r0
+head:   9cb4096680ee90fe6be1b22ff3961174fa8e3ee4
+commit: 6912a14dbbe63891a545d4cd35b60bcd3dee3d40 [8/12] mm/slub: add opt-in caching layer of percpu sheaves
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240713/202407131305.sMLSPyd9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131305.sMLSPyd9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407131213.dNECvm67-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131305.sMLSPyd9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: pinctrl@fffff400: usb1: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: pinctrl@fffff400: flexcom: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: pinctrl@fffff400: ebi: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
->> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio@fffff400: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio@fffff600: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio@fffff800: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio@fffffa00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio-keys: pinctrl-key-gpio: {'atmel,pins': [0, 29, 0, 0], 'phandle': 37} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/timer@fffffe40: failed to match any schema with compatible: ['atmel,at91sam9260-pit']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x60-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x60-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: pinctrl@fffff400: macb0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: pinctrl@fffff400: sdmmc0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: pinctrl@fffff400: adc: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/pinctrl@fffff400: failed to match any schema with compatible: ['microchip,sam9x60-pinctrl', 'atmel,at91sam9x5-pinctrl', 'atmel,at91rm9200-pinctrl', 'simple-bus']
->> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: gpio@fffff400: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: gpio@fffff600: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: gpio@fffff800: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: gpio@fffffa00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-gpio', 'atmel,at91sam9x5-gpio', 'atmel,at91rm9200-gpio'] is too long
-   	'microchip,sam9x60-gpio' is not one of ['microchip,sam9x7-gpio']
-   	'atmel,at91rm9200-gpio' was expected
-   	'microchip,sam9x60-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/atmel,at91rm9200-gpio.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/timer@fffffe40: failed to match any schema with compatible: ['atmel,at91sam9260-pit']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x60-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x60-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: rtc@fffffea8: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-rtc', 'atmel,at91sam9x5-rtc'] is too long
+All warnings (new ones prefixed by >>):
+
+   mm/slub.c: In function 'pcs_flush_all':
+   mm/slub.c:2434:36: warning: variable 'rcu_free' set but not used [-Wunused-but-set-variable]
+    2434 |         struct slab_sheaf *spare, *rcu_free;
+         |                                    ^~~~~~~~
+   mm/slub.c: In function 'slab_post_alloc_hook':
+   mm/slub.c:4299:29: warning: variable 'obj_exts' set but not used [-Wunused-but-set-variable]
+    4299 |         struct slabobj_ext *obj_exts;
+         |                             ^~~~~~~~
+   mm/slub.c: In function 'free_to_pcs_bulk':
+>> mm/slub.c:5029:18: warning: 'i' is used uninitialized [-Wuninitialized]
+    5029 |         while (i < size) {
+         |                ~~^~~~~~
+   mm/slub.c:5024:25: note: 'i' was declared here
+    5024 |         unsigned batch, i;
+         |                         ^
+
+
+vim +/i +5029 mm/slub.c
+
+  5013	
+  5014	/*
+  5015	 * Bulk free objects to the percpu sheaves.
+  5016	 * Unlike free_to_pcs() this has includes the calls to all necessary hooks
+  5017	 * and the fallback to freeing to slab pages.
+  5018	 */
+  5019	static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+  5020	{
+  5021		struct slub_percpu_sheaves *pcs;
+  5022		struct slab_sheaf *main;
+  5023		unsigned long flags;
+  5024		unsigned batch, i;
+  5025		bool init;
+  5026	
+  5027		init = slab_want_init_on_free(s);
+  5028	
+> 5029		while (i < size) {
+  5030			struct slab *slab = virt_to_slab(p[i]);
+  5031	
+  5032			memcg_slab_free_hook(s, slab, p[i], 1);
+  5033			alloc_tagging_slab_free_hook(s, slab, p[i], 1);
+  5034	
+  5035			if (unlikely(!slab_free_hook(s, p[i], init))) {
+  5036				p[i] = p[--size];
+  5037				if (!size)
+  5038					return;
+  5039				continue;
+  5040			}
+  5041	
+  5042			i++;
+  5043		}
+  5044	
+  5045	next_batch:
+  5046		local_lock_irqsave(&s->cpu_sheaves->lock, flags);
+  5047		pcs = this_cpu_ptr(s->cpu_sheaves);
+  5048	
+  5049		if (unlikely(pcs->main->size == s->sheaf_capacity)) {
+  5050	
+  5051			struct slab_sheaf *empty;
+  5052	
+  5053			if (!pcs->spare) {
+  5054				empty = barn_get_empty_sheaf(pcs->barn);
+  5055				if (empty) {
+  5056					pcs->spare = pcs->main;
+  5057					pcs->main = empty;
+  5058					goto do_free;
+  5059				}
+  5060				goto no_empty;
+  5061			}
+  5062	
+  5063			if (pcs->spare->size < s->sheaf_capacity) {
+  5064				stat(s, SHEAF_SWAP);
+  5065				swap(pcs->main, pcs->spare);
+  5066				goto do_free;
+  5067			}
+  5068	
+  5069			empty = barn_replace_full_sheaf(pcs->barn, pcs->main);
+  5070	
+  5071			if (!IS_ERR(empty)) {
+  5072				pcs->main = empty;
+  5073				goto do_free;
+  5074			}
+  5075	
+  5076	no_empty:
+  5077			local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
+  5078	
+  5079			/*
+  5080			 * if we depleted all empty sheafs in the barn or there are to
+  5081			 * many full sheafs, free the rest to slab pages
+  5082			 */
+  5083	
+  5084			__kmem_cache_free_bulk(s, size, p);
+  5085			return;
+  5086		}
+  5087	
+  5088	do_free:
+  5089		main = pcs->main;
+  5090		batch = min(size, s->sheaf_capacity - main->size);
+  5091	
+  5092		memcpy(main->objects + main->size, p, batch * sizeof(void *));
+  5093		main->size += batch;
+  5094	
+  5095		local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
+  5096	
+  5097		stat_add(s, FREE_PCS, batch);
+  5098	
+  5099		if (batch < size) {
+  5100			p += batch;
+  5101			size -= batch;
+  5102			goto next_batch;
+  5103		}
+  5104	}
+  5105	
 
 -- 
 0-DAY CI Kernel Test Service
