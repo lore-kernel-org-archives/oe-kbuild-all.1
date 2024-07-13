@@ -1,62 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252F93C482;
-	Sat, 13 Jul 2024 08:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0A32E40E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 10:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720860678; cv=none; b=iaahqka3Ika/0aqEX386jNdyJxPpFxaWvgfWpgyZnMeTPymQvygipDd7LqlhOEmaSPifwCARxVJempGlMh2J1pXJi0X/qm5Ro7Qh7yM9RbOUEb1KZ5f3VJu8q1dNR6aI+IJlbYP18ZvXwwODP5qB18qkQRafMWfCQYzBxkNTuQM=
+	t=1720866861; cv=none; b=WCaVltj9/dbZkwidQrJgt7d8TmjSK7gqtIaN4ysfrHtOJXIY5l3R2UYOE0nbIE/f6vBTQ9VIkGJgzH27CsLyRy7gkaKw8t0TAwiLppq3wNR0MPfoImWql5MdFCYK1u5TarP9Me5S4zqxwKLo/YckJTmUKAuqwQ2wDbxcLyMzEWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720860678; c=relaxed/simple;
-	bh=1o1g4gZYrN8TVmq5y5JEEypnsywvx7tYdlf5nmnIfdQ=;
+	s=arc-20240116; t=1720866861; c=relaxed/simple;
+	bh=wHL89j46c+8SyZizzkw+zjxBFQ6oTMVQToilyEIMIAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c1XO6HYOpmf8b4yeJgIDZdHlotgC6aOcZmbf68ljRUsdExMN+JujREWk/LkX3zoeyQZHEZbbtjqqVEH3ikKFAWAKfssfsZnDy33kU8EIwNwShdcJOJ7SubwxKJ4Trprq+FCxsh1JMdA3FgjgPj8lb3gHlOUhWBQCgy+ifWDHnfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5cIyHQJ; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhtEg3sL2uNEiF9t9Lu51NIu7rhGdBKrRFZQYBpmE3hcZ5lFv3tnUdbSibkjrbf/riCVSmDJCnlw82W5xnbyaujcot3nM4SvrgymcbR/ZcNGGJwJ7b1VVCbD7hqPTxQF8prcXinKnOnulYDadzSIRMSwXh0ze+LuTd9WScDsS6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npxuPVds; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5cIyHQJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npxuPVds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720860677; x=1752396677;
+  t=1720866859; x=1752402859;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1o1g4gZYrN8TVmq5y5JEEypnsywvx7tYdlf5nmnIfdQ=;
-  b=P5cIyHQJKBxsztMtfvbk9VeCEvRqXAA5Xzf0Anyi2XzyV+B+GJN1tpGR
-   3sW9ia1o3wfz5mIpJt1+ubE1WzPVh9zK098xXNmi2Zhvr1kvEUN5gGNfh
-   tHO5yJyz6oRXO7ZY7FWy6EI/pGhsK5ja46fvxTESH++O6ax1Tr7CIFaCy
-   u8ZD8Xe3q8sS3B6OlOo9XOod7+nU6dgKsHXzkR7XgNH3+gkD8Wxctk3Do
-   LsxQh47q88aBuCG8/33df+RF35tOQ1Pv/LB7fB5e1UvLVJr5bpswczE2s
-   wS94M0SETNejx6UtafGHO1WGbzN/EujQoaYoUhModRVft8U7KGHDjDrwP
+  bh=wHL89j46c+8SyZizzkw+zjxBFQ6oTMVQToilyEIMIAc=;
+  b=npxuPVdsEr32eKSRHggkvHvKum/wnOpvIIfX1q5GwFOYmtrvmBftzO1o
+   lgyQLeSJu8ddmW0tDgKbfxRBAiqTuPvAKqDr+6+BGVBkuxtvKme56SL8Q
+   vLynCR5AEEDX+xo/GGeV1juYF4shBDg53+AGUqyipTCxadD8cX34BVa6N
+   0xbm1emKNFNkpCcO3d8tyO6u5MnJlol48pYBiv2ssQl+4sk6jou7y8WN4
+   CvPUqSV05ZdS0m09FKQ8PDeeOQMQxkT9IKggKNeTjmzxXx/c3SYrCCKn+
+   TFkrDWFur/FOLm0gAhbai/uMb5zvyHm5cc+gbssxYkavn+4dpNs9Yjz0P
    g==;
-X-CSE-ConnectionGUID: DbCEOeyxQjinRYSHL8TAyQ==
-X-CSE-MsgGUID: LgpteDC9Qmqeto/pR49pOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18175586"
+X-CSE-ConnectionGUID: 7xXF5F1wTEeHXNyfqDW4cA==
+X-CSE-MsgGUID: 7lWGnV/tQcivpdOvaEhU5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18178400"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="18175586"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 01:51:14 -0700
-X-CSE-ConnectionGUID: HEQp0rVUQHy31iVMhja4CQ==
-X-CSE-MsgGUID: u7SKODaJRFin95NnL/NO4w==
+   d="scan'208";a="18178400"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 03:34:18 -0700
+X-CSE-ConnectionGUID: GuJfLMxMTkmRcZ2zqyZASg==
+X-CSE-MsgGUID: AEDThg0lQCm69IC7O2a+LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="54317316"
+   d="scan'208";a="49231775"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 01:51:10 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Jul 2024 03:34:16 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSYTE-000bte-0o;
-	Sat, 13 Jul 2024 08:51:08 +0000
-Date: Sat, 13 Jul 2024 16:50:18 +0800
+	id 1sSa4z-000byf-1V;
+	Sat, 13 Jul 2024 10:34:13 +0000
+Date: Sat, 13 Jul 2024 18:33:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: wangshuaijie@awinic.com, jic23@kernel.org, lars@metafoo.de,
 	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
 	waqar.hameed@axis.com, linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	wangshuaijie@awinic.com, liweilei@awinic.com, kangjiajun@awinic.com
+Cc: oe-kbuild-all@lists.linux.dev, wangshuaijie@awinic.com,
+	liweilei@awinic.com, kangjiajun@awinic.com
 Subject: Re: [PATCH V3 2/2] Add support for Awinic proximity sensor
-Message-ID: <202407131612.g95L1k7k-lkp@intel.com>
+Message-ID: <202407131813.fFyF06Pu-lkp@intel.com>
 References: <20240712113200.2468249-3-wangshuaijie@awinic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -70,114 +70,34 @@ In-Reply-To: <20240712113200.2468249-3-wangshuaijie@awinic.com>
 
 Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 43db1e03c086ed20cc75808d3f45e780ec4ca26e]
+[auto build test WARNING on 43db1e03c086ed20cc75808d3f45e780ec4ca26e]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-Add-YAML-to-Awinic-proximity-sensor/20240712-194024
 base:   43db1e03c086ed20cc75808d3f45e780ec4ca26e
 patch link:    https://lore.kernel.org/r/20240712113200.2468249-3-wangshuaijie%40awinic.com
 patch subject: [PATCH V3 2/2] Add support for Awinic proximity sensor
-config: um-randconfig-002-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131612.g95L1k7k-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131612.g95L1k7k-lkp@intel.com/reproduce)
+config: powerpc-randconfig-r132-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131813.fFyF06Pu-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240713/202407131813.fFyF06Pu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407131612.g95L1k7k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131813.fFyF06Pu-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/proximity/aw9610x.c:1056:22: sparse: sparse: symbol 'g_aw9610x_awrw' was not declared. Should it be static?
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/resource_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-stub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_dsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
->> ERROR: modpost: "power_supply_unreg_notifier" [drivers/iio/proximity/awinic_sar.ko] undefined!
+vim +/g_aw9610x_awrw +1056 drivers/iio/proximity/aw9610x.c
+
+  1055	
+> 1056	struct aw_sar_awrw_t g_aw9610x_awrw = {
+  1057		.p_set_awrw_node_fn = aw9610x_awrw_set,
+  1058		.p_get_awrw_node_fn = aw9610x_awrw_get,
+  1059	};
+  1060	
 
 -- 
 0-DAY CI Kernel Test Service
