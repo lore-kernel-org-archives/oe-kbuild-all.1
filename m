@@ -1,68 +1,59 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A505E125B9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 03:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E5A2F23
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 03:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720841913; cv=none; b=dL54Bcwq2WRJNFh69rgJ21XfYhc6Xu2QLpX7/TVIA/541qiDLiMIVoxraSlFGzL33DlSZ6UdeaPmLDzaEUkkukWWkXuwFtjM0yXQWW+/kLye2KqbQUpmYa0hdBed3ED4xbqVtTcy7u3J6cKbxiTfuWmc7MTlK4lEw3w/EZGFJSw=
+	t=1720842605; cv=none; b=f/HVnoJeDX06/EcBSLCWjlrmKy4jRefGfpjgkXkfGUnBUJhCWdZTolWJs9gIDO+9rhvM+g7aZFzKiPxSMmFSsjj7wO81R9fIrizd5X6f3sexOaHrwEO70kMdEmXf15+dlAiVHmypg75a0k9IF5fFs7PtizEEW3sB0H+IXKDEeJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720841913; c=relaxed/simple;
-	bh=X6Qp96o9O2h23wGl7RqUxUBSDdHabvChWZnIw3q/YE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vz65u2bVgWbmzxIQBT2pHGXf3mkf8Zg4Tprqp9ag3gRPWmDYZmq1qV7MKUUBEmKwDvF+OTYXUebE53/xwP2RSrc/RyMn3zQ4ZzYFoFtFF7kwOKPu23xP/uAUZ+4Rs8oysB9DQlh8aINZAi/bwzWXDJFVIM8dq5AePibeghLmIag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDCsQOhe; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720842605; c=relaxed/simple;
+	bh=7OfV/VYeWxnpvi4x3K5WVNlsJsDZ5zwf3NU7qVypd0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TgE1rtl+jYaR/NLGj0CiTTFeStIlClhOTO0b5J4mnGQ9YRIcssf7W0WR2M02vX4EgyVD6srPZn97pF06648dyRCyP6+OhQy73P+PtMldoanRAzdQY2E717wgauEQ2KYWWfhlM9BJw2m83YVh1f+/HXLHIsJfd4DA1y2mKZ/IJK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2vUd3Vf; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDCsQOhe"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3cabac56b38so1677056b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jul 2024 20:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720841910; x=1721446710; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FiBsGcQmLRaVsI2yv7YiaCnQue9naqNPK/YXyR7mxPE=;
-        b=aDCsQOheUAFFAJEDi1dKZ6XMxsSMGpJ4HxdApwUVIHKBQ80wbw3EQf+qFG1CBFy27J
-         fs7u/cTO3GPJ86mbDkbYcRFs6uRzqttXL+2LEv25l7ZUoBIjzF0SwahbOshVDdFK4pKC
-         f2oY1IyvD1xdS7v80ctLTxhjFhJuKTnuDNwTXCk2ZPJ1YVuD2PZPvzdS+t3hZTiixBxS
-         0/7xssws4R4i7xhSjp6LjnEvI68wkFUtqBloqk+bmZi3OiBRVSQAAdA+nLjPp1muvBUG
-         m8pMh3l5LjR5RfvZWx1E5ysmCEXgoAJC81KlGHCKI1neYO7h+d+GrsYZd+FT1nexT0cL
-         /F2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720841910; x=1721446710;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FiBsGcQmLRaVsI2yv7YiaCnQue9naqNPK/YXyR7mxPE=;
-        b=poe+ZmCYR3s8vyEIUHh1b/H0ERfJK0isi7UQWMWKqOuqFRWlPL7/k/usI9mM1uIAJA
-         m461bAg5pFbib+nEbY08hk+d8WtYhfYdU71aEtpJ6bjDIuOBmy187vTaoK6jbT1Zp2If
-         W4vldYq1vLEfWqAhbfMLbINMEH+QZu6+p0YzhXLqA+1r5Vw8tKi2zFojhexus7hOqwnt
-         WW8fSLmJOIzt/g4/HG2poZcK0lCFr9b0F6/cpUopvmZSbsj7m80Cm/VKMLU60ETv9OBy
-         VeoQhgkbqXcU29BoZC3aZcJl0ZPC8e+DT0H2BeVvGi+og/8Oq+ziB8aK8eS7fYPOpOR0
-         Hilw==
-X-Gm-Message-State: AOJu0Yzgo2cVrX/PUrMtG/zZTNe/YZMSvEG7NN+QU4aiIw/NP10rlD7T
-	cF0cXr9U2zD6zUiCRRQe+gSAp+kSV5R5pu9+fva1ds44myApzKUp
-X-Google-Smtp-Source: AGHT+IHKSLleoWrUikSg/5b6R7jJq5HF+hMXp3QQpWu+LHrOABQrh/dctWcAIiwSM7ohEgQG7zCHKQ==
-X-Received: by 2002:a05:6808:2384:b0:3da:a5fa:9905 with SMTP id 5614622812f47-3daa5faa07fmr6916088b6e.41.1720841910261;
-        Fri, 12 Jul 2024 20:38:30 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:669e:eb9d:e30c:18b4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7ebc4637sm301622b3a.88.2024.07.12.20.38.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 20:38:29 -0700 (PDT)
-Date: Fri, 12 Jul 2024 20:38:27 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [linux-next:master 11606/12643] arm-linux-gnueabi-ld:
- arch/arm/mach-pxa/devices.o:undefined reference to `gpio_set_wake'
-Message-ID: <ZpH2s4byt7aby7_p@google.com>
-References: <202407112039.cyyIQ3Js-lkp@intel.com>
- <ZpC_xsx0t9KFgCCh@google.com>
- <0de0aeba-da02-4fa6-a1f8-a468dcbfac58@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2vUd3Vf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720842603; x=1752378603;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7OfV/VYeWxnpvi4x3K5WVNlsJsDZ5zwf3NU7qVypd0A=;
+  b=U2vUd3VfEJ02MJWnLU1xN80hhZWFM/c4I8yI+mhcqh7jqtZm7bI0TK1p
+   UCsajI4xip3g+eWxFv4nDc1OmiZAt9oflli2bKB98Xd9iokXVKTbKoLVH
+   1vKp9hYdtx5EHnBp57vmyaYRni83kbngy+sybA2odvEKwEPL431gMjdtE
+   s/sZ/wx4une6ouSC84gVoDK6WbbjAMynB+Xvvbqh6InkQeFExQu5Ie/bv
+   HMrpF9Z5du9iKvfDFlrkg3hFPTxOpcDN6lr8ePehEUoITu1087WAiavNQ
+   U1TcXRy+KUjO3BlWEHPrWhpu/cOXEIV9Lin4ei+NY0m+CFrhZ73kxiiYM
+   A==;
+X-CSE-ConnectionGUID: fftRx3E4Q86gtL7cASGJ0g==
+X-CSE-MsgGUID: OC2u/lM/Q8GfA5JclBu46Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18495978"
+X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
+   d="scan'208";a="18495978"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 20:50:02 -0700
+X-CSE-ConnectionGUID: 4kFsVFq+TGSMxchWE2QkNA==
+X-CSE-MsgGUID: zAUAeF3TSXuj4gRGXuscqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
+   d="scan'208";a="80189169"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 12 Jul 2024 20:50:02 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sSTln-000bdy-0J;
+	Sat, 13 Jul 2024 03:49:59 +0000
+Date: Sat, 13 Jul 2024 11:49:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [snitzer:nfs-localio-for-next-test 33/51]
+ fs/nfs_common/nfslocalio.c:13:1: sparse: sparse: symbol 'nfs_uuid_mutex' was
+ not declared. Should it be static?
+Message-ID: <202407131146.L9WHFYP8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,43 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0de0aeba-da02-4fa6-a1f8-a468dcbfac58@app.fastmail.com>
 
-On Fri, Jul 12, 2024 at 08:41:58AM +0200, Arnd Bergmann wrote:
-> On Fri, Jul 12, 2024, at 07:31, Dmitry Torokhov wrote:
-> > @@ -684,6 +685,7 @@ struct platform_device pxa27x_device_gpio = {
-> >  		.platform_data	= &pxa2xx_gpio_info,
-> >  	},
-> >  };
-> > +#endif /* CONFIG_PXA25x || CONFIG_PXA27x */
-> > 
-> >  static struct resource pxa_dma_resource[] = {
-> >  	[0] = {
-> >
-> > If you are OK with this I'll submit proper patch.
-> 
-> Right, that's probably the easiest way. I was trying a more
-> elaborate change (see below), but there is a good chance I
-> introduce another regression in that, so let's go with
-> your patch. Please send it directly to soc@kernel.org
-> Cc:linux-arm-kernel and I'll pick it up.
+Hi Mike,
 
-Done.
+First bad commit (maybe != root cause):
 
-> 
-> One more thing I noticed: if you are doing more patches
-> to convert devices in board files to use software nodes,
-> we should probably try to move them away from static
-> platform_device definitions towards a dynamic
-> platform_device_register_simple() or similar interface
-> at the same time.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next-test
+head:   84abb53e3a3b011456fdf7aa2a57fa9378867f0e
+commit: 747a2094e81841be8af68d5b2c1c2278e56244a0 [33/51] nfs/nfsd: switch nfsd_open_local_fh() to using nfsd_file_acquire_local()
+config: s390-randconfig-r133-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131146.L9WHFYP8-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce: (https://download.01.org/0day-ci/archive/20240713/202407131146.L9WHFYP8-lkp@intel.com/reproduce)
 
-Sometimes platform_device_register_full() which operates on
-platform_device_info structure is very handy, but in general
-what is the issue with statically defined devices (when they
-are never unregistered)?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131146.L9WHFYP8-lkp@intel.com/
 
-Thanks.
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfs_common/nfslocalio.c:13:1: sparse: sparse: symbol 'nfs_uuid_mutex' was not declared. Should it be static?
+   fs/nfs_common/nfslocalio.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+
+vim +/nfs_uuid_mutex +13 fs/nfs_common/nfslocalio.c
+
+cb542e791eda11 Mike Snitzer 2024-05-06  12  
+2346c8be2e8154 Mike Snitzer 2024-07-11 @13  DEFINE_MUTEX(nfs_uuid_mutex);
+2346c8be2e8154 Mike Snitzer 2024-07-11  14  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 2346c8be2e8154c640a3d6fe489c22ac60bd7a80 nfs/nfsd: adjust localio protocol to improve security
+
+:::::: TO: Mike Snitzer <snitzer@kernel.org>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
