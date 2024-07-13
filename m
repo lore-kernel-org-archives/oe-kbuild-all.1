@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C7029CE1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 07:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DD1846F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jul 2024 07:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720854554; cv=none; b=bDEggSYGXSdDnJWSV8JF3aBxm1IXrtpL9q7jryLkBpYi9KyHMT9/Pex0p/jNM9yUQXflej9rOQQOPjxNKLuQcfzG4U33Zn2lnF/MghdNk2LjbThuNAUvnlPo8A+7czmy1luB26BPh06iooBWjFO4/CAZM2012liXTWmcxIe/D+g=
+	t=1720855932; cv=none; b=utL2v0j2BeuI0ZikJBW9R7LnICBdM0glBz3aNdOt8M2LdOfuT33/8Mo3FNRaXZx5hkWRzsYqPj/SnaV18U0atVLS6TjjfVyybtuMcMrQ7K8uMfLGzju9ufbTeQjp+QCS01KEzLhDxmVgbYYjMZO8Ni/uoaeV0IHI4aP153SLO8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720854554; c=relaxed/simple;
-	bh=LY1VIR1fNJWKJAVH1Mmnvb67NEa5kzpWLgoZzDNtgyA=;
+	s=arc-20240116; t=1720855932; c=relaxed/simple;
+	bh=Zhd7VeAoA2ZhVMF7vSIVDPXTQZWIEttpDKFKFP0ameI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gbEptPtabz1kN0qayUcXTq4mYZSbNVFKmnMZVc20H33H1WuDKLpMGYAlJBqAlqv+E4jZCNg1nmFChgvm1PsFNTrapsQ26CKtOJ3SYsQqIlHVG0eytYvla0OljpJdvlorAe5jtZYlx/gzHLWjcMFMktwqva6nyr/0VAG3X+ZHw78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miKSjs3E; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Ml48k0RT9oUXkdBoIS4n2498tCt8TnpNj+zUfY2JDjcsSDVzNr5hg0kqUjWu/MNH86vgeaavXrIqW4pD+w6D5IZVke5yhLXBtWMMKZzm6+KXhHKNbHD0DHsxsBj6kwCqIZKjyhJr1jHMaEMbOvtXBAuWntRn6jvFl9ewAs7hzfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hF0BcDBW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miKSjs3E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hF0BcDBW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720854552; x=1752390552;
+  t=1720855930; x=1752391930;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LY1VIR1fNJWKJAVH1Mmnvb67NEa5kzpWLgoZzDNtgyA=;
-  b=miKSjs3ElxTLvtmd5XPBit81DZyb7/Bw7yUeCLqsvTsUl3Gi7O2A0a7Z
-   3tWEEqKCKwl4b7aKyCNolfo2wf4venhCqGOP8KXMRnjYz9MYQO5nGnd8e
-   lLCeJRNDTFRFxmqNzf8KeKrpC4b1nijtLdclGLu4Vnu1MUnAF4yszZiop
-   zmxCnnYRRE+uRhTlcgzDQIPsr7F+lvXcCwCpfbrnlGiZjd7aEGV1rbslr
-   cThZqJQKZk7qZepXUI3ReA/Fxq5F4W+J5rXzfTkO/S3+rPWrDY5/YZaGO
-   QxE+v1BRS+9daDfdx8JDhFB96pRBeRYvgcu0GUpp6F3AyASpBMaUEBLEK
-   Q==;
-X-CSE-ConnectionGUID: W2ygkrc6SoOuqGStBGbsBQ==
-X-CSE-MsgGUID: UJYbzz/PSUyDYRfH0a6Miw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="29695295"
+  bh=Zhd7VeAoA2ZhVMF7vSIVDPXTQZWIEttpDKFKFP0ameI=;
+  b=hF0BcDBWEEymWhEhhw96jxEpZ2tEZ7RjD151CgXrs1ruUiWqs6zHT/Cw
+   slqGutuJvXMa0T9JW1E4/od4aZHWZbpicUglO19wmLbrxT5IqV/MhejT3
+   D7P+QGr7eT5bENWNtAH0pROVSexjLNr++Q/rAVpighTZ0x7Z9K6JDR+OJ
+   cpVkg70SvCgDroioaSgkUW7Igl6kga9tE05Uz4vFkTLagApVQJvClOsT6
+   ikAtznIbQnJlLLNcbOedT859mgNMsjUDspLZ5jGk23/xg+PzELlUCXlU+
+   zs2vP9YC3yEPXQDgLmzGLxcUAFRTepxjsQ8Nl8oW5puyO7vJDcprX1xJC
+   A==;
+X-CSE-ConnectionGUID: WznupZ76Tiqvz223XxcHiQ==
+X-CSE-MsgGUID: BycepgQyTN6fMEIyNF3fXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18148807"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="29695295"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 00:09:10 -0700
-X-CSE-ConnectionGUID: Kj90/9FJSJeCb1JudEp2TQ==
-X-CSE-MsgGUID: 3uex/y9HQJuqR0iv87VZEA==
+   d="scan'208";a="18148807"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 00:32:09 -0700
+X-CSE-ConnectionGUID: toYOczTIT8O8vpey96dSbw==
+X-CSE-MsgGUID: y1PPaILHSxOrjlmRkkLZNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="80215814"
+   d="scan'208";a="49010086"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2024 00:09:09 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Jul 2024 00:32:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSWsT-000boG-0h;
-	Sat, 13 Jul 2024 07:09:05 +0000
-Date: Sat, 13 Jul 2024 15:08:16 +0800
+	id 1sSXEk-000bpw-0B;
+	Sat, 13 Jul 2024 07:32:06 +0000
+Date: Sat, 13 Jul 2024 15:31:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Hewitt <christianshewitt@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 6744/12880]
- arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: ethernet@ff3f0000:
- amlogic,tx-delay-ns: [2] is not of type 'integer'
-Message-ID: <202407131514.r1brwRNE-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:scsi-remove-slave-configure 2/3]
+ drivers/scsi/lpfc/lpfc_scsi.c:6348: warning: Function parameter or struct
+ member 'lim' not described in 'lpfc_device_configure'
+Message-ID: <202407131544.tiNF6suN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,55 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fe121b622825ff8cc995a1e6b026181c48188db
-commit: 83a6f4c62cb12aa902043fc1910fdbe483193f3c [6744/12880] arm64: dts: meson: add initial support for Dreambox One/Two
-config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131514.r1brwRNE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131514.r1brwRNE-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux scsi-remove-slave-configure
+head:   3cf2ba5bb279edd16bd1606f4feb0a3bd87a5700
+commit: 32e1b2bc5a1ba0efdc927a21ed513341c7b91660 [2/3] scsi: Rename .slave_configure() into .device_configure()
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240713/202407131544.tiNF6suN-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131544.tiNF6suN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407131514.r1brwRNE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407131544.tiNF6suN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1754.27-2026.6: Warning (unit_address_vs_reg): /soc/bus@ff800000/pinctrl@14: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1754.27-2026.6: Warning (simple_bus_reg): /soc/bus@ff800000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2217.23-2257.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: /soc/bus@ff600000/bus@42000/clock-controller@0: failed to match any schema with compatible: ['amlogic,g12a-audio-clkc']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: /soc/bus@ff600000/bus@42000/audio-controller@744: failed to match any schema with compatible: ['amlogic,g12a-tohdmitx']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-one.dtb: sound: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
---
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1754.27-2026.6: Warning (unit_address_vs_reg): /soc/bus@ff800000/pinctrl@14: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1754.27-2026.6: Warning (simple_bus_reg): /soc/bus@ff800000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2217.23-2257.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: /soc/bus@ff600000/bus@42000/clock-controller@0: failed to match any schema with compatible: ['amlogic,g12a-audio-clkc']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: /soc/bus@ff600000/bus@42000/audio-controller@744: failed to match any schema with compatible: ['amlogic,g12a-tohdmitx']
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson-g12b-dreambox-two.dtb: sound: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/scsi/lpfc/lpfc_scsi.c:6348: warning: Function parameter or struct member 'lim' not described in 'lpfc_device_configure'
+
+
+vim +6348 drivers/scsi/lpfc/lpfc_scsi.c
+
+dea3101e0a5c89 James Bottomley        2005-04-17  6334  
+9bad76719ee4fa James Smart            2008-12-04  6335  /**
+32e1b2bc5a1ba0 Bart Van Assche        2024-07-12  6336   * lpfc_device_configure - scsi_host_template device_configure entry point
+9bad76719ee4fa James Smart            2008-12-04  6337   * @sdev: Pointer to scsi_device.
+9bad76719ee4fa James Smart            2008-12-04  6338   *
+9bad76719ee4fa James Smart            2008-12-04  6339   * This routine configures following items
+9bad76719ee4fa James Smart            2008-12-04  6340   *   - Tag command queuing support for @sdev if supported.
+9bad76719ee4fa James Smart            2008-12-04  6341   *   - Enable SLI polling for fcp ring if ENABLE_FCP_RING_POLLING flag is set.
+9bad76719ee4fa James Smart            2008-12-04  6342   *
+9bad76719ee4fa James Smart            2008-12-04  6343   * Return codes:
+9bad76719ee4fa James Smart            2008-12-04  6344   *   0 - Success
+9bad76719ee4fa James Smart            2008-12-04  6345   **/
+dea3101e0a5c89 James Bottomley        2005-04-17  6346  static int
+32e1b2bc5a1ba0 Bart Van Assche        2024-07-12  6347  lpfc_device_configure(struct scsi_device *sdev, struct queue_limits *lim)
+dea3101e0a5c89 James Bottomley        2005-04-17 @6348  {
+2e0fef85e098f6 James Smart            2007-06-17  6349  	struct lpfc_vport *vport = (struct lpfc_vport *) sdev->host->hostdata;
+2e0fef85e098f6 James Smart            2007-06-17  6350  	struct lpfc_hba   *phba = vport->phba;
+dea3101e0a5c89 James Bottomley        2005-04-17  6351  
+db5ed4dfd5dd01 Christoph Hellwig      2014-11-13  6352  	scsi_change_queue_depth(sdev, vport->cfg_lun_queue_depth);
+dea3101e0a5c89 James Bottomley        2005-04-17  6353  
+875fbdfe9b1b4c James.Smart@Emulex.Com 2005-11-29  6354  	if (phba->cfg_poll & ENABLE_FCP_RING_POLLING) {
+45ed119035b27f James Smart            2009-10-02  6355  		lpfc_sli_handle_fast_ring_event(phba,
+895427bd012ce5 James Smart            2017-02-12  6356  			&phba->sli.sli3_ring[LPFC_FCP_RING], HA_R0RE_REQ);
+875fbdfe9b1b4c James.Smart@Emulex.Com 2005-11-29  6357  		if (phba->cfg_poll & DISABLE_FCP_RING_INT)
+875fbdfe9b1b4c James.Smart@Emulex.Com 2005-11-29  6358  			lpfc_poll_rearm_timer(phba);
+875fbdfe9b1b4c James.Smart@Emulex.Com 2005-11-29  6359  	}
+875fbdfe9b1b4c James.Smart@Emulex.Com 2005-11-29  6360  
+dea3101e0a5c89 James Bottomley        2005-04-17  6361  	return 0;
+dea3101e0a5c89 James Bottomley        2005-04-17  6362  }
+dea3101e0a5c89 James Bottomley        2005-04-17  6363  
+
+:::::: The code at line 6348 was first introduced by commit
+:::::: dea3101e0a5c897d2c9351a7444e139db9f40247 lpfc: add Emulex FC driver version 8.0.28
+
+:::::: TO:  <jejb@titanic.il.steeleye.com>
+:::::: CC: James Bottomley <jejb@titanic>
 
 -- 
 0-DAY CI Kernel Test Service
