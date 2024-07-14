@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9973010A2B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 05:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A67DF51B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 05:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720935908; cv=none; b=fsN++iLXf4LyMeOzKNjQjhfG7HNonA4lZFnP9hIPDFQrbuzCP2qE9Qnz+qn2nbQ0OSdoXLqbZ3KIeX1z1fLdqjsWd2Z7TfGoJu0S/R6uFlKu5i1nfFjHU6s/rQebqFZBD25JrGqOMwmMpPc/nu19G+WYhzTQqcr69fHj9cJfsuQ=
+	t=1720936506; cv=none; b=iz1fsrZA5JQ5lMgu36+VOlATddZj7kmVCZ06d9EotsFjpa6sf4roMOR3Abw4YpEwg6ha8uS3GXAHR3bI+OMcBhPekRs89hpXyUA2gzBwS5WIwfcybFAf+lbWOEs2wCZGcF71sNE2/h74hoJgRwDAIdA+hxUWOWxvhtj96u23QbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720935908; c=relaxed/simple;
-	bh=xJrnYdeVIUe4b+z+crEm7hj6wTC9MTJ24mjTyHQRpwg=;
+	s=arc-20240116; t=1720936506; c=relaxed/simple;
+	bh=rkqoIA4i/Ekv6x2dk3+91ayCVSRgkGT3fmKOmzspzm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jsR65p+ZMHVPtCu/GFWrSKiUchdQH5V7oHBML/TgFBGnDVx9miWaBIDRB9K+DmAdtIm22H3DoPwqjo0WnaJrtk6WSn0+rwKXkikLfpbM+4NqRPrU5np3Rf5/cPrbUB2pxHCNeZyf9XO+EkR17r6RdjDDXM40qR6MubcJxCS4Qa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTKu1S5t; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Pp2t8W+oTPvpruwdGQe4/k6n+iQFDszSbp0pPwLMpNwOT3Y4JYeyrZ3Sw+nydvDJZOxyUWHLFnqXIHF3qjz+io0gb+uKRLFSXivzBf98cxgDql5izee3SGTK0i5tEPtLiDhY/ariqGhsFurFC/qDqqO5iHiKOMVyRnUHbR+wKnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PU2Eagg+; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTKu1S5t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PU2Eagg+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720935904; x=1752471904;
+  t=1720936505; x=1752472505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xJrnYdeVIUe4b+z+crEm7hj6wTC9MTJ24mjTyHQRpwg=;
-  b=LTKu1S5thymRPBFKFnDlYwYYvmhRL+VxVQpgOQXOuBP3eX+0DvvVJyca
-   ShjlhBJbi1WUpoJQmei8iwTMROXASXNYUIdo9mury12xDfyZrZc/O5f1S
-   D7JwseZ4LeiXvZcJhBrynUgOX4KePsaAHjWRoT7f0gDzqUQ/IDFxW+Ckp
-   ffWh8RnwjuJt9yaA7c+83Th8CpMp7P53YUa1K+1ZjqDxavaQ6rKQQK+N+
-   WUBVSaaEZPTyAacKwTm7nAZjjBDY0aynjDjnY1Li5Zl23rXAjsAdXsAPj
-   fsHnMFpEPawOUL39bTWQMQ8YXK/wsufJcX3GfX6KiOiHr3nrliZX8fVXp
-   Q==;
-X-CSE-ConnectionGUID: Z7Y4B2l+TNySMzt9/y0Zkw==
-X-CSE-MsgGUID: MVucgTlCRkyd+XJ+ikcGCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="35878094"
+  bh=rkqoIA4i/Ekv6x2dk3+91ayCVSRgkGT3fmKOmzspzm4=;
+  b=PU2Eagg+UDcW3OTR0HAsyeewyRZkYc1mVY7d7NrJStKOa58D+sHPNsLp
+   19lUUN26bERp9mWH4VmO25Pdwc76+/Dj3jLzY0R/amchM9Zqg1ahmCevy
+   unmCpzGbt6cdx+CbacZKggU5xIl2rC4WttQ5XqoRtS2GywiDq+avYagGn
+   ulgT/esvl86Lq9VieH4+L7spqUF8A3x3FzBoiOJOr27h3Xrgk4IENBvD4
+   G6ZXE7YfXHvTSs8hCiDC9FUZ0xYFF2iZmPLWFkByRWF65fIPDkL6lqLSj
+   f/jlG1pYsvKHxlTYGTjFuzZeYRH7im3hlMdjOpZ4TCvvIKrWj4Y+gGMx9
+   A==;
+X-CSE-ConnectionGUID: eT7KrLJdTfqXWVpof7/+9w==
+X-CSE-MsgGUID: linj/hE5R1eh02BZmTmfRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="29014387"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="35878094"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 22:45:04 -0700
-X-CSE-ConnectionGUID: WyukxKEyRYiz2Ovce1XsjQ==
-X-CSE-MsgGUID: gqS2BYrKTz2Dv+YE2iD/sw==
+   d="scan'208";a="29014387"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 22:55:04 -0700
+X-CSE-ConnectionGUID: E58PUJNhRzimkoV5NnSwSw==
+X-CSE-MsgGUID: 82On5IKBRw2cWJhyanYN7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="49286259"
+   d="scan'208";a="54484866"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Jul 2024 22:45:02 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 22:55:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSs2e-000d8I-1g;
-	Sun, 14 Jul 2024 05:45:00 +0000
-Date: Sun, 14 Jul 2024 13:44:04 +0800
+	id 1sSsCK-000d8c-28;
+	Sun, 14 Jul 2024 05:55:00 +0000
+Date: Sun, 14 Jul 2024 13:54:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 9671/9748]
- arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: scm_conf@1c04:
- compatible: ['syscon'] is too short
-Message-ID: <202407141314.99x7mKU3-lkp@intel.com>
+To: Hari Nagalla <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y 29/39]
+ drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or
+ member 'suspend_status' not described in 'k3_r5_rproc'
+Message-ID: <202407141310.b35zEmIz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,346 +64,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f477dd6eede3ecedc8963478571d99ec3bf3f762
-commit: 2428f1f8c8fb6ed020c8d6acac8a30dcc0c99579 [9671/9748] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-config: arm-randconfig-051-20240701 (https://download.01.org/0day-ci/archive/20240714/202407141314.99x7mKU3-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141314.99x7mKU3-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y
+head:   e7925886029c9eadf1182fa31af4f70ad45b4b35
+commit: 1dc201a1afb1fbf1fc5491706cfce40ed6396391 [29/39] remoteproc: k3-r5: Introduce PM suspend/resume handlers
+config: arm64-randconfig-001-20240714 (https://download.01.org/0day-ci/archive/20240714/202407141310.b35zEmIz-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141310.b35zEmIz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407141314.99x7mKU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407141310.b35zEmIz-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: scm_conf@0: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-dss-deshdcp-0@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm0-tbclk-20@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm1-tbclk-21@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm2-tbclk-22@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-sys-32k@6c4: failed to match any schema with compatible: ['ti,mux-clock']
->> arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: scm_conf@1c04: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: scm_conf@1c24: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/dma-router@b78: failed to match any schema with compatible: ['ti,dra7-dma-crossbar']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
---
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
->> arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: scm_conf@0: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
---
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: ocmcram@40300000: $nodename:0: 'ocmcram@40300000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: ocmcram@40300000: 'sram-hs@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/ocmcram@40300000/sram-hs@0: failed to match any schema with compatible: ['ti,secure-ram']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: ocmcram@40400000: $nodename:0: 'ocmcram@40400000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: ocmcram@40500000: $nodename:0: 'ocmcram@40500000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,dra752-bandgap']
->> arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: dsp_system@40d00000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/padconf@4844a000: failed to match any schema with compatible: ['ti,dra7-iodelay']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@43300000/dma@0: failed to match any schema with compatible: ['ti,edma3-tpcc']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@43400000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@43500000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@40d01000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@40d02000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@58882000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: scm_conf@0: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-dss-deshdcp-0@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm0-tbclk-20@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm1-tbclk-21@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm2-tbclk-22@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-sys-32k@6c4: failed to match any schema with compatible: ['ti,mux-clock']
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: scm_conf@1c04: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: scm_conf@1c24: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/dma-router@b78: failed to match any schema with compatible: ['ti,dra7-dma-crossbar']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
---
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: scm_conf@0: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4ae00000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
---
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: ocmcram@40300000: $nodename:0: 'ocmcram@40300000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: ocmcram@40300000: 'sram-hs@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/ocmcram@40300000/sram-hs@0: failed to match any schema with compatible: ['ti,secure-ram']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: ocmcram@40400000: $nodename:0: 'ocmcram@40400000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: ocmcram@40500000: $nodename:0: 'ocmcram@40500000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,dra752-bandgap']
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dsp_system@40d00000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/padconf@4844a000: failed to match any schema with compatible: ['ti,dra7-iodelay']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@43300000/dma@0: failed to match any schema with compatible: ['ti,edma3-tpcc']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@43400000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@43500000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@40d01000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@40d02000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@58882000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
---
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@4b700000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@5a000000/iva: failed to match any schema with compatible: ['ti,ivahd']
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: dsp_system@41500000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@41501000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/target-module@41502000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: thermal-zones: 'core_thermal', 'cpu_thermal', 'dspeve_thermal', 'gpu_thermal', 'iva_thermal' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /encoder@0: failed to match any schema with compatible: ['ti,tpd12s016', 'ti,tpd12s015']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /encoder@0: failed to match any schema with compatible: ['ti,tpd12s016', 'ti,tpd12s015']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: scm_conf@0: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-dss-deshdcp-0@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm0-tbclk-20@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm1-tbclk-21@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm2-tbclk-22@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-sys-32k@6c4: failed to match any schema with compatible: ['ti,mux-clock']
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: scm_conf@1c04: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: scm_conf@1c24: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/dma-router@b78: failed to match any schema with compatible: ['ti,dra7-dma-crossbar']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: scm_conf@0: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4ae00000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: ocmcram@40300000: $nodename:0: 'ocmcram@40300000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: ocmcram@40300000: 'sram-hs@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/ocmcram@40300000/sram-hs@0: failed to match any schema with compatible: ['ti,secure-ram']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: ocmcram@40400000: $nodename:0: 'ocmcram@40400000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: ocmcram@40500000: $nodename:0: 'ocmcram@40500000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,dra752-bandgap']
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dsp_system@40d00000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/padconf@4844a000: failed to match any schema with compatible: ['ti,dra7-iodelay']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@43300000/dma@0: failed to match any schema with compatible: ['ti,edma3-tpcc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@43400000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@43500000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@40d01000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@40d02000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@58882000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@4b700000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@5a000000/iva: failed to match any schema with compatible: ['ti,ivahd']
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: dsp_system@41500000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@41501000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/target-module@41502000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: thermal-zones: 'board_thermal', 'core_thermal', 'cpu_thermal', 'dspeve_thermal', 'gpu_thermal', 'iva_thermal' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /encoder: failed to match any schema with compatible: ['ti,tpd12s015']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: scm_conf@0: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/pbias_regulator@e00: failed to match any schema with compatible: ['ti,pbias-dra7', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-dss-deshdcp-0@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm0-tbclk-20@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm1-tbclk-21@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-ehrpwm2-tbclk-22@558: failed to match any schema with compatible: ['ti,gate-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/scm_conf@0/clocks/clock-sys-32k@6c4: failed to match any schema with compatible: ['ti,mux-clock']
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: scm_conf@1c04: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: scm_conf@1c24: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dma-router@b78: dma-masters: 19 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@2000/scm@0/dma-router@b78: failed to match any schema with compatible: ['ti,dra7-dma-crossbar']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dma-router@c78: dma-masters: 20 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1b80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1bc0: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c00: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c60: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@0/target-module@6000/prm@0/prm@1c80: failed to match any schema with compatible: ['ti,dra7-prm-inst', 'ti,omap-prm-inst']
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: scm_conf@0: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: segment@10000: $nodename:0: 'segment@10000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: segment@10000: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4ae00000/segment@10000/target-module@4000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: segment@20000: $nodename:0: 'segment@20000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: ocmcram@40300000: $nodename:0: 'ocmcram@40300000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: ocmcram@40300000: 'sram-hs@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/ocmcram@40300000/sram-hs@0: failed to match any schema with compatible: ['ti,secure-ram']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: ocmcram@40400000: $nodename:0: 'ocmcram@40400000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: ocmcram@40500000: $nodename:0: 'ocmcram@40500000' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,dra752-bandgap']
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dsp_system@40d00000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/padconf@4844a000: failed to match any schema with compatible: ['ti,dra7-iodelay']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@43300000/dma@0: failed to match any schema with compatible: ['ti,edma3-tpcc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@43400000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@43500000/dma@0: failed to match any schema with compatible: ['ti,edma3-tptc']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@40d01000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@40d02000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@58882000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,dra7-iommu']
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@4b700000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: sham@0: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: sham@0: 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@5a000000/iva: failed to match any schema with compatible: ['ti,ivahd']
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: dsp_system@41500000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@41501000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/target-module@41502000/mmu@0: failed to match any schema with compatible: ['ti,dra7-dsp-iommu']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: thermal-zones: 'board_thermal', 'core_thermal', 'cpu_thermal', 'dspeve_thermal', 'gpu_thermal', 'iva_thermal' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /encoder: failed to match any schema with compatible: ['ti,tpd12s015']
+All warnings (new ones prefixed by >>):
+
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:125: warning: Function parameter or member 'qos_req' not described in 'k3_r5_cluster'
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'shut_comp' not described in 'k3_r5_rproc'
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'suspend_comp' not described in 'k3_r5_rproc'
+   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'pm_notifier' not described in 'k3_r5_rproc'
+>> drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'suspend_status' not described in 'k3_r5_rproc'
+
+
+vim +187 drivers/remoteproc/ti_k3_r5_remoteproc.c
+
+6dedbd1d544389 Suman Anna   2020-10-02  162  
+6dedbd1d544389 Suman Anna   2020-10-02  163  /**
+6dedbd1d544389 Suman Anna   2020-10-02  164   * struct k3_r5_rproc - K3 remote processor state
+6dedbd1d544389 Suman Anna   2020-10-02  165   * @dev: cached device pointer
+6dedbd1d544389 Suman Anna   2020-10-02  166   * @cluster: cached pointer to parent cluster structure
+6dedbd1d544389 Suman Anna   2020-10-02  167   * @mbox: mailbox channel handle
+6dedbd1d544389 Suman Anna   2020-10-02  168   * @client: mailbox client to request the mailbox channel
+6dedbd1d544389 Suman Anna   2020-10-02  169   * @rproc: rproc handle
+6dedbd1d544389 Suman Anna   2020-10-02  170   * @core: cached pointer to r5 core structure being used
+6dedbd1d544389 Suman Anna   2020-10-02  171   * @rmem: reserved memory regions data
+6dedbd1d544389 Suman Anna   2020-10-02  172   * @num_rmems: number of reserved memory regions
+6dedbd1d544389 Suman Anna   2020-10-02  173   */
+6dedbd1d544389 Suman Anna   2020-10-02  174  struct k3_r5_rproc {
+6dedbd1d544389 Suman Anna   2020-10-02  175  	struct device *dev;
+6dedbd1d544389 Suman Anna   2020-10-02  176  	struct k3_r5_cluster *cluster;
+6dedbd1d544389 Suman Anna   2020-10-02  177  	struct mbox_chan *mbox;
+6dedbd1d544389 Suman Anna   2020-10-02  178  	struct mbox_client client;
+6dedbd1d544389 Suman Anna   2020-10-02  179  	struct rproc *rproc;
+6dedbd1d544389 Suman Anna   2020-10-02  180  	struct k3_r5_core *core;
+6dedbd1d544389 Suman Anna   2020-10-02  181  	struct k3_r5_mem *rmem;
+6dedbd1d544389 Suman Anna   2020-10-02  182  	int num_rmems;
+7aa5007e280246 Hari Nagalla 2024-07-02  183  	struct completion shut_comp;
+1dc201a1afb1fb Hari Nagalla 2024-07-11  184  	struct completion suspend_comp;
+1dc201a1afb1fb Hari Nagalla 2024-07-11  185  	struct notifier_block pm_notifier;
+1dc201a1afb1fb Hari Nagalla 2024-07-11  186  	u32 suspend_status;
+6dedbd1d544389 Suman Anna   2020-10-02 @187  };
+6dedbd1d544389 Suman Anna   2020-10-02  188  
+
+:::::: The code at line 187 was first introduced by commit
+:::::: 6dedbd1d544389d6ab1727423348572a11e9df5d remoteproc: k3-r5: Add a remoteproc driver for R5F subsystem
+
+:::::: TO: Suman Anna <s-anna@ti.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
