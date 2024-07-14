@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A67DF51B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 05:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB308107A9;
+	Sun, 14 Jul 2024 06:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720936506; cv=none; b=iz1fsrZA5JQ5lMgu36+VOlATddZj7kmVCZ06d9EotsFjpa6sf4roMOR3Abw4YpEwg6ha8uS3GXAHR3bI+OMcBhPekRs89hpXyUA2gzBwS5WIwfcybFAf+lbWOEs2wCZGcF71sNE2/h74hoJgRwDAIdA+hxUWOWxvhtj96u23QbU=
+	t=1720937167; cv=none; b=ufWZ98SjDaKe6u3J+G018T9ybMwvXpIV3sNT09Q+WL7MPS2p5Bz6RijoznWoLD3zT2O4Ae+jV76shRp/CU9eoepEmC6d+EYXsDwAuL3HI63cI0GDscoruw1h7p69JOcBXlnsAk0TOIYAD6UuSrarmlimTT0LURb++I76dH3Sp7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720936506; c=relaxed/simple;
-	bh=rkqoIA4i/Ekv6x2dk3+91ayCVSRgkGT3fmKOmzspzm4=;
+	s=arc-20240116; t=1720937167; c=relaxed/simple;
+	bh=Fbpi7tJia4mAM0GyaDcucp8NWrNKWHc8yr78peDMe+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pp2t8W+oTPvpruwdGQe4/k6n+iQFDszSbp0pPwLMpNwOT3Y4JYeyrZ3Sw+nydvDJZOxyUWHLFnqXIHF3qjz+io0gb+uKRLFSXivzBf98cxgDql5izee3SGTK0i5tEPtLiDhY/ariqGhsFurFC/qDqqO5iHiKOMVyRnUHbR+wKnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PU2Eagg+; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=HWXdMNIBvamsb47p292waByS77FI/8Ahzkv/7WgyDqBnF1DlhYNhL/9NMGNTOwRai7ib2bd2jHBXtvxOf11cDTDgiqktssqL6Yis0DYlTfJlrdBEDuw3on+z2Sb5LlMvHx69/Skzu66LX/DOroPyUYScGeMPpf2wU4hwS17ZIsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4FPlZi4; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PU2Eagg+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4FPlZi4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720936505; x=1752472505;
+  t=1720937165; x=1752473165;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rkqoIA4i/Ekv6x2dk3+91ayCVSRgkGT3fmKOmzspzm4=;
-  b=PU2Eagg+UDcW3OTR0HAsyeewyRZkYc1mVY7d7NrJStKOa58D+sHPNsLp
-   19lUUN26bERp9mWH4VmO25Pdwc76+/Dj3jLzY0R/amchM9Zqg1ahmCevy
-   unmCpzGbt6cdx+CbacZKggU5xIl2rC4WttQ5XqoRtS2GywiDq+avYagGn
-   ulgT/esvl86Lq9VieH4+L7spqUF8A3x3FzBoiOJOr27h3Xrgk4IENBvD4
-   G6ZXE7YfXHvTSs8hCiDC9FUZ0xYFF2iZmPLWFkByRWF65fIPDkL6lqLSj
-   f/jlG1pYsvKHxlTYGTjFuzZeYRH7im3hlMdjOpZ4TCvvIKrWj4Y+gGMx9
-   A==;
-X-CSE-ConnectionGUID: eT7KrLJdTfqXWVpof7/+9w==
-X-CSE-MsgGUID: linj/hE5R1eh02BZmTmfRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="29014387"
+  bh=Fbpi7tJia4mAM0GyaDcucp8NWrNKWHc8yr78peDMe+8=;
+  b=n4FPlZi4YmABavHSQ3nU5YHXRLdpOEDPJmEp4kzNarJ1q6sj8isN2LBU
+   gtNfm0BpKbFpJaAsF6tjTicgQNJ713U32Gfs2DIpaYWAcGESWG7PyedR0
+   Z4KVGaxer0ke+ISUpEGuvYTU76IJW6O0e07Uxyy6tzs8ic4iB6bGxUlxJ
+   YDQAi97MNXQepI1cLNmy9zTMP7NClF41ChxMFvSddtA6zzgZojOYgPdRg
+   dgd0msk9lkoeppJ7IriD+QbHhb/Fyb1RCSqeoBJCLrvMKoHsqA6E3UZQN
+   IOuxTAOC/kVhhvkQeMhsqYnO2SXX0I9mfpIq5jrs+jwuEa8QBzv6fh9qM
+   Q==;
+X-CSE-ConnectionGUID: e9Wxeb/zTwmMS1PBtDxrfw==
+X-CSE-MsgGUID: M02dx+/vT/GrrbmyCeo1kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="35878765"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="29014387"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 22:55:04 -0700
-X-CSE-ConnectionGUID: E58PUJNhRzimkoV5NnSwSw==
-X-CSE-MsgGUID: 82On5IKBRw2cWJhyanYN7g==
+   d="scan'208";a="35878765"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 23:06:04 -0700
+X-CSE-ConnectionGUID: r+QG4RWyQZ2ro0C9hEPqIQ==
+X-CSE-MsgGUID: 7a0KZwmGQOSe6ic1luFR/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="54484866"
+   d="scan'208";a="80387807"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 22:55:03 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2024 23:06:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSsCK-000d8c-28;
-	Sun, 14 Jul 2024 05:55:00 +0000
-Date: Sun, 14 Jul 2024 13:54:37 +0800
+	id 1sSsMy-000d94-2s;
+	Sun, 14 Jul 2024 06:06:00 +0000
+Date: Sun, 14 Jul 2024 14:05:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hari Nagalla <hnagalla@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y 29/39]
- drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or
- member 'suspend_status' not described in 'k3_r5_rproc'
-Message-ID: <202407141310.b35zEmIz-lkp@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2032/12880]
+ drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between
+ different enumeration types ('enum sti_plane_type' and 'enum
+ sti_plane_id_of_type')
+Message-ID: <202407141328.FvzzbIHF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,62 +65,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y
-head:   e7925886029c9eadf1182fa31af4f70ad45b4b35
-commit: 1dc201a1afb1fbf1fc5491706cfce40ed6396391 [29/39] remoteproc: k3-r5: Introduce PM suspend/resume handlers
-config: arm64-randconfig-001-20240714 (https://download.01.org/0day-ci/archive/20240714/202407141310.b35zEmIz-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141310.b35zEmIz-lkp@intel.com/reproduce)
+Hi Ville,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fe121b622825ff8cc995a1e6b026181c48188db
+commit: 74bde7581df3e18061119e1b27b63d0a9ea57b7a [2032/12880] drm/sti: Allow build with COMPILE_TEST=y
+config: arm-randconfig-001-20240714 (https://download.01.org/0day-ci/archive/20240714/202407141328.FvzzbIHF-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141328.FvzzbIHF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407141310.b35zEmIz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407141328.FvzzbIHF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:125: warning: Function parameter or member 'qos_req' not described in 'k3_r5_cluster'
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'shut_comp' not described in 'k3_r5_rproc'
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'suspend_comp' not described in 'k3_r5_rproc'
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'pm_notifier' not described in 'k3_r5_rproc'
->> drivers/remoteproc/ti_k3_r5_remoteproc.c:187: warning: Function parameter or member 'suspend_status' not described in 'k3_r5_rproc'
+   In file included from drivers/gpu/drm/sti/sti_hqvdp.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/drm/sti/sti_hqvdp.c:24:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:17:
+>> drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      32 |         STI_GDP_0       = STI_GDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:33:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      33 |         STI_GDP_1       = STI_GDP | STI_ID_1,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:34:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      34 |         STI_GDP_2       = STI_GDP | STI_ID_2,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:35:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      35 |         STI_GDP_3       = STI_GDP | STI_ID_3,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:36:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      36 |         STI_HQVDP_0     = STI_VDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   6 errors generated.
 
 
-vim +187 drivers/remoteproc/ti_k3_r5_remoteproc.c
+vim +32 drivers/gpu/drm/sti/sti_plane.h
 
-6dedbd1d544389 Suman Anna   2020-10-02  162  
-6dedbd1d544389 Suman Anna   2020-10-02  163  /**
-6dedbd1d544389 Suman Anna   2020-10-02  164   * struct k3_r5_rproc - K3 remote processor state
-6dedbd1d544389 Suman Anna   2020-10-02  165   * @dev: cached device pointer
-6dedbd1d544389 Suman Anna   2020-10-02  166   * @cluster: cached pointer to parent cluster structure
-6dedbd1d544389 Suman Anna   2020-10-02  167   * @mbox: mailbox channel handle
-6dedbd1d544389 Suman Anna   2020-10-02  168   * @client: mailbox client to request the mailbox channel
-6dedbd1d544389 Suman Anna   2020-10-02  169   * @rproc: rproc handle
-6dedbd1d544389 Suman Anna   2020-10-02  170   * @core: cached pointer to r5 core structure being used
-6dedbd1d544389 Suman Anna   2020-10-02  171   * @rmem: reserved memory regions data
-6dedbd1d544389 Suman Anna   2020-10-02  172   * @num_rmems: number of reserved memory regions
-6dedbd1d544389 Suman Anna   2020-10-02  173   */
-6dedbd1d544389 Suman Anna   2020-10-02  174  struct k3_r5_rproc {
-6dedbd1d544389 Suman Anna   2020-10-02  175  	struct device *dev;
-6dedbd1d544389 Suman Anna   2020-10-02  176  	struct k3_r5_cluster *cluster;
-6dedbd1d544389 Suman Anna   2020-10-02  177  	struct mbox_chan *mbox;
-6dedbd1d544389 Suman Anna   2020-10-02  178  	struct mbox_client client;
-6dedbd1d544389 Suman Anna   2020-10-02  179  	struct rproc *rproc;
-6dedbd1d544389 Suman Anna   2020-10-02  180  	struct k3_r5_core *core;
-6dedbd1d544389 Suman Anna   2020-10-02  181  	struct k3_r5_mem *rmem;
-6dedbd1d544389 Suman Anna   2020-10-02  182  	int num_rmems;
-7aa5007e280246 Hari Nagalla 2024-07-02  183  	struct completion shut_comp;
-1dc201a1afb1fb Hari Nagalla 2024-07-11  184  	struct completion suspend_comp;
-1dc201a1afb1fb Hari Nagalla 2024-07-11  185  	struct notifier_block pm_notifier;
-1dc201a1afb1fb Hari Nagalla 2024-07-11  186  	u32 suspend_status;
-6dedbd1d544389 Suman Anna   2020-10-02 @187  };
-6dedbd1d544389 Suman Anna   2020-10-02  188  
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  30  
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  31  enum sti_plane_desc {
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31 @32  	STI_GDP_0       = STI_GDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  33  	STI_GDP_1       = STI_GDP | STI_ID_1,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  34  	STI_GDP_2       = STI_GDP | STI_ID_2,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  35  	STI_GDP_3       = STI_GDP | STI_ID_3,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  36  	STI_HQVDP_0     = STI_VDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  37  	STI_CURSOR      = STI_CUR,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  38  	STI_BACK        = STI_BCK
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  39  };
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  40  
 
-:::::: The code at line 187 was first introduced by commit
-:::::: 6dedbd1d544389d6ab1727423348572a11e9df5d remoteproc: k3-r5: Add a remoteproc driver for R5F subsystem
+:::::: The code at line 32 was first introduced by commit
+:::::: 871bcdfea68560991bd650406e47a801ab9d635d drm/sti: code clean up
 
-:::::: TO: Suman Anna <s-anna@ti.com>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: TO: Vincent Abriou <vincent.abriou@st.com>
+:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
