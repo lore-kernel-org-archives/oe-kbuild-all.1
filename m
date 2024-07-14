@@ -1,84 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE23DDC9;
-	Sun, 14 Jul 2024 05:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BDBFBEF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 05:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720933388; cv=none; b=o9TFK2QhkcivTpHhDGO6wXD+gLYoEpdF4DIwVeCf+Tol8uk8RVa0aeD8651OOHmO3NN0bLqhlubI79pGQfi+ZSB34FHdhT5IBLM2M7mDLAApGb8utJh9nBC5ou1hk4VSVgmRzECWBw+9P0Dn5ClfGPThldpUs+hdQnO3OevazBI=
+	t=1720934046; cv=none; b=KK/NxuxK0njIvIQl66OWToDO8RyqWaOArqlBl3L59HBuUqh/xgH3IGm92F8rZ1Ia/ipOFJJKGE3KSRVg3Y+7mp9BwT5F30+I3C+PI2xfQ7HJMJ/00Y/jat+E+OBvAt9iy4TAR6lewAx+fFbVqV5qx0ZvPFYl9GVtKhWQWTdFEKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720933388; c=relaxed/simple;
-	bh=zvOpsenYBjMtA4pDUl+tBs6xd1tjtJ6pfBsU3eGJ1J8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qK08h+y8VY4NuQ536iatilL8vfj0/Pt4BYG1gwt7bxOObkGq0I4f4GjEdxS6uWDT/XRybRLy9LJo9y1k3PuBIN0QiDcZGaZM/4TyKSoLokZe+IMYJwGO5sU6PFF5Rwt0IlREni3q83wIkOKdlB8FyAfx3OqiLzgbOMJCFU0cSNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3umqCIO; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1720934046; c=relaxed/simple;
+	bh=C5sJFaL2IC15MxruwYwy1xWpzoAmGjwaHLP9S99qw/A=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k0P7nUEUrXvG1DY5LDjd4Sb3AfVK2WluKCwYh1hvIA0bWpwz9VK3YDeOYU2U8dTI36oVtnqOXlQMf56bNcT2lPnxg1Bxyp/98bkLu9NICFekaS54sNeml5R0xhDjxG80lDs//vzr6OQNUVv83/8+vTzkO61oUrsPFnDHeuGvfAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ateMbzGI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3umqCIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ateMbzGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720933386; x=1752469386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zvOpsenYBjMtA4pDUl+tBs6xd1tjtJ6pfBsU3eGJ1J8=;
-  b=E3umqCIO9F40GdSRtYMt2JKFYeMQv06U98qoxYmcYZLhqCcDLHzyHHS8
-   Li4IeTzp3TMOA5/qL0RyY72bs7CexmqDI/dHFUtUndvVALCYR67S0msL5
-   6X6TL0ILB7wpwFmWitBzliCG2xVaIfJielvwyAOohK1eLq3MHkvktsHsn
-   NPHAkrjdmbRZYZ/3FjomUOvfWeDDG85xmeE9NA+UhAuZBk3kQeoHuSAVY
-   BR12BwPddXa/rleRvx0rjNLAVti6So8PPlS76p8ITx5Eld8W6HkQYhSKT
-   lcqzx2WLM5O0y26A/JB6zDjpVJZiv3O7sGSsGezEcRGgcRxf+WJJsSK2H
-   A==;
-X-CSE-ConnectionGUID: 9vf89v1PR2a+kkaivN4G7g==
-X-CSE-MsgGUID: 9yv+MJo8RJmNwB5GCoUj8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="40865091"
+  t=1720934044; x=1752470044;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=C5sJFaL2IC15MxruwYwy1xWpzoAmGjwaHLP9S99qw/A=;
+  b=ateMbzGIXx4ISbygXSWdZQ7S+4qaSfLnBdiYbHbj1RmUKj2qGdqlHI9W
+   4wpi3VaayGyxXEqpBMHwMAPU95Lwqjd4OQW00DzEnez1IjVguOSZC3ZYV
+   pjD5mU+emhDofwhKYeErM39v+8glKsJfD+RejfeEURAiYjqm1+jCFBl13
+   I2+3NNVoZ6bDQLBjrsx/G8DMmQ+xo/1NUDRkeK9Hom8LeejGU9Q/cS1Nq
+   /28vQAbAQeoGfCl44cBcGco00TkhRq9YaeTm/typxUKBsrAd8Nb9TrBGJ
+   TGChh2PRhSOGXDGmGRIwhJkqU6kDzcz4ev5rT3ZPb+Hg6J7KGdzidm3xK
+   g==;
+X-CSE-ConnectionGUID: Rro5Cns5TsK4juFaANqCqA==
+X-CSE-MsgGUID: uME8nIRxRuWTtGcAAjcSZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="28940871"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="40865091"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 22:03:06 -0700
-X-CSE-ConnectionGUID: cxc+VvOASKuLm5jTYUZhHQ==
-X-CSE-MsgGUID: 2ZaHAEUbQNObDaDrc6UbAw==
+   d="scan'208";a="28940871"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 22:14:03 -0700
+X-CSE-ConnectionGUID: Su+8oVuWTBm3cRR4/YtZ0A==
+X-CSE-MsgGUID: egCdkby8R+q5n6+j8X5Xrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="49163409"
+   d="scan'208";a="79978929"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Jul 2024 22:02:59 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Jul 2024 22:14:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSrNx-000d4z-0d;
-	Sun, 14 Jul 2024 05:02:57 +0000
-Date: Sun, 14 Jul 2024 13:02:32 +0800
+	id 1sSrYc-000d6I-30;
+	Sun, 14 Jul 2024 05:13:58 +0000
+Date: Sun, 14 Jul 2024 13:13:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brendan Jackman <jackmanb@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Alexandre Chartre <alexandre.chartre@oracle.com>,
-	Liran Alon <liran.alon@oracle.com>,
-	Jan Setje-Eilers <jan.setjeeilers@oracle.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mel Gorman <mgorman@suse.de>, Lorenzo Stoakes <lstoakes@gmail.com>,
-	David Hildenbrand <david@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@kernel.org>,
-	Khalid Aziz <khalid.aziz@oracle.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Paul Turner <pjt@google.com>, Reiji Watanabe <reijiw@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH 26/26] KVM: x86: asi: Add some mitigations on address
- space transitions
-Message-ID: <202407141222.Av9rdSaZ-lkp@intel.com>
-References: <20240712-asi-rfc-24-v1-26-144b319a40d8@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, MD Danish Anwar <danishanwar@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y-cicd 4/92] ERROR: modpost: "emac_run_xdp"
+ [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+Message-ID: <202407141306.JD7nxMjo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,151 +61,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240712-asi-rfc-24-v1-26-144b319a40d8@google.com>
 
-Hi Brendan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/mm-asi-Make-some-utility-functions-noinstr-compatible/20240713-012107
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240712-asi-rfc-24-v1-26-144b319a40d8%40google.com
-patch subject: [PATCH 26/26] KVM: x86: asi: Add some mitigations on address space transitions
-config: i386-buildonly-randconfig-004-20240714 (https://download.01.org/0day-ci/archive/20240714/202407141222.Av9rdSaZ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141222.Av9rdSaZ-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
+head:   e7925886029c9eadf1182fa31af4f70ad45b4b35
+commit: 3723bffdf58d8b68c5f38aeca1910c7fc7b3ac32 [4/92] net: ethernet: ti: icssg_prueth: Add AF_XDP support
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407141306.JD7nxMjo-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141306.JD7nxMjo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407141222.Av9rdSaZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407141306.JD7nxMjo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/x86/kvm/x86.c:9786:12: error: no member named 'post_asi_enter' in 'struct asi_hooks'
-    9786 |         asi_hooks.post_asi_enter = ops->post_asi_enter;
-         |         ~~~~~~~~~ ^
-   1 error generated.
-
-
-vim +9786 arch/x86/kvm/x86.c
-
-  9726	
-  9727	
-  9728	int kvm_x86_vendor_init(struct kvm_x86_init_ops *ops)
-  9729	{
-  9730		u64 host_pat;
-  9731		int r, cpu;
-  9732	
-  9733		guard(mutex)(&vendor_module_lock);
-  9734	
-  9735		if (kvm_x86_ops.hardware_enable) {
-  9736			pr_err("already loaded vendor module '%s'\n", kvm_x86_ops.name);
-  9737			return -EEXIST;
-  9738		}
-  9739	
-  9740		/*
-  9741		 * KVM explicitly assumes that the guest has an FPU and
-  9742		 * FXSAVE/FXRSTOR. For example, the KVM_GET_FPU explicitly casts the
-  9743		 * vCPU's FPU state as a fxregs_state struct.
-  9744		 */
-  9745		if (!boot_cpu_has(X86_FEATURE_FPU) || !boot_cpu_has(X86_FEATURE_FXSR)) {
-  9746			pr_err("inadequate fpu\n");
-  9747			return -EOPNOTSUPP;
-  9748		}
-  9749	
-  9750		if (IS_ENABLED(CONFIG_PREEMPT_RT) && !boot_cpu_has(X86_FEATURE_CONSTANT_TSC)) {
-  9751			pr_err("RT requires X86_FEATURE_CONSTANT_TSC\n");
-  9752			return -EOPNOTSUPP;
-  9753		}
-  9754	
-  9755		/*
-  9756		 * KVM assumes that PAT entry '0' encodes WB memtype and simply zeroes
-  9757		 * the PAT bits in SPTEs.  Bail if PAT[0] is programmed to something
-  9758		 * other than WB.  Note, EPT doesn't utilize the PAT, but don't bother
-  9759		 * with an exception.  PAT[0] is set to WB on RESET and also by the
-  9760		 * kernel, i.e. failure indicates a kernel bug or broken firmware.
-  9761		 */
-  9762		if (rdmsrl_safe(MSR_IA32_CR_PAT, &host_pat) ||
-  9763		    (host_pat & GENMASK(2, 0)) != 6) {
-  9764			pr_err("host PAT[0] is not WB\n");
-  9765			return -EIO;
-  9766		}
-  9767	
-  9768		x86_emulator_cache = kvm_alloc_emulator_cache();
-  9769		if (!x86_emulator_cache) {
-  9770			pr_err("failed to allocate cache for x86 emulator\n");
-  9771			return -ENOMEM;
-  9772		}
-  9773	
-  9774		user_return_msrs = alloc_percpu(struct kvm_user_return_msrs);
-  9775		if (!user_return_msrs) {
-  9776			pr_err("failed to allocate percpu kvm_user_return_msrs\n");
-  9777			r = -ENOMEM;
-  9778			goto out_free_x86_emulator_cache;
-  9779		}
-  9780		kvm_nr_uret_msrs = 0;
-  9781	
-  9782		r = kvm_mmu_vendor_module_init();
-  9783		if (r)
-  9784			goto out_free_percpu;
-  9785	
-> 9786		asi_hooks.post_asi_enter = ops->post_asi_enter;
-  9787		r = asi_register_class("KVM", &asi_hooks);
-  9788		if (r < 0)
-  9789			goto out_mmu_exit;
-  9790		kvm_asi_index = r;
-  9791	
-  9792		if (boot_cpu_has(X86_FEATURE_XSAVE)) {
-  9793			host_xcr0 = xgetbv(XCR_XFEATURE_ENABLED_MASK);
-  9794			kvm_caps.supported_xcr0 = host_xcr0 & KVM_SUPPORTED_XCR0;
-  9795		}
-  9796	
-  9797		rdmsrl_safe(MSR_EFER, &host_efer);
-  9798	
-  9799		if (boot_cpu_has(X86_FEATURE_XSAVES))
-  9800			rdmsrl(MSR_IA32_XSS, host_xss);
-  9801	
-  9802		kvm_init_pmu_capability(ops->pmu_ops);
-  9803	
-  9804		if (boot_cpu_has(X86_FEATURE_ARCH_CAPABILITIES))
-  9805			rdmsrl(MSR_IA32_ARCH_CAPABILITIES, host_arch_capabilities);
-  9806	
-  9807		r = ops->hardware_setup();
-  9808		if (r != 0)
-  9809			goto out_asi_unregister;
-  9810	
-  9811		kvm_ops_update(ops);
-  9812	
-  9813		for_each_online_cpu(cpu) {
-  9814			smp_call_function_single(cpu, kvm_x86_check_cpu_compat, &r, 1);
-  9815			if (r < 0)
-  9816				goto out_unwind_ops;
-  9817		}
-  9818	
-  9819		/*
-  9820		 * Point of no return!  DO NOT add error paths below this point unless
-  9821		 * absolutely necessary, as most operations from this point forward
-  9822		 * require unwinding.
-  9823		 */
-  9824		kvm_timer_init();
-  9825	
-  9826		if (pi_inject_timer == -1)
-  9827			pi_inject_timer = housekeeping_enabled(HK_TYPE_TIMER);
-  9828	#ifdef CONFIG_X86_64
-  9829		pvclock_gtod_register_notifier(&pvclock_gtod_notifier);
-  9830	
-  9831		if (hypervisor_is_type(X86_HYPER_MS_HYPERV))
-  9832			set_hv_tscchange_cb(kvm_hyperv_tsc_notifier);
-  9833	#endif
-  9834	
-  9835		kvm_register_perf_callbacks(ops->handle_intel_pt_intr);
-  9836	
-  9837		if (!kvm_cpu_cap_has(X86_FEATURE_XSAVES))
-  9838			kvm_caps.supported_xss = 0;
-  9839	
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+ERROR: modpost: "prueth_dma_rx_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+>> ERROR: modpost: "emac_run_xdp" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+ERROR: modpost: "icssg_queue_pop" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+ERROR: modpost: "icssg_queue_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
