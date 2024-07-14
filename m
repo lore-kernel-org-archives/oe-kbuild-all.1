@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1817F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 01:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7662B3D6A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 01:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720922037; cv=none; b=RppAcPe+48v2txHGg8gwQC4NieTbMtmGM1rY5aQXcoaI1KbEWknKfWvwLnQdOBXwVMhqvMq5iSLfn4IUTthGFoarqCfMQnkpHusNc4vW44btZ9Bv+Kcwye722njZTKyosRFm2rxjglGGOCkhn3DnD1juvbNwa2Nxx8S0uw6w2cA=
+	t=1720922038; cv=none; b=XkGsuNu3B9Oa5NpyryAE4OBbNOdsGmCz5jCxqL1l8B24haQcpoFb4hpOBpvptfeBqVfRW8TmsSV0uDsvLSkS+l3VAIvBoXnXd1xcXLEx7lFb10xHGyvQAyW9IXfi5/DHr9oOPRiPwkqeaosOz1uUW8Yuw4bezrlmnh/qCwKBLBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720922037; c=relaxed/simple;
-	bh=gwl22JhkA7hnL4HU1qT266PwOLd/kfOekN7d7OHyYWM=;
+	s=arc-20240116; t=1720922038; c=relaxed/simple;
+	bh=Tqob6H167BKC2q1PdbIXy+CJnx2A6/IQ6EVv8a/19Ks=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ah9wy9/5tY0ROi2Sw8uKjDY5eixg3h2wz8K5NniOuTTisLy211LFwnlfiPoLGS4VXzAlNgHxkpewM8qVle0AghB9rsi5aIfgfxzjUm1D7wXIGogf8MC3TmKa8KgQ1OU6cm2I2L+6jer83zeBGGl00qAA4EReHLLn6liiuupvBZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jc7rl0q5; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=ozlSZelrhIi+y2D3NBUcwSLq3RnyKEb3cxCT4GPde3uoEnUNQOIiPs9W2SKWaQ2FAw79EPhu17Fv0snowPIooVJRI6w5627b7iIMv8BbBUvwn7bf5JMGzoq/OfyhnYtiUylWIunDIdPVUiE6cuEq2+7/DbIXlJKQbGWjUGmY6Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfnEo23C; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jc7rl0q5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfnEo23C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720922035; x=1752458035;
+  t=1720922036; x=1752458036;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gwl22JhkA7hnL4HU1qT266PwOLd/kfOekN7d7OHyYWM=;
-  b=jc7rl0q5OAPn0XWJE9wOx8yuxQVrmCVcsmCmGOvDjh/t1SfcOHP9gVwC
-   xQ836EOqJLQM8+mEDXxOK/h2SPk0gen91pmUjd3FvDor1n338XzmGJU+y
-   Ukp9RKJBAkw7kHm8Nqp9kjMuydDnatUpe29ysPLvUAJyi9dUwN0w9HehE
-   8OjprL8ZyXqfJHnQ6mev1gWd9t42BrXsiKzmFcAYSkZj5i7wypQvok78G
-   ByIrpc19fCqLNBQjQykJkZkBpo8eX9l5x6qQUTU2wovbYd6L+NjOFKDAF
-   pIRgYH14gjXv5uOvaUZgGpSP3l57cAAl5kSYInz9BlccQh6Bc6U+fLA77
-   A==;
-X-CSE-ConnectionGUID: 5u4TPqIsShSsgSnV3b+KuQ==
-X-CSE-MsgGUID: gKnkHEn0TeWZUJmymuM9Pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="21245128"
+  bh=Tqob6H167BKC2q1PdbIXy+CJnx2A6/IQ6EVv8a/19Ks=;
+  b=LfnEo23C2LbG18KZQQccgDx4+mcNkreNF74aBISq7oAFbccQaiKoa0Nx
+   0PLmNOI/lAZFpGmI2Wi8i8dQK1cpD+k3TrFarNSq9/n/D9yEhYSqAh6YP
+   WMWvccA4aHd6MVPMF6X1YzHYwX2eIbtFi4ac1sw0zISSJ7VDnuJkTeP2T
+   MvsrgFRqMx9nlxGfqmkpU8gagGi96WtWDwJqVcs0NaTXKGnSJuK1dae9/
+   p1KYANdBMTQIPEWYDZ3lj4MCNN/Hygy8UMyy7wVlxWFaED05vPO46PGWu
+   i2+l5WqQpm+B9FjcsG0q0yEOfTsxs87v877vGEpEJdmJh+Y4cGaqANTQT
+   g==;
+X-CSE-ConnectionGUID: jNZJMPZYRp6X5lGAW/S9+A==
+X-CSE-MsgGUID: whDzDCkzQIyAgHxIkh4GJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="35873657"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="21245128"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 18:53:55 -0700
-X-CSE-ConnectionGUID: I62D7gxIQSy6FVRhLma0qw==
-X-CSE-MsgGUID: cP1D8p7AQ2iaTdVHyBb01Q==
+   d="scan'208";a="35873657"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 18:53:56 -0700
+X-CSE-ConnectionGUID: 4L10kBkNTBiwuEi1ArXI6g==
+X-CSE-MsgGUID: 7tqGGvF2QLCQKnvztS0LXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="53645606"
+   d="scan'208";a="53832846"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Jul 2024 18:53:54 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Jul 2024 18:53:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSoQy-000cvq-15;
+	id 1sSoQy-000cvt-1G;
 	Sun, 14 Jul 2024 01:53:52 +0000
-Date: Sun, 14 Jul 2024 09:53:23 +0800
+Date: Sun, 14 Jul 2024 09:53:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zcrx/v5-dirty 35/35] drivers/net/veth.c:822:22: error:
- assignment to 'struct page *' from 'int' makes pointer from integer without
- a cast
-Message-ID: <202407140911.ytU8p1hX-lkp@intel.com>
+To: Hari Nagalla <hnagalla@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.6.y 30/39]
+ drivers/remoteproc/ti_k3_m4_remoteproc.c:100: warning: Function parameter or
+ member 'suspend_comp' not described in 'k3_m4_rproc'
+Message-ID: <202407140911.3ivARzcZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zcrx/v5-dirty
-head:   458c2a5b1a3fbfa392ef5622b34f2455f234c6ea
-commit: 458c2a5b1a3fbfa392ef5622b34f2455f234c6ea [35/35] [NOT-FOR-UPSTREAM] veth: add support for io_uring zc rx
-config: powerpc-randconfig-003-20240714 (https://download.01.org/0day-ci/archive/20240714/202407140911.ytU8p1hX-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140911.ytU8p1hX-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y
+head:   e7925886029c9eadf1182fa31af4f70ad45b4b35
+commit: 4b5be6428b876e9bd42e147b6c3567174b55200a [30/39] remoteproc: k3-m4: Introduce PM suspend/resume handlers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240714/202407140911.3ivARzcZ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140911.3ivARzcZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407140911.ytU8p1hX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407140911.3ivARzcZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/veth.c: In function 'veth_iou_rcv_skb':
-   drivers/net/veth.c:822:24: error: implicit declaration of function 'io_iov_get_page' [-Wimplicit-function-declaration]
-     822 |                 page = io_iov_get_page(netmem);
-         |                        ^~~~~~~~~~~~~~~
->> drivers/net/veth.c:822:22: error: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     822 |                 page = io_iov_get_page(netmem);
-         |                      ^
-   drivers/net/veth.c: In function 'veth_xdp_rcv':
-   drivers/net/veth.c:995:55: error: 'io_uring_pp_zc_ops' undeclared (first use in this function)
-     995 |                         if (rq->page_pool->mp_ops == &io_uring_pp_zc_ops) {
-         |                                                       ^~~~~~~~~~~~~~~~~~
-   drivers/net/veth.c:995:55: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/remoteproc/ti_k3_m4_remoteproc.c:100: warning: Function parameter or member 'shut_comp' not described in 'k3_m4_rproc'
+>> drivers/remoteproc/ti_k3_m4_remoteproc.c:100: warning: Function parameter or member 'suspend_comp' not described in 'k3_m4_rproc'
+>> drivers/remoteproc/ti_k3_m4_remoteproc.c:100: warning: Function parameter or member 'pm_notifier' not described in 'k3_m4_rproc'
+>> drivers/remoteproc/ti_k3_m4_remoteproc.c:100: warning: Function parameter or member 'suspend_status' not described in 'k3_m4_rproc'
+   drivers/remoteproc/ti_k3_m4_remoteproc.c:116: warning: Function parameter or member 'core' not described in 'is_core_in_wfi'
+   drivers/remoteproc/ti_k3_m4_remoteproc.c:116: warning: Excess function parameter 'kproc' description in 'is_core_in_wfi'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +822 drivers/net/veth.c
+vim +100 drivers/remoteproc/ti_k3_m4_remoteproc.c
 
-   771	
-   772	static noinline struct sk_buff *veth_iou_rcv_skb(struct veth_rq *rq,
-   773						struct sk_buff *skb)
-   774	{
-   775		struct sk_buff *nskb;
-   776		u32 size, len, off, max_head_size;
-   777		struct page *page;
-   778		int ret, i, head_off;
-   779		void *vaddr;
-   780	
-   781		/* Testing only, randomly send normal pages to test copy fallback */
-   782		if (ktime_get_ns() % 16 == 0)
-   783			return skb;
-   784	
-   785		skb_prepare_for_gro(skb);
-   786		max_head_size = skb_headlen(skb);
-   787	
-   788		rcu_read_lock();
-   789		nskb = napi_alloc_skb(&rq->xdp_napi, max_head_size);
-   790		if (!nskb)
-   791			goto drop;
-   792	
-   793		skb_copy_header(nskb, skb);
-   794		skb_mark_for_recycle(nskb);
-   795	
-   796		size = max_head_size;
-   797		if (skb_copy_bits(skb, 0, nskb->data, size)) {
-   798		consume_skb(nskb);
-   799			goto drop;
-   800		}
-   801		skb_put(nskb, size);
-   802		head_off = skb_headroom(nskb) - skb_headroom(skb);
-   803		skb_headers_offset_update(nskb, head_off);
-   804	
-   805		/* Allocate paged area of new skb */
-   806		off = size;
-   807		len = skb->len - off;
-   808	
-   809		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
-   810			netmem_ref netmem;
-   811	
-   812			netmem = page_pool_alloc_netmem(rq->page_pool, GFP_ATOMIC | __GFP_NOWARN);
-   813			if (!netmem) {
-   814				consume_skb(nskb);
-   815				goto drop;
-   816			}
-   817			if (WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-   818				consume_skb(nskb);
-   819				goto drop;
-   820			}
-   821	
- > 822			page = io_iov_get_page(netmem);
-   823			if (WARN_ON_ONCE(!page))
-   824				goto drop;
-   825	
-   826			size = min_t(u32, len, PAGE_SIZE);
-   827			skb_add_rx_frag_netmem(nskb, i, netmem, 0, size, PAGE_SIZE);
-   828	
-   829			vaddr = kmap_atomic(page);
-   830			ret = skb_copy_bits(skb, off, vaddr, size);
-   831			kunmap_atomic(vaddr);
-   832	
-   833			if (ret) {
-   834				consume_skb(nskb);
-   835				goto drop;
-   836			}
-   837			len -= size;
-   838			off += size;
-   839		}
-   840		rcu_read_unlock();
-   841	
-   842		consume_skb(skb);
-   843		skb = nskb;
-   844		return skb;
-   845	drop:
-   846		rcu_read_unlock();
-   847		kfree_skb(skb);
-   848		return NULL;
-   849	}
-   850	
+    65	
+    66	/**
+    67	 * struct k3_m4_rproc - k3 remote processor driver structure
+    68	 * @dev: cached device pointer
+    69	 * @rproc: remoteproc device handle
+    70	 * @mem: internal memory regions data
+    71	 * @num_mems: number of internal memory regions
+    72	 * @rmem: reserved memory regions data
+    73	 * @num_rmems: number of reserved memory regions
+    74	 * @reset: reset control handle
+    75	 * @data: pointer to device data
+    76	 * @tsp: TI-SCI processor control handle
+    77	 * @ti_sci: TI-SCI handle
+    78	 * @ti_sci_id: TI-SCI device identifier
+    79	 * @mbox: mailbox channel handle
+    80	 * @client: mailbox client to request the mailbox channel
+    81	 */
+    82	struct k3_m4_rproc {
+    83		struct device *dev;
+    84		struct rproc *rproc;
+    85		struct k3_m4_rproc_mem *mem;
+    86		int num_mems;
+    87		struct k3_m4_rproc_mem *rmem;
+    88		int num_rmems;
+    89		struct reset_control *reset;
+    90		const struct k3_m4_rproc_dev_data *data;
+    91		struct ti_sci_proc *tsp;
+    92		const struct ti_sci_handle *ti_sci;
+    93		u32 ti_sci_id;
+    94		struct mbox_chan *mbox;
+    95		struct mbox_client client;
+    96		struct completion shut_comp;
+    97		struct completion suspend_comp;
+    98		struct notifier_block pm_notifier;
+    99		u32 suspend_status;
+ > 100	};
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
