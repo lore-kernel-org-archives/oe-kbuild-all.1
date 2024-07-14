@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136061CABB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 08:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E258E23BF;
+	Sun, 14 Jul 2024 09:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720947011; cv=none; b=T3dZWKcqdx88i6H2OtrtZctoyxr/iQGngNns1il8Iq+4tTl7DFoW31+6pWd9REYZSybVgHQ1J77fR9Z7zxNU3ifhvq3NW4P7mcBmGeOh16wRDlcvjzU9Bo3e4tc2Om6TmfkUbiiPFjW1hgRryYz9i1GPC1J5zYYV9DA/cqE8iZE=
+	t=1720947671; cv=none; b=t4kGAtoi0s8AutoMWiKXqFVtiPB3Ou49sIjafgckCRipK8XVkyxpG5s2MNpFBmWfOWHFqSr3DC2b83zCsz8j/C5MbUkjRQvg7QRiEsYJFqiaM4qpEC+CXhzKf6rqr1LgOWbQGfhxjePDry/aR7sKpW5iLZyTP/tkYdNw1LM2Pu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720947011; c=relaxed/simple;
-	bh=0wvIupGVJs9ujp03fJ0wRWR2ItebKnAv6q1VuS/ZXKo=;
+	s=arc-20240116; t=1720947671; c=relaxed/simple;
+	bh=92Y3V7fwM4zBxyAa9oU0gZDJTo7MajOnuhjTb47y0uk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G1a/rzztjnoknQ0J42NriJ/VgvXahd+WDRzACDYoumRGv7hctyR8RcSsXX6mDNmfXFwbEF0AspPJDdzVGG0uUsnIEQfQkvAqfffBJot0ZtqxAHgJKVknbnNKWMagc5KCHBO/FXMYKFFqml/4NSm8mZ/0RWXe9Cphso35F0zrCJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dH9wh9MM; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=qOm2AornzhgEO/aljHQyrWNPQej7Ik/axGr8FoR5ckiccdNkGrk+SrRfFDFgKgJLmdX06Hw6VWocdalPQ2LdBkeTOKIPw6kInpXuXVYBHmLPK29yj7lpPtGYfAR6ly4NyfMHwPKEb6GWAz0LLYyHs9A7NY8ZAzZpD6UGWBEARfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiVLUTGY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dH9wh9MM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiVLUTGY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720947009; x=1752483009;
+  t=1720947670; x=1752483670;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0wvIupGVJs9ujp03fJ0wRWR2ItebKnAv6q1VuS/ZXKo=;
-  b=dH9wh9MMkLjRAPANt2hQtBxOYoJi3WeCNbM59Wqda5+KF5AteFL/azjm
-   0OMUu0ly6Dj0A5NRF8iJK5x6RhPoliec3/W2gbJN0AexOcThtFS8Apw8G
-   14RLxtB+xUOXICjASJA1pHRIaJmrYkQVPJ60Bua0hptQqWt5qsC/Wl5no
-   jo99bA6XHolw3jOpHu60cEzugb57GVOh0f5k/EL+mBKilecsTtiXWfMHu
-   wHB4lpkgq7v36V/D0mSN4D4i2jTWdzRMjgEUaCgYSqnzEtxZsXY+d1g3O
-   uHqepxI/N7cAuE0hKvInSyhH+nPkSCOK5e/8OMc57nG0hxTbw9rUr99qs
-   Q==;
-X-CSE-ConnectionGUID: s3hKSnA7R0eXyon0mltZQQ==
-X-CSE-MsgGUID: ro1RV+bnRPmPRs/dvxXpyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18492863"
+  bh=92Y3V7fwM4zBxyAa9oU0gZDJTo7MajOnuhjTb47y0uk=;
+  b=kiVLUTGY3+kPqQlzRQHmV72IdkV+nFqXTM1B749s+X3EF/FTEYi2kyrW
+   CNoGC6v97iUEmLoCh49DLggZ4X51/Jj1mkMBs0vEfrUrOjbq3UlE+Sayp
+   8yA3ZX+uE/NuqFSbcKuq76+ocRa+toAHaQmBNZZt7IxIx9E3T7JHRDiaC
+   z2UWm8mA2mA59p/Nso9hZWKUxFrqrkdxqE6H0oiOeDrxH+mELzUsVIwH6
+   NyxbZUf7Ngn/8u7RbLY8YGX/PuYZ0VVk8gSeuGtrlLrH1kFpaBPc5piFr
+   JKMZT8/OaG4cPAAFu5oY/IZ+wTNODx6LzqxW4XsLS53oiBslP2BwKOeLq
+   A==;
+X-CSE-ConnectionGUID: nTpiZOkjSf2bJmnOAtgp9g==
+X-CSE-MsgGUID: +5T1qzOYSFy2XFejQGfgeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18185939"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="18492863"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 01:50:08 -0700
-X-CSE-ConnectionGUID: VmceBxSuQ1CXUnrES2jcUA==
-X-CSE-MsgGUID: dV+NVNRTQdmzHLbqFwUpLg==
+   d="scan'208";a="18185939"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 02:01:10 -0700
+X-CSE-ConnectionGUID: 1dvZQbTITp2oSKyBsNhW3Q==
+X-CSE-MsgGUID: Yz2fVHMrSte02N6Fj+fmsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="49049340"
+   d="scan'208";a="53700863"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Jul 2024 01:50:07 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Jul 2024 02:01:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSuvl-000dH0-1O;
-	Sun, 14 Jul 2024 08:50:05 +0000
-Date: Sun, 14 Jul 2024 16:49:15 +0800
+	id 1sSv6P-000dHR-2Z;
+	Sun, 14 Jul 2024 09:01:05 +0000
+Date: Sun, 14 Jul 2024 17:00:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.9/prjc 3/4] kernel/sched/alt_core.c:4216:20: error:
- assignment to 'struct rq *' from 'int' makes pointer from integer without a
- cast
-Message-ID: <202407141645.znGvEgnO-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Matthew Sakai <msakai@redhat.com>
+Subject: drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+Message-ID: <202407141607.M3E2XQ0Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,137 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.9/prjc
-head:   5d131fcb17bc5c82ac8e5cf6217da8b8ea79453b
-commit: 8964d2061c8f25fc8c96de75a0f9e3234ae61c6e [3/4] fixup! ZEN: sched/alt: Set default timeslice to 2ms
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407141645.znGvEgnO-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141645.znGvEgnO-lkp@intel.com/reproduce)
+Hi Mike,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4d145e3f830ba2c2745b42bfba5c2f8fcb8d078a
+commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
+date:   5 months ago
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407141607.M3E2XQ0Z-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141607.M3E2XQ0Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407141645.znGvEgnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407141607.M3E2XQ0Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/alt_core.c:48:
-   kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-      14 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/alt_core.c:47:
-   kernel/sched/alt_sched.h:357:20: note: previous definition of 'flush_smp_call_function_queue' with type 'void(void)'
-     357 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function 'active_balance_cpu_stop':
-   kernel/sched/alt_core.c:4215:28: error: implicit declaration of function '__best_mask_cpu'; did you mean '__set_task_cpu'? [-Wimplicit-function-declaration]
-    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                            ^~~~~~~~~~~~~~~
-         |                            __set_task_cpu
-   In file included from include/asm-generic/percpu.h:7,
-                    from ./arch/sh/include/generated/asm/percpu.h:1,
-                    from include/linux/irqflags.h:19,
-                    from arch/sh/include/asm/cmpxchg-irq.h:5,
-                    from arch/sh/include/asm/cmpxchg.h:20,
-                    from arch/sh/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/sh/include/asm/bitops.h:23,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/alt_core.c:14:
-   kernel/sched/alt_core.c:4215:58: error: 'sched_cpu_llc_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
-    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                          ^~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/alt_core.c:4215:50: note: in expansion of macro 'per_cpu'
-    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                  ^~~~~~~
-   kernel/sched/alt_core.c:4215:58: note: each undeclared identifier is reported only once for each function it appears in
-    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                          ^~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/alt_core.c:4215:50: note: in expansion of macro 'per_cpu'
-    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-         |                                                  ^~~~~~~
-   kernel/sched/alt_core.c:4216:22: error: implicit declaration of function 'move_queued_task'; did you mean 'requeue_task'? [-Wimplicit-function-declaration]
-    4216 |                 rq = move_queued_task(rq, p, dcpu);
-         |                      ^~~~~~~~~~~~~~~~
-         |                      requeue_task
->> kernel/sched/alt_core.c:4216:20: error: assignment to 'struct rq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    4216 |                 rq = move_queued_task(rq, p, dcpu);
-         |                    ^
-   kernel/sched/alt_core.c: In function 'trigger_active_balance':
-   kernel/sched/alt_core.c:4253:45: error: 'struct rq' has no member named 'active_balance_work'
-    4253 |                                     arg, &rq->active_balance_work);
-         |                                             ^~
-   kernel/sched/alt_core.c: In function 'sched_init':
-   kernel/sched/alt_core.c:7704:54: error: 'sched_sg_idle_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
-    7704 |         struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
-         |                                                      ^~~~~~~~~~~~~~~~~~
-         |                                                      sched_idle_mask
-   kernel/sched/alt_core.c:7704:28: warning: unused variable 'balance_arg' [-Wunused-variable]
-    7704 |         struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
-         |                            ^~~~~~~~~~~
+>> drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+   drivers/md/dm-vdo/int-map.c:105: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
+   drivers/md/dm-vdo/int-map.c:330: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:330: warning: Excess function parameter 'map' description in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:461: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
+   drivers/md/dm-vdo/int-map.c:461: warning: Excess function parameter 'map' description in 'move_empty_bucket'
 
 
-vim +4216 kernel/sched/alt_core.c
+vim +87 drivers/md/dm-vdo/int-map.c
 
-561e42ce50942d Alfred Chen 2019-08-19  4196  
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4197  static int active_balance_cpu_stop(void *data)
-561e42ce50942d Alfred Chen 2019-08-19  4198  {
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4199  	struct balance_arg *arg = data;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4200  	struct task_struct *p = arg->task;
-561e42ce50942d Alfred Chen 2019-08-19  4201  	struct rq *rq = this_rq();
-561e42ce50942d Alfred Chen 2019-08-19  4202  	unsigned long flags;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4203  	cpumask_t tmp;
-561e42ce50942d Alfred Chen 2019-08-19  4204  
-561e42ce50942d Alfred Chen 2019-08-19  4205  	local_irq_save(flags);
-561e42ce50942d Alfred Chen 2019-08-19  4206  
-561e42ce50942d Alfred Chen 2019-08-19  4207  	raw_spin_lock(&p->pi_lock);
-561e42ce50942d Alfred Chen 2019-08-19  4208  	raw_spin_lock(&rq->lock);
-561e42ce50942d Alfred Chen 2019-08-19  4209  
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4210  	arg->active = 0;
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4211  
-561e42ce50942d Alfred Chen 2019-08-19  4212  	if (task_on_rq_queued(p) && task_rq(p) == rq &&
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4213  	    cpumask_and(&tmp, p->cpus_ptr, arg->cpumask) &&
-f445b324dd06c9 Alfred Chen 2021-03-14  4214  	    !is_migration_disabled(p)) {
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4215  		int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
-561e42ce50942d Alfred Chen 2019-08-19 @4216  		rq = move_queued_task(rq, p, dcpu);
-66606cb1479a7c Alfred Chen 2020-11-03  4217  	}
-561e42ce50942d Alfred Chen 2019-08-19  4218  
-561e42ce50942d Alfred Chen 2019-08-19  4219  	raw_spin_unlock(&rq->lock);
-f90f6c0ad3cb77 Alfred Chen 2024-02-20  4220  	raw_spin_unlock_irqrestore(&p->pi_lock, flags);
-561e42ce50942d Alfred Chen 2019-08-19  4221  
-561e42ce50942d Alfred Chen 2019-08-19  4222  	return 0;
-561e42ce50942d Alfred Chen 2019-08-19  4223  }
-561e42ce50942d Alfred Chen 2019-08-19  4224  
+cc46b9554b3f6d Matthew Sakai 2023-11-16  66  
+cc46b9554b3f6d Matthew Sakai 2023-11-16  67  /**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  68   * struct bucket - hash bucket
+cc46b9554b3f6d Matthew Sakai 2023-11-16  69   *
+cc46b9554b3f6d Matthew Sakai 2023-11-16  70   * Buckets are packed together to reduce memory usage and improve cache efficiency. It would be
+cc46b9554b3f6d Matthew Sakai 2023-11-16  71   * tempting to encode the hop offsets separately and maintain alignment of key/value pairs, but
+cc46b9554b3f6d Matthew Sakai 2023-11-16  72   * it's crucial to keep the hop fields near the buckets that they use them so they'll tend to share
+cc46b9554b3f6d Matthew Sakai 2023-11-16  73   * cache lines.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  74   */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  75  struct __packed bucket {
+cc46b9554b3f6d Matthew Sakai 2023-11-16  76  	/**
+cc46b9554b3f6d Matthew Sakai 2023-11-16  77  	 * @first_hop: The biased offset of the first entry in the hop list of the neighborhood
+cc46b9554b3f6d Matthew Sakai 2023-11-16  78  	 *             that hashes to this bucket.
+cc46b9554b3f6d Matthew Sakai 2023-11-16  79  	 */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  80  	u8 first_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  81  	/** @next_hop: The biased offset of the next bucket in the hop list. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  82  	u8 next_hop;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  83  	/** @key: The key stored in this bucket. */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  84  	u64 key;
+cc46b9554b3f6d Matthew Sakai 2023-11-16  85  	/** @value: The value stored in this bucket (NULL if empty). */
+cc46b9554b3f6d Matthew Sakai 2023-11-16  86  	void *value;
+cc46b9554b3f6d Matthew Sakai 2023-11-16 @87  };
+cc46b9554b3f6d Matthew Sakai 2023-11-16  88  
 
-:::::: The code at line 4216 was first introduced by commit
-:::::: 561e42ce50942dea67eafbee0a4b48d1b0b7b7ac Project C v5.7.5-r2
+:::::: The code at line 87 was first introduced by commit
+:::::: cc46b9554b3f6d2f09b1111386b2706e5b4f56c8 dm vdo: add basic hash map data structures
 
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
