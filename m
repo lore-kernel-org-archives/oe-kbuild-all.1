@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB308107A9;
-	Sun, 14 Jul 2024 06:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136061CABB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 08:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720937167; cv=none; b=ufWZ98SjDaKe6u3J+G018T9ybMwvXpIV3sNT09Q+WL7MPS2p5Bz6RijoznWoLD3zT2O4Ae+jV76shRp/CU9eoepEmC6d+EYXsDwAuL3HI63cI0GDscoruw1h7p69JOcBXlnsAk0TOIYAD6UuSrarmlimTT0LURb++I76dH3Sp7A=
+	t=1720947011; cv=none; b=T3dZWKcqdx88i6H2OtrtZctoyxr/iQGngNns1il8Iq+4tTl7DFoW31+6pWd9REYZSybVgHQ1J77fR9Z7zxNU3ifhvq3NW4P7mcBmGeOh16wRDlcvjzU9Bo3e4tc2Om6TmfkUbiiPFjW1hgRryYz9i1GPC1J5zYYV9DA/cqE8iZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720937167; c=relaxed/simple;
-	bh=Fbpi7tJia4mAM0GyaDcucp8NWrNKWHc8yr78peDMe+8=;
+	s=arc-20240116; t=1720947011; c=relaxed/simple;
+	bh=0wvIupGVJs9ujp03fJ0wRWR2ItebKnAv6q1VuS/ZXKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HWXdMNIBvamsb47p292waByS77FI/8Ahzkv/7WgyDqBnF1DlhYNhL/9NMGNTOwRai7ib2bd2jHBXtvxOf11cDTDgiqktssqL6Yis0DYlTfJlrdBEDuw3on+z2Sb5LlMvHx69/Skzu66LX/DOroPyUYScGeMPpf2wU4hwS17ZIsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4FPlZi4; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=G1a/rzztjnoknQ0J42NriJ/VgvXahd+WDRzACDYoumRGv7hctyR8RcSsXX6mDNmfXFwbEF0AspPJDdzVGG0uUsnIEQfQkvAqfffBJot0ZtqxAHgJKVknbnNKWMagc5KCHBO/FXMYKFFqml/4NSm8mZ/0RWXe9Cphso35F0zrCJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dH9wh9MM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4FPlZi4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dH9wh9MM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720937165; x=1752473165;
+  t=1720947009; x=1752483009;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fbpi7tJia4mAM0GyaDcucp8NWrNKWHc8yr78peDMe+8=;
-  b=n4FPlZi4YmABavHSQ3nU5YHXRLdpOEDPJmEp4kzNarJ1q6sj8isN2LBU
-   gtNfm0BpKbFpJaAsF6tjTicgQNJ713U32Gfs2DIpaYWAcGESWG7PyedR0
-   Z4KVGaxer0ke+ISUpEGuvYTU76IJW6O0e07Uxyy6tzs8ic4iB6bGxUlxJ
-   YDQAi97MNXQepI1cLNmy9zTMP7NClF41ChxMFvSddtA6zzgZojOYgPdRg
-   dgd0msk9lkoeppJ7IriD+QbHhb/Fyb1RCSqeoBJCLrvMKoHsqA6E3UZQN
-   IOuxTAOC/kVhhvkQeMhsqYnO2SXX0I9mfpIq5jrs+jwuEa8QBzv6fh9qM
+  bh=0wvIupGVJs9ujp03fJ0wRWR2ItebKnAv6q1VuS/ZXKo=;
+  b=dH9wh9MMkLjRAPANt2hQtBxOYoJi3WeCNbM59Wqda5+KF5AteFL/azjm
+   0OMUu0ly6Dj0A5NRF8iJK5x6RhPoliec3/W2gbJN0AexOcThtFS8Apw8G
+   14RLxtB+xUOXICjASJA1pHRIaJmrYkQVPJ60Bua0hptQqWt5qsC/Wl5no
+   jo99bA6XHolw3jOpHu60cEzugb57GVOh0f5k/EL+mBKilecsTtiXWfMHu
+   wHB4lpkgq7v36V/D0mSN4D4i2jTWdzRMjgEUaCgYSqnzEtxZsXY+d1g3O
+   uHqepxI/N7cAuE0hKvInSyhH+nPkSCOK5e/8OMc57nG0hxTbw9rUr99qs
    Q==;
-X-CSE-ConnectionGUID: e9Wxeb/zTwmMS1PBtDxrfw==
-X-CSE-MsgGUID: M02dx+/vT/GrrbmyCeo1kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="35878765"
+X-CSE-ConnectionGUID: s3hKSnA7R0eXyon0mltZQQ==
+X-CSE-MsgGUID: ro1RV+bnRPmPRs/dvxXpyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="18492863"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="35878765"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 23:06:04 -0700
-X-CSE-ConnectionGUID: r+QG4RWyQZ2ro0C9hEPqIQ==
-X-CSE-MsgGUID: 7a0KZwmGQOSe6ic1luFR/g==
+   d="scan'208";a="18492863"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 01:50:08 -0700
+X-CSE-ConnectionGUID: VmceBxSuQ1CXUnrES2jcUA==
+X-CSE-MsgGUID: dV+NVNRTQdmzHLbqFwUpLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="80387807"
+   d="scan'208";a="49049340"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2024 23:06:03 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 14 Jul 2024 01:50:07 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSsMy-000d94-2s;
-	Sun, 14 Jul 2024 06:06:00 +0000
-Date: Sun, 14 Jul 2024 14:05:29 +0800
+	id 1sSuvl-000dH0-1O;
+	Sun, 14 Jul 2024 08:50:05 +0000
+Date: Sun, 14 Jul 2024 16:49:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 2032/12880]
- drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between
- different enumeration types ('enum sti_plane_type' and 'enum
- sti_plane_id_of_type')
-Message-ID: <202407141328.FvzzbIHF-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.9/prjc 3/4] kernel/sched/alt_core.c:4216:20: error:
+ assignment to 'struct rq *' from 'int' makes pointer from integer without a
+ cast
+Message-ID: <202407141645.znGvEgnO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,71 +63,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ville,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fe121b622825ff8cc995a1e6b026181c48188db
-commit: 74bde7581df3e18061119e1b27b63d0a9ea57b7a [2032/12880] drm/sti: Allow build with COMPILE_TEST=y
-config: arm-randconfig-001-20240714 (https://download.01.org/0day-ci/archive/20240714/202407141328.FvzzbIHF-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141328.FvzzbIHF-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.9/prjc
+head:   5d131fcb17bc5c82ac8e5cf6217da8b8ea79453b
+commit: 8964d2061c8f25fc8c96de75a0f9e3234ae61c6e [3/4] fixup! ZEN: sched/alt: Set default timeslice to 2ms
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240714/202407141645.znGvEgnO-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407141645.znGvEgnO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407141328.FvzzbIHF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407141645.znGvEgnO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/sti/sti_hqvdp.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/gpu/drm/sti/sti_hqvdp.c:24:
-   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
-   In file included from drivers/gpu/drm/sti/sti_mixer.h:17:
->> drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
-      32 |         STI_GDP_0       = STI_GDP | STI_ID_0,
-         |                           ~~~~~~~ ^ ~~~~~~~~
-   drivers/gpu/drm/sti/sti_plane.h:33:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
-      33 |         STI_GDP_1       = STI_GDP | STI_ID_1,
-         |                           ~~~~~~~ ^ ~~~~~~~~
-   drivers/gpu/drm/sti/sti_plane.h:34:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
-      34 |         STI_GDP_2       = STI_GDP | STI_ID_2,
-         |                           ~~~~~~~ ^ ~~~~~~~~
-   drivers/gpu/drm/sti/sti_plane.h:35:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
-      35 |         STI_GDP_3       = STI_GDP | STI_ID_3,
-         |                           ~~~~~~~ ^ ~~~~~~~~
-   drivers/gpu/drm/sti/sti_plane.h:36:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
-      36 |         STI_HQVDP_0     = STI_VDP | STI_ID_0,
-         |                           ~~~~~~~ ^ ~~~~~~~~
-   6 errors generated.
+   In file included from kernel/sched/alt_core.c:48:
+   kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
+      14 | static inline void flush_smp_call_function_queue(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/sched.h:9,
+                    from kernel/sched/alt_core.c:47:
+   kernel/sched/alt_sched.h:357:20: note: previous definition of 'flush_smp_call_function_queue' with type 'void(void)'
+     357 | static inline void flush_smp_call_function_queue(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'active_balance_cpu_stop':
+   kernel/sched/alt_core.c:4215:28: error: implicit declaration of function '__best_mask_cpu'; did you mean '__set_task_cpu'? [-Wimplicit-function-declaration]
+    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+         |                            ^~~~~~~~~~~~~~~
+         |                            __set_task_cpu
+   In file included from include/asm-generic/percpu.h:7,
+                    from ./arch/sh/include/generated/asm/percpu.h:1,
+                    from include/linux/irqflags.h:19,
+                    from arch/sh/include/asm/cmpxchg-irq.h:5,
+                    from arch/sh/include/asm/cmpxchg.h:20,
+                    from arch/sh/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/sh/include/asm/bitops.h:23,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/sched/clock.h:5,
+                    from kernel/sched/alt_core.c:14:
+   kernel/sched/alt_core.c:4215:58: error: 'sched_cpu_llc_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
+    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+         |                                                          ^~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
+     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                      ^~~
+   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
+     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
+         |                                                 ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
+     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
+         |                                   ^~~~~~~~~~~
+   kernel/sched/alt_core.c:4215:50: note: in expansion of macro 'per_cpu'
+    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+         |                                                  ^~~~~~~
+   kernel/sched/alt_core.c:4215:58: note: each undeclared identifier is reported only once for each function it appears in
+    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+         |                                                          ^~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
+     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                      ^~~
+   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
+     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
+         |                                                 ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
+     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
+         |                                   ^~~~~~~~~~~
+   kernel/sched/alt_core.c:4215:50: note: in expansion of macro 'per_cpu'
+    4215 |                 int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+         |                                                  ^~~~~~~
+   kernel/sched/alt_core.c:4216:22: error: implicit declaration of function 'move_queued_task'; did you mean 'requeue_task'? [-Wimplicit-function-declaration]
+    4216 |                 rq = move_queued_task(rq, p, dcpu);
+         |                      ^~~~~~~~~~~~~~~~
+         |                      requeue_task
+>> kernel/sched/alt_core.c:4216:20: error: assignment to 'struct rq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    4216 |                 rq = move_queued_task(rq, p, dcpu);
+         |                    ^
+   kernel/sched/alt_core.c: In function 'trigger_active_balance':
+   kernel/sched/alt_core.c:4253:45: error: 'struct rq' has no member named 'active_balance_work'
+    4253 |                                     arg, &rq->active_balance_work);
+         |                                             ^~
+   kernel/sched/alt_core.c: In function 'sched_init':
+   kernel/sched/alt_core.c:7704:54: error: 'sched_sg_idle_mask' undeclared (first use in this function); did you mean 'sched_idle_mask'?
+    7704 |         struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
+         |                                                      ^~~~~~~~~~~~~~~~~~
+         |                                                      sched_idle_mask
+   kernel/sched/alt_core.c:7704:28: warning: unused variable 'balance_arg' [-Wunused-variable]
+    7704 |         struct balance_arg balance_arg = {.cpumask = sched_sg_idle_mask, .active = 0};
+         |                            ^~~~~~~~~~~
 
 
-vim +32 drivers/gpu/drm/sti/sti_plane.h
+vim +4216 kernel/sched/alt_core.c
 
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  30  
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  31  enum sti_plane_desc {
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31 @32  	STI_GDP_0       = STI_GDP | STI_ID_0,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  33  	STI_GDP_1       = STI_GDP | STI_ID_1,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  34  	STI_GDP_2       = STI_GDP | STI_ID_2,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  35  	STI_GDP_3       = STI_GDP | STI_ID_3,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  36  	STI_HQVDP_0     = STI_VDP | STI_ID_0,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  37  	STI_CURSOR      = STI_CUR,
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  38  	STI_BACK        = STI_BCK
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  39  };
-871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  40  
+561e42ce50942d Alfred Chen 2019-08-19  4196  
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4197  static int active_balance_cpu_stop(void *data)
+561e42ce50942d Alfred Chen 2019-08-19  4198  {
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4199  	struct balance_arg *arg = data;
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4200  	struct task_struct *p = arg->task;
+561e42ce50942d Alfred Chen 2019-08-19  4201  	struct rq *rq = this_rq();
+561e42ce50942d Alfred Chen 2019-08-19  4202  	unsigned long flags;
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4203  	cpumask_t tmp;
+561e42ce50942d Alfred Chen 2019-08-19  4204  
+561e42ce50942d Alfred Chen 2019-08-19  4205  	local_irq_save(flags);
+561e42ce50942d Alfred Chen 2019-08-19  4206  
+561e42ce50942d Alfred Chen 2019-08-19  4207  	raw_spin_lock(&p->pi_lock);
+561e42ce50942d Alfred Chen 2019-08-19  4208  	raw_spin_lock(&rq->lock);
+561e42ce50942d Alfred Chen 2019-08-19  4209  
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4210  	arg->active = 0;
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4211  
+561e42ce50942d Alfred Chen 2019-08-19  4212  	if (task_on_rq_queued(p) && task_rq(p) == rq &&
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4213  	    cpumask_and(&tmp, p->cpus_ptr, arg->cpumask) &&
+f445b324dd06c9 Alfred Chen 2021-03-14  4214  	    !is_migration_disabled(p)) {
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4215  		int dcpu = __best_mask_cpu(&tmp, per_cpu(sched_cpu_llc_mask, cpu_of(rq)));
+561e42ce50942d Alfred Chen 2019-08-19 @4216  		rq = move_queued_task(rq, p, dcpu);
+66606cb1479a7c Alfred Chen 2020-11-03  4217  	}
+561e42ce50942d Alfred Chen 2019-08-19  4218  
+561e42ce50942d Alfred Chen 2019-08-19  4219  	raw_spin_unlock(&rq->lock);
+f90f6c0ad3cb77 Alfred Chen 2024-02-20  4220  	raw_spin_unlock_irqrestore(&p->pi_lock, flags);
+561e42ce50942d Alfred Chen 2019-08-19  4221  
+561e42ce50942d Alfred Chen 2019-08-19  4222  	return 0;
+561e42ce50942d Alfred Chen 2019-08-19  4223  }
+561e42ce50942d Alfred Chen 2019-08-19  4224  
 
-:::::: The code at line 32 was first introduced by commit
-:::::: 871bcdfea68560991bd650406e47a801ab9d635d drm/sti: code clean up
+:::::: The code at line 4216 was first introduced by commit
+:::::: 561e42ce50942dea67eafbee0a4b48d1b0b7b7ac Project C v5.7.5-r2
 
-:::::: TO: Vincent Abriou <vincent.abriou@st.com>
-:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
