@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86A2A944
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 00:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8289328F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jul 2024 01:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720918797; cv=none; b=rgqJW8wyYv3zHfqeBthKW/aAI3nQilLmZpwhzs7m8ko4NkiW5OgZNo/PmIC2dGUqsdLwbnfVVadD38ZUCf9zD7XZeWoKsRdiWlJmpiI3WlfR4TkwnOyGT5YjYf6SS0QC0OEBE54bndlYxdcCteWIUXQ2aMDuK6Zt0mEAG/hGb3E=
+	t=1720921379; cv=none; b=qR3Z6wwqyCHwVulsReltuCvwUz9fSB8UjYgxEsOQfmm4JuSD+Ab49yH1zvKzKJjoTLbdSBXUFZS5iZDKl7CtG/Hm6dV/xdzBWjyjp/YQDUH9LhV5f23e3hpZzblnK0sqguU/ObFytOWlfpZZNSJ/6HVQXd51lD9yeUS9qmHQN0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720918797; c=relaxed/simple;
-	bh=raHL+x6o/nmuqbo2J44+Up5nGTtRePMSRmhUIE1zXEg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t4O7x5/dnfVjrYuU5QbhNHStCZZ1Sq1qWU89sVAdc7vqsEW0u/1LQuWuilUFepkKHjKHvRqtpxVRe9d6hQ/2EfLgQyM8YiWZKM6jhvf2UGPXKRb59cquDXB7wvBVJIBlMMNA18p9kIjFmhwGyLTOL5krm1p+oEO3NlYTf8DtJ04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvvKCZuv; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1720921379; c=relaxed/simple;
+	bh=rtP+mS0uP9del62NZ2mr5ZJ6IeQJSfcJeWJB4tg13RA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cafP3MnuMZ+hOs4svGotbgGKSahhDdj6Z28omJyb02zR+/wXlMn8rTGHNQo2xS58yBhDg3M+Wp3o6Idj8zTAn8sa+yBwTi4kHMbp0twOvV1qgFPPOCAdML47cw1dHH7fo408iSxzJlORQbkNFt2Z+8mcgt/rKZOTgKsJq9G8nG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nuxs1JlR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvvKCZuv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nuxs1JlR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720918795; x=1752454795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=raHL+x6o/nmuqbo2J44+Up5nGTtRePMSRmhUIE1zXEg=;
-  b=kvvKCZuvmObBbxhmq3EAaEhP8E1KFQHKv4wzEuE6uXXM4KqxLbBVEXX5
-   mRnckv0uRPNI203sgI1bkZfwO8fuHlpXDqoN9K2zWcygM/VAAXDWVS6SW
-   Jld0ON8PF5GDxyKtmgwqag7aCFLpB7XjZudXT6ydYVxo+Dv8ry2jftEg6
-   AJa5/Iz5aIviUvHrlXUv2Ku1vM4qzrArQnkkSczUyIttB8m+kOYNsqPTy
-   rC5kxvDZHYegqxtX1HblH3oGK9PQSLevFgmdLAs72gqIvby3+Ge5HcR4s
-   R3Bqbr4CCtCheDJnAByEuZilYefQklBogoZaMjdgF1oT3kFudsKIBKmIo
-   g==;
-X-CSE-ConnectionGUID: 5RJB9UWUQNaBIdqgJKtqgQ==
-X-CSE-MsgGUID: BIOBnzkHT/SduvtuPwsuyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="29723774"
+  t=1720921377; x=1752457377;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rtP+mS0uP9del62NZ2mr5ZJ6IeQJSfcJeWJB4tg13RA=;
+  b=Nuxs1JlRyseXzE8bsiFY3JxS6mNLkk0GNzKOmqLtSiiLg6XriLzhNV3s
+   WWoXd2bs7VC89PvdqJNeaTPOVw7xCxzXZnAsJWcTMRCd90ZLZ3lLsR15d
+   DqXq/rWUvKBGm+fCTkx1NI/h93oCcF7V4vGjVI3T12LNSt/oho4QIhtId
+   4bvUwaGQpzU/JmbDvYrSq+QG3uvRjLutSIl5szwVxXvju0BlkpHO9jmmB
+   54/L286QQg5XTSdCBPqyCXxKtXZX6mKTGNYqJ1GHWnPC6TWOlGwTPus2P
+   yGQRSpbX1mKpHjVgNiFAznzVc0LIjOq3WlYGxGg3XoFkyaTamTlSYV5oZ
+   Q==;
+X-CSE-ConnectionGUID: mHi5r4RTSOWptnrqYiUkMg==
+X-CSE-MsgGUID: T1hElHigT9eVzNM+TwEEHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11132"; a="21244938"
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="29723774"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 17:59:54 -0700
-X-CSE-ConnectionGUID: vHnTNTndT0ytw2LzlbE5Yw==
-X-CSE-MsgGUID: XTc28ntJS+qQi5QTNHhqhQ==
+   d="scan'208";a="21244938"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 18:42:56 -0700
+X-CSE-ConnectionGUID: 70mvJWK/SmCif9fgwECEvA==
+X-CSE-MsgGUID: AT8ouSspRQqdQ6AvX2Ow6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,207,1716274800"; 
-   d="scan'208";a="54449390"
+   d="scan'208";a="79958051"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 17:59:53 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Jul 2024 18:42:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSnah-000cu6-0Q;
-	Sun, 14 Jul 2024 00:59:51 +0000
-Date: Sun, 14 Jul 2024 08:58:51 +0800
+	id 1sSoGK-000cvc-0V;
+	Sun, 14 Jul 2024 01:42:52 +0000
+Date: Sun, 14 Jul 2024 09:42:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Houghton <jthoughton@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 04/18] KVM: Fail __gfn_to_hva_many for userfault gfns.
-Message-ID: <202407140801.z25gh0Q5-lkp@intel.com>
-References: <20240710234222.2333120-5-jthoughton@google.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:numa/memblks/v0.1 15/19] virtio_pmem.c:undefined reference to
+ `memory_add_physaddr_to_nid'
+Message-ID: <202407140959.BJ9pFoC8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710234222.2333120-5-jthoughton@google.com>
 
-Hi James,
+Hi Mike,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on 02b0d3b9d4dd1ef76b3e8c63175f1ae9ff392313]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-Add-KVM_USERFAULT-build-option/20240711-101935
-base:   02b0d3b9d4dd1ef76b3e8c63175f1ae9ff392313
-patch link:    https://lore.kernel.org/r/20240710234222.2333120-5-jthoughton%40google.com
-patch subject: [RFC PATCH 04/18] KVM: Fail __gfn_to_hva_many for userfault gfns.
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240714/202407140801.z25gh0Q5-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git numa/memblks/v0.1
+head:   d024f77faa6fa51163d89871f2a255229097a1be
+commit: b167986837bb5d004f2dc131c553d1d267a8279d [15/19] mm: make range-to-target_node lookup facility a part of numa_memblks
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240714/202407140959.BJ9pFoC8-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140801.z25gh0Q5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240714/202407140959.BJ9pFoC8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407140801.z25gh0Q5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407140959.BJ9pFoC8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/s390/kvm/../../../virt/kvm/kvm_main.c: In function '__gfn_to_hva_many':
->> arch/s390/kvm/../../../virt/kvm/kvm_main.c:2690:24: error: 'KVM_HVA_ERR_USERFAULT' undeclared (first use in this function); did you mean 'KVM_CAP_USERFAULT'?
-    2690 |                 return KVM_HVA_ERR_USERFAULT;
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-         |                        KVM_CAP_USERFAULT
-   arch/s390/kvm/../../../virt/kvm/kvm_main.c:2690:24: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +2690 arch/s390/kvm/../../../virt/kvm/kvm_main.c
-
-  2679	
-  2680	static unsigned long __gfn_to_hva_many(const struct kvm_memory_slot *slot, gfn_t gfn,
-  2681					       gfn_t *nr_pages, bool write)
-  2682	{
-  2683		if (!slot || slot->flags & KVM_MEMSLOT_INVALID)
-  2684			return KVM_HVA_ERR_BAD;
-  2685	
-  2686		if (memslot_is_readonly(slot) && write)
-  2687			return KVM_HVA_ERR_RO_BAD;
-  2688	
-  2689		if (gfn_has_userfault(slot->kvm, gfn))
-> 2690			return KVM_HVA_ERR_USERFAULT;
-  2691	
-  2692		if (nr_pages)
-  2693			*nr_pages = slot->npages - (gfn - slot->base_gfn);
-  2694	
-  2695		return __gfn_to_hva_memslot(slot, gfn);
-  2696	}
-  2697	
+   s390-linux-ld: drivers/nvdimm/virtio_pmem.o: in function `virtio_pmem_probe':
+>> virtio_pmem.c:(.text+0x958): undefined reference to `memory_add_physaddr_to_nid'
+>> s390-linux-ld: virtio_pmem.c:(.text+0x984): undefined reference to `phys_to_target_node'
+   s390-linux-ld: drivers/dax/cxl.o: in function `cxl_dax_region_probe':
+>> cxl.c:(.text+0x58): undefined reference to `phys_to_target_node'
+>> s390-linux-ld: cxl.c:(.text+0xc4): undefined reference to `memory_add_physaddr_to_nid'
+   s390-linux-ld: drivers/cxl/core/region.o: in function `cxl_region_perf_attrs_callback':
+>> region.c:(.text+0x1e30): undefined reference to `phys_to_target_node'
+   s390-linux-ld: drivers/cxl/pmem.o: in function `cxl_pmem_region_probe':
+>> pmem.c:(.text+0x12da): undefined reference to `memory_add_physaddr_to_nid'
+>> s390-linux-ld: pmem.c:(.text+0x1306): undefined reference to `phys_to_target_node'
 
 -- 
 0-DAY CI Kernel Test Service
