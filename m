@@ -1,69 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDB13A3FD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 19:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E946813AA5F;
+	Mon, 15 Jul 2024 20:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721071641; cv=none; b=mtQAb4ZnZLQa9L/mgRLY0BAgK/xteZ1UT999y7jbHRgkTEjFAuj61NXxa213cv5bUsm0Io2HaNf5gO8gPPXflThZSiAa6O/EhL9ThkGX4Y6SBGabLFfnQKiUEs7cKJuO9cVU7H+a8g+F8TDrM5cLTo0I8jDAw7LLe8hgNX5xHBI=
+	t=1721074224; cv=none; b=cq3dXL5zdHzCA3VUhf8pfkqTNtw+RL49nSclwbT2VOFKZYNYBYsxN8pTXHdldd1Fge9631ttl01jx9wrSBLZz5GuOcz8uvBP2fSJLTlWSmdbfDqej5auRPpLX9XWtd8rMhg4T1RsZtEPqc+3HACEr3XuQTXW1or3vWO7/o85Vek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721071641; c=relaxed/simple;
-	bh=scvD8E1Th0WQEDOblbw8afBg6ubsAWbPK3/2sSh0+fU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a8U/x1nU5/M8qDzYs6/22xdN1aEpaFy8As+tuaVxgJn720jwj3ArrvpdfLaAQiVyWOet+GHaFKlCU8ocTcKgofDEJhQu6jyNI+A7DeH/zfOCfyOjLs0lsa3+ot1hr08l14Mu0JMI3M/XZ/nefynbCEoXbQYS8Gbmawrc0mEGqEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtXmA/F6; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1721074224; c=relaxed/simple;
+	bh=HHujnsrnjf1PnrK3YMKyzJS+PCOaLIFZiXhW3Fom7U8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=egOpaAG0I4I22/2SlUU1HQBI14ewB655mw/v+/HUY+qALLu7eq+LzRAmXYyCAhhalLxhMGsAJyXGc7gK89/udrqPal4dQsEEykBY/6dNpTlbZYJULiKZle6oHXfHPW6Rl5GUXb6enDb67sicd14byUjeZokfJUyZy5b6nKkaLVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbnAjBTH; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtXmA/F6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbnAjBTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721071639; x=1752607639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=scvD8E1Th0WQEDOblbw8afBg6ubsAWbPK3/2sSh0+fU=;
-  b=HtXmA/F6/KE2CMFkbPzZNMEa46dmYLgUq3aKvtZwf1D5iCxb8OOQW4TD
-   MEie7xahjkY25LpcCsY25wSBHzebFxGdN1O3oayoHwghBKnXHBLom0DaP
-   LYzCdMOTnfB94l7f7ag1q1IEgK6u+vH0DKF3WVuP8mr8h7yXw04W0gKfJ
-   zyRuC3yt1glqApmAl9Mu2s/ungdkqGTvf1Z1/6UmHyBBX5X4ExadgsNSi
-   ZcklIrIpP8qOcqvB1ex0KFAwvCJOmg/kjzRMMFL9cejujUDYDuLXe6ejn
-   i7qFLs757lVnePUITbRqk3QHG9sRS+tG8czAn0jYMB9S3g3WlpHpqxzvl
-   A==;
-X-CSE-ConnectionGUID: CTCKZceVQtWH+Y5Ip/K0Zw==
-X-CSE-MsgGUID: so0uj2xfTGiyWVQE0mM7Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18342891"
+  t=1721074223; x=1752610223;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HHujnsrnjf1PnrK3YMKyzJS+PCOaLIFZiXhW3Fom7U8=;
+  b=AbnAjBTHMFGJdjoPat4pSxCmzg5fVXHwjWjei4egOIopk0WekrIRZmCD
+   PDeJqC5JJ60Yfh5sUoQ6OtkJfp8nu9fHnaSW//yjUY4AMDvNHFSE5LMr/
+   KHYJ8o8t3yVSI8+SeuhXSXGEl3H0/0mBFdxm628E1VO0kE9F1ASDtxBYu
+   nk45OmttitlpqOmys2UndOBy6N6KtfdWpqPOTOYv2XNneZhwHEhCOSHuO
+   eqMEzGFEYbV4XkTL1MFrkHYuT/OOHUmjvnHk0AZeV0smviL1bpEU0QecQ
+   ZZmTtl74etDEpAlqsjBjCzHlklH9r6jX6g5iIPoPxhzqqfoXaIDMYdgEI
+   w==;
+X-CSE-ConnectionGUID: +Z/nrwJhR5CnUCG5Mb/rjg==
+X-CSE-MsgGUID: zPuE+noYQEK353EplSx5FA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18594188"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="18342891"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 12:27:19 -0700
-X-CSE-ConnectionGUID: 2Tdnb+rbRk+Wk2mkoCoccg==
-X-CSE-MsgGUID: 1KBBHSXLTp670BMn/kdLJQ==
+   d="scan'208";a="18594188"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 13:10:23 -0700
+X-CSE-ConnectionGUID: U96Xw8LsRLuws3US+xiY4w==
+X-CSE-MsgGUID: 6nxUefcwTpe1o3gxrRxGzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="72960660"
+   d="scan'208";a="49798795"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Jul 2024 12:27:15 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Jul 2024 13:10:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTRLt-000eWK-35;
-	Mon, 15 Jul 2024 19:27:13 +0000
-Date: Tue, 16 Jul 2024 03:26:47 +0800
+	id 1sTS1a-000eYU-1g;
+	Mon, 15 Jul 2024 20:10:18 +0000
+Date: Tue, 16 Jul 2024 04:09:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PATCH RESEND v12 4/6] clk: wpcm450: Add Nuvoton WPCM450
- clock/reset controller driver
-Message-ID: <202407160235.JYThNv91-lkp@intel.com>
-References: <20240708-wpcm-clk-v12-4-1afac539c37d@gmx.net>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/200-dcp 200/228]
+ drivers/gpu/drm/apple/audio.c:207:16: error: call to undeclared function
+ 'snd_interval_rate_bits'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202407160435.X1nnb6pb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,55 +64,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240708-wpcm-clk-v12-4-1afac539c37d@gmx.net>
 
-Hi Jonathan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4cece764965020c22cff7665b18a012006359095]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Neusch-fer/dt-bindings-clock-Add-Nuvoton-WPCM450-clock-reset-controller/20240708-073926
-base:   4cece764965020c22cff7665b18a012006359095
-patch link:    https://lore.kernel.org/r/20240708-wpcm-clk-v12-4-1afac539c37d%40gmx.net
-patch subject: [PATCH RESEND v12 4/6] clk: wpcm450: Add Nuvoton WPCM450 clock/reset controller driver
-config: arm-randconfig-r064-20240715 (https://download.01.org/0day-ci/archive/20240716/202407160235.JYThNv91-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   8055be462c879e6a7eb5585450fd146af0c37127
+commit: 933ebbe879c9436382bcb4f70572d754fb02a247 [200/228] gpu: drm: apple: Add DCP audio driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240716/202407160435.X1nnb6pb-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160435.X1nnb6pb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407160235.JYThNv91-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407160435.X1nnb6pb-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/nuvoton/clk-wpcm450.c:55:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+All errors (new ones prefixed by >>):
 
-vim +55 drivers/clk/nuvoton/clk-wpcm450.c
+   In file included from drivers/gpu/drm/apple/audio.c:16:
+   In file included from include/linux/of_dma.h:14:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/apple/audio.c:207:16: error: call to undeclared function 'snd_interval_rate_bits'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     207 |         return snd_interval_rate_bits(r, hits.rates);
+         |                ^
+   drivers/gpu/drm/apple/audio.c:413:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     413 |         int ret;
+         |             ^
+   6 warnings and 1 error generated.
 
-    36	
-    37	static unsigned long wpcm450_clk_pll_recalc_rate(struct clk_hw *hw,
-    38							 unsigned long parent_rate)
-    39	{
-    40		struct wpcm450_clk_pll *pll = to_wpcm450_clk_pll(hw);
-    41		unsigned long fbdv, indv, otdv;
-    42		u64 rate;
-    43		u32 pllcon;
-    44	
-    45		if (parent_rate == 0)
-    46			return 0;
-    47	
-    48		pllcon = readl_relaxed(pll->pllcon);
-    49	
-    50		indv = FIELD_GET(PLLCON_INDV, pllcon) + 1;
-    51		fbdv = FIELD_GET(PLLCON_FBDV, pllcon) + 1;
-    52		otdv = FIELD_GET(PLLCON_OTDV, pllcon) + 1;
-    53	
-    54		rate = (u64)parent_rate * fbdv;
-  > 55		do_div(rate, indv * otdv);
-    56	
-    57		return rate;
-    58	}
-    59	
+
+vim +/snd_interval_rate_bits +207 drivers/gpu/drm/apple/audio.c
+
+   196	
+   197	static int dcpaud_rule_rate(struct snd_pcm_hw_params *params,
+   198	                             struct snd_pcm_hw_rule *rule)
+   199	{
+   200		struct dcp_audio *dcpaud = rule->private;
+   201		struct snd_interval *r = hw_param_interval(params,
+   202					SNDRV_PCM_HW_PARAM_RATE);
+   203		struct dcp_sound_format_mask hits;
+   204	
+   205	        dcpaud_consult_elements(dcpaud, params, &hits);
+   206	
+ > 207	        return snd_interval_rate_bits(r, hits.rates);
+   208	}
+   209	
 
 -- 
 0-DAY CI Kernel Test Service
