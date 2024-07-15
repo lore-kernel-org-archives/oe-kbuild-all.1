@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD24136E09
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 20:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BF23BBC2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 22:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721076747; cv=none; b=pQKM599JeTdDSha358hqi3ZmW0XXJHXASqJUDHNJiH1WLZ52DamhZ6mbbiYxJmSKdwz9EObkQHVKkUjApE1WljBoGF5rk5ja3b7cSrPA9MNNopulpGD4L2GPLeSpyJgBOkElKMx8L6DaG2gOV1BVtxHFiZ45VDokLSEqRkCAz+I=
+	t=1721083667; cv=none; b=GAoihdhx/G/pme/mBrTCZkTvnzDMh8MNhWadUj2MhVvPXNJt6r07poctIymXjP90BZPCTO82kC0jV4fFJsTv/d+OU6WCcnDdfYCXkEVFNpKIpuD5uGeCR9OMbiN5W1B185PU0fMjuOMc2mXeNTVoIpzfAS7JcR/0wELg2SAzRKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721076747; c=relaxed/simple;
-	bh=7E0pBFoIIUfoJiRa5VTcGeeBLPX3e5b2bj5VorAB4IE=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TVai12RmQ3UNR1WEDimEiceIcmy6SBotctLHswDtB7CjRB5hXax9Ppm/Ze7kD2JpYgYp3w+PsYk6ZpW8nLt/2ePqpt9ZXNwXh43ZXxDD2kUsjKYyjEpbyu5xIovWI7cEx0bzxfaZx8pP8xHg7+MktCA3GPOVIe4RkLs7XLLXBTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mlSR3Twd; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1721083667; c=relaxed/simple;
+	bh=XfsEydVYRPX3bG2CYkj8EH2Pqo8RlTpCiU4GCPCGYWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gxt7fuFJwZuTkBc9dChSJbEhZ3vO1eCcEeZVGHVKyggkmAJCxeskK/K5TOX0hLFWjfGMkYvG9A3ebPS6w6S8K3wegM3/7066OIx4hi2GVBscpszQIcGC/DDhv9HzV/A460zLAsEr1yenQtdaHjgM+HLMcxNGJg2sReT/Ztb6v58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sd2kEj3e; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mlSR3Twd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sd2kEj3e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721076745; x=1752612745;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=7E0pBFoIIUfoJiRa5VTcGeeBLPX3e5b2bj5VorAB4IE=;
-  b=mlSR3TwdFEr84Wu8TSDxN0U9YiHTes7mcVXh/GTqN/Pok8eJdNy8tp8F
-   ha+JicPNa47uHZ5kTBpA7Opm691DP6Fus4vs0jDr42XQz5MO4A6Z62S7O
-   dqXADHQHmIwx9b2lLuBINNj+d2Rgbx0hJTQ6tgjuo1NNrShA++UbLK4R6
-   siS7qqcBUJ9mO6+ScHKbrh+rnVGJlULxTjRlWM6/C0NBqbD0FVIyFIbw+
-   OA1brnt2l6+67lPOzJlBEUAdnVj6dRqpfqFyoOhZWgi4cJP8o597r5+xq
-   i85cxRHJJnnJ5yN3Wkcf70PsnF2nJO/q9aXYFUx2Txfb4nuTssOxJ9BIO
-   A==;
-X-CSE-ConnectionGUID: tvbikCPQTh2P/SUL75Uw0Q==
-X-CSE-MsgGUID: B1SVFu9vQZat4zmO0nEhDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="22347325"
+  t=1721083665; x=1752619665;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XfsEydVYRPX3bG2CYkj8EH2Pqo8RlTpCiU4GCPCGYWY=;
+  b=Sd2kEj3euRO9ZiI0j0AE3ESsHYvEDf2GjDI98wYvJlia3e7n+2jDU+VA
+   DXZzE/mo4fINtQHm1w6oghPkdWxEEaVD1j2uhEuaFDTY5OFLfTwIKFjmd
+   uBmFizFQPG74b7bX8xicybRVIpUG0/FuyKBWZ1JeJuQvlzboOAhZWAUvh
+   JI2kIwVg+znBQsndpoK0ugJoEp/6+deg3IxkXqEPBWq5DvEDz5RHqBftt
+   qwwdPAZbY9cvvyXUys35EQEA4DQUfScdSS7cKenSYCKKNWK2vBkjxnhEp
+   wTKw/NULHvOQuGS7TOy2nJqc58RAHcXWnmk6fyLZRjeTCSp9L//2/i6GK
+   w==;
+X-CSE-ConnectionGUID: t1i01tHKQkudlt3Uuipw4Q==
+X-CSE-MsgGUID: Ld/miZelQH+g/Fp93DiUSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18201654"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="22347325"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 13:52:24 -0700
-X-CSE-ConnectionGUID: Eh12fqKkSg2g/o+8O881uA==
-X-CSE-MsgGUID: JsgFsHLSQ4iHExKFzAWB/g==
+   d="scan'208";a="18201654"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 15:47:39 -0700
+X-CSE-ConnectionGUID: KvZe60W1SvmkqSn1zESyiw==
+X-CSE-MsgGUID: FpXUXWpiQCmbdt8otfDP4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="54578750"
+   d="scan'208";a="54323653"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Jul 2024 13:52:23 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jul 2024 15:47:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTSgH-000eZm-0W;
-	Mon, 15 Jul 2024 20:52:21 +0000
-Date: Tue, 16 Jul 2024 04:52:17 +0800
+	id 1sTUTo-000edC-01;
+	Mon, 15 Jul 2024 22:47:36 +0000
+Date: Tue, 16 Jul 2024 06:46:47 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [plbossart-sound:sof/fix-structures 32/45]
- sound/soc/amd/acp/acp-sdw-sof-mach.c:644:6: warning: variable 'amp_num' set
- but not used
-Message-ID: <202407160447.9KCzYnRz-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 4435/30000]
+ drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2305:17:
+ warning: implicit conversion from 'fm_macsec_unknown_sci_frame_treatment' to
+ 'e_FmMacsecUnknownSciFrameTreatment'
+Message-ID: <202407160628.eG7J1Y3b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +64,463 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/plbossart/sound sof/fix-structures
-head:   236a32f1dcca780f7f55867cba54eae7ca87bbb2
-commit: 8245a1411fef45a208f182c176660107b7f582aa [32/45] ASoC: amd/sdw_utils: add sof based soundwire generic machine driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240716/202407160447.9KCzYnRz-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160447.9KCzYnRz-lkp@intel.com/reproduce)
+Hi Li,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   411c52448fdc0906f70c4585c7e05359c0b05c11
+commit: f8642d6c1b9918bf9a50e6449b09f17f60c6a3c6 [4435/30000] net: sdk_fman: remove obsolete modversions.h includes
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240716/202407160628.eG7J1Y3b-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160628.eG7J1Y3b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407160447.9KCzYnRz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407160628.eG7J1Y3b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> sound/soc/amd/acp/acp-sdw-sof-mach.c:644:6: warning: variable 'amp_num' set but not used [-Wunused-but-set-variable]
-     644 |         int amp_num = 0, i;
-         |             ^
-   1 warning generated.
+   In file included from include/linux/fsl_usdpaa.h:17,
+                    from drivers/staging/fsl_qbman/dpa_sys.h:66,
+                    from drivers/staging/fsl_qbman/fsl_usdpaa.c:29:
+   include/linux/fsl_qman.h:415:1: error: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Werror=packed-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: error: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Werror=packed-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: error: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Werror=packed-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   In file included from drivers/staging/fsl_qbman/fsl_usdpaa.c:32:
+   drivers/staging/fsl_qbman/qman_low.h: In function 'qm_shutdown_fq':
+   drivers/staging/fsl_qbman/qman_low.h:1291:29: error: variable 'dequeue_wq' set but not used [-Werror=unused-but-set-variable]
+    1291 |                         u16 dequeue_wq = 0;
+         |                             ^~~~~~~~~~
+   drivers/staging/fsl_qbman/fsl_usdpaa.c: At top level:
+>> drivers/staging/fsl_qbman/fsl_usdpaa.c:410:6: error: no previous prototype for 'dbci_portal' [-Werror=missing-prototypes]
+     410 | void dbci_portal(void *addr)
+         |      ^~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h:37,
+                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c:48:
+   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c: In function 'dpa_tx':
+>> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c:1060:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    1060 |         struct qman_fq *egress_fq, *conf_fq;
+         |         ^~~~~~
+--
+   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
+                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.h:38,
+                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:34:
+   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1911:33: error: initialization of 'int (*)(struct Qdisc *, long unsigned int,  struct netlink_ext_ack *)' from incompatible pointer type 'int (*)(struct Qdisc *, long unsigned int)' [-Werror=incompatible-pointer-types]
+    1911 |         .delete         =       ceetm_cls_delete,
+         |                                 ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1911:33: note: (near initialization for 'ceetm_cls_ops.delete')
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_classify':
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:51: error: passing argument 2 of 'tcf_classify' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
+         |                                                   ^~~
+         |                                                   |
+         |                                                   struct tcf_proto *
+   In file included from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.h:36:
+   include/net/pkt_cls.h:80:42: note: expected 'const struct tcf_block *' but argument is of type 'struct tcf_proto *'
+      80 |                  const struct tcf_block *block,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:56: error: passing argument 3 of 'tcf_classify' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
+         |                                                        ^~~~
+         |                                                        |
+         |                                                        struct tcf_result *
+   include/net/pkt_cls.h:81:42: note: expected 'const struct tcf_proto *' but argument is of type 'struct tcf_result *'
+      81 |                  const struct tcf_proto *tp, struct tcf_result *res,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:33: error: too few arguments to function 'tcf_classify'
+    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
+         |                                 ^~~~~~~~~~~~
+   include/net/pkt_cls.h:79:5: note: declared here
+      79 | int tcf_classify(struct sk_buff *skb,
+         |     ^~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_tx':
+>> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:2016:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    2016 |         struct Qdisc *sch = net_dev->qdisc;
+         |         ^~~~~~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_classify':
+>> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1951:31: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    1951 |                         *qerr = NET_XMIT_SUCCESS | __NET_XMIT_STOLEN;
+         |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1953:17: note: here
+    1953 |                 case TC_ACT_SHOT:
+         |                 ^~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_Config':
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:3442:45: warning: implicit conversion from 'enum e_FmDmaAidMode' to 'enum fman_dma_aid_mode' [-Wenum-conversion]
+    3442 |         p_Fm->p_FmDriverParam->dma_aid_mode = e_FM_DMA_AID_OUT_PORT_ID;
+         |                                             ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_Init':
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:3691:51: warning: cast between incompatible function types from 't_Error (*)(void *)' {aka 'unsigned int (*)(void *)'} to 'void (*)(void *)' [-Wcast-function-type]
+    3691 |         XX_SetIntr(p_Fm->p_FmStateStruct->errIrq, (void (*) (t_Handle))FM_ErrorIsr, p_Fm);
+         |                                                   ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: At top level:
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:5204:6: warning: no previous prototype for 'FM_ChangeClock' [-Wmissing-prototypes]
+    5204 | void FM_ChangeClock(t_Handle h_Fm, int hardwarePortId)
+         |      ^~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_ChangeClock':
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:5206:13: warning: variable 'macId' set but not used [-Wunused-but-set-variable]
+    5206 |         int macId;
+         |             ^~~~~
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_GetCounter':
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:4809:64: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    4809 |             if ((p_Fm->p_FmStateStruct->revInfo.majorRev == 4) ||
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+    4810 |                 (p_Fm->p_FmStateStruct->revInfo.majorRev >= 6))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:4816:9: note: here
+    4816 |         case (e_FM_COUNTERS_ENQ_TOTAL_FRAME):
+         |         ^~~~
+--
+   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
+                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:75:
+   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_get_max_frm':
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:157:5: warning: old-style function definition [-Wold-style-definition]
+     157 | int fm_get_max_frm()
+         |     ^~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_get_rx_extra_headroom':
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:163:5: warning: old-style function definition [-Wold-style-definition]
+     163 | int fm_get_rx_extra_headroom()
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: At top level:
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:769:21: warning: no previous prototype for 'GetFmAdvArgsDevTreeNode' [-Wmissing-prototypes]
+     769 | struct device_node *GetFmAdvArgsDevTreeNode (uint8_t fmIndx)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:1615:5: warning: no previous prototype for 'ar_showmem' [-Wmissing-prototypes]
+    1615 | int ar_showmem(struct file *file, const char __user *buffer,
+         |     ^~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_unknown_sci_frame_treatment':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2305:17: warning: implicit conversion from 'fm_macsec_unknown_sci_frame_treatment' to 'e_FmMacsecUnknownSciFrameTreatment' [-Wenum-conversion]
+    2305 |                 treat_mode);
+         |                 ^~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_untag_frame_treatment':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2352:66: warning: implicit conversion from 'fm_macsec_untag_frame_treatment' to 'e_FmMacsecUntagFrameTreatment' [-Wenum-conversion]
+    2352 |         err = FM_MACSEC_ConfigUntagFrameTreatment(fm_macsec_dev, treat_mode);
+         |                                                                  ^~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_exception':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2410:56: warning: implicit conversion from 'fm_macsec_exception' to 'e_FmMacsecExceptions' [-Wenum-conversion]
+    2410 |         err = FM_MACSEC_ConfigException(fm_macsec_dev, exception, enable);
+         |                                                        ^~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_set_exception':
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2468:53: warning: implicit conversion from 'fm_macsec_exception' to 'e_FmMacsecExceptions' [-Wenum-conversion]
+    2468 |         err = FM_MACSEC_SetException(fm_macsec_dev, exception, enable);
+         |                                                     ^~~~~~~~~
+   In file included from include/uapi/linux/swab.h:6,
+                    from include/linux/swab.h:5,
+                    from arch/arm/include/asm/opcodes.h:86,
+                    from arch/arm/include/asm/bug.h:7,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:41:
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config':
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2483:37: warning: ordered comparison of pointer with integer zero [-Wextra]
+    2483 |         if (unlikely(fm_macsec_secy < 0))
+         |                                     ^
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_sci_insertion_mode':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2525:41: warning: implicit conversion from 'fm_macsec_sci_insertion_mode' to 'e_FmMacsecSciInsertionMode' [-Wenum-conversion]
+    2525 |                                         sci_insertion_mode);
+         |                                         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_validation_mode':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2573:53: warning: implicit conversion from 'fm_macsec_valid_frame_behavior' to 'e_FmMacsecValidFrameBehavior' [-Wenum-conversion]
+    2573 |                                                     validate_frames);
+         |                                                     ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_exception':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2623:66: warning: implicit conversion from 'fm_macsec_secy_exception' to 'e_FmMacsecSecYExceptions' [-Wenum-conversion]
+    2623 |         err = FM_MACSEC_SECY_ConfigException(fm_macsec_secy_dev, exception,
+         |                                                                  ^~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_event':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2641:62: warning: implicit conversion from 'fm_macsec_secy_event' to 'e_FmMacsecSecYEvents' [-Wenum-conversion]
+    2641 |         err = FM_MACSEC_SECY_ConfigEvent(fm_macsec_secy_dev, event, enable);
+         |                                                              ^~~~~
+--
+   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
+                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:80:
+   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: In function 'LnxwrpFmPcdIOCTL':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:735:69: warning: implicit conversion from 'ioc_fm_pcd_exceptions' to 'e_FmPcdExceptions' [-Wenum-conversion]
+     735 |             err = FM_PCD_SetException(p_LnxWrpFmDev->h_PcdDev, param->exception, param->enable);
+         |                                                                ~~~~~^~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: At top level:
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3441:6: warning: no previous prototype for 'FM_Get_Api_Version' [-Wmissing-prototypes]
+    3441 | void FM_Get_Api_Version(ioc_fm_api_version_t *p_version)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: In function 'LnxwrpFmIOCTL':
+>> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3554:63: warning: implicit conversion from 'ioc_fm_counters' to 'e_FmCounters' [-Wenum-conversion]
+    3554 |             err = FM_ModifyCounter(p_LnxWrpFmDev->h_Dev, param->cnt, param->val);
+         |                                                          ~~~~~^~~~~
+   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3589:67: warning: implicit conversion from 'ioc_fm_counters' to 'e_FmCounters' [-Wenum-conversion]
+    3589 |             param->val = FM_GetCounter(p_LnxWrpFmDev->h_Dev, param->cnt);
+         |                                                              ~~~~~^~~~~
+--
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c: In function 'FM_VSP_Config':
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:430:64: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
+     430 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaHeaderCacheAttr = fm_vsp_params.header_cache_attr;
+         |                                                                ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:431:68: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
+     431 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaIntContextCacheAttr = fm_vsp_params.int_context_cache_attr;
+         |                                                                    ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:432:71: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
+     432 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaScatterGatherCacheAttr = fm_vsp_params.scatter_gather_cache_attr;
+         |                                                                       ^
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:433:57: warning: implicit conversion from 'enum fman_dma_swap_option' to 'e_FmDmaSwapOption' [-Wenum-conversion]
+     433 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaSwapData = fm_vsp_params.dma_swap_data;
+         |                                                         ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c: In function 'FM_VSP_Init':
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:507:46: warning: implicit conversion from 'e_FmDmaSwapOption' to 'enum fman_dma_swap_option' [-Wenum-conversion]
+     507 |     fm_vsp_params.dma_swap_data              = p_FmVspEntry->p_FmVspEntryDriverParams->dmaSwapData;
+         |                                              ^
+>> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:508:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
+     508 |     fm_vsp_params.int_context_cache_attr     = p_FmVspEntry->p_FmVspEntryDriverParams->dmaIntContextCacheAttr;
+         |                                              ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:509:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
+     509 |     fm_vsp_params.header_cache_attr          = p_FmVspEntry->p_FmVspEntryDriverParams->dmaHeaderCacheAttr;
+         |                                              ^
+   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:510:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
+     510 |     fm_vsp_params.scatter_gather_cache_attr  = p_FmVspEntry->p_FmVspEntryDriverParams->dmaScatterGatherCacheAttr;
+         |                                              ^
 
 
-vim +/amp_num +644 sound/soc/amd/acp/acp-sdw-sof-mach.c
+vim +2305 drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c
 
-   637	
-   638	static int mc_probe(struct platform_device *pdev)
-   639	{
-   640		struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
-   641		struct snd_soc_card *card;
-   642		struct amd_mc_ctx *amd_ctx;
-   643		struct asoc_sdw_mc_private *ctx;
- > 644		int amp_num = 0, i;
-   645		int ret;
-   646	
-   647		amd_ctx = devm_kzalloc(&pdev->dev, sizeof(*amd_ctx), GFP_KERNEL);
-   648		if (!amd_ctx)
-   649			return -ENOMEM;
-   650	
-   651		amd_ctx->acp_rev = mach->mach_params.subsystem_rev;
-   652		amd_ctx->max_sdw_links = ACP63_SDW_MAX_LINKS;
-   653		ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
-   654		if (!ctx)
-   655			return -ENOMEM;
-   656		ctx->codec_info_list_count = asoc_sdw_get_codec_info_list_count();
-   657		ctx->private = amd_ctx;
-   658		card = &ctx->card;
-   659		card->dev = &pdev->dev;
-   660		card->name = "amd-soundwire",
-   661		card->owner = THIS_MODULE,
-   662		card->late_probe = asoc_sdw_card_late_probe,
-   663	
-   664		snd_soc_card_set_drvdata(card, ctx);
-   665	
-   666		dmi_check_system(sof_sdw_quirk_table);
-   667	
-   668		if (quirk_override != -1) {
-   669			dev_info(card->dev, "Overriding quirk 0x%lx => 0x%x\n",
-   670				 sof_sdw_quirk, quirk_override);
-   671			sof_sdw_quirk = quirk_override;
-   672		}
-   673	
-   674		log_quirks(card->dev);
-   675	
-   676		ctx->mc_quirk = sof_sdw_quirk;
-   677		/* reset amp_num to ensure amp_num++ starts from 0 in each probe */
-   678		for (i = 0; i < ctx->codec_info_list_count; i++)
-   679			codec_info_list[i].amp_num = 0;
-   680	
-   681		ret = sof_card_dai_links_create(card);
-   682		if (ret < 0)
-   683			return ret;
-   684	
-   685		/*
-   686		 * the default amp_num is zero for each codec and
-   687		 * amp_num will only be increased for active amp
-   688		 * codecs on used platform
-   689		 */
-   690		for (i = 0; i < ctx->codec_info_list_count; i++)
-   691			amp_num += codec_info_list[i].amp_num;
-   692	
-   693		card->long_name = sdw_card_long_name;
-   694	
-   695		/* Register the card */
-   696		ret = devm_snd_soc_register_card(card->dev, card);
-   697		if (ret) {
-   698			dev_err_probe(card->dev, ret, "snd_soc_register_card failed %d\n", ret);
-   699			asoc_sdw_mc_dailink_exit_loop(card);
-   700			return ret;
-   701		}
-   702	
-   703		platform_set_drvdata(pdev, card);
-   704	
-   705		return ret;
-   706	}
-   707	
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2296  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2297  int fm_macsec_config_unknown_sci_frame_treatment(struct fm_macsec_dev
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2298  				*fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2299  				fm_macsec_unknown_sci_frame_treatment treat_mode)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2300  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2301  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2302  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2303  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2304  	err = FM_MACSEC_ConfigUnknownSciFrameTreatment(fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27 @2305  		treat_mode);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2306  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2307  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2308  		pr_err("FM_MACSEC_ConfigUnknownSciFrameTreatmen() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2309  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2310  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2311  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2312  EXPORT_SYMBOL(fm_macsec_config_unknown_sci_frame_treatment);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2313  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2314  int fm_macsec_config_invalid_tags_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2315  				bool deliver_uncontrolled)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2316  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2317  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2318  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2319  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2320  	err = FM_MACSEC_ConfigInvalidTagsFrameTreatment(fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2321  						deliver_uncontrolled);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2322  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2323  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2324  		pr_err("FM_MAC_ConfigMaxFrameLength() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2325  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2326  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2327  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2328  EXPORT_SYMBOL(fm_macsec_config_invalid_tags_frame_treatment);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2329  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2330  int fm_macsec_config_kay_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2331  				bool discard_uncontrolled)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2332  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2333  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2334  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2335  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2336  	err = FM_MACSEC_ConfigEncryptWithNoChangedTextFrameTreatment(fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2337  						discard_uncontrolled);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2338  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2339  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2340  		pr_err("FM_MACSEC_ConfigEncryptWithNoChangedTextFrameTreatmen() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2341  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2342  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2343  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2344  EXPORT_SYMBOL(fm_macsec_config_kay_frame_treatment);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2345  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2346  int fm_macsec_config_untag_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2347  				    fm_macsec_untag_frame_treatment treat_mode)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2348  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2349  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2350  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2351  
+3f9aacad7d9737 Madalin Bucur 2020-02-27 @2352  	err = FM_MACSEC_ConfigUntagFrameTreatment(fm_macsec_dev, treat_mode);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2353  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2354  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2355  		pr_err("FM_MACSEC_ConfigUntagFrameTreatment() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2356  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2357  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2358  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2359  EXPORT_SYMBOL(fm_macsec_config_untag_frame_treatment);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2360  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2361  int fm_macsec_config_pn_exhaustion_threshold(struct fm_macsec_dev *fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2362  					uint32_t pn_exh_thr)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2363  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2364  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2365  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2366  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2367  	err = FM_MACSEC_ConfigPnExhaustionThreshold(fm_macsec_dev, pn_exh_thr);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2368  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2369  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2370  		pr_err("FM_MACSEC_ConfigPnExhaustionThreshold() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2371  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2372  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2373  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2374  EXPORT_SYMBOL(fm_macsec_config_pn_exhaustion_threshold);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2375  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2376  int fm_macsec_config_keys_unreadable(struct fm_macsec_dev *fm_macsec_dev)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2377  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2378  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2379  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2380  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2381  	err =  FM_MACSEC_ConfigKeysUnreadable(fm_macsec_dev);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2382  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2383  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2384  		pr_err("FM_MACSEC_ConfigKeysUnreadable() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2385  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2386  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2387  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2388  EXPORT_SYMBOL(fm_macsec_config_keys_unreadable);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2389  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2390  int fm_macsec_config_sectag_without_sci(struct fm_macsec_dev *fm_macsec_dev)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2391  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2392  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2393  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2394  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2395  	err =  FM_MACSEC_ConfigSectagWithoutSCI(fm_macsec_dev);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2396  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2397  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2398  		pr_err("FM_MACSEC_ConfigSectagWithoutSCI() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2399  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2400  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2401  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2402  EXPORT_SYMBOL(fm_macsec_config_sectag_without_sci);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2403  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2404  int fm_macsec_config_exception(struct fm_macsec_dev *fm_macsec_dev,
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2405  			    fm_macsec_exception exception, bool enable)
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2406  {
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2407  	int err;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2408  	int _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2409  
+3f9aacad7d9737 Madalin Bucur 2020-02-27 @2410  	err = FM_MACSEC_ConfigException(fm_macsec_dev, exception, enable);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2411  	_errno = -GET_ERROR_TYPE(err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2412  	if (unlikely(_errno < 0))
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2413  		pr_err("FM_MACSEC_ConfigException() = 0x%08x\n", err);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2414  
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2415  	return _errno;
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2416  }
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2417  EXPORT_SYMBOL(fm_macsec_config_exception);
+3f9aacad7d9737 Madalin Bucur 2020-02-27  2418  
+
+:::::: The code at line 2305 was first introduced by commit
+:::::: 3f9aacad7d973711cdfbdc9dbbf19f972f39c7d9 sdk_fman: add LSDK-19.09-V4.14 SDK DPAA FMan files
+
+:::::: TO: Madalin Bucur <madalin.bucur@oss.nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
