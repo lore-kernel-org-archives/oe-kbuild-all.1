@@ -1,64 +1,60 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A7618C181
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 14:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5633A1A0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 15:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721055236; cv=none; b=JcAQnRD4mLw1a57+Mf9DcMz+Sh+CxwqzxNfz6OvQIpOSq0XgrwhyzAodyUJxSkSsU+MH4gFvpZkuqppSPkRpEqb2NuqjFc1gKQyE07BNLp/olH/Gb4IouO8lOQTuReDxZ2nu/mClA1cWf8dEsFSTO2pwZhU2F0rYklLO963QeZI=
+	t=1721056154; cv=none; b=IBGKM51e//yLsjDlkY6pVYqLnPy0ZUdxDkHaD3zzH80kNdaTOrzaaZFsRrpLMkdNqprN8NYPN4qezZugRbVMydy1nxCgHcC+xFOQEqSoShzSR5bS5W7X1MyCe2UqA/BG3b8VWcuXoo4afnfpLpDSEzjdKwaXDx2nJs+wDTXuoGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721055236; c=relaxed/simple;
-	bh=rIaWGx3IKTWaaXjFXQrymRK2HpZgSL76qP8wLXbpNm4=;
+	s=arc-20240116; t=1721056154; c=relaxed/simple;
+	bh=H01oTb1X9+jGcdpaWevDBHEBJgJau/FJYYkdSSGAlgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ibA5d5yQMtEdajARhspPaX9ndZQ77tSzSWPyMD9sSLC8HILhhCYwGIC2IJy61g6BNTU622T9JnTvALuEqMO34UsoKvDYcbO8LzyWZtFN6FrAOw7M2lzmSVjf685Lpk9hG95MsK7BE2oPrqjKoJygW3csQt3WhV7QgTrKrER9uqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oeh6XgHg; arc=none smtp.client-ip=209.85.167.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=muLqCXHpw9ljianS8DYvdNl+londal9dxgNeU4QX4BEn3Uit+7w4JOBUgDjri9MmwRG8EJccCGNYvJL4dxFTbLbOaH5pQtXHsWbqL4eJZEKPJEccAqm2lV5D51wDUztwKW156aB2CkxTZF84yvNgMpzxAFUwNCdyKnglZCrMtDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lByaoGTi; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oeh6XgHg"
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3d9234b77dfso2446644b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 07:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721055233; x=1721660033; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z2Ojdz1XICnaU85QYWplXwOlXfLnj/bb3xzIhNQd3iw=;
-        b=oeh6XgHgsBPgMEMJpbWYSe3RrCmPf7FUBj+YV8ZC6Mr99YBqKy6vnKbBVs20tlPztu
-         kAo0BKINPQDmbvzzAtdWZIE3/2c/l8NcQ1f8bLkMCoNxWjXldmBOhU32KO5RSK/+IBQ/
-         WNsCwdHyQcocQXRDeZ0ktGz1Rv0I+eu594LOb+WjrKhmv1ze8ybXoIPE9IgzoVkEk/dk
-         MNJFzBag/FZP5wmtLHQFuem/BkWLmzprt+PMBNx3UreRoujERMbwxP1+3utMTMJjwmCj
-         7YTWyxgcHeHKX19wz+KvBwHG5x3vY0twOYN4xJM1NnY8pMqnMEWBVqfChnivCeBFmXLR
-         9PBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721055233; x=1721660033;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z2Ojdz1XICnaU85QYWplXwOlXfLnj/bb3xzIhNQd3iw=;
-        b=Lp3p81tqNeJge3plItdRZHumrA6mWlXhB323nX5scSVoQrw4x9i0RDJjtKC4DdQUCi
-         3YGF2GhZLlne8/bUU928WZBlaEqsPnNI+mqVSkCNCemdvWAM3xMqaYl3BsW1a9O9WD4O
-         CsE9uOMXa/36KMcDk0cl9pc1ayPWa6FASz6nTACGY+DRUJLkxKOrdKyqhKIeAzf14aDT
-         dywcoi8uRdk4But8XXloEcaV2kvWWefFGTp0Sq/CQq3PqfNwc46NhXSuXpxlmCq4zidc
-         cRdGMfC2bUDXNBzJXSWxo+yUohPcJmHw5YUG8nr/1EPU+r+14sscmWC6cM0ewcHJgX7O
-         1Xqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwjV09z6KmQViBGEa3Q/2iqy/54bgLdpWBSeHiawyq2zYIUZlJ+4e6RkFURiqfiiU8EhwkkcX9nlkLpjlEuBINB9L6r1y5aUhY1+jamA==
-X-Gm-Message-State: AOJu0Yx+a8ydvnneu4VbYKGZVa4q1oBjMc5Q1dLE9OHBW+Ntk+7UNqNl
-	YrGPjDSXGMb+kFF9ZSIFKsZJMUNRO73JpkcT2rPyUZMYIu/Cg5Kr6W9djzm4kMk=
-X-Google-Smtp-Source: AGHT+IEZyrLQNgWsXsoEhFWRPD7u3aYchY9ab2MWkcbF8uRTxrypYwYLH6KmiSeyG1+XPfnUqeHB4Q==
-X-Received: by 2002:a05:6808:228f:b0:3d6:3000:9ab3 with SMTP id 5614622812f47-3d93c07bea3mr23990310b6e.40.1721055233660;
-        Mon, 15 Jul 2024 07:53:53 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:358f:3413:c118:4021])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dab3e1cb52sm807470b6e.51.2024.07.15.07.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 07:53:53 -0700 (PDT)
-Date: Mon, 15 Jul 2024 09:53:52 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-4.19.y-cip-rt-rebase 3529/9999] kernel/ptrace.c:205
- ptrace_unfreeze_traced() warn: mixing irq and irqsave
-Message-ID: <8115decc-ca5d-4813-9b12-50e66da96d68@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lByaoGTi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721056152; x=1752592152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H01oTb1X9+jGcdpaWevDBHEBJgJau/FJYYkdSSGAlgE=;
+  b=lByaoGTiao5LcCy4Pd1w3YN8VtNWJFy3a1mEOvjJsyHaht9tcEl8iv7h
+   Q8v9B9SlHyu0MActv3cmpUwZktiyTICjMpP6imL5Yki5ejUDBUW+3+mkK
+   uU4xiJut0MeVGS0aYhjmGXOEdz9UIozb/AE9NGWX2Sbm7U3IADs7EcfqR
+   wR0y7VnI1OLRCsPsylKohNPAlVqltQAM2m9P1X70qPtCiXQ7Fl7d8GVPg
+   NPzDRiPNn3PYPswTB92jMcH8MV0TnmeNdYuYEBnHGpwllxhJdtSh26jDS
+   WWJtKo411OT21pWisc0aXFULTKvQUWLYiXGW31vtv6dCEazewjX2hYhoQ
+   Q==;
+X-CSE-ConnectionGUID: Zdt5KfmDRm6zltRfsu0BwA==
+X-CSE-MsgGUID: IR4iWZxVQhqpu6nc6eeqFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="22253498"
+X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
+   d="scan'208";a="22253498"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 08:09:09 -0700
+X-CSE-ConnectionGUID: JzUIRhByQ3+3JalqBwP1Ew==
+X-CSE-MsgGUID: 3orrxue8T02kSRmF2f+IOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
+   d="scan'208";a="49613173"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 15 Jul 2024 08:09:08 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sTNK6-000eLO-08;
+	Mon, 15 Jul 2024 15:09:06 +0000
+Date: Mon, 15 Jul 2024 23:09:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9862/12989] ld.lld: error: Function Import: link
+ error: linking module flags 'Code Model': IDs have conflicting values in
+ 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(skbuff.o at 2129720)'
+Message-ID: <202407152313.WjCqy7Cq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,59 +64,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
-head:   642e819a3c30d3536e6d66a631b761886a0316e7
-commit: 7103517ca97f4d7eeb361aec644e6ed7afce5ff3 [3529/9999] ptrace: fix ptrace_unfreeze_traced() race with rt-lock
-config: i386-randconfig-141-20240714 (https://download.01.org/0day-ci/archive/20240715/202407150032.OnfFrSgT-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   91e3b24eb7d297d9d99030800ed96944b8652eaf
+commit: 6458b8780cc5120173dcc544020490e2e5f9a94a [9862/12989] kconfig: refactor choice value calculation
+config: riscv-randconfig-r061-20240715 (https://download.01.org/0day-ci/archive/20240715/202407152313.WjCqy7Cq-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240715/202407152313.WjCqy7Cq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407150032.OnfFrSgT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407152313.WjCqy7Cq-lkp@intel.com/
 
-smatch warnings:
-kernel/ptrace.c:205 ptrace_unfreeze_traced() warn: mixing irq and irqsave
+All errors (new ones prefixed by >>):
 
-vim +205 kernel/ptrace.c
-
-9899d11f654474 Oleg Nesterov      2013-01-21  192  static void ptrace_unfreeze_traced(struct task_struct *task)
-9899d11f654474 Oleg Nesterov      2013-01-21  193  {
-7103517ca97f4d Oleg Nesterov      2020-11-03  194  	unsigned long flags;
-7103517ca97f4d Oleg Nesterov      2020-11-03  195  	bool frozen = true;
-9899d11f654474 Oleg Nesterov      2013-01-21  196  
-9899d11f654474 Oleg Nesterov      2013-01-21  197  	WARN_ON(!task->ptrace || task->parent != current);
-9899d11f654474 Oleg Nesterov      2013-01-21  198  
-5402e97af667e3 bsegall@google.com 2017-04-07  199  	/*
-5402e97af667e3 bsegall@google.com 2017-04-07  200  	 * PTRACE_LISTEN can allow ptrace_trap_notify to wake us up remotely.
-5402e97af667e3 bsegall@google.com 2017-04-07  201  	 * Recheck state under the lock to close this race.
-5402e97af667e3 bsegall@google.com 2017-04-07  202  	 */
-9899d11f654474 Oleg Nesterov      2013-01-21  203  	spin_lock_irq(&task->sighand->siglock);
-
-This assumes no callers have IRQs disabled.
-
-7103517ca97f4d Oleg Nesterov      2020-11-03  204  
-7103517ca97f4d Oleg Nesterov      2020-11-03 @205  	raw_spin_lock_irqsave(&task->pi_lock, flags);
-
-This assumes that they might.  #inconsistent  It's harmless so long as
-the first assumption is true.
-
-7103517ca97f4d Oleg Nesterov      2020-11-03  206  	if (task->state == __TASK_TRACED)
-9899d11f654474 Oleg Nesterov      2013-01-21  207  		task->state = TASK_TRACED;
-7103517ca97f4d Oleg Nesterov      2020-11-03  208  	else if (task->saved_state == __TASK_TRACED)
-7103517ca97f4d Oleg Nesterov      2020-11-03  209  		task->saved_state = TASK_TRACED;
-7103517ca97f4d Oleg Nesterov      2020-11-03  210  	else
-7103517ca97f4d Oleg Nesterov      2020-11-03  211  		frozen = false;
-7103517ca97f4d Oleg Nesterov      2020-11-03  212  	raw_spin_unlock_irqrestore(&task->pi_lock, flags);
-7103517ca97f4d Oleg Nesterov      2020-11-03  213  
-7103517ca97f4d Oleg Nesterov      2020-11-03  214  	if (frozen && __fatal_signal_pending(task))
-7103517ca97f4d Oleg Nesterov      2020-11-03  215  		wake_up_state(task, __TASK_TRACED);
-7103517ca97f4d Oleg Nesterov      2020-11-03  216  
-9899d11f654474 Oleg Nesterov      2013-01-21  217  	spin_unlock_irq(&task->sighand->siglock);
-9899d11f654474 Oleg Nesterov      2013-01-21  218  }
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(skbuff.o at 2129720)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(r8152.o at 2055500)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(raid5.o at 2093300)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(net-traces.o at 2131940)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(memcontrol.o at 1886120)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(super.o at 1936400)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(md.o at 2093540)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(core.o at 1882220)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(trace.o at 1877900)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(vmscan.o at 1883360)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(filter.o at 2130800)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(drbd_receiver.o at 2028680)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(syscall.o at 1879520)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(inode.o at 1937000)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(protocol.o at 2174300)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(mds_client.o at 1947380)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(rbd.o at 2029280)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(core.o at 2041940)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(volumes.o at 1937540)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1866440)' and 'vmlinux.a(tcp.o at 2141240)'
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
