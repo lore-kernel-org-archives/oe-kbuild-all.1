@@ -1,216 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ABC189F55
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 11:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81721891A4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 12:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721044441; cv=none; b=uonAHaq/+sRjEcUOSSYMWoq9Z6LDVZuA8S4SxkLFBNmp+GbubA50gyCT8aXgyYwosdgJAr3PYpubWi3nFwfaae1pz+hg27jcrRM3PSaLFaBYaSeWGgtsFqw3AShsDh+kV+VCDn3q/ZlXdO/LNF+CvH4ak8o2N/9/wQITGaYj6lI=
+	t=1721046893; cv=none; b=l+TPXR+lhad8GK3ZdsTEbB+Eh4LqhLf82iexwNEuOQLlRN9zT6ulO3w5qGsEfruI7953w6eHogjYHYVHzlQ/yuQEFllZHQdoMTplSmoy0ijkABC5WPnhJIc0UacJNMU2qms2YzJUbb4HeNBFlfphBw4P6+nVpO0+H4TWlsjkGLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721044441; c=relaxed/simple;
-	bh=q2MNFGrYos0TV2OoL2Y4eixBsaG641x2ivZYCOOjUDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hng9Bswj0ZK6+cNZsx1G/0KeRQeb5Jw4i/t/rzjzwuXwRs2+mIxktTBaXOws81Bx1MqyqsRlwCtiCz9J1VcuJYXNo4cdHMwV4PSSlavJLvUzk9dQqhN8C9FJfncMz4LLwCY/RFm8oR4sLyWVO5t4KrrJPLvMrP9AuHgDUwkkTWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0djX3x7; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721046893; c=relaxed/simple;
+	bh=KejzK1PxmSC37Ilq/y5zFcjhNuoXt/dvukw8rkeQ/J0=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=RZxYRzr3xwCbsDFEkYKv7NoR898//CrPN2hM4e42LOyu91LDm2yNymezzYlT2X3KTci2+00gNlgwB9GFhPe9zMSXAT6onc6VsSuC5AlDAx0fIRsyvw1bjKTqNFUALMK402sqO5o9nxTLqXz1VoXEq15d8qunAIcdbsQRdQw0i1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Wt8w9toB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gtrqVqa4; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0djX3x7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721044440; x=1752580440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q2MNFGrYos0TV2OoL2Y4eixBsaG641x2ivZYCOOjUDs=;
-  b=V0djX3x7En85ywO+4p0jjgc5Q1OXWobkS9nonlxwt1smELqycUfscLNi
-   j760AuZjESi29K/GGxcifnSGQ5cQvCQha7pu8hT5si8U16OGbcU7INBag
-   g7A1+zR8XuzcmIsufQomLh1jINguv/2ee+3C6eOmreXD4Tgy+cGy4Hhdn
-   2ueHRv6XR/+43Ey+cUrksZpubP96bPQIGlkhoiv/NZKo6VZp78moh83kK
-   fuO36dOazc+T2AuUhFLiRDfsd7ySnT0u6IKT301XzZjHB1N6djI5LhNug
-   Q6ZMdOknMAXDYpQyBgsblMGkBH3LtLrUl1+GDg/FAf7YZeOvObopofvOx
-   g==;
-X-CSE-ConnectionGUID: PVYg0s8cT822FdVLjj9Oeg==
-X-CSE-MsgGUID: tOt1mdP7RmmC2FMiy0G8TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="35957990"
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
-   d="scan'208";a="35957990"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 04:53:59 -0700
-X-CSE-ConnectionGUID: 4yYZ++m2RPmzqXd0nQa6uw==
-X-CSE-MsgGUID: Cd5CvnjPTU2eRhdc3QNN/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
-   d="scan'208";a="49685668"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Jul 2024 04:53:57 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTKHD-000eGU-0m;
-	Mon, 15 Jul 2024 11:53:55 +0000
-Date: Mon, 15 Jul 2024 19:53:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Hopps <chopps@chopps.org>, devel@linux-ipsec.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	netdev@vger.kernel.org, Christian Hopps <chopps@chopps.org>
-Subject: Re: [PATCH ipsec-next v5 17/17] xfrm: iptfs: add tracepoint
- functionality
-Message-ID: <202407151936.lWZK9Xnp-lkp@intel.com>
-References: <20240714202246.1573817-18-chopps@chopps.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Wt8w9toB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gtrqVqa4"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id E0BA01388C6E;
+	Mon, 15 Jul 2024 08:34:49 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 15 Jul 2024 08:34:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1721046889; x=1721133289; bh=ZFxJtd+i93
+	QBQWnvDAdYE/qsYCVxPHUYBpwxpYgj7xQ=; b=Wt8w9toBNte+fxi/ipN5NFeB6B
+	q5Haazv5W+Qwn/Yd92jlTlP0JAToejUCujdhMjF3QlBUnpcAenLGsUI4v8ZdbwXC
+	Kz3YtAfh7Bxowss2xMxG2PxUEXZLMIeYkcsET7ULs6xHZeGuHGGNNsyDWPN/bkFr
+	imN7ZKN4FTInTbDhIuuIltU3n8pVDW3ANDosixR9KmJTghnDO6t64cWYS2rValRu
+	F92GZlKktMqRQDeuU86vnyUG7S7D8lnxwf0xTG0mps1vxFRwhxl189dBiEy/9HNR
+	2CkSnoJi71AMkZ0xnemFkS0ZGLYUgKzXP6eWBuDLUaSDQUYz+mJiUNcHeXWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1721046889; x=1721133289; bh=ZFxJtd+i93QBQWnvDAdYE/qsYCVx
+	PHUYBpwxpYgj7xQ=; b=gtrqVqa4BCIJlKBpDzemRvjbVl5D9GM+p9zdXz12vTqQ
+	WgdomdsFPM2AoT1vg5T3yjj2wrhhqigDnRMyFbatauEW5cfD4RRrjObN9BKowklo
+	8lHcaoGMHa90uzjJYLWCMtLIseuz/fIXNgFpFETPKHjHPLOWl/YKG01vRjIQegD0
+	zPkZSemcvVxlCcnDt1WcyYsFI8Ockc2bOTzAoMGalw8HYpWR9/ZKnf90HTwR5DPw
+	fLYb9CIoLUP/yoNm7kgfRjxJ623CbjEE51iyvKIV1qFyiJPTc6kB2aA31w28A8cx
+	kcttbYuWMjmnC4yI/zi096UgidoM6KdZptHxDp/2QQ==
+X-ME-Sender: <xms:aBeVZvnpwoxJHh3WibncnD_aRL1pQaIiCHZKVrQJzJf6UHHftqDqNw>
+    <xme:aBeVZi1xtfRlvuiD7MJiOKH_Wc-CUsCOSAd-Pf9BbFFHpjxelRsIyFooAdKNgYhZs
+    B3hYtS22-3tfk8CUB8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrgedvgdehgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:aBeVZlr2y4fWQIHYihvJGCOqFhOoOplbajul3oc8SCHcbyKUBlieQQ>
+    <xmx:aBeVZnksCH1tfJoy3ltumu6BsxUqjBYqHf30yafZsXokHV837XGVyQ>
+    <xmx:aBeVZt1pP75HFo_PKCD9JFGtZg2RTnuPtZGdWHm8EWKwxpOCyrWhoQ>
+    <xmx:aBeVZms9v7hZ3UzBS4JtBxxoPQ8rgVqhv1DyZ1ZCuXG3YWfGgWUXvw>
+    <xmx:aReVZl9Ewr4635qhTw7eLb9dE5T3egALvMlzk3CcUDXGn49413Ee2WsW>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 8FEB0B6008F; Mon, 15 Jul 2024 08:34:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240714202246.1573817-18-chopps@chopps.org>
+Message-Id: <5637dbc2-de31-4b30-bd14-9c4d670ef790@app.fastmail.com>
+In-Reply-To: <ZpH2s4byt7aby7_p@google.com>
+References: <202407112039.cyyIQ3Js-lkp@intel.com>
+ <ZpC_xsx0t9KFgCCh@google.com>
+ <0de0aeba-da02-4fa6-a1f8-a468dcbfac58@app.fastmail.com>
+ <ZpH2s4byt7aby7_p@google.com>
+Date: Mon, 15 Jul 2024 14:42:06 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "kernel test robot" <lkp@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: Re: [linux-next:master 11606/12643] arm-linux-gnueabi-ld:
+ arch/arm/mach-pxa/devices.o:undefined reference to `gpio_set_wake'
+Content-Type: text/plain
 
-Hi Christian,
+On Sat, Jul 13, 2024, at 05:38, Dmitry Torokhov wrote:
+> On Fri, Jul 12, 2024 at 08:41:58AM +0200, Arnd Bergmann wrote:
+>> On Fri, Jul 12, 2024, at 07:31, Dmitry Torokhov wrote:
+>> > @@ -684,6 +685,7 @@ struct platform_device pxa27x_device_gpio = {
+>> >  		.platform_data	= &pxa2xx_gpio_info,
+>> >  	},
+>> >  };
+>> > +#endif /* CONFIG_PXA25x || CONFIG_PXA27x */
+>> > 
+>> >  static struct resource pxa_dma_resource[] = {
+>> >  	[0] = {
+>> >
+>> > If you are OK with this I'll submit proper patch.
+>> 
+>> Right, that's probably the easiest way. I was trying a more
+>> elaborate change (see below), but there is a good chance I
+>> introduce another regression in that, so let's go with
+>> your patch. Please send it directly to soc@kernel.org
+>> Cc:linux-arm-kernel and I'll pick it up.
+>
+> Done.
 
-kernel test robot noticed the following build errors:
+Merged now in preparation for my pull requests, thanks!
 
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on next-20240715]
-[cannot apply to klassert-ipsec/master netfilter-nf/main linus/master nf-next/master v6.10]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> One more thing I noticed: if you are doing more patches
+>> to convert devices in board files to use software nodes,
+>> we should probably try to move them away from static
+>> platform_device definitions towards a dynamic
+>> platform_device_register_simple() or similar interface
+>> at the same time.
+>
+> Sometimes platform_device_register_full() which operates on
+> platform_device_info structure is very handy, but in general
+> what is the issue with statically defined devices (when they
+> are never unregistered)?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/xfrm-config-add-CONFIG_XFRM_IPTFS/20240715-042948
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20240714202246.1573817-18-chopps%40chopps.org
-patch subject: [PATCH ipsec-next v5 17/17] xfrm: iptfs: add tracepoint functionality
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240715/202407151936.lWZK9Xnp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240715/202407151936.lWZK9Xnp-lkp@intel.com/reproduce)
+Greg has been asking for this for many years, but it has
+been unrealistic in the past because of the large number
+of board files using static platform devices. As far as I
+understand it, having static platform devices prevents us
+from better enforcing lifetime management rules on device
+objects. Adding Greg to Cc in case he has something to add.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407151936.lWZK9Xnp-lkp@intel.com/
+The other point of course is static memory usage: a platform
+device structure in .data is much larger than a
+platform_device_info, and this adds up in a kernel that
+tries to support lots of boards.
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from net/xfrm/trace_iptfs.h:218,
-                    from net/xfrm/xfrm_iptfs.c:445:
-   include/trace/../../net/xfrm/trace_iptfs.h: In function 'trace_event_raw_event_iptfs_egress_recv':
->> include/trace/../../net/xfrm/trace_iptfs.h:46:42: error: assignment to 'u32' {aka 'unsigned int'} from 'sk_buff_data_t' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-      46 |                            __entry->tail = skb->tail;
-         |                                          ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:22:1: note: in expansion of macro 'TRACE_EVENT'
-      22 | TRACE_EVENT(iptfs_egress_recv,
-         | ^~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:40:13: note: in expansion of macro 'TP_fast_assign'
-      40 |             TP_fast_assign(__entry->skb = skb;
-         |             ^~~~~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:47:41: error: assignment to 'u32' {aka 'unsigned int'} from 'sk_buff_data_t' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-      47 |                            __entry->end = skb->end;
-         |                                         ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:22:1: note: in expansion of macro 'TRACE_EVENT'
-      22 | TRACE_EVENT(iptfs_egress_recv,
-         | ^~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:40:13: note: in expansion of macro 'TP_fast_assign'
-      40 |             TP_fast_assign(__entry->skb = skb;
-         |             ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:103:
-   include/trace/../../net/xfrm/trace_iptfs.h: In function 'perf_trace_iptfs_egress_recv':
->> include/trace/../../net/xfrm/trace_iptfs.h:46:42: error: assignment to 'u32' {aka 'unsigned int'} from 'sk_buff_data_t' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-      46 |                            __entry->tail = skb->tail;
-         |                                          ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:22:1: note: in expansion of macro 'TRACE_EVENT'
-      22 | TRACE_EVENT(iptfs_egress_recv,
-         | ^~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:40:13: note: in expansion of macro 'TP_fast_assign'
-      40 |             TP_fast_assign(__entry->skb = skb;
-         |             ^~~~~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:47:41: error: assignment to 'u32' {aka 'unsigned int'} from 'sk_buff_data_t' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-      47 |                            __entry->end = skb->end;
-         |                                         ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:22:1: note: in expansion of macro 'TRACE_EVENT'
-      22 | TRACE_EVENT(iptfs_egress_recv,
-         | ^~~~~~~~~~~
-   include/trace/../../net/xfrm/trace_iptfs.h:40:13: note: in expansion of macro 'TP_fast_assign'
-      40 |             TP_fast_assign(__entry->skb = skb;
-         |             ^~~~~~~~~~~~~~
-
-
-vim +46 include/trace/../../net/xfrm/trace_iptfs.h
-
-    21	
-    22	TRACE_EVENT(iptfs_egress_recv,
-    23		    TP_PROTO(struct sk_buff *skb, struct xfrm_iptfs_data *xtfs, u16 blkoff),
-    24		    TP_ARGS(skb, xtfs, blkoff),
-    25		    TP_STRUCT__entry(__field(struct sk_buff *, skb)
-    26				     __field(void *, head)
-    27				     __field(void *, head_pg_addr)
-    28				     __field(void *, pg0addr)
-    29				     __field(u32, skb_len)
-    30				     __field(u32, data_len)
-    31				     __field(u32, headroom)
-    32				     __field(u32, tailroom)
-    33				     __field(u32, tail)
-    34				     __field(u32, end)
-    35				     __field(u32, pg0off)
-    36				     __field(u8, head_frag)
-    37				     __field(u8, frag_list)
-    38				     __field(u8, nr_frags)
-    39				     __field(u16, blkoff)),
-    40		    TP_fast_assign(__entry->skb = skb;
-    41				   __entry->head = skb->head;
-    42				   __entry->skb_len = skb->len;
-    43				   __entry->data_len = skb->data_len;
-    44				   __entry->headroom = skb_headroom(skb);
-    45				   __entry->tailroom = skb_tailroom(skb);
-  > 46				   __entry->tail = skb->tail;
-    47				   __entry->end = skb->end;
-    48				   __entry->head_frag = skb->head_frag;
-    49				   __entry->frag_list = (bool)skb_shinfo(skb)->frag_list;
-    50				   __entry->nr_frags = skb_shinfo(skb)->nr_frags;
-    51				   __entry->blkoff = blkoff;
-    52				   __entry->head_pg_addr = page_address(virt_to_head_page(skb->head));
-    53				   __entry->pg0addr = (__entry->nr_frags
-    54						       ? page_address(netmem_to_page(skb_shinfo(skb)->frags[0].netmem))
-    55						       : NULL);
-    56				   __entry->pg0off = (__entry->nr_frags
-    57						      ? skb_shinfo(skb)->frags[0].offset
-    58						      : 0);
-    59			    ),
-    60		    TP_printk("EGRESS: skb=%p len=%u data_len=%u headroom=%u head_frag=%u frag_list=%u nr_frags=%u blkoff=%u\n\t\ttailroom=%u tail=%u end=%u head=%p hdpgaddr=%p pg0->addr=%p pg0->data=%p pg0->off=%u",
-    61			      __entry->skb, __entry->skb_len, __entry->data_len, __entry->headroom,
-    62			      __entry->head_frag, __entry->frag_list, __entry->nr_frags, __entry->blkoff,
-    63			      __entry->tailroom, __entry->tail, __entry->end, __entry->head,
-    64			      __entry->head_pg_addr, __entry->pg0addr, __entry->pg0addr + __entry->pg0off,
-    65			      __entry->pg0off)
-    66		)
-    67	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
