@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EF35258
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 02:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF3522A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 02:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721008805; cv=none; b=cCksIfMNc+sf380HwzFwe07b+pmnk1V5nuCI4kuLGFxPk4r6fFteTa+WPisOfi79Fk+BFYuGNdAo6oaR6FdiuZzLJzNjMY88xrVoq6T2e7UnNyJt/3tT271NwauIv6M70Ko3vrGrBC3K0xWWhsl2uXuZkntKn7aM9NwJ/A0YcIo=
+	t=1721009617; cv=none; b=ZJWxuquL2UNNyaicIuYrwCx4QJ1LXrCScazQkkW7fm9rEcmoaulO3E/xAD/MJ0/bD24l9624Y1Nk+1mOI/9mcTDYe9ZnyGzkWjr7R5T5p0gOTdjH8vdP2V6BX3arjp/vJAubDj9QSFqsdYJxmP2BI2YX8braB90QJgNWjHHOqSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721008805; c=relaxed/simple;
-	bh=eFeM/mubVUDDERtFQAHi8bGxnrvJRVJGCBfZtYGgymA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VN9PeE2WrPk9ymvcoFbnjxZTC4co8sf82H8ieOemFJFmRl2EXQ2o5gfalYdz7f9Q/XU0DsmsiHRlTQ73it4NW0+6FpmIrIwdusUtdWQRdZjRs6uz1EMpKsLNT424AU4F3f6bm4XA25OxUV/DHvF54aEd1q3wMAzmb2h8nnGRmio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRUs0/TV; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1721009617; c=relaxed/simple;
+	bh=e0uvzaOCXdANb3s7pw3Uw4jYcQ+GH1eDFIwJQy5e3oY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=R3JoIcCvjzy/0MY1s1pxkjxp7J66yMXi+kHavb86LWCF9DWRrqmWMrvM7ZBxt1D5X3nXUOInB6qaRM/H5ZmsPzNKLEH2POhivJA31W78DkN0iiCRMuN3plWjAu37UOuK7kJHfZwYhGiH8DDyCpRYaW+Qnk/PJSKO+1fclMBvC7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjIJPNdv; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRUs0/TV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjIJPNdv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721008803; x=1752544803;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eFeM/mubVUDDERtFQAHi8bGxnrvJRVJGCBfZtYGgymA=;
-  b=LRUs0/TVyBJxFogezK/8GwL3JDMI9lloxVb4CEFtA8+iGRdZo8lY6P4D
-   pc4VFwskTKD1ibcyRP2VAjVEUNxfh4+GxjKIDUOcDfKV0SoE6df+V+R98
-   j8x51E3kF1UlsKapp3QiLt8lucD3W7J1m963JGfCBWhhC5T/sKUjWhmtW
-   55YachrZDxkxOjvnGPnWlzCyREor+25HL39QL1AfoHyeQSlwabQ2t1gr6
-   jIUlodg9FNNzEdsj0sizMrIZ7TE8LAqB8QJQKBKNkLDhAsd367Z0QQgzt
-   v1BxoBGqWcnR4Z1Vzk16MDccbQFX3Mz6RdCnCAx2rWgkl6xITxwl9E372
-   A==;
-X-CSE-ConnectionGUID: UbFm7EzZRty6m7UtM3wJWg==
-X-CSE-MsgGUID: Y4vZcdUvSNGOtIsLw9dFIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="28977063"
+  t=1721009616; x=1752545616;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=e0uvzaOCXdANb3s7pw3Uw4jYcQ+GH1eDFIwJQy5e3oY=;
+  b=UjIJPNdvLesDmiQw9QKEaJxjYbRTNTllYEzslW/r0c8aWY+ma33d/jeV
+   alaps6xe+HFCS4U88ljLa7R+nRMaETzcgzKH9LLRBrirx5ZumskKlRP57
+   5EnfMBx9dJmBls/i/TIRd11xgmkpY3mxzjkbz90ZAeT+5BqhfC6akQFc2
+   TtXpMtVlhK6wLnXwieUo4sQL4ZNF/Eioedq+TewAHIXhBCqU7j3Atkk1K
+   g6uXCER19slycTgg0WN4Ea2WnQ0h+hHzja70DmHfsrHab2h5ohjR5jvyY
+   QoPm/dqrI9SWldLJ9Rafm5aSC9gpOq79J3d+YJQOcS1PS/0VXwtDo66YK
+   Q==;
+X-CSE-ConnectionGUID: 8gFc57+OS/WZvJBbk1XTHg==
+X-CSE-MsgGUID: AL08b+CURT+fg59mhxaxAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="40901848"
 X-IronPort-AV: E=Sophos;i="6.09,209,1716274800"; 
-   d="scan'208";a="28977063"
+   d="scan'208";a="40901848"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 19:00:02 -0700
-X-CSE-ConnectionGUID: x8eZ/MO0TkeFXyGhdI9v4Q==
-X-CSE-MsgGUID: 2zoIrlmTRBuw5qQNvc/QMQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 19:13:36 -0700
+X-CSE-ConnectionGUID: UGfzAzmZQKOpvTPVMLvFUQ==
+X-CSE-MsgGUID: wBRO0O1SRTykJA+VCwB0tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,209,1716274800"; 
-   d="scan'208";a="54294866"
+   d="scan'208";a="54296977"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2024 18:59:58 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2024 19:13:34 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTB0O-000dru-15;
-	Mon, 15 Jul 2024 01:59:56 +0000
-Date: Mon, 15 Jul 2024 09:59:12 +0800
+	id 1sTBDX-000dsH-35;
+	Mon, 15 Jul 2024 02:13:31 +0000
+Date: Mon, 15 Jul 2024 10:13:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuntao Dai <d1581209858@live.com>, jassisinghbrar@gmail.com,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	unicorn_wang@outlook.com, inochiama@outlook.com,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	Yuntao Dai <d1581209858@live.com>
-Subject: Re: [PATCH v2 3/3] mailbox: sophgo: add mailbox driver for cv18x SoCs
-Message-ID: <202407150911.KZchf5cj-lkp@intel.com>
-References: <SYBP282MB2238F93565D20F0A5F3EEB6BC4A02@SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM>
+To: Richard Zhu <hongxing.zhu@nxp.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] dt-bindings: ata: Add i.MX8QM AHCI compatible
+ string
+Message-ID: <ZpSFvh0iTHUb1rTu@6724a33121ae>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,51 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SYBP282MB2238F93565D20F0A5F3EEB6BC4A02@SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <1721008436-24288-2-git-send-email-hongxing.zhu@nxp.com>
 
-Hi Yuntao,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.10 next-20240712]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuntao-Dai/dt-bindings-mailbox-add-Sophgo-cv18x-SoCs-mailbox/20240715-003952
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/SYBP282MB2238F93565D20F0A5F3EEB6BC4A02%40SYBP282MB2238.AUSP282.PROD.OUTLOOK.COM
-patch subject: [PATCH v2 3/3] mailbox: sophgo: add mailbox driver for cv18x SoCs
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240715/202407150911.KZchf5cj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240715/202407150911.KZchf5cj-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407150911.KZchf5cj-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/mailbox/cv1800-mailbox.c:30: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * cv1800 mailbox channel private data
-
-
-vim +30 drivers/mailbox/cv1800-mailbox.c
-
-    28	
-    29	/**
-  > 30	 * cv1800 mailbox channel private data
-    31	 * @idx: index of channel
-    32	 * @cpu: send to which processor
-    33	 */
-    34	struct cv1800_mbox_chan_priv {
-    35		int idx;
-    36		int cpu;
-    37	};
-    38	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 1/4] dt-bindings: ata: Add i.MX8QM AHCI compatible string
+Link: https://lore.kernel.org/stable/1721008436-24288-2-git-send-email-hongxing.zhu%40nxp.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
