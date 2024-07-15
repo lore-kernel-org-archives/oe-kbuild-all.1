@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B7E22318
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 17:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDB13A3FD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 19:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721066058; cv=none; b=gR74q3dm7SDJCbY/q4oDCoa61lbMtFVKqTNukU7Xuij50OBtvydWe4o1Fqkmf31RFMFrHOGpDRNcS/2EcsokRy9e1zcqkCTALhadIib4uoOgp519HZ1QGBH9J1NFo4szFgCsAselxP0BJklzKbNGnn4EK/EM57bWc2i0Ej5amZw=
+	t=1721071641; cv=none; b=mtQAb4ZnZLQa9L/mgRLY0BAgK/xteZ1UT999y7jbHRgkTEjFAuj61NXxa213cv5bUsm0Io2HaNf5gO8gPPXflThZSiAa6O/EhL9ThkGX4Y6SBGabLFfnQKiUEs7cKJuO9cVU7H+a8g+F8TDrM5cLTo0I8jDAw7LLe8hgNX5xHBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721066058; c=relaxed/simple;
-	bh=5dH4wyhOVoqw6Wlw2iDfF27STR1o4nHBJBw4YxzGH/M=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IZSCZVIONRVcRpAQW7sdatoZu6iZSSRrskNT9Huwwn4FrgCh4VvE0185d12pNOb4YauNCZWXH1+pMS+a7hYKR2nl8SNTl4g5dxGomtFqQRXeZ+BpepGN2hfy2OXMWQoQphpT4f2h3vRc2Bgjnlcp0vb3kaWB5ATsM/7urRyecWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESfYj5b7; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1721071641; c=relaxed/simple;
+	bh=scvD8E1Th0WQEDOblbw8afBg6ubsAWbPK3/2sSh0+fU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a8U/x1nU5/M8qDzYs6/22xdN1aEpaFy8As+tuaVxgJn720jwj3ArrvpdfLaAQiVyWOet+GHaFKlCU8ocTcKgofDEJhQu6jyNI+A7DeH/zfOCfyOjLs0lsa3+ot1hr08l14Mu0JMI3M/XZ/nefynbCEoXbQYS8Gbmawrc0mEGqEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtXmA/F6; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESfYj5b7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtXmA/F6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721066056; x=1752602056;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=5dH4wyhOVoqw6Wlw2iDfF27STR1o4nHBJBw4YxzGH/M=;
-  b=ESfYj5b7GfOUb+ewJoG49LLWSx6ZAzz05XYU369ExoRuhUad7n/SqBU7
-   H7GZffpAyDqMB5UJkOBl8jK86rqraSn8Ua+t0TZuKnlgonUdVmVaC2S9A
-   nXO3cHUey5Z03bzVWPWepS66LAnkytq56do1vIiAeEk4bpTJZ2Jt1m3Wg
-   eZyo2Kpyf+KsAIVC2isy/SXY8L3MOdAjf2cs+Vgpo5ydOyUnTwJV4YH4U
-   JqLaJfJEwgpCejjfKC9t/qm+LjNA7V5FBYxbUCVxw+qSpTf/Ke1/cU7ki
-   W//eVUxAEgmg+mICctmZ+QD1hnsRN7IchkEl/X/txEIaxvsHE0VgkCfH/
+  t=1721071639; x=1752607639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=scvD8E1Th0WQEDOblbw8afBg6ubsAWbPK3/2sSh0+fU=;
+  b=HtXmA/F6/KE2CMFkbPzZNMEa46dmYLgUq3aKvtZwf1D5iCxb8OOQW4TD
+   MEie7xahjkY25LpcCsY25wSBHzebFxGdN1O3oayoHwghBKnXHBLom0DaP
+   LYzCdMOTnfB94l7f7ag1q1IEgK6u+vH0DKF3WVuP8mr8h7yXw04W0gKfJ
+   zyRuC3yt1glqApmAl9Mu2s/ungdkqGTvf1Z1/6UmHyBBX5X4ExadgsNSi
+   ZcklIrIpP8qOcqvB1ex0KFAwvCJOmg/kjzRMMFL9cejujUDYDuLXe6ejn
+   i7qFLs757lVnePUITbRqk3QHG9sRS+tG8czAn0jYMB9S3g3WlpHpqxzvl
    A==;
-X-CSE-ConnectionGUID: 7Q6xpOzST6Khz5lu7GXK+A==
-X-CSE-MsgGUID: RmJjWjquRrCq6w71BpwHhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="40989221"
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
-   d="scan'208";a="40989221"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 10:54:16 -0700
-X-CSE-ConnectionGUID: jTyk94zJR56r/KtmDkocIw==
-X-CSE-MsgGUID: 80nJWq91TISM4teEosX5vQ==
+X-CSE-ConnectionGUID: CTCKZceVQtWH+Y5Ip/K0Zw==
+X-CSE-MsgGUID: so0uj2xfTGiyWVQE0mM7Kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18342891"
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="18342891"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 12:27:19 -0700
+X-CSE-ConnectionGUID: 2Tdnb+rbRk+Wk2mkoCoccg==
+X-CSE-MsgGUID: 1KBBHSXLTp670BMn/kdLJQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,210,1716274800"; 
-   d="scan'208";a="50460465"
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="72960660"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jul 2024 10:54:14 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Jul 2024 12:27:15 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTPtr-000eSE-2U;
-	Mon, 15 Jul 2024 17:54:11 +0000
-Date: Tue, 16 Jul 2024 01:53:48 +0800
+	id 1sTRLt-000eWK-35;
+	Mon, 15 Jul 2024 19:27:13 +0000
+Date: Tue, 16 Jul 2024 03:26:47 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Vibhore Vardhan <vibhore@ti.com>, Dhruva Gole <d-gole@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 30/42] ERROR: modpost:
- "dev_pm_qos_read_value" [drivers/pmdomain/ti/ti_sci_pm_domains.ko]
- undefined!
-Message-ID: <202407160146.82XpX3k7-lkp@intel.com>
+To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-kernel@vger.kernel.org,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH RESEND v12 4/6] clk: wpcm450: Add Nuvoton WPCM450
+ clock/reset controller driver
+Message-ID: <202407160235.JYThNv91-lkp@intel.com>
+References: <20240708-wpcm-clk-v12-4-1afac539c37d@gmx.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,127 +72,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240708-wpcm-clk-v12-4-1afac539c37d@gmx.net>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   e7925886029c9eadf1182fa31af4f70ad45b4b35
-commit: ca11e100862310b1abdd072b113bae8a68ad26b7 [30/42] pmdomain: ti_sci: add per-device latency constraint management
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240716/202407160146.82XpX3k7-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160146.82XpX3k7-lkp@intel.com/reproduce)
+Hi Jonathan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 4cece764965020c22cff7665b18a012006359095]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Neusch-fer/dt-bindings-clock-Add-Nuvoton-WPCM450-clock-reset-controller/20240708-073926
+base:   4cece764965020c22cff7665b18a012006359095
+patch link:    https://lore.kernel.org/r/20240708-wpcm-clk-v12-4-1afac539c37d%40gmx.net
+patch subject: [PATCH RESEND v12 4/6] clk: wpcm450: Add Nuvoton WPCM450 clock/reset controller driver
+config: arm-randconfig-r064-20240715 (https://download.01.org/0day-ci/archive/20240716/202407160235.JYThNv91-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407160146.82XpX3k7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407160235.JYThNv91-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/nuvoton/clk-wpcm450.c:55:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "dev_pm_qos_read_value" [drivers/pmdomain/ti/ti_sci_pm_domains.ko] undefined!
-ERROR: modpost: "prueth_dma_rx_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "emac_ndo_get_phys_port_name" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "emac_run_xdp" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "icssg_queue_pop" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
-ERROR: modpost: "icssg_queue_push" [drivers/net/ethernet/ti/icssg-prueth-sr1.ko] undefined!
+vim +55 drivers/clk/nuvoton/clk-wpcm450.c
+
+    36	
+    37	static unsigned long wpcm450_clk_pll_recalc_rate(struct clk_hw *hw,
+    38							 unsigned long parent_rate)
+    39	{
+    40		struct wpcm450_clk_pll *pll = to_wpcm450_clk_pll(hw);
+    41		unsigned long fbdv, indv, otdv;
+    42		u64 rate;
+    43		u32 pllcon;
+    44	
+    45		if (parent_rate == 0)
+    46			return 0;
+    47	
+    48		pllcon = readl_relaxed(pll->pllcon);
+    49	
+    50		indv = FIELD_GET(PLLCON_INDV, pllcon) + 1;
+    51		fbdv = FIELD_GET(PLLCON_FBDV, pllcon) + 1;
+    52		otdv = FIELD_GET(PLLCON_OTDV, pllcon) + 1;
+    53	
+    54		rate = (u64)parent_rate * fbdv;
+  > 55		do_div(rate, indv * otdv);
+    56	
+    57		return rate;
+    58	}
+    59	
 
 -- 
 0-DAY CI Kernel Test Service
