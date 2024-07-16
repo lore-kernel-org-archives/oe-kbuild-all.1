@@ -1,150 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D2F4D8A3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 13:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BA1C8DF;
+	Tue, 16 Jul 2024 14:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721135892; cv=none; b=dLC8CwqAsJR6InskuBoW/4VZtSTagZ6Pf5wAE8wsTXn5ZuGCsI0OCbezmeBNoTHdimtcPxezP8vzBdaVTrhPoOsfTk928twbRn6x+P6QFxFcq4uuC4OHXqWLl/xyT9wrq8EnoV3EF8Sijpc5We0psf8yUis4aopWKpUc71Nq4LA=
+	t=1721138442; cv=none; b=LwAS5kIBuR7EczRg+8w1LUXBJd+SDxj52GVaBMx4LQqLZdx7LnvnUx5grpdb9TWLOOMLmz2z5yACSguKe47Y2jmXZQiC2UJnIPa1exgpizGDaFjHzicbedbarnLaoBbVk1GQcH/xMiDHtCjp2WhdwmkuuUafsIXpVwP7wQgVqSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721135892; c=relaxed/simple;
-	bh=jIkJ7MrsEf5MjqF8Z9Hdq3d3eu/TuyP1oxH6tzY5kyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kRIXWfqL9XSvb+4xE5g5dfDZO4vEHGuV03CXmUufqfvTjj1b0JFV8+KYrPF0rTaaXc4A2fDFyKTLyQYNhOVZJh8xPYkWVCfWh25sTkvdCeaI65wct8/SHYvTxZAFxv1zfRxXr15EDY+7ds2olDbX3xwDdm/eLugaAboYu1lYn+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1ju+6iK; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721138442; c=relaxed/simple;
+	bh=q6G0LaBTnMOqEYsABjZwsURGHz9QWdlHe+gyWVklxts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E0c4fBSWhE5Qo3rD/fGV4Lp7+rTctmEppnbzVtWb46x4nKKq+6RCbmK92dacocCu917OAoMWDz5MT5fllUSAl2oyUWGeAX03BTZu+CK72RXrk5AsNNjxnLT8qYmLVKljV1XwqFlHuXSd+Hv1LdvF03QuwMQK7s6zWM+uMDe92HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FuBb6prh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1ju+6iK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721135890; x=1752671890;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jIkJ7MrsEf5MjqF8Z9Hdq3d3eu/TuyP1oxH6tzY5kyM=;
-  b=E1ju+6iK+Q/ZwrZXXPoE83SG8VhB4kUIdXN7aCtCVCRu3AOlABmwbx1n
-   P8Wh7zzAXRbMc+dIeVdSpkuNWGDjXS7xMYOntLbtZEc5B9yWkVMNQN4dy
-   nJ7HaEuhsbbzHUvshTK//uOaAHMB/3o+u+HisBsGtBMbTlXSmIwvhPhtz
-   N9zxJ96nD8AMpYuD0o+MMcPd9IYURSXJ2mAEldBzOSM9n/dJlffKYdHg5
-   pwWIybdLDW8giyIhxV2fE4dCEIRW4T3eqyE2KlvwPjNe02vDX9NajWljq
-   ZQv+fLixmnUZQdzTZwGx7u4EmMHVsWF2lov1y2JJsPrLDUnG/nVkwvVrI
-   g==;
-X-CSE-ConnectionGUID: 1WQgTyL2Tf+KsrbZJbocCg==
-X-CSE-MsgGUID: crEu9LqpSJGKpMwH9DQaJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="36114279"
-X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="36114279"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 06:17:59 -0700
-X-CSE-ConnectionGUID: SHnPfRAhSHOm0+8iW2b66A==
-X-CSE-MsgGUID: fnBOhuukQlmnK/AQhw554Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="54358676"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Jul 2024 06:17:55 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTi41-000fG2-0o;
-	Tue, 16 Jul 2024 13:17:53 +0000
-Date: Tue, 16 Jul 2024 21:17:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 15/48] arch/loongarch/kernel/legacy_boot.c:106:48:
- error: implicit declaration of function 'nid_to_addrbase'
-Message-ID: <202407162159.aFPdthdi-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuBb6prh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405FBC116B1;
+	Tue, 16 Jul 2024 14:00:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721138441;
+	bh=q6G0LaBTnMOqEYsABjZwsURGHz9QWdlHe+gyWVklxts=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FuBb6prhshjfIeleU2KrheelYSh2TnxOI7dWe1G5Dd3y1F4w95HaNp1CjgnCeXkNW
+	 OR9rOeHh6duuGkkJ5a9B5+hzU+Zcd1olvWoEkNfYz71Bws4g6DG4L8z7Aa5cenrALe
+	 6D26r7/ySoliE5GFuI9+e63sLpiG32FtnKhiUAgadyy9kgEJBASbO6dTYH3hiBULVG
+	 o01Fgg3qZspZLf72CjxlxGa/zXLNpsWmPMJ0jKY5R+4I3dpTGrFGl6nBJRy9Lqwuf2
+	 ZfivNfieZL0KusjE55gOWZQ+MTgxa5TCybgmzgp02+S7nSMi5MozglZjRCUHjRgmJ8
+	 BqzAaLW5GH6JQ==
+Date: Tue, 16 Jul 2024 07:00:38 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
+Message-ID: <20240716140038.GA3272205@thelio-3990X>
+References: <20240626130347.520750-2-alexghiti@rivosinc.com>
+ <202407041157.odTZAYZ6-lkp@intel.com>
+ <20240705172750.GF987634@thelio-3990X>
+ <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   11cf99a210e4916f7a066658c851c08ab6b123ce
-commit: 4fe09071dbc3f9f5088be6504aee65ba1be451c0 [15/48] LoongArch: Old BPI compatibility
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240716/202407162159.aFPdthdi-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407162159.aFPdthdi-lkp@intel.com/reproduce)
+On Tue, Jul 16, 2024 at 02:19:57PM +0200, Alexandre Ghiti wrote:
+> On Fri, Jul 5, 2024 at 7:27 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > Another alternative would be to require LLVM 17+ for RISC-V, which may
+> > not be the worst alternative, since I think most people doing serious
+> > work with clang will probably be living close to tip of tree anyways
+> > because of all the extension work that goes on upstream.
+> 
+> Stupid question but why the fix in llvm 17 was not backported to
+> previous versions?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407162159.aFPdthdi-lkp@intel.com/
+Unfortunately, LLVM releases are only supported for a few months with
+fixes, unlike GCC that supported their releases for a few years. By the
+time this issue was uncovered and resolved in LLVM main (17 at the
+time), LLVM 16 was no longer supported.
 
-All errors (new ones prefixed by >>):
+I could potentially patch the kernel.org toolchains but that doesn't fix
+the issue for other versions of clang out there.
 
-   arch/loongarch/kernel/legacy_boot.c:94:6: warning: no previous prototype for 'register_default_pic' [-Wmissing-prototypes]
-      94 | void register_default_pic(int id, u32 address, u32 irq_base)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/legacy_boot.c: In function 'register_default_pic':
->> arch/loongarch/kernel/legacy_boot.c:106:48: error: implicit declaration of function 'nid_to_addrbase' [-Wimplicit-function-declaration]
-     106 |                 pchpic_default[idx].address |= nid_to_addrbase(id) | HT1LO_OFFSET;
-         |                                                ^~~~~~~~~~~~~~~
-   arch/loongarch/kernel/legacy_boot.c: At top level:
-   arch/loongarch/kernel/legacy_boot.c:242:13: warning: no previous prototype for 'fw_init_cmdline' [-Wmissing-prototypes]
-     242 | __init void fw_init_cmdline(unsigned long argc, unsigned long cmdp)
-         |             ^~~~~~~~~~~~~~~
-   arch/loongarch/kernel/legacy_boot.c:341:14: warning: no previous prototype for 'bpi_init' [-Wmissing-prototypes]
-     341 | unsigned int bpi_init(void)
-         |              ^~~~~~~~
+> Anyway, I'd rather require llvm 17+ than add a bunch of preprocessor
+> guards in this file (IIUC what you said above) as it is complex
+> enough.
 
+Sure, this is not a super unreasonable issue to bump the minimum
+supported version for RISC-V over in my opinion, so no real objections
+from me.
 
-vim +/nid_to_addrbase +106 arch/loongarch/kernel/legacy_boot.c
+> @Conor Dooley @Palmer Dabbelt WDYT? Is there any interest in
+> supporting llvm < 17? We may encounter this bug again in the future so
+> I'd be in favor of moving to llvm 17+.
 
-    93	
-    94	void register_default_pic(int id, u32 address, u32 irq_base)
-    95	{
-    96		int idx, entries;
-    97		unsigned long addr;
-    98	
-    99		if (bad_pch_pic(address))
-   100			return;
-   101	
-   102		idx = nr_io_pics;
-   103	
-   104		pchpic_default[idx].address = address;
-   105		if (idx)
- > 106			pchpic_default[idx].address |= nid_to_addrbase(id) | HT1LO_OFFSET;
-   107		pchpic_default[idx].id = id;
-   108		pchpic_default[idx].version = 0;
-   109		pchpic_default[idx].size = 0x1000;
-   110		pchpic_default[idx].gsi_base = irq_base;
-   111	
-   112		msi_group[nr_io_pics].pci_segment = nr_io_pics;
-   113		pch_group[nr_io_pics].node = msi_group[nr_io_pics].node = id;
-   114	
-   115		addr = pchpic_default[idx].address;
-   116		/* Read INT_ID.int_num */
-   117		entries = (((unsigned long)ls7a_readq(addr) >> 48) & 0xff) + 1;
-   118		pchmsi_default[idx].msg_address = MSI_MSG_ADDRESS;
-   119		pchmsi_default[idx].start = entries;
-   120		pchmsi_default[idx].count = MSI_MSG_DEFAULT_COUNT;
-   121	
-   122		eiointc_default[idx].cascade = 3;
-   123		eiointc_default[idx].node = id;
-   124		eiointc_default[idx].node_map = 1;
-   125	
-   126		if (idx) {
-   127			eiointc_default[idx].cascade = 0x4;
-   128			eiointc_default[0].node_map = 0x1DF;
-   129			eiointc_default[idx].node_map = 0xFE20;
-   130		}
-   131	
-   132		acpi_pchpic[idx] = &pchpic_default[idx];
-   133		acpi_pchmsi[idx] = &pchmsi_default[idx];
-   134		acpi_eiointc[idx] = &eiointc_default[idx];
-   135	
-   136		nr_io_pics++;
-   137	}
-   138	
+FWIW, I would envision a diff like this (assuming it actually works to
+resolve this issue, I didn't actually test it):
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+index 91c91201212c..e81eb7ed257d 100755
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -28,6 +28,8 @@ llvm)
+ 		echo 15.0.0
+ 	elif [ "$SRCARCH" = loongarch ]; then
+ 		echo 18.0.0
++	elif [ "$SRCARCH" = riscv ]; then
++		echo 17.0.0
+ 	else
+ 		echo 13.0.1
+ 	fi
+
+Cheers,
+Nathan
