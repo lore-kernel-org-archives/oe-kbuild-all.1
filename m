@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E03D1A0723;
-	Tue, 16 Jul 2024 20:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAEA249F5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 20:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721160679; cv=none; b=JpjpP+KxEdxxUy56540EvoK5f4czc2s5sNZWS8r0WQVA4qHzmBeWAtlPr8uppEavw+MBHf5QcGh8nSKTOHklqJVgzbxDN9txp3DItSaPC3qINcNMMUwOwoA11ikm3Q9NH2FVPURb0MiIbgpCZg+FewLJgxtEskS4fCocl4tkxqo=
+	t=1721161521; cv=none; b=jIMcfE7BFp2zKcNp1yBVEaNH4bRH9npY506z5+IYrK2aa4CX+Mt/qbV6n9ZWPvh32TBJcBi69xn+YcEvCUSr30rwEKi7NBID2g7Ysg7x0fSQvhv0Tg4el5jd1F/t9Wn4wOPjK+tooiOFLKB6TpzWmIUgdnbM3d5lv5svrpy60Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721160679; c=relaxed/simple;
-	bh=3jM8t40qOFyxFS78Zi2CYfl8ubirpcWV7c2SZUVeNJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FwVYZP7DVE4SqB1mhRwaOpKb+KDcSwHNpAo3WwvB9HZXtLt9QIW/cuVl6B3VFjat0maac5OQnQRv19ElD7s1Ku+B4vx7nQ3miQNiKfN+M/Lx4gVGHnmEUZOfGvPVJgf0QxPU94u3rklI6lp335IiT1nCKw5ELAlbTBf85KJekxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/tKeSM6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1721161521; c=relaxed/simple;
+	bh=QpaZz6ytjX6EJQg4Em95+XJTsWe3wnfYygOTIZxYC4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNatB0kdP78/lIIvCyNCAC7O4af2pB9Y9BVXc0k0VWlfF9jz4C0AFFRIBnBA3Bra+qJ6AZ6HsOA666cDq7MGo6BwuhWL6pscSfYLQcL3pUncEhVBlq7Dkru7BsmfZV25tUtk2ekD+uFXsuhCn3ui9Gf+FXGmOFiCBUNLrTo1rcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwNj2cmY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/tKeSM6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwNj2cmY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721160677; x=1752696677;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3jM8t40qOFyxFS78Zi2CYfl8ubirpcWV7c2SZUVeNJY=;
-  b=Y/tKeSM696qlfYhW/LDzHa+1MPTeovapxHAUdoLL6ONohXQsR540GBFV
-   9en8aQM1fhtQuU0hbaIdeTz19s82GRFzp6yZlBFnNw2qamWUE7WuFNes/
-   uyYxy36IZc3w+j1LVEqkawUIsmDAcS5njtYX3GyQfkFs+oYHJACc5rwZp
-   bq9OAeyOzp0pMZ/odC+LU54LKpqPvLEYeyeVH7Z6DCa32BssSBgS+4Lsw
-   +VnOuh7Z3+obfs3xK9JiofhuFw59irUELcyKgReVccQk7v5IKSAj57enb
-   Z/slJt4hyoZWK49NEsDTu4NSqwnVCm26cYwTfx7xACxaIc70GbGLNLLH2
+  t=1721161519; x=1752697519;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QpaZz6ytjX6EJQg4Em95+XJTsWe3wnfYygOTIZxYC4E=;
+  b=SwNj2cmYsYycPA9RD9u61ta83qGePpZ6IqjoLtzMYUcYutuLI9l6emjP
+   B1m1D6FqSzZU7ki1hQ8KI2Lqefes3P0eh0+nkZ8VofbDTOXRCBMyyXkdB
+   C+IavF9qXGQJ4nVGNcF2nZEBezk6OKrEVVingwTcg2ZSbaNhx1A+VCGzs
+   HcO6mghVG9phy+56mewi+RjSVg6YVBC7sWR/Vl9lWB/bh9rD6lFDxDgXH
+   dKM34CdS65iXtG/u6ra68JZmSdbuvrfD7n51WlJY2JNoZVQlSwMZY0A5/
+   8VDwU7lXFrvwa+VDiRGnURP+FXzZeH/zU1yOMp9st5VINXAJ2lzg+sWv0
    Q==;
-X-CSE-ConnectionGUID: w6vajWCaTb+OgN/3zWQ21A==
-X-CSE-MsgGUID: XW+gCxlWSJmbUkDH4wT2rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="30040808"
+X-CSE-ConnectionGUID: YrdpiP8hSvihaKtZNhKfLw==
+X-CSE-MsgGUID: 6ltU6dorRjK6SsmG+XQn+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18497101"
 X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="30040808"
+   d="scan'208";a="18497101"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 13:11:17 -0700
-X-CSE-ConnectionGUID: bOvK86TuTgmZ5VBuQFfo9g==
-X-CSE-MsgGUID: SL634WCgT+qJjPTZgLuPjA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 13:25:18 -0700
+X-CSE-ConnectionGUID: QZuiX99WQlmZj1oBFGcykQ==
+X-CSE-MsgGUID: H9whyyPCQ+aeZmGf/ARFtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="50206356"
+   d="scan'208";a="50209182"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jul 2024 13:11:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jul 2024 13:25:15 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sToW0-000fd4-39;
-	Tue, 16 Jul 2024 20:11:12 +0000
-Date: Wed, 17 Jul 2024 04:11:02 +0800
+	id 1sTojZ-000fdw-17;
+	Tue, 16 Jul 2024 20:25:13 +0000
+Date: Wed, 17 Jul 2024 04:24:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Duyck <alexanderduyck@fb.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [linux-next:master 12947/13217]
- drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:1088:6: error: call to
- '__compiletime_assert_749' declared with 'error' attribute: FIELD_PREP:
- value too large for the field
-Message-ID: <202407170432.dYJQOWVz-lkp@intel.com>
+To: Xavier <xavier_qy@163.com>, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	bristot@redhat.com, vschneid@redhat.com,
+	linux-kernel@vger.kernel.org, oliver.sang@intel.com,
+	Xavier <xavier_qy@163.com>
+Subject: Re: [PATCH-RT sched v3 1/2] RT SCHED: Optimize the enqueue and
+ dequeue operations for rt_se
+Message-ID: <202407170411.vRtOCOzx-lkp@intel.com>
+References: <20240716060514.304324-2-xavier_qy@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,157 +68,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240716060514.304324-2-xavier_qy@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4f40be61af99a67d5580c1448acd9b74c0376389
-commit: 0cb4c0a13723ef6dd06be8f913443897a0ffccb5 [12947/13217] eth: fbnic: Implement Rx queue alloc/start/stop/free
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240717/202407170432.dYJQOWVz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170432.dYJQOWVz-lkp@intel.com/reproduce)
+Hi Xavier,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on shuah-kselftest/next shuah-kselftest/fixes peterz-queue/sched/core linus/master v6.10]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xavier/RT-SCHED-Optimize-the-enqueue-and-dequeue-operations-for-rt_se/20240716-140932
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20240716060514.304324-2-xavier_qy%40163.com
+patch subject: [PATCH-RT sched v3 1/2] RT SCHED: Optimize the enqueue and dequeue operations for rt_se
+config: x86_64-randconfig-121-20240716 (https://download.01.org/0day-ci/archive/20240717/202407170411.vRtOCOzx-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170411.vRtOCOzx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407170432.dYJQOWVz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407170411.vRtOCOzx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/debug.c:469:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/debug.c:469:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/debug.c:469:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+>> kernel/sched/debug.c:715:6: sparse: sparse: symbol 'print_rt_se' was not declared. Should it be static?
+   kernel/sched/debug.c:842:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/debug.c:842:9: sparse:     expected struct task_struct *tsk
+   kernel/sched/debug.c:842:9: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/debug.c:842:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/debug.c:842:9: sparse:     expected struct task_struct *tsk
+   kernel/sched/debug.c:842:9: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/stats.c:148:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/stats.c:148:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/stats.c:148:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/topology.c:107:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:107:56: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:107:56: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:126:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:126:60: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:126:60: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:149:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:149:20: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:149:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:454:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_domain *[assigned] tmp @@     got struct perf_domain [noderef] __rcu *pd @@
+   kernel/sched/topology.c:454:13: sparse:     expected struct perf_domain *[assigned] tmp
+   kernel/sched/topology.c:454:13: sparse:     got struct perf_domain [noderef] __rcu *pd
+   kernel/sched/topology.c:463:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_domain *[assigned] tmp @@     got struct perf_domain [noderef] __rcu *pd @@
+   kernel/sched/topology.c:463:13: sparse:     expected struct perf_domain *[assigned] tmp
+   kernel/sched/topology.c:463:13: sparse:     got struct perf_domain [noderef] __rcu *pd
+   kernel/sched/topology.c:484:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *[assigned] pd @@     got struct perf_domain [noderef] __rcu *pd @@
+   kernel/sched/topology.c:484:19: sparse:     expected struct perf_domain *[assigned] pd
+   kernel/sched/topology.c:484:19: sparse:     got struct perf_domain [noderef] __rcu *pd
+   kernel/sched/topology.c:646:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:646:49: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:646:49: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:731:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:731:50: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:731:50: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:739:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
+   kernel/sched/topology.c:739:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
+   kernel/sched/topology.c:739:55: sparse:     got struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:752:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:752:29: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:752:29: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:757:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:757:20: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:757:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:778:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
+   kernel/sched/topology.c:778:13: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:778:13: sparse:     got struct sched_domain [noderef] __rcu *sd
+   kernel/sched/topology.c:940:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:940:70: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:940:70: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:969:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:969:59: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:969:59: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1015:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1015:57: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1015:57: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1017:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1017:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1017:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1025:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1025:55: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1025:55: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1027:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1027:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1027:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1097:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1097:62: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1097:62: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1201:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1201:40: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:1201:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1629:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
+   kernel/sched/topology.c:1629:43: sparse:     expected struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1629:43: sparse:     got struct sched_domain *child
+   kernel/sched/topology.c:2328:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
+   kernel/sched/topology.c:2328:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2328:31: sparse:     got struct sched_domain *sd
+   kernel/sched/topology.c:2430:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2430:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2430:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2451:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:2451:56: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:2451:56: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:2450:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2450:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2450:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2505:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2505:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2505:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/core_sched.c:276:37: sparse: sparse: incompatible types in conditional expression (different address spaces):
+   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct *
+   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/build_utility.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/sched/topology.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/sched.h:2175:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
 
-   In file included from drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:4:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:4:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:4:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:5:
-   In file included from include/linux/pci.h:37:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:1088:6: error: call to '__compiletime_assert_749' declared with 'error' attribute: FIELD_PREP: value too large for the field
-    1088 |             FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_TROOM_MASK, FBNIC_RX_TROOM);
-         |             ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:8:1: note: expanded from here
-       8 | __compiletime_assert_749
-         | ^
-   17 warnings and 1 error generated.
+vim +/print_rt_se +715 kernel/sched/debug.c
 
-
-vim +1088 drivers/net/ethernet/meta/fbnic/fbnic_txrx.c
-
-  1077	
-  1078	static void fbnic_config_drop_mode_rcq(struct fbnic_napi_vector *nv,
-  1079					       struct fbnic_ring *rcq)
-  1080	{
-  1081		u32 drop_mode, rcq_ctl;
-  1082	
-  1083		drop_mode = FBNIC_QUEUE_RDE_CTL0_DROP_IMMEDIATE;
-  1084	
-  1085		/* Specify packet layout */
-  1086		rcq_ctl = FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_DROP_MODE_MASK, drop_mode) |
-  1087		    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK, FBNIC_RX_HROOM) |
-> 1088		    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_TROOM_MASK, FBNIC_RX_TROOM);
-  1089	
-  1090		fbnic_ring_wr32(rcq, FBNIC_QUEUE_RDE_CTL0, rcq_ctl);
-  1091	}
-  1092	
+   714	
+ > 715	void print_rt_se(struct seq_file *m, struct sched_rt_entity *rt_se)
+   716	{
+   717		struct task_struct *task;
+   718	
 
 -- 
 0-DAY CI Kernel Test Service
