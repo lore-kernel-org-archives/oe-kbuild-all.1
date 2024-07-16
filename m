@@ -1,128 +1,306 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BEC1CA9F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 12:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6708817CA0E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 12:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721131377; cv=none; b=BypoLOn/8Otl5yLlVrjd3JZxwO4kbvjKVK8H04hx19WpV1WtGaxoBXohsl+aaPtklhp2+Xcuc9zpkox06xafnVczAB83kyNXUAv1hjsAWqM4+MPx8hLLD6AxKR5upY4fafdBgzo0AsQ0WdFm6xkHy011wAx19ePCnyWU1hc0R8s=
+	t=1721132412; cv=none; b=Tu9sL0iCt4EDfKav6Fmwi2TfnVeG3Q7olsBIquFvj89fIB0dkk8hNOvRxMdNZ3BwElTY+1PszOhoVqsChVYbdhL/Xo+HmbZwoDEaYNoOtVJBFTvixFlsuMl/nwQdQKAUROcZ/K3vk2dBQkSiWYKlaDEmPGfh+2xdngIacq+v7RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721131377; c=relaxed/simple;
-	bh=z+BN93a7sCG3IISikKABf2AvZAiyvOeO1eCPO18Oegk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q7kYJAmQwXish90Z6gNAjzWufbLvj9oFb9pyj82C80TAxDmNoZg69Hi4rcjlb90ImVBUZKXw01AmfzfWlkNz7xkvSY4yIf6MoaM8AkrFzf1DxlR2drrEQiZP2M8F4DNPaL1SlKwfl1zdmVmPyu6uoBit0JutoudmweArcw1qqAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npxSp4RT; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721132412; c=relaxed/simple;
+	bh=NPFmz/N6G3Ip3lB/40h8jCNz3HQpYtZd62s4Uir8yVY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gjusBgKi5IiHMy5QoHY5AXyVbfecPq3ctLuvVy4XrymDeJcOqJPx/rihszTJj4YfQcF4RJrgTJQHmP7dAZPGTQKMOtc2cNChOoLsCU963ullVb6NfYD8Qwti4G/JQ7qEW8WqfRy9PvMgUVC+ENfkXYeySjT42xHhQWJYjKYJr8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=A534KACJ; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npxSp4RT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721131375; x=1752667375;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z+BN93a7sCG3IISikKABf2AvZAiyvOeO1eCPO18Oegk=;
-  b=npxSp4RTvHkhPNcBf0oMpuwJ5a6m7vR7jJ8i/9Ojo+ua8fOfOPCSUkYb
-   JjCUs/g19Ujp2NcwEm83B2qmnP7wRhINJxJ8b37KzPgvbwXyDMAOCGvrx
-   6HrUxs1wzD+zfXTW0vLWTbohaU23TAKrxnlR1WKeTSN1DGv2tJoQMC7vi
-   424hOueTjFBpntc6svxEu2YBObmNLKdJwjiO81ogm6AkPb+9G9BPxMoLW
-   ZGgmP2xb+UnO0WzwujZz7y7Q5NsIvBsMK7LCWzGrZ/VwPJvIE58ZIGCgw
-   3fcQqHLB3b5RqyANBddfTDHBpc75M92QCOR/rDAq597zyyWNRnLbYsOYn
-   g==;
-X-CSE-ConnectionGUID: PQDUH2EMTj6axv0bCzJLFg==
-X-CSE-MsgGUID: 7OhcBz+gSKmiIt6LycIz5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="29239449"
-X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="29239449"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 05:02:54 -0700
-X-CSE-ConnectionGUID: weESrnw+QxygbgJ3tTSJSA==
-X-CSE-MsgGUID: kQA7Ma4rT/m+bGuXTbVyhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="54530142"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jul 2024 05:02:51 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTgtN-000fBC-0w;
-	Tue, 16 Jul 2024 12:02:49 +0000
-Date: Tue, 16 Jul 2024 20:02:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 14/48] arch/loongarch/kernel/efi.c:79:33: error:
- implicit declaration of function 'pmd_mkhuge'; did you mean 'pte_mkhuge'?
-Message-ID: <202407161922.xXtF3fUX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="A534KACJ"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-58b447c513aso5952470a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 05:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721132409; x=1721737209; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/wgyK3rI/+GRYXc3I3puXIGSeacbfUlZLjUaC5dlWKs=;
+        b=A534KACJUbE4EDuTIale47cBX6fhRiY0ttx/p/cxYCdbXq/GoE1u6BylYuASdg2BIX
+         u39r7HkCUvz4CJPewyNLwB24gMorONtMCBQX7Lo7seklhWUapqniyX9xUhb35nzzFV03
+         U1R+C118rG7V3hsP2E0FC5KXVDz+2SGO5lTFgFLjQTvtrcy52AzmqdpHk8er4WP5xeSw
+         wD0NoqOX+aIW/vFELMG3PhkK3yisfTvTQdkb6eP/o4Q5y6wqFmE8geqtp1ychTPStsxh
+         Y5zoloL576vECq/HAr2a2Gf7B959JIqKqQCHrOK58L0UrAxLigJJE1lhe8AHZuEAdK47
+         fUVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721132409; x=1721737209;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/wgyK3rI/+GRYXc3I3puXIGSeacbfUlZLjUaC5dlWKs=;
+        b=lBO91QNhUWOF2OfgP+D1I8qC2FZdk+BX9y/HM1WhsFqKHFZaXZ8Ihq3BcfMb48kBNs
+         wiOtuFSZEmojYCPOtwtGwADso2YUwnF+zd9dJXIQxio2D2BzBjzReV48iRLlJbPGc/4Q
+         o0aNjYJhEhdf6SlPzQ8sTrZpmewvg9XfJNQ1zPcNvWcDqo76oLQjkysdLxNOO5YJ3GPj
+         A3Oce8C+8FAsonlZWu63f6OSOqeEyj9Uhfl89WYlu9Wkai1hFNpitSBdX4evjQJ1w2oq
+         6SBvd4VNnziSKYCoQpXui/C9wmU63jxda1BFHQfobWIe+2kUrULh0hd39jCZjkOWZ2Ax
+         jvhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVkyIt2UuegOQdPNpvKpIcrmRbM6wNCF7ddo+NQ+G5i2zVQYZMWQgpmSqWsx3X0b3BJRR0JrfDbeCBuDzyTMwlEX4HLBfxzkBZglEtYg==
+X-Gm-Message-State: AOJu0YzzqMqwGlHM1Tozb5Uipbh227KANyedFWCWUQEwqEhmBc7Yf0/7
+	xqSXI1/Dnk8vnr8vojvRXZsqmJNlLsZkWBNzeQelTD91FzD4D0G/N12Ib1hTYVIpatSmJvNWHGm
+	MFFIWfM0NpS+BPEfiyaRNvHp/F21qJT1iMyWAvg==
+X-Google-Smtp-Source: AGHT+IG9FrD1fBVgqj60WTDAt3AQCQU/Sf+dX7Y3PES5xjXq+TMnTztj457Qr4E/dPajDDm9BXML7CFjSdsFPn+WNxQ=
+X-Received: by 2002:a17:906:2409:b0:a6f:c268:ff2e with SMTP id
+ a640c23a62f3a-a79ea3d7952mr139799466b.5.1721132408420; Tue, 16 Jul 2024
+ 05:20:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240626130347.520750-2-alexghiti@rivosinc.com>
+ <202407041157.odTZAYZ6-lkp@intel.com> <20240705172750.GF987634@thelio-3990X>
+In-Reply-To: <20240705172750.GF987634@thelio-3990X>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 16 Jul 2024 14:19:57 +0200
+Message-ID: <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
+To: Nathan Chancellor <nathan@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
+Cc: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrea Parri <parri.andrea@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   11cf99a210e4916f7a066658c851c08ab6b123ce
-commit: eae789a8713d7a3a35cf81fa0d1186231c99eb6d [14/48] LoongArch: add kernel setvirtmap for runtime
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240716/202407161922.xXtF3fUX-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161922.xXtF3fUX-lkp@intel.com/reproduce)
+Hi Nathan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407161922.xXtF3fUX-lkp@intel.com/
+On Fri, Jul 5, 2024 at 7:27=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Thu, Jul 04, 2024 at 11:38:46AM +0800, kernel test robot wrote:
+> > Hi Alexandre,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on soc/for-next]
+> > [also build test ERROR on linus/master v6.10-rc6 next-20240703]
+> > [cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core=
+]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/=
+riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for=
+-next
+> > patch link:    https://lore.kernel.org/r/20240626130347.520750-2-alexgh=
+iti%40rivosinc.com
+> > patch subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Z=
+acas
+> > config: riscv-randconfig-002-20240704 (https://download.01.org/0day-ci/=
+archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/config)
+> > compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7c=
+bf1a2591520c2491aa35339f227775f4d3adf6)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240704/202407041157.odTZAYZ6-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202407041157.odTZAYZ6-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> kernel/sched/core.c:11873:7: error: cannot jump from this asm goto s=
+tatement to one of its possible targets
+> >                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UN=
+SET))
+> >                        ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '_=
+_arch_cmpxchg'
+> >                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,        =
+    \
+> >                    ^
+> >    kernel/sched/core.c:11840:7: note: possible target of asm goto state=
+ment
+> >            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+> >                 ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '=
+__arch_cmpxchg'
+> >                                                                        =
+    \
+> >                                                                        =
+    ^
+> >    kernel/sched/core.c:11872:2: note: jump exits scope of variable with=
+ __attribute__((cleanup))
+> >            scoped_guard (irqsave) {
+> >            ^
+> >    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_gu=
+ard'
+> >            for (CLASS(_name, scope)(args),                             =
+    \
+> >                              ^
+> >    kernel/sched/core.c:11840:7: error: cannot jump from this asm goto s=
+tatement to one of its possible targets
+> >            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+> >                 ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '_=
+_arch_cmpxchg'
+> >                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,        =
+    \
+> >                    ^
+> >    kernel/sched/core.c:11873:7: note: possible target of asm goto state=
+ment
+> >                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UN=
+SET))
+> >                        ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '=
+__arch_cmpxchg'
+> >                                                                        =
+    \
+> >                                                                        =
+    ^
+> >    kernel/sched/core.c:11872:2: note: jump bypasses initialization of v=
+ariable with __attribute__((cleanup))
+> >            scoped_guard (irqsave) {
+> >            ^
+> >    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_gu=
+ard'
+> >            for (CLASS(_name, scope)(args),                             =
+    \
+> >                              ^
+> >    2 errors generated.
+>
+> Ugh, this is an unfortunate interaction with clang's jump scope analysis
+> and asm goto in LLVM releases prior to 17 :/
+>
+> https://github.com/ClangBuiltLinux/linux/issues/1886#issuecomment-1645979=
+992
+>
+> Unfortunately, 'if (0)' does not prevent this (the analysis runs early
+> in the front end as far as I understand it), we would need to workaround
+> this with full preprocessor guards...
 
-All errors (new ones prefixed by >>):
+Thanks for jumping in on this one, I was quite puzzled :)
 
-   arch/loongarch/kernel/efi.c: In function 'efimap_populate_hugepages':
->> arch/loongarch/kernel/efi.c:79:33: error: implicit declaration of function 'pmd_mkhuge'; did you mean 'pte_mkhuge'? [-Wimplicit-function-declaration]
-      79 |                         entry = pmd_mkhuge(entry);
-         |                                 ^~~~~~~~~~
-         |                                 pte_mkhuge
->> arch/loongarch/kernel/efi.c:79:33: error: incompatible types when assigning to type 'pmd_t' from type 'int'
+>
+> Another alternative would be to require LLVM 17+ for RISC-V, which may
+> not be the worst alternative, since I think most people doing serious
+> work with clang will probably be living close to tip of tree anyways
+> because of all the extension work that goes on upstream.
 
+Stupid question but why the fix in llvm 17 was not backported to
+previous versions?
 
-vim +79 arch/loongarch/kernel/efi.c
+Anyway, I'd rather require llvm 17+ than add a bunch of preprocessor
+guards in this file (IIUC what you said above) as it is complex
+enough.
 
-    54	
-    55	static int __init efimap_populate_hugepages(
-    56			unsigned long start, unsigned long end,
-    57			pgprot_t prot)
-    58	{
-    59		unsigned long addr;
-    60		unsigned long next;
-    61		pmd_t entry;
-    62		pud_t *pud;
-    63		pmd_t *pmd;
-    64	
-    65		for (addr = start; addr < end; addr = next) {
-    66			next = pmd_addr_end(addr, end);
-    67			pud = pud_offset((p4d_t *)pgd_efi + pgd_index(addr), addr);
-    68			if (pud_none(*pud)) {
-    69				void *p = memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
-    70	
-    71				if (!p)
-    72					return -1;
-    73				pmd_init(p);
-    74				pud_populate(&init_mm, pud, p);
-    75			}
-    76			pmd = pmd_offset(pud, addr);
-    77			if (pmd_none(*pmd)) {
-    78				entry = pfn_pmd((addr >> PAGE_SHIFT), prot);
-  > 79				entry = pmd_mkhuge(entry);
-    80				set_pmd_at(&init_mm, addr, pmd, entry);
-    81			}
-    82		}
-    83		return 0;
-    84	}
-    85	
+@Conor Dooley @Palmer Dabbelt WDYT? Is there any interest in
+supporting llvm < 17? We may encounter this bug again in the future so
+I'd be in favor of moving to llvm 17+.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks again Nathan,
+
+Alex
+
+>
+> I am open to other thoughts though.
+>
+> Cheers,
+> Nathan
