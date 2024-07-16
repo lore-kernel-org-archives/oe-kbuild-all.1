@@ -1,111 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BA1C8DF;
-	Tue, 16 Jul 2024 14:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46A519AD5E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 14:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721138442; cv=none; b=LwAS5kIBuR7EczRg+8w1LUXBJd+SDxj52GVaBMx4LQqLZdx7LnvnUx5grpdb9TWLOOMLmz2z5yACSguKe47Y2jmXZQiC2UJnIPa1exgpizGDaFjHzicbedbarnLaoBbVk1GQcH/xMiDHtCjp2WhdwmkuuUafsIXpVwP7wQgVqSE=
+	t=1721138461; cv=none; b=MeQU0rHxytM8urW2VsjWCIH6QOiFdVnfE12rrNwtZAS+gscxp3paJWe0marmYjozAeoAKa6Pe6oFNZ4TQ3kPDTtdv6TSUfEGfq0yRewLqxikw+u3N/seRg1eN3fgJStMysgcDEIL2moX3aWmKg3mH9Y//l3PcFvLcpqLxC3P5vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721138442; c=relaxed/simple;
-	bh=q6G0LaBTnMOqEYsABjZwsURGHz9QWdlHe+gyWVklxts=;
+	s=arc-20240116; t=1721138461; c=relaxed/simple;
+	bh=czNvutpG6PPjyDQStpbBq48lutxp6eM7GmFhS+Nes/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E0c4fBSWhE5Qo3rD/fGV4Lp7+rTctmEppnbzVtWb46x4nKKq+6RCbmK92dacocCu917OAoMWDz5MT5fllUSAl2oyUWGeAX03BTZu+CK72RXrk5AsNNjxnLT8qYmLVKljV1XwqFlHuXSd+Hv1LdvF03QuwMQK7s6zWM+uMDe92HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FuBb6prh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=N8vTZYay5P4dAe+NZdQtTDPRulRY6owuDQrpwkIh4+P7uHZ5uRaBXinrWCc+73C4S1eqoNXObIb4jZSFD99tMdwQ9+2/sss3w/+XRQg0EGLBKY6x88g3AESAaEo4HzXKWPIk2usP0rDvd6H8miYq2n2QgbHyXhXXE4T0DJ9TKpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMRcDsmB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuBb6prh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405FBC116B1;
-	Tue, 16 Jul 2024 14:00:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721138441;
-	bh=q6G0LaBTnMOqEYsABjZwsURGHz9QWdlHe+gyWVklxts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FuBb6prhshjfIeleU2KrheelYSh2TnxOI7dWe1G5Dd3y1F4w95HaNp1CjgnCeXkNW
-	 OR9rOeHh6duuGkkJ5a9B5+hzU+Zcd1olvWoEkNfYz71Bws4g6DG4L8z7Aa5cenrALe
-	 6D26r7/ySoliE5GFuI9+e63sLpiG32FtnKhiUAgadyy9kgEJBASbO6dTYH3hiBULVG
-	 o01Fgg3qZspZLf72CjxlxGa/zXLNpsWmPMJ0jKY5R+4I3dpTGrFGl6nBJRy9Lqwuf2
-	 ZfivNfieZL0KusjE55gOWZQ+MTgxa5TCybgmzgp02+S7nSMi5MozglZjRCUHjRgmJ8
-	 BqzAaLW5GH6JQ==
-Date: Tue, 16 Jul 2024 07:00:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Message-ID: <20240716140038.GA3272205@thelio-3990X>
-References: <20240626130347.520750-2-alexghiti@rivosinc.com>
- <202407041157.odTZAYZ6-lkp@intel.com>
- <20240705172750.GF987634@thelio-3990X>
- <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMRcDsmB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721138460; x=1752674460;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=czNvutpG6PPjyDQStpbBq48lutxp6eM7GmFhS+Nes/Q=;
+  b=WMRcDsmBEy2OgMaVtS77uqmrm5W26XMrIMQOoHdJp3P2KUvrdxdZkpoG
+   Lc8tvylBcXkcab+knuXtL8CR5LBxQZIWXdssgrNiKQ/AmlM9Z26nb/ya+
+   AGoL6FAThjv8B62b3IzrzjVnGFMPekS9q0jI9NNRAPi4uerLjBrP4b12I
+   FgvC5pcXDWp3IhgKCWc8myT6M2xhB+tXe6uyAicKkgHAmwVCk1YDqnslL
+   1kk3nyDCgBqcmyXzNMODkR5rW0NWf2vqmvk4k2tGX3whaZW1LEYUJk+A8
+   jqy9JsQP1JEruqUeM24Besl+hu9blPTwTZTKPGjVbUCH8Tpm9S7jqXOFP
+   Q==;
+X-CSE-ConnectionGUID: +FpV9eehRy6njK7YJHX+Lg==
+X-CSE-MsgGUID: DVFLh5xGTXK+ytRe6xHVag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="22439599"
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="22439599"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 07:00:59 -0700
+X-CSE-ConnectionGUID: Qrr2rGirRP+KF/xcveC19g==
+X-CSE-MsgGUID: YzG3ubOpSXea9IPkdDJxBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="54871942"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 16 Jul 2024 07:00:57 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sTijf-000fHe-0d;
+	Tue, 16 Jul 2024 14:00:55 +0000
+Date: Tue, 16 Jul 2024 22:00:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hopps <chopps@chopps.org>, devel@linux-ipsec.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	netdev@vger.kernel.org, Christian Hopps <chopps@chopps.org>
+Subject: Re: [PATCH ipsec-next v5 09/17] xfrm: iptfs: add user packet (tunnel
+ ingress) handling
+Message-ID: <202407162110.8Xuwy6GR-lkp@intel.com>
+References: <20240714202246.1573817-10-chopps@chopps.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
+In-Reply-To: <20240714202246.1573817-10-chopps@chopps.org>
 
-On Tue, Jul 16, 2024 at 02:19:57PM +0200, Alexandre Ghiti wrote:
-> On Fri, Jul 5, 2024 at 7:27 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> > Another alternative would be to require LLVM 17+ for RISC-V, which may
-> > not be the worst alternative, since I think most people doing serious
-> > work with clang will probably be living close to tip of tree anyways
-> > because of all the extension work that goes on upstream.
-> 
-> Stupid question but why the fix in llvm 17 was not backported to
-> previous versions?
+Hi Christian,
 
-Unfortunately, LLVM releases are only supported for a few months with
-fixes, unlike GCC that supported their releases for a few years. By the
-time this issue was uncovered and resolved in LLVM main (17 at the
-time), LLVM 16 was no longer supported.
+kernel test robot noticed the following build errors:
 
-I could potentially patch the kernel.org toolchains but that doesn't fix
-the issue for other versions of clang out there.
+[auto build test ERROR on klassert-ipsec-next/master]
+[also build test ERROR on next-20240716]
+[cannot apply to klassert-ipsec/master netfilter-nf/main linus/master nf-next/master v6.10]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Anyway, I'd rather require llvm 17+ than add a bunch of preprocessor
-> guards in this file (IIUC what you said above) as it is complex
-> enough.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/xfrm-config-add-CONFIG_XFRM_IPTFS/20240715-042948
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+patch link:    https://lore.kernel.org/r/20240714202246.1573817-10-chopps%40chopps.org
+patch subject: [PATCH ipsec-next v5 09/17] xfrm: iptfs: add user packet (tunnel ingress) handling
+config: i386-randconfig-061-20240716 (https://download.01.org/0day-ci/archive/20240716/202407162110.8Xuwy6GR-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407162110.8Xuwy6GR-lkp@intel.com/reproduce)
 
-Sure, this is not a super unreasonable issue to bump the minimum
-supported version for RISC-V over in my opinion, so no real objections
-from me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407162110.8Xuwy6GR-lkp@intel.com/
 
-> @Conor Dooley @Palmer Dabbelt WDYT? Is there any interest in
-> supporting llvm < 17? We may encounter this bug again in the future so
-> I'd be in favor of moving to llvm 17+.
+All errors (new ones prefixed by >>):
 
-FWIW, I would envision a diff like this (assuming it actually works to
-resolve this issue, I didn't actually test it):
+   ld: net/xfrm/xfrm_iptfs.o: in function `iptfs_user_init':
+>> net/xfrm/xfrm_iptfs.c:586:(.text+0x2a0): undefined reference to `__udivdi3'
 
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 91c91201212c..e81eb7ed257d 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -28,6 +28,8 @@ llvm)
- 		echo 15.0.0
- 	elif [ "$SRCARCH" = loongarch ]; then
- 		echo 18.0.0
-+	elif [ "$SRCARCH" = riscv ]; then
-+		echo 17.0.0
- 	else
- 		echo 13.0.1
- 	fi
 
-Cheers,
-Nathan
+vim +586 net/xfrm/xfrm_iptfs.c
+
+   547	
+   548	/**
+   549	 * iptfs_user_init() - initialize the SA with IPTFS options from netlink.
+   550	 * @net: the net data
+   551	 * @x: xfrm state
+   552	 * @attrs: netlink attributes
+   553	 * @extack: extack return data
+   554	 */
+   555	static int iptfs_user_init(struct net *net, struct xfrm_state *x,
+   556				   struct nlattr **attrs,
+   557				   struct netlink_ext_ack *extack)
+   558	{
+   559		struct xfrm_iptfs_data *xtfs = x->mode_data;
+   560		struct xfrm_iptfs_config *xc;
+   561	
+   562		xc = &xtfs->cfg;
+   563		xc->max_queue_size = net->xfrm.sysctl_iptfs_max_qsize;
+   564		xtfs->init_delay_ns =
+   565			(u64)net->xfrm.sysctl_iptfs_init_delay * NSECS_IN_USEC;
+   566	
+   567		if (attrs[XFRMA_IPTFS_PKT_SIZE]) {
+   568			xc->pkt_size = nla_get_u32(attrs[XFRMA_IPTFS_PKT_SIZE]);
+   569			if (!xc->pkt_size) {
+   570				xtfs->payload_mtu = 0;
+   571			} else if (xc->pkt_size > x->props.header_len) {
+   572				xtfs->payload_mtu = xc->pkt_size - x->props.header_len;
+   573			} else {
+   574				NL_SET_ERR_MSG(extack,
+   575					       "Packet size must be 0 or greater than IPTFS/ESP header length");
+   576				return -EINVAL;
+   577			}
+   578		}
+   579		if (attrs[XFRMA_IPTFS_MAX_QSIZE])
+   580			xc->max_queue_size = nla_get_u32(attrs[XFRMA_IPTFS_MAX_QSIZE]);
+   581		if (attrs[XFRMA_IPTFS_INIT_DELAY])
+   582			xtfs->init_delay_ns =
+   583				(u64)nla_get_u32(attrs[XFRMA_IPTFS_INIT_DELAY]) *
+   584				NSECS_IN_USEC;
+   585	
+ > 586		xtfs->ecn_queue_size = (u64)xc->max_queue_size * 95 / 100;
+   587	
+   588		return 0;
+   589	}
+   590	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
