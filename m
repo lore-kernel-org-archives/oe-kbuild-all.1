@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4C013F42D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jul 2024 23:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523874A2F;
+	Tue, 16 Jul 2024 00:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721086784; cv=none; b=S3HDVqmPF77/jAFT/PpoOJ2KIvJsUZjtwqZ+0rPRAEf/mYITSof4oFQKmPLR6W9EDneRezHrJCRyrvONXbTRsVzmy97DjKKHLV0w8qggJ7NN37gqIPyUb7ZZd87rl45wIouK9hx9T9cWxNRbtRYGND7C1bfgDnztm5MQoeUP34Y=
+	t=1721091262; cv=none; b=XFaGxAhX7XgPDMSByDn071NjAwnz4EcycC8eYkguZmG6M/zrvd4Z1GxxtsIfhYG5RtuaTKlw7S/iNwROw73j42t1uEbfeNfrrPIDkubQsit3G1F6W99Wrij1xcUftzbYnxOnhLZlO5ouSdgHkprxnUkFfteiTO+z7+nwvwyE/IE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721086784; c=relaxed/simple;
-	bh=YNqBY3ApndF9VUAXnZwxUCJMw8v1ccKTahTTcla/GV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DBbJNRU9SECoYyjM0wn/XCufWfQAC7qfu4yq7+MSh09H+zGcYrOw5pY31xiAETQmBdRkTTMxWNvlKcQ4Eg4kdoAwS0179gEH1qKWaHSCJSqKBK7VsYPk3dEUg2cy58D0QUA/f83puEQz4nkN3ZDI/e+hkiTcKaH0IGNZvgZM7Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyKcYD+d; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1721091262; c=relaxed/simple;
+	bh=AlcLkl3ZckSTetDqtkbewgaIlrmC0fd1HpPyOnPIDOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jpVPqVe7iCrlh3YDbvHd+bLgmVEf4hB12qktHNbyUuKaW84O8qkrtS2XxQc3lNXXD6lGoHczOXpfXQYaA+8RXP7kXNgD7OF0hppQnA81Kxbt3A/noe5yJA/BK+8SABhGxi7yOwgoYdIaU7X1dsusI2iXMv4AZd26EKZmHlz3m+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0f7rM5L; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyKcYD+d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0f7rM5L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721086783; x=1752622783;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YNqBY3ApndF9VUAXnZwxUCJMw8v1ccKTahTTcla/GV8=;
-  b=EyKcYD+deobq98lFEsZRlzpTU4/hBSYYB7nqseR8EvXCD1BA5EyPGG/q
-   GDqceaPBYelqw8NsD7ox1hqIZHg/btmA/oBdDseWxWN7xetfSelcbt4BL
-   g2bTJ49KBEAmPPZp4ncDW1iQNmWokEuEdfW1jzmszje/XCx2Rz1t481IQ
-   7IXscQVgmiqwDB6sGQL9MjurO0qBWBmZ7mvjuXNKpc+0iQsOKBmROikTA
-   KTCrrJMI0sHKHPaig/XPE8FMQkHGdDXt6CePl81KbMHlpWdHH54tJtrdI
-   PYq2htY8z4UikiFppnbH3PvK1YEZSyHnBgHQgjtb/E7TEn4JwrZL1uYaf
+  t=1721091260; x=1752627260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AlcLkl3ZckSTetDqtkbewgaIlrmC0fd1HpPyOnPIDOY=;
+  b=n0f7rM5LQCiaK+ndZzU9tQ3UPFnnfy/fVE+GcHxaCEXvgDGHqf7uE9f5
+   TuEwcr9s0FoSyulbWfBrcymhSXEZrYsCgtC+yziKavUCDoiN/oFdDnzKQ
+   b7KMtErNscRcH7KXqVIXVLUziLlUF4r8l03stUqnuMgcYzAWrC7Pm6t7f
+   adBPFNSyb4yCKmkmyj0VykUreiS80gWxGlv5EFZBw20ZYh/XuMFNOjF5i
+   yxyGi6WKUB/y5rvnnbHE/JukYlojPHCf9cDpBvTj74wd3kFGHYZPojhqU
+   44ZXpO+aPu6d0RESgj4ThGHbv6rWnKVUYPq93T0hRle40IAqpuIpeBxaq
    A==;
-X-CSE-ConnectionGUID: WSo4HbwrQf+Sg+xndggMuA==
-X-CSE-MsgGUID: SKT605goTBGMLf8oDtLKBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18343001"
+X-CSE-ConnectionGUID: 15W2N+d8TB+PXPlxkbRQUg==
+X-CSE-MsgGUID: FCGLv+HATw6GjusZzo6Mqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18642255"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="18343001"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 16:39:41 -0700
-X-CSE-ConnectionGUID: q28eg5IBTfu20z714CaPAQ==
-X-CSE-MsgGUID: JEnUuHxTTS+/5ahpm2NgOA==
+   d="scan'208";a="18642255"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 17:54:20 -0700
+X-CSE-ConnectionGUID: lF6M1kDsQcupE5CgB6cnNw==
+X-CSE-MsgGUID: EmctZzIbRMavmTAEQvtPpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="49687726"
+   d="scan'208";a="49900247"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jul 2024 16:39:40 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jul 2024 17:54:16 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTVI9-000efC-2H;
-	Mon, 15 Jul 2024 23:39:37 +0000
-Date: Tue, 16 Jul 2024 07:38:53 +0800
+	id 1sTWSM-000eiJ-1i;
+	Tue, 16 Jul 2024 00:54:14 +0000
+Date: Tue, 16 Jul 2024 08:53:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:write-end 52/52]
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c:461:2: error: use of undeclared
- identifier 'offset'
-Message-ID: <202407160720.vDrcl3DM-lkp@intel.com>
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dan.j.williams@intel.com,
+	martin.habets@xilinx.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	richard.hughes@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alejandro Lucero <alucerop@amd.com>
+Subject: Re: [PATCH v2 09/15] cxl: define a driver interface for HPA free
+ space enumaration
+Message-ID: <202407160818.7GrterxM-lkp@intel.com>
+References: <20240715172835.24757-10-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,144 +68,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240715172835.24757-10-alejandro.lucero-palau@amd.com>
 
-tree:   git://git.infradead.org/users/willy/pagecache write-end
-head:   a875d4f14434467d21cd6cbe9a5e2366d6405a85
-commit: a875d4f14434467d21cd6cbe9a5e2366d6405a85 [52/52] fs: Convert aops->write_begin to take a folio
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240716/202407160720.vDrcl3DM-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10 next-20240715]
+[cannot apply to cxl/next cxl/pending horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20240716-015920
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240715172835.24757-10-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v2 09/15] cxl: define a driver interface for HPA free space enumaration
+config: i386-buildonly-randconfig-004-20240716 (https://download.01.org/0day-ci/archive/20240716/202407160818.7GrterxM-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160720.vDrcl3DM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407160818.7GrterxM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407160720.vDrcl3DM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407160818.7GrterxM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/gem/i915_gem_shmem.c:461:2: error: use of undeclared identifier 'offset'
-     461 |         offset = arg->offset;
-         |         ^
->> drivers/gpu/drm/i915/gem/i915_gem_shmem.c:485:7: error: use of undeclared identifier 'folio'
-     485 |                                         &folio, &data);
-         |                                          ^
-   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:489:51: error: use of undeclared identifier 'folio'
-     489 |                 vaddr = kmap_local_folio(folio, offset_in_folio(folio, pos));
-         |                                                                 ^
-   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:489:28: error: use of undeclared identifier 'folio'
-     489 |                 vaddr = kmap_local_folio(folio, offset_in_folio(folio, pos));
-         |                                          ^
-   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:496:28: error: use of undeclared identifier 'folio'
-     496 |                                       len - unwritten, folio, data);
-         |                                                        ^
-   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:678:18: warning: unused variable 'vaddr' [-Wunused-variable]
-     678 |                 void *pgdata, *vaddr;
-         |                                ^~~~~
-   1 warning and 5 errors generated.
+   In file included from drivers/net/ethernet/sfc/efx_cxl.c:17:
+   drivers/net/ethernet/sfc/efx_cxl.h:11:9: warning: 'EFX_CXL_H' is used as a header guard here, followed by #define of a different macro [-Wheader-guard]
+      11 | #ifndef EFX_CXL_H
+         |         ^~~~~~~~~
+   drivers/net/ethernet/sfc/efx_cxl.h:12:9: note: 'EFX_CLX_H' is defined here; did you mean 'EFX_CXL_H'?
+      12 | #define EFX_CLX_H
+         |         ^~~~~~~~~
+         |         EFX_CXL_H
+>> drivers/net/ethernet/sfc/efx_cxl.c:89:7: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+      88 |                 pci_info(pci_dev, "CXL accel not enough free HPA space %llu < %u\n",
+         |                                                                        ~~~~
+         |                                                                        %u
+      89 |                                   max, EFX_CTPIO_BUFFER_SIZE);
+         |                                   ^~~
+   include/linux/pci.h:2683:67: note: expanded from macro 'pci_info'
+    2683 | #define pci_info(pdev, fmt, arg...)     dev_info(&(pdev)->dev, fmt, ##arg)
+         |                                                                ~~~    ^~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/offset +461 drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+vim +89 drivers/net/ethernet/sfc/efx_cxl.c
 
-a85fffe3032d99 Maarten Lankhorst       2021-03-23  419  
-8475355f7a2645 Chris Wilson            2019-05-28  420  static int
-8475355f7a2645 Chris Wilson            2019-05-28  421  shmem_pwrite(struct drm_i915_gem_object *obj,
-8475355f7a2645 Chris Wilson            2019-05-28  422  	     const struct drm_i915_gem_pwrite *arg)
-8475355f7a2645 Chris Wilson            2019-05-28  423  {
-8475355f7a2645 Chris Wilson            2019-05-28  424  	struct address_space *mapping = obj->base.filp->f_mapping;
-c5edd542aa548d Matthew Wilcox (Oracle  2022-03-03  425) 	const struct address_space_operations *aops = mapping->a_ops;
-8475355f7a2645 Chris Wilson            2019-05-28  426  	char __user *user_data = u64_to_user_ptr(arg->data_ptr);
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  427) 	u64 remain;
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  428) 	loff_t pos;
-8475355f7a2645 Chris Wilson            2019-05-28  429  	unsigned int pg;
-8475355f7a2645 Chris Wilson            2019-05-28  430  
-8475355f7a2645 Chris Wilson            2019-05-28  431  	/* Caller already validated user args */
-8475355f7a2645 Chris Wilson            2019-05-28  432  	GEM_BUG_ON(!access_ok(user_data, arg->size));
-8475355f7a2645 Chris Wilson            2019-05-28  433  
-a61170975718d5 Maarten Lankhorst       2021-03-23  434  	if (!i915_gem_object_has_struct_page(obj))
-a61170975718d5 Maarten Lankhorst       2021-03-23  435  		return i915_gem_object_pwrite_phys(obj, arg);
-a61170975718d5 Maarten Lankhorst       2021-03-23  436  
-8475355f7a2645 Chris Wilson            2019-05-28  437  	/*
-8475355f7a2645 Chris Wilson            2019-05-28  438  	 * Before we instantiate/pin the backing store for our use, we
-8475355f7a2645 Chris Wilson            2019-05-28  439  	 * can prepopulate the shmemfs filp efficiently using a write into
-8475355f7a2645 Chris Wilson            2019-05-28  440  	 * the pagecache. We avoid the penalty of instantiating all the
-8475355f7a2645 Chris Wilson            2019-05-28  441  	 * pages, important if the user is just writing to a few and never
-8475355f7a2645 Chris Wilson            2019-05-28  442  	 * uses the object on the GPU, and using a direct write into shmemfs
-8475355f7a2645 Chris Wilson            2019-05-28  443  	 * allows it to avoid the cost of retrieving a page (either swapin
-8475355f7a2645 Chris Wilson            2019-05-28  444  	 * or clearing-before-use) before it is overwritten.
-8475355f7a2645 Chris Wilson            2019-05-28  445  	 */
-8475355f7a2645 Chris Wilson            2019-05-28  446  	if (i915_gem_object_has_pages(obj))
-8475355f7a2645 Chris Wilson            2019-05-28  447  		return -ENODEV;
-8475355f7a2645 Chris Wilson            2019-05-28  448  
-8475355f7a2645 Chris Wilson            2019-05-28  449  	if (obj->mm.madv != I915_MADV_WILLNEED)
-8475355f7a2645 Chris Wilson            2019-05-28  450  		return -EFAULT;
-8475355f7a2645 Chris Wilson            2019-05-28  451  
-8475355f7a2645 Chris Wilson            2019-05-28  452  	/*
-8475355f7a2645 Chris Wilson            2019-05-28  453  	 * Before the pages are instantiated the object is treated as being
-8475355f7a2645 Chris Wilson            2019-05-28  454  	 * in the CPU domain. The pages will be clflushed as required before
-8475355f7a2645 Chris Wilson            2019-05-28  455  	 * use, and we can freely write into the pages directly. If userspace
-8475355f7a2645 Chris Wilson            2019-05-28  456  	 * races pwrite with any other operation; corruption will ensue -
-8475355f7a2645 Chris Wilson            2019-05-28  457  	 * that is userspace's prerogative!
-8475355f7a2645 Chris Wilson            2019-05-28  458  	 */
-8475355f7a2645 Chris Wilson            2019-05-28  459  
-8475355f7a2645 Chris Wilson            2019-05-28  460  	remain = arg->size;
-8475355f7a2645 Chris Wilson            2019-05-28 @461  	offset = arg->offset;
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  462) 	pg = offset_in_page(pos);
-8475355f7a2645 Chris Wilson            2019-05-28  463  
-8475355f7a2645 Chris Wilson            2019-05-28  464  	do {
-8475355f7a2645 Chris Wilson            2019-05-28  465  		unsigned int len, unwritten;
-8475355f7a2645 Chris Wilson            2019-05-28  466  		struct page *page;
-8475355f7a2645 Chris Wilson            2019-05-28  467  		void *data, *vaddr;
-8475355f7a2645 Chris Wilson            2019-05-28  468  		int err;
-ab438a61e4c367 Jani Nikula             2023-05-26  469  		char __maybe_unused c;
-8475355f7a2645 Chris Wilson            2019-05-28  470  
-8475355f7a2645 Chris Wilson            2019-05-28  471  		len = PAGE_SIZE - pg;
-8475355f7a2645 Chris Wilson            2019-05-28  472  		if (len > remain)
-8475355f7a2645 Chris Wilson            2019-05-28  473  			len = remain;
-8475355f7a2645 Chris Wilson            2019-05-28  474  
-8475355f7a2645 Chris Wilson            2019-05-28  475  		/* Prefault the user page to reduce potential recursion */
-8475355f7a2645 Chris Wilson            2019-05-28  476  		err = __get_user(c, user_data);
-8475355f7a2645 Chris Wilson            2019-05-28  477  		if (err)
-8475355f7a2645 Chris Wilson            2019-05-28  478  			return err;
-8475355f7a2645 Chris Wilson            2019-05-28  479  
-8475355f7a2645 Chris Wilson            2019-05-28  480  		err = __get_user(c, user_data + len - 1);
-8475355f7a2645 Chris Wilson            2019-05-28  481  		if (err)
-8475355f7a2645 Chris Wilson            2019-05-28  482  			return err;
-8475355f7a2645 Chris Wilson            2019-05-28  483  
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  484) 		err = aops->write_begin(obj->base.filp, mapping, pos, len,
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15 @485) 					&folio, &data);
-8475355f7a2645 Chris Wilson            2019-05-28  486  		if (err < 0)
-8475355f7a2645 Chris Wilson            2019-05-28  487  			return err;
-8475355f7a2645 Chris Wilson            2019-05-28  488  
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  489) 		vaddr = kmap_local_folio(folio, offset_in_folio(folio, pos));
-756eed0f2602f7 Zhao Liu                2023-12-03  490  		pagefault_disable();
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  491) 		unwritten = __copy_from_user_inatomic(vaddr, user_data, len);
-756eed0f2602f7 Zhao Liu                2023-12-03  492  		pagefault_enable();
-756eed0f2602f7 Zhao Liu                2023-12-03  493  		kunmap_local(vaddr);
-8475355f7a2645 Chris Wilson            2019-05-28  494  
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  495) 		err = aops->write_end(obj->base.filp, mapping, pos, len,
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  496) 				      len - unwritten, folio, data);
-8475355f7a2645 Chris Wilson            2019-05-28  497  		if (err < 0)
-8475355f7a2645 Chris Wilson            2019-05-28  498  			return err;
-8475355f7a2645 Chris Wilson            2019-05-28  499  
-8475355f7a2645 Chris Wilson            2019-05-28  500  		/* We don't handle -EFAULT, leave it to the caller to check */
-8475355f7a2645 Chris Wilson            2019-05-28  501  		if (unwritten)
-8475355f7a2645 Chris Wilson            2019-05-28  502  			return -ENODEV;
-8475355f7a2645 Chris Wilson            2019-05-28  503  
-8475355f7a2645 Chris Wilson            2019-05-28  504  		remain -= len;
-8475355f7a2645 Chris Wilson            2019-05-28  505  		user_data += len;
-a875d4f1443446 Matthew Wilcox (Oracle  2024-07-15  506) 		pos += len;
-8475355f7a2645 Chris Wilson            2019-05-28  507  		pg = 0;
-8475355f7a2645 Chris Wilson            2019-05-28  508  	} while (remain);
-8475355f7a2645 Chris Wilson            2019-05-28  509  
-8475355f7a2645 Chris Wilson            2019-05-28  510  	return 0;
-8475355f7a2645 Chris Wilson            2019-05-28  511  }
-8475355f7a2645 Chris Wilson            2019-05-28  512  
-
-:::::: The code at line 461 was first introduced by commit
-:::::: 8475355f7a2645a022288301c03555c31fb4de17 drm/i915: Move shmem object setup to its own file
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+    15	
+    16	#include "net_driver.h"
+  > 17	#include "efx_cxl.h"
+    18	
+    19	#define EFX_CTPIO_BUFFER_SIZE	(1024*1024*256)
+    20	
+    21	void efx_cxl_init(struct efx_nic *efx)
+    22	{
+    23		struct pci_dev *pci_dev = efx->pci_dev;
+    24		struct efx_cxl *cxl = efx->cxl;
+    25		resource_size_t max = 0;
+    26		struct resource res;
+    27		u16 dvsec;
+    28	
+    29		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
+    30						  CXL_DVSEC_PCIE_DEVICE);
+    31	
+    32		if (!dvsec)
+    33			return;
+    34	
+    35		pci_info(pci_dev, "CXL CXL_DVSEC_PCIE_DEVICE capability found");
+    36	
+    37		cxl->cxlds = cxl_accel_state_create(&pci_dev->dev,
+    38						    CXL_ACCEL_DRIVER_CAP_HDM);
+    39		if (IS_ERR(cxl->cxlds)) {
+    40			pci_info(pci_dev, "CXL accel device state failed");
+    41			return;
+    42		}
+    43	
+    44		cxl_accel_set_dvsec(cxl->cxlds, dvsec);
+    45		cxl_accel_set_serial(cxl->cxlds, pci_dev->dev.id);
+    46	
+    47		res = DEFINE_RES_MEM(0, EFX_CTPIO_BUFFER_SIZE);
+    48		cxl_accel_set_resource(cxl->cxlds, res, CXL_ACCEL_RES_DPA);
+    49	
+    50		res = DEFINE_RES_MEM_NAMED(0, EFX_CTPIO_BUFFER_SIZE, "ram");
+    51		cxl_accel_set_resource(cxl->cxlds, res, CXL_ACCEL_RES_RAM);
+    52	
+    53		if (cxl_pci_accel_setup_regs(pci_dev, cxl->cxlds)) {
+    54			pci_info(pci_dev, "CXL accel setup regs failed");
+    55			return;
+    56		}
+    57	
+    58		if (cxl_accel_request_resource(cxl->cxlds, true))
+    59			pci_info(pci_dev, "CXL accel resource request failed");
+    60	
+    61		if (!cxl_await_media_ready(cxl->cxlds)) {
+    62			cxl_accel_set_media_ready(cxl->cxlds);
+    63		} else {
+    64			pci_info(pci_dev, "CXL accel media not active");
+    65			return;
+    66		}
+    67	
+    68		cxl->cxlmd = devm_cxl_add_memdev(&pci_dev->dev, cxl->cxlds);
+    69		if (IS_ERR(cxl->cxlmd)) {
+    70			pci_info(pci_dev, "CXL accel memdev creation failed");
+    71			return;
+    72		}
+    73	
+    74		cxl->endpoint = cxl_acquire_endpoint(cxl->cxlmd);
+    75		if (IS_ERR(cxl->endpoint))
+    76			pci_info(pci_dev, "CXL accel acquire endpoint failed");
+    77	
+    78		cxl->cxlrd = cxl_get_hpa_freespace(cxl->endpoint, 1,
+    79						    CXL_DECODER_F_RAM | CXL_DECODER_F_TYPE2,
+    80						    &max);
+    81	
+    82		if (IS_ERR(cxl->cxlrd)) {
+    83			pci_info(pci_dev, "CXL accel get HPA failed");
+    84			goto out;
+    85		}
+    86	
+    87		if (max < EFX_CTPIO_BUFFER_SIZE)
+    88			pci_info(pci_dev, "CXL accel not enough free HPA space %llu < %u\n",
+  > 89					  max, EFX_CTPIO_BUFFER_SIZE);
+    90	out:
+    91		cxl_release_endpoint(cxl->cxlmd, cxl->endpoint);
+    92	}
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
