@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB872E832;
-	Tue, 16 Jul 2024 09:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE3444369
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 10:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721123693; cv=none; b=hRoz/p2XwcvHPTGvgRehbG9l8nB0kk/u64k5UG2+t3+xvBAhfGbXyx5mMw2iAGsoHXRNn46UmEolBtrN4smPkUr8DZT79M4KiVqGyAkxq23IyWTO4+E8liOa1Vu0QRub8e1rIGi4Z9Wi5DIs99C+t4e1z5Y5JU8i4M9pBriuP5A=
+	t=1721124711; cv=none; b=abBvQmyA7MOI6umcPi0WyEyt3+rLMJHhRqZMwg2FR9uxFGabSPgThGbX5aU3UxNZ0QQEuPhqHuUk7CwrQ326EY2nP72mpGtVTaCbNqNkEcnukIYLu+f1rj0HtSiLYUsG7qKXRMzDmaZaaFaB6qe1qNc7Fg9b8iuc6OqISgqvdM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721123693; c=relaxed/simple;
-	bh=ZPb5imWfzGDWAAu2GyDOPfBLXm3faEwF4zRISOWssjA=;
+	s=arc-20240116; t=1721124711; c=relaxed/simple;
+	bh=j0AETOJp5nud31QiyxiRoZnyFSz7TCB3y5w71U5iaF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hp6N69pkcvtXDplnRgoVH/lbFB3GlZGatP9ONstPvsP7jMe6wk1i2sHptCGYLeVfVoZIK5iLVtp7kZFhQyzMOb1e+Xd/w6T3TBmmMIsTr4TWNDBvFni67wvbwhFxWYXXbrmkM480nsEQjy33Lg+j0ZvkW7AKc3HyMysUqqT/XIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfMEffS8; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition:In-Reply-To; b=CeQh6AisCGu9aQOPD84w6AlM6NNYoHuTNMxt9CtS7/y4sYjqVOfnTNhG9fvfRlTCliMwtmGjfIxHXABCXurvzn6LEn/Y84ThG0yh09nJJncu19Ucsj4uAiob/xjuXTqn5x7d0KffwSSyTVRzZfkj5Q00GVP58z/5jmxvyDZzQq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Emt59K5a; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfMEffS8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Emt59K5a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721123691; x=1752659691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZPb5imWfzGDWAAu2GyDOPfBLXm3faEwF4zRISOWssjA=;
-  b=RfMEffS8jA+jRbg0LqVf1L32qb3rAOHnaQuMO0YQJ1WnDjRJ1SszK9Jc
-   k1fiB95zR4qZTBviBbiMecffGXIGMW/39Pyj7X2RVMW/eDlOrKcaIRKcl
-   fZQ+rzqBdWhuX+vTPytA/qkfKWR3qqPbM9Pjm121ntP0yDCnAG+5uk6Ek
-   0rXqaOXo8/ZJFd6X7e5KkhS/gxSDk7CqSJrOInzS8k9OXszKaPnNBb95u
-   UqZaWZElhEp5AiQHKkHkQy5oXvJ1GNm1rfnA2YEK2QJVLqN4zOo+YLyf/
-   rJWHZ/TxTxQkFuRTKMQFI4bbYy7lCGZFDYRTdnI/GlARUXNonro0vHGdI
-   g==;
-X-CSE-ConnectionGUID: mNP6XYiUTzCtvNbYZ3YUMA==
-X-CSE-MsgGUID: EbT/ykcnQ3umUSlz0CRGfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="21462920"
+  t=1721124710; x=1752660710;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=j0AETOJp5nud31QiyxiRoZnyFSz7TCB3y5w71U5iaF8=;
+  b=Emt59K5aER05bf4enW4ZONvr7zufFkrN/5V54LoEXHkbYs9L82lSUdfz
+   qnfmUDUdL/mz8VLS4rjYpZ3fnHHaIEPIMYCO9ax1wRPRhuu2JIJDtPLF9
+   BHJ8iHLE06ZfplZZkv5sNCtKsgDYR4eJ79C5/nmb+P5hl9CtuKL67lscG
+   I6RUKFnAiUuws0npaAh2kIAndcfErnAKLuEE+yiMqpJI+RHcnVyFNVLh2
+   nsPLkNE8BfmoDw17AgNhLC9AEWzad7EC8WqmOInijy5foaHZ305qiQ5dz
+   MUKyneZzPiCiB9mDQEx7gR9kdY4l81qw3mDPrY1z05a+A6c51W+OtlDbc
+   w==;
+X-CSE-ConnectionGUID: u+XLin58SLKMn2lK5I8tPQ==
+X-CSE-MsgGUID: E1OFJevVQqiKQQXhl7EaXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="41077304"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="21462920"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 02:54:50 -0700
-X-CSE-ConnectionGUID: Up+zKD7xTg2MmG728Q/ZMQ==
-X-CSE-MsgGUID: BMrmQZyKTwmYNPrUkDcEvw==
+   d="scan'208";a="41077304"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 03:11:50 -0700
+X-CSE-ConnectionGUID: +fbz4jt3QUuqYC1kvoUrbw==
+X-CSE-MsgGUID: ySaUktapSYij5aqB7BokOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="50342627"
+   d="scan'208";a="49883367"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Jul 2024 02:54:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Jul 2024 03:11:49 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTetS-000f6Y-1a;
-	Tue, 16 Jul 2024 09:54:46 +0000
-Date: Tue, 16 Jul 2024 17:54:01 +0800
+	id 1sTf9u-000f78-2q;
+	Tue, 16 Jul 2024 10:11:46 +0000
+Date: Tue, 16 Jul 2024 18:11:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	David Gow <davidgow@google.com>
-Subject: [clk:clk-kunit 10/10] ERROR: modpost:
- "__dtbo_kunit_clk_parent_data_test_begin" [drivers/clk/clk_test.ko]
- undefined!
-Message-ID: <202407161711.qDtiW4s1-lkp@intel.com>
+To: libaokun@huaweicloud.com
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.6/6.9] ext4: avoid ptr null pointer dereference
+Message-ID: <ZpZHPWgCV-J8oKXR@6724a33121ae>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,58 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240716092929.864207-1-libaokun@huaweicloud.com>
 
-Hi Stephen,
+Hi,
 
-First bad commit (maybe != root cause):
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-kunit
-head:   9f8bbc66021282d0646d1f8422265c72e671b5d1
-commit: 9f8bbc66021282d0646d1f8422265c72e671b5d1 [10/10] clk: Add KUnit tests for clks registered with struct clk_parent_data
-config: i386-randconfig-001-20240716 (https://download.01.org/0day-ci/archive/20240716/202407161711.qDtiW4s1-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161711.qDtiW4s1-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407161711.qDtiW4s1-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.6/6.9] ext4: avoid ptr null pointer dereference
+Link: https://lore.kernel.org/stable/20240716092929.864207-1-libaokun%40huaweicloud.com
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-ERROR: modpost: missing MODULE_LICENSE() in drivers/clk/kunit_clk_parent_data_test.dtbo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/kunit_clk_parent_data_test.dtbo.o
-ERROR: modpost: missing MODULE_LICENSE() in drivers/clk/kunit_clk_fixed_rate_test.dtbo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/kunit_clk_fixed_rate_test.dtbo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/uapi-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/packet-serdes-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-ERROR: modpost: missing MODULE_LICENSE() in drivers/of/kunit_overlay_test.dtbo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/kunit_overlay_test.dtbo.o
->> ERROR: modpost: "__dtbo_kunit_clk_parent_data_test_begin" [drivers/clk/clk_test.ko] undefined!
->> ERROR: modpost: "__dtbo_kunit_clk_parent_data_test_end" [drivers/clk/clk_test.ko] undefined!
-ERROR: modpost: "__dtbo_kunit_clk_fixed_rate_test_begin" [drivers/clk/clk-fixed-rate_test.ko] undefined!
-ERROR: modpost: "__dtbo_kunit_clk_fixed_rate_test_end" [drivers/clk/clk-fixed-rate_test.ko] undefined!
-ERROR: modpost: "__dtbo_kunit_overlay_test_begin" [drivers/of/overlay_test.ko] undefined!
-ERROR: modpost: "__dtbo_kunit_overlay_test_end" [drivers/of/overlay_test.ko] undefined!
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
