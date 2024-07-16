@@ -1,82 +1,128 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAF8199EA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 11:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BEC1CA9F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 12:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721131045; cv=none; b=e+Bt6F65wm/lf8MeGXh0m5/J80yAdTJIlJY6KsE8di+l1jdocgpnry8tklMZse249aftO0rjUDBQy/Pd5afm7aWlgHdLR5SHjkRSc2Jowr2HVFdC9c6BLTDvaxHekoWLKreE7QUlKxpwhpMhppAXDKtHYtZDsNtD/Uf2ZX5L+Mg=
+	t=1721131377; cv=none; b=BypoLOn/8Otl5yLlVrjd3JZxwO4kbvjKVK8H04hx19WpV1WtGaxoBXohsl+aaPtklhp2+Xcuc9zpkox06xafnVczAB83kyNXUAv1hjsAWqM4+MPx8hLLD6AxKR5upY4fafdBgzo0AsQ0WdFm6xkHy011wAx19ePCnyWU1hc0R8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721131045; c=relaxed/simple;
-	bh=Fzlp7BXlI2w/dkw4Cs708AeznDIB0k1NZJFN7x24Mx0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=keWdDJYaYyAb1rU1a+tdIqM8x/zYQMjwUn5aHRwYrmZ93dSw1LESNgzgl6Pqq/yFuTT9O0tEuEgSoaungTgcGhmNoc50DHo8ZlE6jOGv2ityI2qSoVyPsLEp3z1jjZdskQClmK8YcLEMcHBCvuu65ER3UAvwdvcyiCZ2iuoyvw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4WNcxc1lg4z4f3jMs
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 19:57:08 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 38DBD1A0572
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 19:57:20 +0800 (CST)
-Received: from [10.174.177.174] (unknown [10.174.177.174])
-	by APP4 (Coremail) with SMTP id gCh0CgCHaTcbYJZmFcUsAQ--.57185S3;
-	Tue, 16 Jul 2024 19:57:18 +0800 (CST)
-Message-ID: <a449f888-38e8-4d9d-8a69-78ce8c839dbb@huaweicloud.com>
-Date: Tue, 16 Jul 2024 19:57:15 +0800
+	s=arc-20240116; t=1721131377; c=relaxed/simple;
+	bh=z+BN93a7sCG3IISikKABf2AvZAiyvOeO1eCPO18Oegk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q7kYJAmQwXish90Z6gNAjzWufbLvj9oFb9pyj82C80TAxDmNoZg69Hi4rcjlb90ImVBUZKXw01AmfzfWlkNz7xkvSY4yIf6MoaM8AkrFzf1DxlR2drrEQiZP2M8F4DNPaL1SlKwfl1zdmVmPyu6uoBit0JutoudmweArcw1qqAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npxSp4RT; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npxSp4RT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721131375; x=1752667375;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z+BN93a7sCG3IISikKABf2AvZAiyvOeO1eCPO18Oegk=;
+  b=npxSp4RTvHkhPNcBf0oMpuwJ5a6m7vR7jJ8i/9Ojo+ua8fOfOPCSUkYb
+   JjCUs/g19Ujp2NcwEm83B2qmnP7wRhINJxJ8b37KzPgvbwXyDMAOCGvrx
+   6HrUxs1wzD+zfXTW0vLWTbohaU23TAKrxnlR1WKeTSN1DGv2tJoQMC7vi
+   424hOueTjFBpntc6svxEu2YBObmNLKdJwjiO81ogm6AkPb+9G9BPxMoLW
+   ZGgmP2xb+UnO0WzwujZz7y7Q5NsIvBsMK7LCWzGrZ/VwPJvIE58ZIGCgw
+   3fcQqHLB3b5RqyANBddfTDHBpc75M92QCOR/rDAq597zyyWNRnLbYsOYn
+   g==;
+X-CSE-ConnectionGUID: PQDUH2EMTj6axv0bCzJLFg==
+X-CSE-MsgGUID: 7OhcBz+gSKmiIt6LycIz5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="29239449"
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="29239449"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 05:02:54 -0700
+X-CSE-ConnectionGUID: weESrnw+QxygbgJ3tTSJSA==
+X-CSE-MsgGUID: kQA7Ma4rT/m+bGuXTbVyhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="54530142"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 16 Jul 2024 05:02:51 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sTgtN-000fBC-0w;
+	Tue, 16 Jul 2024 12:02:49 +0000
+Date: Tue, 16 Jul 2024 20:02:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 14/48] arch/loongarch/kernel/efi.c:79:33: error:
+ implicit declaration of function 'pmd_mkhuge'; did you mean 'pte_mkhuge'?
+Message-ID: <202407161922.xXtF3fUX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6.6/6.9] ext4: avoid ptr null pointer dereference
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-References: <ZpZHPWgCV-J8oKXR@6724a33121ae>
-Content-Language: en-US
-From: Baokun Li <libaokun@huaweicloud.com>
-In-Reply-To: <ZpZHPWgCV-J8oKXR@6724a33121ae>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgCHaTcbYJZmFcUsAQ--.57185S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF4rtrykKryxXFy8Kr1xKrg_yoWxtwb_Kr
-	1UKa9xGrW8Jr4vka1jyrsavr1kKr98Xr95Xr4IyrW2kwnrtFy5ZF43WF9xZ3Z7Z39Y9F1Y
-	9FyqgF1qgr1a9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbO8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267
-	AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80
-	ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4
-	AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7IU1wL05UUUUU==
-X-CM-SenderInfo: 5olet0hnxqqx5xdzvxpfor3voofrz/1tbiAQAGBWaWLvsVtQABsG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024/7/16 18:11, kernel test robot wrote:
-> Hi,
->
-> Thanks for your patch.
->
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
->
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
->
-> Rule: The upstream commit ID must be specified with a separate line above the commit text.
-> Subject: [PATCH 6.6/6.9] ext4: avoid ptr null pointer dereference
-> Link: https://lore.kernel.org/stable/20240716092929.864207-1-libaokun%40huaweicloud.com
->
-> Please ignore this mail if the patch is not relevant for upstream.
->
-This patch does have nothing to do with upstream, so please ignore it.
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   11cf99a210e4916f7a066658c851c08ab6b123ce
+commit: eae789a8713d7a3a35cf81fa0d1186231c99eb6d [14/48] LoongArch: add kernel setvirtmap for runtime
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20240716/202407161922.xXtF3fUX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161922.xXtF3fUX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407161922.xXtF3fUX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/loongarch/kernel/efi.c: In function 'efimap_populate_hugepages':
+>> arch/loongarch/kernel/efi.c:79:33: error: implicit declaration of function 'pmd_mkhuge'; did you mean 'pte_mkhuge'? [-Wimplicit-function-declaration]
+      79 |                         entry = pmd_mkhuge(entry);
+         |                                 ^~~~~~~~~~
+         |                                 pte_mkhuge
+>> arch/loongarch/kernel/efi.c:79:33: error: incompatible types when assigning to type 'pmd_t' from type 'int'
+
+
+vim +79 arch/loongarch/kernel/efi.c
+
+    54	
+    55	static int __init efimap_populate_hugepages(
+    56			unsigned long start, unsigned long end,
+    57			pgprot_t prot)
+    58	{
+    59		unsigned long addr;
+    60		unsigned long next;
+    61		pmd_t entry;
+    62		pud_t *pud;
+    63		pmd_t *pmd;
+    64	
+    65		for (addr = start; addr < end; addr = next) {
+    66			next = pmd_addr_end(addr, end);
+    67			pud = pud_offset((p4d_t *)pgd_efi + pgd_index(addr), addr);
+    68			if (pud_none(*pud)) {
+    69				void *p = memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
+    70	
+    71				if (!p)
+    72					return -1;
+    73				pmd_init(p);
+    74				pud_populate(&init_mm, pud, p);
+    75			}
+    76			pmd = pmd_offset(pud, addr);
+    77			if (pmd_none(*pmd)) {
+    78				entry = pfn_pmd((addr >> PAGE_SHIFT), prot);
+  > 79				entry = pmd_mkhuge(entry);
+    80				set_pmd_at(&init_mm, addr, pmd, entry);
+    81			}
+    82		}
+    83		return 0;
+    84	}
+    85	
 
 -- 
-With Best Regards,
-Baokun Li
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
