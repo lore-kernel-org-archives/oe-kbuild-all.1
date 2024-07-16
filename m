@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27EAD2E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 03:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891DC1862C;
+	Tue, 16 Jul 2024 03:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721100147; cv=none; b=cqUk7N1QkZbMcOkekfJ75zbhWDz6CWe2MSjLZ2LLrxMNwIAi5QzNn7kCSAuaJQdyiOkVxpHM/3GRcLwuB+rDZ0mvSkM26iXdPtdgl3QSG6kIqL5BlBm/dgiXG6jDzVM9x63u5VJdHnkEyhCimOJ33F834t4K42RP3lZ3c9+u8ZA=
+	t=1721100751; cv=none; b=lOrtOMFNZ05E7YUeLvXoPxjkNLAkwDr/YJOIcLMwDYR+N/jMcpcy2OmzaqSgjeFWN5ISLoTjEZtkNnCYnjNVpqgaF+sYZ9fpc/9MRC18fZ6VJSbGtzMSsyoYsHVNhkTFibRDVmZm1M452nIXmKKsBg74IWQR+zDlFf00S1GwZaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721100147; c=relaxed/simple;
-	bh=6CxnONqXx8MEHh8xsDm7vwy4l7hv8ABNoqWuzhbsrtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UPYZ7xwPNLC3Dj2DXNvjA7NwV8jNazjmvO+hz87U90iP6aUWLkys5swR5wSD7f/uVauILwtvyqcQKQkUmm6V8hlcD5Xv88qfOIvZsGMc0tAeMdFMDKZnZt5a5h4rZFm3MIv7bODQz6L891YR0/+1GlaAkrhuCWNOEWzGC0dnEE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ArBMpz9J; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1721100751; c=relaxed/simple;
+	bh=GY/1zz50NBZ5rMHvmCnJe4c5+oCSLR2igpJJdQM9su0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAR2dmXn7aJiQS7jXMA0OHg+BvfEYZh6/21V4IgqjFMc6jh2PJTTEe5fBCYGQ0f0onzDXAhszTFDrBX77GMJdNVjwmIgri52LQrwJDZar2mZmCy+kEiTVdD2g7TbqheAcy8GZEAi9B7LZuocykA0mEuOQN9B0mIiAHhcBElregU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mmht6lpg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArBMpz9J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mmht6lpg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721100146; x=1752636146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6CxnONqXx8MEHh8xsDm7vwy4l7hv8ABNoqWuzhbsrtQ=;
-  b=ArBMpz9JYAEtJOUTxnxnTAkqs/56fXdgMUnC7UURdSrKdfDEyXtru81o
-   Jbo2T/NkdiUiGcqAOqKFHITS3m08CuZTkMa8EDiBhW8SmID3m1vffJN0g
-   tjijuePGH/i4GqUzUDL/wYlHe4b5bCpLD8LepiKcLQUzaOr8I8jjvZTxi
-   LQKiN8zcGu28wjwGY4GL6555ZSEGSHObMt8ddupi0r0f9rYgdW5XZBk55
-   5g91uctuElVoHBLoRiR0ZPsaKDz0M/xVnoVNUWr7yqk5SoqxEizsxOl14
-   J5w4npZU1WqSWUL6NpYLjFVdTFXCebp76OzCRwRbF0XjrbOKS1Erypn4n
+  t=1721100748; x=1752636748;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GY/1zz50NBZ5rMHvmCnJe4c5+oCSLR2igpJJdQM9su0=;
+  b=Mmht6lpg7SHxkVrodfYoG8hRF0g5QuhPTmEM8YrEqTHyXjnOqOF6R0mf
+   RDJnUZfBnaj9fay/0gulaZYoaZgiwWrhOMCDVVKnXo24tCMycpItmDRRG
+   9keF6DDKW9g9++aW9jga8AjM13oBWWMAR8hk3CvlepchJ5iY77nj3m4xh
+   ey2dK5HKRldOIKikirltrd7bNvfrIeW773KnXBAC/gHC3fgLTfsaKmnZu
+   PdtwQcutk9m8NtQVe66imOgj1dxqM8YGMMwNbgzH+JW4A6vUJDkkUOW7C
+   7dSt817aIeKD9Kyw1DeFEeX17lqnYuefBc6dyid3UfOoCH5xWXTbEuAhE
    Q==;
-X-CSE-ConnectionGUID: GaidtRI2S1aP6JWmfq9UvA==
-X-CSE-MsgGUID: voghLbY4SeOSaxoGduL/vg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="41038213"
+X-CSE-ConnectionGUID: tHKC3dt4RYmo8sqhbH4bKA==
+X-CSE-MsgGUID: bsfp3DzdSI+M2wnzPlM0Pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18646217"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="41038213"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 20:22:26 -0700
-X-CSE-ConnectionGUID: hxLbkVyTRgCaRMZOkbVGWg==
-X-CSE-MsgGUID: dGVhxJz1RH+F8argfBUAnQ==
+   d="scan'208";a="18646217"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2024 20:32:28 -0700
+X-CSE-ConnectionGUID: DyVHE1PWQhCwnPJdTEGnnA==
+X-CSE-MsgGUID: sodaZD6uRwSgia+JRpf+oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="49785603"
+   d="scan'208";a="50482525"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jul 2024 20:22:24 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Jul 2024 20:32:24 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTYlh-000erK-2H;
-	Tue, 16 Jul 2024 03:22:21 +0000
-Date: Tue, 16 Jul 2024 11:21:54 +0800
+	id 1sTYvO-000ery-05;
+	Tue, 16 Jul 2024 03:32:22 +0000
+Date: Tue, 16 Jul 2024 11:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 12760/12989] WARNING: modpost: vmlinux: section
- mismatch in reference: map_kfence_pool+0x7c (section: .text) ->
- create_physical_mapping.constprop.0 (section: .init.text)
-Message-ID: <202407161144.468gBK3c-lkp@intel.com>
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dan.j.williams@intel.com,
+	martin.habets@xilinx.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	richard.hughes@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alejandro Lucero <alucerop@amd.com>
+Subject: Re: [PATCH v2 10/15] cxl: define a driver interface for DPA
+ allocation
+Message-ID: <202407161159.KA2METLk-lkp@intel.com>
+References: <20240715172835.24757-11-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,22 +68,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240715172835.24757-11-alejandro.lucero-palau@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   91e3b24eb7d297d9d99030800ed96944b8652eaf
-commit: 4a3d9bcd897bc747972e8da0368eee57f0245019 [12760/12989] Merge branch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
-config: powerpc64-randconfig-r012-20220611 (https://download.01.org/0day-ci/archive/20240716/202407161144.468gBK3c-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161144.468gBK3c-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10 next-20240715]
+[cannot apply to cxl/next cxl/pending horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20240716-015920
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240715172835.24757-11-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v2 10/15] cxl: define a driver interface for DPA allocation
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240716/202407161159.KA2METLk-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161159.KA2METLk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407161144.468gBK3c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407161159.KA2METLk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: map_kfence_pool+0x7c (section: .text) -> create_physical_mapping.constprop.0 (section: .init.text)
+>> drivers/cxl/core/hdm.c:612: warning: Function parameter or struct member 'is_ram' not described in 'cxl_request_dpa'
+>> drivers/cxl/core/hdm.c:612: warning: Excess function parameter 'mode' description in 'cxl_request_dpa'
+
+
+vim +612 drivers/cxl/core/hdm.c
+
+   589	
+   590	/**
+   591	 * cxl_request_dpa - search and reserve DPA given input constraints
+   592	 * @endpoint: an endpoint port with available decoders
+   593	 * @mode: DPA operation mode (ram vs pmem)
+   594	 * @min: the minimum amount of capacity the call needs
+   595	 * @max: extra capacity to allocate after min is satisfied
+   596	 *
+   597	 * Given that a region needs to allocate from limited HPA capacity it
+   598	 * may be the case that a device has more mappable DPA capacity than
+   599	 * available HPA. So, the expectation is that @min is a driver known
+   600	 * value for how much capacity is needed, and @max is based the limit of
+   601	 * how much HPA space is available for a new region.
+   602	 *
+   603	 * Returns a pinned cxl_decoder with at least @min bytes of capacity
+   604	 * reserved, or an error pointer. The caller is also expected to own the
+   605	 * lifetime of the memdev registration associated with the endpoint to
+   606	 * pin the decoder registered as well.
+   607	 */
+   608	struct cxl_endpoint_decoder *cxl_request_dpa(struct cxl_port *endpoint,
+   609						     bool is_ram,
+   610						     resource_size_t min,
+   611						     resource_size_t max)
+ > 612	{
+   613		struct cxl_endpoint_decoder *cxled;
+   614		enum cxl_decoder_mode mode;
+   615		struct device *cxled_dev;
+   616		resource_size_t alloc;
+   617		int rc;
+   618	
+   619		if (!IS_ALIGNED(min | max, SZ_256M))
+   620			return ERR_PTR(-EINVAL);
+   621	
+   622		down_read(&cxl_dpa_rwsem);
+   623	
+   624		cxled_dev = device_find_child(&endpoint->dev, NULL, find_free_decoder);
+   625		if (!cxled_dev)
+   626			cxled = ERR_PTR(-ENXIO);
+   627		else
+   628			cxled = to_cxl_endpoint_decoder(cxled_dev);
+   629	
+   630		up_read(&cxl_dpa_rwsem);
+   631	
+   632		if (IS_ERR(cxled))
+   633			return cxled;
+   634	
+   635		if (is_ram)
+   636			mode = CXL_DECODER_RAM;
+   637		else
+   638			mode = CXL_DECODER_PMEM;
+   639	
+   640		rc = cxl_dpa_set_mode(cxled, mode);
+   641		if (rc)
+   642			goto err;
+   643	
+   644		down_read(&cxl_dpa_rwsem);
+   645		alloc = cxl_dpa_freespace(cxled, NULL, NULL);
+   646		up_read(&cxl_dpa_rwsem);
+   647	
+   648		if (max)
+   649			alloc = min(max, alloc);
+   650		if (alloc < min) {
+   651			rc = -ENOMEM;
+   652			goto err;
+   653		}
+   654	
+   655		rc = cxl_dpa_alloc(cxled, alloc);
+   656		if (rc)
+   657			goto err;
+   658	
+   659		return cxled;
+   660	err:
+   661		put_device(cxled_dev);
+   662		return ERR_PTR(rc);
+   663	}
+   664	EXPORT_SYMBOL_NS_GPL(cxl_request_dpa, CXL);
+   665	
 
 -- 
 0-DAY CI Kernel Test Service
