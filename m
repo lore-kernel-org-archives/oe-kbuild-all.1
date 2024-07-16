@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6131C6B7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 18:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75341A0728
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 18:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721154255; cv=none; b=CPRws5XJghkvW0RapV9Ff0QoanNBDZ5Q6/o68a7FqIS8QvT5r9QjuDdHpYXIWztfH4J04kMmZ0Y8/HMGeHXTQZXJkEhrJf+z6bG89dxTmKbgRo6kdcRdRiK/JOo9JPRyEIfMqe+bcoNjajpgjF96bd0vmWsUaj+Gq1jSkd5xKbk=
+	t=1721154855; cv=none; b=o6tzmbxxLWJ1X840pQlzVKvSlpdV/VFcYv/MkhAscdvzthei0TYtlumF8etY1ZxXddimWZg3p8TGVQP3MoKIlKrNtumPfIByiSzFscuthv62/SmTG3YDuiurmSWVLY8yz3HViDT/hk1pgyDnw66HTUL1s4KW9fGHT24jBd63Tfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721154255; c=relaxed/simple;
-	bh=t++kYpQmVJzELzR9+TJcnr7/0Y7cbjshFSyEoQ4q2Xg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iBuN0btJXIqXhl4GbRjMCPqUip3BKjsmR0AClalGVkQiTzFhG2zOw9JBUJjUgY2HcJsvk6QL+V7ngaSdgsn6o6b5iJm107oEawrMKRU2Mzyf9Kgv0nxP4udK6ipUEWXZJL1iCFsIYdzWmMZoMJe9LBpeM3Osjkt/SGuP1mH5GhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eha+oREO; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1721154855; c=relaxed/simple;
+	bh=SGbO8WM7QRpDDKP8wCXtXYrqIi1RJAbSBJRTJ2uVESw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNFU4oTkVlwLT5vAT9VB1lHDR6/wtr94MnSOes/MtXS2tAOhWmfyIG/sDdtnvjkjWaf6K3ojwLYalB3ZU/4ql7/uqATem6Qwi8ZPsC60srDsULu0/uHrFsdMquTV5sPXnMNGpDt1qS6DLhVbPIpd5UPenK8LCfRSmGyMy8EiHNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+MIy2ER; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eha+oREO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+MIy2ER"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721154254; x=1752690254;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t++kYpQmVJzELzR9+TJcnr7/0Y7cbjshFSyEoQ4q2Xg=;
-  b=Eha+oREO0fraeglwqpYw8KfYe6KZBj/A56eHwrBtV/LQy1cVT4271ELE
-   uk1cfnUvavZZ+Mtc7K9yyhuXDnNUI+sTricTSaBL9hQVvo7oVphr334tE
-   uNWyM3FWkLZQ4JhImkhYSj7cyLmxgeR2ciZ2r8vkpkLbAzAlBaXbQq7zm
-   pytFaqp/Be0eHEnd5HrOqSEwz9s3OaTu17U0XnrhRq664FG8Q9/iMfTB9
-   wqHL7KFShPFC9KVcdSm5GM7Re0VyzkBhQxjXOFC6dWBuyNCK/bVg8onm8
-   9xokUKkxAuCMP9DF4jVD6nuuKoTaqnj2cQAnPuHZOGIiPv9l+H4/Vn10X
+  t=1721154854; x=1752690854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SGbO8WM7QRpDDKP8wCXtXYrqIi1RJAbSBJRTJ2uVESw=;
+  b=J+MIy2ER0tia01bnBqlA1JVDyTfutxdSZAWS1GaOMb+M2UANZvKEX7Sd
+   TMpdxVWtTOLgPHtZQcCzQw0DdIqjkiAG9XAIsSco8K0GCOGTrSAhrSEHB
+   F/TtTPJHxlz3fcOZDY4YvsVC0+BDmepIprbs8CHv19+XlWSwY/v2mW/Gj
+   UC8ERY9QJUmyESbtrTMjYm9bmgA9hKVq8fyoCBtVW0j0ESLKKF4h07KEr
+   opE8o5dI4is+gX+fCVX717+/hDwcH6dPTK4kwTkD7rYc7NvUJhC66XReW
+   M15Mq1ILDft1GwAJ6UV4qQnU99X0583wxRZzILiIak8MPY7clnRa2vF6u
    w==;
-X-CSE-ConnectionGUID: A7op8KtjQta7/Qc26bGGjA==
-X-CSE-MsgGUID: jMiHSq+pS1SbkGuS6RKxMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18762881"
+X-CSE-ConnectionGUID: aHCkb3h4Sjy0wR66yR6Hkw==
+X-CSE-MsgGUID: PkxIpRCNRfq4vn+Za9UdtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="30030782"
 X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="18762881"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 11:24:13 -0700
-X-CSE-ConnectionGUID: okYn8qcJRhmD03Zefm531A==
-X-CSE-MsgGUID: IqVsATizQ5224llC4LL0Yw==
+   d="scan'208";a="30030782"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 11:34:13 -0700
+X-CSE-ConnectionGUID: F967STIhR3m9Xr8HKZYo8Q==
+X-CSE-MsgGUID: NEd8ZzBtR+ioHXToV3JExQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="80762371"
+   d="scan'208";a="81168490"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Jul 2024 11:24:12 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jul 2024 11:34:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTmqP-000fWw-1o;
-	Tue, 16 Jul 2024 18:24:09 +0000
-Date: Wed, 17 Jul 2024 02:23:16 +0800
+	id 1sTn06-000fXS-0i;
+	Tue, 16 Jul 2024 18:34:10 +0000
+Date: Wed, 17 Jul 2024 02:33:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
+To: Josua Mayer <josua@solid-run.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie-new 7/48]
- drivers/net/ethernet/intel/idpf/idpf_lib.c:1880: warning: Excess function
- parameter 'reset_cause' description in 'idpf_initiate_soft_reset'
-Message-ID: <202407170208.YB8519KS-lkp@intel.com>
+Subject: Re: [PATCH RFC 1/2] phy: mvebu-cp110-utmi: add support for
+ armada-380 utmi phys
+Message-ID: <202407170204.XbJgeGfG-lkp@intel.com>
+References: <20240715-a38x-utmi-phy-v1-1-d57250f53cf2@solid-run.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,74 +63,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240715-a38x-utmi-phy-v1-1-d57250f53cf2@solid-run.com>
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   d7007b65e8e03f477584ba66cfece548c88cfd96
-commit: a286105996f4307b88eaa526f982817d41d9f9ef [7/48] idpf: fix memory leaks and crashes while performing a soft reset
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240717/202407170208.YB8519KS-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170208.YB8519KS-lkp@intel.com/reproduce)
+Hi Josua,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/phy-mvebu-cp110-utmi-add-support-for-armada-380-utmi-phys/20240716-014931
+base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+patch link:    https://lore.kernel.org/r/20240715-a38x-utmi-phy-v1-1-d57250f53cf2%40solid-run.com
+patch subject: [PATCH RFC 1/2] phy: mvebu-cp110-utmi: add support for armada-380 utmi phys
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240717/202407170204.XbJgeGfG-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170204.XbJgeGfG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407170208.YB8519KS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407170204.XbJgeGfG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/idpf/idpf_lib.c:1880: warning: Excess function parameter 'reset_cause' description in 'idpf_initiate_soft_reset'
+>> drivers/phy/marvell/phy-mvebu-cp110-utmi.c:112: warning: Function parameter or struct member 'regs' not described in 'mvebu_cp110_utmi_port'
 
 
-vim +1880 drivers/net/ethernet/intel/idpf/idpf_lib.c
+vim +112 drivers/phy/marvell/phy-mvebu-cp110-utmi.c
 
-a286105996f430 Alexander Lobakin 2024-07-12  1870  
-02cbfba1add5bd Alan Brady        2023-08-07  1871  /**
-02cbfba1add5bd Alan Brady        2023-08-07  1872   * idpf_initiate_soft_reset - Initiate a software reset
-02cbfba1add5bd Alan Brady        2023-08-07  1873   * @vport: virtual port data struct
-02cbfba1add5bd Alan Brady        2023-08-07  1874   * @reset_cause: reason for the soft reset
-02cbfba1add5bd Alan Brady        2023-08-07  1875   *
-02cbfba1add5bd Alan Brady        2023-08-07  1876   * Soft reset only reallocs vport queue resources. Returns 0 on success,
-02cbfba1add5bd Alan Brady        2023-08-07  1877   * negative on failure.
-02cbfba1add5bd Alan Brady        2023-08-07  1878   */
-a286105996f430 Alexander Lobakin 2024-07-12  1879  int idpf_initiate_soft_reset(struct idpf_vport *vport)
-02cbfba1add5bd Alan Brady        2023-08-07 @1880  {
-a286105996f430 Alexander Lobakin 2024-07-12  1881  	const struct idpf_netdev_priv *np = netdev_priv(vport->netdev);
-a286105996f430 Alexander Lobakin 2024-07-12  1882  	bool vport_is_up = np->state == __IDPF_VPORT_UP;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1883  	int err;
-02cbfba1add5bd Alan Brady        2023-08-07  1884  
-a286105996f430 Alexander Lobakin 2024-07-12  1885  	if (vport_is_up) {
-02cbfba1add5bd Alan Brady        2023-08-07  1886  		set_bit(IDPF_VPORT_DEL_QUEUES, vport->flags);
-02cbfba1add5bd Alan Brady        2023-08-07  1887  		idpf_vport_stop(vport);
-a286105996f430 Alexander Lobakin 2024-07-12  1888  	} else {
-a286105996f430 Alexander Lobakin 2024-07-12  1889  		idpf_send_delete_queues_msg(vport);
-02cbfba1add5bd Alan Brady        2023-08-07  1890  	}
-02cbfba1add5bd Alan Brady        2023-08-07  1891  
-02cbfba1add5bd Alan Brady        2023-08-07  1892  	idpf_deinit_rss(vport);
-02cbfba1add5bd Alan Brady        2023-08-07  1893  
-a286105996f430 Alexander Lobakin 2024-07-12  1894  	err = idpf_reconfig_queues(vport);
-02cbfba1add5bd Alan Brady        2023-08-07  1895  	if (err)
-02cbfba1add5bd Alan Brady        2023-08-07  1896  		return err;
-02cbfba1add5bd Alan Brady        2023-08-07  1897  
-a286105996f430 Alexander Lobakin 2024-07-12  1898  	if (!vport_is_up)
-a286105996f430 Alexander Lobakin 2024-07-12  1899  		return idpf_set_real_num_queues(vport);
-02cbfba1add5bd Alan Brady        2023-08-07  1900  
-a286105996f430 Alexander Lobakin 2024-07-12  1901  	err = idpf_vport_open(vport);
-a286105996f430 Alexander Lobakin 2024-07-12  1902  	if (err) {
-a286105996f430 Alexander Lobakin 2024-07-12  1903  		netdev_err(vport->netdev,
-a286105996f430 Alexander Lobakin 2024-07-12  1904  			   "Could not reopen the vport %u: %pe", vport->idx,
-a286105996f430 Alexander Lobakin 2024-07-12  1905  			   ERR_PTR(err));
-02cbfba1add5bd Alan Brady        2023-08-07  1906  		return err;
-02cbfba1add5bd Alan Brady        2023-08-07  1907  	}
-02cbfba1add5bd Alan Brady        2023-08-07  1908  
-a286105996f430 Alexander Lobakin 2024-07-12  1909  	return 0;
-a286105996f430 Alexander Lobakin 2024-07-12  1910  }
-a286105996f430 Alexander Lobakin 2024-07-12  1911  
-
-:::::: The code at line 1880 was first introduced by commit
-:::::: 02cbfba1add5bd9088c7d14c6b93b77a6ea8f3bb idpf: add ethtool callbacks
-
-:::::: TO: Alan Brady <alan.brady@intel.com>
-:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07   99  
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  100  /**
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  101   * struct mvebu_cp110_utmi_port - PHY port data
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  102   *
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  103   * @priv: PHY driver data
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  104   * @id: PHY port ID
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  105   * @dr_mode: PHY connection: USB_DR_MODE_HOST or USB_DR_MODE_PERIPHERAL
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  106   */
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  107  struct mvebu_cp110_utmi_port {
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  108  	struct mvebu_cp110_utmi *priv;
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  109  	u32 id;
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  110  	enum usb_dr_mode dr_mode;
+56ee14beb72b1d Josua Mayer           2024-07-15  111  	void __iomem *regs;
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07 @112  };
+2fc989f74b8dac Konstantin Porotchkin 2021-03-07  113  
 
 -- 
 0-DAY CI Kernel Test Service
