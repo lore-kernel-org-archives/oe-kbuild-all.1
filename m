@@ -1,165 +1,122 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C695419E7D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 17:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2308A1A00DF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 17:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721150923; cv=none; b=TKQAtRzkdwnVhGKoXWoOcAAQKVrBppFSoFtlPfS7GSg/vT26aknDXKLrqooz1BvUGT/4hNYW4PKm3zZis6NjMC/6qTmM1Yjs9zxgmHGZM6P3xiBOlwO5zkpMSsJAb86Bwdor7vPF4/S7+1r11UMoz1GK2WLhWa4EbTW7YTNGTcE=
+	t=1721152274; cv=none; b=FTixgBuTrIrYikFv6SBWOBPxL/Xql5gUYC8tgA86czVoCyr3ZnK4zfBbw/OEMWCtW2vJM93H7gA1O+TY9GC0/esl0fD4pA5DHROfTqqc861WZcl30utEwimsgiWkXFBuKoTL1LPtnR/yLfCiJ1nZ3pFxMWDa35qO5JKUmu+Ghgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721150923; c=relaxed/simple;
-	bh=15NQnwHJzpg4kB3OrGCJDQDggEPNZghqi3kE6E6lu2w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r8Qn3uuPVL9hzzCHw6fQWHioOvO/yw1rqMtA98xoLvL72BiUrpMiaDHRwj/eXqfQ82QZCiIUUusVZpB5ZF4KH+1FHsIVzWq11QgIjPtBN1X3VmoZPYIDWr9/uOiFjBN3CWFJh9uIoxDBcQRcwtVi78Nrhhk/EWgMyDdCqhZD1OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=K6tlzy7f; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1721152274; c=relaxed/simple;
+	bh=vVztFECHj5A5lDM1edvCHwH4SGqeskbjWvte3GbWgm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GYsOfR9lBfwZnDuvxeRi9iRhTdjEOjWV3ETEtUwnHXOG84H2trJNBQSdF3jXavY/A9N8i1dDejc1IcMze/U6sJAoNwyFn+LPjuOVJyfSEBnnfQGNBKJ0nCEaGUuLIX34izqKF0iQoQjtDNB4qYli9/32J15f1000IpHWU1pvpAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2WiZAo5; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="K6tlzy7f"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-58b447c51bfso7579616a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 10:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1721150920; x=1721755720; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZBMeSOrc3jmuYXTNVKnZfEQgwz3+qXWRZQtdx27MrGM=;
-        b=K6tlzy7fikSWpX1AXoCiz/PJAmXczIZUpEYORLlgOr5N7vBlmOsci6f7pSz4SbymiZ
-         Dd7njRLaLhPh8Xnz0ATDV8YSTfllw8ccBQY4ZVpccOfIWf+A4tdMMJpBsEAKycVc0gTG
-         6Qs1ylq/XVY2KIBnALZVMloYvTKzoyJpUgg7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721150920; x=1721755720;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZBMeSOrc3jmuYXTNVKnZfEQgwz3+qXWRZQtdx27MrGM=;
-        b=G/9EhokmLY3eQ55YH9NM/3AgICgmAXTcxNLpWEWazKJd3i2Fws5fJhMJpi58XUeGS8
-         vIkfr04/r0rTDkKLjbGlGwP0Z4I+TguMthQdQbEbZndCaQMSKgsBFb8GplMjlcfjWO0l
-         6of8BoT7GLIg8RX5rPthPZYoKC19Qdy4L5Yyq2gQKKjLF0pPw7NlKcd0yRcLDcn5B+Pc
-         HG0LbjaED73iVvTrQMeUbjuWGqmMjNw4eN50To+b1598h1cyYgJnJAHkKDmvxSCUUgV4
-         d2cN2h+Q3yllBeqE79ws+AyQg1+DCs6U25LEeeet6T3D8/g5v9qlrg8z8QPEo/BI+ueP
-         YkQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWflOfz3O89MwptYEggpd2gmsX+kUUVBF/o72FGY7STR79mQZERSScUWgXmje64P3RF1nJ1bi/xhxtp0ilI4ZejOIA6+lfycCOYl2vhUQ==
-X-Gm-Message-State: AOJu0YwPI9rne+RARrJcQszjqPJFhCeUWIq+1DCJqoqxO0GmllycqZ3n
-	zLa55Q0ewYqGKbLdLasQIHLXlRV04YoSD5W3elFhnAj4+dO/ClkqCCvHRZHVNodbwyycHDYUBPk
-	GfBy+Dz65euOW42hbNjKcAFiUGsi82MYXtSM9
-X-Google-Smtp-Source: AGHT+IEefgMzyyhrzSdsc4cDkqGJkuRKcy2ifBy1XbPYA2mBQPLINhJ4UdmWHdoTbEPHhffA4lFi4OVljhxGI5RdVwg=
-X-Received: by 2002:a50:cc81:0:b0:58b:35ef:88c4 with SMTP id
- 4fb4d7f45d1cf-59ef0ad5f47mr1653413a12.37.1721150920138; Tue, 16 Jul 2024
- 10:28:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2WiZAo5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721152273; x=1752688273;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vVztFECHj5A5lDM1edvCHwH4SGqeskbjWvte3GbWgm4=;
+  b=k2WiZAo5onKtWcS7rrs4IxYHYyjSRXb2S1QPBK5zkebr87Y20LX3Xowz
+   BJgzJmfclpDMIzAedrCXBetRtnD9J5aXghfCQkFDQ43ORkoAzM94KMYX7
+   9cYGogwx6ca1tWAbQa8AVDXY6G5PKT+tS7tpuldHUShCh5Jsuxh7Tje99
+   XExjOXztlU/gEJYXJutGn5cuHN6sHh2UH463IoGAxOtk2sqHIMAnyAlmU
+   +fyhAlc3ElVyjSd7cRjkZxOAwl+1L8x3YruE1LZGeTZE0kyhta6pBw8oh
+   y44lRdp4cVQj0hM2TU+qkPrGuZ9kuC8Af+14HrA4hXuCeZSjVrrU92cEB
+   Q==;
+X-CSE-ConnectionGUID: CGbWYtqKQoStK8gyjmlZuQ==
+X-CSE-MsgGUID: p5T8+1ExRU6X2Xwk8F1rBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="22475937"
+X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
+   d="scan'208";a="22475937"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 10:51:12 -0700
+X-CSE-ConnectionGUID: TvOZy+QYTjKtTS+txJxKYw==
+X-CSE-MsgGUID: QnmizcwqSTa1q5PEJuOYfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
+   d="scan'208";a="55250475"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 16 Jul 2024 10:51:11 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sTmKS-000fUy-20;
+	Tue, 16 Jul 2024 17:51:08 +0000
+Date: Wed, 17 Jul 2024 01:50:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 1/3] fortify: use if_changed_dep to record header
+ dependency in *.cmd files
+Message-ID: <202407170104.dCe5MKsA-lkp@intel.com>
+References: <20240715144529.101634-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240713234339.70293-5-michael.chan@broadcom.com> <48cd9096-7f25-4a89-bd10-f5124abac4af@suswa.mountain>
-In-Reply-To: <48cd9096-7f25-4a89-bd10-f5124abac4af@suswa.mountain>
-From: Michael Chan <michael.chan@broadcom.com>
-Date: Tue, 16 Jul 2024 10:28:27 -0700
-Message-ID: <CACKFLinprTPV7Lvr_C1u=ZSj_oLx05kX2wKWHvz3UBV82Jo80g@mail.gmail.com>
-Subject: Re: [PATCH net-next 4/9] bnxt_en: Deprecate support for legacy INTX mode
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, davem@davemloft.net, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, pavan.chebbi@broadcom.com, 
-	andrew.gospodarek@broadcom.com, Hongguang Gao <hongguang.gao@broadcom.com>, 
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
-	Somnath Kotur <somnath.kotur@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000398be0061d60ad4f"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715144529.101634-2-masahiroy@kernel.org>
 
---000000000000398be0061d60ad4f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Masahiro,
 
-On Tue, Jul 16, 2024 at 9:57=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> New smatch warnings:
-> drivers/net/ethernet/broadcom/bnxt/bnxt.c:15950 bnxt_init_one() warn: 'de=
-v' from register_netdev() not released on lines: 15719.
->
+kernel test robot noticed the following build errors:
 
-Thanks for the report.  Simon also reported the same issue earlier.  I
-will fix this when I resubmit in 2 weeks.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10 next-20240716]
+[cannot apply to akpm-mm/mm-nonmm-unstable kees/for-next/hardening kees/for-next/pstore kees/for-next/kspp]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---000000000000398be0061d60ad4f
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/fortify-use-if_changed_dep-to-record-header-dependency-in-cmd-files/20240715-224820
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240715144529.101634-2-masahiroy%40kernel.org
+patch subject: [PATCH 1/3] fortify: use if_changed_dep to record header dependency in *.cmd files
+config: i386-randconfig-004-20240716 (https://download.01.org/0day-ci/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/reproduce)
 
-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
-OnaLEot1MoQO7BIe5S9H4AcCEXXcrJJiAtMCl47ARpyHmvQFQFFTrHgUYEd9V+9bOzY7MBIGSV1N
-/JfsT1sZw6HT0lJkSQefhPGpBniAob62DJP3qr11tu8CAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
-AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
-c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
-AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
-TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
-bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
-L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
-BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQU31rAyTdZweIF0tJTFYwfOv2w
-L4QwDQYJKoZIhvcNAQELBQADggEBACcuyaGmk0NSZ7Kio7O7WSZ0j0f9xXcBnLbJvQXFYM7JI5uS
-kw5ozATEN5gfmNIe0AHzqwoYjAf3x8Dv2w7HgyrxWdpjTKQFv5jojxa3A5LVuM8mhPGZfR/L5jSk
-5xc3llsKqrWI4ov4JyW79p0E99gfPA6Waixoavxvv1CZBQ4Stu7N660kTu9sJrACf20E+hdKLoiU
-hd5wiQXo9B2ncm5P3jFLYLBmPltIn/uzdiYpFj+E9kS9XYDd+boBZhN1Vh0296zLQZobLfKFzClo
-E6IFyTTANonrXvCRgodKS+QJEH8Syu2jSKe023aVemkuZjzvPK7o9iU7BKkPG2pzLPgxggJtMIIC
-aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
-EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxeQGjDntHGb2iaQkIw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIHZoLW/LconyRg0buy0xCA6YIPDfQIPU
-Au1OaEdiBMRCMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDcx
-NjE3Mjg0MFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQBysiExPaz8+WtkrcdMsTelw1C8uBgd6U//oRzopsNnZcue9KII
-XlvnzkxhXEgTbGILvJ8iPKrITLJYunb05ojlHg1bCtkMEBIFacHianW+9XNzbIBzSNlrvZfU4No2
-FBm9dPmsrZVC98DBo9yVkc6LjDvD3i4DnFboHL1g9zS7EUmR5qL5zWY1Nu+c27V6gY3FUzjz+K+v
-x8MyGWGytcr//4mHZrgMGmpulHERnNZ2zjBcblPjC9rcOuSYQyleApVOW5iF2YECxjA5752tFU3O
-Q9G8+esTrUOC13ZSigAOnhp5gRhl5Hr3lvyFXy09yMZxmjEJ4/2MESb72nhticfz
---000000000000398be0061d60ad4f--
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407170104.dCe5MKsA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memcpy.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow2-memcmp.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memchr.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strcpy-lit.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow2-memmove.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strncpy-src.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memcmp.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memscan.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strcpy.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memmove.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memset.log.d: No such file or directory
+..
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
