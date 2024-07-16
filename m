@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E153919580A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jul 2024 09:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB872E832;
+	Tue, 16 Jul 2024 09:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721121832; cv=none; b=h5QDGSvHTnWxFQQBnIx/mfWJwGKReWmgqJBRdwDQWqeQoBvzVMTSvRW8/w9VGxd5R8YFkINbcx5ah4UbK+pcWZCKQR/dvp6Q7snYGeur5WzN98TiFXczJIYy/hEIAliQ2kIWNQV5QJ9+i63qFvkrOxvm/ybXpBCBMJ/riJE0uN0=
+	t=1721123693; cv=none; b=hRoz/p2XwcvHPTGvgRehbG9l8nB0kk/u64k5UG2+t3+xvBAhfGbXyx5mMw2iAGsoHXRNn46UmEolBtrN4smPkUr8DZT79M4KiVqGyAkxq23IyWTO4+E8liOa1Vu0QRub8e1rIGi4Z9Wi5DIs99C+t4e1z5Y5JU8i4M9pBriuP5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721121832; c=relaxed/simple;
-	bh=ocEEIeBDqfCjNb6UNMTpSt6BoDaRUmCdTw5Wmb6jiFM=;
+	s=arc-20240116; t=1721123693; c=relaxed/simple;
+	bh=ZPb5imWfzGDWAAu2GyDOPfBLXm3faEwF4zRISOWssjA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jitiBpbh5NND1PnugNlqFCawoUKwEpe/PXAGVlH2tzZP1shx3oiLb7GECGzAGhfZx1Jk/Rau8TOjtAUIKFX+RLFIRWQI3cRFuXxC5mPu7M3br588ggeEsCRepD5JJ0L3Kxmz6CLaM4w0/oqsQSK46VBMEq5Z/Xc0s1Fjyrk1S7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALuFWj9s; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Hp6N69pkcvtXDplnRgoVH/lbFB3GlZGatP9ONstPvsP7jMe6wk1i2sHptCGYLeVfVoZIK5iLVtp7kZFhQyzMOb1e+Xd/w6T3TBmmMIsTr4TWNDBvFni67wvbwhFxWYXXbrmkM480nsEQjy33Lg+j0ZvkW7AKc3HyMysUqqT/XIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfMEffS8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALuFWj9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfMEffS8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721121830; x=1752657830;
+  t=1721123691; x=1752659691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ocEEIeBDqfCjNb6UNMTpSt6BoDaRUmCdTw5Wmb6jiFM=;
-  b=ALuFWj9sf+Fc/KQ+dMugfCBd09h5EJAQ+LVMSB6KYQxGrvpamrFGzTjP
-   xefCK3JEVW7p7ittY3n95UMHTlzs/QgaHHIKi+7rHNQ+0f4irQ6ZU3heI
-   +tBAjHLTATqCYTL1fCbMsAwEbLj3H7v8acPC8A8CKWkgzuJB0vH2oAgeJ
-   ZOMtBEzlWFsVZF6ptkeaSYM3l++YOyhNPCviYkCUiq0fy4PYbpxNf5oFC
-   E9cAtW5IT2caI3dIH4MeF3/qBd4O9DG0GncB2cxyex3DOwEiV0H4P+tOR
-   I+B/gvM3vGVoznoogUJ3HOYatUurtr7yRi2ljniuMHy2zmKfBajR2SxRZ
-   Q==;
-X-CSE-ConnectionGUID: UEsU0AF8Ro68hslAF7PivA==
-X-CSE-MsgGUID: ow+xv2OCTvWvV/5uCn+x0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="43971706"
+  bh=ZPb5imWfzGDWAAu2GyDOPfBLXm3faEwF4zRISOWssjA=;
+  b=RfMEffS8jA+jRbg0LqVf1L32qb3rAOHnaQuMO0YQJ1WnDjRJ1SszK9Jc
+   k1fiB95zR4qZTBviBbiMecffGXIGMW/39Pyj7X2RVMW/eDlOrKcaIRKcl
+   fZQ+rzqBdWhuX+vTPytA/qkfKWR3qqPbM9Pjm121ntP0yDCnAG+5uk6Ek
+   0rXqaOXo8/ZJFd6X7e5KkhS/gxSDk7CqSJrOInzS8k9OXszKaPnNBb95u
+   UqZaWZElhEp5AiQHKkHkQy5oXvJ1GNm1rfnA2YEK2QJVLqN4zOo+YLyf/
+   rJWHZ/TxTxQkFuRTKMQFI4bbYy7lCGZFDYRTdnI/GlARUXNonro0vHGdI
+   g==;
+X-CSE-ConnectionGUID: mNP6XYiUTzCtvNbYZ3YUMA==
+X-CSE-MsgGUID: EbT/ykcnQ3umUSlz0CRGfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="21462920"
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="43971706"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 02:23:49 -0700
-X-CSE-ConnectionGUID: TCrflqWMTBWS4w7OqDbLnA==
-X-CSE-MsgGUID: /GqPr/hdSUuRI+27sNvvEQ==
+   d="scan'208";a="21462920"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 02:54:50 -0700
+X-CSE-ConnectionGUID: Up+zKD7xTg2MmG728Q/ZMQ==
+X-CSE-MsgGUID: BMrmQZyKTwmYNPrUkDcEvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
-   d="scan'208";a="50017449"
+   d="scan'208";a="50342627"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jul 2024 02:23:48 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 Jul 2024 02:54:49 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTePR-000f5P-3C;
-	Tue, 16 Jul 2024 09:23:45 +0000
-Date: Tue, 16 Jul 2024 17:22:52 +0800
+	id 1sTetS-000f6Y-1a;
+	Tue, 16 Jul 2024 09:54:46 +0000
+Date: Tue, 16 Jul 2024 17:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 5671/13217] kernel/sched/ext.c:2898:17: error:
- implicit declaration of function 'stack_trace_print'; did you mean
- 'event_trace_printk'?
-Message-ID: <202407161729.CN9fMu7D-lkp@intel.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	David Gow <davidgow@google.com>
+Subject: [clk:clk-kunit 10/10] ERROR: modpost:
+ "__dtbo_kunit_clk_parent_data_test_begin" [drivers/clk/clk_test.ko]
+ undefined!
+Message-ID: <202407161711.qDtiW4s1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,313 +65,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4f40be61af99a67d5580c1448acd9b74c0376389
-commit: f0e1a0643a59bf1f922fa209cec86a170b784f3f [5671/13217] sched_ext: Implement BPF extensible scheduler class
-config: sparc-randconfig-r052-20240716 (https://download.01.org/0day-ci/archive/20240716/202407161729.CN9fMu7D-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161729.CN9fMu7D-lkp@intel.com/reproduce)
+Hi Stephen,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-kunit
+head:   9f8bbc66021282d0646d1f8422265c72e671b5d1
+commit: 9f8bbc66021282d0646d1f8422265c72e671b5d1 [10/10] clk: Add KUnit tests for clks registered with struct clk_parent_data
+config: i386-randconfig-001-20240716 (https://download.01.org/0day-ci/archive/20240716/202407161711.qDtiW4s1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240716/202407161711.qDtiW4s1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407161729.CN9fMu7D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407161711.qDtiW4s1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/rhashtable-types.h:12,
-                    from include/linux/sched/ext.h:13,
-                    from include/linux/sched.h:83,
-                    from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/build_policy.c:17:
-   kernel/sched/ext.c: In function 'alloc_exit_info':
-   kernel/sched/ext.c:2759:32: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                                ^
-   include/linux/alloc_tag.h:206:16: note: in definition of macro 'alloc_hooks_tag'
-     206 |         typeof(_do_alloc) _res = _do_alloc;                             \
-         |                ^~~~~~~~~
-   include/linux/slab.h:701:49: note: in expansion of macro 'alloc_hooks'
-     701 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:730:41: note: in expansion of macro 'kmalloc_array'
-     730 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   kernel/sched/ext.c:2759:18: note: in expansion of macro 'kcalloc'
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                  ^~~~~~~
-   kernel/sched/ext.c:2759:32: note: earlier argument should specify number of elements, later size of each element
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                                ^
-   include/linux/alloc_tag.h:206:16: note: in definition of macro 'alloc_hooks_tag'
-     206 |         typeof(_do_alloc) _res = _do_alloc;                             \
-         |                ^~~~~~~~~
-   include/linux/slab.h:701:49: note: in expansion of macro 'alloc_hooks'
-     701 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:730:41: note: in expansion of macro 'kmalloc_array'
-     730 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   kernel/sched/ext.c:2759:18: note: in expansion of macro 'kcalloc'
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                  ^~~~~~~
-   kernel/sched/ext.c:2759:32: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                                ^
-   include/linux/alloc_tag.h:206:34: note: in definition of macro 'alloc_hooks_tag'
-     206 |         typeof(_do_alloc) _res = _do_alloc;                             \
-         |                                  ^~~~~~~~~
-   include/linux/slab.h:701:49: note: in expansion of macro 'alloc_hooks'
-     701 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:730:41: note: in expansion of macro 'kmalloc_array'
-     730 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   kernel/sched/ext.c:2759:18: note: in expansion of macro 'kcalloc'
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                  ^~~~~~~
-   kernel/sched/ext.c:2759:32: note: earlier argument should specify number of elements, later size of each element
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                                ^
-   include/linux/alloc_tag.h:206:34: note: in definition of macro 'alloc_hooks_tag'
-     206 |         typeof(_do_alloc) _res = _do_alloc;                             \
-         |                                  ^~~~~~~~~
-   include/linux/slab.h:701:49: note: in expansion of macro 'alloc_hooks'
-     701 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:730:41: note: in expansion of macro 'kmalloc_array'
-     730 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   kernel/sched/ext.c:2759:18: note: in expansion of macro 'kcalloc'
-    2759 |         ei->bt = kcalloc(sizeof(ei->bt[0]), SCX_EXIT_BT_LEN, GFP_KERNEL);
-         |                  ^~~~~~~
-   In file included from kernel/sched/build_policy.c:61:
-   kernel/sched/ext.c: In function 'scx_ops_disable_workfn':
->> kernel/sched/ext.c:2898:17: error: implicit declaration of function 'stack_trace_print'; did you mean 'event_trace_printk'? [-Wimplicit-function-declaration]
-    2898 |                 stack_trace_print(ei->bt, ei->bt_len, 2);
-         |                 ^~~~~~~~~~~~~~~~~
-         |                 event_trace_printk
-   kernel/sched/ext.c: In function 'scx_ops_exit_kind':
->> kernel/sched/ext.c:2989:30: error: implicit declaration of function 'stack_trace_save'; did you mean 'stack_tracer_enable'? [-Wimplicit-function-declaration]
-    2989 |                 ei->bt_len = stack_trace_save(ei->bt, SCX_EXIT_BT_LEN, 1);
-         |                              ^~~~~~~~~~~~~~~~
-         |                              stack_tracer_enable
-
-
-vim +2898 kernel/sched/ext.c
-
-  2787	
-  2788	static void scx_ops_disable_workfn(struct kthread_work *work)
-  2789	{
-  2790		struct scx_exit_info *ei = scx_exit_info;
-  2791		struct scx_task_iter sti;
-  2792		struct task_struct *p;
-  2793		struct rhashtable_iter rht_iter;
-  2794		struct scx_dispatch_q *dsq;
-  2795		int i, kind;
-  2796	
-  2797		kind = atomic_read(&scx_exit_kind);
-  2798		while (true) {
-  2799			/*
-  2800			 * NONE indicates that a new scx_ops has been registered since
-  2801			 * disable was scheduled - don't kill the new ops. DONE
-  2802			 * indicates that the ops has already been disabled.
-  2803			 */
-  2804			if (kind == SCX_EXIT_NONE || kind == SCX_EXIT_DONE)
-  2805				return;
-  2806			if (atomic_try_cmpxchg(&scx_exit_kind, &kind, SCX_EXIT_DONE))
-  2807				break;
-  2808		}
-  2809		ei->kind = kind;
-  2810		ei->reason = scx_exit_reason(ei->kind);
-  2811	
-  2812		/* guarantee forward progress by bypassing scx_ops */
-  2813		scx_ops_bypass(true);
-  2814	
-  2815		switch (scx_ops_set_enable_state(SCX_OPS_DISABLING)) {
-  2816		case SCX_OPS_DISABLING:
-  2817			WARN_ONCE(true, "sched_ext: duplicate disabling instance?");
-  2818			break;
-  2819		case SCX_OPS_DISABLED:
-  2820			pr_warn("sched_ext: ops error detected without ops (%s)\n",
-  2821				scx_exit_info->msg);
-  2822			WARN_ON_ONCE(scx_ops_set_enable_state(SCX_OPS_DISABLED) !=
-  2823				     SCX_OPS_DISABLING);
-  2824			goto done;
-  2825		default:
-  2826			break;
-  2827		}
-  2828	
-  2829		/*
-  2830		 * Here, every runnable task is guaranteed to make forward progress and
-  2831		 * we can safely use blocking synchronization constructs. Actually
-  2832		 * disable ops.
-  2833		 */
-  2834		mutex_lock(&scx_ops_enable_mutex);
-  2835	
-  2836		static_branch_disable(&__scx_switched_all);
-  2837		WRITE_ONCE(scx_switching_all, false);
-  2838	
-  2839		/*
-  2840		 * Avoid racing against fork. See scx_ops_enable() for explanation on
-  2841		 * the locking order.
-  2842		 */
-  2843		percpu_down_write(&scx_fork_rwsem);
-  2844		cpus_read_lock();
-  2845	
-  2846		spin_lock_irq(&scx_tasks_lock);
-  2847		scx_task_iter_init(&sti);
-  2848		/*
-  2849		 * Invoke scx_ops_exit_task() on all non-idle tasks, including
-  2850		 * TASK_DEAD tasks. Because dead tasks may have a nonzero refcount,
-  2851		 * we may not have invoked sched_ext_free() on them by the time a
-  2852		 * scheduler is disabled. We must therefore exit the task here, or we'd
-  2853		 * fail to invoke ops.exit_task(), as the scheduler will have been
-  2854		 * unloaded by the time the task is subsequently exited on the
-  2855		 * sched_ext_free() path.
-  2856		 */
-  2857		while ((p = scx_task_iter_next_locked(&sti, true))) {
-  2858			const struct sched_class *old_class = p->sched_class;
-  2859			struct sched_enq_and_set_ctx ctx;
-  2860	
-  2861			if (READ_ONCE(p->__state) != TASK_DEAD) {
-  2862				sched_deq_and_put_task(p, DEQUEUE_SAVE | DEQUEUE_MOVE,
-  2863						       &ctx);
-  2864	
-  2865				p->scx.slice = min_t(u64, p->scx.slice, SCX_SLICE_DFL);
-  2866				__setscheduler_prio(p, p->prio);
-  2867				check_class_changing(task_rq(p), p, old_class);
-  2868	
-  2869				sched_enq_and_set_task(&ctx);
-  2870	
-  2871				check_class_changed(task_rq(p), p, old_class, p->prio);
-  2872			}
-  2873			scx_ops_exit_task(p);
-  2874		}
-  2875		scx_task_iter_exit(&sti);
-  2876		spin_unlock_irq(&scx_tasks_lock);
-  2877	
-  2878		/* no task is on scx, turn off all the switches and flush in-progress calls */
-  2879		static_branch_disable_cpuslocked(&__scx_ops_enabled);
-  2880		for (i = SCX_OPI_BEGIN; i < SCX_OPI_END; i++)
-  2881			static_branch_disable_cpuslocked(&scx_has_op[i]);
-  2882		static_branch_disable_cpuslocked(&scx_ops_enq_last);
-  2883		static_branch_disable_cpuslocked(&scx_ops_enq_exiting);
-  2884		static_branch_disable_cpuslocked(&scx_builtin_idle_enabled);
-  2885		synchronize_rcu();
-  2886	
-  2887		cpus_read_unlock();
-  2888		percpu_up_write(&scx_fork_rwsem);
-  2889	
-  2890		if (ei->kind >= SCX_EXIT_ERROR) {
-  2891			printk(KERN_ERR "sched_ext: BPF scheduler \"%s\" errored, disabling\n", scx_ops.name);
-  2892	
-  2893			if (ei->msg[0] == '\0')
-  2894				printk(KERN_ERR "sched_ext: %s\n", ei->reason);
-  2895			else
-  2896				printk(KERN_ERR "sched_ext: %s (%s)\n", ei->reason, ei->msg);
-  2897	
-> 2898			stack_trace_print(ei->bt, ei->bt_len, 2);
-  2899		}
-  2900	
-  2901		if (scx_ops.exit)
-  2902			SCX_CALL_OP(SCX_KF_UNLOCKED, exit, ei);
-  2903	
-  2904		/*
-  2905		 * Delete the kobject from the hierarchy eagerly in addition to just
-  2906		 * dropping a reference. Otherwise, if the object is deleted
-  2907		 * asynchronously, sysfs could observe an object of the same name still
-  2908		 * in the hierarchy when another scheduler is loaded.
-  2909		 */
-  2910		kobject_del(scx_root_kobj);
-  2911		kobject_put(scx_root_kobj);
-  2912		scx_root_kobj = NULL;
-  2913	
-  2914		memset(&scx_ops, 0, sizeof(scx_ops));
-  2915	
-  2916		rhashtable_walk_enter(&dsq_hash, &rht_iter);
-  2917		do {
-  2918			rhashtable_walk_start(&rht_iter);
-  2919	
-  2920			while ((dsq = rhashtable_walk_next(&rht_iter)) && !IS_ERR(dsq))
-  2921				destroy_dsq(dsq->id);
-  2922	
-  2923			rhashtable_walk_stop(&rht_iter);
-  2924		} while (dsq == ERR_PTR(-EAGAIN));
-  2925		rhashtable_walk_exit(&rht_iter);
-  2926	
-  2927		free_percpu(scx_dsp_ctx);
-  2928		scx_dsp_ctx = NULL;
-  2929		scx_dsp_max_batch = 0;
-  2930	
-  2931		free_exit_info(scx_exit_info);
-  2932		scx_exit_info = NULL;
-  2933	
-  2934		mutex_unlock(&scx_ops_enable_mutex);
-  2935	
-  2936		WARN_ON_ONCE(scx_ops_set_enable_state(SCX_OPS_DISABLED) !=
-  2937			     SCX_OPS_DISABLING);
-  2938	done:
-  2939		scx_ops_bypass(false);
-  2940	}
-  2941	
-  2942	static DEFINE_KTHREAD_WORK(scx_ops_disable_work, scx_ops_disable_workfn);
-  2943	
-  2944	static void schedule_scx_ops_disable_work(void)
-  2945	{
-  2946		struct kthread_worker *helper = READ_ONCE(scx_ops_helper);
-  2947	
-  2948		/*
-  2949		 * We may be called spuriously before the first bpf_sched_ext_reg(). If
-  2950		 * scx_ops_helper isn't set up yet, there's nothing to do.
-  2951		 */
-  2952		if (helper)
-  2953			kthread_queue_work(helper, &scx_ops_disable_work);
-  2954	}
-  2955	
-  2956	static void scx_ops_disable(enum scx_exit_kind kind)
-  2957	{
-  2958		int none = SCX_EXIT_NONE;
-  2959	
-  2960		if (WARN_ON_ONCE(kind == SCX_EXIT_NONE || kind == SCX_EXIT_DONE))
-  2961			kind = SCX_EXIT_ERROR;
-  2962	
-  2963		atomic_try_cmpxchg(&scx_exit_kind, &none, kind);
-  2964	
-  2965		schedule_scx_ops_disable_work();
-  2966	}
-  2967	
-  2968	static void scx_ops_error_irq_workfn(struct irq_work *irq_work)
-  2969	{
-  2970		schedule_scx_ops_disable_work();
-  2971	}
-  2972	
-  2973	static DEFINE_IRQ_WORK(scx_ops_error_irq_work, scx_ops_error_irq_workfn);
-  2974	
-  2975	static __printf(3, 4) void scx_ops_exit_kind(enum scx_exit_kind kind,
-  2976						     s64 exit_code,
-  2977						     const char *fmt, ...)
-  2978	{
-  2979		struct scx_exit_info *ei = scx_exit_info;
-  2980		int none = SCX_EXIT_NONE;
-  2981		va_list args;
-  2982	
-  2983		if (!atomic_try_cmpxchg(&scx_exit_kind, &none, kind))
-  2984			return;
-  2985	
-  2986		ei->exit_code = exit_code;
-  2987	
-  2988		if (kind >= SCX_EXIT_ERROR)
-> 2989			ei->bt_len = stack_trace_save(ei->bt, SCX_EXIT_BT_LEN, 1);
-  2990	
-  2991		va_start(args, fmt);
-  2992		vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
-  2993		va_end(args);
-  2994	
-  2995		irq_work_queue(&scx_ops_error_irq_work);
-  2996	}
-  2997	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+ERROR: modpost: missing MODULE_LICENSE() in drivers/clk/kunit_clk_parent_data_test.dtbo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/kunit_clk_parent_data_test.dtbo.o
+ERROR: modpost: missing MODULE_LICENSE() in drivers/clk/kunit_clk_fixed_rate_test.dtbo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/kunit_clk_fixed_rate_test.dtbo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/uapi-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/packet-serdes-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
+ERROR: modpost: missing MODULE_LICENSE() in drivers/of/kunit_overlay_test.dtbo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/kunit_overlay_test.dtbo.o
+>> ERROR: modpost: "__dtbo_kunit_clk_parent_data_test_begin" [drivers/clk/clk_test.ko] undefined!
+>> ERROR: modpost: "__dtbo_kunit_clk_parent_data_test_end" [drivers/clk/clk_test.ko] undefined!
+ERROR: modpost: "__dtbo_kunit_clk_fixed_rate_test_begin" [drivers/clk/clk-fixed-rate_test.ko] undefined!
+ERROR: modpost: "__dtbo_kunit_clk_fixed_rate_test_end" [drivers/clk/clk-fixed-rate_test.ko] undefined!
+ERROR: modpost: "__dtbo_kunit_overlay_test_begin" [drivers/of/overlay_test.ko] undefined!
+ERROR: modpost: "__dtbo_kunit_overlay_test_end" [drivers/of/overlay_test.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
