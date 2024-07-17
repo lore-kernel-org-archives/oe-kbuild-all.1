@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A73E224E8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jul 2024 20:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0DC186E3A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jul 2024 20:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721248653; cv=none; b=CCKZpP6g7+3mlfo5gv+Xk37BLqLzVC86IaN1roMU9bBTE6v/fDwCpH0VUSxWoR3PejQGEdAnRauV5uw0StpMGElzeR7N1zjpr6waPEUFxWzMrmNsotwONTH3msgTFqYfeSA5uKxyNU+JD/3ox14OMrrSB3DM3Ra1cIKBPZEWf8A=
+	t=1721249922; cv=none; b=P//tFptEK0G+eGQOD4rB3i8wRlcFv9xRmlkfQLNJFGd6ynWJGa6tO9cgZMoxnvm+MH33sEtmbzaYfMz2c0p5OsodqK0yF+JKKB+zFMVL62AivvpxQG5JBoz6oskpVAelSsbD5jClujutTIUh+vIVvbX6aiG6ui3TRFY7EqKNvyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721248653; c=relaxed/simple;
-	bh=Axa3+fJrm+kDX4tcl99tyN59zaR0l/jTZrzGSuyHfak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnPp5Ov1tBAE13BT9Ge0w/P29r8NEU0NoYdUwupRxNJqDxE4SxsSnfefFOvn+2qWiYw+IUSjkefZUl2Gx1SqPUsBpzCK90F3Xv6KAJ2cW9tnW03RLEIlgHOksZuFo8aQBv725OOurKnsAlazPJi6rF7em0eF0lsDgC587K4U/Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHyk9xzi; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1721249922; c=relaxed/simple;
+	bh=cOxQQ+7h/IOFq4lB6h8X6gbC2NTQ0S0/J79ADcivCYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tpjKT2V/y5s6QEIEMRsUO/d9uAR+kxf9s+/ae6XgkCtssJDaagpHjUQURKgDiOiLY029MWfdvlgcHTQz1HMDY4fxVmrB2+hOjquA0fJ6+M4iLawQBQmsmN05myAurPqn59CHwSTjg9CjsMkJVtdAPiftCocQzlTyQ20M8ExQGaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iuv/IOzm; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHyk9xzi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iuv/IOzm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721248651; x=1752784651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Axa3+fJrm+kDX4tcl99tyN59zaR0l/jTZrzGSuyHfak=;
-  b=ZHyk9xziWcETKvAtaq0hxPseDsMQrarh9wi7Klz3pfSJWB+QZ8D6snO/
-   wXq5QkkG6Mn51fhjExVbbpwK262AqxbDu3dIajILjowkIUazXOaUnMsuL
-   GgsO3SI6h+5XzLG5qIQDjeO46D5fv3OcUaGZun/vQdLjkhdAJc8xbty36
-   IytQm9kTU4BByiVtpV0qDBQWi+dk3dPTewyjBDvnZlOVTcJX+rVF3VZ9s
-   5gcPNy1O0T156rR0iwc6esngZ5ktFDOtr+ElIMddX2vMJC78uoXb3neop
-   /O7sAmBSPJeC/ZirXckdApkvhG+u04Fm+kNu4sB8zJXUJCYs3PhgXJDd3
-   A==;
-X-CSE-ConnectionGUID: d7h6H8oZTNC703XIhCiuTw==
-X-CSE-MsgGUID: VoegseVpRtKRCDYN2O8keQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="36222491"
+  t=1721249919; x=1752785919;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cOxQQ+7h/IOFq4lB6h8X6gbC2NTQ0S0/J79ADcivCYs=;
+  b=Iuv/IOzm14tJ44/7gqSJvpxiGnF96Y8Bf9HBY60BavCapWnWhoEeQMA5
+   913oNUuEGiBUz6Gz+rpwyrj7Mh4mwRXuWuf/jcMTjR+SrDB0SKRqX0xTH
+   t93/7PZ10JiOUyZfR3zjOGqGdHBKCz6S0TOtPeKf/BaJZz06u121HEXvm
+   Kt2NpvJnUYD2YPdZDL3n863ZViiPneoQ+lwRIOGUT7smOJN0JVu/7wLcz
+   7NA2FHKl+TMVXTe7PA8OAUvTXVAjY+OJVm0KNXBm6pDlFj3GMk2mJhz6y
+   RRvMt/sOEwkkvTaPBd77hs3F0slBs/Zuh17YiEBdWI1M4DTnH+I0Ks8FH
+   Q==;
+X-CSE-ConnectionGUID: Uj8e01Q7TMm4ukGJ3p5bFA==
+X-CSE-MsgGUID: RJzHj0MwRD6a3ZfM0w0mlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18921761"
 X-IronPort-AV: E=Sophos;i="6.09,215,1716274800"; 
-   d="scan'208";a="36222491"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 13:37:30 -0700
-X-CSE-ConnectionGUID: u1mitnfkSdqdT6Tgg6RIjw==
-X-CSE-MsgGUID: 8ksHjwr5SGS+JnJiQ+l+wQ==
+   d="scan'208";a="18921761"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 13:58:39 -0700
+X-CSE-ConnectionGUID: 93vqCfVkTkmbNqoPtnxtgQ==
+X-CSE-MsgGUID: Z6ntuhUcReOA1kTlHMiLWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,215,1716274800"; 
-   d="scan'208";a="50607096"
+   d="scan'208";a="55653810"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2024 13:37:30 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 Jul 2024 13:58:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUBOx-000gek-1n;
-	Wed, 17 Jul 2024 20:37:27 +0000
-Date: Thu, 18 Jul 2024 04:36:30 +0800
+	id 1sUBjP-000gfS-0r;
+	Wed, 17 Jul 2024 20:58:35 +0000
+Date: Thu, 18 Jul 2024 04:57:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lingbo Kong <quic_lingbok@quicinc.com>, ath12k@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	quic_lingbok@quicinc.com
-Subject: Re: [PATCH 2/4] wifi: ath12k: Add Support for enabling or disabling
- specific features based on ACPI bitflag
-Message-ID: <202407180403.SFqsPj0v-lkp@intel.com>
-References: <20240717111023.78798-3-quic_lingbok@quicinc.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 97/98]
+ ./arch/openrisc/include/generated/asm/syscall_table_32.h:464:16: error:
+ 'sys_setxattrat' undeclared here (not in a function); did you mean
+ 'sys_setxattr'?
+Message-ID: <202407180428.tHFOgti0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,67 +63,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240717111023.78798-3-quic_lingbok@quicinc.com>
 
-Hi Lingbo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on db1ce56e6e1d395dd42a3cd6332a871d9be59c45]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lingbo-Kong/wifi-ath12k-Add-support-for-obtaining-the-buffer-type-ACPI-function-bitmap/20240717-211701
-base:   db1ce56e6e1d395dd42a3cd6332a871d9be59c45
-patch link:    https://lore.kernel.org/r/20240717111023.78798-3-quic_lingbok%40quicinc.com
-patch subject: [PATCH 2/4] wifi: ath12k: Add Support for enabling or disabling specific features based on ACPI bitflag
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240718/202407180403.SFqsPj0v-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180403.SFqsPj0v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   9a99991d90521113a738c2a4761a4147fe4b31ca
+commit: ba754a0c3990ba735ee924a005c9e7f11894ad30 [97/98] fixup syscall.tbl
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240718/202407180428.tHFOgti0-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180428.tHFOgti0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407180403.SFqsPj0v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407180428.tHFOgti0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/ath/ath12k/core.c: In function 'ath12k_core_rfkill_config':
->> drivers/net/wireless/ath/ath12k/core.c:33:15: error: 'struct ath12k_base' has no member named 'acpi'
-      33 |         if (ab->acpi.acpi_disable_rfkill)
-         |               ^~
---
-   drivers/net/wireless/ath/ath12k/mac.c: In function 'ath12k_mac_copy_eht_cap':
->> drivers/net/wireless/ath/ath12k/mac.c:5488:19: error: 'struct ath12k_base' has no member named 'acpi'
-    5488 |             ar->ab->acpi.acpi_disable_11be)
-         |                   ^~
-
-
-vim +33 drivers/net/wireless/ath/ath12k/core.c
-
-    24	
-    25	static int ath12k_core_rfkill_config(struct ath12k_base *ab)
-    26	{
-    27		struct ath12k *ar;
-    28		int ret = 0, i;
-    29	
-    30		if (!(ab->target_caps.sys_cap_info & WMI_SYS_CAP_INFO_RFKILL))
-    31			return 0;
-    32	
-  > 33		if (ab->acpi.acpi_disable_rfkill)
-    34			return 0;
-    35	
-    36		for (i = 0; i < ab->num_radios; i++) {
-    37			ar = ab->pdevs[i].ar;
-    38	
-    39			ret = ath12k_mac_rfkill_config(ar);
-    40			if (ret && ret != -EOPNOTSUPP) {
-    41				ath12k_warn(ab, "failed to configure rfkill: %d", ret);
-    42				return ret;
-    43			}
-    44		}
-    45	
-    46		return ret;
-    47	}
-    48	
+>> ./arch/openrisc/include/generated/asm/syscall_table_32.h:464:16: error: 'sys_setxattrat' undeclared here (not in a function); did you mean 'sys_setxattr'?
+     464 | __SYSCALL(463, sys_setxattrat)
+         |                ^~~~~~~~~~~~~~
+   arch/openrisc/kernel/sys_call_table.c:19:37: note: in definition of macro '__SYSCALL'
+      19 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                     ^~~~
+>> ./arch/openrisc/include/generated/asm/syscall_table_32.h:465:16: error: 'sys_getxattrat' undeclared here (not in a function); did you mean 'sys_getxattr'?
+     465 | __SYSCALL(464, sys_getxattrat)
+         |                ^~~~~~~~~~~~~~
+   arch/openrisc/kernel/sys_call_table.c:19:37: note: in definition of macro '__SYSCALL'
+      19 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                     ^~~~
+>> ./arch/openrisc/include/generated/asm/syscall_table_32.h:466:16: error: 'sys_listxattrat' undeclared here (not in a function); did you mean 'sys_listxattr'?
+     466 | __SYSCALL(465, sys_listxattrat)
+         |                ^~~~~~~~~~~~~~~
+   arch/openrisc/kernel/sys_call_table.c:19:37: note: in definition of macro '__SYSCALL'
+      19 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                     ^~~~
+>> ./arch/openrisc/include/generated/asm/syscall_table_32.h:467:16: error: 'sys_removexattrat' undeclared here (not in a function); did you mean 'sys_removexattr'?
+     467 | __SYSCALL(466, sys_removexattrat)
+         |                ^~~~~~~~~~~~~~~~~
+   arch/openrisc/kernel/sys_call_table.c:19:37: note: in definition of macro '__SYSCALL'
+      19 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                     ^~~~
 
 -- 
 0-DAY CI Kernel Test Service
