@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFC23BBEB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jul 2024 23:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CC055897
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jul 2024 23:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721258160; cv=none; b=BV4VyF3GBHrLYzGaGn3eHuaci2qncoh0GsAHM6q5OVVW0VE/soyAfSXiKHLzaSaKngzj/SKt/xUlNRMVp9vHa8UL+vY4kKibOl/62BbB//UtczZQrPhivJWWwTERWhlSVn09qjRxtzbt9NCs5+4ZYQJ9NROHrsI7RUDNBge8370=
+	t=1721260088; cv=none; b=CXRhvlrBQK+bfOfgakV34tzWjVLM04FbLQBT7oF0RZJdCll3KNq24Vnf4CaeTXNSvebWKXbWlpdZEjhww4651av/CVz+IAgq7HpTvZrZJ47C+PzcuWXUVay8sulgZ1cyYzsXkuPRi4Qx3zhBZ3QPCzA8LUZdqQ7HouB+yQJ4nIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721258160; c=relaxed/simple;
-	bh=ayp6OgwTIQpiZVV0t0RnLz2zfpf7HJu8YDhRI7I9i8I=;
+	s=arc-20240116; t=1721260088; c=relaxed/simple;
+	bh=RfgdTahFzJOLMxihc3tDx/kvv0mu3XxiwfOCEfDUNnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sd0wdL+EAUjerYIhQ6mNLJvxf4TsklmuJsmyamxlUnEHPItmWCS9OhNDftOzR4p2hcQA803po+hYlOImCH+XmRQNM1CQ+AaXyiU5FtCwCCX/hfWJM1Mw2AWqPJ9RZ6urcsVmcoBV1Zjvj0+Kr8Fx04XrpBOdV5scu9MjNELrsLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPly/n5z; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=fje6CoaUKtZqJK/e0i5PdM//iee3u68QaQUjQvtG53/dac4SUTLVKXnNKjc7MNUffMIflNiuKGcF2d4b0rUDkyL2pxMvH2Na2yAo1u76qGVWmqe99Y05l3Tp4jhHM9eBwVCTDZ3p/oL/J8GIxKlgmpEKNfsltPXhmskIqMdPEek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8ny+34H; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPly/n5z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8ny+34H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721258158; x=1752794158;
+  t=1721260081; x=1752796081;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ayp6OgwTIQpiZVV0t0RnLz2zfpf7HJu8YDhRI7I9i8I=;
-  b=NPly/n5zoA3nkyL0IkyBF7EiYViaAneHSFXtMxf7LJkGRvLQvpGW64tZ
-   unDggLZnw24hRRMp9reDEIjdnbCViPzfSfusG8euCuVI/YGTIc9Z+p0fc
-   KoiKLsXDWNmGDUyXUacMN8Lj2U2PGlZF5vPfp6TAyscJ7b/aO1sR6yyT0
-   FxVwLG2y5A/zyG7Nwkc9pvdcYK6HOjQIn5lK6guiobp7uJBWV3++yQ+8p
-   cbYNWFqJ2lXIF0d67UwoEAf1GIJpdG3q9iZWALcY9H+IUh5TKLgS11pP+
-   i9Xz/XHgJMgHOR9FCHtI2YVvFeg3Ot9iYmE0lOokHr9ppzjrvA7YaJ48u
-   w==;
-X-CSE-ConnectionGUID: H93N3Tb9RSy+q/dpqA3nyQ==
-X-CSE-MsgGUID: TctMPDceRnmH67Fe6Q7usg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18416238"
+  bh=RfgdTahFzJOLMxihc3tDx/kvv0mu3XxiwfOCEfDUNnM=;
+  b=O8ny+34Hb9sCxXZ7jFMxbd4OKekzQhr2UR8nv+wpl4NPEomP+ocNO6v0
+   jOARtIa77wINXeysLh7Milwecbcx7+CBik42Hqt/RuXuSY6MswS3QBZz3
+   AQAGSMH91Fz66cbPjwD4481QR42OmRNAnV51m8gdsG1E6RXPhPkstG9WH
+   KCM7tbzpSQlStw/U/ChsJw2Vfl0oBvAZQVIlHdwsz9tM++ai180sqQZvy
+   0dA4PQ3LDc9atX8tn7Xn+F2A0Os7OIH3XGS43lbNwednNJ2kCoVaD77qW
+   vqNHsKcMQasCzFAqbsyU4NUmBP9xiskG6HaQN65ioBjMQtwd3umH/0Q5h
+   A==;
+X-CSE-ConnectionGUID: V2EMzU9OSi2sYNr3MF7UJw==
+X-CSE-MsgGUID: X9uRBjZgRo6/xGOVMlZYgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="41321432"
 X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="18416238"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 16:15:57 -0700
-X-CSE-ConnectionGUID: cvyGiAnQTyGgbrZ6EywI5A==
-X-CSE-MsgGUID: tSYMt0MlQw2HGdWnbs1s/A==
+   d="scan'208";a="41321432"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 16:48:01 -0700
+X-CSE-ConnectionGUID: Ri/dbCqdRiOnrZ5k4CMd3w==
+X-CSE-MsgGUID: Id0MVNXUTEqhv37Ny/RJTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="50611877"
+   d="scan'208";a="54892848"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Jul 2024 16:15:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Jul 2024 16:48:00 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUDsH-000gkc-2Z;
-	Wed, 17 Jul 2024 23:15:53 +0000
-Date: Thu, 18 Jul 2024 07:15:34 +0800
+	id 1sUENJ-000glQ-3A;
+	Wed, 17 Jul 2024 23:47:57 +0000
+Date: Thu, 18 Jul 2024 07:46:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:secure-concat.v5 16/16]
- drivers/nvme/target/tcp.c:1606:27: error: 'struct nvmet_sq' has no member
- named 'tls_key'
-Message-ID: <202407180928.dXavIUaJ-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 95/98]
+ include/linux/syscalls.h:210:25: error: conflicting types for
+ 'sys_mips_pipe'; have 'long int(void)'
+Message-ID: <202407180721.r42zYOeD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v5
-head:   4d58e409712027c1084413a8c31e93af4d148650
-commit: 4d58e409712027c1084413a8c31e93af4d148650 [16/16] nvmet-tcp: support secure channel concatenation
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240718/202407180928.dXavIUaJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180928.dXavIUaJ-lkp@intel.com/reproduce)
+Hi Arnd,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   9a99991d90521113a738c2a4761a4147fe4b31ca
+commit: baef720c972546254f0900c4e7e83916cab2ba61 [95/98] mips sysm_pipe
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240718/202407180721.r42zYOeD-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180721.r42zYOeD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407180928.dXavIUaJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407180721.r42zYOeD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/nvme/target/tcp.c:13:
-   include/linux/nvme-keyring.h: In function 'nvme_tls_psk_refresh':
-   include/linux/nvme-keyring.h:23:16: error: returning 'int' from a function with return type 'struct key *' makes pointer from integer without a cast [-Wint-conversion]
-      23 |         return -ENOTSUPP;
-         |                ^
-   drivers/nvme/target/tcp.c: In function 'nvmet_tcp_release_queue_work':
->> drivers/nvme/target/tcp.c:1606:27: error: 'struct nvmet_sq' has no member named 'tls_key'
-    1606 |         if (queue->nvme_sq.tls_key)
-         |                           ^
-   drivers/nvme/target/tcp.c:1607:39: error: 'struct nvmet_sq' has no member named 'tls_key'
-    1607 |                 key_put(queue->nvme_sq.tls_key);
-         |                                       ^
-   include/linux/nvme-keyring.h: At top level:
-   include/linux/nvme-keyring.h:20:20: warning: 'nvme_tls_psk_refresh' defined but not used [-Wunused-function]
-      20 | static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
-         |                    ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/mips/kernel/syscall.c:17:
+>> include/linux/syscalls.h:210:25: error: conflicting types for 'sys_mips_pipe'; have 'long int(void)'
+     210 |         asmlinkage long sys_##sname(void);                      \
+         |                         ^~~~
+   arch/mips/kernel/syscall.c:52:1: note: in expansion of macro 'SYSCALL_DEFINE0'
+      52 | SYSCALL_DEFINE0(mips_pipe)
+         | ^~~~~~~~~~~~~~~
+   In file included from include/linux/syscalls.h:84:
+   arch/mips/include/asm/syscalls.h:24:16: note: previous declaration of 'sys_mips_pipe' with type 'int(void)'
+      24 | asmlinkage int sys_mips_pipe(void);
+         |                ^~~~~~~~~~~~~
+   include/linux/syscalls.h:212:25: error: conflicting types for 'sys_mips_pipe'; have 'long int(void)'
+     212 |         asmlinkage long sys_##sname(void)
+         |                         ^~~~
+   arch/mips/kernel/syscall.c:52:1: note: in expansion of macro 'SYSCALL_DEFINE0'
+      52 | SYSCALL_DEFINE0(mips_pipe)
+         | ^~~~~~~~~~~~~~~
+   arch/mips/include/asm/syscalls.h:24:16: note: previous declaration of 'sys_mips_pipe' with type 'int(void)'
+      24 | asmlinkage int sys_mips_pipe(void);
+         |                ^~~~~~~~~~~~~
 
 
-vim +1606 drivers/nvme/target/tcp.c
+vim +210 include/linux/syscalls.h
 
-  1590	
-  1591	static void nvmet_tcp_release_queue_work(struct work_struct *w)
-  1592	{
-  1593		struct nvmet_tcp_queue *queue =
-  1594			container_of(w, struct nvmet_tcp_queue, release_work);
-  1595	
-  1596		mutex_lock(&nvmet_tcp_queue_mutex);
-  1597		list_del_init(&queue->queue_list);
-  1598		mutex_unlock(&nvmet_tcp_queue_mutex);
-  1599	
-  1600		nvmet_tcp_restore_socket_callbacks(queue);
-  1601		cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
-  1602		cancel_work_sync(&queue->io_work);
-  1603		/* stop accepting incoming data */
-  1604		queue->rcv_state = NVMET_TCP_RECV_ERR;
-  1605	
-> 1606		if (queue->nvme_sq.tls_key)
-  1607			key_put(queue->nvme_sq.tls_key);
-  1608	
-  1609		nvmet_tcp_uninit_data_in_cmds(queue);
-  1610		nvmet_sq_destroy(&queue->nvme_sq);
-  1611		cancel_work_sync(&queue->io_work);
-  1612		nvmet_tcp_free_cmd_data_in_buffers(queue);
-  1613		/* ->sock will be released by fput() */
-  1614		fput(queue->sock->file);
-  1615		nvmet_tcp_free_cmds(queue);
-  1616		if (queue->hdr_digest || queue->data_digest)
-  1617			nvmet_tcp_free_crypto(queue);
-  1618		ida_free(&nvmet_tcp_queue_ida, queue->idx);
-  1619		page_frag_cache_drain(&queue->pf_cache);
-  1620		kfree(queue);
-  1621	}
-  1622	
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  206  
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  207  #ifndef SYSCALL_DEFINE0
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  208  #define SYSCALL_DEFINE0(sname)					\
+99e621f796d7f0 Al Viro             2013-03-05  209  	SYSCALL_METADATA(_##sname, 0);				\
+c9a211951c7c79 Howard McLauchlan   2018-03-21 @210  	asmlinkage long sys_##sname(void);			\
+c9a211951c7c79 Howard McLauchlan   2018-03-21  211  	ALLOW_ERROR_INJECTION(sys_##sname, ERRNO);		\
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  212  	asmlinkage long sys_##sname(void)
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  213  #endif /* SYSCALL_DEFINE0 */
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  214  
+
+:::::: The code at line 210 was first introduced by commit
+:::::: c9a211951c7c79cfb5de888d7d9550872868b086 bpf: whitelist all syscalls for error injection
+
+:::::: TO: Howard McLauchlan <hmclauchlan@fb.com>
+:::::: CC: Dominik Brodowski <linux@dominikbrodowski.net>
 
 -- 
 0-DAY CI Kernel Test Service
