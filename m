@@ -1,177 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D8613D8A3;
-	Thu, 18 Jul 2024 14:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5953284DF5;
+	Thu, 18 Jul 2024 15:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721314428; cv=none; b=SPfeAUlG+qbra0Lysozwzdh2Rhc5DYAtv4BHyRCA3jfDLO1J1XmSK/wUR/130itCmYDYYtYjXfVj97ZAF9kzA+CIl5Db2gBhAFrzjHugMHjc/Iz5ZVV08TsTtWxApdCYZKlzsW56Cj5m4nFZg57Bu5cHaalB/XttQTNcbT1VoLE=
+	t=1721314897; cv=none; b=rRFHAEu6fWHgp2PRMdPzsMvzjmM33CZC28PxUCBrQX05LKx/RaFmQosChYr6b4mWXBJ6/9RyJJKtuBEXzbMLvqTkRR3nWg2AKMiJlaKnt91F82xkqw8inhEh6KG1a5iiyN0TIgVDyblwGOp2NsF+AkRHpBuXFhhHvDGxHoQsrhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721314428; c=relaxed/simple;
-	bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I2WFddjg0mqVTNXJmH0SXG7tXutRoeWsav6853Qu784zhKpxAacLupKF9zWLVnpvMvGXaZACTCnk54imWNdm8V5R54tPPuNnuOI6GGXd18GCtG/CqJiqkjopd/q/ZJDtMFtdUbm+o/iUZNucR4Kh+cRYWhCKoZfiB9Quwm2DG7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6TB+mcM; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721314897; c=relaxed/simple;
+	bh=LMyhhQF6X29lnijo5ftYnRiTUvjB5YGCygk9+VWK5zw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fZhcc0ApWVSCoIf34gUvg36DnWyX0cz5pJiiJH+FOJ92ZIiA+NUR2Y9RKuqm0GEQRd2LlDbAWx5QIiFl8XFfR4ANNmH/fgFkG9TAxYcBq9wWn1fureNCFkErSC3LuCwvmt7+tifanH1rbQSR/Y/83W1GSueOjK1U8iH1HioJ0lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lIBACKp5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Pq7ppfVz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lIBACKp5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Pq7ppfVz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6TB+mcM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721314427; x=1752850427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
-  b=I6TB+mcMbbT/1nRWf4DOFwu9M02SjouL85/Pa9hmY3gz55mKR/7cK6Kl
-   xi/hPn+2E7nMKd/kNuDGEsSzdREnt/9L2yMAPtnVSpnSjCsm6OKP78QjN
-   OTbHl3D5l6CMcKN0Nrz7JnRThngROUwsmIfRNs33e/sliiqaorcKmsMzE
-   LRB6exkuNZ+EMlBVb5bAP813GVk43y0kxUogt1cb78eWBjAgL+fUqQCE4
-   DbDWIJHzxvl0LT5mPTV4zD7YefQtjq2D3GQ584bTHZgiKWgLbZ8DjfAc2
-   n1923IZ06PujJwHgBRJW3ou2Q002MCtYLrvIOKYwFcTPxxGxcGFRdVNSb
-   w==;
-X-CSE-ConnectionGUID: 2tsCEVfOQQWrZK44Wnp+lA==
-X-CSE-MsgGUID: Pbh8Pb2RSPOCwjm6wb1q5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18502721"
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="18502721"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 07:53:46 -0700
-X-CSE-ConnectionGUID: BP7QLhkNRx+DrVJnvJXtBg==
-X-CSE-MsgGUID: rlPuAbT6QVmWq1X6wwK41g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="55086854"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2024 07:53:42 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sUSVo-000hLz-1A;
-	Thu, 18 Jul 2024 14:53:40 +0000
-Date: Thu, 18 Jul 2024 22:53:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Keith Zhao <keith.zhao@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Jayshri Pawar <jpawar@cadence.com>, Jai Luthra <j-luthra@ti.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
-Message-ID: <202407182235.kxDoVX8T-lkp@intel.com>
-References: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lIBACKp5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Pq7ppfVz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lIBACKp5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Pq7ppfVz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A6F5921C42;
+	Thu, 18 Jul 2024 15:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721314887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yV4TeQugCl71IXXzVmHUMoZ/I9+FLfvcjsxLKdbeKco=;
+	b=lIBACKp5slAD5BD3DrgOI1SALDfjWWHfQq536hK0w3/BbZw/hP8TewVrg0PTSzP+SI0LrX
+	A7dyGTLMGisTmZjr1NwopdyuVrHSSpz/Ef27aE+j4YN+9teGgbiI4PUFGWcYFzYs80MA8S
+	RJMeSntmmPtOb3o3PKb5QEu5ZqJVlYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721314887;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yV4TeQugCl71IXXzVmHUMoZ/I9+FLfvcjsxLKdbeKco=;
+	b=Pq7ppfVzgL8iqg3BBnoutEo+RqbWsl51Fh+KffZeBrb1R4WzeLloiBdsh6YXFIigT82zJN
+	MELimildw9EmP2DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lIBACKp5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Pq7ppfVz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721314887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yV4TeQugCl71IXXzVmHUMoZ/I9+FLfvcjsxLKdbeKco=;
+	b=lIBACKp5slAD5BD3DrgOI1SALDfjWWHfQq536hK0w3/BbZw/hP8TewVrg0PTSzP+SI0LrX
+	A7dyGTLMGisTmZjr1NwopdyuVrHSSpz/Ef27aE+j4YN+9teGgbiI4PUFGWcYFzYs80MA8S
+	RJMeSntmmPtOb3o3PKb5QEu5ZqJVlYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721314887;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yV4TeQugCl71IXXzVmHUMoZ/I9+FLfvcjsxLKdbeKco=;
+	b=Pq7ppfVzgL8iqg3BBnoutEo+RqbWsl51Fh+KffZeBrb1R4WzeLloiBdsh6YXFIigT82zJN
+	MELimildw9EmP2DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67294136F7;
+	Thu, 18 Jul 2024 15:01:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rfjSF0cumWY1JAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 18 Jul 2024 15:01:27 +0000
+Date: Thu, 18 Jul 2024 17:02:01 +0200
+Message-ID: <87frs6vj4m.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+	Bard Liao <bard.liao@intel.com>
+Subject: Re: ld.lld: error: undefined symbol: iosf_mbi_available
+In-Reply-To: <9a0eba2e-9933-43bb-ab3b-0480bf1d34a4@linux.intel.com>
+References: <202407160704.zpdhJ8da-lkp@intel.com>
+	<05954a59-2bef-4262-bd91-cfe21d2381f2@linux.intel.com>
+	<20240717202806.GA728411@thelio-3990X>
+	<87wmljw485.wl-tiwai@suse.de>
+	<d121ec31-0861-4324-8f53-6e06eaf60233@linux.intel.com>
+	<87le1zvzw9.wl-tiwai@suse.de>
+	<9a0eba2e-9933-43bb-ab3b-0480bf1d34a4@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: A6F5921C42
+X-Spam-Flag: NO
+X-Spam-Score: 0.49
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.49 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spamd-Bar: /
 
-Hi Changhuang,
+On Thu, 18 Jul 2024 11:12:24 +0200,
+Pierre-Louis Bossart wrote:
+> 
+> 
+> 
+> >>> --- a/sound/soc/sof/intel/Kconfig
+> >>> +++ b/sound/soc/sof/intel/Kconfig
+> >>> @@ -19,6 +19,7 @@ config SND_SOC_SOF_INTEL_ATOM_HIFI_EP
+> >>>  	tristate
+> >>>  	select SND_SOC_SOF_INTEL_COMMON
+> >>>  	select SND_SOC_SOF_INTEL_HIFI_EP_IPC
+> >>> +	select IOSF_MBI if X86 && PCI
+> >>>  	help
+> >>>  	  This option is not user-selectable but automagically handled by
+> >>>  	  'select' statements at a higher level.
+> >>> @@ -44,7 +45,6 @@ config SND_SOC_SOF_BAYTRAIL
+> >>>  	select SND_SOC_SOF_INTEL_COMMON
+> >>>  	select SND_SOC_SOF_INTEL_ATOM_HIFI_EP
+> >>>  	select SND_SOC_SOF_ACPI_DEV
+> >>> -	select IOSF_MBI if X86 && PCI
+> >>>  	help
+> >>>  	  This adds support for Sound Open Firmware for Intel(R) platforms
+> >>>  	  using the Baytrail, Braswell or Cherrytrail processors.
+> >>
+> >> I don't think it's the 'right' fix Takashi.
+> >>
+> >> The problem is that we end-up using the iosf_mbi_read() routine by
+> >> including the soc-intel-quirks.h header file blindly for all X66
+> >> platforms - even when Baytrail is not used.
+> >>
+> >> Adding IOSF support for Tangiger doesn't seem right to me, it's not a
+> >> real dependency.
+> >>
+> >> We can be more restrictive and only use the helper for Baytrail, and use
+> >> a fallback if Baytrail is not used.
+> >>
+> >> diff --git a/sound/soc/intel/common/soc-intel-quirks.h
+> >> b/sound/soc/intel/common/soc-intel-quirks.h
+> >> index de4e550c5b34..ae67853f7e2e 100644
+> >> --- a/sound/soc/intel/common/soc-intel-quirks.h
+> >> +++ b/sound/soc/intel/common/soc-intel-quirks.h
+> >> @@ -11,7 +11,9 @@
+> >>
+> >>  #include <linux/platform_data/x86/soc.h>
+> >>
+> >> -#if IS_ENABLED(CONFIG_X86)
+> >> +#if IS_ENABLED(CONFIG_X86) && \
+> >> +       (IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL) || \
+> >> +        IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI))
+> >>
+> >>  #include <linux/dmi.h>
+> >>  #include <asm/iosf_mbi.h>
+> >>
+> >> also at https://github.com/thesofproject/linux/pull/5114
+> > 
+> > I'm afraid it's not enough, either.  It's included in
+> > sound/soc/sof/intel/atom.c, and this one can be built-in by selected
+> > from others while CONFIG_SND_SOC_SOF_BAYTRAIL=m.  And, the reverse
+> > selection is done from CONFIG_SND_SOC_SOF_BAYTRAIL -- so
+> > CONFIG_IOSF_MBI can be m as well, and this can lead to the unresolved
+> > symbol from the built-in atom.c.
+> 
+> Fair point, I was only looking at the reported failure where Baytrail
+> was completely disabled.
+> 
+> I am not sure though if it makes sense to split hair in N dimensions.
+> Building Merrifield as y and Baytrail as m is a corner case that
+> shouldn't exist at all. And it's only an academic compilation issue, in
+> practice using 'y' would fail at run-time due to the usual firmware load
+> dependencies...
 
-kernel test robot noticed the following build warnings:
+Surely this kind of bug won't hit anyone in practical use, but it's
+only about the randconfig failures.  The original report is in the
+same category, after all.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.10 next-20240718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Changhuang-Liang/media-cadence-csi2rx-Support-runtime-PM/20240718-131216
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240718032834.53876-2-changhuang.liang%40starfivetech.com
-patch subject: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407182235.kxDoVX8T-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/cadence/cdns-csi2rx.c:739:12: warning: 'csi2rx_runtime_resume' defined but not used [-Wunused-function]
-     739 | static int csi2rx_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/cadence/cdns-csi2rx.c:720:12: warning: 'csi2rx_runtime_suspend' defined but not used [-Wunused-function]
-     720 | static int csi2rx_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+Maybe another (rather easier) workaround would be to use
+IS_REACHABLE(), something like below.  This should fix the original
+issue and the potential mess-up of kconfig dependencies.
 
 
-vim +/csi2rx_runtime_resume +739 drivers/media/platform/cadence/cdns-csi2rx.c
+Takashi
 
-   719	
- > 720	static int csi2rx_runtime_suspend(struct device *dev)
-   721	{
-   722		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-   723		unsigned int i;
-   724	
-   725		reset_control_assert(csi2rx->sys_rst);
-   726		clk_disable_unprepare(csi2rx->sys_clk);
-   727	
-   728		for (i = 0; i < csi2rx->max_streams; i++) {
-   729			reset_control_assert(csi2rx->pixel_rst[i]);
-   730			clk_disable_unprepare(csi2rx->pixel_clk[i]);
-   731		}
-   732	
-   733		reset_control_assert(csi2rx->p_rst);
-   734		clk_disable_unprepare(csi2rx->p_clk);
-   735	
-   736		return 0;
-   737	}
-   738	
- > 739	static int csi2rx_runtime_resume(struct device *dev)
-   740	{
-   741		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-   742		unsigned int i;
-   743		int ret;
-   744	
-   745		ret = clk_prepare_enable(csi2rx->p_clk);
-   746		if (ret)
-   747			return ret;
-   748	
-   749		reset_control_deassert(csi2rx->p_rst);
-   750	
-   751		for (i = 0; i < csi2rx->max_streams; i++) {
-   752			ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
-   753			if (ret)
-   754				goto err_disable_pixclk;
-   755	
-   756			reset_control_deassert(csi2rx->pixel_rst[i]);
-   757		}
-   758	
-   759		ret = clk_prepare_enable(csi2rx->sys_clk);
-   760		if (ret)
-   761			goto err_disable_pixclk;
-   762	
-   763		reset_control_deassert(csi2rx->sys_rst);
-   764	
-   765		return ret;
-   766	
-   767	err_disable_pixclk:
-   768		for (; i > 0; i--) {
-   769			reset_control_assert(csi2rx->pixel_rst[i - 1]);
-   770			clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-   771		}
-   772	
-   773		reset_control_assert(csi2rx->p_rst);
-   774		clk_disable_unprepare(csi2rx->p_clk);
-   775	
-   776		return ret;
-   777	}
-   778	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/sound/soc/intel/common/soc-intel-quirks.h
++++ b/sound/soc/intel/common/soc-intel-quirks.h
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/platform_data/x86/soc.h>
+ 
+-#if IS_ENABLED(CONFIG_X86)
++#if IS_REACHABLE(CONFIG_IOSF_MBI)
+ 
+ #include <linux/dmi.h>
+ #include <asm/iosf_mbi.h>
