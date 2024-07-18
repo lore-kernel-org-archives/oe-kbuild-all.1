@@ -1,84 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389F57A715
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 08:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1D65B1E0;
+	Thu, 18 Jul 2024 08:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721291015; cv=none; b=F3JU6Euqna7B7iVpI/oy70h3zBSN6e7mDapDwYbtTX0FkEIgW+hy1/xOSxmsx4L0N9puxI7Guh4F1x1rqiBZB3X0hkE8BCVLDjkLVsYg2ysjkEyGuIpLowBdIbncRYZwjc7/EorQibCCil8RczPdg4GDFeo560q6NuEpVW77BIM=
+	t=1721291027; cv=none; b=sxNqKgFyr6BuuRrxnXlD/fbXi9UGdvAmO2BxFySKYnfK3Rc/TJfPKQgonLP5p3JwHM6uukDLKq13OMPYgvhL5lp2JcA2HdPTDPW3c4HXXriVde66CJCBKoSCnYXIxoGgnPiBHD6FLGWEFxYJsePk3uiwLCgJPOfIEqcnot8TIlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721291015; c=relaxed/simple;
-	bh=0y8AhGu2nWWxQy923GG8cGe+VNq4xXxcn6y0LVxjNxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EaQV5/uryKuY5LryMDflnv1NzN7DrlnRYz2YCmLscRTStzti6ocz8HCk7TYtpm2nfIOD5TcePY6kXszPMX1LDNx2/NNP8k7hm8eRe/VC1C5aoMYvJwH28tvrKfdMqcwz5BJAd1vqV2zUGG3LhmiCJUnthIczzJNc6hjyNhCArVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xg+7pShL; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721291027; c=relaxed/simple;
+	bh=64so2fzErg3e9zcwe/1rx4boY6PkVsoWGetw5NVcFp8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t56LkT7Q1I1aPKCKVwHzbNUDZNRP2DMLyYKlx8VtSbPYbfZqznK0yOHVWmbTFssB3VYEYDgAKs9hWofe/XNLTfZD91GbrxYl1/l2J1x8FJE9faeVmSoqdKDVGcwGKcvbftzeAIfFPb+MKDxQlJGDJlnJIo+bp2nS6+/K6Ez2MdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZmGL3q4V; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xg+7pShL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZmGL3q4V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721291013; x=1752827013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0y8AhGu2nWWxQy923GG8cGe+VNq4xXxcn6y0LVxjNxQ=;
-  b=Xg+7pShLPu+JKyBCMHGRfJD5NIQIgKY+BEWAzabzKj/U9lkhmYT1j2sW
-   Wh7RClBpEY3dXc5fckB5kJ8dw6X6LWFQwvwHUkk82QCaTMpASwJm4CGxw
-   HRQcTcMtrEcD/1VWys5Frqi0qA7Mouut8Oa446fDcy0Wsb7B4GyaSSpJL
-   TpytdW6IM3aZnt5PuiVZmUq4uiVkp26oAs9Y+HI8yAF4qNxwo1byqhdL7
-   a7mVCZpS+0I60zoGW91K+ZRLn46kOxlTmSQec3mvPNEMCoD8hLrJ0PsME
-   UegqW8S2Dm0vUzHjWU337h2wr6ur7uzC7gajDzfCfGHktC+KhSyiKRh7Q
-   Q==;
-X-CSE-ConnectionGUID: Ul6XqgM6T4ub8qcPxlHa8A==
-X-CSE-MsgGUID: jos789WeQqGBd+7PvF4c1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="30226018"
+  t=1721291026; x=1752827026;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=64so2fzErg3e9zcwe/1rx4boY6PkVsoWGetw5NVcFp8=;
+  b=ZmGL3q4VpMKnyNijkGrm2EDx9AUIQumwvthIHB724GmbBNWDctb4HfAf
+   4dYLX5ffOgNwd+UcjKP1YiZQsu1/5KQuiwDD/GMdGMGxWGFjhk5l+Fdjk
+   Io28J24Y9uuaMMYViFQz8+boN7RR/lYBSwl8XkjstYw7OVPPgQKHKFHk4
+   dBRJ2SlBNx5R9tkDaWP8PpBaZcIQThoWfJRIY8cUWY+y8yjCYQn5R7U8k
+   G58FxQYy5nNdh0oojsU1Ddd+eAslSs8T9sIWt6dO4bWcirz+Taho+3yHp
+   oo9poBg51Li/riiwftRYh7M1LLhSnd7HWGo3l3IV3sPIv3JBYCD5JbQ7V
+   A==;
+X-CSE-ConnectionGUID: xQDK9S3fQimvbueQ3rvoZg==
+X-CSE-MsgGUID: 69xE/lraR1+J0o5VMcUMMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18459509"
 X-IronPort-AV: E=Sophos;i="6.09,217,1716274800"; 
-   d="scan'208";a="30226018"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 01:23:32 -0700
-X-CSE-ConnectionGUID: pQ2rLVzLTw28GJMprXC6NA==
-X-CSE-MsgGUID: f5KhluQETte6b/bOSEWl4w==
+   d="scan'208";a="18459509"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 01:23:45 -0700
+X-CSE-ConnectionGUID: dLyn3vjRQoequ6AAkfq9ug==
+X-CSE-MsgGUID: vzCcE248TMSdAfLgjpPrNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,217,1716274800"; 
-   d="scan'208";a="51295207"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2024 01:23:31 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sUMQC-000h5m-1p;
-	Thu, 18 Jul 2024 08:23:28 +0000
-Date: Thu, 18 Jul 2024 16:23:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.11 81/98] powerpc-linux-ld:
- arch/powerpc/kernel/systbl.o:undefined reference to
- `__powerpc_sys_fadvise64_64_2'
-Message-ID: <202407181648.IsTOYT9n-lkp@intel.com>
+   d="scan'208";a="81341372"
+Received: from sbutnari-mobl1.ti.intel.com (HELO [10.245.246.71]) ([10.245.246.71])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 01:23:43 -0700
+Message-ID: <d121ec31-0861-4324-8f53-6e06eaf60233@linux.intel.com>
+Date: Thu, 18 Jul 2024 10:23:40 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: ld.lld: error: undefined symbol: iosf_mbi_available
+To: Takashi Iwai <tiwai@suse.de>, Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+ Bard Liao <bard.liao@intel.com>
+References: <202407160704.zpdhJ8da-lkp@intel.com>
+ <05954a59-2bef-4262-bd91-cfe21d2381f2@linux.intel.com>
+ <20240717202806.GA728411@thelio-3990X> <87wmljw485.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87wmljw485.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   9a99991d90521113a738c2a4761a4147fe4b31ca
-commit: 895267a916ccea4816ebf852ee2fd278a705a18e [81/98] powerpc: use non-conflicting syscall function names
-config: powerpc-randconfig-003-20240718 (https://download.01.org/0day-ci/archive/20240718/202407181648.IsTOYT9n-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407181648.IsTOYT9n-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407181648.IsTOYT9n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+On 7/18/24 09:26, Takashi Iwai wrote:
+> On Wed, 17 Jul 2024 22:28:06 +0200,
+> Nathan Chancellor wrote:
+>>
+>> On Wed, Jul 17, 2024 at 01:43:35PM +0200, Pierre-Louis Bossart wrote:
+>>>
+>>>
+>>> On 7/16/24 01:07, kernel test robot wrote:
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>> head:   3e7819886281e077e82006fe4804b0d6b0f5643b
+>>>> commit: 8d4ba1be3d2257606e04aff412829d8972670750 ASoC: SOF: pci: split PCI into different drivers
+>>>> date:   3 years, 4 months ago
+>>>
+>>> This doesn't seem to be a problem on the latest code? was it intentional
+>>> to report a problem on such an old commit?
+>>
+>> It's still reproducible at commit 8b0f0bb27c32 ("Merge tag
+>> 'fs_for_v6.11-rc1' of
+>> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs") for me,
+>> using either LLVM or GCC with the configuration linked below:
 
->> powerpc-linux-ld: arch/powerpc/kernel/systbl.o:(.rodata+0x3f8): undefined reference to `__powerpc_sys_fadvise64_64_2'
+I can't compile this branch - errors in unrelated parts of the code, but
+indeed there's a problem when IOSF_MBI=y and Baytrail is not selected.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>>   ld.lld: error: undefined symbol: iosf_mbi_available
+>>   >>> referenced by atom.c
+>>   >>>               sound/soc/sof/intel/atom.o:(atom_machine_select) in archive vmlinux.a
+>>
+>>   ld.lld: error: undefined symbol: iosf_mbi_read
+>>   >>> referenced by atom.c
+>>   >>>               sound/soc/sof/intel/atom.o:(atom_machine_select) in archive vmlinux.a
+>>
+>>   .../gcc/14.1.0/bin/i386-linux-ld: sound/soc/sof/intel/atom.o: in function `atom_machine_select':
+>>   atom.c:(.text+0x1b9): undefined reference to `iosf_mbi_available'
+>>   .../gcc/14.1.0/bin/i386-linux-ld: atom.c:(.text+0x1e3): undefined reference to `iosf_mbi_read'
+> 
+> Yours looks different from the original report, and indeed this must
+> be a missing fix.
+> 
+> Does the following change cover it?
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
+> --- a/sound/soc/sof/intel/Kconfig
+> +++ b/sound/soc/sof/intel/Kconfig
+> @@ -19,6 +19,7 @@ config SND_SOC_SOF_INTEL_ATOM_HIFI_EP
+>  	tristate
+>  	select SND_SOC_SOF_INTEL_COMMON
+>  	select SND_SOC_SOF_INTEL_HIFI_EP_IPC
+> +	select IOSF_MBI if X86 && PCI
+>  	help
+>  	  This option is not user-selectable but automagically handled by
+>  	  'select' statements at a higher level.
+> @@ -44,7 +45,6 @@ config SND_SOC_SOF_BAYTRAIL
+>  	select SND_SOC_SOF_INTEL_COMMON
+>  	select SND_SOC_SOF_INTEL_ATOM_HIFI_EP
+>  	select SND_SOC_SOF_ACPI_DEV
+> -	select IOSF_MBI if X86 && PCI
+>  	help
+>  	  This adds support for Sound Open Firmware for Intel(R) platforms
+>  	  using the Baytrail, Braswell or Cherrytrail processors.
+
+I don't think it's the 'right' fix Takashi.
+
+The problem is that we end-up using the iosf_mbi_read() routine by
+including the soc-intel-quirks.h header file blindly for all X66
+platforms - even when Baytrail is not used.
+
+Adding IOSF support for Tangiger doesn't seem right to me, it's not a
+real dependency.
+
+We can be more restrictive and only use the helper for Baytrail, and use
+a fallback if Baytrail is not used.
+
+diff --git a/sound/soc/intel/common/soc-intel-quirks.h
+b/sound/soc/intel/common/soc-intel-quirks.h
+index de4e550c5b34..ae67853f7e2e 100644
+--- a/sound/soc/intel/common/soc-intel-quirks.h
++++ b/sound/soc/intel/common/soc-intel-quirks.h
+@@ -11,7 +11,9 @@
+
+ #include <linux/platform_data/x86/soc.h>
+
+-#if IS_ENABLED(CONFIG_X86)
++#if IS_ENABLED(CONFIG_X86) && \
++       (IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL) || \
++        IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI))
+
+ #include <linux/dmi.h>
+ #include <asm/iosf_mbi.h>
+
+also at https://github.com/thesofproject/linux/pull/5114
