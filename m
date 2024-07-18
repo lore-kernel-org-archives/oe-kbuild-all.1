@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21C614389A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 20:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B61A469D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 21:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721336336; cv=none; b=ljhEvVVdOzgelA+8pk0baKAuxnL+A8arkKhCKXbi7HelTDUxP1OCjjaHJiTLHXDXW/wWtDJk5b7ISotj2g3G6o6mHjoQyKjBPkXAUDbzO05Q2QSZv0PqditRA8S5FcwYtMc3+BHeOJrCg5/2Eo4nMT7ehKt07JZeVFqFpKCUp8c=
+	t=1721337597; cv=none; b=p+X5+z+Mfft8oGrj7Kf25XfDKy1GmgZJWs5BI8DzH8XDwrjxOq+fzZiLflqHPFjJafYgjkNwmRdNOhrzDPzJOTRWYmwlnwWhkhMc2jFz1PHUrdkFb51e03oRqiNSKdEzgXgqz0hfNLnPsoUc4cDU8DT63tczCfj5LQ+rUfrlX2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721336336; c=relaxed/simple;
-	bh=H1wkUXdsDwAKsn4DG15w0V4fKyqmeRoxkGOJzKDljy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4wCOrmhH3nOnSPJv5VRyFnYsph/RJFRpBBqPiVbCdoLmJY9XU9g9JSzdzEDiArM+dAFFLqfaQNeh8TlLDNEJ/zAfkok6VRY9jSfio2Z/Ay1eED6WG1rzGGoHy9ogufbcAcWlZ9OByg/B1Dnr0RbfdFHF7+RaW6dweD5K5P3j3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILnoe0F7; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1721337597; c=relaxed/simple;
+	bh=OWjeDT1CUoZslbm2hfXTV9kevdi0HjHne75ivJe4fdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UsWk46nxY+Q3bTd7H/g8UMgqhcPUia9r4CAj+fmsjtB/wptawKEWFjQNi/Kh6lTad/m59T1sShZ1bHdisUC0PrIsrwQPSH4x4pzLw98B7/Iu5vaxJEAj5TUVZDEW/LNQACQ3OnX8H4LeFHd3NPvTLE97BSfGwaFVnhgX+tpZtKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UfX9vhSh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILnoe0F7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfX9vhSh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721336334; x=1752872334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H1wkUXdsDwAKsn4DG15w0V4fKyqmeRoxkGOJzKDljy4=;
-  b=ILnoe0F7KLqm6PalChsISu4UB8+B80T4qEobtDLA5affJ+4j6GXV4oQL
-   8pwBTDY6SjahxbJ65l/ZOhcnvkrjdTtVf9KLmzJOfXMhzsdVMy9JdEixr
-   jtm9ZHh15Ls9Kzac8LqOLW55KOhfLLsWVEO/s+gpsECViG5aHrbIrEUMe
-   TRS2XTPKpCKnI5zu+nrrlgn+JgwQi9Dpx2Zb8zdSpo5sgtCdgDHYFJqEq
-   xlCFnjnnnAFsmB8oPlc9Hzsv2ktKwGRtkclcMFFVlv0TS7HAm6e4DG2Wv
-   LPU0KVSUxodfoR+L87BX93LSmilA3VUr+gzKFwPixBnI7wjdbuIfIgKH7
+  t=1721337596; x=1752873596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OWjeDT1CUoZslbm2hfXTV9kevdi0HjHne75ivJe4fdQ=;
+  b=UfX9vhShLhzy+4uQBIPXrFdhozWh1Shl9PhvDj0C1i7zdlox4hqun0FP
+   fEFrEuWoNzdPmeHEOtgeI7JiRnrnBvVbi7Dp1WWVYVBpb7nZdw/DwlC2I
+   2WNhCVl8NBib/EvvrSDHMeI11dqVHKjnsBexKkwrij+jOjvq2lDtuElt0
+   qT+V9L4wAHHrcII+hg/ECRQ6bcApW1zKP7IR0QgP9Eev+mQovMSbOnR6t
+   hoM+iO8UHsuyWWSBppeJldeT9ZOX3dsrz/2i3P0rLg363q3j3Al4MR25Z
+   +/JW1XIaaEUZtmsdXc+OUbIc0YMnHde1dwTbn9Ia9k0iRz4GjKxTW4mrB
    w==;
-X-CSE-ConnectionGUID: ReLbEprIQl2CgLlaciSgQQ==
-X-CSE-MsgGUID: GGH7/cGqScSAGdf1hyeymw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12614583"
+X-CSE-ConnectionGUID: zeGqtulOTmmvMtIhkqTwIA==
+X-CSE-MsgGUID: H/SaDZVCTMu2HbOvzTCQNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="44354678"
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="12614583"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 13:58:53 -0700
-X-CSE-ConnectionGUID: FMoLsbDZTku2C+gQhmeQ+Q==
-X-CSE-MsgGUID: u73q9bWBSvabwFkUcLwzHQ==
+   d="scan'208";a="44354678"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 14:19:55 -0700
+X-CSE-ConnectionGUID: vKOopiF9QjiLE2Nj4/jK6g==
+X-CSE-MsgGUID: HbXYYIM/QQi2VISfs8GtEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="51175976"
+   d="scan'208";a="88389982"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jul 2024 13:58:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2024 14:19:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUYDC-000haA-0A;
-	Thu, 18 Jul 2024 20:58:50 +0000
-Date: Fri, 19 Jul 2024 04:58:39 +0800
+	id 1sUYXW-000haU-0k;
+	Thu, 18 Jul 2024 21:19:50 +0000
+Date: Fri, 19 Jul 2024 05:19:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 3/10]
- arch/arm64/kvm/hyp/pgtable.c:1784:22: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202407190407.3xFi4137-lkp@intel.com>
+To: Oscar Salvador <osalvador@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Peter Xu <peterx@redhat.com>,
+	Muchun Song <muchun.song@linux.dev>, Michal Hocko <mhocko@suse.com>,
+	Donet Tom <donettom@linux.ibm.com>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Oscar Salvador <osalvador@suse.de>
+Subject: Re: [PATCH 4/9] arch/sparc: Teach arch_get_unmapped_area{_topdown}
+ to handle hugetlb mappings
+Message-ID: <202407190525.rqkFKslD-lkp@intel.com>
+References: <20240718105903.19617-5-osalvador@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +72,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240718105903.19617-5-osalvador@suse.de>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5bea47f9916929b7b92c5d44034af49bbfb55dc6
-commit: 28b92141c6f37f35b82f00410d87d5727bfce827 [3/10] ANDROID: KVM: arm64: Add stage-2 pagetable snapshot walker
-config: arm64-randconfig-r113-20240716 (https://download.01.org/0day-ci/archive/20240719/202407190407.3xFi4137-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce: (https://download.01.org/0day-ci/archive/20240719/202407190407.3xFi4137-lkp@intel.com/reproduce)
+Hi Oscar,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on s390/features]
+[also build test ERROR on akpm-mm/mm-everything powerpc/next powerpc/fixes deller-parisc/for-next arnd-asm-generic/master linus/master v6.10 next-20240718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20240718-191208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20240718105903.19617-5-osalvador%40suse.de
+patch subject: [PATCH 4/9] arch/sparc: Teach arch_get_unmapped_area{_topdown} to handle hugetlb mappings
+config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20240719/202407190525.rqkFKslD-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407190525.rqkFKslD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407190407.3xFi4137-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407190525.rqkFKslD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/pgtable.c:1784:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] pgd @@
-   arch/arm64/kvm/hyp/pgtable.c:1784:22: sparse:     expected void *
-   arch/arm64/kvm/hyp/pgtable.c:1784:22: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] pgd
->> arch/arm64/kvm/hyp/pgtable.c:1784:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] pgd @@
-   arch/arm64/kvm/hyp/pgtable.c:1784:36: sparse:     expected void const *
-   arch/arm64/kvm/hyp/pgtable.c:1784:36: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] pgd
-   arch/arm64/kvm/hyp/pgtable.c:269:5: sparse: sparse: context imbalance in 'kvm_pgtable_walk' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +1784 arch/arm64/kvm/hyp/pgtable.c
+   arch/sparc/kernel/sys_sparc_32.c: In function 'arch_get_unmapped_area':
+>> arch/sparc/kernel/sys_sparc_32.c:47:21: error: implicit declaration of function 'is_file_hugepages' [-Wimplicit-function-declaration]
+      47 |         if (filp && is_file_hugepages(filp))
+         |                     ^~~~~~~~~~~~~~~~~
+>> arch/sparc/kernel/sys_sparc_32.c:74:35: error: implicit declaration of function 'huge_page_mask_align' [-Wimplicit-function-declaration]
+      74 |                 info.align_mask = huge_page_mask_align(filp);
+         |                                   ^~~~~~~~~~~~~~~~~~~~
 
-  1764	
-  1765	int kvm_pgtable_stage2_snapshot(struct kvm_pgtable_snapshot *dest_pgt,
-  1766					struct kvm_pgtable *src_pgt,
-  1767					size_t pgd_len)
-  1768	{
-  1769		struct kvm_pgtable *to_pgt = &dest_pgt->pgtable;
-  1770		struct kvm_pgtable_walker walker = {
-  1771			.cb	= snapshot_walker,
-  1772			.flags	= KVM_PGTABLE_WALK_LEAF |
-  1773				  KVM_PGTABLE_WALK_TABLE_PRE,
-  1774			.arg	= &dest_pgt->mc,
-  1775		};
-  1776	
-  1777		if (!to_pgt->pgd || dest_pgt->pgd_pages < (pgd_len >> PAGE_SHIFT))
-  1778			return -EINVAL;
-  1779	
-  1780		/*
-  1781		 * Walk the destination pagetable with the original PGD entries from
-  1782		 * the source, then descend into the newly installed leafs.
-  1783		 */
-> 1784		memcpy(to_pgt->pgd, src_pgt->pgd, pgd_len);
+
+vim +/is_file_hugepages +47 arch/sparc/kernel/sys_sparc_32.c
+
+    41	
+    42	unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsigned long len, unsigned long pgoff, unsigned long flags)
+    43	{
+    44		struct vm_unmapped_area_info info = {};
+    45		bool file_hugepage = false;
+    46	
+  > 47		if (filp && is_file_hugepages(filp))
+    48			file_hugepage = true;
+    49	
+    50		if (flags & MAP_FIXED) {
+    51			/* We do not accept a shared mapping if it would violate
+    52			 * cache aliasing constraints.
+    53			 */
+    54			if (!file_hugepage && (flags & MAP_SHARED) &&
+    55			    ((addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1)))
+    56				return -EINVAL;
+    57			return addr;
+    58		}
+    59	
+    60		/* See asm-sparc/uaccess.h */
+    61		if (len > TASK_SIZE - PAGE_SIZE)
+    62			return -ENOMEM;
+    63		if (!addr)
+    64			addr = TASK_UNMAPPED_BASE;
+    65	
+    66		info.length = len;
+    67		info.low_limit = addr;
+    68		info.high_limit = TASK_SIZE;
+    69		if (!file_hugepage) {
+    70			info.align_mask = (flags & MAP_SHARED) ?
+    71				(PAGE_MASK & (SHMLBA - 1)) : 0;
+    72			info.align_offset = pgoff << PAGE_SHIFT;
+    73		} else {
+  > 74			info.align_mask = huge_page_mask_align(filp);
+    75		}
+    76		return vm_unmapped_area(&info);
+    77	}
+    78	
 
 -- 
 0-DAY CI Kernel Test Service
