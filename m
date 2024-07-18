@@ -1,180 +1,98 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350CC74058;
-	Thu, 18 Jul 2024 07:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904AD7605E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 07:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721287548; cv=none; b=FgB6sEIXxv4BALIU92BsDef83COCTo/t/gBiLdQ8HpdkwXUcJeQXp8srO/q89C6q+bE3/qyl9dpZfPpkg8s+xOjMjm4EAy1ESM7joPkR5+1TxMzLG31KWhZF2ZYxaHagLgEmso2mFqTBdKRZntimGzsW6m70xxravcL4CfFwKX0=
+	t=1721287712; cv=none; b=LOeWLKp9cGZQrsyIlat7wqSW7y37VJrWQU/Nbmr6klk+lkWQpqkxTEKFPOJbNkBM8gUqIy/ugVwe8F+Uzkc2K0xfOLUJRnTEdUCx+mePMvzFwbJ280AlD32SSGJSuDNrJ1JlgFQFK9k0UapBALeKeURz9fL3IuWPIuq8bDcXj6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721287548; c=relaxed/simple;
-	bh=0H4XV8TOISM3Gt1+8SMaDb8bfqGOnzwUgxRHRqrmJTE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZOAkdWrOOrEGY2wxo00rY17Lh8gzWoOTtxgXC3J4QN7s3SCXcTo8BkHFuLi5scS4gs2W0oBQtR3hxIupHm3dEOK58uKVAdzCQjHF51xnNXQueEs6PvN6ZP4lN3h64mfBFQMVIxXgdx157PCJ/z+fY3lu7SsDGJxOBhvKvwhDFPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=poFAvwBd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oRN5uQXj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=poFAvwBd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oRN5uQXj; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1721287712; c=relaxed/simple;
+	bh=1Zdjt/3VKK113P1VEk8Msrqf3AGBqrhNu+GJ49EjdKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fXOxGhlY3b6ZexbJP5x9yRg2BI1Vn7O8v00Q3Kd5X1Kk57XyeF1qVli/O09++vzhiiFlk0xVRg+UiZXWroO3I5jXq78uH5d3sHqD1sSMOH/jv2OXe6i4v/FkTZuv4vcfx/PS3IL6WgWkUMo7/9uuEF5ZesO7wJiojaXRV/Rgyjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNQRpJ32; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="poFAvwBd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oRN5uQXj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="poFAvwBd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oRN5uQXj"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 686A621A80;
-	Thu, 18 Jul 2024 07:25:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721287545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mq/1yoSlo6cu8qdLhhM1bAep0Jfw5LSOtI55xWrH4fg=;
-	b=poFAvwBdFdvIjnhpANGHGAjF+VZTGg/xJTb4lE5UhxoMQRfCNO0RHtXFKEGXCOJpDUD+Uk
-	AWGtggcEcwduSuQd2Pb5btF/vxtpcpy2w7Sg8TdqmvW4vC6cvf0Lg84gje3fFiQ8eEq1T/
-	jHpGCtyEJb2P4VmRvftqucD9+pgkWsM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721287545;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mq/1yoSlo6cu8qdLhhM1bAep0Jfw5LSOtI55xWrH4fg=;
-	b=oRN5uQXjXNTqmxAvZNARP1zp8p/uVJifhqXhBGP4A3I5X+Vakn7gmjX39KDshqvrxH8vVV
-	sJ4ayCWiSYN3XhBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721287545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mq/1yoSlo6cu8qdLhhM1bAep0Jfw5LSOtI55xWrH4fg=;
-	b=poFAvwBdFdvIjnhpANGHGAjF+VZTGg/xJTb4lE5UhxoMQRfCNO0RHtXFKEGXCOJpDUD+Uk
-	AWGtggcEcwduSuQd2Pb5btF/vxtpcpy2w7Sg8TdqmvW4vC6cvf0Lg84gje3fFiQ8eEq1T/
-	jHpGCtyEJb2P4VmRvftqucD9+pgkWsM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721287545;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mq/1yoSlo6cu8qdLhhM1bAep0Jfw5LSOtI55xWrH4fg=;
-	b=oRN5uQXjXNTqmxAvZNARP1zp8p/uVJifhqXhBGP4A3I5X+Vakn7gmjX39KDshqvrxH8vVV
-	sJ4ayCWiSYN3XhBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F7F81379D;
-	Thu, 18 Jul 2024 07:25:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jA96BnnDmGZwEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 18 Jul 2024 07:25:45 +0000
-Date: Thu, 18 Jul 2024 09:26:18 +0200
-Message-ID: <87wmljw485.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	kernel test robot <lkp@intel.com>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-	Bard Liao <bard.liao@intel.com>
-Subject: Re: ld.lld: error: undefined symbol: iosf_mbi_available
-In-Reply-To: <20240717202806.GA728411@thelio-3990X>
-References: <202407160704.zpdhJ8da-lkp@intel.com>
-	<05954a59-2bef-4262-bd91-cfe21d2381f2@linux.intel.com>
-	<20240717202806.GA728411@thelio-3990X>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNQRpJ32"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721287711; x=1752823711;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1Zdjt/3VKK113P1VEk8Msrqf3AGBqrhNu+GJ49EjdKk=;
+  b=PNQRpJ32QkBYPEVESowlGJX6CQrAv4xU/1itznK39dIgDRlhLnk3i/17
+   GEM7P3cn7SRCW8jhkTByT1rbtNSbhT7u/0crPBNL6AQmbRdtEbc+GSt28
+   8WrzQtkdAm76RN73nB13Ypqqu0r+bwiZR+4uTCkQIhT/ZMAhEeKtP+mUv
+   Ik07hCqAYB+nRGyq/Ue3jRp3Wt8+1g7huoUR9aoWs3XKCAdOcQEX0kGim
+   DDo5bCwMuCVycltQArIy+h6M7XYw5H5PdyfhH0GojhKy7wKo0sRMy/rcg
+   fQUzWXWzC9KO0xdCdxlJb5bW9OXMuJ8xTrxQGMVQkEEVvTOJNNSIVXvqy
+   g==;
+X-CSE-ConnectionGUID: SZKIVTpYT7iNnRGlbvKMvA==
+X-CSE-MsgGUID: mjL/PXOzTnGGECccLZu2Qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="29990314"
+X-IronPort-AV: E=Sophos;i="6.09,217,1716274800"; 
+   d="scan'208";a="29990314"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 00:28:30 -0700
+X-CSE-ConnectionGUID: pKeFhikHTlOawwx9nH0Pwg==
+X-CSE-MsgGUID: Ag38n0P0QNuuP9uERMNrCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,217,1716274800"; 
+   d="scan'208";a="88158440"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2024 00:28:29 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sULYx-000h3X-0L;
+	Thu, 18 Jul 2024 07:28:27 +0000
+Date: Thu, 18 Jul 2024 15:27:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:secure-concat.v5 11/16]
+ include/linux/nvme-keyring.h:23:16: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202407181537.J6IsR1qE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 17 Jul 2024 22:28:06 +0200,
-Nathan Chancellor wrote:
-> 
-> On Wed, Jul 17, 2024 at 01:43:35PM +0200, Pierre-Louis Bossart wrote:
-> > 
-> > 
-> > On 7/16/24 01:07, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   3e7819886281e077e82006fe4804b0d6b0f5643b
-> > > commit: 8d4ba1be3d2257606e04aff412829d8972670750 ASoC: SOF: pci: split PCI into different drivers
-> > > date:   3 years, 4 months ago
-> > 
-> > This doesn't seem to be a problem on the latest code? was it intentional
-> > to report a problem on such an old commit?
-> 
-> It's still reproducible at commit 8b0f0bb27c32 ("Merge tag
-> 'fs_for_v6.11-rc1' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs") for me,
-> using either LLVM or GCC with the configuration linked below:
-> 
->   ld.lld: error: undefined symbol: iosf_mbi_available
->   >>> referenced by atom.c
->   >>>               sound/soc/sof/intel/atom.o:(atom_machine_select) in archive vmlinux.a
-> 
->   ld.lld: error: undefined symbol: iosf_mbi_read
->   >>> referenced by atom.c
->   >>>               sound/soc/sof/intel/atom.o:(atom_machine_select) in archive vmlinux.a
-> 
->   .../gcc/14.1.0/bin/i386-linux-ld: sound/soc/sof/intel/atom.o: in function `atom_machine_select':
->   atom.c:(.text+0x1b9): undefined reference to `iosf_mbi_available'
->   .../gcc/14.1.0/bin/i386-linux-ld: atom.c:(.text+0x1e3): undefined reference to `iosf_mbi_read'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v5
+head:   4d58e409712027c1084413a8c31e93af4d148650
+commit: c85200aaab7f1248dd0142da172df0047ddbb812 [11/16] nvme-keyring: add nvme_tls_psk_refresh()
+config: i386-randconfig-061-20240718 (https://download.01.org/0day-ci/archive/20240718/202407181537.J6IsR1qE-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407181537.J6IsR1qE-lkp@intel.com/reproduce)
 
-Yours looks different from the original report, and indeed this must
-be a missing fix.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407181537.J6IsR1qE-lkp@intel.com/
 
-Does the following change cover it?
+sparse warnings: (new ones prefixed by >>)
+   drivers/nvme/host/fabrics.c: note: in included file:
+>> include/linux/nvme-keyring.h:23:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected struct key * @@     got int @@
+   include/linux/nvme-keyring.h:23:16: sparse:     expected struct key *
+   include/linux/nvme-keyring.h:23:16: sparse:     got int
+   drivers/nvme/host/fabrics.c: note: in included file (through include/linux/miscdevice.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
+vim +23 include/linux/nvme-keyring.h
 
-thanks,
+    19	
+    20	static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
+    21			u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest)
+    22	{
+  > 23		return -ENOTSUPP;
 
-Takashi
-
---- a/sound/soc/sof/intel/Kconfig
-+++ b/sound/soc/sof/intel/Kconfig
-@@ -19,6 +19,7 @@ config SND_SOC_SOF_INTEL_ATOM_HIFI_EP
- 	tristate
- 	select SND_SOC_SOF_INTEL_COMMON
- 	select SND_SOC_SOF_INTEL_HIFI_EP_IPC
-+	select IOSF_MBI if X86 && PCI
- 	help
- 	  This option is not user-selectable but automagically handled by
- 	  'select' statements at a higher level.
-@@ -44,7 +45,6 @@ config SND_SOC_SOF_BAYTRAIL
- 	select SND_SOC_SOF_INTEL_COMMON
- 	select SND_SOC_SOF_INTEL_ATOM_HIFI_EP
- 	select SND_SOC_SOF_ACPI_DEV
--	select IOSF_MBI if X86 && PCI
- 	help
- 	  This adds support for Sound Open Firmware for Intel(R) platforms
- 	  using the Baytrail, Braswell or Cherrytrail processors.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
