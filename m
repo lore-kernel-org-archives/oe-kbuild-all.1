@@ -1,64 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379ED13B286
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 14:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D8613D8A3;
+	Thu, 18 Jul 2024 14:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721311306; cv=none; b=dkZfbkrdaJzie9rBBF0LtXpU6yX8v2yJO8ywpIfquVx378vn9fVtB8qNUoDc+o1/DQkZZz6sp9g5VwIcLWb/jJo46ivYRlUX7GNPbP1oVDBcETjadRPz49kGdfI549+f3FNPvradHXppsW5KH1xiwvObf98LLrcESA+F0e1SUqY=
+	t=1721314428; cv=none; b=SPfeAUlG+qbra0Lysozwzdh2Rhc5DYAtv4BHyRCA3jfDLO1J1XmSK/wUR/130itCmYDYYtYjXfVj97ZAF9kzA+CIl5Db2gBhAFrzjHugMHjc/Iz5ZVV08TsTtWxApdCYZKlzsW56Cj5m4nFZg57Bu5cHaalB/XttQTNcbT1VoLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721311306; c=relaxed/simple;
-	bh=3u6ra66H9X+D21t/UnEIF2rQlSIh7p+0chw6jFtUTTw=;
+	s=arc-20240116; t=1721314428; c=relaxed/simple;
+	bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BS2PhN6CMgD2VYMOQFtl9DKsMqjfyFmwxLEWS8D8rZ5qzryecCVjJvodT9IwJRPsy6dop/Nf8WWAReaybpzyq0MNcwpgo8199X6g/Wx8D6Oa+G53DeybhqVtk+XlqWXgeIlUJz5lVO5q+/Qn+gwlfWJ9IjrSONaRFgasjQtYVMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyXtHx3E; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2WFddjg0mqVTNXJmH0SXG7tXutRoeWsav6853Qu784zhKpxAacLupKF9zWLVnpvMvGXaZACTCnk54imWNdm8V5R54tPPuNnuOI6GGXd18GCtG/CqJiqkjopd/q/ZJDtMFtdUbm+o/iUZNucR4Kh+cRYWhCKoZfiB9Quwm2DG7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6TB+mcM; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyXtHx3E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6TB+mcM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721311304; x=1752847304;
+  t=1721314427; x=1752850427;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3u6ra66H9X+D21t/UnEIF2rQlSIh7p+0chw6jFtUTTw=;
-  b=IyXtHx3E+keOF5w0eTbS3OG0vMHf5TxlzBrADs7L3jTRgFpW6fFJbwC0
-   zoO4daSJ+s+tFR12HwNon6R0HIaYme/E8rYaxAiTcoGuk0LBJvqNBevyB
-   Mya+zcSjLE8G980O7GVs8nPz+qI4asSvp7SS7DFIpvc4qrJEDP4d2qEr9
-   n/PbwQDUzLoqqExXybypymaW3wWv3jN/fZy8YtA0zkdBcPgrxrG7h+WXH
-   CehsPfWzRzi15/cqPuEciHWlUPj8TDhKyX4aou0ayeyWGLonCSIh18wDI
-   qhMoU7eKz3SV6zro1ZeeXlQaHIXbX5RzFuwMJhyRj42WfCu7/DSI16sxs
-   A==;
-X-CSE-ConnectionGUID: zrMMIB/DTPG7LeDeqmzRSA==
-X-CSE-MsgGUID: 6p6Nn6wBTXCv1Kwji5vjwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12608692"
+  bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
+  b=I6TB+mcMbbT/1nRWf4DOFwu9M02SjouL85/Pa9hmY3gz55mKR/7cK6Kl
+   xi/hPn+2E7nMKd/kNuDGEsSzdREnt/9L2yMAPtnVSpnSjCsm6OKP78QjN
+   OTbHl3D5l6CMcKN0Nrz7JnRThngROUwsmIfRNs33e/sliiqaorcKmsMzE
+   LRB6exkuNZ+EMlBVb5bAP813GVk43y0kxUogt1cb78eWBjAgL+fUqQCE4
+   DbDWIJHzxvl0LT5mPTV4zD7YefQtjq2D3GQ584bTHZgiKWgLbZ8DjfAc2
+   n1923IZ06PujJwHgBRJW3ou2Q002MCtYLrvIOKYwFcTPxxGxcGFRdVNSb
+   w==;
+X-CSE-ConnectionGUID: 2tsCEVfOQQWrZK44Wnp+lA==
+X-CSE-MsgGUID: Pbh8Pb2RSPOCwjm6wb1q5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18502721"
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="12608692"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 07:01:44 -0700
-X-CSE-ConnectionGUID: Ee/VQcu7Q9yMeV+C4xf+Ng==
-X-CSE-MsgGUID: ozR5V3IyRXiTGnfs80KtOg==
+   d="scan'208";a="18502721"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 07:53:46 -0700
+X-CSE-ConnectionGUID: BP7QLhkNRx+DrVJnvJXtBg==
+X-CSE-MsgGUID: rlPuAbT6QVmWq1X6wwK41g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="50495301"
+   d="scan'208";a="55086854"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Jul 2024 07:01:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2024 07:53:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sURhS-000hJi-2Z;
-	Thu, 18 Jul 2024 14:01:38 +0000
-Date: Thu, 18 Jul 2024 22:01:22 +0800
+	id 1sUSVo-000hLz-1A;
+	Thu, 18 Jul 2024 14:53:40 +0000
+Date: Thu, 18 Jul 2024 22:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mary Strodl <mstrodl@csh.rit.edu>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	urezki@gmail.com, hch@infradead.org, linux-mm@kvack.org,
-	lee@kernel.org, andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
-	s.hauer@pengutronix.de, christian.gmeiner@gmail.com,
-	Mary Strodl <mstrodl@csh.rit.edu>
-Subject: Re: [PATCH 2/3] x86: Add basic support for the Congatec CGEB BIOS
- interface
-Message-ID: <202407182128.dYt4Ud4g-lkp@intel.com>
-References: <20240718011504.4106163-3-mstrodl@csh.rit.edu>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Jayshri Pawar <jpawar@cadence.com>, Jai Luthra <j-luthra@ti.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+Message-ID: <202407182235.kxDoVX8T-lkp@intel.com>
+References: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +74,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240718011504.4106163-3-mstrodl@csh.rit.edu>
+In-Reply-To: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 
-Hi Mary,
+Hi Changhuang,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes akpm-mm/mm-everything andi-shyti/i2c/i2c-host linus/master v6.10 next-20240718]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.10 next-20240718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/mm-vmalloc-export-__vmalloc_node_range/20240718-091816
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20240718011504.4106163-3-mstrodl%40csh.rit.edu
-patch subject: [PATCH 2/3] x86: Add basic support for the Congatec CGEB BIOS interface
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240718/202407182128.dYt4Ud4g-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182128.dYt4Ud4g-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Changhuang-Liang/media-cadence-csi2rx-Support-runtime-PM/20240718-131216
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240718032834.53876-2-changhuang.liang%40starfivetech.com
+patch subject: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407182128.dYt4Ud4g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407182235.kxDoVX8T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/mfd/congatec-cgeb.c: In function 'cgeb_map_memory':
->> drivers/mfd/congatec-cgeb.c:360:52: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     360 |                                 ioremap_cache((u32)(resource_size_t)pmme->phys,
-         |                                                    ^
+>> drivers/media/platform/cadence/cdns-csi2rx.c:739:12: warning: 'csi2rx_runtime_resume' defined but not used [-Wunused-function]
+     739 | static int csi2rx_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/cadence/cdns-csi2rx.c:720:12: warning: 'csi2rx_runtime_suspend' defined but not used [-Wunused-function]
+     720 | static int csi2rx_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +360 drivers/mfd/congatec-cgeb.c
+vim +/csi2rx_runtime_resume +739 drivers/media/platform/cadence/cdns-csi2rx.c
 
-   334	
-   335	static int cgeb_map_memory(struct cgeb_board_data *board)
-   336	{
-   337		struct cgeb_map_mem_list *pmm;
-   338		struct cgeb_map_mem *pmme;
-   339		int i;
-   340		int ret;
-   341	
-   342		ret = cgeb_call_simple(board, CgebMapGetMem, 0, (void *)&board->map_mem,
-   343				NULL);
-   344		if (ret)
-   345			return ret;
-   346		if (!board->map_mem)
-   347			return 0;
-   348	
-   349		pmm = board->map_mem;
-   350		pmme = pmm->entries;
-   351	
-   352		pr_debug("CGEB: Memory Map with %d entries\n", pmm->count);
-   353	
-   354		for (i = 0; i < pmm->count; i++, pmme++) {
-   355			pr_debug("CGEB: Memory map entry phys=%px, size=%08x\n",
-   356					pmme->phys, pmme->size);
-   357			if (pmme->phys && pmme->size) {
-   358				/* We only want to look at the lower 32 bits */
-   359				pmme->virt.off =
- > 360					ioremap_cache((u32)(resource_size_t)pmme->phys,
-   361						pmme->size);
-   362				if (!pmme->virt.off)
-   363					return -ENOMEM;
-   364			 } else {
-   365				pmme->virt.off = 0;
-   366			}
-   367	
-   368			pmme->virt.seg = (pmme->virt.off) ? board->ds : 0;
-   369	
-   370			pr_debug("CGEB:   Map phys %p, size %08x, virt %04x:%p\n",
-   371				pmme->phys, pmme->size, pmme->virt.seg,
-   372				pmme->virt.off);
-   373		}
-   374	
-   375		return cgeb_call_simple(board, CgebMapChanged, 0, NULL, NULL);
-   376	}
-   377	
+   719	
+ > 720	static int csi2rx_runtime_suspend(struct device *dev)
+   721	{
+   722		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+   723		unsigned int i;
+   724	
+   725		reset_control_assert(csi2rx->sys_rst);
+   726		clk_disable_unprepare(csi2rx->sys_clk);
+   727	
+   728		for (i = 0; i < csi2rx->max_streams; i++) {
+   729			reset_control_assert(csi2rx->pixel_rst[i]);
+   730			clk_disable_unprepare(csi2rx->pixel_clk[i]);
+   731		}
+   732	
+   733		reset_control_assert(csi2rx->p_rst);
+   734		clk_disable_unprepare(csi2rx->p_clk);
+   735	
+   736		return 0;
+   737	}
+   738	
+ > 739	static int csi2rx_runtime_resume(struct device *dev)
+   740	{
+   741		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+   742		unsigned int i;
+   743		int ret;
+   744	
+   745		ret = clk_prepare_enable(csi2rx->p_clk);
+   746		if (ret)
+   747			return ret;
+   748	
+   749		reset_control_deassert(csi2rx->p_rst);
+   750	
+   751		for (i = 0; i < csi2rx->max_streams; i++) {
+   752			ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+   753			if (ret)
+   754				goto err_disable_pixclk;
+   755	
+   756			reset_control_deassert(csi2rx->pixel_rst[i]);
+   757		}
+   758	
+   759		ret = clk_prepare_enable(csi2rx->sys_clk);
+   760		if (ret)
+   761			goto err_disable_pixclk;
+   762	
+   763		reset_control_deassert(csi2rx->sys_rst);
+   764	
+   765		return ret;
+   766	
+   767	err_disable_pixclk:
+   768		for (; i > 0; i--) {
+   769			reset_control_assert(csi2rx->pixel_rst[i - 1]);
+   770			clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+   771		}
+   772	
+   773		reset_control_assert(csi2rx->p_rst);
+   774		clk_disable_unprepare(csi2rx->p_clk);
+   775	
+   776		return ret;
+   777	}
+   778	
 
 -- 
 0-DAY CI Kernel Test Service
