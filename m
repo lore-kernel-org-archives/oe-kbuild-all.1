@@ -1,134 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEE113C66F;
-	Thu, 18 Jul 2024 15:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C670F7A724
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 15:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721315822; cv=none; b=gp2MLmjBcmdwtBHsLFlASV4+X1doaDHIYwK/0hKk2cyDSFlcLIAVwrB6bHb39Mg5UNLZHdkbDW2qFKGwhKaSgqAEPtFDtGUOhs9o1ntsJPB60XCRJ+QXaV9tVeSdz7pC1XfJFNPwd2YK8lWvjTlNEafTZlv6nbTEnSxgXdfRELw=
+	t=1721316480; cv=none; b=jvVnF8ajH2QQ98SmVoYS1EquSglqme2HEkLN183YnE7eDwG3iCvdoayxJgdZsgwTxxjNstVKipu057PwemsubF6izWnsW+DTnym9fSs5iSJfV35+59SpED9fcGREKBtsIVmmEZ/dPcBP8wV3P8S4ksAFX80m36pnxP3BT1BEB54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721315822; c=relaxed/simple;
-	bh=O5x+hCNcORPZbUU0OWY/Y22Vaok0nlcWzJo1PLR9a/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WkgjqXFPZnfW9epaAH/SNMr1vti9IURb/f3XYWvL6WuqVv8jAMpZ1Sp516uzUnZCmWIix9/v/kq942lym+Ga3WiTOzt6NN+gvHv81TF7Lh0ih3OYgfD0FQkKq2NZJy8r3I6E0Skdy+Llw+UGtqnzb8+P2NaP6tUaiP10tuxrL50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SED7cxtj; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1721316480; c=relaxed/simple;
+	bh=7cZHQP8fAzCKT+FJhLCwqT+lLrJaF8iBu/6hNmogy3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mnmnlLSKo7QaJhJqXIJW0e+E1qz0QkpDGfRQg/nhxAK42/m2UQ7GXJ5wWZcVuwwr9oVuOMohQWCXm3Jc/tuFpwVRYqp2fN4GasiBcHfgduqLPAruJRnyoHOaf3Q73CKSC0uPQ/qeTei6z51w5Ml5PlVus6NjHdh3JrGfv7fKrAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=STJA0d0m; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SED7cxtj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721315820; x=1752851820;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=O5x+hCNcORPZbUU0OWY/Y22Vaok0nlcWzJo1PLR9a/g=;
-  b=SED7cxtjRxOc1dBlfBxUugOsfmvV5sZO0+QbiV7fqeXUjtd9Ln9PRDma
-   vG3QrxkISFMnDVhJ+GFzNHKqmAF7sCPGdkMVjl3Kpkp5xm9/qNV9HOsFl
-   h+NdBR0MUj8nZFHK2xBXtlhu9DR4wM7979B4IfVneqA1NxZr9pSa9FdK2
-   wXFEFPyAjoCzXT3wSwhV1nQFPtm/KdRRv8ja4vgtLNc5X3Avwwry5ikoY
-   8xp5BNFBCqd4QCGWi5UmVtjXN+kWKHf3Ae3vgF1/VpSvtJPByZD7fVCsZ
-   lAHf8LhGoDUcdZ/0ymEIw9mflRk0jT4OKfmPGiYGAFB1VSkuw3PtXUxNM
-   A==;
-X-CSE-ConnectionGUID: b6tuxNXyT0OwjkPQRt9Yaw==
-X-CSE-MsgGUID: d+r9NpOeQl+n6VUlzXbwIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="29497367"
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="29497367"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 08:17:00 -0700
-X-CSE-ConnectionGUID: dSAp7XGyQTSjSrwjjKNi3Q==
-X-CSE-MsgGUID: +FUsQy+MSWKaPxZ49QPwcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="74021901"
-Received: from sbutnari-mobl1.ti.intel.com (HELO [10.245.246.71]) ([10.245.246.71])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 08:16:56 -0700
-Message-ID: <69dfb1e2-eac6-4cd4-a9d3-caaa7f36f9b9@linux.intel.com>
-Date: Thu, 18 Jul 2024 17:16:54 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="STJA0d0m"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-70361745053so426035a34.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 08:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721316478; x=1721921278; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AFuoeTzLjl2+sNJgRuxCQvYdNiIGR6RuZRBzqWfCJQQ=;
+        b=STJA0d0mG33Naw7wE6CDT8ef+pxvMX3nVuSqf9XsVVkZnWeGWlXgpvj05k7jKqy592
+         1NtwoASS3qaJxVEsCUAK56OzOrp7oEbHAMRkwaUx6Zkidaihk/RWUKHw+etEgutxm7pa
+         NR+fCoSpwnRH2kpGfsYXtoMixjpitfiEXiwH+F7tzwjgzOpAnDG7NBStUFwHvGCgVRnP
+         pP5lfqdHKewhsVbiWXNwxmfXGdhR9lOxQ/HZxx34orjETTJDAysDkihWx79tZYWrfnKm
+         usMnv2hBXIG6Vgxe7STFHKLgxw3gFyiTxxYXSKggQ/dZD62cgVvCU4Bz33fpVfqt44aN
+         /qCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721316478; x=1721921278;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AFuoeTzLjl2+sNJgRuxCQvYdNiIGR6RuZRBzqWfCJQQ=;
+        b=lTjmtWQr39ElsJAUtvrPfn6/gu48etS+FG6CMsoc/iSx56Zy6sfewbXjqhKq/AhoKj
+         kAY4b/VTBa9xVjtBD6Zxdv+tuuVqLpiqE94MctGAzL9eRKwRrkRgWEi5bftcPTqxC7gk
+         Ct3Za3iF0BaAvIE91PxhQIdLZaiLUxL0zLdtH0pQbYfhlIF08peQxLjAUjRA+QDAOvJu
+         jBbnHeqhpxcKrQ5ea1IZCPhN3U9aELl5EgsSgz+4FUednNG00JsvJB13nTrWm3q/UEwE
+         87wgyk9EaWRYKZ+g/6fPaHNRNYmwnGII/8JmXJxg6ZS5p+sUXvujPUGrITp6afOS5LMT
+         /BZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXXI9guUZhQG3sTf0q6lAjYnDVcbyu56o3bPTL1iom5BCCEpVIjyvyAChahEsTSFQV6Hc2aF0oCeJMpczZOmeyE2eeuN9z/gTYEDVycJw==
+X-Gm-Message-State: AOJu0YzZbq8XMNvXAPazwuMp1fwNK5bo3ISTEh4TUPvzcuySUuscfdRW
+	aK2Uc8o34EmlJx2SEAP2mAfIKYqF9wBuEPHZUgpN23SJX2T2uI9+uDE1jh1VYL8GE1gFbtTMW0G
+	K
+X-Google-Smtp-Source: AGHT+IECRzrkp2OK2/9kQbAk6sEa0OvgiXvImrg/fRA1kUBl73W5L+d6uMpxtPD+FT6kVOA+0ts7iw==
+X-Received: by 2002:a05:6830:610f:b0:703:59e5:b083 with SMTP id 46e09a7af769-708ea0ed71dmr2005019a34.17.1721316477806;
+        Thu, 18 Jul 2024 08:27:57 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:1a6d:d3d6:98e4:34e1])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708e79013absm471194a34.73.2024.07.18.08.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jul 2024 08:27:57 -0700 (PDT)
+Date: Thu, 18 Jul 2024 10:27:55 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mike Snitzer <snitzer@kernel.org>
+Subject: [linux-next:master 12153/13432] drivers/md/dm-integrity.c:4559
+ dm_integrity_ctr() warn: impossible condition '(bi->tuple_size > ((1) << 12)
+ / 2) => (0-255 > 2048)'
+Message-ID: <70e61f94-d4c6-4ef6-9e72-d65017a745bd@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ld.lld: error: undefined symbol: iosf_mbi_available
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
- Bard Liao <bard.liao@intel.com>
-References: <202407160704.zpdhJ8da-lkp@intel.com>
- <05954a59-2bef-4262-bd91-cfe21d2381f2@linux.intel.com>
- <20240717202806.GA728411@thelio-3990X> <87wmljw485.wl-tiwai@suse.de>
- <d121ec31-0861-4324-8f53-6e06eaf60233@linux.intel.com>
- <87le1zvzw9.wl-tiwai@suse.de>
- <9a0eba2e-9933-43bb-ab3b-0480bf1d34a4@linux.intel.com>
- <87frs6vj4m.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87frs6vj4m.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   73399b58e5e5a1b28a04baf42e321cfcfc663c2f
+commit: b40cdccafe29f2192807b44130cf5099337ebf8f [12153/13432] dm-integrity: introduce the Inline mode
+config: i386-randconfig-141-20240718 (https://download.01.org/0day-ci/archive/20240718/202407182211.faX85HCP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
->>>> diff --git a/sound/soc/intel/common/soc-intel-quirks.h
->>>> b/sound/soc/intel/common/soc-intel-quirks.h
->>>> index de4e550c5b34..ae67853f7e2e 100644
->>>> --- a/sound/soc/intel/common/soc-intel-quirks.h
->>>> +++ b/sound/soc/intel/common/soc-intel-quirks.h
->>>> @@ -11,7 +11,9 @@
->>>>
->>>>  #include <linux/platform_data/x86/soc.h>
->>>>
->>>> -#if IS_ENABLED(CONFIG_X86)
->>>> +#if IS_ENABLED(CONFIG_X86) && \
->>>> +       (IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL) || \
->>>> +        IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI))
->>>>
->>>>  #include <linux/dmi.h>
->>>>  #include <asm/iosf_mbi.h>
->>>>
->>>> also at https://github.com/thesofproject/linux/pull/5114
->>>
->>> I'm afraid it's not enough, either.  It's included in
->>> sound/soc/sof/intel/atom.c, and this one can be built-in by selected
->>> from others while CONFIG_SND_SOC_SOF_BAYTRAIL=m.  And, the reverse
->>> selection is done from CONFIG_SND_SOC_SOF_BAYTRAIL -- so
->>> CONFIG_IOSF_MBI can be m as well, and this can lead to the unresolved
->>> symbol from the built-in atom.c.
->>
->> Fair point, I was only looking at the reported failure where Baytrail
->> was completely disabled.
->>
->> I am not sure though if it makes sense to split hair in N dimensions.
->> Building Merrifield as y and Baytrail as m is a corner case that
->> shouldn't exist at all. And it's only an academic compilation issue, in
->> practice using 'y' would fail at run-time due to the usual firmware load
->> dependencies...
-> 
-> Surely this kind of bug won't hit anyone in practical use, but it's
-> only about the randconfig failures.  The original report is in the
-> same category, after all.
-> 
-> Maybe another (rather easier) workaround would be to use
-> IS_REACHABLE(), something like below.  This should fix the original
-> issue and the potential mess-up of kconfig dependencies.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407182211.faX85HCP-lkp@intel.com/
 
-The simplest solution works for me :-)
+New smatch warnings:
+drivers/md/dm-integrity.c:4559 dm_integrity_ctr() warn: impossible condition '(bi->tuple_size > ((1) << 12) / 2) => (0-255 > 2048)'
 
-Do you want me to send a patch with your Suggested-by: tag or do it
-yourself?
+vim +4559 drivers/md/dm-integrity.c
 
-> --- a/sound/soc/intel/common/soc-intel-quirks.h
-> +++ b/sound/soc/intel/common/soc-intel-quirks.h
-> @@ -11,7 +11,7 @@
->  
->  #include <linux/platform_data/x86/soc.h>
->  
-> -#if IS_ENABLED(CONFIG_X86)
-> +#if IS_REACHABLE(CONFIG_IOSF_MBI)
->  
->  #include <linux/dmi.h>
->  #include <asm/iosf_mbi.h>
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4525  	if (ic->mode == 'I') {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4526  		struct blk_integrity *bi;
+
+bi->tuple_size is a u8
+
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4527  		if (ic->meta_dev) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4528  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4529  			ti->error = "Metadata device not supported in inline mode";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4530  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4531  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4532  		if (!ic->internal_hash_alg.alg_string) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4533  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4534  			ti->error = "Internal hash not set in inline mode";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4535  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4536  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4537  		if (ic->journal_crypt_alg.alg_string || ic->journal_mac_alg.alg_string) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4538  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4539  			ti->error = "Journal crypt not supported in inline mode";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4540  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4541  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4542  		if (ic->discard) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4543  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4544  			ti->error = "Discards not supported in inline mode";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4545  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4546  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4547  		bi = blk_get_integrity(ic->dev->bdev->bd_disk);
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4548  		if (!bi || bi->csum_type != BLK_INTEGRITY_CSUM_NONE) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4549  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4550  			ti->error = "Integrity profile not supported";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4551  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4552  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4553  		/*printk("tag_size: %u, tuple_size: %u\n", bi->tag_size, bi->tuple_size);*/
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4554  		if (bi->tuple_size < ic->tag_size) {
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4555  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4556  			ti->error = "The integrity profile is smaller than tag size";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4557  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4558  		}
+b40cdccafe29f2 Mikulas Patocka    2024-07-10 @4559  		if (bi->tuple_size > PAGE_SIZE / 2) {
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PAGE_SIZE is never going to be less than 4k and 255 is lot less than
+PAGE_SIZE / 2.  Was something else intended here?
+
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4560  			r = -EINVAL;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4561  			ti->error = "Too big tuple size";
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4562  			goto bad;
+b40cdccafe29f2 Mikulas Patocka    2024-07-10  4563  		}
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
