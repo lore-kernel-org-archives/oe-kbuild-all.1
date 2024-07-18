@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B61A469D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 21:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2B679949;
+	Thu, 18 Jul 2024 21:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721337597; cv=none; b=p+X5+z+Mfft8oGrj7Kf25XfDKy1GmgZJWs5BI8DzH8XDwrjxOq+fzZiLflqHPFjJafYgjkNwmRdNOhrzDPzJOTRWYmwlnwWhkhMc2jFz1PHUrdkFb51e03oRqiNSKdEzgXgqz0hfNLnPsoUc4cDU8DT63tczCfj5LQ+rUfrlX2U=
+	t=1721338259; cv=none; b=II3zyjugjvVYAAngDM+Rb8REt+DzMIJsfTfGFCXRHcExou6BfHqkMvhJB8F0EXs0A5VPvAApOnhz9EQKfJy6jOqfviCBZNmg1k55sOTki0FQjKVQtrnnpJZSbhdph8xpfIHKt0sZA7+++M+AxsftN7lrLAEjWzwS+Tii4RO8dvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721337597; c=relaxed/simple;
-	bh=OWjeDT1CUoZslbm2hfXTV9kevdi0HjHne75ivJe4fdQ=;
+	s=arc-20240116; t=1721338259; c=relaxed/simple;
+	bh=Tx3vbFhrmR74Mo+yVO1RuPytyxQt0qEc8MWkHFogyzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UsWk46nxY+Q3bTd7H/g8UMgqhcPUia9r4CAj+fmsjtB/wptawKEWFjQNi/Kh6lTad/m59T1sShZ1bHdisUC0PrIsrwQPSH4x4pzLw98B7/Iu5vaxJEAj5TUVZDEW/LNQACQ3OnX8H4LeFHd3NPvTLE97BSfGwaFVnhgX+tpZtKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UfX9vhSh; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFb6RsKwysGAimYX8+p7mWMwfX6HiQ1gthgpgSvKTLtl2v1BeGDjxBosmtZgNN4MBvRuq4TGBMgXe3X2BhQOaGKZ2zKOa8hf8bRHpbeWmXQMOECZf/D7gUJVw9Tba5M4YWpleWnmQxKtW2wu65WnysJD3XqmqB5gweGvEJF0FEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJJt0OWK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfX9vhSh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJJt0OWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721337596; x=1752873596;
+  t=1721338257; x=1752874257;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OWjeDT1CUoZslbm2hfXTV9kevdi0HjHne75ivJe4fdQ=;
-  b=UfX9vhShLhzy+4uQBIPXrFdhozWh1Shl9PhvDj0C1i7zdlox4hqun0FP
-   fEFrEuWoNzdPmeHEOtgeI7JiRnrnBvVbi7Dp1WWVYVBpb7nZdw/DwlC2I
-   2WNhCVl8NBib/EvvrSDHMeI11dqVHKjnsBexKkwrij+jOjvq2lDtuElt0
-   qT+V9L4wAHHrcII+hg/ECRQ6bcApW1zKP7IR0QgP9Eev+mQovMSbOnR6t
-   hoM+iO8UHsuyWWSBppeJldeT9ZOX3dsrz/2i3P0rLg363q3j3Al4MR25Z
-   +/JW1XIaaEUZtmsdXc+OUbIc0YMnHde1dwTbn9Ia9k0iRz4GjKxTW4mrB
+  bh=Tx3vbFhrmR74Mo+yVO1RuPytyxQt0qEc8MWkHFogyzk=;
+  b=AJJt0OWK237JPBjGpYlRQ9zTjj+QsPW6tQAS3beBzVDEwUIbQqCOAbwv
+   oZKdaLAIyjsvXbhqbvQUPXaM4CBxccbiJLNdTroMjXsGT/sLF8TJ1BEoD
+   UAXs6dt7/k+zOPu7OnXxy3XHTD6S8nNf+Q5ayiVnVK3UUQNWViUswkE0E
+   x8vzYszOJ4vWQ9YrTIg7MR5aYZAeNUUvjeT4MXpGbP2sGaA81sDH8LKN5
+   qzbCpe787PmAzonTfSqWcUJ+EDyYcD0d67d+SDRBmkLLKCyq6dqDH2hGl
+   4/HHiM46mSX2scqNZBdyuALnVyo1ctuzIaCIUoVU/1B6kb2dUyfUS6tn7
    w==;
-X-CSE-ConnectionGUID: zeGqtulOTmmvMtIhkqTwIA==
-X-CSE-MsgGUID: H/SaDZVCTMu2HbOvzTCQNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="44354678"
+X-CSE-ConnectionGUID: kM84s25DRiSg/V70n0xElg==
+X-CSE-MsgGUID: Ad1pNxd7QXaBZhJ9EYwcHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="30317534"
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="44354678"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 14:19:55 -0700
-X-CSE-ConnectionGUID: vKOopiF9QjiLE2Nj4/jK6g==
-X-CSE-MsgGUID: HbXYYIM/QQi2VISfs8GtEA==
+   d="scan'208";a="30317534"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 14:30:57 -0700
+X-CSE-ConnectionGUID: i3QYZPFzSxOhjfU8cU0hIQ==
+X-CSE-MsgGUID: 65iEtUY1QtKyed0c/P1rOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="88389982"
+   d="scan'208";a="74130488"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2024 14:19:52 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Jul 2024 14:30:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUYXW-000haU-0k;
-	Thu, 18 Jul 2024 21:19:50 +0000
-Date: Fri, 19 Jul 2024 05:19:40 +0800
+	id 1sUYiA-000has-2H;
+	Thu, 18 Jul 2024 21:30:50 +0000
+Date: Fri, 19 Jul 2024 05:30:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Peter Xu <peterx@redhat.com>,
-	Muchun Song <muchun.song@linux.dev>, Michal Hocko <mhocko@suse.com>,
-	Donet Tom <donettom@linux.ibm.com>,
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH 4/9] arch/sparc: Teach arch_get_unmapped_area{_topdown}
- to handle hugetlb mappings
-Message-ID: <202407190525.rqkFKslD-lkp@intel.com>
-References: <20240718105903.19617-5-osalvador@suse.de>
+To: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Cryolitia PukNgae <Cryolitia@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+	Yao Zi <ziyao@disroot.org>,
+	Marcin =?utf-8?Q?Str=C4=85gowski?= <marcin@stragowski.com>
+Subject: Re: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+Message-ID: <202407190547.V7oIPiBV-lkp@intel.com>
+References: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,82 +70,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240718105903.19617-5-osalvador@suse.de>
+In-Reply-To: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
 
-Hi Oscar,
+Hi Cryolitia,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on s390/features]
-[also build test ERROR on akpm-mm/mm-everything powerpc/next powerpc/fixes deller-parisc/for-next arnd-asm-generic/master linus/master v6.10 next-20240718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on d67978318827d06f1c0fa4c31343a279e9df6fde]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20240718-191208
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20240718105903.19617-5-osalvador%40suse.de
-patch subject: [PATCH 4/9] arch/sparc: Teach arch_get_unmapped_area{_topdown} to handle hugetlb mappings
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20240719/202407190525.rqkFKslD-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407190525.rqkFKslD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/hwmon-add-GPD-devices-sensor-driver/20240718-104420
+base:   d67978318827d06f1c0fa4c31343a279e9df6fde
+patch link:    https://lore.kernel.org/r/20240718-gpd_fan-v4-1-116e5431a9fe%40gmail.com
+patch subject: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240719/202407190547.V7oIPiBV-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407190547.V7oIPiBV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407190525.rqkFKslD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407190547.V7oIPiBV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/sparc/kernel/sys_sparc_32.c: In function 'arch_get_unmapped_area':
->> arch/sparc/kernel/sys_sparc_32.c:47:21: error: implicit declaration of function 'is_file_hugepages' [-Wimplicit-function-declaration]
-      47 |         if (filp && is_file_hugepages(filp))
-         |                     ^~~~~~~~~~~~~~~~~
->> arch/sparc/kernel/sys_sparc_32.c:74:35: error: implicit declaration of function 'huge_page_mask_align' [-Wimplicit-function-declaration]
-      74 |                 info.align_mask = huge_page_mask_align(filp);
-         |                                   ^~~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/gpd-fan.c:153:18: error: initializing 'void *' with an expression of type 'const struct gpd_model_quirk *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     153 |                 .driver_data    = &gpd_win_mini_quirk,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/gpd-fan.c:162:18: error: initializing 'void *' with an expression of type 'const struct gpd_model_quirk *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     162 |                 .driver_data    = &gpd_win4_quirk,
+         |                                   ^~~~~~~~~~~~~~~
+   drivers/hwmon/gpd-fan.c:171:18: error: initializing 'void *' with an expression of type 'const struct gpd_model_quirk *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     171 |                 .driver_data    = &gpd_wm2_quirk,
+         |                                   ^~~~~~~~~~~~~~
+   drivers/hwmon/gpd-fan.c:181:18: error: initializing 'void *' with an expression of type 'const struct gpd_model_quirk *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     181 |                 .driver_data    = &gpd_wm2_quirk,
+         |                                   ^~~~~~~~~~~~~~
+>> drivers/hwmon/gpd-fan.c:496:4: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     496 |                         s32 ret = data->quirk->read_rpm(data);
+         |                         ^
+   drivers/hwmon/gpd-fan.c:513:4: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     513 |                         s16 ret = data->quirk->read_pwm(data);
+         |                         ^
+   drivers/hwmon/gpd-fan.c:541:4: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     541 |                         u8 var = clamp_val(val, 0, 255);
+         |                         ^
+   3 warnings and 4 errors generated.
 
 
-vim +/is_file_hugepages +47 arch/sparc/kernel/sys_sparc_32.c
+vim +153 drivers/hwmon/gpd-fan.c
 
-    41	
-    42	unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsigned long len, unsigned long pgoff, unsigned long flags)
-    43	{
-    44		struct vm_unmapped_area_info info = {};
-    45		bool file_hugepage = false;
-    46	
-  > 47		if (filp && is_file_hugepages(filp))
-    48			file_hugepage = true;
-    49	
-    50		if (flags & MAP_FIXED) {
-    51			/* We do not accept a shared mapping if it would violate
-    52			 * cache aliasing constraints.
-    53			 */
-    54			if (!file_hugepage && (flags & MAP_SHARED) &&
-    55			    ((addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1)))
-    56				return -EINVAL;
-    57			return addr;
-    58		}
-    59	
-    60		/* See asm-sparc/uaccess.h */
-    61		if (len > TASK_SIZE - PAGE_SIZE)
-    62			return -ENOMEM;
-    63		if (!addr)
-    64			addr = TASK_UNMAPPED_BASE;
-    65	
-    66		info.length = len;
-    67		info.low_limit = addr;
-    68		info.high_limit = TASK_SIZE;
-    69		if (!file_hugepage) {
-    70			info.align_mask = (flags & MAP_SHARED) ?
-    71				(PAGE_MASK & (SHMLBA - 1)) : 0;
-    72			info.align_offset = pgoff << PAGE_SHIFT;
-    73		} else {
-  > 74			info.align_mask = huge_page_mask_align(filp);
-    75		}
-    76		return vm_unmapped_area(&info);
-    77	}
-    78	
+   144	
+   145	static const struct dmi_system_id gpd_devices[] = {
+   146		{
+   147			// GPD Win Mini
+   148			// GPD Win Mini with AMD Ryzen 8840U
+   149			.matches	= {
+   150						DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+   151						DMI_MATCH(DMI_PRODUCT_NAME, "G1617-01")
+   152					},
+ > 153			.driver_data	= &gpd_win_mini_quirk,
+   154		},
+   155		{
+   156			// GPD Win 4 with AMD Ryzen 6800U
+   157			.matches	= {
+   158						DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+   159						DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+   160						DMI_MATCH(DMI_BOARD_VERSION, "Default string"),
+   161					},
+ > 162			.driver_data	= &gpd_win4_quirk,
+   163		},
+   164		{
+   165			// GPD Win 4 with Ryzen 7840U
+   166			.matches	= {
+   167						DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+   168						DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+   169						DMI_MATCH(DMI_BOARD_VERSION, "Ver. 1.0"),
+   170					},
+   171			.driver_data	= &gpd_wm2_quirk,
+   172		},
+   173		{
+   174			// GPD Win Max 2 with Ryzen 6800U
+   175			// GPD Win Max 2 2023 with Ryzen 7840U
+   176			// GPD Win Max 2 2024 with Ryzen 8840U
+   177			.matches	= {
+   178						DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+   179						DMI_MATCH(DMI_PRODUCT_NAME, "G1619-04"),
+   180					},
+   181			.driver_data	= &gpd_wm2_quirk,
+   182		},
+   183		{}
+   184	};
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
