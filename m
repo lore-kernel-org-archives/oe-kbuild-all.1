@@ -1,216 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D34B800
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 05:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20FD1B86F4;
+	Thu, 18 Jul 2024 06:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721280145; cv=none; b=YU3E+NwIugDbo+NiY0QZzSVjvSOaq5cIPgUd/6veQNXKkWaw9qTPKFE8hmI/Air6pOrsd4ACWB4HzN6oiDZra+q8El6QqZe3DLFaIh3AbMVO/Cm0sJuXws+1Vn3O+gxxf2PZ8ulEH+FTb4zef99ZXRIyyBVxW6xrkBm+8KB6Scg=
+	t=1721285330; cv=none; b=ZymnzQKTCS/B1Z1RsawwN/nLAgo59zIezfPEWWkATuUs4LhnuARPt363cA2JA9FWeiJshvAX2EiMlZb52/0cv0rLvN8sJ0XRMARMtwQI57crPeJT7um3KrAefbvdXLkj5GFi7u/YNTnxr0wvMpcZ94294vMRypANDQSHQ/sTwac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721280145; c=relaxed/simple;
-	bh=qzg0cHJb26w17hJgAJsGWeOkgGtJMYQF2YPvDaQC32M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rr+5xsuae4J7f6Al5YthrJSw9CZL8mLyMZy8q3VJc1lv8qIw4tgVB1DjFDOvk8/e5TAG+7Dymn8+AZMpCLudR6nVRS3wZXUqcNs1L44k1bhIr2lWn4s9qJh6JpdhUzuQxktjvaUEI3/XLyDfmfNyRh2WrEGXiDANp2EpCQH6dU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=de4AFCnm; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721285330; c=relaxed/simple;
+	bh=QrtAZRZ+oknB+C08KhRSo8lWk4VdQ9BnGxuXpDnpt30=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oS08i0G9UkQLw0VWectzLB8lu3/szchKKPQcMXec2/yguV6wrTC17k3htMQeYUjw2TtWLdwf5Brz2WEUxU5YTVqca9ZytQHQNWNO1fJHV10TgRvWwMD31TPASjjf3wYBDfDMk2UTk5M2KWkqNh3U2pN+74x7n4cLUCtjH/sLgiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/cH8+O2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="de4AFCnm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721280144; x=1752816144;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qzg0cHJb26w17hJgAJsGWeOkgGtJMYQF2YPvDaQC32M=;
-  b=de4AFCnmx0P5jEAhViTAqUwoNcT47Lk5y4Kl5U+FO5BDFXIkpcw7a2Gi
-   eMrUEQqJp2b7L3k8svIZ1b2GK70xwGlwMm/rX42ZONb+hcCpAO6MUxVcc
-   2ZCzTBaMgh8jd5bqPKAPMkvYHB33s4wYJXvKlbtjeeiOEbikuaCYX0ndr
-   hipAU1Ps1ATuQFpuCSP2/zQ2pnksjb/zFei3shq7SSeD5fHMFdz8UE8lT
-   u9hFxwDMRCef/UW3hkW0IznKd1Ehg3LFKUmX3QRxkaAUIYwLOYN3pvu5+
-   EfrBkeOp7QWLSvsH+sA1uwJO1WSc1MSPbfLa4ePX/DKvyU/Uvxv+vxAcG
-   Q==;
-X-CSE-ConnectionGUID: to6aN07KQ8SZNnwAGbjEuA==
-X-CSE-MsgGUID: stee7RfSTi+QagSBI5OlxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="29977540"
-X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="29977540"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 22:22:21 -0700
-X-CSE-ConnectionGUID: aS8LCNHTSbqSsxe2OvU/Og==
-X-CSE-MsgGUID: 2VStNmz4RY6wpAtbobY8Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="55145824"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jul 2024 22:22:20 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sUJar-000gyk-28;
-	Thu, 18 Jul 2024 05:22:17 +0000
-Date: Thu, 18 Jul 2024 13:21:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.11 60/98]
- include/linux/syscalls.h:250:25: error: conflicting types for
- 'sys_oabi_ipc'; have 'long int(uint,  int,  int,  int,  void *)' {aka 'long
- int(unsigned int,  int,  int,  int,  void *)'}
-Message-ID: <202407181356.BxLqHh6I-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/cH8+O2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A140C116B1;
+	Thu, 18 Jul 2024 06:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721285329;
+	bh=QrtAZRZ+oknB+C08KhRSo8lWk4VdQ9BnGxuXpDnpt30=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=n/cH8+O26iRveT3K9Jzk7SR78uRMOEp+0YtsfOE1MxwK2GNPGI4KWO5nxXn7+m7Fq
+	 /Yd5AmlrDcFmj3W0LI1500PhTpT7DN0hevS2lYTrCgUXldHUM3B/SCKksW0FWLV0P0
+	 dsXMENCJKMGPsWQAPYkvONDUWsGG/qLd9crSKsCgcxzUuONEFoTMOZMl8heWBv0AaZ
+	 SjtFZfgckDd/VvaAxdZNAGiV/gR7ooqL5plw2sDPoQTyfNxlbZrdTFDqoQsXhEZlY8
+	 3OkxVcg17FDiglE+6+CYFZWbnDEEcqPIi5q+ii0D/IDDghSE5buPIOwfXXPxbaFcBS
+	 D8sHoMPeMm0qQ==
+Message-ID: <edfd90b7-b94b-4b1d-a625-a240a8446f1e@kernel.org>
+Date: Thu, 18 Jul 2024 08:48:43 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 7766/10451]
+ drivers/clk/qcom/camcc-sm8650.c:3573:29: error: incompatible pointer types
+ passing 'struct device *' to parameter of type 'struct platform_device *'
+To: kernel test robot <lkp@intel.com>, Jagadeesh Kona <quic_jkona@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <202407072331.baglL4Sd-lkp@intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <202407072331.baglL4Sd-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   9a99991d90521113a738c2a4761a4147fe4b31ca
-commit: 39f4c859d147bb7d48fa363687c5afa2ab9b2893 [60/98] ARM: OABI SYSCALL_DEFINEx
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240718/202407181356.BxLqHh6I-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407181356.BxLqHh6I-lkp@intel.com/reproduce)
+On 07/07/2024 17:20, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   0b58e108042b0ed28a71cd7edf5175999955b233
+> commit: 09ea421652a832083ea380a72addf383965f3682 [7766/10451] clk: qcom: camcc-sm8650: Add SM8650 camera clock controller driver
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240707/202407072331.baglL4Sd-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407072331.baglL4Sd-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407181356.BxLqHh6I-lkp@intel.com/
+This and this:
+https://lore.kernel.org/all/202407072212.WptVaUDt-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+are reports on linux-next. They were addressed to you/
 
-   In file included from arch/arm/kernel/sys_oabi-compat.c:75:
->> include/linux/syscalls.h:250:25: error: conflicting types for 'sys_oabi_ipc'; have 'long int(uint,  int,  int,  int,  void *)' {aka 'long int(unsigned int,  int,  int,  int,  void *)'}
-     250 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:236:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     227 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:389:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-     389 | SYSCALL_DEFINE5(oabi_ipc, uint, call, int, first, int, second, int, third,
-         | ^~~~~~~~~~~~~~~
-   In file included from arch/arm/kernel/sys_oabi-compat.c:13:
-   arch/arm/include/asm/syscalls.h:36:16: note: previous declaration of 'sys_oabi_ipc' with type 'int(uint,  int,  int,  int,  void *, long int)' {aka 'int(unsigned int,  int,  int,  int,  void *, long int)'}
-      36 | asmlinkage int sys_oabi_ipc(uint call, int first, int second, int third,
-         |                ^~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_ipc':
->> arch/arm/kernel/sys_oabi-compat.c:401:83: error: 'fifth' undeclared (first use in this function)
-     401 |                                             (const struct old_timespec32 __user *)fifth);
-         |                                                                                   ^~~~~
-   arch/arm/kernel/sys_oabi-compat.c:401:83: note: each undeclared identifier is reported only once for each function it appears in
-   arch/arm/kernel/sys_oabi-compat.c: At top level:
->> include/linux/syscalls.h:250:25: error: conflicting types for 'sys_oabi_sendto'; have 'long int(int,  void *, size_t,  unsigned int)' {aka 'long int(int,  void *, unsigned int,  unsigned int)'}
-     250 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:236:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     226 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:448:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-     448 | SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
-         | ^~~~~~~~~~~~~~~
-   arch/arm/include/asm/syscalls.h:41:17: note: previous declaration of 'sys_oabi_sendto' with type 'long int(int,  void *, size_t,  unsigned int,  struct sockaddr *, int)' {aka 'long int(int,  void *, unsigned int,  unsigned int,  struct sockaddr *, int)'}
-      41 | asmlinkage long sys_oabi_sendto(int fd, void __user *buff,
-         |                 ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendto':
->> arch/arm/kernel/sys_oabi-compat.c:452:13: error: 'addrlen' undeclared (first use in this function)
-     452 |         if (addrlen == 112 &&
-         |             ^~~~~~~
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:82:
->> arch/arm/kernel/sys_oabi-compat.c:453:34: error: 'addr' undeclared (first use in this function)
-     453 |             get_user(sa_family, &addr->sa_family) == 0 &&
-         |                                  ^~~~
-   arch/arm/include/asm/uaccess.h:184:35: note: in definition of macro '__get_user_check'
-     184 |                 register typeof(*(p)) __user *__p asm("r0") = (p);      \
-         |                                   ^
-   arch/arm/kernel/sys_oabi-compat.c:453:13: note: in expansion of macro 'get_user'
-     453 |             get_user(sa_family, &addr->sa_family) == 0 &&
-         |             ^~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendmsg':
->> arch/arm/kernel/sys_oabi-compat.c:483:16: error: too few arguments to function '__sys_sendmsg'
-     483 |         return __sys_sendmsg(fd, msg, flags);
-         |                ^~~~~~~~~~~~~
-   In file included from arch/arm/kernel/sys_oabi-compat.c:83:
-   include/linux/socket.h:411:13: note: declared here
-     411 | extern long __sys_sendmsg(int fd, struct user_msghdr __user *msg,
-         |             ^~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_socketcall':
->> arch/arm/kernel/sys_oabi-compat.c:501:29: error: too many arguments to function 'sys_oabi_sendto'
-     501 |                         r = sys_oabi_sendto(a[0], (void __user *)a[1], a[2], a[3],
-         |                             ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:250:25: note: declared here
-     250 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:236:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     236 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     226 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:448:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-     448 | SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
-         | ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_ipc':
->> arch/arm/kernel/sys_oabi-compat.c:405:1: warning: control reaches end of non-void function [-Wreturn-type]
-     405 | }
-         | ^
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendto':
-   arch/arm/kernel/sys_oabi-compat.c:457:1: warning: control reaches end of non-void function [-Wreturn-type]
-     457 | }
-         | ^
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendmsg':
-   arch/arm/kernel/sys_oabi-compat.c:484:1: warning: control reaches end of non-void function [-Wreturn-type]
-     484 | }
-         | ^
+Jagadeesh, how did you respond to public reports that your commit has
+build failures in linux-next?
 
+It reached now Linus' tree causing huge rant, unfortunately not in the
+direction we would like that rant to go.
 
-vim +250 include/linux/syscalls.h
+If you receive a report that your code does not even compile, it is YOUR
+DAMN MOST IMPORTANT TASK to address it IMMEDIATELY.
 
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  239  
-e145242ea0df6b Dominik Brodowski   2018-04-09  240  /*
-e145242ea0df6b Dominik Brodowski   2018-04-09  241   * The asmlinkage stub is aliased to a function named __se_sys_*() which
-e145242ea0df6b Dominik Brodowski   2018-04-09  242   * sign-extends 32-bit ints to longs whenever needed. The actual work is
-e145242ea0df6b Dominik Brodowski   2018-04-09  243   * done within __do_sys_*().
-e145242ea0df6b Dominik Brodowski   2018-04-09  244   */
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  245  #ifndef __SYSCALL_DEFINEx
-bed1ffca022cc8 Frederic Weisbecker 2009-03-13  246  #define __SYSCALL_DEFINEx(x, name, ...)					\
-bee20031772af3 Arnd Bergmann       2018-06-19  247  	__diag_push();							\
-bee20031772af3 Arnd Bergmann       2018-06-19  248  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
-bee20031772af3 Arnd Bergmann       2018-06-19  249  		      "Type aliasing is used to sanitize syscall arguments");\
-83460ec8dcac14 Andi Kleen          2013-11-12 @250  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  251  		__attribute__((alias(__stringify(__se_sys##name))));	\
-c9a211951c7c79 Howard McLauchlan   2018-03-21  252  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
-e145242ea0df6b Dominik Brodowski   2018-04-09  253  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-e145242ea0df6b Dominik Brodowski   2018-04-09  254  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  255  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-1a94bc34768e46 Heiko Carstens      2009-01-14  256  	{								\
-e145242ea0df6b Dominik Brodowski   2018-04-09  257  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-07fe6e00f6cca6 Al Viro             2013-01-21  258  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
-2cf0966683430b Al Viro             2013-01-21  259  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
-2cf0966683430b Al Viro             2013-01-21  260  		return ret;						\
-1a94bc34768e46 Heiko Carstens      2009-01-14  261  	}								\
-bee20031772af3 Arnd Bergmann       2018-06-19  262  	__diag_pop();							\
-e145242ea0df6b Dominik Brodowski   2018-04-09  263  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  264  #endif /* __SYSCALL_DEFINEx */
-1a94bc34768e46 Heiko Carstens      2009-01-14  265  
+I don't think such code should be ever accepted if contributors do not
+take responsibility for their commits.
 
-:::::: The code at line 250 was first introduced by commit
-:::::: 83460ec8dcac14142e7860a01fa59c267ac4657c syscalls.h: use gcc alias instead of assembler aliases for syscalls
+Krzysztof
 
-:::::: TO: Andi Kleen <ak@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407072331.baglL4Sd-lkp@intel.com/
+> 
+> Note: the linux-next/master HEAD 0b58e108042b0ed28a71cd7edf5175999955b233 builds fine.
+>       It may have been fixed somewhere.
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> drivers/clk/qcom/camcc-sm8650.c:3573:29: error: incompatible pointer types passing 'struct device *' to parameter of type 'struct platform_device *' [-Werror,-Wincompatible-pointer-types]
+>     3573 |         ret = qcom_cc_really_probe(&pdev->dev, &cam_cc_sm8650_desc, regmap);
+>          |                                    ^~~~~~~~~~
+>    drivers/clk/qcom/common.h:63:57: note: passing argument to parameter 'pdev' here
+>       63 | extern int qcom_cc_really_probe(struct platform_device *pdev,
+>          |                                                         ^
+>    1 error generated.
+> 
