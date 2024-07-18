@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395F710F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 00:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E4D186A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 00:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721262669; cv=none; b=NsGqifx2feYg8xO5oIFihVd0p0vP28+AL+7wpRcD41iHBpS0Xfv4vnAI/2jfpMjHNFW5IfKWfibFCbZIcY7Y2PbOM6/8EoyFf0lh4IPRu8D2TeHBEVNuoqNtqzGX5S0Uooi70RMRnoFjXplWrIbgFyNfUWzA0u7efDWD+1dJMlw=
+	t=1721263269; cv=none; b=bp5n/sdrg/4oMn9wge5OZ5rwMId3OIuP2jqu6i32rm2PMb7FFH9m4EiLpvlYq1CbO5tWb/l6X1SxOFNFUJ2rnO3SnHq7ICGd2vOUCNR7qeTJdB9Tz93iANw+Pb6rw0gz8Q94DYxOtMLDMLlDSje2RweRh0S5RmxE/bek8Ggexcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721262669; c=relaxed/simple;
-	bh=qx5tErHCf47J8iStfXqd3J78Y35jFuseArEtxyHiIt4=;
+	s=arc-20240116; t=1721263269; c=relaxed/simple;
+	bh=C/hjLqCUc7b1i7AaO6B4s0oUmCX7uHPdfGfoDzLuXdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ldiLvOK1RkheSY5/f87xnTeFG0dKNS29r0EAt7wXPrviFmbDLuD1U0ehGIhXq+y+AUSdqoFfENP4XxrHtUr5K0TXffdnAmjdjfID8epHYYyzCOfq2NVVGsA5jdqSyQAiTjoRuAbiuWpnYoNzIfCEGXPzN4KtznfUZVSnPRrki/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeBUVKjO; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=PZxbzCpS9dBGzO/T+VxWfsrGrVnrmYAsT2qj4ltJdu3yFI63A58y7r+nc9WD+PIVK2tGOtIdgKojtC3z2YAifvEyTq/a0UGrCULSboHpIZGpcYj4rslOsJQ+px40W6NDywx1NaCwbNfD1c2ReONbyxPUDtoKln9e/DiXCfds+UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjAz1Q/e; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeBUVKjO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjAz1Q/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721262667; x=1752798667;
+  t=1721263267; x=1752799267;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qx5tErHCf47J8iStfXqd3J78Y35jFuseArEtxyHiIt4=;
-  b=TeBUVKjO0ctIW0Uu/DKyqhdWA6ucwN7pv/5mwhIFgoM5AkDXSsKjmsAS
-   mH4Xii8tgFx1ONHJzP4hC67YBHkGH7FFpboZZQ8J4+RlmDNcjNtDcDgbL
-   XqpWO8mA5jdt7B49mfaNIjob7E6+xy4h45ySNYy/8u9QvVFSFZPddcQ7p
-   zcpP+FS/j+dj+ICMti2b7dDcFUAhLa0bkRy02pSMFEID8lBIworOA9R8c
-   wEde79sItuXZwRyu8lGSGZlgsX54BLntF++ZQgZlvHJz7/QYJQl3eLLlU
-   bF13fJEy4onAULuzt0Rr0/ViIP0QsYalDGMdJ2s/y4I5xQUgcvej+QCkz
-   A==;
-X-CSE-ConnectionGUID: xhD0c6VmTImxwG0WmjFcGw==
-X-CSE-MsgGUID: LNu8VXCqQGCchuH91w7E0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="29415489"
+  bh=C/hjLqCUc7b1i7AaO6B4s0oUmCX7uHPdfGfoDzLuXdI=;
+  b=QjAz1Q/e2I70lEdw7rGWf4BDPqs2gDMqRh3Wzg3c3p4Ki1WY5Gw49Exn
+   qfVAHxfEQLG/LzSKLTLncSFxWB19Z+sNk8K9w0WQxs/atO4twbePSajvA
+   T6ENezWNNG8EJj1oXOwtuNd5G1+wJymyZgR5YJUM59p2RzGmkogQ9e40y
+   NHjzxqTI2zNwXOM5k6uHxeabQsAgUJH6hqd6XpOKjJ+u+/gY5Lz1fE6PZ
+   IZVsbRb/4Fb3r2XREKXDBdmpbFFxD/TwGeSD7xp31PHa6u+nfrhZcP95M
+   f16/ZssF9XYpkyBeJpvVjjYmjYTz8fppKFSZkKBu7jMidxerPVtOt4qtO
+   Q==;
+X-CSE-ConnectionGUID: x5asssTqTNqEjRfYODGELA==
+X-CSE-MsgGUID: kyORSPXYTI65AEiGX8g0zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="29416275"
 X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="29415489"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 17:31:06 -0700
-X-CSE-ConnectionGUID: 0YB8OA8pRoymnzIK+bbgvw==
-X-CSE-MsgGUID: fAl0a9BNT4+5iWhz0nsWew==
+   d="scan'208";a="29416275"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 17:41:06 -0700
+X-CSE-ConnectionGUID: l+lLqAiVT7uKPu/toHwYaw==
+X-CSE-MsgGUID: 1K7kTFpzS3+fZ6DtOaVVPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
-   d="scan'208";a="50295325"
+   d="scan'208";a="50450085"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jul 2024 17:31:05 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Jul 2024 17:41:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUF30-000gna-1V;
-	Thu, 18 Jul 2024 00:31:02 +0000
-Date: Thu, 18 Jul 2024 08:30:20 +0800
+	id 1sUFCh-000goK-2c;
+	Thu, 18 Jul 2024 00:41:03 +0000
+Date: Thu, 18 Jul 2024 08:40:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.11 92/98]
- arch/arm64/include/asm/syscalls.h:11:75: error: unknown type name
- 'compat_size_t'; did you mean 'compat_sp_abt'?
-Message-ID: <202407180852.frUNVOxd-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 137/139] fs/bcachefs/fs-io.c:967:13:
+ warning: variable 'ret' set but not used
+Message-ID: <202407180828.AzmspvTW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +63,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   9a99991d90521113a738c2a4761a4147fe4b31ca
-commit: d079d82a6231c5cb40ba4b46f9d0634a36051523 [92/98] syscalls: check syscall prototypes
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240718/202407180852.frUNVOxd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180852.frUNVOxd-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   2fafde34d87cf01b1d403bc94515971fc719fd1e
+commit: 0415bbece4236c59dae1abd0041b4cf7a5b5a46a [137/139] bcachefs: bch2_seek_hole() -> for_each_btree_key_in_subvolume_upto
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240718/202407180828.AzmspvTW-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180828.AzmspvTW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407180852.frUNVOxd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407180828.AzmspvTW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/syscalls.h:84,
-                    from arch/arm64/kernel/sys.c:16:
->> arch/arm64/include/asm/syscalls.h:11:75: error: unknown type name 'compat_size_t'; did you mean 'compat_sp_abt'?
-      11 | asmlinkage long compat_sys_aarch32_statfs64(const char __user * pathname, compat_size_t sz, struct compat_statfs64 __user * buf);
-         |                                                                           ^~~~~~~~~~~~~
-         |                                                                           compat_sp_abt
-   arch/arm64/include/asm/syscalls.h:12:63: error: unknown type name 'compat_size_t'; did you mean 'compat_sp_abt'?
-      12 | asmlinkage long compat_sys_aarch32_fstatfs64(unsigned int fd, compat_size_t sz, struct compat_statfs64 __user * buf);
-         |                                                               ^~~~~~~~~~~~~
-         |                                                               compat_sp_abt
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   arch/arm64/kernel/sys.c:52:52: note: in expansion of macro '__SYSCALL'
-      52 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[0]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   arch/arm64/kernel/sys.c:52:52: note: in expansion of macro '__SYSCALL'
-      52 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:2:1: note: in expansion of macro '__SYSCALL'
-       2 | __SYSCALL(1, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[1]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:2:1: note: in expansion of macro '__SYSCALL'
-       2 | __SYSCALL(1, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   arch/arm64/kernel/sys.c:52:52: note: in expansion of macro '__SYSCALL'
-      52 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[2]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   arch/arm64/kernel/sys.c:52:52: note: in expansion of macro '__SYSCALL'
-      52 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:4:1: note: in expansion of macro '__SYSCALL'
-       4 | __SYSCALL(3, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[3]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:4:1: note: in expansion of macro '__SYSCALL'
-       4 | __SYSCALL(3, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:5:1: note: in expansion of macro '__SYSCALL'
-       5 | __SYSCALL(4, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[4]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:5:1: note: in expansion of macro '__SYSCALL'
-       5 | __SYSCALL(4, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:6:1: note: in expansion of macro '__SYSCALL'
-       6 | __SYSCALL(5, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[5]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:6:1: note: in expansion of macro '__SYSCALL'
-       6 | __SYSCALL(5, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: warning: initialized field overwritten [-Woverride-init]
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   ./arch/arm64/include/generated/asm/syscall_table_64.h:7:1: note: in expansion of macro '__SYSCALL'
-       7 | __SYSCALL(6, sys_lsetxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:59:40: note: (near initialization for 'sys_call_table[6]')
-      59 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
---
-   In file included from include/linux/syscalls.h:84,
-                    from arch/arm64/kernel/syscall.c:9:
->> arch/arm64/include/asm/syscalls.h:11:75: error: unknown type name 'compat_size_t'; did you mean 'compat_sp_abt'?
-      11 | asmlinkage long compat_sys_aarch32_statfs64(const char __user * pathname, compat_size_t sz, struct compat_statfs64 __user * buf);
-         |                                                                           ^~~~~~~~~~~~~
-         |                                                                           compat_sp_abt
-   arch/arm64/include/asm/syscalls.h:12:63: error: unknown type name 'compat_size_t'; did you mean 'compat_sp_abt'?
-      12 | asmlinkage long compat_sys_aarch32_fstatfs64(unsigned int fd, compat_size_t sz, struct compat_statfs64 __user * buf);
-         |                                                               ^~~~~~~~~~~~~
-         |                                                               compat_sp_abt
+   fs/bcachefs/fs-io.c: In function 'bch2_seek_hole':
+>> fs/bcachefs/fs-io.c:967:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     967 |         int ret;
+         |             ^~~
 
 
-vim +11 arch/arm64/include/asm/syscalls.h
+vim +/ret +967 fs/bcachefs/fs-io.c
 
-40504bb779d375 Arnd Bergmann 2024-06-04  10  
-40504bb779d375 Arnd Bergmann 2024-06-04 @11  asmlinkage long compat_sys_aarch32_statfs64(const char __user * pathname, compat_size_t sz, struct compat_statfs64 __user * buf);
-40504bb779d375 Arnd Bergmann 2024-06-04  12  asmlinkage long compat_sys_aarch32_fstatfs64(unsigned int fd, compat_size_t sz, struct compat_statfs64 __user * buf);
-40504bb779d375 Arnd Bergmann 2024-06-04  13  asmlinkage long compat_sys_aarch32_mmap2(unsigned long addr, unsigned long len, unsigned long prot, unsigned long flags, unsigned long fd, unsigned long off_4k);
-40504bb779d375 Arnd Bergmann 2024-06-04  14  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   960  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   961  static loff_t bch2_seek_hole(struct file *file, u64 offset)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   962  {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   963  	struct bch_inode_info *inode = file_bch_inode(file);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   964  	struct bch_fs *c = inode->v.i_sb->s_fs_info;
+6fed42bb7750e21 Kent Overstreet 2021-03-16   965  	subvol_inum inum = inode_inum(inode);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   966  	u64 isize, next_hole = MAX_LFS_FILESIZE;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  @967  	int ret;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   968  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   969  	isize = i_size_read(&inode->v);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   970  	if (offset >= isize)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   971  		return -ENXIO;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   972  
+0415bbece4236c5 Kent Overstreet 2024-07-17   973  	ret = bch2_trans_run(c,
+0415bbece4236c5 Kent Overstreet 2024-07-17   974  		for_each_btree_key_in_subvolume_upto(trans, iter, BTREE_ID_extents,
+0415bbece4236c5 Kent Overstreet 2024-07-17   975  				   POS(inode->v.i_ino, offset >> 9),
+0415bbece4236c5 Kent Overstreet 2024-07-17   976  				   POS(inode->v.i_ino, U64_MAX),
+0415bbece4236c5 Kent Overstreet 2024-07-17   977  				   inum.subvol, BTREE_ITER_slots, k, ({
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   978  			if (k.k->p.inode != inode->v.i_ino) {
+543ef2ebcd90686 Kent Overstreet 2019-07-30   979  				next_hole = bch2_seek_pagecache_hole(&inode->v,
+4198bf03bed27aa Kent Overstreet 2023-08-03   980  						offset, MAX_LFS_FILESIZE, 0, false);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   981  				break;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   982  			} else if (!bkey_extent_is_data(k.k)) {
+543ef2ebcd90686 Kent Overstreet 2019-07-30   983  				next_hole = bch2_seek_pagecache_hole(&inode->v,
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   984  						max(offset, bkey_start_offset(k.k) << 9),
+4198bf03bed27aa Kent Overstreet 2023-08-03   985  						k.k->p.offset << 9, 0, false);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   986  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   987  				if (next_hole < k.k->p.offset << 9)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   988  					break;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   989  			} else {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   990  				offset = max(offset, bkey_start_offset(k.k) << 9);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   991  			}
+0415bbece4236c5 Kent Overstreet 2024-07-17   992  			0;
+0415bbece4236c5 Kent Overstreet 2024-07-17   993  		})));
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   994  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   995  	if (next_hole > isize)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   996  		next_hole = isize;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   997  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   998  	return vfs_setpos(file, next_hole, MAX_LFS_FILESIZE);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16   999  }
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1000  
 
-:::::: The code at line 11 was first introduced by commit
-:::::: 40504bb779d37533d0c7f68d612b17c5e5f9a4a5 arm64: add asm/syscalls.h
+:::::: The code at line 967 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
