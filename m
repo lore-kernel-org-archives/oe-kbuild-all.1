@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1FE9457;
-	Thu, 18 Jul 2024 13:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379ED13B286
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 14:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721310705; cv=none; b=jIukuHBfrMFDp9IFf2KdEpFQjgc7d+JvlzpEIkfeFUmGLWmLOFR7DLDQjUtqA5eWC7IH3de8UdpVTOqHZZYzXOOBxldrDfM2d8e12ycNYD6QI21WGSIFp3a6dIiQgUeVclhl68g4iPyXzk+NAb/PsAT7CbfylIwYk4rmAg+qZD8=
+	t=1721311306; cv=none; b=dkZfbkrdaJzie9rBBF0LtXpU6yX8v2yJO8ywpIfquVx378vn9fVtB8qNUoDc+o1/DQkZZz6sp9g5VwIcLWb/jJo46ivYRlUX7GNPbP1oVDBcETjadRPz49kGdfI549+f3FNPvradHXppsW5KH1xiwvObf98LLrcESA+F0e1SUqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721310705; c=relaxed/simple;
-	bh=ldLUFz7lG8I5hhAgpkg5sriaBzHcvpg5AuTzTuEsB1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uW4GopImbnqNBlJ+cyL04v/9sg/D6xhS9c9bdd2ibFUO8MpJEVrAt6Vy6JZbq8Ua2sLtJGx1aXKmXQmQ/x42/UbCUGH32UHi76WMMRho/V73pvpIBr1h3PJHzoSp6A8RqC0cIvEE4uK9s0tgYvd50MDVkeAwfu6bkr0MFfWF6cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BfcWdAmN; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1721311306; c=relaxed/simple;
+	bh=3u6ra66H9X+D21t/UnEIF2rQlSIh7p+0chw6jFtUTTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BS2PhN6CMgD2VYMOQFtl9DKsMqjfyFmwxLEWS8D8rZ5qzryecCVjJvodT9IwJRPsy6dop/Nf8WWAReaybpzyq0MNcwpgo8199X6g/Wx8D6Oa+G53DeybhqVtk+XlqWXgeIlUJz5lVO5q+/Qn+gwlfWJ9IjrSONaRFgasjQtYVMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyXtHx3E; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BfcWdAmN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyXtHx3E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721310704; x=1752846704;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ldLUFz7lG8I5hhAgpkg5sriaBzHcvpg5AuTzTuEsB1g=;
-  b=BfcWdAmNlq3qaq0pyHifWpYXYiQMNqETljje8FUhKxTnnm0sP+TlSna9
-   tCGKIilX84vf561V+zXfBgXr6FLHGMW0kCxn+64W62RSxxW/oIwcqSlPR
-   ycQKhlmTohuDcKu2qorXcUP9beYqc+tso/dLk1u17Kyni7V6mDuM2G+ta
-   Vg4f70S4ZlJ4836pei66zQRe9Hu42skgPaRqw2TW75nOmo3polABKRMQY
-   xu3u4MSSZNAsEH9gZwTLy6kg6glhicnH0EsHcu57QQfsw9GE4OHO9KpM9
-   Dc3oshphFHod6xTK9+1Qfm7RhCzxYxh1zcrm2NDr9qm3Y2ke4b9uYX7ut
-   Q==;
-X-CSE-ConnectionGUID: 9vPx7yoRSvm7/VPmmicHzg==
-X-CSE-MsgGUID: ID7Of87pRiCOl9yWSsyFyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="19053655"
+  t=1721311304; x=1752847304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3u6ra66H9X+D21t/UnEIF2rQlSIh7p+0chw6jFtUTTw=;
+  b=IyXtHx3E+keOF5w0eTbS3OG0vMHf5TxlzBrADs7L3jTRgFpW6fFJbwC0
+   zoO4daSJ+s+tFR12HwNon6R0HIaYme/E8rYaxAiTcoGuk0LBJvqNBevyB
+   Mya+zcSjLE8G980O7GVs8nPz+qI4asSvp7SS7DFIpvc4qrJEDP4d2qEr9
+   n/PbwQDUzLoqqExXybypymaW3wWv3jN/fZy8YtA0zkdBcPgrxrG7h+WXH
+   CehsPfWzRzi15/cqPuEciHWlUPj8TDhKyX4aou0ayeyWGLonCSIh18wDI
+   qhMoU7eKz3SV6zro1ZeeXlQaHIXbX5RzFuwMJhyRj42WfCu7/DSI16sxs
+   A==;
+X-CSE-ConnectionGUID: zrMMIB/DTPG7LeDeqmzRSA==
+X-CSE-MsgGUID: 6p6Nn6wBTXCv1Kwji5vjwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12608692"
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="19053655"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 06:51:43 -0700
-X-CSE-ConnectionGUID: bnYLQPanQv65HBY1TWKSgA==
-X-CSE-MsgGUID: MBlssHA0SN2VwunoM44Czg==
+   d="scan'208";a="12608692"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 07:01:44 -0700
+X-CSE-ConnectionGUID: Ee/VQcu7Q9yMeV+C4xf+Ng==
+X-CSE-MsgGUID: ozR5V3IyRXiTGnfs80KtOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="51388460"
+   d="scan'208";a="50495301"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2024 06:51:41 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 18 Jul 2024 07:01:41 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sURXm-000hJG-1q;
-	Thu, 18 Jul 2024 13:51:38 +0000
-Date: Thu, 18 Jul 2024 21:50:42 +0800
+	id 1sURhS-000hJi-2Z;
+	Thu, 18 Jul 2024 14:01:38 +0000
+Date: Thu, 18 Jul 2024 22:01:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Hilman <khilman@baylibre.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vibhore Vardhan <vibhore@ti.com>, Dhruva Gole <d-gole@ti.com>
-Subject: [khilman-omap:lpm-v6.10/constraints 9/15]
- drivers/pmdomain/ti/ti_sci_pm_domains.c:135:26: error: called object type
- 'void *' is not a function or function pointer
-Message-ID: <202407182123.SoC03BGG-lkp@intel.com>
+To: Mary Strodl <mstrodl@csh.rit.edu>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	urezki@gmail.com, hch@infradead.org, linux-mm@kvack.org,
+	lee@kernel.org, andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
+	s.hauer@pengutronix.de, christian.gmeiner@gmail.com,
+	Mary Strodl <mstrodl@csh.rit.edu>
+Subject: Re: [PATCH 2/3] x86: Add basic support for the Congatec CGEB BIOS
+ interface
+Message-ID: <202407182128.dYt4Ud4g-lkp@intel.com>
+References: <20240718011504.4106163-3-mstrodl@csh.rit.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +67,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240718011504.4106163-3-mstrodl@csh.rit.edu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git lpm-v6.10/constraints
-head:   e2d1fd7e6367d7aa0db506b7d3794eb61553d29c
-commit: 7a2a54738aa64954989f42a22bcc087bbc8b3c48 [9/15] pmdomain: ti_sci: add per-device latency constraint management
-config: arm64-randconfig-001-20240718 (https://download.01.org/0day-ci/archive/20240718/202407182123.SoC03BGG-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182123.SoC03BGG-lkp@intel.com/reproduce)
+Hi Mary,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes akpm-mm/mm-everything andi-shyti/i2c/i2c-host linus/master v6.10 next-20240718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/mm-vmalloc-export-__vmalloc_node_range/20240718-091816
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20240718011504.4106163-3-mstrodl%40csh.rit.edu
+patch subject: [PATCH 2/3] x86: Add basic support for the Congatec CGEB BIOS interface
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240718/202407182128.dYt4Ud4g-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182128.dYt4Ud4g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407182123.SoC03BGG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407182128.dYt4Ud4g-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pmdomain/ti/ti_sci_pm_domains.c:135:26: error: called object type 'void *' is not a function or function pointer
-           return pm_generic_resume(dev);
-                  ~~~~~~~~~~~~~~~~~^
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:156:27: error: called object type 'void *' is not a function or function pointer
-           return pm_generic_suspend(dev);
-                  ~~~~~~~~~~~~~~~~~~^
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:175:32: error: called object type 'void *' is not a function or function pointer
-           return pm_generic_suspend_late(dev);
-                  ~~~~~~~~~~~~~~~~~~~~~~~^
-   3 errors generated.
+   drivers/mfd/congatec-cgeb.c: In function 'cgeb_map_memory':
+>> drivers/mfd/congatec-cgeb.c:360:52: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     360 |                                 ioremap_cache((u32)(resource_size_t)pmme->phys,
+         |                                                    ^
 
 
-vim +135 drivers/pmdomain/ti/ti_sci_pm_domains.c
+vim +360 drivers/mfd/congatec-cgeb.c
 
-   131	
-   132	static int ti_sci_pd_resume(struct device *dev)
-   133	{
-   134		ti_sci_pd_clear_constraints(dev);
- > 135		return pm_generic_resume(dev);
-   136	}
-   137	
+   334	
+   335	static int cgeb_map_memory(struct cgeb_board_data *board)
+   336	{
+   337		struct cgeb_map_mem_list *pmm;
+   338		struct cgeb_map_mem *pmme;
+   339		int i;
+   340		int ret;
+   341	
+   342		ret = cgeb_call_simple(board, CgebMapGetMem, 0, (void *)&board->map_mem,
+   343				NULL);
+   344		if (ret)
+   345			return ret;
+   346		if (!board->map_mem)
+   347			return 0;
+   348	
+   349		pmm = board->map_mem;
+   350		pmme = pmm->entries;
+   351	
+   352		pr_debug("CGEB: Memory Map with %d entries\n", pmm->count);
+   353	
+   354		for (i = 0; i < pmm->count; i++, pmme++) {
+   355			pr_debug("CGEB: Memory map entry phys=%px, size=%08x\n",
+   356					pmme->phys, pmme->size);
+   357			if (pmme->phys && pmme->size) {
+   358				/* We only want to look at the lower 32 bits */
+   359				pmme->virt.off =
+ > 360					ioremap_cache((u32)(resource_size_t)pmme->phys,
+   361						pmme->size);
+   362				if (!pmme->virt.off)
+   363					return -ENOMEM;
+   364			 } else {
+   365				pmme->virt.off = 0;
+   366			}
+   367	
+   368			pmme->virt.seg = (pmme->virt.off) ? board->ds : 0;
+   369	
+   370			pr_debug("CGEB:   Map phys %p, size %08x, virt %04x:%p\n",
+   371				pmme->phys, pmme->size, pmme->virt.seg,
+   372				pmme->virt.off);
+   373		}
+   374	
+   375		return cgeb_call_simple(board, CgebMapChanged, 0, NULL, NULL);
+   376	}
+   377	
 
 -- 
 0-DAY CI Kernel Test Service
