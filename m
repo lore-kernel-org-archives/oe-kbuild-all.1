@@ -1,186 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFB438389
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B333A1BF;
+	Thu, 18 Jul 2024 04:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721276618; cv=none; b=bwcH0spAXsdy9Grrzu2lwqVkmEwuXUzuSpI93Z7WgbrJJ/DPXskedbwKfFIO6OjBM8aZuHlAmIPHKOOUanG0e4tH499jlYDv9LimRPzLezPAIa2pjCEDBr5fKzpuyTq+aBRQQ2zgAhISeBBfdrreOi8HuvxxzA1VtGzU1EVLvZg=
+	t=1721277615; cv=none; b=PzQaWX2cynxjwrDzCZym6dvB9tQcq2K4kAWRYyZh/BmLuwUlltUmNrz1HVDItkqUG/UEGK/JvCmGbJm77E7FeQkT+womBnp2RCvlO6/7EfgsfhjGmXtxJr0tRCprNFEDO7OqJTzxIcMEcb3lubWDKHQ0W95u2MUff400A/tvvVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721276618; c=relaxed/simple;
-	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GDgqS63bm0Dan26J7z4YDW2lykZU70PYhg2XIgEEnLjgtVTBlDzjzdy//wSK8GDc9B8TdZvhDgoE9yoD54jJotZOb1CruB+VoVc4gA1p+ZH6NLaqzmhmiDdRYhiagbdiAsWFe4mc8JWCkcF2xSaG4Y3ubTvcXSrj+I8vtYTviuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SG4LYBXO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721277615; c=relaxed/simple;
+	bh=wOVn7eytpWtUpVeeLrxDd5k5kb0E2KLdKl4b4CCs/BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I/EeXZwUCl9jivBQ4+eMEo+jSai+S3NZ+FadWekriE5rnvwCrs/2hzrUMELOGC1RV5cZxlOOkkGTOl2Bpt4SKQDHblEuqpNhWEi/xH9IkEJgyJBAalupsVD0DZau9Sdb2Jk8nt/eNBmRzLpwli1UIa+vgFGrurE9BL8z0+OEBpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ncj7+f1b; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SG4LYBXO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EE6C116B1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721276617;
-	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SG4LYBXOKiCD6ZNct82wKnaBIZ4gHkZVV653qh3I8tI2sO74ty6vY/4AGvV+4/bfb
-	 DNtFmkmlMmSB2M5nls/Uj3R2maIV/d2NF70mfGPuVwBT4Cj+RjxCDPYEYIBnCh4GbF
-	 spEHSOdivph9ZYs9H1bG3iulREJLRifGN3HDpvcjR1N75QpcTCwI0erwYSNZ/QI8TT
-	 O3l9UfSjo9a3L96J8laRr0Cwqz8zOVkTeni8pwn0Vw2QDclzUODt3PEEPFWLxsBlJA
-	 IXL6hifdHde9pbf9sfR9VnsYRtfWPDh59TFLcZVYln9n2ih2OsgcjnBeFPr5qJRzCw
-	 2kPWwOGzTFYQA==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ee91d9cb71so4403861fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jul 2024 21:23:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUUysvI4pwQXLQQ3LAwJvED53nMmfCzheSUbGTaI/XWmyOf7ESZrFR7VZo6waGotE1I0A8co0N0WhWjiTCAGpUZx8Y5Gf+Mx9VDjSvuVg==
-X-Gm-Message-State: AOJu0YzCJwsMcJ6mqE99bq/aLUBhIFrSYjWfI8xM9Ma4w6JQx1LCs6+S
-	KYyuFHanjlKJC7zQM/NrhhuAOoXQy4RDEuUsUNiHS50/5xd/A2NE2LfgcAJ2UxD2oSCtIPr51Eh
-	FhbG+1GKJM2wmaj2fX43C8Ih46T0=
-X-Google-Smtp-Source: AGHT+IHVMC7ZBPrOh8Be2nCK/k5Smu8cjV1zA2tfZpClitYjhQaSXezCsrYpK5lpzYRa0zfrXfCt+CglMTNx90aiosU=
-X-Received: by 2002:a05:651c:b2b:b0:2eb:d924:43fb with SMTP id
- 38308e7fff4ca-2ef05d4d2abmr9556511fa.41.1721276616278; Wed, 17 Jul 2024
- 21:23:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncj7+f1b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721277613; x=1752813613;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wOVn7eytpWtUpVeeLrxDd5k5kb0E2KLdKl4b4CCs/BE=;
+  b=ncj7+f1bzZ6hKIOzhqpMqAkf/sWTwAs9XVYSTICC3eI4Rkn9nxLbM/VO
+   3R5pmTYkxSxMPNc0xxkeLfpCoUoRoCdrmiCPxcOVkdYKhwEeM95OLdTv9
+   DNm/eDVrszabZBHD897ussVMIxajNeQHTZY2EAeBCikSGeh+Qd5JVdvMd
+   vvUezhaXgxlOTsN78Xs/Irja6Og0f2ujkEc1407++tIPcdq+NzUxLfZ8g
+   MkR/6gsOk6tSSdSFDiYELyf94Yh/6+hcWCJHC8xCz07j/FL0/3yWC6lGP
+   GgzZ3Z658q7IVCBwTnlh822/RtKdWVQTHC+8/9F4mDiS8boC8oWwB4OAS
+   w==;
+X-CSE-ConnectionGUID: ujm7Pu4pRU2Op1TkMdknMA==
+X-CSE-MsgGUID: JpNJC4+RQmag75lTBJ6lbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18515303"
+X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
+   d="scan'208";a="18515303"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 21:40:13 -0700
+X-CSE-ConnectionGUID: YIeuJugyRxiouqyCbn1ePA==
+X-CSE-MsgGUID: IUyvH0chSHmYXSG5loqBOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,216,1716274800"; 
+   d="scan'208";a="73871649"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Jul 2024 21:40:11 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sUIw5-000gxS-1v;
+	Thu, 18 Jul 2024 04:40:09 +0000
+Date: Thu, 18 Jul 2024 12:40:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 43/98] ld.lld: error: undefined
+ symbol: __ia32_sys_fadvise64_64_6
+Message-ID: <202407181209.jFiC5Wi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240715144529.101634-2-masahiroy@kernel.org> <202407170104.dCe5MKsA-lkp@intel.com>
- <CAK7LNARmJcyyzL-jVJfBPi3W684LTDmuhMf1koF0TXoCpKTmcw@mail.gmail.com> <202407171517.EC9EE07@keescook>
-In-Reply-To: <202407171517.EC9EE07@keescook>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 18 Jul 2024 13:22:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
-Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fortify: use if_changed_dep to record header
- dependency in *.cmd files
-To: Kees Cook <kees@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, linux-hardening@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 18, 2024 at 7:19=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
->
-> On Wed, Jul 17, 2024 at 01:46:32PM +0900, Masahiro Yamada wrote:
-> > On Wed, Jul 17, 2024 at 2:51=E2=80=AFAM kernel test robot <lkp@intel.co=
-m> wrote:
-> > >
-> > > Hi Masahiro,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on linus/master]
-> > > [also build test ERROR on v6.10 next-20240716]
-> > > [cannot apply to akpm-mm/mm-nonmm-unstable kees/for-next/hardening ke=
-es/for-next/pstore kees/for-next/kspp]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a not=
-e.
-> > > And when submitting patch, we suggest to use '--base' as documented i=
-n
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamad=
-a/fortify-use-if_changed_dep-to-record-header-dependency-in-cmd-files/20240=
-715-224820
-> > > base:   linus/master
-> > > patch link:    https://lore.kernel.org/r/20240715144529.101634-2-masa=
-hiroy%40kernel.org
-> > > patch subject: [PATCH 1/3] fortify: use if_changed_dep to record head=
-er dependency in *.cmd files
-> > > config: i386-randconfig-004-20240716 (https://download.01.org/0day-ci=
-/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/config)
-> > > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20240717/202407170104.dCe5MKsA-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407170104.dCe5MKsA=
--lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memcp=
-y.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memcm=
-p.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memchr=
-.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
-y-lit.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memmo=
-ve.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strnc=
-py-src.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memcmp=
-.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memsca=
-n.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
-y.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memmo=
-ve.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memse=
-t.log.d: No such file or directory
-> > > ..
-> >
-> >
-> >
-> > This issue seems to occur with GCC <=3D7
-> >
-> >
-> > $ echo 'void b(void) __attribute__((__error__(""))); void a(void) {
-> > b(); }' | gcc -Wp,-MMD,test.d -c -o /dev/null -x c -
-> >
-> >
-> > did not create *.d with GCC <=3D 7.
-> >
-> > I do not see the issue with GCC >=3D 8 or Clang.
->
-> Any idea why this happens here and not for other sources in the tree?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   9a99991d90521113a738c2a4761a4147fe4b31ca
+commit: 65d061c10d574e0e8d31fbdf4014e008fbad1fe3 [43/98] syscalls: cleanup fadvise64_64()
+config: i386-randconfig-005-20240718 (https://download.01.org/0day-ci/archive/20240718/202407181209.jFiC5Wi2-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407181209.jFiC5Wi2-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407181209.jFiC5Wi2-lkp@intel.com/
 
-Because the logic is opposite.
+All errors (new ones prefixed by >>):
 
+>> ld.lld: error: undefined symbol: __ia32_sys_fadvise64_64_6
+   >>> referenced by syscall_table_32.h:273 (./arch/x86/include/generated/asm/syscall_table_32.h:273)
+   >>>               arch/x86/entry/syscall_32.o:(ia32_sys_call) in archive vmlinux.a
+   >>> referenced by syscall_32.c:28 (arch/x86/entry/syscall_32.c:28)
+   >>>               arch/x86/entry/syscall_32.o:(sys_call_table) in archive vmlinux.a
 
-For other locations, you need to write the correct code.
-When it is compiled successfully, *.d is generated as well.
-
-
-
-Under lib/test_fortify/, you intentionally incorrect code.
-GCC emits a compile error, and test_fortify.sh checks
-the error message.
-I believe *.d should be still generated unless a pre-processor error occurs=
-.
-
-
-
-
-
-> > One quick solution is to skip the test for GCC <=3D 7.
->
-> I'd be fine with that -- it is designed to catch regressions/misbehaviour=
-s
-> in newly release compilers so I don't mind dropping checks against older
-> versions.
->
-> --
-> Kees Cook
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
