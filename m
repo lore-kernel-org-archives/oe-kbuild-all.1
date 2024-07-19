@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAEC42047
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 10:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B0F8286A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 11:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721385019; cv=none; b=rQ3yvvdldeeIK39Y9o/koBuOKttJLo7qI2aco1R43Xfx/OtXV7y5qElSJ8COXHw/g8zcWZdyYBlt82AW7P/6q+9bf9hcWaicIywumLJWfYDzvuGVEPuQepX1t6Dv+mHhUWBGInk2w95TtASAixfQpaFpEkwuNliYgNyQtfKk6KM=
+	t=1721390001; cv=none; b=VtAufKKjVfONAW9xkB/1xBzv2bslXnFa7VVfGSu0FQvQF0GM0LuB/n7n625evEPcxeCb36x4bj5Go0/uGz0KveIYbtqqeua3h03AfqgXnHvA16phV4ibOKTE7l5xiPZwrLKwsfl4kdwUHziikwtKb0S7Oet27EPeqaPxnf+y3/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721385019; c=relaxed/simple;
-	bh=zcZ4FUjtd/uK/wIKU3tT6XdyWXhjaZl2+pXREkHusXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJKKeVFjZQB5atJjc7ljMBTHtu/JyxAcZ9qBtpfl2kPJ5YJdlQ5E3jzGK4ReyRlgdUTVrs31gBu4QqKd7gQvYtaUQu9p3DAm27mPOB6HwSnA5A4T8oS2gTAEZ595FY/W3U7PQ8z2KaUBy8xkaQQUJJYCL7UG4DFADf4srO2Lh/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkI9hakE; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1721390001; c=relaxed/simple;
+	bh=AUt9Nm0uEAC3wBl4ILmUunv3duNfXK82/gjC0D4ZHQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WJy5DVFVD0nWfYzXvO7FBDpeJoFOFJjjaEreLV77+zrA4gNqImfArER2SacwgXyGbrX21l/PczljwLGW2r2QAM+LOINJ2rbEtbpzjbNYQt7yzH6amBf9SBFNdquojEYWf54qzTdexkRQnfeHCeZWh3T9cTmboVMWUGt2zmknLxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K39NDb/5; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkI9hakE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K39NDb/5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721385017; x=1752921017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zcZ4FUjtd/uK/wIKU3tT6XdyWXhjaZl2+pXREkHusXs=;
-  b=OkI9hakEhPoMFq8khfeGLXNMl1TfTUIY3IzNT2A3VWsaq+itMf5HKV2u
-   qAO43iGzPvjeba7gTCWkn/xqmj8LU+xM9lt7F9/uSqz7CqWlI+bpJDWLi
-   cgLSmJMhKzIRjxtNZLOcU8FGImmxRxTE6gYzlHLgz7YOrupUyWADIK1iX
-   rZrricZPNP43F0S2qX70B6+sMWgO8Qr+3sTkiLvXbh15VQxLvWl6yo4B3
-   1fH638s91bShYGPSATPK5FpyX3w5xcSj0QKMjZsMs+OsOPXaj5Yr+2mQo
-   JJmrK1fCMZ/ziTe4dqPuWykVSqfmAEIGNisUkGIK2mVWty/2/xoIUBcSn
-   A==;
-X-CSE-ConnectionGUID: VffWOkAtT/eWjqbkzRFI0w==
-X-CSE-MsgGUID: ShRm4YMlSe+ySg7a7sr+sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="19105350"
+  t=1721390000; x=1752926000;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AUt9Nm0uEAC3wBl4ILmUunv3duNfXK82/gjC0D4ZHQI=;
+  b=K39NDb/5WaMCMu8/tKc54M5aUXi5q7GB8LHLnPArd39+IwSrUdRX2ZH6
+   6IVGlwK33C2xKq/Voqee4Pmz/E+krCAb/1YeTBHJH30XB5rspObA1c5d8
+   uTegwSP3lM3mpeo65J8J/o5x3xM9nHeuU6q5RrjXi6LfZofWdGk904Wkq
+   QErtHDDnBV28ODv5Zc1YDiDCoBdqgBmqmM+v4rK5mg6WNA/c+idoqnpP7
+   gfzCZFfzz44guY9iUx6nZ/3dFeGbdPTISHGSj8M24q5ZwIwpSBwNjmCBU
+   JcGOnWDaEDsjYjrkOzUh3l8gD6WB6JeHIu9P65vSP5rXX2GIa+F0jAn1B
+   w==;
+X-CSE-ConnectionGUID: K3wj+2DBSZWMKeH+8Gw4QA==
+X-CSE-MsgGUID: cWnAEytxQ9imXuHkkoy9EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="19178485"
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="19105350"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 03:30:16 -0700
-X-CSE-ConnectionGUID: vrnIEeZZTQmTQ2T02mnZUQ==
-X-CSE-MsgGUID: IPp855SZSeaH472NiBQFeA==
+   d="scan'208";a="19178485"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 04:53:18 -0700
+X-CSE-ConnectionGUID: w2ieVd5tR7GDAfP0xyimew==
+X-CSE-MsgGUID: SbODMxQSRaGSIteePK6i/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="55591817"
+   d="scan'208";a="51805481"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jul 2024 03:30:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 Jul 2024 04:53:17 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUksN-000i3Q-1E;
-	Fri, 19 Jul 2024 10:30:11 +0000
-Date: Fri, 19 Jul 2024 18:29:15 +0800
+	id 1sUmAk-000i6g-0T;
+	Fri, 19 Jul 2024 11:53:14 +0000
+Date: Fri, 19 Jul 2024 19:52:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Valentin Caron <valentin.caron@foss.st.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Valentin Caron <valentin.caron@foss.st.com>
-Subject: Re: [PATCH v2 3/4] rtc: stm32: add Low Speed Clock Output (LSCO)
- support
-Message-ID: <202407191830.8bh5dJ09-lkp@intel.com>
-References: <20240717074835.2210411-4-valentin.caron@foss.st.com>
+To: "Alex Shi (Tencent)" <alexs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:mmunstable2 25/25] include/linux/alloc_tag.h:212:1: error:
+ initialization of 'pgtable_t' {aka 'struct page *'} from incompatible
+ pointer type 'struct ptdesc *'
+Message-ID: <202407191955.zb1UWGda-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,150 +62,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240717074835.2210411-4-valentin.caron@foss.st.com>
 
-Hi Valentin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on next-20240719]
-[cannot apply to atorgue-stm32/stm32-next robh/for-next linus/master v6.10]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Caron/dt-bindings-rtc-stm32-describe-pinmux-nodes/20240717-193541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20240717074835.2210411-4-valentin.caron%40foss.st.com
-patch subject: [PATCH v2 3/4] rtc: stm32: add Low Speed Clock Output (LSCO) support
-config: um-randconfig-r063-20240718 (https://download.01.org/0day-ci/archive/20240719/202407191830.8bh5dJ09-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191830.8bh5dJ09-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git mmunstable2
+head:   0cbc69cf7dfd23eaec0cd316463493ac0dbdbbb9
+commit: 0cbc69cf7dfd23eaec0cd316463493ac0dbdbbb9 [25/25] pgtable: return ptdesc in pte_alloc_one series functions
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240719/202407191955.zb1UWGda-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191955.zb1UWGda-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407191830.8bh5dJ09-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407191955.zb1UWGda-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-audio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-bdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-apmixed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-infracfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_conn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-infra_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-peri_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-infra_ao.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdo0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdo1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-imp_iic_wrap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-msdc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-scp_adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sophgo/clk-sophgo-cv1800.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-ERROR: modpost: "devm_pinctrl_register_and_init" [drivers/rtc/rtc-stm32.ko] undefined!
-ERROR: modpost: "pinctrl_enable" [drivers/rtc/rtc-stm32.ko] undefined!
-ERROR: modpost: "pinconf_generic_dt_node_to_map" [drivers/rtc/rtc-stm32.ko] undefined!
->> ERROR: modpost: "pinctrl_dev_get_drvdata" [drivers/rtc/rtc-stm32.ko] undefined!
-ERROR: modpost: "pinconf_generic_dt_free_map" [drivers/rtc/rtc-stm32.ko] undefined!
-WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/kernel_stat.h:7,
+                    from mm/memory.c:43:
+   mm/memory.c: In function '__pte_alloc':
+>> include/linux/alloc_tag.h:212:1: error: initialization of 'pgtable_t' {aka 'struct page *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
+     212 | ({                                                                      \
+         | ^
+   include/asm-generic/pgalloc.h:95:33: note: in expansion of macro 'alloc_hooks'
+      95 | #define pte_alloc_one(...)      alloc_hooks(pte_alloc_one_noprof(__VA_ARGS__))
+         |                                 ^~~~~~~~~~~
+   mm/memory.c:448:25: note: in expansion of macro 'pte_alloc_one'
+     448 |         pgtable_t new = pte_alloc_one(mm);
+         |                         ^~~~~~~~~~~~~
+   mm/memory.c: In function '__do_fault':
+>> mm/memory.c:4650:35: error: assignment to 'pgtable_t' {aka 'struct page *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
+    4650 |                 vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
+         |                                   ^
+   mm/memory.c: In function 'do_fault_around':
+   mm/memory.c:5013:35: error: assignment to 'pgtable_t' {aka 'struct page *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
+    5013 |                 vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
+         |                                   ^
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GENERIC_PINCONF
-   Depends on [n]: PINCTRL [=n]
-   Selected by [m]:
-   - RTC_DRV_STM32 [=m] && RTC_CLASS [=y] && (ARCH_STM32 || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for PINMUX
-   Depends on [n]: PINCTRL [=n]
-   Selected by [m]:
-   - RTC_DRV_STM32 [=m] && RTC_CLASS [=y] && (ARCH_STM32 || COMPILE_TEST [=y])
+
+vim +212 include/linux/alloc_tag.h
+
+b951aaff503502 Suren Baghdasaryan 2024-03-21  210  
+b951aaff503502 Suren Baghdasaryan 2024-03-21  211  #define alloc_hooks(_do_alloc)						\
+b951aaff503502 Suren Baghdasaryan 2024-03-21 @212  ({									\
+b951aaff503502 Suren Baghdasaryan 2024-03-21  213  	DEFINE_ALLOC_TAG(_alloc_tag);					\
+b951aaff503502 Suren Baghdasaryan 2024-03-21  214  	alloc_hooks_tag(&_alloc_tag, _do_alloc);			\
+b951aaff503502 Suren Baghdasaryan 2024-03-21  215  })
+b951aaff503502 Suren Baghdasaryan 2024-03-21  216  
+
+:::::: The code at line 212 was first introduced by commit
+:::::: b951aaff503502a7fe066eeed2744ba8a6413c89 mm: enable page allocation tagging
+
+:::::: TO: Suren Baghdasaryan <surenb@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
