@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D826F13D63B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 14:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3651459EA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 15:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721401165; cv=none; b=Rv++ljJ3ofm0N1CLnMH1EUNENSgKzPDAcF41KWp9ft1MhXGV4nZrCTj9yc3ChyxkwRtBukMsMzzr9gJOFjDq/KzZNSRqsCaxBqnhCG5wTZE7nUzW98cBrv3oGhCjrREfvbaaf8KzBsDyCxlYzQaZevKkZgcip/JrRwEqpQAgfDk=
+	t=1721403091; cv=none; b=k+0Ah1pnw+Y86yDy8qylX2ywFS/971tzxlDa9oGSbIIjuWuUxKZdyouIeftt00mfwY8kWCLGDiVy/KfrAmGH1cFMoJ1fqPlpr1enXmsR3HpRvL00ceQsPBFttP4NaALbT3Q/PXqhMe3zUdwRmjl1KUOwIxpv2tQ4yMdP2KPr9hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721401165; c=relaxed/simple;
-	bh=PJchw5zNXUOKm1zOMWPX6IT/wQAKUozK5NEu04q93PQ=;
+	s=arc-20240116; t=1721403091; c=relaxed/simple;
+	bh=9MjA9BWM8OeZJuOliD5TUsZWIKyw8pxvAoeughFldpc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E94Og52lWSfv000kVvLhSZaCpJjevWTRoZPs4SZ0g5UKXN50VsvwJrgKu0fsF0Be7DCTMYa0cjLIc1+A8iQON90Ax4rvvI98tBIPHwWJ+lkmP+ixZF1IFKGM1baKkJQCIvoKdQHn3iCjAZtiIu1PtOoM5sX1sXAEG5WC+FRjKUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNyyX0PJ; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=fjR5u/u4GM8nXPf2sF6NMn547trkkasnhUr7BUd3U88K2iNm4vOVPW36WFed2rnzZiy6XxG/BG8R6h94iVpXUOIag6D+oJvDQ7TZp/ZDLmyTBR1bnZcLPhZ0Ch3qlJCr0g+w4fcto+8bPJ9doAamjw7wwBKpV7AiDBfrXAYwt6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g++gSfqW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNyyX0PJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g++gSfqW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721401164; x=1752937164;
+  t=1721403089; x=1752939089;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PJchw5zNXUOKm1zOMWPX6IT/wQAKUozK5NEu04q93PQ=;
-  b=nNyyX0PJ8vvimQoe0zqKWV9f3zRFJ8F1Utr4R7p1M1JgGtVFldoBmAt5
-   2JgiV8iW3X0nDtOsHv5p9dGAEr4HjMSndNqrzvPFJycWw1B3Fcki28zdj
-   s/UAFYhkSorUNFalGEZZyEiF7M2E/p4+PMj1ue0pNz11ahT1AT8EhW7J5
-   z6snGKMqOwgCaIsyNfoVBeTAWpYEbBLCQC/2kuJ/3TW2ATSnY382JI5nZ
-   Nle85hM9ctK1Lyu5Nk42Ra0aho5KKph2ooo0asga/HJaGhI7TBjbZtqMA
-   dihPUTLClBEU3937p3SwejS/9lp1Ea2R5xcOLe30Xj/AmXp5hwEWSvDm/
+  bh=9MjA9BWM8OeZJuOliD5TUsZWIKyw8pxvAoeughFldpc=;
+  b=g++gSfqW/Xy5//msCRTPGglOTtwdW3KBDLcyJPt6kTF4UcuZa1YbL5AI
+   gY9YE39ClR0tvz7cBCggFQUL5h6+2tl+NUDOA9wh7dF0kfIN8jEsTF7SV
+   NlqolFoAAH41MMWPQzWjcRZ5U6TjbGBILPmPsJMEgHbaeHRGLVzfKO4VS
+   nKT82JcASu/Y1sggrAIsJAYsfX3RFwKNd+K67PebMz8egnaKSdF4WEc3Q
+   1WyBbJKX7gcqzi9GuuwBrw+n6XwA4DsyYZjXsD4mKwYGJiKnw5a0aRXoM
+   EIonKq8J1en+h3H5U1c58Rg242j6guWiqu/3U9GywX+GiL2n8gRWL3Cyn
    g==;
-X-CSE-ConnectionGUID: dclGn3YBS7mBofHjJ6Su1Q==
-X-CSE-MsgGUID: /57bUO43ROOnavg2rzd9MA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="18720749"
+X-CSE-ConnectionGUID: FZPEQrHVS7+nD2S1jCK97g==
+X-CSE-MsgGUID: JFD4dOQSRUCDrnNO8BgoZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="22883583"
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="18720749"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 07:59:23 -0700
-X-CSE-ConnectionGUID: Z+srdpL6TJWXa9DSUVENig==
-X-CSE-MsgGUID: 97+63ZKaQU+hzRS8Vptghg==
+   d="scan'208";a="22883583"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 08:31:29 -0700
+X-CSE-ConnectionGUID: LN5wFOFASXCWlaOnIjgzUw==
+X-CSE-MsgGUID: L/6QS/ySQ0efAXJDfeF+eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="82185571"
+   d="scan'208";a="51427254"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jul 2024 07:59:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Jul 2024 08:31:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUp4q-000iGE-1M;
-	Fri, 19 Jul 2024 14:59:20 +0000
-Date: Fri, 19 Jul 2024 22:58:48 +0800
+	id 1sUpZt-000iIE-13;
+	Fri, 19 Jul 2024 15:31:25 +0000
+Date: Fri, 19 Jul 2024 23:31:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: "Alex Shi (Tencent)" <alexs@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:dma_set_errors 3/3]
- drivers/net/ethernet/microsoft/mana/gdma_main.c:1498:6: error: assigning to
- 'int' from incompatible type 'void'
-Message-ID: <202407192211.D8KzOkp3-lkp@intel.com>
+Subject: [alexshi:mmunstable 24/24]
+ arch/powerpc/mm/book3s64/radix_pgtable.c:1416:32: error: assignment to
+ 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'}
+Message-ID: <202407192317.ndjVSsNG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git dma_set_errors
-head:   01d3041f46af9cd503cc2ec924ef6f116179cd62
-commit: 01d3041f46af9cd503cc2ec924ef6f116179cd62 [3/3] dma-mapping: don't return errors from dma_set_max_seg_size
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240719/202407192211.D8KzOkp3-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407192211.D8KzOkp3-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git mmunstable
+head:   1b8055a77a554efe27ddb832b98e94dd083db08d
+commit: 097194bcb4751e69a198ff50da9fa73f9c6e9e9f [24/24] mm/pgtable: convert ptdesc.pmd_huge_pte to ptdesc pointer
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240719/202407192317.ndjVSsNG-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407192317.ndjVSsNG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407192211.D8KzOkp3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407192317.ndjVSsNG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/microsoft/mana/gdma_main.c:1498:6: error: assigning to 'int' from incompatible type 'void'
-    1498 |         err = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/microsoft/mana/gdma_main.c:1494:46: warning: shift count >= width of type [-Wshift-count-overflow]
-    1494 |         err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 1 error generated.
+   arch/powerpc/mm/book3s64/radix_pgtable.c: In function 'radix__pgtable_trans_huge_deposit':
+>> arch/powerpc/mm/book3s64/radix_pgtable.c:1416:32: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'} [-Wincompatible-pointer-types]
+    1416 |         pmd_huge_pte(mm, pmdp) = pgtable;
+         |                                ^
+   arch/powerpc/mm/book3s64/radix_pgtable.c: In function 'radix__pgtable_trans_huge_withdraw':
+>> arch/powerpc/mm/book3s64/radix_pgtable.c:1428:17: error: assignment to 'pgtable_t' {aka 'pte_t *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
+    1428 |         pgtable = pmd_huge_pte(mm, pmdp);
+         |                 ^
+>> arch/powerpc/mm/book3s64/radix_pgtable.c:1433:40: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pte_t *' [-Wincompatible-pointer-types]
+    1433 |                 pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
+         |                                        ^
 
 
-vim +1498 drivers/net/ethernet/microsoft/mana/gdma_main.c
+vim +1416 arch/powerpc/mm/book3s64/radix_pgtable.c
 
-1566e7d6206fed Dexuan Cui     2022-06-14  1473  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1474  static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1475  {
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1476  	struct gdma_context *gc;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1477  	void __iomem *bar0_va;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1478  	int bar = 0;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1479  	int err;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1480  
-1e2d0824a9c3de Haiyang Zhang  2021-08-24  1481  	/* Each port has 2 CQs, each CQ has at most 1 EQE at a time */
-1e2d0824a9c3de Haiyang Zhang  2021-08-24  1482  	BUILD_BUG_ON(2 * MAX_PORTS_IN_MANA_DEV * GDMA_EQE_SIZE > EQ_SIZE);
-1e2d0824a9c3de Haiyang Zhang  2021-08-24  1483  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1484  	err = pci_enable_device(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1485  	if (err)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1486  		return -ENXIO;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1487  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1488  	pci_set_master(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1489  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1490  	err = pci_request_regions(pdev, "mana");
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1491  	if (err)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1492  		goto disable_dev;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1493  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1494  	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1495  	if (err)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1496  		goto release_region;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1497  
-6fe254160bd033 Ajay Sharma    2022-11-03 @1498  	err = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
-6fe254160bd033 Ajay Sharma    2022-11-03  1499  	if (err) {
-6fe254160bd033 Ajay Sharma    2022-11-03  1500  		dev_err(&pdev->dev, "Failed to set dma device segment size\n");
-6fe254160bd033 Ajay Sharma    2022-11-03  1501  		goto release_region;
-6fe254160bd033 Ajay Sharma    2022-11-03  1502  	}
-6fe254160bd033 Ajay Sharma    2022-11-03  1503  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1504  	err = -ENOMEM;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1505  	gc = vzalloc(sizeof(*gc));
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1506  	if (!gc)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1507  		goto release_region;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1508  
-635096a86edb06 Dexuan Cui     2021-10-29  1509  	mutex_init(&gc->eq_test_event_mutex);
-635096a86edb06 Dexuan Cui     2021-10-29  1510  	pci_set_drvdata(pdev, gc);
-f3dc0962460910 Long Li        2022-11-03  1511  	gc->bar0_pa = pci_resource_start(pdev, 0);
-635096a86edb06 Dexuan Cui     2021-10-29  1512  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1513  	bar0_va = pci_iomap(pdev, bar, 0);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1514  	if (!bar0_va)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1515  		goto free_gc;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1516  
-71fa6887eeca7b Saurabh Sengar 2022-10-31  1517  	gc->numa_node = dev_to_node(&pdev->dev);
-1566e7d6206fed Dexuan Cui     2022-06-14  1518  	gc->is_pf = mana_is_pf(pdev->device);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1519  	gc->bar0_va = bar0_va;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1520  	gc->dev = &pdev->dev;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1521  
-635096a86edb06 Dexuan Cui     2021-10-29  1522  	err = mana_gd_setup(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1523  	if (err)
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1524  		goto unmap_bar;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1525  
-635096a86edb06 Dexuan Cui     2021-10-29  1526  	err = mana_probe(&gc->mana, false);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1527  	if (err)
-635096a86edb06 Dexuan Cui     2021-10-29  1528  		goto cleanup_gd;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1529  
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1530  	return 0;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1531  
-635096a86edb06 Dexuan Cui     2021-10-29  1532  cleanup_gd:
-635096a86edb06 Dexuan Cui     2021-10-29  1533  	mana_gd_cleanup(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1534  unmap_bar:
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1535  	pci_iounmap(pdev, bar0_va);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1536  free_gc:
-635096a86edb06 Dexuan Cui     2021-10-29  1537  	pci_set_drvdata(pdev, NULL);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1538  	vfree(gc);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1539  release_region:
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1540  	pci_release_regions(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1541  disable_dev:
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1542  	pci_disable_device(pdev);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1543  	dev_err(&pdev->dev, "gdma probe failed: err = %d\n", err);
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1544  	return err;
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1545  }
-ca9c54d2d6a5ab Dexuan Cui     2021-04-16  1546  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1397  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1398  /*
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1399   * For us pgtable_t is pte_t *. Inorder to save the deposisted
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1400   * page table, we consider the allocated page table as a list
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1401   * head. On withdraw we need to make sure we zero out the used
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1402   * list_head memory area.
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1403   */
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1404  void radix__pgtable_trans_huge_deposit(struct mm_struct *mm, pmd_t *pmdp,
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1405  				 pgtable_t pgtable)
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1406  {
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1407  	struct list_head *lh = (struct list_head *) pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1408  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1409  	assert_spin_locked(pmd_lockptr(mm, pmdp));
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1410  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1411  	/* FIFO */
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1412  	if (!pmd_huge_pte(mm, pmdp))
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1413  		INIT_LIST_HEAD(lh);
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1414  	else
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1415  		list_add(lh, (struct list_head *) pmd_huge_pte(mm, pmdp));
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29 @1416  	pmd_huge_pte(mm, pmdp) = pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1417  }
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1418  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1419  pgtable_t radix__pgtable_trans_huge_withdraw(struct mm_struct *mm, pmd_t *pmdp)
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1420  {
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1421  	pte_t *ptep;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1422  	pgtable_t pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1423  	struct list_head *lh;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1424  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1425  	assert_spin_locked(pmd_lockptr(mm, pmdp));
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1426  
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1427  	/* FIFO */
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29 @1428  	pgtable = pmd_huge_pte(mm, pmdp);
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1429  	lh = (struct list_head *) pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1430  	if (list_empty(lh))
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1431  		pmd_huge_pte(mm, pmdp) = NULL;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1432  	else {
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29 @1433  		pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1434  		list_del(lh);
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1435  	}
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1436  	ptep = (pte_t *) pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1437  	*ptep = __pte(0);
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1438  	ptep++;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1439  	*ptep = __pte(0);
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1440  	return pgtable;
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1441  }
+bde3eb6222e496 arch/powerpc/mm/pgtable-radix.c Aneesh Kumar K.V 2016-04-29  1442  
 
-:::::: The code at line 1498 was first introduced by commit
-:::::: 6fe254160bd033a1e62dbad9b734183b31144678 net: mana: Set the DMA device max segment size
+:::::: The code at line 1416 was first introduced by commit
+:::::: bde3eb6222e49673d2ee9dfdc6ab6e7b6ff69e91 powerpc/mm/radix: Add radix THP callbacks
 
-:::::: TO: Ajay Sharma <sharmaajay@microsoft.com>
-:::::: CC: Leon Romanovsky <leonro@nvidia.com>
+:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
