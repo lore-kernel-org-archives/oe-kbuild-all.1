@@ -1,131 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B652C80
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 07:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCF55769
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 09:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721375474; cv=none; b=oGUCl3q6BTXGwbaPX+eEekzXnPrGFIajpiWQmkeLY2kRbl5ISgWUJcijTm/+B/KmhtIn+sS1aZKB1+jZczwUA3dj2jtesztGD0nZREaXwpISNuEPoqfC8cT9X8AZI/HKnUWX2EtJFQOzOOidRHj+6kIkCoCfPlKgAnIrfmMeVwk=
+	t=1721381239; cv=none; b=uq0hUTIAwN/eaKTsGpKow2sa3j/Tko9UciNsor2G5QWKkpPdb71PCbr/pgx5gK5Irhq1i84ILdAlE7m97cBj/rE2BEFpR2rzxZO2sbhf6KVZTz8UcjZDJdR8Xrtw151NjZR2KxQOJpszV4gnjdU/os+56yFrXpD+MoLQh1DfrYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721375474; c=relaxed/simple;
-	bh=e64qZhC+pJ9w+xstof315ocUdQNQ7lmcdTsBoupKtFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LXc2roXjc40cAaMYpOwEARJNPdJyHzdicSqHsh+K7bWloJ7CfKZtof2zHUL/KlYTqNGE+C94qzNZBy/OXjs+WfBPOK2QbBIRagLyWPmvAZzagG1f0dfYwoS1UsXIMFHEomXbTAeXOjoBp4ihBZmTTusxPrUStUZbf1muzyqqRMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LlqsqFXl; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LlqsqFXl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721375471; x=1752911471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e64qZhC+pJ9w+xstof315ocUdQNQ7lmcdTsBoupKtFE=;
-  b=LlqsqFXl9DwE3Qw2wD88JRC3B0DdfaFEcIJRsmoPhZhD2jQkoh4XC+KG
-   2ZF9YB0o537rXbSa1D8+fhSPXSJVeiktMd7tbDE9qXWaKEc2tntOwp2o5
-   e4ASLj818NqgYPsA2qreSuFYYoQxUjWCotO9jh0ZvRAwKzYSLxOgcSmLF
-   8HNeFVgIf+5iZXZfBpu2GAyH04xWkQ7558QJ4sVBGzu6iTQwudOBJy21/
-   lTiTVG56Ma1l8vz4VaS50d39toEyOMIQhogzRHYNe6xFp4SwKo1vEezFe
-   bnfpRapok73ojp6CYbn5OlurLFr28udO3D4E4GHfwzl5OFisrdSn/BS4l
-   Q==;
-X-CSE-ConnectionGUID: iEu8BVvCRr6f15HqejAadw==
-X-CSE-MsgGUID: fLa5YPbgSzCLAfRRqzSNSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="36411725"
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="36411725"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 00:51:10 -0700
-X-CSE-ConnectionGUID: dEwdmEZUSGS8/LVimr4WXQ==
-X-CSE-MsgGUID: KjpwUF09QXWcKdPX8y1vVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="51736324"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jul 2024 00:51:10 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sUiOQ-000hy8-2u;
-	Fri, 19 Jul 2024 07:51:06 +0000
-Date: Fri, 19 Jul 2024 15:50:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 13285/13432] riscv64-linux-ld:
- include/linux/usb.h:1400:undefined reference to `usb_submit_urb'
-Message-ID: <202407191531.HcWtZBqb-lkp@intel.com>
+	s=arc-20240116; t=1721381239; c=relaxed/simple;
+	bh=IU3mO+eflIRvC0cljnLDQAU3tY2pQn9r6aqWcXQnG6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DW+tF2kP3+qpL9hlDL8NzCbwtyZj14798HLCdZPAn2V8KbHw7H10FKemkg9opoatkzfqr/qt5rWJ7feZ8UYJO5KfJZQMuNgdDZuZeiZ0whj9TyGcTFk/I6U8KyoEeP6VSm9aS9+f6LGecP67H1yx0CQfPkwk9VOvFvoTQOOoJOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e0365588ab8so1856190276.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 02:27:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721381235; x=1721986035;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uQQH9zQ0KuEmDvyjHiQws0xpaW4ALn+Sbzd9aHdjFFQ=;
+        b=uCsdlSyDSULO53/MX/FVL5VvfW/QpmyVbItxCOW97DSDbMAHN2ghkzxpX48aevcz01
+         b1KMD+zZEtY8oVv+KqqUMkzI9wYTr401B5JnrnLD03t+ULUhQpGm/VQ+uB0S0SowABPZ
+         S/CrZ3icGw3ukP+Zcg36lyjUXkOZjFM0xNpGl14q8h6v6wsFPqnBTx4NfUlc4Po2auPc
+         //hY6SQ2A/Uq81yb3tWopluK073NvzaN+vX3bIt72V6cqCZSDt5BCqGgkh2dEztDPsGf
+         ZYA4Sso5cVYqR/EALIFb8GrLAuVzCuFM9dovAvEiCj/fHdvS5DweD9xzbKbXLa9DnMoj
+         7HqQ==
+X-Gm-Message-State: AOJu0YxJ8XPcq74JB6Tz+zoFgimenSMrM7+hlwyXEVjJIc4k5HOTrG/r
+	MDUMFQKj1HSCFiVv0SFTwJjE/yOhvu/Q3E10i7ONTJA6FLQI7oRIDpbdvHNp
+X-Google-Smtp-Source: AGHT+IG0XyKafxB4qZA9Q+QtanjeDR/8juDQZjOesjbY3s6Uv+dH+Ut98jR9r9kC27tKuNPeBL7ySA==
+X-Received: by 2002:a05:6902:1502:b0:e05:b9bf:4e58 with SMTP id 3f1490d57ef6-e0640dbda65mr4988083276.25.1721381235265;
+        Fri, 19 Jul 2024 02:27:15 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0860b43432sm336838276.65.2024.07.19.02.27.15
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jul 2024 02:27:15 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e03d49ff259so1819083276.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 02:27:15 -0700 (PDT)
+X-Received: by 2002:a05:6902:218b:b0:e08:64ff:9ff8 with SMTP id
+ 3f1490d57ef6-e0864ffa3famr708853276.32.1721381234832; Fri, 19 Jul 2024
+ 02:27:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202407170751.LGZlPmUL-lkp@intel.com>
+In-Reply-To: <202407170751.LGZlPmUL-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 19 Jul 2024 11:27:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUff1zMWzghwmP1QwF5Krt2aSF=cYe_Qfc4Mw-woCunDQ@mail.gmail.com>
+Message-ID: <CAMuHMdUff1zMWzghwmP1QwF5Krt2aSF=cYe_Qfc4Mw-woCunDQ@mail.gmail.com>
+Subject: Re: [geert-renesas-drivers:topic/rcar4-fractional-pll-improvements-v1
+ 19/28] rcar-gen4-cpg.c:undefined reference to `__aeabi_uldivmod'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   41c196e567fb1ea97f68a2ffb7faab451cd90854
-commit: 838969e6664d749c5271ed7ce812ce4b6862b403 [13285/13432] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-config: riscv-randconfig-s031-20220227 (https://download.01.org/0day-ci/archive/20240719/202407191531.HcWtZBqb-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191531.HcWtZBqb-lkp@intel.com/reproduce)
+On Wed, Jul 17, 2024 at 1:37=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
+vers.git topic/rcar4-fractional-pll-improvements-v1
+> head:   f5a672b0ed67fa75083e13e5f82832cbe7a55e20
+> commit: 4557d64e7540f8fe383458738b45f317e2235f7b [19/28] clk: renesas: rc=
+ar-gen4: Add support for fractional multiplication
+> config: arm-randconfig-001-20240717 (https://download.01.org/0day-ci/arch=
+ive/20240717/202407170751.LGZlPmUL-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240717/202407170751.LGZlPmUL-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407170751.LGZlPmUL-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    arm-linux-gnueabi-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function=
+ `cpg_pll_8_25_clk_set_rate':
+> >> rcar-gen4-cpg.c:(.text+0x29a): undefined reference to `__aeabi_uldivmo=
+d'
+>    arm-linux-gnueabi-ld: drivers/clk/renesas/rcar-gen4-cpg.o: in function=
+ `cpg_pll_8_25_clk_determine_rate':
+>    rcar-gen4-cpg.c:(.text+0x392): undefined reference to `__aeabi_uldivmo=
+d'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407191531.HcWtZBqb-lkp@intel.com/
+Thank you, I indeed missed two 64-by-ul divisions that should have
+used div64_ul().
 
-All errors (new ones prefixed by >>):
+Gr{oetje,eeting}s,
 
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_process_coredump':
-   drivers/bluetooth/btmtk.c:437:(.text+0x7f8): undefined reference to `usb_disable_autosuspend'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_reset_sync':
-   drivers/bluetooth/btmtk.c:370:(.text+0x856): undefined reference to `usb_alloc_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_recv_acl':
-   drivers/bluetooth/btmtk.c:941:(.text+0x922): undefined reference to `usb_anchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:965:(.text+0x932): undefined reference to `usb_submit_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:966:(.text+0x942): undefined reference to `usb_free_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_submit_wmt_recv_urb':
-   drivers/bluetooth/btmtk.c:523:(.text+0x98a): undefined reference to `usb_unanchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `kmalloc_type':
-   include/linux/slab.h:448:(.text+0x9aa): undefined reference to `usb_free_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_submit_wmt_recv_urb':
-   drivers/bluetooth/btmtk.c:541:(.text+0x9e2): undefined reference to `usb_alloc_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:573:(.text+0xa96): undefined reference to `usb_anchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:564:(.text+0xaa2): undefined reference to `usb_submit_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:565:(.text+0xab2): undefined reference to `usb_free_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:533:(.text+0xb2a): undefined reference to `usb_unanchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_submit_intr_urb':
-   drivers/bluetooth/btmtk.c:1171:(.text+0xb44): undefined reference to `usb_free_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:1195:(.text+0xc10): undefined reference to `usb_kill_anchored_urbs'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_resume':
-   drivers/bluetooth/btmtk.c:1254:(.text+0xd1c): undefined reference to `usb_autopm_get_interface'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `clear_bit':
-   arch/riscv/include/asm/bitops.h:289:(.text+0xd50): undefined reference to `usb_autopm_put_interface'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_suspend':
-   drivers/bluetooth/btmtk.c:1268:(.text+0xdfc): undefined reference to `usb_autopm_put_interface'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_hci_wmt_sync':
-   drivers/bluetooth/btmtk.c:593:(.text+0x10ee): undefined reference to `usb_set_interface'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_shutdown':
-   drivers/bluetooth/btmtk.c:1481:(.text+0x1212): undefined reference to `usb_kill_anchored_urbs'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `init_usb_anchor':
-   include/linux/usb.h:1400:(.text+0x1306): undefined reference to `usb_anchor_urb'
->> riscv64-linux-ld: include/linux/usb.h:1400:(.text+0x1316): undefined reference to `usb_submit_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_isointf_init':
-   drivers/bluetooth/btmtk.c:1225:(.text+0x147e): undefined reference to `usb_unanchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_isointf_init.constprop.0':
-   drivers/bluetooth/btmtk.c:1232:(.text+0x152c): undefined reference to `usb_alloc_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_wmt_recv':
-   drivers/bluetooth/btmtk.c:516:(.text+0x1706): undefined reference to `usb_control_msg'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `alloc_mtk_intr_urb':
-   drivers/bluetooth/btmtk.c:1029:(.text+0x17c4): undefined reference to `usb_control_msg'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `usb_fill_int_urb':
-   include/linux/usb.h:1754:(.text+0x18c4): undefined reference to `usb_control_msg'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.o: in function `btmtk_usb_setup':
-   drivers/bluetooth/btmtk.c:1393:(.text+0x2390): undefined reference to `usb_anchor_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:1404:(.text+0x23a0): undefined reference to `usb_submit_urb'
-   riscv64-linux-ld: drivers/bluetooth/btmtk.c:1410:(.text+0x23f4): undefined reference to `usb_unanchor_urb'
+                        Geert
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
