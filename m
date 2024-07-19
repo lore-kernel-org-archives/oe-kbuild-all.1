@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666AE8472
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 02:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B57FBF0;
+	Fri, 19 Jul 2024 03:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721354645; cv=none; b=Vv7ka0TJsRc8EA8MUg+76Nry1RzJZjf16IwK/L6Ie7NY+A4BTmQM+NUsZutlEZNMYyBlGqJwrGegVEXNPBHopN6RsiRING0pA1U3wMXlfdd8b8YjnDFV3KfHg/RHkzXRnmR1GzJb18yId/VBE1W+jZjGKXwccym/HgeIVVvTZi4=
+	t=1721359751; cv=none; b=T57/L/lp41T5XWZtVTOxKdPQVQZTBp7H5ZSKbXhAQJrgT4LGfdhB4qvzrV3bcQYq7cl38+LB9xfOidkQ09dc/t46FyQBvq6OOAB4FU3IhVJefCtQIQyt77zW7G8vfqshPLxwFmTr2+enQQrnAhtgwtQ8UMSwr5xoQdqsB1V+rwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721354645; c=relaxed/simple;
-	bh=OHfvLlLdOosJ+cDS1EmIRMkAiGTisVz4MG1EHRZEF5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kaXviPfrNanSk0paorjDntArP9aHVpJJWmA5Y83mIHiewxJILkI6PS87dlBCQ8VC4RxpWudT71RqYzJU3LDj1yggv1tuJ37udUMWHJUfhv5rW4trmG6RR2IZj4b2NkINUirzm4gwaBDnBVMCFf1gGs4k0zWUGmk/cH87Q/r0WVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyC0D/s8; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1721359751; c=relaxed/simple;
+	bh=p0UYlXZ5KxjXXwnf7VwGSnBq8RKpWMeA4U4IRIUfl8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8HHzfhPj+2r8+2Fa2rA7QPxfKl3mma5I08CkD6j6fF0Qy2CkyGo5y0wdBUfhQjo2SaOWQ/P8ipBI6HeJAT+/5pcQe1JyG8Oa6NgDLQbpG7dCpiNrtaq8CJHDufKX9G2fJDp77wm29E8CNbiuYyx9r5Bbqw+4lZuI/OQSrbULxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLn/mw/O; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyC0D/s8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLn/mw/O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721354644; x=1752890644;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHfvLlLdOosJ+cDS1EmIRMkAiGTisVz4MG1EHRZEF5g=;
-  b=PyC0D/s85Ya0AJEG82Ya39A+G09dgSkyzkMUlnCBtbBKtm9FqMtwGGH8
-   OIpDI1WhdQuUE7rLOQbil/H+HE+Zv63IIUb5x8xmc+E+sZrSqPbnZ4l0c
-   REijXkFQd16I6mcw6vYof5rTzvcV0U5x29sBJ3nXSnjoVtY3JBGKZAH51
-   MBMOnb2UkQRY5ldtHFYmxX9UnNq6oAolNwS30JTfFERlLh7RnpqMSysrh
-   6lJ7eEipXHlWQRydUs5zYRQbgVDEil8vuKWj8U6/2PnXZKWtRvQB9Yrrc
-   ZLFc8/UGHZ+RYC/u28SaZaHpoYwbuyzY6Lgm0gshxQpYXrzq7zWmAsLlZ
-   Q==;
-X-CSE-ConnectionGUID: Oa+4QevxSZykSmB1lTfleA==
-X-CSE-MsgGUID: /j95UZcXQqy0DDVCbqh9fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12617312"
+  t=1721359749; x=1752895749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p0UYlXZ5KxjXXwnf7VwGSnBq8RKpWMeA4U4IRIUfl8A=;
+  b=VLn/mw/OotfI+SF5THxi6/ts0WAONo98aiA1JxhX0WUy5JF3KXuA3Tg7
+   i1PSLP+j9R2m2dqcTfoUfA+RMlsFcLEwHP7+jLtmFu16tzd354mtEeOlV
+   elKLQkLmzSkFgxFKdAJ/CXL2xzTgFGD81xDsAqtwpL7tlJhlJ5kCPRllT
+   Qu1+Gzxi9E4w/nH5eDyPLFUcHc+TSlDpTiBUUZEkm8q+fAn9sx58adg3J
+   CbslrlIY1NxBhlIzc8nQEGDWqXs32XftvLIvb82dLbZjJa1n2NXrAMPIP
+   KYn8F3uHVowKUSdJwReeZHM5K10O0ltpGWSzL4+FMrRNGwATEGQElE0hB
+   A==;
+X-CSE-ConnectionGUID: pkcqM8hKRmS3xiSrvzOW7w==
+X-CSE-MsgGUID: 3nMYqoOsQhCG3fb+bg845w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="22768882"
 X-IronPort-AV: E=Sophos;i="6.09,219,1716274800"; 
-   d="scan'208";a="12617312"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 19:04:03 -0700
-X-CSE-ConnectionGUID: rwRj6P0PRamVP0lXd63QUg==
-X-CSE-MsgGUID: 3LdYCp5fRC+pL3ZpRDcZ+A==
+   d="scan'208";a="22768882"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 20:29:09 -0700
+X-CSE-ConnectionGUID: WVUNQpIJQkmMjfqeAak7Hw==
+X-CSE-MsgGUID: PgF5ppTRQQ6noa1BWQoxlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,219,1716274800"; 
-   d="scan'208";a="51002352"
+   d="scan'208";a="55832565"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jul 2024 19:04:01 -0700
+  by orviesa003.jf.intel.com with ESMTP; 18 Jul 2024 20:29:04 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUcyU-000hlC-2D;
-	Fri, 19 Jul 2024 02:03:58 +0000
-Date: Fri, 19 Jul 2024 10:03:12 +0800
+	id 1sUeIn-000hoA-0R;
+	Fri, 19 Jul 2024 03:29:01 +0000
+Date: Fri, 19 Jul 2024 11:28:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Hilman <khilman@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vibhore Vardhan <vibhore@ti.com>,
-	Dhruva Gole <d-gole@ti.com>
-Subject: [khilman-omap:lpm-v6.10/constraints 9/15]
- drivers/pmdomain/ti/ti_sci_pm_domains.c:176:1: warning: control reaches end
- of non-void function
-Message-ID: <202407190930.pMVXRVPP-lkp@intel.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, lee@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	alexandre.belloni@bootlin.com, geert+renesas@glider.be,
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
+	p.zabel@pengutronix.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v2 05/11] rtc: renesas-rtca3: Add driver for RTCA-3
+ available on Renesas RZ/G3S SoC
+Message-ID: <202407191156.wJPjHtKG-lkp@intel.com>
+References: <20240716103025.1198495-6-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,95 +72,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240716103025.1198495-6-claudiu.beznea.uj@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git lpm-v6.10/constraints
-head:   e2d1fd7e6367d7aa0db506b7d3794eb61553d29c
-commit: 7a2a54738aa64954989f42a22bcc087bbc8b3c48 [9/15] pmdomain: ti_sci: add per-device latency constraint management
-config: arm64-randconfig-003-20240719 (https://download.01.org/0day-ci/archive/20240719/202407190930.pMVXRVPP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407190930.pMVXRVPP-lkp@intel.com/reproduce)
+Hi Claudiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240716]
+[also build test ERROR on v6.10]
+[cannot apply to geert-renesas-devel/next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes abelloni/rtc-next linus/master v6.10 v6.10-rc7 v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/dt-bindings-mfd-renesas-r9a08g045-vbattb-Document-VBATTB/20240716-190833
+base:   next-20240716
+patch link:    https://lore.kernel.org/r/20240716103025.1198495-6-claudiu.beznea.uj%40bp.renesas.com
+patch subject: [PATCH v2 05/11] rtc: renesas-rtca3: Add driver for RTCA-3 available on Renesas RZ/G3S SoC
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240719/202407191156.wJPjHtKG-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191156.wJPjHtKG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407190930.pMVXRVPP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407191156.wJPjHtKG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:299,
-                    from include/linux/err.h:5,
-                    from drivers/pmdomain/ti/ti_sci_pm_domains.c:10:
-   drivers/pmdomain/ti/ti_sci_pm_domains.c: In function 'ti_sci_pd_resume':
-   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm.h:886:41: note: in expansion of macro 'NULL'
-     886 | #define pm_generic_resume               NULL
-         |                                         ^~~~
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:135:16: note: in expansion of macro 'pm_generic_resume'
-     135 |         return pm_generic_resume(dev);
-         |                ^~~~~~~~~~~~~~~~~
-   drivers/pmdomain/ti/ti_sci_pm_domains.c: In function 'ti_sci_pd_suspend':
-   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm.h:883:41: note: in expansion of macro 'NULL'
-     883 | #define pm_generic_suspend              NULL
-         |                                         ^~~~
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:156:16: note: in expansion of macro 'pm_generic_suspend'
-     156 |         return pm_generic_suspend(dev);
-         |                ^~~~~~~~~~~~~~~~~~
-   drivers/pmdomain/ti/ti_sci_pm_domains.c: In function 'ti_sci_pd_suspend_late':
-   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm.h:881:41: note: in expansion of macro 'NULL'
-     881 | #define pm_generic_suspend_late         NULL
-         |                                         ^~~~
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:175:16: note: in expansion of macro 'pm_generic_suspend_late'
-     175 |         return pm_generic_suspend_late(dev);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pmdomain/ti/ti_sci_pm_domains.c:176:1: warning: control reaches end of non-void function [-Wreturn-type]
-     176 | }
+>> drivers/rtc/rtc-renesas-rtca3.c:433:3: error: cannot jump from this goto statement to its label
+     433 |                 goto setup_failed;
+         |                 ^
+   drivers/rtc/rtc-renesas-rtca3.c:436:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     436 |         guard(spinlock_irqsave)(&priv->lock);
+         |         ^
+   include/linux/cleanup.h:167:15: note: expanded from macro 'guard'
+     167 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:67:1: note: expanded from here
+      67 | __UNIQUE_ID_guard738
          | ^
-   drivers/pmdomain/ti/ti_sci_pm_domains.c: In function 'ti_sci_pd_suspend':
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:157:1: warning: control reaches end of non-void function [-Wreturn-type]
-     157 | }
+   drivers/rtc/rtc-renesas-rtca3.c:426:3: error: cannot jump from this goto statement to its label
+     426 |                 goto setup_failed;
+         |                 ^
+   drivers/rtc/rtc-renesas-rtca3.c:436:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     436 |         guard(spinlock_irqsave)(&priv->lock);
+         |         ^
+   include/linux/cleanup.h:167:15: note: expanded from macro 'guard'
+     167 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:189:29: note: expanded from macro '__UNIQUE_ID'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:67:1: note: expanded from here
+      67 | __UNIQUE_ID_guard738
          | ^
-   drivers/pmdomain/ti/ti_sci_pm_domains.c: In function 'ti_sci_pd_resume':
-   drivers/pmdomain/ti/ti_sci_pm_domains.c:136:1: warning: control reaches end of non-void function [-Wreturn-type]
-     136 | }
-         | ^
+   2 errors generated.
 
 
-vim +176 drivers/pmdomain/ti/ti_sci_pm_domains.c
+vim +433 drivers/rtc/rtc-renesas-rtca3.c
 
-   158	
-   159	static int ti_sci_pd_suspend_late(struct device *dev)
-   160	{
-   161		struct generic_pm_domain *genpd = pd_to_genpd(dev->pm_domain);
-   162		struct ti_sci_pm_domain *pd = genpd_to_ti_sci_pd(genpd);
-   163	
-   164		if (pm_runtime_suspended(dev)) {
-   165			if (genpd && genpd->status == GENPD_STATE_OFF)
-   166				dev_warn(dev, "%s: RPM suspended but genpd %s still on.\n",
-   167					 __func__, genpd->name);
-   168		}
-   169	
-   170		if (ti_sci_pd_is_valid_constraint(pd->lat_constraint) &&
-   171		    !pd->constraint_sent)
-   172			dev_warn(dev, "%s: %s: valid constraint (%d), but NOT sent!\n",
-   173				 genpd->name, __func__, pd->lat_constraint);
-   174	
-   175		return pm_generic_suspend_late(dev);
- > 176	}
-   177	
+   376	
+   377	static int rtca3_set_alarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+   378	{
+   379		struct rtca3_priv *priv = dev_get_drvdata(dev);
+   380		struct rtc_time *tm = &wkalrm->time;
+   381		u8 rcr1, tmp;
+   382		int ret;
+   383	
+   384		scoped_guard(spinlock_irqsave, &priv->lock) {
+   385			tmp = readb(priv->base + RTCA3_RCR2);
+   386			if (!(tmp & RTCA3_RCR2_START))
+   387				return -EPERM;
+   388	
+   389			/* Disable AIE to prevent false interrupts. */
+   390			rcr1 = readb(priv->base + RTCA3_RCR1);
+   391			rcr1 &= ~RTCA3_RCR1_AIE;
+   392			writeb(rcr1, priv->base + RTCA3_RCR1);
+   393			ret = readb_poll_timeout_atomic(priv->base + RTCA3_RCR1, tmp,
+   394							!(tmp & RTCA3_RCR1_AIE),
+   395							10, RTCA3_DEFAULT_TIMEOUT_US);
+   396			if (ret)
+   397				return ret;
+   398	
+   399			/* Set the time and enable the alarm. */
+   400			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_sec), priv->base + RTCA3_RSECAR);
+   401			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_min), priv->base + RTCA3_RMINAR);
+   402			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_hour), priv->base + RTCA3_RHRAR);
+   403			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_wday), priv->base + RTCA3_RWKAR);
+   404			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_mday), priv->base + RTCA3_RDAYAR);
+   405			writeb(RTCA3_AR_ENB | bin2bcd(tm->tm_mon + 1), priv->base + RTCA3_RMONAR);
+   406	
+   407			writew(bin2bcd(tm->tm_year % 100), priv->base + RTCA3_RYRAR);
+   408			writeb(RTCA3_AR_ENB, priv->base + RTCA3_RYRAREN);
+   409	
+   410			/* Make sure we can read back the counters. */
+   411			rtca3_prepare_cntalrm_regs_for_read(priv, false);
+   412	
+   413			/* Need to wait for 2 * 1/64 periodic interrupts to be generated. */
+   414			atomic_set(&priv->alrm_sstep, RTCA3_ALRM_SSTEP_INIT);
+   415			reinit_completion(&priv->set_alarm_completion);
+   416	
+   417			/* Enable periodic interrupt. */
+   418			rcr1 |= RTCA3_RCR1_PIE;
+   419			writeb(rcr1, priv->base + RTCA3_RCR1);
+   420			ret = readb_poll_timeout_atomic(priv->base + RTCA3_RCR1, tmp,
+   421							(tmp & RTCA3_RCR1_PIE),
+   422							10, RTCA3_IRQSET_TIMEOUT_US);
+   423		}
+   424	
+   425		if (ret)
+   426			goto setup_failed;
+   427	
+   428		/* Wait for the 2 * 1/64 periodic interrupts. */
+   429		ret = wait_for_completion_interruptible_timeout(&priv->set_alarm_completion,
+   430								msecs_to_jiffies(500));
+   431		if (ret <= 0) {
+   432			ret = -ETIMEDOUT;
+ > 433			goto setup_failed;
+   434		}
+   435	
+   436		guard(spinlock_irqsave)(&priv->lock);
+   437	
+   438		ret = rtca3_alarm_irq_enable_helper(priv, wkalrm->enabled);
+   439		atomic_set(&priv->alrm_sstep, RTCA3_ALRM_SSTEP_DONE);
+   440	
+   441		return ret;
+   442	
+   443	setup_failed:
+   444		scoped_guard(spinlock_irqsave, &priv->lock) {
+   445			/*
+   446			 * Disable PIE to avoid interrupt storm in case HW needed more than
+   447			 * specified timeout for setup.
+   448			 */
+   449			writeb(rcr1 & ~RTCA3_RCR1_PIE, priv->base + RTCA3_RCR1);
+   450			readb_poll_timeout_atomic(priv->base + RTCA3_RCR1, tmp, !(tmp & ~RTCA3_RCR1_PIE),
+   451						  10, RTCA3_DEFAULT_TIMEOUT_US);
+   452			atomic_set(&priv->alrm_sstep, RTCA3_ALRM_SSTEP_DONE);
+   453		}
+   454	
+   455		return ret;
+   456	}
+   457	
 
 -- 
 0-DAY CI Kernel Test Service
