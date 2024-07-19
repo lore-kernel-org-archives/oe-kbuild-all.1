@@ -1,134 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056C257C8D;
-	Fri, 19 Jul 2024 06:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F10D42076
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 06:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721371356; cv=none; b=FujI4cdY509q/Lk762WnyBpXSOFdgVo3zxrK+gU1tZ4bM5TI3XQs8j9aDHaNgGV/C4E5qakR4Bh3Acodf13NigxSmYVIlI42qQ5DajtLR2weOx2gotpzr157eo8KOLhvWN//dM0prJMp9VjHnnLY3AhBYnKWKLNO7vBTBZH++B0=
+	t=1721371693; cv=none; b=BUbpjc/tdNJHwv24J60Vq4D87ZB6FPoqTvZ0JPgKVVBB/xVGWXQ9tULRKTsZs7IAUE20Jxmh4CbF2zKI43Oo7wGFfJKae4fINN2nUkwuj2GX6IQ+aQTYeeyYAuNgGbU9d32fHU4h8J87Oy3CH4x7+VUvC4jMMVNWwU3nOIHRuRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721371356; c=relaxed/simple;
-	bh=lgmNqknytxacE99RbI3TXjlkwFUbqm0k9pkY8THZR0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kgZp0ZeS46+02C9wvgaFxSDD7Ab0eoYBw9oWg9k6BbQU/kci5i/OhbtklQZhLBZ87lTMHllvB1av4ihk1bRf9YUtGzFQ8cTELv4/uaF5gbclI2BgfmW41bP9ba4VUBpGf+pO7L8q9igad1I8zkIyIJ2aTVELyRZ55qAkkOOXPjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2lAyzv4; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1721371693; c=relaxed/simple;
+	bh=1J+TbzgOGOue2PICHcbZ/lJ1gks4zEPS4UOBxrC0vEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IFu/+xVSnj4d/Kb6yrYnlfvZeqedBpRoELM6KXWAxy37hWfV6JL5HoPWHyq8exKoIeaNU/exBWe/8qMrUae2biIpT06hIrh58mQ2zVlUvP6mMPLxAvc/07VklWdXW+hVd5mhi7ohkwtM9hx1QRnQJO1eG+VUxyeQKrJF42Lq9zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYqKhm4r; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2lAyzv4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYqKhm4r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721371354; x=1752907354;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lgmNqknytxacE99RbI3TXjlkwFUbqm0k9pkY8THZR0s=;
-  b=J2lAyzv4l9gskOi/O5Xz2lgjGE1yQGWBe2yXQH7N4y3G2QHU/0mYXDX7
-   RMHxyWnjyDHwjmePkqkQMqsclyVME1d2hlk/SixS5PbH134FslDj0i7DD
-   75O9s0kzxpZZ8EwopW/rVUiKjEP8LntZrCD6VCnWDYbVx8hSUYnlOCwgA
-   7Tw6PgQPJya4HR+2LaiwoiNWJ9TgYLdjuEU877UsyCxI42jHkP05uJ4xK
-   L2OJTCzFYRm8oqIpPMQ88X0DHYLbKUDU634oAd447P/RHG16Y3S8nomE1
-   vEgORWS7bAfwK0L5mdp4SLZcIXn0r8soprW5FswUnhp+fNDGrrtwum8tv
-   A==;
-X-CSE-ConnectionGUID: r6nmk3xPTh2OQegBkDasMg==
-X-CSE-MsgGUID: FPuae8utQI+/BQ1v2uIAwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="19154312"
+  t=1721371692; x=1752907692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1J+TbzgOGOue2PICHcbZ/lJ1gks4zEPS4UOBxrC0vEk=;
+  b=XYqKhm4rzpOT15K8FJrAIgKJ6rwwT1Yw9C12ARNNTzt4PGwjp9vH6osH
+   Gylfg2V1iNvSdHhPZkITtM9yDlF1JGM+hPaG8aYSLicXThxYUiz/Yo2sF
+   wk2fyeodkKnDNzSQ2dfIMT9h2PYSqPQyFk/fujlVj47Dlx6nI2UWgs0vN
+   XvMuwZhaZjfke1cgZmiYCRrYiQekCc3smATjA0dv9HEVJebNVOHAcRJDv
+   KlmHzzhdcZ/kzxEYKgMpmeKTbZ9XM0ZOTTC8ZVApI4MncVO3xxFJAWpKF
+   VHMcMA4p3TFtDLjUCoT9z5IueujTdSvg3aH4gZwhmaeRaDntOqw4ONs0I
+   Q==;
+X-CSE-ConnectionGUID: y7eFkrHRQHWsXwRGv+efmw==
+X-CSE-MsgGUID: XhuXgUHvSrOSJzx0vl+Z5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18843581"
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="19154312"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 23:42:34 -0700
-X-CSE-ConnectionGUID: RakwmyYeTsamqguiG8vGwA==
-X-CSE-MsgGUID: 9rz20AMaTL6vR1VJZ3EzcA==
+   d="scan'208";a="18843581"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 23:48:09 -0700
+X-CSE-ConnectionGUID: zyE0tJpuT8+sZVNn8slXZg==
+X-CSE-MsgGUID: 5cOYAFhETAGbAOh9UcHeHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="82056579"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.246.119]) ([10.245.246.119])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 23:42:31 -0700
-Message-ID: <d074edda-79c9-44e9-bbd9-86dcb7ffe9ae@linux.intel.com>
-Date: Fri, 19 Jul 2024 08:42:28 +0200
+   d="scan'208";a="50888002"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 18 Jul 2024 23:48:08 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sUhPS-000hwP-0U;
+	Fri, 19 Jul 2024 06:48:06 +0000
+Date: Fri, 19 Jul 2024 14:47:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile and
+ Kconfig
+Message-ID: <202407191402.diNZbCgq-lkp@intel.com>
+References: <20240718025138.18777-7-pkshih@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ld.lld: error: undefined symbol: iosf_mbi_available
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
- Bard Liao <bard.liao@intel.com>
-References: <202407160704.zpdhJ8da-lkp@intel.com>
- <05954a59-2bef-4262-bd91-cfe21d2381f2@linux.intel.com>
- <20240717202806.GA728411@thelio-3990X> <87wmljw485.wl-tiwai@suse.de>
- <d121ec31-0861-4324-8f53-6e06eaf60233@linux.intel.com>
- <87le1zvzw9.wl-tiwai@suse.de>
- <9a0eba2e-9933-43bb-ab3b-0480bf1d34a4@linux.intel.com>
- <87frs6vj4m.wl-tiwai@suse.de>
- <69dfb1e2-eac6-4cd4-a9d3-caaa7f36f9b9@linux.intel.com>
- <878qxyvhit.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <878qxyvhit.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240718025138.18777-7-pkshih@realtek.com>
 
+Hi Ping-Ke,
 
+kernel test robot noticed the following build errors:
 
-On 7/18/24 17:36, Takashi Iwai wrote:
-> On Thu, 18 Jul 2024 17:16:54 +0200,
-> Pierre-Louis Bossart wrote:
->>
->>
->>>>>> diff --git a/sound/soc/intel/common/soc-intel-quirks.h
->>>>>> b/sound/soc/intel/common/soc-intel-quirks.h
->>>>>> index de4e550c5b34..ae67853f7e2e 100644
->>>>>> --- a/sound/soc/intel/common/soc-intel-quirks.h
->>>>>> +++ b/sound/soc/intel/common/soc-intel-quirks.h
->>>>>> @@ -11,7 +11,9 @@
->>>>>>
->>>>>>  #include <linux/platform_data/x86/soc.h>
->>>>>>
->>>>>> -#if IS_ENABLED(CONFIG_X86)
->>>>>> +#if IS_ENABLED(CONFIG_X86) && \
->>>>>> +       (IS_ENABLED(CONFIG_SND_SOC_SOF_BAYTRAIL) || \
->>>>>> +        IS_ENABLED(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI))
->>>>>>
->>>>>>  #include <linux/dmi.h>
->>>>>>  #include <asm/iosf_mbi.h>
->>>>>>
->>>>>> also at https://github.com/thesofproject/linux/pull/5114
->>>>>
->>>>> I'm afraid it's not enough, either.  It's included in
->>>>> sound/soc/sof/intel/atom.c, and this one can be built-in by selected
->>>>> from others while CONFIG_SND_SOC_SOF_BAYTRAIL=m.  And, the reverse
->>>>> selection is done from CONFIG_SND_SOC_SOF_BAYTRAIL -- so
->>>>> CONFIG_IOSF_MBI can be m as well, and this can lead to the unresolved
->>>>> symbol from the built-in atom.c.
->>>>
->>>> Fair point, I was only looking at the reported failure where Baytrail
->>>> was completely disabled.
->>>>
->>>> I am not sure though if it makes sense to split hair in N dimensions.
->>>> Building Merrifield as y and Baytrail as m is a corner case that
->>>> shouldn't exist at all. And it's only an academic compilation issue, in
->>>> practice using 'y' would fail at run-time due to the usual firmware load
->>>> dependencies...
->>>
->>> Surely this kind of bug won't hit anyone in practical use, but it's
->>> only about the randconfig failures.  The original report is in the
->>> same category, after all.
->>>
->>> Maybe another (rather easier) workaround would be to use
->>> IS_REACHABLE(), something like below.  This should fix the original
->>> issue and the potential mess-up of kconfig dependencies.
->>
->> The simplest solution works for me :-)
->>
->> Do you want me to send a patch with your Suggested-by: tag or do it
->> yourself?
-> 
-> If you can send from your side, it'd be more appreciated ;)
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on linus/master next-20240718]
+[cannot apply to wireless/main v6.10]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-will do, no worries.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-8852bt-add-set_channel_rf/20240718-105447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240718025138.18777-7-pkshih%40realtek.com
+patch subject: [PATCH 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile and Kconfig
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240719/202407191402.diNZbCgq-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191402.diNZbCgq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407191402.diNZbCgq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> hppa-linux-ld: drivers/net/wireless/realtek/rtw89/rtw8852bte.o:(.rodata+0x40): undefined reference to `rtw8852bt_chip_info'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
