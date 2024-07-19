@@ -1,98 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F10D42076
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 06:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834A32AEE3;
+	Fri, 19 Jul 2024 07:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721371693; cv=none; b=BUbpjc/tdNJHwv24J60Vq4D87ZB6FPoqTvZ0JPgKVVBB/xVGWXQ9tULRKTsZs7IAUE20Jxmh4CbF2zKI43Oo7wGFfJKae4fINN2nUkwuj2GX6IQ+aQTYeeyYAuNgGbU9d32fHU4h8J87Oy3CH4x7+VUvC4jMMVNWwU3nOIHRuRU=
+	t=1721372800; cv=none; b=Ol2Nk4TNX/r/iEfbbqjHkBzvt0aKaFaAl8sFCfbk/NEJiIYDZ0RG4Mxlm63onDT7PtswfaQH9WgVBsUUfwyn/+OpHIKFX7LiY0h1gxnW8iEt58u1ku4q4S7q2pSRX998WoZnsezeTKF0MGbJMMSBcfupeKcQibEOyWriiwWMRWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721371693; c=relaxed/simple;
-	bh=1J+TbzgOGOue2PICHcbZ/lJ1gks4zEPS4UOBxrC0vEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFu/+xVSnj4d/Kb6yrYnlfvZeqedBpRoELM6KXWAxy37hWfV6JL5HoPWHyq8exKoIeaNU/exBWe/8qMrUae2biIpT06hIrh58mQ2zVlUvP6mMPLxAvc/07VklWdXW+hVd5mhi7ohkwtM9hx1QRnQJO1eG+VUxyeQKrJF42Lq9zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYqKhm4r; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721372800; c=relaxed/simple;
+	bh=K32GTfN4oGG0MjOgdzZpqRj0fp7zYr5VtjEbRv39nOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=EofffhYg4zzi0gEEz8oi9SSt9HZ1ddCSz5AE+P23fgE/IUy6KkJDHBIizsWPd4W3NVqBzM65mTJhyXhrsbvLQpwtVJ0Z9wJAlAplffStJNZnk6Qull2yhmC8pWrCr5NgVzzQ1oXgf/U9TB3FQjl3ZyK4E/T2GwEv/pFRxrIOmQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j4w6zoeH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYqKhm4r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721371692; x=1752907692;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1J+TbzgOGOue2PICHcbZ/lJ1gks4zEPS4UOBxrC0vEk=;
-  b=XYqKhm4rzpOT15K8FJrAIgKJ6rwwT1Yw9C12ARNNTzt4PGwjp9vH6osH
-   Gylfg2V1iNvSdHhPZkITtM9yDlF1JGM+hPaG8aYSLicXThxYUiz/Yo2sF
-   wk2fyeodkKnDNzSQ2dfIMT9h2PYSqPQyFk/fujlVj47Dlx6nI2UWgs0vN
-   XvMuwZhaZjfke1cgZmiYCRrYiQekCc3smATjA0dv9HEVJebNVOHAcRJDv
-   KlmHzzhdcZ/kzxEYKgMpmeKTbZ9XM0ZOTTC8ZVApI4MncVO3xxFJAWpKF
-   VHMcMA4p3TFtDLjUCoT9z5IueujTdSvg3aH4gZwhmaeRaDntOqw4ONs0I
-   Q==;
-X-CSE-ConnectionGUID: y7eFkrHRQHWsXwRGv+efmw==
-X-CSE-MsgGUID: XhuXgUHvSrOSJzx0vl+Z5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18843581"
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="18843581"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 23:48:09 -0700
-X-CSE-ConnectionGUID: zyE0tJpuT8+sZVNn8slXZg==
-X-CSE-MsgGUID: 5cOYAFhETAGbAOh9UcHeHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="50888002"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Jul 2024 23:48:08 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sUhPS-000hwP-0U;
-	Fri, 19 Jul 2024 06:48:06 +0000
-Date: Fri, 19 Jul 2024 14:47:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile and
- Kconfig
-Message-ID: <202407191402.diNZbCgq-lkp@intel.com>
-References: <20240718025138.18777-7-pkshih@realtek.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j4w6zoeH"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J0tIa0032736;
+	Fri, 19 Jul 2024 07:06:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cSFCnhTLYq+7gO4dH4MIElWjWBd6oBuSpudE9Awk79A=; b=j4w6zoeHPJe3kgmu
+	pCc+ywWHdwYw6zw6qERTL13ps5fgxHQTd2ssor6rkxtBSKjgmdw1p7ytVaeObAfx
+	6W2FS3GgYnbeQUtcE1RTJ2bbi/Wz8sucbtQ96Ou8BnxveAVcxktGiPSROh0mg+GL
+	dFOmu0uSsV+Jv4i/S2lKbBhKNlhQFRREfWw7EvIeq+bANOebu1g1xorjv2v1O6VN
+	Mp89usq+2Gg3f0dr61RQUuf80sEHz6O4IsKU8xxTU4kZYL4OGHVT3G0KlhkMK9bF
+	TXIDXpFfPzPq1tlSN/FcHouDBT7IIJUUq6ERdg4uIzRBsJxvK+Zw9jqnJVtJkWVU
+	k7eilA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40fe1d8kw7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jul 2024 07:06:27 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46J76PW5010722
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jul 2024 07:06:25 GMT
+Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Jul
+ 2024 00:06:21 -0700
+Message-ID: <53c18dbe-930b-4b0e-a134-7210bf61c8e5@quicinc.com>
+Date: Fri, 19 Jul 2024 12:36:18 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240718025138.18777-7-pkshih@realtek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 7766/10451]
+ drivers/clk/qcom/camcc-sm8650.c:3573:29: error: incompatible pointer types
+ passing 'struct device *' to parameter of type 'struct platform_device *'
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+        "Linux Memory
+ Management List" <linux-mm@kvack.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>,
+        Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>,
+        Taniya Das <quic_tdas@quicinc.com>,
+        "Ajit
+ Pandey" <quic_ajipan@quicinc.com>,
+        Imran Shaik <quic_imrashai@quicinc.com>
+References: <202407072331.baglL4Sd-lkp@intel.com>
+ <edfd90b7-b94b-4b1d-a625-a240a8446f1e@kernel.org>
+ <ca6b403b-60ce-491f-8254-39e9d8e2eeba@quicinc.com>
+ <b2459009-71c6-406f-9760-13dd07277d6a@kernel.org>
+Content-Language: en-US
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+In-Reply-To: <b2459009-71c6-406f-9760-13dd07277d6a@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: yhIPqF3NGaCqvucUbY2y7al7XXmvFZxE
+X-Proofpoint-ORIG-GUID: yhIPqF3NGaCqvucUbY2y7al7XXmvFZxE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-19_03,2024-07-18_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 bulkscore=0 adultscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407190055
 
-Hi Ping-Ke,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on linus/master next-20240718]
-[cannot apply to wireless/main v6.10]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 7/18/2024 3:36 PM, Krzysztof Kozlowski wrote:
+> On 18/07/2024 11:48, Jagadeesh Kona wrote:
+>>
+>>
+>> On 7/18/2024 12:18 PM, Krzysztof Kozlowski wrote:
+>>> On 07/07/2024 17:20, kernel test robot wrote:
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>>> head:   0b58e108042b0ed28a71cd7edf5175999955b233
+>>>> commit: 09ea421652a832083ea380a72addf383965f3682 [7766/10451] clk: qcom: camcc-sm8650: Add SM8650 camera clock controller driver
+>>>> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240707/202407072331.baglL4Sd-lkp@intel.com/config)
+>>>> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407072331.baglL4Sd-lkp@intel.com/reproduce)
+>>>
+>>> This and this:
+>>> https://lore.kernel.org/all/202407072212.WptVaUDt-lkp@intel.com/
+>>>
+>>> are reports on linux-next. They were addressed to you/
+>>>
+>>> Jagadeesh, how did you respond to public reports that your commit has
+>>> build failures in linux-next?
+>>>
+>>> It reached now Linus' tree causing huge rant, unfortunately not in the
+>>> direction we would like that rant to go.
+>>>
+>>> If you receive a report that your code does not even compile, it is YOUR
+>>> DAMN MOST IMPORTANT TASK to address it IMMEDIATELY.
+>>>
+>>> I don't think such code should be ever accepted if contributors do not
+>>> take responsibility for their commits.
+>>>
+>>> Krzysztof
+>>>
+>>
+>> I initially submitted my change [1] by passing pdev to
+>> qcom_cc_really_probe(). Seems like due to [2] which changed the
+>> qcom_cc_really_probe() parameters from pdev to dev, my change was
+>> updated from pdev to &pdev->dev while applying.
+>>
+>> When this issue was reported by kernel bot, I checked out the linux-next
+>> tree but I didn't see this failure since the common change [2] was
+> 
+> So tree is not bisectable but that's fine? How about telling the
+> maintainer: listen, your tree is now broken?
+> 
+>> already merged into linux-next. I apologize for not reverting the same
+>> over the email thread.
+>>
+>> But change [2] was somehow missed and only my change [1] landed up in
+>> Linus's tree, which led to this failure as Arnd described in [3].
+> 
+> Nothing was missed. That commit should have never been accepted to that
+> branch, but, since it happened, you claim that dependency in clk drivers
+> should as well go to DTS branch? No, that's just wrong.
+> 
+> Mistake was that particular commit going to that branch and kernel robot
+> told you that which you (and Bjorn, but Bjorn is busy so it is your job
+> as contributor) should investigate.
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-8852bt-add-set_channel_rf/20240718-105447
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240718025138.18777-7-pkshih%40realtek.com
-patch subject: [PATCH 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile and Kconfig
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240719/202407191402.diNZbCgq-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191402.diNZbCgq-lkp@intel.com/reproduce)
+Yeah, it's my bad that I did not point out this issue. I will be more 
+careful from next time. Thank you.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407191402.diNZbCgq-lkp@intel.com/
+Regards,
+Jagadeesh
 
-All errors (new ones prefixed by >>):
-
->> hppa-linux-ld: drivers/net/wireless/realtek/rtw89/rtw8852bte.o:(.rodata+0x40): undefined reference to `rtw8852bt_chip_info'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> If that's how commits from quicinc look like I am afraid to take
+> anything. I will be on my own, stuck with such issues, because for
+> contributor "it is fine".
+> 
+> Best regards,
+> Krzysztof
+> 
