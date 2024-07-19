@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909681B86FD;
-	Fri, 19 Jul 2024 21:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D031B86EC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 21:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721425790; cv=none; b=HcattR4/TiN0atgg7q79KXpqIxQEDg6Vp7rXYPKVZ2IVu3BJlD3H15mXr67Hjglku7mJFco4laoRMb1oRZ80bnh1Fnx/7V1/ZpExO4OoQSrtMFymB6dL2TEGqRfSOKj0+SsvWSngXlo5FvtpTAILiBPVraQh4akm63TQsylXJ5c=
+	t=1721426392; cv=none; b=MQzEKLDMzKVlfW4HHDke0P9PorX7LMSjDxynOBnC0xMuwXa/r+uF9gCEc4eb8AK1pNaefA/jOHM1ie9wZiGQUXLEMt+QDtnoppwvUuslQBSd1b7gmw5FERl4A6LlqBCOXzUQfqpS1tP766u6C5a5pl8ZGNwQHM1Gm+HsQQGbbwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721425790; c=relaxed/simple;
-	bh=bRESBqr+QmZej4x/QIzifLd9hpEoAXyFGjN/yOaVbOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OgeDFLBbKQ/r6pkgImCmOKAkf/1qZRh5q3ZXeS32V9RUxZuBBTrMAsg6Ce+OaT0GmboQUemZU0TNXHGWHMAI9+RxbSN47sWGv36ReBjvtlNJJhSJVAO8az7Xx63LJB84QxA1MKknDwn3L/7pBX2M16kiqUWIgdSwsTpIj2r82oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrz1xH53; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1721426392; c=relaxed/simple;
+	bh=042WQKRj4OmnLPX3zC90dFEG5O4KeJ7wH4dUKSkiFTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xq+r+bxfBCOsAxKtVFRMSnEwIp8HgHaQDS7VDUQEQ8+RyqP+vuObuhB33uSl6ybvRQzR1H/yA3cICO/rFPY2t62LLRdxc2fqj08I14IpfI29dqBLwGXdoutU09Um5iZ7IKrRCH5oxrJ3MV/4DcSWtRNGr/s1V3kqdTiIdTDAXvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScWLQFYN; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrz1xH53"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScWLQFYN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721425789; x=1752961789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bRESBqr+QmZej4x/QIzifLd9hpEoAXyFGjN/yOaVbOo=;
-  b=nrz1xH53aAmrGRvrUbpKBsBEuygxV2d/XWXtM7Tc3cw2C/hcpzO55MZs
-   lcqF4XdcxuKQRzQ0nQnlujsRIpxVdZRJkhI3EK3E7grtAF4GJoVDblnxE
-   wi3XXfGmrj0Xsei6nrDnJZulnqFiK1Xy8fEDmjmTXaiYOXIDuuc0OHpW+
-   DM2IYH/DYc3knXABLVXW0XQPj0UIODGv2q7PDvIrkwfAJtN9chxdTJhD1
-   IlJIdBJnxIgq5pwZEBsZkS8xvCaY8pfrNG9KXfJwMM3VvRrHnEg5uyxKn
-   niuQSBSryjJEWMtagYde9lBGSBWHCaTuJCnvqjI+UGTbJ7927OFgL9WWF
+  t=1721426391; x=1752962391;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=042WQKRj4OmnLPX3zC90dFEG5O4KeJ7wH4dUKSkiFTk=;
+  b=ScWLQFYN5mW7lePuKoVqawVICRbGa2BpWZkz2j/QtUHvFTBhzho0n/zw
+   BZyjPN2W0GvafxddfLQNeGlB8HIWNruzILrFOhzILb8nT9SIa1oH14XmW
+   ZIgn1MxiSjIf4xUe3gYqIxtYxo5eLTF4AjOdGbHz4NXRmRI6g34hVGWhs
+   bKA7BiDb4emXusH4AXbLuEuAP9id9NR67xgpMzLyhuTGcWaSOiNDpivTj
+   5wnzdjxl0aMpI3GnKiNsfALI8lNpKCYmaXX+0f3tQYijTnJNMQ1VPds/F
+   3rG2L+r4IxgfVJodsHBNz+V3S2m9/Rf/RtGH53NzZtq8lc87tSG5wGFa1
    w==;
-X-CSE-ConnectionGUID: CBq0TJzNQUStKEnq4d7iJw==
-X-CSE-MsgGUID: Qa+HKL9RTES/AmXvuIM9KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="19241133"
+X-CSE-ConnectionGUID: RurZmI4bQceqwbOaXPgNRA==
+X-CSE-MsgGUID: pZfaTEN3Q9+1SEBb/GLwHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="19020349"
 X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; 
-   d="scan'208";a="19241133"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 14:49:48 -0700
-X-CSE-ConnectionGUID: CX+R0HC9TfCV4GketZQm8w==
-X-CSE-MsgGUID: roXzXDIPRPKmVRdqP0sG4g==
+   d="scan'208";a="19020349"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 14:59:51 -0700
+X-CSE-ConnectionGUID: F/bzdlzZSkiTe4ND6zZ2ug==
+X-CSE-MsgGUID: TQzoEX+vSLusdXlSLjtmOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; 
-   d="scan'208";a="51968747"
+   d="scan'208";a="56091844"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jul 2024 14:49:47 -0700
+  by orviesa003.jf.intel.com with ESMTP; 19 Jul 2024 14:59:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUvU0-000ibm-1i;
-	Fri, 19 Jul 2024 21:49:44 +0000
-Date: Sat, 20 Jul 2024 05:48:45 +0800
+	id 1sUvdh-000icc-0k;
+	Fri, 19 Jul 2024 21:59:45 +0000
+Date: Sat, 20 Jul 2024 05:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:folio_walk 1/10] mm/pagewalk.c:739:35: error: too
- many arguments to function call, expected single argument 'ptep', have 3
- arguments
-Message-ID: <202407200547.1AzxjkST-lkp@intel.com>
+To: Valentin Caron <valentin.caron@foss.st.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Valentin Caron <valentin.caron@foss.st.com>
+Subject: Re: [PATCH v2 2/4] rtc: stm32: add pinctrl and pinmux interfaces
+Message-ID: <202407200400.NnW2fJ0q-lkp@intel.com>
+References: <20240717074835.2210411-3-valentin.caron@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +74,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240717074835.2210411-3-valentin.caron@foss.st.com>
 
-tree:   https://github.com/davidhildenbrand/linux folio_walk
-head:   22d5156a61b8f9783984a24990a8a40d3993a513
-commit: d80a4597b25823d1bcf9d253452fcbcbef4d5c68 [1/10] mm/pagewalk: introduce folio_walk_start() + folio_walk_end()
-config: i386-buildonly-randconfig-001-20240720 (https://download.01.org/0day-ci/archive/20240720/202407200547.1AzxjkST-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200547.1AzxjkST-lkp@intel.com/reproduce)
+Hi Valentin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on atorgue-stm32/stm32-next robh/for-next linus/master v6.10 next-20240719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Caron/dt-bindings-rtc-stm32-describe-pinmux-nodes/20240717-193541
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20240717074835.2210411-3-valentin.caron%40foss.st.com
+patch subject: [PATCH v2 2/4] rtc: stm32: add pinctrl and pinmux interfaces
+config: alpha-kismet-CONFIG_GENERIC_PINCONF-CONFIG_RTC_DRV_STM32-0-0 (https://download.01.org/0day-ci/archive/20240720/202407200400.NnW2fJ0q-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240720/202407200400.NnW2fJ0q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407200547.1AzxjkST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407200400.NnW2fJ0q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> mm/pagewalk.c:739:35: error: too many arguments to function call, expected single argument 'ptep', have 3 arguments
-     739 |                 pte = huge_ptep_get(vma->vm_mm, addr, ptep);
-         |                       ~~~~~~~~~~~~~             ^~~~~~~~~~
-   include/asm-generic/hugetlb.h:147:21: note: 'huge_ptep_get' declared here
-     147 | static inline pte_t huge_ptep_get(pte_t *ptep)
-         |                     ^             ~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/ptep +739 mm/pagewalk.c
-
-   723	
-   724	static struct folio *folio_walk_start_hugetlb(struct vm_area_struct *vma,
-   725			unsigned long addr, struct folio_walk *fw,
-   726			folio_walk_flags_t flags)
-   727	{
-   728	#ifdef CONFIG_HUGETLB_PAGE
-   729		struct hstate *h = hstate_vma(vma);
-   730		unsigned long hmask = huge_page_mask(h);
-   731		unsigned long sz = huge_page_size(h);
-   732		struct page *page;
-   733		pte_t *ptep, pte;
-   734		spinlock_t *ptl;
-   735	
-   736		ptep = hugetlb_walk(vma, addr & hmask, sz);
-   737		if (ptep) {
-   738			ptl = huge_pte_lock(hstate_vma(vma), vma->vm_mm, ptep);
- > 739			pte = huge_ptep_get(vma->vm_mm, addr, ptep);
-   740			if (pte_present(pte)) {
-   741				page = pte_page(pte);
-   742				goto found;
-   743			} else if (!huge_pte_none(pte)) {
-   744				swp_entry_t entry = pte_to_swp_entry(pte);
-   745	
-   746				if ((flags & FW_MIGRATION_ENTRIES) &&
-   747				    is_migration_entry(entry)) {
-   748					page = pfn_swap_entry_to_page(entry);
-   749					goto found;
-   750				}
-   751			}
-   752			spin_unlock(ptl);
-   753		}
-   754		hugetlb_vma_unlock_read(vma);
-   755		return NULL;
-   756	found:
-   757		if (sz < PMD_SIZE)
-   758			fw->level = FW_LEVEL_PTE;
-   759		else if (sz < PUD_SIZE)
-   760			fw->level = FW_LEVEL_PMD;
-   761		else
-   762			fw->level = FW_LEVEL_PUD;
-   763		fw->ptep = ptep;
-   764		fw->pte = pte;
-   765		return __folio_walk_fill(fw, page, addr & (sz - 1), vma, ptl);
-   766	#endif /* CONFIG_HUGETLB_PAGE */
-   767		return NULL;
-   768	}
-   769	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PINCONF when selected by RTC_DRV_STM32
+   WARNING: unmet direct dependencies detected for GENERIC_PINCONF
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - RTC_DRV_STM32 [=y] && RTC_CLASS [=y] && (ARCH_STM32 || COMPILE_TEST [=y])
+   
+   WARNING: unmet direct dependencies detected for PINMUX
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - RTC_DRV_STM32 [=y] && RTC_CLASS [=y] && (ARCH_STM32 || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
