@@ -1,131 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0322DDCB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 05:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A868EC132
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 05:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721454484; cv=none; b=QcDDF3R9HBCaCN7FzFf614obkMYvCWmsUVjyGWoyH/JDhNXdnRGuSRBTc/uiaPKFmkmSGutsMy8G+yIRBApv1Fun7nZkW10/a5BqIka/iFUKYV3MjRB/3gd1HyeLjq3CvwpxpiyTA4eTRJTKzIEUh8TurWJc4rEwUv/vkvgJ9Aw=
+	t=1721454782; cv=none; b=LPLI9KaXbiSrObeyB2Utg2KinGLJT0AE7yCBw65TWbDeN/uTTyj3nIlQ34tO9RTWsMoqfk811NXC8AqT1wGAVn1/WUiiN8ErYfyGfsrmrmUpB0/S6LT76O23q02AX+76gYtCE5ncNDzkjcast1Jcc1tN/9shdpECs/0+I80Emog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721454484; c=relaxed/simple;
-	bh=iDZdBVvDTiR42Y97+PcOMF6S+Vli33sT0P7Q5c/pqq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EvOg2uiG3rgugn+swJNqTfIxLE0z2Qymuj8bx6YGlt6gAm4DnwzuW0WkD49w+DBVdh0kSEKUBEvQ1tAo9ssJ5HeBBF1FCM0bS36TOPJB2ExnEm2zpbKiAW6Mz/XP6E3jruSGLemYCRP0PTXyPWTxL7/SXZahVmVX4m0FZNAMRWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sd/oYciB; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721454782; c=relaxed/simple;
+	bh=UeO3G7NkIzQBPpyoL2rDY32NGhukDMyOmDw7qfhTgGQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n3vPrT/GAikbBT0piUNOCFCDURf0Qzhd293nd7shNWzImHdyhEf8MgAM/4bN977XW6KqxaRZCCfBQLCohJt8VpBYjJBTPSBb5liDFleRPM6tSLj4jVMXUxk59R6aEaf328GosgjdtSgFwfRkk2zqKrZe3iU/LbilSwsxrRy58SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STDj8bgf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sd/oYciB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721454483; x=1752990483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iDZdBVvDTiR42Y97+PcOMF6S+Vli33sT0P7Q5c/pqq4=;
-  b=Sd/oYciB5tVp6hOEatYT4EodSjn3yx/AKhgVSLdhqENx1YDW0J9yxXxG
-   Q/o88Er3vR3O/QPu+R3l+Qoh82rvT7paeB54jLH6kKFJVcAUp3nfQ0zBs
-   QYvc9fJ34t5aAosMe3ebjshB/Ijd4pT7DaQq2emfwmeaxczbjsFeyvaku
-   bG+NR4AqCI+wEkBw5KgDnxf6hTfhaDbyLJzgwqBmuOGm9htiAbZ4PHQlJ
-   hX+VlT55weLzdRLCWRJ6ZIqh6wckwCpIOv42NmFYX69ikbAXx8jKZoEq+
-   /n9ZzeKfiaFmdZGEKPbTEjNsI353F1eeEL8KQOyoY3mYBZEmQEmJrJAZY
-   A==;
-X-CSE-ConnectionGUID: V022grz8T5Cls6FJJESexQ==
-X-CSE-MsgGUID: 1msEy8+TR+yEGWklOTjrkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="22849561"
-X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="22849561"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 22:48:00 -0700
-X-CSE-ConnectionGUID: 7RwD7/ubT6OQNPoCo/r8YA==
-X-CSE-MsgGUID: xxNS8NpzSau3+dwHHZCISg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="51397198"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Jul 2024 22:47:58 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sV2wm-000itG-1D;
-	Sat, 20 Jul 2024 05:47:56 +0000
-Date: Sat, 20 Jul 2024 13:47:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 37/38] mm/memory.c:440:39: error: passing
- argument 3 of 'pmd_populate' from incompatible pointer type
-Message-ID: <202407201336.XouzIbNo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STDj8bgf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C54C4AF0B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 05:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721454782;
+	bh=UeO3G7NkIzQBPpyoL2rDY32NGhukDMyOmDw7qfhTgGQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=STDj8bgf91byztxi0xlVuMG+p5+z+BjNQC9B1zaz2tQ8edNXfDWk4+gH9ErOm8pvY
+	 hmavGFIZ6MWm9nYyRuUejmqsDsuDeAa6TeVodQWclcfsI8oIUsS4ddA8QcFzKd+kpW
+	 PDBjvYeQGVnK/ErATiskTChhtIkLA1WG+iqydBnSOFX0+lMyw8QDG1KzVDndEEd509
+	 K0tcBH0RL0nv4XqGVoYdo5AhRGFioj2bTCQPtn2tzeiSk6eIwIEbYuG+YN4wXM9zNj
+	 MdaupLH6m4n49iHkXupovBujs9V7SFRMSH4RH39kpKEbOBfEUBXYTBM2xvLnh9oYQk
+	 csVhZuIhxXnJA==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2eeb2d60efbso39837001fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jul 2024 22:53:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWTwP93TO/E6BGn8fvrAU7b6ApKpn7NsJ9LBvSggDjNNNBS1iTFte9WoPvdyIEHdSGO79i1Tng60IHWhDnYb+0L9F3LkYvDoeXCjirc/w==
+X-Gm-Message-State: AOJu0YwENc4+kJQa0gssWYE1hOis2sdAnJrtGlaGV02yuUm8OJPX7l3o
+	Fy5vofiNSGe9qgLTkAS+AFKgtwcLuf1wFq3ETsgbqAR9zyps4tZ+W8BLFnWBly+D/JiphIie8FV
+	4Ni9ukerRmLL6Z9FKld9VfrDrG64=
+X-Google-Smtp-Source: AGHT+IGuxYsj+teUSsDmP5OkxvJFSZxGtcEgk8xrflEw4gEe6H9eH+x5HhbMa6R7VKtCOtM/o/QYthKiD8LEp7kpMuw=
+X-Received: by 2002:a2e:90d7:0:b0:2ee:8ce9:5ad2 with SMTP id
+ 38308e7fff4ca-2ef167a3da0mr10089341fa.23.1721454780524; Fri, 19 Jul 2024
+ 22:53:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202407201336.mW8dj1VB-lkp@intel.com>
+In-Reply-To: <202407201336.mW8dj1VB-lkp@intel.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sat, 20 Jul 2024 13:52:46 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6Baxm_V=cjcJe5HN1ej7LWhvUL7fdWA1awGwf6VK06zA@mail.gmail.com>
+Message-ID: <CAAhV-H6Baxm_V=cjcJe5HN1ej7LWhvUL7fdWA1awGwf6VK06zA@mail.gmail.com>
+Subject: Re: [chenhuacai-loongson:loongarch-next 5/18] arch/loongarch/kernel/syscall.o:
+ warning: objtool: do_syscall+0x11c: return with modified stack frame
+To: kernel test robot <lkp@intel.com>, Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Jinjie Ruan <ruanjinjie@huawei.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   b17c1bbf65811ff797f57b7ddc4fdf4b86d86030
-commit: 6b1d115d7b654549585d26008d60cb71b1cbefc8 [37/38] pass ptdesc to pmd_install
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240720/202407201336.XouzIbNo-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407201336.XouzIbNo-lkp@intel.com/reproduce)
+Hi, Tiezhu,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407201336.XouzIbNo-lkp@intel.com/
+Can this warning be fixed? Or we can only use
+STACK_FRAME_NON_STANDARD(do_syscall) to skip it?
 
-All errors (new ones prefixed by >>):
+Huacai
 
-   mm/memory.c: In function 'pmd_install':
->> mm/memory.c:440:39: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
-     440 |                 pmd_populate(mm, pmd, *pte);
-         |                                       ^~~~
-         |                                       |
-         |                                       struct ptdesc *
-   In file included from arch/openrisc/include/asm/io.h:18,
-                    from include/linux/io.h:14,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/openrisc/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from mm/memory.c:43:
-   arch/openrisc/include/asm/pgalloc.h:32:46: note: expected 'struct page *' but argument is of type 'struct ptdesc *'
-      32 |                                 struct page *pte)
-         |                                 ~~~~~~~~~~~~~^~~
-
-
-vim +/pmd_populate +440 mm/memory.c
-
-   419	
-   420	void pmd_install(struct mm_struct *mm, pmd_t *pmd, struct ptdesc **pte)
-   421	{
-   422		spinlock_t *ptl = pmd_lock(mm, pmd);
-   423	
-   424		if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
-   425			mm_inc_nr_ptes(mm);
-   426			/*
-   427			 * Ensure all pte setup (eg. pte page lock and page clearing) are
-   428			 * visible before the pte is made visible to other CPUs by being
-   429			 * put into page tables.
-   430			 *
-   431			 * The other side of the story is the pointer chasing in the page
-   432			 * table walking code (when walking the page table without locking;
-   433			 * ie. most of the time). Fortunately, these data accesses consist
-   434			 * of a chain of data-dependent loads, meaning most CPUs (alpha
-   435			 * being the notable exception) will already guarantee loads are
-   436			 * seen in-order. See the alpha page table accessors for the
-   437			 * smp_rmb() barriers in page table walking code.
-   438			 */
-   439			smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
- > 440			pmd_populate(mm, pmd, *pte);
-   441			*pte = NULL;
-   442		}
-   443		spin_unlock(ptl);
-   444	}
-   445	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Sat, Jul 20, 2024 at 1:06=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-=
+loongson.git loongarch-next
+> head:   14c860e4d30d97502271d5c19474c8561ba06c98
+> commit: a196fe59bfa2120d0625afd2b3cc72050a7260fa [5/18] LoongArch: Add RA=
+NDOMIZE_KSTACK_OFFSET support
+> config: loongarch-defconfig (https://download.01.org/0day-ci/archive/2024=
+0720/202407201336.mW8dj1VB-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240720/202407201336.mW8dj1VB-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407201336.mW8dj1VB-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> arch/loongarch/kernel/syscall.o: warning: objtool: do_syscall+0x11c: r=
+eturn with modified stack frame
+>
+>
+> objdump-func vmlinux.o do_syscall:
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
