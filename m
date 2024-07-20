@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC2B12EBE1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 17:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFF513775E;
+	Sat, 20 Jul 2024 17:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721495559; cv=none; b=p18UQiBq0cwcF8zrhGooSv6UOjtyEOVAWCjAznZFHLyFU4iuMcjG3pPTNbaDCICOGatlx9m91JXGQiWV5nCvyqd54fKazfjgRsTJbLET8bR4m6xnB+kPFSxaYkU5NXfdHiQrAbNKHrs0FQFaLU7cY66nMSXsFFM+/hC/eE778ow=
+	t=1721496220; cv=none; b=qMV43d6B83zEXlBui5GS1ffUldjMsrpPraszPnkUrOMk4XL9jlluXnVodQCk+ubiejHbmxD+mPg2K63D/4BcmkVV1HpsxvhK+4inDv2shCNIbWfAlJ8Mt27GbgCu836kS/cvY4iuBZMmsBk2Sk2KExdkuu+EuQxG/A8L6gdcNG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721495559; c=relaxed/simple;
-	bh=RhAGVDT3PdocQt0m7Mr5VWlfw4ihC6K3EZ18ro5n8VE=;
+	s=arc-20240116; t=1721496220; c=relaxed/simple;
+	bh=CmRf8xfUoue/OsP80j08hXpw8hkr9GdEqPwF/fPzxHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AlHBXWYN3cQU0lYy5yQKtUHgUmdKzv+u2XYZDowEvgZPSv54ZQdnIY9bs0pq2nJQiqtX4SJ0tOiWxiPxHFZo/+787/N4Xtwv8+96IDiZ/5FzY/Ntk6Agqfqpm7aIj3Zf0ReNNXw1j1Hp8xIKdJFauQBl39vzgdosozkqZITYN2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZf6xZJa; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=kAnrQOb0BQa86OC3lWhOZ5YaCZeKtj/xqfLoChPyab8vDmSMc7FICsbdLzTCyrXhG7sGgE4U638wxa4o+wEYmAXh+mf1ahcTxAQYyQ8el0nJ6JMQgnhSqcq/a+7xp9+6r1POGldVQPYLn6tqtFc1HXFVj5KezF6Bu+PmvxxDMek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xx4HiIao; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZf6xZJa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xx4HiIao"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721495557; x=1753031557;
+  t=1721496218; x=1753032218;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RhAGVDT3PdocQt0m7Mr5VWlfw4ihC6K3EZ18ro5n8VE=;
-  b=dZf6xZJao0zjMHHXoAX/Rs9FgKAFOsRkdZRY5Py3k+/e2EMgEqIxfJ1A
-   FnoaHkoo46o1EzdmZtS0dydUZSKIdo13c1WzzVnA7ktc9O9/iq5utIU/A
-   lIlAdsCiQjPP1Bp8NBy3VU/jV37SM1QaYo54oU4thLeACTCzSKtET1R+l
-   kLCgIc1YVcHpAWy2yV4WJ2pv/HJIozKS9vsD9kw3+RXfvqQ+e/Gap8PFQ
-   9kccucRujokdOlBWOt0T1ilGyXaKO2PGxSxP5uajtSgiITIfajB33jiyr
-   mP/MUIjzTC35t04y9NSVSU28IeCK80zNMYQhka17uBvvnVbRKzqWAirOI
+  bh=CmRf8xfUoue/OsP80j08hXpw8hkr9GdEqPwF/fPzxHs=;
+  b=Xx4HiIaoJkk4+ea71e5zrg/tyilW1GLRFEx0O6NxBcqeY2il0IKtZG7J
+   wkORbYJ6yU0iBLHZvnkAcj6uA1wCWNspwrVlEjab/EOLdp2gFaCcVA4Lq
+   75zNxifyBAUcfCnUCk670L2gs0mOGleFZ6ar6NxNs2lAlMkrGlgdoF7el
+   Ej4C4yIpnGLdc+XSnMJWuqN0gfUs2YIijU+On7YUmQMxTIrVjQiGvN0W2
+   vqIqL8xi+k5TumLrETFWUis6gcO1U7J5Ymx8eQzVLZ/6elBXdssOgPOUs
+   mKNF0ST3heERZY8+FBvNFU8S3jpsj7V/m8izMvDYjIYihYj5/aszIhuxb
    g==;
-X-CSE-ConnectionGUID: u0nb2s0fQwutTX6PF4jBZw==
-X-CSE-MsgGUID: afDLF18ST7G/yIOqj/wgrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="29766734"
+X-CSE-ConnectionGUID: IbtKBBWpRcSYS9wApLjaTA==
+X-CSE-MsgGUID: MI/9Z14vQkyJWqe5lxXczg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="29689763"
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="29766734"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 10:12:36 -0700
-X-CSE-ConnectionGUID: yZbD42SORXSfb4gUaec6Sw==
-X-CSE-MsgGUID: Rcqy+9nUSKySiHIvQhl1OQ==
+   d="scan'208";a="29689763"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 10:23:37 -0700
+X-CSE-ConnectionGUID: ebp+H30sSWKp6kyEKBKuYQ==
+X-CSE-MsgGUID: v77bShUETYuKJlX9ldXYLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="56266749"
+   d="scan'208";a="55709668"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Jul 2024 10:12:35 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 Jul 2024 10:23:35 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVDdI-000jSY-27;
-	Sat, 20 Jul 2024 17:12:32 +0000
-Date: Sun, 21 Jul 2024 01:12:08 +0800
+	id 1sVDnx-000jT8-0v;
+	Sat, 20 Jul 2024 17:23:33 +0000
+Date: Sun, 21 Jul 2024 01:23:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 11/12] WARNING: modpost: module iommu_armv8_4k
- uses symbol iova_bitmap_set from namespace IOMMUFD, but does not import it.
-Message-ID: <202407210137.TBznPq9w-lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [agd5f:amd-staging-drm-next-queue-reset 60/60]
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2139:11: warning: operator '?:' has
+ lower precedence than '|'; '|' will be evaluated first
+Message-ID: <202407210134.PApSunS1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,123 +63,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   3bfbe508e9fa71038507cc93408130b73fd54d2e
-commit: 3ae5398fab5bf2de6b5118f70450c4a13b3dcbaf [11/12] iommupt: Add the 64 bit ARMv8 page table format
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240721/202407210137.TBznPq9w-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210137.TBznPq9w-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next-queue-reset
+head:   a5bdae426e5b6593ac3ac0814950110bec1dda31
+commit: a5bdae426e5b6593ac3ac0814950110bec1dda31 [60/60] drm/amdgpu/gfx7: add ring reset callback for gfx
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240721/202407210134.PApSunS1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210134.PApSunS1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407210137.TBznPq9w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407210134.PApSunS1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit_proto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/nvidia_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/of_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
->> WARNING: modpost: module iommu_armv8_4k uses symbol iova_bitmap_set from namespace IOMMUFD, but does not import it.
->> WARNING: modpost: module iommu_armv8_16k uses symbol iova_bitmap_set from namespace IOMMUFD, but does not import it.
->> WARNING: modpost: module iommu_armv8_64k uses symbol iova_bitmap_set from namespace IOMMUFD, but does not import it.
+>> drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2139:11: warning: operator '?:' has lower precedence than '|'; '|' will be evaluated first [-Wbitwise-conditional-parentheses]
+    2135 |         amdgpu_ring_write(ring, (EOP_TCL1_ACTION_EN |
+         |                                  ~~~~~~~~~~~~~~~~~~~~
+    2136 |                                  EOP_TC_ACTION_EN |
+         |                                  ~~~~~~~~~~~~~~~~~~
+    2137 |                                  EVENT_TYPE(CACHE_FLUSH_AND_INV_TS_EVENT) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2138 |                                  EVENT_INDEX(5) |
+         |                                  ~~~~~~~~~~~~~~~~
+    2139 |                                  exec ? EOP_EXEC : 0));
+         |                                  ~~~~ ^
+   drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2139:11: note: place parentheses around the '|' expression to silence this warning
+    2135 |         amdgpu_ring_write(ring, (EOP_TCL1_ACTION_EN |
+         |                                  ~~~~~~~~~~~~~~~~~~~~
+    2136 |                                  EOP_TC_ACTION_EN |
+         |                                  ~~~~~~~~~~~~~~~~~~
+    2137 |                                  EVENT_TYPE(CACHE_FLUSH_AND_INV_TS_EVENT) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2138 |                                  EVENT_INDEX(5) |
+         |                                  ~~~~~~~~~~~~~~~~
+    2139 |                                  exec ? EOP_EXEC : 0));
+         |                                  ~~~~ ^
+   drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2139:11: note: place parentheses around the '?:' expression to evaluate it first
+    2139 |                                  exec ? EOP_EXEC : 0));
+         |                                       ^             
+         |                                  (                  )
+   1 warning generated.
+
+
+vim +2139 drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+
+  2100	
+  2101	/**
+  2102	 * gfx_v7_0_ring_emit_fence_gfx - emit a fence on the gfx ring
+  2103	 *
+  2104	 * @ring: amdgpu_ring structure holding ring information
+  2105	 * @addr: address
+  2106	 * @seq: sequence number
+  2107	 * @flags: fence related flags
+  2108	 *
+  2109	 * Emits a fence sequence number on the gfx ring and flushes
+  2110	 * GPU caches.
+  2111	 */
+  2112	static void gfx_v7_0_ring_emit_fence_gfx(struct amdgpu_ring *ring, u64 addr,
+  2113						 u64 seq, unsigned flags)
+  2114	{
+  2115		bool write64bit = flags & AMDGPU_FENCE_FLAG_64BIT;
+  2116		bool int_sel = flags & AMDGPU_FENCE_FLAG_INT;
+  2117		bool exec = flags & AMDGPU_FENCE_FLAG_EXEC;
+  2118	
+  2119		/* Workaround for cache flush problems. First send a dummy EOP
+  2120		 * event down the pipe with seq one below.
+  2121		 */
+  2122		amdgpu_ring_write(ring, PACKET3(PACKET3_EVENT_WRITE_EOP, 4));
+  2123		amdgpu_ring_write(ring, (EOP_TCL1_ACTION_EN |
+  2124					 EOP_TC_ACTION_EN |
+  2125					 EVENT_TYPE(CACHE_FLUSH_AND_INV_TS_EVENT) |
+  2126					 EVENT_INDEX(5)));
+  2127		amdgpu_ring_write(ring, addr & 0xfffffffc);
+  2128		amdgpu_ring_write(ring, (upper_32_bits(addr) & 0xffff) |
+  2129					DATA_SEL(1) | INT_SEL(0));
+  2130		amdgpu_ring_write(ring, lower_32_bits(seq - 1));
+  2131		amdgpu_ring_write(ring, upper_32_bits(seq - 1));
+  2132	
+  2133		/* Then send the real EOP event down the pipe. */
+  2134		amdgpu_ring_write(ring, PACKET3(PACKET3_EVENT_WRITE_EOP, 4));
+  2135		amdgpu_ring_write(ring, (EOP_TCL1_ACTION_EN |
+  2136					 EOP_TC_ACTION_EN |
+  2137					 EVENT_TYPE(CACHE_FLUSH_AND_INV_TS_EVENT) |
+  2138					 EVENT_INDEX(5) |
+> 2139					 exec ? EOP_EXEC : 0));
+  2140		amdgpu_ring_write(ring, addr & 0xfffffffc);
+  2141		amdgpu_ring_write(ring, (upper_32_bits(addr) & 0xffff) |
+  2142					DATA_SEL(write64bit ? 2 : 1) | INT_SEL(int_sel ? 2 : 0));
+  2143		amdgpu_ring_write(ring, lower_32_bits(seq));
+  2144		amdgpu_ring_write(ring, upper_32_bits(seq));
+  2145	}
+  2146	
 
 -- 
 0-DAY CI Kernel Test Service
