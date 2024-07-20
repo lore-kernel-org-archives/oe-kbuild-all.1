@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49981C14;
-	Sat, 20 Jul 2024 01:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCE9523D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 01:14:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721438096; cv=none; b=fiY4CBGTtjr2XOXST6+TNsJuilz3VO7qH4X0Ma5kSLCINsui6HS8zFqWKkZXXq9TrZLMSNaD2cVgWFtzPtZZDB12dk9pYVMnt9t4MBsjqA9YoIKfd9fbfUby+mfVBU06eYuVG8CnVsLn4BcAQaKP4evggFUKrEtF+Bkye+Q5CuQ=
+	t=1721438099; cv=none; b=Rwwq3RHr73ChHrnbLzIWV+NIijfgcVPtf2hUJeIGYvRhZLTYF7a+m5hb3ko+uXMkBLJBYg6pJI0mjip/yYO6f4t5oRXcBgfRGGXc/nskix18nQWUC8riXtFEY0vRZ6lptfBvWQit1TbKu6BG6ZRXhShvmfEnPewrZxiukVhU28s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721438096; c=relaxed/simple;
-	bh=hwXF/5k8OeRNyc0rZWwKr9PGGqPQR/ZeyO8RhBInTas=;
+	s=arc-20240116; t=1721438099; c=relaxed/simple;
+	bh=EiwzmvPrc6O0rACpHwhYJJ7C4u4suDuZgWg4IcUDI9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PzcW+ElITjyGXwDfxzhsLKgPh7sTkU9MzeaFKFV4Ch24OS52iINiE/vlGNokkqN+BBC5MZXj1XgIxaEefGVwKZtwHO9KUUNR6aUVG5XheClIzvsNamPvj0WHnb2kHhvKrznfnjBB4Ogjq3IbtN6XNMp0Tv1krBMCswhB1i+uMCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gj3Hsfl1; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=gOu1Fh3QQU51ycd1qa5+2kcVDMnJectIyXf48Jn4fFBlU4URzeDWq1zZPvQDNz9/UfSntPAs/oO//UCWRjVMHgo7KP1SKP0DiWjNTSnPcedRDuAzuhFHclZ10m7oKPmsdy/CcPCbMq0LnEYj/NBbDopcdNB9Wfau2BKq4yXqUKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Da9n36DM; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gj3Hsfl1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Da9n36DM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721438095; x=1752974095;
+  t=1721438097; x=1752974097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hwXF/5k8OeRNyc0rZWwKr9PGGqPQR/ZeyO8RhBInTas=;
-  b=Gj3Hsfl1aJv9gfnlOedLjGaX5fDb/hiweLSLVGe5M/rhE/Bh5grKyL3t
-   bS9gbaQicGKx+H1L6MQhXhT+0YpJgLLPaC6TmjiJWQBtq1pvxqBFv38XC
-   +OrUvuKN0r3ilEX/1V3lzVmVfV4LDyt41muehAEpJzg8qy94InS1KKUAs
-   LpV2YLQkohwQWUPtS03sB0qsXQ19a05r43xC+AKaHACx1WiaXH/6fhtnY
-   vT8kGBCfmCgWe8cbVvM8urK7ZZ7bf1BRhZ0lIVQmQQDMsg4b+CzfbXQIg
-   ajqeBPyLKvPvgycwWg9JbG70L4Jys2BRWmgxpnRG9owtEeG6Ialow9Nj7
-   A==;
-X-CSE-ConnectionGUID: hECcsCUES4uH1KkvKXWxFA==
-X-CSE-MsgGUID: SSsMbf/FTrG3p4Ha7ErgSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="29695489"
+  bh=EiwzmvPrc6O0rACpHwhYJJ7C4u4suDuZgWg4IcUDI9c=;
+  b=Da9n36DM/evnHHGoMHtogs2DBrBnrZwMW7VTlAJ/A6L4SvDT1Vv4PRDd
+   3KMfNqeaZye4glqvdg3VLOicNpSZtedukl3AmujfcX6rGS81MYOAVkuy9
+   M6oHWhFD5Spnv41Nb2L5LHEvuCRNR8lktjRGkIhuHJPYAzQhTgzGPAz6/
+   afF5GJUlC4JNPI4ZHpr90BRgJopEd3peKJhm+028AAZ0JUdeqaHCh5EGP
+   Df3HTFw5+/XMYdgLQBZtXqW4J2x4PcvSC1F+WGV+iDvrUoERrnzkv3Kcu
+   LUNvTPX1hTNO9Lz153APXNoMUdqIV61KJDz0WOmHoD4CeR9Rd6M3d9IHk
+   g==;
+X-CSE-ConnectionGUID: BquoSH5hQiGex19Omi7JVA==
+X-CSE-MsgGUID: vwFi/q1sT2GwwdLoz95gOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="29695490"
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="29695489"
+   d="scan'208";a="29695490"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 18:14:54 -0700
-X-CSE-ConnectionGUID: GLkBSJVOR9GtTB+9ldW30g==
-X-CSE-MsgGUID: Y1I9Wp6qTfmGv1Pdybg6Qw==
+X-CSE-ConnectionGUID: dGiujs/QRKurGH+KpIKb1A==
+X-CSE-MsgGUID: vvaxMoHITeu+ucVrWWsMQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="51555263"
+   d="scan'208";a="51555266"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 19 Jul 2024 18:14:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUygU-000ijA-1M;
+	id 1sUygU-000ij8-1F;
 	Sat, 20 Jul 2024 01:14:50 +0000
 Date: Sat, 20 Jul 2024 09:13:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable3 31/35] mm/memory.c:448:17: error: incompatible
- pointer types initializing 'struct ptdesc *' with an expression of type
- 'pte_t *'
-Message-ID: <202407200919.wQ4E9oZg-lkp@intel.com>
+To: Chris Lu <chris.lu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Subject: [bluetooth-next:master 74/74] drivers/bluetooth/btusb.c:2705:15:
+ error: implicit declaration of function 'btmtk_usb_subsys_reset'
+Message-ID: <202407200917.Dv9hKccL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,125 +63,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git mmunstable3
-head:   3fb6eb9b0272c82ed231fdf2a20f6b6d265c4259
-commit: 91edffa2a9b88000a9aa062ec72e804f3d35cd8a [31/35] pgtable: fully use ptdesc in pte_alloc_one series functions
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240720/202407200919.wQ4E9oZg-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200919.wQ4E9oZg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   52828ea60dfdd05246fc92dedfad1c8bbfa2dd66
+commit: 52828ea60dfdd05246fc92dedfad1c8bbfa2dd66 [74/74] Bluetooth: btmtk: Fix btmtk.c undefined reference build error
+config: csky-randconfig-001-20240720 (https://download.01.org/0day-ci/archive/20240720/202407200917.Dv9hKccL-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200917.Dv9hKccL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407200919.wQ4E9oZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407200917.Dv9hKccL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/memory.c:44:
-   In file included from include/linux/mm.h:2221:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/memory.c:45:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/memory.c:448:17: error: incompatible pointer types initializing 'struct ptdesc *' with an expression of type 'pte_t *' [-Werror,-Wincompatible-pointer-types]
-     448 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
-         |                        ^        ~~~~~~~~~~~~~~~~~
-   mm/memory.c:4650:35: error: controlling expression type 'pte_t *' not compatible with any generic association type
-    4650 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vma->vm_mm));
-         |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pgalloc.h:140:28: note: expanded from macro 'pte_alloc_one'
-     140 | #define pte_alloc_one(mm) ((pte_t *)page_table_alloc(mm))
-         |                            ^
-   include/linux/mm_types.h:502:38: note: expanded from macro 'ptdesc_page'
-     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                    ^~
-   mm/memory.c:5013:35: error: controlling expression type 'pte_t *' not compatible with any generic association type
-    5013 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vmf->vma->vm_mm));
-         |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pgalloc.h:140:28: note: expanded from macro 'pte_alloc_one'
-     140 | #define pte_alloc_one(mm) ((pte_t *)page_table_alloc(mm))
-         |                            ^
-   include/linux/mm_types.h:502:38: note: expanded from macro 'ptdesc_page'
-     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                    ^~
-   15 warnings and 3 errors generated.
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_reset':
+>> drivers/bluetooth/btusb.c:2705:15: error: implicit declaration of function 'btmtk_usb_subsys_reset' [-Wimplicit-function-declaration]
+    2705 |         err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/btusb.c: In function 'btusb_send_frame_mtk':
+>> drivers/bluetooth/btusb.c:2720:23: error: implicit declaration of function 'alloc_mtk_intr_urb' [-Wimplicit-function-declaration]
+    2720 |                 urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
+         |                       ^~~~~~~~~~~~~~~~~~
+>> drivers/bluetooth/btusb.c:2720:21: error: assignment to 'struct urb *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2720 |                 urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
+         |                     ^
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_setup':
+>> drivers/bluetooth/btusb.c:2749:16: error: implicit declaration of function 'btmtk_usb_setup' [-Wimplicit-function-declaration]
+    2749 |         return btmtk_usb_setup(hdev);
+         |                ^~~~~~~~~~~~~~~
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_shutdown':
+>> drivers/bluetooth/btusb.c:2760:16: error: implicit declaration of function 'btmtk_usb_shutdown'; did you mean 'btusb_mtk_shutdown'? [-Wimplicit-function-declaration]
+    2760 |         return btmtk_usb_shutdown(hdev);
+         |                ^~~~~~~~~~~~~~~~~~
+         |                btusb_mtk_shutdown
+   drivers/bluetooth/btusb.c: In function 'btusb_probe':
+>> drivers/bluetooth/btusb.c:3869:34: error: 'btmtk_usb_recv_acl' undeclared (first use in this function); did you mean 'btusb_recv_acl'?
+    3869 |                 data->recv_acl = btmtk_usb_recv_acl;
+         |                                  ^~~~~~~~~~~~~~~~~~
+         |                                  btusb_recv_acl
+   drivers/bluetooth/btusb.c:3869:34: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/bluetooth/btusb.c:3870:33: error: 'btmtk_usb_suspend' undeclared (first use in this function)
+    3870 |                 data->suspend = btmtk_usb_suspend;
+         |                                 ^~~~~~~~~~~~~~~~~
+>> drivers/bluetooth/btusb.c:3871:32: error: 'btmtk_usb_resume' undeclared (first use in this function)
+    3871 |                 data->resume = btmtk_usb_resume;
+         |                                ^~~~~~~~~~~~~~~~
 
 
-vim +448 mm/memory.c
+vim +/btmtk_usb_subsys_reset +2705 drivers/bluetooth/btusb.c
 
-   445	
-   446	int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
-   447	{
- > 448		struct ptdesc *ptdesc = pte_alloc_one(mm);
-   449		if (!ptdesc)
-   450			return -ENOMEM;
-   451	
-   452		pmd_install(mm, pmd, (pgtable_t *)ptdesc);
-   453		if (ptdesc)
-   454			pte_free(mm, ptdesc_page(ptdesc));
-   455		return 0;
-   456	}
-   457	
+ceac1cb0259de6 Chris Lu  2024-07-04  2682  
+4c0c28f2bbec0c Hao Qin   2024-05-15  2683  static int btusb_mtk_reset(struct hci_dev *hdev, void *rst_data)
+4c0c28f2bbec0c Hao Qin   2024-05-15  2684  {
+4c0c28f2bbec0c Hao Qin   2024-05-15  2685  	struct btusb_data *data = hci_get_drvdata(hdev);
+d3e6236053958a Chris Lu  2024-07-04  2686  	struct btmtk_data *btmtk_data = hci_get_priv(hdev);
+4c0c28f2bbec0c Hao Qin   2024-05-15  2687  	int err;
+4c0c28f2bbec0c Hao Qin   2024-05-15  2688  
+4c0c28f2bbec0c Hao Qin   2024-05-15  2689  	/* It's MediaTek specific bluetooth reset mechanism via USB */
+5c5e8c52e3cafa Chris Lu  2024-07-04  2690  	if (test_and_set_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags)) {
+4c0c28f2bbec0c Hao Qin   2024-05-15  2691  		bt_dev_err(hdev, "last reset failed? Not resetting again");
+4c0c28f2bbec0c Hao Qin   2024-05-15  2692  		return -EBUSY;
+4c0c28f2bbec0c Hao Qin   2024-05-15  2693  	}
+25b6d7593a3af7 Jing Cai  2023-06-29  2694  
+4c0c28f2bbec0c Hao Qin   2024-05-15  2695  	err = usb_autopm_get_interface(data->intf);
+4c0c28f2bbec0c Hao Qin   2024-05-15  2696  	if (err < 0)
+4c0c28f2bbec0c Hao Qin   2024-05-15  2697  		return err;
+4c0c28f2bbec0c Hao Qin   2024-05-15  2698  
+ceac1cb0259de6 Chris Lu  2024-07-04  2699  	if (test_bit(BTMTK_ISOPKT_RUNNING, &btmtk_data->flags))
+ceac1cb0259de6 Chris Lu  2024-07-04  2700  		btusb_mtk_release_iso_intf(data);
+ceac1cb0259de6 Chris Lu  2024-07-04  2701  
+4c0c28f2bbec0c Hao Qin   2024-05-15  2702  	btusb_stop_traffic(data);
+4c0c28f2bbec0c Hao Qin   2024-05-15  2703  	usb_kill_anchored_urbs(&data->tx_anchor);
+4c0c28f2bbec0c Hao Qin   2024-05-15  2704  
+5c5e8c52e3cafa Chris Lu  2024-07-04 @2705  	err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
+4c0c28f2bbec0c Hao Qin   2024-05-15  2706  
+4c0c28f2bbec0c Hao Qin   2024-05-15  2707  	usb_queue_reset_device(data->intf);
+5c5e8c52e3cafa Chris Lu  2024-07-04  2708  	clear_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags);
+25b6d7593a3af7 Jing Cai  2023-06-29  2709  
+25b6d7593a3af7 Jing Cai  2023-06-29  2710  	return err;
+25b6d7593a3af7 Jing Cai  2023-06-29  2711  }
+25b6d7593a3af7 Jing Cai  2023-06-29  2712  
+ceac1cb0259de6 Chris Lu  2024-07-04  2713  static int btusb_send_frame_mtk(struct hci_dev *hdev, struct sk_buff *skb)
+ceac1cb0259de6 Chris Lu  2024-07-04  2714  {
+ceac1cb0259de6 Chris Lu  2024-07-04  2715  	struct urb *urb;
+ceac1cb0259de6 Chris Lu  2024-07-04  2716  
+ceac1cb0259de6 Chris Lu  2024-07-04  2717  	BT_DBG("%s", hdev->name);
+ceac1cb0259de6 Chris Lu  2024-07-04  2718  
+ceac1cb0259de6 Chris Lu  2024-07-04  2719  	if (hci_skb_pkt_type(skb) == HCI_ISODATA_PKT) {
+ceac1cb0259de6 Chris Lu  2024-07-04 @2720  		urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
+ceac1cb0259de6 Chris Lu  2024-07-04  2721  		if (IS_ERR(urb))
+ceac1cb0259de6 Chris Lu  2024-07-04  2722  			return PTR_ERR(urb);
+ceac1cb0259de6 Chris Lu  2024-07-04  2723  
+ceac1cb0259de6 Chris Lu  2024-07-04  2724  		return submit_or_queue_tx_urb(hdev, urb);
+ceac1cb0259de6 Chris Lu  2024-07-04  2725  	} else {
+ceac1cb0259de6 Chris Lu  2024-07-04  2726  		return btusb_send_frame(hdev, skb);
+ceac1cb0259de6 Chris Lu  2024-07-04  2727  	}
+ceac1cb0259de6 Chris Lu  2024-07-04  2728  }
+ceac1cb0259de6 Chris Lu  2024-07-04  2729  
+a1c49c434e1505 Sean Wang 2019-06-02  2730  static int btusb_mtk_setup(struct hci_dev *hdev)
+a1c49c434e1505 Sean Wang 2019-06-02  2731  {
+a1c49c434e1505 Sean Wang 2019-06-02  2732  	struct btusb_data *data = hci_get_drvdata(hdev);
+5c5e8c52e3cafa Chris Lu  2024-07-04  2733  	struct btmtk_data *btmtk_data = hci_get_priv(hdev);
+0b70151328781a Jing Cai  2023-06-29  2734  
+5c5e8c52e3cafa Chris Lu  2024-07-04  2735  	/* MediaTek WMT vendor cmd requiring below USB resources to
+5c5e8c52e3cafa Chris Lu  2024-07-04  2736  	 * complete the handshake.
+ccfc8948d7e4d9 Hao Qin   2024-05-15  2737  	 */
+5c5e8c52e3cafa Chris Lu  2024-07-04  2738  	btmtk_data->drv_name = btusb_driver.name;
+5c5e8c52e3cafa Chris Lu  2024-07-04  2739  	btmtk_data->intf = data->intf;
+5c5e8c52e3cafa Chris Lu  2024-07-04  2740  	btmtk_data->udev = data->udev;
+5c5e8c52e3cafa Chris Lu  2024-07-04  2741  	btmtk_data->ctrl_anchor = &data->ctrl_anchor;
+5c5e8c52e3cafa Chris Lu  2024-07-04  2742  	btmtk_data->reset_sync = btusb_mtk_reset;
+ccfc8948d7e4d9 Hao Qin   2024-05-15  2743  
+ceac1cb0259de6 Chris Lu  2024-07-04  2744  	/* Claim ISO data interface and endpoint */
+ceac1cb0259de6 Chris Lu  2024-07-04  2745  	btmtk_data->isopkt_intf = usb_ifnum_to_if(data->udev, MTK_ISO_IFNUM);
+ceac1cb0259de6 Chris Lu  2024-07-04  2746  	if (btmtk_data->isopkt_intf)
+ceac1cb0259de6 Chris Lu  2024-07-04  2747  		btusb_mtk_claim_iso_intf(data);
+ceac1cb0259de6 Chris Lu  2024-07-04  2748  
+5c5e8c52e3cafa Chris Lu  2024-07-04 @2749  	return btmtk_usb_setup(hdev);
+a1c49c434e1505 Sean Wang 2019-06-02  2750  }
+a1c49c434e1505 Sean Wang 2019-06-02  2751  
+a1c49c434e1505 Sean Wang 2019-06-02  2752  static int btusb_mtk_shutdown(struct hci_dev *hdev)
+a1c49c434e1505 Sean Wang 2019-06-02  2753  {
+ceac1cb0259de6 Chris Lu  2024-07-04  2754  	struct btusb_data *data = hci_get_drvdata(hdev);
+ceac1cb0259de6 Chris Lu  2024-07-04  2755  	struct btmtk_data *btmtk_data = hci_get_priv(hdev);
+ceac1cb0259de6 Chris Lu  2024-07-04  2756  
+ceac1cb0259de6 Chris Lu  2024-07-04  2757  	if (test_bit(BTMTK_ISOPKT_RUNNING, &btmtk_data->flags))
+ceac1cb0259de6 Chris Lu  2024-07-04  2758  		btusb_mtk_release_iso_intf(data);
+ceac1cb0259de6 Chris Lu  2024-07-04  2759  
+5c5e8c52e3cafa Chris Lu  2024-07-04 @2760  	return btmtk_usb_shutdown(hdev);
+a1c49c434e1505 Sean Wang 2019-06-02  2761  }
+a1c49c434e1505 Sean Wang 2019-06-02  2762  
+
+:::::: The code at line 2705 was first introduced by commit
+:::::: 5c5e8c52e3cafaa6f71efd44a42a674271e5b3ad Bluetooth: btmtk: move btusb_mtk_[setup, shutdown] to btmtk.c
+
+:::::: TO: Chris Lu <chris.lu@mediatek.com>
+:::::: CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
