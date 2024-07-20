@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DD67F9;
-	Sat, 20 Jul 2024 00:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0DF10E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 00:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721434196; cv=none; b=Fqc97XxHITsB64X4SkPlfslt8v8wO+hsbo7zmDIIo3SQ9MA2n58LlHWAeei3iL3SqL9Jw4LNbO0QD+HZ7qhhATWvhVjerFv/2/Kd3m5wBoq6TXF+CqIM1K14+hPGQbescDYyfKM4Vydf6RI+xIBVfSSWhoZRMJ5WfIeSaxpT6dE=
+	t=1721434856; cv=none; b=hCoYJ6Trasip19KWihphFmlU8opP+gY6gouQg3NUKSMpCk8VH4u5QkHJqbRBOyk8ks2ZHWPRQtAqpkkhmbTkScCM9vg/YrAv/DFk+ErNxnD4TzfuQaxzBTTyNOzYD6RONz/FoRBNITnEO3svC1a3ykaTgi/cMJ/vWDuAyySAk10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721434196; c=relaxed/simple;
-	bh=BW4gN2rUBhU1SaQmvAfCfTL+OCwexm9obXr29f/hAFo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NyWCLL+DpkphTCkVTOfumMQ8xWTP60zs1m49+uIRF1uq0VUz/AjKnBvZtFa3r67nvnEgXMysYUWjaX+aVndFV41ewa5fnWC9x93LoQa9xVHIEvTF/Xu/Sgc/oKbTiVoemBz7T9W6ks6PMJXPx9He/88wo/Zzqwn5Z10ZErHBFKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ER7BVToP; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1721434856; c=relaxed/simple;
+	bh=9oZ++/dAiu71Sk75kviO4dWBiqy5Hgdc9njgW0Dsji4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BGv17H3NoA4OmRJ9R66eXMU5s5iALjZifvpQrMkMxuqUcxarUiknroQ9q7OhrWB00RmyfIZoFNiTPS60xYFOuM/Bo9+igoiLFMlbZclSjdWlhLsH68MLL6ldZ3R+qHTBg9oPIUzETFDW5nW0F6jJi4W4HMZ0g1gWQmK26N2kwOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNqQCQaY; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ER7BVToP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNqQCQaY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721434195; x=1752970195;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BW4gN2rUBhU1SaQmvAfCfTL+OCwexm9obXr29f/hAFo=;
-  b=ER7BVToP39k+woqI7l18F6agN7A2kgd8L5fBoCJZCmdhYx59YQR3S+Fa
-   lZMAyxQk9+MpDtNRBnrrGOsn1OU/yZ/2rbJijlcElH2nn5eHWHh0cyBJK
-   TP89UhJYZPgAFTYTOZzBay5r6U0WPPgzxUaaaH+wU1Jr0kNkAFFulgXfM
-   aJaizL5Kqv1Svp//Uwj5E+6Ui5IiLZfbNVI+nODfZxW5SG638XikXjQ9h
-   8OQ1zrmUw1B1iTDhWbdPbL+SUP94+aLFjBXrLGeCk+sek4GVGFXgFxsBw
-   n6tc+eo+coj+sF/b+0i+PnqRWDw8RUImzBhC9QIYlx4XICXoJ3StDM2Gb
-   Q==;
-X-CSE-ConnectionGUID: BrBrqhHxT1O6jSJEjKtQDw==
-X-CSE-MsgGUID: gAUaYk+wSpaQrsWPpGGLNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="30462262"
+  t=1721434854; x=1752970854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9oZ++/dAiu71Sk75kviO4dWBiqy5Hgdc9njgW0Dsji4=;
+  b=HNqQCQaYLXg5hJkMuXpH6VGr9ISHflE8HuaK/s4TSnTfEJcFhehyL/eS
+   Sz/CzyqZlsoeirZ4WmH80qk78Gqtt2LsVPwdxkstM336gA+q7DkQruwq0
+   Zw29560Ge8tXbRHc7yJMPEy7Hy6b2xdZO6By29uYWuYG6jnkCYLepYa9v
+   ncR51vGPeef6MgMMaQU5szLyXX5rJSlVuWR0nPWdulDb8XVwraOvFqXNr
+   pO60Fg6uiimfglHAEhGf8xypGHw82WIUGFOEbGdx24hNH4I59aCsK21lK
+   /WHBKFznmncDnt+addwTdC8R3EbZ/Nb4PIqdB/VlC5AEwJ5NoaGSSXXbe
+   g==;
+X-CSE-ConnectionGUID: XiaJPpoTRjK5kzZRLN3m/Q==
+X-CSE-MsgGUID: 2LNB2IfaSsmpIAQaqgKHtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="19197423"
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="30462262"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 17:09:53 -0700
-X-CSE-ConnectionGUID: iwMpYaE7Ssu1/ADc/lS5RQ==
-X-CSE-MsgGUID: RrE8RhBGSQeDcrDvIo1yEg==
+   d="scan'208";a="19197423"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 17:20:54 -0700
+X-CSE-ConnectionGUID: zPERuByLT4y6jfopHaedXQ==
+X-CSE-MsgGUID: 2OZEEcMtRgSHI2zX398o5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="55457571"
+   d="scan'208";a="88742724"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Jul 2024 17:09:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2024 17:20:51 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUxfZ-000ih6-0n;
-	Sat, 20 Jul 2024 00:09:49 +0000
-Date: Sat, 20 Jul 2024 08:09:21 +0800
+	id 1sUxqD-000ihW-1a;
+	Sat, 20 Jul 2024 00:20:49 +0000
+Date: Sat, 20 Jul 2024 08:20:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile
- and Kconfig
-Message-ID: <202407200741.dMG9uvHU-lkp@intel.com>
-References: <20240719062414.21953-7-pkshih@realtek.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Robert Hu <robert.hu@intel.com>,
+	Farrah Chen <farrah.chen@intel.com>,
+	Danmei Wei <danmei.wei@intel.com>
+Subject: [kvm:queue 22/34] arch/x86/kvm/svm/svm.c:4952:26: error: 'struct
+ kvm_arch' has no member named 'pre_fault_allowed'
+Message-ID: <202407200823.WsY9eowy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +64,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240719062414.21953-7-pkshih@realtek.com>
 
-Hi Ping-Ke,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on linus/master next-20240719]
-[cannot apply to wireless/main v6.10]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-8852bt-add-set_channel_rf/20240719-161236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240719062414.21953-7-pkshih%40realtek.com
-patch subject: [PATCH v2 6/6] wifi: rtw89: 8852bt: add 8852BE-VT to Makefile and Kconfig
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240720/202407200741.dMG9uvHU-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200741.dMG9uvHU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   90433378a1bea709c362a855c99b4662c92e49be
+commit: ca9ddf0b7d74a71b6d71ea5355825922b89f5fd7 [22/34] KVM: x86: disallow pre-fault for SNP VMs before initialization
+config: i386-buildonly-randconfig-003-20240720 (https://download.01.org/0day-ci/archive/20240720/202407200823.WsY9eowy-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200823.WsY9eowy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407200741.dMG9uvHU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407200823.WsY9eowy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/realtek/rtw89/rtw8852bt_rfk.c:1827:46: warning: operator '?:' has lower precedence than '&'; '&' will be evaluated first [-Wbitwise-conditional-parentheses]
-    1827 |                     kidx, dpk->is_dpk_enable & off_reverse ? "enable" : "disable");
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/net/wireless/realtek/rtw89/rtw8852bt_rfk.c:1827:46: note: place parentheses around the '&' expression to silence this warning
-    1827 |                     kidx, dpk->is_dpk_enable & off_reverse ? "enable" : "disable");
-         |                                                            ^
-         |                           (                               )
-   drivers/net/wireless/realtek/rtw89/rtw8852bt_rfk.c:1827:46: note: place parentheses around the '?:' expression to evaluate it first
-    1827 |                     kidx, dpk->is_dpk_enable & off_reverse ? "enable" : "disable");
-         |                                                            ^                     
-         |                                                (                                 )
-   1 warning generated.
+   arch/x86/kvm/svm/svm.c: In function 'svm_vm_init':
+>> arch/x86/kvm/svm/svm.c:4952:26: error: 'struct kvm_arch' has no member named 'pre_fault_allowed'
+    4952 |                 kvm->arch.pre_fault_allowed = !kvm->arch.has_private_mem;
+         |                          ^
+--
+   arch/x86/kvm/x86.c: In function 'kvm_arch_init_vm':
+>> arch/x86/kvm/x86.c:12650:18: error: 'struct kvm_arch' has no member named 'pre_fault_allowed'
+   12650 |         kvm->arch.pre_fault_allowed =
+         |                  ^
+--
+   arch/x86/kvm/mmu/mmu.c: In function 'kvm_arch_vcpu_pre_fault_memory':
+>> arch/x86/kvm/mmu/mmu.c:4746:29: error: 'struct kvm_arch' has no member named 'pre_fault_allowed'
+    4746 |         if (!vcpu->kvm->arch.pre_fault_allowed)
+         |                             ^
 
 
-vim +1827 drivers/net/wireless/realtek/rtw89/rtw8852bt_rfk.c
+vim +4952 arch/x86/kvm/svm/svm.c
 
-f77c5179bc9f6f Ping-Ke Shih 2024-06-27  1807  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1808  static void _dpk_onoff(struct rtw89_dev *rtwdev, enum rtw89_rf_path path, bool off)
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1809  {
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1810  	struct rtw89_dpk_info *dpk = &rtwdev->dpk;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1811  	u8 val, kidx = dpk->cur_idx[path];
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1812  	bool off_reverse;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1813  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1814  	val = dpk->is_dpk_enable && !off && dpk->bp[path][kidx].path_ok;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1815  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1816  	if (off)
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1817  		off_reverse = false;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1818  	else
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1819  		off_reverse = true;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1820  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1821  	val = dpk->is_dpk_enable & off_reverse & dpk->bp[path][kidx].path_ok;
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1822  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1823  	rtw89_phy_write32_mask(rtwdev, R_DPD_CH0A + (path << 8) + (kidx << 2),
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1824  			       BIT(24), val);
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1825  
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1826  	rtw89_debug(rtwdev, RTW89_DBG_RFK, "[DPK] S%d[%d] DPK %s !!!\n", path,
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21 @1827  		    kidx, dpk->is_dpk_enable & off_reverse ? "enable" : "disable");
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1828  }
-5b8c61b82eec9e Ping-Ke Shih 2024-06-21  1829  
+  4940	
+  4941	static int svm_vm_init(struct kvm *kvm)
+  4942	{
+  4943		int type = kvm->arch.vm_type;
+  4944	
+  4945		if (type != KVM_X86_DEFAULT_VM &&
+  4946		    type != KVM_X86_SW_PROTECTED_VM) {
+  4947			kvm->arch.has_protected_state =
+  4948				(type == KVM_X86_SEV_ES_VM || type == KVM_X86_SNP_VM);
+  4949			to_kvm_sev_info(kvm)->need_init = true;
+  4950	
+  4951			kvm->arch.has_private_mem = (type == KVM_X86_SNP_VM);
+> 4952			kvm->arch.pre_fault_allowed = !kvm->arch.has_private_mem;
+  4953		}
+  4954	
+  4955		if (!pause_filter_count || !pause_filter_thresh)
+  4956			kvm->arch.pause_in_guest = true;
+  4957	
+  4958		if (enable_apicv) {
+  4959			int ret = avic_vm_init(kvm);
+  4960			if (ret)
+  4961				return ret;
+  4962		}
+  4963	
+  4964		return 0;
+  4965	}
+  4966	
 
 -- 
 0-DAY CI Kernel Test Service
