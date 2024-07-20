@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1344A1E515
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 12:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B509D12D1E9;
+	Sat, 20 Jul 2024 13:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721480368; cv=none; b=Bm55VeAYOz2nyuypToYuHl4MFUQg8+QuallTdY/zRITA1/9jRKWnqkHBEUJR8kNu4mhkx26KSrfqkZh59G7q3O0Vji7cBDSe+GcxcPp2pTGjUrc/7BrMxClQAIuD45NceM7nTSubwv7nvla6V+NYqxdtFZavaVCJguL45xWgkxY=
+	t=1721482902; cv=none; b=FfXozQCnizXnW/5pjIg7mGpWSsNhkUEFsdirGpXQj+gSDj+xSZfPEmHV8ahDqnMuf8J3kitcbq3Jfzh0I0eKWUxjSN0g/ZPvfY9FdL/kUcLAsfzIf03pyMbmGi7f8fmwOpE3p9DvJ/DW3QVDeQlkU+i5skY/aQYEXT/xeJ95EbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721480368; c=relaxed/simple;
-	bh=SeUZJ5yWN3ZrsgcqYTr5YfWM4NcxJLrqJ+7x6BtmUDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oQ279L/N3dnyf336C0SzYTtCBOFGSXkajMuvwYeEIh+eUO1CCyuwbYg8ePSVVwxlgyE9odRT2G+9SthvdaY56c1cDeRBCvnzaGH5ziuCxIna3BMdlpWnSx8Q/i31XJ9dbvLQNHD6flMC1vRKHZkAo+QUQVbfbpVy3X65Se9IY8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eU4BPL/0; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1721482902; c=relaxed/simple;
+	bh=xApXq3YmfH8vE1Zs7BhLfJVd4upponZo1zhYmDwEI8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rzBIN2lih/C9kaTJtF5LmZQIGu5YdFNL0NnOe/iJGdcJ9UcsxW8cAUBrkIQb+L+UlHQ8Xk+MjKqWGek95mhyWrJ8o6yMbwPCcJjdM1IkqfDLpuMc7YN6KDU9oFvFX9GdcQJ4cRQXD/BkyOSWdsniOMyXE5Wg6xWiGIedPG0EIEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfQQtzax; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eU4BPL/0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfQQtzax"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721480366; x=1753016366;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SeUZJ5yWN3ZrsgcqYTr5YfWM4NcxJLrqJ+7x6BtmUDY=;
-  b=eU4BPL/0LkAKkLvQq+lZmbTHVhprAyTh0KA4d17kwtuoXuLPfCbX4CUs
-   DHXHSct34Za+EdOCeW05LoP8/u6EOM3uJgB4DUZb8e0X9HwaQSls92gy2
-   GA6O5iaonTXlBUxZJXxYjUl1YaEZl/cwe8RA0lEKmbiQdYgBMjTnAzx0G
-   JJowTRhBwaAv2VD0cwhkcPWhJ8MT6XQQ8Mm8/i/fXfb/J1gcrrU/pV3A4
-   FWtCjEHUlKGB1w37ogNBGgVdtLc1DJCUs3Zouo2sMZsDiLf2s9W9IEJuw
-   7xNsIYf4GduBfNwcx4R3AhvHRKPlrmJ3dhjDXV7JaDrFNSQjy1Kq1MhKL
-   g==;
-X-CSE-ConnectionGUID: rYDnHBDqQvenZmVwTZBpkQ==
-X-CSE-MsgGUID: FWc2oc06SX+L89Q7m83bLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="18970169"
+  t=1721482900; x=1753018900;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xApXq3YmfH8vE1Zs7BhLfJVd4upponZo1zhYmDwEI8A=;
+  b=nfQQtzaxuf3wOSkq2NfQZMRXh/A5pFEfT5NHPkYev7zSgBKYJcwOZiz8
+   QgOH6DJAy+V84o300fvBp4zHbAPoTERGTaGjKsdbM/iahuclBcMgzCUN/
+   X4Bb1Xo7eGPRilivp+YKhNNRzepKY4VrRBB33FxnSicLIwI08ajKgVfJy
+   JqS/Tu5t4rc0FEveFwscaEZIRqlTQU5lbm/UiOFvRDbZRG9YyYo2Sgd3B
+   kkCr2y3ekRHBPYTU2PhnXFIxmymTs0h3BDocye31HrzCjc/MFw5ESsseP
+   EJ1VZ1UomWTKYz85/TUBDeE2HhaW3DVA3WupuIAos6UtzkPwoUOcA73dM
+   Q==;
+X-CSE-ConnectionGUID: lS7ilVN0QGKRryko+1dixA==
+X-CSE-MsgGUID: Uh9sHW1fQCWva4en88jeJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="36535103"
 X-IronPort-AV: E=Sophos;i="6.09,223,1716274800"; 
-   d="scan'208";a="18970169"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 05:59:25 -0700
-X-CSE-ConnectionGUID: 7J3aOuXHROaDxU4V+4cI4A==
-X-CSE-MsgGUID: OeB8B/rhRVux6MyiyvyekA==
+   d="scan'208";a="36535103"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 06:41:40 -0700
+X-CSE-ConnectionGUID: d3sXdrzzRkmNWtPpjfhoww==
+X-CSE-MsgGUID: qQ4djHPGT0qnkknKbDDnkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,223,1716274800"; 
-   d="scan'208";a="55673984"
+   d="scan'208";a="51369678"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Jul 2024 05:59:24 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 20 Jul 2024 06:41:37 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sV9gI-000jCs-0o;
-	Sat, 20 Jul 2024 12:59:22 +0000
-Date: Sat, 20 Jul 2024 20:59:06 +0800
+	id 1sVAL9-000jEw-0I;
+	Sat, 20 Jul 2024 13:41:35 +0000
+Date: Sat, 20 Jul 2024 21:40:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [deller-parisc:for-next 6/6] arch/parisc/kernel/time.c:119:2-4:
- WARNING !A || A && B is equivalent to !A || B
-Message-ID: <202407202026.UHp3KX5y-lkp@intel.com>
+To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
+	robh+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, marius.cristea@microchip.com
+Subject: Re: [PATCH v1 2/2] iio: adc: adding support for PAC194X
+Message-ID: <202407202146.evcwKAKb-lkp@intel.com>
+References: <20240719173855.53261-3-marius.cristea@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,127 +66,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240719173855.53261-3-marius.cristea@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-head:   c6651f1420427f9225b173e4232eadae55acadd8
-commit: c6651f1420427f9225b173e4232eadae55acadd8 [6/6] parisc: Improve monotonic clock_gettime() resolution on SMP machines
-config: parisc-randconfig-r061-20240720 (https://download.01.org/0day-ci/archive/20240720/202407202026.UHp3KX5y-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.10 next-20240719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-support-for-PAC194X/20240720-014249
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240719173855.53261-3-marius.cristea%40microchip.com
+patch subject: [PATCH v1 2/2] iio: adc: adding support for PAC194X
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240720/202407202146.evcwKAKb-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407202146.evcwKAKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407202026.UHp3KX5y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407202146.evcwKAKb-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/parisc/kernel/time.c:119:2-4: WARNING !A || A && B is equivalent to !A || B
+All warnings (new ones prefixed by >>):
 
-vim +119 arch/parisc/kernel/time.c
+   In file included from drivers/iio/adc/pac1944.c:16:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/pac1944.c:1691:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1691 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1692 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jiffies.h:128:2: note: expanded from macro 'time_after'
+     128 |         (typecheck(unsigned long, a) && \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     129 |          typecheck(unsigned long, b) && \
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     130 |          ((long)((b) - (a)) < 0))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1944.c:1709:9: note: uninitialized use occurs here
+    1709 |         return ret;
+         |                ^~~
+   drivers/iio/adc/pac1944.c:1691:2: note: remove the 'if' if its condition is always true
+    1691 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1692 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1944.c:1686:9: note: initialize the variable 'ret' to silence this warning
+    1686 |         int ret;
+         |                ^
+         |                 = 0
+   drivers/iio/adc/pac1944.c:2048:16: warning: variable 'idx' set but not used [-Wunused-but-set-variable]
+    2048 |         int ch, i, j, idx;
+         |                       ^
+   7 warnings generated.
 
-    50	
-    51	/*
-    52	 * We keep time on PA-RISC Linux by using the Interval Timer which is
-    53	 * a pair of registers; one is read-only and one is write-only; both
-    54	 * accessed through CR16.  The read-only register is 32 or 64 bits wide,
-    55	 * and increments by 1 every CPU clock tick.  The architecture only
-    56	 * guarantees us a rate between 0.5 and 2, but all implementations use a
-    57	 * rate of 1.  The write-only register is 32-bits wide.  When the lowest
-    58	 * 32 bits of the read-only register compare equal to the write-only
-    59	 * register, it raises a maskable external interrupt.  Each processor has
-    60	 * an Interval Timer of its own and they are not synchronised.  
-    61	 *
-    62	 * We want to generate an interrupt every 1/HZ seconds.  So we program
-    63	 * CR16 to interrupt every @clocktick cycles.  The it_value in cpu_data
-    64	 * is programmed with the intended time of the next tick.  We can be
-    65	 * held off for an arbitrarily long period of time by interrupts being
-    66	 * disabled, so we may miss one or more ticks.
-    67	 *
-    68	 * Note that on SMP machines the CR16 clocks are not syncronized between
-    69	 * the CPUs. So, on such machines CR16 can not be used as high-res clock
-    70	 * input for the monotonic clock_gettime64() syscall, which is why
-    71	 * clock_gettime64() delivers poor resolution on SMP when configured with
-    72	 * HZ=100 or HZ=250.  To work around this issue, let the CR16 timer
-    73	 * interrupt trigger MONARCH_CLOCKTICK_FACTOR times more often, and
-    74	 * increase the a cr16 counter everytime when interrupted. This counter is
-    75	 * then used instead of the local CPU cr16 counter to get higher resolution
-    76	 * than just using the jiffie-based timer.
-    77	 */
-    78	irqreturn_t __irq_entry timer_interrupt(int irq, void *dev_id)
-    79	{
-    80		unsigned long now;
-    81		unsigned long next_tick;
-    82		unsigned long ticks_elapsed = 0;
-    83		unsigned int cpu = smp_processor_id();
-    84		struct cpuinfo_parisc *cpuinfo = &per_cpu(cpu_data, cpu);
-    85		int increase_monarch_tickrate = 0;
-    86		static int monarch_tickrate_counter;
-    87	
-    88		/* gcc can optimize for "read-only" case with a local clocktick */
-    89		unsigned long cpt = clocktick;
-    90	
-    91		/* let main clock tick faster if necessary */
-    92		if (IS_ENABLED(CONFIG_SMP) &&
-    93		    (IS_ENABLED(CONFIG_HZ_100) || IS_ENABLED(CONFIG_HZ_250)) &&
-    94		    clock_use_monarch_cr16 && (cpu == time_keeper_id)) {
-    95			increase_monarch_tickrate = 1;
-    96			cpt /= MONARCH_CLOCKTICK_FACTOR;
-    97			monarch_tickrate_counter++;
-    98		}
-    99	
-   100		/* Initialize next_tick to the old expected tick time. */
-   101		next_tick = cpuinfo->it_value;
-   102	
-   103		/* Calculate how many ticks have elapsed. */
-   104		now = mfctl(16);
-   105		do {
-   106			++ticks_elapsed;
-   107			next_tick += cpt;
-   108		} while (next_tick - now > cpt);
-   109	
-   110		/* Store (in CR16 cycles) up to when we are accounting right now. */
-   111		cpuinfo->it_value = next_tick;
-   112	
-   113		/* Go do system house keeping. */
-   114		if (IS_ENABLED(CONFIG_SMP) && (cpu != time_keeper_id))
-   115			ticks_elapsed = 0;
-   116		else
-   117			monarch_cr16_ticks++;
-   118		if (!increase_monarch_tickrate || (increase_monarch_tickrate
- > 119			&& monarch_tickrate_counter == MONARCH_CLOCKTICK_FACTOR)) {
-   120			legacy_timer_tick(ticks_elapsed);
-   121			if (increase_monarch_tickrate)
-   122				monarch_tickrate_counter = 0;
-   123		}
-   124	
-   125		/* Skip clockticks on purpose if we know we would miss those.
-   126		 * The new CR16 must be "later" than current CR16 otherwise
-   127		 * itimer would not fire until CR16 wrapped - e.g 4 seconds
-   128		 * later on a 1Ghz processor. We'll account for the missed
-   129		 * ticks on the next timer interrupt.
-   130		 * We want IT to fire modulo clocktick even if we miss/skip some.
-   131		 * But those interrupts don't in fact get delivered that regularly.
-   132		 *
-   133		 * "next_tick - now" will always give the difference regardless
-   134		 * if one or the other wrapped. If "now" is "bigger" we'll end up
-   135		 * with a very large unsigned number.
-   136		 */
-   137		now = mfctl(16);
-   138		while (next_tick - now > cpt)
-   139			next_tick += cpt;
-   140	
-   141		/* Program the IT when to deliver the next interrupt.
-   142		 * Only bottom 32-bits of next_tick are writable in CR16!
-   143		 * Timer interrupt will be delivered at least a few hundred cycles
-   144		 * after the IT fires, so if we are too close (<= 8000 cycles) to the
-   145		 * next cycle, simply skip it.
-   146		 */
-   147		if (next_tick - now <= 8000)
-   148			next_tick += cpt;
-   149		mtctl(next_tick, 16);
-   150	
-   151		return IRQ_HANDLED;
-   152	}
-   153	
+
+vim +1691 drivers/iio/adc/pac1944.c
+
+  1683	
+  1684	static int pac1944_retrieve_data(struct pac1944_chip_info *info, u32 wait_time)
+  1685	{
+  1686		int ret;
+  1687		/*
+  1688		 * Check if the minimal elapsed time has passed and if so,
+  1689		 * re-read the chip, otherwise the cached info is just fine
+  1690		 */
+> 1691		if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+  1692			       msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+  1693			/*
+  1694			 * We need to re-read the chip values
+  1695			 * call the pac1944_reg_snapshot
+  1696			 */
+  1697			ret = pac1944_reg_snapshot(info, true,
+  1698						   PAC1944_REFRESH_REG_ADDR,
+  1699						   wait_time);
+  1700			/*
+  1701			 * Re-schedule the work for the read registers timeout
+  1702			 * (to prevent chip regs saturation)
+  1703			 */
+  1704			cancel_delayed_work_sync(&info->work_chip_rfsh);
+  1705			schedule_delayed_work(&info->work_chip_rfsh,
+  1706					      msecs_to_jiffies(PAC1944_MAX_RFSH_LIMIT_MS));
+  1707		}
+  1708	
+  1709		return ret;
+  1710	}
+  1711	
 
 -- 
 0-DAY CI Kernel Test Service
