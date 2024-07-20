@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4697B823B8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 16:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39BA12EBE1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 17:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721493038; cv=none; b=G/CHIMNphz9lIxS5NdwDGpBSD82wY8rHaeT+k17+wfLD8DSEGBfuiA+51ixOvdCTsoHewGZb1wafppYHbaBOx8Q0Xo9cb779clRblQZrYeS3qTaoWd1yp/TF3RjXjiP94nOHoPIhidPsjK6nw9LQTXKx4pj827qFr715dE/Byqw=
+	t=1721494899; cv=none; b=AhWhZGH3WjV54Cko4Ka4/027X0XPDNkx7XStNRqn+0oEfW8fjVis7drm8qrMdzY6yv0NPk3nR+U6P9JrrzNNM8aRDkDIfvanaF3n7M7jlzvXnQTxvKqmP1PqC1E6P4osGfzB2ykNdo8vsv9TmTChn5QZ6LXJsJMWDxivHeLBE/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721493038; c=relaxed/simple;
-	bh=fvpYkxi1ntd+aTGST8kdeMSZbhGgpKYv7jp1PIdP2hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ng9+B4p0xy6GExqGMXNdB//Uy4uekbONlwYHhip0Q9N8XfAyLYdQUImEqlCQIi2GJD10cw1xrNDihxo4OVOAoEnOjNHG8sxvVtUNyZZIu+42yWCLY4kh9EPECt8Ypek3uSohkOtPSibPjmySxMrVTjOhoVmGZ5Fw0lnbTj2Old4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pe623QCp; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1721494899; c=relaxed/simple;
+	bh=Oiv8eP2NOw2hP5IE1VUwCmFWL55u+n5HshoHTpEyM8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m2nAI+fD8Kf7kavNdfVse+ZJtV9dw/MlBOVu8jJgAls3xW5QswhcO/1hJRH91sT2oZzNlB7PnvAYA6psvftQyWRrhpsVKJKSXtm03BXb7XWo4ADWuIyRUCFuz5YcoYnhJ6ih2tva0QkfOpoK4GdADjuB1YLyesY4LK1p8hoG9TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lV2do/4u; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pe623QCp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lV2do/4u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721493036; x=1753029036;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fvpYkxi1ntd+aTGST8kdeMSZbhGgpKYv7jp1PIdP2hk=;
-  b=Pe623QCpWsLjXQW7ZE0TH2+pzRII6hGsNxipQapIWaWhw3kYf+5fWKbO
-   EYOjKKfL5afhayf18QYzGQ9xt45onuwjiQywqye4CIpagPVAeGhgwPc1V
-   utSY7LpfDQLQAu3X2jPSvmPyGzyidldHoteWPO2zJjAdOHrYi+fITK6JW
-   XSJAjNyKTEjy0Zi2ctk2dzkplXAG7IYTBItXihWLEVYTrSt1UZINP9A/5
-   5Bc+nuj18A7YM9gUXlGyILt6Db+1TgKho9LXCiS4YI+CV9wy0itVe/v3X
-   IrPe5d9jYG3Gc1nNOsv0ljaqt0jUf7WvGLtSpLe3AMIFFe/r0hyg1HssO
-   Q==;
-X-CSE-ConnectionGUID: 7wvM3g7QQTC+jhKhlrl2jQ==
-X-CSE-MsgGUID: 1Dv84KqGS3GXvZKj9/Z0Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="19230242"
+  t=1721494897; x=1753030897;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Oiv8eP2NOw2hP5IE1VUwCmFWL55u+n5HshoHTpEyM8g=;
+  b=lV2do/4ui3IfhkYDnJHrzTMIeWuLL9sEVUYBmwtOptsBUktjub+l58hR
+   Zs2OIiJjuAqpqZ5wrXOmWg7m17VHnZB7H+QpC9RHJ5qbRiGrFiRlH6Fam
+   b41U9ecdSrkT07+q4pEAM7lgiCg1NWrGWSjK0TEvpNYOYE9PSM98Z846A
+   2dtHKscIlA7GqhBsZyGPGG661iIXn9neG5kq8XIcD+aG76o9oh2GRGa0q
+   2kdQqq+1mC2JnIBBTQ4/WVsJVUpgUUmkagOVTf5Sz/1uAPLPZ3OACZTx8
+   1N+bz3pPQS/N5A4oVYs1VLNUfXwe2ndS6U38GKZPmjrj0K4R6GkhLC826
+   g==;
+X-CSE-ConnectionGUID: BqxZu+yLT1CEpy3Em3L/lQ==
+X-CSE-MsgGUID: X447xp0NTg+NKGsXXpC9Gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="44530669"
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="19230242"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 09:30:35 -0700
-X-CSE-ConnectionGUID: c984HY8SQOWs3zCyXaZU1g==
-X-CSE-MsgGUID: nrV7dPO2QQq0PPr7trxqMA==
+   d="scan'208";a="44530669"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 10:01:37 -0700
+X-CSE-ConnectionGUID: I24MEcrXTm+CXbjW1WnEIw==
+X-CSE-MsgGUID: LafHgpLfTmK6XbTMv1X24w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="56261899"
+   d="scan'208";a="52140590"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Jul 2024 09:30:34 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 Jul 2024 10:01:35 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVCyd-000jQ3-04;
-	Sat, 20 Jul 2024 16:30:31 +0000
-Date: Sun, 21 Jul 2024 00:30:12 +0800
+	id 1sVDSe-000jSA-1N;
+	Sat, 20 Jul 2024 17:01:32 +0000
+Date: Sun, 21 Jul 2024 01:01:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
-	robh+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	marius.cristea@microchip.com
-Subject: Re: [PATCH v1 2/2] iio: adc: adding support for PAC194X
-Message-ID: <202407210028.rJXFbiBg-lkp@intel.com>
-References: <20240719173855.53261-3-marius.cristea@microchip.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: vmlinux.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected
+ end of section
+Message-ID: <202407210029.J3MTyDu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,128 +64,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240719173855.53261-3-marius.cristea@microchip.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.10 next-20240719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-support-for-PAC194X/20240720-014249
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240719173855.53261-3-marius.cristea%40microchip.com
-patch subject: [PATCH v1 2/2] iio: adc: adding support for PAC194X
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240721/202407210028.rJXFbiBg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210028.rJXFbiBg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3c3ff7be9729959699eb6cbc7fd7303566d74069
+commit: 649fd41420a816b11b07423ebf4dbd4ac1ac2905 nvmet: add debugfs support
+date:   4 weeks ago
+config: x86_64-randconfig-123-20240719 (https://download.01.org/0day-ci/archive/20240721/202407210029.J3MTyDu6-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210029.J3MTyDu6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407210028.rJXFbiBg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407210029.J3MTyDu6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/adc/pac1944.c: In function 'pac1944_prep_custom_attributes':
->> drivers/iio/adc/pac1944.c:2048:23: warning: variable 'idx' set but not used [-Wunused-but-set-variable]
-    2048 |         int ch, i, j, idx;
-         |                       ^~~
-
-
-vim +/idx +2048 drivers/iio/adc/pac1944.c
-
-  2044	
-  2045	static int pac1944_prep_custom_attributes(struct pac1944_chip_info *info,
-  2046						  struct iio_dev *indio_dev)
-  2047	{
-> 2048		int ch, i, j, idx;
-  2049		int active_channels_count = 0;
-  2050		struct attribute **pac1944_custom_attrs, **tmp_attr;
-  2051		struct attribute_group *pac1944_group;
-  2052		int custom_attr_cnt;
-  2053		struct i2c_client *client = info->client;
-  2054	
-  2055		for (i = 0 ; i < info->phys_channels; i++)
-  2056			if (info->active_channels[i])
-  2057				active_channels_count++;
-  2058	
-  2059		pac1944_group = devm_kzalloc(&client->dev, sizeof(*pac1944_group), GFP_KERNEL);
-  2060		if (!pac1944_group)
-  2061			return -ENOMEM;
-  2062	
-  2063		/*
-  2064		 * Attributes for channel X:
-  2065		 *	- in_shunt_value_X
-  2066		 *	- in_oc_limit_nsamples
-  2067		 *	- in_uc_limit_nsamples
-  2068		 *	- in_op_limit_nsamples
-  2069		 *	- in_ov_limit_nsamples
-  2070		 *	- in_uv_limit_nsamples
-  2071		 *	- one of pair attributes:
-  2072		 *		- in_power_accX_raw and in_power_accX_scale
-  2073		 *		- in_current_accX_raw and in_current_accX_scale
-  2074		 *		- in_voltage_accX_raw and in_voltage_accX_scale
-  2075		 * Shared attributes:
-  2076		 *	- in_acc_fullness
-  2077		 *	- in_alert_enable
-  2078		 *	- in_slow_alert1
-  2079		 *	- gpio_alert2
-  2080		 *	- out_alert_status
-  2081		 * NULL
-  2082		 */
-  2083		custom_attr_cnt = PAC1944_COMMON_DEVATTR * active_channels_count;
-  2084		custom_attr_cnt += PAC1944_ACC_DEVATTR * active_channels_count;
-  2085		custom_attr_cnt += PAC1944_SHARED_DEVATTRS_COUNT;
-  2086	
-  2087		pac1944_custom_attrs = devm_kzalloc(&client->dev, custom_attr_cnt *
-  2088						    sizeof(*pac1944_group) + 1, GFP_KERNEL);
-  2089		if (!pac1944_custom_attrs)
-  2090			return -ENOMEM;
-  2091	
-  2092		j = 0;
-  2093		for (ch = 0 ; ch < info->phys_channels; ch++) {
-  2094			if (!info->active_channels[ch])
-  2095				continue;
-  2096	
-  2097			for (i = 0; i < PAC1944_COMMON_DEVATTR; i++)
-  2098				pac1944_custom_attrs[j++] =
-  2099					pac1944_all_attrs[PAC1944_COMMON_DEVATTR * ch + i];
-  2100	
-  2101			idx = ch;
-  2102			switch (info->chip_reg_data.accumulation_mode[ch]) {
-  2103			case PAC1944_ACCMODE_VPOWER:
-  2104				tmp_attr = pac1944_power_acc_attr;
-  2105				break;
-  2106			case PAC1944_ACCMODE_VSENSE:
-  2107				tmp_attr = pac1944_current_acc_attr;
-  2108				break;
-  2109			case PAC1944_ACCMODE_VBUS:
-  2110				tmp_attr = pac1944_voltage_acc_attr;
-  2111				break;
-  2112			default:
-  2113				return -EINVAL;
-  2114			}
-  2115	
-  2116			pac1944_custom_attrs[j++] = tmp_attr[ch];
-  2117			pac1944_custom_attrs[j++] = pac1944_power_acc_attr[PAC1944_MAX_CH + ch];
-  2118			pac1944_custom_attrs[j++] = pac1944_power_acc_attr[2 * PAC1944_MAX_CH + ch];
-  2119		}
-  2120	
-  2121		for (i = 0; i < PAC1944_SHARED_DEVATTRS_COUNT; i++)
-  2122			pac1944_custom_attrs[j++] =
-  2123				pac1944_all_attrs[PAC1944_COMMON_DEVATTR * PAC1944_MAX_CH + i];
-  2124	
-  2125		pac1944_group->attrs = pac1944_custom_attrs;
-  2126		info->iio_info.attrs = pac1944_group;
-  2127	
-  2128		return 0;
-  2129	}
-  2130	
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp1+0x13: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp2+0x16: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp4+0x16: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp8+0x13: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp1+0x16: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp2+0x16: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp4+0x16: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp8+0x13: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_switch+0x78: call to write_comp_data.llvm.7642755165958622254() with UACCESS enabled
+>> vmlinux.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected end of section
 
 -- 
 0-DAY CI Kernel Test Service
