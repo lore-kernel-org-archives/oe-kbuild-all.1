@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B061C14
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 00:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49981C14;
+	Sat, 20 Jul 2024 01:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721436116; cv=none; b=Zflu4KUfFv/+qI/T7gXZs0L+POksddp9KL0yu9bnfITxnB8XtKVZFxiGfhgS2oVvrU7GLS8m7GiCisM/wJdq/PYSHosiAyP34faot0tHiyVc3x/tEA2bITsg4kzkY3U62ZJzODgCypfGcbjD/ZCrPBB+83mh5DS25zdDfenld74=
+	t=1721438096; cv=none; b=fiY4CBGTtjr2XOXST6+TNsJuilz3VO7qH4X0Ma5kSLCINsui6HS8zFqWKkZXXq9TrZLMSNaD2cVgWFtzPtZZDB12dk9pYVMnt9t4MBsjqA9YoIKfd9fbfUby+mfVBU06eYuVG8CnVsLn4BcAQaKP4evggFUKrEtF+Bkye+Q5CuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721436116; c=relaxed/simple;
-	bh=99IlsR+4uA3hohBzyAVPboEZsi/F4jHWieDcLK+ZmzM=;
+	s=arc-20240116; t=1721438096; c=relaxed/simple;
+	bh=hwXF/5k8OeRNyc0rZWwKr9PGGqPQR/ZeyO8RhBInTas=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s9+RHfSLPI6nweg3PSPkmOCG1B7CRuu43JVZV04Tqe+OsmNJq49zn48d7Kn2SmWo3AKyry70pq4kmZh9qm0pxK0TaBfD5YUBgMg7Kk3z5UJLZRK8R5Y4nNsniFrsNCLpttGfP5lelIKWpKYavgqwvXHsCK/6sW+6u9tkMKNk/Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9U2/AsR; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=PzcW+ElITjyGXwDfxzhsLKgPh7sTkU9MzeaFKFV4Ch24OS52iINiE/vlGNokkqN+BBC5MZXj1XgIxaEefGVwKZtwHO9KUUNR6aUVG5XheClIzvsNamPvj0WHnb2kHhvKrznfnjBB4Ogjq3IbtN6XNMp0Tv1krBMCswhB1i+uMCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gj3Hsfl1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9U2/AsR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gj3Hsfl1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721436115; x=1752972115;
+  t=1721438095; x=1752974095;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=99IlsR+4uA3hohBzyAVPboEZsi/F4jHWieDcLK+ZmzM=;
-  b=i9U2/AsRN8cCvEbfbzqBkmQvAbsagwTXDgn+F/K/3g/Q3gyHxrONlF+B
-   n9h8NqZzRF6X6wsjRXEgOmJZaHEUY/1iFQgInvIehsUo8C1ewgEvy+Bzd
-   RvswSgbQNUIFbtuNe1kp+fF7R5UAhkP4viGWvk3gMYnx8q8QTs+RJAlj9
-   Pp7TURD9XK3xkndHOcZjGTdefGfgXt7S2DGQWBufP+Qu9rIIzeA5kOuOq
-   QpfmMtnk5c2qnI3kyUrfl4TF5tc/paZPvOcD2BWF53Pmy37fcSn77BsIH
-   h7+50286Y+v2QLnp/RimeWA7vafhWCIgPKZHNdtL3WsGYyK7T9boQ9Wll
-   Q==;
-X-CSE-ConnectionGUID: DENiM7pbSyy/Y4qG2erVKg==
-X-CSE-MsgGUID: 52mslyPtSxW0xgCI/diWpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="29733829"
+  bh=hwXF/5k8OeRNyc0rZWwKr9PGGqPQR/ZeyO8RhBInTas=;
+  b=Gj3Hsfl1aJv9gfnlOedLjGaX5fDb/hiweLSLVGe5M/rhE/Bh5grKyL3t
+   bS9gbaQicGKx+H1L6MQhXhT+0YpJgLLPaC6TmjiJWQBtq1pvxqBFv38XC
+   +OrUvuKN0r3ilEX/1V3lzVmVfV4LDyt41muehAEpJzg8qy94InS1KKUAs
+   LpV2YLQkohwQWUPtS03sB0qsXQ19a05r43xC+AKaHACx1WiaXH/6fhtnY
+   vT8kGBCfmCgWe8cbVvM8urK7ZZ7bf1BRhZ0lIVQmQQDMsg4b+CzfbXQIg
+   ajqeBPyLKvPvgycwWg9JbG70L4Jys2BRWmgxpnRG9owtEeG6Ialow9Nj7
+   A==;
+X-CSE-ConnectionGUID: hECcsCUES4uH1KkvKXWxFA==
+X-CSE-MsgGUID: SSsMbf/FTrG3p4Ha7ErgSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="29695489"
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="29733829"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 17:41:54 -0700
-X-CSE-ConnectionGUID: WHKwovA4Q9aJ2rHv5NPeUQ==
-X-CSE-MsgGUID: 8MjYem7XQrqSqiJ8JNLiSw==
+   d="scan'208";a="29695489"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 18:14:54 -0700
+X-CSE-ConnectionGUID: GLkBSJVOR9GtTB+9ldW30g==
+X-CSE-MsgGUID: Y1I9Wp6qTfmGv1Pdybg6Qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="51997217"
+   d="scan'208";a="51555263"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jul 2024 17:41:52 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Jul 2024 18:14:52 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUyAX-000iiA-2l;
-	Sat, 20 Jul 2024 00:41:49 +0000
-Date: Sat, 20 Jul 2024 08:41:27 +0800
+	id 1sUygU-000ijA-1M;
+	Sat, 20 Jul 2024 01:14:50 +0000
+Date: Sat, 20 Jul 2024 09:13:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Robert Hu <robert.hu@intel.com>,
-	Farrah Chen <farrah.chen@intel.com>,
-	Danmei Wei <danmei.wei@intel.com>
-Subject: [kvm:queue 22/34] arch/x86/kvm/x86.c:12650:12: error: no member
- named 'pre_fault_allowed' in 'struct kvm_arch'
-Message-ID: <202407200826.iiOlgVtf-lkp@intel.com>
+To: "Alex Shi (Tencent)" <alexs@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:mmunstable3 31/35] mm/memory.c:448:17: error: incompatible
+ pointer types initializing 'struct ptdesc *' with an expression of type
+ 'pte_t *'
+Message-ID: <202407200919.wQ4E9oZg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,88 +63,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-head:   90433378a1bea709c362a855c99b4662c92e49be
-commit: ca9ddf0b7d74a71b6d71ea5355825922b89f5fd7 [22/34] KVM: x86: disallow pre-fault for SNP VMs before initialization
-config: i386-randconfig-141-20240720 (https://download.01.org/0day-ci/archive/20240720/202407200826.iiOlgVtf-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200826.iiOlgVtf-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git mmunstable3
+head:   3fb6eb9b0272c82ed231fdf2a20f6b6d265c4259
+commit: 91edffa2a9b88000a9aa062ec72e804f3d35cd8a [31/35] pgtable: fully use ptdesc in pte_alloc_one series functions
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240720/202407200919.wQ4E9oZg-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407200919.wQ4E9oZg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407200826.iiOlgVtf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407200919.wQ4E9oZg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/x86.c:12650:12: error: no member named 'pre_fault_allowed' in 'struct kvm_arch'
-    12650 |         kvm->arch.pre_fault_allowed =
-          |         ~~~~~~~~~ ^
-   1 error generated.
---
->> arch/x86/kvm/mmu/mmu.c:4746:23: error: no member named 'pre_fault_allowed' in 'struct kvm_arch'
-    4746 |         if (!vcpu->kvm->arch.pre_fault_allowed)
-         |              ~~~~~~~~~~~~~~~ ^
-   1 error generated.
---
->> arch/x86/kvm/svm/svm.c:4952:13: error: no member named 'pre_fault_allowed' in 'struct kvm_arch'
-    4952 |                 kvm->arch.pre_fault_allowed = !kvm->arch.has_private_mem;
-         |                 ~~~~~~~~~ ^
-   1 error generated.
+   In file included from mm/memory.c:44:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/memory.c:45:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from mm/memory.c:84:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/memory.c:448:17: error: incompatible pointer types initializing 'struct ptdesc *' with an expression of type 'pte_t *' [-Werror,-Wincompatible-pointer-types]
+     448 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
+         |                        ^        ~~~~~~~~~~~~~~~~~
+   mm/memory.c:4650:35: error: controlling expression type 'pte_t *' not compatible with any generic association type
+    4650 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vma->vm_mm));
+         |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/pgalloc.h:140:28: note: expanded from macro 'pte_alloc_one'
+     140 | #define pte_alloc_one(mm) ((pte_t *)page_table_alloc(mm))
+         |                            ^
+   include/linux/mm_types.h:502:38: note: expanded from macro 'ptdesc_page'
+     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
+         |                                                    ^~
+   mm/memory.c:5013:35: error: controlling expression type 'pte_t *' not compatible with any generic association type
+    5013 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vmf->vma->vm_mm));
+         |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/pgalloc.h:140:28: note: expanded from macro 'pte_alloc_one'
+     140 | #define pte_alloc_one(mm) ((pte_t *)page_table_alloc(mm))
+         |                            ^
+   include/linux/mm_types.h:502:38: note: expanded from macro 'ptdesc_page'
+     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
+         |                                                    ^~
+   15 warnings and 3 errors generated.
 
 
-vim +12650 arch/x86/kvm/x86.c
+vim +448 mm/memory.c
 
- 12636	
- 12637	
- 12638	int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
- 12639	{
- 12640		int ret;
- 12641		unsigned long flags;
- 12642	
- 12643		if (!kvm_is_vm_type_supported(type))
- 12644			return -EINVAL;
- 12645	
- 12646		kvm->arch.vm_type = type;
- 12647		kvm->arch.has_private_mem =
- 12648			(type == KVM_X86_SW_PROTECTED_VM);
- 12649		/* Decided by the vendor code for other VM types.  */
- 12650		kvm->arch.pre_fault_allowed =
- 12651			type == KVM_X86_DEFAULT_VM || type == KVM_X86_SW_PROTECTED_VM;
- 12652	
- 12653		ret = kvm_page_track_init(kvm);
- 12654		if (ret)
- 12655			goto out;
- 12656	
- 12657		kvm_mmu_init_vm(kvm);
- 12658	
- 12659		ret = kvm_x86_call(vm_init)(kvm);
- 12660		if (ret)
- 12661			goto out_uninit_mmu;
- 12662	
- 12663		INIT_HLIST_HEAD(&kvm->arch.mask_notifier_list);
- 12664		atomic_set(&kvm->arch.noncoherent_dma_count, 0);
- 12665	
- 12666		/* Reserve bit 0 of irq_sources_bitmap for userspace irq source */
- 12667		set_bit(KVM_USERSPACE_IRQ_SOURCE_ID, &kvm->arch.irq_sources_bitmap);
- 12668		/* Reserve bit 1 of irq_sources_bitmap for irqfd-resampler */
- 12669		set_bit(KVM_IRQFD_RESAMPLE_IRQ_SOURCE_ID,
- 12670			&kvm->arch.irq_sources_bitmap);
- 12671	
- 12672		raw_spin_lock_init(&kvm->arch.tsc_write_lock);
- 12673		mutex_init(&kvm->arch.apic_map_lock);
- 12674		seqcount_raw_spinlock_init(&kvm->arch.pvclock_sc, &kvm->arch.tsc_write_lock);
- 12675		kvm->arch.kvmclock_offset = -get_kvmclock_base_ns();
- 12676	
- 12677		raw_spin_lock_irqsave(&kvm->arch.tsc_write_lock, flags);
- 12678		pvclock_update_vm_gtod_copy(kvm);
- 12679		raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
- 12680	
- 12681		kvm->arch.default_tsc_khz = max_tsc_khz ? : tsc_khz;
- 12682		kvm->arch.apic_bus_cycle_ns = APIC_BUS_CYCLE_NS_DEFAULT;
- 12683		kvm->arch.guest_can_read_msr_platform_info = true;
- 12684		kvm->arch.enable_pmu = enable_pmu;
- 12685	
+   445	
+   446	int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+   447	{
+ > 448		struct ptdesc *ptdesc = pte_alloc_one(mm);
+   449		if (!ptdesc)
+   450			return -ENOMEM;
+   451	
+   452		pmd_install(mm, pmd, (pgtable_t *)ptdesc);
+   453		if (ptdesc)
+   454			pte_free(mm, ptdesc_page(ptdesc));
+   455		return 0;
+   456	}
+   457	
 
 -- 
 0-DAY CI Kernel Test Service
