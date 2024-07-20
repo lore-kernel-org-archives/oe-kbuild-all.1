@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A54D2E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E5A3201
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 05:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721454481; cv=none; b=r27STonTEFcY4usGt5h4kgmN1wdm9HV4zoyb2OaKtyDNS2MXP5CmdXIs7DgOM+IRplN3wx7Z30MXatokJCn7u0aoR15NHeHO3w78/3H9jy+FbS3UUPuEAkJxxrPJ2Ntf8V3IQN8ENZ1mp0ZkF8KerGKLUssqr/b4sRJkqnPfWV8=
+	t=1721454482; cv=none; b=imnOf7tMttq1CpY669aGso38jlsdoQu60+r0g0QnPSgW1RIuELpeTcVbAUPf+QxPXLNU8flh16bRPI2zw0LO8fhD+z7WC+7D/Is06RNoiKUCYbT9Onnygq2XOJ0KZJQVsPSkhnfQlFNfX3UbwFHu/pNkPLM2Hdiq2qsl3FAHVwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721454481; c=relaxed/simple;
-	bh=Sj8yL6RDwKf5GiTnEuOJlrUCwPLhzKS2hS6awVqcEJg=;
+	s=arc-20240116; t=1721454482; c=relaxed/simple;
+	bh=cYX6mhVIAmRAxitQ6DWXdYhWaJsWgYJYmRL2vpKhCZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TrMdXYZ5YVHV+YEiLii0tHEQMKGLDqLjNX3hDOwY5AZaNI9YpKCyNuy5BOB6YK2NG+IUwY1Y7A8eajejKh2f94Z0wueRY3u89hTsRgSCYPK55feudj+NpcDUQdNLoJhH7I4ldnPQKzA2YwATbC6HEB2e8vT8w8gOq6Yi0OPoLZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCYFoOAT; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=QKiV4iiuMf0dXYyg0Re2PsX3McDjKAxf+MvkFGzYC2Vb+zFby8jYwlA2o+mgtkCe1cWwqvGWwWhlft5/FQG4m/RzkOi9TgFS/WmaOq5jHSRuwRi6ZE6xnzhbsZg+Kzl7wuPyzWar+YKmkwu+glpmL5MW3YCgOwfPUmBTOnggXdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Au5USY47; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCYFoOAT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Au5USY47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1721454480; x=1752990480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sj8yL6RDwKf5GiTnEuOJlrUCwPLhzKS2hS6awVqcEJg=;
-  b=SCYFoOATFaw5RHmULwDRgP55bd9yepFFqQ2iGugvlhy6GHZgT6SG20Ea
-   XHPaDm2PiJythtdcxeTErsN4CO79bJh6VMLhawciXfOt6dEqpviTqO/8g
-   w23VAyMAWTa3OQmi+TwkP9rxGNyGtQ/+rWoxdArWv9+SnpT6WDjGCRFYm
-   5JuB2NX+FpzPR0YMmt3/UzBzw9ez4rynDfOIAQqs6BiU3kGVNpzNSDI/F
-   OriV8ROHVx1Ptk4Ez4hko78/bltNKYYMkB2adGituTdjMd84O+4sKwK3v
-   9cfMu/ry9VwyQVGVAyR6LZTODE63dxxi+U0iCIrpGj8AvDS4JPTxzYjQS
-   Q==;
-X-CSE-ConnectionGUID: 6+YsLIRAQ/eclb8sOlOQUA==
-X-CSE-MsgGUID: vOdn6dQXQtmmAi5EDQ0a4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="30473957"
+  bh=cYX6mhVIAmRAxitQ6DWXdYhWaJsWgYJYmRL2vpKhCZo=;
+  b=Au5USY47GXL+dRL5iz8abdNo02fupkWz1y4lACwg1hnlqxhQpZkC7bSR
+   jHw4qqT5fTGiYIvjp5KDTEGXGoDmj+ykxuU2VKkkV55wzhWx76m7oNwvY
+   kn87SDFqZV1DH+SCjX7gv42IYQuflRPmNCq3+goFdOTj5tZJ6X1oPzS2w
+   KF+BsSjRcn9NCHtjg9ejBKwECR1vbDzrQsybn7XiQLl1CuicUK+p1g+Dz
+   PfhCMbzbGvtGTI38808OvXpQ1Wf2+C+GWGBw0Pk2wZmzDoJ/L1qixy2Dz
+   z/VJSy5pzVIutQ6tcJBF3BNJZFQhR3V+L5QezBc/kA1uhPynJQ7kigtB1
+   w==;
+X-CSE-ConnectionGUID: dDzI5zyMSrW3UlV3Zh8XrQ==
+X-CSE-MsgGUID: AjWZhddpSC+WE+7+0QxivQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="22849559"
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="30473957"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 22:47:59 -0700
-X-CSE-ConnectionGUID: yGg43nVmTZurVs9M78BdKA==
-X-CSE-MsgGUID: Rep8kCJ8Tw6s3YdKXrIH/Q==
+   d="scan'208";a="22849559"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 22:48:00 -0700
+X-CSE-ConnectionGUID: Gn1S2nSERnaqg414kRzw+A==
+X-CSE-MsgGUID: zj5uUEL5S66bs4WxnUHtYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,222,1716274800"; 
-   d="scan'208";a="82373668"
+   d="scan'208";a="51397197"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jul 2024 22:47:58 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Jul 2024 22:47:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sV2wm-000it8-0w;
+	id 1sV2wm-000itD-17;
 	Sat, 20 Jul 2024 05:47:56 +0000
 Date: Sat, 20 Jul 2024 13:47:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Alex Shi (Tencent)" <alexs@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 36/38] include/linux/mm_types.h:512:41: error:
- passing argument 3 of 'pmd_populate' from incompatible pointer type
-Message-ID: <202407201306.NLb2aJOR-lkp@intel.com>
+Subject: [alexshi:mmunstable 37/38] mm/memory.c:440:39: error: passing
+ argument 1 of 'lowmem_page_address' from incompatible pointer type
+Message-ID: <202407201310.Xpxxxi1a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,89 +64,83 @@ Content-Disposition: inline
 
 tree:   https://github.com/alexshi/linux.git mmunstable
 head:   b17c1bbf65811ff797f57b7ddc4fdf4b86d86030
-commit: 46417a6009d8064f174e7987dae8288f5cd9c4eb [36/38] pass ptdesc to pmd_populate
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240720/202407201306.NLb2aJOR-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407201306.NLb2aJOR-lkp@intel.com/reproduce)
+commit: 6b1d115d7b654549585d26008d60cb71b1cbefc8 [37/38] pass ptdesc to pmd_install
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240720/202407201310.Xpxxxi1a-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407201310.Xpxxxi1a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407201306.NLb2aJOR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407201310.Xpxxxi1a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/riscv/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from mm/memory.c:43:
+   In file included from mm/memory.c:88:
+   mm/memory.c: In function 'free_pte_range':
+   mm/memory.c:194:27: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Wincompatible-pointer-types]
+     194 |         pte_free_tlb(tlb, token, addr);
+         |                           ^~~~~
+         |                           |
+         |                           pgtable_t {aka struct page *}
+   arch/parisc/include/asm/tlb.h:10:61: note: in definition of macro '__pte_free_tlb'
+      10 | #define __pte_free_tlb(tlb, pte, addr)  pte_free((tlb)->mm, pte)
+         |                                                             ^~~
+   mm/memory.c:194:9: note: in expansion of macro 'pte_free_tlb'
+     194 |         pte_free_tlb(tlb, token, addr);
+         |         ^~~~~~~~~~~~
+   In file included from arch/parisc/include/asm/pgalloc.h:16,
+                    from mm/memory.c:86:
+   include/asm-generic/pgalloc.h:108:66: note: expected 'struct ptdesc *' but argument is of type 'pgtable_t' {aka 'struct page *'}
+     108 | static inline void pte_free(struct mm_struct *mm, struct ptdesc *ptdesc)
+         |                                                   ~~~~~~~~~~~~~~~^~~~~~
+   In file included from mm/memory.c:44:
    mm/memory.c: In function 'pmd_install':
->> include/linux/mm_types.h:512:41: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
-     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     511 |         const struct page *:            (const struct ptdesc *)(p),     \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     512 |         struct page *:                  (struct ptdesc *)(p)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct ptdesc *
-   mm/memory.c:440:39: note: in expansion of macro 'page_ptdesc'
-     440 |                 pmd_populate(mm, pmd, page_ptdesc(*pte));
-         |                                       ^~~~~~~~~~~
-   In file included from mm/memory.c:86:
-   arch/riscv/include/asm/pgalloc.h:36:31: note: expected 'pgtable_t' {aka 'struct page *'} but argument is of type 'struct ptdesc *'
-      36 |         pmd_t *pmd, pgtable_t pte)
-         |                     ~~~~~~~~~~^~~
---
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/mremap.c:11:
-   mm/mremap.c: In function 'move_normal_pmd':
->> include/linux/mm_types.h:512:41: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
-     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     511 |         const struct page *:            (const struct ptdesc *)(p),     \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     512 |         struct page *:                  (struct ptdesc *)(p)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct ptdesc *
-   mm/mremap.c:286:35: note: in expansion of macro 'page_ptdesc'
-     286 |         pmd_populate(mm, new_pmd, page_ptdesc(pmd_pgtable(pmd)));
-         |                                   ^~~~~~~~~~~
-   In file included from mm/mremap.c:31:
-   arch/riscv/include/asm/pgalloc.h:36:31: note: expected 'pgtable_t' {aka 'struct page *'} but argument is of type 'struct ptdesc *'
-      36 |         pmd_t *pmd, pgtable_t pte)
-         |                     ~~~~~~~~~~^~~
+>> mm/memory.c:440:39: error: passing argument 1 of 'lowmem_page_address' from incompatible pointer type [-Wincompatible-pointer-types]
+     440 |                 pmd_populate(mm, pmd, *pte);
+         |                                       ^~~~
+         |                                       |
+         |                                       struct ptdesc *
+   include/linux/mm.h:2251:48: note: in definition of macro 'page_address'
+    2251 | #define page_address(page) lowmem_page_address(page)
+         |                                                ^~~~
+   mm/memory.c:440:17: note: in expansion of macro 'pmd_populate'
+     440 |                 pmd_populate(mm, pmd, *pte);
+         |                 ^~~~~~~~~~~~
+   include/linux/mm.h:2245:69: note: expected 'const struct page *' but argument is of type 'struct ptdesc *'
+    2245 | static __always_inline void *lowmem_page_address(const struct page *page)
+         |                                                  ~~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +/pmd_populate +512 include/linux/mm_types.h
+vim +/lowmem_page_address +440 mm/memory.c
 
-9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  501) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  502) #define ptdesc_page(pt)			(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  503) 	const struct ptdesc *:		(const struct page *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  504) 	struct ptdesc *:		(struct page *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  505) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  506) #define ptdesc_folio(pt)		(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  507) 	const struct ptdesc *:		(const struct folio *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  508) 	struct ptdesc *:		(struct folio *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  509) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  510) #define page_ptdesc(p)			(_Generic((p),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  511) 	const struct page *:		(const struct ptdesc *)(p),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @512) 	struct page *:			(struct ptdesc *)(p)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  513) 
-
-:::::: The code at line 512 was first introduced by commit
-:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
-
-:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   419	
+   420	void pmd_install(struct mm_struct *mm, pmd_t *pmd, struct ptdesc **pte)
+   421	{
+   422		spinlock_t *ptl = pmd_lock(mm, pmd);
+   423	
+   424		if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
+   425			mm_inc_nr_ptes(mm);
+   426			/*
+   427			 * Ensure all pte setup (eg. pte page lock and page clearing) are
+   428			 * visible before the pte is made visible to other CPUs by being
+   429			 * put into page tables.
+   430			 *
+   431			 * The other side of the story is the pointer chasing in the page
+   432			 * table walking code (when walking the page table without locking;
+   433			 * ie. most of the time). Fortunately, these data accesses consist
+   434			 * of a chain of data-dependent loads, meaning most CPUs (alpha
+   435			 * being the notable exception) will already guarantee loads are
+   436			 * seen in-order. See the alpha page table accessors for the
+   437			 * smp_rmb() barriers in page table walking code.
+   438			 */
+   439			smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+ > 440			pmd_populate(mm, pmd, *pte);
+   441			*pte = NULL;
+   442		}
+   443		spin_unlock(ptl);
+   444	}
+   445	
 
 -- 
 0-DAY CI Kernel Test Service
