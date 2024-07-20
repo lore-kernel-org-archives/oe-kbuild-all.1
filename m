@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B32312C48A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 16:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68604DDB2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jul 2024 16:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721491775; cv=none; b=Yc0KM0BN4q6Po71xo3bTCLSdWaM1n34cnQEWVt3IzvIYjI8qCA0dKa1HbKUlrDWXjWiegbgknb3k5bgDxUAkLcqg32Kap31jhC+INgeby6jLvdWmI1UTfXRQ2fOohYhdls1HJBMHOiyzMF2MZOHyg8B0f8nH19aqohkLmyIcPlI=
+	t=1721493036; cv=none; b=tglTFek9hYCY7zm5Ks7d3L7wofZmFq2HemDToZGqwLaYHxE620HNvXEEEtm9P7M3d73PhXN9dhfkLp5vnW0DO3xm41hT7nlAO2FXwqyCI45GJTmdS+fJQQN8u1nJsI2dtmcTQq/AK73u4oxVwW20ChO30PvnKtcEFfOMrYpUOx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721491775; c=relaxed/simple;
-	bh=7eYVsn1FiolPQPGiXevASB2Zj/Z9jbRhE817rr5OgZk=;
+	s=arc-20240116; t=1721493036; c=relaxed/simple;
+	bh=B2Y7XXy7fe0URGNr6bCeJ5PUQstFwNx4hHaNvGcuVTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YyxnrfTgAuGi9GlLv6uiWCuHl/hw3ED75xwQunb5ieeUXk+P9V96W4j2aiEnbMBfmG2ViBNY19NyGayFi60iyAQWF7v9HvV0kFElVk9rEgYEfmsCsHx1rPRMxF9YNJ9h7u2km7DiVUgWLihrAHVjZ28iKIiCEG3K8h3etjWyyWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NaOJGqGn; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ZbTAkmqW2JI7kVMaRtOquRtkpPL/irQX36BQxCdojTZ/SdKFjKDBcVR4Dm7XMKSrmifFf50xa8S5ENPJ1wK2PsA1W13qxr6csOIdoPfE1KOefWUlbuqtG0spzSgpx5638GdJDYfoqW8OnsMNtqd3ZCUAy0eN7rGtoDEJaAiy5g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTiaOGjK; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NaOJGqGn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTiaOGjK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721491773; x=1753027773;
+  t=1721493034; x=1753029034;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7eYVsn1FiolPQPGiXevASB2Zj/Z9jbRhE817rr5OgZk=;
-  b=NaOJGqGn7A1xtjjMo1mJzrkFRleHG4Is9Af12Erne97tjeEmPpHXnjIk
-   xYq4UIMxlJki9xghwj3A+uZqtZbC/LMIMkOapJF5Bp0COaobtV8bj4lRY
-   H/mb3lWNIWqLFPFzSEhOD8OMjRGP6r7HS6FCRTgUFLTzWrhA6g7XWaSQ3
-   A7Mr0xr9hNPyiBi2XVX6jAALmqn+XW7KbIcwuWP6jNJ+a+G8SaWepD7Uh
-   +SqEnI5SHp+vQGBHL6DMpy9eRqWcYZi0FJOAIIlBGk2rTSzuFitjoRvTq
-   kl9yVTZ0Z/2cJpATPsLX8Va9hLo4ozBrfkqiIOV2tA+u/3CTeUchSI6qM
-   A==;
-X-CSE-ConnectionGUID: xmz5PV7UTwKHweUglS9rtg==
-X-CSE-MsgGUID: CBi6P0m2ROO4kt+8DUv0jw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="36539989"
+  bh=B2Y7XXy7fe0URGNr6bCeJ5PUQstFwNx4hHaNvGcuVTg=;
+  b=YTiaOGjKWFj3MbahkEp72NziuN66LY0F9DDbVq90MrqDNpHok7duRmzJ
+   oJ52JA9o/dslSQSEvrb8cPFvA4CeE39n17VpgwpX120xtNV54GbAWgIMB
+   EquJzT6gbQJwtyhWs4UJZdI8axVP3Fd/Jz4nrzVzFGYvgaaqmYBBqpOYV
+   v7BFPywdBw1+HQN05koWOWp2CC1xJK1EYf70t4Nqql52quXK5pTHTMbGk
+   Xg8pm/K8xBqtgfFIstNufr3tEo7tXUzoOzgvb1Qq98GS1SDT/nenhAdhI
+   e2+k3A/L4pXtcvKA4utiyHYHk7OCoVF7lLA0/RFPZk51zvAWqmIIT8+H6
+   Q==;
+X-CSE-ConnectionGUID: gdOcEAm0QJqjiq00JRVKEQ==
+X-CSE-MsgGUID: GjtfD0PWQ6Shx1QC0G+Lzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="19230240"
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="36539989"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 09:09:32 -0700
-X-CSE-ConnectionGUID: XmFXa6bpQZG7iGWNhTiDYQ==
-X-CSE-MsgGUID: n6wr7BxYTmONsrJ1dGPbAA==
+   d="scan'208";a="19230240"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 09:30:34 -0700
+X-CSE-ConnectionGUID: NpNgovJlQtKc21yY7u/rFA==
+X-CSE-MsgGUID: wRvNE68YQ9+wJtCAw1zcWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,224,1716274800"; 
-   d="scan'208";a="82457948"
+   d="scan'208";a="56261896"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Jul 2024 09:09:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 20 Jul 2024 09:30:33 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVCeG-000jNM-0D;
-	Sat, 20 Jul 2024 16:09:28 +0000
-Date: Sun, 21 Jul 2024 00:08:48 +0800
+	id 1sVCyc-000jPi-1x;
+	Sat, 20 Jul 2024 16:30:30 +0000
+Date: Sun, 21 Jul 2024 00:30:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Alex Shi (Tencent)" <alexs@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable2 42/42] mm/khugepaged.c:1226:16: warning:
- assignment to 'struct ptdesc *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202407210048.b2uakSi7-lkp@intel.com>
+Subject: [alexshi:mmunstable2 42/42] mm/khugepaged.c:1226:9: warning:
+ assignment makes pointer from integer without a cast
+Message-ID: <202407210039.0sVX561B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +65,49 @@ Content-Disposition: inline
 tree:   https://github.com/alexshi/linux.git mmunstable2
 head:   17ce8ec8001d3efaa81c659d6ec565025c3f42b0
 commit: 17ce8ec8001d3efaa81c659d6ec565025c3f42b0 [42/42] mm/pgtable: use ptdesc in collapse_huge_page
-config: i386-buildonly-randconfig-002-20240720 (https://download.01.org/0day-ci/archive/20240721/202407210048.b2uakSi7-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210048.b2uakSi7-lkp@intel.com/reproduce)
+config: i386-randconfig-001-20240720 (https://download.01.org/0day-ci/archive/20240721/202407210039.0sVX561B-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407210039.0sVX561B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407210048.b2uakSi7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407210039.0sVX561B-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    mm/khugepaged.c: In function '__collapse_huge_page_copy_failed':
-   mm/khugepaged.c:772:39: error: implicit declaration of function 'pmd_ptdesc'; did you mean 'pfn_ptdesc'? [-Werror=implicit-function-declaration]
-     772 |         pmd_populate(vma->vm_mm, pmd, pmd_ptdesc(&orig_pmd));
-         |                                       ^~~~~~~~~~
-         |                                       pfn_ptdesc
-   mm/khugepaged.c:772:39: warning: passing argument 3 of 'pmd_populate' makes pointer from integer without a cast [-Wint-conversion]
-     772 |         pmd_populate(vma->vm_mm, pmd, pmd_ptdesc(&orig_pmd));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       int
-   In file included from mm/khugepaged.c:26:
-   arch/x86/include/asm/pgalloc.h:79:48: note: expected 'struct ptdesc *' but argument is of type 'int'
-      79 |                                 struct ptdesc *pte)
-         |                                 ~~~~~~~~~~~~~~~^~~
+   mm/khugepaged.c:772:32: error: implicit declaration of function 'pmd_ptdesc'; did you mean 'pfn_ptdesc'? [-Werror=implicit-function-declaration]
+     pmd_populate(vma->vm_mm, pmd, pmd_ptdesc(&orig_pmd));
+                                   ^~~~~~~~~~
+                                   pfn_ptdesc
+   mm/khugepaged.c:772:32: warning: passing argument 3 of 'pmd_populate' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from mm/khugepaged.c:26:0:
+   arch/x86/include/asm/pgalloc.h:78:20: note: expected 'struct ptdesc *' but argument is of type 'int'
+    static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
+                       ^~~~~~~~~~~~
    mm/khugepaged.c: In function 'collapse_huge_page':
->> mm/khugepaged.c:1226:16: warning: assignment to 'struct ptdesc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1226 |         ptdesc = pmd_ptdesc(&_pmd);
-         |                ^
+>> mm/khugepaged.c:1226:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     ptdesc = pmd_ptdesc(&_pmd);
+            ^
+   mm/khugepaged.c: In function 'collapse_pte_mapped_thp':
+   mm/khugepaged.c:1667:21: warning: passing argument 2 of 'pte_free_defer' makes pointer from integer without a cast [-Wint-conversion]
+     pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
+                        ^~~~~~~~~~
+   In file included from include/linux/mm.h:30:0,
+                    from mm/khugepaged.c:4:
+   include/linux/pgtable.h:119:6: note: expected 'struct ptdesc *' but argument is of type 'int'
+    void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
+         ^~~~~~~~~~~~~~
+   mm/khugepaged.c: In function 'retract_page_tables':
+   mm/khugepaged.c:1771:23: warning: passing argument 2 of 'pte_free_defer' makes pointer from integer without a cast [-Wint-conversion]
+       pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
+                          ^~~~~~~~~~
+   In file included from include/linux/mm.h:30:0,
+                    from mm/khugepaged.c:4:
+   include/linux/pgtable.h:119:6: note: expected 'struct ptdesc *' but argument is of type 'int'
+    void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
+         ^~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
