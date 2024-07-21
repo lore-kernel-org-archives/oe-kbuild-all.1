@@ -1,196 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03801F19A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 21:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35A2DF44
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 22:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721598743; cv=none; b=LZxmsA8nSQ/aedHzBRARB81TWTB+Sx4Qguho5IPC51V+17kPkKWcShW2PZxU4bbtfHq2AKE2AjWSaYRG8HyT7vLdGoObf3hhqE85Zr5cJsYrGglbrKZmx7PRDtWOeDcUS6hvICJ+nmdfjQ2Zx4Ci86W85j4IUoX8Yqt6YGpkHa4=
+	t=1721601917; cv=none; b=ASkybDxU642Op3LVN5QSwOzqfyAZX2qVvZU1WCBx5TzGU+uTq6sTiDH62Ityvk19oCt5m1lKKdDLcpnw0CcToMSrIzCr4aCqKvM7uSraCNYAk0I0Hi53lgw32JFgQ5XzJNN0pVe/8a81y2JvxrGMW+VMnBtfVUH6nUkyswvOsaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721598743; c=relaxed/simple;
-	bh=+zIt49lnqDcSmnO8B59PjpXkFxsWIWFI22x6dFQ7los=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FrcfuxyxYiSeNdlAlBh8enDiT51iWXhOe9cqjaXCWThzslRDib7wxJc47oCWoG3ny7w2+pryaoDvSzEXjm171RVwsZpTmf3X885Wj3onfNy782vSbPOVy8RhT5jUb0Sk72lilrq2rZQiSGdLw2n6fbrHLZnqEVStnfUtwQQNO0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSBL92SP; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721601917; c=relaxed/simple;
+	bh=XAB61vLKJWnDQlcFZR7bf5Sq7OYUpOASYDv2+D+ZFO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o7mrgPBTlUchaZM21L+3cSotWIKTceRyT0D6T7Yh/oGeoz1pHRs8CcO2bcayA81UkEe93yQImWTc8qcXOGYKbP04+hP9bPr3xUe6h+Gr7KwKQfPQE5re14bsdIG8r4IV9Cm88BnLKaP5/8LBcvmYplDaP0duPEcpFjUoLSUibXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltVkGrwc; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSBL92SP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721598740; x=1753134740;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+zIt49lnqDcSmnO8B59PjpXkFxsWIWFI22x6dFQ7los=;
-  b=TSBL92SPUsFiN2TbdtW55IJQcE2PKXDSEfoOIlovs+93dB44SSmBH27b
-   cRMBTLWxE364yUeBzGMV1fVRzRN7TxBtTJHJXdv5R4GMw0+VcptLqCnER
-   EGUSdkQk1vjDV8SGecaGB1FWuIsGzpv4q4keObL8AcgGIWTUCNcTBdI9s
-   7Kxrwj3/iatG37v6ZaMXRHixvDHM2W+hmjK6Qry8Apmyor1/nBOy6nY0B
-   0lXH7xJPKyj9xE5dWWV1l0iRNGMaBC21oFE0PzvyrS5isyBnB579nMrUi
-   +V4J7OVJeXay5Qn93vzeE5cLOLzdgSFzwWfrFmvPKL3YQfgiYGzmjLaxS
-   g==;
-X-CSE-ConnectionGUID: Cd1STx2JQWCh0YBtcWpEoA==
-X-CSE-MsgGUID: N/QLZBy6Rqq7Et6r1GW8fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="23018136"
-X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="23018136"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 14:52:20 -0700
-X-CSE-ConnectionGUID: xXj0CwQBQJOPyfPo9CJutA==
-X-CSE-MsgGUID: qYJ9u/oyRXq9YPzXEYH7UA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="56788835"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Jul 2024 14:52:19 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sVeTY-000kf4-2T;
-	Sun, 21 Jul 2024 21:52:16 +0000
-Date: Mon, 22 Jul 2024 05:51:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 35/43]
- arch/powerpc/include/asm/book3s/64/pgtable.h:1371:54: error: incompatible
- pointer types passing 'struct ptdesc *' to parameter of type 'pgtable_t'
- (aka 'pte_t *')
-Message-ID: <202407220535.mz1u8bJ0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltVkGrwc"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64f4fd64773so42250507b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 15:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721601915; x=1722206715; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KImFB+SXLsoOxEFt5UuwpafcPo5jSSvyoPC95qiitmw=;
+        b=ltVkGrwcHHhOnJtyvrXlCWgSObBt8shDTEAuXpymmk0PGJz2dTKpBujxnn5FSfuB/M
+         qevAzHN78wc9yY2B0bzNKzEyGt5Qss/HC5bUJ9e51y/xLTvC7no5o7m97aaROPi5EWTH
+         2mI5IgVF0GFKjz29yfmi9+Zowgsd0z9gm/G2l5hLY+QC6gzw4IIRd+bXcuaJEAnfuqLN
+         Lf7dN4nb60Y/xaYmzWSO+9YHvEgFgX5ClPllP5rpH3bN/e3Cs51+BgTo/GsZnnOvRP0v
+         C79eyAopSbf7H0Qbq0EFFAEllzfetp3emVGxKyA4Xilzw0VjJg/etAkCLOXvmRbX+qNy
+         DGyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721601915; x=1722206715;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KImFB+SXLsoOxEFt5UuwpafcPo5jSSvyoPC95qiitmw=;
+        b=K70eHMTMaNf64jkE08GDv1USs2Y4HRk+TukFSiQs3jpxX3j/Gqltdg+X3fynmTVdSf
+         4gaKPhQ4EqvJIjPu4YoAIHbrRJNMtX7/evDXIiHcdkMfTSuBmVN8q8Vv8rJipzTda+Js
+         LeIBjheSxSkKklIw27yFCVYvG8CYZ8acxny0q6zKE1rfBOuDNIICVuCdZ5yAJNlahHAk
+         NxmmRiKPWsPA9TI4iCr37Jj5HSC7p7eRQn1A0NfW0WCsUprbfX++faMQ/iwmq/LPN0iP
+         85XFcNfMAp7sl9awb8c6nCgg7tK/QtRNRUPzgmygvaK2U6/tnlKx1lGQTg0kxdzGx4yL
+         DzxA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/8n5lTa6w6eIEvzKPfWuQX9rOEg2/91sAfkIkKA/DWic7D1pBa2186FDBkhRgrtdDpbu9eLnmOl/uuhKR/y6n7aPfS/7RCAsnSwCF0w==
+X-Gm-Message-State: AOJu0YxP3MN9iWsPP42w79onoCxn2XgPPVqGD7j4d+UObqpFlq7MqCyK
+	ewSY/aQn8BUeqwIoMlCMMluXqR2P3sFRvFcXYaxYk9jCgXxfxQuKo7fOt4DTbIIcLWIJZlD9rkl
+	ps76BkomQbswdpOXeU/xf0LxTPbA=
+X-Google-Smtp-Source: AGHT+IEXEhS4il9O4HiQcLX8Nw3RGKpo9YAEEBnYEsfJ5+/jEDb9u8VDy2aksWJ26btRZCRGD/H07koWeT/HmOl/hzg=
+X-Received: by 2002:a05:690c:4589:b0:66a:b6d2:c184 with SMTP id
+ 00721157ae682-66ab6d2c901mr60003197b3.16.1721601914698; Sun, 21 Jul 2024
+ 15:45:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240720062233.2319723-2-martin.lau@linux.dev> <202407202244.HvnUVyjM-lkp@intel.com>
+In-Reply-To: <202407202244.HvnUVyjM-lkp@intel.com>
+From: Amery Hung <ameryhung@gmail.com>
+Date: Sun, 21 Jul 2024 15:45:04 -0700
+Message-ID: <CAMB2axM565hLp1uuYggcEEPDA8y0NCpTn8gESmn6cPuyWfELJQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the
+ bpf_struct_ops's cfi_stubs
+To: kernel test robot <lkp@intel.com>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>, 
+	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   24c8778745b223097d5e3d590967626176306b1d
-commit: e164d85b0aa7cdfe03777158ca995f093884d420 [35/43] mm/pgtable: use ptdesc in pgtable_trans_huge_deposit
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240722/202407220535.mz1u8bJ0-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407220535.mz1u8bJ0-lkp@intel.com/reproduce)
+On Sat, Jul 20, 2024 at 7:45=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Martin,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Martin-KaFai-Lau/b=
+pf-Check-unsupported-ops-from-the-bpf_struct_ops-s-cfi_stubs/20240720-14431=
+3
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20240720062233.2319723-2-martin.=
+lau%40linux.dev
+> patch subject: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the b=
+pf_struct_ops's cfi_stubs
+> config: i386-randconfig-001-20240720 (https://download.01.org/0day-ci/arc=
+hive/20240720/202407202244.HvnUVyjM-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240720/202407202244.HvnUVyjM-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407202244.HvnUVyjM-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_supported':
+> >> kernel/bpf/bpf_struct_ops.c:1045:48: warning: dereferencing 'void *' p=
+ointer
+>      void *func_ptr =3D *(void **)(&st_ops->cfi_stubs[moff]);
+>                                                    ^
+>
+>
+> vim +1045 kernel/bpf/bpf_struct_ops.c
+>
+>   1042
+>   1043  int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops,=
+ u32 moff)
+>   1044  {
+> > 1045          void *func_ptr =3D *(void **)(&st_ops->cfi_stubs[moff]);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407220535.mz1u8bJ0-lkp@intel.com/
+The compiler warning can be fixed with:
+void *func_ptr =3D *(void **)(st_ops->cfi_stubs + moff);
 
-All error/warnings (new ones prefixed by >>):
+The patch looks good to me. I tested it with bpf qdisc, and it does
+what it is supposed to do by prohibiting users to attach to an
+operator whose cfi stub is not defined.
 
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
-   In file included from arch/powerpc/include/asm/current.h:13:
-   In file included from arch/powerpc/include/asm/paca.h:18:
-   In file included from arch/powerpc/include/asm/mmu.h:385:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
->> arch/powerpc/include/asm/book3s/64/pgtable.h:1368:32: warning: declaration of 'struct ptdesc' will not be visible outside of this function [-Wvisibility]
-    1368 |                                               pmd_t *pmdp, struct ptdesc *pgtable)
-         |                                                                   ^
->> arch/powerpc/include/asm/book3s/64/pgtable.h:1371:54: error: incompatible pointer types passing 'struct ptdesc *' to parameter of type 'pgtable_t' (aka 'pte_t *') [-Werror,-Wincompatible-pointer-types]
-    1371 |                 return radix__pgtable_trans_huge_deposit(mm, pmdp, pgtable);
-         |                                                                    ^~~~~~~
-   arch/powerpc/include/asm/book3s/64/radix.h:294:16: note: passing argument to parameter 'pgtable' here
-     294 |                                         pgtable_t pgtable);
-         |                                                   ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
-   In file included from arch/powerpc/include/asm/current.h:13:
-   In file included from arch/powerpc/include/asm/paca.h:18:
-   In file included from arch/powerpc/include/asm/mmu.h:385:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
-   arch/powerpc/include/asm/book3s/64/pgtable.h:1372:52: error: incompatible pointer types passing 'struct ptdesc *' to parameter of type 'pgtable_t' (aka 'pte_t *') [-Werror,-Wincompatible-pointer-types]
-    1372 |         return hash__pgtable_trans_huge_deposit(mm, pmdp, pgtable);
-         |                                                           ^~~~~~~
-   arch/powerpc/include/asm/book3s/64/hash-64k.h:277:17: note: passing argument to parameter 'pgtable' here
-     277 |                                          pgtable_t pgtable);
-         |                                                    ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:19:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2221:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 2 errors generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+Thanks,
+Amery
 
 
-vim +1371 arch/powerpc/include/asm/book3s/64/pgtable.h
-
-3dfcb315d81e66 Aneesh Kumar K.V   2015-12-01  1355  
-75358ea359e7c0 Aneesh Kumar K.V   2020-05-05  1356  #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR_FULL
-75358ea359e7c0 Aneesh Kumar K.V   2020-05-05  1357  pmd_t pmdp_huge_get_and_clear_full(struct vm_area_struct *vma,
-75358ea359e7c0 Aneesh Kumar K.V   2020-05-05  1358  				   unsigned long addr,
-75358ea359e7c0 Aneesh Kumar K.V   2020-05-05  1359  				   pmd_t *pmdp, int full);
-75358ea359e7c0 Aneesh Kumar K.V   2020-05-05  1360  
-27af67f35631ac Aneesh Kumar K.V   2023-07-25  1361  #define __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR_FULL
-27af67f35631ac Aneesh Kumar K.V   2023-07-25  1362  pud_t pudp_huge_get_and_clear_full(struct vm_area_struct *vma,
-27af67f35631ac Aneesh Kumar K.V   2023-07-25  1363  				   unsigned long addr,
-27af67f35631ac Aneesh Kumar K.V   2023-07-25  1364  				   pud_t *pudp, int full);
-27af67f35631ac Aneesh Kumar K.V   2023-07-25  1365  
-3dfcb315d81e66 Aneesh Kumar K.V   2015-12-01  1366  #define __HAVE_ARCH_PGTABLE_DEPOSIT
-3df33f12be2f6f Aneesh Kumar K.V   2016-04-29  1367  static inline void pgtable_trans_huge_deposit(struct mm_struct *mm,
-e164d85b0aa7cd Alex Shi (Tencent  2024-07-19 @1368) 					      pmd_t *pmdp, struct ptdesc *pgtable)
-3df33f12be2f6f Aneesh Kumar K.V   2016-04-29  1369  {
-bde3eb6222e496 Aneesh Kumar K.V   2016-04-29  1370  	if (radix_enabled())
-bde3eb6222e496 Aneesh Kumar K.V   2016-04-29 @1371  		return radix__pgtable_trans_huge_deposit(mm, pmdp, pgtable);
-3df33f12be2f6f Aneesh Kumar K.V   2016-04-29  1372  	return hash__pgtable_trans_huge_deposit(mm, pmdp, pgtable);
-3df33f12be2f6f Aneesh Kumar K.V   2016-04-29  1373  }
-3df33f12be2f6f Aneesh Kumar K.V   2016-04-29  1374  
-
-:::::: The code at line 1371 was first introduced by commit
-:::::: bde3eb6222e49673d2ee9dfdc6ab6e7b6ff69e91 powerpc/mm/radix: Add radix THP callbacks
-
-:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>   1046
+>   1047          return func_ptr ? 0 : -ENOTSUPP;
+>   1048  }
+>   1049
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
