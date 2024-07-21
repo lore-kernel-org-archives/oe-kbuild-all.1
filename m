@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D760138E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 04:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22FC1FBA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 05:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721537171; cv=none; b=SUs6wIvA+e2EvMUiEG9YQYYZE/+SsdBMgYZxAadNos3XYWLuOGbd2KnArI1GKc7GDAl7n4n0Z9TO0cp4haA94iP+hOrzMm7VMSCrdWpDZUFqATtBN52OHzhzXKpDXXkHOKjfl5A8hTZvlMlAqaquJhBxPRFUPm67NUmlWzXFwNY=
+	t=1721539750; cv=none; b=FwdBiPokaip+7mubO9CcJUk6C2P9EZTmS51P/5uthSZYfHdAbB194g6VuiQnTyxtlzRwg1s1rfrvLcu/apKPEOY6hvDPe/toHrxJKRaSPVWRk30BnzuudGvuehJxvHqGZ9Bkb8y0LKdvEpjzWYS3QJVEipfGR1DmBjRFytZdNR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721537171; c=relaxed/simple;
-	bh=rowHtQmmB0Cgwh9xg+lsblyWJhOHbOPAhgQtqsYxISs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H9TtNIEGtl3xGAeYtxMZezrw2/bvgTLQRAy4s4k0wJIIBzD+xSgkiFrpI+/NEdHoRxP7FE60wJ3WG20Fy830W9Ah8LxzrSLLEdUblIpo3TP97G8KjtChT/ifZaqil04L/3pD5q+dgMEs4UqwrXynMVHBFNhUqmQcOV/5Bw7CuIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iahnMxRZ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1721539750; c=relaxed/simple;
+	bh=DsqyEfIisDMSYLziYw0NB5TjXMJqLhfaN1hqRQ20XnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P19OgUFbxeMrvRTMHU+2j5ih6+E8XebCTX+4JSiz6a80A6zEB7zaVIeiNiuUXmA18u26msm5FjER0XjHQxJGEN3dVvjDpIzT62mFeo7VuuYFTRiEUdzdtctGDULEBKnGkTI3qw+zHG3KdvozG6+Yhmt+MFnfQBkf780TBZ4qk2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTfLlca5; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iahnMxRZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTfLlca5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721537168; x=1753073168;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rowHtQmmB0Cgwh9xg+lsblyWJhOHbOPAhgQtqsYxISs=;
-  b=iahnMxRZvxMnBJVUAZ0Ob6U3fqNmN8hK+bS4llM3rtkthYTSk+acBBS0
-   5xZCdu6N2Q85sbEiikCuscMaC5zF9vUHLppRT8mdH3OxWqMvJ3ozkBxp8
-   Wx+g7i485S7fDj4UUk1Or9FFaoTQ+4AeR5CSf60SS86VpeeEMvb34WPV2
-   SNqmNrSL2MW55DpwE4rbrC3PRTECH+ReRlLaRLzihkll/GrJJ+8FLRFJm
-   wpNYof9ZR51D8apLe/D/BdyIIPF9c898dOLfgPF+63POTLqs0gVf0BzLL
-   taRAgKaVtBHO73iXGuu0z9o2qeM2X8feYXI+UIuExvwH/ej+y6wMEkIIZ
-   A==;
-X-CSE-ConnectionGUID: aqjo5aUsQs602V8PBKcZ0A==
-X-CSE-MsgGUID: QgUZiPzsTVK/aSllOKeIDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="44547917"
+  t=1721539749; x=1753075749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DsqyEfIisDMSYLziYw0NB5TjXMJqLhfaN1hqRQ20XnM=;
+  b=jTfLlca5zDy7CNKn6NiZgxt7IJ1NtNdZID+ETQw/YVbI7n5t7XF/Au6b
+   N1VHGVC0WhCurpl573m3bFvXnVrAc1dToF0GUYbzYBdmybK7HB1DlKOg5
+   gbx4krnWCL1xStCyhsDyZUkHaF3iIfcppqEU+tzD1k2aTeNLJQPErdMNd
+   sEANTiayeP5H5m7GWi3RIIW6EOjOjvpWza1NSmyuVloF0dhQIBpX1b76Y
+   twBjdMbTJDP7GHnvOHSOFGFUbhvb/Mqi6QPDea+olWhzEY+kS2VziQVi7
+   QEjyrwVcA/Tt/MjOwXiekuScNeYGt8XL7/cWuonroTrFB48N7dBmtxl+l
+   w==;
+X-CSE-ConnectionGUID: NbP8A5PnTqGa1C+zQO2kGA==
+X-CSE-MsgGUID: Lim6ewkyQVOmzQfpO4hyEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="18995682"
 X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="44547917"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 21:46:06 -0700
-X-CSE-ConnectionGUID: ZstPVH5bSAWR/e7FOcfrXA==
-X-CSE-MsgGUID: velys5a0RCiQ+ONv16cqsA==
+   d="scan'208";a="18995682"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2024 22:29:08 -0700
+X-CSE-ConnectionGUID: nOsJWBO+Se6uW4pf31zEpg==
+X-CSE-MsgGUID: w8er+ICMShG6y2/H5bsnkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="82144003"
+   d="scan'208";a="56649120"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Jul 2024 21:46:05 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Jul 2024 22:29:06 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVOSQ-000jwG-2D;
-	Sun, 21 Jul 2024 04:46:02 +0000
-Date: Sun, 21 Jul 2024 12:45:39 +0800
+	id 1sVP83-000jxW-26;
+	Sun, 21 Jul 2024 05:29:03 +0000
+Date: Sun, 21 Jul 2024 13:28:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 39/43] mm/memory.c:4650:35: error: assignment to
- 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'long
- unsigned int *'}
-Message-ID: <202407211233.4OWQSpHJ-lkp@intel.com>
+To: Joshua Felmeden <jfelmeden@thegoodpenguin.co.uk>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] iio: humidity: Add support for ENS210
+Message-ID: <202407211229.nP7WkSo5-lkp@intel.com>
+References: <20240719-ens21x-v4-2-6044e48a376a@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,130 +67,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240719-ens21x-v4-2-6044e48a376a@thegoodpenguin.co.uk>
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   6c298a18633e397b8be4d6f48fc8cd1f860dd896
-commit: 9c524fe1937111f65bab7e922c9992e6a2d7cc64 [39/43] mm: convert vmf.prealloc_pte to struct ptdesc pointer
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20240721/202407211233.4OWQSpHJ-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407211233.4OWQSpHJ-lkp@intel.com/reproduce)
+Hi Joshua,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1ebab783647a9e3bf357002d5c4ff060c8474a0a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Felmeden/dt-bindings-iio-humidity-add-ENS210-sensor-family/20240719-210648
+base:   1ebab783647a9e3bf357002d5c4ff060c8474a0a
+patch link:    https://lore.kernel.org/r/20240719-ens21x-v4-2-6044e48a376a%40thegoodpenguin.co.uk
+patch subject: [PATCH v4 2/2] iio: humidity: Add support for ENS210
+config: x86_64-randconfig-122-20240721 (https://download.01.org/0day-ci/archive/20240721/202407211229.nP7WkSo5-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407211229.nP7WkSo5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407211233.4OWQSpHJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407211229.nP7WkSo5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/humidity/ens210.c:88:26: sparse: sparse: restricted __be32 degrades to integer
+>> drivers/iio/humidity/ens210.c:88:53: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 [usertype] val_be @@     got unsigned int @@
+   drivers/iio/humidity/ens210.c:88:53: sparse:     expected restricted __be32 [usertype] val_be
+   drivers/iio/humidity/ens210.c:88:53: sparse:     got unsigned int
 
-   In file included from arch/sparc/include/asm/pgalloc.h:7,
-                    from mm/memory.c:86:
-   mm/memory.c: In function 'pmd_install':
-   mm/memory.c:440:39: error: passing argument 2 of 'pmd_set' from incompatible pointer type [-Wincompatible-pointer-types]
-     440 |                 pmd_populate(mm, pmd, *pte);
-         |                                       ^~~~
-         |                                       |
-         |                                       struct ptdesc *
-   arch/sparc/include/asm/pgalloc_32.h:53:54: note: in definition of macro 'pmd_populate'
-      53 | #define pmd_populate(mm, pmd, pte)      pmd_set(pmd, pte)
-         |                                                      ^~~
-   arch/sparc/include/asm/pgalloc_32.h:55:34: note: expected 'pte_t *' {aka 'long unsigned int *'} but argument is of type 'struct ptdesc *'
-      55 | void pmd_set(pmd_t *pmdp, pte_t *ptep);
-         |                           ~~~~~~~^~~~
-   mm/memory.c: In function '__pte_alloc':
-   mm/memory.c:448:33: error: initialization of 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'long unsigned int *'} [-Wincompatible-pointer-types]
-     448 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
-         |                                 ^~~~~~~~~~~~~
-   mm/memory.c:454:30: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Wincompatible-pointer-types]
-     454 |                 pte_free(mm, ptdesc);
-         |                              ^~~~~~
-         |                              |
-         |                              struct ptdesc *
-   arch/sparc/include/asm/pgalloc_32.h:74:48: note: expected 'pgtable_t' {aka 'long unsigned int *'} but argument is of type 'struct ptdesc *'
-      74 | void pte_free(struct mm_struct * mm, pgtable_t pte);
-         |                                      ~~~~~~~~~~^~~
-   mm/memory.c: In function '__do_fault':
->> mm/memory.c:4650:35: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'long unsigned int *'} [-Wincompatible-pointer-types]
-    4650 |                 vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
-         |                                   ^
-   mm/memory.c: In function 'do_fault_around':
-   mm/memory.c:5013:35: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'long unsigned int *'} [-Wincompatible-pointer-types]
-    5013 |                 vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
-         |                                   ^
-   mm/memory.c: In function 'do_fault':
-   mm/memory.c:5199:36: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Wincompatible-pointer-types]
-    5199 |                 pte_free(vm_mm, vmf->prealloc_pte);
-         |                                 ~~~^~~~~~~~~~~~~~
-         |                                    |
-         |                                    struct ptdesc *
-   arch/sparc/include/asm/pgalloc_32.h:74:48: note: expected 'pgtable_t' {aka 'long unsigned int *'} but argument is of type 'struct ptdesc *'
-      74 | void pte_free(struct mm_struct * mm, pgtable_t pte);
-         |                                      ~~~~~~~~~~^~~
+vim +88 drivers/iio/humidity/ens210.c
 
-
-vim +4650 mm/memory.c
-
-  4622	
-  4623	/*
-  4624	 * The mmap_lock must have been held on entry, and may have been
-  4625	 * released depending on flags and vma->vm_ops->fault() return value.
-  4626	 * See filemap_fault() and __lock_page_retry().
-  4627	 */
-  4628	static vm_fault_t __do_fault(struct vm_fault *vmf)
-  4629	{
-  4630		struct vm_area_struct *vma = vmf->vma;
-  4631		struct folio *folio;
-  4632		vm_fault_t ret;
-  4633	
-  4634		/*
-  4635		 * Preallocate pte before we take page_lock because this might lead to
-  4636		 * deadlocks for memcg reclaim which waits for pages under writeback:
-  4637		 *				lock_page(A)
-  4638		 *				SetPageWriteback(A)
-  4639		 *				unlock_page(A)
-  4640		 * lock_page(B)
-  4641		 *				lock_page(B)
-  4642		 * pte_alloc_one
-  4643		 *   shrink_folio_list
-  4644		 *     wait_on_page_writeback(A)
-  4645		 *				SetPageWriteback(B)
-  4646		 *				unlock_page(B)
-  4647		 *				# flush A, B to clear the writeback
-  4648		 */
-  4649		if (pmd_none(*vmf->pmd) && !vmf->prealloc_pte) {
-> 4650			vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
-  4651			if (!vmf->prealloc_pte)
-  4652				return VM_FAULT_OOM;
-  4653		}
-  4654	
-  4655		ret = vma->vm_ops->fault(vmf);
-  4656		if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY |
-  4657				    VM_FAULT_DONE_COW)))
-  4658			return ret;
-  4659	
-  4660		folio = page_folio(vmf->page);
-  4661		if (unlikely(PageHWPoison(vmf->page))) {
-  4662			vm_fault_t poisonret = VM_FAULT_HWPOISON;
-  4663			if (ret & VM_FAULT_LOCKED) {
-  4664				if (page_mapped(vmf->page))
-  4665					unmap_mapping_folio(folio);
-  4666				/* Retry if a clean folio was removed from the cache. */
-  4667				if (mapping_evict_folio(folio->mapping, folio))
-  4668					poisonret = VM_FAULT_NOPAGE;
-  4669				folio_unlock(folio);
-  4670			}
-  4671			folio_put(folio);
-  4672			vmf->page = NULL;
-  4673			return poisonret;
-  4674		}
-  4675	
-  4676		if (unlikely(!(ret & VM_FAULT_LOCKED)))
-  4677			folio_lock(folio);
-  4678		else
-  4679			VM_BUG_ON_PAGE(!folio_test_locked(folio), vmf->page);
-  4680	
-  4681		return ret;
-  4682	}
-  4683	
+    84	
+    85	/* calculate 17-bit crc7 */
+    86	static u8 ens210_crc7(u32 val)
+    87	{
+  > 88		__be32 val_be = (cpu_to_be32(val & 0x1ffff) >> 0x8);
+    89	
+    90		return crc7_be(0xde, (u8 *)&val_be, 3) >> 1;
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
