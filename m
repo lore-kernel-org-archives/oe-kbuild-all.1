@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC172BB13
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 11:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666BB1DFD8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jul 2024 12:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721562260; cv=none; b=agxg31MaucWxprTc43KRXkFpP8vTwsp2eY3h2Odda7sYlBMqCAGG1NLLtjD56dTHl3Ue/YhRh1/W9HKtGLJFEuXc/wDs3OvK55x0h6B/TKJX7p2TDkIJtRl1ujMNV4G8ySuTHhJgGd7GnIT0Ct2f3o7Lf/ES5Jm/eJvY8/6Bb6w=
+	t=1721565444; cv=none; b=uUru/Zv7PQ8+S8cZS/STOkBE4vRQUZ3/sJTvY/qPXrW6FZfop0VTwQjbx0YikPRcsguSO30ZG19akQVs9Jes2fB7kS3MdnJaMeOx82L0ZsjB4tk3NwScvpwzafUbkhVJZk1b46NsMyx7f/GU1dAzuFHYXjv1zbTl1ZfAmz0ZojA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721562260; c=relaxed/simple;
-	bh=7tVr12Cl0inbaKwu9XyH7xQ97i6C5GWbgvXwB8dRVpQ=;
+	s=arc-20240116; t=1721565444; c=relaxed/simple;
+	bh=UUCUj3Wit8dtnKf7lJBPBR++wT4Aw+SkWisE5r/mNqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SCmCju5AvJVgn2iPjbgp7LdSP/JOrgjtGfJJCiWApG8uZdqwpRtiiFYvPDUChvjgJwPfAeJXRfrAGM4tmVeCGaKlPWLo8ApeV7mVM3RNHyjLUQnpLqnLpNNPPBxZ71W6RpRGMjGO7Kz0LU5GmGDRJx2/jDfFdxYofPDZINlb/Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aImc2nkW; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=UcM/j8dxRuEeH8eSpd7xMEdLaFRcC4Wt4EvqM4aWBQEtR4nGPJ8WbhpYb0nVSbi7lbZlrpwXc6IFLBHw5G71WPixn0hIZFM3rEmQeF2AvsttMDgSpath4CRDUkknyXXu/IngIC5siOuts+M4lLd6I3zIrdUVSESZ/7HoP/EQJ6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQ9JVZyg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aImc2nkW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQ9JVZyg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721562259; x=1753098259;
+  t=1721565441; x=1753101441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7tVr12Cl0inbaKwu9XyH7xQ97i6C5GWbgvXwB8dRVpQ=;
-  b=aImc2nkWdfm7yI6z5j1Rn2452xAZ01doip4p8T5WEkzkvQfSzFVUxiqi
-   diUx/LBw9aUMRgcYTPnsezZM538P+oCNeCXAOC59yV3xENAUDsb4P96QL
-   zH5hKwkfBHkNBVjCdX7ijtBouMVk+ZXpagkxOr2VJmxGj4ojst8xze8cg
-   6w5K1x//OeRJE/HTD3DnQxmPY8pgJdJAH2NmjnildMSbGi4orvjltyLN5
-   d1QJ+YvhuTecmKBcWiWaeQ0YUHTIdFuZTkdnvCYW8zFNngftVJo/yfOoY
-   SUe0b1y9XAYIzrJF8ZWsrgdCgiqN+OnJfWUIk2bUMJveKTMk5F38HBNDV
+  bh=UUCUj3Wit8dtnKf7lJBPBR++wT4Aw+SkWisE5r/mNqU=;
+  b=VQ9JVZyg5VO+eO56WnXLpGj6SwaWJghb+ekvvJpWv1azqizsrKraMKT2
+   7FYhj00plTe7B1HTOLxoCCAp6HJ86VE5RJymcG47/5s22y0yh5eUqjbwh
+   pqD8mBmrZ/NZyeqkwIbiTSayveH50dO0uZLX/jjrYkhaAmlzfJY1uA6RN
+   ovNidaE3xEMmiwVPXhIeH5PdKVTbexOQMGxwDtg7oHFq67mb5sJcNmwOF
+   qawgvg+fW8VDLw7txWRemg3L7857HmQidKLtoPuNrgmf40aXQ7ZTWN44a
+   0YGkznXFkBLUlwBzMJF1ysAWSN5HvTqXvzdXDsRAEAKEuuWZWY0n5NjbA
    w==;
-X-CSE-ConnectionGUID: 2Ubk1g94SXSx0im/9K/lXg==
-X-CSE-MsgGUID: d2YmE+n2QgyeFeRTQPo8mA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11139"; a="22999539"
+X-CSE-ConnectionGUID: egWya91aRvquK6IaoLkCgw==
+X-CSE-MsgGUID: tk3lMMbrRruVy9AG2wKRIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="12639453"
 X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="22999539"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 04:44:18 -0700
-X-CSE-ConnectionGUID: /vjKdN7pTQGYIIh2uQf4Pw==
-X-CSE-MsgGUID: Plk5+l9iTkCqLrkyAoP9Ug==
+   d="scan'208";a="12639453"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 05:37:20 -0700
+X-CSE-ConnectionGUID: TFO0dtPhRR2WUIMwvkWkNw==
+X-CSE-MsgGUID: 5v6VdCWQTfaamSYRy3ijlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="51857628"
+   d="scan'208";a="51485593"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Jul 2024 04:44:17 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Jul 2024 05:37:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVUz8-000kEs-1C;
-	Sun, 21 Jul 2024 11:44:14 +0000
-Date: Sun, 21 Jul 2024 19:44:03 +0800
+	id 1sVVoR-000kGw-1O;
+	Sun, 21 Jul 2024 12:37:15 +0000
+Date: Sun, 21 Jul 2024 20:36:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 31/43] mm/memory.c:448:33: error: initialization
- of 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t
- *'}
-Message-ID: <202407211929.yQRUGmt5-lkp@intel.com>
+To: Steven Price <steven.price@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: powerpc-linux-ld: dw_mipi_dsi-stm.c:undefined reference to
+ `clk_hw_unregister'
+Message-ID: <202407212000.rpDH64jP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   6c298a18633e397b8be4d6f48fc8cd1f860dd896
-commit: 53c2d4c2474a65f7230634db0fcb86df8bc9250e [31/43] mm/pgtable: fully use ptdesc in pte_alloc_one series functions
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240721/202407211929.yQRUGmt5-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407211929.yQRUGmt5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2c9b3512402ed192d1f43f4531fb5da947e72bd0
+commit: d076e2bd09f22db8a181a081479008524674b5b3 Merge tag 'drm-misc-next-2024-07-04' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+date:   2 weeks ago
+config: powerpc-randconfig-r051-20240721 (https://download.01.org/0day-ci/archive/20240721/202407212000.rpDH64jP-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240721/202407212000.rpDH64jP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407211929.yQRUGmt5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407212000.rpDH64jP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function '__pte_alloc':
->> mm/memory.c:448:33: error: initialization of 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'} [-Wincompatible-pointer-types]
-     448 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
-         |                                 ^~~~~~~~~~~~~
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from mm/memory.c:43:
-   include/linux/mm_types.h:504:41: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Wincompatible-pointer-types]
-     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |         const struct ptdesc *:          (const struct page *)(pt),      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     504 |         struct ptdesc *:                (struct page *)(pt)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct page *
-   mm/memory.c:454:30: note: in expansion of macro 'ptdesc_page'
-     454 |                 pte_free(mm, ptdesc_page(ptdesc));
-         |                              ^~~~~~~~~~~
-   In file included from arch/m68k/include/asm/pgalloc.h:16,
-                    from mm/memory.c:86:
-   arch/m68k/include/asm/motorola_pgalloc.h:42:61: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'struct page *'
-      42 | static inline void pte_free(struct mm_struct *mm, pgtable_t pgtable)
-         |                                                   ~~~~~~~~~~^~~~~~~
-   mm/memory.c: In function '__do_fault':
-   include/linux/mm_types.h:502:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:4650:37: note: in expansion of macro 'ptdesc_page'
-    4650 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-   mm/memory.c: In function 'do_fault_around':
-   include/linux/mm_types.h:502:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:5013:37: note: in expansion of macro 'ptdesc_page'
-    5013 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vmf->vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-
-
-vim +448 mm/memory.c
-
-   445	
-   446	int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
-   447	{
- > 448		struct ptdesc *ptdesc = pte_alloc_one(mm);
-   449		if (!ptdesc)
-   450			return -ENOMEM;
-   451	
-   452		pmd_install(mm, pmd, (pgtable_t *)&ptdesc);
-   453		if (ptdesc)
-   454			pte_free(mm, ptdesc_page(ptdesc));
-   455		return 0;
-   456	}
-   457	
+   powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_remove':
+   dw_mipi_dsi-stm.c:(.text+0x664): undefined reference to `of_clk_del_provider'
+>> powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x66c): undefined reference to `clk_hw_unregister'
+   powerpc-linux-ld: drivers/gpu/drm/stm/dw_mipi_dsi-stm.o: in function `dw_mipi_dsi_stm_probe':
+   dw_mipi_dsi-stm.c:(.text+0x98c): undefined reference to `clk_hw_register'
+>> powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x99a): undefined reference to `of_clk_hw_simple_get'
+   powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x9a2): undefined reference to `of_clk_hw_simple_get'
+>> powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x9a8): undefined reference to `of_clk_add_hw_provider'
+   powerpc-linux-ld: dw_mipi_dsi-stm.c:(.text+0x9b8): undefined reference to `clk_hw_unregister'
+   powerpc-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_remove':
+   lvds.c:(.text+0x300): undefined reference to `of_clk_del_provider'
+>> powerpc-linux-ld: lvds.c:(.text+0x308): undefined reference to `clk_hw_unregister'
+   powerpc-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_probe':
+   lvds.c:(.text+0x14b4): undefined reference to `clk_hw_register'
+>> powerpc-linux-ld: lvds.c:(.text+0x14c2): undefined reference to `of_clk_hw_simple_get'
+   powerpc-linux-ld: lvds.c:(.text+0x14ca): undefined reference to `of_clk_hw_simple_get'
+>> powerpc-linux-ld: lvds.c:(.text+0x14d0): undefined reference to `of_clk_add_hw_provider'
+   powerpc-linux-ld: lvds.c:(.text+0x1570): undefined reference to `clk_hw_unregister'
+   powerpc-linux-ld: drivers/gpu/drm/stm/lvds.o: in function `lvds_pll_config':
+   lvds.c:(.text+0x178c): undefined reference to `clk_hw_get_rate'
 
 -- 
 0-DAY CI Kernel Test Service
