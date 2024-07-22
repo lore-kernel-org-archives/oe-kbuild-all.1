@@ -1,108 +1,140 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E3316EB63
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 17:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0639C44C87
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 21:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721669660; cv=none; b=RgBrPjENuO1AzN50lTR1WqifHG+uNvuGnULYTPeUvojoP3h7suwfH31cMqmr2VOlXR0Gl6CdWLzkOuseK83RnXdfcWJnFyXQsr9UIY8nsw6VReyBx3K8DbKfB6skXt8WBU2CWLo8giHF8sYtg4cRAE8BmelLUvrcpUYzZc5HjDg=
+	t=1721682723; cv=none; b=ELhVmp6GmeLgbCNzaPaf4FQjRlU+8bL4VSxHd45QVlTaFa7T4DCLXfALkh68bhKDpiMFLp4hnfT9ioFngqInGE9FyxcvYrBgjQpmfN1ixtq0MM9lZiVm6FyzYPxAmI8V+rh4tfeK5EM8FrbLR7dj5e59Aigvy/r9jZnqQMz3eKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721669660; c=relaxed/simple;
-	bh=4BP7UBsRwlqIi7VaSeoy3l80CdZqg1W/Bs4Td9anQqg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H2z9RasAAn0T4BA42mx0q+DXKQo5q2I7DxAH7qRYo21X61vwBbG6hgC42OdVc86YjdQ+3Q/sUoWoybrpPMpu9A8/ShQl/ewPTMTKdAd7Q6nF6GZ+3FedPP1axgOA6GXIvW7FqN0Z20/YlLIQq3bcf2D4YFBafhLVVwiqeK79NZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bcBCBfI3; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1721682723; c=relaxed/simple;
+	bh=kNTxORuipBqHvt8bflxWpJOFcIErLLf8fa5ek2ixObU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Sy9dk0LY03AcFYs0XP7CL0Jqreq8NUUzdrSewzf1PaxYDM4fD5vGASHUG2x53Pz2JFN9hCxtl1g8ynh8eYVibXJNJV7mqkFFJPgRzXKbXhV47dhg7vHjNI4ksYutfT9p/o1VhDbaZTFdW/ciHd5zf5N9dolwi0jpxfzcwPJ9/9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPVp6kzW; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bcBCBfI3"
-X-Envelope-To: ameryhung@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721669655;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oQdMNJP4i1gVJdDt4KGwYKNyaZiZvTPZU5XJNRiWMQA=;
-	b=bcBCBfI3XzfBRRoh2S9EfMoTaFbzxvUsY4a92sKM37q5yJ6ViJ8SjtI6itV8r//1sGviwO
-	zLPCnw0YqfQvrRBUXWfylhqvWOZWjVFv9gY2f7lkxc6Ctq9FdC0vno8KmDkkU0Qi6/QwOA
-	36/LjjTyB6RoLUp8Jx0ChN7D8dFUEos=
-X-Envelope-To: bpf@vger.kernel.org
-X-Envelope-To: oe-kbuild-all@lists.linux.dev
-X-Envelope-To: ast@kernel.org
-X-Envelope-To: andrii@kernel.org
-X-Envelope-To: daniel@iogearbox.net
-X-Envelope-To: kernel-team@meta.com
-X-Envelope-To: lkp@intel.com
-Message-ID: <15f7db68-e1b1-4ce5-8855-735fc5aae718@linux.dev>
-Date: Mon, 22 Jul 2024 10:34:08 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPVp6kzW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721682722; x=1753218722;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kNTxORuipBqHvt8bflxWpJOFcIErLLf8fa5ek2ixObU=;
+  b=kPVp6kzW6Y3uICs4Utpah41dy0RXVXq64/u+bdL84M1ThnMP7PtBVZuJ
+   NGtcy82WVi23pgDOXF3qmknmyQ0TlAyPvX+geOTiwtciKkTgzDoeVzBzU
+   WyY48jckhkgLxYiZPbacwXfnyRPzvRded8nPmvvzLwgaCv44Wcug2aj9W
+   ZwBrXPmqf0OXO1TBRjGR7NtRVkxrlxh8YynSb8Fg1SANScwjDPyxUXy0O
+   oA66gGvaEhQzcJC1Koj0nEfMdlHIlbDudpBlDklNRooC/LbcgZ2JswU+/
+   YA8cYXR05WTSzIo2hH94w459hdqxH9+LvOnPREpRyUPuQCUVoQNUu/dCQ
+   g==;
+X-CSE-ConnectionGUID: Yi9NIb+RTsuHkOj4N9z0HA==
+X-CSE-MsgGUID: uA47hQ5UQPig+HtyV5TJPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="44699943"
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
+   d="scan'208";a="44699943"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 14:12:01 -0700
+X-CSE-ConnectionGUID: ruv1ViBeS9GfmZCdRJwg5w==
+X-CSE-MsgGUID: K0jD/AZuT2meXue5PhtCHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
+   d="scan'208";a="56172207"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 22 Jul 2024 14:12:00 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sW0K6-000lOw-0e;
+	Mon, 22 Jul 2024 21:11:58 +0000
+Date: Tue, 23 Jul 2024 05:11:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:secure-concat.v8 15/18]
+ drivers/nvme/target/../host/nvme.h:1155:13: warning:
+ 'nvme_auth_revoke_tls_key' defined but not used
+Message-ID: <202407230519.QEgWfpc2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the
- bpf_struct_ops's cfi_stubs
-To: Amery Hung <ameryhung@gmail.com>
-Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, kernel-team@meta.com,
- kernel test robot <lkp@intel.com>
-References: <20240720062233.2319723-2-martin.lau@linux.dev>
- <202407202244.HvnUVyjM-lkp@intel.com>
- <CAMB2axM565hLp1uuYggcEEPDA8y0NCpTn8gESmn6cPuyWfELJQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Martin KaFai Lau <martin.lau@linux.dev>
-In-Reply-To: <CAMB2axM565hLp1uuYggcEEPDA8y0NCpTn8gESmn6cPuyWfELJQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/21/24 3:45 PM, Amery Hung wrote:
-> On Sat, Jul 20, 2024 at 7:45 AM kernel test robot <lkp@intel.com> wrote:
->>
->> Hi Martin,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on bpf-next/master]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Martin-KaFai-Lau/bpf-Check-unsupported-ops-from-the-bpf_struct_ops-s-cfi_stubs/20240720-144313
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
->> patch link:    https://lore.kernel.org/r/20240720062233.2319723-2-martin.lau%40linux.dev
->> patch subject: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the bpf_struct_ops's cfi_stubs
->> config: i386-randconfig-001-20240720 (https://download.01.org/0day-ci/archive/20240720/202407202244.HvnUVyjM-lkp@intel.com/config)
->> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407202244.HvnUVyjM-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202407202244.HvnUVyjM-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_supported':
->>>> kernel/bpf/bpf_struct_ops.c:1045:48: warning: dereferencing 'void *' pointer
->>       void *func_ptr = *(void **)(&st_ops->cfi_stubs[moff]);
->>                                                     ^
->>
->>
->> vim +1045 kernel/bpf/bpf_struct_ops.c
->>
->>    1042
->>    1043  int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops, u32 moff)
->>    1044  {
->>> 1045          void *func_ptr = *(void **)(&st_ops->cfi_stubs[moff]);
-> 
-> The compiler warning can be fixed with:
-> void *func_ptr = *(void **)(st_ops->cfi_stubs + moff);
-> 
-> The patch looks good to me. I tested it with bpf qdisc, and it does
-> what it is supposed to do by prohibiting users to attach to an
-> operator whose cfi stub is not defined.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v8
+head:   7208e97adaac1f55470f41207881719fb19358e6
+commit: 5c2e8d746af7c714dc3ee66c9730acbaa6a48253 [15/18] nvme-tcp: request secure channel concatenation
+config: i386-buildonly-randconfig-001-20240723 (https://download.01.org/0day-ci/archive/20240723/202407230519.QEgWfpc2-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407230519.QEgWfpc2-lkp@intel.com/reproduce)
 
-Thanks for testing. I just tried gcc and can repro it. I will respin.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407230519.QEgWfpc2-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/nvme/target/fcloop.c:10:
+>> drivers/nvme/target/../host/nvme.h:1155:13: warning: 'nvme_auth_revoke_tls_key' defined but not used [-Wunused-function]
+    static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+                ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/nvme/host/ioctl.c:9:
+>> drivers/nvme/host/nvme.h:1155:13: warning: 'nvme_auth_revoke_tls_key' defined but not used [-Wunused-function]
+    static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+                ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/nvme/host/fabrics.c:15:
+   include/linux/nvme-keyring.h:20:20: warning: 'nvme_tls_psk_refresh' defined but not used [-Wunused-function]
+    static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
+                       ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/fabrics.c:13:
+>> drivers/nvme/host/nvme.h:1155:13: warning: 'nvme_auth_revoke_tls_key' defined but not used [-Wunused-function]
+    static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+                ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/nvme_auth_revoke_tls_key +1155 drivers/nvme/target/../host/nvme.h
+
+  1123	
+  1124	#ifdef CONFIG_NVME_HOST_AUTH
+  1125	int __init nvme_init_auth(void);
+  1126	void __exit nvme_exit_auth(void);
+  1127	int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
+  1128	void nvme_auth_stop(struct nvme_ctrl *ctrl);
+  1129	int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+  1130	int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
+  1131	void nvme_auth_free(struct nvme_ctrl *ctrl);
+  1132	void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl);
+  1133	#else
+  1134	static inline int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+  1135	{
+  1136		return 0;
+  1137	}
+  1138	static inline int __init nvme_init_auth(void)
+  1139	{
+  1140		return 0;
+  1141	}
+  1142	static inline void __exit nvme_exit_auth(void)
+  1143	{
+  1144	}
+  1145	static inline void nvme_auth_stop(struct nvme_ctrl *ctrl) {};
+  1146	static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
+  1147	{
+  1148		return -EPROTONOSUPPORT;
+  1149	}
+  1150	static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+  1151	{
+  1152		return -EPROTONOSUPPORT;
+  1153	}
+  1154	static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
+> 1155	static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+  1156	#endif
+  1157	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
