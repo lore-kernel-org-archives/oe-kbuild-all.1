@@ -1,128 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D7616D318
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 17:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E3316EB63
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 17:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721669640; cv=none; b=HC54wdq78UHJQGFGq2shK/4OGf35BSnIMcQunz1EK91TLYCXQ57Mkzm2AG6mPueW++nQuj8aFmfVvMQ6m/HHCuDcPDA3wpNErQ8ThiVdle/+4tynlX4fpCh8aT5weEsrw1+Ef6GpiIAsCS8LMnE5IGdn80h84g/MlLjomU/b8YQ=
+	t=1721669660; cv=none; b=RgBrPjENuO1AzN50lTR1WqifHG+uNvuGnULYTPeUvojoP3h7suwfH31cMqmr2VOlXR0Gl6CdWLzkOuseK83RnXdfcWJnFyXQsr9UIY8nsw6VReyBx3K8DbKfB6skXt8WBU2CWLo8giHF8sYtg4cRAE8BmelLUvrcpUYzZc5HjDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721669640; c=relaxed/simple;
-	bh=SylpFuWYr8O9DlS4O2vphUzA64YgGD956wPb+dXkl9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rmjcNnLt54di6iKopQ04VPpUk9tm5pWwQXzNVboWmL52Gyd7istejWC9MGBQ8jcit4pNZqahNzcDKRiKnsze2ryW+q3bwT1iYdxRR6FNuV8PEnGKExUYiGejYPCNSbonnW587dzEvK89bNC3irfYOsYbHIq7ravYqZ35v8gVoLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qld73ZAt; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721669660; c=relaxed/simple;
+	bh=4BP7UBsRwlqIi7VaSeoy3l80CdZqg1W/Bs4Td9anQqg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H2z9RasAAn0T4BA42mx0q+DXKQo5q2I7DxAH7qRYo21X61vwBbG6hgC42OdVc86YjdQ+3Q/sUoWoybrpPMpu9A8/ShQl/ewPTMTKdAd7Q6nF6GZ+3FedPP1axgOA6GXIvW7FqN0Z20/YlLIQq3bcf2D4YFBafhLVVwiqeK79NZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bcBCBfI3; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qld73ZAt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721669637; x=1753205637;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SylpFuWYr8O9DlS4O2vphUzA64YgGD956wPb+dXkl9g=;
-  b=Qld73ZAtlu3j5J4kSxOJi4I5qWXAcWnG6qNYmPBQlS8lYG7lrMQvYwSx
-   HtYn5Cbh0PS+opqKA7u/3rg2pnigX/2XQomkZxx6P031MRmsWF81NyC8i
-   3Lo3g+pUbeHFkUtd4KHerRH4ixISZmMaJs14qRtvPWbqOpD1sqq/AJoeX
-   6L9kOB33otpkMY46fImo9z9FuTkQP8I3vvpsT6DwnXJUQmbSx9h5T51MG
-   QOWh7LwKT+3ep4stlcRZZGaKoK0LryVmgno+5o16et1/NNPPgs75Ey3RU
-   aDctUVF+WUi694LFbxn+BoZqQItHy5PQ07cYxEbpk0qex68gulQxARSCU
-   Q==;
-X-CSE-ConnectionGUID: J+dbXQ1JR4K36IdL/aT6qg==
-X-CSE-MsgGUID: 2Qrmzq88STW0rCRCxOG/zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="22153978"
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
-   d="scan'208";a="22153978"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 10:33:50 -0700
-X-CSE-ConnectionGUID: +V4FCHunTYOYtBb0idQrvg==
-X-CSE-MsgGUID: WmGLjcm8SFOgCGuHbNlnLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
-   d="scan'208";a="51838721"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Jul 2024 10:33:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sVwuw-000lH2-2I;
-	Mon, 22 Jul 2024 17:33:46 +0000
-Date: Tue, 23 Jul 2024 01:33:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mohan Kumar <mkumard@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: sound/soc/tegra/tegra210_i2s.c:922:(.text+0x4f0): relocation
- truncated to fit: R_NIOS2_CALL26 against `simple_util_parse_convert'
-Message-ID: <202407230154.Bazhs02X-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bcBCBfI3"
+X-Envelope-To: ameryhung@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1721669655;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oQdMNJP4i1gVJdDt4KGwYKNyaZiZvTPZU5XJNRiWMQA=;
+	b=bcBCBfI3XzfBRRoh2S9EfMoTaFbzxvUsY4a92sKM37q5yJ6ViJ8SjtI6itV8r//1sGviwO
+	zLPCnw0YqfQvrRBUXWfylhqvWOZWjVFv9gY2f7lkxc6Ctq9FdC0vno8KmDkkU0Qi6/QwOA
+	36/LjjTyB6RoLUp8Jx0ChN7D8dFUEos=
+X-Envelope-To: bpf@vger.kernel.org
+X-Envelope-To: oe-kbuild-all@lists.linux.dev
+X-Envelope-To: ast@kernel.org
+X-Envelope-To: andrii@kernel.org
+X-Envelope-To: daniel@iogearbox.net
+X-Envelope-To: kernel-team@meta.com
+X-Envelope-To: lkp@intel.com
+Message-ID: <15f7db68-e1b1-4ce5-8855-735fc5aae718@linux.dev>
+Date: Mon, 22 Jul 2024 10:34:08 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the
+ bpf_struct_ops's cfi_stubs
+To: Amery Hung <ameryhung@gmail.com>
+Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, kernel-team@meta.com,
+ kernel test robot <lkp@intel.com>
+References: <20240720062233.2319723-2-martin.lau@linux.dev>
+ <202407202244.HvnUVyjM-lkp@intel.com>
+ <CAMB2axM565hLp1uuYggcEEPDA8y0NCpTn8gESmn6cPuyWfELJQ@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <CAMB2axM565hLp1uuYggcEEPDA8y0NCpTn8gESmn6cPuyWfELJQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   933069701c1b507825b514317d4edd5d3fd9d417
-commit: 2502f8dd8c30edbca9253d5999294f58211039b1 ASoC: tegra: I2S client convert formats handling
-date:   8 weeks ago
-config: nios2-buildonly-randconfig-r004-20230209 (https://download.01.org/0day-ci/archive/20240723/202407230154.Bazhs02X-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407230154.Bazhs02X-lkp@intel.com/reproduce)
+On 7/21/24 3:45 PM, Amery Hung wrote:
+> On Sat, Jul 20, 2024 at 7:45 AM kernel test robot <lkp@intel.com> wrote:
+>>
+>> Hi Martin,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on bpf-next/master]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Martin-KaFai-Lau/bpf-Check-unsupported-ops-from-the-bpf_struct_ops-s-cfi_stubs/20240720-144313
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+>> patch link:    https://lore.kernel.org/r/20240720062233.2319723-2-martin.lau%40linux.dev
+>> patch subject: [PATCH bpf-next 1/3] bpf: Check unsupported ops from the bpf_struct_ops's cfi_stubs
+>> config: i386-randconfig-001-20240720 (https://download.01.org/0day-ci/archive/20240720/202407202244.HvnUVyjM-lkp@intel.com/config)
+>> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240720/202407202244.HvnUVyjM-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202407202244.HvnUVyjM-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_supported':
+>>>> kernel/bpf/bpf_struct_ops.c:1045:48: warning: dereferencing 'void *' pointer
+>>       void *func_ptr = *(void **)(&st_ops->cfi_stubs[moff]);
+>>                                                     ^
+>>
+>>
+>> vim +1045 kernel/bpf/bpf_struct_ops.c
+>>
+>>    1042
+>>    1043  int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops, u32 moff)
+>>    1044  {
+>>> 1045          void *func_ptr = *(void **)(&st_ops->cfi_stubs[moff]);
+> 
+> The compiler warning can be fixed with:
+> void *func_ptr = *(void **)(st_ops->cfi_stubs + moff);
+> 
+> The patch looks good to me. I tested it with bpf qdisc, and it does
+> what it is supposed to do by prohibiting users to attach to an
+> operator whose cfi stub is not defined.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407230154.Bazhs02X-lkp@intel.com/
+Thanks for testing. I just tried gcc and can repro it. I will respin.
 
-All errors (new ones prefixed by >>):
-
-   nios2-linux-ld: sound/soc/tegra/tegra210_i2s.o: in function `tegra210_i2s_probe':
-   sound/soc/tegra/tegra210_i2s.c:922:(.text+0x4f0): undefined reference to `simple_util_parse_convert'
->> sound/soc/tegra/tegra210_i2s.c:922:(.text+0x4f0): relocation truncated to fit: R_NIOS2_CALL26 against `simple_util_parse_convert'
->> nios2-linux-ld: sound/soc/tegra/tegra210_i2s.c:932:(.text+0x51c): undefined reference to `simple_util_get_sample_fmt'
->> sound/soc/tegra/tegra210_i2s.c:932:(.text+0x51c): relocation truncated to fit: R_NIOS2_CALL26 against `simple_util_get_sample_fmt'
-
-
-vim +922 sound/soc/tegra/tegra210_i2s.c
-
-   900	
-   901	/*
-   902	 * The AHUB HW modules are interconnected with CIF which are capable of
-   903	 * supporting Channel and Sample bit format conversion. This needs different
-   904	 * CIF Audio and client configuration. As one of the config comes from
-   905	 * params_channels() or params_format(), the extra configuration is passed from
-   906	 * CIF Port of DT I2S node which can help to perform this conversion.
-   907	 *
-   908	 *    4ch          audio = 4ch      client = 2ch       2ch
-   909	 *   -----> ADMAIF -----------> CIF -------------> I2S ---->
-   910	 */
-   911	static void tegra210_parse_client_convert(struct device *dev)
-   912	{
-   913		struct tegra210_i2s *i2s = dev_get_drvdata(dev);
-   914		struct device_node *ports, *ep;
-   915		struct simple_util_data data = {};
-   916		int cif_port = 0;
-   917	
-   918		ports = of_get_child_by_name(dev->of_node, "ports");
-   919		if (ports) {
-   920			ep = of_graph_get_endpoint_by_regs(ports, cif_port, -1);
-   921			if (ep) {
- > 922				simple_util_parse_convert(ep, NULL, &data);
-   923				of_node_put(ep);
-   924			}
-   925			of_node_put(ports);
-   926		}
-   927	
-   928		if (data.convert_channels)
-   929			i2s->client_channels = data.convert_channels;
-   930	
-   931		if (data.convert_sample_format)
- > 932			i2s->client_sample_format = simple_util_get_sample_fmt(&data);
-   933	}
-   934	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
