@@ -1,209 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964BD23DE;
-	Mon, 22 Jul 2024 10:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05B41640B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 11:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721644599; cv=none; b=T6sha2ioDsU0Q4KmTYUED1wnojVFOACWvWH2Ry1BAyXkc2E6yy97ot/pMC1W2Z8xJCceENQC7bNfIQUSPLVuaTYkW+QkLyQbOBp5f5Q9VAxG6l/mTvKiWTFUvORxd+NnmPIjwnwKHOwRVOnR6l9TLPRFxmgdsLZ1wP7Jr0kvUME=
+	t=1721648895; cv=none; b=FQi4f5nq64mYOLpuu8MiY7ZU8BIJnJjiFIl7wuaVQk8BMHgmTi0CVyx3ym61fwkFodUfTu0VaK8vqxlGRHlEQ/mVZFhKypgqS+XW8UePRbwmRs8fTbCUfNzn2HFXecfIKtFMD3mSDyF1Ndi1GqHqWZvrATcfK87OEEyQ8fvrn6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721644599; c=relaxed/simple;
-	bh=Oh+jtlSVhnDKVBl2HjHqYGGWpEQ9xxK4N1+y0Q/udtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NcHl0qpsJJBLzPioEgfkHh0FPmYCmRKnvkzJOq/tTBgoGlUqlZdB4/cI9ZDVrWiSg4LLiA4cR+wvvMOKeXzgWiE9tq2qnj77ae5qchRNa5sNsxt95oI9b7mOS3szTduG0citqmTmTSloo+SJqWut2mah0JHBv/ut1l0EF3E4OUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIn3CkP0; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721648895; c=relaxed/simple;
+	bh=BiNUUYs8aLEXVgndG3m9OwhMyGi2nYqPOYqiKzbAqzU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=osh1TOHh9jUSO32WBmFfNi2u8/vDkuO4L3SDX2ZkNSTt25sb21RJLmUHtcKcQCJcu9G7xq0/stU0GbXzO1Z1AHy0G1jWNIHHlBQKoEUXlyGWfMyzbu4kcijVmU6zlJNvi44qjpVS2pf4vzk7ShsXXHhltdCrM+TFQ+of9AHFBdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GcYxTg11; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIn3CkP0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721644598; x=1753180598;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Oh+jtlSVhnDKVBl2HjHqYGGWpEQ9xxK4N1+y0Q/udtM=;
-  b=bIn3CkP0VEh3uZHwrRJcTPC6pXgdVTXeNBP+b8rl/x17WGzErLVweI3r
-   7p4tHaA+BWL21dduGb/8pEAq+qaWpk28VrauVWFDHeejmsq5/S6/2fPo/
-   FXhNMYem2YLJ059gNPfebBQUPeq8kPCbTc5z4lgTeJCntfHrNOW14ZUk9
-   P+fdAYTX6tPy0/IBu1oF6OTnQYmxjiz5BA/SHPQpkMZANXcaTIDBsjkhu
-   shExBzDpa8Azhsi6AieQgYB2x8a69B0MpVPuZrtZDeb7J92sUKJjYhIgG
-   ge9EcgDdJq+pJrfLgqURYWuZj2keJ0QaE8ToKyWahB6BW+7uwZKRWClsH
-   Q==;
-X-CSE-ConnectionGUID: 4NbTGt6KRYWcoJlBoo1M7g==
-X-CSE-MsgGUID: CFJMxi4NSf2zlNl4mfT9sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="22106989"
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="22106989"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 03:36:37 -0700
-X-CSE-ConnectionGUID: We9uKRg2SwCAkKR9UCsB5g==
-X-CSE-MsgGUID: BXMEuXRqTCCasGdPaY1tKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="52103115"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Jul 2024 03:36:36 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sVqPA-000l5Q-0v;
-	Mon, 22 Jul 2024 10:36:32 +0000
-Date: Mon, 22 Jul 2024 18:36:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 42/42] include/linux/mm.h:3025:9: warning: cast
- to 'const struct ptdesc *' from smaller integer type 'int'
-Message-ID: <202407221807.2NfUdP7W-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GcYxTg11"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721648892;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mON0Gx7FVFtPkP0kLOreGdHs3og1l5iGH3FHLInhhao=;
+	b=GcYxTg11WbKZt6sUymdpyRBJSVVD3DNh4RvynzV7MKSMPfNX1NT4yuPDTez/9dgde+GaQh
+	64if2BkmzuK5k+D7YvyFiv17sna7pKJ40eQCpXGfua2Ng3mFukSNoBU/5ahoZPsDYCbo03
+	A+byGZSI2ncxO2SsnV6QFJPM/K/WSDU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-411-V5fsc56OOI-XBxKw3Dy7Ww-1; Mon,
+ 22 Jul 2024 07:48:10 -0400
+X-MC-Unique: V5fsc56OOI-XBxKw3Dy7Ww-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 96DFE19560AA;
+	Mon, 22 Jul 2024 11:48:07 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.104])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 50B453000188;
+	Mon, 22 Jul 2024 11:48:03 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: lkp@intel.com
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	oe-kbuild-all@lists.linux.dev,
+	Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH] fbcon: Use oops_in_progress instead of panic_cpu
+Date: Mon, 22 Jul 2024 13:47:51 +0200
+Message-ID: <20240722114800.174558-1-jfalempe@redhat.com>
+In-Reply-To: <202407210203.2ISiIC9m-lkp@intel.com>
+References: <202407210203.2ISiIC9m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   0dc6582fabc5dcd9239957e6e6501344fd99714a
-commit: 0dc6582fabc5dcd9239957e6e6501344fd99714a [42/42] mm/pgtable: prepare for pte_free_defer and its caller callee
-config: riscv-randconfig-001-20240722 (https://download.01.org/0day-ci/archive/20240722/202407221807.2NfUdP7W-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407221807.2NfUdP7W-lkp@intel.com/reproduce)
+Panic_cpu is not exported, so it can't be used if fbcon is used as
+a module. Use oops_in_progress in this case, but non-fatal oops won't
+be printed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407221807.2NfUdP7W-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202407210203.2ISiIC9m-lkp@intel.com/
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/video/fbdev/core/fbcon.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-All warnings (new ones prefixed by >>):
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 498d9c07df80..2e093535884b 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -64,6 +64,8 @@
+ #include <linux/console.h>
+ #include <linux/string.h>
+ #include <linux/kd.h>
++#include <linux/panic.h>
++#include <linux/printk.h>
+ #include <linux/slab.h>
+ #include <linux/fb.h>
+ #include <linux/fbcon.h>
+@@ -272,7 +274,14 @@ static int fbcon_get_rotate(struct fb_info *info)
+ 
+ static bool fbcon_skip_panic(struct fb_info *info)
+ {
++/* panic_cpu is not exported, and can't be used if built as module. Use
++ * oops_in_progress instead, but non-fatal oops won't be printed.
++ */
++#if defined(MODULE)
++	return (info->skip_panic && unlikely(oops_in_progress));
++#else
+ 	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
++#endif
+ }
+ 
+ static inline int fbcon_is_inactive(struct vc_data *vc, struct fb_info *info)
 
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:2221:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   include/linux/mm.h:3025:21: error: call to undeclared function 'pmd_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3025 |         return page_ptdesc(pmd_page(*pmd));
-         |                            ^
->> include/linux/mm.h:3025:9: warning: cast to 'const struct ptdesc *' from smaller integer type 'int' [-Wint-to-pointer-cast]
-    3025 |         return page_ptdesc(pmd_page(*pmd));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types.h:511:24: note: expanded from macro 'page_ptdesc'
-     511 |         const struct page *:            (const struct ptdesc *)(p),     \
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
->> include/linux/mm.h:3025:9: warning: cast to 'struct ptdesc *' from smaller integer type 'int' [-Wint-to-pointer-cast]
-    3025 |         return page_ptdesc(pmd_page(*pmd));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm_types.h:512:19: note: expanded from macro 'page_ptdesc'
-     512 |         struct page *:                  (struct ptdesc *)(p)))
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   include/linux/mm.h:3025:21: error: controlling expression type 'int' not compatible with any generic association type
-    3025 |         return page_ptdesc(pmd_page(*pmd));
-         |                            ^~~~~~~~~~~~~~
-   include/linux/mm_types.h:510:37: note: expanded from macro 'page_ptdesc'
-     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                    ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:744:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     744 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:752:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     752 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:760:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     760 |         insl(addr, buffer, count);
-
-
-vim +3025 include/linux/mm.h
-
-  3022	
-  3023	static inline struct ptdesc *pmd_ptdesc(pmd_t *pmd)
-  3024	{
-> 3025		return page_ptdesc(pmd_page(*pmd));
-  3026	}
-  3027	
-
+base-commit: 7e33fc2ff6754b5ff39b11297f713cd0841d9962
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
