@@ -1,130 +1,257 @@
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A016D4EC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 14:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC32516DC34;
+	Mon, 22 Jul 2024 15:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721658390; cv=none; b=QOuyqB9VlxMFkY2TPNNc/5a4j1BpJKHnx/05tY2IM6edu2s51cgEvtr5QDGpuh3aTcqzvA1YdUR+d/F8K055pQmm0JjGCHo1Ewi/+pEA2mdKnQuiTaeC7XyWcBKiEoOXoDL8c9ece/ZrqVqOeDe0ZEzHuW3M9v4++P/VIIpRmlI=
+	t=1721660813; cv=none; b=lmJGVF/r3udyZ0y7azFgD6pQWxDJHhBhXYs26SQqQrFWBf6tRDtN5buLkeFMIts23kTkc5FN8tRgWtCWAzIK0/uPat2YT2JVXe0LygVt+cV/Xa3a38MwrNxAXI1gj7zgiJDxoL6RbTeGfzkR0UhdtbLTD1YYnuTGLie4hPRFg/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721658390; c=relaxed/simple;
-	bh=L3vELbQaQH/HN6PrbWYQaK02xoL5wSf1Hk2fk0NM1NE=;
-	h=Subject:From:To:CC:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nzDG/eYoLjzXGS7N9h4mR480QgWY+gaOAoEikuh8DkTf5/inv8UbtNHxoDjt/1rbo8Dv5HeWm4k/OAbRGr8XDy63adEQYi6S+VXbHUNwy2+Ega7KdkMUQJ/0IRvhvtefl1dab2gYPbJhRHlAYeKLTd3oWn0ExxqqOUPKpjX7Sxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=gC7vVOEk; arc=none smtp.client-ip=99.78.197.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1721660813; c=relaxed/simple;
+	bh=aZ7BsDnXlA3I6klMj9Z+4CCz2vqZVb0ofDti2dlrCzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvDNmNZkMftRzihgdJyColDVj3YNvM3i3vkKMdXwJM16ULw1Ei/LMtQSBWEyfGW2UgOnrvKev3gRL1aCvLbMQtDvPRDHOpyJbv9dKY8BnXeej9mHn+UEghvoQWkEFPTwdnXPXJY6Hu8iA5OMZd5fJTjL36/hvC1EY4xvaHjh85k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kl/safPF; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="gC7vVOEk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1721658388; x=1753194388;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version:subject;
-  bh=L3vELbQaQH/HN6PrbWYQaK02xoL5wSf1Hk2fk0NM1NE=;
-  b=gC7vVOEkqS8PPcZs7uXowIIxV/rjjiforMamyM0aWHYgqxZ6QAk8iyWT
-   uEFJw21l3m02kbt9tTwFqaBzYjVEnT5zf13ATTFmCulnJDbSi9M55RHmd
-   +TVKGBWYAxM0nPeMGKJdETNT/xZzhwNEc23yG1kEvJgc/VLOPibq/X9pW
-   c=;
-X-IronPort-AV: E=Sophos;i="6.09,228,1716249600"; 
-   d="scan'208";a="108448111"
-Subject: Re: [PATCH v2 3/6] KVM: Support poll() on coalesced mmio buffer fds
-Thread-Topic: [PATCH v2 3/6] KVM: Support poll() on coalesced mmio buffer fds
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 14:26:26 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [10.0.43.254:28322]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.42.47:2525] with esmtp (Farcaster)
- id 544f6169-c6ef-4194-932d-26e4e6dacd1d; Mon, 22 Jul 2024 14:26:25 +0000 (UTC)
-X-Farcaster-Flow-ID: 544f6169-c6ef-4194-932d-26e4e6dacd1d
-Received: from EX19D018EUA003.ant.amazon.com (10.252.50.163) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 22 Jul 2024 14:26:25 +0000
-Received: from EX19D018EUA002.ant.amazon.com (10.252.50.146) by
- EX19D018EUA003.ant.amazon.com (10.252.50.163) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 22 Jul 2024 14:26:25 +0000
-Received: from EX19D018EUA002.ant.amazon.com ([fe80::7a11:7dbb:2190:e2c1]) by
- EX19D018EUA002.ant.amazon.com ([fe80::7a11:7dbb:2190:e2c1%3]) with mapi id
- 15.02.1258.034; Mon, 22 Jul 2024 14:26:25 +0000
-From: "Stamatis, Ilias" <ilstam@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Stamatis, Ilias"
-	<ilstam@amazon.co.uk>, "pbonzini@redhat.com" <pbonzini@redhat.com>
-CC: "nh-open-source@amazon.com" <nh-open-source@amazon.com>, "Durrant, Paul"
-	<pdurrant@amazon.co.uk>, "Woodhouse, David" <dwmw@amazon.co.uk>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Thread-Index: AQHa2Un8G7tMctJJKkOA8APVVxEyWrH+15EAgAP8AwA=
-Date: Mon, 22 Jul 2024 14:26:25 +0000
-Message-ID: <4133f5277315b22fad4bc96b782ba9b431df5102.camel@amazon.co.uk>
-References: <20240718193543.624039-4-ilstam@amazon.com>
-	 <202407200922.pJAJMVRk-lkp@intel.com>
-In-Reply-To: <202407200922.pJAJMVRk-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <683CD94C1E406B4C96249FEA7E658765@amazon.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kl/safPF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721660812; x=1753196812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aZ7BsDnXlA3I6klMj9Z+4CCz2vqZVb0ofDti2dlrCzA=;
+  b=kl/safPF5qW02GrIE/h0isHMFjbfAmIrHHCVWRZv61PmNS88UyBwrg5J
+   7kK5Pg+r2d6Si5QIEWYbYcHbN6Q6QngtFwHTH94X+q0G8DnPcASv9yGDO
+   KUFVImJhH8/QIsP/Mdmphgaa4cWzDGuQqwq5pf7BK1sdXkFh5XYjjKtkL
+   GYv8yLrNR+F2vArri5xADf7zP50MdocJ1LIENkkZnRkd+Nc0EZlecoF2S
+   Kd0CB0QK58hhFbQCD5UpFLz6AwPGYO/pcW/JkAbMaV29WGUEurmpAewfc
+   hcDBcJdoJOQFmxTtS+3ZRckWiqZpIb4e+JQZPsWtPx+9Ap9uXd0a8NR2w
+   g==;
+X-CSE-ConnectionGUID: nHZc1BDCRgqdrQ3cGeKdOQ==
+X-CSE-MsgGUID: pnqcRdOOSwKYiy+FUlYvsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="22135493"
+X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
+   d="scan'208";a="22135493"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 08:06:51 -0700
+X-CSE-ConnectionGUID: SxwhqaicQ7iJTK0IQswn0g==
+X-CSE-MsgGUID: 7XGkkMdQTEGWUnBUK4nv5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
+   d="scan'208";a="52515983"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2024 08:06:46 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sVucd-000lCi-1o;
+	Mon, 22 Jul 2024 15:06:43 +0000
+Date: Mon, 22 Jul 2024 23:06:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Adam Skladowski <a39.skl@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+	Adam Skladowski <a39.skl@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vladimir Lypak <vladimir.lypak@gmail.com>
+Subject: Re: [PATCH 4/4] ASoC: qcom: apq8016_sbc: Add support for
+ msm8953/msm8976 SoC
+Message-ID: <202407222218.NKjhMM5n-lkp@intel.com>
+References: <20240722095147.3372-5-a39.skl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240722095147.3372-5-a39.skl@gmail.com>
 
-T24gU2F0LCAyMDI0LTA3LTIwIGF0IDA5OjM1ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToNCj4gSGkgSWxpYXMsDQo+IA0KPiBrZXJuZWwgdGVzdCByb2JvdCBub3RpY2VkIHRoZSBmb2xs
-b3dpbmcgYnVpbGQgd2FybmluZ3M6DQo+IA0KPiBbYXV0byBidWlsZCB0ZXN0IFdBUk5JTkcgb24g
-a3ZtL3F1ZXVlXQ0KPiBbYWxzbyBidWlsZCB0ZXN0IFdBUk5JTkcgb24gbmV4dC0yMDI0MDcxOV0N
-Cj4gW2Nhbm5vdCBhcHBseSB0byBtc3Qtdmhvc3QvbGludXgtbmV4dCBsaW51cy9tYXN0ZXIga3Zt
-L2xpbnV4LW5leHQgdjYuMTBdDQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdy
-b25nIGdpdCB0cmVlLCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQo+IEFuZCB3aGVuIHN1Ym1pdHRp
-bmcgcGF0Y2gsIHdlIHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCj4g
-aHR0cHM6Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9pbmZv
-cm1hdGlvbl0NCj4gDQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3Av
-bGludXgvY29tbWl0cy9JbGlhcy1TdGFtYXRpcy9LVk0tRml4LWNvYWxlc2NlZF9tbWlvX2hhc19y
-b29tLzIwMjQwNzE5LTAzNDMxNg0KPiBiYXNlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHVi
-L3NjbS92aXJ0L2t2bS9rdm0uZ2l0IHF1ZXVlDQo+IHBhdGNoIGxpbms6ICAgIGh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL3IvMjAyNDA3MTgxOTM1NDMuNjI0MDM5LTQtaWxzdGFtJTQwYW1hem9uLmNv
-bQ0KPiBwYXRjaCBzdWJqZWN0OiBbUEFUQ0ggdjIgMy82XSBLVk06IFN1cHBvcnQgcG9sbCgpIG9u
-IGNvYWxlc2NlZCBtbWlvIGJ1ZmZlciBmZHMNCj4gY29uZmlnOiB4ODZfNjQtcmFuZGNvbmZpZy0x
-MjItMjAyNDA3MTkgKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI0
-MDcyMC8yMDI0MDcyMDA5MjIucEpBSk1WUmstbGtwQGludGVsLmNvbS9jb25maWcpDQo+IGNvbXBp
-bGVyOiBjbGFuZyB2ZXJzaW9uIDE4LjEuNSAoaHR0cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2bS1w
-cm9qZWN0IDYxN2ExNWE5ZWFjOTYwODhhZTVlOTEzNDI0OGQ4MjM2ZTM0YjkxYjEpDQo+IHJlcHJv
-ZHVjZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5
-LWNpL2FyY2hpdmUvMjAyNDA3MjAvMjAyNDA3MjAwOTIyLnBKQUpNVlJrLWxrcEBpbnRlbC5jb20v
-cmVwcm9kdWNlKQ0KPiANCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRj
-aC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBwYXRj
-aC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+ID4gUmVwb3J0ZWQtYnk6IGtl
-cm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiA+IENsb3NlczogaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI0MDcyMDA5MjIucEpBSk1WUmstbGtwQGludGVs
-LmNvbS8NCj4gDQo+IHNwYXJzZSB3YXJuaW5nczogKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KQ0K
-PiA+ID4gYXJjaC94ODYva3ZtLy4uLy4uLy4uL3ZpcnQva3ZtL2NvYWxlc2NlZF9tbWlvLmM6MjQx
-OjIyOiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5cGUgaW4gYXNzaWdubWVudCAoZGlmZmVy
-ZW50IGJhc2UgdHlwZXMpIEBAICAgICBleHBlY3RlZCByZXN0cmljdGVkIF9fcG9sbF90IFt1c2Vy
-dHlwZV0gbWFzayBAQCAgICAgZ290IGludCBAQA0KPiAgICBhcmNoL3g4Ni9rdm0vLi4vLi4vLi4v
-dmlydC9rdm0vY29hbGVzY2VkX21taW8uYzoyNDE6MjI6IHNwYXJzZTogICAgIGV4cGVjdGVkIHJl
-c3RyaWN0ZWQgX19wb2xsX3QgW3VzZXJ0eXBlXSBtYXNrDQo+ICAgIGFyY2gveDg2L2t2bS8uLi8u
-Li8uLi92aXJ0L2t2bS9jb2FsZXNjZWRfbW1pby5jOjI0MToyMjogc3BhcnNlOiAgICAgZ290IGlu
-dA0KPiAgICBhcmNoL3g4Ni9rdm0vLi4vLi4vLi4vdmlydC9rdm0vY29hbGVzY2VkX21taW8uYzog
-bm90ZTogaW4gaW5jbHVkZWQgZmlsZSAodGhyb3VnaCBpbmNsdWRlL2xpbnV4L21tem9uZS5oLCBp
-bmNsdWRlL2xpbnV4L2dmcC5oLCBpbmNsdWRlL2xpbnV4L21tLmgsIC4uLik6DQo+ICAgIGluY2x1
-ZGUvbGludXgvcGFnZS1mbGFncy5oOjI0MDo0Njogc3BhcnNlOiBzcGFyc2U6IHNlbGYtY29tcGFy
-aXNvbiBhbHdheXMgZXZhbHVhdGVzIHRvIGZhbHNlDQo+ICAgIGluY2x1ZGUvbGludXgvcGFnZS1m
-bGFncy5oOjI0MDo0Njogc3BhcnNlOiBzcGFyc2U6IHNlbGYtY29tcGFyaXNvbiBhbHdheXMgZXZh
-bHVhdGVzIHRvIGZhbHNlDQo+IA0KPiB2aW0gKzI0MSBhcmNoL3g4Ni9rdm0vLi4vLi4vLi4vdmly
-dC9rdm0vY29hbGVzY2VkX21taW8uYw0KPiANCj4gICAgMjMxDQo+ICAgIDIzMiAgc3RhdGljIF9f
-cG9sbF90IGNvYWxlc2NlZF9tbWlvX2J1ZmZlcl9wb2xsKHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1
-Y3QgcG9sbF90YWJsZV9zdHJ1Y3QgKndhaXQpDQo+ICAgIDIzMyAgew0KPiAgICAyMzQgICAgICAg
-ICAgc3RydWN0IGt2bV9jb2FsZXNjZWRfbW1pb19idWZmZXJfZGV2ICpkZXYgPSBmaWxlLT5wcml2
-YXRlX2RhdGE7DQo+ICAgIDIzNSAgICAgICAgICBfX3BvbGxfdCBtYXNrID0gMDsNCj4gICAgMjM2
-DQo+ICAgIDIzNyAgICAgICAgICBwb2xsX3dhaXQoZmlsZSwgJmRldi0+d2FpdF9xdWV1ZSwgd2Fp
-dCk7DQo+ICAgIDIzOA0KPiAgICAyMzkgICAgICAgICAgc3Bpbl9sb2NrKCZkZXYtPnJpbmdfbG9j
-ayk7DQo+ICAgIDI0MCAgICAgICAgICBpZiAoZGV2LT5yaW5nICYmIChSRUFEX09OQ0UoZGV2LT5y
-aW5nLT5maXJzdCkgIT0gUkVBRF9PTkNFKGRldi0+cmluZy0+bGFzdCkpKQ0KPiAgPiAyNDEgICAg
-ICAgICAgICAgICAgICBtYXNrID0gUE9MTElOIHwgUE9MTFJETk9STTsNCg0KDQpUaGlzIG11c3Qg
-YmUgRVBPTExJTiB8IEVQT0xMUkROT1JNLCBidXQgSSB3aWxsIHdhaXQgZm9yIG1vcmUgZmVlZGJh
-Y2sgLw0KcmV2aWV3cyBiZWZvcmUgc2VuZGluZyBhbm90aGVyIHZlcnNpb24uDQoNCg0KSWxpYXMN
-Cg==
+Hi Adam,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.10]
+[also build test WARNING on linus/master next-20240722]
+[cannot apply to broonie-sound/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Skladowski/ASoC-qcom-apq8016_sbc-c-Add-Quinary-support/20240722-181331
+base:   v6.10
+patch link:    https://lore.kernel.org/r/20240722095147.3372-5-a39.skl%40gmail.com
+patch subject: [PATCH 4/4] ASoC: qcom: apq8016_sbc: Add support for msm8953/msm8976 SoC
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240722/202407222218.NKjhMM5n-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407222218.NKjhMM5n-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407222218.NKjhMM5n-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from sound/soc/qcom/apq8016_sbc.c:6:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> sound/soc/qcom/apq8016_sbc.c:250:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     250 |         if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/apq8016_sbc.c:252:6: note: uninitialized use occurs here
+     252 |         if (ret)
+         |             ^~~
+   sound/soc/qcom/apq8016_sbc.c:250:2: note: remove the 'if' if its condition is always true
+     250 |         if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     251 |                 ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, DEFAULT_MCLK_RATE, 0);
+>> sound/soc/qcom/apq8016_sbc.c:250:6: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     250 |         if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/apq8016_sbc.c:252:6: note: uninitialized use occurs here
+     252 |         if (ret)
+         |             ^~~
+   sound/soc/qcom/apq8016_sbc.c:250:6: note: remove the '&&' if its condition is always true
+     250 |         if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/apq8016_sbc.c:238:15: note: initialize the variable 'ret' to silence this warning
+     238 |         int mi2s, ret;
+         |                      ^
+         |                       = 0
+   19 warnings generated.
+
+
+vim +250 sound/soc/qcom/apq8016_sbc.c
+
+   231	
+   232	static int msm8916_qdsp6_startup(struct snd_pcm_substream *substream)
+   233	{
+   234		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+   235		struct snd_soc_card *card = rtd->card;
+   236		struct apq8016_sbc_data *data = snd_soc_card_get_drvdata(card);
+   237		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+   238		int mi2s, ret;
+   239	
+   240		mi2s = qdsp6_dai_get_lpass_id(cpu_dai);
+   241		if (mi2s < 0)
+   242			return mi2s;
+   243	
+   244		if (++data->mi2s_clk_count[mi2s] > 1)
+   245			return 0;
+   246		/*
+   247		 * On newer legacy SoC (MSM8976) lpass codec clocks are not available in gcc region
+   248		 * so we have to request clock from machine driver using V1 API)
+   249		 */
+ > 250		if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true)
+   251			ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, DEFAULT_MCLK_RATE, 0);
+   252		if (ret)
+   253			dev_err(card->dev, "Failed to enable LPAIF dig clk: %d\n", ret);
+   254	
+   255		ret = snd_soc_dai_set_sysclk(cpu_dai, qdsp6_get_clk_id(data, mi2s), MI2S_BCLK_RATE, 0);
+   256		if (ret)
+   257			dev_err(card->dev, "Failed to enable LPAIF bit clk: %d\n", ret);
+   258		return ret;
+   259	}
+   260	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
