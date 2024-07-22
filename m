@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA95D2CA9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 13:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CAE8BEA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 14:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721653426; cv=none; b=LXhlyQSjPUatlciR2XE7bm9VmgBqnJ7q6vR2gMv+VOUH4ngFevgpckyYef8r9BSegEyWIIORAneUHp0Zx0WGj0tRmMrdgrsBLVEpo9YM+x5pp/arIhZe6C/VeDlP5epNzUuYIKTC6mkmAX4zgc7fYXWVU1wQkrZ+TyoSoN3tMV8=
+	t=1721657758; cv=none; b=QAszw/q3sGo1GKV8692wG5M8yhuBGQxaU34ReCJ4DwRft8X/jhXI0Mlwh5d7wRA7OSO6/usk084BQNqWPrtWPkqIkeNIUXl/rz03Pe8O3oDEyinuXmFLaX0g1+NAG5B0lK8j5uKcheSfW9sPh2EmlwAo9asI7KDAdm8hg4FakIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721653426; c=relaxed/simple;
-	bh=Lqio2P7c9Cr5Xe8Spip04znsexZej1liIaCIbc2kpho=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iUM8Q6BqMT84Uj7Oi0yhXHYzpi/AivxA6h3k2L7kf7zm7rZMJpzWssxTfAIYmiqFekkwjonH4fUfo9cmiHne6Ci0U5vmwWrfOK/yN89KzKLNc80NnE+gSuB2/yD1guVjy8LLeGzU/sJb6f9N6x0Oq1ScvMLR0HXFMRcrpp5T+OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UkpcSdZd; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721657758; c=relaxed/simple;
+	bh=/bMCdeAxD7K7BVgmnDjAgP6K3m38Gu8o6wtZ2yOsJU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAwV+29Xt3KdJQARCeX3bU7insxeGEuKkS9e01f0bLeRNlMB/tzb3kHJjNJBwG6udsQhpdH0QqTnvMbYkAx9IDPEDct3+THpLmDG82XjS4j3uv8y4IKsOZ/DMSmxUc5Bg/y6tiGZZr3L5fCedXGkHBgKhbPXu+Li3rp3SzEkxZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=GVJ4Lbe4; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UkpcSdZd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721653424; x=1753189424;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lqio2P7c9Cr5Xe8Spip04znsexZej1liIaCIbc2kpho=;
-  b=UkpcSdZdt0MVEaliT9FN3GJovPgjdzMw/sfMSHttM7Hpz6GaStab8zTh
-   pgHDsccR+3xmxeL/B/Wym/ddooqx+xJOfPKlyMfpul0saPHmsrGW2pCSa
-   GXd3/5TWQpRcazXXjugC5ySzNLf+5GQhPCt2nb1kwtE0b0EYCesKTrb6l
-   gMl8mYAT9pXH6DHG5AGz+5c2c1kMUiEkWQs8BfSRU37CmoF7dI2aQZmI8
-   hy9TGtihxd66P8ZGJBQFZ4m1k53/Ee/6VoLDjGnUPP0xqlQNGoDzoDIUr
-   xMMC+BpscZykVvYHedR4QDfCQJ+1g8dByVLHUJKtQurYV8tpLZdieWynx
-   Q==;
-X-CSE-ConnectionGUID: jm9wxH9XST+zuL2N42wyog==
-X-CSE-MsgGUID: zwFvPoNlQfmQDpAdAKy8AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="22121723"
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
-   d="scan'208";a="22121723"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 06:03:44 -0700
-X-CSE-ConnectionGUID: aQGytwcBS2imheRbh3rU5Q==
-X-CSE-MsgGUID: xHEmY4FqRyOe+ROh8iLFrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
-   d="scan'208";a="57005726"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jul 2024 06:03:43 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sVshY-000l9g-2v;
-	Mon, 22 Jul 2024 13:03:40 +0000
-Date: Mon, 22 Jul 2024 21:02:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bp 3/4] kernel/trace/bpf_trace.c:3566:16: error:
- implicit declaration of function 'hw_breakpoint_modify'; did you mean
- 'hw_breakpoint_is_used'?
-Message-ID: <202407222000.e34lY1d8-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="GVJ4Lbe4"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42111cf2706so5039805e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 07:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1721657754; x=1722262554; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kx0TDuI5m4f7x9Raak4pwIhIi0qr9N6AUQbyBu7jk58=;
+        b=GVJ4Lbe4E1sSfcGwh/0O2AECxrH8G/ZGV93o8TMPlelrcEBPhOzr0noXtRtqZjX92M
+         xDKWd+KBwUZhRZcqDwo9zVT6cA5zf3BA+YQBQSUNKnRQiFDan2IoM0ALaem5tbZCqpeN
+         cmEXcs/vACaWOGx01o9tVSOvgIBwscTvNQ8h0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721657754; x=1722262554;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kx0TDuI5m4f7x9Raak4pwIhIi0qr9N6AUQbyBu7jk58=;
+        b=XmGnZmpXjZurlAdddsKaQkGPGUsvSmUM30hLwpp1f05mrVdGjAJoE1CqyHWgZlGtBy
+         Immi2yhaABv5SpZBpJdhJmMKNnCRYIqJoQlD+XEMxKBUuDHN5CHjYaidqbabmhxY6DEq
+         2xSjB8/4RnIOolApvaA1RCXRoMuMZ3yproTx7i33aecIMIYASa+qVin7FTHpk2dQY0Fz
+         3j0lLpuEYYRY6VgcFtYKjQpmiG5sHKbYSFLik3A7XZAeLinfuxgQ34Z7LyiPcizfLNJs
+         10Fd3Q/khnT7CdIyJniB23zqPVBBomFUtaPzVjYnJGz5G60sSPtk7jrsVQIyXm44waSt
+         EZOg==
+X-Forwarded-Encrypted: i=1; AJvYcCWqHUoRl2dn1TkQaGKPipllh5kSjy3vNnGzDnUvsaliDhsv1lAS5YYky+FHwz2EY8BONlBxazPowfs+XC2L+IMfu5cHA2cMR/Zg1iPi7w==
+X-Gm-Message-State: AOJu0YzzyoYvkVGtuIa63B3bZAr9rZVjXKt4t6rYfhePK3pjjBI2N3GJ
+	dqgXSd+pgnAQcHAwLSyDbBn0YujjSd61re1FzddQa9nGNtzKPTZa6J1F2hm5Ulg=
+X-Google-Smtp-Source: AGHT+IEzv1gd5cKrmvegzH0V6jzWs76B0Fz3js/yNH+DTr8Mw5A+t9aAP9Md+Wa9gE0EqI3ymSu7Cw==
+X-Received: by 2002:a05:6000:2a1:b0:367:4d9d:56a6 with SMTP id ffacd0b85a97d-369b6750465mr3248168f8f.1.1721657754218;
+        Mon, 22 Jul 2024 07:15:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3687868b5fdsm8596021f8f.38.2024.07.22.07.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 07:15:53 -0700 (PDT)
+Date: Mon, 22 Jul 2024 16:15:51 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: lkp@intel.com, Daniel Vetter <daniel@ffwll.ch>,
+	Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] fbcon: Use oops_in_progress instead of panic_cpu
+Message-ID: <Zp5pl4kcu9q6FWTP@phenom.ffwll.local>
+References: <202407210203.2ISiIC9m-lkp@intel.com>
+ <20240722114800.174558-1-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +69,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240722114800.174558-1-jfalempe@redhat.com>
+X-Operating-System: Linux phenom 6.9.7-amd64 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bp
-head:   b45f92fe92ab4e5bf3568b81df7d7a4c7a52acbe
-commit: 4e7d975bf8e514543825578dd810d04770bee181 [3/4] add bpf_bp_modify_address kfunc
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240722/202407222000.e34lY1d8-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407222000.e34lY1d8-lkp@intel.com/reproduce)
+On Mon, Jul 22, 2024 at 01:47:51PM +0200, Jocelyn Falempe wrote:
+> Panic_cpu is not exported, so it can't be used if fbcon is used as
+> a module. Use oops_in_progress in this case, but non-fatal oops won't
+> be printed.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202407210203.2ISiIC9m-lkp@intel.com/
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407222000.e34lY1d8-lkp@intel.com/
+Yeah it's not great but gets the job done.
 
-All errors (new ones prefixed by >>):
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-   kernel/trace/bpf_trace.c: In function 'bpf_bp_modify_addr':
->> kernel/trace/bpf_trace.c:3566:16: error: implicit declaration of function 'hw_breakpoint_modify'; did you mean 'hw_breakpoint_is_used'? [-Wimplicit-function-declaration]
-    3566 |         return hw_breakpoint_modify(event, addr);
-         |                ^~~~~~~~~~~~~~~~~~~~
-         |                hw_breakpoint_is_used
+Cheers, Sima
 
-
-vim +3566 kernel/trace/bpf_trace.c
-
-  3540	
-  3541	__bpf_kfunc int bpf_bp_modify_addr(const struct bpf_map *map, u64 flags, unsigned long addr)
-  3542	{
-  3543		struct bpf_array *array = container_of(map, struct bpf_array, map);
-  3544		unsigned int cpu = smp_processor_id();
-  3545		u64 index = flags & BPF_F_INDEX_MASK;
-  3546		struct bpf_event_entry *ee;
-  3547		struct perf_event *event;
-  3548	
-  3549		if (index == BPF_F_CURRENT_CPU)
-  3550			index = cpu;
-  3551	
-  3552		if (unlikely(index >= array->map.max_entries))
-  3553			return -E2BIG;
-  3554	
-  3555		ee = READ_ONCE(array->ptrs[index]);
-  3556		if (!ee)
-  3557			return -ENOENT;
-  3558	
-  3559		event = ee->event;
-  3560		if (unlikely(event->attr.type != PERF_TYPE_BREAKPOINT))
-  3561			return -EINVAL;
-  3562	
-  3563		if (unlikely(event->oncpu != cpu))
-  3564			return -EOPNOTSUPP;
-  3565	
-> 3566		return hw_breakpoint_modify(event, addr);
-  3567	}
-  3568	
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 498d9c07df80..2e093535884b 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -64,6 +64,8 @@
+>  #include <linux/console.h>
+>  #include <linux/string.h>
+>  #include <linux/kd.h>
+> +#include <linux/panic.h>
+> +#include <linux/printk.h>
+>  #include <linux/slab.h>
+>  #include <linux/fb.h>
+>  #include <linux/fbcon.h>
+> @@ -272,7 +274,14 @@ static int fbcon_get_rotate(struct fb_info *info)
+>  
+>  static bool fbcon_skip_panic(struct fb_info *info)
+>  {
+> +/* panic_cpu is not exported, and can't be used if built as module. Use
+> + * oops_in_progress instead, but non-fatal oops won't be printed.
+> + */
+> +#if defined(MODULE)
+> +	return (info->skip_panic && unlikely(oops_in_progress));
+> +#else
+>  	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
+> +#endif
+>  }
+>  
+>  static inline int fbcon_is_inactive(struct vc_data *vc, struct fb_info *info)
+> 
+> base-commit: 7e33fc2ff6754b5ff39b11297f713cd0841d9962
+> -- 
+> 2.45.2
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
