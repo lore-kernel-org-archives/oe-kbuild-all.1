@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2760802
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 04:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C104017543;
+	Mon, 22 Jul 2024 05:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721623815; cv=none; b=rcWFduMqxj5r8gY/FH2lQbxF8BFMUcsSAvzo5Hd3ezhh8wH7/ps6ckyFT4oKoIzP8uvj58+dNmXFNlPxTHgCf8etLXdTR4NhfmgksaCb61O2Q8k8EDjzcvUxMgGi5P2fnJ0q6kvKSwxlgL1a3gio1LT5wpVLBm5c+cs6QT+GAcU=
+	t=1721625139; cv=none; b=aTsd8Ij9otsooF6aqQBqYShiVKZuH0OHgpBhhVIfzS36nO2mrEqZ4NfO6nViRLS1XIW9MEJ+smLG78zoxap1OCGhmbnFjDCUJUsCpqIKNJZzsTXLMy720qCYa3L/L74Tw4aoBg27uivGfzQZBTmqzxgIfka1H+FFGxwUnZ2EObs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721623815; c=relaxed/simple;
-	bh=8muP20s4C868vWiyvBhXJAd6xtKPy7be8vRMs9Wy+AI=;
+	s=arc-20240116; t=1721625139; c=relaxed/simple;
+	bh=WV3yiXzYxKYCv2BabFqEJvl9TEnWYLapdT1gUFSzS10=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fwmCw+UgzOvJL3I304PN+zmXnj97y8n2VGOdLuGzgAqsUNA15AoFooAjoSHXXyEF700EWp8DXirdIO1vyvAW6hkx3SUbHdk92QN67P6AjnPsTxnXbV43TRu1PYoLoff9Up62KKylasCQ9bqWAqM56gJhCs8fSFIowAzJX2966OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0Q/pocx; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=JncqHnFHJ7yR3Fz3bEy8MiLXsq76EEG3JcBEncf60xhU//r3F8fHdWI0pbU4O+6ox+VQ60xSD4pHx3RgCAMqs5NqgUB4oZ+vHZK7wji73QiwQyXIjU++TUDGxRCrkBzQ2s1DD2UtjnOzCeueNhtvfYNLbh4RxcXFLL/x8qEgvtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpR6F0nW; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0Q/pocx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpR6F0nW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721623813; x=1753159813;
+  t=1721625138; x=1753161138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8muP20s4C868vWiyvBhXJAd6xtKPy7be8vRMs9Wy+AI=;
-  b=G0Q/pocxxu6yly/UFeKIW4gDmXsQg6As5MSlz5J3n1g6TxsTnlZmOnCb
-   V5wlBo4fpYwFMw8K30DbHDqPuzwe/zSqFYdndiLP5yLmFjI8/3g94Ct4k
-   H6YWQHbXAajXG28dptcuSbgYia+7AgEzRrwthWj06ljR3OlAFfmwBmt3F
-   GBdF6pYzuKPyZzxKiprELSwzF7lIlC+h83moDqyApLEsHr7nSBHhr/el6
-   tHEjY4uhzk+Tkaqh+VWPLMFXtWB15+/gij0HrsdydDfiqF19tAjN23EZj
-   8kNER6prlO2zgXeWpB2T8yDO9Xn+cpqLRlPRUhohGGRLBwCvxXLE/w0Ib
-   g==;
-X-CSE-ConnectionGUID: s4akv6hEQLqXfXxQwM/60w==
-X-CSE-MsgGUID: d3Q7lD3nQ422Wmyc4UzkRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="29831272"
+  bh=WV3yiXzYxKYCv2BabFqEJvl9TEnWYLapdT1gUFSzS10=;
+  b=IpR6F0nWxkIn38tK5xLMlKY5R2urzYJkUKUwNCiuVqlJQ8mePrCFa2Nq
+   VIoUgLUAULyYrxyxc7NeBtZlqSFJgg0bV02QUOl7usbbX8oe+ZR4fYbPK
+   aZRToOuiWNA0PfyAi+JtpjST3FjeefjYetNGfZkDBshuAo4fTCbtTzduW
+   AYmZ6x40Nit+g4W48e2zpOwMigRpClpUzGNL91qCj8cY5Rsqu2Wzmyx1j
+   1lcS3ITbXaLS8oV4M3WYnlb7icaJdt5x10zu9mI4sKtu3cYKjW+K/baE8
+   AEGFsBFOE/idQLZ1PubgkJBoIQiFDk3Z8pJBXDYtuH6L58yEt/mHW/kmt
+   w==;
+X-CSE-ConnectionGUID: JYmECd74T++5t0DlDrzLvg==
+X-CSE-MsgGUID: MjZbf+98QkK9U7aZ3A1R6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="22982511"
 X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="29831272"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 21:50:13 -0700
-X-CSE-ConnectionGUID: 8lMDSzIRRBeOMVuX16zXeQ==
-X-CSE-MsgGUID: hUsiqSQ9Tt2JV/mPSYuQSw==
+   d="scan'208";a="22982511"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 22:12:14 -0700
+X-CSE-ConnectionGUID: s+F5OVL5QaSqXLW1lDJypQ==
+X-CSE-MsgGUID: Wia+IIagRdWnABpwJH90Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="51482738"
+   d="scan'208";a="55927459"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Jul 2024 21:50:12 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 21 Jul 2024 22:12:14 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sVkzy-000ksU-12;
-	Mon, 22 Jul 2024 04:50:10 +0000
-Date: Mon, 22 Jul 2024 12:49:42 +0800
+	id 1sVlLH-000kt4-1F;
+	Mon, 22 Jul 2024 05:12:11 +0000
+Date: Mon, 22 Jul 2024 13:12:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Alex Shi (Tencent)" <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 37/41]
- arch/openrisc/include/asm/pgalloc.h:35:38: error: implicit declaration of
- function 'ptdesc_pfn'; did you mean 'ptdesc_page'?
-Message-ID: <202407221253.HR0vo3fk-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-msiof-2024-07-19 16/16] sound/soc/sh/msiof.c:470:3:
+ error: use of undeclared identifier 'stop'
+Message-ID: <202407221317.aoAlPrsD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +62,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git mmunstable
-head:   3fe05f7357f5b4db6bebc807eaa2398ea1b29129
-commit: ebd650c6c69974af12394e8546dacad3a2d46695 [37/41] mm/pgtable: pass ptdesc to pmd_populate
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240722/202407221253.HR0vo3fk-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407221253.HR0vo3fk-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-msiof-2024-07-19
+head:   a12bc552b3fd774fec2214ece9ee022c4808d676
+commit: a12bc552b3fd774fec2214ece9ee022c4808d676 [16/16] msiof
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240722/202407221317.aoAlPrsD-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407221317.aoAlPrsD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407221253.HR0vo3fk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407221317.aoAlPrsD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/openrisc/kernel/asm-offsets.c:28:
-   arch/openrisc/include/asm/pgalloc.h: In function 'pmd_populate':
->> arch/openrisc/include/asm/pgalloc.h:35:38: error: implicit declaration of function 'ptdesc_pfn'; did you mean 'ptdesc_page'? [-Wimplicit-function-declaration]
-      35 |                      ((unsigned long)ptdesc_pfn(pte) <<
-         |                                      ^~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:54:46: note: in definition of macro 'set_pmd'
-      54 | #define set_pmd(pmdptr, pmdval) (*(pmdptr) = pmdval)
-         |                                              ^~~~~~
-   include/asm-generic/pgtable-nop4d.h:41:60: note: in expansion of macro '__pgd'
-      41 | #define __p4d(x)                                ((p4d_t) { __pgd(x) })
-         |                                                            ^~~~~
-   include/asm-generic/pgtable-nopud.h:49:60: note: in expansion of macro '__p4d'
-      49 | #define __pud(x)                                ((pud_t) { __p4d(x) })
-         |                                                            ^~~~~
-   include/asm-generic/pgtable-nopmd.h:53:60: note: in expansion of macro '__pud'
-      53 | #define __pmd(x)                                ((pmd_t) { __pud(x) } )
-         |                                                            ^~~~~
-   arch/openrisc/include/asm/pgalloc.h:34:22: note: in expansion of macro '__pmd'
-      34 |         set_pmd(pmd, __pmd(_KERNPG_TABLE +
-         |                      ^~~~~
-   make[3]: *** [scripts/Makefile.build:117: arch/openrisc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1208: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> sound/soc/sh/msiof.c:470:3: error: use of undeclared identifier 'stop'
+     470 |                 stop = 1;
+         |                 ^
+   sound/soc/sh/msiof.c:477:6: error: use of undeclared identifier 'stop'; did you mean 'stac'?
+     477 |         if (stop) {
+         |             ^~~~
+         |             stac
+   arch/x86/include/asm/smap.h:36:29: note: 'stac' declared here
+      36 | static __always_inline void stac(void)
+         |                             ^
+>> sound/soc/sh/msiof.c:482:30: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     482 |                         dev_warn(dev, "SISTR = %08x\n");
+         |                                                ~~~^
+   include/linux/dev_printk.h:156:62: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   1 warning and 2 errors generated.
 
 
-vim +35 arch/openrisc/include/asm/pgalloc.h
+vim +/stop +470 sound/soc/sh/msiof.c
 
-    27	
-    28	#define pmd_populate_kernel(mm, pmd, pte) \
-    29		set_pmd(pmd, __pmd(_KERNPG_TABLE + __pa(pte)))
-    30	
-    31	static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
-    32					struct ptdesc *pte)
-    33	{
-    34		set_pmd(pmd, __pmd(_KERNPG_TABLE +
-  > 35			     ((unsigned long)ptdesc_pfn(pte) <<
-    36			     (unsigned long) PAGE_SHIFT)));
-    37	}
-    38	
+   450	
+   451	static int msiof_trigger(struct snd_soc_component *component,
+   452				 struct snd_pcm_substream *substream, int cmd)
+   453	{
+   454		struct device *dev = component->dev;
+   455		struct msiof_priv *priv = dev_get_drvdata(dev);
+   456		unsigned long flags;
+   457		int is_play = msiof_is_play(substream);
+   458		int ret = -EINVAL;
+   459	
+   460		spin_lock_irqsave(&priv->lock, flags);
+   461	
+   462		switch (cmd) {
+   463		case SNDRV_PCM_TRIGGER_START:
+   464			priv->substream[is_play] = substream;
+   465			/* fallthrough */
+   466		case SNDRV_PCM_TRIGGER_RESUME:
+   467			ret = msiof_hw_start(component, substream, cmd);
+   468			break;
+   469		case SNDRV_PCM_TRIGGER_STOP:
+ > 470			stop = 1;
+   471			/* fallthrough */
+   472		case SNDRV_PCM_TRIGGER_SUSPEND:
+   473			ret = msiof_hw_stop(component, substream, cmd);
+   474			break;
+   475		}
+   476	
+ > 477		if (stop) {
+   478			u32 sistr = msiof_read(priv, SISTR);
+   479	
+   480			/* indicate error status if exist */
+   481			if (sistr)
+ > 482				dev_warn(dev, "SISTR = %08x\n");
+   483	
+   484			priv->substream[is_play] = NULL;
+   485		}
+   486	
+   487		spin_unlock_irqrestore(&priv->lock, flags);
+   488	
+   489		return ret;
+   490	}
+   491	
 
 -- 
 0-DAY CI Kernel Test Service
