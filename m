@@ -1,146 +1,426 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A7B35280
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 08:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA322581
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 09:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721637568; cv=none; b=BtVUf0KW6m2K1l1e1YlGEXNyXhtEVt3f/7MHx3ePJm69K5jKNoBQKzh6j0CvAThhYXiqNN4W//iKHio15EyLpEyF7R7AYe7WLjNCX/bXhnHeo96eS5mdpnbVYwTPm7suQnZ8xYdQceZdYOjtJHnx9ub7HqfAlncPNYkdDaFBFRw=
+	t=1721640185; cv=none; b=Yl26CJkBBw4Cfb2jgbz5j/29nw2ox4WysXrWNmtdwASQr1r2wzCi1KTyCqVXE7BADTyMRjS701Tr4sir89Yx3unziZjsepvbM0LSt5uovsvcWvGMPoHfwmbg/rfXV95qrbiqhsmOSQoVsbkqADLMH4EsjjIS/Uq5/aQx/+o9q8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721637568; c=relaxed/simple;
-	bh=jF3MK90FdCeT3Rjse46xXmL99nQyJlT7//xcvqkBi9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NBdHroMTNPZhGBwLMu0o+sEbP5Ro/Fduo249ghVZyY3vJ5OpGC8cy7qbgpkYNPyKGnIoihnulQXksR200Lt3OnKEfRwDnqACjPJoxKHuOEW21/xTST7toqg8fHBZHTgLIG9ulaBwjfuKh0NLo0gb/gA44lCYDteTl2j21Woijew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aQzj0IQ7; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721640185; c=relaxed/simple;
+	bh=VJHp/FFicRu0g7JqU01qEGGop1Rcofyj2WydQ8zyNQ4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=tdWSpQ/FvT7/3VSt8i3mRJQyn0YgiN6i9P9PHbItJfQisEaIAlznzVyK8ZI4qb8nJ3UJiNRg3IF8ldpHoG256kNURAdEr/Y5yUXfrUjw6c7T6cl+A19xf99yuJ9ArJwEYkd9yhN4ibBor72ymwFmrPPQ/xoKjKlBa2CNDVQ0Uug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=F+0jZ2IQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Dwka9Wza; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aQzj0IQ7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721637566; x=1753173566;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jF3MK90FdCeT3Rjse46xXmL99nQyJlT7//xcvqkBi9k=;
-  b=aQzj0IQ7JkiodkuQqtI1UtW1ma07kFi7VAvYAZhxdOJd9R5BF51uNofi
-   3i7l5xGeXiXvp6KwPVDZItGGwF3cL23IiU/X+BrKslUUKblyH5HXgTDRB
-   sxYo3FDj69VnzWNdTQLbDdDxC0rsgYb6IzoeP1TDMkfrTmQ+eMAVOmp/O
-   EtoopuIfpW+SXRq5bhTW3pO1Y+trpnm43oyOZxt7ENjWf6lfZGhD/WNHf
-   2lb80LyUw/2GYKoNmzkuJlwfMb3ccSWJBbT8W/kRITdCS4gb6ClubgF1p
-   VMOQNhG2eEoYEqBPmsdbIMH9eaFaq5SjQhGYTK2vtE/IAAYUaXIOD+hJB
-   A==;
-X-CSE-ConnectionGUID: +kS1t3iVR7Gq1V5VZk+/Mg==
-X-CSE-MsgGUID: xBdaE3GaRYSRwk+k4Zcqmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="19066167"
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="19066167"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 01:39:26 -0700
-X-CSE-ConnectionGUID: sEEq58b+T2+arOQpmUUeAg==
-X-CSE-MsgGUID: SiMr1BfOTkSKTDPDfa5aYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="56669861"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Jul 2024 01:39:25 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sVoZl-000l1X-34;
-	Mon, 22 Jul 2024 08:39:21 +0000
-Date: Mon, 22 Jul 2024 16:39:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Lu <chris.lu@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [linux-next:master 13182/13495] drivers/bluetooth/btusb.c:2720:21:
- warning: assignment to 'struct urb *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202407221627.toIry7kJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="F+0jZ2IQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Dwka9Wza"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 125B1138029E;
+	Mon, 22 Jul 2024 05:23:00 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute4.internal (MEProxy); Mon, 22 Jul 2024 05:23:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1721640180;
+	 x=1721726580; bh=bR8ieAnqFBM1DJcNSSbbe1kCeFWemjbad8WKXACoKbg=; b=
+	F+0jZ2IQoERbzVEs3eBTL04GcWXCT11IMaqept87U5iIsW/DUgbGnjgRAEInLu5L
+	sXLMb6OozuRT/N7O+bTDaH/ipsnVSULPelx4QLFr3JrPSp1pTtL2RwPvFGl4cB8C
+	0Vs1qgarqbHyPOAmEwqWFC64oSNEEAXtQ2HtAu926FBu2rVZYTsYYBPzLjO7CBR6
+	1WhLqMFIp6iFg0KbdiAgGZ4LfF1lk6MNoqGlc1/ONtVyQC/DobGrKBBQqNhW4tfU
+	Ewo5qDyYnMwjGnDHm4yXBE4cHMpbGbqFG6dl9ZB+7YNwDE3pZVv9XtjpREzdg2Gr
+	wAobH1p5MOPkq/0Lh9hOVQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1721640180; x=
+	1721726580; bh=bR8ieAnqFBM1DJcNSSbbe1kCeFWemjbad8WKXACoKbg=; b=D
+	wka9WzakkcXvu42f42FLEPeur426IfkaYO+IJ1jy1FtfpT3DNAdpBrlxtRPu3uiS
+	Ps9QOSwmem9ScBUesnACtLwhv2j2s9UE+ygf6K7ph69pJ65tyx7BIbXI1x2GfXwE
+	/b+pl8ofX5dg4tX1kysArcd075eLxio3QaTyo1C2Coh2P6owfAKncS/KIIrnbgr6
+	oOIm8s8A133w9ClPlK/veA7hO2bMZA7euxCPWmyw9DHlr+vbuoMMqdYxJ+mVxvap
+	1GDVSrhrPHCrloQU3RXovjLdyKdYWRD++fN0pivoDfVjDYveDpteVl9hv7qkA2VW
+	0BlvI2sx+vfR1vg1eas8w==
+X-ME-Sender: <xms:8ySeZt9crmWIEu9ONjZkHYZDbCUCl6fdsTL4e4vxCFpa_ZCm8baKzg>
+    <xme:8ySeZhsBODq4gOSeas7MLtYDzAvtek8H9RGpSZkb1yqL05Y9vtGfKDKuYC25oVvbv
+    ZzcJaPcUtBUwXlVdCk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrheejgddugecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
+    jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:8ySeZrASG4FxqJ99JJiL2DJNz_rptHWPljW3Y8bznzquIHBHjs6Jbw>
+    <xmx:8ySeZheBdGorKbtiDPZ4xd0oB2Ux6ew2PBfAPBO5DtSar3RHAlo8fQ>
+    <xmx:8ySeZiNlDS-gKlprGtADSaIhlUBwPkDb7f5oXpyhTkQ5Zh-6sJ7aTw>
+    <xmx:8ySeZjkevCjhspPgLdZSVAy8hNOtb60mohZvFWifwBaOusy3fbBppA>
+    <xmx:9CSeZp3Wzkd-4LwEnxqWx80Fm7FJ5jkdqFFKcFSfigTi0jpL21tCbdYj>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 85804B6008F; Mon, 22 Jul 2024 05:22:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <85bb8bbc-f48d-46fd-aebb-03b2f7d3980a@app.fastmail.com>
+In-Reply-To: 
+ <CAMuHMdWMSpv1BbvCqf0Abfxf0sGp+5it-m1GtFR2nGuQ5-ZCAg@mail.gmail.com>
+References: <202407200330.Mgxnq2Dq-lkp@intel.com>
+ <420e09ad-f43f-4734-bc06-fee7a54f2eda@suse.cz>
+ <CAMuHMdWMSpv1BbvCqf0Abfxf0sGp+5it-m1GtFR2nGuQ5-ZCAg@mail.gmail.com>
+Date: Mon, 22 Jul 2024 11:22:38 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Vlastimil Babka" <vbabka@suse.cz>
+Cc: "kernel test robot" <lkp@intel.com>, "Kees Cook" <kees@kernel.org>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: include/linux/slab.h:663:78: error: subscripted value is neither array nor
+ pointer nor vector
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   dee7f101b64219f512bb2f842227bd04c14efe30
-commit: 52828ea60dfdd05246fc92dedfad1c8bbfa2dd66 [13182/13495] Bluetooth: btmtk: Fix btmtk.c undefined reference build error
-config: nios2-randconfig-r024-20220113 (https://download.01.org/0day-ci/archive/20240722/202407221627.toIry7kJ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407221627.toIry7kJ-lkp@intel.com/reproduce)
+On Mon, Jul 22, 2024, at 09:48, Geert Uytterhoeven wrote:
+> On Mon, Jul 22, 2024 at 9:15=E2=80=AFAM Vlastimil Babka <vbabka@suse.c=
+z> wrote:
+>> On 7/19/24 10:02 PM, kernel test robot wrote:
+>>
+>> Hm the new error ettributed to slab seems just a consequence of the b=
+roken
+>> PAGE_SHIFT? Although it's not listed here in the errors for some reas=
+on, I
+>> assume without PAGE_SHIFT we don't have KMALLOC_SHIFT_HIGH thus we do=
+n't
+>> have kmem_buckets typedef and thus kmalloc_caches is who knows what a=
+nd thus
+>> doesn't look like an array? And the broken PAGE_SHIFT has to be cause=
+ by
+>> something else.
+>>
+>> >    arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' u=
+ndeclared here (not in a function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+>> >       10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+>> >          |                         ^~~~~~~~~~~~~~~~~
+>
+> It's a known issue since commit 5394f1e9b687bcf2 ("arch: define
+> CONFIG_PAGE_SIZE_*KB on all architectures"): m68k-alldefconfig does
+> not select any CPU types, hence no MMU type, and as a consequence no
+> page size is selected.
+>
+> Arnd and I couldn't come up with a good solution to enforce a valid co=
+nfig,
+> so this is still broken...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407221627.toIry7kJ-lkp@intel.com/
+I've tried again as this keeps coming up. Not sure if this
+is a variant we have discussed before, but this way should
+fix the issue. There are still two unrelated build failures
+with 'alldefconfig' though:
 
-All warnings (new ones prefixed by >>):
+arch/m68k/kernel/setup_mm.c:54:2: error: #warning No CPU/platform type s=
+elected, your kernel will not work! [-Werror=3Dcpp]
+   54 | #warning No CPU/platform type selected, your kernel will not wor=
+k!
+arm-soc/kernel/irq/irqdesc.c:592:3: error: array index in initializer ex=
+ceeds array bounds
+  592 |  [0 ... NR_IRQS-1] =3D {
 
-   drivers/bluetooth/btusb.c: In function 'btusb_mtk_reset':
-   drivers/bluetooth/btusb.c:2705:15: error: implicit declaration of function 'btmtk_usb_subsys_reset' [-Werror=implicit-function-declaration]
-    2705 |         err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c: In function 'btusb_send_frame_mtk':
-   drivers/bluetooth/btusb.c:2720:23: error: implicit declaration of function 'alloc_mtk_intr_urb' [-Werror=implicit-function-declaration]
-    2720 |                 urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
-         |                       ^~~~~~~~~~~~~~~~~~
->> drivers/bluetooth/btusb.c:2720:21: warning: assignment to 'struct urb *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2720 |                 urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
-         |                     ^
-   drivers/bluetooth/btusb.c: In function 'btusb_mtk_setup':
-   drivers/bluetooth/btusb.c:2749:16: error: implicit declaration of function 'btmtk_usb_setup' [-Werror=implicit-function-declaration]
-    2749 |         return btmtk_usb_setup(hdev);
-         |                ^~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c: In function 'btusb_mtk_shutdown':
-   drivers/bluetooth/btusb.c:2760:16: error: implicit declaration of function 'btmtk_usb_shutdown'; did you mean 'btusb_mtk_shutdown'? [-Werror=implicit-function-declaration]
-    2760 |         return btmtk_usb_shutdown(hdev);
-         |                ^~~~~~~~~~~~~~~~~~
-         |                btusb_mtk_shutdown
-   drivers/bluetooth/btusb.c: In function 'btusb_probe':
-   drivers/bluetooth/btusb.c:3869:34: error: 'btmtk_usb_recv_acl' undeclared (first use in this function); did you mean 'btusb_recv_acl'?
-    3869 |                 data->recv_acl = btmtk_usb_recv_acl;
-         |                                  ^~~~~~~~~~~~~~~~~~
-         |                                  btusb_recv_acl
-   drivers/bluetooth/btusb.c:3869:34: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/bluetooth/btusb.c:3870:33: error: 'btmtk_usb_suspend' undeclared (first use in this function)
-    3870 |                 data->suspend = btmtk_usb_suspend;
-         |                                 ^~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c:3871:32: error: 'btmtk_usb_resume' undeclared (first use in this function)
-    3871 |                 data->resume = btmtk_usb_resume;
-         |                                ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+       Arnd
 
+8<---
+From 4579e30445643f1def7b9a8ae2f8720ca963b973 Mon Sep 17 00:00:00 2001
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 22 Jul 2024 10:55:57 +0200
+Subject: [PATCH] m68k: move sun3 into a top-level platform option
 
-vim +2720 drivers/bluetooth/btusb.c
+It is possible to select an m68k MMU build but not actually
+enable any of the three MMU options, which then results in a
+build failure:
 
-25b6d7593a3af7 Jing Cai 2023-06-29  2712  
-ceac1cb0259de6 Chris Lu 2024-07-04  2713  static int btusb_send_frame_mtk(struct hci_dev *hdev, struct sk_buff *skb)
-ceac1cb0259de6 Chris Lu 2024-07-04  2714  {
-ceac1cb0259de6 Chris Lu 2024-07-04  2715  	struct urb *urb;
-ceac1cb0259de6 Chris Lu 2024-07-04  2716  
-ceac1cb0259de6 Chris Lu 2024-07-04  2717  	BT_DBG("%s", hdev->name);
-ceac1cb0259de6 Chris Lu 2024-07-04  2718  
-ceac1cb0259de6 Chris Lu 2024-07-04  2719  	if (hci_skb_pkt_type(skb) == HCI_ISODATA_PKT) {
-ceac1cb0259de6 Chris Lu 2024-07-04 @2720  		urb = alloc_mtk_intr_urb(hdev, skb, btusb_tx_complete);
-ceac1cb0259de6 Chris Lu 2024-07-04  2721  		if (IS_ERR(urb))
-ceac1cb0259de6 Chris Lu 2024-07-04  2722  			return PTR_ERR(urb);
-ceac1cb0259de6 Chris Lu 2024-07-04  2723  
-ceac1cb0259de6 Chris Lu 2024-07-04  2724  		return submit_or_queue_tx_urb(hdev, urb);
-ceac1cb0259de6 Chris Lu 2024-07-04  2725  	} else {
-ceac1cb0259de6 Chris Lu 2024-07-04  2726  		return btusb_send_frame(hdev, skb);
-ceac1cb0259de6 Chris Lu 2024-07-04  2727  	}
-ceac1cb0259de6 Chris Lu 2024-07-04  2728  }
-ceac1cb0259de6 Chris Lu 2024-07-04  2729  
+ arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclar=
+ed here (not in a function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
 
-:::::: The code at line 2720 was first introduced by commit
-:::::: ceac1cb0259de682d78f5c784ef8e0b13022e9d9 Bluetooth: btusb: mediatek: add ISO data transmission functions
+Change the Kconfig selection to ensure that exactly one of the
+three options is always enabled whenever an MMU-enabled kernel
+is built, but moving CONFIG_SUN3 into a top-level option next
+to M68KCLASSIC and COLDFIRE.
 
-:::::: TO: Chris Lu <chris.lu@mediatek.com>
-:::::: CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+All defconfig files should keep working without changes,
+but alldefconfig now builds support for the classic MMU.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+index cc26df907bfe..7c4f7bcc89d7 100644
+--- a/arch/m68k/Kconfig
++++ b/arch/m68k/Kconfig
+@@ -84,24 +84,23 @@ config MMU
+ 	  support by paged memory management. If unsure, say 'Y'.
+=20
+ config MMU_MOTOROLA
+-	bool
++	def_bool MMU && M68KCLASSIC
+ 	select HAVE_PAGE_SIZE_4KB
+=20
+ config MMU_COLDFIRE
++	def_bool MMU && COLDFIRE
+ 	select HAVE_PAGE_SIZE_8KB
+-	bool
+=20
+ config MMU_SUN3
+-	bool
++	def_bool MMU && SUN3
+ 	select HAVE_PAGE_SIZE_8KB
+-	depends on MMU && !MMU_MOTOROLA && !MMU_COLDFIRE
+=20
+ config ARCH_SUPPORTS_KEXEC
+-	def_bool M68KCLASSIC && MMU
++	def_bool (M68KCLASSIC || SUN3) && MMU
+=20
+ config BOOTINFO_PROC
+ 	bool "Export bootinfo in procfs"
+-	depends on KEXEC && M68KCLASSIC
++	depends on KEXEC && (M68KCLASSIC || SUN3)
+ 	help
+ 	  Say Y to export the bootinfo used to boot the kernel in a
+ 	  "bootinfo" file in procfs.  This is useful with kexec.
+diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
+index c777a129768a..a1b9e5f09e18 100644
+--- a/arch/m68k/Kconfig.cpu
++++ b/arch/m68k/Kconfig.cpu
+@@ -32,13 +32,23 @@ config COLDFIRE
+ 	select HAVE_LEGACY_CLK
+ 	select HAVE_PAGE_SIZE_8KB if !MMU
+=20
+-endchoice
++config SUN3
++	bool "Sun3 support"
++	depends on MMU
++	select HAVE_ARCH_PFN_VALID
++	select LEGACY_TIMER_TICK
++	select NO_DMA
++	select M68020
++	help
++	  This option enables support for the Sun 3 series of workstations
++	  (3/50, 3/60, 3/1xx, 3/2xx systems). These use a classic 68020 CPU
++	  but the custom memory management unit makes them incompatible with
++	  all other classic m68k machines, including Sun 3x.
+=20
+-if M68KCLASSIC
++endchoice
+=20
+ config M68000
+-	def_bool y
+-	depends on !MMU
++	def_bool M68KCLASSIC && !MMU
+ 	select CPU_HAS_NO_BITFIELDS
+ 	select CPU_HAS_NO_CAS
+ 	select CPU_HAS_NO_MULDIV64
+@@ -56,7 +66,8 @@ config M68000
+ 	  a paging MMU.
+=20
+ config M68020
+-	bool "68020 support"
++	bool "68020 support" if M68KCLASSIC
++	default !(M68030 || M68040 || M68060)
+ 	depends on MMU
+ 	select FPU
+ 	select CPU_HAS_ADDRESS_SPACES
+@@ -66,9 +77,10 @@ config M68020
+ 	  68851 MMU (Memory Management Unit) to run Linux/m68k, except on the
+ 	  Sun 3, which provides its own version.
+=20
++if M68KCLASSIC && MMU
++
+ config M68030
+ 	bool "68030 support"
+-	depends on MMU && !MMU_SUN3
+ 	select FPU
+ 	select CPU_HAS_ADDRESS_SPACES
+ 	help
+@@ -78,7 +90,6 @@ config M68030
+=20
+ config M68040
+ 	bool "68040 support"
+-	depends on MMU && !MMU_SUN3
+ 	select FPU
+ 	select CPU_HAS_ADDRESS_SPACES
+ 	help
+@@ -89,13 +100,14 @@ config M68040
+=20
+ config M68060
+ 	bool "68060 support"
+-	depends on MMU && !MMU_SUN3
+ 	select FPU
+ 	select CPU_HAS_ADDRESS_SPACES
+ 	help
+ 	  If you anticipate running this kernel on a computer with a MC68060
+ 	  processor, say Y. Otherwise, say N.
+=20
++endif # M68KCLASSIC
++
+ config M68328
+ 	bool
+ 	depends on !MMU
+@@ -117,8 +129,6 @@ config M68VZ328
+ 	help
+ 	  Motorola 68VZ328 processor support.
+=20
+-endif # M68KCLASSIC
+-
+ if COLDFIRE
+=20
+ choice
+diff --git a/arch/m68k/Kconfig.machine b/arch/m68k/Kconfig.machine
+index d06b1c5d9b0c..de39f23b180e 100644
+--- a/arch/m68k/Kconfig.machine
++++ b/arch/m68k/Kconfig.machine
+@@ -6,7 +6,6 @@ if M68KCLASSIC
+ config AMIGA
+ 	bool "Amiga support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select LEGACY_TIMER_TICK
+ 	help
+ 	  This option enables support for the Amiga series of computers. If
+@@ -16,7 +15,6 @@ config AMIGA
+ config ATARI
+ 	bool "Atari support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select HAVE_ARCH_NVRAM_OPS
+ 	select LEGACY_TIMER_TICK
+ 	help
+@@ -31,7 +29,6 @@ config ATARI_KBD_CORE
+ config MAC
+ 	bool "Macintosh support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select HAVE_ARCH_NVRAM_OPS
+ 	select HAVE_PATA_PLATFORM
+ 	select LEGACY_TIMER_TICK
+@@ -44,7 +41,6 @@ config MAC
+ config APOLLO
+ 	bool "Apollo support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select LEGACY_TIMER_TICK
+ 	help
+ 	  Say Y here if you want to run Linux on an MC680x0-based Apollo
+@@ -53,7 +49,6 @@ config APOLLO
+ config VME
+ 	bool "VME (Motorola and BVM) support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	help
+ 	  Say Y here if you want to build a kernel for a 680x0 based VME
+ 	  board.  Boards currently supported include Motorola boards MVME147,
+@@ -97,7 +92,6 @@ config BVME6000
+ config HP300
+ 	bool "HP9000/300 and HP9000/400 support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select LEGACY_TIMER_TICK
+ 	help
+ 	  This option enables support for the HP9000/300 and HP9000/400 series
+@@ -110,7 +104,6 @@ config SUN3X
+ 	bool "Sun3x support"
+ 	depends on MMU
+ 	select LEGACY_TIMER_TICK
+-	select MMU_MOTOROLA if MMU
+ 	select M68030
+ 	help
+ 	  This option enables support for the Sun 3x series of workstations.
+@@ -124,7 +117,6 @@ config SUN3X
+ config Q40
+ 	bool "Q40/Q60 support"
+ 	depends on MMU
+-	select MMU_MOTOROLA if MMU
+ 	select LEGACY_TIMER_TICK
+ 	help
+ 	  The Q40 is a Motorola 68040-based successor to the Sinclair QL
+@@ -133,22 +125,6 @@ config Q40
+ 	  Q60. Select your CPU below.  For 68LC060 don't forget to enable FPU
+ 	  emulation.
+=20
+-config SUN3
+-	bool "Sun3 support"
+-	depends on MMU
+-	depends on !MMU_MOTOROLA
+-	select MMU_SUN3 if MMU
+-	select LEGACY_TIMER_TICK
+-	select NO_DMA
+-	select M68020
+-	help
+-	  This option enables support for the Sun 3 series of workstations
+-	  (3/50, 3/60, 3/1xx, 3/2xx systems). Enabling this option requires
+-	  that all other hardware types must be disabled, as Sun 3 kernels
+-	  are incompatible with all other m68k targets (including Sun 3x!).
+-
+-	  If you don't want to compile a kernel exclusively for a Sun 3, say N.
+-
+ config VIRT
+ 	bool "Virtual M68k Machine support"
+ 	depends on MMU
+@@ -157,7 +133,6 @@ config VIRT
+ 	select GOLDFISH_TIMER
+ 	select GOLDFISH_TTY
+ 	select M68040
+-	select MMU_MOTOROLA if MMU
+ 	select RTC_CLASS
+ 	select RTC_DRV_GOLDFISH
+ 	select TTY
+diff --git a/arch/m68k/kernel/Makefile b/arch/m68k/kernel/Makefile
+index f335bf3268a1..5d1af676b508 100644
+--- a/arch/m68k/kernel/Makefile
++++ b/arch/m68k/kernel/Makefile
+@@ -5,16 +5,8 @@
+=20
+ extra-y			+=3D vmlinux.lds
+=20
+-obj-$(CONFIG_AMIGA)	:=3D head.o
+-obj-$(CONFIG_ATARI)	:=3D head.o
+-obj-$(CONFIG_MAC)	:=3D head.o
+-obj-$(CONFIG_APOLLO)	:=3D head.o
+-obj-$(CONFIG_VME)	:=3D head.o
+-obj-$(CONFIG_HP300)	:=3D head.o
+-obj-$(CONFIG_Q40)	:=3D head.o
+-obj-$(CONFIG_SUN3X)	:=3D head.o
+-obj-$(CONFIG_VIRT)	:=3D head.o
+-obj-$(CONFIG_SUN3)	:=3D sun3-head.o
++obj-$(CONFIG_M68KCLASSIC)	:=3D head.o
++obj-$(CONFIG_SUN3)		:=3D sun3-head.o
+=20
+ obj-y	+=3D entry.o irq.o module.o process.o ptrace.o
+ obj-y	+=3D setup.o signal.o sys_m68k.o syscalltable.o time.o traps.o
+diff --git a/arch/m68k/kernel/time.c b/arch/m68k/kernel/time.c
+index a97600b2af50..108debb87cfb 100644
+--- a/arch/m68k/kernel/time.c
++++ b/arch/m68k/kernel/time.c
+@@ -62,7 +62,7 @@ void timer_heartbeat(void)
+ }
+ #endif /* CONFIG_HEARTBEAT */
+=20
+-#ifdef CONFIG_M68KCLASSIC
++#if defined(CONFIG_M68KCLASSIC) || defined(CONFIG_SUN3)
+ /* machine dependent timer functions */
+ int (*mach_hwclk) (int, struct rtc_time*);
+ EXPORT_SYMBOL(mach_hwclk);
+@@ -149,7 +149,7 @@ static int __init rtc_init(void)
+=20
+ module_init(rtc_init);
+ #endif /* CONFIG_RTC_DRV_GENERIC */
+-#endif /* CONFIG M68KCLASSIC */
++#endif /* CONFIG M68KCLASSIC || SUN3 */
+=20
+ void __init time_init(void)
+ {
