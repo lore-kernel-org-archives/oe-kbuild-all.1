@@ -1,70 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B07747F;
-	Mon, 22 Jul 2024 02:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0A214F90;
+	Mon, 22 Jul 2024 03:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721614261; cv=none; b=KDzT5F7k3ssbTY9C9Au6ogc5xKdgVN+r2aseV7Ys5ptmhSACaLgOOJZU5w7YJu3M4Vp4IgT+osFARqoHa2/IYMUzcIAV7LbYVjC2w1M/Lvvv4A9hvg9OQQIFeULHPs4Ugz58e7RJF3C+TdtQ3Xs57W9v3KlWJu40udSykLsSJAE=
+	t=1721619365; cv=none; b=kuRVEqensBVI7nRYwcRvbG6CM2f1c3y63+sOlyPUSgTTBhZST1U1HPoNVZTKj/MirklQmpJG0wXjYW2F5AcoMzb9ttGvYrQ5r9bQCJJEZzVfVYKfFBGQ6uSn6H2bNZYbx62uD9L85jTboCfvWO4HdUytrndIPDtguszvuGNKJvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721614261; c=relaxed/simple;
-	bh=DqCgC/c3s9Favave3nv1YMDm0RGrEYC1Cxb9EP9Ys6k=;
+	s=arc-20240116; t=1721619365; c=relaxed/simple;
+	bh=PwFT7B1VJB/UXjjpWDCkDoQ6sX7XM3WUzIPOQ+mIUNQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+WacmmOXxv6lnb8p3kpmTYtmFBk69ukNd7yML4wET+AVMaDjUYaD801ym2amMOc50i7u0KAAo7btia3Orvjj9SGOteq/l5urOS9BG2Ol/++omnZ24eaHhWA5xEt8oQ0yKKyLfBGi6eK16VNd2zb/5pJ1AHosC2KQzdDWOdUaTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qync40Vh; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUnbhpQvBEvvHndHLy7PGaMRjyLU34NraJqjc/uIrEaXVbk+K1c3bl234G0QsjkqRnMbctgacBlI80WlVSSr7m1a5UEj7mIpteFwlOnbo9b/OKAEo9Pzp3GuqOdwxqbDT6ud0vnMaI+jZTuMM1pGfUXC6b0g5GJK0cvK2iPd/Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsKzc5TX; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qync40Vh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsKzc5TX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721614260; x=1753150260;
+  t=1721619363; x=1753155363;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DqCgC/c3s9Favave3nv1YMDm0RGrEYC1Cxb9EP9Ys6k=;
-  b=Qync40VhwhrGpa7Y+j2UtqlrA39Sn0w6r36xiUy7TS2HlTUrtiqA4f7o
-   bgY9QLvIFSukU136AQRcYhcCPD+hqUllhOq6P55C9aGtKIHgCIHNNDMlH
-   GZu4/y5hJSilpme+jhJEcPD+QYQ52HkA1QNYsK63byvYP++/8g9TzmvD7
-   MHvwtVjWvPrk4cMAOvbZopqtju1Tppp3W236CRXfKVSzgNwcXod5/IgnZ
-   JmLtYsqkNZ3IZO7GwqasDx8sYpZfOFW/hVHFvpypQ2nifWqI7a10fA8er
-   W6BrjkOzyOJYzJ7E3Au3QC3LDU7pHvJq4HTBeO58/+qt9evSq9ihVocE5
-   Q==;
-X-CSE-ConnectionGUID: gNnxYO7sR7KtXHaR3+6v3A==
-X-CSE-MsgGUID: 5Iil3sbUTMG4bvzdeyF9xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="19338588"
+  bh=PwFT7B1VJB/UXjjpWDCkDoQ6sX7XM3WUzIPOQ+mIUNQ=;
+  b=nsKzc5TXkodwt9K46NDMIf4LFfjOvI0OeEDsjT+0J+jWjPZPuxQYQxWC
+   KFfwUrU86SsQqrIqBtD3Krb7t64Tbs/iupk4XCrvH8c4/pl+1rHbg/yvX
+   utJmC579DF/KfAXTCxd4EAb0YMWzkzFC81CuPQjg3tdoBVohShpj5/yda
+   ZrTzIwtseIyzI+PgTABpkFnKJvxnO226unqOC+WP2MuUbI+rjSLa2jpBT
+   M5z0V7BUjqIQxco8Z0SsSoHi5Ws7cUaeciox+w6LzdmKWgrZaeWcN11nh
+   GYbaSah1H2008J/0eyQuv0vVTiu1IFZobqYJbRo9s+LIn9Hbx2HybeFlz
+   w==;
+X-CSE-ConnectionGUID: bzRa9WrNSqq6FcP9UviN2w==
+X-CSE-MsgGUID: uj9PH153RyaVAW+yxWJbIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="30554899"
 X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="19338588"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 19:10:59 -0700
-X-CSE-ConnectionGUID: SbkeeR7FRKeBEK9JRb8tYQ==
-X-CSE-MsgGUID: etfCb4j5Sl+lldNDKrRV0Q==
+   d="scan'208";a="30554899"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 20:36:03 -0700
+X-CSE-ConnectionGUID: 2gtp3AbRQmGUQ2ZIJi9ldQ==
+X-CSE-MsgGUID: tkEtpGauSueOyIL1HE3XIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="89177499"
+   d="scan'208";a="51460628"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Jul 2024 19:10:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jul 2024 20:35:59 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sViVo-000kno-2Q;
-	Mon, 22 Jul 2024 02:10:52 +0000
-Date: Mon, 22 Jul 2024 10:10:06 +0800
+	id 1sVjq8-000kqK-3A;
+	Mon, 22 Jul 2024 03:35:56 +0000
+Date: Mon, 22 Jul 2024 11:35:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	kernel@pengutronix.de,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH v8 2/3] net/9p/usbg: Add new usb gadget function transport
-Message-ID: <202407220933.WQ9L15Zw-lkp@intel.com>
-References: <20240116-ml-topic-u9p-v8-2-409e659ca4dd@pengutronix.de>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, ukleinek@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH v6 3/3] hwmon: (adt7475) Add support for configuring
+ initial PWM state
+Message-ID: <202407221153.LJjYD5i7-lkp@intel.com>
+References: <20240722005825.1800403-4-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,95 +68,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v8-2-409e659ca4dd@pengutronix.de>
+In-Reply-To: <20240722005825.1800403-4-chris.packham@alliedtelesis.co.nz>
 
-Hi Michael,
+Hi Chris,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 2c9b3512402ed192d1f43f4531fb5da947e72bd0]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.10 next-20240719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-function-move-u_f-h-to-include-linux-usb-func_utils-h/20240722-070652
-base:   2c9b3512402ed192d1f43f4531fb5da947e72bd0
-patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v8-2-409e659ca4dd%40pengutronix.de
-patch subject: [PATCH v8 2/3] net/9p/usbg: Add new usb gadget function transport
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20240722/202407220933.WQ9L15Zw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407220933.WQ9L15Zw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/dt-bindings-hwmon-Add-adt7475-fan-pwm-properties/20240722-091004
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240722005825.1800403-4-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH v6 3/3] hwmon: (adt7475) Add support for configuring initial PWM state
+config: arm-randconfig-002-20240722 (https://download.01.org/0day-ci/archive/20240722/202407221153.LJjYD5i7-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240722/202407221153.LJjYD5i7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407220933.WQ9L15Zw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407221153.LJjYD5i7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   net/9p/trans_usbg.c: In function 'p9_usbg_create':
->> net/9p/trans_usbg.c:407:35: warning: variable 'cdev' set but not used [-Wunused-but-set-variable]
-     407 |         struct usb_composite_dev *cdev;
-         |                                   ^~~~
+   In file included from drivers/hwmon/adt7475.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/adt7475.c:1683:2: warning: comparison of distinct pointer types ('typeof ((freq_hz)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+    1683 |         do_div(freq_hz, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> drivers/hwmon/adt7475.c:1683:2: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+    1683 |         do_div(freq_hz, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
+      24 | static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
+         |                                             ^
+>> drivers/hwmon/adt7475.c:1685:2: warning: comparison of distinct pointer types ('typeof ((duty)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+    1685 |         do_div(duty, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   drivers/hwmon/adt7475.c:1685:2: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+    1685 |         do_div(duty, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   arch/arm/include/asm/div64.h:24:45: note: passing argument to parameter 'n' here
+      24 | static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
+         |                                             ^
+>> drivers/hwmon/adt7475.c:1683:2: warning: shift count >= width of type [-Wshift-count-overflow]
+    1683 |         do_div(freq_hz, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/hwmon/adt7475.c:1685:2: warning: shift count >= width of type [-Wshift-count-overflow]
+    1685 |         do_div(duty, args[1]);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   5 warnings and 2 errors generated.
 
 
-vim +/cdev +407 net/9p/trans_usbg.c
+vim +1683 drivers/hwmon/adt7475.c
 
-   404	
-   405	static int p9_usbg_create(struct p9_client *client, const char *devname, char *args)
-   406	{
- > 407		struct usb_composite_dev *cdev;
-   408		struct f_usb9pfs_dev *dev;
-   409		struct f_usb9pfs_dev *tmp;
-   410		struct f_usb9pfs *usb9pfs;
-   411		struct usb_function *f;
-   412		int ret = -ENOENT;
-   413		int found = 0;
-   414	
-   415		if (!devname)
-   416			return -EINVAL;
-   417	
-   418		mutex_lock(&usb9pfs_lock);
-   419		list_for_each_entry_safe(dev, tmp, &usbg_instance_list, usb9pfs_instance) {
-   420			if (!strncmp(devname, dev->tag, strlen(devname))) {
-   421				if (!dev->inuse) {
-   422					dev->inuse = true;
-   423					found = 1;
-   424					break;
-   425				}
-   426				ret = -EBUSY;
-   427				break;
-   428			}
-   429		}
-   430	
-   431		if (!found) {
-   432			mutex_unlock(&usb9pfs_lock);
-   433			pr_err("no channels available for device %s\n", devname);
-   434			return ret;
-   435		}
-   436	
-   437		usb9pfs = dev->usb9pfs;
-   438		if (!usb9pfs) {
-   439			mutex_unlock(&usb9pfs_lock);
-   440			return -EINVAL;
-   441		}
-   442	
-   443		INIT_LIST_HEAD(&usb9pfs->tx_req_list);
-   444	
-   445		f = &usb9pfs->function;
-   446		cdev = f->config->cdev;
-   447	
-   448		client->trans = (void *)usb9pfs;
-   449		if (!usb9pfs->in_req)
-   450			client->status = Disconnected;
-   451		else
-   452			client->status = Connected;
-   453		usb9pfs->client = client;
-   454	
-   455		client->trans_mod->maxsize = usb9pfs->buflen;
-   456	
-   457		mutex_unlock(&usb9pfs_lock);
-   458	
-   459		return 0;
-   460	}
-   461	
+  1673	
+  1674	static int _adt7475_pwm_properties_parse_args(u32 args[4], struct adt7475_pwm_config *cfg)
+  1675	{
+  1676		unsigned long freq_hz;
+  1677		unsigned long duty;
+  1678	
+  1679		if (args[1] == 0)
+  1680			return -EINVAL;
+  1681	
+  1682		freq_hz = 1000000000UL;
+> 1683		do_div(freq_hz, args[1]);
+  1684		duty = 255 * args[3];
+> 1685		do_div(duty, args[1]);
+  1686	
+  1687		cfg->index = args[0];
+  1688		cfg->freq = find_closest(freq_hz, pwmfreq_table, ARRAY_SIZE(pwmfreq_table));
+  1689		cfg->flags = args[2];
+  1690		cfg->duty = clamp_val(duty, 0, 0xFF);
+  1691	
+  1692		return 0;
+  1693	}
+  1694	
 
 -- 
 0-DAY CI Kernel Test Service
