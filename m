@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A81313B5B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 18:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A163152E00
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 18:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721758131; cv=none; b=ehrG8YAzZavj3n2O3MZOum8ffLyDHmRLWVNq9GVg+rFAdajwCPsDboh5ArXW0Cnmpu46D2C/Lp0Gc9VWRz5xCkMEpR5K8Go0xsyn5oKLA9k4X75kTSUvqr7HDMWXka8avJH7aiNw7vu6OuSleQSbIOP2Nd1L0JaxdNXzxpAC6hI=
+	t=1721758792; cv=none; b=evEXbcWm1M+ZzERB6boSzWxBo7UB6dHwJPXtzFHEVbIM5YHAyMN5+btRaMhb3aW8NMUQ0B7DsIH9vn7YyzeDk1uo5g7Q2G0L1FEWzdOIgvGpPInReAwv9sKg9VxVFCLnTV1dZomDus/qC9VlnK+waqugpG3wWIzrCrv+J3YOmN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721758131; c=relaxed/simple;
-	bh=QSk4jbmtxQ6gnme1U0wjthaWb3Pgs5Rax5Y3smVQJRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GDEbM7QzeFZBaytmm3YlpyBTe/PFcdaLOo0gMXu9/d7r8zqySqtkPdQWpJ88Arnc4ol93LceYRg7OZdT7z8MQzgK84Div7LI36FFSMdrylCL6hwJqSjCEN5EULtlAlToGqL1vDLM+YWrfv88cVEXZAJSG+GWW5qRR38oOvh9AA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3AJRnAM; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1721758792; c=relaxed/simple;
+	bh=37h4Mx2tmdykX5/nhIykgjMyWxpIfLseegeQS0xIZOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsXKGE+DFwqfLpPS9+GpFxEX7ZKWDjFD54snV7vYvXLEiawn6Zpnsypt9e4+2yCcVgHS1gb3vZhNmmpTCWg9BLyz9tuVxuv4BmQNR0sB/R4kyWb/P4L/qbxnXxAflyYYwIE3qiaV5JUb+s4Sqopq/s1oIR2/aYn0wB1r7jT3Vco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZsKZiIKH; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3AJRnAM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsKZiIKH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721758129; x=1753294129;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QSk4jbmtxQ6gnme1U0wjthaWb3Pgs5Rax5Y3smVQJRE=;
-  b=O3AJRnAMbEOVmXaGUX9NgH+BR1TcG+Q5YVQmrbO/Bi+0pIdN0KTFkwjx
-   oYPH8QxitVDZwvBnu7DJ5bYg9B76AJ72y7jzoyp1fGANuK+qD2MC8kdMm
-   Z84f/ylIpqyW+MQiIJVulXwRALXE9lAeRea6g5OLeHYlrE/agdOHiUcWj
-   IfY3QXCnRSAFdObXz6/aUC8duJbD0KeCFf+8gL96dtYQpw4L5TKk/Wkpr
-   8WPsih6gydPB93Pbo1AsRseg5Rb66ixm1UlkFJUz2rwj8LG85DyKqVfqp
-   juGHuo8MLh86R9XOR4qh1pxaw9CaALB4P6ju2/vx/BXHmnBBj/NW1kGtW
-   w==;
-X-CSE-ConnectionGUID: 0JLrW44wTDeaeSP8kV/q/A==
-X-CSE-MsgGUID: 5u9bwAjhSdO0PmFIv5L9fQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="41927776"
+  t=1721758791; x=1753294791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=37h4Mx2tmdykX5/nhIykgjMyWxpIfLseegeQS0xIZOE=;
+  b=ZsKZiIKHGxImwbDzrjtrobK5KG9Nv3xa876NX7E3Ytht2vVajr2162YQ
+   9+HtxdxyD5nds6x6IutaClJ6Q2Ve/+skEEDhzxv2X87r9Yj5ncPSzETfe
+   zdv7l2eE5EqmK29+e7lhKEhG2jvBFGhA6eEJRVfBgbQOmus7Fb/v6+UEV
+   yARPVGCIFCNWY5j/UtalOccjT878L0DLc6r3/ZhN6eAQGSgDddkvtIXal
+   HcghvKb0RFrpN/0X6X0bkMc46uEGmW+woLW7gNePTZeeg5P8KEO98kVFa
+   o5UITo46Dbm81CIEnUu1iyzsTD27TSZccQXBJQapdwFDfhpFronpY3SUu
+   Q==;
+X-CSE-ConnectionGUID: sslARuohTvyyBkjcM/vEIQ==
+X-CSE-MsgGUID: +xyml94SSFGgKLaA8DoQ2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="30021749"
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="41927776"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 11:08:48 -0700
-X-CSE-ConnectionGUID: 4fyCI1joRhK/a8Y1EQLgCQ==
-X-CSE-MsgGUID: JmbTOj5GTa6Z/t0JH3qTmw==
+   d="scan'208";a="30021749"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 11:19:50 -0700
+X-CSE-ConnectionGUID: xB4xfjrmQs20ah3K1Y0U0Q==
+X-CSE-MsgGUID: V4ESnhyESGiCDMXXiOa0QQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="57150378"
+   d="scan'208";a="52924501"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2024 11:08:47 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Jul 2024 11:19:47 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWJwK-000mEa-2W;
-	Tue, 23 Jul 2024 18:08:44 +0000
-Date: Wed, 24 Jul 2024 02:08:12 +0800
+	id 1sWK6z-000mF6-0E;
+	Tue, 23 Jul 2024 18:19:45 +0000
+Date: Wed, 24 Jul 2024 02:18:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [akpm-mm:mm-unstable 17/30] mm/vma_internal.h:46:10: fatal error:
- asm/page_types.h: No such file or directory
-Message-ID: <202407240258.i8Noapxf-lkp@intel.com>
+To: Matteo Martelli <matteomartelli3@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matteo Martelli <matteomartelli3@gmail.com>
+Subject: Re: [PATCH v3 3/3] iio: adc: add support for pac1921
+Message-ID: <202407240123.tjObpf49-lkp@intel.com>
+References: <20240722-iio-pac1921-v3-3-05dc9916cb33@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +69,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240722-iio-pac1921-v3-3-05dc9916cb33@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   cecb3db438d76f7c1005fd52689809696a330474
-commit: b102945dd5b200efff9e8458946006770a513710 [17/30] mm: move internal core VMA manipulation functions to own file
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240724/202407240258.i8Noapxf-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240258.i8Noapxf-lkp@intel.com/reproduce)
+Hi Matteo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1ebab783647a9e3bf357002d5c4ff060c8474a0a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Martelli/dt-bindings-iio-adc-add-binding-for-pac1921/20240722-183406
+base:   1ebab783647a9e3bf357002d5c4ff060c8474a0a
+patch link:    https://lore.kernel.org/r/20240722-iio-pac1921-v3-3-05dc9916cb33%40gmail.com
+patch subject: [PATCH v3 3/3] iio: adc: add support for pac1921
+config: um-randconfig-r051-20240723 (https://download.01.org/0day-ci/archive/20240724/202407240123.tjObpf49-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240123.tjObpf49-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407240258.i8Noapxf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240123.tjObpf49-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/vma.c:7:
->> mm/vma_internal.h:46:10: fatal error: asm/page_types.h: No such file or directory
-      46 | #include <asm/page_types.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+>> drivers/iio/adc/pac1921.c:892:2: error: initializer element is not constant
+     pac1921_ext_info_scale_avail,
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1921.c:892:2: note: (near initialization for 'pac1921_ext_info_voltage[0]')
+   drivers/iio/adc/pac1921.c:897:2: error: initializer element is not constant
+     pac1921_ext_info_scale_avail,
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1921.c:897:2: note: (near initialization for 'pac1921_ext_info_current[0]')
+   drivers/iio/adc/pac1921.c:898:2: error: initializer element is not constant
+     pac1921_ext_info_rshunt,
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1921.c:898:2: note: (near initialization for 'pac1921_ext_info_current[1]')
 
 
-vim +46 mm/vma_internal.h
+vim +892 drivers/iio/adc/pac1921.c
 
-    44	
-    45	#include <asm/current.h>
-  > 46	#include <asm/page_types.h>
-    47	#include <asm/pgtable_types.h>
-    48	#include <asm/tlb.h>
-    49	
+   890	
+   891	static const struct iio_chan_spec_ext_info pac1921_ext_info_voltage[] = {
+ > 892		pac1921_ext_info_scale_avail,
+   893		{}
+   894	};
+   895	
 
 -- 
 0-DAY CI Kernel Test Service
