@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DD91482F0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 22:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D24E13D52B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 23:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721775543; cv=none; b=SwBjaN0NG59hUd5zqSKf072znyRccmkA191inA9Yen1j8/3x0j9e7RIPs5HxtYUBhlOigDDJrZGakPtKDOOIqPAlKdAteyQMSqXGK0FEje0kNx2ojDXC2L76K4xE5e4INlfJlHmV49UpscfSOpQ5oiii7VuhAMXVrrUXOEUeD58=
+	t=1721776258; cv=none; b=oNcGZgDWPTs7F/azPkUuERp48QSD65YbSTheg61+7zcpvykYmF9SHt309ExCdwacthcA3jIclsOdhfyEji/6vVrywhZlN5q1ovNXoLBbeYTobV3qXJbUN/zeY+QP4NlPn8fM6N2zRWKwG1ttMl0dmcyysUpGt+SxFuQTR1LB5EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721775543; c=relaxed/simple;
-	bh=qLz5MZwWJR9sFS+bnHNameeV1+9Wjxm+TbXv2evNJyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJI4DrlRqeH/qhaxs+nGzN3R7P54/9/cU82S1XVYp7/bBYxVESznjEjLnc755u/4sWejQFCygMyyb9TAuUN658D63+b7ok1itIoKsp5X7nfntxwLTM+/xBtQf0k7weIt4s3vF/UT7HLU+flC+1z9NH3SPfVYXCRHhnOoLPLXBgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDruxlsY; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1721776258; c=relaxed/simple;
+	bh=I+yc0pfrc1uiIQJupe6jOMOu6YDtQJNLv1Y1Qj0mfyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u9O6Cv0HQ9QR9GE2oWCGvzfbzpDe/rJK6Q8CEJuTAmEncoV31DuHNupY2kIHQuZylz9B4k/JD4L3TuDI0olY6cTxepzsjZbf6RoQpmj0lfT0MM9EuXtJM49I5FV/jg0CgFoTsKLHO9qd+k7Gf9s9hRZdzpBw+EcqfYpyHGykQlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJxMiDv2; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDruxlsY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJxMiDv2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721775541; x=1753311541;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qLz5MZwWJR9sFS+bnHNameeV1+9Wjxm+TbXv2evNJyI=;
-  b=GDruxlsYei4FUHfcPS433hILb2w+ZxV/nry8NDrtqPUn/kh9CjAv36cT
-   FdNkuQPosKKJV7Bg87N9XtmKojp6gj4giKtbZU+E+KfMzUSE0UDGTo3du
-   ow+O0gbxiaD5R+6bbAd+9b+9Bw6XKMcC13ybxG4lKikmpjxjh8V8Yfp6u
-   eWzZ0sr32ioasMyJQ+6HyTMQVAEYhv4l2BSduRTy6f9zJTKdGNLLgMv0R
-   Qrf+M56jqtrXbY+muMCzl+MFI6XSCA5YhEiPBIgBVEALxxDLOn69qIPkb
-   5T74CYhLMGIo2E/6/QIdie+W+lZQW58x8hYIo9hDVWDlZvhZtIbxMyCS1
+  t=1721776256; x=1753312256;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I+yc0pfrc1uiIQJupe6jOMOu6YDtQJNLv1Y1Qj0mfyw=;
+  b=lJxMiDv2Wjt88W56OrYLfzx4dRo9Pk65W5+k0xrIGlrODi5ypAvnN6+C
+   oTCeWPQguqTLpRDg/JXeL7pk+K7r59misr3RHlO2IWdhi11N7rABN0Oga
+   FHUYxILjRXhaueLatar4IUxUb1n3okMd9dAvKdwkyECYDTalY01htp5Is
+   Q/toAnosbLPJDpdladcJk39VQOvFbhdXHPBe2z+jFCxyxOLF6LwvvKFET
+   kitk9Mo3jIymIdpD/eXmTxKmOmhXddKO0u6y8O9iAKZEqUOAnP5El3VTz
+   kvZUPPBEPzlO6NQc9kBslh2EgzeIighEkmU8RsUbG1EdDzeKaXvWiIfT6
    g==;
-X-CSE-ConnectionGUID: Usfyvr03Q7WCx3FtfXoHdg==
-X-CSE-MsgGUID: ky72mrBlQxaHXR0J73CiyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19234166"
+X-CSE-ConnectionGUID: HYpoQJqBRPm3KEcR7DbC0Q==
+X-CSE-MsgGUID: T+jy2u5HQMqA0AnNP01PZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="44852066"
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="19234166"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 15:59:01 -0700
-X-CSE-ConnectionGUID: ZbtqDCKlQLqSvP5SZzyLiQ==
-X-CSE-MsgGUID: apZ8yC1uQDqr5FHhv+hN7Q==
+   d="scan'208";a="44852066"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 16:10:55 -0700
+X-CSE-ConnectionGUID: 57M102KtR0Ov0JE5SzjmDQ==
+X-CSE-MsgGUID: voBq4IjmT3SOdR5Ma3Anew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="52413972"
+   d="scan'208";a="56925030"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jul 2024 15:58:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Jul 2024 16:10:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWOT6-000mQz-1U;
-	Tue, 23 Jul 2024 22:58:52 +0000
-Date: Wed, 24 Jul 2024 06:58:04 +0800
+	id 1sWOei-000mRM-1u;
+	Tue, 23 Jul 2024 23:10:52 +0000
+Date: Wed, 24 Jul 2024 07:10:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vignesh Balasubramanian <vigbalas@amd.com>,
-	linux-kernel@vger.kernel.org, linux-toolchains@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
-	naveen.n.rao@linux.ibm.com, ebiederm@xmission.com,
-	keescook@chromium.org, x86@kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org, bpetkov@amd.com,
-	jinisusan.george@amd.com, matz@suse.de, binutils@sourceware.org,
-	jhb@freebsd.org, felix.willgerodt@intel.com, tglx@linutronix.de,
-	Vignesh Balasubramanian <vigbalas@amd.com>,
-	Borislav Petkov <bp@alien8.de>
-Subject: Re: [PATCH v4 1/1] x86/elf: Add a new .note section containing
- xfeatures buffer layout info to x86 core files
-Message-ID: <202407240632.KnGdRoYR-lkp@intel.com>
-References: <20240723090454.8241-2-vigbalas@amd.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [riteshharjani:kfence-fix-wip6 9/10]
+ arch/powerpc/include/asm/kfence.h:40:13: error: expected declaration
+ specifiers or '...' before string constant
+Message-ID: <202407240711.Ba4yKa7i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,46 +62,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240723090454.8241-2-vigbalas@amd.com>
 
-Hi Vignesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/execve]
-[also build test ERROR on tip/x86/core kees/for-next/pstore kees/for-next/kspp linus/master v6.10 next-20240723]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vignesh-Balasubramanian/x86-elf-Add-a-new-note-section-containing-xfeatures-buffer-layout-info-to-x86-core-files/20240723-170946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
-patch link:    https://lore.kernel.org/r/20240723090454.8241-2-vigbalas%40amd.com
-patch subject: [PATCH v4 1/1] x86/elf: Add a new .note section containing xfeatures buffer layout info to x86 core files
-config: x86_64-buildonly-randconfig-003-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240632.KnGdRoYR-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240632.KnGdRoYR-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux kfence-fix-wip6
+head:   28d73773290c65f55d22e038b4f13c5c4941a561
+commit: 1485eaf17b1e899daad3289e9a960c646e880749 [9/10] kfence refactor
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240724/202407240711.Ba4yKa7i-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240711.Ba4yKa7i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407240632.KnGdRoYR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240711.Ba4yKa7i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/asm/elf.h:6:9: error: unknown type name 'u32'
-       6 |         u32 type;
-         |         ^~~
-   ./usr/include/asm/elf.h:7:9: error: unknown type name 'u32'
-       7 |         u32 size;
-         |         ^~~
-   ./usr/include/asm/elf.h:8:9: error: unknown type name 'u32'
-       8 |         u32 offset;
-         |         ^~~
-   ./usr/include/asm/elf.h:9:9: error: unknown type name 'u32'
-       9 |         u32 flags;
-         |         ^~~
+   In file included from mm/kfence/kfence_test.c:26:
+>> arch/powerpc/include/asm/kfence.h:40:13: error: expected declaration specifiers or '...' before string constant
+      40 | early_param("kfence.sample_interval", parse_kfence_early_init);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/include/asm/kfence.h:40:39: error: expected declaration specifiers or '...' before 'parse_kfence_early_init'
+      40 | early_param("kfence.sample_interval", parse_kfence_early_init);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/include/asm/kfence.h:32:19: warning: 'parse_kfence_early_init' defined but not used [-Wunused-function]
+      32 | static int __init parse_kfence_early_init(char *arg)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +40 arch/powerpc/include/asm/kfence.h
+
+    31	
+  > 32	static int __init parse_kfence_early_init(char *arg)
+    33	{
+    34		int val;
+    35	
+    36		if (get_option(&arg, &val))
+    37			kfence_early_init = !!val;
+    38		return 0;
+    39	}
+  > 40	early_param("kfence.sample_interval", parse_kfence_early_init);
+    41	#endif
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
