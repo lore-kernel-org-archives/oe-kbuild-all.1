@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B9C143C79
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 22:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1474143C77
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 22:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721773500; cv=none; b=hCA/KHVBWOcT1tl2Sej0ZvVqyDXISzNZT2kVLgFseZW1vZNtzBidaFvjaABB5DjwK3IjUsppZjIYbNmFdEFeiaMfKG2YLOQqaPdbSg49w2t9QeK5Y3ICzhBmz4V2ZU0/qMaLIUAJq8v4BowBiQIplVY+3jP+LDwaeL1+MsboNCA=
+	t=1721774218; cv=none; b=rPyZN+KKC3SehDZzzb5f0cevS5PbxBkjQbPYW5n8LJB+vBkVDIraNur+2bki3vri8aniqRb9GWnbsEG73KAMyQVzdXccLcfFeWGH5cDWEj5QxICKuiOWToJJQ5LVnxO8oL3SoZS3DIo5cb+kNpuTN5NYf6pJm0ZwBcDDK6jO8aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721773500; c=relaxed/simple;
-	bh=ViQtFf4C97IjtVQAJCI22eGpWrUZSSX3Zptd3VqhktI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uICGFONPGQEJZn112O79fqQf8o57q4V83/R2raSQL8xzMcSxBKts+Vputl3uTt5hN4FWmiGQVix8FRuOT1IDR1AZ43EpjGaNtJHCmr6N25w/wycVQxt4K8QuvFQJWyG+IJe4vdfxgQQHFBIAXvn7JSnoR85JcVCHRLuAkTGGts0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sb4auE96; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1721774218; c=relaxed/simple;
+	bh=YtL+K6C+8Gj4yvxv/aqK6WoNgWqfivKNz7JniLtZ060=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oW4qEfNGymJvxgK6jIjJxY4EgaoB90T5pX0sV3IB1XQYjK79BW0i58ePdtQxY7SAhWsVIsJ0FN+mvJvSItaCJb4GvKt/uNQqNuHk5SiRehdZaQ1Jg8L3RBjwft9eUtmdqWAGA5hN8sAcFBZSjre/cC1zCY/N1r2nJzrnIxLPb4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eR2zxKpm; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sb4auE96"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eR2zxKpm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721773498; x=1753309498;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ViQtFf4C97IjtVQAJCI22eGpWrUZSSX3Zptd3VqhktI=;
-  b=Sb4auE96xJXdkpnVbIl/PQOUV1cC3P9ilqD61dKrBpWbrqCQup7bQsOG
-   FdMbXZwfbrI530DIWJmMuqxIho+zOhPhOItOKusWeopB+PKXyM0bMV6Ch
-   zymHQimXjruSxn49CGhIvhTbZdlMFDVNBd3n1JfGcs0PxEQOMFhpAalxX
-   /fDAQQiFus9Q95vD3d27ekyCP3M0p2scwkbQdpxuegeHQaiJHID8eMZ3O
-   6qS5wT6bl5vbGgDM49AGxDE2AgbpCEO3GFZQndgcbu+J6eTApw2gJDs5l
-   igmgG6QAbQ0dQCvzpFUmxCnl4HarvNa3U/+5t/R7K6MxrnC8aqG82qNQd
-   g==;
-X-CSE-ConnectionGUID: M8Z6aT/ZSo+86X3L732ZGQ==
-X-CSE-MsgGUID: Q1hDaExBRri/V+ycnOKFMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="30088126"
+  t=1721774217; x=1753310217;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YtL+K6C+8Gj4yvxv/aqK6WoNgWqfivKNz7JniLtZ060=;
+  b=eR2zxKpm8XVR63b4uGe7+j/nZaopG0DC7O5rz/DJokSNzT6hAMuNHSk+
+   MJx+N+UmsC/LvzZBxDHScW/5re3HgFf68CqwPLF5GnqNzVy+4fDVwoqUG
+   RBjHLPX9o1br0O/Pshy3pUqcQY90CuBG7S87bUb0iREHX2jmHseQaZA6F
+   R2fC1dP9drWPMELPGpnB2leyC2Cpong07+x1UZG+l25LuD+QsYkQE6LmZ
+   gaXlwu02l9P16NMLaILxtE7gKN4/97WBPZKbhtg1iBDYExQLCI+mghV3i
+   7rei20zxKKEVhTLmWgon4HbPSdlkwmGoVqYirtYAxLteeJ6Jw95mwkjjd
+   A==;
+X-CSE-ConnectionGUID: muPIxoUgS5WLvOwr/mDfKw==
+X-CSE-MsgGUID: xfjhIffxTCCzUT/0GJO7rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19562152"
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="30088126"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 15:24:58 -0700
-X-CSE-ConnectionGUID: 7X5r9o4GQ7eA/VcONYNQvQ==
-X-CSE-MsgGUID: pOxbvXMtRta4kwubr+gFnw==
+   d="scan'208";a="19562152"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 15:36:56 -0700
+X-CSE-ConnectionGUID: dh8uX1N+RR+/jpBsonN6ww==
+X-CSE-MsgGUID: x/BUhYC4RHORc7WDx+ibsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="52094633"
+   d="scan'208";a="52274589"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Jul 2024 15:24:53 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 Jul 2024 15:36:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWNwB-000mOu-1Y;
-	Tue, 23 Jul 2024 22:24:51 +0000
-Date: Wed, 24 Jul 2024 06:24:46 +0800
+	id 1sWO7n-000mPw-2z;
+	Tue, 23 Jul 2024 22:36:51 +0000
+Date: Wed, 24 Jul 2024 06:36:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youling Tang <youling.tang@linux.dev>, Arnd Bergmann <arnd@arndb.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Chris Mason <chris.mason@fusionio.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	tytso@mit.edu, Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>, Christoph Hellwig <hch@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, youling.tang@linux.dev,
-	Youling Tang <tangyouling@kylinos.cn>
-Subject: Re: [PATCH 2/4] btrfs: Use module_subinit{_noexit} and
- module_subeixt helper macros
-Message-ID: <202407240648.afyUbKEP-lkp@intel.com>
-References: <20240723083239.41533-3-youling.tang@linux.dev>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org
+Subject: [cifs:for-next 2/3] ERROR: modpost: "reset_cifs_unix_caps"
+ [fs/smb/client/cifs.ko] undefined!
+Message-ID: <202407240638.kjmPxwJV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,40 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240723083239.41533-3-youling.tang@linux.dev>
 
-Hi Youling,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master next-20240723]
-[cannot apply to jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev soc/for-next v6.10]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/module-Add-module_subinit-_noexit-and-module_subeixt-helper-macros/20240723-164434
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240723083239.41533-3-youling.tang%40linux.dev
-patch subject: [PATCH 2/4] btrfs: Use module_subinit{_noexit} and module_subeixt helper macros
-config: arm64-randconfig-004-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240648.afyUbKEP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240648.afyUbKEP-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+head:   dde12e91303b6d38322ed69801ce3129aba82ad5
+commit: 2a9b3eb1b0838cc99aafdc50e37138538d4593bb [2/3] cifs: fix reconnect with SMB1 UNIX Extensions
+config: x86_64-randconfig-101-20240723 (https://download.01.org/0day-ci/archive/20240724/202407240638.kjmPxwJV-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240638.kjmPxwJV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407240648.afyUbKEP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240638.kjmPxwJV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
->> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
->> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/zsmalloc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+>> ERROR: modpost: "reset_cifs_unix_caps" [fs/smb/client/cifs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
