@@ -1,144 +1,302 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA96134B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 05:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6607E634;
+	Tue, 23 Jul 2024 05:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721713084; cv=none; b=ZSpTbqzFrdtaraJuUjJL9BHsEbP3XJZJdjIiMWtGyEqGtb+FItRts9b1YpgUB70JXw8AZHyLm8y5cWJ5ZrtLplCW1X52Hb084YQt6di+ksyWd2Y9/FihEf+13JAr9JUkbUUhVsbvTVVe/zLjatjD9mHdH/kajgunKpyJ+HZWThQ=
+	t=1721714002; cv=none; b=AEegzMZ3vV3hS+EaeOwuZ9Rl1618az1BE3KbHRImeqIbjoewQKmxSMGeL8SGz5ZMzWyqsO1CGrd6WF2aP65hdCHkWeyHQcyfmmGXJfLD2svdWgiXEYrr7XVzSjffy1Fvao7lSLpU5YwttyvHit68m3d82hdORIGC2wF/h9P26LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721713084; c=relaxed/simple;
-	bh=07B8zQW2e6MJEUWUS3r6jlNE2x+GGxML5ROYg234HBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S8fqZg8hC5fVkGG72gA7+gWmoBaj4gr4IVxNCC2hljZnF5T3Nocv/Tvdg5XLF6XrOhCh/BZCUfFnrzndYnVAfnaWEBTPV3C3iiKU9hRu8tpLim8j+7Jze4ZSRCZEfqHNYpBAGVkKHigPBG3kfv2LRdxeUKAbaBLibzP8qrcFHrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FmcUzkc9; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721714002; c=relaxed/simple;
+	bh=4EZGZDSgQv/w9UIyFMTgMZntzm/z8aluti6yvXV5g6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jQAdDXJjkyVZ73LaXdkRo+5taHv8zVCfMy5TqlxB1QhfUBmUvWP+MoX3B2bZ7oo+rctAW2GV825VzRRGUO+qIjhLr/arkZDLTQwhvQqNgpD5o7Cou1mrji185XuNx3mKFZicFnsrdEwdLdT4fZfNBvJEMNsorBCbmL9mowksLzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb0904Bt; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FmcUzkc9"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so62931131fa.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jul 2024 22:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721713080; x=1722317880; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=MhVxpGALzzOhSKfl7F3ZZPNcwL9E3a6Ged4o5h3oz2Y=;
-        b=FmcUzkc95Zg+TvI2s/7JfRd+BuJ//pFNg4lEb8avytFygEacpg8g2PRulALiF9a0X+
-         LPjTry1K2HutqggKpZvD3lZul0IAyHne+IygznjZppl+R9TmDsMKgm0STxxPPFyLBJkO
-         4git3sON+ch1Ta4lZeMTOXJgOMYO/SzYtatifBrZMuk8FEfEc5YTDL0NkVFvk5SD6f5I
-         kf24V3vI+WfzSZ45aBf+Kx3odaaglikoDhrbRFNsYiMte77PH1qPl/mHuQ+wvEN/1pHv
-         XB0eA5cCAxMI/a24sXkblmJx81HpWMjOvw0gjjzi/mCBjbNAcCwm6EJsrS/CkryV8tmK
-         JwKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721713080; x=1722317880;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MhVxpGALzzOhSKfl7F3ZZPNcwL9E3a6Ged4o5h3oz2Y=;
-        b=TnhGsDEbVuvp0WUJ7ZhbMh6rmEiLTSc+T0pAH1FC2b/SkdFvHmiNZXcDS7Oxsoakg9
-         mYXHhbWE7rJHNetIeDiXP/2xckERA2BXgULRLpJ+mBylifx+fK+itJg/gTr8p8p7JcCI
-         L1NhJ93H61Z4LwjU+9T/L8okb2Mk9F69mFFqrvuhT54OryCqXI5XZP32c+fXNycmaPO8
-         a+WaZq4l6jxHrrpDcHfalWKrI42Eyj5L7GZ866+h9EqZVebLLsSYfUfQhuhjQ6GMzaeK
-         mwHeBZT3icQwnP3lOgoyboCMGv+gJZS4K/nNKSboeJD8BF8nyukUKuIV8U4BN4COGYdS
-         24gQ==
-X-Gm-Message-State: AOJu0YwC3zDHB77x6Wt7rCqTCfTfbkYO5hKWBqWT/jnBbehCPPl0WgNn
-	Z2yrYZ+Ui+d0iefpqcugeVfqRKDwzj5I9SptkH4utPGjUABlK9GMmw1DMwVdc68=
-X-Google-Smtp-Source: AGHT+IHt+fRslPQyYUmEreRH5rHtJrKGvvXlZj2AUDmUCe4EZiRVHjW2fq54ka1RO/VI5bWXhCRoZg==
-X-Received: by 2002:a2e:8005:0:b0:2ef:307a:9988 with SMTP id 38308e7fff4ca-2ef307aa0fcmr28362421fa.35.1721713079516;
-        Mon, 22 Jul 2024 22:37:59 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f3184f9sm65431575ad.169.2024.07.22.22.37.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 22:37:59 -0700 (PDT)
-Message-ID: <8afac96c-979e-47b4-8416-c26ba4c4a348@suse.com>
-Date: Tue, 23 Jul 2024 15:07:54 +0930
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb0904Bt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721714001; x=1753250001;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4EZGZDSgQv/w9UIyFMTgMZntzm/z8aluti6yvXV5g6w=;
+  b=lb0904Bt3ERl/8WGTAsEkiVcDHkisLEg4p/fQ97ntUJyabAletqtsNPv
+   mGbQM++i3bHtKGNr4vaIPB5bcD/9MB4uAK+SMSS3pguwCgt7XGGm/Kx8v
+   uH/My8GUc2nc273Zz5BO3sKxEJCm+WS/TJ3GqBiyncGD7N63UimROtMns
+   NF4buPOqgSyB32pxrzf6LjwqhZ5aO6cfGYmXwb4PM0ubHTOfZ1xODgyPs
+   K3q2Icu7YWxQhENjRUbLfzf0OtVlIdPvK/QXJryQWl0B2YRYP456LPCri
+   1rY9AruH/iUkhb11/eYG2v4bHC6G0/UW2+Zpj7okawsszOpPwHJBKBkAD
+   w==;
+X-CSE-ConnectionGUID: sk/zfhwjSAq14wPGmp3wHA==
+X-CSE-MsgGUID: KzNlL7gfTmmNB9agqshjUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="18934525"
+X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
+   d="scan'208";a="18934525"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 22:53:20 -0700
+X-CSE-ConnectionGUID: eWYOkQk5QJ29bkhkYYxqTQ==
+X-CSE-MsgGUID: uv1JDZZcR0qwwBGQwTuIoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
+   d="scan'208";a="52726929"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2024 22:53:18 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sW8SZ-000lge-2X;
+	Tue, 23 Jul 2024 05:53:15 +0000
+Date: Tue, 23 Jul 2024 13:52:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, mptcp@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Paolo Abeni <pabeni@redhat.com>,
+	"Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: Re: [PATCH mptcp-net v4 23/23] mptcp: pm: reduce entries iterations
+ on connect
+Message-ID: <202407231303.CsUy96BP-lkp@intel.com>
+References: <20240722-mptcp-pm-avail-v4-23-15bfd73de384@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fs/btrfs/inode.o: warning: objtool: insert_inline_extent+0xa8:
- unreachable instruction
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- David Sterba <dsterba@suse.com>
-References: <202407231331.vNHHJPnu-lkp@intel.com>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
- Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
- p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
- ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
- dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
- RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
- rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
- 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
- bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
- AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
- ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
-In-Reply-To: <202407231331.vNHHJPnu-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240722-mptcp-pm-avail-v4-23-15bfd73de384@kernel.org>
 
-Hi LKP team,
+Hi Matthieu,
 
-Thanks a lot of your reports.
+kernel test robot noticed the following build errors:
 
-在 2024/7/23 15:02, kernel test robot 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   66ebbdfdeb093e097399b1883390079cd4c3022b
-> commit: eb1fa9ab470285d39bee268bc2a90d1786610711 btrfs: make insert_inline_extent() accept one page directly
-> date:   3 months ago
-> config: loongarch-randconfig-001-20240722 (https://download.01.org/0day-ci/archive/20240723/202407231331.vNHHJPnu-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.1.0
+[auto build test ERROR on 140ff27ee47286bb0a270f3aa275fc319724da8d]
 
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231331.vNHHJPnu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407231331.vNHHJPnu-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> fs/btrfs/inode.o: warning: objtool: insert_inline_extent+0xa8: unreachable instruction
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-Baerts-NGI0/mptcp-fully-established-after-ADD_ADDR-echo-on-MPJ/20240723-035843
+base:   140ff27ee47286bb0a270f3aa275fc319724da8d
+patch link:    https://lore.kernel.org/r/20240722-mptcp-pm-avail-v4-23-15bfd73de384%40kernel.org
+patch subject: [PATCH mptcp-net v4 23/23] mptcp: pm: reduce entries iterations on connect
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240723/202407231303.CsUy96BP-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231303.CsUy96BP-lkp@intel.com/reproduce)
 
-However for those not-so-common archs, mind to provide the code line 
-number if possible?
-(Better for all archs)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407231303.CsUy96BP-lkp@intel.com/
 
-Although unreachable instruction warning is mostly false alerts, I still 
-want to be sure.
+All errors (new ones prefixed by >>):
 
-Thanks,
-Qu
->     fs/btrfs/inode.o: warning: objtool: btrfs_del_delalloc_inode+0xb0: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_set_delalloc_extent+0x18c: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_evict_inode+0x9c: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_get_extent+0x3d0: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_set_range_writeback+0x7c: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: compress_file_range+0x388: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: cow_file_range+0x128: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_finish_one_ordered+0x174: unreachable instruction
->     fs/btrfs/inode.o: warning: objtool: btrfs_invalidate_folio+0x1b8: unreachable instruction
-> 
-> 
-> objdump-func vmlinux.o insert_inline_extent:
-> 
+   In file included from net/mptcp/subflow.c:10:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/mptcp/subflow.c:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from net/mptcp/subflow.c:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from net/mptcp/subflow.c:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/mptcp/subflow.c:1580:34: error: no member named 'addr6' in 'struct mptcp_addr_info'; did you mean 'addr'?
+    1580 |                 if (ipv6_addr_any(&local->addr.addr6))
+         |                                                ^~~~~
+         |                                                addr
+   include/net/mptcp.h:55:18: note: 'addr' declared here
+      55 |                 struct in_addr  addr;
+         |                                 ^
+   17 warnings and 1 error generated.
+
+
+vim +1580 net/mptcp/subflow.c
+
+  1546	
+  1547	int __mptcp_subflow_connect(struct sock *sk, const struct mptcp_pm_addr_entry *local,
+  1548				    const struct mptcp_addr_info *remote)
+  1549	{
+  1550		struct mptcp_sock *msk = mptcp_sk(sk);
+  1551		struct mptcp_subflow_context *subflow;
+  1552		int local_id = local->addr.id;
+  1553		struct sockaddr_storage addr;
+  1554		int remote_id = remote->id;
+  1555		int err = -ENOTCONN;
+  1556		struct socket *sf;
+  1557		struct sock *ssk;
+  1558		u32 remote_token;
+  1559		int addrlen;
+  1560	
+  1561		if (!mptcp_is_fully_established(sk))
+  1562			goto err_out;
+  1563	
+  1564		err = mptcp_subflow_create_socket(sk, local->addr.family, &sf);
+  1565		if (err)
+  1566			goto err_out;
+  1567	
+  1568		ssk = sf->sk;
+  1569		subflow = mptcp_subflow_ctx(ssk);
+  1570		do {
+  1571			get_random_bytes(&subflow->local_nonce, sizeof(u32));
+  1572		} while (!subflow->local_nonce);
+  1573	
+  1574		/* if 'IPADDRANY', the ID will be set later, after the routing */
+  1575		if (local->addr.family == AF_INET) {
+  1576			if (!local->addr.addr.s_addr)
+  1577				local_id = -1;
+  1578	#if IS_ENABLED(CONFIG_IPV6)
+  1579		} else if (sk->sk_family == AF_INET6) {
+> 1580			if (ipv6_addr_any(&local->addr.addr6))
+  1581				local_id = -1;
+  1582	#endif
+  1583		}
+  1584	
+  1585		if (local_id >= 0)
+  1586			subflow_set_local_id(subflow, local_id);
+  1587	
+  1588		subflow->remote_key_valid = 1;
+  1589		subflow->remote_key = READ_ONCE(msk->remote_key);
+  1590		subflow->local_key = READ_ONCE(msk->local_key);
+  1591		subflow->token = msk->token;
+  1592		mptcp_info2sockaddr(&local->addr, &addr, ssk->sk_family);
+  1593	
+  1594		addrlen = sizeof(struct sockaddr_in);
+  1595	#if IS_ENABLED(CONFIG_MPTCP_IPV6)
+  1596		if (addr.ss_family == AF_INET6)
+  1597			addrlen = sizeof(struct sockaddr_in6);
+  1598	#endif
+  1599		ssk->sk_bound_dev_if = local->ifindex;
+  1600		err = kernel_bind(sf, (struct sockaddr *)&addr, addrlen);
+  1601		if (err)
+  1602			goto failed;
+  1603	
+  1604		mptcp_crypto_key_sha(subflow->remote_key, &remote_token, NULL);
+  1605		pr_debug("msk=%p remote_token=%u local_id=%d remote_id=%d", msk,
+  1606			 remote_token, local_id, remote_id);
+  1607		subflow->remote_token = remote_token;
+  1608		WRITE_ONCE(subflow->remote_id, remote_id);
+  1609		subflow->request_join = 1;
+  1610		subflow->request_bkup = !!(local->flags & MPTCP_PM_ADDR_FLAG_BACKUP);
+  1611		subflow->subflow_id = msk->subflow_id++;
+  1612		mptcp_info2sockaddr(remote, &addr, ssk->sk_family);
+  1613	
+  1614		sock_hold(ssk);
+  1615		list_add_tail(&subflow->node, &msk->conn_list);
+  1616		err = kernel_connect(sf, (struct sockaddr *)&addr, addrlen, O_NONBLOCK);
+  1617		if (err && err != -EINPROGRESS)
+  1618			goto failed_unlink;
+  1619	
+  1620		/* discard the subflow socket */
+  1621		mptcp_sock_graft(ssk, sk->sk_socket);
+  1622		iput(SOCK_INODE(sf));
+  1623		WRITE_ONCE(msk->allow_infinite_fallback, false);
+  1624		mptcp_stop_tout_timer(sk);
+  1625		return 0;
+  1626	
+  1627	failed_unlink:
+  1628		list_del(&subflow->node);
+  1629		sock_put(mptcp_subflow_tcp_sock(subflow));
+  1630	
+  1631	failed:
+  1632		subflow->disposable = 1;
+  1633		sock_release(sf);
+  1634	
+  1635	err_out:
+  1636		/* we account subflows before the creation, and this failures will not
+  1637		 * be caught by sk_state_change()
+  1638		 */
+  1639		mptcp_pm_close_subflow(msk);
+  1640		return err;
+  1641	}
+  1642	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
