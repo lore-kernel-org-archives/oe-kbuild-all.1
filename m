@@ -1,75 +1,104 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out198-13.us.a.mail.aliyun.com (out198-13.us.a.mail.aliyun.com [47.90.198.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6101414B94E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 08:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFA314D44E;
+	Tue, 23 Jul 2024 09:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721724695; cv=none; b=JeMb9wkKY14XvhYMM8C436UjM04W854ZXM46LGASpEzwXHN0yV5TXo/F/5mcxcFKNNietwCnKXnMFkaJdGI8oluKbsv3SO40Hro/t3D9UH+IVRTGQRlsNpkF9roeU0DbYfnZXM4gScuVVGBOBVx9x8/yWIY1rC+d9Fyxq+BVqtE=
+	t=1721725535; cv=none; b=WJ9Q++Ohqj+BlaEhMB+IX0SB2o2sLCfVj8oqSK6BPxNndzPC0WsTM5b0p0d6MfYOTFBq3R9fTsDuNJ8U5CoBQ+rrL5puqHghzOLuGOSwxb9ii6jFlprIb9J8AfsqdjNtT12SAnGj8fxb6JQohOJS5tju0ua8sU39u6H6uVBkf8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721724695; c=relaxed/simple;
-	bh=R5nbUBAam24lL9Hj9Ug9koQfHaxTKJowl3H2R3jP2jA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=q/6UlWULdQVAIgxJT8s3wJ6chn2bSg5UyttQkvdFR5iqXgdYX7wQPNbK57C+Gg7jzxfKruxg7JC/Wb7qblkfB9HXCliw44grSXMpCRzXTUp3w3W7oNzq3QDZboYy5Rg6nzbC8/64t9ibB976oEeZqkzHIXK5qYilmS5aKNJMzvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zFBJIfdw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yedtE57u; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zFBJIfdw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yedtE57u"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1721724692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhYKCSmmg5VBsMZtToJS8gM39su8qOABRac7d8uBmPI=;
-	b=zFBJIfdw94b2fgBBlZIJV6XcWoUpg6lVkT7RUaei5FSQ7DtAsVGo8xPIQLOBdELAxa5my8
-	LAvcITPWb13wBq2MjQQyFCh4dufGP7/S3Teav5HxAcrqvv+vMmz7SDQhfSWYkwcppCJy0x
-	3Ra+gu/DbsvV45LyPvuR/Oki6y93mEP12KwusfPrtBEaqg6Yr0uH8+0vrtqaiBPnKWOAiC
-	IypVf+IP5HD942fWHzyuC/z4nCbPfv4h9e0D9N+cxQiZNbs+pW2Q6/o/iFrL3X5gBx6LAg
-	ARyuf15DB9omR9iGDCssqCCUbLts0NylVihJqZWADkpBy6XQH6dHq4OEuLVhnA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1721724692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhYKCSmmg5VBsMZtToJS8gM39su8qOABRac7d8uBmPI=;
-	b=yedtE57uWkDQJj8718dvtow18T1EjQ6tV+AgO+YfLChwBMNDvXwfopNswMJPUAN6dWWvWD
-	CVm0YG17Xv8du4Aw==
-To: kernel test robot <lkp@intel.com>, Petr Mladek <pmladek@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
- Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH printk v3 11/19] printk: nbcon: Rely on kthreads for
- normal operation
-In-Reply-To: <202407231117.SngBfEcI-lkp@intel.com>
-References: <20240722171939.3349410-12-john.ogness@linutronix.de>
- <202407231117.SngBfEcI-lkp@intel.com>
-Date: Tue, 23 Jul 2024 10:57:32 +0206
-Message-ID: <877cdcbiej.fsf@jogness.linutronix.de>
+	s=arc-20240116; t=1721725535; c=relaxed/simple;
+	bh=JsJYXjNIx7W5kl4D6KgJ2v6biHoChMoUlgJlPW7T69U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FEeTsApZyTUsqbbUoQrJj9IHBRLnYE3Zl95UH987GuCb67tE4Ya4bB5BR3KOtDMI5A7pDg5u5N6tK7NwF3tCPoUiwV39fddkfbT76l9kl0QN2QXz7vt1BCmKw9I3PcdHAykRe2Ddl9J/nIEuahb3wdI1d1gNXzY85QSCUoMvK58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com; spf=pass smtp.mailfrom=ttyinfo.com; arc=none smtp.client-ip=47.90.198.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ttyinfo.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09341948|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0149439-0.000557638-0.984498;FP=3697210579835616410|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037088118;MF=zhoushengqing@ttyinfo.com;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.YX7xuQS_1721721843;
+Received: from tzl..(mailfrom:zhoushengqing@ttyinfo.com fp:SMTPD_---.YX7xuQS_1721721843)
+          by smtp.aliyun-inc.com;
+          Tue, 23 Jul 2024 16:04:04 +0800
+From: Zhou Shengqing <zhoushengqing@ttyinfo.com>
+To: helgaas@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	lkp@intel.com,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	zhoushengqing@ttyinfo.com
+Subject: Re: [PATCH v4] Subject: PCI: Enable io space 1k granularity for intel cpu root port
+Date: Tue, 23 Jul 2024 08:04:03 +0000
+Message-Id: <20240723080403.9764-1-zhoushengqing@ttyinfo.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240712184849.GA330337@bhelgaas>
+References: <20240712184849.GA330337@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2024-07-23, kernel test robot <lkp@intel.com> wrote:
->    kernel/printk/printk.c: In function 'resume_console':
->>> kernel/printk/printk.c:2706:3: error: implicit declaration of function 'nbcon_wake_kthreads'; did you mean 'irq_wake_thread'? [-Werror=implicit-function-declaration]
->     2706 |   nbcon_wake_kthreads();
->          |   ^~~~~~~~~~~~~~~~~~~
->          |   irq_wake_thread
->    cc1: some warnings being treated as errors
 
-Thanks lkp.
+> I think this has potential.  Can you include a more complete citation
+> for the Intel spec?  Complete name, document number if available,
+> revision, section?  Hopefully it's publically available?
 
-For v4 I will fix this and also rename nbcon_wake_kthreads() to
-nbcon_kthreads_wake() so that it matches the naming scheme:
+Most of intel CPU EDS specs are under NDA. But you can refer to
+https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e5-v2-datasheet-vol-2.pdf
+keyword:"EN1K".
 
-nbcon_kthread_wake()
-legacy_kthread_wake()
+> + /*
+> > + * Per intel sever CPU EDS vol2(register) spec,
+> > + * Intel Memory Map/Intel VT-d configuration space,
+> > + * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
+> > + * bit 2.
+> > + * Enable 1K (EN1K):
+> > + * This bit when set, enables 1K granularity for I/O space decode
+> > + * in each of the virtual P2P bridges
+> > + * corresponding to root ports, and DMI ports.
+> > + */
+> > + while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+> 
+> To be safe, "d" (the [8086:09a2] device) should be on the same bus as
+> "dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
+> which would be a different bus, and they presumably are not influenced
+> by the EN1K bit.
 
-John Ogness
+I modified the code as follows, can you help me review it? 
+
+/* Enable 1k I/O space granularity on the intel root port */
+static void quirk_intel_rootport_1k_io(struct pci_dev *dev)
+{
+	struct pci_dev *d = NULL;
+	u16 en1k = 0;
+
+	if (!pci_is_pcie(dev) || pci_pcie_type(dev) != PCI_EXP_TYPE_ROOT_PORT)
+		return;
+
+	/*
+	 * Per intel sever CPU (ICX SPR GNR)EDS vol2(register) spec,
+	 * Intel Memory Map/Intel VT-d configuration space,
+	 * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
+	 * bit 2.
+	 * Enable 1K (EN1K):
+	 * This bit when set, enables 1K granularity for I/O space decode 
+	 * in each of the virtual P2P bridges
+	 * corresponding to root ports, and DMI ports.
+	 */
+	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+		if (pci_domain_nr(d->bus) == pci_domain_nr(dev->bus)) {
+			pci_read_config_word(d, 0x1c0, &en1k);
+			if (en1k & 0x4) {
+				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+				dev->io_window_1k = 1;
+			}
+		}
+	}
+}
+DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL,	PCI_ANY_ID,	quirk_intel_rootport_1k_io);
+
+If you have a better method, please let me know. If there are no issues, 
+I can submit a new patch.
