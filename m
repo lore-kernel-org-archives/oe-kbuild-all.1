@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78A114A0A4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05508F70
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 08:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721724205; cv=none; b=EZoSGhoaHBT4emaz0QaNK0vwHfmsP3s8y90Vgmw/ASNBKg6eGExfaC2L/89eaL+z1EWrVeHKc0BgfffbmwKn7B7wU3EqxeC0nMVvnSBgZaqLWmadoaewkB2DJ+xtmC6a2DrbTaIsO7Yuu2q672f69mhMZRKhYJhea1ktUayn+AQ=
+	t=1721724206; cv=none; b=GLGuV/iqq9s0jtsmOW9U821mUSp/jwblfOl6oj0u9IVV3E/e/pklKHBr3ZixPalOdkn3kBHGCV56cs6Sy4ZMyiJ546zr3i4LtpKlcgtTuLpzcIhMBFZfdWysHI2eXipvOp2WQGt2B/Ngw59K+23RTF75aRFhb6JVnXlGb1z6jHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721724205; c=relaxed/simple;
-	bh=LRDftGw3up6SvJy7YRCEAhX/4++emo8HJIupFyKQeW8=;
+	s=arc-20240116; t=1721724206; c=relaxed/simple;
+	bh=3f/nhS6EqGB2twKtptRu1U2buH6kgUF5RoZTGjiCvWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qJd3yKGoksFaIY6zgfvXcH9/79EmHNliWQwZS2JhLA52nwqjqRKwv/rz5Vtun3bm5AnUcmHZ5QLZkVlVpN7HUVW0sr2q3EBpvNcHCLKa4cS9Gbrt9CvKbxYIC4KR3fCgNGfpg/E5ybnH3Y2Ez/9Z8c6AIDhSmE9ybRIHsP9s06c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrqbpEM; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=TTmPMwVP11mJM8rQO/gAjlmZDZQMJE5iSGi6Ep3JMGeRdJ6TqU+NEjQdfmdc5urNegoGrMawOfUCISqPhisANlmedXKBWSOjowQQ+bKIr9SphNRGyyNH+oP748Ynw4nhXdf8OiRFyxPVKQj5YQ6Ic6rKAJsZgkuec6GOfpDCUk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/mMbjFv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrqbpEM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/mMbjFv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721724204; x=1753260204;
+  t=1721724203; x=1753260203;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LRDftGw3up6SvJy7YRCEAhX/4++emo8HJIupFyKQeW8=;
-  b=eJrqbpEMRW/NgmdKMuiwaiigyEah2fJxuf+srAQ5X8/uD+UXH8BCGWpG
-   1wCWi0aRuyYgwk8WHjRug2q+Tmifnf0MZPfwvUfrh5/dI6qlnplmiXVi1
-   EMo91kxXUI01+GpHcjjhPEfhIC8Z/px5gjLYqtYdzjZ8d9PcjTEYx7eXt
-   GvDL/l+x06ZXQo51JkfZOSVxwo2+DpvnCA5QPJHRHU7Pj4LsBeleF5MN4
-   Y85f8PNHrKcpX79yUtJMNjkTc7ZGk+LLRYAQuu2c2oleCQ4Wx8z04pf9N
-   ifadAj+RhhBS4O2FLNlZpvZ5pDYBDWskiXEceEyjIIVvztGtHEefu7BXm
-   w==;
-X-CSE-ConnectionGUID: wI7tU0NJRe+dNjwaJW04fw==
-X-CSE-MsgGUID: FJGrKYdhQ4OuznGvIO0vFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="44757535"
+  bh=3f/nhS6EqGB2twKtptRu1U2buH6kgUF5RoZTGjiCvWk=;
+  b=Q/mMbjFv27ZlWnG/ZPWTyhc5nw/TWtv7LEh9qEtRHOhTW/MHCa9IEiex
+   htitZucqoaGLICEz9/gbtjyJjcmgE0Gyiz7U0pEIQw3zkvqvV+0jmQBmj
+   50ersJCLJ+uVhMpjgLFTz/qIHbBsoBP4VD2edsQCKJf5geVSVXJSUt2dz
+   bi3NUNXOJftci3Boc7Q1P1J7HkexgarKCHLjnztpAJLtj9VvUZxUK4KVZ
+   /qdCeXM9Bp47MoamowXJPJZU76Sxxdglomx6Xsw3DeMuV3zDcpBK3Fgf1
+   f726rbzOx1pmOWl6s2SXgUYPTWQ+6zys5nFM8LQpTgQKtl2DtWgAQIKNf
+   Q==;
+X-CSE-ConnectionGUID: QUQpYae2T5eMwlMn1YhE5g==
+X-CSE-MsgGUID: Zz/RydszRsOp5vfPiB/+WA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="29995542"
 X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
-   d="scan'208";a="44757535"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 01:43:23 -0700
-X-CSE-ConnectionGUID: tyVXtfiNRLKH7AV6jo+SDA==
-X-CSE-MsgGUID: 9jrwoS2lSGegYNpIDla7+g==
+   d="scan'208";a="29995542"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 01:43:23 -0700
+X-CSE-ConnectionGUID: MuXUQ+eXR5+xF+YaoUA/Mw==
+X-CSE-MsgGUID: pTb5KpVCQyKzzDsq12rA7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
-   d="scan'208";a="57281724"
+   d="scan'208";a="51867936"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jul 2024 01:43:22 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 23 Jul 2024 01:43:22 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWB7A-000lnQ-0U;
+	id 1sWB7A-000lnV-0j;
 	Tue, 23 Jul 2024 08:43:20 +0000
 Date: Tue, 23 Jul 2024 16:42:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:timestats-hoist 181/326]
- fs/xfs/libxfs/xfs_rtgroup.c:504:47: error: use of undeclared identifier
- 'xfs_rtg_lock_class'; did you mean 'xfs_rtginode_lock_class'?
-Message-ID: <202407231623.akwigxLZ-lkp@intel.com>
+Subject: [jirislaby:devel 38/39] drivers/irqchip/irq-sunxi-nmi.c:101:32:
+ error: 'struct irq_chip_regs' has no member named 'type'
+Message-ID: <202407231647.WfjFTxxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +62,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
-head:   34a8467cd7c47cc944cc6fa11ea4b46671c935d1
-commit: b1307d2905e0d20637fe7a3416217dc53c4e83cb [181/326] xfs: add a lockdep class key for rtgroup inodes
-config: i386-randconfig-001-20240723 (https://download.01.org/0day-ci/archive/20240723/202407231623.akwigxLZ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231623.akwigxLZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   1e1bdb344732a802f35083905524f9dd512d776d
+commit: 0437480ae45fc31a35c0a12e1cde2d3587d04d94 [38/39] irq: Remove irq_chip_regs' type & polarity
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240723/202407231647.WfjFTxxx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231647.WfjFTxxx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407231623.akwigxLZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407231647.WfjFTxxx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/libxfs/xfs_rtgroup.c:502:7: warning: declaration of 'enum xfs_rtg_inodes' will not be visible outside of this function [-Wvisibility]
-     502 |         enum xfs_rtg_inodes     type)
-         |              ^
-   fs/xfs/libxfs/xfs_rtgroup.c:502:22: error: variable has incomplete type 'enum xfs_rtg_inodes'
-     502 |         enum xfs_rtg_inodes     type)
-         |                                 ^
-   fs/xfs/libxfs/xfs_rtgroup.c:502:7: note: forward declaration of 'enum xfs_rtg_inodes'
-     502 |         enum xfs_rtg_inodes     type)
-         |              ^
->> fs/xfs/libxfs/xfs_rtgroup.c:504:47: error: use of undeclared identifier 'xfs_rtg_lock_class'; did you mean 'xfs_rtginode_lock_class'?
-     504 |         lockdep_set_class_and_subclass(&ip->i_lock, &xfs_rtg_lock_class, type);
-         |                                                      ^~~~~~~~~~~~~~~~~~
-         |                                                      xfs_rtginode_lock_class
-   include/linux/lockdep.h:170:48: note: expanded from macro 'lockdep_set_class_and_subclass'
-     170 |         lockdep_init_map_type(&(lock)->dep_map, #key, key, sub, \
-         |                                                       ^
-   fs/xfs/libxfs/xfs_rtgroup.c:462:30: note: 'xfs_rtginode_lock_class' declared here
-     462 | static struct lock_class_key xfs_rtginode_lock_class;
-         |                              ^
->> fs/xfs/libxfs/xfs_rtgroup.c:505:31: error: use of undeclared identifier 'xfs_rtginode_cmp_fn'; did you mean 'xfs_rtginode_ilock_cmp_fn'?
-     505 |         lock_set_cmp_fn(&ip->i_lock, xfs_rtginode_cmp_fn,
-         |                                      ^~~~~~~~~~~~~~~~~~~
-         |                                      xfs_rtginode_ilock_cmp_fn
-   include/linux/lockdep.h:396:78: note: expanded from macro 'lock_set_cmp_fn'
-     396 | #define lock_set_cmp_fn(lock, ...)      lockdep_set_lock_cmp_fn(&(lock)->dep_map, __VA_ARGS__)
-         |                                                                                   ^
-   fs/xfs/libxfs/xfs_rtgroup.c:465:1: note: 'xfs_rtginode_ilock_cmp_fn' declared here
-     465 | xfs_rtginode_ilock_cmp_fn(
-         | ^
->> fs/xfs/libxfs/xfs_rtgroup.c:506:4: error: use of undeclared identifier 'xfs_rtginode_print_fn'; did you mean 'xfs_rtginode_ilock_print_fn'?
-     506 |                         xfs_rtginode_print_fn);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         xfs_rtginode_ilock_print_fn
-   include/linux/lockdep.h:396:78: note: expanded from macro 'lock_set_cmp_fn'
-     396 | #define lock_set_cmp_fn(lock, ...)      lockdep_set_lock_cmp_fn(&(lock)->dep_map, __VA_ARGS__)
-         |                                                                                   ^
-   fs/xfs/libxfs/xfs_rtgroup.c:482:1: note: 'xfs_rtginode_ilock_print_fn' declared here
-     482 | xfs_rtginode_ilock_print_fn(
-         | ^
-   1 warning and 4 errors generated.
+   drivers/irqchip/irq-sunxi-nmi.c: In function 'sunxi_sc_nmi_set_type':
+>> drivers/irqchip/irq-sunxi-nmi.c:101:32: error: 'struct irq_chip_regs' has no member named 'type'
+     101 |         u32 ctrl_off = ct->regs.type;
+         |                                ^
+   drivers/irqchip/irq-sunxi-nmi.c:133:44: error: 'struct irq_chip_regs' has no member named 'type'
+     133 |                         ctrl_off = ct->regs.type;
+         |                                            ^
+   drivers/irqchip/irq-sunxi-nmi.c: In function 'sunxi_sc_nmi_irq_init':
+   drivers/irqchip/irq-sunxi-nmi.c:192:31: error: 'struct irq_chip_regs' has no member named 'type'
+     192 |         gc->chip_types[0].regs.type             = reg_offs->ctrl;
+         |                               ^
+   drivers/irqchip/irq-sunxi-nmi.c:201:31: error: 'struct irq_chip_regs' has no member named 'type'
+     201 |         gc->chip_types[1].regs.type             = reg_offs->ctrl;
+         |                               ^
 
 
-vim +504 fs/xfs/libxfs/xfs_rtgroup.c
+vim +101 drivers/irqchip/irq-sunxi-nmi.c
 
-   490	
-   491	/*
-   492	 * Most of the time each of the RTG inode locks are only taken one at a time.
-   493	 * But when committing deferred ops, more than one of a kind can be taken.
-   494	 * However, deferred rt ops will be committed in rgno order so there is no
-   495	 * potential for deadlocks.  The code here is needed to tell lockdep about this
-   496	 * order.
-   497	 */
-   498	static inline void
-   499	xfs_rtginode_lockdep_setup(
-   500		struct xfs_inode	*ip,
-   501		xfs_rgnumber_t		rgno,
-   502		enum xfs_rtg_inodes	type)
-   503	{
- > 504		lockdep_set_class_and_subclass(&ip->i_lock, &xfs_rtg_lock_class, type);
- > 505		lock_set_cmp_fn(&ip->i_lock, xfs_rtginode_cmp_fn,
- > 506				xfs_rtginode_print_fn);
+6058bb362818e0 Carlo Caione 2014-03-19   95  
+6058bb362818e0 Carlo Caione 2014-03-19   96  static int sunxi_sc_nmi_set_type(struct irq_data *data, unsigned int flow_type)
+6058bb362818e0 Carlo Caione 2014-03-19   97  {
+6058bb362818e0 Carlo Caione 2014-03-19   98  	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(data);
+6058bb362818e0 Carlo Caione 2014-03-19   99  	struct irq_chip_type *ct = gc->chip_types;
+6058bb362818e0 Carlo Caione 2014-03-19  100  	u32 src_type_reg;
+6058bb362818e0 Carlo Caione 2014-03-19 @101  	u32 ctrl_off = ct->regs.type;
+6058bb362818e0 Carlo Caione 2014-03-19  102  	unsigned int src_type;
+6058bb362818e0 Carlo Caione 2014-03-19  103  	unsigned int i;
+6058bb362818e0 Carlo Caione 2014-03-19  104  
+6058bb362818e0 Carlo Caione 2014-03-19  105  	irq_gc_lock(gc);
+6058bb362818e0 Carlo Caione 2014-03-19  106  
+6058bb362818e0 Carlo Caione 2014-03-19  107  	switch (flow_type & IRQF_TRIGGER_MASK) {
+6058bb362818e0 Carlo Caione 2014-03-19  108  	case IRQ_TYPE_EDGE_FALLING:
+6058bb362818e0 Carlo Caione 2014-03-19  109  		src_type = SUNXI_SRC_TYPE_EDGE_FALLING;
+6058bb362818e0 Carlo Caione 2014-03-19  110  		break;
+6058bb362818e0 Carlo Caione 2014-03-19  111  	case IRQ_TYPE_EDGE_RISING:
+6058bb362818e0 Carlo Caione 2014-03-19  112  		src_type = SUNXI_SRC_TYPE_EDGE_RISING;
+6058bb362818e0 Carlo Caione 2014-03-19  113  		break;
+6058bb362818e0 Carlo Caione 2014-03-19  114  	case IRQ_TYPE_LEVEL_HIGH:
+6058bb362818e0 Carlo Caione 2014-03-19  115  		src_type = SUNXI_SRC_TYPE_LEVEL_HIGH;
+6058bb362818e0 Carlo Caione 2014-03-19  116  		break;
+6058bb362818e0 Carlo Caione 2014-03-19  117  	case IRQ_TYPE_NONE:
+6058bb362818e0 Carlo Caione 2014-03-19  118  	case IRQ_TYPE_LEVEL_LOW:
+6058bb362818e0 Carlo Caione 2014-03-19  119  		src_type = SUNXI_SRC_TYPE_LEVEL_LOW;
+6058bb362818e0 Carlo Caione 2014-03-19  120  		break;
+6058bb362818e0 Carlo Caione 2014-03-19  121  	default:
+6058bb362818e0 Carlo Caione 2014-03-19  122  		irq_gc_unlock(gc);
+2d6caaed0997f3 Chen-Yu Tsai 2015-10-06  123  		pr_err("Cannot assign multiple trigger modes to IRQ %d.\n",
+2d6caaed0997f3 Chen-Yu Tsai 2015-10-06  124  			data->irq);
+6058bb362818e0 Carlo Caione 2014-03-19  125  		return -EBADR;
+6058bb362818e0 Carlo Caione 2014-03-19  126  	}
+6058bb362818e0 Carlo Caione 2014-03-19  127  
+6058bb362818e0 Carlo Caione 2014-03-19  128  	irqd_set_trigger_type(data, flow_type);
+6058bb362818e0 Carlo Caione 2014-03-19  129  	irq_setup_alt_chip(data, flow_type);
+6058bb362818e0 Carlo Caione 2014-03-19  130  
+febe06962ab191 Axel Lin     2015-06-07  131  	for (i = 0; i < gc->num_ct; i++, ct++)
+6058bb362818e0 Carlo Caione 2014-03-19  132  		if (ct->type & flow_type)
+6058bb362818e0 Carlo Caione 2014-03-19  133  			ctrl_off = ct->regs.type;
+6058bb362818e0 Carlo Caione 2014-03-19  134  
+6058bb362818e0 Carlo Caione 2014-03-19  135  	src_type_reg = sunxi_sc_nmi_read(gc, ctrl_off);
+6058bb362818e0 Carlo Caione 2014-03-19  136  	src_type_reg &= ~SUNXI_NMI_SRC_TYPE_MASK;
+6058bb362818e0 Carlo Caione 2014-03-19  137  	src_type_reg |= src_type;
+6058bb362818e0 Carlo Caione 2014-03-19  138  	sunxi_sc_nmi_write(gc, ctrl_off, src_type_reg);
+6058bb362818e0 Carlo Caione 2014-03-19  139  
+6058bb362818e0 Carlo Caione 2014-03-19  140  	irq_gc_unlock(gc);
+6058bb362818e0 Carlo Caione 2014-03-19  141  
+6058bb362818e0 Carlo Caione 2014-03-19  142  	return IRQ_SET_MASK_OK;
+6058bb362818e0 Carlo Caione 2014-03-19  143  }
+6058bb362818e0 Carlo Caione 2014-03-19  144  
+
+:::::: The code at line 101 was first introduced by commit
+:::::: 6058bb362818e09990de722e983a7f2874e7f61c ARM: sun7i/sun6i: irqchip: Add irqchip driver for NMI controller
+
+:::::: TO: Carlo Caione <carlo@caione.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
