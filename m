@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CC810E0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 02:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371E64595B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 02:02:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721700133; cv=none; b=rIuM1U6eDYGCv0NdWA+jwnfFib5R+PgQ+RXLW8RpyofzyhxQeivCNaXs0GEyLomLUP8O0Gugkq6iK4/nQkQu1g1w0yu5EJ38+v3I+cMs9lginwnbEZkrmyS05yz92D3dy6aO52Ikb0W7QJ64f85UEPPPXwYxW+s8VKYxHiCzA1o=
+	t=1721700135; cv=none; b=BhKyS338/78OpIVqyV+4xq7ALSFEpmU/NVas5V4WuP49Z4wY15uo3UeARsryEOPhWHwKqs9U2Jugad3tVL/5W1jTXjABxC1/wFPeqmdOCHCWyxeZwx2MKJU15Vi+uVEPwjy0guYxbG46KgbzybQwAlViVe4gxLfyFW0q5GTyJ0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721700133; c=relaxed/simple;
-	bh=KmNUDatePElgbylJ6GFn+ztaVpnms0LBuFcv6aN42N8=;
+	s=arc-20240116; t=1721700135; c=relaxed/simple;
+	bh=SBvjtJxQ3QQC9rw6NOwYO6HmZrMa4/g+LS5Pso4Dox8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ccn5BRBsAsrsyhmQBxe3E8YvtnEtnZr6F1Ue+1IedSZDUsyqY/CJwrTbLeP5Ogi7GsI7lRAl4oliKocchwTvxe6lMLfoPCK+5idRbWqtmR2RF5P7+GlnqwQjYFpCDD2o4BYPOwHNHxDBMyrs6m4H8yWdDvzQuCEzY2thgKKVYaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4cVm9JX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=svQwNe3bpHEtkSV5kEmXklWkPw/WPJeFzCPUW3hKt7LbljjzvUCXnRuPXW1ReT2FjZCKmilIeRst9dIqUii1BtjOUXDG+uhdERFfeVkH7ZgNWaEetRAhI/418sIs3dQEo81bMPNJ4FRh354y3u1uIAhUbYJmdIIu13KuRSmGl40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PrdxpxBh; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4cVm9JX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PrdxpxBh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721700131; x=1753236131;
+  t=1721700133; x=1753236133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KmNUDatePElgbylJ6GFn+ztaVpnms0LBuFcv6aN42N8=;
-  b=H4cVm9JXE6LNTK4L9/XONKzL0LRRErbxmliFsSWvnkwRIVKpht06twqE
-   j95kA1+HdkDApU5TbKYj8EG7pjip3OHg1K62LZj1RzCAu6AcnfQ/pRD76
-   YfaB3De3pWOqao93CvbszdTI0QMMS+HkHdDHpmZkua+KtzA2ripaQRu/j
-   c7Kzpez2i9gSs0ybxLR6BoInU0AUx5wgTlJyTeZhig4ELb76w0Xlxn7ya
-   lEwhwv5yZQwCXYQJ+jPjsttnkjMggKrJJiF8Fu8yHpnqbdrHSAIC/bhYw
-   GCjLokKK10suFY9irhNRsbPQZL+SK0Aopny6o4MRJEGJ5mXzpb+CbXXFL
-   w==;
-X-CSE-ConnectionGUID: 4fMlTSlgTLa3a7FAJVh1qQ==
-X-CSE-MsgGUID: uO+/BIzaR76mKsT2uNv4bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="19149039"
+  bh=SBvjtJxQ3QQC9rw6NOwYO6HmZrMa4/g+LS5Pso4Dox8=;
+  b=PrdxpxBhy+zUrXPqbz394+GxoYC6k/cxEwleW9YAmUMnl1p0YY0PJbPW
+   B3vzrjnFLvBsaxxaR/yvQPH59jdVbqnXp5OE9zauwf6I4vRfYt12Cw7WE
+   IJY0vKWTkMRMF+nq4PQja/6V2XhQCzQhBjpRLufqwtQbUqea6eUd2xOdh
+   hs/zVaiLKRDDRzxC2RyTAia1czDnTwos5RWb6ZY6sJsT+TpyLwKFNZpaI
+   kVyPxznrJssU0AKa+oETVBnBpsse4zLxLJUh0unZE6T+mNq4oaEj+RTdb
+   BftIMWE7sk9Z6Esesc+gpyGAB56A4ys3dZ8hbbuvJnLmNl5fjklAMNvbB
+   Q==;
+X-CSE-ConnectionGUID: GmKqFw/oTM6QgHs923QmuA==
+X-CSE-MsgGUID: iU1vCAu7TcGjc+8D8+5NVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="19149042"
 X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
-   d="scan'208";a="19149039"
+   d="scan'208";a="19149042"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 19:02:10 -0700
-X-CSE-ConnectionGUID: ZOqKG8u0QCKSsVNdzT6eTw==
-X-CSE-MsgGUID: 77Yspc0JR0WTqfuYAchVKw==
+X-CSE-ConnectionGUID: xzwGcU5HStGQEx/s7DUt6Q==
+X-CSE-MsgGUID: V+tcdUIXTL66j5O7S9rAag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
-   d="scan'208";a="52310047"
+   d="scan'208";a="52310046"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 22 Jul 2024 19:02:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sW4qs-000lXz-20;
+	id 1sW4qs-000lXw-1h;
 	Tue, 23 Jul 2024 02:02:06 +0000
 Date: Tue, 23 Jul 2024 10:01:51 +0800
 From: kernel test robot <lkp@intel.com>
@@ -52,8 +52,8 @@ To: Jim Cromie <jim.cromie@gmail.com>,
 	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jimc:dd-shrink-4b 15/74] include/linux/dynamic_debug.h:86:56:
- warning: "/*" within comment
-Message-ID: <202407230944.owlfm5Xs-lkp@intel.com>
+ warning: '/*' within block comment
+Message-ID: <202407230933.kISprs51-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +66,32 @@ Content-Disposition: inline
 tree:   https://github.com/jimc/linux.git dd-shrink-4b
 head:   b1eb9061e745d7ee49291aa451e0fbdfc325f7bc
 commit: 69e3e77dca408ade14290862bf4cc991166d5acd [15/74] dyndbg-API: fix DECLARE_DYNDBG_CLASSMAP
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240723/202407230944.owlfm5Xs-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407230944.owlfm5Xs-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240723/202407230933.kISprs51-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407230933.kISprs51-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407230944.owlfm5Xs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407230933.kISprs51-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/module.h:30,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
->> include/linux/dynamic_debug.h:86:56: warning: "/*" within comment [-Wcomment]
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:14:
+   In file included from include/linux/uuid.h:11:
+   In file included from include/linux/string.h:374:
+   In file included from include/linux/fortify-string.h:6:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/x86/include/asm/bug.h:87:
+   In file included from include/asm-generic/bug.h:22:
+   In file included from include/linux/printk.h:570:
+>> include/linux/dynamic_debug.h:86:56: warning: '/*' within block comment [-Wcomment]
       86 |  *   ~5000 calls to them, across all of drivers/gpu/drm/*
-         |                                                         
+         |                                                        ^
+   1 warning generated.
 --
-   In file included from include/linux/module.h:30,
-                    from drivers/input/keyboard/atkbd.c:17:
->> include/linux/dynamic_debug.h:86:56: warning: "/*" within comment [-Wcomment]
-      86 |  *   ~5000 calls to them, across all of drivers/gpu/drm/*
-         |                                                         
-   drivers/input/keyboard/atkbd.c: In function 'atkbd_set_device_attrs':
-   drivers/input/keyboard/atkbd.c:1197:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-    1197 |                  "%s/input0", atkbd->ps2dev.serio->phys);
-         |                     ^~~~~~~
-   drivers/input/keyboard/atkbd.c:1196:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-    1196 |         snprintf(atkbd->phys, sizeof(atkbd->phys),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1197 |                  "%s/input0", atkbd->ps2dev.serio->phys);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/module.h:30,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
->> include/linux/dynamic_debug.h:86:56: warning: "/*" within comment [-Wcomment]
-      86 |  *   ~5000 calls to them, across all of drivers/gpu/drm/*
-         |                                                         
+>> clang diag: include/linux/dynamic_debug.h:86:56: warning: '/*' within block comment [-Wcomment]
 
 
 vim +86 include/linux/dynamic_debug.h
