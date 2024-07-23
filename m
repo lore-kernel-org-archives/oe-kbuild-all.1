@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6607E634;
-	Tue, 23 Jul 2024 05:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B8D632
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 06:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721714002; cv=none; b=AEegzMZ3vV3hS+EaeOwuZ9Rl1618az1BE3KbHRImeqIbjoewQKmxSMGeL8SGz5ZMzWyqsO1CGrd6WF2aP65hdCHkWeyHQcyfmmGXJfLD2svdWgiXEYrr7XVzSjffy1Fvao7lSLpU5YwttyvHit68m3d82hdORIGC2wF/h9P26LQ=
+	t=1721714663; cv=none; b=LlDupWDTb7fDlooPUozuYNcg4Hsq3B9lBU1OzSQCm0cF1gkVNKzKQ8aqqgRjxcIBruE1xIyIJgUWPwDsTqlkl2TllaGUT21E0pN5OagOnLDwMVw6pA6sJSCW344opjdOqRlDUK52Ygk6aHaFhuZOKhX+xb4VdyWY1tYtqXeYfL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721714002; c=relaxed/simple;
-	bh=4EZGZDSgQv/w9UIyFMTgMZntzm/z8aluti6yvXV5g6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jQAdDXJjkyVZ73LaXdkRo+5taHv8zVCfMy5TqlxB1QhfUBmUvWP+MoX3B2bZ7oo+rctAW2GV825VzRRGUO+qIjhLr/arkZDLTQwhvQqNgpD5o7Cou1mrji185XuNx3mKFZicFnsrdEwdLdT4fZfNBvJEMNsorBCbmL9mowksLzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb0904Bt; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1721714663; c=relaxed/simple;
+	bh=nL8tasrKACUJ02KLwLDRKnNwhOUocbIJHu7jQNv4kOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CsS3ZKAX203zYWzIifBSezqABWaoRE0tWC+uKYsDHSaPhBxecXFRRbFMiej3ytH0Rb8bWkq89M7BiIW5Z4Sh69hnEaGJlR9pLwJ75RrWvrSgxqYqW3kAaH0LlByg4zVw0XyzvRDOznhqCQPATLbkupxae3N6NgKZPkAZ1eNXn7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEZt8Zt8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb0904Bt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEZt8Zt8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721714001; x=1753250001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4EZGZDSgQv/w9UIyFMTgMZntzm/z8aluti6yvXV5g6w=;
-  b=lb0904Bt3ERl/8WGTAsEkiVcDHkisLEg4p/fQ97ntUJyabAletqtsNPv
-   mGbQM++i3bHtKGNr4vaIPB5bcD/9MB4uAK+SMSS3pguwCgt7XGGm/Kx8v
-   uH/My8GUc2nc273Zz5BO3sKxEJCm+WS/TJ3GqBiyncGD7N63UimROtMns
-   NF4buPOqgSyB32pxrzf6LjwqhZ5aO6cfGYmXwb4PM0ubHTOfZ1xODgyPs
-   K3q2Icu7YWxQhENjRUbLfzf0OtVlIdPvK/QXJryQWl0B2YRYP456LPCri
-   1rY9AruH/iUkhb11/eYG2v4bHC6G0/UW2+Zpj7okawsszOpPwHJBKBkAD
-   w==;
-X-CSE-ConnectionGUID: sk/zfhwjSAq14wPGmp3wHA==
-X-CSE-MsgGUID: KzNlL7gfTmmNB9agqshjUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="18934525"
+  t=1721714661; x=1753250661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nL8tasrKACUJ02KLwLDRKnNwhOUocbIJHu7jQNv4kOU=;
+  b=EEZt8Zt82cdDn+CCZhhc/YJ7OY9dg5uk39ft//ocyPK4OvRuzqfJMrrO
+   yzWnuY99M2sla6BxODZ2b4r1/kFpb6PxNPfEI+6k2INaQbDPVWprxw4S0
+   CW5chPwjFAxj18JwO9c48ajSbpeEREhi0g0x5qlHlEaag+cxXUyiDfPfy
+   Cyk5MgiPgEFyp6vFBiwQ8h6BOUynGxLrdZsI1mO6Wk3TPTarUZGOCishe
+   CwJbtsUPvdtFMBZUtT2BycSzYzfO8bHQfBc60ZmxVT7Ef10nDePi4wt8y
+   bs6dZu7wewuc+jaDf4zlWo0i3HMD+vvOLPuq151+my+wpvls6tSmL8PDF
+   A==;
+X-CSE-ConnectionGUID: q7/jXUVWSg2GtJG6AMjNzA==
+X-CSE-MsgGUID: udrYcI1RQXCIpWdlWybVRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="29936317"
 X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
-   d="scan'208";a="18934525"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 22:53:20 -0700
-X-CSE-ConnectionGUID: eWYOkQk5QJ29bkhkYYxqTQ==
-X-CSE-MsgGUID: uv1JDZZcR0qwwBGQwTuIoA==
+   d="scan'208";a="29936317"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 23:04:20 -0700
+X-CSE-ConnectionGUID: ZBi48sEjRMeQCzKredv0XQ==
+X-CSE-MsgGUID: D9DGlcx6TvSx8l8vHrZ5Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
-   d="scan'208";a="52726929"
+   d="scan'208";a="52012009"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2024 22:53:18 -0700
+  by orviesa010.jf.intel.com with ESMTP; 22 Jul 2024 23:04:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sW8SZ-000lge-2X;
-	Tue, 23 Jul 2024 05:53:15 +0000
-Date: Tue, 23 Jul 2024 13:52:52 +0800
+	id 1sW8dD-000lgq-2u;
+	Tue, 23 Jul 2024 06:04:15 +0000
+Date: Tue, 23 Jul 2024 14:03:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, mptcp@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Subject: Re: [PATCH mptcp-net v4 23/23] mptcp: pm: reduce entries iterations
- on connect
-Message-ID: <202407231303.CsUy96BP-lkp@intel.com>
-References: <20240722-mptcp-pm-avail-v4-23-15bfd73de384@kernel.org>
+To: kernel@openeuler.org, tianx <tianx@yunsilicon.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 7645/10903]
+ drivers/net/ethernet/yunsilicon/xsc/net/main.c:2628:14: error: no member
+ named 'physfn' in 'struct pci_dev'
+Message-ID: <202407231343.3uTyW1i0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,237 +62,383 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240722-mptcp-pm-avail-v4-23-15bfd73de384@kernel.org>
 
-Hi Matthieu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 140ff27ee47286bb0a270f3aa275fc319724da8d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthieu-Baerts-NGI0/mptcp-fully-established-after-ADD_ADDR-echo-on-MPJ/20240723-035843
-base:   140ff27ee47286bb0a270f3aa275fc319724da8d
-patch link:    https://lore.kernel.org/r/20240722-mptcp-pm-avail-v4-23-15bfd73de384%40kernel.org
-patch subject: [PATCH mptcp-net v4 23/23] mptcp: pm: reduce entries iterations on connect
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240723/202407231303.CsUy96BP-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231303.CsUy96BP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b156200a7f2f34854751d767d9fa40f81be9f05c
+commit: 601fb01dc16f747534b866610743d95830b6655e [7645/10903] drivers: support for xsc drivers from Yunsilicon Technology
+config: arm64-randconfig-004-20240723 (https://download.01.org/0day-ci/archive/20240723/202407231343.3uTyW1i0-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231343.3uTyW1i0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407231303.CsUy96BP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407231343.3uTyW1i0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/mptcp/subflow.c:10:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/mptcp/subflow.c:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/mptcp/subflow.c:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/mptcp/subflow.c:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/mptcp/subflow.c:1580:34: error: no member named 'addr6' in 'struct mptcp_addr_info'; did you mean 'addr'?
-    1580 |                 if (ipv6_addr_any(&local->addr.addr6))
-         |                                                ^~~~~
-         |                                                addr
-   include/net/mptcp.h:55:18: note: 'addr' declared here
-      55 |                 struct in_addr  addr;
-         |                                 ^
-   17 warnings and 1 error generated.
+   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/main.c:6:
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1732:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
+           if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:136:4: warning: no previous prototype for function 'xsc_devid_to_pcie_no' [-Wmissing-prototypes]
+   u8 xsc_devid_to_pcie_no(int dev_id)
+      ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:136:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   u8 xsc_devid_to_pcie_no(int dev_id)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:288:5: warning: no previous prototype for function 'xsc_priv_init' [-Wmissing-prototypes]
+   int xsc_priv_init(struct xsc_core_device *dev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:288:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_priv_init(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:302:5: warning: no previous prototype for function 'xsc_dev_res_init' [-Wmissing-prototypes]
+   int xsc_dev_res_init(struct xsc_core_device *dev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:302:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_dev_res_init(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:321:6: warning: no previous prototype for function 'xsc_dev_res_cleanup' [-Wmissing-prototypes]
+   void xsc_dev_res_cleanup(struct xsc_core_device *dev)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:321:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_dev_res_cleanup(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:327:6: warning: no previous prototype for function 'xsc_init_reg_addr' [-Wmissing-prototypes]
+   void xsc_init_reg_addr(struct xsc_core_device *dev)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:327:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_init_reg_addr(struct xsc_core_device *dev)
+   ^
+   static 
+>> drivers/net/ethernet/yunsilicon/xsc/pci/main.c:412:8: error: call to undeclared function 'pci_request_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           err = pci_request_region(pdev, bar_num, name);
+                 ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:412:8: note: did you mean 'pci_request_regions'?
+   include/linux/pci.h:2048:19: note: 'pci_request_regions' declared here
+   static inline int pci_request_regions(struct pci_dev *dev, const char *res_name)
+                     ^
+>> drivers/net/ethernet/yunsilicon/xsc/pci/main.c:454:2: error: call to undeclared function 'pci_release_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           pci_release_region(pdev, bar_num);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:454:2: note: did you mean 'pci_release_regions'?
+   include/linux/pci.h:2050:20: note: 'pci_release_regions' declared here
+   static inline void pci_release_regions(struct pci_dev *dev) { }
+                      ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:475:2: error: call to undeclared function 'pci_release_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           pci_release_region(pdev, dev->bar_num);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:518:5: warning: no previous prototype for function 'xsc_reset_function_resource' [-Wmissing-prototypes]
+   int xsc_reset_function_resource(struct xsc_core_device *dev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:518:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_reset_function_resource(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:612:19: error: no member named 'physfn' in 'struct pci_dev'
+                   if (!dev->pdev->physfn) {
+                        ~~~~~~~~~  ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:718:5: warning: no previous prototype for function 'xsc_load_one' [-Wmissing-prototypes]
+   int xsc_load_one(struct xsc_core_device *dev, bool boot)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:718:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_load_one(struct xsc_core_device *dev, bool boot)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:796:5: warning: no previous prototype for function 'xsc_unload_one' [-Wmissing-prototypes]
+   int xsc_unload_one(struct xsc_core_device *dev, bool cleanup)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/main.c:796:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_unload_one(struct xsc_core_device *dev, bool cleanup)
+   ^
+   static 
+   9 warnings and 4 errors generated.
+--
+   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:16:
+   In file included from drivers/net/ethernet/yunsilicon/xsc/common/driver.h:18:
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1732:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
+           if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:913:17: error: call to undeclared function 'dma_pool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           mailbox->buf = dma_pool_alloc(xdev->cmd.pool, flags,
+                          ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:913:17: note: did you mean 'mempool_alloc'?
+   include/linux/mempool.h:57:14: note: 'mempool_alloc' declared here
+   extern void *mempool_alloc(mempool_t *pool, gfp_t gfp_mask) __malloc;
+                ^
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:913:15: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+           mailbox->buf = dma_pool_alloc(xdev->cmd.pool, flags,
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:929:2: error: call to undeclared function 'dma_pool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           dma_pool_free(xdev->cmd.pool, mailbox->buf, mailbox->dma);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:929:2: note: did you mean 'mempool_free'?
+   include/linux/mempool.h:58:13: note: 'mempool_free' declared here
+   extern void mempool_free(void *element, mempool_t *pool);
+               ^
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:1846:14: error: call to undeclared function 'dma_pool_create'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           cmd->pool = dma_pool_create("xsc_cmd", &xdev->pdev->dev, size, align, 0);
+                       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:1846:14: note: did you mean 'mempool_create'?
+   include/linux/mempool.h:49:19: note: 'mempool_create' declared here
+   extern mempool_t *mempool_create(int min_nr, mempool_alloc_t *alloc_fn,
+                     ^
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:1846:12: error: incompatible integer to pointer conversion assigning to 'struct dma_pool *' from 'int' [-Wint-conversion]
+           cmd->pool = dma_pool_create("xsc_cmd", &xdev->pdev->dev, size, align, 0);
+                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:2015:2: error: call to undeclared function 'dma_pool_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           dma_pool_destroy(cmd->pool);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:2015:2: note: did you mean 'mempool_destroy'?
+   include/linux/mempool.h:56:13: note: 'mempool_destroy' declared here
+   extern void mempool_destroy(mempool_t *pool);
+               ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/cmd2.c:2036:2: error: call to undeclared function 'dma_pool_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           dma_pool_destroy(cmd->pool);
+           ^
+   1 warning and 7 errors generated.
+--
+   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:11:
+   In file included from drivers/net/ethernet/yunsilicon/xsc/common/driver.h:18:
+   drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:1732:32: warning: bitwise or with non-zero value always evaluates to true [-Wtautological-bitwise-compare]
+           if (dev->caps.hw_feature_flag | XSC_HW_RDMA_SUPPORT)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:558:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           pci_free_irq_vectors(dev->pdev);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:558:2: note: did you mean 'pci_alloc_irq_vectors'?
+   include/linux/pci.h:2100:1: note: 'pci_alloc_irq_vectors' declared here
+   pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+   ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:616:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           pci_free_irq_vectors(dev->pdev);
+           ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:721:5: warning: no previous prototype for function 'xsc_request_irq_for_cmdq' [-Wmissing-prototypes]
+   int xsc_request_irq_for_cmdq(struct xsc_core_device *dev, u8 vecidx)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:721:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_request_irq_for_cmdq(struct xsc_core_device *dev, u8 vecidx)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:734:6: warning: no previous prototype for function 'xsc_free_irq_for_cmdq' [-Wmissing-prototypes]
+   void xsc_free_irq_for_cmdq(struct xsc_core_device *dev)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:734:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_free_irq_for_cmdq(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:756:5: warning: no previous prototype for function 'xsc_request_irq_for_event' [-Wmissing-prototypes]
+   int xsc_request_irq_for_event(struct xsc_core_device *dev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_request_irq_for_event(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:767:6: warning: no previous prototype for function 'xsc_free_irq_for_event' [-Wmissing-prototypes]
+   void xsc_free_irq_for_event(struct xsc_core_device *dev)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:767:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_free_irq_for_event(struct xsc_core_device *dev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:773:5: warning: no previous prototype for function 'xsc_cmd_enable_msix' [-Wmissing-prototypes]
+   int xsc_cmd_enable_msix(struct xsc_core_device *xdev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/pci/pci_irq.c:773:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_cmd_enable_msix(struct xsc_core_device *xdev)
+   ^
+   static 
+   6 warnings and 2 errors generated.
+--
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1707:6: warning: no previous prototype for function 'xsc_eth_deactivate_priv_channels' [-Wmissing-prototypes]
+   void xsc_eth_deactivate_priv_channels(struct xsc_adapter *adapter)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1707:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_eth_deactivate_priv_channels(struct xsc_adapter *adapter)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1850:5: warning: no previous prototype for function 'xsc_eth_change_link_status' [-Wmissing-prototypes]
+   int xsc_eth_change_link_status(struct xsc_adapter *adapter)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1850:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_change_link_status(struct xsc_adapter *adapter)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1907:6: warning: no previous prototype for function 'xsc_eth_event_handler' [-Wmissing-prototypes]
+   void xsc_eth_event_handler(void *arg)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1907:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_eth_event_handler(void *arg)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1915:5: warning: no previous prototype for function 'xsc_eth_enable_nic_hca' [-Wmissing-prototypes]
+   int xsc_eth_enable_nic_hca(struct xsc_adapter *adapter)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1915:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_enable_nic_hca(struct xsc_adapter *adapter)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1977:5: warning: no previous prototype for function 'xsc_eth_disable_nic_hca' [-Wmissing-prototypes]
+   int xsc_eth_disable_nic_hca(struct xsc_adapter *adapter)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:1977:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_disable_nic_hca(struct xsc_adapter *adapter)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2010:6: warning: no previous prototype for function 'xsc_eth_rss_params_change' [-Wmissing-prototypes]
+   void xsc_eth_rss_params_change(struct xsc_adapter *adapter, u32 change, void *modify)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2010:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_eth_rss_params_change(struct xsc_adapter *adapter, u32 change, void *modify)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2318:6: warning: no previous prototype for function 'xsc_build_default_indir_rqt' [-Wmissing-prototypes]
+   void xsc_build_default_indir_rqt(u32 *indirection_rqt, int len,
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2318:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_build_default_indir_rqt(u32 *indirection_rqt, int len,
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2416:5: warning: no previous prototype for function 'xsc_eth_nic_mtu_changed' [-Wmissing-prototypes]
+   int xsc_eth_nic_mtu_changed(struct xsc_adapter *priv)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2416:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_nic_mtu_changed(struct xsc_adapter *priv)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2479:5: warning: no previous prototype for function 'xsc_set_vf_mac' [-Wmissing-prototypes]
+   int xsc_set_vf_mac(struct net_device *netdev, int vf, u8 *mac)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2479:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_set_vf_mac(struct net_device *netdev, int vf, u8 *mac)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2496:5: warning: no previous prototype for function 'xsc_get_vf_config' [-Wmissing-prototypes]
+   int xsc_get_vf_config(struct net_device *dev,
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2496:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_get_vf_config(struct net_device *dev,
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2512:5: warning: no previous prototype for function 'set_feature_rxcsum' [-Wmissing-prototypes]
+   int set_feature_rxcsum(struct net_device *netdev, bool enable)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2512:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int set_feature_rxcsum(struct net_device *netdev, bool enable)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2564:5: warning: no previous prototype for function 'xsc_eth_set_features' [-Wmissing-prototypes]
+   int xsc_eth_set_features(struct net_device *netdev, netdev_features_t features)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2564:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_set_features(struct net_device *netdev, netdev_features_t features)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2581:5: warning: no previous prototype for function 'xsc_select_queue' [-Wmissing-prototypes]
+   u16 xsc_select_queue(struct net_device *dev, struct sk_buff *skb,
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2581:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   u16 xsc_select_queue(struct net_device *dev, struct sk_buff *skb,
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2590:10: warning: variable 'txq_ix' is uninitialized when used here [-Wuninitialized]
+                   return txq_ix;
+                          ^~~~~~
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2584:12: note: initialize the variable 'txq_ix' to silence this warning
+           int txq_ix, up = 0;
+                     ^
+                      = 0
+>> drivers/net/ethernet/yunsilicon/xsc/net/main.c:2628:14: error: no member named 'physfn' in 'struct pci_dev'
+                   if (!pdev->physfn)
+                        ~~~~  ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2630:35: error: no member named 'physfn' in 'struct pci_dev'
+                   pf_xdev = pci_get_drvdata(pdev->physfn);
+                                             ~~~~  ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2769:24: warning: no previous prototype for function 'xsc_tirc_get_default_config' [-Wmissing-prototypes]
+   struct xsc_tirc_config xsc_tirc_get_default_config(enum xsc_traffic_types tt)
+                          ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2769:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct xsc_tirc_config xsc_tirc_get_default_config(enum xsc_traffic_types tt)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2774:6: warning: no previous prototype for function 'xsc_build_rss_params' [-Wmissing-prototypes]
+   void xsc_build_rss_params(struct xsc_rss_params *rss_params, u16 num_channels)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2774:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_build_rss_params(struct xsc_rss_params *rss_params, u16 num_channels)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2792:6: warning: no previous prototype for function 'xsc_eth_build_nic_params' [-Wmissing-prototypes]
+   void xsc_eth_build_nic_params(struct xsc_adapter *adapter, u32 ch_num, u32 tc_num)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2792:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_eth_build_nic_params(struct xsc_adapter *adapter, u32 ch_num, u32 tc_num)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2814:6: warning: no previous prototype for function 'xsc_eth_build_nic_netdev' [-Wmissing-prototypes]
+   void xsc_eth_build_nic_netdev(struct xsc_adapter *adapter)
+        ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2814:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void xsc_eth_build_nic_netdev(struct xsc_adapter *adapter)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2885:5: warning: no previous prototype for function 'xsc_eth_create_xdev_resources' [-Wmissing-prototypes]
+   int xsc_eth_create_xdev_resources(struct xsc_core_device *xdev)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2885:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_create_xdev_resources(struct xsc_core_device *xdev)
+   ^
+   static 
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2906:5: warning: no previous prototype for function 'xsc_eth_init_nic_rx' [-Wmissing-prototypes]
+   int xsc_eth_init_nic_rx(struct xsc_adapter *adapter)
+       ^
+   drivers/net/ethernet/yunsilicon/xsc/net/main.c:2906:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xsc_eth_init_nic_rx(struct xsc_adapter *adapter)
+   ^
+   static 
+   47 warnings and 2 errors generated.
 
 
-vim +1580 net/mptcp/subflow.c
+vim +2628 drivers/net/ethernet/yunsilicon/xsc/net/main.c
 
-  1546	
-  1547	int __mptcp_subflow_connect(struct sock *sk, const struct mptcp_pm_addr_entry *local,
-  1548				    const struct mptcp_addr_info *remote)
-  1549	{
-  1550		struct mptcp_sock *msk = mptcp_sk(sk);
-  1551		struct mptcp_subflow_context *subflow;
-  1552		int local_id = local->addr.id;
-  1553		struct sockaddr_storage addr;
-  1554		int remote_id = remote->id;
-  1555		int err = -ENOTCONN;
-  1556		struct socket *sf;
-  1557		struct sock *ssk;
-  1558		u32 remote_token;
-  1559		int addrlen;
-  1560	
-  1561		if (!mptcp_is_fully_established(sk))
-  1562			goto err_out;
-  1563	
-  1564		err = mptcp_subflow_create_socket(sk, local->addr.family, &sf);
-  1565		if (err)
-  1566			goto err_out;
-  1567	
-  1568		ssk = sf->sk;
-  1569		subflow = mptcp_subflow_ctx(ssk);
-  1570		do {
-  1571			get_random_bytes(&subflow->local_nonce, sizeof(u32));
-  1572		} while (!subflow->local_nonce);
-  1573	
-  1574		/* if 'IPADDRANY', the ID will be set later, after the routing */
-  1575		if (local->addr.family == AF_INET) {
-  1576			if (!local->addr.addr.s_addr)
-  1577				local_id = -1;
-  1578	#if IS_ENABLED(CONFIG_IPV6)
-  1579		} else if (sk->sk_family == AF_INET6) {
-> 1580			if (ipv6_addr_any(&local->addr.addr6))
-  1581				local_id = -1;
-  1582	#endif
-  1583		}
-  1584	
-  1585		if (local_id >= 0)
-  1586			subflow_set_local_id(subflow, local_id);
-  1587	
-  1588		subflow->remote_key_valid = 1;
-  1589		subflow->remote_key = READ_ONCE(msk->remote_key);
-  1590		subflow->local_key = READ_ONCE(msk->local_key);
-  1591		subflow->token = msk->token;
-  1592		mptcp_info2sockaddr(&local->addr, &addr, ssk->sk_family);
-  1593	
-  1594		addrlen = sizeof(struct sockaddr_in);
-  1595	#if IS_ENABLED(CONFIG_MPTCP_IPV6)
-  1596		if (addr.ss_family == AF_INET6)
-  1597			addrlen = sizeof(struct sockaddr_in6);
-  1598	#endif
-  1599		ssk->sk_bound_dev_if = local->ifindex;
-  1600		err = kernel_bind(sf, (struct sockaddr *)&addr, addrlen);
-  1601		if (err)
-  1602			goto failed;
-  1603	
-  1604		mptcp_crypto_key_sha(subflow->remote_key, &remote_token, NULL);
-  1605		pr_debug("msk=%p remote_token=%u local_id=%d remote_id=%d", msk,
-  1606			 remote_token, local_id, remote_id);
-  1607		subflow->remote_token = remote_token;
-  1608		WRITE_ONCE(subflow->remote_id, remote_id);
-  1609		subflow->request_join = 1;
-  1610		subflow->request_bkup = !!(local->flags & MPTCP_PM_ADDR_FLAG_BACKUP);
-  1611		subflow->subflow_id = msk->subflow_id++;
-  1612		mptcp_info2sockaddr(remote, &addr, ssk->sk_family);
-  1613	
-  1614		sock_hold(ssk);
-  1615		list_add_tail(&subflow->node, &msk->conn_list);
-  1616		err = kernel_connect(sf, (struct sockaddr *)&addr, addrlen, O_NONBLOCK);
-  1617		if (err && err != -EINPROGRESS)
-  1618			goto failed_unlink;
-  1619	
-  1620		/* discard the subflow socket */
-  1621		mptcp_sock_graft(ssk, sk->sk_socket);
-  1622		iput(SOCK_INODE(sf));
-  1623		WRITE_ONCE(msk->allow_infinite_fallback, false);
-  1624		mptcp_stop_tout_timer(sk);
-  1625		return 0;
-  1626	
-  1627	failed_unlink:
-  1628		list_del(&subflow->node);
-  1629		sock_put(mptcp_subflow_tcp_sock(subflow));
-  1630	
-  1631	failed:
-  1632		subflow->disposable = 1;
-  1633		sock_release(sf);
-  1634	
-  1635	err_out:
-  1636		/* we account subflows before the creation, and this failures will not
-  1637		 * be caught by sk_state_change()
-  1638		 */
-  1639		mptcp_pm_close_subflow(msk);
-  1640		return err;
-  1641	}
-  1642	
+  2614	
+  2615	static int xsc_get_phys_port_name(struct net_device *dev,
+  2616					  char *buf, size_t len)
+  2617	{
+  2618		struct xsc_adapter *adapter = netdev_priv(dev);
+  2619		struct xsc_core_device *xdev = adapter->xdev;
+  2620		struct xsc_core_device *pf_xdev;
+  2621		struct net_device *pf_netdev;
+  2622		struct pci_dev *pdev = xdev->pdev;
+  2623		int ret = len;
+  2624	
+  2625		if (!pdev)
+  2626			return -EOPNOTSUPP;
+  2627		if (!xsc_core_is_pf(xdev)) {
+> 2628			if (!pdev->physfn)
+  2629				return -EOPNOTSUPP;
+  2630			pf_xdev = pci_get_drvdata(pdev->physfn);
+  2631			if (!pf_xdev || !pf_xdev->netdev)
+  2632				return -EOPNOTSUPP;
+  2633			pf_netdev = (struct net_device *)pf_xdev->netdev;
+  2634			ret = snprintf(buf, len, "%s_%d",
+  2635				       pf_netdev->name, xdev->vf_id);
+  2636		} else {
+  2637			return -EOPNOTSUPP;
+  2638		}
+  2639		if (ret >= len)
+  2640			return -EOPNOTSUPP;
+  2641	
+  2642		return 0;
+  2643	}
+  2644	
 
 -- 
 0-DAY CI Kernel Test Service
