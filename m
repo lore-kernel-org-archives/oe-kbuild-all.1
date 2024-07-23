@@ -1,104 +1,181 @@
-Received: from out198-13.us.a.mail.aliyun.com (out198-13.us.a.mail.aliyun.com [47.90.198.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFA314D44E;
-	Tue, 23 Jul 2024 09:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A778D14EC61
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 11:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721725535; cv=none; b=WJ9Q++Ohqj+BlaEhMB+IX0SB2o2sLCfVj8oqSK6BPxNndzPC0WsTM5b0p0d6MfYOTFBq3R9fTsDuNJ8U5CoBQ+rrL5puqHghzOLuGOSwxb9ii6jFlprIb9J8AfsqdjNtT12SAnGj8fxb6JQohOJS5tju0ua8sU39u6H6uVBkf8I=
+	t=1721735914; cv=none; b=ZkwJxUIz48lGKUgGVWgaYv07MHSFVhkr2cnbhWo+futAzzznjZErreSOQAQqtruUQXJL5Sp1DnnSvNIilSdktcwulV7q4WpMP/xjl4VBuRUpMpe+cQ5I3YEZpJSYNu553rdTtmBOmprdOBfMEWxroXBz1jTr4M51CfEi6vK/ddI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721725535; c=relaxed/simple;
-	bh=JsJYXjNIx7W5kl4D6KgJ2v6biHoChMoUlgJlPW7T69U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FEeTsApZyTUsqbbUoQrJj9IHBRLnYE3Zl95UH987GuCb67tE4Ya4bB5BR3KOtDMI5A7pDg5u5N6tK7NwF3tCPoUiwV39fddkfbT76l9kl0QN2QXz7vt1BCmKw9I3PcdHAykRe2Ddl9J/nIEuahb3wdI1d1gNXzY85QSCUoMvK58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com; spf=pass smtp.mailfrom=ttyinfo.com; arc=none smtp.client-ip=47.90.198.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ttyinfo.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09341948|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0149439-0.000557638-0.984498;FP=3697210579835616410|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037088118;MF=zhoushengqing@ttyinfo.com;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.YX7xuQS_1721721843;
-Received: from tzl..(mailfrom:zhoushengqing@ttyinfo.com fp:SMTPD_---.YX7xuQS_1721721843)
-          by smtp.aliyun-inc.com;
-          Tue, 23 Jul 2024 16:04:04 +0800
-From: Zhou Shengqing <zhoushengqing@ttyinfo.com>
-To: helgaas@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	lkp@intel.com,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	zhoushengqing@ttyinfo.com
-Subject: Re: [PATCH v4] Subject: PCI: Enable io space 1k granularity for intel cpu root port
-Date: Tue, 23 Jul 2024 08:04:03 +0000
-Message-Id: <20240723080403.9764-1-zhoushengqing@ttyinfo.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240712184849.GA330337@bhelgaas>
-References: <20240712184849.GA330337@bhelgaas>
+	s=arc-20240116; t=1721735914; c=relaxed/simple;
+	bh=KW/DdsWn1z/R7jpue+hnLzMTwOk7JlXT/5sgZBKqscA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LSD2YnvZyVJifXQYmEySEGMoL5i1YovNhqPMW1CA26JbiR8o89LHhIrWvcIfuvKzcyEcN/qn8wh+Z3vn3Zc9H65D7eGQgRc9FqRfO+5+B0swwErDBy1jwQ1DtS6qQ2yX5hsdlEeNI8oSBrOX7K2cN2y5MSrRrzrvrQ7m8kx51vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHUk1iaa; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHUk1iaa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721735912; x=1753271912;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KW/DdsWn1z/R7jpue+hnLzMTwOk7JlXT/5sgZBKqscA=;
+  b=VHUk1iaaalhb76t0IxGxFzXhi0GGcShwjLLsXW1HT81i9Jj7nUQIIFSI
+   eX1KgOBXQUOErvwjst2UAYXJnXiRiaiaQSEFNygngIcrQG+CGN68dPWrr
+   GJn2rD0S2b8ZCtX4Zqh0HVCUE3MDtddwrAdmJPz+sBLemzX++eA03pCSq
+   B2A+BUaaUiv/xwBlubD93GasUv1KCtZqlZ5sBreqIQHLGntowvL4/xgMR
+   umyluO397elIYcIwWqfRD/HbnYYzS8njMTQwarG+1q2dnUE3aRyY6m1i7
+   Vhj+FQQKimGU8iZ88UfQ86a6WQFHeN9Q7YhDJ70n+/YLKpOJpuoAVW+SD
+   A==;
+X-CSE-ConnectionGUID: Dwjp5RYlSWybjHZUdGut2A==
+X-CSE-MsgGUID: kRLKbSr1QWafsHMC+EQoSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="19481926"
+X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
+   d="scan'208";a="19481926"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 04:58:31 -0700
+X-CSE-ConnectionGUID: b8/KaQiDTpaoFrTfOJdGOg==
+X-CSE-MsgGUID: fkULdQJsQVq3ksBbIvqT8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,230,1716274800"; 
+   d="scan'208";a="52147750"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Jul 2024 04:58:30 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sWE9z-000lv2-2V;
+	Tue, 23 Jul 2024 11:58:27 +0000
+Date: Tue, 23 Jul 2024 19:57:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:timestats-hoist 181/326]
+ fs/xfs/libxfs/xfs_rtgroup.c:504:47: error: 'xfs_rtg_lock_class' undeclared;
+ did you mean 'xfs_rtginode_lock_class'?
+Message-ID: <202407231945.pdE335sh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   34a8467cd7c47cc944cc6fa11ea4b46671c935d1
+commit: b1307d2905e0d20637fe7a3416217dc53c4e83cb [181/326] xfs: add a lockdep class key for rtgroup inodes
+config: i386-buildonly-randconfig-001-20240723 (https://download.01.org/0day-ci/archive/20240723/202407231945.pdE335sh-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407231945.pdE335sh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407231945.pdE335sh-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   fs/xfs/libxfs/xfs_rtgroup.c:502:7: warning: 'enum xfs_rtg_inodes' declared inside parameter list will not be visible outside of this definition or declaration
+     enum xfs_rtg_inodes type)
+          ^~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtgroup.c:502:22: error: parameter 3 ('type') has incomplete type
+     enum xfs_rtg_inodes type)
+     ~~~~~~~~~~~~~~~~~~~~^~~~
+   fs/xfs/libxfs/xfs_rtgroup.c:499:1: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    xfs_rtginode_lockdep_setup(
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:63,
+                    from include/linux/semaphore.h:12,
+                    from fs/xfs/xfs_linux.h:24,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/libxfs/xfs_rtgroup.c:6:
+   fs/xfs/libxfs/xfs_rtgroup.c: In function 'xfs_rtginode_lockdep_setup':
+>> fs/xfs/libxfs/xfs_rtgroup.c:504:47: error: 'xfs_rtg_lock_class' undeclared (first use in this function); did you mean 'xfs_rtginode_lock_class'?
+     lockdep_set_class_and_subclass(&ip->i_lock, &xfs_rtg_lock_class, type);
+                                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:170:48: note: in definition of macro 'lockdep_set_class_and_subclass'
+     lockdep_init_map_type(&(lock)->dep_map, #key, key, sub, \
+                                                   ^~~
+   fs/xfs/libxfs/xfs_rtgroup.c:504:47: note: each undeclared identifier is reported only once for each function it appears in
+     lockdep_set_class_and_subclass(&ip->i_lock, &xfs_rtg_lock_class, type);
+                                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:170:48: note: in definition of macro 'lockdep_set_class_and_subclass'
+     lockdep_init_map_type(&(lock)->dep_map, #key, key, sub, \
+                                                   ^~~
+>> fs/xfs/libxfs/xfs_rtgroup.c:505:31: error: 'xfs_rtginode_cmp_fn' undeclared (first use in this function); did you mean 'xfs_rtginode_ilock_cmp_fn'?
+     lock_set_cmp_fn(&ip->i_lock, xfs_rtginode_cmp_fn,
+                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:396:78: note: in definition of macro 'lock_set_cmp_fn'
+    #define lock_set_cmp_fn(lock, ...) lockdep_set_lock_cmp_fn(&(lock)->dep_map, __VA_ARGS__)
+                                                                                 ^~~~~~~~~~~
+>> fs/xfs/libxfs/xfs_rtgroup.c:506:4: error: 'xfs_rtginode_print_fn' undeclared (first use in this function); did you mean 'xfs_rtginode_ilock_print_fn'?
+       xfs_rtginode_print_fn);
+       ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:396:78: note: in definition of macro 'lock_set_cmp_fn'
+    #define lock_set_cmp_fn(lock, ...) lockdep_set_lock_cmp_fn(&(lock)->dep_map, __VA_ARGS__)
+                                                                                 ^~~~~~~~~~~
+   At top level:
+>> fs/xfs/libxfs/xfs_rtgroup.c:465:1: warning: 'xfs_rtginode_ilock_cmp_fn' defined but not used [-Wunused-function]
+    xfs_rtginode_ilock_cmp_fn(
+    ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/xfs/libxfs/xfs_rtgroup.c:462:30: warning: 'xfs_rtginode_lock_class' defined but not used [-Wunused-variable]
+    static struct lock_class_key xfs_rtginode_lock_class;
+                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-> I think this has potential.  Can you include a more complete citation
-> for the Intel spec?  Complete name, document number if available,
-> revision, section?  Hopefully it's publically available?
+vim +504 fs/xfs/libxfs/xfs_rtgroup.c
 
-Most of intel CPU EDS specs are under NDA. But you can refer to
-https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e5-v2-datasheet-vol-2.pdf
-keyword:"EN1K".
+   460	
+   461	#ifdef CONFIG_PROVE_LOCKING
+ > 462	static struct lock_class_key xfs_rtginode_lock_class;
+   463	
+   464	static int
+ > 465	xfs_rtginode_ilock_cmp_fn(
+   466		const struct lockdep_map	*m1,
+   467		const struct lockdep_map	*m2)
+   468	{
+   469		const struct xfs_inode *ip1 =
+   470			container_of(m1, struct xfs_inode, i_lock.dep_map);
+   471		const struct xfs_inode *ip2 =
+   472			container_of(m2, struct xfs_inode, i_lock.dep_map);
+   473	
+   474		if (ip1->i_projid < ip2->i_projid)
+   475			return -1;
+   476		if (ip1->i_projid > ip2->i_projid)
+   477			return 1;
+   478		return 0;
+   479	}
+   480	
+   481	static inline void
+   482	xfs_rtginode_ilock_print_fn(
+   483		const struct lockdep_map	*m)
+   484	{
+   485		const struct xfs_inode *ip =
+   486			container_of(m, struct xfs_inode, i_lock.dep_map);
+   487	
+   488		printk(KERN_CONT " rgno=%u", ip->i_projid);
+   489	}
+   490	
+   491	/*
+   492	 * Most of the time each of the RTG inode locks are only taken one at a time.
+   493	 * But when committing deferred ops, more than one of a kind can be taken.
+   494	 * However, deferred rt ops will be committed in rgno order so there is no
+   495	 * potential for deadlocks.  The code here is needed to tell lockdep about this
+   496	 * order.
+   497	 */
+   498	static inline void
+   499	xfs_rtginode_lockdep_setup(
+   500		struct xfs_inode	*ip,
+   501		xfs_rgnumber_t		rgno,
+   502		enum xfs_rtg_inodes	type)
+   503	{
+ > 504		lockdep_set_class_and_subclass(&ip->i_lock, &xfs_rtg_lock_class, type);
+ > 505		lock_set_cmp_fn(&ip->i_lock, xfs_rtginode_cmp_fn,
+ > 506				xfs_rtginode_print_fn);
 
-> + /*
-> > + * Per intel sever CPU EDS vol2(register) spec,
-> > + * Intel Memory Map/Intel VT-d configuration space,
-> > + * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
-> > + * bit 2.
-> > + * Enable 1K (EN1K):
-> > + * This bit when set, enables 1K granularity for I/O space decode
-> > + * in each of the virtual P2P bridges
-> > + * corresponding to root ports, and DMI ports.
-> > + */
-> > + while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
-> 
-> To be safe, "d" (the [8086:09a2] device) should be on the same bus as
-> "dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
-> which would be a different bus, and they presumably are not influenced
-> by the EN1K bit.
-
-I modified the code as follows, can you help me review it? 
-
-/* Enable 1k I/O space granularity on the intel root port */
-static void quirk_intel_rootport_1k_io(struct pci_dev *dev)
-{
-	struct pci_dev *d = NULL;
-	u16 en1k = 0;
-
-	if (!pci_is_pcie(dev) || pci_pcie_type(dev) != PCI_EXP_TYPE_ROOT_PORT)
-		return;
-
-	/*
-	 * Per intel sever CPU (ICX SPR GNR)EDS vol2(register) spec,
-	 * Intel Memory Map/Intel VT-d configuration space,
-	 * IIO MISC Control (IIOMISCCTRL_1_5_0_CFG) — Offset 1C0h
-	 * bit 2.
-	 * Enable 1K (EN1K):
-	 * This bit when set, enables 1K granularity for I/O space decode 
-	 * in each of the virtual P2P bridges
-	 * corresponding to root ports, and DMI ports.
-	 */
-	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
-		if (pci_domain_nr(d->bus) == pci_domain_nr(dev->bus)) {
-			pci_read_config_word(d, 0x1c0, &en1k);
-			if (en1k & 0x4) {
-				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
-				dev->io_window_1k = 1;
-			}
-		}
-	}
-}
-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL,	PCI_ANY_ID,	quirk_intel_rootport_1k_io);
-
-If you have a better method, please let me know. If there are no issues, 
-I can submit a new patch.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
