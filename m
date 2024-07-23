@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973C3142648;
-	Tue, 23 Jul 2024 19:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38FC13E024
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 21:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721764675; cv=none; b=cLFIKhp2Fa9OVOjRGcwjaYEZStx4XLWZerIwxxcjnQSd9Qk+nEqopYixHY37xqx6t4hvVpG2zNYr0RIaQx3srPLJAlnS+Z6A8GCB4aE+xWECy60+9r/l8rgwMC/a+Ph5aOsix6Rj+plLtkCBa3SPfiUJzBkEhbInzei+LE/NFj4=
+	t=1721770317; cv=none; b=JP+wjXAb+DmETViAac1ZJJc4Rm8RfSCf2nq/MKqHe+O8yiuS4LKy4OZnlrCoEPZq811969K0TOTNN4na3nvI9qPxYkZMBj0P2wj+WmvRlSDUfHz8vtAYIOEQ8hViFzXko+o+/gYlKWG4ZaYw2KLZoCqulmSyMQIzdu30bu1M81E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721764675; c=relaxed/simple;
-	bh=F7oV1U3Aj4pE+kbk85/bZihDwGPL4aFznra86IAEkRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BkCa5TgwtT+MaFuCL0cb2Hhi4V+qZIC6IabNCGjILAeNr+FfFXMk1ava/LUjqayNLPlD129riaB/CPI5BY3XG60Fw527u+8wXkN5TMkYgHLMDEqxPNOMsty1AqsMrODIBLb+XDOdYBQ+C1RkNAKZL5QzZSKBxm8/jNxPFTm3gJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4vCf/Yp; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1721770317; c=relaxed/simple;
+	bh=1u7oyjvLqoXnpGnM2m1Ehn3fmSRIIBJftp2xw3xMKtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cCRv+WJK4Xu3ccenueJu9lq9fK/4GoMPgJ64wLz3xxLjE5RmGxiLpbTqts27//M95Z2p8czKyi8DvDvy2UX6gtTPWFskExH7++spoXH6K8/2exlr1+3JcgTXZgYTA4Z1NUrsB3JBd4CF9z6UI0yqiNVcWFAk6nQZlJTPNgBD2Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jiRzXMuK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4vCf/Yp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jiRzXMuK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721764673; x=1753300673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F7oV1U3Aj4pE+kbk85/bZihDwGPL4aFznra86IAEkRc=;
-  b=O4vCf/YppWqKGW9GYiONKpbI/AzyqnFGQTOBIQZ9NF6734XCGkFHNfn2
-   X55rnnlsJiVXzhUDkb0bSiRKCE5Yjg7NQ7yqF0BvrRFzjtuzIUjDY/TCQ
-   rXXfuWexb87FQKrEMD1UiRUOnwUnU/mpIhpZ5je9cgu2cYIb3OZoATBqC
-   8+O9QXgkiuMZnCvglIj2zk33R6/6OIttz/GYhxiuZ2bsQ9CTbwnP/mjvy
-   RYli3NS2Fc05NTVaDavb87nV1f7mzrzHqHGX3YOxInwVIqgrlkvFrvLyT
-   02xOc933B2aRSNsL3IohxHN/cdpvfx48Pq3I0bjGelFPCbkanI0hTiTeO
+  t=1721770315; x=1753306315;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1u7oyjvLqoXnpGnM2m1Ehn3fmSRIIBJftp2xw3xMKtI=;
+  b=jiRzXMuKxPUcRvuczoc5Dm+7dyZQ1r7nVqLCXR6Ourq4u3AKJjMIJgXg
+   Tx5vE5SLpNZk+opE5IhYtHe8mIAW5f9RjwJZPQSaF6E3r+/E3HSZ0FOJw
+   ukZXZCGC7K100NtWLfPgAGiq3K/eJ7qRSU6CeOSP2JqkjkdhDw+7gAEj1
+   6xs5Ig84pOyIuyS5hftv3Kt5Bj/mzs8LnkGHJyvDWYVjdhSP6OfY+GJXr
+   n67zEdXUQebncmtgM/sXVXFpXIQuNdO8qMbVHBQPE+CnzAx4FSUk3Mds8
+   VxmQNYf5LycddYk2LEMhuUKKWVECNansjtzviww/FU9pWLv5GKy0xCUiS
    w==;
-X-CSE-ConnectionGUID: sxLF7INmQ8y47q9T4kVFTw==
-X-CSE-MsgGUID: VrvUaEh2S7+iuYTBknfhgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19597412"
+X-CSE-ConnectionGUID: 6O1j/3LZTRGELS/+d/QiLA==
+X-CSE-MsgGUID: wz+gkNmlT5+8Hz596/dP/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19034985"
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="19597412"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 12:57:53 -0700
-X-CSE-ConnectionGUID: BtbfYRwFQ0SaLgP0xDjQUw==
-X-CSE-MsgGUID: P6YDV3w2TPi6cmQybAH2pw==
+   d="scan'208";a="19034985"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 14:31:54 -0700
+X-CSE-ConnectionGUID: 1cERApckT7K2c3FB77+a5Q==
+X-CSE-MsgGUID: nL7iex5iRiqRf9eXhcVRUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="52065548"
+   d="scan'208";a="57191758"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Jul 2024 12:57:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Jul 2024 14:31:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWLds-000mJc-1L;
-	Tue, 23 Jul 2024 19:57:48 +0000
-Date: Wed, 24 Jul 2024 03:57:35 +0800
+	id 1sWN6s-000mN2-1T;
+	Tue, 23 Jul 2024 21:31:50 +0000
+Date: Wed, 24 Jul 2024 05:31:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Waiman Long <longman@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
-	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH 2/2] LoongArch: KVM: Add paravirt qspinlock in guest side
-Message-ID: <202407240320.qqd1uWiE-lkp@intel.com>
-References: <20240723073825.1811600-3-maobibo@loongson.cn>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org
+Subject: [cifs:for-next 2/3] fs/smb/client/connect.c:3822:undefined reference
+ to `reset_cifs_unix_caps'
+Message-ID: <202407240524.z6cV5wBx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,66 +62,168 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240723073825.1811600-3-maobibo@loongson.cn>
 
-Hi Bibo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7846b618e0a4c3e08888099d1d4512722b39ca99]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-KVM-Add-paravirt-qspinlock-in-kvm-side/20240723-160536
-base:   7846b618e0a4c3e08888099d1d4512722b39ca99
-patch link:    https://lore.kernel.org/r/20240723073825.1811600-3-maobibo%40loongson.cn
-patch subject: [PATCH 2/2] LoongArch: KVM: Add paravirt qspinlock in guest side
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240724/202407240320.qqd1uWiE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240320.qqd1uWiE-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+head:   dde12e91303b6d38322ed69801ce3129aba82ad5
+commit: 2a9b3eb1b0838cc99aafdc50e37138538d4593bb [2/3] cifs: fix reconnect with SMB1 UNIX Extensions
+config: x86_64-randconfig-072-20240723 (https://download.01.org/0day-ci/archive/20240724/202407240524.z6cV5wBx-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240524.z6cV5wBx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407240320.qqd1uWiE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240524.z6cV5wBx-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/loongarch/kernel/paravirt.c:309: warning: expecting prototype for queued_spin_unlock(). Prototype was for native_queued_spin_unlock() instead
---
-   In file included from include/linux/atomic.h:80,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/loongarch/include/asm/bitops.h:27,
-                    from include/linux/bitops.h:63,
-                    from include/linux/kernel.h:23,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from kernel/locking/qspinlock.c:16:
-   kernel/locking/qspinlock_paravirt.h: In function 'pv_kick_node':
->> include/linux/atomic/atomic-arch-fallback.h:242:34: error: initialization of 'u8 *' {aka 'unsigned char *'} from incompatible pointer type 'enum vcpu_state *' [-Wincompatible-pointer-types]
-     242 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-         |                                  ^
-   include/linux/atomic/atomic-instrumented.h:4908:9: note: in expansion of macro 'raw_try_cmpxchg_relaxed'
-    4908 |         raw_try_cmpxchg_relaxed(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/qspinlock_paravirt.h:377:14: note: in expansion of macro 'try_cmpxchg_relaxed'
-     377 |         if (!try_cmpxchg_relaxed(&pn->state, &old, vcpu_hashed))
-         |              ^~~~~~~~~~~~~~~~~~~
+   ld: vmlinux.o: in function `CIFSTCon':
+>> fs/smb/client/connect.c:3822:(.text+0xb9aa7e): undefined reference to `reset_cifs_unix_caps'
 
 
-vim +309 arch/loongarch/kernel/paravirt.c
+vim +3822 fs/smb/client/connect.c
 
-   303	
-   304	/**
-   305	 * queued_spin_unlock - release a queued spinlock
-   306	 * @lock : Pointer to queued spinlock structure
-   307	 */
-   308	static void native_queued_spin_unlock(struct qspinlock *lock)
- > 309	{
-   310		/*
-   311		 * unlock() needs release semantics:
-   312		 */
-   313		smp_store_release(&lock->locked, 0);
-   314	}
-   315	
+  3688	
+  3689	/*
+  3690	 * Issue a TREE_CONNECT request.
+  3691	 */
+  3692	int
+  3693	CIFSTCon(const unsigned int xid, struct cifs_ses *ses,
+  3694		 const char *tree, struct cifs_tcon *tcon,
+  3695		 const struct nls_table *nls_codepage)
+  3696	{
+  3697		struct smb_hdr *smb_buffer;
+  3698		struct smb_hdr *smb_buffer_response;
+  3699		TCONX_REQ *pSMB;
+  3700		TCONX_RSP *pSMBr;
+  3701		unsigned char *bcc_ptr;
+  3702		int rc = 0;
+  3703		int length;
+  3704		__u16 bytes_left, count;
+  3705	
+  3706		if (ses == NULL)
+  3707			return -EIO;
+  3708	
+  3709		smb_buffer = cifs_buf_get();
+  3710		if (smb_buffer == NULL)
+  3711			return -ENOMEM;
+  3712	
+  3713		smb_buffer_response = smb_buffer;
+  3714	
+  3715		header_assemble(smb_buffer, SMB_COM_TREE_CONNECT_ANDX,
+  3716				NULL /*no tid */, 4 /*wct */);
+  3717	
+  3718		smb_buffer->Mid = get_next_mid(ses->server);
+  3719		smb_buffer->Uid = ses->Suid;
+  3720		pSMB = (TCONX_REQ *) smb_buffer;
+  3721		pSMBr = (TCONX_RSP *) smb_buffer_response;
+  3722	
+  3723		pSMB->AndXCommand = 0xFF;
+  3724		pSMB->Flags = cpu_to_le16(TCON_EXTENDED_SECINFO);
+  3725		bcc_ptr = &pSMB->Password[0];
+  3726	
+  3727		pSMB->PasswordLength = cpu_to_le16(1);	/* minimum */
+  3728		*bcc_ptr = 0; /* password is null byte */
+  3729		bcc_ptr++;              /* skip password */
+  3730		/* already aligned so no need to do it below */
+  3731	
+  3732		if (ses->server->sign)
+  3733			smb_buffer->Flags2 |= SMBFLG2_SECURITY_SIGNATURE;
+  3734	
+  3735		if (ses->capabilities & CAP_STATUS32)
+  3736			smb_buffer->Flags2 |= SMBFLG2_ERR_STATUS;
+  3737	
+  3738		if (ses->capabilities & CAP_DFS)
+  3739			smb_buffer->Flags2 |= SMBFLG2_DFS;
+  3740	
+  3741		if (ses->capabilities & CAP_UNICODE) {
+  3742			smb_buffer->Flags2 |= SMBFLG2_UNICODE;
+  3743			length =
+  3744			    cifs_strtoUTF16((__le16 *) bcc_ptr, tree,
+  3745				6 /* max utf8 char length in bytes */ *
+  3746				(/* server len*/ + 256 /* share len */), nls_codepage);
+  3747			bcc_ptr += 2 * length;	/* convert num 16 bit words to bytes */
+  3748			bcc_ptr += 2;	/* skip trailing null */
+  3749		} else {		/* ASCII */
+  3750			strcpy(bcc_ptr, tree);
+  3751			bcc_ptr += strlen(tree) + 1;
+  3752		}
+  3753		strcpy(bcc_ptr, "?????");
+  3754		bcc_ptr += strlen("?????");
+  3755		bcc_ptr += 1;
+  3756		count = bcc_ptr - &pSMB->Password[0];
+  3757		be32_add_cpu(&pSMB->hdr.smb_buf_length, count);
+  3758		pSMB->ByteCount = cpu_to_le16(count);
+  3759	
+  3760		rc = SendReceive(xid, ses, smb_buffer, smb_buffer_response, &length,
+  3761				 0);
+  3762	
+  3763		/* above now done in SendReceive */
+  3764		if (rc == 0) {
+  3765			bool is_unicode;
+  3766	
+  3767			tcon->tid = smb_buffer_response->Tid;
+  3768			bcc_ptr = pByteArea(smb_buffer_response);
+  3769			bytes_left = get_bcc(smb_buffer_response);
+  3770			length = strnlen(bcc_ptr, bytes_left - 2);
+  3771			if (smb_buffer->Flags2 & SMBFLG2_UNICODE)
+  3772				is_unicode = true;
+  3773			else
+  3774				is_unicode = false;
+  3775	
+  3776	
+  3777			/* skip service field (NB: this field is always ASCII) */
+  3778			if (length == 3) {
+  3779				if ((bcc_ptr[0] == 'I') && (bcc_ptr[1] == 'P') &&
+  3780				    (bcc_ptr[2] == 'C')) {
+  3781					cifs_dbg(FYI, "IPC connection\n");
+  3782					tcon->ipc = true;
+  3783					tcon->pipe = true;
+  3784				}
+  3785			} else if (length == 2) {
+  3786				if ((bcc_ptr[0] == 'A') && (bcc_ptr[1] == ':')) {
+  3787					/* the most common case */
+  3788					cifs_dbg(FYI, "disk share connection\n");
+  3789				}
+  3790			}
+  3791			bcc_ptr += length + 1;
+  3792			bytes_left -= (length + 1);
+  3793			strscpy(tcon->tree_name, tree, sizeof(tcon->tree_name));
+  3794	
+  3795			/* mostly informational -- no need to fail on error here */
+  3796			kfree(tcon->nativeFileSystem);
+  3797			tcon->nativeFileSystem = cifs_strndup_from_utf16(bcc_ptr,
+  3798							      bytes_left, is_unicode,
+  3799							      nls_codepage);
+  3800	
+  3801			cifs_dbg(FYI, "nativeFileSystem=%s\n", tcon->nativeFileSystem);
+  3802	
+  3803			if ((smb_buffer_response->WordCount == 3) ||
+  3804				 (smb_buffer_response->WordCount == 7))
+  3805				/* field is in same location */
+  3806				tcon->Flags = le16_to_cpu(pSMBr->OptionalSupport);
+  3807			else
+  3808				tcon->Flags = 0;
+  3809			cifs_dbg(FYI, "Tcon flags: 0x%x\n", tcon->Flags);
+  3810	
+  3811			/*
+  3812			 * reset_cifs_unix_caps calls QFSInfo which requires
+  3813			 * need_reconnect to be false, but we would not need to call
+  3814			 * reset_caps if this were not a reconnect case so must check
+  3815			 * need_reconnect flag here.  The caller will also clear
+  3816			 * need_reconnect when tcon was successful but needed to be
+  3817			 * cleared earlier in the case of unix extensions reconnect
+  3818			 */
+  3819			if (tcon->need_reconnect && tcon->unix_ext) {
+  3820				cifs_dbg(FYI, "resetting caps for %s\n", tcon->tree_name);
+  3821				tcon->need_reconnect = false;
+> 3822				reset_cifs_unix_caps(xid, tcon, NULL, NULL);
+  3823			}
+  3824		}
+  3825		cifs_buf_release(smb_buffer);
+  3826		return rc;
+  3827	}
+  3828	
 
 -- 
 0-DAY CI Kernel Test Service
