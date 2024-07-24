@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8330B15689A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 10:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF27C158D66
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721818460; cv=none; b=KdcNgqwF66XvVIKXrfPmch288noVm3sbY4CO1t1XteQ2nHxCIK4BHTXee3x6XLqyVWKOiEIqXzO2im3YvuoHBUw6cfWBu9usoSGyw7/nuDGTuTQ5UoMwHe+f0Ep2zv9T5kk/7iFDPZJdjXpr/8EgtC3MzhlmmA4JUD5wi+vvRkc=
+	t=1721827285; cv=none; b=FXeXfkLmNyrx8Y9mgq9EaiAmf7oAI4o06nsJky3iLNihYaBXWqh7RWbG6v2WYiG2iPxnkEz76Uqm8hWE7xeEc/08vJWTJKKBCXFliOMhWFIAULXEoU+viHybaRNj6JoE3tOtCyjRLJOAbZbafnvNjLgfSed58HrZ+VukJTWIi+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721818460; c=relaxed/simple;
-	bh=O92uVk17AibkA+S3QabM4bJLyFSh0yz7YEDwLStjp1s=;
+	s=arc-20240116; t=1721827285; c=relaxed/simple;
+	bh=meSbKyagrko0oStotfLvbZGhXvejl9zSye4urQRB2Pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WfdU5ZFB9DlOZq6fnQDz5RElbKp0Yg6sJWDLI7Jslb8rVNGTeda7hQxID3xI4rB0j57zyBatw9LWGz504eN+GlA7VaaAxl6oEijD74T0KkZliqugkZA9u5Ei4YuY7SD2+ZIZJ2Ew1Cvks5SYDcuU9fUCNY49iBG7vq6Vkc8EjHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFUIiBmE; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=VZjSYe7FLofdE8FMBB105An3/ufeag6qTPzqDqgE+8JQ2XOl2KNgmc0zja+FmjzBIcEL5vYuBAD3KwgQBSzHvnKpBrl7wG5KmAI8daYmNiSjgvuaUHraxOU2VNZGl75F+mIufuySFqD53GGgjlbEnEu6Ye+dq0U3IC/BHsKRivQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rhg8ROaF; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFUIiBmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rhg8ROaF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721818458; x=1753354458;
+  t=1721827282; x=1753363282;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O92uVk17AibkA+S3QabM4bJLyFSh0yz7YEDwLStjp1s=;
-  b=eFUIiBmE+7cHU8/OvlVNRuNkM4t4rn7ViVjVIFJIpAX8xYezh8MYDRx+
-   BCrddJVj5TtxFl2Fp2+MXDVJqjzuKSETcptjTE1cQ5/Yn3m0uIbO6eKrj
-   PgjRYrlT31LmyJwY+3Pj2PeZsvb4+TgpT1ME2DhaD4u90kGyJdvKSRne6
-   DtxjLskclYJ74fHAn/mqb99NqknzijySvDqy8wnHAEmgaIClVWXPlmqNI
-   ntl451ES7y/8AGvWcMOtaN7ZWK5PxLoUuByhd0G9RLMEteeoWlBYxyTPM
-   L4bkg+CCxZMZ1mjJ4EBr5PH0CCu18EU5V/BHa9t0hCaDPUN+BsJZ28+L4
-   g==;
-X-CSE-ConnectionGUID: fOeJB7gdTUaZJgDfey9nrA==
-X-CSE-MsgGUID: 8mVfdbIRTcqttZ3dlvWkfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19626287"
-X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="19626287"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 03:54:18 -0700
-X-CSE-ConnectionGUID: Due5+Q1VS1eNs8F+Y9N5xw==
-X-CSE-MsgGUID: 9DuWBqJYTieNIoDAx4dgoA==
+  bh=meSbKyagrko0oStotfLvbZGhXvejl9zSye4urQRB2Pg=;
+  b=Rhg8ROaFvYiT4KKzhJyyoiwI80dwLr/ZKqiBy6ze3ygn2x9VVVH3tLFB
+   vDCEU+wN1SMUZyh7PNq8RKTIH8Tkdr6R+yr9v3mBTVN/xYLzTVZKNXmZP
+   Yapu8sLgNDDZ625KMFnoqkEIKE+J3GeLDMei9Wy22SWMuOCwELt9RVgBO
+   WuQsjyYc6i9YrGalN25/PFcpqRaMyM31XYAoBVBco1NVvt8ChzTI81HID
+   xVb+7Bg0zru1MwQZ6YYj5fYBx80KHKPo+V+5laG5x1KRsgiSEzutEKCzl
+   HG89ipVIVeoCOBwHxL4rKwuVus9kcnTM8YtHb3M76HL/TRMHcVqCqxSOf
+   w==;
+X-CSE-ConnectionGUID: pAL7OApaRKGiGn49tssIRw==
+X-CSE-MsgGUID: sV+P10FaRkqm4Cw4kO+vDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="22411991"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="22411991"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:21:21 -0700
+X-CSE-ConnectionGUID: VgEP3+V6RfS3cZM5jKUECQ==
+X-CSE-MsgGUID: ip+VO7vEQbaaWyqUbwcO6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="90014094"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="52808813"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Jul 2024 03:54:16 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2024 06:21:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWZdN-000muO-2B;
-	Wed, 24 Jul 2024 10:54:13 +0000
-Date: Wed, 24 Jul 2024 18:53:55 +0800
+	id 1sWbvh-000n1G-1b;
+	Wed, 24 Jul 2024 13:21:17 +0000
+Date: Wed, 24 Jul 2024 21:21:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.11 44/80]
- include/linux/syscalls.h:251:25: error: conflicting types for
- 'sys_oabi_sendto'; have 'long int(int,  void *, size_t,  unsigned int)' {aka
- 'long int(int,  void *, unsigned int,  unsigned int)'}
-Message-ID: <202407241835.aJUft8p5-lkp@intel.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:mmunstable 33/41] mm/memory.c:194:2: error: controlling
+ expression type 'struct ptdesc *' not compatible with any generic
+ association type
+Message-ID: <202407242145.vvQWOrrl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,127 +63,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   ece1b5ebc0b7064a8a130f64e85a81ec76381c3f
-commit: 2263955b209e2016dc9f30d129e356f4123310d5 [44/80] ARM: OABI SYSCALL_DEFINEx
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240724/202407241835.aJUft8p5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407241835.aJUft8p5-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git mmunstable
+head:   45de53e1a6ceb1ede64b54126f9ee514f50c4e4c
+commit: 887c1bf7c199edf9083e31d7959f92735d410ec9 [33/41] mm/pgtable: introduce ptdesc_pfn and use ptdesc in free_pte_range()
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20240724/202407242145.vvQWOrrl-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242145.vvQWOrrl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407241835.aJUft8p5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407242145.vvQWOrrl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/sys_oabi-compat.c:75:
->> include/linux/syscalls.h:251:25: error: conflicting types for 'sys_oabi_sendto'; have 'long int(int,  void *, size_t,  unsigned int)' {aka 'long int(int,  void *, unsigned int,  unsigned int)'}
-     251 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     227 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:448:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-     448 | SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
-         | ^~~~~~~~~~~~~~~
-   In file included from arch/arm/kernel/sys_oabi-compat.c:13:
-   arch/arm/include/asm/syscalls.h:41:17: note: previous declaration of 'sys_oabi_sendto' with type 'long int(int,  void *, size_t,  unsigned int,  struct sockaddr *, int)' {aka 'long int(int,  void *, unsigned int,  unsigned int,  struct sockaddr *, int)'}
-      41 | asmlinkage long sys_oabi_sendto(int fd, void __user *buff,
-         |                 ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendto':
->> arch/arm/kernel/sys_oabi-compat.c:452:13: error: 'addrlen' undeclared (first use in this function)
-     452 |         if (addrlen == 112 &&
-         |             ^~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:452:13: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:83:
->> arch/arm/kernel/sys_oabi-compat.c:453:34: error: 'addr' undeclared (first use in this function)
-     453 |             get_user(sa_family, &addr->sa_family) == 0 &&
-         |                                  ^~~~
-   arch/arm/include/asm/uaccess.h:184:35: note: in definition of macro '__get_user_check'
-     184 |                 register typeof(*(p)) __user *__p asm("r0") = (p);      \
-         |                                   ^
-   arch/arm/kernel/sys_oabi-compat.c:453:13: note: in expansion of macro 'get_user'
-     453 |             get_user(sa_family, &addr->sa_family) == 0 &&
-         |             ^~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendmsg':
->> arch/arm/kernel/sys_oabi-compat.c:483:16: error: too few arguments to function '__sys_sendmsg'
-     483 |         return __sys_sendmsg(fd, msg, flags);
-         |                ^~~~~~~~~~~~~
-   In file included from arch/arm/kernel/sys_oabi-compat.c:83:
-   include/linux/socket.h:411:13: note: declared here
-     411 | extern long __sys_sendmsg(int fd, struct user_msghdr __user *msg,
-         |             ^~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_socketcall':
->> arch/arm/kernel/sys_oabi-compat.c:501:29: error: too many arguments to function 'sys_oabi_sendto'
-     501 |                         r = sys_oabi_sendto(a[0], (void __user *)a[1], a[2], a[3],
-         |                             ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:251:25: note: declared here
-     251 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
-         |                         ^~~
-   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     227 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c:448:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-     448 | SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
-         | ^~~~~~~~~~~~~~~
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendto':
-   arch/arm/kernel/sys_oabi-compat.c:457:1: warning: control reaches end of non-void function [-Wreturn-type]
-     457 | }
-         | ^
-   arch/arm/kernel/sys_oabi-compat.c: In function '__do_sys_oabi_sendmsg':
-   arch/arm/kernel/sys_oabi-compat.c:484:1: warning: control reaches end of non-void function [-Wreturn-type]
-     484 | }
-         | ^
+   In file included from mm/memory.c:43:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/memory.c:43:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/memory.c:43:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from mm/memory.c:44:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/memory.c:45:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/memory.c:194:2: error: controlling expression type 'struct ptdesc *' not compatible with any generic association type
+     194 |         pte_free_tlb(tlb, token, addr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/tlb.h:706:3: note: expanded from macro 'pte_free_tlb'
+     706 |                 __pte_free_tlb(tlb, ptep, address);             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgalloc.h:92:22: note: expanded from macro '__pte_free_tlb'
+      92 |         pagetable_pte_dtor((page_ptdesc(pte)));                 \
+         |                             ^~~~~~~~~~~~~~~~
+   include/linux/mm_types.h:510:36: note: expanded from macro 'page_ptdesc'
+     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^~~
+>> mm/memory.c:194:2: error: controlling expression type 'struct ptdesc *' not compatible with any generic association type
+     194 |         pte_free_tlb(tlb, token, addr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/tlb.h:706:3: note: expanded from macro 'pte_free_tlb'
+     706 |                 __pte_free_tlb(tlb, ptep, address);             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgalloc.h:93:33: note: expanded from macro '__pte_free_tlb'
+      93 |         tlb_remove_page_ptdesc((tlb), (page_ptdesc(pte)));      \
+         |                                        ^~~~~~~~~~~~~~~~
+   include/linux/mm_types.h:510:36: note: expanded from macro 'page_ptdesc'
+     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^~~
+   9 warnings and 2 errors generated.
 
 
-vim +251 include/linux/syscalls.h
+vim +194 mm/memory.c
 
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  240  
-e145242ea0df6b Dominik Brodowski   2018-04-09  241  /*
-e145242ea0df6b Dominik Brodowski   2018-04-09  242   * The asmlinkage stub is aliased to a function named __se_sys_*() which
-e145242ea0df6b Dominik Brodowski   2018-04-09  243   * sign-extends 32-bit ints to longs whenever needed. The actual work is
-e145242ea0df6b Dominik Brodowski   2018-04-09  244   * done within __do_sys_*().
-e145242ea0df6b Dominik Brodowski   2018-04-09  245   */
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  246  #ifndef __SYSCALL_DEFINEx
-bed1ffca022cc8 Frederic Weisbecker 2009-03-13  247  #define __SYSCALL_DEFINEx(x, name, ...)					\
-bee20031772af3 Arnd Bergmann       2018-06-19  248  	__diag_push();							\
-bee20031772af3 Arnd Bergmann       2018-06-19  249  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
-bee20031772af3 Arnd Bergmann       2018-06-19  250  		      "Type aliasing is used to sanitize syscall arguments");\
-83460ec8dcac14 Andi Kleen          2013-11-12 @251  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  252  		__attribute__((alias(__stringify(__se_sys##name))));	\
-c9a211951c7c79 Howard McLauchlan   2018-03-21  253  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
-e145242ea0df6b Dominik Brodowski   2018-04-09  254  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-e145242ea0df6b Dominik Brodowski   2018-04-09  255  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  256  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-1a94bc34768e46 Heiko Carstens      2009-01-14  257  	{								\
-e145242ea0df6b Dominik Brodowski   2018-04-09  258  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-07fe6e00f6cca6 Al Viro             2013-01-21  259  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
-2cf0966683430b Al Viro             2013-01-21  260  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
-2cf0966683430b Al Viro             2013-01-21  261  		return ret;						\
-1a94bc34768e46 Heiko Carstens      2009-01-14  262  	}								\
-bee20031772af3 Arnd Bergmann       2018-06-19  263  	__diag_pop();							\
-e145242ea0df6b Dominik Brodowski   2018-04-09  264  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  265  #endif /* __SYSCALL_DEFINEx */
-1a94bc34768e46 Heiko Carstens      2009-01-14  266  
+d559db086ff5be KAMEZAWA Hiroyuki      2010-03-05  184  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  185  /*
+^1da177e4c3f41 Linus Torvalds         2005-04-16  186   * Note: this doesn't free the actual pages themselves. That
+^1da177e4c3f41 Linus Torvalds         2005-04-16  187   * has been handled earlier when unmapping all the memory regions.
+^1da177e4c3f41 Linus Torvalds         2005-04-16  188   */
+9e1b32caa525cb Benjamin Herrenschmidt 2009-07-22  189  static void free_pte_range(struct mmu_gather *tlb, pmd_t *pmd,
+9e1b32caa525cb Benjamin Herrenschmidt 2009-07-22  190  			   unsigned long addr)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  191  {
+887c1bf7c199ed Alex Shi               2024-07-22  192  	struct ptdesc *token = page_ptdesc(pmd_pgtable(*pmd));
+^1da177e4c3f41 Linus Torvalds         2005-04-16  193  	pmd_clear(pmd);
+9e1b32caa525cb Benjamin Herrenschmidt 2009-07-22 @194  	pte_free_tlb(tlb, token, addr);
+c4812909f5d5a9 Kirill A. Shutemov     2017-11-15  195  	mm_dec_nr_ptes(tlb->mm);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  196  }
+^1da177e4c3f41 Linus Torvalds         2005-04-16  197  
 
-:::::: The code at line 251 was first introduced by commit
-:::::: 83460ec8dcac14142e7860a01fa59c267ac4657c syscalls.h: use gcc alias instead of assembler aliases for syscalls
+:::::: The code at line 194 was first introduced by commit
+:::::: 9e1b32caa525cb236e80e9c671e179bcecccc657 mm: Pass virtual address to [__]p{te,ud,md}_free_tlb()
 
-:::::: TO: Andi Kleen <ak@linux.intel.com>
+:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
