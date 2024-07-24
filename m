@@ -1,132 +1,143 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26C10290F;
-	Wed, 24 Jul 2024 01:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC1E79F3;
+	Wed, 24 Jul 2024 01:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721784617; cv=none; b=PeofuY5E6m4As/cWjiNuXL88qKOIvaXpWvH8S/LAul2Rg//yh9B2cPoD1R2PT6d5Ov+JXUOWTdm78xvmHPJY3o1EVj6mpE+vKMnv+Nrz7PGHqnzJc4/282MUDIONGS1hpsf4vXQOrrndrH3IhPVWVwHwcX2sHgJoUco669Q+890=
+	t=1721785324; cv=none; b=hn4HqqivDWMR/SwLTz3ENkzlxn10wxH6pFttVJ+xCJIFITk5gqQuTikp68CfXFeiL/m3oLYKu1SAarOB60yL9GBcfDSEVFjb1XAHoNbp3edziUCL3lLVn8QLrmuXkmbljr42fkrQvRcJo2ELUz2YypcDqqiYeZEc1uMXU5WwS40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721784617; c=relaxed/simple;
-	bh=bSV/tn8rgIr3LZKicy7ygBdBwp4x2cZxxscf4ukTabw=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=rbC4fvyuKM1GN937IJstE/HmFvLMwMxnXqtQn7+eN+qmLrJsJbLJ66XLxGS1Y/hQAkJt94hEMmvmPqFtSOfNe1eTKf9h4bLhPkL9mGVAwgjxT45GFtTx+cZ78TGeDMSR5Z2OWR0MsP+hz5la4H+6RQD6b8xvKZ3QJDNhpGoefV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.62])
-	by gateway (Coremail) with SMTP id _____8Ax2ekdWaBm1cQAAA--.2880S3;
-	Wed, 24 Jul 2024 09:30:05 +0800 (CST)
-Received: from [10.20.42.62] (unknown [10.20.42.62])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxhsUXWaBm2ZNWAA--.50225S3;
-	Wed, 24 Jul 2024 09:30:01 +0800 (CST)
-Subject: Re: [PATCH 2/2] LoongArch: KVM: Add paravirt qspinlock in guest side
-To: kernel test robot <lkp@intel.com>, Huacai Chen <chenhuacai@kernel.org>,
- Tianrui Zhao <zhaotianrui@loongson.cn>, Peter Zijlstra
- <peterz@infradead.org>, Waiman Long <longman@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, virtualization@lists.linux.dev
-References: <20240723073825.1811600-3-maobibo@loongson.cn>
- <202407240320.qqd1uWiE-lkp@intel.com>
-From: maobibo <maobibo@loongson.cn>
-Message-ID: <7a145178-633c-afd7-4aba-45546a4c7a75@loongson.cn>
-Date: Wed, 24 Jul 2024 09:29:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1721785324; c=relaxed/simple;
+	bh=6iDBbKaWSr+xTmXZWXNHBqukQgY+T0PXsUqcwlXFh4A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sOsI40KwjhRhsKzZkG+hpV7h+VRf1VtvOZVTLNfE5UKpX68/TKh4gR+ws7vOhFzEQhDGi62AVLF1mgci/nd3O52HU33FsM8PMW7SH+HJXb8Qzciwc3Z5Bcf7E9tsUUUwLLJqOEgA7sVZzaEX+lygWUE0EL88l9DRVVCvSHVNULc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P2XXUkpm; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P2XXUkpm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721785322; x=1753321322;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6iDBbKaWSr+xTmXZWXNHBqukQgY+T0PXsUqcwlXFh4A=;
+  b=P2XXUkpmPnQtYwmapPCS6wjfnYvkLlfHqB/5BqRiS8qskTwLVTqGCYid
+   XmDEq7RObU4auEY8gDsvWbMtvmRNcvrS+bOL30eEFkPidhZuDwIv2Vhi0
+   yJP6P2q5DFBxUJjDjmVf7+dwa/aeWf/tB2Dm3VhdjsxOBE5Ah9V9+BHzL
+   gw1MNqhgXcE0zOEoWWsIoi4l2hicOVvNEZKrgblqjf06mrSCWpW5Q6MXk
+   fyTT1XUHcexzjnLYooFrT9lATifPf6jQjGaqIiiXLducCJlYnPoqFxB2Q
+   15aI8Yi6qONgnDbjQlMBhQNGnmo30ULU1jtMANFtW0ZT221SWPIyo3ngh
+   Q==;
+X-CSE-ConnectionGUID: tZAUrrlgRLyOK21beTv0Dw==
+X-CSE-MsgGUID: MxvzoDl4SryhUsrwApPkbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="36886754"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="36886754"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 18:42:02 -0700
+X-CSE-ConnectionGUID: 74zJ9a8PQl2mutOrfgAfCQ==
+X-CSE-MsgGUID: +acuf8jdRn2Ex97ARx0eFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="56579101"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jul 2024 18:42:00 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sWR0w-000mXk-0N;
+	Wed, 24 Jul 2024 01:41:58 +0000
+Date: Wed, 24 Jul 2024 09:41:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>
+Subject: [akpm-mm:mm-unstable 17/30] mm/vma_internal.h:46:10: fatal error:
+ 'asm/page_types.h' file not found
+Message-ID: <202407240947.x904ix8E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202407240320.qqd1uWiE-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8AxhsUXWaBm2ZNWAA--.50225S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxGFW3Zw4UZryruF17KryxXrc_yoW5CFWDpa
-	48CF1DJFW8Jr48Z3yUKw15uF1Dtan8W3sIvF9Y9ryxCFW2qFyDWws2krWa9w1jyws29Fyj
-	gry7WF1qya4UA3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
-	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
-	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1EksDUU
-	UUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   cecb3db438d76f7c1005fd52689809696a330474
+commit: b102945dd5b200efff9e8458946006770a513710 [17/30] mm: move internal core VMA manipulation functions to own file
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240724/202407240947.x904ix8E-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240947.x904ix8E-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240947.x904ix8E-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from mm/vma.c:7:
+   In file included from mm/vma_internal.h:12:
+   In file included from include/linux/backing-dev.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2206:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/vma.c:7:
+   In file included from mm/vma_internal.h:28:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vma.c:7:
+>> mm/vma_internal.h:46:10: fatal error: 'asm/page_types.h' file not found
+      46 | #include <asm/page_types.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   7 warnings and 1 error generated.
 
 
+vim +46 mm/vma_internal.h
 
-On 2024/7/24 上午3:57, kernel test robot wrote:
-> Hi Bibo,
-> 
-> kernel test robot noticed the following build errors:
-yes, forgot to mention, it depends on this patch
-https://lore.kernel.org/lkml/20240721164552.50175-1-ubizjak@gmail.com/
+    44	
+    45	#include <asm/current.h>
+  > 46	#include <asm/page_types.h>
+    47	#include <asm/pgtable_types.h>
+    48	#include <asm/tlb.h>
+    49	
 
-Regards
-Bibo Mao
-> 
-> [auto build test ERROR on 7846b618e0a4c3e08888099d1d4512722b39ca99]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-KVM-Add-paravirt-qspinlock-in-kvm-side/20240723-160536
-> base:   7846b618e0a4c3e08888099d1d4512722b39ca99
-> patch link:    https://lore.kernel.org/r/20240723073825.1811600-3-maobibo%40loongson.cn
-> patch subject: [PATCH 2/2] LoongArch: KVM: Add paravirt qspinlock in guest side
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240724/202407240320.qqd1uWiE-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240320.qqd1uWiE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407240320.qqd1uWiE-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->>> arch/loongarch/kernel/paravirt.c:309: warning: expecting prototype for queued_spin_unlock(). Prototype was for native_queued_spin_unlock() instead
-> --
->     In file included from include/linux/atomic.h:80,
->                      from include/asm-generic/bitops/atomic.h:5,
->                      from arch/loongarch/include/asm/bitops.h:27,
->                      from include/linux/bitops.h:63,
->                      from include/linux/kernel.h:23,
->                      from include/linux/cpumask.h:11,
->                      from include/linux/smp.h:13,
->                      from kernel/locking/qspinlock.c:16:
->     kernel/locking/qspinlock_paravirt.h: In function 'pv_kick_node':
->>> include/linux/atomic/atomic-arch-fallback.h:242:34: error: initialization of 'u8 *' {aka 'unsigned char *'} from incompatible pointer type 'enum vcpu_state *' [-Wincompatible-pointer-types]
->       242 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
->           |                                  ^
->     include/linux/atomic/atomic-instrumented.h:4908:9: note: in expansion of macro 'raw_try_cmpxchg_relaxed'
->      4908 |         raw_try_cmpxchg_relaxed(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->           |         ^~~~~~~~~~~~~~~~~~~~~~~
->     kernel/locking/qspinlock_paravirt.h:377:14: note: in expansion of macro 'try_cmpxchg_relaxed'
->       377 |         if (!try_cmpxchg_relaxed(&pn->state, &old, vcpu_hashed))
->           |              ^~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +309 arch/loongarch/kernel/paravirt.c
-> 
->     303	
->     304	/**
->     305	 * queued_spin_unlock - release a queued spinlock
->     306	 * @lock : Pointer to queued spinlock structure
->     307	 */
->     308	static void native_queued_spin_unlock(struct qspinlock *lock)
->   > 309	{
->     310		/*
->     311		 * unlock() needs release semantics:
->     312		 */
->     313		smp_store_release(&lock->locked, 0);
->     314	}
->     315	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
