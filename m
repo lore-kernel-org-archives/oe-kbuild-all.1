@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A8D49647
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 06:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720834C3D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 07:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721804113; cv=none; b=k5YjVwmkiJdQRp4CX5MnQ72KxVhpAqaJEqz7jOtEk5Qw1iAnl9VE/b/c3I2u2ewRYCpekvZfZFvjkdUzUrb+7ZdoC7LGHoRfaYC3n6NSPWPxkptB9ZmX/2kEQF3Sdm83ppOhJX+PBxMD+AsGYv1ZXIpMevGfZyUCR4ioigMdKEQ=
+	t=1721804413; cv=none; b=LJ8+cxUztVZ7f9oU1jADst0z6oesgamsJnCBA5XslAHgaERgaiNg2ccyiPKeaidLyRq5yaf7ZRxMXWjcmLiaYkUSr8Jj1jc/CUKTusa5DzLYurZCzwdz6U0qA+Es0dEKjwvOoqvb9bbiQMUE04WV6yTiXRX10Uxl32XpWXGgG3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721804113; c=relaxed/simple;
-	bh=/j8WLVC+Hoyz2DiZZ7A/ceTNgo4eVuT/HmTsRXvyZP4=;
+	s=arc-20240116; t=1721804413; c=relaxed/simple;
+	bh=Bf6ZUVbJMbBGKngx8hDcJM5/5ZBEnwVeRmWno6pmYTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bxEIen1gk2k0sFFE/Ldd6dK1mc3lwhgrKwI7T5rVEWKLLJEA9SoCvmewt8rXZaRCdhjeyAQgyhsnKfq/ahS6QWFmW8eyr9Su8zK041Z72KwVSC4a9W9m/C+jCygOobsDFrrtkZrEPRnztQtcT1HejebDkNg23bsLBMHT+ChpikE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D18+VHMn; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=bvfP+XyRiFRpK3OqWQIxRqo8IOojMRdFXjr9+0fA+oQHEQlnMW7sC2mJ9mmVeB73yFUJF57g5/l0cd+W1VzDfsbdPQtcqGGx0Lsj3MFmwXOrqBxbOoSmHr9A/DhRzaOH9fqdTK4tcYa2i7YQAGYV6Y8I5BV88Vh1K8msb5asuiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dqn/397R; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D18+VHMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dqn/397R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721804111; x=1753340111;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=/j8WLVC+Hoyz2DiZZ7A/ceTNgo4eVuT/HmTsRXvyZP4=;
-  b=D18+VHMnH0PwpEmGyi4y761Mgb/QV1t/cJ1ErLbChA8TAUwDzYEPw0Aa
-   A0puSdRMarGQx22G5iCTRR1GzPazQFCUmXt9RzBV1fvG3ckeQLmNpF0Uz
-   g8XGfJ9WhtIN8yjlJwYhjhHynIzfJu9smzNcdrYti8BKmxbbnIB1VxACe
-   TABEtp60mPmor3dQLcu2/LoI/HDzO4VjcTd8dzCmqO8Qder6rXpAtT4+I
-   szQCWy5lPOGTHVDkl4v1+5Nz4ajMbIaG+p/KStgwvmMjBl5FCpOKVABz/
-   53pgY1nxkJbNp6O7asY+FV7GmOST6unekbLAoSvV4onBsMGg9hDIjSYLl
+  t=1721804412; x=1753340412;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bf6ZUVbJMbBGKngx8hDcJM5/5ZBEnwVeRmWno6pmYTg=;
+  b=Dqn/397RK9fVNO/v7OPXqFN8f/m81eiKOswCaA6ezGL1LR/Z5KKjiw/L
+   S6MLcaRb/uXJ5/mqpROjqaO0XMFkZHoupeLAtjyJtdXqoW25sDA0GzR4f
+   CgaWU8JMgwbYrOwx3/fsCtZExHkwBC7XPzMg5S7qtLCryfet/IlZe8nnG
+   91AZLMiRTjltdtKpzgRUZCqaNhZ8AjI8J5CW9+2JkPGemHzZ/m+B5i08W
+   JA0sxj7yjn7HoO5E6woppHDDwYzjhr/ml7d1YgKVCn2oPkmXBj5LdSmTV
+   XXJhEISaVeOEVBGmSr6EYGs09dfbdH+iYFiMA/CZXXQzndPpcNtYyPw4L
    w==;
-X-CSE-ConnectionGUID: LLZrq3NaSHSJ1TSDILbN+g==
-X-CSE-MsgGUID: /p2upoIbSQiL92kJ1llxtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="30845414"
+X-CSE-ConnectionGUID: +uW5k4NMTWaaZySIA+iYZQ==
+X-CSE-MsgGUID: ELR+7Q5DRnevIUxDNLkRGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="23222284"
 X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="30845414"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 23:55:10 -0700
-X-CSE-ConnectionGUID: BzjCCc/NRVOBttQs3DVCnQ==
-X-CSE-MsgGUID: 7/Kx0Mr6Rxu9/q3nXQBiIA==
+   d="scan'208";a="23222284"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 00:00:11 -0700
+X-CSE-ConnectionGUID: IDLpmrUkRtulYEhnf9V/sQ==
+X-CSE-MsgGUID: 0TXS2BRbRNGMi4I1RNgr5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="89953707"
+   d="scan'208";a="52728851"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jul 2024 23:55:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2024 00:00:09 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWVtz-000ml2-0Q;
-	Wed, 24 Jul 2024 06:55:07 +0000
-Date: Wed, 24 Jul 2024 14:54:30 +0800
+	id 1sWVyp-000mlI-0s;
+	Wed, 24 Jul 2024 07:00:07 +0000
+Date: Wed, 24 Jul 2024 14:59:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] PCI: j721e: Set .map_irq and .swizzle_irq to NULL
-Message-ID: <ZqClJsyeG8EuFQfU@6724a33121ae>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 30/80] riscv64-linux-ld:
+ arch/riscv/kernel/syscall_table.o:undefined reference to
+ `__riscv_sys_fadvise64'
+Message-ID: <202407241404.i00uka5s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724065048.285838-1-s-vadapalli@ti.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   ece1b5ebc0b7064a8a130f64e85a81ec76381c3f
+commit: cd87002bd5fb586775035c95e92b262b22a3080a [30/80] syscalls: cleanup fadvise64_64()
+config: riscv-nommu_k210_sdcard_defconfig (https://download.01.org/0day-ci/archive/20240724/202407241404.i00uka5s-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407241404.i00uka5s-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407241404.i00uka5s-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] PCI: j721e: Set .map_irq and .swizzle_irq to NULL
-Link: https://lore.kernel.org/stable/20240724065048.285838-1-s-vadapalli%40ti.com
+>> riscv64-linux-ld: arch/riscv/kernel/syscall_table.o:(.rodata+0x6f8): undefined reference to `__riscv_sys_fadvise64'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
