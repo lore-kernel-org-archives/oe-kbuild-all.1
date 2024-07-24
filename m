@@ -1,196 +1,108 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from out198-2.us.a.mail.aliyun.com (out198-2.us.a.mail.aliyun.com [47.90.198.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F33B5025E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 06:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C34843150;
+	Wed, 24 Jul 2024 06:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721802602; cv=none; b=eFpp7UubMJz3EJdvE9iV8L8Mlemm1SbDCJ6fuxG/FJaVWsyLxqhQ5NZHvpC83h8zETJJL5qm5RRTvjHi7zZcXtr9A+6lT/3putvemTQYtlcKBuYoIZPCdzSG0aKdDtnxhuORnffTXeWtR95ZjFC1j5Q3qjuDO3LDvghiXV0caf4=
+	t=1721802975; cv=none; b=ag0U7fk7GHhv0yXD14EvDvF+JKEQ/Imcf3IyBoBE8LFuTEVIUptHdWj0OMay9AgqikpJq2fcHBObEad0yCsmDUgSYtFXH84XjCMRe8Xf+fyw7La33zjaRcfuCbzRjJwH0cWcuCCSeWlkVijcAx+BCXKcvoSLk5gdSQ6lQjvmm/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721802602; c=relaxed/simple;
-	bh=L0mtDx1VUFwswhffo7XukUhtd3po+LW3dvP30M8KV6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YkNISU6EFS3OLh50paZWUve67Z/z8hk+4q+C+i0aAMAAWBfPdHDphCK7uR8tbdn7FCLNfOzYEkF9ZKGnpz5SYXbT5QEob0mhLmYWAZPRylSvvauztgz4X9xPag5RbtPJUH8kaWtbKA3WvzLg4KQjfS+tVtQYyKDVx5h5lNZAQiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R24iF1lU; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R24iF1lU"
-Message-ID: <79e896cc-4078-403d-b4c2-9d52e65e9e9a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721802597;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fRL2yX4yUx6QZo1sb8qR2HPQF6k8pn9QttXtjz27+Nw=;
-	b=R24iF1lUL1O6KI/u3ZLfaalGecBVtgIXPA+B29ebMHD27KFdjGCqrCJtlPD8+DozCEYU4N
-	/FVsguCioroc3l78fZx53X4uwl1ucUV/LNLDxt8j8bNLka3/3f225foy9imc4qeZ+S+pht
-	fQHzipVfjEbw/COiOq9Hnd9CkwEjSIY=
-Date: Wed, 24 Jul 2024 14:29:44 +0800
+	s=arc-20240116; t=1721802975; c=relaxed/simple;
+	bh=Ebd14HrAYjGw8+Qc37MwbFm3fXYOaB8vE0cSnkFhrC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ad4rXlNOMrE6BKfVQIcgTQ49CjvFXb7dxvouRxwmLf6LAi8tHMrnlNQg8he9S+7FM+sKFh62oGkktVU9J1yqa/V4AFRSA2ruQukh6RPc3ht47g3e/Wj/iqfeR9lA+KcXYu0XZppiLPpt2hp7nICjHWgfyVcuqVs3ffPymhZIHmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com; spf=pass smtp.mailfrom=ttyinfo.com; arc=none smtp.client-ip=47.90.198.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ttyinfo.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07492151|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00739205-0.00019925-0.992409;FP=16154132379161130174|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033038033188;MF=zhoushengqing@ttyinfo.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.YY4fdiP_1721802955;
+Received: from tzl..(mailfrom:zhoushengqing@ttyinfo.com fp:SMTPD_---.YY4fdiP_1721802955)
+          by smtp.aliyun-inc.com;
+          Wed, 24 Jul 2024 14:35:56 +0800
+From: Zhou Shengqing <zhoushengqing@ttyinfo.com>
+To: haifeng.zhao@linux.intel.com
+Cc: helgaas@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	lkp@intel.com,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	zhoushengqing@ttyinfo.com
+Subject: Re: [PATCH v4] PCI: Enable io space 1k granularity for intel cpu root port
+Date: Wed, 24 Jul 2024 06:35:55 +0000
+Message-Id: <20240724063555.3819-1-zhoushengqing@ttyinfo.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <48373ac6-574b-4f72-b4f1-ddb7de8a5107@linux.intel.com>
+References: <48373ac6-574b-4f72-b4f1-ddb7de8a5107@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] btrfs: Use module_subinit{_noexit} and module_subeixt
- helper macros
-To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Luis Chamberlain <mcgrof@kernel.org>, Chris Mason
- <chris.mason@fusionio.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, tytso@mit.edu,
- Andreas Dilger <adilger.kernel@dilger.ca>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>,
- Christoph Hellwig <hch@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, Youling Tang <tangyouling@kylinos.cn>
-References: <20240723083239.41533-3-youling.tang@linux.dev>
- <202407240648.afyUbKEP-lkp@intel.com>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Youling Tang <youling.tang@linux.dev>
-In-Reply-To: <202407240648.afyUbKEP-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 24/07/2024 06:24, kernel test robot wrote:
-> Hi Youling,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on kdave/for-next]
-> [also build test WARNING on linus/master next-20240723]
-> [cannot apply to jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev soc/for-next v6.10]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/module-Add-module_subinit-_noexit-and-module_subeixt-helper-macros/20240723-164434
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20240723083239.41533-3-youling.tang%40linux.dev
-> patch subject: [PATCH 2/4] btrfs: Use module_subinit{_noexit} and module_subeixt helper macros
-> config: arm64-randconfig-004-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240648.afyUbKEP-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240648.afyUbKEP-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407240648.afyUbKEP-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->>> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
->>> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->>> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
->>> aarch64-linux-ld: warning: orphan section `.subexitcall.exit' from `fs/btrfs/super.o' being placed in section `.subexitcall.exit'
->>> aarch64-linux-ld: warning: orphan section `.subinitcall.init' from `fs/btrfs/super.o' being placed in section `.subinitcall.init'
-The warning above is because arm64 does not use INIT_DATA_SECTION in link
-scripts (some other architectures have similar problems), and it will be 
-fixed
-with the following changes:
+> > Do you mean it shoud be like this?
+> >
+> > 	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+> > 		if (d->bus->number == dev->bus->number) {
+> > 			pci_read_config_word(d, 0x1c0, &en1k);
+> > 			if (en1k & 0x4) {
+> > 				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+> > 				dev->io_window_1k = 1;
+> > 			}
+> > 		}
+> > 	}
+> >
+> >> 00:00.0 System peripheral: Intel Corporation Device 09a2 (rev 20)
+> >> 00:0f.0 PCI bridge: Intel Corporation Device 1bbf (rev 10) (prog-if 00 [Normal decode])
+> >>
+> >>    
+> >> 15:00.0 System peripheral: Intel Corporation Device 09a2 (rev 20)
+> >> 15:01.0 PCI bridge: Intel Corporation Device 352a (rev 04) (prog-if 00 [Normal decode])
+> >>
+> >> and if you check domain number only, they might sit on different bus, perhaps that
+> >> would make thing complex, could you make sure the VT-d is on the upstream bus of the
+> >> bridge ?
+> > I checked it on ICX SPR EMR GNR, VT-d is always on the same bus with root port,
+> > and VT-d device and function number is always 0.
+> 
+> Yes, every VT-d instance in the root complex and the root port integrated are
+> on the same bus. and VT-d is the first device of that bus.
+> 
+> The EDS doesn't say if there is exception one of the VT-d instances in an
+> system its EN1K wasn't set while others were set, vice vesa. so I suggest
+> just check the VT-d and then set the root port's io_windows_1k of the same bus.
 
-```
-diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
-index 61a1b2b96e1d..2e3ce4c98550 100644
---- a/arch/arc/kernel/vmlinux.lds.S
-+++ b/arch/arc/kernel/vmlinux.lds.S
-@@ -66,6 +66,7 @@ SECTIONS
-                 INIT_DATA
-                 INIT_SETUP(L1_CACHE_BYTES)
-                 INIT_CALLS
-+               SUBINIT_CALL
-                 CON_INITCALL
-         }
+But as Bjorn mentioned at July 12, 2024, 6:48 p.m.,
 
-diff --git a/arch/arm/kernel/vmlinux-xip.lds.S 
-b/arch/arm/kernel/vmlinux-xip.lds.S
-index c16d196b5aad..c9c2880db953 100644
---- a/arch/arm/kernel/vmlinux-xip.lds.S
-+++ b/arch/arm/kernel/vmlinux-xip.lds.S
-@@ -94,6 +94,7 @@ SECTIONS
-         .init.rodata : {
-                 INIT_SETUP(16)
-                 INIT_CALLS
-+               SUBINIT_CALL
-                 CON_INITCALL
-                 INIT_RAM_FS
-         }
-diff --git a/arch/arm64/kernel/vmlinux.lds.S 
-b/arch/arm64/kernel/vmlinux.lds.S
-index 55a8e310ea12..35549fb50cd2 100644
---- a/arch/arm64/kernel/vmlinux.lds.S
-+++ b/arch/arm64/kernel/vmlinux.lds.S
-@@ -256,6 +256,7 @@ SECTIONS
-                 INIT_DATA
-                 INIT_SETUP(16)
-                 INIT_CALLS
-+               SUBINIT_CALL
-                 CON_INITCALL
-                 INIT_RAM_FS
-                 *(.init.altinstructions .init.bss)      /* from the EFI 
-stub */
-diff --git a/arch/microblaze/kernel/vmlinux.lds.S 
-b/arch/microblaze/kernel/vmlinux.lds.S
-index ae50d3d04a7d..113bbe4fe0fd 100644
---- a/arch/microblaze/kernel/vmlinux.lds.S
-+++ b/arch/microblaze/kernel/vmlinux.lds.S
-@@ -115,6 +115,10 @@ SECTIONS {
-                 INIT_CALLS
-         }
+"To be safe, "d" (the [8086:09a2] device) should be on the same bus as
+"dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
+which would be a different bus, and they presumably are not influenced
+by the EN1K bit."
 
-+       .subinitcall.init : AT(ADDR(.subinitcall.init) - LOAD_OFFSET ) {
-+               SUBINIT_CALL
-+       }
-+
-         .con_initcall.init : AT(ADDR(.con_initcall.init) - LOAD_OFFSET) {
-                 CON_INITCALL
-         }
-diff --git a/arch/riscv/kernel/vmlinux-xip.lds.S 
-b/arch/riscv/kernel/vmlinux-xip.lds.S
-index 8c3daa1b0531..cfb108fe9d5c 100644
---- a/arch/riscv/kernel/vmlinux-xip.lds.S
-+++ b/arch/riscv/kernel/vmlinux-xip.lds.S
-@@ -55,6 +55,7 @@ SECTIONS
-         .init.rodata : {
-                 INIT_SETUP(16)
-                 INIT_CALLS
-+               SUBINIT_CALL
-                 CON_INITCALL
-                 INIT_RAM_FS
-         }
-diff --git a/arch/um/include/asm/common.lds.S 
-b/arch/um/include/asm/common.lds.S
-index fd481ac371de..59286d987936 100644
---- a/arch/um/include/asm/common.lds.S
-+++ b/arch/um/include/asm/common.lds.S
-@@ -48,6 +48,10 @@
-         INIT_CALLS
-    }
+When VMD enabled, just check bus number identical may lead to enable
+1k io windows for VMD domain root port. E.g. 0000:80:00.0 is a 
+VT-d(09a2). If VMD enabled, there might be a root port 10000:80:01.0 present.
+this code may lead to enable 10000:80:01.0 io_window_1k = 1. 
+This is probably not expected.
 
-+  .subinitcall.init : {
-+       SUBINIT_CALL
-+  }
-+
-    .con_initcall.init : {
-         CON_INITCALL
-    }
-diff --git a/arch/xtensa/kernel/vmlinux.lds.S 
-b/arch/xtensa/kernel/vmlinux.lds.S
-index f47e9bbbd291..1f4f921d9068 100644
---- a/arch/xtensa/kernel/vmlinux.lds.S
-+++ b/arch/xtensa/kernel/vmlinux.lds.S
-@@ -219,6 +219,7 @@ SECTIONS
+If I modify it like this,
 
-      INIT_SETUP(XCHAL_ICACHE_LINESIZE)
-      INIT_CALLS
-+    SUBINIT_CALL
-      CON_INITCALL
-      INIT_RAM_FS
-    }
-```
+	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+	---if (d->bus->number == dev->bus->number) {
+	+++if (d->bus == dev->bus) {
+			pci_read_config_word(d, 0x1c0, &en1k);
+			if (en1k & 0x4) {
+				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+				dev->io_window_1k = 1;
+			}
+		}
+	}
+    
+Can the situation mentioned above be avoided?
+
+Hope for your suggestion.
+
+> 
+> Hope that works for your case.
+> 
