@@ -1,67 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8664D54670
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 20:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A9316CD12
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 20:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721852144; cv=none; b=rPx/r6szwOCE1psjSPsHZ6EY1FS+ItR7jQPoqmP7HoBDk8hN67E+wFpZGQL2dS9UnX92Ai1uhwsUFeywnZpTVnujHn6bbmu4e44u42v7EAnOXLIsC2Vvp6LQdhQCn8qBN1zoDtw88nGlaJW1jPDFalPxyOoVqo2HWt7NkUfJywY=
+	t=1721852799; cv=none; b=e5eV2br3muDbIVtD7YcV+G2gd8cBx4CeG+Z47pXg6gRdpQFXQozkgceysrzfunqH/rhZc77hMLzuKWVO6TVILcQh8JTurwsNNnX9NNDqOPzT/n0JM6mCC1QEBVVo1YEMtyWyJhXxCIc8zufN998cGKqjOXRtvukfA/DalSmq7Xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721852144; c=relaxed/simple;
-	bh=7nXzHDV1fxOOOmXNYkOQZk9rfzCSrtSpWQi7+Sgl3yg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eariqIh0haE1EFNuv63cORGITyO1+KdMN4+s165rtibGjVhFkA36txeuHooJQ/I1EhmR65iQBLN2YUGaGhh9A1rmJOtc0fEALUIl91ux4Qdfm8sfSqUsTEFoqp24NDmP9vCXpBxvURPTGlVdanISit7GabsJjTWZv5cIYnQbdVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j30C3brh; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1721852799; c=relaxed/simple;
+	bh=FHnNh7CTalWvRmtTMTlb1zw8wnDSB36ArnoDjO0qJVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Wy1Jt/lSOnhLuIs0DEQECvmGUFsbyUqIq4eJNKfZgcz2Zh2Nig/DiH6k3hbuJ29e1ZpQeoRVGWOT1ejU5pTGpZgKKiN9uVe8nGilWfIR1gu3bl5wRm/ptegB4iOR2mB/GOth1OC21fjVPSCN7ZZ7ndM4DTqfj3AN5LddsGLfhgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VauL62la; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j30C3brh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VauL62la"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721852142; x=1753388142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7nXzHDV1fxOOOmXNYkOQZk9rfzCSrtSpWQi7+Sgl3yg=;
-  b=j30C3brhHAZ0648cp0+WttfkE/cXqcs8hgrgvoyuqDSW9VdQeuOMg3w2
-   hPttvv59nZwCplUfFKlE0e37NzceHgR+L54Yt6xNCLPSU9XxHUsFysr5a
-   CFQuRjQWVls/sVCko18NRkb7cu0AXJEeKMzIGGMy7vJNLzukyzty1DYDC
-   zI+Xg+pe8zppPkDtj/GX/DVTcxuL29qXKxuG6ybcOxo24bNKbYvPgVFy1
-   ms613qa61bH44SHyhO0O82bPvmAqKhifkf5znfdvZ9fk3DjtaQSLWWYc+
-   IpoX1+rECZapJxkFaddcw1wg8yDmyBxBYeGN8YA7bATjshh7+en5G7T0p
-   A==;
-X-CSE-ConnectionGUID: zXo3Cm80SAuk7O+B22Wwkg==
-X-CSE-MsgGUID: 1yo5/52UTCy+ivZR5EL6iA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="30948626"
+  t=1721852798; x=1753388798;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FHnNh7CTalWvRmtTMTlb1zw8wnDSB36ArnoDjO0qJVw=;
+  b=VauL62laELxMxht2usN+s6sNR8q3zmQmO26s8s1HlwC7R5vyC37HxRU5
+   jLb05HqEh83jAKERWwNDomMRBmL1DCYqnopXS/L0pbun51Tw9w7uuq1EM
+   QQOIoe/MGMOl8XSCE5TolhO77Az88iVUHTfM9f1kpHrjeNN9fgE3IpuOz
+   DKqzVeDNRrHf5Yfb3UeqK6s6A4lDPp4Uve1bK1gSo23lrcm78hM6N3zif
+   K4W1LqpETVOQzVIXQL+noMnqKNkUMla5L6bvjPJ2NbG5COGcmOoWgY2va
+   /Aj/5AaUwYcbAJHDM4M7nSpbXmORmA1nGXx4OdZJRqXs7ScILoROmUGtJ
+   Q==;
+X-CSE-ConnectionGUID: 3+HUthIrRdmPu22E/mfctw==
+X-CSE-MsgGUID: oUezUWGKQQafLwJckW9SuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="30949840"
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="30948626"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 13:15:41 -0700
-X-CSE-ConnectionGUID: OIW3Vw1jSh2WDXTU5oqssw==
-X-CSE-MsgGUID: QfmoQIcFTyC6ZCHVCEMiZA==
+   d="scan'208";a="30949840"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 13:26:38 -0700
+X-CSE-ConnectionGUID: 830faRnISxWBWKLIJ06Dtg==
+X-CSE-MsgGUID: tnjdWEAiTm+FR00G+v1stA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="75928078"
+   d="scan'208";a="52620131"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jul 2024 13:15:36 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 Jul 2024 13:26:36 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWiOb-000nOq-2v;
-	Wed, 24 Jul 2024 20:15:33 +0000
-Date: Thu, 25 Jul 2024 04:15:17 +0800
+	id 1sWiZG-000nP7-0i;
+	Wed, 24 Jul 2024 20:26:34 +0000
+Date: Thu, 25 Jul 2024 04:25:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	manivannan.sadhasivam@linaro.org, esben@geanix.com,
-	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_mdalam@quicinc.com,
-	quic_varada@quicinc.com, quic_srichara@quicinc.com
-Subject: Re: [PATCH v7 2/8] mtd: rawnand: qcom: cleanup qcom_nandc driver
-Message-ID: <202407250425.0AJoHyHa-lkp@intel.com>
-References: <20240724114225.2176448-3-quic_mdalam@quicinc.com>
+To: Elena Reshetova <elena.reshetova@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: [intel-tdx:guest-filter 29/36] arch/parisc/include/asm/io.h:143:22:
+ error: passing argument 1 of 'ioremap_prot' makes integer from pointer
+ without a cast
+Message-ID: <202407250401.sRwIW6r1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,97 +63,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724114225.2176448-3-quic_mdalam@quicinc.com>
 
-Hi Md,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on broonie-spi/for-next robh/for-next linus/master v6.10 next-20240724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-Introduce-qcom-spi-qpic-snand/20240724-195819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20240724114225.2176448-3-quic_mdalam%40quicinc.com
-patch subject: [PATCH v7 2/8] mtd: rawnand: qcom: cleanup qcom_nandc driver
-config: i386-buildonly-randconfig-004-20240725 (https://download.01.org/0day-ci/archive/20240725/202407250425.0AJoHyHa-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250425.0AJoHyHa-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-filter
+head:   2f2a140aaf04ba58f289ad0d6484ca1df92fbf04
+commit: 7052019eb3591061228a2ca4d91f197ebdfa69b0 [29/36] asm/io.h: Add ioremap_cache_shared
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240725/202407250401.sRwIW6r1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250401.sRwIW6r1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407250425.0AJoHyHa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407250401.sRwIW6r1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mtd/nand/raw/qcom_nandc.c:682: warning: Function parameter or struct member 'chip' not described in 'nandc_set_read_loc_first'
->> drivers/mtd/nand/raw/qcom_nandc.c:710: warning: Function parameter or struct member 'chip' not described in 'nandc_set_read_loc_last'
+   In file included from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from arch/parisc/include/asm/hardirq.h:13,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/pci.h:38,
+                    from lib/devres.c:3:
+   lib/devres.c: In function '__devm_ioremap':
+>> arch/parisc/include/asm/io.h:143:22: error: passing argument 1 of 'ioremap_prot' makes integer from pointer without a cast [-Wint-conversion]
+     143 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
+         |                      ^~~~~~
+         |                      |
+         |                      void *
+   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
+      42 |                 addr = ioremap_uc(offset, size);
+         |                        ^~~~~~~~~~
+   In file included from arch/parisc/include/asm/io.h:279:
+   include/asm-generic/io.h:1053:40: note: expected 'phys_addr_t' {aka 'unsigned int'} but argument is of type 'void *'
+    1053 | void __iomem *ioremap_prot(phys_addr_t phys_addr, size_t size,
+         |                            ~~~~~~~~~~~~^~~~~~~~~
+   arch/parisc/include/asm/io.h:128:22: error: called object is not a function or function pointer
+     128 | #define ioremap_prot ioremap_prot
+         |                      ^~~~~~~~~~~~
+   arch/parisc/include/asm/io.h:143:9: note: in expansion of macro 'ioremap_prot'
+     143 |         ioremap_prot((addr), (size), _PAGE_IOREMAP)
+         |         ^~~~~~~~~~~~
+   lib/devres.c:42:24: note: in expansion of macro 'ioremap_uc'
+      42 |                 addr = ioremap_uc(offset, size);
+         |                        ^~~~~~~~~~
 
 
-vim +682 drivers/mtd/nand/raw/qcom_nandc.c
+vim +/ioremap_prot +143 arch/parisc/include/asm/io.h
 
-   669	
-   670	/**
-   671	 * nandc_set_read_loc_first() - to set read location first register
-   672	 * @reg_base:		location register base
-   673	 * @cw_offset:		code word offset
-   674	 * @read_size:		code word read length
-   675	 * @is_last_read_loc:	is this the last read location
-   676	 *
-   677	 * This function will set location register value
-   678	 */
-   679	static void nandc_set_read_loc_first(struct nand_chip *chip,
-   680					     int reg_base, int cw_offset,
-   681					     int read_size, int is_last_read_loc)
- > 682	{
-   683		struct qcom_nand_controller *nandc = get_qcom_nand_controller(chip);
-   684		int val = (((cw_offset) << READ_LOCATION_OFFSET) |
-   685			  ((read_size) << READ_LOCATION_SIZE) |
-   686			  ((is_last_read_loc) << READ_LOCATION_LAST));
-   687	
-   688		if (reg_base == NAND_READ_LOCATION_0)
-   689			nandc->regs->read_location0 = val;
-   690		else if (reg_base == NAND_READ_LOCATION_1)
-   691			nandc->regs->read_location1 = val;
-   692		else if (reg_base == NAND_READ_LOCATION_2)
-   693			nandc->regs->read_location2 = val;
-   694		else if (reg_base == NAND_READ_LOCATION_3)
-   695			nandc->regs->read_location3 = val;
-   696	}
-   697	
-   698	/**
-   699	 * nandc_set_read_loc_last - to set read location last register
-   700	 * @reg_base:		location register base
-   701	 * @cw_offset:		code word offset
-   702	 * @read_size:		code word read length
-   703	 * @is_last_read_loc:	is this the last read location
-   704	 *
-   705	 * This function will set location last register value
-   706	 */
-   707	static void nandc_set_read_loc_last(struct nand_chip *chip,
-   708					    int reg_base, int cw_offset,
-   709					    int read_size, int is_last_read_loc)
- > 710	{
-   711		struct qcom_nand_controller *nandc = get_qcom_nand_controller(chip);
-   712	
-   713		int val = (((cw_offset) << READ_LOCATION_OFFSET) |
-   714			  ((read_size) << READ_LOCATION_SIZE) |
-   715			  ((is_last_read_loc) << READ_LOCATION_LAST));
-   716	
-   717		if (reg_base == NAND_READ_LOCATION_LAST_CW_0)
-   718			nandc->regs->read_location_last0 = val;
-   719		else if (reg_base == NAND_READ_LOCATION_LAST_CW_1)
-   720			nandc->regs->read_location_last1 = val;
-   721		else if (reg_base == NAND_READ_LOCATION_LAST_CW_2)
-   722			nandc->regs->read_location_last2 = val;
-   723		else if (reg_base == NAND_READ_LOCATION_LAST_CW_3)
-   724			nandc->regs->read_location_last3 = val;
-   725	}
-   726	
+   129	
+   130	#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_RW | _PAGE_DIRTY | \
+   131			       _PAGE_ACCESSED | _PAGE_NO_CACHE)
+   132	
+   133	#define ioremap_wc(addr, size)  \
+   134		ioremap_prot((addr), (size), _PAGE_IOREMAP)
+   135	
+   136	/* Share memory with host in confidential guest platforms */
+   137	#define ioremap_driver_hardened \
+   138		ioremap_prot((addr), (size), _PAGE_IOREMAP)
+   139	/* Share memory with host in confidential guest platforms (WB version) */
+   140	#define ioremap_cache_shared \
+   141		ioremap_prot((addr), (size), _PAGE_IOREMAP)
+   142	#define ioremap_uc \
+ > 143		ioremap_prot((addr), (size), _PAGE_IOREMAP)
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
