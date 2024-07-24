@@ -1,258 +1,279 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA657481A3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 06:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BD4364A1;
+	Wed, 24 Jul 2024 06:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721801243; cv=none; b=Xeq2fRVqTQnsnrvSeHJr+lINGIpH11mzzJadQKJHVeAH6GTIphaYzo8lWd3Vj7osq1J/73Tp/+84Z3Ttyyq7/wpsRF8WWIfVas7Eg8i1Eu+TzE/L/dONU4w6ivMF/8JdG3EZH3DaL/HQp9reiB7tERkFdGOeU0WWp0MHog2hLhM=
+	t=1721801833; cv=none; b=FbLwtx56BW9Bi8NEEthntSPD/Wd6BgKMnsITtY81lh+OWnC/MxJam3xrJeqpVf+zGL9P0fIIsL+mnyR6VzoE5zzjqeefz30rBpLMLp2+HjuGyvBVCe5A9cKZE8mdYUMLNlUWDR+MTF9auhAw3otLT21eLrEO2mNWoJVurCl/gi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721801243; c=relaxed/simple;
-	bh=9+kVKoG+9yKI4PKZ0Q+Q/3VBc57NEWov6+Hb3+PRmvA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NhvFHuWycYeD58vRNR9xwUKiFyL1N1W/vz86tjimWAUmC4WbeggP6p4BDq4Yzxe1ARjrPosB0cUuVscJ++8Y2IpgKe+Zz2MmhGGacj/VW87+oMyO9anMppJRFKzrX2EG9gXt3dB8YhXKBmANgrUJxGLfCygxD2sP7FzyVb4CQpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=j3kZWxy9; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=j3kZWxy9; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721801833; c=relaxed/simple;
+	bh=DiCy9StFkun7363ekKwZAhuwCJgO/Bk11qlQlQnKNq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YuPs65UqcCBasZ8C+u5IS2VHcHvjKxbtHpIaaDpMvGGB3ejOAXrhONYmKhyTOiEYcaWJHUwJlhTqj4rhHhk9HsxmZS6tlPyRjlkG9OMI+WDZs42406hXzRdRR2nM6/9wIRnxBUOV8M8oYxPK8u2BaiA5QWbFnjp/JkfjcSKrENs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCsYW7+Q; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="j3kZWxy9";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="j3kZWxy9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C3C1A1F388;
-	Wed, 24 Jul 2024 06:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1721801239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9+kVKoG+9yKI4PKZ0Q+Q/3VBc57NEWov6+Hb3+PRmvA=;
-	b=j3kZWxy96tkclv2l/zZWf8gKVT0DmdHnPLG+K2Oi5SSnXrOJq9j/yJ7IEs8ofPRWH0Aot1
-	cJ1eTKiCurPihJcgeRJd5UbTXDHlIC12BEQ+65vPGTdc6cb4UUlgXcC9QCN5mY+TAQj11O
-	qjq1j9FHA51MRTFGx+18eeJDjX/CZwQ=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1721801239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9+kVKoG+9yKI4PKZ0Q+Q/3VBc57NEWov6+Hb3+PRmvA=;
-	b=j3kZWxy96tkclv2l/zZWf8gKVT0DmdHnPLG+K2Oi5SSnXrOJq9j/yJ7IEs8ofPRWH0Aot1
-	cJ1eTKiCurPihJcgeRJd5UbTXDHlIC12BEQ+65vPGTdc6cb4UUlgXcC9QCN5mY+TAQj11O
-	qjq1j9FHA51MRTFGx+18eeJDjX/CZwQ=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 993B313411;
-	Wed, 24 Jul 2024 06:07:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eFfeIxeaoGZ2IwAAD6G6ig
-	(envelope-from <jgross@suse.com>); Wed, 24 Jul 2024 06:07:19 +0000
-Message-ID: <a9b1e875-5bf8-4755-ad2e-78ab2eb02c97@suse.com>
-Date: Wed, 24 Jul 2024 08:07:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCsYW7+Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721801831; x=1753337831;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DiCy9StFkun7363ekKwZAhuwCJgO/Bk11qlQlQnKNq0=;
+  b=hCsYW7+Q3SxQJjqyeLo852Ixovtmk2JPRuPflB5oWdK38v2/Oc9tqvbo
+   pAKM2pCkgtK+gv4mjCiklu4uNeFUMqulhdbiIaeaobDOuUrWMWrNxM17r
+   KwFBMQX+LIHstq2u7coDeTMIvOVsYhTBAxs86Z+du5MdWCo26fcwX0Geo
+   NQPpsn+8mR2b1ikUlpjvy8oBFN6mkoXxHNrqZO0Ebi6nc1Jm8iZe0huUq
+   bcjPENyTLu6PPJXL6mCrc8OtQSC5T7RkVNrU26W5AW5hpBTRPPaCRU2rN
+   4w2/GoS9CWG+0v1+OR7hecRGDltSYcQH8EVkh3KjgI26xET/kOLtaiIiU
+   A==;
+X-CSE-ConnectionGUID: C9vh9cx4RvWwju1YxfErxw==
+X-CSE-MsgGUID: SJkbTHpmSSSa4vmXSU7Z8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="30120885"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="30120885"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 23:17:10 -0700
+X-CSE-ConnectionGUID: nMa7u0mGTUiGfupmpEd5+Q==
+X-CSE-MsgGUID: HNvv+WY2T8uRNUp2rLk4Eg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="53248693"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 23 Jul 2024 23:17:08 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sWVJC-000mjw-0t;
+	Wed, 24 Jul 2024 06:17:06 +0000
+Date: Wed, 24 Jul 2024 14:16:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 44/80]
+ arch/arm/kernel/sys_oabi-compat.c:407:1: error: conflicting types for
+ 'sys_oabi_semtimedop'
+Message-ID: <202407241416.GGWdAKAR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [xen-tip:linux-next 12/12] WARNING: modpost: vmlinux: section
- mismatch in reference: mc_debug_data+0x0 (section: .data) ->
- mc_debug_data_early (section: .init.data)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
-References: <202407240907.u0NJHgTu-lkp@intel.com>
-Content-Language: en-US
-From: Juergen Gross <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <202407240907.u0NJHgTu-lkp@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------aKmJoPeeYdrDcLNbIppC2yN0"
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.99 / 50.00];
-	SIGNED_PGP(-2.00)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-0.998];
-	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
-	MIME_BASE64_TEXT(0.10)[];
-	MIME_UNKNOWN(0.10)[application/pgp-keys];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,imap1.dmz-prg2.suse.org:helo,intel.com:email];
-	HAS_ATTACHMENT(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -1.99
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------aKmJoPeeYdrDcLNbIppC2yN0
-Content-Type: multipart/mixed; boundary="------------yTPGLPB5HVJauaYLJYOdM88M";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Message-ID: <a9b1e875-5bf8-4755-ad2e-78ab2eb02c97@suse.com>
-Subject: Re: [xen-tip:linux-next 12/12] WARNING: modpost: vmlinux: section
- mismatch in reference: mc_debug_data+0x0 (section: .data) ->
- mc_debug_data_early (section: .init.data)
-References: <202407240907.u0NJHgTu-lkp@intel.com>
-In-Reply-To: <202407240907.u0NJHgTu-lkp@intel.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   ece1b5ebc0b7064a8a130f64e85a81ec76381c3f
+commit: 2263955b209e2016dc9f30d129e356f4123310d5 [44/80] ARM: OABI SYSCALL_DEFINEx
+config: arm-randconfig-002-20240724 (https://download.01.org/0day-ci/archive/20240724/202407241416.GGWdAKAR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407241416.GGWdAKAR-lkp@intel.com/reproduce)
 
---------------yTPGLPB5HVJauaYLJYOdM88M
-Content-Type: multipart/mixed; boundary="------------3r7BLeRwrhkp6qQzTurBg0uK"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407241416.GGWdAKAR-lkp@intel.com/
 
---------------3r7BLeRwrhkp6qQzTurBg0uK
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+All errors (new ones prefixed by >>):
 
-T24gMjQuMDcuMjQgMDM6MDgsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiB0cmVlOiAg
-IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3hlbi90
-aXAuZ2l0IGxpbnV4LW5leHQNCj4gaGVhZDogICAzNjg5OTBhN2ZlMzA3MzdjOTkwZjYyOGE2
-MGQyNmQ5ODU0YTllNjkwDQo+IGNvbW1pdDogMzY4OTkwYTdmZTMwNzM3Yzk5MGY2MjhhNjBk
-MjZkOTg1NGE5ZTY5MCBbMTIvMTJdIHhlbjogZml4IG11bHRpY2FsbCBkZWJ1ZyBkYXRhIHJl
-ZmVyZW5jaW5nDQo+IGNvbmZpZzogeDg2XzY0LXJhbmRjb25maWctMDEyLTIwMjQwNzI0ICho
-dHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNDA3MjQvMjAyNDA3
-MjQwOTA3LnUwTkpIZ1R1LWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiBjb21waWxlcjogZ2Nj
-LTEzIChVYnVudHUgMTMuMi4wLTR1YnVudHUzKSAxMy4yLjANCj4gcmVwcm9kdWNlICh0aGlz
-IGlzIGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJj
-aGl2ZS8yMDI0MDcyNC8yMDI0MDcyNDA5MDcudTBOSkhnVHUtbGtwQGludGVsLmNvbS9yZXBy
-b2R1Y2UpDQo+IA0KPiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNo
-L2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mDQo+IHRoZSBzYW1lIHBh
-dGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gfCBSZXBvcnRlZC1i
-eToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+IHwgQ2xvc2VzOiBodHRw
-czovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjQwNzI0MDkwNy51ME5KSGdU
-dS1sa3BAaW50ZWwuY29tLw0KPiANCj4gQWxsIHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhl
-ZCBieSA+Piwgb2xkIG9uZXMgcHJlZml4ZWQgYnkgPDwpOg0KPiANCj4+PiBXQVJOSU5HOiBt
-b2Rwb3N0OiB2bWxpbnV4OiBzZWN0aW9uIG1pc21hdGNoIGluIHJlZmVyZW5jZTogbWNfZGVi
-dWdfZGF0YSsweDAgKHNlY3Rpb246IC5kYXRhKSAtPiBtY19kZWJ1Z19kYXRhX2Vhcmx5IChz
-ZWN0aW9uOiAuaW5pdC5kYXRhKQ0KDQpXaXRoIGN1cnJlbnQgaW5mcmFzdHJ1Y3R1cmUgdGhp
-cyBpcyBub3QgZWFzaWx5IGZpeGFibGUsIGFzIHRoZXJlIGlzIG5vIHdheQ0KdG8gdGFnIGEg
-cGVyY3B1IHZhcmlhYmxlIGFzIF9fcmVmZGF0YS4NCg0KDQpKdWVyZ2VuDQo=
---------------3r7BLeRwrhkp6qQzTurBg0uK
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+   In file included from arch/arm/kernel/sys_oabi-compat.c:75:
+   In file included from include/linux/syscalls.h:94:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/arm/kernel/sys_oabi-compat.c:407:1: error: conflicting types for 'sys_oabi_semtimedop'
+     407 | SYSCALL_DEFINE3(oabi_semtimedop, int, semid, struct oabi_sembuf __user *, tsops,
+         | ^
+   include/linux/syscalls.h:226:36: note: expanded from macro 'SYSCALL_DEFINE3'
+     226 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:237:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     251 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+         |                         ^
+   <scratch space>:16:1: note: expanded from here
+      16 | sys_oabi_semtimedop
+         | ^
+   arch/arm/include/asm/syscalls.h:30:17: note: previous declaration is here
+      30 | asmlinkage long sys_oabi_semtimedop(int semid,
+         |                 ^
+>> arch/arm/kernel/sys_oabi-compat.c:419:1: error: conflicting types for 'sys_oabi_ipc'
+     419 | SYSCALL_DEFINE5(oabi_ipc, uint, call, int, first, int, second, int, third,
+         | ^
+   include/linux/syscalls.h:228:36: note: expanded from macro 'SYSCALL_DEFINE5'
+     228 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:237:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     251 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+         |                         ^
+   <scratch space>:132:1: note: expanded from here
+     132 | sys_oabi_ipc
+         | ^
+   arch/arm/include/asm/syscalls.h:36:17: note: previous declaration is here
+      36 | asmlinkage long sys_oabi_ipc(uint call, int first, int second, int third,
+         |                 ^
+>> arch/arm/kernel/sys_oabi-compat.c:448:1: error: conflicting types for 'sys_oabi_sendto'
+     448 | SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
+         | ^
+   include/linux/syscalls.h:227:36: note: expanded from macro 'SYSCALL_DEFINE4'
+     227 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:237:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:251:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     251 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+         |                         ^
+   <scratch space>:89:1: note: expanded from here
+      89 | sys_oabi_sendto
+         | ^
+   arch/arm/include/asm/syscalls.h:41:17: note: previous declaration is here
+      41 | asmlinkage long sys_oabi_sendto(int fd, void __user *buff,
+         |                 ^
+>> arch/arm/kernel/sys_oabi-compat.c:453:27: error: use of undeclared identifier 'addr'
+     453 |             get_user(sa_family, &addr->sa_family) == 0 &&
+         |                                  ^
+>> arch/arm/kernel/sys_oabi-compat.c:453:27: error: use of undeclared identifier 'addr'
+>> arch/arm/kernel/sys_oabi-compat.c:453:27: error: use of undeclared identifier 'addr'
+>> arch/arm/kernel/sys_oabi-compat.c:452:6: error: use of undeclared identifier 'addrlen'; did you mean 'strlen'?
+     452 |         if (addrlen == 112 &&
+         |             ^~~~~~~
+         |             strlen
+   include/linux/string.h:196:24: note: 'strlen' declared here
+     196 | extern __kernel_size_t strlen(const char *);
+         |                        ^
+   arch/arm/kernel/sys_oabi-compat.c:455:4: error: use of undeclared identifier 'addrlen'
+     455 |                         addrlen = 110;
+         |                         ^
+   arch/arm/kernel/sys_oabi-compat.c:456:44: error: use of undeclared identifier 'addr'
+     456 |         return __sys_sendto(fd, buff, len, flags, addr, addrlen);
+         |                                                   ^
+   arch/arm/kernel/sys_oabi-compat.c:456:50: error: use of undeclared identifier 'addrlen'
+     456 |         return __sys_sendto(fd, buff, len, flags, addr, addrlen);
+         |                                                         ^
+>> arch/arm/kernel/sys_oabi-compat.c:483:37: error: too few arguments to function call, expected 4, have 3
+     483 |         return __sys_sendmsg(fd, msg, flags);
+         |                ~~~~~~~~~~~~~               ^
+   include/linux/socket.h:411:13: note: '__sys_sendmsg' declared here
+     411 | extern long __sys_sendmsg(int fd, struct user_msghdr __user *msg,
+         |             ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     412 |                           unsigned int flags, bool forbid_cmsg_compat);
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 11 errors generated.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
 
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
+vim +/sys_oabi_semtimedop +407 arch/arm/kernel/sys_oabi-compat.c
 
---------------3r7BLeRwrhkp6qQzTurBg0uK--
+   388	
+   389	SYSCALL_DEFINE6(oabi_ipc, uint, call, int, first, int, second, int, third,
+   390			void __user *, ptr, long, fifth)
+   391	{
+   392		switch (call & 0xffff) {
+   393		case SEMOP:
+   394			return  sys_oabi_semtimedop(first,
+   395						    (struct oabi_sembuf __user *)ptr,
+   396						    second, NULL);
+   397		case SEMTIMEDOP:
+   398			return  sys_oabi_semtimedop(first,
+   399						    (struct oabi_sembuf __user *)ptr,
+   400						    second,
+   401						    (const struct old_timespec32 __user *)fifth);
+   402		default:
+   403			return sys_ipc(call, first, second, third, ptr, fifth);
+   404		}
+   405	}
+   406	#else
+ > 407	SYSCALL_DEFINE3(oabi_semtimedop, int, semid, struct oabi_sembuf __user *, tsops,
+   408			unsigned, nsops, const struct old_timespec32 __user *, timeout)
+   409	{
+   410		return -ENOSYS;
+   411	}
+   412	
+   413	SYSCALL_DEFINE3(oabi_semop, int, semid, struct oabi_sembuf __user *, tsops,
+   414			unsigned, nsops)
+   415	{
+   416		return -ENOSYS;
+   417	}
+   418	
+ > 419	SYSCALL_DEFINE5(oabi_ipc, uint, call, int, first, int, second, int, third,
+   420			void __user *, ptr, long, fifth)
+   421	{
+   422		return -ENOSYS;
+   423	}
+   424	#endif
+   425	
+   426	SYSCALL_DEFINE3(oabi_bind, int, fd, struct sockaddr __user *, addr,
+   427			int, addrlen)
+   428	{
+   429		sa_family_t sa_family;
+   430		if (addrlen == 112 &&
+   431		    get_user(sa_family, &addr->sa_family) == 0 &&
+   432		    sa_family == AF_UNIX)
+   433				addrlen = 110;
+   434		return __sys_bind(fd, addr, addrlen);
+   435	}
+   436	
+   437	SYSCALL_DEFINE3(oabi_connect, int, fd, struct sockaddr __user *, addr,
+   438			int, addrlen)
+   439	{
+   440		sa_family_t sa_family;
+   441		if (addrlen == 112 &&
+   442		    get_user(sa_family, &addr->sa_family) == 0 &&
+   443		    sa_family == AF_UNIX)
+   444				addrlen = 110;
+   445		return __sys_connect(fd, addr, addrlen);
+   446	}
+   447	
+ > 448	SYSCALL_DEFINE4(oabi_sendto, int, fd, void __user *, buff, size_t, len,
+   449			unsigned, flags, struct sockaddr __user *, addr, int, addrlen)
+   450	{
+   451		sa_family_t sa_family;
+ > 452		if (addrlen == 112 &&
+ > 453		    get_user(sa_family, &addr->sa_family) == 0 &&
+   454		    sa_family == AF_UNIX)
+   455				addrlen = 110;
+   456		return __sys_sendto(fd, buff, len, flags, addr, addrlen);
+   457	}
+   458	
+   459	SYSCALL_DEFINE3(oabi_sendmsg, int, fd, struct user_msghdr __user *, msg,
+   460			unsigned, flags)
+   461	{
+   462		struct sockaddr __user *addr;
+   463		int msg_namelen;
+   464		sa_family_t sa_family;
+   465		if (msg &&
+   466		    get_user(msg_namelen, &msg->msg_namelen) == 0 &&
+   467		    msg_namelen == 112 &&
+   468		    get_user(addr, &msg->msg_name) == 0 &&
+   469		    get_user(sa_family, &addr->sa_family) == 0 &&
+   470		    sa_family == AF_UNIX)
+   471		{
+   472			/*
+   473			 * HACK ALERT: there is a limit to how much backward bending
+   474			 * we should do for what is actually a transitional
+   475			 * compatibility layer.  This already has known flaws with
+   476			 * a few ioctls that we don't intend to fix.  Therefore
+   477			 * consider this blatent hack as another one... and take care
+   478			 * to run for cover.  In most cases it will "just work fine".
+   479			 * If it doesn't, well, tough.
+   480			 */
+   481			put_user(110, &msg->msg_namelen);
+   482		}
+ > 483		return __sys_sendmsg(fd, msg, flags);
+   484	}
+   485	
 
---------------yTPGLPB5HVJauaYLJYOdM88M--
-
---------------aKmJoPeeYdrDcLNbIppC2yN0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmagmhcFAwAAAAAACgkQsN6d1ii/Ey8a
-+Af+NVz5nELG4dmNB2Vo1cB/KwBdtOMraTWOSTPsb/qDY6ECINpnNczyU/qNJYOTq3j3lsygfHxT
-6doURYn5xC/pn8fxX5Z9hUXfl1kJTFyTHId1g3zWP3tr046RV5Mx5Qsnjav2CqdM5PlruRbdGzy+
-gFG556k128ZncGchUaw3TjZg4VrxTvm+hPNXrTt5PoRWWHvp8WBRLQuntU4nsdvNXnpWOdbBMCfS
-sOxB86wM4Mlpb/DC//LdKdeILKxP7YgViK7fxXB06mBEqJLmJzT70hxIwLURnucwF9E1Hfx9Y8Ex
-8Jiyuvu0+paTuKmJDzYT8bIqtWCFLv16vgT6fSezXg==
-=NIQl
------END PGP SIGNATURE-----
-
---------------aKmJoPeeYdrDcLNbIppC2yN0--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
