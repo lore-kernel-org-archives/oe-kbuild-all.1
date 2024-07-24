@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F6158DA9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B7D158DB2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721828723; cv=none; b=W2zA5DnJQrRP29t6hgEQxBKm4iM6T8VQsuAR4ks2kgLLj/SZZQK5ZC6n4QoVnHmHwbaDtNuJioyCUtmfoI3rABtRCccDgtCJAyw9uiAt6GNUKOjoPfKx4aUPFsWEBeBmW1Anxg+Iqj2prZb/s/6XglFTQmeUk+i8poiJBgE/gVE=
+	t=1721828729; cv=none; b=smsQiRJrQYBGHto/PB/Vtwo4jcWsO2cJwUPXpmgGqqFe6pELwVlJlinH+hPuTfM+NvSncsiroZyyIFqi3BfOCHeOOW6yOynZD5DoRai65UfW+suZDIwgi69nuGf6pUMaHvwhuvpxgSRIW7zTDzLrJXxF9SZFeotiVOSZarpt+iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721828723; c=relaxed/simple;
-	bh=ch/9wl2erDQOnXoJWsucI4AgITXy96aUrSFJrIzDebA=;
+	s=arc-20240116; t=1721828729; c=relaxed/simple;
+	bh=roRPAbS/1YQjiCH8WK8QVJ3T2z8Pj2Zy0ZmLiwJnrkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HJ64vINvt+3Dko2u+/Iz5SZhVr318uMfxtvr+6MaUH3roghjtiJNQuavZXzUt0ACD0Arbc6qMopx9DvE2ulnq6J2xS2HapUk5d+tBOs4BiVh/omGn1WNtVXNTIgwlYz2EYvZoy5vqpMVyzmKIcVPYoTTOz/9l5pSqZ7bomie67I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF4+vboY; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=M2DXAxChAnTQpUQe0Q4XXlk8eVC1lUa2aDahOhstQyDf7jAEfVXMF1Z+y2kgMZjftRdhXhkuFUEdWtD6STqW9cWzLJq8RL8SmaRZ8Vtlv15JvwQ5U4iAvzwwNhVDfauQ7a8YRUJhcBigBzeV7c1QtErbDdrBrCq+dQQElsfPVzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfYDa1bi; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF4+vboY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfYDa1bi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721828722; x=1753364722;
+  t=1721828728; x=1753364728;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ch/9wl2erDQOnXoJWsucI4AgITXy96aUrSFJrIzDebA=;
-  b=LF4+vboY5aOPgpApSD7ZBwah7r+YFUix0szAkdjqyQU1JurPDsKTC1xp
-   lOcnb1QRnYh7eOr0D0GHjf+8/qcnYedmFxRvsQvwOWMTU1Lml1fqlqRFe
-   +HHjGxUR2IRGulexmjWoBl2Dq/FBBMtQ80WTE+Jtm38GCdpQsCzV/b457
-   eaw6B+LJ/HZqH2BfcPVWJKQGXCrW0PbP01smvlAby/I/93XvMOWHLdJT1
-   rqisccv/oECswAVVAKVMNDyZa5+lRfAAzRgtWRxk8eh+7W+IxgujsR86W
-   z4agtabn193fLRSuYmC4wzuvAEsLlEmO1esyvp4iDFWl3/IAgk1704xgT
-   w==;
-X-CSE-ConnectionGUID: tNnlhWhCTDG8U504Po1Clw==
-X-CSE-MsgGUID: lNa9qPwbSsSeoCTzyRrnTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19318295"
+  bh=roRPAbS/1YQjiCH8WK8QVJ3T2z8Pj2Zy0ZmLiwJnrkQ=;
+  b=RfYDa1biibCUhpEkn/b8oVOgUczCR39NzgvKpuIkaKRkh3IF8NhimTaO
+   dDOiHueHidKcgG2m+y7kGjj2Ms0NeigTmF6r/vLKeLnZYonhny2zmwZw3
+   E1uuaFZKamKK14uC3X5f9EALfJhc8LZteJszmbzxwCOZQ0xxwOAW2hsas
+   0wiOUyLGd1drwJBqpdgdMdpzPidUZBGpZd+SxFr2X5XDqEIMoE5iwtrQW
+   FH02Jpf4zVoKn1odEZCOxgLoRjFYPJy9FPgkZkKhqA0BAaUDjxPG0rGnL
+   9pgYWhPm5gnrHArazvYbLFG6E4NKTj9CugGW4MJRYcgQF4yLuRBSvEJln
+   Q==;
+X-CSE-ConnectionGUID: sR0WqCRvR9OOhHMDSCU0dQ==
+X-CSE-MsgGUID: HMQBJ4i/Tc+tNXkZd5/KFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="30897340"
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="19318295"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:45:21 -0700
-X-CSE-ConnectionGUID: mGnlUw8iT12gUdfoUaM3GQ==
-X-CSE-MsgGUID: WK1KCRhBRwaG+Uf3Gz+wWA==
+   d="scan'208";a="30897340"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:45:24 -0700
+X-CSE-ConnectionGUID: eEkOjT7qTXiCGR7SdyP6TA==
+X-CSE-MsgGUID: UJNRSmZUStaUx+N28SrDeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="52663895"
+   d="scan'208";a="52284227"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jul 2024 06:45:20 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Jul 2024 06:45:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWcIw-000n2W-0J;
+	id 1sWcIw-000n2Q-0B;
 	Wed, 24 Jul 2024 13:45:18 +0000
-Date: Wed, 24 Jul 2024 21:44:20 +0800
+Date: Wed, 24 Jul 2024 21:44:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 40/41] mm/khugepaged.c:1667:21: error: call to
- undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202407242114.pBMRzmkZ-lkp@intel.com>
+Subject: [alexshi:mmunstable 37/41] include/linux/mm_types.h:512:41: error:
+ passing argument 3 of 'pmd_populate' from incompatible pointer type
+Message-ID: <202407242136.DN0aW8Ti-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,259 +64,103 @@ Content-Disposition: inline
 
 tree:   https://github.com/alexshi/linux.git mmunstable
 head:   45de53e1a6ceb1ede64b54126f9ee514f50c4e4c
-commit: 8e3f6110bc08dd618a14987c39bb44a9eb45eb31 [40/41] mm/pgtable: pass ptdesc in pte_free_defer()
-config: i386-randconfig-141-20240724 (https://download.01.org/0day-ci/archive/20240724/202407242114.pBMRzmkZ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242114.pBMRzmkZ-lkp@intel.com/reproduce)
+commit: 5f711d4ecc7f0a6cf15ad4c1bd3eba8224c7dca0 [37/41] mm/pgtable: introduce ptdesc_pfn and pass ptdesc to pmd_populate
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240724/202407242136.DN0aW8Ti-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242136.DN0aW8Ti-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407242114.pBMRzmkZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407242136.DN0aW8Ti-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/khugepaged.c:1667:21: error: call to undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1667 |         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-         |                            ^
->> mm/khugepaged.c:1667:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct ptdesc *' [-Wint-conversion]
-    1667 |         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-         |                            ^~~~~~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:119:58: note: passing argument to parameter 'ptdesc' here
-     119 | void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
-         |                                                          ^
-   mm/khugepaged.c:1771:23: error: call to undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1771 |                         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-         |                                            ^
-   mm/khugepaged.c:1771:23: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct ptdesc *' [-Wint-conversion]
-    1771 |                         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-         |                                            ^~~~~~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:119:58: note: passing argument to parameter 'ptdesc' here
-     119 | void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
-         |                                                          ^
-   4 errors generated.
+   In file included from arch/riscv/include/asm/tlb.h:32,
+                    from arch/riscv/include/asm/pgalloc.h:12,
+                    from mm/memory.c:86:
+   mm/memory.c: In function 'free_pte_range':
+   mm/memory.c:194:27: error: passing argument 2 of '__pte_free_tlb' from incompatible pointer type [-Wincompatible-pointer-types]
+     194 |         pte_free_tlb(tlb, token, addr);
+         |                           ^~~~~
+         |                           |
+         |                           struct ptdesc *
+   include/asm-generic/tlb.h:706:37: note: in definition of macro 'pte_free_tlb'
+     706 |                 __pte_free_tlb(tlb, ptep, address);             \
+         |                                     ^~~~
+   arch/riscv/include/asm/pgalloc.h:186:69: note: expected 'pgtable_t' {aka 'struct page *'} but argument is of type 'struct ptdesc *'
+     186 | static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pte,
+         |                                                           ~~~~~~~~~~^~~
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/topology.h:33,
+                    from include/linux/irq.h:19,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/riscv/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from mm/memory.c:43:
+   mm/memory.c: In function 'pmd_install':
+>> include/linux/mm_types.h:512:41: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
+     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     511 |         const struct page *:            (const struct ptdesc *)(p),     \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     512 |         struct page *:                  (struct ptdesc *)(p)))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         struct ptdesc *
+   mm/memory.c:440:39: note: in expansion of macro 'page_ptdesc'
+     440 |                 pmd_populate(mm, pmd, page_ptdesc(*pte));
+         |                                       ^~~~~~~~~~~
+   arch/riscv/include/asm/pgalloc.h:36:31: note: expected 'pgtable_t' {aka 'struct page *'} but argument is of type 'struct ptdesc *'
+      36 |         pmd_t *pmd, pgtable_t pte)
+         |                     ~~~~~~~~~~^~~
+--
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/mremap.c:11:
+   mm/mremap.c: In function 'move_normal_pmd':
+>> include/linux/mm_types.h:512:41: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
+     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     511 |         const struct page *:            (const struct ptdesc *)(p),     \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     512 |         struct page *:                  (struct ptdesc *)(p)))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         struct ptdesc *
+   mm/mremap.c:286:35: note: in expansion of macro 'page_ptdesc'
+     286 |         pmd_populate(mm, new_pmd, page_ptdesc(pmd_pgtable(pmd)));
+         |                                   ^~~~~~~~~~~
+   In file included from mm/mremap.c:31:
+   arch/riscv/include/asm/pgalloc.h:36:31: note: expected 'pgtable_t' {aka 'struct page *'} but argument is of type 'struct ptdesc *'
+      36 |         pmd_t *pmd, pgtable_t pte)
+         |                     ~~~~~~~~~~^~~
 
 
-vim +/pmd_ptdesc +1667 mm/khugepaged.c
+vim +/pmd_populate +512 include/linux/mm_types.h
 
-  1475	
-  1476	/**
-  1477	 * collapse_pte_mapped_thp - Try to collapse a pte-mapped THP for mm at
-  1478	 * address haddr.
-  1479	 *
-  1480	 * @mm: process address space where collapse happens
-  1481	 * @addr: THP collapse address
-  1482	 * @install_pmd: If a huge PMD should be installed
-  1483	 *
-  1484	 * This function checks whether all the PTEs in the PMD are pointing to the
-  1485	 * right THP. If so, retract the page table so the THP can refault in with
-  1486	 * as pmd-mapped. Possibly install a huge PMD mapping the THP.
-  1487	 */
-  1488	int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
-  1489				    bool install_pmd)
-  1490	{
-  1491		struct mmu_notifier_range range;
-  1492		bool notified = false;
-  1493		unsigned long haddr = addr & HPAGE_PMD_MASK;
-  1494		struct vm_area_struct *vma = vma_lookup(mm, haddr);
-  1495		struct folio *folio;
-  1496		pte_t *start_pte, *pte;
-  1497		pmd_t *pmd, pgt_pmd;
-  1498		spinlock_t *pml = NULL, *ptl;
-  1499		int nr_ptes = 0, result = SCAN_FAIL;
-  1500		int i;
-  1501	
-  1502		mmap_assert_locked(mm);
-  1503	
-  1504		/* First check VMA found, in case page tables are being torn down */
-  1505		if (!vma || !vma->vm_file ||
-  1506		    !range_in_vma(vma, haddr, haddr + HPAGE_PMD_SIZE))
-  1507			return SCAN_VMA_CHECK;
-  1508	
-  1509		/* Fast check before locking page if already PMD-mapped */
-  1510		result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
-  1511		if (result == SCAN_PMD_MAPPED)
-  1512			return result;
-  1513	
-  1514		/*
-  1515		 * If we are here, we've succeeded in replacing all the native pages
-  1516		 * in the page cache with a single hugepage. If a mm were to fault-in
-  1517		 * this memory (mapped by a suitably aligned VMA), we'd get the hugepage
-  1518		 * and map it by a PMD, regardless of sysfs THP settings. As such, let's
-  1519		 * analogously elide sysfs THP settings here.
-  1520		 */
-  1521		if (!thp_vma_allowable_order(vma, vma->vm_flags, 0, PMD_ORDER))
-  1522			return SCAN_VMA_CHECK;
-  1523	
-  1524		/* Keep pmd pgtable for uffd-wp; see comment in retract_page_tables() */
-  1525		if (userfaultfd_wp(vma))
-  1526			return SCAN_PTE_UFFD_WP;
-  1527	
-  1528		folio = filemap_lock_folio(vma->vm_file->f_mapping,
-  1529				       linear_page_index(vma, haddr));
-  1530		if (IS_ERR(folio))
-  1531			return SCAN_PAGE_NULL;
-  1532	
-  1533		if (folio_order(folio) != HPAGE_PMD_ORDER) {
-  1534			result = SCAN_PAGE_COMPOUND;
-  1535			goto drop_folio;
-  1536		}
-  1537	
-  1538		result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
-  1539		switch (result) {
-  1540		case SCAN_SUCCEED:
-  1541			break;
-  1542		case SCAN_PMD_NONE:
-  1543			/*
-  1544			 * All pte entries have been removed and pmd cleared.
-  1545			 * Skip all the pte checks and just update the pmd mapping.
-  1546			 */
-  1547			goto maybe_install_pmd;
-  1548		default:
-  1549			goto drop_folio;
-  1550		}
-  1551	
-  1552		result = SCAN_FAIL;
-  1553		start_pte = pte_offset_map_lock(mm, pmd, haddr, &ptl);
-  1554		if (!start_pte)		/* mmap_lock + page lock should prevent this */
-  1555			goto drop_folio;
-  1556	
-  1557		/* step 1: check all mapped PTEs are to the right huge page */
-  1558		for (i = 0, addr = haddr, pte = start_pte;
-  1559		     i < HPAGE_PMD_NR; i++, addr += PAGE_SIZE, pte++) {
-  1560			struct page *page;
-  1561			pte_t ptent = ptep_get(pte);
-  1562	
-  1563			/* empty pte, skip */
-  1564			if (pte_none(ptent))
-  1565				continue;
-  1566	
-  1567			/* page swapped out, abort */
-  1568			if (!pte_present(ptent)) {
-  1569				result = SCAN_PTE_NON_PRESENT;
-  1570				goto abort;
-  1571			}
-  1572	
-  1573			page = vm_normal_page(vma, addr, ptent);
-  1574			if (WARN_ON_ONCE(page && is_zone_device_page(page)))
-  1575				page = NULL;
-  1576			/*
-  1577			 * Note that uprobe, debugger, or MAP_PRIVATE may change the
-  1578			 * page table, but the new page will not be a subpage of hpage.
-  1579			 */
-  1580			if (folio_page(folio, i) != page)
-  1581				goto abort;
-  1582		}
-  1583	
-  1584		pte_unmap_unlock(start_pte, ptl);
-  1585		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm,
-  1586					haddr, haddr + HPAGE_PMD_SIZE);
-  1587		mmu_notifier_invalidate_range_start(&range);
-  1588		notified = true;
-  1589	
-  1590		/*
-  1591		 * pmd_lock covers a wider range than ptl, and (if split from mm's
-  1592		 * page_table_lock) ptl nests inside pml. The less time we hold pml,
-  1593		 * the better; but userfaultfd's mfill_atomic_pte() on a private VMA
-  1594		 * inserts a valid as-if-COWed PTE without even looking up page cache.
-  1595		 * So page lock of folio does not protect from it, so we must not drop
-  1596		 * ptl before pgt_pmd is removed, so uffd private needs pml taken now.
-  1597		 */
-  1598		if (userfaultfd_armed(vma) && !(vma->vm_flags & VM_SHARED))
-  1599			pml = pmd_lock(mm, pmd);
-  1600	
-  1601		start_pte = pte_offset_map_nolock(mm, pmd, haddr, &ptl);
-  1602		if (!start_pte)		/* mmap_lock + page lock should prevent this */
-  1603			goto abort;
-  1604		if (!pml)
-  1605			spin_lock(ptl);
-  1606		else if (ptl != pml)
-  1607			spin_lock_nested(ptl, SINGLE_DEPTH_NESTING);
-  1608	
-  1609		/* step 2: clear page table and adjust rmap */
-  1610		for (i = 0, addr = haddr, pte = start_pte;
-  1611		     i < HPAGE_PMD_NR; i++, addr += PAGE_SIZE, pte++) {
-  1612			struct page *page;
-  1613			pte_t ptent = ptep_get(pte);
-  1614	
-  1615			if (pte_none(ptent))
-  1616				continue;
-  1617			/*
-  1618			 * We dropped ptl after the first scan, to do the mmu_notifier:
-  1619			 * page lock stops more PTEs of the folio being faulted in, but
-  1620			 * does not stop write faults COWing anon copies from existing
-  1621			 * PTEs; and does not stop those being swapped out or migrated.
-  1622			 */
-  1623			if (!pte_present(ptent)) {
-  1624				result = SCAN_PTE_NON_PRESENT;
-  1625				goto abort;
-  1626			}
-  1627			page = vm_normal_page(vma, addr, ptent);
-  1628			if (folio_page(folio, i) != page)
-  1629				goto abort;
-  1630	
-  1631			/*
-  1632			 * Must clear entry, or a racing truncate may re-remove it.
-  1633			 * TLB flush can be left until pmdp_collapse_flush() does it.
-  1634			 * PTE dirty? Shmem page is already dirty; file is read-only.
-  1635			 */
-  1636			ptep_clear(mm, addr, pte);
-  1637			folio_remove_rmap_pte(folio, page, vma);
-  1638			nr_ptes++;
-  1639		}
-  1640	
-  1641		pte_unmap(start_pte);
-  1642		if (!pml)
-  1643			spin_unlock(ptl);
-  1644	
-  1645		/* step 3: set proper refcount and mm_counters. */
-  1646		if (nr_ptes) {
-  1647			folio_ref_sub(folio, nr_ptes);
-  1648			add_mm_counter(mm, mm_counter_file(folio), -nr_ptes);
-  1649		}
-  1650	
-  1651		/* step 4: remove empty page table */
-  1652		if (!pml) {
-  1653			pml = pmd_lock(mm, pmd);
-  1654			if (ptl != pml)
-  1655				spin_lock_nested(ptl, SINGLE_DEPTH_NESTING);
-  1656		}
-  1657		pgt_pmd = pmdp_collapse_flush(vma, haddr, pmd);
-  1658		pmdp_get_lockless_sync();
-  1659		if (ptl != pml)
-  1660			spin_unlock(ptl);
-  1661		spin_unlock(pml);
-  1662	
-  1663		mmu_notifier_invalidate_range_end(&range);
-  1664	
-  1665		mm_dec_nr_ptes(mm);
-  1666		page_table_check_pte_clear_range(mm, haddr, pgt_pmd);
-> 1667		pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-  1668	
-  1669	maybe_install_pmd:
-  1670		/* step 5: install pmd entry */
-  1671		result = install_pmd
-  1672				? set_huge_pmd(vma, haddr, pmd, &folio->page)
-  1673				: SCAN_SUCCEED;
-  1674		goto drop_folio;
-  1675	abort:
-  1676		if (nr_ptes) {
-  1677			flush_tlb_mm(mm);
-  1678			folio_ref_sub(folio, nr_ptes);
-  1679			add_mm_counter(mm, mm_counter_file(folio), -nr_ptes);
-  1680		}
-  1681		if (start_pte)
-  1682			pte_unmap_unlock(start_pte, ptl);
-  1683		if (pml && pml != ptl)
-  1684			spin_unlock(pml);
-  1685		if (notified)
-  1686			mmu_notifier_invalidate_range_end(&range);
-  1687	drop_folio:
-  1688		folio_unlock(folio);
-  1689		folio_put(folio);
-  1690		return result;
-  1691	}
-  1692	
+9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  501) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  502) #define ptdesc_page(pt)			(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  503) 	const struct ptdesc *:		(const struct page *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  504) 	struct ptdesc *:		(struct page *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  505) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  506) #define ptdesc_folio(pt)		(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  507) 	const struct ptdesc *:		(const struct folio *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  508) 	struct ptdesc *:		(struct folio *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  509) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  510) #define page_ptdesc(p)			(_Generic((p),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  511) 	const struct page *:		(const struct ptdesc *)(p),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @512) 	struct page *:			(struct ptdesc *)(p)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  513) 
+
+:::::: The code at line 512 was first introduced by commit
+:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
+
+:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
