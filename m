@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938E7158A01
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D60013D60E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721827287; cv=none; b=OL+Uv7/5Jo4O0/nzlDolVBnaRFNIiPROgEW1vEmEGH7zRja+0ULS2ogV2vUNE7eAWKBBP+6cQOMfEQCzsmAWq/liP3P6KQtCdbVfhMpoFTaTQqTlvVS4U43oKlSt5gSKVuNcfORKBhjaC7hKfjpnUPhS5Ce7JcI/qsKhpmTQS6M=
+	t=1721828035; cv=none; b=oTGnTiD2CTdpqM8i33p1XjYBY2a3eMxZHsY5O3nR5tY9Vf5EFyuzfx6p1z3eQdyU25cDHpiB88ZQ/Dgwq0qNOoWcYDd+Pf4NxJuN8+quF+IBzN7XccYIuoaQAgTykUdIylg/+GsDcgayRsgJ5IC2QeH+IKxJ+45sMyx+YvIotCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721827287; c=relaxed/simple;
-	bh=7m+ohxlJytFfVezNwmezrZv5CY1wMIseM9e6kT2tWxQ=;
+	s=arc-20240116; t=1721828035; c=relaxed/simple;
+	bh=fV1MQXJO8AI/yu/FjqE3iFQEUthg6mwM3bWmeHdzBmc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uOYcnNuN1tpcM/Vw7unWWN7YoQP+gJPefZNBvVjCZ3998vU4gmSn5slUGN6Fc47dDshiPN1Zv6wBbENDSvF2OTTtu7msRJr/4k8eT3elP3vNx/qAe4lfaMQSkjalehooqcNkBb4rfVHOUjMnvMH8BtLZ8an+w7/YHaKHuS3xkRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rso9SbOs; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=XoS2KhveWTUddEbzAOZksXvgl9/nA2nkMWJjWd8sD6J/Tu5QJ2JjXCSIVNSCS2iOMYmz/598KLqxZTj/zY0/REhrVZw4fjUhq56/5HNeE8BfSPKyVKDoAVQf762LqIbpuhkCwGHye5y+3vR/XRZDTa/Yz96+/Ai4D3uY8pC+rig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SK2zsIwq; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rso9SbOs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SK2zsIwq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721827285; x=1753363285;
+  t=1721828033; x=1753364033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7m+ohxlJytFfVezNwmezrZv5CY1wMIseM9e6kT2tWxQ=;
-  b=Rso9SbOsLG+Vg/sg0VO1UpQZfjMxL6KeBk2xaJNS2Qb4ePYY+dR9I2YI
-   tZZQzIv5DzQLjmBhV1tRdkaTzWqZG6YMzb3TB65sUYv0Ewy/6ysVtQkwz
-   XW/Di3Xos4s+HCjygZBeYRrRMYqHGiViQvSbLOkuwvyZhPLt1eFmDwxKK
-   DbEWQQlBM6nBaLqCzlDch0pcrwuA6V546lX6ZQ4j7svub8Q118JoCrwej
-   hDcKCHJ6Z0AOzAMTzVNTpOcDJ9SvI8Jc4aIZ4Vb0psbGG48fBFfZUh8tM
-   1K5+HNlR+oVGHoQjxA+0+x7YDJkFy7DyPfPQC7F8zpiXAjibrmhFDczQx
-   g==;
-X-CSE-ConnectionGUID: x2c+s9TOSAuSsrN9Z4yyIA==
-X-CSE-MsgGUID: ZbcBA0dKTfuw/8ASN4KjIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="22411993"
+  bh=fV1MQXJO8AI/yu/FjqE3iFQEUthg6mwM3bWmeHdzBmc=;
+  b=SK2zsIwqJ148ZTIEIZTZ6epErZt0+xpT+npEoimK+jwY7SjPUJO4+4il
+   DD5lLwgT67twAUlhhOe1vauWBKW1Wr7IltlagwV7TtHGHlHJFyMfIweUv
+   0fRkJQiKJIvNGdar5YePHhC2gAJVkIo5ldqT//P1Bw6n31YkVtSBFkDgr
+   zPgLxQYV5jYKn1DDKDqBUTP+pDM8Cm+7mYYp58fg1iFpkeourCgVpNp1X
+   dPilumEB8dzv4EBr9BudslPHRYIygpnyBpCtPJ8PI+133i+asie249ZaS
+   9qX2LMzvEAvUS/K+uMNvqwRaNwoXTLCSUNDGGq4fczcajmvqss0Vpnb6m
+   w==;
+X-CSE-ConnectionGUID: f3NqKi5cQjSTYmDiSwvf1A==
+X-CSE-MsgGUID: XCZMKFFdTNeK0MXZVu6tmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19633424"
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="22411993"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:21:21 -0700
-X-CSE-ConnectionGUID: UJKk7GH6SU63g2ALeucCBg==
-X-CSE-MsgGUID: 9pM1HUsNTH+lPK7+aXHPTQ==
+   d="scan'208";a="19633424"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:33:53 -0700
+X-CSE-ConnectionGUID: QdlFamRoTO+W1PDNpYtU7Q==
+X-CSE-MsgGUID: B1gkWEhcTNOoOeL+2cjiug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="52808814"
+   d="scan'208";a="56733370"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2024 06:21:20 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Jul 2024 06:32:19 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWbvh-000n1D-1U;
-	Wed, 24 Jul 2024 13:21:17 +0000
-Date: Wed, 24 Jul 2024 21:21:08 +0800
+	id 1sWc6L-000n1W-1u;
+	Wed, 24 Jul 2024 13:32:17 +0000
+Date: Wed, 24 Jul 2024 21:31:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 33/41] include/linux/mm_types.h:510:51: error:
- '_Generic' selector of type 'struct ptdesc *' is not compatible with any
- association
-Message-ID: <202407242141.3hZS4agH-lkp@intel.com>
+Subject: [alexshi:mmunstable 30/41] include/linux/mm_types.h:510:51: error:
+ '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not
+ compatible with any association
+Message-ID: <202407242100.Os4C3CaC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,52 +65,49 @@ Content-Disposition: inline
 
 tree:   https://github.com/alexshi/linux.git mmunstable
 head:   45de53e1a6ceb1ede64b54126f9ee514f50c4e4c
-commit: 887c1bf7c199edf9083e31d7959f92735d410ec9 [33/41] mm/pgtable: introduce ptdesc_pfn and use ptdesc in free_pte_range()
-config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20240724/202407242141.3hZS4agH-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242141.3hZS4agH-lkp@intel.com/reproduce)
+commit: 4c91e08c705e1b2ce46e4437d405b2170fa47aed [30/41] mm/memory: use ptdesc in __pte_alloc
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240724/202407242100.Os4C3CaC-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242100.Os4C3CaC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407242141.3hZS4agH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407242100.Os4C3CaC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    In file included from include/linux/mmzone.h:22,
                     from include/linux/topology.h:33,
                     from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/csky/include/generated/asm/hardirq.h:1,
+                    from arch/powerpc/include/asm/hardirq.h:6,
                     from include/linux/hardirq.h:11,
                     from include/linux/interrupt.h:11,
                     from include/linux/kernel_stat.h:9,
                     from mm/memory.c:43:
-   mm/memory.c: In function 'free_pte_range':
->> include/linux/mm_types.h:510:51: error: '_Generic' selector of type 'struct ptdesc *' is not compatible with any association
+   mm/memory.c: In function '__pte_alloc':
+>> include/linux/mm_types.h:510:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
      510 | #define page_ptdesc(p)                  (_Generic((p),                  \
          |                                                   ^
-   arch/csky/include/asm/pgalloc.h:66:28: note: in expansion of macro 'page_ptdesc'
-      66 |         pagetable_pte_dtor(page_ptdesc(pte));           \
-         |                            ^~~~~~~~~~~
-   include/asm-generic/tlb.h:706:17: note: in expansion of macro '__pte_free_tlb'
-     706 |                 __pte_free_tlb(tlb, ptep, address);             \
-         |                 ^~~~~~~~~~~~~~
-   mm/memory.c:194:9: note: in expansion of macro 'pte_free_tlb'
-     194 |         pte_free_tlb(tlb, token, addr);
-         |         ^~~~~~~~~~~~
->> include/linux/mm_types.h:510:51: error: '_Generic' selector of type 'struct ptdesc *' is not compatible with any association
-     510 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   arch/csky/include/asm/pgalloc.h:67:37: note: in expansion of macro 'page_ptdesc'
-      67 |         tlb_remove_page_ptdesc(tlb, page_ptdesc(pte));  \
-         |                                     ^~~~~~~~~~~
-   include/asm-generic/tlb.h:706:17: note: in expansion of macro '__pte_free_tlb'
-     706 |                 __pte_free_tlb(tlb, ptep, address);             \
-         |                 ^~~~~~~~~~~~~~
-   mm/memory.c:194:9: note: in expansion of macro 'pte_free_tlb'
-     194 |         pte_free_tlb(tlb, token, addr);
-         |         ^~~~~~~~~~~~
+   mm/memory.c:448:33: note: in expansion of macro 'page_ptdesc'
+     448 |         struct ptdesc *ptdesc = page_ptdesc(pte_alloc_one(mm));
+         |                                 ^~~~~~~~~~~
+   include/linux/mm_types.h:504:41: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Wincompatible-pointer-types]
+     502 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     503 |         const struct ptdesc *:          (const struct page *)(pt),      \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     504 |         struct ptdesc *:                (struct page *)(pt)))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+         |                                         |
+         |                                         struct page *
+   mm/memory.c:454:30: note: in expansion of macro 'ptdesc_page'
+     454 |                 pte_free(mm, ptdesc_page(ptdesc));
+         |                              ^~~~~~~~~~~
+   In file included from mm/memory.c:86:
+   arch/powerpc/include/asm/pgalloc.h:43:61: note: expected 'pgtable_t' {aka 'long unsigned int *'} but argument is of type 'struct page *'
+      43 | static inline void pte_free(struct mm_struct *mm, pgtable_t ptepage)
+         |                                                   ~~~~~~~~~~^~~~~~~
 
 
 vim +510 include/linux/mm_types.h
