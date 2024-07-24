@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959A0157461
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F6158DA9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 13:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721828037; cv=none; b=rAN/atDC/jjeUZmRQy6xwGADGvtvL/P0HNQYOv5iwVyGqIp+IrcPDWdmg4wN3bzSzUC1NpcjGYoyTjSeeQsR7ODsm0iFtqefCZeC9zu2zt0jFyLZgpTGkZ7w2UajNk1OwPlt22QYoBEURqVhtG2RMF7XeGHYQX5Z0U9FQGfiCx8=
+	t=1721828723; cv=none; b=W2zA5DnJQrRP29t6hgEQxBKm4iM6T8VQsuAR4ks2kgLLj/SZZQK5ZC6n4QoVnHmHwbaDtNuJioyCUtmfoI3rABtRCccDgtCJAyw9uiAt6GNUKOjoPfKx4aUPFsWEBeBmW1Anxg+Iqj2prZb/s/6XglFTQmeUk+i8poiJBgE/gVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721828037; c=relaxed/simple;
-	bh=N1n+Uhis8OQ2nJs3ZJ60W3JZtliHdvFk8SeE5eGCM7A=;
+	s=arc-20240116; t=1721828723; c=relaxed/simple;
+	bh=ch/9wl2erDQOnXoJWsucI4AgITXy96aUrSFJrIzDebA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KAvDGAC5FJ7eRBplvQfwtNPO/AfRoobNPa1JQUOcCyrPrUjFzbLOfFqHpahvgrJCvnxIvfunXQtWJj8w0W46iBRou9YT2/FdYYsMHkqXiYON1iHfWPDFAi6ewLoSt7kuISRcmZCH4PLm4nMsP+y28l1qPM+ednxEx24ZYTBc7j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKw7dUZ1; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=HJ64vINvt+3Dko2u+/Iz5SZhVr318uMfxtvr+6MaUH3roghjtiJNQuavZXzUt0ACD0Arbc6qMopx9DvE2ulnq6J2xS2HapUk5d+tBOs4BiVh/omGn1WNtVXNTIgwlYz2EYvZoy5vqpMVyzmKIcVPYoTTOz/9l5pSqZ7bomie67I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF4+vboY; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKw7dUZ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF4+vboY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721828035; x=1753364035;
+  t=1721828722; x=1753364722;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N1n+Uhis8OQ2nJs3ZJ60W3JZtliHdvFk8SeE5eGCM7A=;
-  b=gKw7dUZ1UY3zbJs4vMuSi3MVl/9BDA+htR3+s7Ehi+hp1klfY2Cd3b9u
-   HFCbjF5Nio7qgVUazd8BvuYpv7A4VTGNuinawI+TMJJe8uMjeam1NNu0G
-   Ni4dcTUNpVuAUDEFL0WonEIEgdLcLwPVpwRp4cAx3PFRZ1Qgp+CvOTg93
-   5duvfMEoTPss+Tg0gfRWP2RJ7OOnmpnBFG07cRLDWZB1L3uW4z2GlbLX8
-   X2tYEjohgcSjj7qthNvpCY9QQI0re08Qs0UMePV6264dNquwg6fbZGYsC
-   7X4MlGgapLrSSvPPryB1+5VbYLAC7K+WePF3/Z5+HOayNG+0+WIecdoPz
+  bh=ch/9wl2erDQOnXoJWsucI4AgITXy96aUrSFJrIzDebA=;
+  b=LF4+vboY5aOPgpApSD7ZBwah7r+YFUix0szAkdjqyQU1JurPDsKTC1xp
+   lOcnb1QRnYh7eOr0D0GHjf+8/qcnYedmFxRvsQvwOWMTU1Lml1fqlqRFe
+   +HHjGxUR2IRGulexmjWoBl2Dq/FBBMtQ80WTE+Jtm38GCdpQsCzV/b457
+   eaw6B+LJ/HZqH2BfcPVWJKQGXCrW0PbP01smvlAby/I/93XvMOWHLdJT1
+   rqisccv/oECswAVVAKVMNDyZa5+lRfAAzRgtWRxk8eh+7W+IxgujsR86W
+   z4agtabn193fLRSuYmC4wzuvAEsLlEmO1esyvp4iDFWl3/IAgk1704xgT
    w==;
-X-CSE-ConnectionGUID: FCMUdYMKRS6tfX5kc5Ho6Q==
-X-CSE-MsgGUID: y8lGhFarS1aI1RnI7u8JIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19633426"
+X-CSE-ConnectionGUID: tNnlhWhCTDG8U504Po1Clw==
+X-CSE-MsgGUID: lNa9qPwbSsSeoCTzyRrnTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19318295"
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="19633426"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:33:53 -0700
-X-CSE-ConnectionGUID: XyLrlKiGTHW8mxODUmAv3Q==
-X-CSE-MsgGUID: UP49u0NdST+vwMy/Z4NbXQ==
+   d="scan'208";a="19318295"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 06:45:21 -0700
+X-CSE-ConnectionGUID: mGnlUw8iT12gUdfoUaM3GQ==
+X-CSE-MsgGUID: WK1KCRhBRwaG+Uf3Gz+wWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="56733371"
+   d="scan'208";a="52663895"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Jul 2024 06:32:19 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Jul 2024 06:45:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWc6L-000n1U-1q;
-	Wed, 24 Jul 2024 13:32:17 +0000
-Date: Wed, 24 Jul 2024 21:31:25 +0800
+	id 1sWcIw-000n2W-0J;
+	Wed, 24 Jul 2024 13:45:18 +0000
+Date: Wed, 24 Jul 2024 21:44:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:mmunstable 40/41] mm/khugepaged.c:1667:28: error: implicit
- declaration of function 'pmd_ptdesc'; did you mean 'pmd_pte'?
-Message-ID: <202407242157.jSskT3PM-lkp@intel.com>
+Subject: [alexshi:mmunstable 40/41] mm/khugepaged.c:1667:21: error: call to
+ undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202407242114.pBMRzmkZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +66,39 @@ Content-Disposition: inline
 tree:   https://github.com/alexshi/linux.git mmunstable
 head:   45de53e1a6ceb1ede64b54126f9ee514f50c4e4c
 commit: 8e3f6110bc08dd618a14987c39bb44a9eb45eb31 [40/41] mm/pgtable: pass ptdesc in pte_free_defer()
-config: arc-randconfig-002-20240724 (https://download.01.org/0day-ci/archive/20240724/202407242157.jSskT3PM-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242157.jSskT3PM-lkp@intel.com/reproduce)
+config: i386-randconfig-141-20240724 (https://download.01.org/0day-ci/archive/20240724/202407242114.pBMRzmkZ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407242114.pBMRzmkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407242157.jSskT3PM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407242114.pBMRzmkZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/khugepaged.c: In function 'collapse_pte_mapped_thp':
->> mm/khugepaged.c:1667:28: error: implicit declaration of function 'pmd_ptdesc'; did you mean 'pmd_pte'? [-Werror=implicit-function-declaration]
+>> mm/khugepaged.c:1667:21: error: call to undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1667 |         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
-         |                            ^~~~~~~~~~
-         |                            pmd_pte
-   mm/khugepaged.c:1667:28: warning: passing argument 2 of 'pte_free_defer' makes pointer from integer without a cast [-Wint-conversion]
+         |                            ^
+>> mm/khugepaged.c:1667:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct ptdesc *' [-Wint-conversion]
     1667 |         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
          |                            ^~~~~~~~~~~~~~~~~~~~
-         |                            |
-         |                            int
-   In file included from include/linux/mm.h:30,
-                    from mm/khugepaged.c:4:
-   include/linux/pgtable.h:119:58: note: expected 'struct ptdesc *' but argument is of type 'int'
+   include/linux/pgtable.h:119:58: note: passing argument to parameter 'ptdesc' here
      119 | void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
-         |                                           ~~~~~~~~~~~~~~~^~~~~~
-   mm/khugepaged.c: In function 'retract_page_tables':
-   mm/khugepaged.c:1771:44: warning: passing argument 2 of 'pte_free_defer' makes pointer from integer without a cast [-Wint-conversion]
+         |                                                          ^
+   mm/khugepaged.c:1771:23: error: call to undeclared function 'pmd_ptdesc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1771 |                         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
+         |                                            ^
+   mm/khugepaged.c:1771:23: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct ptdesc *' [-Wint-conversion]
     1771 |                         pte_free_defer(mm, pmd_ptdesc(&pgt_pmd));
          |                                            ^~~~~~~~~~~~~~~~~~~~
-         |                                            |
-         |                                            int
-   include/linux/pgtable.h:119:58: note: expected 'struct ptdesc *' but argument is of type 'int'
+   include/linux/pgtable.h:119:58: note: passing argument to parameter 'ptdesc' here
      119 | void pte_free_defer(struct mm_struct *mm, struct ptdesc *ptdesc);
-         |                                           ~~~~~~~~~~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+         |                                                          ^
+   4 errors generated.
 
 
-vim +1667 mm/khugepaged.c
+vim +/pmd_ptdesc +1667 mm/khugepaged.c
 
   1475	
   1476	/**
