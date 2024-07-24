@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF33446DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 21:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED965134DE;
+	Wed, 24 Jul 2024 21:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721855443; cv=none; b=UC7UduV7KXlSxUHZaKrPhCdVtqfbfozNy9+eBp5b2bVtusGv0wrbQNJdv5zo8Tp+HiEcllMsYMbkIMe125SgF3oU4TaTdXK+xZc8XgiTOQNeV85VeVi3QC+UWKE8+T9hcb7dGd2dCoJhe8D/ZcjqLpji1DKEyt87/Lf1sByQDKs=
+	t=1721857363; cv=none; b=uZXIjnFWwwqvM6fbcfCyAYmX+Aqws377Jw/FZpTp7ngXObPqUvaP+bjgizjyhbPqVtavd+pixhiVp1anwrSs3mXWMqW0gLbAtdkLdTHAQky/98HRodGzwOLPuTow+vh3BhGOSs0X3O9u9Qfao5M03nN77j5C0lP9JpmstQIbtB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721855443; c=relaxed/simple;
-	bh=wW/zXMdyruZKDdE2qo8r0fZhyxISzk1l6ky+xuxNND8=;
+	s=arc-20240116; t=1721857363; c=relaxed/simple;
+	bh=eQ6sAvGvP9kAWKJJFpBq5NN0fv0rKdXUvf1c8GfdVC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q55MVrBkewNATCjOLGusBvVRHeqJqwrXvbH3IIcHOjL/miqUBe1MAIsjEn8KOVQhhRmspcXvspWbnMZv38w6cAoF1UhBfGv0bU4hLM9ErTABEyM2sWM2LjAu380JlB8BC2ZXIc872+RjiR3iLkcRVk50cUO02Zr2GDTBGZpLJFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdY+YmJq; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSQq0WPPBxMsTl4JQ0WB58X6nevxee+m2WM/G5OyxPEOkoMwe6opiea6mwNtCBIqFcGQSiTM1ea8Qxb4U03nx/sMxukkMs3Dp8KE67JKAdx0yzlxeE0N2VsJmh9y25gNtdZh7Y7FphECoMm0fQHY5WDU3Mun8L8kdF7FnfFupNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eONtllEg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdY+YmJq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eONtllEg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721855441; x=1753391441;
+  t=1721857362; x=1753393362;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wW/zXMdyruZKDdE2qo8r0fZhyxISzk1l6ky+xuxNND8=;
-  b=ZdY+YmJqMaNl8dTjg2ZijBbJpvrgQpROzulyRBi8dLEbggPBf47QrEbk
-   86pJDMh/byNXHNAMnBtSIdBHIg8eZfmknv8DXJ377cqX+zGuJsHDzvjDF
-   WneMK7TX0yO0gbeYFFfr+Sf0Z5xR0WYH8WY3owC1z8kLSv4WADksT/iIW
-   uKS6xswpHz0ggU+tWHGS/NpenqDzT1PLETdZ2EZhTPKJcmw2DACIxRY/h
-   NlW4eOUIib7AhqA4jBmhWkNP1ogidJu3ZlsultIn0hvxSy36A+35K+Ruw
-   zE+zqmw3cMozHiW0NuS8iOz+GL1Iz1RKKhaWkHdAzoeOQPhy6gGZTpCa8
+  bh=eQ6sAvGvP9kAWKJJFpBq5NN0fv0rKdXUvf1c8GfdVC8=;
+  b=eONtllEglQy53/rfPnw+zzvSndlL/cUpeVZbIdAZwPGYwnrU0PFbJVAe
+   1Szp82eAcLMOgAvbrGxz+FmYsY/4dDTlFr8OKz0wiBHwt7mo22ek+A0gK
+   JCXM2tLJqrQbB6F30LHeQq5BdEGg7vbXlWy7iW3PX+fzADTAMAa7Hc/AN
+   LwdSEwpPYk5kHfJEMktoqF7iJbz/oh1FEx9gyzd5fvc1Pium5UQXX/ptW
+   hrtI9wIRl3JoaYnoD6+wwq01K/SqrGeN9+YnTIL8r9cVsxDNh7Hohe/+L
+   S1lQHIj43Z0h8B0EQy1CPHTYUdPbUNiYUzqiGZVVZcTqTjgrJvkJrguQm
    g==;
-X-CSE-ConnectionGUID: 8/1K8CHkTpWHbwphCD+SQQ==
-X-CSE-MsgGUID: rE1FttUTRJOTR5MDxIKT1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19525060"
+X-CSE-ConnectionGUID: G8CLma9BRQ2b1rf34roxXw==
+X-CSE-MsgGUID: ZNTIJQLQSd+0UcE5uVoeUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="12698098"
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="19525060"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 14:10:40 -0700
-X-CSE-ConnectionGUID: 5BSAbpxrR5q0RmoXRdzeOg==
-X-CSE-MsgGUID: yAByFR9DTiiLZeZ7zkBs8Q==
+   d="scan'208";a="12698098"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 14:42:41 -0700
+X-CSE-ConnectionGUID: g9gogmCMRMuznydU/dGl8A==
+X-CSE-MsgGUID: CSvgythYQ86prZydRaha9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
-   d="scan'208";a="57523681"
+   d="scan'208";a="57271218"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Jul 2024 14:10:38 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Jul 2024 14:42:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWjFr-000nRG-1J;
-	Wed, 24 Jul 2024 21:10:35 +0000
-Date: Thu, 25 Jul 2024 05:09:38 +0800
+	id 1sWjkq-000nSi-1V;
+	Wed, 24 Jul 2024 21:42:36 +0000
+Date: Thu, 25 Jul 2024 05:41:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>
 Subject: Re: [PATCH 2/2] mm: Remove PG_error
-Message-ID: <202407250459.K6byaMoI-lkp@intel.com>
+Message-ID: <202407250522.sImVfZXf-lkp@intel.com>
 References: <20240724010550.1755992-3-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,41 +83,134 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/fs-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20240724010550.1755992-3-willy%40infradead.org
 patch subject: [PATCH 2/2] mm: Remove PG_error
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240725/202407250459.K6byaMoI-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250459.K6byaMoI-lkp@intel.com/reproduce)
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240725/202407250522.sImVfZXf-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250522.sImVfZXf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407250459.K6byaMoI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407250522.sImVfZXf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/debug.c:13:
->> include/trace/events/mmflags.h:98:44: error: 'PG_error' undeclared here (not in a function); did you mean 'ma_error'?
-      98 | #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
-         |                                            ^~~
-   include/trace/events/mmflags.h:103:9: note: in expansion of macro 'DEF_PAGEFLAG_NAME'
-     103 |         DEF_PAGEFLAG_NAME(error),                                       \
-         |         ^~~~~~~~~~~~~~~~~
-   mm/debug.c:35:9: note: in expansion of macro '__def_pageflag_names'
+   In file included from mm/debug.c:10:
+   In file included from include/linux/mm.h:2206:
+   include/linux/vmstat.h:498:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     498 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/debug.c:18:
+   In file included from mm/internal.h:13:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/debug.c:35:2: error: use of undeclared identifier 'PG_error'; did you mean 'ma_error'?
       35 |         __def_pageflag_names,
-         |         ^~~~~~~~~~~~~~~~~~~~
+         |         ^
+   include/trace/events/mmflags.h:103:2: note: expanded from macro '__def_pageflag_names'
+     103 |         DEF_PAGEFLAG_NAME(error),                                       \
+         |         ^
+   include/trace/events/mmflags.h:98:44: note: expanded from macro 'DEF_PAGEFLAG_NAME'
+      98 | #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
+         |                                            ^
+   <scratch space>:35:1: note: expanded from here
+      35 | PG_error
+         | ^
+   include/linux/maple_tree.h:383:2: note: 'ma_error' declared here
+     383 |         ma_error,
+         |         ^
+   3 warnings and 1 error generated.
 --
-   fs/proc/page.c: In function 'stable_page_flags':
->> fs/proc/page.c:185:49: error: 'PG_error' undeclared (first use in this function); did you mean 'ma_error'?
+   In file included from fs/proc/page.c:2:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2206:
+   include/linux/vmstat.h:498:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     498 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from fs/proc/page.c:2:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/proc/page.c:2:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/proc/page.c:2:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> fs/proc/page.c:185:35: error: use of undeclared identifier 'PG_error'; did you mean 'ma_error'?
      185 |         u |= kpf_copy_bit(k, KPF_ERROR,         PG_error);
          |                                                 ^~~~~~~~
          |                                                 ma_error
-   fs/proc/page.c:185:49: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/maple_tree.h:383:2: note: 'ma_error' declared here
+     383 |         ma_error,
+         |         ^
+   13 warnings and 1 error generated.
 
 
-vim +98 include/trace/events/mmflags.h
+vim +35 mm/debug.c
 
-4beba9486abd2f8 Steven Price  2020-04-22  97  
-e26fcc02c7f6c76 Hyeonggon Yoo 2023-01-30 @98  #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
-e26fcc02c7f6c76 Hyeonggon Yoo 2023-01-30  99  
+7cd12b4abfd2f8f Vlastimil Babka 2016-03-15  33  
+edf14cdbf9a0e5a Vlastimil Babka 2016-03-15  34  const struct trace_print_flags pageflag_names[] = {
+edf14cdbf9a0e5a Vlastimil Babka 2016-03-15 @35  	__def_pageflag_names,
+edf14cdbf9a0e5a Vlastimil Babka 2016-03-15  36  	{0, NULL}
+edf14cdbf9a0e5a Vlastimil Babka 2016-03-15  37  };
+edf14cdbf9a0e5a Vlastimil Babka 2016-03-15  38  
 
 -- 
 0-DAY CI Kernel Test Service
