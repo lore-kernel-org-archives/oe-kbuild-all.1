@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D80140E22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jul 2024 23:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C633C9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 00:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721778842; cv=none; b=CzYP2gsmYHPUtB0cYC8P/Zn2MzM5bTSJ1HPbgg5ePAuJig0Ci7g+u+863emrQrYa6pmVkb59f2cIoP+gLbh+pRgo1r8tjEi/sN+5XCSAMmNvV+q9ZQfAhZJPBk0CKm/MJ01h052wXOiBswoRYIUgexaCJHIG+yxxkjUMJw3H45k=
+	t=1721782621; cv=none; b=d/qcDwcKL22oMDoR1mO0sbOzlR++JuEaLL3f4cFUnarPYNbZlkCF2AzR+PUTFIbCDnZkKag8FbTK3IrhETFr5GuPNWYlXVrU0LeNfAoZxEm0hGuoEkG7xDXMtMs6MYX3fGAnzBTyc4Zu5A9tuBilOy5iVVdKTZIxWwmqa1KcZuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721778842; c=relaxed/simple;
-	bh=AyDCjWs9pcLXSD/LTvowfTw3/Gd6OzHsLDwdnEgsUak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hT5QmFM3vhbBxqN44ZVk34oPMDqByLdA34XLNiiA7yfcGXcGU/3IAvVmB3uPlwopR2YlgqnM/ntATIB5DhpFaXLybHM1aiDiEQU4N6ZNkTKjfWKKxEt7uwBPOJ4q6QnNWLxW5NM5A7HK9oH/mempBc5b/AxLz75WFzacsFt2u5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyZYWoOG; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1721782621; c=relaxed/simple;
+	bh=l2GwPdv7X5GsJVoTR+K0x66sBo/f2oVbtOLNeCB43VA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rZO/6lJj7JgbUw4hi/pkqX/CNMnYZeU1no0SBA2iUNjl0p45Q9Ch0N76Rbk1TyFk5n65ug6jzGROcRd++wWqn5tr9vEqTclkWCWomYOO0OsphUk2hx2DY8P9+XYSeQsW8p3A2jKJk1Rz1Y6iprB1FHBATPF3JGuLacyZVNNmULU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NqftNiRM; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyZYWoOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqftNiRM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721778840; x=1753314840;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AyDCjWs9pcLXSD/LTvowfTw3/Gd6OzHsLDwdnEgsUak=;
-  b=MyZYWoOGaEGngHPwsqI/EAtD9+bkXp14FZz5yswJ6orl9o3CF11zm+nF
-   I4nSUI0xYXvBuujLKti0FwdgaaQ1JzpK/DYULhaCeYH3avMeKur7pV6Vy
-   1SmwbLwwIH5/aMUDmzefGJTpzQzRBZyWQgGlF1mvkz2U9XBYwaosu5q3e
-   n1X4I/LfSu2+9wqsHEBdItKcm9xI3ZtNQXWVCq6jM++eKloa5MjRS6Ek/
-   l8C3nnUyhggRdpmfuGs5rDvMoIW+6m+0fMUtbWxsEYW5UV2PBmeIJOMwa
-   wrC73isklDOsDt04lzC52fHwWX4wri0pA53ROGSk2vsEG1o824MprWgjB
+  t=1721782620; x=1753318620;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l2GwPdv7X5GsJVoTR+K0x66sBo/f2oVbtOLNeCB43VA=;
+  b=NqftNiRM4Qe0AcaqMdg/8beYanFMAJYVc9aUSwzvw6n1g2nyEWFirwuZ
+   S5RCikGg6GXFWIyEr20/LWOOZc0uWcbjEutTnVnwx8vnqeLSWPgS5dUZT
+   vK49t3kCntY3xhGt01Hvip9xSqkg4Va/HqonycKu7PM/zcShyjcIkkUBe
+   wzs7gIAX4Xf7OEJOmS+2xapfd+954Kzq2mgJbQflJj/R2lqu3/3wvYDke
+   JkVhykZumREzbxBY9VjASiVFImipaA6iOxEW6ML0aVatFnszZ9o3uHNri
+   VgMG+HinZbe73cKyJtxCB2b+aJ61M800HzGbznwRaNOaLHCTvQpDIRA1B
    g==;
-X-CSE-ConnectionGUID: gbcaPzDET3SAbR82UBhxYA==
-X-CSE-MsgGUID: IrDKQ3R6SaqXEaeZ2THjEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="23297284"
-X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="23297284"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 16:53:59 -0700
-X-CSE-ConnectionGUID: qe4u3zLjSzeWlUmx7W9W2A==
-X-CSE-MsgGUID: 1ghdFbFsRBuu2NnAhCGGEg==
+X-CSE-ConnectionGUID: NbjBtgWySxC/rCJkzEOgzA==
+X-CSE-MsgGUID: 21f0bjrUQ5mmsxQ0RHiNaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19243806"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="19243806"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 17:56:59 -0700
+X-CSE-ConnectionGUID: zoXRsZPDSOSLGujx9LfCaA==
+X-CSE-MsgGUID: F3jC3tKUSMW3z+Hs2phywQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="57224743"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="56712372"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Jul 2024 16:53:56 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Jul 2024 17:56:57 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWPKL-000mT6-2P;
-	Tue, 23 Jul 2024 23:53:53 +0000
-Date: Wed, 24 Jul 2024 07:53:40 +0800
+	id 1sWQJL-000mVU-13;
+	Wed, 24 Jul 2024 00:56:55 +0000
+Date: Wed, 24 Jul 2024 08:56:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rayyan Ansari <rayyan.ansari@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Rayyan Ansari <rayyan.ansari@linaro.org>
-Subject: Re: [PATCH v2 3/3] ARM: dts: qcom: pma8084: add pon node
-Message-ID: <202407240711.f7qtQGZG-lkp@intel.com>
-References: <20240723-pmic-bindings-v2-3-e1cd614f8c4a@linaro.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>
+Subject: fs/reiserfs/inode.o: warning: objtool: reiserfs_write_folio+0x394:
+ unreachable instruction
+Message-ID: <202407240856.rcNo0xl1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,32 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240723-pmic-bindings-v2-3-e1cd614f8c4a@linaro.org>
 
-Hi Rayyan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on dee7f101b64219f512bb2f842227bd04c14efe30]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rayyan-Ansari/arm64-dts-qcom-pmi8994-Add-label-to-wled-node/20240723-175020
-base:   dee7f101b64219f512bb2f842227bd04c14efe30
-patch link:    https://lore.kernel.org/r/20240723-pmic-bindings-v2-3-e1cd614f8c4a%40linaro.org
-patch subject: [PATCH v2 3/3] ARM: dts: qcom: pma8084: add pon node
-config: arm-randconfig-051-20240723 (https://download.01.org/0day-ci/archive/20240724/202407240711.f7qtQGZG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240711.f7qtQGZG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5ad7ff8738b8bd238ca899df08badb1f61bcc39e
+commit: 4f8cf60ac18bee62e8c58654a300eb44b96caf09 reiserfs: Convert to writepages
+date:   3 months ago
+config: loongarch-randconfig-001-20240722 (https://download.01.org/0day-ci/archive/20240724/202407240856.rcNo0xl1-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240856.rcNo0xl1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407240711.f7qtQGZG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407240856.rcNo0xl1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Error: arch/arm/boot/dts/qcom/pma8084.dtsi:31.19-20 syntax error
-   FATAL ERROR: Unable to parse input tree
+   fs/reiserfs/inode.o: warning: objtool: restart_transaction+0x38: unreachable instruction
+   fs/reiserfs/inode.o: warning: objtool: reiserfs_write_begin+0x90: unreachable instruction
+   fs/reiserfs/inode.o: warning: objtool: __reiserfs_write_begin+0x88: unreachable instruction
+>> fs/reiserfs/inode.o: warning: objtool: reiserfs_write_folio+0x394: unreachable instruction
+   fs/reiserfs/inode.o: warning: objtool: reiserfs_new_inode+0x8c: unreachable instruction
+
+
+objdump-func vmlinux.o reiserfs_write_folio:
 
 -- 
 0-DAY CI Kernel Test Service
