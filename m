@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F1A1B813
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 02:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAF017BB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 02:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721788928; cv=none; b=Hp8pXoaDgRbeyRFokBtZP3ipuO6DBMg6/Sa8jnO3t/C8Q/PeI/DwcR7s0Xy/gxZwwQxYUS/owznrjS7kibKBolenOUpLokxUu4itDV1PaSRtnqCfckppD3u84IgFCF43jgVYSnGY6v0dqO/mszd/djWVMv5mJvNvLEI1h/Suic8=
+	t=1721789585; cv=none; b=me4dYPzkshahrYqmf0898d0RIoLBy96fM0pnNqteLwbHXXaYC2f6NiBPxcbqeyhl8ieY39R7mPkP/wZVPt6Fx9dSic10M6MFhkaGudjhidCzcsa9n34bXcYSfogsihKNtnjoUeHNCZTimaGQzc1bU1ziAVhWACEKQxhe1TYR2JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721788928; c=relaxed/simple;
-	bh=Jz6b+V0sp/QHCbI8lkUIWgxo8QZ3onL7lWJZDxQp45w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IhMefYSYRmcnniBf1t4CI0wM6dUYQN6JUmHmc2zIloZg3kAhUhq8Y9QczWJvalgIPTCNLnHANj+9jwnUeDnL8jCn/q5xUvmEozRz5GE5uLYWjcRTfD4FIfbffCJI1iJAUeLjN8GmTE4HJhc96qdSEqen3qdvzUzNXD5KWjOEQS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PMe3AtUJ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1721789585; c=relaxed/simple;
+	bh=zdFtMUahi3CnZMlA4Z165QTM9tKCe3fznAgHdhqlGFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m3A9fCKZAf/Wn26OeSEcsgaJB1sveW4TodEmp1ghbR1V5DT5ycD0tK+TlIJDxIZ0zZlgpJn76NhPEa6mel/dLN5/L6udODLFk6R2OZaK0AM3DddiHF6aO/B8O3d+I3uJz3kojfypzt5/0YvCPxsJCKqaAqJAOHjocm11JLGJ4Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCSmd83n; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PMe3AtUJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCSmd83n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721788926; x=1753324926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jz6b+V0sp/QHCbI8lkUIWgxo8QZ3onL7lWJZDxQp45w=;
-  b=PMe3AtUJtzI9VNEDimQa8HRct0UW1v0jHLv3VyADc+oGZbJJ3nfuQata
-   y95CSQAGdObFfkM4uyv/trngQH60CV9oaGjQaw3F7LsA+aJBxDIUI8UNV
-   87RwiNlomqWqGJr0bEfLsr42x5hy4KJPGnDHIAOZ5Yow5oHjx9+yBuWy2
-   j4WBYqYXanLRSDlzcwdPI3Sb/NwUoOCewKpFNFnA9Me6qYfln1VZVYwov
-   pUN2oIrVfqEYIn9u9EquN/uDhE71q/K9ULfrvfH0ab+q4c2K4q7UIuNx3
-   IDQ7dd41sELnl+fyTi7RZxnG+WDfXx9EOSAEqnWPKgNNxAQT3kGCAP/Jl
-   Q==;
-X-CSE-ConnectionGUID: watMxglmSs6hFcqxK6ygFA==
-X-CSE-MsgGUID: /fMclt/wRYaIZcL9NbT2AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19139076"
+  t=1721789584; x=1753325584;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zdFtMUahi3CnZMlA4Z165QTM9tKCe3fznAgHdhqlGFs=;
+  b=PCSmd83nGTaUpstu3tX6NeJlOqQQOhzj+82f5HcqxbjnDjqzmGTuZRAf
+   efREzdY1zeXhVE0J1tIpMYYeB8yi4QBTnFj/DwezqRiS5ipwA21EhPhMc
+   7W1+rfpSNOQTBtSRMqjP1jUeALPqt4jA3w+MQo4mvqr8KScqG+Xv4HnjO
+   DIyjr9E4vth1+yCQkE+e0wmn7QnWvICEB3zZrUZoej1/ds0jVaHVyD5dr
+   X4KoE62EgfBe32Eb11NMVClT2oD3MKElXp/uj3NpGR6vxGE4baB+LsFeQ
+   wNd5V+2rJgW0qNEG7/xQ4Nqk7PrBsPIeqZPzcK2DbX36wQzKU3inTWCEm
+   w==;
+X-CSE-ConnectionGUID: FgdanpvvTvOAvW7+AfzPjw==
+X-CSE-MsgGUID: rOb2aiIGQT6SGVfx1K0J7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19592959"
 X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="19139076"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 19:42:05 -0700
-X-CSE-ConnectionGUID: oAqvGr1CQJCN1qNZUUJqvA==
-X-CSE-MsgGUID: NqCRA05dT6OJOGwJhwh1Vw==
+   d="scan'208";a="19592959"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 19:53:03 -0700
+X-CSE-ConnectionGUID: m+mNxMKfSKKDyhGnGLmiaw==
+X-CSE-MsgGUID: PaPNTPpZQaK6bHWGGnrAvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
-   d="scan'208";a="52460857"
+   d="scan'208";a="52498936"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jul 2024 19:42:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 23 Jul 2024 19:53:02 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWRx1-000ma6-2v;
-	Wed, 24 Jul 2024 02:41:59 +0000
-Date: Wed, 24 Jul 2024 10:41:42 +0800
+	id 1sWS7g-000mai-1J;
+	Wed, 24 Jul 2024 02:53:00 +0000
+Date: Wed, 24 Jul 2024 10:52:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Guruvendra Punugupati <Guruvendra.Punugupati@amd.com>,
-	Krishnamoorthi M <krishnamoorthi.m@amd.com>,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH 4/5] i3c: mipi-i3c-hci: Add a quirk to set timing
- parameters
-Message-ID: <202407241020.dsJauFym-lkp@intel.com>
-References: <20240723173538.3493935-5-Shyam-sundar.S-k@amd.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [riteshharjani:kfence-fix-wip6 10/10]
+ arch/powerpc/mm/book3s64/hash_utils.c:1077:44: error: 'kfence_early_init'
+ undeclared; did you mean 'kasan_early_init'?
+Message-ID: <202407241001.2SxZAa2h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,55 +62,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240723173538.3493935-5-Shyam-sundar.S-k@amd.com>
 
-Hi Shyam,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10 next-20240723]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i3c-mipi-i3c-hci-Add-MIPI0100-ACPI-ID-to-the-I3C-Support-List/20240724-013958
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240723173538.3493935-5-Shyam-sundar.S-k%40amd.com
-patch subject: [PATCH 4/5] i3c: mipi-i3c-hci: Add a quirk to set timing parameters
-config: arm-randconfig-004-20240724 (https://download.01.org/0day-ci/archive/20240724/202407241020.dsJauFym-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407241020.dsJauFym-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux kfence-fix-wip6
+head:   28d73773290c65f55d22e038b4f13c5c4941a561
+commit: 28d73773290c65f55d22e038b4f13c5c4941a561 [10/10] kfence: disable if not early init
+config: powerpc64-randconfig-002-20240724 (https://download.01.org/0day-ci/archive/20240724/202407241001.2SxZAa2h-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407241001.2SxZAa2h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407241020.dsJauFym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407241001.2SxZAa2h-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/i3c/master/mipi-i3c-hci/hci_quirks.c: In function 'amd_i3c_hci_quirks_init':
->> drivers/i3c/master/mipi-i3c-hci/hci_quirks.c:25:13: error: 'boot_cpu_data' undeclared (first use in this function)
-      25 |         if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD) {
-         |             ^~~~~~~~~~~~~
-   drivers/i3c/master/mipi-i3c-hci/hci_quirks.c:25:13: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/i3c/master/mipi-i3c-hci/hci_quirks.c:25:41: error: 'X86_VENDOR_AMD' undeclared (first use in this function); did you mean 'X86_VENDOR_ANY'?
-      25 |         if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD) {
-         |                                         ^~~~~~~~~~~~~~
-         |                                         X86_VENDOR_ANY
+   arch/powerpc/mm/book3s64/hash_utils.c: In function 'htab_init_page_sizes':
+>> arch/powerpc/mm/book3s64/hash_utils.c:1077:44: error: 'kfence_early_init' undeclared (first use in this function); did you mean 'kasan_early_init'?
+    1077 |             !(IS_ENABLED(CONFIG_KFENCE) && kfence_early_init)) {
+         |                                            ^~~~~~~~~~~~~~~~~
+         |                                            kasan_early_init
+   arch/powerpc/mm/book3s64/hash_utils.c:1077:44: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/boot_cpu_data +25 drivers/i3c/master/mipi-i3c-hci/hci_quirks.c
+vim +1077 arch/powerpc/mm/book3s64/hash_utils.c
 
-    22	
-    23	void amd_i3c_hci_quirks_init(struct i3c_hci *hci)
-    24	{
-  > 25		if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD) {
-    26			hci->quirks |= HCI_QUIRK_AMD_PIO_MODE;
-    27			hci->quirks |= HCI_QUIRK_AMD_OD_PP_TIMING;
-    28		}
-    29	}
-    30	
+  1070	
+  1071	static void __init htab_init_page_sizes(void)
+  1072	{
+  1073		bool aligned = true;
+  1074		init_hpte_page_sizes();
+  1075	
+  1076		if (!debug_pagealloc_enabled() &&
+> 1077		    !(IS_ENABLED(CONFIG_KFENCE) && kfence_early_init)) {
+  1078			/*
+  1079			 * Pick a size for the linear mapping. Currently, we only
+  1080			 * support 16M, 1M and 4K which is the default
+  1081			 */
+  1082			if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX) &&
+  1083			    (unsigned long)_stext % 0x1000000) {
+  1084				if (mmu_psize_defs[MMU_PAGE_16M].shift)
+  1085					pr_warn("Kernel not 16M aligned, disabling 16M linear map alignment\n");
+  1086				aligned = false;
+  1087			}
+  1088	
+  1089			if (mmu_psize_defs[MMU_PAGE_16M].shift && aligned)
+  1090				mmu_linear_psize = MMU_PAGE_16M;
+  1091			else if (mmu_psize_defs[MMU_PAGE_1M].shift)
+  1092				mmu_linear_psize = MMU_PAGE_1M;
+  1093		}
+  1094	
 
 -- 
 0-DAY CI Kernel Test Service
