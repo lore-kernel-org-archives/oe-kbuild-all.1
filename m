@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F71482F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jul 2024 23:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817037B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 00:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721864749; cv=none; b=aPPJATqt8fo25o65pwR55HiCgc9zEJomHwnmVG6ttNLEgkIpANyiWPqbkCTA4uT+/WzF8EF4RaobK8ZZfozrBwwHoUerutcZMF7x5s0JaltulcyWA/OD+Cf0sR3RJHA9P9un3/zj3UiM7sKY0y6K4VXySuJUIuCpKSVvafvZ7Q8=
+	t=1721866725; cv=none; b=MIyc3qZJyxM4nR5wMyTeun9RpjLgFBGqapJX3qUA/kONohSe4SF/TyTRSTAmkcwtrcXdzeMs01yvlj2e2hExWtqzoZ4z8SrWjkNtw3onwJ/bzqiHPLgMhydjUZrhR1FSysQ2yQn8z7YNFHTCceMaiKu/BrtskfjMV9iO/bekdCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721864749; c=relaxed/simple;
-	bh=uggjNB8xiPHrZhFwDJSSjFZt6W4b7QSRrczNrx0Ht4c=;
+	s=arc-20240116; t=1721866725; c=relaxed/simple;
+	bh=L+eAfheWFDSrg0ve0KY4VEZ7DgxfyYwBHyzx3e1zo04=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TcMciIWSVStcLQQgc5iQ8H2EVoY231Wvq5a28xM1AfGOqB/RupLYmu5BsKtiPInH9BZTItn6KW46BFYyyVtr04n363JSvu3oyrhoqpnFMVo1xGVqO06eqmwo4hVAEHRcLXX8Y0EDrIDlQRFdv1wtoNSgeZ1mTy4e6NrLhRinXd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwKlCQVH; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6bTP67WOLggnfNFXLJmXSLeGzYKOrmyf8l0WJuuJcA7gRLhlQJ3PBioPPmogKUVxLI/98pSOhQeZLidmdJCc8Sb8DsqktMMLPTRQVu6gYRqFelm+iLyhCArJCwVg6T4E7U5h6DrL93yz9O2cGcdoBmkRoTiURSSCfg/xKqqsRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BfgsFNqv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwKlCQVH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BfgsFNqv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721864748; x=1753400748;
+  t=1721866724; x=1753402724;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uggjNB8xiPHrZhFwDJSSjFZt6W4b7QSRrczNrx0Ht4c=;
-  b=BwKlCQVHeQasdb49RetgXgVvtvXjxyJyg1Rd3ecS58wPj8d4IAnKIG7b
-   dF+ZySNw7kgNVQksj+USflrD5dWHGK17Is5pupe8MijwUdjcqeOUubBNB
-   H6dhSEfu8JXHQI9MN/qDZkeg+sKEiSbqjwOWU5PMnQ2v4HJcCcs9yw/OA
-   3ie3VejE8FzItyFCMlPV6UzFDHBmw0rAYfgnioeYKlCL2ffmY5k94EVJ8
-   aPn+ORTIcWhxeYqivfy+Ddy/jCTOZkW3qQiG0CDheGNcvZLqbCzADmM7x
-   8Dxy87xbfeyFMVsQzGoFTVm9D+FQX6cSDp03Piz1S7DM9hqpCy74FD18A
-   A==;
-X-CSE-ConnectionGUID: b+XO474uR2aF8yLeWOLjDA==
-X-CSE-MsgGUID: ikWh0952R8iqBS9hoDuORA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="42104374"
+  bh=L+eAfheWFDSrg0ve0KY4VEZ7DgxfyYwBHyzx3e1zo04=;
+  b=BfgsFNqvVQy42LI5TGjFnJ3wk0oUNP4yMDY+dOlADGqQHSk59RrjWYp0
+   cXMbC807Hnuzo7m1BgFmM8q1G7lTMJD0LV0hGzFGyqncglu5Vuel3INSP
+   pBzpv9/vSua/jmdCz4zV9xeSGYZIKw0Dzjqse9kbuoyHyUJxQmmqbFprl
+   SURTtAiocxVImV9mowJjxX/R/5uoIC8RcmDn4sShvb7VJ10Z2/xq420Iu
+   vMrP3CnfBVBvxWcQ1aFr++qfkwmGk6i8w+ZnYXWxMNwHWKaS7TJooaYj4
+   zQzcgj4uUI94vvVJkGqnGWhf9s/tikZdPSWEqbNXaLRpcdCUJIdD8DxAe
+   Q==;
+X-CSE-ConnectionGUID: hnIVNFE8TZCcXZuPTUmQkQ==
+X-CSE-MsgGUID: n6NXghbjSOm6XZc2XZmgHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="45003394"
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="42104374"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 16:45:47 -0700
-X-CSE-ConnectionGUID: Z9HAK5EPTrWrFl5pzvOZbw==
-X-CSE-MsgGUID: vG8qsWSlRKeL3nq3Np+hlQ==
+   d="scan'208";a="45003394"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 17:18:43 -0700
+X-CSE-ConnectionGUID: UtHxrM8pTnyY7Y95Wa5gUA==
+X-CSE-MsgGUID: SFJ1/3CkQGePFMJO/PK2KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="52654643"
+   d="scan'208";a="57048466"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Jul 2024 16:45:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2024 17:18:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWlfv-000nYW-1I;
-	Wed, 24 Jul 2024 23:45:39 +0000
-Date: Thu, 25 Jul 2024 07:45:28 +0800
+	id 1sWmBs-000naU-1b;
+	Thu, 25 Jul 2024 00:18:40 +0000
+Date: Thu, 25 Jul 2024 08:18:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	manivannan.sadhasivam@linaro.org, esben@geanix.com,
-	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_mdalam@quicinc.com,
-	quic_varada@quicinc.com, quic_srichara@quicinc.com
-Subject: Re: [PATCH v7 6/8] spi: spi-qpic: add driver for QCOM SPI NAND flash
- Interface
-Message-ID: <202407250710.knYmJebL-lkp@intel.com>
-References: <20240724114225.2176448-7-quic_mdalam@quicinc.com>
+To: Jann Horn <jannh@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] kasan: catch invalid free before SLUB
+ reinitializes the object
+Message-ID: <202407251041.TIgrlvyq-lkp@intel.com>
+References: <20240724-kasan-tsbrcu-v2-1-45f898064468@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,232 +63,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724114225.2176448-7-quic_mdalam@quicinc.com>
+In-Reply-To: <20240724-kasan-tsbrcu-v2-1-45f898064468@google.com>
 
-Hi Md,
+Hi Jann,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on broonie-spi/for-next robh/for-next linus/master v6.10 next-20240724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 0c3836482481200ead7b416ca80c68a29cfdaabd]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-Introduce-qcom-spi-qpic-snand/20240724-195819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20240724114225.2176448-7-quic_mdalam%40quicinc.com
-patch subject: [PATCH v7 6/8] spi: spi-qpic: add driver for QCOM SPI NAND flash Interface
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240725/202407250710.knYmJebL-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250710.knYmJebL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/kasan-catch-invalid-free-before-SLUB-reinitializes-the-object/20240725-005307
+base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+patch link:    https://lore.kernel.org/r/20240724-kasan-tsbrcu-v2-1-45f898064468%40google.com
+patch subject: [PATCH v2 1/2] kasan: catch invalid free before SLUB reinitializes the object
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240725/202407251041.TIgrlvyq-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407251041.TIgrlvyq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407250710.knYmJebL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407251041.TIgrlvyq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-qpic-snand.c: In function 'qcom_spi_init':
->> drivers/spi/spi-qpic-snand.c:174:25: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     174 |         snand_cfg_val = FIELD_PREP(CLK_CNTR_INIT_VAL_VEC_MASK, CLK_CNTR_INIT_VAL_VEC) |
-         |                         ^~~~~~~~~~
-   drivers/spi/spi-qpic-snand.c: In function 'qcom_spi_ecc_init_ctx_pipelined':
->> drivers/spi/spi-qpic-snand.c:247:42: warning: variable 'steps' set but not used [-Wunused-but-set-variable]
-     247 |         int step_size = 0, strength = 0, steps;
-         |                                          ^~~~~
-   drivers/spi/spi-qpic-snand.c: In function 'qcom_spi_write_page':
-   drivers/spi/spi-qpic-snand.c:1261:30: warning: variable 's_op' set but not used [-Wunused-but-set-variable]
-    1261 |         struct qpic_snand_op s_op = {};
-         |                              ^~~~
-   drivers/spi/spi-qpic-snand.c: At top level:
-   drivers/spi/spi-qpic-snand.c:1632:19: error: initialization of 'int (*)(struct platform_device *)' from incompatible pointer type 'void (*)(struct platform_device *)' [-Wincompatible-pointer-types]
-    1632 |         .remove = qcom_spi_remove,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/spi/spi-qpic-snand.c:1632:19: note: (near initialization for 'qcom_spi_driver.remove')
+   mm/slub.c: In function 'slab_free_hook':
+>> mm/slub.c:2177:13: error: implicit declaration of function 'kasan_slab_pre_free'; did you mean 'kasan_slab_free'? [-Wimplicit-function-declaration]
+    2177 |         if (kasan_slab_pre_free(s, x))
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             kasan_slab_free
 
 
-vim +/FIELD_PREP +174 drivers/spi/spi-qpic-snand.c
+vim +2177 mm/slub.c
 
-   168	
-   169	static int qcom_spi_init(struct qcom_nand_controller *snandc)
-   170	{
-   171		u32 snand_cfg_val = 0x0;
-   172		int ret;
-   173	
- > 174		snand_cfg_val = FIELD_PREP(CLK_CNTR_INIT_VAL_VEC_MASK, CLK_CNTR_INIT_VAL_VEC) |
-   175				FIELD_PREP(LOAD_CLK_CNTR_INIT_EN, 0) |
-   176				FIELD_PREP(FEA_STATUS_DEV_ADDR_MASK, FEA_STATUS_DEV_ADDR) |
-   177				FIELD_PREP(SPI_CFG, 0);
-   178	
-   179		snandc->regs->spi_cfg = snand_cfg_val;
-   180		snandc->regs->num_addr_cycle = SPI_NUM_ADDR;
-   181		snandc->regs->busy_wait_cnt = SPI_WAIT_CNT;
-   182	
-   183		qcom_write_reg_dma(snandc, &snandc->regs->spi_cfg, NAND_FLASH_SPI_CFG, 1, 0);
-   184	
-   185		snand_cfg_val &= ~LOAD_CLK_CNTR_INIT_EN;
-   186		snandc->regs->spi_cfg = snand_cfg_val;
-   187	
-   188		qcom_write_reg_dma(snandc, &snandc->regs->spi_cfg, NAND_FLASH_SPI_CFG, 1, 0);
-   189	
-   190		qcom_write_reg_dma(snandc, &snandc->regs->num_addr_cycle, NAND_NUM_ADDR_CYCLES, 1, 0);
-   191		qcom_write_reg_dma(snandc, &snandc->regs->busy_wait_cnt, NAND_BUSY_CHECK_WAIT_CNT, 1,
-   192				   NAND_BAM_NEXT_SGL);
-   193	
-   194		ret = qcom_submit_descs(snandc);
-   195		if (ret) {
-   196			dev_err(snandc->dev, "failure in submitting spi init descriptor\n");
-   197			return ret;
-   198		}
-   199	
-   200		return ret;
-   201	}
-   202	
-   203	static int qcom_spi_ooblayout_ecc(struct mtd_info *mtd, int section,
-   204					  struct mtd_oob_region *oobregion)
-   205	{
-   206		struct nand_device *nand = mtd_to_nanddev(mtd);
-   207		struct qcom_nand_controller *snandc = nand_to_qcom_snand(nand);
-   208		struct qpic_ecc *qecc = snandc->qspi->ecc;
-   209	
-   210		if (section > 1)
-   211			return -ERANGE;
-   212	
-   213		oobregion->length = qecc->ecc_bytes_hw + qecc->spare_bytes;
-   214		oobregion->offset = mtd->oobsize - oobregion->length;
-   215	
-   216		return 0;
-   217	}
-   218	
-   219	static int qcom_spi_ooblayout_free(struct mtd_info *mtd, int section,
-   220					   struct mtd_oob_region *oobregion)
-   221	{
-   222		struct nand_device *nand = mtd_to_nanddev(mtd);
-   223		struct qcom_nand_controller *snandc = nand_to_qcom_snand(nand);
-   224		struct qpic_ecc *qecc = snandc->qspi->ecc;
-   225	
-   226		if (section)
-   227			return -ERANGE;
-   228	
-   229		oobregion->length = qecc->steps * 4;
-   230		oobregion->offset = ((qecc->steps - 1) * qecc->bytes) + qecc->bbm_size;
-   231	
-   232		return 0;
-   233	}
-   234	
-   235	static const struct mtd_ooblayout_ops qcom_spi_ooblayout = {
-   236		.ecc = qcom_spi_ooblayout_ecc,
-   237		.free = qcom_spi_ooblayout_free,
-   238	};
-   239	
-   240	static int qcom_spi_ecc_init_ctx_pipelined(struct nand_device *nand)
-   241	{
-   242		struct qcom_nand_controller *snandc = nand_to_qcom_snand(nand);
-   243		struct nand_ecc_props *conf = &nand->ecc.ctx.conf;
-   244		struct nand_ecc_props *reqs = &nand->ecc.requirements;
-   245		struct nand_ecc_props *user = &nand->ecc.user_conf;
-   246		struct mtd_info *mtd = nanddev_to_mtd(nand);
- > 247		int step_size = 0, strength = 0, steps;
-   248		int cwperpage, bad_block_byte;
-   249		struct qpic_ecc *ecc_cfg;
-   250	
-   251		cwperpage = mtd->writesize / NANDC_STEP_SIZE;
-   252		snandc->qspi->num_cw = cwperpage;
-   253	
-   254		ecc_cfg = kzalloc(sizeof(*ecc_cfg), GFP_KERNEL);
-   255		if (!ecc_cfg)
-   256			return -ENOMEM;
-   257		snandc->qspi->oob_buf = kzalloc(mtd->writesize + mtd->oobsize,
-   258						GFP_KERNEL);
-   259		if (!snandc->qspi->oob_buf)
-   260			return -ENOMEM;
-   261	
-   262		memset(snandc->qspi->oob_buf, 0xff, mtd->writesize + mtd->oobsize);
-   263	
-   264		nand->ecc.ctx.priv = ecc_cfg;
-   265		snandc->qspi->mtd = mtd;
-   266	
-   267		if (user->step_size && user->strength) {
-   268			step_size = user->step_size;
-   269			strength = user->strength;
-   270		} else if (reqs->step_size && reqs->strength) {
-   271			step_size = reqs->step_size;
-   272			strength = reqs->strength;
-   273		}
-   274	
-   275		if (step_size && strength)
-   276			steps = mtd->writesize / step_size;
-   277	
-   278		ecc_cfg->ecc_bytes_hw = 7;
-   279		ecc_cfg->spare_bytes = 4;
-   280		ecc_cfg->bbm_size = 1;
-   281		ecc_cfg->bch_enabled = true;
-   282		ecc_cfg->bytes = ecc_cfg->ecc_bytes_hw + ecc_cfg->spare_bytes + ecc_cfg->bbm_size;
-   283	
-   284		ecc_cfg->steps = 4;
-   285		ecc_cfg->strength = 4;
-   286		ecc_cfg->step_size = 512;
-   287		ecc_cfg->cw_data = 516;
-   288		ecc_cfg->cw_size = ecc_cfg->cw_data + ecc_cfg->bytes;
-   289		bad_block_byte = mtd->writesize - ecc_cfg->cw_size * (cwperpage - 1) + 1;
-   290	
-   291		mtd_set_ooblayout(mtd, &qcom_spi_ooblayout);
-   292	
-   293		ecc_cfg->cfg0 = FIELD_PREP(CW_PER_PAGE_MASK, (cwperpage - 1)) |
-   294				FIELD_PREP(UD_SIZE_BYTES_MASK, ecc_cfg->cw_data) |
-   295				FIELD_PREP(DISABLE_STATUS_AFTER_WRITE, 1) |
-   296				FIELD_PREP(NUM_ADDR_CYCLES_MASK, 3) |
-   297				FIELD_PREP(ECC_PARITY_SIZE_BYTES_RS, ecc_cfg->ecc_bytes_hw) |
-   298				FIELD_PREP(STATUS_BFR_READ, 0) |
-   299				FIELD_PREP(SET_RD_MODE_AFTER_STATUS, 1) |
-   300				FIELD_PREP(SPARE_SIZE_BYTES_MASK, ecc_cfg->spare_bytes);
-   301	
-   302		ecc_cfg->cfg1 = FIELD_PREP(NAND_RECOVERY_CYCLES_MASK, 0) |
-   303				FIELD_PREP(CS_ACTIVE_BSY, 0) |
-   304				FIELD_PREP(BAD_BLOCK_BYTE_NUM_MASK, bad_block_byte) |
-   305				FIELD_PREP(BAD_BLOCK_IN_SPARE_AREA, 0) |
-   306				FIELD_PREP(WR_RD_BSY_GAP_MASK, 20) |
-   307				FIELD_PREP(WIDE_FLASH, 0) |
-   308				FIELD_PREP(ENABLE_BCH_ECC, ecc_cfg->bch_enabled);
-   309	
-   310		ecc_cfg->cfg0_raw = FIELD_PREP(CW_PER_PAGE_MASK, (cwperpage - 1)) |
-   311				    FIELD_PREP(NUM_ADDR_CYCLES_MASK, 3) |
-   312				    FIELD_PREP(UD_SIZE_BYTES_MASK, ecc_cfg->cw_size) |
-   313				    FIELD_PREP(SPARE_SIZE_BYTES_MASK, 0);
-   314	
-   315		ecc_cfg->cfg1_raw = FIELD_PREP(NAND_RECOVERY_CYCLES_MASK, 0) |
-   316				    FIELD_PREP(CS_ACTIVE_BSY, 0) |
-   317				    FIELD_PREP(BAD_BLOCK_BYTE_NUM_MASK, 17) |
-   318				    FIELD_PREP(BAD_BLOCK_IN_SPARE_AREA, 1) |
-   319				    FIELD_PREP(WR_RD_BSY_GAP_MASK, 20) |
-   320				    FIELD_PREP(WIDE_FLASH, 0) |
-   321				    FIELD_PREP(DEV0_CFG1_ECC_DISABLE, 1);
-   322	
-   323		ecc_cfg->ecc_bch_cfg = FIELD_PREP(ECC_CFG_ECC_DISABLE, !ecc_cfg->bch_enabled) |
-   324				       FIELD_PREP(ECC_SW_RESET, 0) |
-   325				       FIELD_PREP(ECC_NUM_DATA_BYTES_MASK, ecc_cfg->cw_data) |
-   326				       FIELD_PREP(ECC_FORCE_CLK_OPEN, 1) |
-   327				       FIELD_PREP(ECC_MODE_MASK, 0) |
-   328				       FIELD_PREP(ECC_PARITY_SIZE_BYTES_BCH_MASK, ecc_cfg->ecc_bytes_hw);
-   329	
-   330		ecc_cfg->ecc_buf_cfg = 0x203 << NUM_STEPS;
-   331		ecc_cfg->clrflashstatus = FS_READY_BSY_N;
-   332		ecc_cfg->clrreadstatus = 0xc0;
-   333	
-   334		conf->step_size = ecc_cfg->step_size;
-   335		conf->strength = ecc_cfg->strength;
-   336	
-   337		snandc->regs->erased_cw_detect_cfg_clr = cpu_to_le32(CLR_ERASED_PAGE_DET);
-   338		snandc->regs->erased_cw_detect_cfg_set = cpu_to_le32(SET_ERASED_PAGE_DET);
-   339	
-   340		dev_dbg(snandc->dev, "ECC strength: %u bits per %u bytes\n",
-   341			ecc_cfg->strength, ecc_cfg->step_size);
-   342	
-   343		return 0;
-   344	}
-   345	
+  2146	
+  2147	/*
+  2148	 * Hooks for other subsystems that check memory allocations. In a typical
+  2149	 * production configuration these hooks all should produce no code at all.
+  2150	 *
+  2151	 * Returns true if freeing of the object can proceed, false if its reuse
+  2152	 * was delayed by KASAN quarantine, or it was returned to KFENCE.
+  2153	 */
+  2154	static __always_inline
+  2155	bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
+  2156	{
+  2157		kmemleak_free_recursive(x, s->flags);
+  2158		kmsan_slab_free(s, x);
+  2159	
+  2160		debug_check_no_locks_freed(x, s->object_size);
+  2161	
+  2162		if (!(s->flags & SLAB_DEBUG_OBJECTS))
+  2163			debug_check_no_obj_freed(x, s->object_size);
+  2164	
+  2165		/* Use KCSAN to help debug racy use-after-free. */
+  2166		if (!(s->flags & SLAB_TYPESAFE_BY_RCU))
+  2167			__kcsan_check_access(x, s->object_size,
+  2168					     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
+  2169	
+  2170		if (kfence_free(x))
+  2171			return false;
+  2172	
+  2173		/*
+  2174		 * Give KASAN a chance to notice an invalid free operation before we
+  2175		 * modify the object.
+  2176		 */
+> 2177		if (kasan_slab_pre_free(s, x))
+  2178			return false;
+  2179	
+  2180		/*
+  2181		 * As memory initialization might be integrated into KASAN,
+  2182		 * kasan_slab_free and initialization memset's must be
+  2183		 * kept together to avoid discrepancies in behavior.
+  2184		 *
+  2185		 * The initialization memset's clear the object and the metadata,
+  2186		 * but don't touch the SLAB redzone.
+  2187		 *
+  2188		 * The object's freepointer is also avoided if stored outside the
+  2189		 * object.
+  2190		 */
+  2191		if (unlikely(init)) {
+  2192			int rsize;
+  2193			unsigned int inuse;
+  2194	
+  2195			inuse = get_info_end(s);
+  2196			if (!kasan_has_integrated_init())
+  2197				memset(kasan_reset_tag(x), 0, s->object_size);
+  2198			rsize = (s->flags & SLAB_RED_ZONE) ? s->red_left_pad : 0;
+  2199			memset((char *)kasan_reset_tag(x) + inuse, 0,
+  2200			       s->size - inuse - rsize);
+  2201		}
+  2202		/* KASAN might put x into memory quarantine, delaying its reuse. */
+  2203		return !kasan_slab_free(s, x, init);
+  2204	}
+  2205	
 
 -- 
 0-DAY CI Kernel Test Service
