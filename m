@@ -1,77 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441261103;
-	Thu, 25 Jul 2024 02:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE46A55
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 03:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721874775; cv=none; b=IRHmvV4H+hHsEZgzzbG+8qvasSKmNfY5lXVaeMhFkjSj4AEX7yjZIfi//UBWH3zf9P7SxqHFFQ2U554XhVLtFA5WltK3VUnwAb/9O0ykITVS/ZUVWBUAzoVAvP9TBbmAP70vdso8Nbm36ILYj7ri1WtS0tH+jMZJkpg4XJ+/wuE=
+	t=1721877471; cv=none; b=l4w9313Dkw8pWzkDFYqzgphxiKrjexCjBTXj4zNsSUJG8umerFvLZLtK9zYGg0jJtyak8wBjT12farqDxJxMKAM1hOIzvfF5FFXDA60vHks1LCCuIW/XVMoOG7JRAeBCzT3yfYbZ4lqrx6kCdQjrij85Nk8FoUJIhzDQyemLutc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721874775; c=relaxed/simple;
-	bh=MTAF3tHhSQ+iilx/KM0XPg93Ee6bItA5QT/jXwf2gUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MMBz00Ti9W1bkHQdGUhlKNVmyeIHWG0EwlJQB6OuFT0bFEQSMcOea9TAT2YJ8CpTlYuoyZS3JrnhJVFI0MDJx8yWxJ7SMq5I9XsvoOPl3PHWTZIdU1Ns8f9MffFTxkQp4wYpnBJicStQ8ZKyOYxj/V0YAQK7s5BWmVtY8YoyCWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X88QKeSE; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1721877471; c=relaxed/simple;
+	bh=LpnWJw3hGp2/H0wh94X9CvJZOi4aN+3AlPpmyxHso7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y3D6Ck26zx7/pHV8Ll90UsyWLD4QPcbB0GBvai5bytBoUF3dUy0anw5bKuAEcrFjyiAX32KXAPU0g2T8CIv8BdWrqDtfiNo3pWOuOUtok6SyCDcPbmXp6VD50OXKSQP9om1Riw8mTN5vTukKoLVBOW2qkL7eGwnR2leDwM6BxNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oH+nRBoJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X88QKeSE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oH+nRBoJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721874773; x=1753410773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MTAF3tHhSQ+iilx/KM0XPg93Ee6bItA5QT/jXwf2gUc=;
-  b=X88QKeSEbp8Sq/ghWE4UW+Za+abWZEIF2CdOlr1hIuwQmsl2TYPxcWJW
-   KTBRRKF5n21uXeNWjEhiBGVoILeDwOYnWa1bB5CCQ3FBr0LqzZncv8gV8
-   XuRCvSG6xJhoGQ2UTvybyMQtYSgxGu7t+NjE0yaWTGOaguEBGJZGMk9CG
-   3rYYTcgYhETZIoLBTPETEMbTZ5KWaAFo0T5JNnYeEhNDjfyoENfPrBWMs
-   Wxn4Lu23l+/Bi2x7lETh1kRw6bVsTMQgqaECi7VAmXasc7qDolnLSCNA2
-   58yyVl5kieK2v6o0MyidgRIDVDN/gZ5VLZFczzBw22r+4IxSZcg32Gs/r
-   w==;
-X-CSE-ConnectionGUID: lpQtKAfvQLeqj2a+K6T4Kw==
-X-CSE-MsgGUID: MlWxe5UwQPeWhfJMHKG0Ug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="45013478"
+  t=1721877469; x=1753413469;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LpnWJw3hGp2/H0wh94X9CvJZOi4aN+3AlPpmyxHso7o=;
+  b=oH+nRBoJqLePfXlLKuabjL1XEyNvv7p8ijme2KX+SlcrtO4j8zCkjxzn
+   ALE686QmD8LEHh5sbzNUBSm8WLK77+daAk7PK6WrmVlM6egO2zZihLOEo
+   pCNKy1aaEiFanx5ys8ZJ+Fw2M7SwglkOy3OSdrIJGIXM+AR5qZkf98IA+
+   4+sMbPmvzRug6VoMXch4Nauf7fnGLFQDEv5VcWTN8EyMgXwpO073KrVWi
+   ky0Osfo9Jofbh1tFy2y3yd63IzySqOLasviKfGrPyt/pKTlKBiLC2nNGm
+   AqLWbwduZ18k+YIC/jEpUGo9ATK62ueoWy7fEbrtc49wExbnC0P+PIW1h
+   g==;
+X-CSE-ConnectionGUID: knzzgVNyQl+U1S4RJIe0Kw==
+X-CSE-MsgGUID: vPTgUNMySleUvOhESmIE+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="31009988"
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="45013478"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 19:32:52 -0700
-X-CSE-ConnectionGUID: kupUx1grTya+rJrtkMTegw==
-X-CSE-MsgGUID: RpkdS/1HS1+lEdIdex7VVw==
+   d="scan'208";a="31009988"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 20:17:48 -0700
+X-CSE-ConnectionGUID: VBp5a9joR8acBVyUwUzd2w==
+X-CSE-MsgGUID: zW675bdSQtaiDXKYUbT8kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="52692595"
+   d="scan'208";a="52813919"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Jul 2024 19:32:46 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Jul 2024 20:17:48 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWoHb-000ngC-33;
-	Thu, 25 Jul 2024 02:32:43 +0000
-Date: Thu, 25 Jul 2024 10:32:23 +0800
+	id 1sWozB-000nhs-0X;
+	Thu, 25 Jul 2024 03:17:45 +0000
+Date: Thu, 25 Jul 2024 11:17:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	linux-iio@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Ivan Mikhaylov <fr0st61te@gmail.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Liam Beguin <liambeguin@gmail.com>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
-Message-ID: <202407251042.LUZ78skF-lkp@intel.com>
-References: <20240724155517.12470-5-ramona.nechita@analog.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cel:nfsd-testing 9/9] fs/nfsd/nfs4proc.c:1622:40: warning:
+ 'nfsd4_cb_offload_ops' defined but not used
+Message-ID: <202407251114.wyD7fzXB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,159 +61,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724155517.12470-5-ramona.nechita@analog.com>
 
-Hi Ramona,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.10 next-20240724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Alexandra-Nechita/dt-bindings-iio-adc-add-a7779-doc/20240725-000001
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240724155517.12470-5-ramona.nechita%40analog.com
-patch subject: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240725/202407251042.LUZ78skF-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407251042.LUZ78skF-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   4e7058acdd17cdaaeedf1ace203e539dd08a2689
+commit: 4e7058acdd17cdaaeedf1ace203e539dd08a2689 [9/9] NFSD: Drop CB_OFFLOAD Calls
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240725/202407251114.wyD7fzXB-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407251114.wyD7fzXB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407251042.LUZ78skF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407251114.wyD7fzXB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/adc/ad7779.c:420:5: warning: unused variable 'low' [-Wunused-variable]
-     420 |         u8 low, mid, high;
-         |            ^~~
-   drivers/iio/adc/ad7779.c:420:10: warning: unused variable 'mid' [-Wunused-variable]
-     420 |         u8 low, mid, high;
-         |                 ^~~
-   drivers/iio/adc/ad7779.c:420:15: warning: unused variable 'high' [-Wunused-variable]
-     420 |         u8 low, mid, high;
-         |                      ^~~~
-   drivers/iio/adc/ad7779.c:445:5: warning: variable 'msb' set but not used [-Wunused-but-set-variable]
-     445 |         u8 msb, mid, lsb;
-         |            ^
-   drivers/iio/adc/ad7779.c:445:10: warning: variable 'mid' set but not used [-Wunused-but-set-variable]
-     445 |         u8 msb, mid, lsb;
-         |                 ^
-   drivers/iio/adc/ad7779.c:445:15: warning: variable 'lsb' set but not used [-Wunused-but-set-variable]
-     445 |         u8 msb, mid, lsb;
-         |                      ^
-   drivers/iio/adc/ad7779.c:475:6: warning: unused variable 'ret' [-Wunused-variable]
-     475 |         int ret;
-         |             ^~~
->> drivers/iio/adc/ad7779.c:779:35: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     779 |                 return dev_err_probe(&spi->dev, ret,
-         |                                                 ^~~
-   drivers/iio/adc/ad7779.c:766:9: note: initialize the variable 'ret' to silence this warning
-     766 |         int ret;
-         |                ^
-         |                 = 0
-   8 warnings generated.
+>> fs/nfsd/nfs4proc.c:1622:40: warning: 'nfsd4_cb_offload_ops' defined but not used [-Wunused-const-variable=]
+    1622 | static const struct nfsd4_callback_ops nfsd4_cb_offload_ops = {
+         |                                        ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +779 drivers/iio/adc/ad7779.c
+vim +/nfsd4_cb_offload_ops +1622 fs/nfsd/nfs4proc.c
 
-   760	
-   761	static int ad7779_probe(struct spi_device *spi)
-   762	{
-   763		struct iio_dev *indio_dev;
-   764		struct ad7779_state *st;
-   765		struct gpio_desc *reset_gpio, *start_gpio;
-   766		int ret;
-   767	
-   768		indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-   769		if (!indio_dev)
-   770			return -ENOMEM;
-   771	
-   772		st = iio_priv(indio_dev);
-   773	
-   774		st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
-   775		if (IS_ERR(st->mclk))
-   776			return PTR_ERR(st->mclk);
-   777	
-   778		if (!spi->irq)
- > 779			return dev_err_probe(&spi->dev, ret,
-   780					     "DRDY irq not present\n"); 
-   781	
-   782		reset_gpio = devm_gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-   783		if (IS_ERR(reset_gpio))
-   784			return PTR_ERR(reset_gpio);
-   785	
-   786		start_gpio = devm_gpiod_get(&spi->dev, "start", GPIOD_OUT_HIGH);
-   787		if (IS_ERR(start_gpio))
-   788			return PTR_ERR(start_gpio);
-   789	
-   790		crc8_populate_msb(ad7779_crc8_table, AD7779_CRC8_POLY);
-   791		st->spi = spi;
-   792	
-   793		st->chip_info = spi_get_device_match_data(spi);
-   794		if (!st->chip_info)
-   795			return -ENODEV;
-   796	
-   797		ret = ad7779_reset(indio_dev, start_gpio);
-   798		if (ret)
-   799			return ret;
-   800	
-   801		ad7779_powerup(st, start_gpio);
-   802		if (ret)
-   803			return ret;
-   804	
-   805		indio_dev->name = st->chip_info->name;
-   806		indio_dev->info = &ad7779_info;
-   807		indio_dev->modes = INDIO_DIRECT_MODE;
-   808		indio_dev->channels = st->chip_info->channels;
-   809		indio_dev->num_channels = ARRAY_SIZE(ad7779_channels);
-   810	
-   811		st->trig = devm_iio_trigger_alloc(&spi->dev, "%s-dev%d",
-   812						  		indio_dev->name, iio_device_id(indio_dev));
-   813		if (!st->trig)
-   814			return -ENOMEM;
-   815	
-   816		st->trig->ops= &ad7779_trigger_ops;
-   817		st->trig->dev.parent = &spi->dev;
-   818	
-   819		iio_trigger_set_drvdata(st->trig, st);
-   820	
-   821		ret = devm_request_irq(&spi->dev, spi->irq,
-   822							   iio_trigger_generic_data_rdy_poll,
-   823							   IRQF_ONESHOT | IRQF_NO_AUTOEN,
-   824							   indio_dev->name, st->trig);
-   825		if (ret)
-   826			return dev_err_probe(&spi->dev, ret, "request irq %d failed\n",
-   827					     st->spi->irq);
-   828	
-   829		ret = devm_iio_trigger_register(&spi->dev, st->trig);
-   830		if (ret)
-   831			return ret;
-   832	
-   833		indio_dev->trig = iio_trigger_get(st->trig);
-   834	
-   835		init_completion(&st->completion);
-   836	
-   837		ret = devm_iio_triggered_buffer_setup(&spi->dev, indio_dev,
-   838											  &iio_pollfunc_store_time,
-   839											  &ad7779_trigger_handler,
-   840											  &ad7779_buffer_setup_ops);
-   841		if (ret)
-   842			return ret;
-   843	
-   844		ret = ad7779_spi_write_mask(st, AD7779_REG_DOUT_FORMAT,
-   845					    AD7779_DCLK_CLK_DIV_MSK,
-   846					    FIELD_PREP(AD7779_DCLK_CLK_DIV_MSK, 7));
-   847		if (ret)
-   848			return ret;
-   849	
-   850		return devm_iio_device_register(&spi->dev, indio_dev);
-   851	}
-   852	
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20  1621  
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20 @1622  static const struct nfsd4_callback_ops nfsd4_cb_offload_ops = {
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20  1623  	.release = nfsd4_cb_offload_release,
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20  1624  	.done = nfsd4_cb_offload_done
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20  1625  };
+e0639dc5805a9d4 Olga Kornievskaia 2018-07-20  1626  
+
+:::::: The code at line 1622 was first introduced by commit
+:::::: e0639dc5805a9d4faaa2c07ad98fa853b9529dd3 NFSD introduce async copy feature
+
+:::::: TO: Olga Kornievskaia <kolga@netapp.com>
+:::::: CC: J. Bruce Fields <bfields@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
