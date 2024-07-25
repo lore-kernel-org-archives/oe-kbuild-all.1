@@ -1,84 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from out28-77.mail.aliyun.com (out28-77.mail.aliyun.com [115.124.28.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEC2171E4B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 07:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E21715FA72;
+	Thu, 25 Jul 2024 07:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721891818; cv=none; b=NUZQVFDTIL2/QrhG/IeMrL8Esa9dMAvmepHv6gnHjEPvuMgQU76P8vkAwPK3nW2oP3E48ZF2Hkp28PZ3rsdmTm+8jd9YlaODr+anUHcRXJh1LOAVeDOPuU7Unm5xZN0KKdq+LNbu24sJMm9aK6Cu5VZwjmvX2K82jDWu96qfstA=
+	t=1721893457; cv=none; b=ptr12mO/rxcjODoJOJt6VBe9JjApjTIvetviSBQ76f1Baasxwim2FjYF7qVFbNjN+HMmfpzmzlIvE4WJ26t1ciZX1YQFlCwrbs2Fu4iC0O22hxX2Uc5TB4Q7P44H8YqKG+ogM0dQuPx46cmVF9fJQMQd6wavPt5gLybH90gjqxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721891818; c=relaxed/simple;
-	bh=MSC5W+q6VGKGp2s6tNlTEFT6oyT1kWGTUgHFLbaIp4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=AH73YTi8jbTMKmMEcbW476MX00YK2+tNcmsnA9WyhV0+bkGkLgBbAf7rC6wKBb09szWvSd1ge05r7IQ2kF4Pr2KHHHyiODKw1c+9x1ZpzkPKB+yVJpPrgghcwp5gqKwpHsv3tjb6P183PzpgMIFqB6mSq8kY+Dje5KMfylB5qjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyVTW0Dz; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyVTW0Dz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721891816; x=1753427816;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=MSC5W+q6VGKGp2s6tNlTEFT6oyT1kWGTUgHFLbaIp4o=;
-  b=SyVTW0Dz1X4qRr+OMpGui8cAm2Ti6hQck0ZgGJdTJCYDr9zb7afngoNk
-   cUqd7aRIyGa/q7PQSIztT9UoHsXsDbWShbL4B/9fn+VulYL49x8zlTEVI
-   oWtaPaIPrTdsTui5ZnYIBUwLR5EgjJnfSkLATA230VHiVWYcGXxPMGT3b
-   p+DbqDmtit3TJoDMgKJ66IG/GnVfw/AhkKalyRbvqozBYBtNCXUJO1YU+
-   Fs55krDqBwiIPMIU9/P0nD1TOZocZolm5drmX+imgyDFKr30RYvEizP3F
-   LgWlBi4FvEOCYPrz+3TL0VqA6VbC4xWefcBW4u6DkEy3vMjbZtGQSeTz9
-   Q==;
-X-CSE-ConnectionGUID: ZVM+ifoGTSKU/EzE4iByUw==
-X-CSE-MsgGUID: GknxUumGT7Orrx2UhxbRsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="12705109"
-X-IronPort-AV: E=Sophos;i="6.09,235,1716274800"; 
-   d="scan'208";a="12705109"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 00:16:55 -0700
-X-CSE-ConnectionGUID: PxSWNiH+QrSxwBIWoIRnxg==
-X-CSE-MsgGUID: IrvJW+BuTYqFdE4BVSo8lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,235,1716274800"; 
-   d="scan'208";a="57400638"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jul 2024 00:16:54 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sWsia-000ns4-1U;
-	Thu, 25 Jul 2024 07:16:52 +0000
-Date: Thu, 25 Jul 2024 15:16:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net V1] net: phy: micrel: Fix the KSZ9131 MDI-X status
- issue
-Message-ID: <ZqH7u2ZXH3nzqIsn@6724a33121ae>
+	s=arc-20240116; t=1721893457; c=relaxed/simple;
+	bh=VsRD9RpGfNzTJeBE424wyq4lMEpvXqO7CWBLN2aG/Qw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GwbT6BOvNTMCU06PAbrm9zEFDFuJdnPCOJAIPW9HnebgyTrRtfhO3oKf+jVKIJGEOwSHu7R7qmOYTqnY98ivbmOWuSdSNH86ycyA2midzN3fGzLXmkikryALLE6Uet5C4/ZxRU60uMgjwyMsB83o9lHDF2WKOfJROzDX2hJ2urc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com; spf=pass smtp.mailfrom=ttyinfo.com; arc=none smtp.client-ip=115.124.28.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ttyinfo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ttyinfo.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07440004|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00729649-0.000270946-0.992433;FP=16230201195628131514|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033070021176;MF=zhoushengqing@ttyinfo.com;NM=1;PH=DS;RN=8;RT=8;SR=0;TI=SMTPD_---.YZIOBDn_1721893443;
+Received: from ubuntu..(mailfrom:zhoushengqing@ttyinfo.com fp:SMTPD_---.YZIOBDn_1721893443)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Jul 2024 15:44:04 +0800
+From: Zhou Shengqing <zhoushengqing@ttyinfo.com>
+To: haifeng.zhao@linux.intel.com
+Cc: helgaas@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	lkp@intel.com,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	zhoushengqing@ttyinfo.com
+Subject: Re: [PATCH v4] PCI: Enable io space 1k granularity for intel cpu root port
+Date: Thu, 25 Jul 2024 07:44:03 +0000
+Message-Id: <20240725074403.12928-1-zhoushengqing@ttyinfo.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2912551a-b4c6-4bd4-8c1c-22de7fd8fa20@linux.intel.com>
+References: <2912551a-b4c6-4bd4-8c1c-22de7fd8fa20@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240725071125.13960-1-Raju.Lakkaraju@microchip.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+> On 7/24/2024 2:35 PM, Zhou Shengqing wrote:
+> >>> Do you mean it shoud be like this?
+> >>>
+> >>> 	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+> >>> 		if (d->bus->number == dev->bus->number) {
+> >>> 			pci_read_config_word(d, 0x1c0, &en1k);
+> >>> 			if (en1k & 0x4) {
+> >>> 				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+> >>> 				dev->io_window_1k = 1;
+> >>> 			}
+> >>> 		}
+> >>> 	}
+> >>>
+> >>>> 00:00.0 System peripheral: Intel Corporation Device 09a2 (rev 20)
+> >>>> 00:0f.0 PCI bridge: Intel Corporation Device 1bbf (rev 10) (prog-if 00 [Normal decode])
+> >>>>
+> >>>>     
+> >>>> 15:00.0 System peripheral: Intel Corporation Device 09a2 (rev 20)
+> >>>> 15:01.0 PCI bridge: Intel Corporation Device 352a (rev 04) (prog-if 00 [Normal decode])
+> >>>>
+> >>>> and if you check domain number only, they might sit on different bus, perhaps that
+> >>>> would make thing complex, could you make sure the VT-d is on the upstream bus of the
+> >>>> bridge ?
+> >>> I checked it on ICX SPR EMR GNR, VT-d is always on the same bus with root port,
+> >>> and VT-d device and function number is always 0.
+> >> Yes, every VT-d instance in the root complex and the root port integrated are
+> >> on the same bus. and VT-d is the first device of that bus.
+> >>
+> >> The EDS doesn't say if there is exception one of the VT-d instances in an
+> >> system its EN1K wasn't set while others were set, vice vesa. so I suggest
+> >> just check the VT-d and then set the root port's io_windows_1k of the same bus.
+> > But as Bjorn mentioned at July 12, 2024, 6:48 p.m.,
+> >
+> > "To be safe, "d" (the [8086:09a2] device) should be on the same bus as
+> > "dev" (with VMD, I think we get Root Ports *below* the VMD bridge,
+> > which would be a different bus, and they presumably are not influenced
+> > by the EN1K bit."
+> >
+> > When VMD enabled, just check bus number identical may lead to enable
+> > 1k io windows for VMD domain root port. E.g. 0000:80:00.0 is a
+> > VT-d(09a2). If VMD enabled, there might be a root port 10000:80:01.0 present.
+> > this code may lead to enable 10000:80:01.0 io_window_1k = 1.
+> > This is probably not expected.
+> >
+> > If I modify it like this,
+> >
+> > 	while ((d = pci_get_device(PCI_VENDOR_ID_INTEL, 0x09a2, d))) {
+> 
+> BTW, don't save letters to use single letter variable 'd', please use 'vtd_dev' or
+> something else to express the VT-d device.
 
-Thanks for your patch.
+Got it!
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> 
+> > 	---if (d->bus->number == dev->bus->number) {
+> > 	+++if (d->bus == dev->bus) {
+> 
+> What if their 'bus' are NULL, though it is almost impossible. :)
+> 
+> > 			pci_read_config_word(d, 0x1c0, &en1k);
+> > 			if (en1k & 0x4) {
+> > 				pci_info(dev, "1K I/O windows enabled per %s EN1K setting\n", pci_name(d));
+> > 				dev->io_window_1k = 1;
+> > 			}
+> > 		}
+> > 	}
+> >      
+> > Can the situation mentioned above be avoided?
+> 
+> Yes, my understanding, as Bjorn pointed out root port extended from VMD
+> bridge not on the same bus as VT-d.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+For the root port extended from VMD, should the 1k window be set
+when BIOS setup EN1K knob enabled? 
+In my case, I think  EN1K should not apply to the VMD root port.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net V1] net: phy: micrel: Fix the KSZ9131 MDI-X status issue
-Link: https://lore.kernel.org/stable/20240725071125.13960-1-Raju.Lakkaraju%40microchip.com
+But what I'm confused about is, how can I reasonably exclude the VMD root port
+in the code?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+> 
+> 
 
