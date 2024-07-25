@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB371B7FD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 18:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EFA1D530
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 18:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721931383; cv=none; b=QDRKPN45JIgI9TQCkBuBtQiyMhn4jM4fXvNRh9p7zqfCe9/z1uo9YtPLhEnqj6ILgJ1k/mHlYGXIrZNbOZWOcatkOZKble85qmg3cFyCZGx6aHM4Z/RfxnLlyIgqXCySgUyBSbTG/seai12Li2GEnB6xUuQa10GY1R4qj8aFxSQ=
+	t=1721931383; cv=none; b=dMQDUQEBu1BoHR3svRIePGymUIVHrPi9fSwxVx7yqbCAJjXwsqfwyMGGZtCykzS5MKJcArxFhMsVUfnlGyaDJ2G5oQWoiNruR6lv+K0TXclFSL0w6NS4r/yJ5uhN+HKZmhUtma+N8hk8zwmDoiqcTq10sDKWxZLwaD7eGJy3DUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1721931383; c=relaxed/simple;
-	bh=5BBfOeIYKQZyFPo0/uFzeyTz2ClygoNzP96t5p6epos=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XUbDypVM663txwVLEaubpTheEiAwrX6Ufyjvp+aUKN8H0MU7FptukgR5K8QNnpWmSKS+3PfSKE0z7xnGyAVkB4zbCc5KjVASHLaYcQI96u2fjhFdpcxsqw8YgB4j5RO+4ccuYN2H8Wuhb6QcGWbssdiDy9umlT9hrtfYWoQBvVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YdtgyK0x; arc=none smtp.client-ip=192.198.163.17
+	bh=6jhxNOlrJsl8D5quO+IfMn76L5sqpLqYfZSQGj+KA2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGaqm3pp7gL0f4xaw9Hv5eMSLTs4C5sjxMhgNnbGfLEaCk2Q7n8/B5Pez2FbNhpWg807pEJHWLyLk3aksv/PpWE9Dv1lb6KQfXfDHFkJ7Qrh6f2X1oUJ1vzgkRZ7MKhid1LmNlUsp2+UfWR2ZXKDRAfY93dIOP/ERbqJ/2q91gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMke6YWU; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdtgyK0x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMke6YWU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721931380; x=1753467380;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5BBfOeIYKQZyFPo0/uFzeyTz2ClygoNzP96t5p6epos=;
-  b=YdtgyK0xuOq9emOCcT8qf1XnXePJ0+9KQ8tdZ01ItcP3bfqvR5kzf1ot
-   RhI005jM6h17dnpi2N2lAf5ukXUDexYPwTGjsNWGxMxD2mN+MWJAkyNVh
-   2IHLMc5jlGNVwVdXGh4KD+llQZIO2/vor28oR2V0eJjwOm6KivDeziPEp
-   sqMRpe2tFcIxaW/JLiAjSK0G+opwMjauFO7V3L1B9zlb6CgWSbODv7rcA
-   gSccDCsjKM0mU7u0yPbVXA5iRTM14I7k1+QMJgRo1Ah98EPUFF5M9LqkW
-   vYQy8DXXe36M+jfQj0WdbiS5lO9DGCykIh+kiOHRKt/LxMbhfy0ynhmqG
+  t=1721931381; x=1753467381;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6jhxNOlrJsl8D5quO+IfMn76L5sqpLqYfZSQGj+KA2k=;
+  b=XMke6YWUd4lP6RCjWiS/iI0/wdqelQtZ0GLo4nRieIi0/juL+DNV/Iw5
+   oI+yCGfel/R2LoMwgTKdr8wdruUqHd8GR4ySjTSVo6dMa5rW1LhjelksO
+   oiFCwoE5XS55dIBdxsIDAnqz3AYGzi2gam/WQy42S+VKA0Wa1jr0ER+XN
+   9LzmF1Rvvcbva4YxZsjJ6IVs0DCe3lf4Fg/0+OtOlEH0k+OeYasLaSxMe
+   YkiGjI5hSE2vo9Imob2PYSgNoAnluqPb5fvRKgAHynX9aAZp35c/TfJCS
+   HTd9noLsbqdTI6XSUMwEO27Fjn9ttZQesbdmdS2vf7iBsX9xQMgzZwBIh
    Q==;
-X-CSE-ConnectionGUID: uLqg0wG2QmyehVDk33BgZQ==
-X-CSE-MsgGUID: NoPC3IvqTsyLkuSfQHoe6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19574212"
+X-CSE-ConnectionGUID: cPWfQnjZQw6aBvKKVkJP0g==
+X-CSE-MsgGUID: aD5UqwUITCWFH+33Ru96pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="12715078"
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="19574212"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 11:16:20 -0700
-X-CSE-ConnectionGUID: iRYDQgZFQlOxYXYEiPi+Bw==
-X-CSE-MsgGUID: Es92OsfrTcKCddz9I0/tCw==
+   d="scan'208";a="12715078"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 11:16:20 -0700
+X-CSE-ConnectionGUID: mxpGtCa4T42/9gL4rff6MA==
+X-CSE-MsgGUID: tUMrmPMrT3KdduO5P3+AKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="53789212"
+   d="scan'208";a="90480364"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jul 2024 11:16:18 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Jul 2024 11:16:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sX30i-000oLG-0c;
+	id 1sX30i-000oLE-0R;
 	Thu, 25 Jul 2024 18:16:16 +0000
-Date: Fri, 26 Jul 2024 02:15:49 +0800
+Date: Fri, 26 Jul 2024 02:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:rust/panthor-6.10 9/10]
- drivers/gpu/drm/panthor/panthor_drv.c:749:5: warning: no previous prototype
- for '_panthor_ioctl_dev_query'
-Message-ID: <202407260221.kYZGePy2-lkp@intel.com>
+To: Kinsey Ho <kinseyho@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosryahmed@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Kinsey Ho <kinseyho@google.com>
+Subject: Re: [PATCH mm-unstable v1 4/4] mm: clean up mem_cgroup_iter()
+Message-ID: <202407260248.CBU1JMb1-lkp@intel.com>
+References: <20240724190214.1108049-5-kinseyho@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,302 +67,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240724190214.1108049-5-kinseyho@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git rust/panthor-6.10
-head:   8d146622f07c7965de15d20b04e0d92bcaa50d87
-commit: 1bd8126e54589ff493836d6dc93b829ba99211f4 [9/10] drm/panthor: Add rust driver stub
-config: arm-randconfig-002-20240726 (https://download.01.org/0day-ci/archive/20240726/202407260221.kYZGePy2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240726/202407260221.kYZGePy2-lkp@intel.com/reproduce)
+Hi Kinsey,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.10 next-20240725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kinsey-Ho/mm-don-t-hold-css-refcnt-during-traversal/20240725-030750
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240724190214.1108049-5-kinseyho%40google.com
+patch subject: [PATCH mm-unstable v1 4/4] mm: clean up mem_cgroup_iter()
+config: x86_64-randconfig-121-20240725 (https://download.01.org/0day-ci/archive/20240726/202407260248.CBU1JMb1-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240726/202407260248.CBU1JMb1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407260221.kYZGePy2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407260248.CBU1JMb1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/memcontrol.c:1049:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct mem_cgroup [noderef] __rcu *__old @@     got struct mem_cgroup *[assigned] pos @@
+   mm/memcontrol.c:1049:21: sparse:     expected struct mem_cgroup [noderef] __rcu *__old
+   mm/memcontrol.c:1049:21: sparse:     got struct mem_cgroup *[assigned] pos
+>> mm/memcontrol.c:1049:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct mem_cgroup [noderef] __rcu *__new @@     got struct mem_cgroup *[assigned] next @@
+   mm/memcontrol.c:1049:21: sparse:     expected struct mem_cgroup [noderef] __rcu *__new
+   mm/memcontrol.c:1049:21: sparse:     got struct mem_cgroup *[assigned] next
+   mm/memcontrol.c:1049:57: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:1049:57: sparse:    struct mem_cgroup [noderef] __rcu *
+   mm/memcontrol.c:1049:57: sparse:    struct mem_cgroup *
+   mm/memcontrol.c:1101:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct mem_cgroup [noderef] __rcu *__old @@     got struct mem_cgroup *dead_memcg @@
+   mm/memcontrol.c:1101:17: sparse:     expected struct mem_cgroup [noderef] __rcu *__old
+   mm/memcontrol.c:1101:17: sparse:     got struct mem_cgroup *dead_memcg
+   mm/memcontrol.c: note: in included file (through include/linux/cgroup-defs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:747:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:747:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:747:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
+   mm/memcontrol.c: note: in included file (through include/linux/cgroup-defs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
->> drivers/gpu/drm/panthor/panthor_drv.c:749:5: warning: no previous prototype for '_panthor_ioctl_dev_query' [-Wmissing-prototypes]
-     749 | int _panthor_ioctl_dev_query(struct panthor_device *ptdev, struct drm_panthor_dev_query *args)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:778:5: warning: no previous prototype for 'panthor_ioctl_dev_query' [-Wmissing-prototypes]
-     778 | int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:787:5: warning: no previous prototype for '_panthor_ioctl_vm_create' [-Wmissing-prototypes]
-     787 | int _panthor_ioctl_vm_create(struct panthor_device *ptdev, struct drm_panthor_vm_create *args,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:806:5: warning: no previous prototype for 'panthor_ioctl_vm_create' [-Wmissing-prototypes]
-     806 | int panthor_ioctl_vm_create(struct drm_device *ddev, void *data,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:888:5: warning: no previous prototype for 'panthor_group_submit' [-Wmissing-prototypes]
-     888 | int panthor_group_submit(struct drm_device *ddev, struct drm_panthor_group_submit *args,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:1010:5: warning: no previous prototype for '_panthor_group_create' [-Wmissing-prototypes]
-    1010 | int _panthor_group_create(struct drm_panthor_group_create *args,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:1048:5: warning: no previous prototype for 'panthor_tiler_heap_create' [-Wmissing-prototypes]
-    1048 | int panthor_tiler_heap_create(struct panthor_file *pfile,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:1096:5: warning: no previous prototype for 'panthor_tiler_heap_destroy' [-Wmissing-prototypes]
-    1096 | int panthor_tiler_heap_destroy(struct panthor_file *pfile,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:1131:5: warning: no previous prototype for 'panthor_ioctl_vm_bind_async' [-Wmissing-prototypes]
-    1131 | int panthor_ioctl_vm_bind_async(struct drm_panthor_vm_bind *args,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_drv.c:1199:5: warning: no previous prototype for 'panthor_ioctl_vm_bind_sync' [-Wmissing-prototypes]
-    1199 | int panthor_ioctl_vm_bind_sync(struct drm_panthor_vm_bind *args,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_drv.c:1272:1: warning: no previous prototype for '_panthor_open' [-Wmissing-prototypes]
-    1272 | _panthor_open(struct panthor_device *ptdev, struct drm_file *file)
-         | ^~~~~~~~~~~~~
+vim +1049 mm/memcontrol.c
 
-
-vim +/_panthor_ioctl_dev_query +749 drivers/gpu/drm/panthor/panthor_drv.c
-
-   748	
- > 749	int _panthor_ioctl_dev_query(struct panthor_device *ptdev, struct drm_panthor_dev_query *args)
-   750	{
-   751		if (!args->pointer) {
-   752			switch (args->type) {
-   753			case DRM_PANTHOR_DEV_QUERY_GPU_INFO:
-   754				args->size = sizeof(ptdev->gpu_info);
-   755				return 0;
-   756	
-   757			case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
-   758				args->size = sizeof(ptdev->csif_info);
-   759				return 0;
-   760	
-   761			default:
-   762				return -EINVAL;
-   763			}
-   764		}
-   765	
-   766		switch (args->type) {
-   767		case DRM_PANTHOR_DEV_QUERY_GPU_INFO:
-   768			return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->gpu_info);
-   769	
-   770		case DRM_PANTHOR_DEV_QUERY_CSIF_INFO:
-   771			return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->csif_info);
-   772	
-   773		default:
-   774			return -EINVAL;
-   775		}
-   776	}
-   777	
- > 778	int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct drm_file *file)
-   779	{
-   780		struct panthor_file *pfile = file->driver_priv;
-   781	
-   782		return _panthor_ioctl_dev_query(pfile->ptdev, data);
-   783	}
-   784	
-   785	#define PANTHOR_VM_CREATE_FLAGS			0
-   786	
- > 787	int _panthor_ioctl_vm_create(struct panthor_device *ptdev, struct drm_panthor_vm_create *args,
-   788				    const struct drm_file *file)
-   789	{
-   790		struct panthor_file *pfile = file->driver_priv;
-   791		int cookie, ret;
-   792	
-   793		if (!drm_dev_enter(ptdev->base, &cookie))
-   794			return -ENODEV;
-   795	
-   796		ret = panthor_vm_pool_create_vm(ptdev, pfile->vms,  args);
-   797		if (ret >= 0) {
-   798			args->id = ret;
-   799			ret = 0;
-   800		}
-   801	
-   802		drm_dev_exit(cookie);
-   803		return ret;
-   804	}
-   805	
- > 806	int panthor_ioctl_vm_create(struct drm_device *ddev, void *data,
-   807				    struct drm_file *file)
-   808	{
-   809		struct panthor_file *pfile = file->driver_priv;
-   810	
-   811		return _panthor_ioctl_vm_create(pfile->ptdev, data, file);
-   812	}
-   813	
-   814	static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
-   815					    struct drm_file *file)
-   816	{
-   817		struct panthor_file *pfile = file->driver_priv;
-   818		struct drm_panthor_vm_destroy *args = data;
-   819	
-   820		if (args->pad)
-   821			return -EINVAL;
-   822	
-   823		return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
-   824	}
-   825	
-   826	#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
-   827	
-   828	static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
-   829					   struct drm_file *file)
-   830	{
-   831		struct panthor_file *pfile = file->driver_priv;
-   832		struct drm_panthor_bo_create *args = data;
-   833		struct panthor_vm *vm = NULL;
-   834		int cookie, ret;
-   835	
-   836		if (!drm_dev_enter(ddev, &cookie))
-   837			return -ENODEV;
-   838	
-   839		if (!args->size || args->pad ||
-   840		    (args->flags & ~PANTHOR_BO_FLAGS)) {
-   841			ret = -EINVAL;
-   842			goto out_dev_exit;
-   843		}
-   844	
-   845		if (args->exclusive_vm_id) {
-   846			vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
-   847			if (!vm) {
-   848				ret = -EINVAL;
-   849				goto out_dev_exit;
-   850			}
-   851		}
-   852	
-   853		ret = panthor_gem_create_with_handle(file, ddev, vm, &args->size,
-   854						     args->flags, &args->handle);
-   855	
-   856		panthor_vm_put(vm);
-   857	
-   858	out_dev_exit:
-   859		drm_dev_exit(cookie);
-   860		return ret;
-   861	}
-   862	
-   863	static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
-   864						struct drm_file *file)
-   865	{
-   866		struct drm_panthor_bo_mmap_offset *args = data;
-   867		struct drm_gem_object *obj;
-   868		int ret;
-   869	
-   870		if (args->pad)
-   871			return -EINVAL;
-   872	
-   873		obj = drm_gem_object_lookup(file, args->handle);
-   874		if (!obj)
-   875			return -ENOENT;
-   876	
-   877		ret = drm_gem_create_mmap_offset(obj);
-   878		if (ret)
-   879			goto out;
-   880	
-   881		args->offset = drm_vma_node_offset_addr(&obj->vma_node);
-   882	
-   883	out:
-   884		drm_gem_object_put(obj);
-   885		return ret;
-   886	}
-   887	
- > 888	int panthor_group_submit(struct drm_device *ddev, struct drm_panthor_group_submit *args,
-   889				 struct drm_file *file)
-   890	{
-   891		struct panthor_file *pfile = file->driver_priv;
-   892		struct drm_panthor_queue_submit *jobs_args;
-   893		struct panthor_submit_ctx ctx;
-   894		int ret = 0, cookie;
-   895	
-   896		if (args->pad)
-   897			return -EINVAL;
-   898	
-   899		if (!drm_dev_enter(ddev, &cookie))
-   900			return -ENODEV;
-   901	
-   902		ret = PANTHOR_UOBJ_GET_ARRAY(jobs_args, &args->queue_submits);
-   903		if (ret)
-   904			goto out_dev_exit;
-   905	
-   906		ret = panthor_submit_ctx_init(&ctx, file, args->queue_submits.count);
-   907		if (ret)
-   908			goto out_free_jobs_args;
-   909	
-   910		/* Create jobs and attach sync operations */
-   911		for (u32 i = 0; i < args->queue_submits.count; i++) {
-   912			const struct drm_panthor_queue_submit *qsubmit = &jobs_args[i];
-   913			struct drm_sched_job *job;
-   914	
-   915			job = panthor_job_create(pfile, args->group_handle, qsubmit);
-   916			if (IS_ERR(job)) {
-   917				ret = PTR_ERR(job);
-   918				goto out_cleanup_submit_ctx;
-   919			}
-   920	
-   921			ret = panthor_submit_ctx_add_job(&ctx, i, job, &qsubmit->syncs);
-   922			if (ret)
-   923				goto out_cleanup_submit_ctx;
-   924		}
-   925	
-   926		/*
-   927		 * Collect signal operations on all jobs, such that each job can pick
-   928		 * from it for its dependencies and update the fence to signal when the
-   929		 * job is submitted.
-   930		 */
-   931		ret = panthor_submit_ctx_collect_jobs_signal_ops(&ctx);
-   932		if (ret)
-   933			goto out_cleanup_submit_ctx;
-   934	
-   935		/*
-   936		 * We acquire/prepare revs on all jobs before proceeding with the
-   937		 * dependency registration.
-   938		 *
-   939		 * This is solving two problems:
-   940		 * 1. drm_sched_job_arm() and drm_sched_entity_push_job() must be
-   941		 *    protected by a lock to make sure no concurrent access to the same
-   942		 *    entity get interleaved, which would mess up with the fence seqno
-   943		 *    ordering. Luckily, one of the resv being acquired is the VM resv,
-   944		 *    and a scheduling entity is only bound to a single VM. As soon as
-   945		 *    we acquire the VM resv, we should be safe.
-   946		 * 2. Jobs might depend on fences that were issued by previous jobs in
-   947		 *    the same batch, so we can't add dependencies on all jobs before
-   948		 *    arming previous jobs and registering the fence to the signal
-   949		 *    array, otherwise we might miss dependencies, or point to an
-   950		 *    outdated fence.
-   951		 */
-   952		if (args->queue_submits.count > 0) {
-   953			/* All jobs target the same group, so they also point to the same VM. */
-   954			struct panthor_vm *vm = panthor_job_vm(ctx.jobs[0].job);
-   955	
-   956			drm_exec_until_all_locked(&ctx.exec) {
-   957				ret = panthor_vm_prepare_mapped_bos_resvs(&ctx.exec, vm,
-   958									  args->queue_submits.count);
-   959			}
-   960	
-   961			if (ret)
-   962				goto out_cleanup_submit_ctx;
-   963		}
-   964	
-   965		/*
-   966		 * Now that resvs are locked/prepared, we can iterate over each job to
-   967		 * add the dependencies, arm the job fence, register the job fence to
-   968		 * the signal array.
-   969		 */
-   970		ret = panthor_submit_ctx_add_deps_and_arm_jobs(&ctx);
-   971		if (ret)
-   972			goto out_cleanup_submit_ctx;
-   973	
-   974		/* Nothing can fail after that point, so we can make our job fences
-   975		 * visible to the outside world. Push jobs and set the job fences to
-   976		 * the resv slots we reserved.  This also pushes the fences to the
-   977		 * syncobjs that are part of the signal array.
-   978		 */
-   979		panthor_submit_ctx_push_jobs(&ctx, panthor_job_update_resvs);
-   980	
-   981	out_cleanup_submit_ctx:
-   982		panthor_submit_ctx_cleanup(&ctx, panthor_job_put);
-   983	
-   984	out_free_jobs_args:
-   985		kvfree(jobs_args);
-   986	
-   987	out_dev_exit:
-   988		drm_dev_exit(cookie);
-   989		return ret;
-   990	}
-   991	
+   974	
+   975	/**
+   976	 * mem_cgroup_iter - iterate over memory cgroup hierarchy
+   977	 * @root: hierarchy root
+   978	 * @prev: previously returned memcg, NULL on first invocation
+   979	 * @reclaim: cookie for shared reclaim walks, NULL for full walks
+   980	 *
+   981	 * Returns references to children of the hierarchy below @root, or
+   982	 * @root itself, or %NULL after a full round-trip.
+   983	 *
+   984	 * Caller must pass the return value in @prev on subsequent
+   985	 * invocations for reference counting, or use mem_cgroup_iter_break()
+   986	 * to cancel a hierarchy walk before the round-trip is complete.
+   987	 *
+   988	 * Reclaimers can specify a node in @reclaim to divide up the memcgs
+   989	 * in the hierarchy among all concurrent reclaimers operating on the
+   990	 * same node.
+   991	 */
+   992	struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *root,
+   993					   struct mem_cgroup *prev,
+   994					   struct mem_cgroup_reclaim_cookie *reclaim)
+   995	{
+   996		struct mem_cgroup_reclaim_iter *iter;
+   997		struct cgroup_subsys_state *css;
+   998		struct mem_cgroup *pos;
+   999		struct mem_cgroup *next = NULL;
+  1000	
+  1001		if (mem_cgroup_disabled())
+  1002			return NULL;
+  1003	
+  1004		if (!root)
+  1005			root = root_mem_cgroup;
+  1006	
+  1007		rcu_read_lock();
+  1008	restart:
+  1009		if (reclaim) {
+  1010			int gen;
+  1011			int nid = reclaim->pgdat->node_id;
+  1012	
+  1013			iter = &root->nodeinfo[nid]->iter;
+  1014			gen = atomic_read(&iter->generation);
+  1015	
+  1016			/*
+  1017			 * On start, join the current reclaim iteration cycle.
+  1018			 * Exit when a concurrent walker completes it.
+  1019			 */
+  1020			if (!prev)
+  1021				reclaim->generation = gen;
+  1022			else if (reclaim->generation != gen)
+  1023				goto out_unlock;
+  1024	
+  1025			pos = rcu_dereference(iter->position);
+  1026		} else
+  1027			pos = prev;
+  1028	
+  1029		css = pos ? &pos->css : NULL;
+  1030	
+  1031		while ((css = css_next_descendant_pre(css, &root->css))) {
+  1032			/*
+  1033			 * Verify the css and acquire a reference.  The root
+  1034			 * is provided by the caller, so we know it's alive
+  1035			 * and kicking, and don't take an extra reference.
+  1036			 */
+  1037			if (css == &root->css || css_tryget(css))
+  1038				break;
+  1039		}
+  1040	
+  1041		next = mem_cgroup_from_css(css);
+  1042	
+  1043		if (reclaim) {
+  1044			/*
+  1045			 * The position could have already been updated by a competing
+  1046			 * thread, so check that the value hasn't changed since we read
+  1047			 * it to avoid reclaiming from the same cgroup twice.
+  1048			 */
+> 1049			if (cmpxchg(&iter->position, pos, next) != pos) {
+  1050				if (css && css != &root->css)
+  1051					css_put(css);
+  1052				goto restart;
+  1053			}
+  1054	
+  1055			if (!next) {
+  1056				atomic_inc(&iter->generation);
+  1057	
+  1058				/*
+  1059				 * Reclaimers share the hierarchy walk, and a
+  1060				 * new one might jump in right at the end of
+  1061				 * the hierarchy - make sure they see at least
+  1062				 * one group and restart from the beginning.
+  1063				 */
+  1064				if (!prev)
+  1065					goto restart;
+  1066			}
+  1067		}
+  1068	
+  1069	out_unlock:
+  1070		rcu_read_unlock();
+  1071		if (prev && prev != root)
+  1072			css_put(&prev->css);
+  1073	
+  1074		return next;
+  1075	}
+  1076	
 
 -- 
 0-DAY CI Kernel Test Service
