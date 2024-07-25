@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D091CC8DF;
-	Thu, 25 Jul 2024 13:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F5C225CE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 13:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721913914; cv=none; b=JHZoBthfcgJpNTYiKT79FZS/YnRgm8UdqbzrXMmG46E0uVh2ZonhkUo25dX8Vu2Qpm8azt5J+XbamuFDgvvvDKtNKlIkAo3DxwY0MDsRStKWrtF3o9rOIBg9Opfc/8DlOA4kZZhwYZ1yWXee6QrfFZNjqwyjCZLjSeXi6GT1mjM=
+	t=1721914089; cv=none; b=dZPEFi6v11XdcV0t9NSp/cgpeXUGn+QiRWd/xSUydzOlY9UciuS4cXc/4E0C5AmG/gqPyNnh8ZK2FFt+qG32TspC2M5qPBAYtLTZiJx0tGMfHYqyAZciddGlS6f4o9VFEdz7sHPjq76WIwuzcors5SI6ipR4ynEh+7/0CSVpoqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721913914; c=relaxed/simple;
-	bh=FquZqCdRSkWOmjxMsAuK0N+4yE04yJ/Bz7POqAHeIdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DkoCqJWhKNQV+Ip602xYaJvLRbLN9eEXOmY7Da5T7JZLVPWWmbARsXbbXxamRm33jZnfpSfnUSr2dnZv61+emp0sIfsmuCePmTh8MThxwqKz9etyYwn8L8kHjkD7piYCHHm24PGp3TFuDnQg3zmaPrYLBL0R6/bSF2NzPK+F/J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KeKiWINR; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1721914089; c=relaxed/simple;
+	bh=n+mGaGr142AZpSb3Abu1f//0+G2igZyMiOCYw1wXYtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=izOrC7rRkOukLKdDNepvZkaeW3hcOJ+Y4iJ7eJnCw3BYFk4uUInflT/SaEcuoDZ3b77XcGag7/cEMzA2nG9S+Zn6VBT7+ohcNq268ddQXv6jpdfRamu1R2HJzo0nvmTwjjpO7RuQZg2zyTmCi5BH/eJSTOlBqbihARmfDsOBYGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJen+aId; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeKiWINR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJen+aId"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721913912; x=1753449912;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FquZqCdRSkWOmjxMsAuK0N+4yE04yJ/Bz7POqAHeIdc=;
-  b=KeKiWINRhA5Zv12OJ73HvfLR4ubvYAgE3oS75sB+5fWmy6dST8Gem6WZ
-   skcszOzMtaNY7+Rdb189NYzbFlxSsrTY4C8+wnqvF/FdeZOYE9biwjHvj
-   0gGYQ3vHm1xN2P5LieQueVF+WP4YcwjS3ecUCftNWCuAK6BmJd0fJv+Iz
-   jFQyKVVW6Ng2juR3iVs/msi9OjKo//Vm0R5kGt2fbTduhDs0ujxaHKik0
-   XocevByl/3TXWNo/lIyOcG2+GYZUk/0u6ivM3KrIXRBfhooBJDggPRCKS
-   YGS8wr0wU3E0Gr2dqxnvQ6fVI46HUouOkAwLfJ+91YmuaXeyoxpyXEzc/
+  t=1721914088; x=1753450088;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=n+mGaGr142AZpSb3Abu1f//0+G2igZyMiOCYw1wXYtQ=;
+  b=fJen+aId9cowm4z6W23rcL+TCAnrqR1s42WnVvE6mqWjXM5Nxyuk5C3C
+   WWP681c/3leAIC7WGOfuwFH7KiOyq39d5fNeZgd22trXAsWo60VuvxokQ
+   ZxbZa1vCwRln6h1yNG2DwTl/uzOMfyQ/rcA4Gf8EVAzG2/Fv6pQIvIfjg
+   zuMhh6TUJeHWVXEdzd0FZ6wKZb0ZsYFUpedhF0QG8saMeL3mfh2jPwVUW
+   7sZTFPafRJIz9qhnbY110+0KCTJ2M14x1FKA/zTvwdKW6Ci4oQluxIgKw
+   aQBrqz5u8proo54HtNpAnb4nSTigb6dju3UspyXiu/mQXJ8nNbPE8GetK
    w==;
-X-CSE-ConnectionGUID: 6lq+CJ5ySXCbVGyU5bPHig==
-X-CSE-MsgGUID: qK/yTN+DQ5+5Ui0nIkv/LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="23457012"
+X-CSE-ConnectionGUID: l/cV8Va6RKSaKqrhkfkgvw==
+X-CSE-MsgGUID: 2kZH+wjKS+ahQ0guMsdeNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19262697"
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="23457012"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 06:25:11 -0700
-X-CSE-ConnectionGUID: ciqpoQn/Q5qKsjHNf/Em5A==
-X-CSE-MsgGUID: PXLIW9fZRlyg1CN4SKi1mQ==
+   d="scan'208";a="19262697"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 06:28:08 -0700
+X-CSE-ConnectionGUID: BGI8WnSgSaSMpea+j3HSKQ==
+X-CSE-MsgGUID: VQ3Flv4HTAKca4BiQoVGgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="53692564"
+   d="scan'208";a="52617680"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jul 2024 06:25:07 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 25 Jul 2024 06:28:07 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWySu-000o8m-39;
-	Thu, 25 Jul 2024 13:25:04 +0000
-Date: Thu, 25 Jul 2024 21:24:09 +0800
+	id 1sWyVp-000o8q-02;
+	Thu, 25 Jul 2024 13:28:05 +0000
+Date: Thu, 25 Jul 2024 21:28:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Laight <David.Laight@aculab.com>,
-	"'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
-	'Linus Torvalds' <torvalds@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
-	'Christoph Hellwig' <hch@infradead.org>,
-	'Andrew Morton' <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
-	'Dan Carpenter' <dan.carpenter@linaro.org>,
-	'Arnd Bergmann' <arnd@kernel.org>,
-	"'Jason@zx2c4.com'" <Jason@zx2c4.com>,
-	"'pedro.falcato@gmail.com'" <pedro.falcato@gmail.com>,
-	'Mateusz Guzik' <mjguzik@gmail.com>
-Subject: Re: [PATCH 4/7] minmax: Simplify signedness check
-Message-ID: <202407252100.fDFchC5O-lkp@intel.com>
-References: <03601661326c4efba4e618ead15fa0e2@AcuMS.aculab.com>
+To: max.oss.09@gmail.com
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] tty: vt: conmakehash: cope with abs_srctree no longer in
+ env
+Message-ID: <ZqJS48PRjwVkaJ0o@6724a33121ae>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,120 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03601661326c4efba4e618ead15fa0e2@AcuMS.aculab.com>
+In-Reply-To: <20240725132056.9151-1-max.oss.09@gmail.com>
 
-Hi David,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on linux/master]
-[also build test ERROR on linus/master v6.10 next-20240725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240724-224832
-base:   linux/master
-patch link:    https://lore.kernel.org/r/03601661326c4efba4e618ead15fa0e2%40AcuMS.aculab.com
-patch subject: [PATCH 4/7] minmax: Simplify signedness check
-config: mips-loongson1b_defconfig (https://download.01.org/0day-ci/archive/20240725/202407252100.fDFchC5O-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407252100.fDFchC5O-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407252100.fDFchC5O-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> crypto/skcipher.c:83:9: error: static assertion expression is not an integral constant expression
-           return max(start, end_page);
-                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:70:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(max, x, y)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:17: note: expanded from macro '__cmp_once'
-           _Static_assert(__types_ok(x, y),                        \
-                          ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:2: note: expanded from macro '__types_ok'
-           ((__is_ok_signed(x) && __is_ok_signed(y)) ||    \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/skcipher.c:83:9: note: cast that performs the conversions of a reinterpret_cast is not allowed in a constant expression
-   include/linux/minmax.h:70:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(max, x, y)
-                           ^
-   include/linux/minmax.h:56:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-                   ^
-   include/linux/minmax.h:49:17: note: expanded from macro '__cmp_once'
-           _Static_assert(__types_ok(x, y),                        \
-                          ^
-   include/linux/minmax.h:38:4: note: expanded from macro '__types_ok'
-           ((__is_ok_signed(x) && __is_ok_signed(y)) ||    \
-             ^
-   include/linux/minmax.h:34:27: note: expanded from macro '__is_ok_signed'
-   #define __is_ok_signed(x) is_signed_type(typeof((x) + 0))
-                             ^
-   include/linux/compiler.h:273:32: note: expanded from macro 'is_signed_type'
-   #define is_signed_type(type) (((type)(-1)) < (__force type)1)
-                                  ^
-   1 error generated.
---
->> lib/lzo/lzo1x_compress.c:53:33: error: static assertion expression is not an integral constant expression
-                           const unsigned char *limit = min(ip_end, ip + MAX_ZERO_RUN_LENGTH + 1);
-                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:63:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(min, x, y)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:17: note: expanded from macro '__cmp_once'
-           _Static_assert(__types_ok(x, y),                        \
-                          ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:2: note: expanded from macro '__types_ok'
-           ((__is_ok_signed(x) && __is_ok_signed(y)) ||    \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/lzo/lzo1x_compress.c:53:33: note: cast that performs the conversions of a reinterpret_cast is not allowed in a constant expression
-   include/linux/minmax.h:63:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(min, x, y)
-                           ^
-   include/linux/minmax.h:56:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-                   ^
-   include/linux/minmax.h:49:17: note: expanded from macro '__cmp_once'
-           _Static_assert(__types_ok(x, y),                        \
-                          ^
-   include/linux/minmax.h:38:4: note: expanded from macro '__types_ok'
-           ((__is_ok_signed(x) && __is_ok_signed(y)) ||    \
-             ^
-   include/linux/minmax.h:34:27: note: expanded from macro '__is_ok_signed'
-   #define __is_ok_signed(x) is_signed_type(typeof((x) + 0))
-                             ^
-   include/linux/compiler.h:273:32: note: expanded from macro 'is_signed_type'
-   #define is_signed_type(type) (((type)(-1)) < (__force type)1)
-                                  ^
-   1 error generated.
-
-
-vim +83 crypto/skcipher.c
-
-b286d8b1a690667 Herbert Xu 2016-11-22  75  
-b286d8b1a690667 Herbert Xu 2016-11-22  76  /* Get a spot of the specified length that does not straddle a page.
-b286d8b1a690667 Herbert Xu 2016-11-22  77   * The caller needs to ensure that there is enough space for this operation.
-b286d8b1a690667 Herbert Xu 2016-11-22  78   */
-b286d8b1a690667 Herbert Xu 2016-11-22  79  static inline u8 *skcipher_get_spot(u8 *start, unsigned int len)
-b286d8b1a690667 Herbert Xu 2016-11-22  80  {
-b286d8b1a690667 Herbert Xu 2016-11-22  81  	u8 *end_page = (u8 *)(((unsigned long)(start + len - 1)) & PAGE_MASK);
-b286d8b1a690667 Herbert Xu 2016-11-22  82  
-b286d8b1a690667 Herbert Xu 2016-11-22 @83  	return max(start, end_page);
-b286d8b1a690667 Herbert Xu 2016-11-22  84  }
-b286d8b1a690667 Herbert Xu 2016-11-22  85  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] tty: vt: conmakehash: cope with abs_srctree no longer in env
+Link: https://lore.kernel.org/stable/20240725132056.9151-1-max.oss.09%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
