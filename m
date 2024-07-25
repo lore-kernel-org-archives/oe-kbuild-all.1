@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847C919B3EE;
-	Thu, 25 Jul 2024 13:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501DA224D2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 14:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721915775; cv=none; b=S0w5Mn/5LrNBLKsoQX1HqLEmzdfkekIyZAIqXezY7+keZdHIS2aufIh4HhwKGLXh1jp2Og96WiY0XN2RBkoBagQyLcWGxjsruP7SUbTR+fgga3QliFy8dT1su8QaR7evi3fNy2e2rO9BdHXjxIlEFAkWd7mzGSsVCsL78vqfCMM=
+	t=1721917235; cv=none; b=iHKhn3IPb9CQ5pST0ceJvl0wLuGZLZZQLzVBTFWkqjzxjI1/gI9phgv0SZG7nWWStwdz2PiT6K2mRSDAFUVSovL+V/T12K7PWpliPAexjrSSmmQoDTEiYUwttjZF8MG2bM5+o+sdibtd9t4o1cQA4TYGka12kY9tXzpg01kOf10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721915775; c=relaxed/simple;
-	bh=oYgkU880g28EPPYXxQ9zPy/BMERQjQlBZHT0rb9xjBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NRoqjsd+pTy+2nEnIlqXjFf+N3yqungvskPEvv1f1HwB7cYN/KLrnpVIoZ/oPFf9v5xeGbOqgDqu+b9DsAi8PflBgVF7NEPAwc08DaaPjeazhbj/DddTh/bQq5WFJ8dPECUy7dUDHWLqVrxNJdthtkchPiyWoB2g6o+XAIXtRSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E5zrpRaM; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1721917235; c=relaxed/simple;
+	bh=9FfEe6OFoZbGDW96ysGr9WueOy8pWeEidYfbxgWJia8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ntDpztowqT/MadcD5CI6hnNBk7evmXarlSLsYsNFEAF2XF8FRoR9y97hHk2hFF7fXVLFzxlMfbC4j9hdZv67a46aeu1/3HQrswDvIA8hKHVmMlFiirjxBbUxN/2dt37IwFmvt474Ds6SVEXns34fh4ZorMn1olVLJm2ySTuMa1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sTYLvBUs; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E5zrpRaM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721915772; x=1753451772;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oYgkU880g28EPPYXxQ9zPy/BMERQjQlBZHT0rb9xjBM=;
-  b=E5zrpRaMph5AauuM+NC39JC1ESd6Z+3luCUDvGSeGBcRZBNG1kQzaGjA
-   6l8ITXE8+6eV9A8r7it3aDJTtuMKyZ6xKCruT0uzbK69OO4ol46lrX0tJ
-   7MiD5odHps2Z7TdFzHtM+DDg04otf9Hhm6FllzH3W55BhazJL2h3tvW2y
-   sxUSo4dQETMjGJFmt6vAVtdxV7aga+/gtQHpYw3gXpADjMki6BtMnyaim
-   fLAs2JKp/fEeh2uA1FRW7NpId0Y8pUL3IAcyHzKLuvV8gBSwEfUs0rL5r
-   wqUaBUtB0ElGmbXAedvgqOqH+ZTdy9iwoPHh5mXw+p/aFfAQ+0fIU5Zhx
-   Q==;
-X-CSE-ConnectionGUID: aTN6HdRqSfSPywaO994j7g==
-X-CSE-MsgGUID: JeveB9nrSiCKJAVq9xIo1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="31041472"
-X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="31041472"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 06:56:11 -0700
-X-CSE-ConnectionGUID: iBHTsrRHTv2odeFj25zVOA==
-X-CSE-MsgGUID: AAtSdriAR4+Fi5C14XiXgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="57733142"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jul 2024 06:56:08 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sWyww-000o9Y-0C;
-	Thu, 25 Jul 2024 13:56:06 +0000
-Date: Thu, 25 Jul 2024 21:55:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
-	kvm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v5 3/3] LoongArch: KVM: Add vm migration support for LBT
- registers
-Message-ID: <202407252157.QONm81J6-lkp@intel.com>
-References: <20240725033404.2675204-4-maobibo@loongson.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sTYLvBUs"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-267b7ef154aso76263fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 07:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721917232; x=1722522032; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=prd5gdrgcHUSJFCSq8IZ2hshSmuQhoOfgDLkcbCu/CA=;
+        b=sTYLvBUsmZ1edryJwS95AMHlHBu3KPo1LoBU2JIfU+Wbkd5+0M7zDkWln4AMLcX1x8
+         T8VsG9n3QyUPfvWfG4SNa+wk4NyHo9gc6yj1Q1lzGyDkBSo9Yap6okjFupTriO704xbQ
+         cxiNXmSkEGkIdFO3Pukx3wRI8TW4X3mBtb03oxANJ7eLhIVrhUp9Tdue6FETLtc4Zm9h
+         JkdXOQ2TOS1TJ5yxpZu+a7uhwv8YJ+WZmnJguk02j1YRjwzKH53VRX/nQnAN1vrF9jKd
+         3HClNcNKmtsZ70JWPz69JtKdCd50bP49aW4Qy5/xixYUi9mtXwr7uwqYOxmyQkYjSS0u
+         ix/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721917232; x=1722522032;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=prd5gdrgcHUSJFCSq8IZ2hshSmuQhoOfgDLkcbCu/CA=;
+        b=P4b3MSG8z9tus7gi4t+zCgi93ZC5mljdLetum3qCGf3WG3yRN59XJvPTfZqC4BvEQ5
+         PpROsY8w7HUuM1O+eN4kOMk7VJes0jxEdCiXT8dX0NlQc1Cp4j1HRW+/S1nreAVf8iZP
+         jftq2me3KLAEstdNy+cvu7ap3YYU2SWdPCIVKu63uYUYzDz3EFrLiIPei3II628uS2zS
+         kvkjSOLcBaG4SNuMK/dPGeedHhv7gjVgjDzUJ/BgrqSlFUEJmO4HwATsa3M0mie0qOY9
+         w11SGSbZD2jFT16yMgat1CIuyiJAUtkZJnzvs8Ju/Eo+cW8y0qnu6j4AjfrN24uMHBXn
+         kDQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVl2lW7mbkU7DDoB+eeWQzmGTiOimCuNw31zV2VaVUysgpIAZOljU/kTYWg1ErTNEqWNWD9/I5s61KXmiZNIRlUf7A3V954MDyyTVhnw==
+X-Gm-Message-State: AOJu0YytrpJrNb0nil7SKodfk3GHXy/aESlrkdUyqOEGlFYjY325hh3C
+	NkDLgGU3HoyV6Mfw8WCH3xYmw3w8oF17aENYyOYurKzIoBYnHs41E3OE1TNHIBM=
+X-Google-Smtp-Source: AGHT+IHXHyIc8SqwgcHmP1Zzc5EJsSGYsj0nBJHepSqcD12lMbOQCY8PFrLdcGoB0XXjQK0n+q5kww==
+X-Received: by 2002:a05:6870:4194:b0:254:c7f6:3294 with SMTP id 586e51a60fabf-264a0f74f45mr3610643fac.47.1721917232057;
+        Thu, 25 Jul 2024 07:20:32 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6751:f2ec:fdb9:323e])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2657723ada8sm291077fac.57.2024.07.25.07.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jul 2024 07:20:31 -0700 (PDT)
+Date: Thu, 25 Jul 2024 09:20:29 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Barry Song <21cnbao@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 5/5] non-mm: discourage the usage of __GFP_NOFAIL and
+ encourage GFP_NOFAIL
+Message-ID: <d1dda6c8-3091-48a6-b828-9d26ee79ef03@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,234 +66,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240725033404.2675204-4-maobibo@loongson.cn>
+In-Reply-To: <20240724085544.299090-6-21cnbao@gmail.com>
 
-Hi Bibo,
+Hi Barry,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c33ffdb70cc6df4105160f991288e7d2567d7ffa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-KVM-Add-HW-Binary-Translation-extension-support/20240725-113707
-base:   c33ffdb70cc6df4105160f991288e7d2567d7ffa
-patch link:    https://lore.kernel.org/r/20240725033404.2675204-4-maobibo%40loongson.cn
-patch subject: [PATCH v5 3/3] LoongArch: KVM: Add vm migration support for LBT registers
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240725/202407252157.QONm81J6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407252157.QONm81J6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/vpda-try-to-fix-the-potential-crash-due-to-misusing-__GFP_NOFAIL/20240724-170305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240724085544.299090-6-21cnbao%40gmail.com
+patch subject: [PATCH RFC 5/5] non-mm: discourage the usage of __GFP_NOFAIL and encourage GFP_NOFAIL
+config: i386-randconfig-141-20240725 (https://download.01.org/0day-ci/archive/20240725/202407251449.TnONiYn5-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407252157.QONm81J6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407251449.TnONiYn5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+lib/rhashtable.c:192 bucket_table_alloc() warn: masked condition '(gfp & ~(((((((1))) << (10)) | ((((1))) << (11)))) | (((((1))) << (15))))) != (((((((1))) << (10)) | ((((1))) << (11)))) | (((((1))) << (6))) | (((((1))) << (7))))' is always true.
 
-   arch/loongarch/kvm/vcpu.c: In function 'kvm_get_one_reg':
->> arch/loongarch/kvm/vcpu.c:606:45: error: assignment to 'long unsigned int' from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     606 |                         vcpu->arch.lbt.scr0 = v;
-         |                                             ^
-   arch/loongarch/kvm/vcpu.c:609:45: error: assignment to 'long unsigned int' from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     609 |                         vcpu->arch.lbt.scr1 = v;
-         |                                             ^
-   arch/loongarch/kvm/vcpu.c:612:45: error: assignment to 'long unsigned int' from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     612 |                         vcpu->arch.lbt.scr2 = v;
-         |                                             ^
-   arch/loongarch/kvm/vcpu.c:615:45: error: assignment to 'long unsigned int' from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     615 |                         vcpu->arch.lbt.scr3 = v;
-         |                                             ^
-   arch/loongarch/kvm/vcpu.c:618:47: error: assignment to 'long unsigned int' from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     618 |                         vcpu->arch.lbt.eflags = v;
-         |                                               ^
->> arch/loongarch/kvm/vcpu.c:621:45: error: assignment to 'uint32_t' {aka 'unsigned int'} from 'u64 *' {aka 'long long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
-     621 |                         vcpu->arch.fpu.ftop = v;
-         |                                             ^
-   arch/loongarch/kvm/vcpu.c: In function 'kvm_set_one_reg':
->> arch/loongarch/kvm/vcpu.c:700:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     700 |                         *v = vcpu->arch.lbt.scr0;
-         |                         ^~
-   arch/loongarch/kvm/vcpu.c:703:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     703 |                         *v = vcpu->arch.lbt.scr1;
-         |                         ^~
-   arch/loongarch/kvm/vcpu.c:706:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     706 |                         *v = vcpu->arch.lbt.scr2;
-         |                         ^~
-   arch/loongarch/kvm/vcpu.c:709:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     709 |                         *v = vcpu->arch.lbt.scr3;
-         |                         ^~
-   arch/loongarch/kvm/vcpu.c:712:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     712 |                         *v = vcpu->arch.lbt.eflags;
-         |                         ^~
-   arch/loongarch/kvm/vcpu.c:715:25: error: invalid type argument of unary '*' (have 'u64' {aka 'long long unsigned int'})
-     715 |                         *v = vcpu->arch.fpu.ftop;
-         |                         ^~
+vim +192 lib/rhashtable.c
 
+97defe1ecf868b Thomas Graf        2015-01-02  177  static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
+b9ecfdaa1090b5 Herbert Xu         2015-03-24  178  					       size_t nbuckets,
+b9ecfdaa1090b5 Herbert Xu         2015-03-24  179  					       gfp_t gfp)
+7e1e77636e3607 Thomas Graf        2014-08-02  180  {
+eb6d1abf1bd8bf Daniel Borkmann    2015-02-20  181  	struct bucket_table *tbl = NULL;
+8f0db018006a42 NeilBrown          2019-04-02  182  	size_t size;
+f89bd6f87a53ce Thomas Graf        2015-01-02  183  	int i;
+149212f07856b2 NeilBrown          2019-04-02  184  	static struct lock_class_key __key;
+7e1e77636e3607 Thomas Graf        2014-08-02  185  
+9e54dd8b64dccd Kent Overstreet    2024-03-21  186  	tbl = alloc_hooks_tag(ht->alloc_tag,
+9e54dd8b64dccd Kent Overstreet    2024-03-21  187  			kvmalloc_node_noprof(struct_size(tbl, buckets, nbuckets),
+9e54dd8b64dccd Kent Overstreet    2024-03-21  188  					     gfp|__GFP_ZERO, NUMA_NO_NODE));
+da20420f83ea0f Herbert Xu         2017-02-11  189  
+da20420f83ea0f Herbert Xu         2017-02-11  190  	size = nbuckets;
+da20420f83ea0f Herbert Xu         2017-02-11  191  
+c61791509b08d1 Barry Song         2024-07-24 @192  	if (tbl == NULL && (gfp & ~GFP_NOFAIL) != GFP_KERNEL) {
+                                                                                   ^^^^^^^^^^
+GFP_KERNEL includes some NOFAIL bits so this condition doesn't work.
 
-vim +606 arch/loongarch/kvm/vcpu.c
-
-   568	
-   569	static int kvm_get_one_reg(struct kvm_vcpu *vcpu,
-   570			const struct kvm_one_reg *reg, u64 *v)
-   571	{
-   572		int id, ret = 0;
-   573		u64 type = reg->id & KVM_REG_LOONGARCH_MASK;
-   574	
-   575		switch (type) {
-   576		case KVM_REG_LOONGARCH_CSR:
-   577			id = KVM_GET_IOC_CSR_IDX(reg->id);
-   578			ret = _kvm_getcsr(vcpu, id, v);
-   579			break;
-   580		case KVM_REG_LOONGARCH_CPUCFG:
-   581			id = KVM_GET_IOC_CPUCFG_IDX(reg->id);
-   582			if (id >= 0 && id < KVM_MAX_CPUCFG_REGS)
-   583				*v = vcpu->arch.cpucfg[id];
-   584			else
-   585				ret = -EINVAL;
-   586			break;
-   587		case KVM_REG_LOONGARCH_KVM:
-   588			switch (reg->id) {
-   589			case KVM_REG_LOONGARCH_COUNTER:
-   590				*v = drdtime() + vcpu->kvm->arch.time_offset;
-   591				break;
-   592			case KVM_REG_LOONGARCH_DEBUG_INST:
-   593				*v = INSN_HVCL | KVM_HCALL_SWDBG;
-   594				break;
-   595			default:
-   596				ret = -EINVAL;
-   597				break;
-   598			}
-   599			break;
-   600		case KVM_REG_LOONGARCH_LBT:
-   601			if (!kvm_guest_has_lbt(&vcpu->arch))
-   602				return -ENXIO;
-   603	
-   604			switch (reg->id) {
-   605			case KVM_REG_LOONGARCH_LBT_SCR0:
- > 606				vcpu->arch.lbt.scr0 = v;
-   607				break;
-   608			case KVM_REG_LOONGARCH_LBT_SCR1:
-   609				vcpu->arch.lbt.scr1 = v;
-   610				break;
-   611			case KVM_REG_LOONGARCH_LBT_SCR2:
-   612				vcpu->arch.lbt.scr2 = v;
-   613				break;
-   614			case KVM_REG_LOONGARCH_LBT_SCR3:
-   615				vcpu->arch.lbt.scr3 = v;
-   616				break;
-   617			case KVM_REG_LOONGARCH_LBT_EFLAGS:
-   618				vcpu->arch.lbt.eflags = v;
-   619				break;
-   620			case KVM_REG_LOONGARCH_LBT_FTOP:
- > 621				vcpu->arch.fpu.ftop = v;
-   622				break;
-   623			default:
-   624				ret = -EINVAL;
-   625				break;
-   626			}
-   627			break;
-   628		default:
-   629			ret = -EINVAL;
-   630			break;
-   631		}
-   632	
-   633		return ret;
-   634	}
-   635	
-   636	static int kvm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
-   637	{
-   638		int ret = 0;
-   639		u64 v, size = reg->id & KVM_REG_SIZE_MASK;
-   640	
-   641		switch (size) {
-   642		case KVM_REG_SIZE_U64:
-   643			ret = kvm_get_one_reg(vcpu, reg, &v);
-   644			if (ret)
-   645				return ret;
-   646			ret = put_user(v, (u64 __user *)(long)reg->addr);
-   647			break;
-   648		default:
-   649			ret = -EINVAL;
-   650			break;
-   651		}
-   652	
-   653		return ret;
-   654	}
-   655	
-   656	static int kvm_set_one_reg(struct kvm_vcpu *vcpu,
-   657				const struct kvm_one_reg *reg, u64 v)
-   658	{
-   659		int id, ret = 0;
-   660		u64 type = reg->id & KVM_REG_LOONGARCH_MASK;
-   661	
-   662		switch (type) {
-   663		case KVM_REG_LOONGARCH_CSR:
-   664			id = KVM_GET_IOC_CSR_IDX(reg->id);
-   665			ret = _kvm_setcsr(vcpu, id, v);
-   666			break;
-   667		case KVM_REG_LOONGARCH_CPUCFG:
-   668			id = KVM_GET_IOC_CPUCFG_IDX(reg->id);
-   669			ret = kvm_check_cpucfg(id, v);
-   670			if (ret)
-   671				break;
-   672			vcpu->arch.cpucfg[id] = (u32)v;
-   673			break;
-   674		case KVM_REG_LOONGARCH_KVM:
-   675			switch (reg->id) {
-   676			case KVM_REG_LOONGARCH_COUNTER:
-   677				/*
-   678				 * gftoffset is relative with board, not vcpu
-   679				 * only set for the first time for smp system
-   680				 */
-   681				if (vcpu->vcpu_id == 0)
-   682					vcpu->kvm->arch.time_offset = (signed long)(v - drdtime());
-   683				break;
-   684			case KVM_REG_LOONGARCH_VCPU_RESET:
-   685				kvm_reset_timer(vcpu);
-   686				memset(&vcpu->arch.irq_pending, 0, sizeof(vcpu->arch.irq_pending));
-   687				memset(&vcpu->arch.irq_clear, 0, sizeof(vcpu->arch.irq_clear));
-   688				break;
-   689			default:
-   690				ret = -EINVAL;
-   691				break;
-   692			}
-   693			break;
-   694		case KVM_REG_LOONGARCH_LBT:
-   695			if (!kvm_guest_has_lbt(&vcpu->arch))
-   696				return -ENXIO;
-   697	
-   698			switch (reg->id) {
-   699			case KVM_REG_LOONGARCH_LBT_SCR0:
- > 700				*v = vcpu->arch.lbt.scr0;
-   701				break;
-   702			case KVM_REG_LOONGARCH_LBT_SCR1:
-   703				*v = vcpu->arch.lbt.scr1;
-   704				break;
-   705			case KVM_REG_LOONGARCH_LBT_SCR2:
-   706				*v = vcpu->arch.lbt.scr2;
-   707				break;
-   708			case KVM_REG_LOONGARCH_LBT_SCR3:
-   709				*v = vcpu->arch.lbt.scr3;
-   710				break;
-   711			case KVM_REG_LOONGARCH_LBT_EFLAGS:
-   712				*v = vcpu->arch.lbt.eflags;
-   713				break;
-   714			case KVM_REG_LOONGARCH_LBT_FTOP:
-   715				*v = vcpu->arch.fpu.ftop;
-   716				break;
-   717			default:
-   718				ret = -EINVAL;
-   719				break;
-   720			}
-   721			break;
-   722		default:
-   723			ret = -EINVAL;
-   724			break;
-   725		}
-   726	
-   727		return ret;
-   728	}
-   729	
+da20420f83ea0f Herbert Xu         2017-02-11  193  		tbl = nested_bucket_table_alloc(ht, nbuckets, gfp);
+da20420f83ea0f Herbert Xu         2017-02-11  194  		nbuckets = 0;
+da20420f83ea0f Herbert Xu         2017-02-11  195  	}
+2d22ecf6db1c39 Davidlohr Bueso    2018-08-21  196  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
