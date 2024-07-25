@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A0F16D308;
-	Thu, 25 Jul 2024 06:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEC2171E4B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 07:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721889538; cv=none; b=n3ei3/wKEwMY8q3gccrnRPxB92Ev3dyMsoWq+hGY6fKGR0aFDO7wNEG2xA4VrLYLj/dy+SzMYg50JPSv8LaKc2sdbrFrKXGvUCaDEhNWKHc0dSps+iMesQeMaM46d8d5W9qAbncosgKihpqDXqpjL0iNO6ya+L8FrtOeqfJsZrA=
+	t=1721891818; cv=none; b=NUZQVFDTIL2/QrhG/IeMrL8Esa9dMAvmepHv6gnHjEPvuMgQU76P8vkAwPK3nW2oP3E48ZF2Hkp28PZ3rsdmTm+8jd9YlaODr+anUHcRXJh1LOAVeDOPuU7Unm5xZN0KKdq+LNbu24sJMm9aK6Cu5VZwjmvX2K82jDWu96qfstA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721889538; c=relaxed/simple;
-	bh=Aky7SXoXyDv6JngM+2VvzsvtiuEL2FnDFUgffCmpclo=;
+	s=arc-20240116; t=1721891818; c=relaxed/simple;
+	bh=MSC5W+q6VGKGp2s6tNlTEFT6oyT1kWGTUgHFLbaIp4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N88j7stxBWhJfDtajmG0WlDeuKOgO6pi4RMKEcaoxN87CvrGX04iN98tcOMN2iXUMBuip1xZphK3yq83RpOBZLRUNSidcFE95EKVZVnVnRXMc/Qhs0L8BUqc+xxx55xczKlgwhmmixKSEJ2CzNv+/Adk42olyFFUld4gs5g71uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pv4eUxqC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition:In-Reply-To; b=AH73YTi8jbTMKmMEcbW476MX00YK2+tNcmsnA9WyhV0+bkGkLgBbAf7rC6wKBb09szWvSd1ge05r7IQ2kF4Pr2KHHHyiODKw1c+9x1ZpzkPKB+yVJpPrgghcwp5gqKwpHsv3tjb6P183PzpgMIFqB6mSq8kY+Dje5KMfylB5qjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyVTW0Dz; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pv4eUxqC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyVTW0Dz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721889536; x=1753425536;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Aky7SXoXyDv6JngM+2VvzsvtiuEL2FnDFUgffCmpclo=;
-  b=Pv4eUxqCNLlfPMIm1slaVY/F/EqZn1330WbTSLRG7WQMi9DWfmk4fwNb
-   2IzDVABI7Mq7/0yBVcKt94hJ3qLsgn5B9i1Al9w+Y6c5vTffiLEPACioJ
-   8UoE0P2o0Pj85hAgd175wmz9/ZPceDi9qXP1UMeeSKej+3TEF+EN4k1LZ
-   YvmpLqNr3w87uJGZ57LWjjpV42luFD8rzAKBFahbbBqL9Ox1p4quiQ9hK
-   0bagDFrtcowKU0btJGI5XntgaU7XsyA9jA1+HtO25EnogNcpm5+5cGUfL
-   45AQxTpJhWCXXSaADzUlDojtSN/dEVQRfHqKIyaUgLXEua/aMOXluiYWH
-   g==;
-X-CSE-ConnectionGUID: thG4Uk4jQb+iOwar48O8hQ==
-X-CSE-MsgGUID: kFIa//qWQAej4b+HP4xFIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19730220"
+  t=1721891816; x=1753427816;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=MSC5W+q6VGKGp2s6tNlTEFT6oyT1kWGTUgHFLbaIp4o=;
+  b=SyVTW0Dz1X4qRr+OMpGui8cAm2Ti6hQck0ZgGJdTJCYDr9zb7afngoNk
+   cUqd7aRIyGa/q7PQSIztT9UoHsXsDbWShbL4B/9fn+VulYL49x8zlTEVI
+   oWtaPaIPrTdsTui5ZnYIBUwLR5EgjJnfSkLATA230VHiVWYcGXxPMGT3b
+   p+DbqDmtit3TJoDMgKJ66IG/GnVfw/AhkKalyRbvqozBYBtNCXUJO1YU+
+   Fs55krDqBwiIPMIU9/P0nD1TOZocZolm5drmX+imgyDFKr30RYvEizP3F
+   LgWlBi4FvEOCYPrz+3TL0VqA6VbC4xWefcBW4u6DkEy3vMjbZtGQSeTz9
+   Q==;
+X-CSE-ConnectionGUID: ZVM+ifoGTSKU/EzE4iByUw==
+X-CSE-MsgGUID: GknxUumGT7Orrx2UhxbRsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="12705109"
 X-IronPort-AV: E=Sophos;i="6.09,235,1716274800"; 
-   d="scan'208";a="19730220"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 23:38:54 -0700
-X-CSE-ConnectionGUID: GdkYTEu9TJG1V/mfIZWUHg==
-X-CSE-MsgGUID: Qn31EqdVSHqk5IXK1ah2VQ==
+   d="scan'208";a="12705109"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 00:16:55 -0700
+X-CSE-ConnectionGUID: PxSWNiH+QrSxwBIWoIRnxg==
+X-CSE-MsgGUID: IrvJW+BuTYqFdE4BVSo8lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,235,1716274800"; 
-   d="scan'208";a="57124791"
+   d="scan'208";a="57400638"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2024 23:38:52 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Jul 2024 00:16:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWs7m-000nqR-0s;
-	Thu, 25 Jul 2024 06:38:50 +0000
-Date: Thu, 25 Jul 2024 14:38:06 +0800
+	id 1sWsia-000ns4-1U;
+	Thu, 25 Jul 2024 07:16:52 +0000
+Date: Thu, 25 Jul 2024 15:16:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org
-Subject: [arnd-asm-generic:syscall-tbl-6.11 77/80]
- arch/x86/um/syscalls_64.c:56:1: error: use of undeclared identifier
- 'sys_mmap'
-Message-ID: <202407251452.Dcas8eTI-lkp@intel.com>
+To: Raju Lakkaraju <Raju.Lakkaraju@microchip.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net V1] net: phy: micrel: Fix the KSZ9131 MDI-X status
+ issue
+Message-ID: <ZqH7u2ZXH3nzqIsn@6724a33121ae>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,131 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240725071125.13960-1-Raju.Lakkaraju@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   ece1b5ebc0b7064a8a130f64e85a81ec76381c3f
-commit: ce67487a0460367a60a68fa3de3e66b8caaa3b7c [77/80] syscalls: check syscall prototypes
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240725/202407251452.Dcas8eTI-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407251452.Dcas8eTI-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407251452.Dcas8eTI-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   In file included from arch/x86/um/syscalls_64.c:10:
-   In file included from include/linux/syscalls.h:86:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2221:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/x86/um/syscalls_64.c:10:
-   In file included from include/linux/syscalls.h:86:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from arch/x86/um/syscalls_64.c:10:
-   In file included from include/linux/syscalls.h:86:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from arch/x86/um/syscalls_64.c:10:
-   In file included from include/linux/syscalls.h:86:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> arch/x86/um/syscalls_64.c:56:1: error: use of undeclared identifier 'sys_mmap'
-      56 | SYSCALL_DEFINE6(mmap, unsigned long, addr, unsigned long, len,
-         | ^
-   include/linux/syscalls.h:221:36: note: expanded from macro 'SYSCALL_DEFINE6'
-     221 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:229:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     229 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:247:28: note: expanded from macro '__SYSCALL_DEFINEx'
-     247 |                 (void)(__do_sys##name == sys##name);                    \
-         |                                          ^
-   <scratch space>:190:1: note: expanded from here
-     190 | sys_mmap
-         | ^
-   13 warnings and 1 error generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +/sys_mmap +56 arch/x86/um/syscalls_64.c
-
-577ade59b99e34 Al Viro 2021-09-20  55  
-577ade59b99e34 Al Viro 2021-09-20 @56  SYSCALL_DEFINE6(mmap, unsigned long, addr, unsigned long, len,
-
-:::::: The code at line 56 was first introduced by commit
-:::::: 577ade59b99e3473b2f1342b1eb9e496eed39b68 um: move amd64 variant of mmap(2) to arch/x86/um/syscalls_64.c
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Richard Weinberger <richard@nod.at>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net V1] net: phy: micrel: Fix the KSZ9131 MDI-X status issue
+Link: https://lore.kernel.org/stable/20240725071125.13960-1-Raju.Lakkaraju%40microchip.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
