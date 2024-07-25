@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31C4380
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 01:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80151C01
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jul 2024 01:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721869493; cv=none; b=qDmlCaCtPSqYVlLr0S0F0s/gP2GM85i6VQUvuPKe/9GOluwLx24SJ33tTdD/g0y5+83W/PCMNL40R6k37M57XvfXqa3lJKWEh6kxoNgKe4PVbslHncuOeD98P78bEaJDOwYAt1cMBmxu65eBVfSSIdIzCyR+f5xydF1qZQBvnSw=
+	t=1721870268; cv=none; b=OZtmmfQuky2MKlG53+Xx9SPgrsAxT66XFkoz7Q867vE7ZkPPkmEP65UYwwSYg1F/Eri3lwUZS0cV6lWFGYFo8GImv3EcQ8W6E4IvTAeLW4cWab5XM4sVPJtQfzBDb8lJYaxznCvzWKwSXkRJkjszBcMEDaz9MpDMDSzWa7IlprY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721869493; c=relaxed/simple;
-	bh=NhHC86JKFaI3iP2K6cYRV9LwDPzEzbV/Pw9wmwn+YaY=;
+	s=arc-20240116; t=1721870268; c=relaxed/simple;
+	bh=4Udlgvvsc12QQfb9QPMZHwR1cXZO1/NGITqc0sr+h1M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHDNG0AUC6WVcGI08oZvIJiQOqaLRcFGVO/n2opXYc6ph53lLDtUAnT/rA8RtqC7ubqghssiGc+llKKApuvKSyvZkGebFcTaopvKSlsyTOgiDADSQEBY2eEcv9Wt9tRxTecxy8n05/0Sf+DqqmhNIb3EeoUGDg+urX4iY8KDEIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhkInb+i; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTKlVHJ0IGk3aaT+I1GZHxIViYRoyvf2n8WHKMCGvMzI1GN8aGKYEPEqmoyL9sEUP1+AAfBsLZLyJ6oIyelH/l14kGe93iIu7mvtZrVeHpKYI8iczciVk4MnMcEUy2vZB4VJu3k1sFpMPQ3RsUEhy5zGHsaEP1RQ3/uvYqmH3C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc5/MSwI; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhkInb+i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc5/MSwI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721869488; x=1753405488;
+  t=1721870266; x=1753406266;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NhHC86JKFaI3iP2K6cYRV9LwDPzEzbV/Pw9wmwn+YaY=;
-  b=OhkInb+i6omm1atrzPboCERKs+DLZW9lik2lNxfYcHJR1gldSZJP8Cxr
-   S/mEPrMzDz6gK9Mw075EU03Ibtuqgxc6//GaWjO1irUITAAiHmmmPZbIh
-   G7KO/nKVj814LOhoDBEbYz3g3js6uW5Qo48uddHBZViukJeGwuPdUjI29
-   pa4D4mfYW2+iIv8FKcJFTrTsmBhmhORQVVsdojYGGmz8q1MZK7GIRpu/O
-   0Z/iHWUwBt/qUDh2x1VZ6fsRjewy5P3hTx97Hen6rYRmiWpxoSUB1G7Sv
-   664rK9bmKzjz+G7BKJWVcqiPmsEXMCf0thaE8UZCgPDsh0iI1JetTa972
-   w==;
-X-CSE-ConnectionGUID: Rui8f+SGRnKYlz11AiVT3g==
-X-CSE-MsgGUID: y5TfCteVQ4+qsMFJWYTCUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="37102687"
+  bh=4Udlgvvsc12QQfb9QPMZHwR1cXZO1/NGITqc0sr+h1M=;
+  b=Lc5/MSwI+SM/qftDiSZQ6rDX97Pe3Msj4StGVfz2sMZ7T6o2XLEtA+UI
+   PGj6iU4pf4HiuHd6hCtlm56M3nWyj1bx1v0TijJ9Pe/gXUizwtZ3NZyzg
+   eUDAk1y4C1Q8z3g1GYZwrE76Y+uWZiYtd+KtWwBJgCA5uYmQcog8CzelQ
+   tDZHI+gtOwR08v7wHpH0ep5T8NynhncJzEizgZ1uTIOlcKJo3V12wrYqh
+   bi4Mjz0FfkqGcv+VGLDC8IxczfV4HzvjkjnENo/PQQ0R8DUrDl99xxh0i
+   66im/fBXwVww0jNYffqdkAg7cYaentMWYAFg7OtKshbuE7Lcu2v8ZtQaV
+   g==;
+X-CSE-ConnectionGUID: EtRq2M8jSnywvUSzwTITPg==
+X-CSE-MsgGUID: nIS88W2hRPm4DZSS8eIhEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="19435347"
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="37102687"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 18:04:47 -0700
-X-CSE-ConnectionGUID: LlPSCny/R8eVfvnqlvNN8w==
-X-CSE-MsgGUID: uQD4ob+2R/Ol9sLlbRPqtA==
+   d="scan'208";a="19435347"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 18:17:46 -0700
+X-CSE-ConnectionGUID: LMUSsU/CScm1vtSMPjaGVA==
+X-CSE-MsgGUID: Osix0bA5Ruat+w9XVjCyuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,234,1716274800"; 
-   d="scan'208";a="57324379"
+   d="scan'208";a="57557512"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Jul 2024 18:04:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Jul 2024 18:17:44 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWmuP-000ncJ-2I;
-	Thu, 25 Jul 2024 01:04:41 +0000
-Date: Thu, 25 Jul 2024 09:04:37 +0800
+	id 1sWn70-000ndM-0i;
+	Thu, 25 Jul 2024 01:17:42 +0000
+Date: Thu, 25 Jul 2024 09:17:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, anshuman.khandual@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH 2/2] lib/test_bits.c: Add tests for GENMASK_U128()
-Message-ID: <202407250853.f3pSzob6-lkp@intel.com>
-References: <20240724103142.165693-3-anshuman.khandual@arm.com>
+To: Barry Song <21cnbao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 5/5] non-mm: discourage the usage of __GFP_NOFAIL and
+ encourage GFP_NOFAIL
+Message-ID: <202407250848.1RB1y5JP-lkp@intel.com>
+References: <20240724085544.299090-6-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,809 +63,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724103142.165693-3-anshuman.khandual@arm.com>
+In-Reply-To: <20240724085544.299090-6-21cnbao@gmail.com>
 
-Hi Anshuman,
+Hi Barry,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything linus/master v6.10 next-20240724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/uapi-Define-GENMASK_U128/20240724-184809
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20240724103142.165693-3-anshuman.khandual%40arm.com
-patch subject: [PATCH 2/2] lib/test_bits.c: Add tests for GENMASK_U128()
-config: m68k-sun3x_defconfig (https://download.01.org/0day-ci/archive/20240725/202407250853.f3pSzob6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250853.f3pSzob6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/vpda-try-to-fix-the-potential-crash-due-to-misusing-__GFP_NOFAIL/20240724-170305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240724085544.299090-6-21cnbao%40gmail.com
+patch subject: [PATCH RFC 5/5] non-mm: discourage the usage of __GFP_NOFAIL and encourage GFP_NOFAIL
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240725/202407250848.1RB1y5JP-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407250848.1RB1y5JP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407250853.f3pSzob6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407250848.1RB1y5JP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from lib/test_bits.c:6:
-   lib/test_bits.c: In function 'genmask_u128_test':
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/bits.h:16:35: warning: left shift count >= width of type [-Wshift-count-overflow]
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                                   ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/bits.h:17:21: warning: right shift count >= width of type [-Wshift-count-overflow]
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |                     ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:45:54: note: in expansion of macro 'GENMASK_U128'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   lib/test_bits.c:45:75: warning: right shift count >= width of type [-Wshift-count-overflow]
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |                                                                           ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:45:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      45 |         KUNIT_EXPECT_EQ(test, 0x0000000000ff0000ULL, GENMASK_U128(87, 80) >> 64);
-         |         ^~~~~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/bits.h:16:35: warning: left shift count >= width of type [-Wshift-count-overflow]
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                                   ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/bits.h:17:21: warning: right shift count >= width of type [-Wshift-count-overflow]
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |                     ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:46:54: note: in expansion of macro 'GENMASK_U128'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                      ^~~~~~~~~~~~
-   lib/test_bits.c:46:75: warning: right shift count >= width of type [-Wshift-count-overflow]
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |                                                                           ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:46:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      46 |         KUNIT_EXPECT_EQ(test, 0x0000000000ffffffULL, GENMASK_U128(87, 64) >> 64);
-         |         ^~~~~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/bits.h:17:21: warning: right shift count >= width of type [-Wshift-count-overflow]
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |                     ^~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:47:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:47:54: note: in expansion of macro 'GENMASK_U128'
-      47 |         KUNIT_EXPECT_EQ(test, 0x0000000000000001ULL, GENMASK_U128(0, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:48:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:48:54: note: in expansion of macro 'GENMASK_U128'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |                                                      ^~~~~~~~~~~~
->> include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:48:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |                          ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:48:54: note: in expansion of macro 'GENMASK_U128'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:48:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:17:12: note: in expansion of macro '_U128'
-      17 |          (~_U128(0) >> (__BITS_PER_U128 - 1 - (h))))
-         |            ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:48:54: note: in expansion of macro 'GENMASK_U128'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:48:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:13: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
-         |             ^~~~~
-   include/linux/bits.h:39:38: note: in expansion of macro '__GENMASK_U128'
-      39 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U128(h, l))
-         |                                      ^~~~~~~~~~~~~~
-   lib/test_bits.c:48:54: note: in expansion of macro 'GENMASK_U128'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |                                                      ^~~~~~~~~~~~
-   include/uapi/linux/const.h:24:36: error: '__int128' is not supported on this target
-      24 | #define _AC128(X)       ((unsigned __int128)(X))
-         |                                    ^~~~~~~~
-   include/kunit/test.h:708:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     708 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   include/kunit/test.h:903:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-     903 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:900:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-     900 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   lib/test_bits.c:48:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      48 |         KUNIT_EXPECT_EQ(test, 0xffffffffffffffffULL, GENMASK_U128(63, 0));
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:29:26: note: in expansion of macro '_AC128'
-      29 | #define _U128(x)        (_AC128(x))
-         |                          ^~~~~~
-   include/uapi/linux/bits.h:16:26: note: in expansion of macro '_U128'
-      16 |         (((~_U128(0)) - (_U128(1) << (l)) + 1) & \
+   lib/rhashtable.c: In function 'bucket_table_alloc':
+>> lib/rhashtable.c:192:48: warning: bitwise comparison always evaluates to true [-Wtautological-compare]
+     192 |         if (tbl == NULL && (gfp & ~GFP_NOFAIL) != GFP_KERNEL) {
+         |                                                ^~
 
 
-vim +/__int128 +24 include/uapi/linux/const.h
+vim +192 lib/rhashtable.c
 
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
-6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
-bcf33156d03759 include/uapi/linux/const.h Anshuman Khandual   2024-07-24  19  #define _AC128(X)	X
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  20  #else
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define __AC(X,Y)	(X##Y)
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  22  #define _AC(X,Y)	__AC(X,Y)
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  23  #define _AT(T,X)	((T)(X))
-bcf33156d03759 include/uapi/linux/const.h Anshuman Khandual   2024-07-24 @24  #define _AC128(X)	((unsigned __int128)(X))
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  25  #endif
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  26  
+   176	
+   177	static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
+   178						       size_t nbuckets,
+   179						       gfp_t gfp)
+   180	{
+   181		struct bucket_table *tbl = NULL;
+   182		size_t size;
+   183		int i;
+   184		static struct lock_class_key __key;
+   185	
+   186		tbl = alloc_hooks_tag(ht->alloc_tag,
+   187				kvmalloc_node_noprof(struct_size(tbl, buckets, nbuckets),
+   188						     gfp|__GFP_ZERO, NUMA_NO_NODE));
+   189	
+   190		size = nbuckets;
+   191	
+ > 192		if (tbl == NULL && (gfp & ~GFP_NOFAIL) != GFP_KERNEL) {
+   193			tbl = nested_bucket_table_alloc(ht, nbuckets, gfp);
+   194			nbuckets = 0;
+   195		}
+   196	
+   197		if (tbl == NULL)
+   198			return NULL;
+   199	
+   200		lockdep_init_map(&tbl->dep_map, "rhashtable_bucket", &__key, 0);
+   201	
+   202		tbl->size = size;
+   203	
+   204		rcu_head_init(&tbl->rcu);
+   205		INIT_LIST_HEAD(&tbl->walkers);
+   206	
+   207		tbl->hash_rnd = get_random_u32();
+   208	
+   209		for (i = 0; i < nbuckets; i++)
+   210			INIT_RHT_NULLS_HEAD(tbl->buckets[i]);
+   211	
+   212		return tbl;
+   213	}
+   214	
 
 -- 
 0-DAY CI Kernel Test Service
