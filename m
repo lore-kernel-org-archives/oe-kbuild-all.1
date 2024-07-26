@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382FD1CAB1;
-	Fri, 26 Jul 2024 02:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B513156898
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 05:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721962479; cv=none; b=qrSJcF7j/CUvad2/kbMNr/cHAetGk8B3Y3idyHJ2v4S9rYR8IVYme/+N8BboamG2ultpM8ilzdOYP9WQ+on0FleRfhX7J+jHmEjV9DTheErmagFBJuBBrT9b3XR6OwzfrX+pSloeWVt/Om+wdJ7DPEUhtMdpXBRymb5KR3Q1JRM=
+	t=1721973462; cv=none; b=e5DLVprTdAa+iMoPCyNGGraAfcODPQsrYmcf7c+sQrzH+Aj0PasWolYPYlyNPrqI3d4fZOOofwielPIo3QWmpJbZEgVgcN5/zMRkaJdtqXsdsGQb2INFWKSHsIcg6VMTpT7H4AMBg33WZDp9JD/BKKOc0Na3n1jiu3kX1xcWuuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721962479; c=relaxed/simple;
-	bh=/PgB+88hhm3S3Mk0zPqdhBecXyJCYcC80yqe8QtPREM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G4z//CTJltJYuPQGV5ZNvGwgdVb2cz7/2TA6569IOwBUDW/VGydhPkOSwadkckVx1VC8h1UHU3hT1bogUqDoFj0mqmoaopzAH7f2U4IX5mUIiCiuZEufMh+7luK+pUlMQ2mEJKNc7jWW1M7NX2F23Z+iQqMzmddXeWucoR56MNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb4DyyUd; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1721973462; c=relaxed/simple;
+	bh=rheDKsTIXZ1KE37ri1w4FlcM8ejQI6muYm6qarVLyos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzFra6dxH2d0B1oelTrkubRHVLFZSBG5GufS+3E2iQMFyQBCK2ebhDF2TLxwCvaNe/XwdWQajbDxA1Oek6U9z222bs5qaW4GXXXAUr3bn+yYScPuOUjxjN7IDpKoDRr7Nh2SIzx6qgjzKO6UR/ckZvMrH9KAEQSWFI9489y/06I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZDhlY+X; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb4DyyUd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZDhlY+X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721962477; x=1753498477;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/PgB+88hhm3S3Mk0zPqdhBecXyJCYcC80yqe8QtPREM=;
-  b=Yb4DyyUdOhiT8J2EsrSgWYW67UqKFQP9e6PTqfV1wU5OElnLHZXXpdFK
-   x5/HJW3ynf3Ygea+5h9CuK1P0p/idbBF5XMsYB8aFbQmSLxpuHzNxJzvw
-   4GbZml7vI4y0C785hfLrVEBJHPXbRG/CObJBZp9MjHlYejyy7j2t9GNcb
-   wn5IKh0RuKW/wMsDCKw+K7OSILS8AXQAIxuqAuKzuTrf1xwiB6geDenmS
-   k3pHWVulkg8mLD3pixAZ04ySCcyFtzpT2A76RmP4xnbnnV/Z5dzROont2
-   AuyCJCKqWpT3BkTkt39LzwUxEnTmrShn29HbX6Bsf4O7pb5V1FeeJwffM
-   w==;
-X-CSE-ConnectionGUID: nONqFaeWRhuH9lTUyRuWcg==
-X-CSE-MsgGUID: 5ZDrLpg2S5iyxSzyRvR64w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="42268779"
-X-IronPort-AV: E=Sophos;i="6.09,237,1716274800"; 
-   d="scan'208";a="42268779"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 19:54:36 -0700
-X-CSE-ConnectionGUID: qtjGT05/R6KWaCiqMxyIUw==
-X-CSE-MsgGUID: 6rUEs2VlQ1uOxS4HNIplvQ==
+  t=1721973460; x=1753509460;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rheDKsTIXZ1KE37ri1w4FlcM8ejQI6muYm6qarVLyos=;
+  b=iZDhlY+X81rNHlhpbT4spBT0w26I12gxL52W610TIpzh5AVeFDqq6KVh
+   jVuAkac+Fds8nZlpVmMWq/E1hdxPcFZYTIX9rI4ZOZ7g+s923DGB1zTNe
+   2sL8KZ/fx2ScQ5MUUrPLtIFuoaTD+NrTenm1whwVQVHzkO9JOJOE5XrDR
+   iAxd7eutLK+97CpYEybRCLWj4buBnl++hLeoDpelmi+jrm0px94EKgh8M
+   TWnCYPXsaj6c49DP1Tw+7Ivs1NDVzuicbmQqK6rikSVwaQZOxVcBs5CP6
+   JcuUUHewksFIWYY6/IQLvgZt6OuRfG9jXoGXtHk9KvS0W1rq0YTlKTDJR
+   A==;
+X-CSE-ConnectionGUID: n47pGK7qTW+oh278dRMAIA==
+X-CSE-MsgGUID: NPUr+pYWTlun3Y9bER5zSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19937351"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
+   d="scan'208";a="19937351"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 22:57:39 -0700
+X-CSE-ConnectionGUID: v/XbL3Q4RjC0P8oIZD3/0A==
+X-CSE-MsgGUID: bN2uGdOYQtSCmuArX+QM4A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,237,1716274800"; 
-   d="scan'208";a="58244244"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
+   d="scan'208";a="53070182"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Jul 2024 19:54:35 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jul 2024 22:57:39 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXB6G-000olu-30;
-	Fri, 26 Jul 2024 02:54:32 +0000
-Date: Fri, 26 Jul 2024 10:53:38 +0800
+	id 1sXDxQ-000oqS-2p;
+	Fri, 26 Jul 2024 05:57:36 +0000
+Date: Fri, 26 Jul 2024 13:57:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dma-split-v2 7/23] drivers/iommu/dma-iommu.c:1829:6:
- error: call to undeclared function 'cc_platform_has'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202407261007.pjOZIhA2-lkp@intel.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 10/10] fsnotify: generate pre-content permission event on
+ page fault
+Message-ID: <202407261354.JlXopMXz-lkp@intel.com>
+References: <1bc2855779e7ba1d80592be7d6257b43f1a91886.1721931241.git.josef@toxicpanda.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,147 +63,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1bc2855779e7ba1d80592be7d6257b43f1a91886.1721931241.git.josef@toxicpanda.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-v2
-head:   b957d69a55716514597d798fb534c7df6a7619f5
-commit: 5d7d3730d83d48c6ae1c71882b9cabd4126edcff [7/23] iommu/dma: Add check if IOVA can be used
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240726/202407261007.pjOZIhA2-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240726/202407261007.pjOZIhA2-lkp@intel.com/reproduce)
+Hi Josef,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jack-fs/fsnotify]
+[also build test WARNING on pcmoore-selinux/next akpm-mm/mm-everything linus/master v6.10 next-20240726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/fanotify-don-t-skip-extra-event-info-if-no-info_mode-is-set/20240726-055009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
+patch link:    https://lore.kernel.org/r/1bc2855779e7ba1d80592be7d6257b43f1a91886.1721931241.git.josef%40toxicpanda.com
+patch subject: [PATCH 10/10] fsnotify: generate pre-content permission event on page fault
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240726/202407261354.JlXopMXz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240726/202407261354.JlXopMXz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407261007.pjOZIhA2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407261354.JlXopMXz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/dma-iommu.c:11:
-   In file included from include/linux/acpi_iort.h:10:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/iommu/dma-iommu.c:13:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:20:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/iommu/dma-iommu.c:13:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:20:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/iommu/dma-iommu.c:13:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:20:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/iommu/dma-iommu.c:1829:6: error: call to undeclared function 'cc_platform_has'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1829 |         if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-         |             ^
->> drivers/iommu/dma-iommu.c:1829:22: error: use of undeclared identifier 'CC_ATTR_MEM_ENCRYPT'
-    1829 |         if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-         |                             ^
-   17 warnings and 2 errors generated.
+   mm/filemap.c: In function 'filemap_map_pages':
+>> mm/filemap.c:3636:23: warning: unused variable 'inode' [-Wunused-variable]
+    3636 |         struct inode *inode = mapping->host;
+         |                       ^~~~~
 
 
-vim +/cc_platform_has +1829 drivers/iommu/dma-iommu.c
+vim +/inode +3636 mm/filemap.c
 
-  1819	
-  1820	bool iommu_can_use_iova(struct device *dev, struct page *page, size_t size,
-  1821				enum dma_data_direction dir)
-  1822	{
-  1823		enum pci_p2pdma_map_type map;
-  1824	
-  1825		if (is_swiotlb_force_bounce(dev) || dev_use_swiotlb(dev, size, dir))
-  1826			return false;
-  1827	
-  1828		/* TODO: Rewrite this check to rely on specific struct page flags */
-> 1829		if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-  1830			return false;
-  1831	
-  1832		if (page && is_pci_p2pdma_page(page)) {
-  1833			map = pci_p2pdma_map_type(page->pgmap, dev);
-  1834			return map == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
-  1835		}
-  1836	
-  1837		return true;
-  1838	}
-  1839	
+  3629	
+  3630	vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+  3631				     pgoff_t start_pgoff, pgoff_t end_pgoff)
+  3632	{
+  3633		struct vm_area_struct *vma = vmf->vma;
+  3634		struct file *file = vma->vm_file;
+  3635		struct address_space *mapping = file->f_mapping;
+> 3636		struct inode *inode = mapping->host;
+  3637		pgoff_t last_pgoff = start_pgoff;
+  3638		unsigned long addr;
+  3639		XA_STATE(xas, &mapping->i_pages, start_pgoff);
+  3640		struct folio *folio;
+  3641		vm_fault_t ret = 0;
+  3642		unsigned long rss = 0;
+  3643		unsigned int nr_pages = 0, mmap_miss = 0, mmap_miss_saved, folio_type;
+  3644	
+  3645		/*
+  3646		 * We are under RCU, we can't emit events here, we need to force a
+  3647		 * normal fault to make sure the events get sent.
+  3648		 */
+  3649		if (fsnotify_file_has_content_watches(file))
+  3650			return ret;
+  3651	
+  3652		rcu_read_lock();
+  3653		folio = next_uptodate_folio(&xas, mapping, end_pgoff);
+  3654		if (!folio)
+  3655			goto out;
+  3656	
+  3657		if (filemap_map_pmd(vmf, folio, start_pgoff)) {
+  3658			ret = VM_FAULT_NOPAGE;
+  3659			goto out;
+  3660		}
+  3661	
+  3662		addr = vma->vm_start + ((start_pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+  3663		vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, addr, &vmf->ptl);
+  3664		if (!vmf->pte) {
+  3665			folio_unlock(folio);
+  3666			folio_put(folio);
+  3667			goto out;
+  3668		}
+  3669	
+  3670		folio_type = mm_counter_file(folio);
+  3671		do {
+  3672			unsigned long end;
+  3673	
+  3674			addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
+  3675			vmf->pte += xas.xa_index - last_pgoff;
+  3676			last_pgoff = xas.xa_index;
+  3677			end = folio_next_index(folio) - 1;
+  3678			nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
+  3679	
+  3680			if (!folio_test_large(folio))
+  3681				ret |= filemap_map_order0_folio(vmf,
+  3682						folio, addr, &rss, &mmap_miss);
+  3683			else
+  3684				ret |= filemap_map_folio_range(vmf, folio,
+  3685						xas.xa_index - folio->index, addr,
+  3686						nr_pages, &rss, &mmap_miss);
+  3687	
+  3688			folio_unlock(folio);
+  3689			folio_put(folio);
+  3690		} while ((folio = next_uptodate_folio(&xas, mapping, end_pgoff)) != NULL);
+  3691		add_mm_counter(vma->vm_mm, folio_type, rss);
+  3692		pte_unmap_unlock(vmf->pte, vmf->ptl);
+  3693	out:
+  3694		rcu_read_unlock();
+  3695	
+  3696		mmap_miss_saved = READ_ONCE(file->f_ra.mmap_miss);
+  3697		if (mmap_miss >= mmap_miss_saved)
+  3698			WRITE_ONCE(file->f_ra.mmap_miss, 0);
+  3699		else
+  3700			WRITE_ONCE(file->f_ra.mmap_miss, mmap_miss_saved - mmap_miss);
+  3701	
+  3702		return ret;
+  3703	}
+  3704	EXPORT_SYMBOL(filemap_map_pages);
+  3705	
 
 -- 
 0-DAY CI Kernel Test Service
