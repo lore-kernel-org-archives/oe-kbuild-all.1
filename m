@@ -1,112 +1,124 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D6C4C99
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 07:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65CE224FA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 09:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721978786; cv=none; b=Y1KttAKVIfDgLMYL/LTWd9S4Q47Vxg8+kOnumCIgRKDJyfbYLfQkujVE31okkF99Tlw8Zf2hXI38C494i2mv2BZ3OWV3pDAIKBSLze3Q7LxrMO9l82eZ27tKS/7qJ2Z0SdiEIhgypRFKdEuaUyuNcIIekKZnOOMM/02jwnXKIAc=
+	t=1721985407; cv=none; b=bW1Z615hZiBKNE65tA94u8i7wQ5zZdsG9oLjUSlebTXzsBWLNAckZcsh8vaW09DsdhYbhPLZZ3YL72okf0wMiuZs03xADD1qOSKWGe/RR0tBqjCAgwq538KMNkDGBvmHurVBmKtgzGhpj4whuGhelkBDXaQmTZiUzg2CDR/aDTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721978786; c=relaxed/simple;
-	bh=+4tNx5lAPIw3i+vKDepfBSh6/T1hhw1adM3RpZFFYaA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HbLJLnxOpoiyXYZuj9t8qNaTsKuKU4ZHJfBMBhm2hd2uoJPipfu7FtpTxbfabiZJJHNozb50BuzrcftjBcyzCxnhc4zrNNLmHCyYkLsGpia33HEb7A9+Y025j7H5RQs0Xg3JFjVFpaWiN9mW20pIa6to+g009h8UY2rbHbwKUAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-66c7aeac627so19482137b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 00:26:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721978782; x=1722583582;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BLV1EGDyov1edVFnSsDDjihYYooPrxLZ+s79IlkB448=;
-        b=lHWFtWuB3PGdK0wRpQcC7Vzj/7REju3QVwL+frqLFp2bFt9FDCzuKq7ieZw0oWqG0b
-         Nik8iPqnnVc1WWSXHWLvMUIJrqYLjoT95+qkZ3PDJc37PkU1Oi3nKTXU4W2xJ1JeGR3N
-         rop9lPoiSlOTcEC6geguOxKewjEejDgL1p31mKede+1IPsWywmfVtpEha5MPXKR9y+QO
-         R/EVndfHUXH5yL/pE8nxyeJ1WG0l0cKj2yDK+fVowgneFAmV2zo0cSVn/NnM34iQWPzJ
-         j4H9UcuZn9g31Orbipgc0oNTJDi9XjG6eXhn9gDFIhCNSxbUz17+ODOizXpwZ1QUi5GK
-         84WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlPFUP7TTvreCIov9mJPFcKqT8At2fuMq1jxmScxCjO/fKU+uR9hRxaPHwXfP2RYOuehZrUoms32j3rMzCTwDwe0Hiz23akUYkCi4f4A==
-X-Gm-Message-State: AOJu0Yz7r0twdI8A9m1FK+u5Nutz9559FAd/rVlKI9vHsEoaQxrMvLcF
-	0S7ZAwG8HDg1gDm4lvcA07L/EnCQO8+XzMttXgx9M7hamk8dzJ4tnz03/0E57/w=
-X-Google-Smtp-Source: AGHT+IHAscG6nq/VvEAfUR2RHbVQeTNhHn1RokZYkNqWLhhL6SRQk6lG4xjnISgjx+ebJr9CNfpyjw==
-X-Received: by 2002:a05:690c:6d0b:b0:650:93e3:fe7a with SMTP id 00721157ae682-675b4b5ba70mr55706277b3.18.1721978782511;
-        Fri, 26 Jul 2024 00:26:22 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756795e7d3sm7788017b3.32.2024.07.26.00.26.20
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 00:26:20 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-64b29539d86so17091917b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 00:26:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXtp917ciyJVZhMLk+PoIpqfYSEKnuTEiBKr9811wzXhbksy6RJ1m3bVznCMdoDljED0sm0ZM2bLUci7oFq60RatNGn4vw/5riaJY038g==
-X-Received: by 2002:a81:a20e:0:b0:64a:d9a1:db3f with SMTP id
- 00721157ae682-675b3823cd3mr50786447b3.7.1721978780591; Fri, 26 Jul 2024
- 00:26:20 -0700 (PDT)
+	s=arc-20240116; t=1721985407; c=relaxed/simple;
+	bh=1WRif6zFratgP6hy5t2S1knQwLOhGvgYxLgn75CdlwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cLQcdjRELvUndpydSi9YE1S8wGMXw8CxxMgf3Q08QC+pb6GiUYxnn2gjcVwJifQ+ZkcNiRV+cGOzYtZGx4YNNenn0jvNJiD5jD+mO5bBoQk+5gSJPqYIzke5qkO4gecaSB/iW0Vc0eCQzBreQ4oL/h1ya45lZoq4JuKDxNa1oOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NlhuV2/U; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NlhuV2/U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721985405; x=1753521405;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1WRif6zFratgP6hy5t2S1knQwLOhGvgYxLgn75CdlwM=;
+  b=NlhuV2/UqgI0S3nbTSpByRrrsjE3rau2OYfq883juU9pAT+yYGqqQW14
+   HC9zj0l/CobuhHFDFbcUAVFEu9axfjJzJEtvDtzNVCO24rw7m12lqquZQ
+   L2JKoJp9mmEkFAwLkghllarekFDBnQwM+p9uUdloAXpH/4JICO97+fMki
+   4yiCma5ZwEuFAUoTIxemvT+9JNu8tAsGkYntcKDo5wKrz2sV8uqdswCsD
+   E9U1bASUbaN1FaPE5pFRSknS2Yf2vlm3+SEnWaId+bNMI2AY6pAcNqO1A
+   a+W+68/NgGpTN/ZtaVDvSAje9HIIiaR/byLer3zN8pbYhsBihJ62hwHdf
+   Q==;
+X-CSE-ConnectionGUID: wL+RRJr/T36WRzO6Lvn5zw==
+X-CSE-MsgGUID: mgnYlVZ5RIOtY6Aipt2pzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19643693"
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
+   d="scan'208";a="19643693"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 02:16:45 -0700
+X-CSE-ConnectionGUID: qh4CTPE0QeW0hAGnoVL1nQ==
+X-CSE-MsgGUID: Z1DFGd9+T2m2NEbb/NRgrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
+   d="scan'208";a="53122101"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 26 Jul 2024 02:16:44 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sXH46-000ovW-0d;
+	Fri, 26 Jul 2024 09:16:42 +0000
+Date: Fri, 26 Jul 2024 17:16:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:syscall-tbl-6.11 45/80]
+ arch/parisc/kernel/sys_parisc.c:299:undefined reference to
+ `ksys_inotify_init'
+Message-ID: <202407261747.czogEFdz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202407260828.NQM5BhqE-lkp@intel.com>
-In-Reply-To: <202407260828.NQM5BhqE-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Jul 2024 09:26:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVLCPcH3x+LXOCp=9qiw1WWWRtre7Lf8HqtZ1E3JwfLsg@mail.gmail.com>
-Message-ID: <CAMuHMdVLCPcH3x+LXOCp=9qiw1WWWRtre7Lf8HqtZ1E3JwfLsg@mail.gmail.com>
-Subject: Re: ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>, 
-	netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jul 26, 2024 at 2:38=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> First bad commit (maybe !=3D root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   1722389b0d863056d78287a120a1d6cadb8d4f7b
-> commit: f73edc8951b2de515b5ecc8a357ccd47dd41077e kbuild: unify two modpos=
-t invocations
-> date:   1 year, 10 months ago
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240726=
-/202407260828.NQM5BhqE-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240726/202407260828.NQM5BhqE-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407260828.NQM5BhqE-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   297d47a6407bea09324a4e1ba26a1735093f433f
+commit: 6fcd1fc502adfe6e3fca25783617ebfa9b61dd66 [45/80] parisc SYSCALL_DEFINE
+config: parisc-randconfig-r063-20240726 (https://download.01.org/0day-ci/archive/20240726/202407261747.czogEFdz-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240726/202407261747.czogEFdz-lkp@intel.com/reproduce)
 
-Nothing has changed in 5 years, mdio-cavium should be fixed instead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407261747.czogEFdz-lkp@intel.com/
 
-https://lore.kernel.org/lkml/CAMuHMdUERaoHLNKi03zCuYi7NevgBFjXrV=3Dpt0Yy=3D=
-HOeRiL25Q@mail.gmail.com/
+All errors (new ones prefixed by >>):
 
-Gr{oetje,eeting}s,
+   hppa-linux-ld: arch/parisc/kernel/sys_parisc.o: in function `__do_sys_parisc_inotify_init1':
+>> arch/parisc/kernel/sys_parisc.c:299:(.text+0x7f4): undefined reference to `ksys_inotify_init'
+   hppa-linux-ld: arch/parisc/kernel/sys_parisc.o: in function `__do_sys_parisc_madvise':
+>> arch/parisc/kernel/sys_parisc.c:327:(.text+0x84c): undefined reference to `do_madvise'
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+vim +299 arch/parisc/kernel/sys_parisc.c
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+   295	
+   296	SYSCALL_DEFINE1(parisc_inotify_init1, int, flags)
+   297	{
+   298		flags = FIX_O_NONBLOCK(flags);
+ > 299		return ksys_inotify_init(flags);
+   300	}
+   301	
+   302	/*
+   303	 * madvise() wrapper
+   304	 *
+   305	 * Up to kernel v6.1 parisc has different values than all other
+   306	 * platforms for the MADV_xxx flags listed below.
+   307	 * To keep binary compatibility with existing userspace programs
+   308	 * translate the former values to the new values.
+   309	 *
+   310	 * XXX: Remove this wrapper in year 2025 (or later)
+   311	 */
+   312	
+   313	SYSCALL_DEFINE3(parisc_madvise, unsigned long, start, size_t, len_in, int, behavior)
+   314	{
+   315		switch (behavior) {
+   316		case 65: behavior = MADV_MERGEABLE;	break;
+   317		case 66: behavior = MADV_UNMERGEABLE;	break;
+   318		case 67: behavior = MADV_HUGEPAGE;	break;
+   319		case 68: behavior = MADV_NOHUGEPAGE;	break;
+   320		case 69: behavior = MADV_DONTDUMP;	break;
+   321		case 70: behavior = MADV_DODUMP;	break;
+   322		case 71: behavior = MADV_WIPEONFORK;	break;
+   323		case 72: behavior = MADV_KEEPONFORK;	break;
+   324		case 73: behavior = MADV_COLLAPSE;	break;
+   325		}
+   326	
+ > 327		return do_madvise(current->mm, start, len_in, behavior);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
