@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B30B1E52C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 12:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651B416F902
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 14:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722084870; cv=none; b=PC1Py08vE2cnbpYrL4dQQUdo4ont7NIkeRndlP6L3WE3tzKbSbprxE0WOwRSpVev3PfgKB+GjJBlqMaXc0NMkJEGDlZd/tXuqpabwtKnfmcFwaUoo2Foy4+rl+REKTXwzAKQ+0d2hOuB3OXolvFw2CgpldzE1/9g+4IhXaTmGz8=
+	t=1722089252; cv=none; b=oR+D2ozA69wsnH8os+vww98NJVs0HWBJuUNIqAXnEUq+RNqggXgCvWIt2eEBksyabqDtZOygajSeQCKlf4rvwJRHx4jOFjISZMc08HlIYxDA8X58S3FehKn9chmVyn+ebm8eQ9gPO45avGW03Rpw0MSmvSK30j91yjq4K6pcQ0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722084870; c=relaxed/simple;
-	bh=AcLzANvDxl71kbm8X/7ZWE/ooopCYJPt/R2NVIynB4Q=;
+	s=arc-20240116; t=1722089252; c=relaxed/simple;
+	bh=mysg1I+YNFznRxOjtG+FqrJItM4XEE4AGZIiWPUfGHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M/GuDbe06Zg5SfgR4fKLtRHsS/yYbxxkCxTiBirFxeCd5zFvuvJTtWGcmANKcJGGMqSSHcCOtDHG4SEH5N+z1NaCX2WYVvmBK6K1PwmaQQrH8Qob4S4JNBD4dfLa6n1TMujxGQXQwBcBujD29L9IrunRwNUWv9N0OPQyxRZr/TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PL0fHHmN; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ZwH/kLoQVg6T/VBDUkvMdoYro29AbQeHtN3vVUKRl5U55u9kS6NjvILQ/JuhRs/22L6AJxfCoA/t8ddFkQrkVN/4ofOxeJX6KxV9uW/JA77O3VkijJJc8NpSvA5tbi4xbT8/ThfS46do0VUq4R+BXmLRoWcKGG/bSzj8HvbUAPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DD597cQ7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PL0fHHmN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DD597cQ7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722084868; x=1753620868;
+  t=1722089249; x=1753625249;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AcLzANvDxl71kbm8X/7ZWE/ooopCYJPt/R2NVIynB4Q=;
-  b=PL0fHHmNzn8ut4Gtcxad7pPRPSYg1UU1rRbNtZbIkH106ZhOh5iak0yP
-   H1Es0DcMYPIDTdT+xWf5UbCrosgNdKx03xGOtyQ2S+K88+0wvK+OsMTaJ
-   KCiWOXppsG1Ci1ozUrL39uJMTHLK7vJWUrl98BTxoi7fI2/Yo2ZxPl2ty
-   UEirsecUqF6SJidL31eX3IMmdjU0mIaXovouQR/ib68BZCV363qjY/uD6
-   PnxBqnFlLPif9Lhe027LF6yABv2C9yg3T20r6J+sczd+OSav+pLJedPsF
-   +5hxLi6FXfj9NYoa8Cn1TezgyRvnpCBLN3y8s2fZ/Fgzpegv6XxUpr5Om
-   w==;
-X-CSE-ConnectionGUID: ADqPfN3zSWW+LS1jta0b9Q==
-X-CSE-MsgGUID: kjFAXMb4Svq9X7xF6+Y7+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="42401128"
+  bh=mysg1I+YNFznRxOjtG+FqrJItM4XEE4AGZIiWPUfGHU=;
+  b=DD597cQ7TjKxYqQOTME9MTtS+dJwpQg2iGVjQ603fsW46ppnAgDwXnvI
+   YxFi+qzuPshB4j9woQFtx0hDbLuJcYysMlcmG7Yo9PTljnKxj0PLi/85M
+   VBUDGb0SPDFczD0zQVJHetORNpdwJDwUV5ACoJRcavbBr37F8dLC0hDa/
+   t+gM0yLaOfNMWRa9dA93czlQB2OGKicSEJbFgXK34a6DupPWgq+M05Hhu
+   apNP/hbY0d7gCxqXa5Jls/hViTdqq6za0uJ5Hd3uhZ54f07+lU5nE0plH
+   EZrdDSmi4tub5NnapiUPix9QaaIJ02/LuP1C44AGko/RCOb4ytmb/VCO9
+   Q==;
+X-CSE-ConnectionGUID: ZR5jEPSOStej5y6kcJOygw==
+X-CSE-MsgGUID: StW+HoavTueKq2eEKCVTcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="23630006"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="42401128"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 05:54:27 -0700
-X-CSE-ConnectionGUID: be7kGxs2SUGv8NYIV+oMsw==
-X-CSE-MsgGUID: Kf+d93cYQimHZcPa/a5jaQ==
+   d="scan'208";a="23630006"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 07:07:28 -0700
+X-CSE-ConnectionGUID: hI4NqzAuTYe9uNhCVo8iEg==
+X-CSE-MsgGUID: y5SSKDvrRmqM2wx9yh4qxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="53736559"
+   d="scan'208";a="53528836"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jul 2024 05:54:26 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Jul 2024 07:07:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXgwK-000pwq-1l;
-	Sat, 27 Jul 2024 12:54:24 +0000
-Date: Sat, 27 Jul 2024 20:53:59 +0800
+	id 1sXi4z-000pya-1Q;
+	Sat, 27 Jul 2024 14:07:25 +0000
+Date: Sat, 27 Jul 2024 22:06:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:folio_walk 7/16] include/linux/pgtable.h:105:9:
- error: implicit declaration of function 'kunmap_local'
-Message-ID: <202407272045.NMjkg4f4-lkp@intel.com>
+Subject: [jgunthorpe:iommu_pt 23/25]
+ drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter
+ declarator
+Message-ID: <202407272150.vxNqJopn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +63,443 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux folio_walk
-head:   cc3861ad49dec1480e237e1ecfbe2d4ffa64cafd
-commit: 77eea7c11c7ddc881412df294d15467ed7cb57e6 [7/16] mm/pagewalk: introduce folio_walk_start() + folio_walk_end()
-config: i386-buildonly-randconfig-001-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272045.NMjkg4f4-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272045.NMjkg4f4-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   ea5c6d0c8914861c8e337228c4880001bf40f7c4
+commit: 37a088a45cd2447e52b2ee9a0950557f394049ff [23/25] iommupt: Add the 64 bit ARMv8 page table format
+config: x86_64-randconfig-r053-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272150.vxNqJopn-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272150.vxNqJopn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407272045.NMjkg4f4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407272150.vxNqJopn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm.h:30,
-                    from include/linux/pagewalk.h:5,
-                    from mm/pagewalk.c:2:
-   include/linux/pagewalk.h: In function 'folio_walk_end':
->> include/linux/pgtable.h:105:9: error: implicit declaration of function 'kunmap_local' [-Werror=implicit-function-declaration]
-     105 |         kunmap_local((pte));    \
-         |         ^~~~~~~~~~~~
-   include/linux/mm.h:2969:9: note: in expansion of macro 'pte_unmap'
-    2969 |         pte_unmap(pte);                                 \
-         |         ^~~~~~~~~
-   include/linux/pagewalk.h:188:17: note: in expansion of macro 'pte_unmap_unlock'
-     188 |                 pte_unmap_unlock(fw->ptep, fw->ptl);
-         |                 ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:11:
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter declarator
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                               ^
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected ')'
+   drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: note: to match this '('
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^               
+         |                                              void
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+>> drivers/iommu/generic_pt/fmt/armv8.h:277:35: warning: too many arguments in call to 'PT_WARN_ON'
+     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
+         |         ~~~~~~~~~~                       ^
+>> drivers/iommu/generic_pt/fmt/armv8.h:277:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
+         |                   ^
+   drivers/iommu/generic_pt/fmt/armv8.h:297:56: warning: too many arguments in call to 'PT_WARN_ON'
+     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
+         |                 ~~~~~~~~~~                                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:297:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
+         |                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:298:65: warning: too many arguments in call to 'PT_WARN_ON'
+     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
+         |                 ~~~~~~~~~~                                                    ^
+   drivers/iommu/generic_pt/fmt/armv8.h:298:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
+         |                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:353:49: warning: too many arguments in call to 'PT_WARN_ON'
+     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
+         |         ~~~~~~~~~~                                     ^
+   drivers/iommu/generic_pt/fmt/armv8.h:353:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
+         |                   ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+--
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:187:1: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     187 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:177:27: note: expanded from macro '_SIG_SET_OP'
+     177 |         case 2: set->sig[1] = op(set->sig[1]);                          \
+         |                                  ^        ~
+   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
+     186 | #define _sig_not(x)     (~(x))
+         |                            ^
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:187:1: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     187 | _SIG_SET_OP(signotset, _sig_not)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:177:10: note: expanded from macro '_SIG_SET_OP'
+     177 |         case 2: set->sig[1] = op(set->sig[1]);                          \
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     198 |         case 2: set->sig[1] = 0;
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     211 |         case 2: set->sig[1] = -1;
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     242 |         case 2: set->sig[1] = 0;
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     255 |         case 2: set->sig[1] = -1;
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:13:
+>> drivers/iommu/generic_pt/fmt/../pt_common.h:281:34: warning: too many arguments in call to 'PT_WARN_ON'
+     281 |         if (PT_WARN_ON(!pts->table_lower))
+         |             ~~~~~~~~~~                  ^
+>> drivers/iommu/generic_pt/fmt/../pt_common.h:281:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     281 |         if (PT_WARN_ON(!pts->table_lower))
+         |                       ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:338:47: warning: too many arguments in call to 'PT_WARN_ON'
+     338 |         if (PT_WARN_ON(!pt_can_have_table(parent_pts)) ||
+         |             ~~~~~~~~~~                               ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:338:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     338 |         if (PT_WARN_ON(!pt_can_have_table(parent_pts)) ||
+         |                       ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:339:55: warning: too many arguments in call to 'PT_WARN_ON'
+     339 |             PT_WARN_ON(last_va < va || pt_check_range(&range)) ||
+         |             ~~~~~~~~~~                                       ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:339:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     339 |             PT_WARN_ON(last_va < va || pt_check_range(&range)) ||
+         |                       ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:340:41: warning: too many arguments in call to 'PT_WARN_ON'
+     340 |             PT_WARN_ON(!parent_pts->table_lower))
+         |             ~~~~~~~~~~                         ^
+   drivers/iommu/generic_pt/fmt/../pt_common.h:340:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     340 |             PT_WARN_ON(!parent_pts->table_lower))
+         |                       ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:15:
+>> drivers/iommu/generic_pt/fmt/../iommu_pt.h:163:16: warning: too many arguments in call to 'PT_WARN_ON'
+     163 |         PT_WARN_ON(ret);
+         |         ~~~~~~~~~~    ^
+>> drivers/iommu/generic_pt/fmt/../iommu_pt.h:163:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     163 |         PT_WARN_ON(ret);
+         |                   ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:267:45: warning: too many arguments in call to 'PT_WARN_ON'
+     267 |                         if (PT_WARN_ON(pts.type != PT_ENTRY_EMPTY))
+         |                             ~~~~~~~~~~                           ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:267:18: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     267 |                         if (PT_WARN_ON(pts.type != PT_ENTRY_EMPTY))
+         |                                       ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:283:51: warning: too many arguments in call to 'PT_WARN_ON'
+     283 |                 } else if (PT_WARN_ON(pts.type != PT_ENTRY_TABLE)) {
+         |                            ~~~~~~~~~~                           ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:283:24: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     283 |                 } else if (PT_WARN_ON(pts.type != PT_ENTRY_TABLE)) {
+         |                                      ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:400:41: warning: too many arguments in call to 'PT_WARN_ON'
+     400 |                 if (PT_WARN_ON(pts.type != PT_ENTRY_OA) ||
+         |                     ~~~~~~~~~~                        ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:400:17: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     400 |                 if (PT_WARN_ON(pts.type != PT_ENTRY_OA) ||
+         |                               ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:401:29: warning: too many arguments in call to 'PT_WARN_ON'
+     401 |                     PT_WARN_ON(!pgsize_lg2))
+         |                     ~~~~~~~~~~            ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:401:17: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     401 |                     PT_WARN_ON(!pgsize_lg2))
+         |                               ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:520:20: warning: too many arguments in call to 'PT_WARN_ON'
+     520 |         if (PT_WARN_ON(ret))
+         |             ~~~~~~~~~~    ^
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h:520:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     520 |         if (PT_WARN_ON(ret))
+         |                       ^
+   63 warnings and 17 errors generated.
+--
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:11:
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter declarator
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                               ^
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected ')'
+   drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: note: to match this '('
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^
+>> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^               
+         |                                              void
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+>> drivers/iommu/generic_pt/fmt/armv8.h:277:35: warning: too many arguments in call to 'PT_WARN_ON'
+     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
+         |         ~~~~~~~~~~                       ^
+>> drivers/iommu/generic_pt/fmt/armv8.h:277:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
+         |                   ^
+   drivers/iommu/generic_pt/fmt/armv8.h:297:56: warning: too many arguments in call to 'PT_WARN_ON'
+     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
+         |                 ~~~~~~~~~~                                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:297:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
+         |                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:298:65: warning: too many arguments in call to 'PT_WARN_ON'
+     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
+         |                 ~~~~~~~~~~                                                    ^
+   drivers/iommu/generic_pt/fmt/armv8.h:298:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
+         |                           ^
+   drivers/iommu/generic_pt/fmt/armv8.h:353:49: warning: too many arguments in call to 'PT_WARN_ON'
+     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
+         |         ~~~~~~~~~~                                     ^
+   drivers/iommu/generic_pt/fmt/armv8.h:353:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
+     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
+         |                   ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
+   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+..
 
 
-vim +/kunmap_local +105 include/linux/pgtable.h
+vim +137 drivers/iommu/generic_pt/fmt/../pt_defs.h
 
-974b9b2c68f3d3 Mike Rapoport 2020-06-08  100  
-0d940a9b270b92 Hugh Dickins  2023-06-08  101  #ifdef CONFIG_HIGHPTE
-0d940a9b270b92 Hugh Dickins  2023-06-08  102  #define __pte_map(pmd, address) \
-0d940a9b270b92 Hugh Dickins  2023-06-08  103  	((pte_t *)kmap_local_page(pmd_page(*(pmd))) + pte_index((address)))
-0d940a9b270b92 Hugh Dickins  2023-06-08  104  #define pte_unmap(pte)	do {	\
-0d940a9b270b92 Hugh Dickins  2023-06-08 @105  	kunmap_local((pte));	\
-a349d72fd9efc8 Hugh Dickins  2023-07-11  106  	rcu_read_unlock();	\
-0d940a9b270b92 Hugh Dickins  2023-06-08  107  } while (0)
-974b9b2c68f3d3 Mike Rapoport 2020-06-08  108  #else
-0d940a9b270b92 Hugh Dickins  2023-06-08  109  static inline pte_t *__pte_map(pmd_t *pmd, unsigned long address)
-0d940a9b270b92 Hugh Dickins  2023-06-08  110  {
-0d940a9b270b92 Hugh Dickins  2023-06-08  111  	return pte_offset_kernel(pmd, address);
-0d940a9b270b92 Hugh Dickins  2023-06-08  112  }
-0d940a9b270b92 Hugh Dickins  2023-06-08  113  static inline void pte_unmap(pte_t *pte)
-0d940a9b270b92 Hugh Dickins  2023-06-08  114  {
-a349d72fd9efc8 Hugh Dickins  2023-07-11  115  	rcu_read_unlock();
-0d940a9b270b92 Hugh Dickins  2023-06-08  116  }
-974b9b2c68f3d3 Mike Rapoport 2020-06-08  117  #endif
-974b9b2c68f3d3 Mike Rapoport 2020-06-08  118  
+238517582c3f63 Jason Gunthorpe 2024-06-28  129  
+238517582c3f63 Jason Gunthorpe 2024-06-28  130  /*
+238517582c3f63 Jason Gunthorpe 2024-06-28  131   * PT_WARN_ON is used for invariants that the kunit should be checking can't
+238517582c3f63 Jason Gunthorpe 2024-06-28  132   * happen.
+238517582c3f63 Jason Gunthorpe 2024-06-28  133   */
+238517582c3f63 Jason Gunthorpe 2024-06-28  134  #if IS_ENABLED(CONFIG_DEBUG_GENERIC_PT)
+238517582c3f63 Jason Gunthorpe 2024-06-28  135  #define PT_WARN_ON WARN_ON
+238517582c3f63 Jason Gunthorpe 2024-06-28  136  #else
+238517582c3f63 Jason Gunthorpe 2024-06-28 @137  static inline bool PT_WARN_ON({bool condition)
+238517582c3f63 Jason Gunthorpe 2024-06-28  138  {
+238517582c3f63 Jason Gunthorpe 2024-06-28  139  	return false;
+238517582c3f63 Jason Gunthorpe 2024-06-28  140  }
+238517582c3f63 Jason Gunthorpe 2024-06-28  141  #endif
+238517582c3f63 Jason Gunthorpe 2024-06-28  142  
 
-:::::: The code at line 105 was first introduced by commit
-:::::: 0d940a9b270b9220dcff74d8e9123c9788365751 mm/pgtable: allow pte_offset_map[_lock]() to fail
+:::::: The code at line 137 was first introduced by commit
+:::::: 238517582c3f6345ebaf2eecc116501f67de8d7c genpt: Generic Page Table base API
 
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
