@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7CF38FA5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 08:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C17F3EA64
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 08:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722067643; cv=none; b=AEdRYi4lo99/iwgwwkdz/6F39g5KlyUYlB50EXzDNkl6ZYj3top/wgacbhb/gX5pOXwMAb0XwuqEGhjMZmEkRYzbZh5vWweDdvWrlo3mnZVutGOSAscGd8NgwIBjQQEIxb0ovgb/Y2IVYTYWhnNZwsvqrhvpzjjOcXKje0i9Gh8=
+	t=1722069564; cv=none; b=hn7x7YkJwq6IVltcZ0pGAfXZWpi2raIh86wdzVMetV+xhq1Qi7FgdQJ4tq+es+zJljHk+VDtcEByeVMu3eg1So9nOMiz8TKACw6FYDA/d+uKgKnyjU5uMB+rgQ5POGoHk08MfcQQStgpEP7eAB2I7lMAXWKrz5XeSzquaXAucp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722067643; c=relaxed/simple;
-	bh=mNltyQ0Niji0uTef/o6C4pdV6aWQhVKYlXlBFEpy8+4=;
+	s=arc-20240116; t=1722069564; c=relaxed/simple;
+	bh=cwQac2wYBRMgYfSLMtxozIYmGeJ/A2h10YzUMMpY7Dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AuK3JEJQYP49fesXUxtHj73INrBnT0ZrRf85LfS/C98xX95ZxusFGFjjiGUaMsj3KHK3vmK1thT9H8TKtcB8MlcQ9t5t8992LmWwtRmYJmm29Xa8Na6u7PdLowh8bdrX8nDj+5cj4WgMpA6G7Uk8DJLAM2+zUeERLdzCXncEP4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IV7A7tnR; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=KnM4YFJbmHAjMqG7fbjWM8Pnj3ARuHQG7t47GvFlyFNXTilSReuoowTY9gYk4l1dB2FEkE2SNRjFCPnlELSQGNsWYcYQQIdsVymqawRJqcPuu5Ekdd9RP+2Wxp+YCjAq7Rw/6B63UeEFx09iw27hWziFrlR2bjRCwRA2xs5s3gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zhi78Jtr; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IV7A7tnR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zhi78Jtr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722067641; x=1753603641;
+  t=1722069561; x=1753605561;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mNltyQ0Niji0uTef/o6C4pdV6aWQhVKYlXlBFEpy8+4=;
-  b=IV7A7tnR5hu23HBP6F3XIXyLKU1ryl8sHkI4CirvriogPRzjAFFy3bSc
-   09bNMSoH2jsaVZcC3iE/KDjyexhJTPSMFefHQ1JTsPejsr2SQIwCqdf0i
-   pg5NklISLv8INmJjFMlpSD8JY8+UKVRrFJORpfKIdE+GwgopuNZg75/h/
-   b+vSolKeZV0tU/lDa6IQcNjftk9rke6nzhgpk6ebEjbCGJ5ZT56llaVsS
-   NOgv/ILYR3xmLhuOsGa44F9PnXk4SclFKNK7a6jvyRIPcplntF0gJwqIB
-   T6edD4aJw+QLrBX4d60bbOhhKZtzMoG9Xrsb0duUbiaAunZhjVgqOpI3O
-   Q==;
-X-CSE-ConnectionGUID: +Z8y5q7hRfmI0hsJDGTppA==
-X-CSE-MsgGUID: zBJnBZgDT4eyNsSYbxu/gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="45279585"
+  bh=cwQac2wYBRMgYfSLMtxozIYmGeJ/A2h10YzUMMpY7Dk=;
+  b=Zhi78Jtr7FeGFqAgtvacq+4jFG/f3O9pVLRAfEBBPoRpYWc87qV/ns+1
+   T1hPlBF7/NfCxT0a8Nwb9XiR1/yg+9WElBbPpreWIyPryHk+3ljOjqL5g
+   lTA5HMkyhb69lApqgGnXzXhuqemCVJgDUUN3xRs3fnKQwcumPpOqbDUCN
+   YPx4eXfI35Dkwyji/dqZJBV/xw43LhlIHhsGt6yHesogCTudQSWX75BGP
+   vdtbriyq5BVYonL+opK6OVdWDvl2Zpu0eL7BcIlUIQqk6ajAMlla8VZgW
+   P3Byp/c+2J4vDocHdDmvG7+RUwyAq7FEHlCDNSt2fOntn6jVTxz8foFus
+   w==;
+X-CSE-ConnectionGUID: jS3cWTdtTySJ7nwNKqQyYg==
+X-CSE-MsgGUID: fmi6lW4YS+SUKNyv7iLbwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="19826936"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="45279585"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 01:07:21 -0700
-X-CSE-ConnectionGUID: ii3vca3bSaaO89w32kw2sA==
-X-CSE-MsgGUID: uk19P9h4R9a2WuiiotknUg==
+   d="scan'208";a="19826936"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 01:39:21 -0700
+X-CSE-ConnectionGUID: OF8tse0ITtqWw2Rw30eLlQ==
+X-CSE-MsgGUID: BE46tuXBRqWrbDL1dSbwZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="53388130"
+   d="scan'208";a="76717429"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jul 2024 01:07:19 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2024 01:39:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXcST-000pkS-0e;
-	Sat, 27 Jul 2024 08:07:17 +0000
-Date: Sat, 27 Jul 2024 16:07:04 +0800
+	id 1sXcxR-000plc-2i;
+	Sat, 27 Jul 2024 08:39:17 +0000
+Date: Sat, 27 Jul 2024 16:39:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wedson Almeida Filho <wedsonaf@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Matt Gilbride <mattgilbride@google.com>
-Subject: [rust:rust-dev 27/31] warning: public documentation for `RBTree`
- links to private item `Node`
-Message-ID: <202407271622.xpuOb9Ao-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt 21/25]
+ drivers/iommu/generic_pt/pt_defs.h:137:31: error: expected parameter
+ declarator
+Message-ID: <202407271615.gGwz4PtO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,28 +63,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Rust-for-Linux/linux rust-dev
-head:   84eb90da62a252b1f133f3c4f8a95c8c901f7ce2
-commit: c443eba0860ab0f3dd6b56c93d68c794b2f95d5b [27/31] rust: rbtree: add red-black tree implementation backed by the C version
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240727/202407271622.xpuOb9Ao-lkp@intel.com/config)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   ea5c6d0c8914861c8e337228c4880001bf40f7c4
+commit: 2c39e478f1bbc1680ad47e8b418bbd76701a4496 [21/25] iommupt: Add a kunit test
+config: x86_64-randconfig-r053-20240727 (https://download.01.org/0day-ci/archive/20240727/202407271615.gGwz4PtO-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271622.xpuOb9Ao-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271615.gGwz4PtO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407271622.xpuOb9Ao-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407271615.gGwz4PtO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: public documentation for `RBTree` links to private item `Node`
-   --> rust/kernel/rbtree.rs:25:69
-   |
-   25 | /// valid, and pointing to a field of our internal representation [`Node`].
-   |                                                                     ^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
-   = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:107:
+>> drivers/iommu/generic_pt/pt_defs.h:137:31: error: expected parameter declarator
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                               ^
+>> drivers/iommu/generic_pt/pt_defs.h:137:31: error: expected ')'
+   drivers/iommu/generic_pt/pt_defs.h:137:30: note: to match this '('
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^
+>> drivers/iommu/generic_pt/pt_defs.h:137:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     137 | static inline bool PT_WARN_ON({bool condition)
+         |                              ^               
+         |                                              void
+   3 errors generated.
+
+
+vim +137 drivers/iommu/generic_pt/pt_defs.h
+
+238517582c3f63 Jason Gunthorpe 2024-06-28  129  
+238517582c3f63 Jason Gunthorpe 2024-06-28  130  /*
+238517582c3f63 Jason Gunthorpe 2024-06-28  131   * PT_WARN_ON is used for invariants that the kunit should be checking can't
+238517582c3f63 Jason Gunthorpe 2024-06-28  132   * happen.
+238517582c3f63 Jason Gunthorpe 2024-06-28  133   */
+238517582c3f63 Jason Gunthorpe 2024-06-28  134  #if IS_ENABLED(CONFIG_DEBUG_GENERIC_PT)
+238517582c3f63 Jason Gunthorpe 2024-06-28  135  #define PT_WARN_ON WARN_ON
+238517582c3f63 Jason Gunthorpe 2024-06-28  136  #else
+238517582c3f63 Jason Gunthorpe 2024-06-28 @137  static inline bool PT_WARN_ON({bool condition)
+238517582c3f63 Jason Gunthorpe 2024-06-28  138  {
+238517582c3f63 Jason Gunthorpe 2024-06-28  139  	return false;
+238517582c3f63 Jason Gunthorpe 2024-06-28  140  }
+238517582c3f63 Jason Gunthorpe 2024-06-28  141  #endif
+238517582c3f63 Jason Gunthorpe 2024-06-28  142  
+
+:::::: The code at line 137 was first introduced by commit
+:::::: 238517582c3f6345ebaf2eecc116501f67de8d7c genpt: Generic Page Table base API
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
