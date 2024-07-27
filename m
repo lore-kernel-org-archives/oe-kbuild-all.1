@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C57622616
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 21:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C92111A1;
+	Sat, 27 Jul 2024 21:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722114401; cv=none; b=f9ojkJGLrPqT3+VZ3YuGBzkXE4Q+T1ycw+ctJvhF/h2bipcIutFueA6Nw3bD4biF5CPlOLbCx/wQnmCy1fjAbSkYGOgXXFbuBjQfmI2cyxhDMn3aNAMEtbLQUceD6WLFRE2Y6QgcS9libtmskZ0Ws9TgyPuCXqP4zkyrwqmpLz8=
+	t=1722116925; cv=none; b=CMLUwOXOcI2iRdTKel2vCqjKUDdSpG7YME10cIeCouXO40Ly10VD8JCPcV3iLZI5Dte/CrfTu2x21cWMWjvZaPs0thGRlBj72JCM6ng6rLaDrHB3IfdU/SbbsgM5oBLEOekPztmMmKVIkSPxRtTX8pFKlptwqx6NuW/q7jl+cxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722114401; c=relaxed/simple;
-	bh=X/teQ+KCYH40dvlleuVf1SRlq2gY8ECd/T8j96DJn6w=;
+	s=arc-20240116; t=1722116925; c=relaxed/simple;
+	bh=0/7JTdjU2NunOXizmj++lrsnok4A1Kgg24OQ4xODEzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O1V3k2oEJlJ7rhRHxvsG9029KUYjOz8W7kSv9yABuU3zVLWXfs5Y55GNS+M1/G13cZcK6Gw/daiqBDCIQkEBI2Kv3miQCWmSNevaknHiulm7PfijI/fkJ1frVGU+fKbf8CsWVZumBlKSk5z4FblrwcPEp9/0JLt4qOanq854vYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLT83xbr; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Vp0yyuvJWzrN/wzemPNrEQGxq6O4k8Y5LdqYL/uohueonJxxCwv1YW9VJXgRlkHyhaBGzo62eT53BD3NFLMWo/YM806H8TKJQHkj4dZPPPYNT5OK57a/RA1e1SZe5cUvY8qJp91JAwLUoxbFkQ/1m4JQbmzjmYBUTVH1n5Nt4FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJD398A8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLT83xbr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJD398A8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722114400; x=1753650400;
+  t=1722116923; x=1753652923;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X/teQ+KCYH40dvlleuVf1SRlq2gY8ECd/T8j96DJn6w=;
-  b=cLT83xbrG+y9te0d2D8PMaNWDkVZRMhO+ImFpy2qOiTphrMN7SDg5YI2
-   0V57a5lWuXp8oHe9CWeasrCqg5SMgavMNQO/lpyD40KemlWIEnHsPI79x
-   lhSq374t/EqhzDxoBGdu1Phupj1V5/FaUzPdhU92IrYuXCmre5jb1Hmb9
-   IQQgrSA//YhGaJW3RekiN+U01ns6nYZbWoXc9Z95eAP4FUdjaddk7mRNm
-   QXsyzs9CLsGKrRCVmLQ+1PaaapvSzPLFePZ8ZpmVzDhsC3MUvqcoAV63W
-   DofByAcYDPMkl2/L69BoraddRINat4cJ/lbhwbhbgBd28Dlw2cdUFaeXa
+  bh=0/7JTdjU2NunOXizmj++lrsnok4A1Kgg24OQ4xODEzs=;
+  b=IJD398A8zkq4PTtyQwrjlnDN0V7ROl6wU8yCjIiT+evNYT2F/l/Cy+pt
+   Mx87z2yUgPtq5yke8YW3OBvE/DXyHOmyAgOVeKS3OMfmfMLQAS5ToECB7
+   m8u+FmdtO7J3O/babvHPLIM5eYUspKMXrpvGVGpFutv6i08WLxDqS11c3
+   WAAkUCg43OzDAWuOWhJrtfzB6XEz+MgTNddwUm7gtTLaeYrT+3Y8gNp6c
+   6exhbV/eussyyFQB7BXCUxX9wgL9slp0tw+wrZwK6oPbjbys6RdWFnamm
+   Bzt7gCEIPTuss2oa9C8P2JFuSi1a8iCjqEO7M17qAvWo7LOn2xFt5xE/B
    A==;
-X-CSE-ConnectionGUID: vmul24AGQ8anp5lFhiUe2w==
-X-CSE-MsgGUID: /2ekYqjVQLOL9sfSbK0kCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="37395847"
+X-CSE-ConnectionGUID: vTQoq/DlTMyPuoCmesaqVQ==
+X-CSE-MsgGUID: bLgQ46CsQ/SgC1QkQ4AcFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="20015046"
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="37395847"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 14:06:40 -0700
-X-CSE-ConnectionGUID: cS4OZVW/QmmyZvuaGxXvsg==
-X-CSE-MsgGUID: 3+0sJr+7QWa4yigR3vYRrw==
+   d="scan'208";a="20015046"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 14:48:42 -0700
+X-CSE-ConnectionGUID: s8EfOPczSMKCzOvxqkcZGQ==
+X-CSE-MsgGUID: FnaiXTvxTbeEXnrbS5C8FQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="53245068"
+   d="scan'208";a="76812479"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jul 2024 14:06:39 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2024 14:48:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXoce-000qEm-34;
-	Sat, 27 Jul 2024 21:06:36 +0000
-Date: Sun, 28 Jul 2024 05:06:12 +0800
+	id 1sXpHK-000qGV-1B;
+	Sat, 27 Jul 2024 21:48:38 +0000
+Date: Sun, 28 Jul 2024 05:48:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:for-next 7/8] fs/smb/client/compress/lz77.h:127:16:
- error: implicit declaration of function 'copy_from_kernel_nofault'
-Message-ID: <202407280759.cGqYU6ve-lkp@intel.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/iio/light/opt4001.c:215:9: error: call to
+ '__compiletime_assert_530' declared with 'error' attribute: FIELD_PREP:
+ value too large for the field
+Message-ID: <202407280548.1MbEgmkH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +66,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/smfrench/smb3-kernel.git for-next
-head:   da98218c9ac5ff1f00b649b07cf56f93ef0902d3
-commit: 7db9a00c4d9bf4996177e4946241885234afb5c0 [7/8] smb3: mark compression as CONFIG_EXPERIMENTAL and fix missing compression operation
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240728/202407280759.cGqYU6ve-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280759.cGqYU6ve-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ff30564411ffdcee49d579cb15eb13185a36e253
+commit: 96e20adc43c4f81e9163a5188cee75a6dd393e09 regulator: change stubbed devm_regulator_get_enable to return Ok
+date:   3 months ago
+config: s390-randconfig-001-20240728 (https://download.01.org/0day-ci/archive/20240728/202407280548.1MbEgmkH-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280548.1MbEgmkH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407280759.cGqYU6ve-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407280548.1MbEgmkH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/smb/client/compress/lz77.c:10:
-   fs/smb/client/compress/lz77.h: In function 'lz77_copy':
->> fs/smb/client/compress/lz77.h:127:16: error: implicit declaration of function 'copy_from_kernel_nofault' [-Wimplicit-function-declaration]
-     127 |         return copy_from_kernel_nofault(dst, src, count);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iio/light/opt4001.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/iio/light/opt4001.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/iio/light/opt4001.c:16:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_530' declared with 'error' attribute: FIELD_PREP: value too large for the field
+           reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
+                  ^
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+                   ^
+   include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
+                   BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:437:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:430:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:17:1: note: expanded from here
+   __compiletime_assert_530
+   ^
+   12 warnings and 1 error generated.
 
 
-vim +/copy_from_kernel_nofault +127 fs/smb/client/compress/lz77.h
+vim +215 drivers/iio/light/opt4001.c
 
-   124	
-   125	static __always_inline long lz77_copy(u8 *dst, const u8 *src, size_t count)
-   126	{
- > 127		return copy_from_kernel_nofault(dst, src, count);
-   128	}
-   129	#else /* CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS */
-   130	static __always_inline u8 lz77_read8(const void *ptr)
-   131	{
-   132		return get_unaligned((u8 *)ptr);
-   133	}
-   134	
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  207  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  208  static int opt4001_set_conf(struct opt4001_chip *chip)
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  209  {
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  210  	struct device *dev = &chip->client->dev;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  211  	u16 reg;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  212  	int ret;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  213  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  214  	reg = FIELD_PREP(OPT4001_CTRL_RANGE_MASK, OPT4001_CTRL_LIGHT_SCALE_AUTO);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26 @215  	reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  216  	reg |= FIELD_PREP(OPT4001_CTRL_OPER_MODE_MASK, OPT4001_CTRL_OPER_MODE_CONTINUOUS);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  217  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  218  	ret = regmap_write(chip->regmap, OPT4001_CTRL, reg);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  219  	if (ret)
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  220  		dev_err(dev, "Failed to set configuration\n");
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  221  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  222  	return ret;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  223  }
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  224  
+
+:::::: The code at line 215 was first introduced by commit
+:::::: 9a9608418292bb8733805c3f3123dfe0454fadac iio: light: Add support for TI OPT4001 light sensor
+
+:::::: TO: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
