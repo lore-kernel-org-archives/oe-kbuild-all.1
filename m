@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFFA29408
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 05:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD36B179A3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 06:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722059905; cv=none; b=G5ExeVQbn4zSJ+UKKbt3wqyfJJVwWddxlPF7ief1kMfni3Vl7wBDN4J+pG6TYJ2yXg9XCb/3CMiuqAPSkahMj6Ri9ymJeoJje4qKA8uYNyoQg0PaOAJY4N+MCB4EY7dtfdjOD3nazj5AoWjDRPc006di/EbhaCTRkk+Ob01kWPM=
+	t=1722061281; cv=none; b=j7dDjwUUNHfGHfEu43djVjw3FfU4WTWXATbJBhqgRXNWZ8EYXw46vEeol6+zlnUYeggxMdHqFMtJ7bxJIDGcyQ5my7LmD8/8P0Z9wQh8kT2JAheAxZyV8HLdFOfXKsA7hlJfcdQPHyI+EdvlB0YLX4X+P5mF7dyo9TXaFSMlJio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722059905; c=relaxed/simple;
-	bh=KtfQAzM1qX6n3C8qYrHD8Uyj3nlGOT0SIvPz8lY3/Yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6QJ7umhCCCu1gUAko23i+08C+LPr2LQyPtkoq05svptdnkuo4tRs6tpopD5ar/jGUTl5BSyoNKe5S65g+Mv5pr6Ot0wS/8gol/Pn1fdcQFuBLI4AfDg0WMJYilho47Hp3rbW22mMzcDWcTph9Q7U9rULPljWe5bbcMyaEOIbnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OD1Ng6im; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1722061281; c=relaxed/simple;
+	bh=IPEY6i/CBdeNQdUvuM2ljmi1mIIGbjmDz2yOvj2xMGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aOTzQscaiJpoyUfQNhHKsQVAq0fIVNOPljSQaBstLi9/rvRrH1XcATtsla1CLkr1IZ+hYy9tqXVpfYlNiw0adpU1PXPSJ7cE3EAYq+hjXOuYJ/VBK8hJeJxppJ0OtVh21712cZALJuldoU32vBG8dLbLmT4H7QknMScTn5phOn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZZUFiibx; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OD1Ng6im"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZZUFiibx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722059902; x=1753595902;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KtfQAzM1qX6n3C8qYrHD8Uyj3nlGOT0SIvPz8lY3/Yc=;
-  b=OD1Ng6imJGF6OW6kwxQI1ttI83qqTlk1ATU6WGHEKk081Hi8QC5r6/pn
-   osV3vCBrr9tpwP+m7qOpASVH9jCuCrKaPCauGzXkK+KfXOsanMiXTSOto
-   IZ9uFo6gYiBk4mtNCjjRXMsSPjXoT/JoWZQGnlwgDaXUee7UZ++/GvBIU
-   q37xHvZ9PSVZbBEvpwn+3qyJm6aZjvizzxmwMB31EHvV1z0F1xS15TMYn
-   Ag4ZfxJzPOKtKWf/GctVav7U9qrepWjrjjhxm+wdC8FNt35zKm98LR9tB
-   RwrGcUE7zMmcfddSqutZfdXGDpa2DTx2B2QebbkMYGwnauZ1pwSmRXP9S
+  t=1722061279; x=1753597279;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IPEY6i/CBdeNQdUvuM2ljmi1mIIGbjmDz2yOvj2xMGU=;
+  b=ZZUFiibxWiOdTTNX5k+xPUhP8/bNgmbFp4prTg5cpsTY4rUmyqPG5SjH
+   2KO+HMrsdv+sMeTvtNSAo2Cfj0Hn17qZkTiDbzyJwJ7jEiYr8vBdzRkl1
+   QjD3ULwjLWacLAOMmqBHKHZVzM3i/ruU6gv6bC9aIEFpUElkzE9Up3sur
+   wzt/ZusnIx98yrN24/NLKujvVhZfCtgEjgy/Ddh76yuWy1MnvI7GhRqHl
+   glmvKxtBZKD1v3ohsodSJhVA5QYplx8SP8rcvBi94Ky1kcL/+TcLSwuSw
+   hho27CrS4Birfej+QYqCxNJ7BmuIQjQflE0JlhcrVufjaAvmWM2/RBWlJ
    Q==;
-X-CSE-ConnectionGUID: dSGGz/LWTIG0XUPT1XY6JA==
-X-CSE-MsgGUID: XGRmI8TGQ4aAjJi3ln3LWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="19996468"
+X-CSE-ConnectionGUID: WXmKx+lPTZ+Hy4YQgsrMQQ==
+X-CSE-MsgGUID: Ls8w2TNnTGi4XD8OuRNK5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="20003319"
 X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="19996468"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 22:58:21 -0700
-X-CSE-ConnectionGUID: JdxGPiyyQ3yw9rO7ADkNQg==
-X-CSE-MsgGUID: O9wa2+aWRKCX9UiF3O5TqQ==
+   d="scan'208";a="20003319"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 23:21:18 -0700
+X-CSE-ConnectionGUID: wrqB6XbHT0yVUORWIXh/UQ==
+X-CSE-MsgGUID: nb7j2S3VQ0SQ27x8vZlnow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="57758100"
+   d="scan'208";a="57623237"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Jul 2024 22:58:16 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Jul 2024 23:21:16 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXaRZ-000pf2-2r;
-	Sat, 27 Jul 2024 05:58:13 +0000
-Date: Sat, 27 Jul 2024 13:58:04 +0800
+	id 1sXanq-000pfQ-20;
+	Sat, 27 Jul 2024 06:21:14 +0000
+Date: Sat, 27 Jul 2024 14:20:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, ying.huang@intel.com,
-	baolin.wang@linux.alibaba.com, chrisl@kernel.org, david@redhat.com,
-	hannes@cmpxchg.org, hughd@google.com, kaleshsingh@google.com,
-	kasong@tencent.com, linux-kernel@vger.kernel.org, mhocko@suse.com,
-	minchan@kernel.org, nphamcs@gmail.com, ryan.roberts@arm.com,
-	senozhatsky@chromium.org, shakeel.butt@linux.dev,
-	shy828301@gmail.com, surenb@google.com, v-songbaohua@oppo.com,
-	willy@infradead.org, xiang@kernel.org, yosryahmed@google.com
-Subject: Re: [PATCH v5 4/4] mm: Introduce per-thpsize swapin control policy
-Message-ID: <202407271351.ffZPMT6W-lkp@intel.com>
-References: <20240726094618.401593-5-21cnbao@gmail.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 9458/23370]
+ drivers/iommu/.tmp_amd_iommu_quirks.o: warning: objtool: missing symbol for
+ section .text
+Message-ID: <202407271424.5G6KyQ0z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,98 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240726094618.401593-5-21cnbao@gmail.com>
 
-Hi Barry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-swap-introduce-swapcache_prepare_nr-and-swapcache_clear_nr-for-large-folios-swap-in/20240726-181412
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240726094618.401593-5-21cnbao%40gmail.com
-patch subject: [PATCH v5 4/4] mm: Introduce per-thpsize swapin control policy
-config: x86_64-randconfig-121-20240727 (https://download.01.org/0day-ci/archive/20240727/202407271351.ffZPMT6W-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271351.ffZPMT6W-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   365ea86d72567c1550e42ecf0e3f4521da9a5570
+commit: fe2ee4839a7421367da12f5610e1b45c619fcbad [9458/23370] iommu/amd: Override wrong IVRS IOAPIC on Raven Ridge systems
+config: x86_64-buildonly-randconfig-005-20240727 (https://download.01.org/0day-ci/archive/20240727/202407271424.5G6KyQ0z-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271424.5G6KyQ0z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407271351.ffZPMT6W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407271424.5G6KyQ0z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/huge_memory.c:83:15: sparse: sparse: symbol 'huge_anon_orders_swapin_always' was not declared. Should it be static?
-   mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   mm/huge_memory.c:1867:20: sparse: sparse: context imbalance in 'madvise_free_huge_pmd' - unexpected unlock
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   mm/huge_memory.c:1905:28: sparse: sparse: context imbalance in 'zap_huge_pmd' - unexpected unlock
-   mm/huge_memory.c:2016:28: sparse: sparse: context imbalance in 'move_huge_pmd' - unexpected unlock
-   mm/huge_memory.c:2156:20: sparse: sparse: context imbalance in 'change_huge_pmd' - unexpected unlock
-   mm/huge_memory.c:2306:12: sparse: sparse: context imbalance in '__pmd_trans_huge_lock' - wrong count at exit
-   mm/huge_memory.c:2323:12: sparse: sparse: context imbalance in '__pud_trans_huge_lock' - wrong count at exit
-   mm/huge_memory.c:2347:28: sparse: sparse: context imbalance in 'zap_huge_pud' - unexpected unlock
-   mm/huge_memory.c:2426:18: sparse: sparse: context imbalance in '__split_huge_zero_page_pmd' - unexpected unlock
-   mm/huge_memory.c:2640:18: sparse: sparse: context imbalance in '__split_huge_pmd_locked' - unexpected unlock
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   mm/huge_memory.c:3031:30: sparse: sparse: context imbalance in '__split_huge_page' - unexpected unlock
-   mm/huge_memory.c:3306:17: sparse: sparse: context imbalance in 'split_huge_page_to_list_to_order' - different lock contexts for basic block
-   mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +/huge_anon_orders_swapin_always +83 mm/huge_memory.c
-
-    51	
-    52	/*
-    53	 * By default, transparent hugepage support is disabled in order to avoid
-    54	 * risking an increased memory footprint for applications that are not
-    55	 * guaranteed to benefit from it. When transparent hugepage support is
-    56	 * enabled, it is for all mappings, and khugepaged scans all mappings.
-    57	 * Defrag is invoked by khugepaged hugepage allocations and by page faults
-    58	 * for all hugepage allocations.
-    59	 */
-    60	unsigned long transparent_hugepage_flags __read_mostly =
-    61	#ifdef CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS
-    62		(1<<TRANSPARENT_HUGEPAGE_FLAG)|
-    63	#endif
-    64	#ifdef CONFIG_TRANSPARENT_HUGEPAGE_MADVISE
-    65		(1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG)|
-    66	#endif
-    67		(1<<TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG)|
-    68		(1<<TRANSPARENT_HUGEPAGE_DEFRAG_KHUGEPAGED_FLAG)|
-    69		(1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG);
-    70	
-    71	static struct shrinker *deferred_split_shrinker;
-    72	static unsigned long deferred_split_count(struct shrinker *shrink,
-    73						  struct shrink_control *sc);
-    74	static unsigned long deferred_split_scan(struct shrinker *shrink,
-    75						 struct shrink_control *sc);
-    76	
-    77	static atomic_t huge_zero_refcount;
-    78	struct folio *huge_zero_folio __read_mostly;
-    79	unsigned long huge_zero_pfn __read_mostly = ~0UL;
-    80	unsigned long huge_anon_orders_always __read_mostly;
-    81	unsigned long huge_anon_orders_madvise __read_mostly;
-    82	unsigned long huge_anon_orders_inherit __read_mostly;
-  > 83	unsigned long huge_anon_orders_swapin_always __read_mostly;
-    84	
+>> drivers/iommu/.tmp_amd_iommu_quirks.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
