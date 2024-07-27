@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28ABD381BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 08:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A520C1CF90
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 09:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722070224; cv=none; b=FyZjg1rwIZogZ5I+tdcieC7eOZzGa1ERwsMhPOeJC4rRMgZpeHLDigNtp7+Ih6gKA5dVBlpk9b01tz5byoCh4/LL6jU6fYBrTm9Sv1oJZRiC7qocFC2bximwrVY+FT5ufd3yMevTDRsZg5OC9w0/RB78eosPXHk9akWy73G79g4=
+	t=1722072809; cv=none; b=NvAYkol+DKtJS+Zp0F4U6T6FmsM7ikQUOzKD3V2yLINgnYgu8oU3lfrSnA1DqeTk/0RIhMLTPCwXv4A6a2FPU7oIMqFb6EfRc9JW2R+1i5ukwrsJ4rDOy9XLHsPNUn5/KSTfhFVDpi0Cjo6rqni4ShHkMvCFJTu0XHBNOIRabqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722070224; c=relaxed/simple;
-	bh=Bk1BmW9Q1NgrWBmFbOK1HKWG+xvVUCiNl5CwCG7iXZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MIm6F+sw5qpIUw+alyCnwh/psa5xGew6kewLtWvfdYt7EWoMaKZyUZuEHbNo7MFCnm3cnnr/ssaSmldkJZ5nb6hGv9sbzx3MVpmpaQqTlfpVy3LLXPYlc2Vvr/93M4AheuPVZmIImirFQDl18CSZqCVt831WTwPu2TEH7l7VKQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsOhMMda; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1722072809; c=relaxed/simple;
+	bh=96QOIG/h1nLnig5TjvXXPOrhIEeMRrOBAX7BbjccgxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KTP80QQEafS7diGiFBE34LF/c4mVrPGh4WrLhWZdsEpM95U20FI/xevlpw1o7byVsgCbJu4chnj6FkP4V/WPeUO/I+lLySqksu31eY/KBCexem1mjIA7Hg5oNwHHPWN4VCPOB3YsdC/5Kq4MYV8hn7OphMEj5Jf0m7F1r65+2ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOcg2so2; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsOhMMda"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOcg2so2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722070222; x=1753606222;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bk1BmW9Q1NgrWBmFbOK1HKWG+xvVUCiNl5CwCG7iXZI=;
-  b=dsOhMMdaziLi+yA5N7Sm7Vo5Bz/C8lYlTHHvwT4hAFBG7e9/ZqJ/J9ga
-   G+fdTqhspjostuc8VjnRWBxPfk94/cj+TdQy2XECcdgjvZgDjA9rQlas+
-   i/rxyf7MjwlwmiMER9adrbQQQUwLyW/v4CcmXbwgChpOCiB3Ud+Mujugy
-   nOfQURH90cNy7twSSDgpPgBAte7frMyrhJDHIvVY9NaKyUOfWGjITY3dC
-   1RPxlyeS4kQZF9PWb0oruLHBYRYEJRXJLOAI3Xy/VunzCPAIcFCUWKIOZ
-   fv5IJcFuHd0jZX2KGt8lIj3raLm1W/zp0dH93i36/UjYeVIYmjdoy5cjZ
+  t=1722072808; x=1753608808;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=96QOIG/h1nLnig5TjvXXPOrhIEeMRrOBAX7BbjccgxY=;
+  b=LOcg2so2GtBM2bmRGc2elBkIErkIdedlyCVu8ikxygK3WL6t9ahFXzm7
+   iX7++6im8ga1hna5wh0VNWpwFJlnHpaioJLCWVRVVVdWfNVoVIsPFToT6
+   d7P12H/tn5cw1LnVbV304YXm14YnzxuX4Nghg9bIjB/zIsTv0dvdmoYFi
+   cCal4ZL7naKFul9grlk6k6dUct4jWb8MXfoySM0v2K0f0Gy+cBxfH25QU
+   qBs8PDBOaWHYk7m8wk+vb+AoLNsnXW6ufEJmRN2Bz1FBnMgqdPXWgyi9K
+   1MfdPAIxq8G38Zppci+PZUCmACFzeLt6lU/G2YkRUYD8coGDBbAAEksJN
    A==;
-X-CSE-ConnectionGUID: k7jENyRJR1meyGrkMwJX/g==
-X-CSE-MsgGUID: sKPdlLkkRTWSSn8pws/pyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="19745487"
+X-CSE-ConnectionGUID: VWG09xoBTq2cSuR5rAThzA==
+X-CSE-MsgGUID: O2m1hl4HQN+S4bb7+TR0qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="23623105"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="19745487"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 01:50:21 -0700
-X-CSE-ConnectionGUID: 1EwGWpf3SwOb7K3oxEQW+Q==
-X-CSE-MsgGUID: KhCJsW6sQTymrma3dol5kQ==
+   d="scan'208";a="23623105"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 02:33:27 -0700
+X-CSE-ConnectionGUID: 5BsX9X7rT/uE1OY406do8A==
+X-CSE-MsgGUID: H/UUFVt3SzWj6VvkW03j2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="53162319"
+   d="scan'208";a="54279932"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jul 2024 01:50:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jul 2024 02:33:23 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXd85-000plk-36;
-	Sat, 27 Jul 2024 08:50:17 +0000
-Date: Sat, 27 Jul 2024 16:49:54 +0800
+	id 1sXdnk-000pou-0b;
+	Sat, 27 Jul 2024 09:33:20 +0000
+Date: Sat, 27 Jul 2024 17:32:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 11543/23370]
- drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_qres.o: warning:
- objtool: missing symbol for section .text
-Message-ID: <202407271613.wxmYLLXu-lkp@intel.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>,
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Martin =?iso-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>,
+	Michal Kubiak <michal.kubiak@intel.com>,
+	Simon Horman <horms@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Judith Mendez <jm@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Linux regression tracking <regressions@leemhuis.info>,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] can: m_can: Do not cancel timer from within timer
+Message-ID: <202407271748.gsVE0Hih-lkp@intel.com>
+References: <20240726195944.2414812-5-msp@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,159 +76,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240726195944.2414812-5-msp@baylibre.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   365ea86d72567c1550e42ecf0e3f4521da9a5570
-commit: ed046b8a9bc5f5836ece3a3efa29c54f0fc904e7 [11543/23370] net: hns3: rename hns3_cae's files and remove send_cmdq
-config: x86_64-buildonly-randconfig-005-20240727 (https://download.01.org/0day-ci/archive/20240727/202407271613.wxmYLLXu-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271613.wxmYLLXu-lkp@intel.com/reproduce)
+Hi Markus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkl-can-next/testing]
+[also build test WARNING on linus/master v6.10 next-20240726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/can-m_can-Reset-coalescing-during-suspend-resume/20240727-042714
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
+patch link:    https://lore.kernel.org/r/20240726195944.2414812-5-msp%40baylibre.com
+patch subject: [PATCH 4/7] can: m_can: Do not cancel timer from within timer
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240727/202407271748.gsVE0Hih-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271748.gsVE0Hih-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407271613.wxmYLLXu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407271748.gsVE0Hih-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:6:5: warning: no previous prototype for function 'hns3_get_qres_rx_value' [-Wmissing-prototypes]
-       6 | int hns3_get_qres_rx_value(struct hns3_nic_priv *net_priv, int ring_id,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:6:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       6 | int hns3_get_qres_rx_value(struct hns3_nic_priv *net_priv, int ring_id,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:54:5: warning: no previous prototype for function 'hns3_get_qres_tx_value' [-Wmissing-prototypes]
-      54 | int hns3_get_qres_tx_value(struct hns3_nic_priv *net_priv, int ring_id,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      54 | int hns3_get_qres_tx_value(struct hns3_nic_priv *net_priv, int ring_id,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:100:6: warning: no previous prototype for function 'fill_queue_info' [-Wmissing-prototypes]
-     100 | void fill_queue_info(struct hns3_nic_priv *net_priv,
-         |      ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qres.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | void fill_queue_info(struct hns3_nic_priv *net_priv,
-         | ^
-         | static 
-   3 warnings generated.
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_qres.o: warning: objtool: missing symbol for section .text
---
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_port.c:19:6: warning: no previous prototype for function 'fill_port_info' [-Wmissing-prototypes]
-      19 | void fill_port_info(struct hclge_port_info *get_port_info_out,
-         |      ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_port.c:19:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      19 | void fill_port_info(struct hclge_port_info *get_port_info_out,
-         | ^
-         | static 
-   1 warning generated.
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_port.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_hilink_param.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_irq.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_qinfo.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_rss.o: warning: objtool: missing symbol for section .text
---
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:20:5: warning: no previous prototype for function 'hclge_test_send_generic_cmd' [-Wmissing-prototypes]
-      20 | int hclge_test_send_generic_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      20 | int hclge_test_send_generic_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:62:5: warning: no previous prototype for function 'hclge_test_send_allocate_cmd' [-Wmissing-prototypes]
-      62 | int hclge_test_send_allocate_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:62:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      62 | int hclge_test_send_allocate_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:100:5: warning: no previous prototype for function 'hclge_test_send_key_cfg_cmd' [-Wmissing-prototypes]
-     100 | int hclge_test_send_key_cfg_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | int hclge_test_send_key_cfg_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:153:5: warning: no previous prototype for function 'hclge_test_send_tcam_op_cmd' [-Wmissing-prototypes]
-     153 | int hclge_test_send_tcam_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:153:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     153 | int hclge_test_send_tcam_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:224:5: warning: no previous prototype for function 'hclge_test_send_ad_op_cmd' [-Wmissing-prototypes]
-     224 | int hclge_test_send_ad_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:224:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     224 | int hclge_test_send_ad_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:267:5: warning: no previous prototype for function 'hclge_test_send_cnt_op_cmd' [-Wmissing-prototypes]
-     267 | int hclge_test_send_cnt_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_fd.c:267:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     267 | int hclge_test_send_cnt_op_cmd(struct hclge_dev *hdev, u8 *buf_in,
-         | ^
-         | static 
-   6 warnings generated.
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_fd.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_mac.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_vlan.o: warning: objtool: missing symbol for section .text
---
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:9:19: warning: no previous prototype for function 'get_val_hdev' [-Wmissing-prototypes]
-       9 | struct hclge_dev *get_val_hdev(struct hns3_nic_priv *net_priv)
-         |                   ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       9 | struct hclge_dev *get_val_hdev(struct hns3_nic_priv *net_priv)
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:19:5: warning: no previous prototype for function 'hns3_cmd_rx_priv_wl_config' [-Wmissing-prototypes]
-      19 | int hns3_cmd_rx_priv_wl_config(struct hclge_dev *hdev, u16 tc,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:19:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      19 | int hns3_cmd_rx_priv_wl_config(struct hclge_dev *hdev, u16 tc,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:89:5: warning: no previous prototype for function 'hns3_cmd_common_thrd_config' [-Wmissing-prototypes]
-      89 | int hns3_cmd_common_thrd_config(struct hclge_dev *hdev, u16 tc,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:89:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      89 | int hns3_cmd_common_thrd_config(struct hclge_dev *hdev, u16 tc,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:161:5: warning: no previous prototype for function 'hns3_cmd_common_wl_config' [-Wmissing-prototypes]
-     161 | int hns3_cmd_common_wl_config(struct hclge_dev *hdev, u32 high, u32 low, u32 en)
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_qos.c:161:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     161 | int hns3_cmd_common_wl_config(struct hclge_dev *hdev, u32 high, u32 low, u32 en)
-         | ^
-         | static 
-   4 warnings generated.
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_qos.o: warning: objtool: missing symbol for section .text
---
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_promisc.c:6:5: warning: no previous prototype for function 'hns3_read_promisc_mode_cfg' [-Wmissing-prototypes]
-       6 | int hns3_read_promisc_mode_cfg(struct hns3_nic_priv *nic_dev,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_promisc.c:6:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       6 | int hns3_read_promisc_mode_cfg(struct hns3_nic_priv *nic_dev,
-         | ^
-         | static 
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_promisc.c:44:5: warning: no previous prototype for function 'hns3_set_promisc_mode_cfg' [-Wmissing-prototypes]
-      44 | int hns3_set_promisc_mode_cfg(struct hns3_nic_priv *nic_dev,
-         |     ^
-   drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_promisc.c:44:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      44 | int hns3_set_promisc_mode_cfg(struct hns3_nic_priv *nic_dev,
-         | ^
-         | static 
-   2 warnings generated.
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_promisc.o: warning: objtool: missing symbol for section .text
+>> drivers/net/can/m_can/m_can.c:1205: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This interrupt handler is called either from the interrupt thread or a
+
+
+vim +1205 drivers/net/can/m_can/m_can.c
+
+  1203	
+  1204	/**
+> 1205	 * This interrupt handler is called either from the interrupt thread or a
+  1206	 * hrtimer. This has implications like cancelling a timer won't be possible
+  1207	 * blocking.
+  1208	 */
+  1209	static int m_can_interrupt_handler(struct m_can_classdev *cdev)
+  1210	{
+  1211		struct net_device *dev = cdev->net;
+  1212		u32 ir;
+  1213		int ret;
+  1214	
+  1215		if (pm_runtime_suspended(cdev->dev))
+  1216			return IRQ_NONE;
+  1217	
+  1218		ir = m_can_read(cdev, M_CAN_IR);
+  1219		m_can_coalescing_update(cdev, ir);
+  1220		if (!ir)
+  1221			return IRQ_NONE;
+  1222	
+  1223		/* ACK all irqs */
+  1224		m_can_write(cdev, M_CAN_IR, ir);
+  1225	
+  1226		if (cdev->ops->clear_interrupts)
+  1227			cdev->ops->clear_interrupts(cdev);
+  1228	
+  1229		/* schedule NAPI in case of
+  1230		 * - rx IRQ
+  1231		 * - state change IRQ
+  1232		 * - bus error IRQ and bus error reporting
+  1233		 */
+  1234		if (ir & (IR_RF0N | IR_RF0W | IR_ERR_ALL_30X)) {
+  1235			cdev->irqstatus = ir;
+  1236			if (!cdev->is_peripheral) {
+  1237				m_can_disable_all_interrupts(cdev);
+  1238				napi_schedule(&cdev->napi);
+  1239			} else {
+  1240				ret = m_can_rx_handler(dev, NAPI_POLL_WEIGHT, ir);
+  1241				if (ret < 0)
+  1242					return ret;
+  1243			}
+  1244		}
+  1245	
+  1246		if (cdev->version == 30) {
+  1247			if (ir & IR_TC) {
+  1248				/* Transmission Complete Interrupt*/
+  1249				u32 timestamp = 0;
+  1250				unsigned int frame_len;
+  1251	
+  1252				if (cdev->is_peripheral)
+  1253					timestamp = m_can_get_timestamp(cdev);
+  1254				frame_len = m_can_tx_update_stats(cdev, 0, timestamp);
+  1255				m_can_finish_tx(cdev, 1, frame_len);
+  1256			}
+  1257		} else  {
+  1258			if (ir & (IR_TEFN | IR_TEFW)) {
+  1259				/* New TX FIFO Element arrived */
+  1260				ret = m_can_echo_tx_event(dev);
+  1261				if (ret != 0)
+  1262					return ret;
+  1263			}
+  1264		}
+  1265	
+  1266		if (cdev->is_peripheral)
+  1267			can_rx_offload_threaded_irq_finish(&cdev->offload);
+  1268	
+  1269		return IRQ_HANDLED;
+  1270	}
+  1271	
 
 -- 
 0-DAY CI Kernel Test Service
