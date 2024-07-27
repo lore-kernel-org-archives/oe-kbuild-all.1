@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651B416F902
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 14:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73E916C867
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 15:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722089252; cv=none; b=oR+D2ozA69wsnH8os+vww98NJVs0HWBJuUNIqAXnEUq+RNqggXgCvWIt2eEBksyabqDtZOygajSeQCKlf4rvwJRHx4jOFjISZMc08HlIYxDA8X58S3FehKn9chmVyn+ebm8eQ9gPO45avGW03Rpw0MSmvSK30j91yjq4K6pcQ0A=
+	t=1722092634; cv=none; b=RDW42sKADZuCdwoHbSDsYfpH+HwKa+DQO3SvGZid6j/4hAvjYQQa04G4Wj21sLCZWnmDczkbYX+LReLnqgCyzfS90PUc/qYf8F8r70yos7xwX/pFlVkKMq2LjVZJBJf+Ij/w/qUL6zlGeWw6VoHGPve6SD9mngBgrnYp01VjpRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722089252; c=relaxed/simple;
-	bh=mysg1I+YNFznRxOjtG+FqrJItM4XEE4AGZIiWPUfGHU=;
+	s=arc-20240116; t=1722092634; c=relaxed/simple;
+	bh=NeL9ur0Fqdon7nBXM7o2wh+59HKumynEQ8TT4Q1kUTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZwH/kLoQVg6T/VBDUkvMdoYro29AbQeHtN3vVUKRl5U55u9kS6NjvILQ/JuhRs/22L6AJxfCoA/t8ddFkQrkVN/4ofOxeJX6KxV9uW/JA77O3VkijJJc8NpSvA5tbi4xbT8/ThfS46do0VUq4R+BXmLRoWcKGG/bSzj8HvbUAPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DD597cQ7; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=n+gTPFFs8XyMEeqShRF6YPQGZgbNgTWkUi2qUaMeZtBA+q7LTLhj0bVDo9nQ/tV8BxiSYGVWuuflZ9rPOcdtX1s49FBMcIPHe5lxLOMUM7v5asNjCFGSif7E6CUKHxl1ZdDXSKPJz8gculVTyd5Mp0MXnSUzSBdthi7T+nJjlhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rs37u+RS; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DD597cQ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rs37u+RS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722089249; x=1753625249;
+  t=1722092631; x=1753628631;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mysg1I+YNFznRxOjtG+FqrJItM4XEE4AGZIiWPUfGHU=;
-  b=DD597cQ7TjKxYqQOTME9MTtS+dJwpQg2iGVjQ603fsW46ppnAgDwXnvI
-   YxFi+qzuPshB4j9woQFtx0hDbLuJcYysMlcmG7Yo9PTljnKxj0PLi/85M
-   VBUDGb0SPDFczD0zQVJHetORNpdwJDwUV5ACoJRcavbBr37F8dLC0hDa/
-   t+gM0yLaOfNMWRa9dA93czlQB2OGKicSEJbFgXK34a6DupPWgq+M05Hhu
-   apNP/hbY0d7gCxqXa5Jls/hViTdqq6za0uJ5Hd3uhZ54f07+lU5nE0plH
-   EZrdDSmi4tub5NnapiUPix9QaaIJ02/LuP1C44AGko/RCOb4ytmb/VCO9
-   Q==;
-X-CSE-ConnectionGUID: ZR5jEPSOStej5y6kcJOygw==
-X-CSE-MsgGUID: StW+HoavTueKq2eEKCVTcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="23630006"
+  bh=NeL9ur0Fqdon7nBXM7o2wh+59HKumynEQ8TT4Q1kUTQ=;
+  b=Rs37u+RSfukcCnyV45kiBypd3BbKX/X4p8QKL9dKH/RebyGM5yA2Aabt
+   bQ8GdcQrT/6J3oUup3bPPmQWjMw49u6GNqLh02yrp3SEolF2ifUSbAy/L
+   4UT3F0xT2JvBdjUbM/r5papm0ppTaJfN2TXHCviOXqHryJzcWJ2tNOaln
+   iQsXLRvRWn6jfl5lG6uET8eABMqGoaPkdXSNNH3KXHmws0LGqIS2ocMfp
+   aMJFYy8fhQYqoSihXdxIE7Wu9tP8Qssat/JrXPIoQiSBCMvg09qJV9Xi6
+   1FO5N+FM90HY5a88JpFGH8lp9VG1QUaGVA92FZJrgmB45glT+NrWSMFq9
+   g==;
+X-CSE-ConnectionGUID: r34KTYE2SZqf8v9gba6n1w==
+X-CSE-MsgGUID: JuvJpCQhS9am/btn7EdkLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="37346707"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="23630006"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 07:07:28 -0700
-X-CSE-ConnectionGUID: hI4NqzAuTYe9uNhCVo8iEg==
-X-CSE-MsgGUID: y5SSKDvrRmqM2wx9yh4qxQ==
+   d="scan'208";a="37346707"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 07:49:30 -0700
+X-CSE-ConnectionGUID: iMNC8c1ETYCrF9zHoeLzqg==
+X-CSE-MsgGUID: OE7xD3SUQBipnZyMqV6Ikg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="53528836"
+   d="scan'208";a="76762382"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Jul 2024 07:07:28 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2024 07:49:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXi4z-000pya-1Q;
-	Sat, 27 Jul 2024 14:07:25 +0000
-Date: Sat, 27 Jul 2024 22:06:43 +0800
+	id 1sXije-000pzY-03;
+	Sat, 27 Jul 2024 14:49:26 +0000
+Date: Sat, 27 Jul 2024 22:49:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 23/25]
- drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter
- declarator
-Message-ID: <202407272150.vxNqJopn-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.4 4/10] drivers/usb/cdns3/drd.c:43:42: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202407272247.NJBCdaKb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,443 +63,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   ea5c6d0c8914861c8e337228c4880001bf40f7c4
-commit: 37a088a45cd2447e52b2ee9a0950557f394049ff [23/25] iommupt: Add the 64 bit ARMv8 page table format
-config: x86_64-randconfig-r053-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272150.vxNqJopn-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272150.vxNqJopn-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
+head:   24f95d0e9b1707db180c68181603937d90783fd9
+commit: 1a36f8033bac1979c6bb6c2166a6c143f2113f97 [4/10] BACKPORT: usb: cdns3: make signed 1 bit bitfields unsigned
+config: i386-randconfig-062-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272247.NJBCdaKb-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272247.NJBCdaKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407272150.vxNqJopn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407272247.NJBCdaKb-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/cdns3/drd.c:43:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:43:42: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:43:42: sparse:     got restricted __le32 *
+>> drivers/usb/cdns3/drd.c:45:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:45:42: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:45:42: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:47:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:47:42: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:47:42: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:49:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:49:42: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:49:42: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:71:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:71:25: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:71:25: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:81:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:81:30: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:81:30: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:114:24: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:114:24: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:114:24: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:124:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:124:48: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:124:48: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:141:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:141:56: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:141:56: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:144:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:144:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:144:23: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:144:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:144:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:144:23: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:154:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:154:29: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:154:29: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:156:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:156:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:156:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:156:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:156:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:156:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:178:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:178:55: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:178:55: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:182:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:182:23: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:182:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:182:23: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:197:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:197:29: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:197:29: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:199:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:199:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:199:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:199:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:199:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:199:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:219:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:219:25: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:219:25: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:284:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:284:26: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:284:26: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:303:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:303:25: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:303:25: sparse:     got restricted __le32 *
+>> drivers/usb/cdns3/drd.c:326:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_legacy_regs *otg_v0_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
+   drivers/usb/cdns3/drd.c:326:27: sparse:     expected struct cdns3_otg_legacy_regs *otg_v0_regs
+   drivers/usb/cdns3/drd.c:326:27: sparse:     got void [noderef] <asn:2> *[assigned] regs
+   drivers/usb/cdns3/drd.c:327:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:327:25: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:327:25: sparse:     got restricted __le32 *
+>> drivers/usb/cdns3/drd.c:330:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_common_regs *otg_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
+   drivers/usb/cdns3/drd.c:330:32: sparse:     expected struct cdns3_otg_common_regs *otg_regs
+   drivers/usb/cdns3/drd.c:330:32: sparse:     got void [noderef] <asn:2> *[assigned] regs
+   drivers/usb/cdns3/drd.c:331:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:331:32: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:331:32: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:332:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:332:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:332:17: sparse:     got restricted __le32 *
+>> drivers/usb/cdns3/drd.c:336:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_regs *otg_v1_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
+   drivers/usb/cdns3/drd.c:336:35: sparse:     expected struct cdns3_otg_regs *otg_v1_regs
+   drivers/usb/cdns3/drd.c:336:35: sparse:     got void [noderef] <asn:2> *[assigned] regs
+   drivers/usb/cdns3/drd.c:339:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:339:32: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:339:32: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:340:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:340:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:340:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:340:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:340:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:340:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:345:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:345:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:345:17: sparse:     got restricted __le32 *
+   drivers/usb/cdns3/drd.c:368:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
+   drivers/usb/cdns3/drd.c:368:28: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/drd.c:368:28: sparse:     got restricted __le32 *
 
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:11:
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter declarator
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                               ^
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected ')'
-   drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: note: to match this '('
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                              ^
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                              ^               
-         |                                              void
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
->> drivers/iommu/generic_pt/fmt/armv8.h:277:35: warning: too many arguments in call to 'PT_WARN_ON'
-     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
-         |         ~~~~~~~~~~                       ^
->> drivers/iommu/generic_pt/fmt/armv8.h:277:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
-         |                   ^
-   drivers/iommu/generic_pt/fmt/armv8.h:297:56: warning: too many arguments in call to 'PT_WARN_ON'
-     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
-         |                 ~~~~~~~~~~                                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:297:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
-         |                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:298:65: warning: too many arguments in call to 'PT_WARN_ON'
-     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
-         |                 ~~~~~~~~~~                                                    ^
-   drivers/iommu/generic_pt/fmt/armv8.h:298:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
-         |                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:353:49: warning: too many arguments in call to 'PT_WARN_ON'
-     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
-         |         ~~~~~~~~~~                                     ^
-   drivers/iommu/generic_pt/fmt/armv8.h:353:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
-         |                   ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
---
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:177:27: note: expanded from macro '_SIG_SET_OP'
-     177 |         case 2: set->sig[1] = op(set->sig[1]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:177:10: note: expanded from macro '_SIG_SET_OP'
-     177 |         case 2: set->sig[1] = op(set->sig[1]);                          \
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     198 |         case 2: set->sig[1] = 0;
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     211 |         case 2: set->sig[1] = -1;
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     242 |         case 2: set->sig[1] = 0;
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     255 |         case 2: set->sig[1] = -1;
-         |                 ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:13:
->> drivers/iommu/generic_pt/fmt/../pt_common.h:281:34: warning: too many arguments in call to 'PT_WARN_ON'
-     281 |         if (PT_WARN_ON(!pts->table_lower))
-         |             ~~~~~~~~~~                  ^
->> drivers/iommu/generic_pt/fmt/../pt_common.h:281:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     281 |         if (PT_WARN_ON(!pts->table_lower))
-         |                       ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:338:47: warning: too many arguments in call to 'PT_WARN_ON'
-     338 |         if (PT_WARN_ON(!pt_can_have_table(parent_pts)) ||
-         |             ~~~~~~~~~~                               ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:338:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     338 |         if (PT_WARN_ON(!pt_can_have_table(parent_pts)) ||
-         |                       ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:339:55: warning: too many arguments in call to 'PT_WARN_ON'
-     339 |             PT_WARN_ON(last_va < va || pt_check_range(&range)) ||
-         |             ~~~~~~~~~~                                       ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:339:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     339 |             PT_WARN_ON(last_va < va || pt_check_range(&range)) ||
-         |                       ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:340:41: warning: too many arguments in call to 'PT_WARN_ON'
-     340 |             PT_WARN_ON(!parent_pts->table_lower))
-         |             ~~~~~~~~~~                         ^
-   drivers/iommu/generic_pt/fmt/../pt_common.h:340:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     340 |             PT_WARN_ON(!parent_pts->table_lower))
-         |                       ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:15:
->> drivers/iommu/generic_pt/fmt/../iommu_pt.h:163:16: warning: too many arguments in call to 'PT_WARN_ON'
-     163 |         PT_WARN_ON(ret);
-         |         ~~~~~~~~~~    ^
->> drivers/iommu/generic_pt/fmt/../iommu_pt.h:163:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     163 |         PT_WARN_ON(ret);
-         |                   ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:267:45: warning: too many arguments in call to 'PT_WARN_ON'
-     267 |                         if (PT_WARN_ON(pts.type != PT_ENTRY_EMPTY))
-         |                             ~~~~~~~~~~                           ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:267:18: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     267 |                         if (PT_WARN_ON(pts.type != PT_ENTRY_EMPTY))
-         |                                       ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:283:51: warning: too many arguments in call to 'PT_WARN_ON'
-     283 |                 } else if (PT_WARN_ON(pts.type != PT_ENTRY_TABLE)) {
-         |                            ~~~~~~~~~~                           ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:283:24: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     283 |                 } else if (PT_WARN_ON(pts.type != PT_ENTRY_TABLE)) {
-         |                                      ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:400:41: warning: too many arguments in call to 'PT_WARN_ON'
-     400 |                 if (PT_WARN_ON(pts.type != PT_ENTRY_OA) ||
-         |                     ~~~~~~~~~~                        ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:400:17: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     400 |                 if (PT_WARN_ON(pts.type != PT_ENTRY_OA) ||
-         |                               ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:401:29: warning: too many arguments in call to 'PT_WARN_ON'
-     401 |                     PT_WARN_ON(!pgsize_lg2))
-         |                     ~~~~~~~~~~            ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:401:17: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     401 |                     PT_WARN_ON(!pgsize_lg2))
-         |                               ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:520:20: warning: too many arguments in call to 'PT_WARN_ON'
-     520 |         if (PT_WARN_ON(ret))
-         |             ~~~~~~~~~~    ^
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:520:16: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     520 |         if (PT_WARN_ON(ret))
-         |                       ^
-   63 warnings and 17 errors generated.
---
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:11:
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected parameter declarator
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                               ^
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:31: error: expected ')'
-   drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: note: to match this '('
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                              ^
->> drivers/iommu/generic_pt/fmt/../pt_defs.h:137:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     137 | static inline bool PT_WARN_ON({bool condition)
-         |                              ^               
-         |                                              void
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
->> drivers/iommu/generic_pt/fmt/armv8.h:277:35: warning: too many arguments in call to 'PT_WARN_ON'
-     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
-         |         ~~~~~~~~~~                       ^
->> drivers/iommu/generic_pt/fmt/armv8.h:277:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     277 |         PT_WARN_ON(log2_mod(pa, pgsz_lg2));
-         |                   ^
-   drivers/iommu/generic_pt/fmt/armv8.h:297:56: warning: too many arguments in call to 'PT_WARN_ON'
-     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
-         |                 ~~~~~~~~~~                                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:297:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     297 |                 PT_WARN_ON(pts->index % armv8pt_contig_count_lg2(pts));
-         |                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:298:65: warning: too many arguments in call to 'PT_WARN_ON'
-     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
-         |                 ~~~~~~~~~~                                                    ^
-   drivers/iommu/generic_pt/fmt/armv8.h:298:13: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     298 |                 PT_WARN_ON(pgsz_lg2 != isz_lg2 + armv8pt_contig_count_lg2(pts));
-         |                           ^
-   drivers/iommu/generic_pt/fmt/armv8.h:353:49: warning: too many arguments in call to 'PT_WARN_ON'
-     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
-         |         ~~~~~~~~~~                                     ^
-   drivers/iommu/generic_pt/fmt/armv8.h:353:12: error: passing arguments to 'PT_WARN_ON' without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-     353 |         PT_WARN_ON(log2_mod(pts->index, num_contig_lg2));
-         |                   ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv8_4k.c:12:
-   In file included from drivers/iommu/generic_pt/fmt/armv8.h:436:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1120:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-..
+vim +43 drivers/usb/cdns3/drd.c
 
+7733f6c32e36ff Pawel Laszczak 2019-08-26  22  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  23  /**
+7733f6c32e36ff Pawel Laszczak 2019-08-26  24   * cdns3_set_mode - change mode of OTG Core
+7733f6c32e36ff Pawel Laszczak 2019-08-26  25   * @cdns: pointer to context structure
+7733f6c32e36ff Pawel Laszczak 2019-08-26  26   * @mode: selected mode from cdns_role
+7733f6c32e36ff Pawel Laszczak 2019-08-26  27   *
+7733f6c32e36ff Pawel Laszczak 2019-08-26  28   * Returns 0 on success otherwise negative errno
+7733f6c32e36ff Pawel Laszczak 2019-08-26  29   */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  30  int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  31  {
+7733f6c32e36ff Pawel Laszczak 2019-08-26  32  	int ret = 0;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  33  	u32 reg;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  34  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  35  	switch (mode) {
+7733f6c32e36ff Pawel Laszczak 2019-08-26  36  	case USB_DR_MODE_PERIPHERAL:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  37  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  38  	case USB_DR_MODE_HOST:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  39  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  40  	case USB_DR_MODE_OTG:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  41  		dev_dbg(cdns->dev, "Set controller to OTG mode\n");
+7733f6c32e36ff Pawel Laszczak 2019-08-26  42  		if (cdns->version == CDNS3_CONTROLLER_V1) {
+7733f6c32e36ff Pawel Laszczak 2019-08-26 @43  			reg = readl(&cdns->otg_v1_regs->override);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  44  			reg |= OVERRIDE_IDPULLUP;
+7733f6c32e36ff Pawel Laszczak 2019-08-26 @45  			writel(reg, &cdns->otg_v1_regs->override);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  46  		} else {
+7733f6c32e36ff Pawel Laszczak 2019-08-26  47  			reg = readl(&cdns->otg_v0_regs->ctrl1);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  48  			reg |= OVERRIDE_IDPULLUP_V0;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  49  			writel(reg, &cdns->otg_v0_regs->ctrl1);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  50  		}
+7733f6c32e36ff Pawel Laszczak 2019-08-26  51  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  52  		/*
+7733f6c32e36ff Pawel Laszczak 2019-08-26  53  		 * Hardware specification says: "ID_VALUE must be valid within
+7733f6c32e36ff Pawel Laszczak 2019-08-26  54  		 * 50ms after idpullup is set to '1" so driver must wait
+7733f6c32e36ff Pawel Laszczak 2019-08-26  55  		 * 50ms before reading this pin.
+7733f6c32e36ff Pawel Laszczak 2019-08-26  56  		 */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  57  		usleep_range(50000, 60000);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  58  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  59  	default:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  60  		dev_err(cdns->dev, "Unsupported mode of operation %d\n", mode);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  61  		return -EINVAL;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  62  	}
+7733f6c32e36ff Pawel Laszczak 2019-08-26  63  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  64  	return ret;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  65  }
+7733f6c32e36ff Pawel Laszczak 2019-08-26  66  
 
-vim +137 drivers/iommu/generic_pt/fmt/../pt_defs.h
+:::::: The code at line 43 was first introduced by commit
+:::::: 7733f6c32e36ff9d7adadf40001039bf219b1cbe usb: cdns3: Add Cadence USB3 DRD Driver
 
-238517582c3f63 Jason Gunthorpe 2024-06-28  129  
-238517582c3f63 Jason Gunthorpe 2024-06-28  130  /*
-238517582c3f63 Jason Gunthorpe 2024-06-28  131   * PT_WARN_ON is used for invariants that the kunit should be checking can't
-238517582c3f63 Jason Gunthorpe 2024-06-28  132   * happen.
-238517582c3f63 Jason Gunthorpe 2024-06-28  133   */
-238517582c3f63 Jason Gunthorpe 2024-06-28  134  #if IS_ENABLED(CONFIG_DEBUG_GENERIC_PT)
-238517582c3f63 Jason Gunthorpe 2024-06-28  135  #define PT_WARN_ON WARN_ON
-238517582c3f63 Jason Gunthorpe 2024-06-28  136  #else
-238517582c3f63 Jason Gunthorpe 2024-06-28 @137  static inline bool PT_WARN_ON({bool condition)
-238517582c3f63 Jason Gunthorpe 2024-06-28  138  {
-238517582c3f63 Jason Gunthorpe 2024-06-28  139  	return false;
-238517582c3f63 Jason Gunthorpe 2024-06-28  140  }
-238517582c3f63 Jason Gunthorpe 2024-06-28  141  #endif
-238517582c3f63 Jason Gunthorpe 2024-06-28  142  
-
-:::::: The code at line 137 was first introduced by commit
-:::::: 238517582c3f6345ebaf2eecc116501f67de8d7c genpt: Generic Page Table base API
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+:::::: TO: Pawel Laszczak <pawell@cadence.com>
+:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
