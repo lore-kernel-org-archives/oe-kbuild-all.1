@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73E916C867
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 15:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A971E521
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 15:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722092634; cv=none; b=RDW42sKADZuCdwoHbSDsYfpH+HwKa+DQO3SvGZid6j/4hAvjYQQa04G4Wj21sLCZWnmDczkbYX+LReLnqgCyzfS90PUc/qYf8F8r70yos7xwX/pFlVkKMq2LjVZJBJf+Ij/w/qUL6zlGeWw6VoHGPve6SD9mngBgrnYp01VjpRE=
+	t=1722093167; cv=none; b=K+7IFSVWBhQLtziltsATamLETJbEyhq0mGF/ff4xvffJrNIK04VgU9hgweT3fV1fIf+wigZDuRXowe/DzOHclVqmUaitnXAlQ7CXK9VOV65kRpc304BudVqWCAcvTyjoKn0Ty9yvOdTL5djtEghznEgeBIg3oDdyEdEvnrGoAY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722092634; c=relaxed/simple;
-	bh=NeL9ur0Fqdon7nBXM7o2wh+59HKumynEQ8TT4Q1kUTQ=;
+	s=arc-20240116; t=1722093167; c=relaxed/simple;
+	bh=4/3Wu2eH+lOEdEgVAvQ+F+HyP3pPxOexR5si9pgbU/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n+gTPFFs8XyMEeqShRF6YPQGZgbNgTWkUi2qUaMeZtBA+q7LTLhj0bVDo9nQ/tV8BxiSYGVWuuflZ9rPOcdtX1s49FBMcIPHe5lxLOMUM7v5asNjCFGSif7E6CUKHxl1ZdDXSKPJz8gculVTyd5Mp0MXnSUzSBdthi7T+nJjlhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rs37u+RS; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=NE+bhjeFl8QRogxr/+NK/zK0Xr4UeNpUGzzywtl+FYVyTqPULAY8hNl3+93O7P+KrjnYY+y/k+xveOUUlnC6odZqB+vCVDpVQcU54fTuFnflajxq+kVhRPgjWNfndJlFIJ2mKBno09L0R8LevDlT92oOofT3RLEyp7ufi7bCLEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DXunEG48; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rs37u+RS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXunEG48"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722092631; x=1753628631;
+  t=1722093165; x=1753629165;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NeL9ur0Fqdon7nBXM7o2wh+59HKumynEQ8TT4Q1kUTQ=;
-  b=Rs37u+RSfukcCnyV45kiBypd3BbKX/X4p8QKL9dKH/RebyGM5yA2Aabt
-   bQ8GdcQrT/6J3oUup3bPPmQWjMw49u6GNqLh02yrp3SEolF2ifUSbAy/L
-   4UT3F0xT2JvBdjUbM/r5papm0ppTaJfN2TXHCviOXqHryJzcWJ2tNOaln
-   iQsXLRvRWn6jfl5lG6uET8eABMqGoaPkdXSNNH3KXHmws0LGqIS2ocMfp
-   aMJFYy8fhQYqoSihXdxIE7Wu9tP8Qssat/JrXPIoQiSBCMvg09qJV9Xi6
-   1FO5N+FM90HY5a88JpFGH8lp9VG1QUaGVA92FZJrgmB45glT+NrWSMFq9
-   g==;
-X-CSE-ConnectionGUID: r34KTYE2SZqf8v9gba6n1w==
-X-CSE-MsgGUID: JuvJpCQhS9am/btn7EdkLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="37346707"
+  bh=4/3Wu2eH+lOEdEgVAvQ+F+HyP3pPxOexR5si9pgbU/A=;
+  b=DXunEG48s76ujZ6ZD6KcTtdPV9dQwfuQtp4kaEvvkhxSj+qyedG2raOb
+   K1HOGXcgkmDYHddJ7/TMCi6RN2pZKdM2Tuu3F08w3B5FN2F6MBQTu/mtD
+   3z8iMTmmdHueyNlpDcbc7F1nWa8rGlP92Voa0Q7qf+GJMBhnKyXKiFSx6
+   IAJdOSIYfJBHnTbIewlHdxtPReVWZof9r8GAl/zeLpaX6rRdtjQtRHnqP
+   08nNG8qkJ3dt0VKJ2bBW9VdZ3ihXbrHUiKjGvWRbp2GnAHoLbUr8hNQlT
+   bIFFVLfZNRrwUNMclDf8XZ88yJe7OGRxQZjRWDsaOJ0oUy8L6p5VJLdsg
+   A==;
+X-CSE-ConnectionGUID: nc432ktzSeGptqhxLX5Hlg==
+X-CSE-MsgGUID: l1ftDfBHS0qDBpxIJPWF1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="19482028"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="37346707"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 07:49:30 -0700
-X-CSE-ConnectionGUID: iMNC8c1ETYCrF9zHoeLzqg==
-X-CSE-MsgGUID: OE7xD3SUQBipnZyMqV6Ikg==
+   d="scan'208";a="19482028"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 08:12:32 -0700
+X-CSE-ConnectionGUID: qaVTtw0ARoSYSMqyEu2fXg==
+X-CSE-MsgGUID: AR3dr3cWTUCYPCUAxaHVFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="76762382"
+   d="scan'208";a="54324658"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2024 07:49:28 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jul 2024 08:12:29 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXije-000pzY-03;
-	Sat, 27 Jul 2024 14:49:26 +0000
-Date: Sat, 27 Jul 2024 22:49:09 +0800
+	id 1sXj5u-000q0O-1K;
+	Sat, 27 Jul 2024 15:12:26 +0000
+Date: Sat, 27 Jul 2024 23:11:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.4 4/10] drivers/usb/cdns3/drd.c:43:42: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202407272247.NJBCdaKb-lkp@intel.com>
+Subject: [jgunthorpe:iommu_pt 21/25]
+ drivers/iommu/generic_pt/pt_defs.h:111:9: error: assigning to 'typeof
+ (*(__ai_ptr))' (aka 'unsigned long long') from incompatible type 'void'
+Message-ID: <202407272343.kRNKueTH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,175 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
-head:   24f95d0e9b1707db180c68181603937d90783fd9
-commit: 1a36f8033bac1979c6bb6c2166a6c143f2113f97 [4/10] BACKPORT: usb: cdns3: make signed 1 bit bitfields unsigned
-config: i386-randconfig-062-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272247.NJBCdaKb-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272247.NJBCdaKb-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   ea5c6d0c8914861c8e337228c4880001bf40f7c4
+commit: 2c39e478f1bbc1680ad47e8b418bbd76701a4496 [21/25] iommupt: Add a kunit test
+config: hexagon-randconfig-r054-20240727 (https://download.01.org/0day-ci/archive/20240727/202407272343.kRNKueTH-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272343.kRNKueTH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407272247.NJBCdaKb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407272343.kRNKueTH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/cdns3/drd.c:43:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:43:42: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:43:42: sparse:     got restricted __le32 *
->> drivers/usb/cdns3/drd.c:45:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:45:42: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:45:42: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:47:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:47:42: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:47:42: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:49:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:49:42: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:49:42: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:71:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:71:25: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:71:25: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:81:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:81:30: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:81:30: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:114:24: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:114:24: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:114:24: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:124:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:124:48: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:124:48: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:141:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:141:56: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:141:56: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:144:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:144:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:144:23: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:144:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:144:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:144:23: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:154:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:154:29: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:154:29: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:156:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:156:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:156:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:156:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:156:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:156:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:178:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:178:55: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:178:55: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:182:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:182:23: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:182:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:182:23: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:182:23: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:197:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:197:29: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:197:29: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:199:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:199:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:199:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:199:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:199:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:199:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:219:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:219:25: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:219:25: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:284:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:284:26: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:284:26: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:303:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:303:25: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:303:25: sparse:     got restricted __le32 *
->> drivers/usb/cdns3/drd.c:326:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_legacy_regs *otg_v0_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
-   drivers/usb/cdns3/drd.c:326:27: sparse:     expected struct cdns3_otg_legacy_regs *otg_v0_regs
-   drivers/usb/cdns3/drd.c:326:27: sparse:     got void [noderef] <asn:2> *[assigned] regs
-   drivers/usb/cdns3/drd.c:327:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:327:25: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:327:25: sparse:     got restricted __le32 *
->> drivers/usb/cdns3/drd.c:330:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_common_regs *otg_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
-   drivers/usb/cdns3/drd.c:330:32: sparse:     expected struct cdns3_otg_common_regs *otg_regs
-   drivers/usb/cdns3/drd.c:330:32: sparse:     got void [noderef] <asn:2> *[assigned] regs
-   drivers/usb/cdns3/drd.c:331:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:331:32: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:331:32: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:332:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:332:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:332:17: sparse:     got restricted __le32 *
->> drivers/usb/cdns3/drd.c:336:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cdns3_otg_regs *otg_v1_regs @@     got void [noderef] <asn:2> *[assigned] regs @@
-   drivers/usb/cdns3/drd.c:336:35: sparse:     expected struct cdns3_otg_regs *otg_v1_regs
-   drivers/usb/cdns3/drd.c:336:35: sparse:     got void [noderef] <asn:2> *[assigned] regs
-   drivers/usb/cdns3/drd.c:339:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:339:32: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:339:32: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:340:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:340:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:340:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:340:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:340:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:340:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:345:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:345:17: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:345:17: sparse:     got restricted __le32 *
-   drivers/usb/cdns3/drd.c:368:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got restricted __le32 * @@
-   drivers/usb/cdns3/drd.c:368:28: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/drd.c:368:28: sparse:     got restricted __le32 *
+All errors (new ones prefixed by >>):
 
-vim +43 drivers/usb/cdns3/drd.c
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:107:
+>> drivers/iommu/generic_pt/pt_defs.h:111:9: error: assigning to 'typeof (*(__ai_ptr))' (aka 'unsigned long long') from incompatible type 'void'
+     111 |         return try_cmpxchg64_release(entryp, &old_entry, table_entry);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4937:2: note: expanded from macro 'try_cmpxchg64_release'
+    4937 |         raw_try_cmpxchg64_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:295:7: note: expanded from macro 'raw_try_cmpxchg64_release'
+     295 |         ___r = raw_cmpxchg64_release((_ptr), ___o, (_new)); \
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:108:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:108:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/iommu/generic_pt/pt_alloc.c:108:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   6 warnings and 1 error generated.
 
-7733f6c32e36ff Pawel Laszczak 2019-08-26  22  
-7733f6c32e36ff Pawel Laszczak 2019-08-26  23  /**
-7733f6c32e36ff Pawel Laszczak 2019-08-26  24   * cdns3_set_mode - change mode of OTG Core
-7733f6c32e36ff Pawel Laszczak 2019-08-26  25   * @cdns: pointer to context structure
-7733f6c32e36ff Pawel Laszczak 2019-08-26  26   * @mode: selected mode from cdns_role
-7733f6c32e36ff Pawel Laszczak 2019-08-26  27   *
-7733f6c32e36ff Pawel Laszczak 2019-08-26  28   * Returns 0 on success otherwise negative errno
-7733f6c32e36ff Pawel Laszczak 2019-08-26  29   */
-7733f6c32e36ff Pawel Laszczak 2019-08-26  30  int cdns3_set_mode(struct cdns3 *cdns, enum usb_dr_mode mode)
-7733f6c32e36ff Pawel Laszczak 2019-08-26  31  {
-7733f6c32e36ff Pawel Laszczak 2019-08-26  32  	int ret = 0;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  33  	u32 reg;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  34  
-7733f6c32e36ff Pawel Laszczak 2019-08-26  35  	switch (mode) {
-7733f6c32e36ff Pawel Laszczak 2019-08-26  36  	case USB_DR_MODE_PERIPHERAL:
-7733f6c32e36ff Pawel Laszczak 2019-08-26  37  		break;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  38  	case USB_DR_MODE_HOST:
-7733f6c32e36ff Pawel Laszczak 2019-08-26  39  		break;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  40  	case USB_DR_MODE_OTG:
-7733f6c32e36ff Pawel Laszczak 2019-08-26  41  		dev_dbg(cdns->dev, "Set controller to OTG mode\n");
-7733f6c32e36ff Pawel Laszczak 2019-08-26  42  		if (cdns->version == CDNS3_CONTROLLER_V1) {
-7733f6c32e36ff Pawel Laszczak 2019-08-26 @43  			reg = readl(&cdns->otg_v1_regs->override);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  44  			reg |= OVERRIDE_IDPULLUP;
-7733f6c32e36ff Pawel Laszczak 2019-08-26 @45  			writel(reg, &cdns->otg_v1_regs->override);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  46  		} else {
-7733f6c32e36ff Pawel Laszczak 2019-08-26  47  			reg = readl(&cdns->otg_v0_regs->ctrl1);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  48  			reg |= OVERRIDE_IDPULLUP_V0;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  49  			writel(reg, &cdns->otg_v0_regs->ctrl1);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  50  		}
-7733f6c32e36ff Pawel Laszczak 2019-08-26  51  
-7733f6c32e36ff Pawel Laszczak 2019-08-26  52  		/*
-7733f6c32e36ff Pawel Laszczak 2019-08-26  53  		 * Hardware specification says: "ID_VALUE must be valid within
-7733f6c32e36ff Pawel Laszczak 2019-08-26  54  		 * 50ms after idpullup is set to '1" so driver must wait
-7733f6c32e36ff Pawel Laszczak 2019-08-26  55  		 * 50ms before reading this pin.
-7733f6c32e36ff Pawel Laszczak 2019-08-26  56  		 */
-7733f6c32e36ff Pawel Laszczak 2019-08-26  57  		usleep_range(50000, 60000);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  58  		break;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  59  	default:
-7733f6c32e36ff Pawel Laszczak 2019-08-26  60  		dev_err(cdns->dev, "Unsupported mode of operation %d\n", mode);
-7733f6c32e36ff Pawel Laszczak 2019-08-26  61  		return -EINVAL;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  62  	}
-7733f6c32e36ff Pawel Laszczak 2019-08-26  63  
-7733f6c32e36ff Pawel Laszczak 2019-08-26  64  	return ret;
-7733f6c32e36ff Pawel Laszczak 2019-08-26  65  }
-7733f6c32e36ff Pawel Laszczak 2019-08-26  66  
 
-:::::: The code at line 43 was first introduced by commit
-:::::: 7733f6c32e36ff9d7adadf40001039bf219b1cbe usb: cdns3: Add Cadence USB3 DRD Driver
+vim +111 drivers/iommu/generic_pt/pt_defs.h
 
-:::::: TO: Pawel Laszczak <pawell@cadence.com>
-:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
+238517582c3f63 Jason Gunthorpe 2024-06-28  104  
+238517582c3f63 Jason Gunthorpe 2024-06-28  105  	/*
+238517582c3f63 Jason Gunthorpe 2024-06-28  106  	 * Ensure the zero'd table content itself is visible before its PTE can
+238517582c3f63 Jason Gunthorpe 2024-06-28  107  	 * be, be careful about !SMP
+238517582c3f63 Jason Gunthorpe 2024-06-28  108  	 */
+238517582c3f63 Jason Gunthorpe 2024-06-28  109  	if (!IS_ENABLED(CONFIG_SMP))
+238517582c3f63 Jason Gunthorpe 2024-06-28  110  		dma_wmb();
+238517582c3f63 Jason Gunthorpe 2024-06-28 @111  	return try_cmpxchg64_release(entryp, &old_entry, table_entry);
+238517582c3f63 Jason Gunthorpe 2024-06-28  112  }
+238517582c3f63 Jason Gunthorpe 2024-06-28  113  
+
+:::::: The code at line 111 was first introduced by commit
+:::::: 238517582c3f6345ebaf2eecc116501f67de8d7c genpt: Generic Page Table base API
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
