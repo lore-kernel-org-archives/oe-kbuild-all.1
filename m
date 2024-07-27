@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C92111A1;
-	Sat, 27 Jul 2024 21:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C203FBB3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 21:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722116925; cv=none; b=CMLUwOXOcI2iRdTKel2vCqjKUDdSpG7YME10cIeCouXO40Ly10VD8JCPcV3iLZI5Dte/CrfTu2x21cWMWjvZaPs0thGRlBj72JCM6ng6rLaDrHB3IfdU/SbbsgM5oBLEOekPztmMmKVIkSPxRtTX8pFKlptwqx6NuW/q7jl+cxY=
+	t=1722117586; cv=none; b=R+xTQT9iJELBCujTiZvB/l9LqXMbjX9kND7p29xg4eK3d8Y52Sf9aF5narcbF4zaK1Zhopj6w0G5BQRyNeg2XBlGdZeE2jbZfm5vku64Me0paTXlm/zAQEerMxD71cShq69GM672PFEuauAMO+N10njNLaE37q1+LD7td+r4xiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722116925; c=relaxed/simple;
-	bh=0/7JTdjU2NunOXizmj++lrsnok4A1Kgg24OQ4xODEzs=;
+	s=arc-20240116; t=1722117586; c=relaxed/simple;
+	bh=ic5eT7Y78u9DeduycJvq4GjMIBZtjACr7MlpLyQVzi4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vp0yyuvJWzrN/wzemPNrEQGxq6O4k8Y5LdqYL/uohueonJxxCwv1YW9VJXgRlkHyhaBGzo62eT53BD3NFLMWo/YM806H8TKJQHkj4dZPPPYNT5OK57a/RA1e1SZe5cUvY8qJp91JAwLUoxbFkQ/1m4JQbmzjmYBUTVH1n5Nt4FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJD398A8; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=asYd22tmTdeDw7TlSJ6+yUEBlpHD/mTyCOIlUwd482jZYEYUC3Jb8sdjM8uckMrh0Ak9IC+t8QB+xcOS5xgtJ2F5xYehlgEeeSJ0F35LDx3CFD4IQXdxy9jT2vswWvv2An66ES3SEZ818gQULzLyeDRCWvHpRIk6MoBMGUzXdEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNx8xx4C; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJD398A8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNx8xx4C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722116923; x=1753652923;
+  t=1722117584; x=1753653584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0/7JTdjU2NunOXizmj++lrsnok4A1Kgg24OQ4xODEzs=;
-  b=IJD398A8zkq4PTtyQwrjlnDN0V7ROl6wU8yCjIiT+evNYT2F/l/Cy+pt
-   Mx87z2yUgPtq5yke8YW3OBvE/DXyHOmyAgOVeKS3OMfmfMLQAS5ToECB7
-   m8u+FmdtO7J3O/babvHPLIM5eYUspKMXrpvGVGpFutv6i08WLxDqS11c3
-   WAAkUCg43OzDAWuOWhJrtfzB6XEz+MgTNddwUm7gtTLaeYrT+3Y8gNp6c
-   6exhbV/eussyyFQB7BXCUxX9wgL9slp0tw+wrZwK6oPbjbys6RdWFnamm
-   Bzt7gCEIPTuss2oa9C8P2JFuSi1a8iCjqEO7M17qAvWo7LOn2xFt5xE/B
-   A==;
-X-CSE-ConnectionGUID: vTQoq/DlTMyPuoCmesaqVQ==
-X-CSE-MsgGUID: bLgQ46CsQ/SgC1QkQ4AcFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="20015046"
+  bh=ic5eT7Y78u9DeduycJvq4GjMIBZtjACr7MlpLyQVzi4=;
+  b=NNx8xx4C2PNJtJSUneLa0WeaCakMmFcib5WzJPLYDGF+Kn5y7C7+LDOU
+   L/Ozz72SS9gmA0eko5oqunqh1rRQlN5NZ5ku31jDCRe3duexuwBDin3PN
+   a2exT0L1XA7ZpwPF6RuTCsB8rj/wuv9O15RQVe9ZL6w1O48Ku853l2dIM
+   1xqQJEyL2eNMV9qF3FX/0CmwB7fn3JJK1y6ICi876uaYCMvB/LH/s+UQC
+   uK905hf9+zpSsESARAa1pLIAQi2+SVXaYLCykAENeNihaGXasKDNBiMu1
+   y4QNTDfH7gRFG4HaSGu2F1znthGICB8HJEpvzQYX0xCg6s2yFpxwNJwZS
+   Q==;
+X-CSE-ConnectionGUID: WxwJSDm2RwKZ9XIYvmOI8g==
+X-CSE-MsgGUID: RSSXqi6jSwa6YnyUaNLO9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="31293269"
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="20015046"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 14:48:42 -0700
-X-CSE-ConnectionGUID: s8EfOPczSMKCzOvxqkcZGQ==
-X-CSE-MsgGUID: FnaiXTvxTbeEXnrbS5C8FQ==
+   d="scan'208";a="31293269"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 14:59:43 -0700
+X-CSE-ConnectionGUID: RI2SKwuxRNWt6Y/SNg+9qQ==
+X-CSE-MsgGUID: gfEmJfQdRrerJzznfFE2Ww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="76812479"
+   d="scan'208";a="58369300"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2024 14:48:40 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Jul 2024 14:59:41 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXpHK-000qGV-1B;
-	Sat, 27 Jul 2024 21:48:38 +0000
-Date: Sun, 28 Jul 2024 05:48:32 +0800
+	id 1sXpRy-000qH2-25;
+	Sat, 27 Jul 2024 21:59:38 +0000
+Date: Sun, 28 Jul 2024 05:59:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
 	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, Guenter Roeck <linux@roeck-us.net>
 Subject: drivers/iio/light/opt4001.c:215:9: error: call to
- '__compiletime_assert_530' declared with 'error' attribute: FIELD_PREP:
+ '__compiletime_assert_529' declared with 'error' attribute: FIELD_PREP:
  value too large for the field
-Message-ID: <202407280548.1MbEgmkH-lkp@intel.com>
+Message-ID: <202407280532.J67mvOsV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,14 +69,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   ff30564411ffdcee49d579cb15eb13185a36e253
 commit: 96e20adc43c4f81e9163a5188cee75a6dd393e09 regulator: change stubbed devm_regulator_get_enable to return Ok
 date:   3 months ago
-config: s390-randconfig-001-20240728 (https://download.01.org/0day-ci/archive/20240728/202407280548.1MbEgmkH-lkp@intel.com/config)
+config: s390-randconfig-r064-20240727 (https://download.01.org/0day-ci/archive/20240728/202407280532.J67mvOsV-lkp@intel.com/config)
 compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280548.1MbEgmkH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280532.J67mvOsV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407280548.1MbEgmkH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407280532.J67mvOsV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
@@ -144,7 +143,7 @@ All errors (new ones prefixed by >>):
    include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            writesl(PCI_IOBASE + addr, buffer, count);
                    ~~~~~~~~~~ ^
->> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_530' declared with 'error' attribute: FIELD_PREP: value too large for the field
+>> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_529' declared with 'error' attribute: FIELD_PREP: value too large for the field
            reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
                   ^
    include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
@@ -163,8 +162,8 @@ All errors (new ones prefixed by >>):
    include/linux/compiler_types.h:430:4: note: expanded from macro '__compiletime_assert'
                            prefix ## suffix();                             \
                            ^
-   <scratch space>:17:1: note: expanded from here
-   __compiletime_assert_530
+   <scratch space>:36:1: note: expanded from here
+   __compiletime_assert_529
    ^
    12 warnings and 1 error generated.
 
