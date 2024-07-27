@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C203FBB3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 21:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4EB1F956
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 22:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722117586; cv=none; b=R+xTQT9iJELBCujTiZvB/l9LqXMbjX9kND7p29xg4eK3d8Y52Sf9aF5narcbF4zaK1Zhopj6w0G5BQRyNeg2XBlGdZeE2jbZfm5vku64Me0paTXlm/zAQEerMxD71cShq69GM672PFEuauAMO+N10njNLaE37q1+LD7td+r4xiQ=
+	t=1722118906; cv=none; b=ZZ2+nf3ya4I8zGiH/ywC/L1FIJTMflG9odsBb5WMO8/vXEvrrTp7wNzPB0+NrDkgXS1fu9iu2kSgkTJ9/UbPE3BzVbFKnfrzZnVkhLtq2wGis5uNE1cMtqLnnbQJkyafVORgVGO7Thsuto5QsKfwDfxKzk/f2/kVYgUTNjSUu2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722117586; c=relaxed/simple;
-	bh=ic5eT7Y78u9DeduycJvq4GjMIBZtjACr7MlpLyQVzi4=;
+	s=arc-20240116; t=1722118906; c=relaxed/simple;
+	bh=6/rCEWauy8YvI0T5Q/9uPB44GWklhda6UM2C10ubpjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=asYd22tmTdeDw7TlSJ6+yUEBlpHD/mTyCOIlUwd482jZYEYUC3Jb8sdjM8uckMrh0Ak9IC+t8QB+xcOS5xgtJ2F5xYehlgEeeSJ0F35LDx3CFD4IQXdxy9jT2vswWvv2An66ES3SEZ818gQULzLyeDRCWvHpRIk6MoBMGUzXdEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNx8xx4C; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=QdPuVEZ4iPyr/A7jTD8Zd5S9ElJ3b3yf+jAVBZMm6BKhEga1J4sALjzqx8AumOmNcYVk4Zv853+qh7hw7QIaSLQ2YouzYjguGJW219vocn/t/V6jxgHrQtBDbBQ7ZAcuC/7ec3UVK6+9UKwl5f1Mp6NfUJ7A4Xh9K+rn7lm+248=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNx98BRI; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNx8xx4C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNx98BRI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722117584; x=1753653584;
+  t=1722118903; x=1753654903;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ic5eT7Y78u9DeduycJvq4GjMIBZtjACr7MlpLyQVzi4=;
-  b=NNx8xx4C2PNJtJSUneLa0WeaCakMmFcib5WzJPLYDGF+Kn5y7C7+LDOU
-   L/Ozz72SS9gmA0eko5oqunqh1rRQlN5NZ5ku31jDCRe3duexuwBDin3PN
-   a2exT0L1XA7ZpwPF6RuTCsB8rj/wuv9O15RQVe9ZL6w1O48Ku853l2dIM
-   1xqQJEyL2eNMV9qF3FX/0CmwB7fn3JJK1y6ICi876uaYCMvB/LH/s+UQC
-   uK905hf9+zpSsESARAa1pLIAQi2+SVXaYLCykAENeNihaGXasKDNBiMu1
-   y4QNTDfH7gRFG4HaSGu2F1znthGICB8HJEpvzQYX0xCg6s2yFpxwNJwZS
-   Q==;
-X-CSE-ConnectionGUID: WxwJSDm2RwKZ9XIYvmOI8g==
-X-CSE-MsgGUID: RSSXqi6jSwa6YnyUaNLO9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="31293269"
+  bh=6/rCEWauy8YvI0T5Q/9uPB44GWklhda6UM2C10ubpjo=;
+  b=nNx98BRIL7qMxsxUjteWeead6I1kXzYBCJlFwozi8x3xU6iHSHmwmDe8
+   T1GMYAJX0jK/kF1Pas8c7TNyEhoXgkhsZopiHdVZZJmcyORXEeLVeASU5
+   dJIT/c6QkopjLqXoS9VLdjAbOBKQMyVM9t2tB5EQVwmb7VciWDmuhFXah
+   uF7kHFRFdwNNks8hmYYxnI6FkDJX/skwlzzLXTeA9eGHd9LzGawyIK046
+   wM6rPEpdMli/0BHbrsGzxzQSduu6KFKTClB0HDGbHd3Bzogk/1N2ipfZd
+   hUxP4Yh8tGx+obKFFoggYDKXO+vgIjII9m4O1MmUya1m+It6S54UPve20
+   w==;
+X-CSE-ConnectionGUID: UD1smj/tQiWZVcI1FEz8pw==
+X-CSE-MsgGUID: J54Y/Y9/QGibr2B3TpyLHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="20047479"
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="31293269"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 14:59:43 -0700
-X-CSE-ConnectionGUID: RI2SKwuxRNWt6Y/SNg+9qQ==
-X-CSE-MsgGUID: gfEmJfQdRrerJzznfFE2Ww==
+   d="scan'208";a="20047479"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 15:21:42 -0700
+X-CSE-ConnectionGUID: XdSyM7GzQNiulaNpz36d6Q==
+X-CSE-MsgGUID: TBDchMLzRh+F3QPwlZNy3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,242,1716274800"; 
-   d="scan'208";a="58369300"
+   d="scan'208";a="58693299"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 27 Jul 2024 14:59:41 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 Jul 2024 15:21:42 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXpRy-000qH2-25;
-	Sat, 27 Jul 2024 21:59:38 +0000
-Date: Sun, 28 Jul 2024 05:59:07 +0800
+	id 1sXpnH-000qHs-0J;
+	Sat, 27 Jul 2024 22:21:39 +0000
+Date: Sun, 28 Jul 2024 06:21:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>, Guenter Roeck <linux@roeck-us.net>
-Subject: drivers/iio/light/opt4001.c:215:9: error: call to
- '__compiletime_assert_529' declared with 'error' attribute: FIELD_PREP:
- value too large for the field
-Message-ID: <202407280532.J67mvOsV-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 5/14] mm/page_alloc.c:1363:25: sparse:
+ sparse: incorrect type in argument 3 (different base types)
+Message-ID: <202407280656.1c6Tnlzh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,135 +62,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ff30564411ffdcee49d579cb15eb13185a36e253
-commit: 96e20adc43c4f81e9163a5188cee75a6dd393e09 regulator: change stubbed devm_regulator_get_enable to return Ok
-date:   3 months ago
-config: s390-randconfig-r064-20240727 (https://download.01.org/0day-ci/archive/20240728/202407280532.J67mvOsV-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280532.J67mvOsV-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   af55892f201c8f709725d75d306b1cdd20984b97
+commit: a85227c886b7a22cd53bdfcf0740b6e0bd623351 [5/14] ANDROID: page_alloc: add vendor hook to bypass free_pages_prepare
+config: x86_64-randconfig-123-20240728 (https://download.01.org/0day-ci/archive/20240728/202407280656.1c6Tnlzh-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280656.1c6Tnlzh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407280532.J67mvOsV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407280656.1c6Tnlzh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
+>> mm/page_alloc.c:1363:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1363:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1363:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+   mm/page_alloc.c:2583:9: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:2670:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
+   mm/page_alloc.c:2904:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c:4638:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
 
-   In file included from drivers/iio/light/opt4001.c:16:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/iio/light/opt4001.c:16:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/iio/light/opt4001.c:16:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_529' declared with 'error' attribute: FIELD_PREP: value too large for the field
-           reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
-                  ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-                   ^
-   include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
-                   BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-                   ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:437:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:430:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:36:1: note: expanded from here
-   __compiletime_assert_529
-   ^
-   12 warnings and 1 error generated.
+vim +1363 mm/page_alloc.c
 
-
-vim +215 drivers/iio/light/opt4001.c
-
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  207  
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  208  static int opt4001_set_conf(struct opt4001_chip *chip)
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  209  {
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  210  	struct device *dev = &chip->client->dev;
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  211  	u16 reg;
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  212  	int ret;
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  213  
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  214  	reg = FIELD_PREP(OPT4001_CTRL_RANGE_MASK, OPT4001_CTRL_LIGHT_SCALE_AUTO);
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26 @215  	reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  216  	reg |= FIELD_PREP(OPT4001_CTRL_OPER_MODE_MASK, OPT4001_CTRL_OPER_MODE_CONTINUOUS);
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  217  
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  218  	ret = regmap_write(chip->regmap, OPT4001_CTRL, reg);
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  219  	if (ret)
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  220  		dev_err(dev, "Failed to set configuration\n");
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  221  
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  222  	return ret;
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  223  }
-9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  224  
-
-:::::: The code at line 215 was first introduced by commit
-:::::: 9a9608418292bb8733805c3f3123dfe0454fadac iio: light: Add support for TI OPT4001 light sensor
-
-:::::: TO: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+  1351	
+  1352	static void __free_pages_ok(struct page *page, unsigned int order,
+  1353				    fpi_t fpi_flags)
+  1354	{
+  1355		unsigned long flags;
+  1356		int migratetype;
+  1357		unsigned long pfn = page_to_pfn(page);
+  1358		struct zone *zone = page_zone(page);
+  1359		bool skip_free_unref_page = false;
+  1360		bool skip_free_pages_prepare = false;
+  1361	
+  1362		trace_android_vh_free_pages_prepare_bypass(page, order,
+> 1363				fpi_flags, &skip_free_pages_prepare);
+  1364		if (skip_free_pages_prepare)
+  1365			goto skip_prepare;
+  1366	
+  1367		if (!free_pages_prepare(page, order, fpi_flags))
+  1368			return;
+  1369	skip_prepare:
+  1370		/*
+  1371		 * Calling get_pfnblock_migratetype() without spin_lock_irqsave() here
+  1372		 * is used to avoid calling get_pfnblock_migratetype() under the lock.
+  1373		 * This will reduce the lock holding time.
+  1374		 */
+  1375		migratetype = get_pfnblock_migratetype(page, pfn);
+  1376		trace_android_vh_free_unref_page_bypass(page, order, migratetype, &skip_free_unref_page);
+  1377		if (skip_free_unref_page)
+  1378			return;
+  1379	
+  1380		spin_lock_irqsave(&zone->lock, flags);
+  1381		if (unlikely(has_isolate_pageblock(zone) ||
+  1382			is_migrate_isolate(migratetype))) {
+  1383			migratetype = get_pfnblock_migratetype(page, pfn);
+  1384		}
+  1385		__free_one_page(page, pfn, zone, order, migratetype, fpi_flags);
+  1386		spin_unlock_irqrestore(&zone->lock, flags);
+  1387	
+  1388		__count_vm_events(PGFREE, 1 << order);
+  1389	}
+  1390	
 
 -- 
 0-DAY CI Kernel Test Service
