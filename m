@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE99D7E8;
-	Sat, 27 Jul 2024 00:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3807AEA4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 00:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722040217; cv=none; b=LAv9n/t+o+kkNXnB32jjVnWVUtNh4L7bvQKDzUMoST3bYvOdRNEDN3nyA0RU5M4yie+ORAEZO7RidIbB073PQRzbYDfVVqnyF4BUtfDF0j754mjLxLIYcupJCT5vXxR7MHAOgj0PrmoUcb1cePleX7MWjtUw8ZQi2G19U7uahR0=
+	t=1722040875; cv=none; b=ASGomdzii0rYvg4/CSjiyPczAKxXbZMD3c7tDoSp+AOVHrsWspAjpgPdKceCGtJmu66qvodoH3QrBG3oEYH33Ge5UxuSZNsf301Oa4zyBDSe2KueerNkWzP7fX00yKtqsPPScYoUElSyjPKPVpZ1gKZx7+jk16zfdaZ1Rf8gWyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722040217; c=relaxed/simple;
-	bh=mCVSTRV3rhZ/5whvsTgdVrcA6k8L7Ed+HfUHhstdUuE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZIrqfT3wiZ5IWERylP5a498ORF8X9A127WmZrPZD6HNZUgdiWwJWOldkAnyZw3pJnVMJp/elWPzlVlZ9ziLu4IXuLnIFfDh9oBwbQzHJsJpTpMgM+HHSm42SbTxPYYqQcNuwRC/qkpEVpA1c8g9CAIj9AyNdConArCW7+VWR0bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQSAr33F; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1722040875; c=relaxed/simple;
+	bh=hQ07Zk2IHiDbsiZPJlsITIvzyxMPmQhrnRZ7pR6/RNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V3WV+YocFrUGvWtBWI9lw3ZdFk1+QMyAHwLWcCU9RDRKHCJWmitEo5jzxS+P6amHqQnR83JgNcUWbrljwBX3t+TPAuAULVkqyM0ts48yTXXZqudx/v0+L0F5D/790XVKSlFR15q9W+t8ZerebhnJLObTXulPR/pfPYU8bAIxxTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eme2xqRF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQSAr33F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eme2xqRF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722040216; x=1753576216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mCVSTRV3rhZ/5whvsTgdVrcA6k8L7Ed+HfUHhstdUuE=;
-  b=jQSAr33FU0EoYTTx5Wz/+pZnkn2eD9bKA9X/okLNl7YSfoYUjCOCWl/+
-   WBXdB3/gxPDs7RGNssvvxCB0sEU225rOrJAYZ8K0C8Slvr9k5sFCWkfxn
-   JRzmWAlNA7y3AblLhcXl0+6BFR8haRp5LVk9YcRCVLMoXVMpAXQvvM04R
-   9gE8yQij1pWiA2GL2PoLcX4cpXCqwHZNTDXKm4oShau3NYWIGwCtu9V4k
-   WqFo2+4IdePxmIlOo7CVjNyO1RnO/jQoAHSfm9RRCaotFrJE0rbeymsAo
-   QDqLvneW7OcIZWtD5QuSScwAzmHvPBm4mjx1ldURSiX+0KeRM6iXwGBWB
-   Q==;
-X-CSE-ConnectionGUID: 9ADwaMhjQqmVrah1Kz04PQ==
-X-CSE-MsgGUID: u/PeIkihTGifbLOPVUU5gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="37321866"
+  t=1722040873; x=1753576873;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hQ07Zk2IHiDbsiZPJlsITIvzyxMPmQhrnRZ7pR6/RNI=;
+  b=Eme2xqRF5tGBKei+Hs7R1mo7EbpLuk2by6HEopsh6/YTsh/IGk9dDEvl
+   +3c05jAEbvxTMJcCgOS1ig6p38jFfp1nDZeq+j81VxaUhCkZqVskLYAdZ
+   XwSXMb9+FwPYFBTWD20bX6MccH9aEQG4ZbzGwBZhQjTaYHQwdlZ7Ee506
+   KeruS2vH2Bh70BPSqnkwyLE3TFW/11HmrxTwsneB+ioFrO49oQ9Hid03U
+   X/Yy5GZlCpQmYijkrmwPYBkc2d/klxDNcHQckvsTcMJh4tshd3XR+d9DR
+   Bg7CxMfpsNrPlAsjHf7fdkDLm/aYV+s0AXN7VesViXnOoQ4s/bXGLiiid
+   w==;
+X-CSE-ConnectionGUID: D6Or4V8KRWOUCD1XkW7qiQ==
+X-CSE-MsgGUID: +dFCPIRLQpaeu6z90P1lEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="19994506"
 X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="37321866"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 17:30:16 -0700
-X-CSE-ConnectionGUID: rMIvXdeOS4+hpXO92LzViw==
-X-CSE-MsgGUID: y/8zfYvSSsePWi2954/lOA==
+   d="scan'208";a="19994506"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 17:41:13 -0700
+X-CSE-ConnectionGUID: d5zePLLKRteU4yeavmsWeg==
+X-CSE-MsgGUID: lff/ZOARSNOdw6/RWC1nSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="90875769"
+   d="scan'208";a="57715207"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jul 2024 17:30:11 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jul 2024 17:41:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXVK4-000pWi-39;
-	Sat, 27 Jul 2024 00:30:08 +0000
-Date: Sat, 27 Jul 2024 08:29:55 +0800
+	id 1sXVUj-000pXC-0r;
+	Sat, 27 Jul 2024 00:41:09 +0000
+Date: Sat, 27 Jul 2024 08:40:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasileios Amoiridis <vassilisamir@gmail.com>, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andriy.shevchenko@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vassilisamir@gmail.com, ang.iglesiasg@gmail.com,
-	linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
-	javier.carrasco.cruz@gmail.com, semen.protsenko@linaro.org,
-	579lpy@gmail.com, ak@it-klinger.de, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] iio: pressure bmp280: Move bmp085 interrupt to
- new configuration
-Message-ID: <202407270859.izJnB7MZ-lkp@intel.com>
-References: <20240725231039.614536-8-vassilisamir@gmail.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 21/22] fs/afs/dir.c:312:9: warning:
+ explicitly assigning value of variable of type 'ssize_t' (aka 'long') to
+ itself
+Message-ID: <202407270847.5u0FW8oJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,136 +62,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240725231039.614536-8-vassilisamir@gmail.com>
 
-Hi Vasileios,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 47ee461357f9da5a35d5f43527b7804a6a5744cb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/iio-pressure-bmp280-Use-bulk-read-for-humidity-calibration-data/20240726-071712
-base:   47ee461357f9da5a35d5f43527b7804a6a5744cb
-patch link:    https://lore.kernel.org/r/20240725231039.614536-8-vassilisamir%40gmail.com
-patch subject: [PATCH v2 7/7] iio: pressure bmp280: Move bmp085 interrupt to new configuration
-config: s390-randconfig-002-20240726 (https://download.01.org/0day-ci/archive/20240727/202407270859.izJnB7MZ-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407270859.izJnB7MZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   6b24fc77cd5428445a25435f8cf7c56e55d600a6
+commit: b2fd6d9020b74d49f3d0f7585cce82396b4a608e [21/22] afs: Use netfslib instead of ITER_XARRAY for directories
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240727/202407270847.5u0FW8oJ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407270847.5u0FW8oJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407270859.izJnB7MZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407270847.5u0FW8oJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/pressure/bmp280-core.c:36:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/iio/pressure/bmp280-core.c:36:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/iio/pressure/bmp280-core.c:36:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/iio/pressure/bmp280-core.c:3146:29: error: initializer element is not a compile-time constant
-           .id_reg = bmp180_chip_info.id_reg,
-                     ~~~~~~~~~~~~~~~~~^~~~~~
-   12 warnings and 1 error generated.
+>> fs/afs/dir.c:312:9: warning: explicitly assigning value of variable of type 'ssize_t' (aka 'long') to itself [-Wself-assign]
+     312 |                                 ret = ret;
+         |                                 ~~~ ^ ~~~
+   1 warning generated.
 
 
-vim +3146 drivers/iio/pressure/bmp280-core.c
+vim +312 fs/afs/dir.c
 
-  3144	
-  3145	const struct bmp280_chip_info bmp085_chip_info = {
-> 3146		.id_reg = bmp180_chip_info.id_reg,
-  3147		.chip_id = bmp180_chip_info.chip_id,
-  3148		.num_chip_id = bmp180_chip_info.num_chip_id,
-  3149		.regmap_config = bmp180_chip_info.regmap_config,
-  3150		.start_up_time = bmp180_chip_info.start_up_time,
-  3151		.channels = bmp180_chip_info.channels,
-  3152		.num_channels = bmp180_chip_info.num_channels,
-  3153		.avail_scan_masks = bmp180_chip_info.avail_scan_masks,
-  3154	
-  3155		.oversampling_temp_avail = bmp180_chip_info.oversampling_temp_avail,
-  3156		.num_oversampling_temp_avail =
-  3157			bmp180_chip_info.num_oversampling_temp_avail,
-  3158		.oversampling_temp_default = bmp180_chip_info.oversampling_temp_default,
-  3159	
-  3160		.oversampling_press_avail = bmp180_chip_info.oversampling_press_avail,
-  3161		.num_oversampling_press_avail =
-  3162			bmp180_chip_info.num_oversampling_press_avail,
-  3163		.oversampling_press_default =
-  3164			bmp180_chip_info.oversampling_press_default,
-  3165	
-  3166		.temp_coeffs = bmp180_chip_info.temp_coeffs,
-  3167		.temp_coeffs_type = bmp180_chip_info.temp_coeffs_type,
-  3168		.press_coeffs = bmp180_chip_info.press_coeffs,
-  3169		.press_coeffs_type = bmp180_chip_info.press_coeffs_type,
-  3170	
-  3171		.chip_config = bmp180_chip_info.chip_config,
-  3172		.read_temp = bmp180_chip_info.read_temp,
-  3173		.read_press = bmp180_chip_info.read_press,
-  3174		.read_calib = bmp180_chip_info.read_calib,
-  3175		.set_mode = bmp180_chip_info.set_mode,
-  3176		.wait_conv = bmp180_chip_info.wait_conv,
-  3177	
-  3178		.trigger_probe = bmp085_trigger_probe,
-  3179		.trigger_handler = bmp180_trigger_handler,
-  3180	};
-  3181	EXPORT_SYMBOL_NS(bmp085_chip_info, IIO_BMP280);
-  3182	
+   251	
+   252	/*
+   253	 * Perform a read of the directory.
+   254	 */
+   255	static ssize_t afs_do_read_dir(struct afs_vnode *dvnode, struct file *file,
+   256				       struct folio_batch *fbatch)
+   257	{
+   258		struct address_space *mapping = dvnode->netfs.inode.i_mapping;
+   259		DEFINE_READAHEAD(ractl, file, NULL, mapping, 0);
+   260		struct folio *folio;
+   261		ssize_t ret = 0;
+   262		size_t pos = 0;
+   263		loff_t i_size;
+   264	
+   265		i_size = i_size_read(&dvnode->netfs.inode);
+   266		if (i_size < 2048)
+   267			return afs_bad(dvnode, afs_file_error_dir_small);
+   268		if (i_size > 2048 * 1024) {
+   269			trace_afs_file_error(dvnode, -EFBIG, afs_file_error_dir_big);
+   270			return -EFBIG;
+   271		}
+   272	
+   273		/* Lock all the folios in the range we need, filling in any gaps.  We
+   274		 * drop the references we get from the VM here analogously with the VM
+   275		 * readahead code.
+   276		 */
+   277		while (pos < i_size) {
+   278			folio = filemap_get_folio(mapping, pos / PAGE_SIZE);
+   279			if (IS_ERR(folio)) {
+   280				fgf_t fgp_flags = FGP_LOCK | FGP_CREAT;
+   281	
+   282				fgp_flags |= fgf_set_order(i_size - pos);
+   283	
+   284				folio = __filemap_get_folio(mapping, pos / PAGE_SIZE,
+   285							    fgp_flags, mapping->gfp_mask);
+   286				if (IS_ERR(folio)) {
+   287					ret = PTR_ERR(folio);
+   288					goto revert;
+   289				}
+   290			}
+   291	
+   292			folio_clear_uptodate(folio);
+   293			ractl._nr_pages += folio_nr_pages(folio);
+   294			pos += folio_size(folio);
+   295		}
+   296	
+   297		/* AFS requires us to perform the read of a directory synchronously as
+   298		 * a single unit to avoid issues with the directory contents being
+   299		 * changed between reads.
+   300		 */
+   301		ret = netfs_read_single(&ractl);
+   302		if (ret >= 0) {
+   303			i_size = i_size_read(&dvnode->netfs.inode);
+   304			if (i_size > ret) {
+   305				/* The content has grown, so we need to expand the
+   306				 * buffer.
+   307				 */
+   308				ret = -ESTALE;
+   309			} else {
+   310				int ret2 = afs_dir_check(dvnode, fbatch);
+   311				if (ret2 < 0)
+ > 312					ret = ret;
+   313			}
+   314		}
+   315	
+   316	revert:
+   317		while ((folio = readahead_folio(&ractl)) != NULL) {
+   318			folio_get(folio);
+   319			filemap_remove_folio(folio);
+   320			folio_unlock(folio);
+   321			if (!folio_batch_add(fbatch, folio))
+   322				folio_batch_release(fbatch);
+   323		}
+   324		return ret;
+   325	}
+   326	
 
 -- 
 0-DAY CI Kernel Test Service
