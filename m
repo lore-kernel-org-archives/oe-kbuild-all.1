@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6AC14A09D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jul 2024 23:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE99D7E8;
+	Sat, 27 Jul 2024 00:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722037634; cv=none; b=Puf2BYran47+NsO0PE5TFytLrI/Etr5k2aNaTdieuZtbhpnfuckCWaDligSw/f0MzKIMyLXcVAa6tVCaPlt1WfZe54M8NRvlwsCK1SiH4tJnRvB7ST0jKeZ36W/G1a4ot7WesNdTzgiVs/4rSOfFskakqMqzpgQ+uuYxjfUVhuc=
+	t=1722040217; cv=none; b=LAv9n/t+o+kkNXnB32jjVnWVUtNh4L7bvQKDzUMoST3bYvOdRNEDN3nyA0RU5M4yie+ORAEZO7RidIbB073PQRzbYDfVVqnyF4BUtfDF0j754mjLxLIYcupJCT5vXxR7MHAOgj0PrmoUcb1cePleX7MWjtUw8ZQi2G19U7uahR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722037634; c=relaxed/simple;
-	bh=X8qxvHf5GJfSvL8bSjh/8b9o1WKyFJxsLmtDW2xCoB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fvsw/xHE9DdNJIn8kSeorKiMi4xpJP2rGzYzl0q7A3iQ1URo2FjZXkSZicVUB9qWdYRxTM/qkgnJoD28aUkbSx9EjC4tuHC5mO1Ci8LeFuHaNrVcv44lMmdfA3vwdON8qvmZi22tBnFyONGHBqzlQYZ/mRYngiciomKbvKTALHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4qzhI+N; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1722040217; c=relaxed/simple;
+	bh=mCVSTRV3rhZ/5whvsTgdVrcA6k8L7Ed+HfUHhstdUuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZIrqfT3wiZ5IWERylP5a498ORF8X9A127WmZrPZD6HNZUgdiWwJWOldkAnyZw3pJnVMJp/elWPzlVlZ9ziLu4IXuLnIFfDh9oBwbQzHJsJpTpMgM+HHSm42SbTxPYYqQcNuwRC/qkpEVpA1c8g9CAIj9AyNdConArCW7+VWR0bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQSAr33F; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4qzhI+N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQSAr33F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722037632; x=1753573632;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X8qxvHf5GJfSvL8bSjh/8b9o1WKyFJxsLmtDW2xCoB8=;
-  b=I4qzhI+NvfFU3V1NvhKpMnVsS14l564sdPKuWOk/7SRmBVke6IKqMAVR
-   QFMnEmNNiBBG+iEnEnt+bYX7yf6CswFNSClXEJUAUHCLXVlRbxs3dMo9/
-   bzEQt6WKSmE1qCaxMx53zlmwlX1+1G1JqzFhdTaKYn5cHF3w2DjrNQexI
-   cG+RCeR5s/SomZM80jeKEUHBkbDaHw0jj/GvUwE55gqUyzB6YqVE64M+U
-   7c3iGCrYpK5M7/NySNg34jPIT3xBMD6w3krKEpVjX4WKzAV2niy4eusTl
-   dRL49znMeHxveAHMtKjX9xH0RsRUQAv4Jxq46tka7I4eFrEGXNIUPZxRr
-   g==;
-X-CSE-ConnectionGUID: nuCJERFATOmbaUbtTdbLJw==
-X-CSE-MsgGUID: XXH61+wQTca1Q9aLZDlvfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="19991707"
-X-IronPort-AV: E=Sophos;i="6.09,239,1716274800"; 
-   d="scan'208";a="19991707"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 16:47:11 -0700
-X-CSE-ConnectionGUID: zroEQ+VOTsucyKqT0cUEIg==
-X-CSE-MsgGUID: 1zAGI61NRIuRkUfZbYTa7g==
+  t=1722040216; x=1753576216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mCVSTRV3rhZ/5whvsTgdVrcA6k8L7Ed+HfUHhstdUuE=;
+  b=jQSAr33FU0EoYTTx5Wz/+pZnkn2eD9bKA9X/okLNl7YSfoYUjCOCWl/+
+   WBXdB3/gxPDs7RGNssvvxCB0sEU225rOrJAYZ8K0C8Slvr9k5sFCWkfxn
+   JRzmWAlNA7y3AblLhcXl0+6BFR8haRp5LVk9YcRCVLMoXVMpAXQvvM04R
+   9gE8yQij1pWiA2GL2PoLcX4cpXCqwHZNTDXKm4oShau3NYWIGwCtu9V4k
+   WqFo2+4IdePxmIlOo7CVjNyO1RnO/jQoAHSfm9RRCaotFrJE0rbeymsAo
+   QDqLvneW7OcIZWtD5QuSScwAzmHvPBm4mjx1ldURSiX+0KeRM6iXwGBWB
+   Q==;
+X-CSE-ConnectionGUID: 9ADwaMhjQqmVrah1Kz04PQ==
+X-CSE-MsgGUID: u/PeIkihTGifbLOPVUU5gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="37321866"
+X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
+   d="scan'208";a="37321866"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 17:30:16 -0700
+X-CSE-ConnectionGUID: rMIvXdeOS4+hpXO92LzViw==
+X-CSE-MsgGUID: y/8zfYvSSsePWi2954/lOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,239,1716274800"; 
-   d="scan'208";a="53085833"
+X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
+   d="scan'208";a="90875769"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Jul 2024 16:47:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Jul 2024 17:30:11 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXUeS-000pVU-0q;
-	Fri, 26 Jul 2024 23:47:08 +0000
-Date: Sat, 27 Jul 2024 07:46:14 +0800
+	id 1sXVK4-000pWi-39;
+	Sat, 27 Jul 2024 00:30:08 +0000
+Date: Sat, 27 Jul 2024 08:29:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 24/25]
- drivers/iommu/generic_pt/fmt/amdv1.h:65:59: warning: comparison between
- 'enum <anonymous>' and 'enum <anonymous>'
-Message-ID: <202407270720.8cxQ1sAM-lkp@intel.com>
+To: Vasileios Amoiridis <vassilisamir@gmail.com>, jic23@kernel.org,
+	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, andriy.shevchenko@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	vassilisamir@gmail.com, ang.iglesiasg@gmail.com,
+	linus.walleij@linaro.org, biju.das.jz@bp.renesas.com,
+	javier.carrasco.cruz@gmail.com, semen.protsenko@linaro.org,
+	579lpy@gmail.com, ak@it-klinger.de, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] iio: pressure bmp280: Move bmp085 interrupt to
+ new configuration
+Message-ID: <202407270859.izJnB7MZ-lkp@intel.com>
+References: <20240725231039.614536-8-vassilisamir@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +70,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240725231039.614536-8-vassilisamir@gmail.com>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   ea5c6d0c8914861c8e337228c4880001bf40f7c4
-commit: b513c48bbcacbdb68430971afdb347afb574df3d [24/25] iommupt: Add the AMD IOMM v1 page table format
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240727/202407270720.8cxQ1sAM-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407270720.8cxQ1sAM-lkp@intel.com/reproduce)
+Hi Vasileios,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 47ee461357f9da5a35d5f43527b7804a6a5744cb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/iio-pressure-bmp280-Use-bulk-read-for-humidity-calibration-data/20240726-071712
+base:   47ee461357f9da5a35d5f43527b7804a6a5744cb
+patch link:    https://lore.kernel.org/r/20240725231039.614536-8-vassilisamir%40gmail.com
+patch subject: [PATCH v2 7/7] iio: pressure bmp280: Move bmp085 interrupt to new configuration
+config: s390-randconfig-002-20240726 (https://download.01.org/0day-ci/archive/20240727/202407270859.izJnB7MZ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407270859.izJnB7MZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407270720.8cxQ1sAM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407270859.izJnB7MZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/generic_pt/fmt/../pt_defs.h:17,
-                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:10:
-   drivers/iommu/generic_pt/fmt/../pt_defs.h: In function 'pt_table_install64':
-   include/linux/atomic/atomic-arch-fallback.h:295:14: error: void value not ignored as it ought to be
-     295 |         ___r = raw_cmpxchg64_release((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4937:9: note: in expansion of macro 'raw_try_cmpxchg64_release'
-    4937 |         raw_try_cmpxchg64_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/../pt_defs.h:111:16: note: in expansion of macro 'try_cmpxchg64_release'
-     111 |         return try_cmpxchg64_release(entryp, &old_entry, table_entry);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:11:
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_oa':
->> drivers/iommu/generic_pt/fmt/amdv1.h:65:59: warning: comparison between 'enum <anonymous>' and 'enum <anonymous>' [-Wenum-compare]
-      65 |         if (FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) ==
-         |                                                           ^~
-   In file included from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from drivers/iommu/generic_pt/fmt/../pt_defs.h:20:
-   drivers/iommu/generic_pt/fmt/amdv1.h:69:77: warning: comparison between 'enum <anonymous>' and 'enum <anonymous>' [-Wenum-compare]
-      69 |         } else if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-         |                                                                             ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h:69:20: note: in expansion of macro 'PT_WARN_ON'
-      69 |         } else if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-         |                    ^~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_num_contig_lg2':
-   drivers/iommu/generic_pt/fmt/amdv1.h:95:59: warning: comparison between 'enum <anonymous>' and 'enum <anonymous>' [-Wenum-compare]
-      95 |         if (FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) ==
-         |                                                           ^~
-   drivers/iommu/generic_pt/fmt/amdv1.h:99:70: warning: comparison between 'enum <anonymous>' and 'enum <anonymous>' [-Wenum-compare]
-      99 |         if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-         |                                                                      ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h:99:13: note: in expansion of macro 'PT_WARN_ON'
-      99 |         if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-         |             ^~~~~~~~~~
+   In file included from drivers/iio/pressure/bmp280-core.c:36:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/iio/pressure/bmp280-core.c:36:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/iio/pressure/bmp280-core.c:36:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/iio/pressure/bmp280-core.c:3146:29: error: initializer element is not a compile-time constant
+           .id_reg = bmp180_chip_info.id_reg,
+                     ~~~~~~~~~~~~~~~~~^~~~~~
+   12 warnings and 1 error generated.
 
 
-vim +65 drivers/iommu/generic_pt/fmt/amdv1.h
+vim +3146 drivers/iio/pressure/bmp280-core.c
 
-    60	
-    61	static inline pt_oaddr_t amdv1pt_entry_oa(const struct pt_state *pts)
-    62	{
-    63		pt_oaddr_t oa = FIELD_GET(AMDV1PT_FMT_OA, pts->entry);
-    64	
-  > 65		if (FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) ==
-    66		    AMDV1PT_FMT_NL_SIZE) {
-    67			unsigned int sz_bits = ffz(oa);
-    68			oa = log2_set_mod(oa, 0, sz_bits);
-    69		} else if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-    70				      AMDV1PT_FMT_NL_DEFAULT))
-    71			return 0;
-    72		return log2_mul(oa, PT_GRANUAL_LG2SZ);
-    73	}
-    74	#define pt_entry_oa amdv1pt_entry_oa
-    75	
+  3144	
+  3145	const struct bmp280_chip_info bmp085_chip_info = {
+> 3146		.id_reg = bmp180_chip_info.id_reg,
+  3147		.chip_id = bmp180_chip_info.chip_id,
+  3148		.num_chip_id = bmp180_chip_info.num_chip_id,
+  3149		.regmap_config = bmp180_chip_info.regmap_config,
+  3150		.start_up_time = bmp180_chip_info.start_up_time,
+  3151		.channels = bmp180_chip_info.channels,
+  3152		.num_channels = bmp180_chip_info.num_channels,
+  3153		.avail_scan_masks = bmp180_chip_info.avail_scan_masks,
+  3154	
+  3155		.oversampling_temp_avail = bmp180_chip_info.oversampling_temp_avail,
+  3156		.num_oversampling_temp_avail =
+  3157			bmp180_chip_info.num_oversampling_temp_avail,
+  3158		.oversampling_temp_default = bmp180_chip_info.oversampling_temp_default,
+  3159	
+  3160		.oversampling_press_avail = bmp180_chip_info.oversampling_press_avail,
+  3161		.num_oversampling_press_avail =
+  3162			bmp180_chip_info.num_oversampling_press_avail,
+  3163		.oversampling_press_default =
+  3164			bmp180_chip_info.oversampling_press_default,
+  3165	
+  3166		.temp_coeffs = bmp180_chip_info.temp_coeffs,
+  3167		.temp_coeffs_type = bmp180_chip_info.temp_coeffs_type,
+  3168		.press_coeffs = bmp180_chip_info.press_coeffs,
+  3169		.press_coeffs_type = bmp180_chip_info.press_coeffs_type,
+  3170	
+  3171		.chip_config = bmp180_chip_info.chip_config,
+  3172		.read_temp = bmp180_chip_info.read_temp,
+  3173		.read_press = bmp180_chip_info.read_press,
+  3174		.read_calib = bmp180_chip_info.read_calib,
+  3175		.set_mode = bmp180_chip_info.set_mode,
+  3176		.wait_conv = bmp180_chip_info.wait_conv,
+  3177	
+  3178		.trigger_probe = bmp085_trigger_probe,
+  3179		.trigger_handler = bmp180_trigger_handler,
+  3180	};
+  3181	EXPORT_SYMBOL_NS(bmp085_chip_info, IIO_BMP280);
+  3182	
 
 -- 
 0-DAY CI Kernel Test Service
