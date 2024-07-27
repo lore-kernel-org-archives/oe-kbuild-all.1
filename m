@@ -1,73 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A520C1CF90
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 09:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C367443AC0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jul 2024 10:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722072809; cv=none; b=NvAYkol+DKtJS+Zp0F4U6T6FmsM7ikQUOzKD3V2yLINgnYgu8oU3lfrSnA1DqeTk/0RIhMLTPCwXv4A6a2FPU7oIMqFb6EfRc9JW2R+1i5ukwrsJ4rDOy9XLHsPNUn5/KSTfhFVDpi0Cjo6rqni4ShHkMvCFJTu0XHBNOIRabqk=
+	t=1722074727; cv=none; b=hCdbVNb4DVVuLkXIlxy0ZPQk730ECut6NOW3qnqdDWuNC1xrRlhHGc0uaXgTw/Vd9Azol/Ff7VBq/hJlvxG0PUUwWrnNZma76v/qg9LC2AzKI7bsADuxBHiQWBU/ysbsYS51z403NQgK4CJ3g2HDGkHMJuHtbuuOa6h5wFWJj1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722072809; c=relaxed/simple;
-	bh=96QOIG/h1nLnig5TjvXXPOrhIEeMRrOBAX7BbjccgxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KTP80QQEafS7diGiFBE34LF/c4mVrPGh4WrLhWZdsEpM95U20FI/xevlpw1o7byVsgCbJu4chnj6FkP4V/WPeUO/I+lLySqksu31eY/KBCexem1mjIA7Hg5oNwHHPWN4VCPOB3YsdC/5Kq4MYV8hn7OphMEj5Jf0m7F1r65+2ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOcg2so2; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1722074727; c=relaxed/simple;
+	bh=lBm5dwyRWJdtmXT93vPm2NuoTOlgUGPBm+dIHjnVPhs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Vc6pZ/vZCd49WBqAGqqNDoBLsa1gXnBDoKc4Fvt09mWPO7keCY5fTRcjQQQjYjx7deLfmVwrVrnGg2LpS1YwMsHEit2FADDD/TFabVimCtkEIBm6wzLi5Wc+xGNAajrOn64eWhuekKKtXwzdZwhrISylKgPj1XeNc65KFE3UB04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTUPtIfv; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOcg2so2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTUPtIfv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722072808; x=1753608808;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=96QOIG/h1nLnig5TjvXXPOrhIEeMRrOBAX7BbjccgxY=;
-  b=LOcg2so2GtBM2bmRGc2elBkIErkIdedlyCVu8ikxygK3WL6t9ahFXzm7
-   iX7++6im8ga1hna5wh0VNWpwFJlnHpaioJLCWVRVVVdWfNVoVIsPFToT6
-   d7P12H/tn5cw1LnVbV304YXm14YnzxuX4Nghg9bIjB/zIsTv0dvdmoYFi
-   cCal4ZL7naKFul9grlk6k6dUct4jWb8MXfoySM0v2K0f0Gy+cBxfH25QU
-   qBs8PDBOaWHYk7m8wk+vb+AoLNsnXW6ufEJmRN2Bz1FBnMgqdPXWgyi9K
-   1MfdPAIxq8G38Zppci+PZUCmACFzeLt6lU/G2YkRUYD8coGDBbAAEksJN
-   A==;
-X-CSE-ConnectionGUID: VWG09xoBTq2cSuR5rAThzA==
-X-CSE-MsgGUID: O2m1hl4HQN+S4bb7+TR0qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="23623105"
+  t=1722074725; x=1753610725;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lBm5dwyRWJdtmXT93vPm2NuoTOlgUGPBm+dIHjnVPhs=;
+  b=CTUPtIfvu4vNeBNaqY3peWMQeZrT1F+f4lP4H/slSJRgR95HYadkXL2s
+   YuVeg8hTz2+5FbLNcBnKnPP3IJnYRuYEjBFmEcoiYmBRlLeZvdVVxGTLd
+   U32ZMX3w+qN+ZJImJBGdZeUeWDIk9C6WcpQ6sbiJ8Bf76e1bp/5GQO3/4
+   bLfqgywdbBI7/ZNUkGFyUipRDPcJJaUqVnONT2is3625N50x5TInaAduW
+   deudBqRnK4IXN3vCIGlmFqvx6nAJEtgg4vIBcJjahZn71nf1OO5fJNUrN
+   DwdB8Nh+5vcjxWt9etaLUJv6lbuT03GXfEnypJKyiE0ZVaV+gh7NqeZ39
+   g==;
+X-CSE-ConnectionGUID: 8+hCgaGKTWuL0a5lMMMRww==
+X-CSE-MsgGUID: xeOE3wVkSxey6ojKHHbbVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="31257008"
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="23623105"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 02:33:27 -0700
-X-CSE-ConnectionGUID: 5BsX9X7rT/uE1OY406do8A==
-X-CSE-MsgGUID: H/UUFVt3SzWj6VvkW03j2Q==
+   d="scan'208";a="31257008"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 03:05:24 -0700
+X-CSE-ConnectionGUID: 2BarbEvjRWKl7wkEGA84zA==
+X-CSE-MsgGUID: pbz1Uq46QUiMh/D4lqCVyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
-   d="scan'208";a="54279932"
+   d="scan'208";a="53170317"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Jul 2024 02:33:23 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Jul 2024 03:05:23 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXdnk-000pou-0b;
-	Sat, 27 Jul 2024 09:33:20 +0000
-Date: Sat, 27 Jul 2024 17:32:25 +0800
+	id 1sXeIi-000pq8-2f;
+	Sat, 27 Jul 2024 10:05:20 +0000
+Date: Sat, 27 Jul 2024 18:04:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Schneider-Pargmann <msp@baylibre.com>,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Martin =?iso-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>,
-	Michal Kubiak <michal.kubiak@intel.com>,
-	Simon Horman <horms@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Judith Mendez <jm@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Linux regression tracking <regressions@leemhuis.info>,
-	linux-can@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] can: m_can: Do not cancel timer from within timer
-Message-ID: <202407271748.gsVE0Hih-lkp@intel.com>
-References: <20240726195944.2414812-5-msp@baylibre.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 21/22] ERROR: modpost:
+ "filemap_remove_folio" [fs/afs/kafs.ko] undefined!
+Message-ID: <202407271752.zno3yhBT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,108 +61,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240726195944.2414812-5-msp@baylibre.com>
 
-Hi Markus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkl-can-next/testing]
-[also build test WARNING on linus/master v6.10 next-20240726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/can-m_can-Reset-coalescing-during-suspend-resume/20240727-042714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
-patch link:    https://lore.kernel.org/r/20240726195944.2414812-5-msp%40baylibre.com
-patch subject: [PATCH 4/7] can: m_can: Do not cancel timer from within timer
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240727/202407271748.gsVE0Hih-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   6b24fc77cd5428445a25435f8cf7c56e55d600a6
+commit: b2fd6d9020b74d49f3d0f7585cce82396b4a608e [21/22] afs: Use netfslib instead of ITER_XARRAY for directories
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240727/202407271752.zno3yhBT-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271748.gsVE0Hih-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271752.zno3yhBT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407271748.gsVE0Hih-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407271752.zno3yhBT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/can/m_can/m_can.c:1205: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * This interrupt handler is called either from the interrupt thread or a
-
-
-vim +1205 drivers/net/can/m_can/m_can.c
-
-  1203	
-  1204	/**
-> 1205	 * This interrupt handler is called either from the interrupt thread or a
-  1206	 * hrtimer. This has implications like cancelling a timer won't be possible
-  1207	 * blocking.
-  1208	 */
-  1209	static int m_can_interrupt_handler(struct m_can_classdev *cdev)
-  1210	{
-  1211		struct net_device *dev = cdev->net;
-  1212		u32 ir;
-  1213		int ret;
-  1214	
-  1215		if (pm_runtime_suspended(cdev->dev))
-  1216			return IRQ_NONE;
-  1217	
-  1218		ir = m_can_read(cdev, M_CAN_IR);
-  1219		m_can_coalescing_update(cdev, ir);
-  1220		if (!ir)
-  1221			return IRQ_NONE;
-  1222	
-  1223		/* ACK all irqs */
-  1224		m_can_write(cdev, M_CAN_IR, ir);
-  1225	
-  1226		if (cdev->ops->clear_interrupts)
-  1227			cdev->ops->clear_interrupts(cdev);
-  1228	
-  1229		/* schedule NAPI in case of
-  1230		 * - rx IRQ
-  1231		 * - state change IRQ
-  1232		 * - bus error IRQ and bus error reporting
-  1233		 */
-  1234		if (ir & (IR_RF0N | IR_RF0W | IR_ERR_ALL_30X)) {
-  1235			cdev->irqstatus = ir;
-  1236			if (!cdev->is_peripheral) {
-  1237				m_can_disable_all_interrupts(cdev);
-  1238				napi_schedule(&cdev->napi);
-  1239			} else {
-  1240				ret = m_can_rx_handler(dev, NAPI_POLL_WEIGHT, ir);
-  1241				if (ret < 0)
-  1242					return ret;
-  1243			}
-  1244		}
-  1245	
-  1246		if (cdev->version == 30) {
-  1247			if (ir & IR_TC) {
-  1248				/* Transmission Complete Interrupt*/
-  1249				u32 timestamp = 0;
-  1250				unsigned int frame_len;
-  1251	
-  1252				if (cdev->is_peripheral)
-  1253					timestamp = m_can_get_timestamp(cdev);
-  1254				frame_len = m_can_tx_update_stats(cdev, 0, timestamp);
-  1255				m_can_finish_tx(cdev, 1, frame_len);
-  1256			}
-  1257		} else  {
-  1258			if (ir & (IR_TEFN | IR_TEFW)) {
-  1259				/* New TX FIFO Element arrived */
-  1260				ret = m_can_echo_tx_event(dev);
-  1261				if (ret != 0)
-  1262					return ret;
-  1263			}
-  1264		}
-  1265	
-  1266		if (cdev->is_peripheral)
-  1267			can_rx_offload_threaded_irq_finish(&cdev->offload);
-  1268	
-  1269		return IRQ_HANDLED;
-  1270	}
-  1271	
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/apparmor/apparmor_policy_unpack_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/mxc-clk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imxrt1050.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
+>> ERROR: modpost: "filemap_remove_folio" [fs/afs/kafs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
