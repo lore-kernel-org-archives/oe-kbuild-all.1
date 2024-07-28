@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74B1125C1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 07:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25F48C06
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 08:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722152771; cv=none; b=tnV+bgS1GpoojyO8t1YdJtiZCjfGlMN+9VP/vvz9tNUS1PVn9/EkONLD4hQU+E3YwgKStjeMp8vfdwIwH5URlSxxA7G/BHLiXTQuEZQ2TTJP3RsmJkvVExZsQmfi0tzA4qxsNXo6gLzjBNYyppqfnOFRRACxdFzJC4VQS5D70LU=
+	t=1722154055; cv=none; b=sma72cTVUO6/6Nfopql0Z/lNVMU9aEoh1fqbXg0W1295DizRfInB5C8lwnc1pK9QQ7nltZhvehTYHQS7hU6e2ecNvyo/+PeMoVkkmi7Y8tt/9Uf64vy2aNWbl+RXm6VcVC+EqlINHemE/uGWTGGQhMU5f25n4m8EWMbm8dDiBW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722152771; c=relaxed/simple;
-	bh=qdgUWJ4K/P+I6Z9hO0cmtH2nO5cr+50Fulora13Pdwk=;
+	s=arc-20240116; t=1722154055; c=relaxed/simple;
+	bh=/wMqt4yZKcnLKVD4aEuKLJTceFuqCwJ1aA2pw7pg2K0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jZitsxW+q76Thj3QsNTUQ/wEfeaxJOnU1gGLgqN8BZp/Z5NtzoDG2DnuhmCVYlYjIceLSzD8wRfOUJfZEVC59rOXMJfkX0Tw5BsrWMT3cJAF2TeYt52hzj12lb6fadXH2Jh+Vkn621HhL4rKhmqNGD2VvODDRkXvnZ8iZauGIWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/knrN1I; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=EqGAnqACUez71kf+/A0nBO7GPjXC38E/kj8mzAv7j1/Z9wYQ8x7eGOMGfDtYv6024nUcf3h6lmUIjvtJ4pPxoK6FiHVPYbOSaOiH0O6qgkBrw3wJlTvVvI3kMdeUwAkmX8oeRUgUvzlxZgT0H17d7rUFGbBK7RGDKib0qnlN9UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUbiYDZE; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/knrN1I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUbiYDZE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722152769; x=1753688769;
+  t=1722154053; x=1753690053;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qdgUWJ4K/P+I6Z9hO0cmtH2nO5cr+50Fulora13Pdwk=;
-  b=K/knrN1IdDpP8L1lOwWLGAw/hJxToluVvvtoRdPqT8I6RpCxegXrxSWz
-   krA1vYzOjQpNfR0zZ9HTr6HN5BH77IzhYLEmJkMGnChIh/iVaPjZB67gr
-   WKfzG6LFFhVj+VGdgJCEHpsFokH3+QyArgUej4Ksm356a9Utq0uTMJ7pP
-   o89gRUbKCJjSDhKrb7DPQijwVT3tJrAHZp+d1sdNJy8fWU7GRdCQkJvW5
-   a6eHdXfniHECveuMLBh3kcNh4tKjwkWhzLPOomQ6in3hMqcvQPvU7koQR
-   B1bdVn0Z3nwOb+3HlaZ3eavyANeTVHiV3D7X5BhBH1SHNm/mHNl0hl77R
-   A==;
-X-CSE-ConnectionGUID: QEfdYiMgRAmEZXr8j/Xpgg==
-X-CSE-MsgGUID: lU1kIYHRRyOeQi7eQHw73g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="23700555"
+  bh=/wMqt4yZKcnLKVD4aEuKLJTceFuqCwJ1aA2pw7pg2K0=;
+  b=LUbiYDZE6psentm/iMgxm4YqSKYDpleob4/7fPOzgCIA98x+Da+CrirN
+   zFMaZLS34tJedKZkfIQZ1lorOaq7YL2YaGUXSxEDtRV5Gt+WLHYvr0pSP
+   baToJKFxvjgqg/DrwMHVb/EeqLqOBvWZISdp5N6Ixc3n8V9f4HsNhrrbd
+   J/mDjdylddbsX/e+6hPpJDEkEtBevWM6XdW785HGRTOuBvCXaPkIdC3c7
+   N4RWmnTTOdKvj7BpcIg246fY92Xc9VNFxognnXbh18xlBqYgtzIcIK8DF
+   fVaS/sKYk/FeJnRku/LK0CzlAmw+z/W6xV/gUCWJZ5XLEzRHPDsSby6Vk
+   w==;
+X-CSE-ConnectionGUID: DIgRnuOMSsGKBZXL5ssBpg==
+X-CSE-MsgGUID: /y7TwdZYScCzeHRzEbD4Cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="19701904"
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="23700555"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 00:45:57 -0700
-X-CSE-ConnectionGUID: Egj01NRQQhqMJBTSyzwAYQ==
-X-CSE-MsgGUID: 6TgRB0MTQLGBJZxptynNpg==
+   d="scan'208";a="19701904"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 01:07:20 -0700
+X-CSE-ConnectionGUID: 6ZuyNWyTRoWXhT7JScJsCQ==
+X-CSE-MsgGUID: dBAsAQygRjO2s6vuO0lihA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="53328852"
+   d="scan'208";a="53754739"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2024 00:45:56 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Jul 2024 01:06:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXybJ-000qco-26;
-	Sun, 28 Jul 2024 07:45:53 +0000
-Date: Sun, 28 Jul 2024 15:45:52 +0800
+	id 1sXyve-000qdy-0b;
+	Sun, 28 Jul 2024 08:06:54 +0000
+Date: Sun, 28 Jul 2024 16:06:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 11557/23376]
- drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_gro.o: warning:
- objtool: missing symbol for section .text
-Message-ID: <202407281559.WpczUOhm-lkp@intel.com>
+Subject: [cip:linux-6.1.y-cip-rebase 140/384] ERROR: modpost:
+ "rz_mtu3_shared_reg_update_bit" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+Message-ID: <202407281612.afGTq13T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   0e54270d90f09583500ef61f20ffb02efafa8031
-commit: 98cbed17790cdb1565119733aa422bab3b955d46 [11557/23376] net: hns3: place cae gro implementations in an independent file
-config: x86_64-buildonly-randconfig-005-20240727 (https://download.01.org/0day-ci/archive/20240728/202407281559.WpczUOhm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407281559.WpczUOhm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip-rebase
+head:   e8d1b09817999155836a2f74a7ee89eb0f78152a
+commit: 378b44aaa458deefdb04767d403647cc66ee531c [140/384] mfd: rz-mtu3: Link time dependencies
+config: arc-randconfig-001-20240728 (https://download.01.org/0day-ci/archive/20240728/202407281612.afGTq13T-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407281612.afGTq13T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407281559.WpczUOhm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407281612.afGTq13T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/ethernet/hisilicon/hns3/hns3_cae/.tmp_hns3_cae_gro.o: warning: objtool: missing symbol for section .text
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/encoder-opa362.o: section mismatch in reference: opa362_driver (section: .data) -> opa362_remove (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.o: section mismatch in reference: dvi_connector_driver (section: .data) -> dvic_remove (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.o: section mismatch in reference: hdmi_connector_driver (section: .data) -> hdmic_remove (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.o: section mismatch in reference: tvc_connector_driver (section: .data) -> tvc_remove (section: .exit.text)
+WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx.o: section mismatch in reference: adc3xxx_i2c_driver (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
+>> ERROR: modpost: "rz_mtu3_shared_reg_update_bit" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_shared_reg_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_32bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_16bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_8bit_ch_write" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_enable" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_disable" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_is_enabled" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_8bit_ch_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+ERROR: modpost: "rz_mtu3_32bit_ch_read" [drivers/counter/rz-mtu3-cnt.ko] undefined!
+WARNING: modpost: suppressed 1 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
