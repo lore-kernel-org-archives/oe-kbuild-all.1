@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0D7ECC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 02:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C361877
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 03:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722132784; cv=none; b=swrmHi9L3mbqqxv5ZHwgufZlUvRVL3C5Oh8lbdWnxe1QbVXBwP3nUnLW/scR1S33fRHssX4CrAv6IiyA/Z3tJWGFBx5zPVMr0VAsnajcuTdhw05vkYIOGtZbM7XdrsRoGWcjC+eNyQyp1thnbiE+ReGbeyfGyEr5XP3DiSVwgn4=
+	t=1722137154; cv=none; b=Ir780VPT2plckIuc/xr9lN4sJBq0aHlh7STqXk9ZOuWyLH3Rh0MU9aJPhLRuu8Q9qiw6Vd0tO3OpZacGy+GO1uohZn25pd4NflX5MIpNxzLEiW7qlzH/9PtFs1Lo/za8u19j6B6/I+ONA2ZxUhhmw0LiDEfbWxYX5exo1PmYIt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722132784; c=relaxed/simple;
-	bh=X7fjn2OkAJ/8+lASO6fAEUwyrdCaY41RbfLl1n2gtaI=;
+	s=arc-20240116; t=1722137154; c=relaxed/simple;
+	bh=ePdUMW/HdlDjNktxdbHbvt+30f/M8cfP+i2kAdWzTZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A4xBQHTK9i0aFTFOXdQTAI0MP7vtmcIekOWb+UHzePNY0QUrq1MYcQ4fPGC8Z3ckRAbyzswH7ZaD9my22vb7+/P14KZI4uAUrwcgtqdB4joby4yLujoG5E8UaEmDzPX19d6pjYIyB9ALKiWK9icJc5XMznETej0m8aYOpqy4w8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ev8uG2e6; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=XLEvyLGGkpJlv6I8VtktUTclyIsJJ27IwmckPcVIm/WdrCwxHla7IUA9aUtUvj6MIDoJv8+JpvphAqGinGDKXF1oYQugkCA9CQ5hW59muO1yM2TctWqyTc70+R8YD8ajOJcQVQc1bHlBcG0O15h51nWoP83OxP7Gn87U4Mt9dmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aabu/Aht; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ev8uG2e6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aabu/Aht"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722132782; x=1753668782;
+  t=1722137152; x=1753673152;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X7fjn2OkAJ/8+lASO6fAEUwyrdCaY41RbfLl1n2gtaI=;
-  b=ev8uG2e6Lf4MDndDnxXrSzCgkXDuNe7P5+vVEeL4vD4wEsKC4tJ5S8S3
-   ldDfj2testYKgY5tQBjVz/3nr5RoqoXW4Q7E2DHEo1a86yzQo/ZAVTAwl
-   vwIYIQa5jeZVo6GFOsTxIdoBnPbM9MCZAuxs8OuGOf35hEpdG9JFpJF8J
-   rN9gx/qURJK2Nq0KsE1x9vmoH0DOVRtVjO/IW9o5lNe1Ooc4N0Ug6pddC
-   bO1JZs2uECwPhBqsCU7XQ0wW+CjGnaEgGFRb7WF3uKWkxPsimc9OtFW1l
-   +o3Z/U/DKv92mpXIT4Qwxd50uXp2SADBcgGBtQMuCz5spMhnYkRPu8nDy
-   A==;
-X-CSE-ConnectionGUID: jkdHbPLeSceUM55w93+bbQ==
-X-CSE-MsgGUID: CNb/W2UFS/CwwM0+Jw4MLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="20022854"
+  bh=ePdUMW/HdlDjNktxdbHbvt+30f/M8cfP+i2kAdWzTZQ=;
+  b=Aabu/AhtYiPjLQ537Oy8puxg+BgHhNd2hymBZabS94sZK94u9RYInJG5
+   QI97gtfwpjlf0XRYM/fsW2nDzm2S/aCIRXabFS+1MkjUw3jZFl8/VhOgF
+   Gw1+2ecd0Ja3B8s7/iFafz14TRIvaQgqNwmG48WBXVKcPBUwt26MyNg16
+   QmALEDXRVDKjRkP333Va8psu5ZsTLCtxJ0pmZdoxAcBVCJ2TthbA3yAmP
+   1MK5al7OfZByv+yAMQ6JR1fj3duWZyGzwB+OwesvK9XHd0jXCgwMDqh35
+   ICLYbtRLMQVlw6okuQ+RsOWF9+b7LCJKBOcJ31KwhydsgLESxlo/cnZEA
+   Q==;
+X-CSE-ConnectionGUID: W2oLdRFSRSqHYHkR/FA/iA==
+X-CSE-MsgGUID: vX9EwM5UTNevzwzj7hp9Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="31301698"
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="20022854"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 19:12:50 -0700
-X-CSE-ConnectionGUID: 2g52wDJQQQuGviIt2+DmRw==
-X-CSE-MsgGUID: haLI7FyqSUuTfpml1EPRAw==
+   d="scan'208";a="31301698"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 20:25:52 -0700
+X-CSE-ConnectionGUID: OEBo114vTBSeRv8MAjST0g==
+X-CSE-MsgGUID: 1COwDh6dQCSvAAuxfut1Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="57766766"
+   d="scan'208";a="53848094"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Jul 2024 19:12:48 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 Jul 2024 20:25:50 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXtOv-000qR6-2d;
-	Sun, 28 Jul 2024 02:12:45 +0000
-Date: Sun, 28 Jul 2024 10:12:40 +0800
+	id 1sXuXc-000qTO-0g;
+	Sun, 28 Jul 2024 03:25:48 +0000
+Date: Sun, 28 Jul 2024 11:25:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Song Zhang <zhangsong34@huawei.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1889/10967] kernel/sched/fair.c:151:14: sparse:
- sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not declared.
- Should it be static?
-Message-ID: <202407281041.HjAnBUAM-lkp@intel.com>
+Subject: [jpoimboe:objtool-diff 5/7] loongarch64-linux-ld: warning: orphan
+ section `.init.bss.screen_info_offset' from
+ `./drivers/firmware/efi/libstub/efi-stub-entry.stub.o' being placed in
+ section `.init.bss.screen_info_offset'
+Message-ID: <202407281116.R8lvwv9w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,115 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   b4a0c4baeb5af802ab07bb35e874446f0389901f
-commit: 89bf80a4d6d5ba852b9042480e0be23c2c4a628c [1889/10967] sched: Introduce priority load balance for qos scheduler
-config: loongarch-randconfig-r112-20240728 (https://download.01.org/0day-ci/archive/20240728/202407281041.HjAnBUAM-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
+head:   caecd138f3c820b6e24d9fa9eb0ee20d755cd5c0
+commit: 66bfbcac7d7d81f205bc35c060d70f5c378ad3d4 [5/7] livepatch: Enable -ffunction-sections -fdata-sections
+config: loongarch-randconfig-001-20240728 (https://download.01.org/0day-ci/archive/20240728/202407281116.R8lvwv9w-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240728/202407281041.HjAnBUAM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407281116.R8lvwv9w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407281041.HjAnBUAM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407281116.R8lvwv9w-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:143:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
-   kernel/sched/fair.c:144:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
->> kernel/sched/fair.c:151:14: sparse: sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not declared. Should it be static?
-   kernel/sched/fair.c:1271:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1271:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1271:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12846:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12846:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12846:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5925:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:7998:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7998:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7998:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8310:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8310:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8310:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8421:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8421:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8421:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8641:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8763:13: sparse:     expected void *ptr
-   kernel/sched/fair.c:8763:13: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8763:13: sparse:     expected void *ptr
-   kernel/sched/fair.c:8763:13: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8763:13: sparse:     expected void *ptr
-   kernel/sched/fair.c:8763:13: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8763:13: sparse:     expected void *ptr
-   kernel/sched/fair.c:8763:13: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8999:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8999:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8999:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:10040:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10040:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:10040:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10677:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10677:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10677:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12118:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12118:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12118:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11775:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11775:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11775:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12214:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12214:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12214:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7214:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7214:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7214:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7220:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7220:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7220:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7227:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7227:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7227:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7235:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7235:17: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:7235:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2312:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2312:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2312:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2148:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2148:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +/sysctl_sched_prio_load_balance_enabled +151 kernel/sched/fair.c
-
-   149	
-   150	#ifdef CONFIG_QOS_SCHED_PRIO_LB
- > 151	unsigned int sysctl_sched_prio_load_balance_enabled;
-   152	#endif
-   153	
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.screen_info_offset' from `./drivers/firmware/efi/libstub/efi-stub-entry.stub.o' being placed in section `.init.bss.screen_info_offset'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.cmdline' from `./drivers/firmware/efi/libstub/gop.stub.o' being placed in section `.init.bss.cmdline'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_system_table' from `./drivers/firmware/efi/libstub/systable.stub.o' being placed in section `.init.bss.efi_system_table'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_mem_encrypt' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_mem_encrypt'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_disable_pci_dma' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_disable_pci_dma'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nosoftreserve' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nosoftreserve'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_noinitrd' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_noinitrd'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_novamap' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_novamap'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nokaslr' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nokaslr'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nochunk' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nochunk'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.text_to_dp.0' from `./drivers/firmware/efi/libstub/file.stub.o' being placed in section `.init.bss.text_to_dp.0'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.screen_info_offset' from `./drivers/firmware/efi/libstub/efi-stub-entry.stub.o' being placed in section `.init.bss.screen_info_offset'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.cmdline' from `./drivers/firmware/efi/libstub/gop.stub.o' being placed in section `.init.bss.cmdline'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_system_table' from `./drivers/firmware/efi/libstub/systable.stub.o' being placed in section `.init.bss.efi_system_table'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_mem_encrypt' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_mem_encrypt'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_disable_pci_dma' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_disable_pci_dma'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nosoftreserve' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nosoftreserve'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_noinitrd' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_noinitrd'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_novamap' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_novamap'
+>> loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nokaslr' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nokaslr'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nochunk' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nochunk'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.text_to_dp.0' from `./drivers/firmware/efi/libstub/file.stub.o' being placed in section `.init.bss.text_to_dp.0'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.screen_info_offset' from `./drivers/firmware/efi/libstub/efi-stub-entry.stub.o' being placed in section `.init.bss.screen_info_offset'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.cmdline' from `./drivers/firmware/efi/libstub/gop.stub.o' being placed in section `.init.bss.cmdline'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_system_table' from `./drivers/firmware/efi/libstub/systable.stub.o' being placed in section `.init.bss.efi_system_table'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_mem_encrypt' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_mem_encrypt'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_disable_pci_dma' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_disable_pci_dma'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nosoftreserve' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nosoftreserve'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_noinitrd' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_noinitrd'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_novamap' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_novamap'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nokaslr' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nokaslr'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.efi_nochunk' from `./drivers/firmware/efi/libstub/efi-stub-helper.stub.o' being placed in section `.init.bss.efi_nochunk'
+   loongarch64-linux-ld: warning: orphan section `.init.bss.text_to_dp.0' from `./drivers/firmware/efi/libstub/file.stub.o' being placed in section `.init.bss.text_to_dp.0'
 
 -- 
 0-DAY CI Kernel Test Service
