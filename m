@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5855D54765
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 14:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C1B374CC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 14:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722177851; cv=none; b=YsRaX7Eol3EHjs21us84e2kIlMIoPDqmtMicOejOeLfgWzIxuVSWgnEB7cRAtnEAi7fj4NIl4IPbLlY8j/APvpwL3UzQK09OOalarkZKraw+/jG4b5zils0P5ccO/ToT71QKuj3w2NsKqp9cMzcN2HJPXdf+f3lpA0hfooCbzEU=
+	t=1722178452; cv=none; b=Ch23NbvYZXYPheUXcweLW0uQT7IN3BJfAnXHP0dlWRgUTHE8K0zoZOFjdCFb8Ob7FobTuXQ6IFf8DZckiqhAo91oC181g1DreW/FERNvWR2s0luB5Q6xHeroxvC2Bv5QLhdvjk0HWPNUDiAP2vfJvjLExXTjoh3+co2ZWYo4ePg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722177851; c=relaxed/simple;
-	bh=w/v3YnBofyZNHsEcMe25l0OAYAAVhvA2Y6GCENl+Qws=;
+	s=arc-20240116; t=1722178452; c=relaxed/simple;
+	bh=7gM246ml+wleFJHuj7+6+9VaPs+PwlxrOlfqwluPZ+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qgnDIgsTciXKrUCt1zX0pMRz+rMwklrvfpy2K+maH9/PsUY4yXQ1x5m+LLOStma6pS+QynPUmw1yaD/fhKvkm45MA5OdWm6XkOA3wFjyqJhAzHav3Wwb5V9m7rOKb5LoW1fjDFuxEU2XzB9PAkrON4oyNHhoVCq+juGXLwhbH/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpTF1mwA; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=IFdIoypKFE0c6EOoDg8g7yeqDv3lC3DswFyoe78h9RpDiRk/8FFbJ/PWDKbvEBr9q2qn9No5AMOfR2fL1LJutd0Yp0rrHFsgNJqvp5p82V5V4XUnmF5OZJvXLBAARSdimlM9eoRuL0DYQYC3KZTDSJFV96oHUxma+lgD/9awB9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UokhvR2g; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpTF1mwA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UokhvR2g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722177849; x=1753713849;
+  t=1722178451; x=1753714451;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w/v3YnBofyZNHsEcMe25l0OAYAAVhvA2Y6GCENl+Qws=;
-  b=HpTF1mwADosWPnskp1aZMtR8zijnHbY6isV4BG3OqYkiGDg29YTr34FN
-   VI5YxGgamt3awQ7y3gX/hDa1nI8LB1r6xkZOHEH+YFZnHHfq+ot2W8gBl
-   dwus+uPkNI7ngiVxzi4PNgWr3tqRQGmQs60p2QgQYnQV5EVtqM5BYcJ5P
-   gFzp3p3eGavcjSwJWL9tWox0SPq6ZjU2dA1J633Xc4HNcsLVKCwDO2FpV
-   p7c+10w7+pzJ2dAnDKE7dROaSkOFYUUpE/DI1xEQ/13uXGWCh3Lu+khH+
-   IOKgBMvdn3a1W6znF6H8OI5XR7aiCeOWaz013fajhwWYi+vqUBBWDaWK3
+  bh=7gM246ml+wleFJHuj7+6+9VaPs+PwlxrOlfqwluPZ+g=;
+  b=UokhvR2gOXrXijJH4ttYMllL5IpqDa2wotiMl51QBzGc6kb5AyjEe4Jt
+   v/QNsVmf4OOVRl8vBlrhXeM0SeSkhyM+oiDmsmFZGWZB86LnigpjFt43G
+   xqEWNmW4j3tEQZdMOiKDnh8i1NHoi0ME+iIRtjitdsO02/rA1HEAtmYJx
+   LvOo69fBiDzlgpwuEHAJaYt7lOcT1xU5qkDK0Xdy5IFLD59PtHb87+MIo
+   1hIdDN1nfzE0sBQA2V2HuoRMaRNUSWsqDhbUCw16oGdfwtkSD2mXldvql
+   /tvTOn4Zy7qXA12CADqDVsH427RiwGELI2w6BeNzQArdPEEYQaJ5Co5VE
    g==;
-X-CSE-ConnectionGUID: NgKLTOUrRdW6gddkT3ASig==
-X-CSE-MsgGUID: s4m91p0qS4uyn5inUbn35g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="30528395"
+X-CSE-ConnectionGUID: 2+fgk59zRiGHuiCs5Zn9WA==
+X-CSE-MsgGUID: m7Q35LlbQRCq9PNOrj119Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="23674738"
 X-IronPort-AV: E=Sophos;i="6.09,244,1716274800"; 
-   d="scan'208";a="30528395"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 07:44:08 -0700
-X-CSE-ConnectionGUID: QjK0JcPfRCW6pA5ymGpX2A==
-X-CSE-MsgGUID: SDwZWuAIRsmwdkixYTRVdg==
+   d="scan'208";a="23674738"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 07:54:10 -0700
+X-CSE-ConnectionGUID: 0VFU+mIcS0auCWa57RMfHQ==
+X-CSE-MsgGUID: Mt3VqwALQEGVKYzSBBvoVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,244,1716274800"; 
-   d="scan'208";a="58310102"
+   d="scan'208";a="53665117"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Jul 2024 07:44:07 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Jul 2024 07:54:07 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sY580-000qsw-35;
-	Sun, 28 Jul 2024 14:44:04 +0000
-Date: Sun, 28 Jul 2024 22:43:19 +0800
+	id 1sY5Hh-000qtO-0Z;
+	Sun, 28 Jul 2024 14:54:05 +0000
+Date: Sun, 28 Jul 2024 22:53:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from
- constant value (38400000050e becomes 50e)
-Message-ID: <202407282201.lk1cNoMd-lkp@intel.com>
+To: Rayyan Ansari <rayyan.ansari@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 13644/13921]
+ arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: sata@29000000:
+ clock-names:2: 'core' was expected
+Message-ID: <202407282202.ITbn6H83-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,111 +66,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5437f30d3458ad36e83ab96088d490ebfee844d8
-commit: 0453c9a78015cb2219cda7239d881f4e3137bff8 sh: mm: convert to GENERIC_IOREMAP
-date:   12 months ago
-config: sh-randconfig-r133-20240727 (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   668d33c9ff922c4590c58754ab064aaf53c387dd
+commit: c84750d06ea88079e6ac7e1d16694ae4fe7820a9 [13644/13921] dt-bindings: ata: qcom,apq8064-ahci: add to dtschema
+config: arm-randconfig-051-20240726 (https://download.01.org/0day-ci/archive/20240728/202407282202.ITbn6H83-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407282202.ITbn6H83-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407282201.lk1cNoMd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407282202.ITbn6H83-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/iomem.c:113:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
-   kernel/iomem.c:113:22: sparse:     expected void *[assigned] addr
-   kernel/iomem.c:113:22: sparse:     got void [noderef] __iomem *
-   kernel/iomem.c:116:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
-   kernel/iomem.c:116:22: sparse:     expected void *[assigned] addr
-   kernel/iomem.c:116:22: sparse:     got void [noderef] __iomem *
->> kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from constant value (38400000050e becomes 50e)
-   kernel/iomem.c: note: in included file (through include/linux/gfp.h, include/linux/xarray.h, include/linux/radix-tree.h, ...):
-   include/linux/mmzone.h:1997:40: sparse: sparse: self-comparison always evaluates to false
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: /soc/pinctrl@800000: failed to match any schema with compatible: ['qcom,apq8064-pinctrl']
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: syscon@1200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: timer@200a000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: sps-sic-non-secure@12100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: rpm@108000: 'clock-controller' does not match any of the regexes: '^regulators(-[01])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: /soc/phy@1b400000: failed to match any schema with compatible: ['qcom,apq8064-sata-phy']
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: sata@29000000: clock-names:2: 'core' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: sata@29000000: clock-names:4: 'pmalive' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: syscon@5700000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
 --
-   arch/sh/boards/board-sh7785lcr.c:298:13: sparse: sparse: symbol 'init_sh7785lcr_IRQ' was not declared. Should it be static?
-   arch/sh/boards/board-sh7785lcr.c:322:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char *p @@     got void [noderef] __iomem * @@
-   arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     expected unsigned char *p
-   arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     got void [noderef] __iomem *
->> arch/sh/boards/board-sh7785lcr.c:328:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *p @@
-   arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     expected void volatile [noderef] __iomem *addr
-   arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     got unsigned char *p
-   arch/sh/boards/board-sh7785lcr.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
->> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: /soc/pinctrl@800000: failed to match any schema with compatible: ['qcom,apq8064-pinctrl']
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: syscon@1200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: timer@200a000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: sps-sic-non-secure@12100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: rpm@108000: 'clock-controller' does not match any of the regexes: '^regulators(-[01])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: /soc/phy@1b400000: failed to match any schema with compatible: ['qcom,apq8064-sata-phy']
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: sata@29000000: clock-names:2: 'core' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: sata@29000000: clock-names:4: 'pmalive' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: syscon@5700000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
 --
-   drivers/spi/spi-sh-sci.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/scatterlist.h, include/linux/spi/spi.h):
->> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: /soc/pinctrl@800000: failed to match any schema with compatible: ['qcom,apq8064-pinctrl']
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: syscon@1200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: timer@200a000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: sps-sic-non-secure@12100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: rpm@108000: 'clock-controller' does not match any of the regexes: '^regulators(-[01])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: /soc/phy@1b400000: failed to match any schema with compatible: ['qcom,apq8064-sata-phy']
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: sata@29000000: clock-names:2: 'core' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: sata@29000000: clock-names:4: 'pmalive' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: syscon@5700000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
 --
-   drivers/spi/spi-nxp-fspi.c:513:25: sparse: sparse: cast from restricted __be32
-   drivers/spi/spi-nxp-fspi.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
->> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
---
-   drivers/scsi/esas2r/esas2r_init.c:908:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] length @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     expected unsigned int [usertype] length
-   drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] sgl_page_size @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     expected unsigned int [usertype] sgl_page_size
-   drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] epoch_time @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     expected unsigned int [usertype] epoch_time
-   drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
-   drivers/scsi/esas2r/esas2r_init.c:1196:25: sparse: sparse: cast to restricted __be32
-   drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ctl_len @@     got restricted __le32 [usertype] @@
-   drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     expected unsigned int [usertype] ctl_len
-   drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] address @@     got restricted __le64 [usertype] @@
-   drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     expected unsigned long long [usertype] address
-   drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     got restricted __le64 [usertype]
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
-   drivers/scsi/esas2r/esas2r_init.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
->> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
->> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
-   drivers/scsi/esas2r/esas2r_init.c:286:15: sparse: sparse: memset with byte count of 557736
-   drivers/scsi/esas2r/esas2r_init.c: note: in included file:
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
-   drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
-
-vim +18 kernel/iomem.c
-
-5981690ddb8f72 Dan Williams 2018-03-29  14  
-5981690ddb8f72 Dan Williams 2018-03-29  15  #ifndef arch_memremap_wb
-5981690ddb8f72 Dan Williams 2018-03-29  16  static void *arch_memremap_wb(resource_size_t offset, unsigned long size)
-5981690ddb8f72 Dan Williams 2018-03-29  17  {
-5981690ddb8f72 Dan Williams 2018-03-29 @18  	return (__force void *)ioremap_cache(offset, size);
-5981690ddb8f72 Dan Williams 2018-03-29  19  }
-5981690ddb8f72 Dan Williams 2018-03-29  20  #endif
-5981690ddb8f72 Dan Williams 2018-03-29  21  
-
-:::::: The code at line 18 was first introduced by commit
-:::::: 5981690ddb8f72f9546a2d017a914cf56095fc1f memremap: split devm_memremap_pages() and memremap() infrastructure
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: /soc/pinctrl@800000: failed to match any schema with compatible: ['qcom,apq8064-pinctrl']
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: syscon@1200000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: timer@200a000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: sps-sic-non-secure@12100000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: rpm@108000: 'clock-controller' does not match any of the regexes: '^regulators(-[01])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: /soc/phy@1b400000: failed to match any schema with compatible: ['qcom,apq8064-sata-phy']
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: sata@29000000: clock-names:2: 'core' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: sata@29000000: clock-names:4: 'pmalive' was expected
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: syscon@5700000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
