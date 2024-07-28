@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071BD3EA9B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 12:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B443043AAB;
+	Sun, 28 Jul 2024 12:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722168908; cv=none; b=TYfSmgZY7p737fkD3ZOC2pJyNQp+RSwv/413HAAdR4GH6uvlogvnEsSfc+p4Y8zBRwdRD0af3nKLAmBrys1D4QIip/r3BTb9I3bvFIBJqKOm7gtn2P2UWDT6bNxqpvwkyiwJDeroSOQzkJUgv7JXOjGD7O5EYdom/CZpP4njbsI=
+	t=1722171488; cv=none; b=EeJbk/dMIxyP5Bx8O0hSYDL6LBYU7C7M5UUqKJxFWT1R+d5T0FWHPvvfz+JXLSTODZlbxHAPxJXd8GuYo7J4Ey0PpR512FIoG4a/GmQpVysaQw6mMtwuW24O8q/OeDgYJnEiwjfpu9DG7EV7iZE97UoJg81xkrNWr9NIBmZfVi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722168908; c=relaxed/simple;
-	bh=HBzHjvY4/VRudC40Tg50oXwv9sOM2VV0cn9BnLSTdU4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9ZkIJ5IvC9NqwOMox589jzrSR7TurGfzeOaPnV6pvjxOOckYvxJKW+GRdBnbkEIfq+qTPCNOeCTCjYVUcJGovTvzhoCFfAebNetN2aPwsFGTKzjH7MQbefI1tZZdU+UkXsQPCLsNRQZoU/MbDORqQwGAqk8+y04eOxWdT2u6pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVch8LFk; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1722171488; c=relaxed/simple;
+	bh=2Ih5dkL1PzWSbRDfBt0lOFyfRs1wcE88ubJ84fcm2Tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VX/QUFo94JkhPENATNc7nZDycLGC/aV94NFIoq/Vz89giA+7lSwi+BBLTPrUuAah0R++R7tTJ+OJc4G8sE02rjfITf4p2hhrFXmG/qAl6lmaznvMqbMZu2LBdXl6yQiRvLVqPFvdJ5sL6vegVZVA8H2UeeRl+0jZ8M7+nbWY4f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMkR98ye; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVch8LFk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMkR98ye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722168908; x=1753704908;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HBzHjvY4/VRudC40Tg50oXwv9sOM2VV0cn9BnLSTdU4=;
-  b=cVch8LFksOjmSmKVrmpn99VZ535tRwkRHDnukR1dNai8oeIPvIDsMsvH
-   NMkY0kib1exh4ypVOBp3djzS//ruavtNJS94ppGFDoGQC9zyF3oqfR9rM
-   BpcH8Od3/02RVvDp7m5UeDdkB5m0zJB/svdiR/WRmJh0JWJ2DETAR8Sih
-   Qxt9DILNpIHi1GuDtgVfuMU15wpjWM6l9eaKZBqsG/GFuOVI5O5xK64Or
-   eB88Xi2O1SqHurQsv8euR7514YpW8Zh8n95tgsB2Ob0BtW+/9zqorCGrX
-   jvmNq65D5jCTv1CVpQ1mu/SuAmqzuAMdnPg0/qSl2+MiNqaGYCFTjluZc
-   w==;
-X-CSE-ConnectionGUID: w1keaJHhTkKs7XEPny5PmQ==
-X-CSE-MsgGUID: y4k/G1/aQH6Uqih5mnoBMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="19710826"
+  t=1722171487; x=1753707487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Ih5dkL1PzWSbRDfBt0lOFyfRs1wcE88ubJ84fcm2Tk=;
+  b=TMkR98yeRTMZYLs8YXd558FhKnTf4AoSK0BZuK5PChXyI2bKoQ48LzLR
+   f0Q+jM7cqJUNH5VeM3XaZMNNrXWy3LjBuBNr+MVC3eKrBWC3y2qTNUeHy
+   SYxoJqFT5P7ycKSFwosnjZvfWVpcfEeNeFdPAZDuk6pONyf5rMW0EfuYc
+   Lds03iM5tOlPcOvgaS1aNBoQ16S9KZYVE5vI2FW6q3U6tJQuZNvIFNfcY
+   4YkSEnnT8NYgsH75qSbIsUKh+6Ps6gWFuVfQ0CfDNdEfswR/Bq+pHRqVL
+   2e9hrwWo6w9V3KKy3Ofwn2Q9Nm7tv5Wz4FjhJ+YjcqIEgnYM+ugQ+uAtR
+   A==;
+X-CSE-ConnectionGUID: xxtR3DNbTkOmhBHXaioTQA==
+X-CSE-MsgGUID: ISts5OEHTXSY47pF6wE9OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="37421034"
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="19710826"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 05:15:07 -0700
-X-CSE-ConnectionGUID: +hz3KL74SJa4QuDBde+6Ig==
-X-CSE-MsgGUID: dvW2YUXZQ8WbFXJaWUecXw==
+   d="scan'208";a="37421034"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 05:58:06 -0700
+X-CSE-ConnectionGUID: 22X2QdalQv+3/wrbBkGMrw==
+X-CSE-MsgGUID: EpME6cwJSUqKd0NUBE1p3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="91169513"
+   d="scan'208";a="53687396"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Jul 2024 05:15:03 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Jul 2024 05:58:04 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sY2nl-000qms-0r;
-	Sun, 28 Jul 2024 12:15:01 +0000
-Date: Sun, 28 Jul 2024 20:14:54 +0800
+	id 1sY3TN-000qny-2a;
+	Sun, 28 Jul 2024 12:58:01 +0000
+Date: Sun, 28 Jul 2024 20:57:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patricia Alfonso <trishalfonso@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	Vincent Whitchurch <vincent.whitchurch@axis.com>,
-	David Gow <davidgow@google.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>
-Subject: mm/kasan/kasan.h:485:2: error: #error kasan_arch_is_ready only works
- in KASAN generic outline mode!
-Message-ID: <202407282018.8DTWnGmy-lkp@intel.com>
+To: Avri Altman <avri.altman@wdc.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ricky WU <ricky_wu@realtek.com>, Avri Altman <avri.altman@wdc.com>
+Subject: Re: [PATCH 04/10] mmc: core: Add open-ended Ext memory addressing
+Message-ID: <202407282028.yNWpiXqJ-lkp@intel.com>
+References: <20240728081154.1782120-5-avri.altman@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,47 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240728081154.1782120-5-avri.altman@wdc.com>
 
-Hi Patricia,
+Hi Avri,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5437f30d3458ad36e83ab96088d490ebfee844d8
-commit: 5b301409e8bc5d7fad2ee138be44c5c529dd0874 UML: add support for KASAN under x86_64
-date:   2 years ago
-config: um-randconfig-001-20240728 (https://download.01.org/0day-ci/archive/20240728/202407282018.8DTWnGmy-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407282018.8DTWnGmy-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10 next-20240726]
+[cannot apply to ulf-hansson-mmc-mirror/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/mmc-sd-SDUC-Support-Recognition/20240728-161645
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240728081154.1782120-5-avri.altman%40wdc.com
+patch subject: [PATCH 04/10] mmc: core: Add open-ended Ext memory addressing
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240728/202407282028.yNWpiXqJ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407282028.yNWpiXqJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407282018.8DTWnGmy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407282028.yNWpiXqJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from mm/kasan/report_generic.c:30:
->> mm/kasan/kasan.h:485:2: error: #error kasan_arch_is_ready only works in KASAN generic outline mode!
-     485 | #error kasan_arch_is_ready only works in KASAN generic outline mode!
-         |  ^~~~~
-
-
-vim +485 mm/kasan/kasan.h
-
-e2db1a9aa38149 Andrey Konovalov 2021-02-25  481  
-af3751f3c2b628 Daniel Axtens    2021-06-28  482  #ifndef kasan_arch_is_ready
-af3751f3c2b628 Daniel Axtens    2021-06-28  483  static inline bool kasan_arch_is_ready(void)	{ return true; }
-af3751f3c2b628 Daniel Axtens    2021-06-28  484  #elif !defined(CONFIG_KASAN_GENERIC) || !defined(CONFIG_KASAN_OUTLINE)
-af3751f3c2b628 Daniel Axtens    2021-06-28 @485  #error kasan_arch_is_ready only works in KASAN generic outline mode!
-af3751f3c2b628 Daniel Axtens    2021-06-28  486  #endif
-af3751f3c2b628 Daniel Axtens    2021-06-28  487  
-
-:::::: The code at line 485 was first introduced by commit
-:::::: af3751f3c2b6282bebcb56c35bbe4c8b671f80aa kasan: allow architectures to provide an outline readiness check
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+>> ERROR: modpost: "mmc_send_ext_addr" [drivers/mmc/core/mmc_block.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
