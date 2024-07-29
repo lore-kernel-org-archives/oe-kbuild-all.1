@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912EE2119
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 00:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EFF817;
+	Mon, 29 Jul 2024 00:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722212670; cv=none; b=bM3W14sKW4UfjrkVuBhDaoPiW60DqxpDQKpDkR/CRcVX9bovuCcm8Wa/2fm8blF5Vpz83QpEDKi4GgxNYNLHmjoven8OO6nOQ8N1B3ewhBn6wuGmrTHZNdBkC34hWtsNiS0UPNnnX11bT453fBR/gkrZa01NbaudFLcslVbw/04=
+	t=1722213392; cv=none; b=qLSsvh10lFPjxut8rDNZg6pkhK8dyMJwvPrMD6sOibYZ0DgyLPs5YkOIgg7wYoYlG0TfqJ1ZPVHVyHDOQHXjrxjf9M6/+L1jlZPtY0KfV2exJd1eogkjItRMEFs7ZqjxbYPUQwtpaOePcdgdjSFBN+mgmYuKiMPlmj8EJjtF/Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722212670; c=relaxed/simple;
-	bh=2rUdhiyMtvotEXvhQWzJQbm/BPzmARed0w5ZOz4WRgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IVQyZ8siozWJXetIOsMyldjuq89Y9U/Hd9Spqh4TeTU0oHpaLKSaigNidjcoBtYbdKn9Fb/oWcgWhJL/sqUUKWFUs4K3GBsSItraXP8ZZ6Sv0fYyYXqZVUb1GhtNjeYaTYe99fJHh+ltEF9gmB1LVmi2TPk0O7h+1SxpqHU9VS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8kklQHa; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1722213392; c=relaxed/simple;
+	bh=pIvuXtPawSZFWqAUaJ6a8bAjFMPhNwwMVlz/qr6+NuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LCVpu7UZxWdUXc2GVCpIq3p2sSK9rgwtcncNLbuDBKHe8klKtLehWR/IgTZ276eASdvoW4oK3TXnDd+sMuAhnKusjX4yDeVWjU3xBGIS4MHkNZkv3K394I4mc8FThjWsx0TglEkajb/56ULK8OP1MzT/ni5ywxRAIwnW++Sox6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQPagnj+; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8kklQHa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQPagnj+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722212668; x=1753748668;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2rUdhiyMtvotEXvhQWzJQbm/BPzmARed0w5ZOz4WRgM=;
-  b=M8kklQHaVW5alZ86OZQ5N2KM7LhD6sUwgGo1QOxPH2AmmD3L5kY+D84s
-   yV1+msR5Pxi1ic5k182WsetiVv9rNK7cvl9acp12Z1l62ki2+S6XxbfEd
-   YewMagj9fzNLh4biodqbH+qfYr+P4vOLwVSMj7M8a3yEvdV0HlUfFTzUL
-   ZVwkRtvwJNRiQuCRTHMlromOCoovmFEAFF7nttmcs9mWJmVdRnBq7+ePz
-   5kPiubRfClRDXVpyTFGppC/DoHc12McnMpNgfNAoA6+xIUwSlVPh/YHhn
-   PCghk9e30p1LXm0QqQnNevYxHZq02IAgjzjA1SPNiGtQogG6V75bSYHMl
-   w==;
-X-CSE-ConnectionGUID: EAUcQy9ASVGaLZihGhre4w==
-X-CSE-MsgGUID: y1QuiSGeRz+/PRzGnIQBZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="23799647"
+  t=1722213390; x=1753749390;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pIvuXtPawSZFWqAUaJ6a8bAjFMPhNwwMVlz/qr6+NuU=;
+  b=FQPagnj+9+ByePmrIS0WLBkv++gJHYDQCBhuZZ0VKaXCw0xRoVXxFZpX
+   tppAl+Bfn/3qhjSJQbGm09yE99WdKICunjVkz7bWn2W1u/C0Ovx/LfTzO
+   m2iO1l0xm9jk0oVYURKky3Cpn87xWP9hqjL9BNgWFAXqKm0Gu5MmiompR
+   B901MpIgOWCKTYgWW4bz1HCoMAEdPnjiyc9amhi5Ef6k4NZVuB4MCDfCr
+   /iRt9i8cUARsy9bQuKcqNEO2YuuSDPvlZeJ3lsWo4QmxZqnJmLuKJ96MV
+   HMqCIUIb50AUUZp1oFPGj0MzD9YSXf6bjLYfPe4zgQMADE6RzF1QlbVfY
+   A==;
+X-CSE-ConnectionGUID: lrEhoN7xQXqeSsBbwPetfQ==
+X-CSE-MsgGUID: 1BFdz9BEQZCwIFuusDP1Sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="12757498"
 X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="23799647"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 17:24:28 -0700
-X-CSE-ConnectionGUID: C1TxtJZCSW2WF5xhmuLV3g==
-X-CSE-MsgGUID: 8uQE4nLXQ+mTMZ23ZaNLsw==
+   d="scan'208";a="12757498"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 17:36:30 -0700
+X-CSE-ConnectionGUID: jkKWYy0gTwusdCvlav1xTg==
+X-CSE-MsgGUID: DzDc7BwjSAiLAFBsQUB20g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="77038344"
+   d="scan'208";a="58891448"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jul 2024 17:24:27 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Jul 2024 17:36:28 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYEBc-000rGs-33;
-	Mon, 29 Jul 2024 00:24:24 +0000
-Date: Mon, 29 Jul 2024 08:23:56 +0800
+	id 1sYENF-000rHG-0R;
+	Mon, 29 Jul 2024 00:36:25 +0000
+Date: Mon, 29 Jul 2024 08:35:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: sound/sh/sh_dac_audio.c:166:51: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202407290821.VLAGtgbv-lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dai Ngo <dai.ngo@oracle.com>, Olga Kornievskaia <aglo@umich.edu>,
+	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using
+ special stateids and write delegations
+Message-ID: <202407290814.7REsmaH7-lkp@intel.com>
+References: <20240728204104.519041-4-sagi@grimberg.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +65,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240728204104.519041-4-sagi@grimberg.me>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8400291e289ee6b2bf9779ff1c83a291501f017b
-commit: 2f432f4702134fac27677f13aba69ed830984f75 ALSA: sh: Convert to generic PCM copy ops
-date:   12 months ago
-config: sh-randconfig-r133-20240729 (https://download.01.org/0day-ci/archive/20240729/202407290821.VLAGtgbv-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240729/202407290821.VLAGtgbv-lkp@intel.com/reproduce)
+Hi Sagi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc1 next-20240726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Grimberg/nfsd-don-t-assume-copy-notify-when-preprocessing-the-stateid/20240729-044834
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240728204104.519041-4-sagi%40grimberg.me
+patch subject: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using special stateids and write delegations
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407290821.VLAGtgbv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407290814.7REsmaH7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/sh/sh_dac_audio.c:166:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got char * @@
-   sound/sh/sh_dac_audio.c:166:51: sparse:     expected void [noderef] __iomem *dst
-   sound/sh/sh_dac_audio.c:166:51: sparse:     got char *
-   sound/sh/sh_dac_audio.c:185:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got char * @@
-   sound/sh/sh_dac_audio.c:185:37: sparse:     expected void volatile [noderef] __iomem *
-   sound/sh/sh_dac_audio.c:185:37: sparse:     got char *
-   sound/sh/sh_dac_audio.c: note: in included file:
-   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse:     got unsigned int
-   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse:     got unsigned int
+All warnings (new ones prefixed by >>):
 
-vim +166 sound/sh/sh_dac_audio.c
+>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'inode' description in 'nfsd4_deleg_read_conflict'
+>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'modified' description in 'nfsd4_deleg_read_conflict'
+>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'size' description in 'nfsd4_deleg_read_conflict'
 
-   158	
-   159	static int snd_sh_dac_pcm_copy(struct snd_pcm_substream *substream,
-   160				       int channel, unsigned long pos,
-   161				       struct iov_iter *src, unsigned long count)
-   162	{
-   163		/* channel is not used (interleaved data) */
-   164		struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
-   165	
- > 166		if (copy_from_iter_toio(chip->data_buffer + pos, src, count))
-   167			return -EFAULT;
-   168		chip->buffer_end = chip->data_buffer + pos + count;
-   169	
-   170		if (chip->empty) {
-   171			chip->empty = 0;
-   172			dac_audio_start_timer(chip);
-   173		}
-   174	
-   175		return 0;
-   176	}
-   177	
+
+vim +8826 fs/nfsd/nfs4state.c
+
+  8805	
+  8806	/**
+  8807	 * nfsd4_deleg_read_conflict - Recall if read causes conflict
+  8808	 * @rqstp: RPC transaction context
+  8809	 * @clp: nfs client
+  8810	 * @fhp: nfs file handle
+  8811	 * @inode: file to be checked for a conflict
+  8812	 * @modified: return true if file was modified
+  8813	 * @size: new size of file if modified is true
+  8814	 *
+  8815	 * This function is called when there is a conflict between a write
+  8816	 * delegation and a read that is using a special stateid where the
+  8817	 * we cannot derive the client stateid exsistence. The server
+  8818	 * must recall a conflicting delegation before allowing the read
+  8819	 * to continue.
+  8820	 *
+  8821	 * Returns 0 if there is no conflict; otherwise an nfs_stat
+  8822	 * code is returned.
+  8823	 */
+  8824	__be32 nfsd4_deleg_read_conflict(struct svc_rqst *rqstp,
+  8825			struct nfs4_client *clp, struct svc_fh *fhp)
+> 8826	{
+  8827		struct nfs4_file *fp;
+  8828		__be32 status = 0;
+  8829	
+  8830		fp = nfsd4_file_hash_lookup(fhp);
+  8831		if (!fp)
+  8832			return nfs_ok;
+  8833	
+  8834		spin_lock(&state_lock);
+  8835		spin_lock(&fp->fi_lock);
+  8836		if (!list_empty(&fp->fi_delegations) &&
+  8837		    !nfs4_delegation_exists(clp, fp)) {
+  8838			/* conflict, recall deleg */
+  8839			status = nfserrno(nfsd_open_break_lease(fp->fi_inode,
+  8840						NFSD_MAY_READ));
+  8841			if (status)
+  8842				goto out;
+  8843			if (!nfsd_wait_for_delegreturn(rqstp, fp->fi_inode))
+  8844				status = nfserr_jukebox;
+  8845		}
+  8846	out:
+  8847		spin_unlock(&fp->fi_lock);
+  8848		spin_unlock(&state_lock);
+  8849		return status;
+  8850	}
+  8851	
 
 -- 
 0-DAY CI Kernel Test Service
