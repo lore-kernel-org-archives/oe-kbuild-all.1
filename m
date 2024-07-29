@@ -1,81 +1,59 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC00154C15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 15:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20986186E39;
+	Mon, 29 Jul 2024 16:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722267085; cv=none; b=pxAqHSdgsxYzYGj66lxK0iKvFYjaNhZ2pNh4ecnuoDkYH35Lx7I1nd0gTTIOQEjO5/L7GcKDTJIjPFoY+xO/Z11tgpwHWsfSdptCYRIS+oFKs0kYqy0Fki41/+2f6dSNfjLFAHO6eq7uXUegEAnSxD6+9nhp9FLDLUjiiE4XIWA=
+	t=1722271439; cv=none; b=bQ8R3ApkK6wcNcJ7IjsiLNGJ5/n1EvDCoMU+NIrotlPNEWTtpCkmKuVUyLx1trof45gFzZN5Evlr6oOD98RQRSBGsF2xKdizx1aBq9GWmvuyEC4vMFOfx3ttBPxwSS/Tnsih7iLJtDIc0xbKqkGl0BdSz9q9XNHD1+MVFgOdq4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722267085; c=relaxed/simple;
-	bh=nMRedrIDpiQfBKEZwZLAtsO2l+vfALPP2GCneA2DJeE=;
+	s=arc-20240116; t=1722271439; c=relaxed/simple;
+	bh=3RnVbJ7Xp2mSnHzWgy1Sv+7m9uJ+ThcVDNDbMpd2XDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=exDagflFH8prdLglGLjSp0hTbR7ziVobF2UCl6KnuOfaK17PXWR6BVIuWpOF0a5dm8uE6goXTD2TJ4eo0ajgVITa3kUQ0pzskOGiH7vXJ8flhkV2A1Pd+O2v9GF6DXVkGpArxxvaOvPJBQOR5qJ6ehbhxtZRu3CLYJ2CGISLsAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eu0z09LC; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=tigH+p1gr3nSA4WyCThRKwPf+74XLNwhiwTTbxiM711qDwhWfYDgF0JZkvUGw/nCx6sBFk5dkqpZPlZFPKVZ2BgNBDT+7AmQXOmYkMhgIvNfw+FnWdykL5HzE4IadbQ99D6t33nvIpKagTEfSIDRjrVkCcMrleUAtQ1mpJK8LD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ov+Nd+CA; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eu0z09LC"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-261e543ef35so2112004fac.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 08:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722267082; x=1722871882; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uxgOzZ9wt6xYia5fWSbdpgGngVyCVzmloiaeIDkpJyU=;
-        b=Eu0z09LCNShTiTEsFHn0t7b8q+ig5Dk5zTDQluHqLWIJTvWP1KqH51WckYqk05Jovh
-         zLcSYSUBnibIv4EAFyIEFZdI+BA5Tp8ZnqcwxgclRdcZIvouA5qzjiYM0GUO/pZDuo7E
-         kxWRWsXAt2n2UNmZmjloW0iAnyjbCJEwdJz7nshpoWiMbiTwWvgIJmjg2tTiA97QTSxi
-         0fJHzy7wkL3iKtvRnXyaToFnTsdii2U1s6GjGvBwxWCKesBMOXD1Kv82h5fKnoOMaKSF
-         pDS+bXz1R5l7wqW7MQzzG7bLemKU6gdYx2caUA5iELysfGBJFBygWHh5lp3SVzCElkwP
-         c+6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722267082; x=1722871882;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uxgOzZ9wt6xYia5fWSbdpgGngVyCVzmloiaeIDkpJyU=;
-        b=HTGdG6cuXQZlpyfFpCMWtTsLmMHtzvdkI9iDtWYpWlG7dkpF1lx6xKhnY6M8fNiRsf
-         I69Oc3nuSO66dLSjiyDaScXEcYcwEX8NGtl4ddaAB6MR7KL0imQlX8zQPNQe+nfMeBfz
-         kgXAMNo7786o6owGDScMuUZoHBlLYTQvko461EpSDsi3lXwvoJa1+9X/zuEiMdo25+7Y
-         0j+LEby6PFvKbLdeLC13KAcsRt10wXQXT5TY+c7LLjJdsvwlAV+ofbycqbPEiemLiHvZ
-         Hkiz2p5VDmYS+qrDjror8qmI8A29z4NSYkXizWLytFPkHVjT8WDLt21LAplqZdkiXTQB
-         Lnaw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6LDogpf4XqJ77l39sOElh9wKF5Moeqlr1z3DaNIM6Z/Z9umsHS/tgaaGef1ziRiOuxXZFbRf5LdZa6ThqheT5/m5hL2CpWVL4wNtpPA==
-X-Gm-Message-State: AOJu0YwNcdTNI8Qt8qYlaECqhY+0tZCS7ATTZPs0SsqM0la/d1NgDfSh
-	1DiBr6ThkefAcJFloAB+jJ+Vh9HEkf1a6g80Cv7tf/CQ1yXkaEP3sBkyaFPrNKI=
-X-Google-Smtp-Source: AGHT+IHaNouuhzQ1M1UrMMhpFB2OYkekDxpOwvZS4ZCvpyA/cVxQfuO1chwsPix33xJ5/ckC5Qt+ig==
-X-Received: by 2002:a05:6870:b625:b0:260:fb01:5651 with SMTP id 586e51a60fabf-267d4d2dc08mr9917991fac.12.1722267082223;
-        Mon, 29 Jul 2024 08:31:22 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2653cfcf7edsm1889857fac.3.2024.07.29.08.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 08:31:21 -0700 (PDT)
-Date: Mon, 29 Jul 2024 10:31:20 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	linux-iio@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Ivan Mikhaylov <fr0st61te@gmail.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Liam Beguin <liambeguin@gmail.com>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
-Message-ID: <ee65606b-aef1-48c1-8e61-3f00302416ff@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ov+Nd+CA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722271436; x=1753807436;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3RnVbJ7Xp2mSnHzWgy1Sv+7m9uJ+ThcVDNDbMpd2XDI=;
+  b=Ov+Nd+CAlPtUgwR9EZIXXNHrXdgMOjrNiiXSrK8VSw50nl5AUGc4Tbcm
+   qVVZ2lA/Pnmkxs4L/T9pSp0XiG2welhns2kBKN2uWEJBUQh+F+IYehRb9
+   YhQSPEv2PY7281TEZXd7LYMaRA0FcZgXXAL69GP3+eANt/m2AyAaBn5J2
+   XdQgVjYJfUk2+5PWeCjVYiFFY/KnWl7/C2tKkwigDQmK87vGSKWmH57C4
+   clB/6jF5UtGUDALGlI7IpbTz0o+B2AyaryYYT1gW+gjtWIylcN/6/MAGs
+   KhymUYHUDnZCtiJ3TXOcYKS1HNmtXmvgZ+2JHQCO+Lk2JnH3fP0G8YkUn
+   w==;
+X-CSE-ConnectionGUID: QgP/rsgbT0q7HYErorwzvg==
+X-CSE-MsgGUID: TPzv9Z7XSFWhydZZDhv6eQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20194787"
+X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
+   d="scan'208";a="20194787"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 09:43:56 -0700
+X-CSE-ConnectionGUID: dxCHd/mpT3CxmobZmpYZCA==
+X-CSE-MsgGUID: 76bPsDBrRQu8xUlSRQPoLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
+   d="scan'208";a="54004480"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 29 Jul 2024 09:43:54 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYTTT-000rre-1o;
+	Mon, 29 Jul 2024 16:43:51 +0000
+Date: Tue, 30 Jul 2024 00:43:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2024.07.25a 15/43] kernel/rcu/rcuscale.c:1021:2:
+ error: use of undeclared identifier 'writer_done'
+Message-ID: <202407300009.05X7YXZC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,60 +62,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724155517.12470-5-ramona.nechita@analog.com>
 
-Hi Ramona,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Alexandra-Nechita/dt-bindings-iio-adc-add-a7779-doc/20240725-000001
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240724155517.12470-5-ramona.nechita%40analog.com
-patch subject: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
-config: hexagon-randconfig-r081-20240728 (https://download.01.org/0day-ci/archive/20240729/202407290151.pCUNfKeG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.07.25a
+head:   24e3bccdf4bc0ae57b0e89e0313fd4450fde12af
+commit: 54ff7b22b9062495092737217877be2bdd3dabd4 [15/43] rcuscale: Save a few lines with whitespace-only change
+config: x86_64-randconfig-071-20240728 (https://download.01.org/0day-ci/archive/20240730/202407300009.05X7YXZC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300009.05X7YXZC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407290151.pCUNfKeG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300009.05X7YXZC-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad7779.c:779 ad7779_probe() error: uninitialized symbol 'ret'.
+Note: the paulmck-rcu/dev.2024.07.25a HEAD 24e3bccdf4bc0ae57b0e89e0313fd4450fde12af builds fine.
+      It only hurts bisectability.
 
-vim +/ret +779 drivers/iio/adc/ad7779.c
+All errors (new ones prefixed by >>):
 
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  761  static int ad7779_probe(struct spi_device *spi)
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  762  {
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  763  	struct iio_dev *indio_dev;
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  764  	struct ad7779_state *st;
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  765  	struct gpio_desc *reset_gpio, *start_gpio;
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  766  	int ret;
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  767  
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  768  	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  769  	if (!indio_dev)
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  770  		return -ENOMEM;
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  771  
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  772  	st = iio_priv(indio_dev);
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  773  
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  774  	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  775  	if (IS_ERR(st->mclk))
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  776  		return PTR_ERR(st->mclk);
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  777  
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  778  	if (!spi->irq)
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24 @779  		return dev_err_probe(&spi->dev, ret,
-                                                                                                        ^^^
-s/ret/-EINVAL/
+>> kernel/rcu/rcuscale.c:1021:2: error: use of undeclared identifier 'writer_done'
+    1021 |         writer_done = kcalloc(nrealwriters, sizeof(writer_done[0]), GFP_KERNEL);
+         |         ^
+   kernel/rcu/rcuscale.c:1021:45: error: use of undeclared identifier 'writer_done'
+    1021 |         writer_done = kcalloc(nrealwriters, sizeof(writer_done[0]), GFP_KERNEL);
+         |                                                    ^
+   kernel/rcu/rcuscale.c:1021:45: error: use of undeclared identifier 'writer_done'
+   kernel/rcu/rcuscale.c:1022:68: error: use of undeclared identifier 'writer_done'
+    1022 |         if (!writer_tasks || !writer_durations || !writer_n_durations || !writer_done) {
+         |                                                                           ^
+   4 errors generated.
 
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  780  				     "DRDY irq not present\n"); 
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  781  
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  782  	reset_gpio = devm_gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  783  	if (IS_ERR(reset_gpio))
+
+vim +/writer_done +1021 kernel/rcu/rcuscale.c
+
+   946	
+   947	static int __init
+   948	rcu_scale_init(void)
+   949	{
+   950		long i;
+   951		int firsterr = 0;
+   952		static struct rcu_scale_ops *scale_ops[] = {
+   953			&rcu_ops, &srcu_ops, &srcud_ops, TASKS_OPS TASKS_RUDE_OPS TASKS_TRACING_OPS
+   954		};
+   955	
+   956		if (!torture_init_begin(scale_type, verbose))
+   957			return -EBUSY;
+   958	
+   959		/* Process args and announce that the scalability'er is on the job. */
+   960		for (i = 0; i < ARRAY_SIZE(scale_ops); i++) {
+   961			cur_ops = scale_ops[i];
+   962			if (strcmp(scale_type, cur_ops->name) == 0)
+   963				break;
+   964		}
+   965		if (i == ARRAY_SIZE(scale_ops)) {
+   966			pr_alert("rcu-scale: invalid scale type: \"%s\"\n", scale_type);
+   967			pr_alert("rcu-scale types:");
+   968			for (i = 0; i < ARRAY_SIZE(scale_ops); i++)
+   969				pr_cont(" %s", scale_ops[i]->name);
+   970			pr_cont("\n");
+   971			firsterr = -EINVAL;
+   972			cur_ops = NULL;
+   973			goto unwind;
+   974		}
+   975		if (cur_ops->init)
+   976			cur_ops->init();
+   977	
+   978		if (cur_ops->rso_gp_kthread) {
+   979			kthread_tp = cur_ops->rso_gp_kthread();
+   980			if (kthread_tp)
+   981				kthread_stime = kthread_tp->stime;
+   982		}
+   983		if (kfree_rcu_test)
+   984			return kfree_scale_init();
+   985	
+   986		nrealwriters = compute_real(nwriters);
+   987		nrealreaders = compute_real(nreaders);
+   988		atomic_set(&n_rcu_scale_reader_started, 0);
+   989		atomic_set(&n_rcu_scale_writer_started, 0);
+   990		atomic_set(&n_rcu_scale_writer_finished, 0);
+   991		rcu_scale_print_module_parms(cur_ops, "Start of test");
+   992	
+   993		/* Start up the kthreads. */
+   994	
+   995		if (shutdown) {
+   996			init_waitqueue_head(&shutdown_wq);
+   997			firsterr = torture_create_kthread(rcu_scale_shutdown, NULL,
+   998							  shutdown_task);
+   999			if (torture_init_error(firsterr))
+  1000				goto unwind;
+  1001			schedule_timeout_uninterruptible(1);
+  1002		}
+  1003		reader_tasks = kcalloc(nrealreaders, sizeof(reader_tasks[0]),
+  1004				       GFP_KERNEL);
+  1005		if (reader_tasks == NULL) {
+  1006			SCALEOUT_ERRSTRING("out of memory");
+  1007			firsterr = -ENOMEM;
+  1008			goto unwind;
+  1009		}
+  1010		for (i = 0; i < nrealreaders; i++) {
+  1011			firsterr = torture_create_kthread(rcu_scale_reader, (void *)i,
+  1012							  reader_tasks[i]);
+  1013			if (torture_init_error(firsterr))
+  1014				goto unwind;
+  1015		}
+  1016		while (atomic_read(&n_rcu_scale_reader_started) < nrealreaders)
+  1017			schedule_timeout_uninterruptible(1);
+  1018		writer_tasks = kcalloc(nrealwriters, sizeof(writer_tasks[0]), GFP_KERNEL);
+  1019		writer_durations = kcalloc(nrealwriters, sizeof(*writer_durations), GFP_KERNEL);
+  1020		writer_n_durations = kcalloc(nrealwriters, sizeof(*writer_n_durations), GFP_KERNEL);
+> 1021		writer_done = kcalloc(nrealwriters, sizeof(writer_done[0]), GFP_KERNEL);
+  1022		if (!writer_tasks || !writer_durations || !writer_n_durations || !writer_done) {
+  1023			SCALEOUT_ERRSTRING("out of memory");
+  1024			firsterr = -ENOMEM;
+  1025			goto unwind;
+  1026		}
+  1027		for (i = 0; i < nrealwriters; i++) {
+  1028			writer_durations[i] =
+  1029				kcalloc(MAX_MEAS, sizeof(*writer_durations[i]),
+  1030					GFP_KERNEL);
+  1031			if (!writer_durations[i]) {
+  1032				firsterr = -ENOMEM;
+  1033				goto unwind;
+  1034			}
+  1035			firsterr = torture_create_kthread(rcu_scale_writer, (void *)i,
+  1036							  writer_tasks[i]);
+  1037			if (torture_init_error(firsterr))
+  1038				goto unwind;
+  1039		}
+  1040		torture_init_end();
+  1041		return 0;
+  1042	
+  1043	unwind:
+  1044		torture_init_end();
+  1045		rcu_scale_cleanup();
+  1046		if (shutdown) {
+  1047			WARN_ON(!IS_MODULE(CONFIG_RCU_SCALE_TEST));
+  1048			kernel_power_off();
+  1049		}
+  1050		return firsterr;
+  1051	}
+  1052	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
