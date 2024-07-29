@@ -1,43 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC7014F9FD;
-	Mon, 29 Jul 2024 15:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC00154C15
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 15:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722267011; cv=none; b=HNfTuxo3IbYMByoCo3+57a7DqeWdOXV2Zxu3Z1nfcx8n1Nj4+h0zuqQJHxdkYMBQWz2dqVfCVGk7hCbR+1vbfn82RjaHelhNp0rNZ1rMgScPIjQCpPp0aDlJHM+nShcZV1FExNFlOk3GDHjfXTRrkGsGkkVjVnIiGh+hXmvqORM=
+	t=1722267085; cv=none; b=pxAqHSdgsxYzYGj66lxK0iKvFYjaNhZ2pNh4ecnuoDkYH35Lx7I1nd0gTTIOQEjO5/L7GcKDTJIjPFoY+xO/Z11tgpwHWsfSdptCYRIS+oFKs0kYqy0Fki41/+2f6dSNfjLFAHO6eq7uXUegEAnSxD6+9nhp9FLDLUjiiE4XIWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722267011; c=relaxed/simple;
-	bh=ndzDCEmWVqlMpqggu+GgSzXYK/Y1s948Sog4W6pkXyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D+tAmD4ZgVqkm0pqERl7v8dFsAmprsT+YKzBxCckJAk9dvI0C73hh2MxqIAFzKk0xoYiWr5D6SUOt2ey50GB97sweh2d5smQznHhF8SReXHbAIXMBEHZzJw4Vt0bsjQFkJad9Ye5/lPqK3WC6G2HLjkz4bkMQlK9UOEOz6B4qXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r3FNmVmx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722267085; c=relaxed/simple;
+	bh=nMRedrIDpiQfBKEZwZLAtsO2l+vfALPP2GCneA2DJeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=exDagflFH8prdLglGLjSp0hTbR7ziVobF2UCl6KnuOfaK17PXWR6BVIuWpOF0a5dm8uE6goXTD2TJ4eo0ajgVITa3kUQ0pzskOGiH7vXJ8flhkV2A1Pd+O2v9GF6DXVkGpArxxvaOvPJBQOR5qJ6ehbhxtZRu3CLYJ2CGISLsAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eu0z09LC; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r3FNmVmx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9557CC32786;
-	Mon, 29 Jul 2024 15:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722267011;
-	bh=ndzDCEmWVqlMpqggu+GgSzXYK/Y1s948Sog4W6pkXyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r3FNmVmxJSENQY/tBVzlojnsnOO/XLYOme3j10H4ISrIgxicyoteQ69TS9QDNELTQ
-	 BVx24grjry2+duu1MS1L5TYMKK5T83OyyuLQjhpIPrmDD1C8XfPD90Ajfj10+xEGe3
-	 9SBlBzaW6Ufie66kKdAHGqPf7gvzM7CgycphWWQSszX0j0PVdyfj4quoHFyMiW2xDd
-	 Ht9fuSubV6AvdmFh5XWm+Z9aR0UBM5LXjrEZ82g6s+A9GC+omYcNkx3qFutThl7jsa
-	 86ATPOv6cIbtI0eV5/O3uNqcTBWVFuRzuTzKRT2Ipz2p2rkhVkvOn8r8xlQZ3sCvqO
-	 G4YQXLxYWK4Tg==
-Date: Mon, 29 Jul 2024 08:30:08 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [tip:x86/microcode 1/1]
- arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is
- used uninitialized whenever 'if' condition is false
-Message-ID: <20240729153008.GA685493@thelio-3990X>
-References: <202407291815.gJBST0P3-lkp@intel.com>
- <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eu0z09LC"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-261e543ef35so2112004fac.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 08:31:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722267082; x=1722871882; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uxgOzZ9wt6xYia5fWSbdpgGngVyCVzmloiaeIDkpJyU=;
+        b=Eu0z09LCNShTiTEsFHn0t7b8q+ig5Dk5zTDQluHqLWIJTvWP1KqH51WckYqk05Jovh
+         zLcSYSUBnibIv4EAFyIEFZdI+BA5Tp8ZnqcwxgclRdcZIvouA5qzjiYM0GUO/pZDuo7E
+         kxWRWsXAt2n2UNmZmjloW0iAnyjbCJEwdJz7nshpoWiMbiTwWvgIJmjg2tTiA97QTSxi
+         0fJHzy7wkL3iKtvRnXyaToFnTsdii2U1s6GjGvBwxWCKesBMOXD1Kv82h5fKnoOMaKSF
+         pDS+bXz1R5l7wqW7MQzzG7bLemKU6gdYx2caUA5iELysfGBJFBygWHh5lp3SVzCElkwP
+         c+6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722267082; x=1722871882;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uxgOzZ9wt6xYia5fWSbdpgGngVyCVzmloiaeIDkpJyU=;
+        b=HTGdG6cuXQZlpyfFpCMWtTsLmMHtzvdkI9iDtWYpWlG7dkpF1lx6xKhnY6M8fNiRsf
+         I69Oc3nuSO66dLSjiyDaScXEcYcwEX8NGtl4ddaAB6MR7KL0imQlX8zQPNQe+nfMeBfz
+         kgXAMNo7786o6owGDScMuUZoHBlLYTQvko461EpSDsi3lXwvoJa1+9X/zuEiMdo25+7Y
+         0j+LEby6PFvKbLdeLC13KAcsRt10wXQXT5TY+c7LLjJdsvwlAV+ofbycqbPEiemLiHvZ
+         Hkiz2p5VDmYS+qrDjror8qmI8A29z4NSYkXizWLytFPkHVjT8WDLt21LAplqZdkiXTQB
+         Lnaw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6LDogpf4XqJ77l39sOElh9wKF5Moeqlr1z3DaNIM6Z/Z9umsHS/tgaaGef1ziRiOuxXZFbRf5LdZa6ThqheT5/m5hL2CpWVL4wNtpPA==
+X-Gm-Message-State: AOJu0YwNcdTNI8Qt8qYlaECqhY+0tZCS7ATTZPs0SsqM0la/d1NgDfSh
+	1DiBr6ThkefAcJFloAB+jJ+Vh9HEkf1a6g80Cv7tf/CQ1yXkaEP3sBkyaFPrNKI=
+X-Google-Smtp-Source: AGHT+IHaNouuhzQ1M1UrMMhpFB2OYkekDxpOwvZS4ZCvpyA/cVxQfuO1chwsPix33xJ5/ckC5Qt+ig==
+X-Received: by 2002:a05:6870:b625:b0:260:fb01:5651 with SMTP id 586e51a60fabf-267d4d2dc08mr9917991fac.12.1722267082223;
+        Mon, 29 Jul 2024 08:31:22 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2653cfcf7edsm1889857fac.3.2024.07.29.08.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 08:31:21 -0700 (PDT)
+Date: Mon, 29 Jul 2024 10:31:20 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	linux-iio@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Ivan Mikhaylov <fr0st61te@gmail.com>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Liam Beguin <liambeguin@gmail.com>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
+Message-ID: <ee65606b-aef1-48c1-8e61-3f00302416ff@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +84,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
+In-Reply-To: <20240724155517.12470-5-ramona.nechita@analog.com>
 
-Hi Boris,
+Hi Ramona,
 
-On Mon, Jul 29, 2024 at 01:26:14PM +0200, Borislav Petkov wrote:
-> + Nathan.
-> 
-> On Mon, Jul 29, 2024 at 07:04:51PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/microcode
-> > head:   94838d230a6c835ced1bad06b8759e0a5f19c1d3
-> > commit: 94838d230a6c835ced1bad06b8759e0a5f19c1d3 [1/1] x86/microcode/AMD: Use the family,model,stepping encoded in the patch ID
-> > config: i386-buildonly-randconfig-001-20240729 (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/config)
-> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202407291815.gJBST0P3-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-> >      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-> >          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >    arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
-> >      720 |         return cache_find_patch(uci, equiv_id);
-> >          |                                      ^~~~~~~~
-> >    arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
-> >      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >    arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
-> >      706 |         u16 equiv_id;
-> >          |                     ^
-> >          |                      = 0
-> >    1 warning generated.
-> > 
-> > 
-> > vim +714 arch/x86/kernel/cpu/microcode/amd.c
-> > 
-> >    701	
-> >    702	static struct ucode_patch *find_patch(unsigned int cpu)
-> >    703	{
-> >    704		struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
-> >    705		u32 rev, dummy __always_unused;
-> >    706		u16 equiv_id;
-> >    707	
-> >    708		/* fetch rev if not populated yet: */
-> >    709		if (!uci->cpu_sig.rev) {
-> >    710			rdmsr(MSR_AMD64_PATCH_LEVEL, rev, dummy);
-> >    711			uci->cpu_sig.rev = rev;
-> >    712		}
-> >    713	
-> >  > 714		if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-> >    715			equiv_id = find_equiv_id(&equiv_table, uci->cpu_sig.sig);
-> >    716			if (!equiv_id)
-> >    717				return NULL;
-> >    718		}
-> >    719	
-> >    720		return cache_find_patch(uci, equiv_id);
-> >    721	}
-> >    722	
-> 
-> That's a false positive, I think.
-> 
-> clang can't see that equiv_id is used in cache_find_patch() ->
-> patch_cpus_equivalent() *only* in the
-> 
-> 	if (x86_family(bsp_cpuid_1_eax) < 0x17)
-> 
-> case.
+kernel test robot noticed the following build warnings:
 
-Right, as clang does not perform interprocedural analysis for the sake
-of warnings. That's partly why GCC's version of this warning was
-disabled in commit 78a5255ffb6a ("Stop the ad-hoc games with
--Wno-maybe-initialized").
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> And that case is handled properly in this function.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Alexandra-Nechita/dt-bindings-iio-adc-add-a7779-doc/20240725-000001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240724155517.12470-5-ramona.nechita%40analog.com
+patch subject: [PATCH v4 3/3] drivers: iio: adc: add support for ad777x family
+config: hexagon-randconfig-r081-20240728 (https://download.01.org/0day-ci/archive/20240729/202407290151.pCUNfKeG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
 
-While it may be properly handled now, I think this pattern of
-conditionally avoiding using a variable uninitialized is dubious.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407290151.pCUNfKeG-lkp@intel.com/
 
-> So, unless I'm missing something else, it's a good thing this warning is
-> behind a W=1. Keep it there.
+smatch warnings:
+drivers/iio/adc/ad7779.c:779 ad7779_probe() error: uninitialized symbol 'ret'.
 
-It's not behind W=1, this happens in a normal build:
+vim +/ret +779 drivers/iio/adc/ad7779.c
 
-  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper defconfig arch/x86/kernel/cpu/microcode/amd.o
-  arch/x86/kernel/cpu/microcode/amd.c:714:6: error: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
-    714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-        |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
-    720 |         return cache_find_patch(uci, equiv_id);
-        |                                      ^~~~~~~~
-  arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
-    714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
-    706 |         u16 equiv_id;
-        |                     ^
-        |                      = 0
-  1 error generated.
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  761  static int ad7779_probe(struct spi_device *spi)
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  762  {
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  763  	struct iio_dev *indio_dev;
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  764  	struct ad7779_state *st;
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  765  	struct gpio_desc *reset_gpio, *start_gpio;
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  766  	int ret;
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  767  
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  768  	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  769  	if (!indio_dev)
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  770  		return -ENOMEM;
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  771  
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  772  	st = iio_priv(indio_dev);
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  773  
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  774  	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  775  	if (IS_ERR(st->mclk))
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  776  		return PTR_ERR(st->mclk);
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  777  
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  778  	if (!spi->irq)
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24 @779  		return dev_err_probe(&spi->dev, ret,
+                                                                                                        ^^^
+s/ret/-EINVAL/
 
-Even GCC would warn about this code if not for the commit I mentioned
-above:
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  780  				     "DRDY irq not present\n"); 
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  781  
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  782  	reset_gpio = devm_gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
+ed8e3886f0d748 Ramona Alexandra Nechita 2024-07-24  783  	if (IS_ERR(reset_gpio))
 
-  $ make -skj"$(nproc)" ARCH=x86_64 CROSS_COMPILE=x86_64-linux- KCFLAGS=-Wmaybe-uninitialized mrproper defconfig arch/x86/kernel/cpu/microcode/amd.o
-  In function 'cache_find_patch',
-      inlined from 'find_patch' at arch/x86/kernel/cpu/microcode/amd.c:720:9:
-  arch/x86/kernel/cpu/microcode/amd.c:647:20: error: 'equiv_id' may be used uninitialized [-Werror=maybe-uninitialized]
-    647 |                 if (patch_cpus_equivalent(p, &n))
-        |                    ^
-  arch/x86/kernel/cpu/microcode/amd.c: In function 'find_patch':
-  arch/x86/kernel/cpu/microcode/amd.c:706:13: note: 'equiv_id' was declared here
-    706 |         u16 equiv_id;
-        |             ^~~~~~~~
-  cc1: all warnings being treated as errors
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-So I guess you can just ignore this if you want but others (maybe even
-Linus) will likely notice this and report it as well.
-
-Cheers,
-Nathan
