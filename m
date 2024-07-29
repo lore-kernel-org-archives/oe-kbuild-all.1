@@ -1,152 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EFF817;
-	Mon, 29 Jul 2024 00:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4D32AEE4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 01:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722213392; cv=none; b=qLSsvh10lFPjxut8rDNZg6pkhK8dyMJwvPrMD6sOibYZ0DgyLPs5YkOIgg7wYoYlG0TfqJ1ZPVHVyHDOQHXjrxjf9M6/+L1jlZPtY0KfV2exJd1eogkjItRMEFs7ZqjxbYPUQwtpaOePcdgdjSFBN+mgmYuKiMPlmj8EJjtF/Ic=
+	t=1722217062; cv=none; b=oV78F+KK1bXXLD0ZGB9iTZkh4H0hSDiup2KYDGERK7RxHv0IPKzYK5FTCNGc1/lkS/dcmoIZ9MiQSk5rnaguUnAg6uKjg2xBsRqaXMN9cyov9dXwke0Ag1dsdiplM81+UtvuWrc4zy+5dRsf1sAK/cfT4Xwak77kGor9meKuxno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722213392; c=relaxed/simple;
-	bh=pIvuXtPawSZFWqAUaJ6a8bAjFMPhNwwMVlz/qr6+NuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LCVpu7UZxWdUXc2GVCpIq3p2sSK9rgwtcncNLbuDBKHe8klKtLehWR/IgTZ276eASdvoW4oK3TXnDd+sMuAhnKusjX4yDeVWjU3xBGIS4MHkNZkv3K394I4mc8FThjWsx0TglEkajb/56ULK8OP1MzT/ni5ywxRAIwnW++Sox6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQPagnj+; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722217062; c=relaxed/simple;
+	bh=FoEvWRWRIq3LZM8FagKdWnsauuDyIuWJChBOgCYgjYU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f+Pc7hOs7oOoLxAOe+X5+mgRyOrmkS2vYSZuSxs9EzNmSk2Tz24v4wST66VU/EfIJ1jk4i9jdbIz1f08RxK/MC8HNVi76nT3BvQfz8mykXEPzGoBxsuGHu3g6dZgnEzGRU3ZFPNaSZZNiJY0Ob8exbgBpbN8hE+EgyoRcqNMk9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aqW11kEx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQPagnj+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722213390; x=1753749390;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pIvuXtPawSZFWqAUaJ6a8bAjFMPhNwwMVlz/qr6+NuU=;
-  b=FQPagnj+9+ByePmrIS0WLBkv++gJHYDQCBhuZZ0VKaXCw0xRoVXxFZpX
-   tppAl+Bfn/3qhjSJQbGm09yE99WdKICunjVkz7bWn2W1u/C0Ovx/LfTzO
-   m2iO1l0xm9jk0oVYURKky3Cpn87xWP9hqjL9BNgWFAXqKm0Gu5MmiompR
-   B901MpIgOWCKTYgWW4bz1HCoMAEdPnjiyc9amhi5Ef6k4NZVuB4MCDfCr
-   /iRt9i8cUARsy9bQuKcqNEO2YuuSDPvlZeJ3lsWo4QmxZqnJmLuKJ96MV
-   HMqCIUIb50AUUZp1oFPGj0MzD9YSXf6bjLYfPe4zgQMADE6RzF1QlbVfY
-   A==;
-X-CSE-ConnectionGUID: lrEhoN7xQXqeSsBbwPetfQ==
-X-CSE-MsgGUID: 1BFdz9BEQZCwIFuusDP1Sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="12757498"
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="12757498"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2024 17:36:30 -0700
-X-CSE-ConnectionGUID: jkKWYy0gTwusdCvlav1xTg==
-X-CSE-MsgGUID: DzDc7BwjSAiLAFBsQUB20g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="58891448"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jul 2024 17:36:28 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYENF-000rHG-0R;
-	Mon, 29 Jul 2024 00:36:25 +0000
-Date: Mon, 29 Jul 2024 08:35:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever <chuck.lever@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dai Ngo <dai.ngo@oracle.com>, Olga Kornievskaia <aglo@umich.edu>,
-	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using
- special stateids and write delegations
-Message-ID: <202407290814.7REsmaH7-lkp@intel.com>
-References: <20240728204104.519041-4-sagi@grimberg.me>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aqW11kEx"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc60c3ead4so13682545ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jul 2024 18:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722217059; x=1722821859; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=laihnHn0tEWhiMwgpFPbHKhBIJSPYc/4lHmU8vF732k=;
+        b=aqW11kExDh0MGHcraIPPUAhvHPcIyuo/4KiLQHSfl4xExt8h3KRVpPctRYYqvYfIdy
+         J398OKjQt9dIkET2KXkhOlenOe0/7xS5zdw0eRkxw0WiXRd0a1F91oQO9qHqiNYK2lox
+         HSPO2XZ2mg6CEIlyv3xRzQ+qkd7/RRDDz/s6JIDK0/aVdfhLfOKW6RLTU++mJY8u0nOx
+         zCvCVaGodM6fs0VzSpmrM1f05noYPbcbEZCgOOsNetbVKSlBjzgJhBslT/Y5hJcTuk/X
+         hhAF/YVeNnr7tUjLfLABfQJYyrKc5j9s2f8sZWlLM1NPRbXPX0X98ooCKOhTKRCuINQa
+         KdrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722217059; x=1722821859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=laihnHn0tEWhiMwgpFPbHKhBIJSPYc/4lHmU8vF732k=;
+        b=ljSW4uHK0Rv3h3VBmF7dVoi9lAHJSHzNKcc+KcrIJHEfuuvhNfJ/8HMWNoyAvy9ZCw
+         pyDbTj58qw9pcu48OOLLr3b8m1GLJcwZv/KChtcwp22uI/PfKV5Ib0MZH0YbkXBys/a6
+         oelv7bczDvsF9SCUhRPQw5L/Y2UqmzYdGlJiZT6VVzOMwLxSs3Zzxn5ZK2ZSWc62LfJd
+         +ikAOwHGvGef16DuqwWVahihBiF2R2Ghm6bsxY3xb9czmJzGW4AUM40MNED5EkIWfnx2
+         6BUYwrRDio2LIGKoOTmhSYzu4dO3VeYZ1dVwcK5NwlOgRAkERhemK4zqvyKZdecpluLi
+         YM6A==
+X-Forwarded-Encrypted: i=1; AJvYcCXcU5FCrRFy0yDK/rityZfsYC8o8lCkyntzQXgo2+JUy6Qi051nAzmJgGxhkK5Y1NiYHd77mdmitxw48At9@lists.linux.dev
+X-Gm-Message-State: AOJu0YyO7r4c2nuSGg8OzyEO5VHTTpXvE4jUzaVgGYM3Cx6Psb476eIt
+	uTVNaMAUGFwEZewIFSuKfSIa10pFwdDE7fhwLMLXBRoTEWN6D8DR
+X-Google-Smtp-Source: AGHT+IFQdjRDbsHHZ4F9XyP8gJxPgF26gezLPByuD4QowAXZQtzR3gQYVihGWbncvmz8YnJvRgq63Q==
+X-Received: by 2002:a17:902:c994:b0:1fc:4bdc:d413 with SMTP id d9443c01a7336-1ff0493be42mr35839175ad.60.1722217059162;
+        Sun, 28 Jul 2024 18:37:39 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7ee6a1esm70873795ad.164.2024.07.28.18.37.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jul 2024 18:37:38 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: lkp@intel.com
+Cc: 21cnbao@gmail.com,
+	akpm@linux-foundation.org,
+	baolin.wang@linux.alibaba.com,
+	chrisl@kernel.org,
+	david@redhat.com,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	kaleshsingh@google.com,
+	kasong@tencent.com,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mhocko@suse.com,
+	minchan@kernel.org,
+	nphamcs@gmail.com,
+	oe-kbuild-all@lists.linux.dev,
+	ryan.roberts@arm.com,
+	senozhatsky@chromium.org,
+	shakeel.butt@linux.dev,
+	shy828301@gmail.com,
+	surenb@google.com,
+	v-songbaohua@oppo.com,
+	willy@infradead.org,
+	xiang@kernel.org,
+	ying.huang@intel.com,
+	yosryahmed@google.com
+Subject: Re: [PATCH v5 4/4] mm: Introduce per-thpsize swapin control policy
+Date: Mon, 29 Jul 2024 13:37:18 +1200
+Message-Id: <20240729013718.13901-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202407271351.ffZPMT6W-lkp@intel.com>
+References: <202407271351.ffZPMT6W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240728204104.519041-4-sagi@grimberg.me>
-
-Hi Sagi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc1 next-20240726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Grimberg/nfsd-don-t-assume-copy-notify-when-preprocessing-the-stateid/20240729-044834
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240728204104.519041-4-sagi%40grimberg.me
-patch subject: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using special stateids and write delegations
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407290814.7REsmaH7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'inode' description in 'nfsd4_deleg_read_conflict'
->> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'modified' description in 'nfsd4_deleg_read_conflict'
->> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'size' description in 'nfsd4_deleg_read_conflict'
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-vim +8826 fs/nfsd/nfs4state.c
+On Sat, Jul 27, 2024 at 5:58 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Barry,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
 
-  8805	
-  8806	/**
-  8807	 * nfsd4_deleg_read_conflict - Recall if read causes conflict
-  8808	 * @rqstp: RPC transaction context
-  8809	 * @clp: nfs client
-  8810	 * @fhp: nfs file handle
-  8811	 * @inode: file to be checked for a conflict
-  8812	 * @modified: return true if file was modified
-  8813	 * @size: new size of file if modified is true
-  8814	 *
-  8815	 * This function is called when there is a conflict between a write
-  8816	 * delegation and a read that is using a special stateid where the
-  8817	 * we cannot derive the client stateid exsistence. The server
-  8818	 * must recall a conflicting delegation before allowing the read
-  8819	 * to continue.
-  8820	 *
-  8821	 * Returns 0 if there is no conflict; otherwise an nfs_stat
-  8822	 * code is returned.
-  8823	 */
-  8824	__be32 nfsd4_deleg_read_conflict(struct svc_rqst *rqstp,
-  8825			struct nfs4_client *clp, struct svc_fh *fhp)
-> 8826	{
-  8827		struct nfs4_file *fp;
-  8828		__be32 status = 0;
-  8829	
-  8830		fp = nfsd4_file_hash_lookup(fhp);
-  8831		if (!fp)
-  8832			return nfs_ok;
-  8833	
-  8834		spin_lock(&state_lock);
-  8835		spin_lock(&fp->fi_lock);
-  8836		if (!list_empty(&fp->fi_delegations) &&
-  8837		    !nfs4_delegation_exists(clp, fp)) {
-  8838			/* conflict, recall deleg */
-  8839			status = nfserrno(nfsd_open_break_lease(fp->fi_inode,
-  8840						NFSD_MAY_READ));
-  8841			if (status)
-  8842				goto out;
-  8843			if (!nfsd_wait_for_delegreturn(rqstp, fp->fi_inode))
-  8844				status = nfserr_jukebox;
-  8845		}
-  8846	out:
-  8847		spin_unlock(&fp->fi_lock);
-  8848		spin_unlock(&state_lock);
-  8849		return status;
-  8850	}
-  8851	
+Hi Thanks!
+Would you check if the below patch fixes the problem?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 41460847988c..06984a325af7 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -80,7 +80,7 @@ unsigned long huge_zero_pfn __read_mostly = ~0UL;
+ unsigned long huge_anon_orders_always __read_mostly;
+ unsigned long huge_anon_orders_madvise __read_mostly;
+ unsigned long huge_anon_orders_inherit __read_mostly;
+-unsigned long huge_anon_orders_swapin_always __read_mostly;
++static unsigned long huge_anon_orders_swapin_always __read_mostly;
+ 
+ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+ 					 unsigned long vm_flags,
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-swap-introduce-swapcache_prepare_nr-and-swapcache_clear_nr-for-large-folios-swap-in/20240726-181412
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240726094618.401593-5-21cnbao%40gmail.com
+> patch subject: [PATCH v5 4/4] mm: Introduce per-thpsize swapin control policy
+> config: x86_64-randconfig-121-20240727 (https://download.01.org/0day-ci/archive/20240727/202407271351.ffZPMT6W-lkp@intel.com/config)
+> compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271351.ffZPMT6W-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407271351.ffZPMT6W-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> mm/huge_memory.c:83:15: sparse: sparse: symbol 'huge_anon_orders_swapin_always' was not declared. Should it be static?
+>    mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/huge_memory.c:1867:20: sparse: sparse: context imbalance in 'madvise_free_huge_pmd' - unexpected unlock
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/huge_memory.c:1905:28: sparse: sparse: context imbalance in 'zap_huge_pmd' - unexpected unlock
+>    mm/huge_memory.c:2016:28: sparse: sparse: context imbalance in 'move_huge_pmd' - unexpected unlock
+>    mm/huge_memory.c:2156:20: sparse: sparse: context imbalance in 'change_huge_pmd' - unexpected unlock
+>    mm/huge_memory.c:2306:12: sparse: sparse: context imbalance in '__pmd_trans_huge_lock' - wrong count at exit
+>    mm/huge_memory.c:2323:12: sparse: sparse: context imbalance in '__pud_trans_huge_lock' - wrong count at exit
+>    mm/huge_memory.c:2347:28: sparse: sparse: context imbalance in 'zap_huge_pud' - unexpected unlock
+>    mm/huge_memory.c:2426:18: sparse: sparse: context imbalance in '__split_huge_zero_page_pmd' - unexpected unlock
+>    mm/huge_memory.c:2640:18: sparse: sparse: context imbalance in '__split_huge_pmd_locked' - unexpected unlock
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/huge_memory.c:3031:30: sparse: sparse: context imbalance in '__split_huge_page' - unexpected unlock
+>    mm/huge_memory.c:3306:17: sparse: sparse: context imbalance in 'split_huge_page_to_list_to_order' - different lock contexts for basic block
+>    mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    mm/huge_memory.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    mm/huge_memory.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>    include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>
+> vim +/huge_anon_orders_swapin_always +83 mm/huge_memory.c
+>
+>     51 
+>     52  /*
+>     53   * By default, transparent hugepage support is disabled in order to avoid
+>     54   * risking an increased memory footprint for applications that are not
+>     55   * guaranteed to benefit from it. When transparent hugepage support is
+>     56   * enabled, it is for all mappings, and khugepaged scans all mappings.
+>     57   * Defrag is invoked by khugepaged hugepage allocations and by page faults
+>     58   * for all hugepage allocations.
+>     59   */
+>     60  unsigned long transparent_hugepage_flags __read_mostly =
+>     61  #ifdef CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS
+>     62          (1<<TRANSPARENT_HUGEPAGE_FLAG)|
+>     63  #endif
+>     64  #ifdef CONFIG_TRANSPARENT_HUGEPAGE_MADVISE
+>     65          (1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG)|
+>     66  #endif
+>     67          (1<<TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG)|
+>     68          (1<<TRANSPARENT_HUGEPAGE_DEFRAG_KHUGEPAGED_FLAG)|
+>     69          (1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG);
+>     70 
+>     71  static struct shrinker *deferred_split_shrinker;
+>     72  static unsigned long deferred_split_count(struct shrinker *shrink,
+>     73                                            struct shrink_control *sc);
+>     74  static unsigned long deferred_split_scan(struct shrinker *shrink,
+>     75                                           struct shrink_control *sc);
+>     76 
+>     77  static atomic_t huge_zero_refcount;
+>     78  struct folio *huge_zero_folio __read_mostly;
+>     79  unsigned long huge_zero_pfn __read_mostly = ~0UL;
+>     80  unsigned long huge_anon_orders_always __read_mostly;
+>     81  unsigned long huge_anon_orders_madvise __read_mostly;
+>     82  unsigned long huge_anon_orders_inherit __read_mostly;
+>   > 83  unsigned long huge_anon_orders_swapin_always __read_mostly;
+>     84 
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+Thanks
+Barry
+
