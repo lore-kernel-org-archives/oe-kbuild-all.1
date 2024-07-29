@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC7C156238
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 15:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E299A1586DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 15:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722265773; cv=none; b=Uffzcw1GZmO6afFuYf8JdV7OEDmEkFusHhiQ0B3S3NKZXsL3xk4htl+arcJVLGI8vEBwFCS9B6W4zDZjQPNHzQis6b1cPAMLC4CBNwQa09vN3ULSFYHL6PsZMng7Q7HE6wHWRE3gouuezQrQham527uIe61xQovJZ+wXGQwLz8I=
+	t=1722266910; cv=none; b=urSCllSZvf/7WULyryrSRoR6QJFCoaeNK6MqVoaCKJ4EdKOLZnsM1A8R4bKpSO1oFTnuUHjOQ7WhxUNIq8E9YxpL1TdHNW8ceW8v2c6caUl6X12blmE3dTxbKGjTNuSzmmfWSL9ilH13QoclNGxrwcCKwLA0TJyG4Kn1Ut7cBvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722265773; c=relaxed/simple;
-	bh=CtQSPwdHc3W7zm8H8Hkkt/c8zANMM225OuY4qd31MN8=;
+	s=arc-20240116; t=1722266910; c=relaxed/simple;
+	bh=2VdueXarTxYaEFkEX0WeN1UrxcchMky9c16EYjnuL+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ShrDiVV4J3N8U954WdXbqAFlnafRpKzo9jWrmWsXgm1nvWTVURdkuRB3lkfF6QEbsdRI1DrNlg3bZraWQSujrBAdNG+5iM5AhfNHAk3AWpCx5I0BcwlXcuKy0PZjd17wMaHGfmCflovuwSAkaP047sS+0trXZ/nA6YmfJ60sJYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ka3hXwqU; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=i4Dr1E7XyspE3equxDOhYzl4fLwqpSJzkfPQalh+98n7UUOJhs9mWsYg4OmM9FS6P6+kmzfrM6+B+sEeg9+VBubUnHrDgws5NXQPGmN2ixqnu8iJrlk1XOPjcb+cobj5fbl8Ky1drnh1Ag0lhC1b4PW7zxhGlOJ+TTzuSKWYTB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YnHzPbS5; arc=none smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ka3hXwqU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722265772; x=1753801772;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CtQSPwdHc3W7zm8H8Hkkt/c8zANMM225OuY4qd31MN8=;
-  b=Ka3hXwqU3V5P7MsvxgCtGGpT2voTNym+S7EjTXjf3t6q6+yG/AgTKhL1
-   XrXvo7558GtgCWMasn0pHYFEMyvj2y29g36jlT91UMBVOts69erd74mR9
-   Xe26VksVUShX9VKgoAHtleTsAMhwHOnADF4YfZxIXyGOjyolKT/Zebqx8
-   0knXRfiCp0FV9rqAD+hCClDMLQEsmyjtZwAVOGD9EAp0W3Rp6dWCsnVSr
-   jvGxrTjILymU4qmqQiHci8H4olsyWH3emJ5U5qooDvvHICJzd+M4plu3Y
-   YVGkKnqXavUo+tOOUF0I2WpOMGsfGCCkFQZXFEt5TL2ROZ2Nbfi5IP9Qx
-   Q==;
-X-CSE-ConnectionGUID: TwfpxQqAT0eQYFXtofL+Pw==
-X-CSE-MsgGUID: /4FYKlmETKiJpjSS6ziH+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="30647989"
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="30647989"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 08:07:53 -0700
-X-CSE-ConnectionGUID: gShN8NBuSJWYs41yErg+5Q==
-X-CSE-MsgGUID: wtL7kPlHQQe2uYAGaeJx3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="53972093"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Jul 2024 08:07:51 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYRyW-000rmy-2J;
-	Mon, 29 Jul 2024 15:07:48 +0000
-Date: Mon, 29 Jul 2024 23:06:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fd 28/39]
- arch/powerpc/platforms/cell/spu_syscalls.c:59:1: error: a function
- declaration without a prototype is deprecated in all versions of C
-Message-ID: <202407292320.PzZHoHvG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YnHzPbS5"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5c667b28c82so1736857eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 08:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722266908; x=1722871708; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
+        b=YnHzPbS5FbVAkk3nJZSUfJh0CjwaMWgIOtuKxMu3SSGc5RtiMT/s/PxW4mibxFhoke
+         aDd060cdMFWbrefjdWQSq8w1CcjlYiUEBdko6RgJkh4a5+A6US0a+4cZbl8izXXvDjG8
+         LM7zgRKqfkbLjLEYpXYK/kUejs/3u4cTddBd5+T61vxHHmnbriIt7vHnOePaImIzQWFz
+         DwrjOIPUyGlKeaLUy8IA71+Xn91zuKeLcjGdx+hj7YIDn0s3jV4ifvlWc4A8w8R26ZPx
+         DgpTd7doy2F8OFdFxATgsGOc6jH6SCEO94W+L13ciYaoY4QvA3r5SxOv1pOQtsb08YCp
+         fpEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722266908; x=1722871708;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
+        b=teJdjw7GpstCNJreN4LwCzEStiNEGt4s3n5SBFHyNIwY1mHvGV+uk2+DaiXYamtPAB
+         FdlBoHZh/iRT/4kpRvBnVCPGu7Y9SybKmDIrirEcmFA3m6iMdK2wCYRERGRwDVibIJnw
+         Pe8tx7MMnx4rRfPvVjAwXR23L+rU8K91ciZOFxO9Lqj38GVjBYwvd3V8EB9LSpLzlLHL
+         xyqwcksRQ5HwzULqZ3JmkhyPot0EgmaiSqZZ39j89WYM7DvxPFVnp7A767ud0o5PGycd
+         QrFWWVA6OU0DhHjPCxghAptl8R7Y1+g+BJKf9MsRFK9/Sd/X/YFW2x4QfgkyUl6FcSIh
+         gLcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXZiy4qKl4WVETP04xc+PzNAc9+AuSobDnrfyIFLrg6AM3INB3SUwWUY//lNa5qqHxNB/jUO3R5XIJ6T6S3AZ+VTK59Y9lYIrGB9buIWg==
+X-Gm-Message-State: AOJu0YxhaYq2Ijxv9XGKCDuAVFRyQW0FMArGSYhEEi8UOzl3fbkh2Naq
+	+Mwm4YRn1XaQ6KaSgv/SJ4U3Q6YXWpUH1n9MDk/xSTfwSuwCHRxMsZM2I91+kGA=
+X-Google-Smtp-Source: AGHT+IFgMh59C0XIlRKMyr8wkfMpGdx8PqeQNsD/YBhsvAs4P5UXJrO02yYCLrR7pKKTwqKAlx2f4Q==
+X-Received: by 2002:a05:6870:d1ca:b0:254:a218:89e6 with SMTP id 586e51a60fabf-267d67046e1mr3886279fac.23.1722266908048;
+        Mon, 29 Jul 2024 08:28:28 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7093050a3d0sm2136596a34.14.2024.07.29.08.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 08:28:27 -0700 (PDT)
+Date: Mon, 29 Jul 2024 10:28:21 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, wangshuaijie@awinic.com, jic23@kernel.org,
+	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, waqar.hameed@axis.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, wangshuaijie@awinic.com,
+	liweilei@awinic.com, kangjiajun@awinic.com
+Subject: Re: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x
+ proximity sensor
+Message-ID: <7227ddbf-a851-4997-83ba-b8f8c0fcc722@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +71,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240726061312.1371450-3-wangshuaijie@awinic.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
-head:   154eb19a802fdf8629273d414dbeb31eccb61587
-commit: a5027b86a79716e98fe0b8e1247743dfb5a5c080 [28/39] switch spufs_calls_{get,put}() to CLASS() use
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240729/202407292320.PzZHoHvG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407292320.PzZHoHvG-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-aw9610x-Add-bindings-for-aw9610x-sensor/20240726-141450
+base:   1722389b0d863056d78287a120a1d6cadb8d4f7b
+patch link:    https://lore.kernel.org/r/20240726061312.1371450-3-wangshuaijie%40awinic.com
+patch subject: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x proximity sensor
+config: x86_64-randconfig-r071-20240728 (https://download.01.org/0day-ci/archive/20240728/202407282339.D0ICTGHF-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407292320.PzZHoHvG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407282339.D0ICTGHF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/proximity/aw9610x.c:575 aw9610x_read_chipid() error: uninitialized symbol 'reg_val'.
 
-   In file included from arch/powerpc/platforms/cell/spu_syscalls.c:13:
-   In file included from include/linux/syscalls.h:93:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/powerpc/platforms/cell/spu_syscalls.c:59:1: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-      59 | DEFINE_CLASS(spufs_calls, struct spufs_calls *, spufs_calls_put(_T), spufs_calls_get())
-         | ^
-   include/linux/cleanup.h:111:48: note: expanded from macro 'DEFINE_CLASS'
-     111 | static inline _type class_##_name##_constructor(_init_args)             \
-         |                                                ^
-   5 warnings and 1 error generated.
+vim +/reg_val +575 drivers/iio/proximity/aw9610x.c
 
+1e0a5bf0d81329 shuaijie wang 2024-07-26  558  static int aw9610x_read_chipid(struct aw9610x *aw9610x)
+1e0a5bf0d81329 shuaijie wang 2024-07-26  559  {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  560  	unsigned char cnt = 0;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  561  	u32 reg_val;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  562  	int ret;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  563  
+1e0a5bf0d81329 shuaijie wang 2024-07-26  564  	while (cnt < AW_READ_CHIPID_RETRIES) {
 
-vim +59 arch/powerpc/platforms/cell/spu_syscalls.c
+if cnt == AW_READ_CHIPID_RETRIES then reg_value is uninitialized
 
-    58	
-  > 59	DEFINE_CLASS(spufs_calls, struct spufs_calls *, spufs_calls_put(_T), spufs_calls_get())
-    60	
+1e0a5bf0d81329 shuaijie wang 2024-07-26  565  		ret = aw9610x_i2c_read(aw9610x, REG_CHIPID, &reg_val);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  566  		if (ret < 0) {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  567  			cnt++;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  568  			usleep_range(2000, 3000);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  569  		} else {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  570  			reg_val = FIELD_GET(AW9610X_CHIPID_MASK, reg_val);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  571  			break;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  572  		}
+1e0a5bf0d81329 shuaijie wang 2024-07-26  573  	}
+1e0a5bf0d81329 shuaijie wang 2024-07-26  574  
+1e0a5bf0d81329 shuaijie wang 2024-07-26 @575  	if (reg_val == AW9610X_CHIP_ID)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+It's harmless but the checker is correct to warn
+
+1e0a5bf0d81329 shuaijie wang 2024-07-26  576  		return 0;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  577  
+1e0a5bf0d81329 shuaijie wang 2024-07-26  578  	return -EINVAL;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  579  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
