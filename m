@@ -1,63 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2D618EFD3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 23:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F9C18A92D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 23:45:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722296714; cv=none; b=Mz+CxHhxSW5hIdVrcvG77Vot6/H6YmZ3Z5lAceFRFR+WcjbCkFEeiX7ruh7pQLoTqfvEA7JG8oAPGuwwx9CHDXUq/AACGiMpDwhJe5adw1BAV42kIoZ/9uDbHF/Ol7w7zsmnGf/1kgQwwLL/QqZwowuODUBZ+Tpo5Co1oE8Yyhg=
+	t=1722296714; cv=none; b=an/S5qaorJCn3sXt3VTWuIuAgfWUX009HPyDQxFEwX82Wk+EDqCJfxQSMUXAt4PHhhcmXa05obGSPeXw0nfRY/u3FoU59ksOPJpZFdOROMog1OYRtX3EyDVJETmKR347oC2RnYCA0qzU5OXQvzUXu/GL43K/AE9qTMlqweE+mlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722296714; c=relaxed/simple;
-	bh=LheOn7uDJIqFdXj2COkdr2NRLvxQQDJ2spMhzXd2Lsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sjq5JKS7V+wce4JncCziee3eISHUt6/RxQkh5sfzBiFSi2XkeuGI/91LxNIlmmV6JwiJZ6XyV0RwlCuNWKewODagCCLjLchk+MzQBR73GnsjvEUD44IYWjgnSBUG4L5YESIHnEaSdd8+q5bvas3NV1GvBvNNUzYBnvXrFMFJKo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aumulSup; arc=none smtp.client-ip=198.175.65.14
+	bh=jsEouXldoNvEvwAUR0x1SXHsSpJJXXkpqS9prI6hwYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oif3QMYIiBo+Od03ETrVuNUoBl/Onhg4OGndFpV4Uu0IvYGJI/2vF1WqkXbUhPKM4D5iQWFAqQAlKbTooNeltY7F4PnKDe3nNoLx8xy9p+s6VlbMlr8PtbiIBvauv7njwwm7ONK+DCMbHixikqcs02tyycXpA0cZPx/vZ6/gc98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsXWWgt/; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aumulSup"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsXWWgt/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722296713; x=1753832713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LheOn7uDJIqFdXj2COkdr2NRLvxQQDJ2spMhzXd2Lsg=;
-  b=aumulSupE2acpvp1B4pjml3/z3FS1xGsN6lKNz0KY1AeAVn2dnD9VIaD
-   O3C+bHDcIsx9snLTNVtykrjjraw3F3LFeLDvKwcqBPdo+qqx1Y/DKUkyB
-   VWcHI6Oh7zCzag7XCocxDtvQErpJNNMY7AXzZZ37mNYtLuSCvKjASMnqu
-   vJhrZlN6hLVZmt+WGD8r3Mq1M7q6jtjVgjkkTQJdNmKTQoZTpPrAi0AK0
-   eA2oZ2V1BJ5sHkGZPiwlG4mP074Qp6GbfzOJ7KRg/e5uQ+bKCZgDBikYJ
-   YKwIev7iIVMM5YzhCHvcDUC5dh0ypSi55UfXgsLgBy9SxcY60qVM4R9dq
-   A==;
-X-CSE-ConnectionGUID: cvg2w6B4TduGV2vsa6/fiA==
-X-CSE-MsgGUID: 86jryosXRQqSDzQmdN6Y/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="23876210"
+  t=1722296712; x=1753832712;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jsEouXldoNvEvwAUR0x1SXHsSpJJXXkpqS9prI6hwYU=;
+  b=GsXWWgt/Uah6i80P4iG3b8qrIwsAmvoS+Txg4kDmyWPNa+dC5n2DHsp9
+   IruZ61R4cAWV+285VAv7laZVqM13T7WPVMwmU9rD1p9rLBBXR3x8sSIJt
+   zkofBI/7UOc7XczlziRyUzFv2JkCMG9ADSelf9741aRY85GmlPSBJXDUA
+   6/krK2Qnq3iL+Oj8SKtP0YDwG8y0RtMvtMWQuEwDug5SkO/suZRjfl/Do
+   dMDdp1NbFbzC0D3GYpjRh56Pl8XL/GzFpYnt4KMsAWsWNDIwk8LcZwZ4y
+   EDCyCK84ueADa4c5TGYOBRqWH4VbO/doA2wcsgoyRXYswacjzbXyBzlrR
+   w==;
+X-CSE-ConnectionGUID: vkgPKKznTc+ViEuF+e997w==
+X-CSE-MsgGUID: yIN6AWdrRnCR3QU/YwtbCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="23876206"
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="23876210"
+   d="scan'208";a="23876206"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 16:45:12 -0700
-X-CSE-ConnectionGUID: dw8MvjgGRQW+JPzfIa1SJA==
-X-CSE-MsgGUID: AFdnrd2NSSKX5dgKDwZxtA==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 16:45:11 -0700
+X-CSE-ConnectionGUID: qZAIMuy4SfKGomQArj4TLA==
+X-CSE-MsgGUID: bX83H8VARNGtTkm7/0tBGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="58753555"
+   d="scan'208";a="58753537"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jul 2024 16:45:09 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Jul 2024 16:45:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYa38-000sC2-2q;
+	id 1sYa38-000sC0-2j;
 	Mon, 29 Jul 2024 23:45:06 +0000
-Date: Tue, 30 Jul 2024 07:45:02 +0800
+Date: Tue, 30 Jul 2024 07:45:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 7865/7897] kernel/cgroup/sli.c:642:15: sparse:
- sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be
- static?
-Message-ID: <202407300743.YskWe2K1-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	lukasz.luba@arm.com, quic_manafm@quicinc.com
+Subject: Re: [PATCH v1 1/7] thermal/core: Encapsulate more handle_thermal_trip
+Message-ID: <202407300733.L6f9tFOM-lkp@intel.com>
+References: <20240729150259.1089814-2-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,63 +63,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240729150259.1089814-2-daniel.lezcano@linaro.org>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   8827461ac92e93f2c805b31a00cd444f7b59f41e
-commit: 00423a80429a623a28227d306c3108e801dd0f6f [7865/7897] sli: backport sli function from tk3
-config: x86_64-randconfig-121-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300743.YskWe2K1-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300743.YskWe2K1-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/thermal]
+[also build test WARNING on linus/master v6.11-rc1 next-20240729]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Encapsulate-more-handle_thermal_trip/20240730-005842
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20240729150259.1089814-2-daniel.lezcano%40linaro.org
+patch subject: [PATCH v1 1/7] thermal/core: Encapsulate more handle_thermal_trip
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240730/202407300733.L6f9tFOM-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300733.L6f9tFOM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300743.YskWe2K1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300733.L6f9tFOM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cgroup/sli.c:642:15: sparse: sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be static?
->> kernel/cgroup/sli.c:1247:27: sparse: sparse: dubious: !x & y
->> kernel/cgroup/sli.c:1247:29: sparse: sparse: restricted fmode_t degrades to integer
->> kernel/cgroup/sli.c:1337:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   kernel/cgroup/sli.c:1337:24: sparse:     expected restricted __poll_t
-   kernel/cgroup/sli.c:1337:24: sparse:     got int
-   kernel/cgroup/sli.c: note: in included file (through include/linux/mutex.h, include/linux/seq_file.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +/get_cgroup_from_task_id +642 kernel/cgroup/sli.c
+>> drivers/thermal/thermal_trip.c:80: warning: Function parameter or struct member 'low' not described in 'thermal_zone_set_trips'
+>> drivers/thermal/thermal_trip.c:80: warning: Function parameter or struct member 'high' not described in 'thermal_zone_set_trips'
 
-   641	
- > 642	struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
-   643	{
-   644		int id;
-   645		struct cgroup *cgrp;
-   646	
-   647		id = cpuacct_cgrp_id;
-   648		switch (event_nr) {
-   649	#if IS_ENABLED(CONFIG_MEMCG)
-   650		case SLI_MEM_EVENT:
-   651			id = memory_cgrp_id;
-   652			break;
-   653	#endif
-   654		default:
-   655			break;
-   656		}
-   657	
-   658		/* First, try to get cpuacct/mem cgroup for V1*/
-   659		cgrp = task_cgroup(task, id);
-   660		if (cgrp && cgrp->level)
-   661			return cgrp;
-   662	
-   663		/*
-   664		 * If can not find cpuacct/mem cgroup or cpuacct/mem cgroup is root, just return
-   665		 * dfl_cgrp.
-   666		 */
-   667		cgrp = task_dfl_cgroup(task);
-   668	
-   669		return cgrp;
-   670	}
-   671	
+
+vim +80 drivers/thermal/thermal_trip.c
+
+5b8de18ee9027c Daniel Lezcano    2023-01-23   63  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   64  /**
+28d5cc12671c8b Rafael J. Wysocki 2024-06-07   65   * thermal_zone_set_trips - Computes the next trip points for the driver
+5b8de18ee9027c Daniel Lezcano    2023-01-23   66   * @tz: a pointer to a thermal zone device structure
+5b8de18ee9027c Daniel Lezcano    2023-01-23   67   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   68   * The function computes the next temperature boundaries by browsing
+5b8de18ee9027c Daniel Lezcano    2023-01-23   69   * the trip points. The result is the closer low and high trip points
+5b8de18ee9027c Daniel Lezcano    2023-01-23   70   * to the current temperature. These values are passed to the backend
+5b8de18ee9027c Daniel Lezcano    2023-01-23   71   * driver to let it set its own notification mechanism (usually an
+5b8de18ee9027c Daniel Lezcano    2023-01-23   72   * interrupt).
+5b8de18ee9027c Daniel Lezcano    2023-01-23   73   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   74   * This function must be called with tz->lock held. Both tz and tz->ops
+5b8de18ee9027c Daniel Lezcano    2023-01-23   75   * must be valid pointers.
+5b8de18ee9027c Daniel Lezcano    2023-01-23   76   *
+5b8de18ee9027c Daniel Lezcano    2023-01-23   77   * It does not return a value
+5b8de18ee9027c Daniel Lezcano    2023-01-23   78   */
+4c090556217f53 Daniel Lezcano    2024-07-29   79  void thermal_zone_set_trips(struct thermal_zone_device *tz, int low, int high)
+5b8de18ee9027c Daniel Lezcano    2023-01-23  @80  {
+0c0c4740c9d266 Rafael J. Wysocki 2023-12-04   81  	int ret;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   82  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   83  	lockdep_assert_held(&tz->lock);
+5b8de18ee9027c Daniel Lezcano    2023-01-23   84  
+698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22   85  	if (!tz->ops.set_trips)
+5b8de18ee9027c Daniel Lezcano    2023-01-23   86  		return;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   87  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   88  	/* No need to change trip points */
+5b8de18ee9027c Daniel Lezcano    2023-01-23   89  	if (tz->prev_low_trip == low && tz->prev_high_trip == high)
+5b8de18ee9027c Daniel Lezcano    2023-01-23   90  		return;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   91  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   92  	tz->prev_low_trip = low;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   93  	tz->prev_high_trip = high;
+5b8de18ee9027c Daniel Lezcano    2023-01-23   94  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   95  	dev_dbg(&tz->device,
+5b8de18ee9027c Daniel Lezcano    2023-01-23   96  		"new temperature boundaries: %d < x < %d\n", low, high);
+5b8de18ee9027c Daniel Lezcano    2023-01-23   97  
+5b8de18ee9027c Daniel Lezcano    2023-01-23   98  	/*
+5b8de18ee9027c Daniel Lezcano    2023-01-23   99  	 * Set a temperature window. When this window is left the driver
+5b8de18ee9027c Daniel Lezcano    2023-01-23  100  	 * must inform the thermal core via thermal_zone_device_update.
+5b8de18ee9027c Daniel Lezcano    2023-01-23  101  	 */
+698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22  102  	ret = tz->ops.set_trips(tz, low, high);
+5b8de18ee9027c Daniel Lezcano    2023-01-23  103  	if (ret)
+5b8de18ee9027c Daniel Lezcano    2023-01-23  104  		dev_err(&tz->device, "Failed to set trips: %d\n", ret);
+5b8de18ee9027c Daniel Lezcano    2023-01-23  105  }
+5b8de18ee9027c Daniel Lezcano    2023-01-23  106  
 
 -- 
 0-DAY CI Kernel Test Service
