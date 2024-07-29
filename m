@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C34187845;
-	Mon, 29 Jul 2024 23:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D7118E75B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 23:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722294189; cv=none; b=l/wLmKBaVBdSNAQ5L/uRND03VneDaLXez3GFABiAvi2q1IzE0uWvejiagHVKldCvJmFyObGGqKT7UYhoRC9vWL7Pf89tq6FFibSe6U2dDUl1KEuEYTtwP1A0nILT4hblYuwnMwO02RNslyb0l2NNfS45w6titpIRF7mH3MdEWm4=
+	t=1722294191; cv=none; b=ibY/TDb60IvWYrMfHdm25gRxB3xdvhNA+B6NjII78m6SJwBIkRn2n2mVOF7XJ5uCSolbJoGlV3VNl+p7Wp1U4vOsqvYiEUN5irVx5G6TUUKf/O7VhI2GNhgv4O7sKYInPSg6H+5vU4v8S3LQPP0RXlhN/kX9mr6Yr47ztz+jEWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722294189; c=relaxed/simple;
-	bh=axe6xxboRQoUfNMQpbdGNQvYFrV1wumrp35S2u3DVG8=;
+	s=arc-20240116; t=1722294191; c=relaxed/simple;
+	bh=glZRX7FnpRH/ElwUjA+7lKIBpf6JM7fldm2r9Z8otLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZouYCtbdUUr9zye+PB5FDuVcWQK3tuhUuaNA1tUMrL6oIye0ATpXo1DVveQQZIAuUDSQlHlXN4bCBbhhw4ldRoWiiGBXRUR/xBfT/qSfRpnrptzmwmGHFg7ZWQhTcI5my1ACeCPqP0FvuUKg7KHrZBIhSTX9C2una/W9Qb9mUeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwUrps7v; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=dMzci41NlE8EPytOxe5FoRXyy+cxto8gUBahJbMA/OppxvoFWNK3dlmUEVFWxVlrmIe0aUlGC+tC21pk/yRc+v/JpGTHrjMTiGQxKQT7ax/YS6+K3wYZHii0JMtTnwAGskHlUblIiO/bln9Ccm0JojAMAQBnZ04IeSvo2cmxfUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m43nv4Nj; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwUrps7v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m43nv4Nj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722294188; x=1753830188;
+  t=1722294189; x=1753830189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=axe6xxboRQoUfNMQpbdGNQvYFrV1wumrp35S2u3DVG8=;
-  b=EwUrps7v4tHSHVqyUL0cJm4Nx0lVz21qqpITBGSkpc1Lp4nu5XLfZIkn
-   c1AVtHMA2B/lqlRpdCfVlEUhEtdyyhFzqWfxM9R2IiBagSoIlwq0hxwsf
-   nnMt6CmjoGRjQhrW5jbva+9Ev2Wrhm9m5TVC52OELjo0ZDjzX+yy8PoDm
-   98iOH6rHkLz/3FTnflFGyx4Sr89lS6uEAbolWLhrbD2g9KZQzOXjsV4/h
-   /nA9RjyhUIktVhtHb5cYzzkFNe+V9Y43pnt5/aepLZszXcKTx6p8aCmEM
-   UMwgkQWl+1+IaMPaoy8oVxBVJOjvnVD9n7yhyb9mD5EEl6pKO9lBeAZoT
-   Q==;
-X-CSE-ConnectionGUID: yTm6YVB1T4KW0sfgS3sPog==
-X-CSE-MsgGUID: iigarKVZSz6d1iZxl8KeXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="22996787"
+  bh=glZRX7FnpRH/ElwUjA+7lKIBpf6JM7fldm2r9Z8otLY=;
+  b=m43nv4NjSxarpjsy753/76G/iX/jrjsdBdT1AhIuWL/mGtoNgdJCROIP
+   aWlzDWpZFslWSigUbQjazsAd2OufsYFajjEfqx/zIQbmulmDavB/cA2lI
+   YlT/UobAZsTQejthqUX/3Jz4H9bO6ySWohHZMAmjHdQqneiNNbbLj61PB
+   JkPEvS6Z/OZ58+Ak1bu+ACz/91kyPwSxsGN4/7dyG2Mkx3/NIMaEe12/g
+   +6F0MyVMNXaEr860pchttNe3Y5dPyBiKkhWNUQmryS7PY7tBhnTutOPe6
+   FH/6+xC+jahOlsw8MKWT9zUNolwOhGLFSn6QZR2RwKSu572Jftb6/PrPW
+   w==;
+X-CSE-ConnectionGUID: rinaqbJwSvm10kqjtEoz8g==
+X-CSE-MsgGUID: Bos2o0qHSUqGoLINDwDhIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="22996788"
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="22996787"
+   d="scan'208";a="22996788"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 16:03:07 -0700
-X-CSE-ConnectionGUID: qpm3C+TES8eRJVGN/S+2Zg==
-X-CSE-MsgGUID: E+TdbjU8T1C7TZt5gpd85A==
+X-CSE-ConnectionGUID: Uqc2Zc+iS82A+IQzico+Ow==
+X-CSE-MsgGUID: BKkDAHugTKmGxSTR0A36xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="53843417"
+   d="scan'208";a="53843418"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2024 16:03:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYZOR-000s9w-2r;
+	id 1sYZOR-000s9y-2y;
 	Mon, 29 Jul 2024 23:03:03 +0000
-Date: Tue, 30 Jul 2024 07:02:31 +0800
+Date: Tue, 30 Jul 2024 07:02:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [riteshharjani:kfence-fix-wip6 9/10]
- arch/powerpc/include/asm/kfence.h:41:13: error: expected parameter
- declarator
-Message-ID: <202407300647.62hbTyOX-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+	linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/005-maintainers 2/2] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/spi/apple,spi.yaml
+Message-ID: <202407300750.sMmRvNzq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +64,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/riteshharjani/linux kfence-fix-wip6
-head:   232bab42e9b7dd1051658608c6ee254ee53cf09e
-commit: 72786c184ded2eb5805eb7fa17497ff9e85d6833 [9/10] kfence refactor
-config: powerpc64-randconfig-002-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300647.62hbTyOX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300647.62hbTyOX-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/005-maintainers
+head:   e58fcf1783e145ebf6a5e11dd9e7a4f26d2fb88b
+commit: e58fcf1783e145ebf6a5e11dd9e7a4f26d2fb88b [2/2] MAINTAINERS: Add apple-spi driver & binding files
+reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300750.sMmRvNzq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300647.62hbTyOX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300750.sMmRvNzq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/kfence/kfence_test.c:17:
-   In file included from include/linux/kfence.h:12:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/kfence/kfence_test.c:26:
->> arch/powerpc/include/asm/kfence.h:41:13: error: expected parameter declarator
-      41 | early_param("kfence.sample_interval", parse_kfence_early_init);
-         |             ^
->> arch/powerpc/include/asm/kfence.h:41:13: error: expected ')'
-   arch/powerpc/include/asm/kfence.h:41:12: note: to match this '('
-      41 | early_param("kfence.sample_interval", parse_kfence_early_init);
-         |            ^
->> arch/powerpc/include/asm/kfence.h:41:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-      41 | early_param("kfence.sample_interval", parse_kfence_early_init);
-         | ^
-         | int
->> arch/powerpc/include/asm/kfence.h:41:12: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-      41 | early_param("kfence.sample_interval", parse_kfence_early_init);
-         |            ^                                                 
-         |                                                              void
-   5 warnings and 4 errors generated.
-
-
-vim +41 arch/powerpc/include/asm/kfence.h
-
-    32	
-    33	static inline int parse_kfence_early_init(char *arg)
-    34	{
-    35		int val;
-    36	
-    37		if (get_option(&arg, &val))
-    38			kfence_early_init = !!val;
-    39		return 0;
-    40	}
-  > 41	early_param("kfence.sample_interval", parse_kfence_early_init);
-    42	#endif
-    43	
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/spi/apple,spi.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
