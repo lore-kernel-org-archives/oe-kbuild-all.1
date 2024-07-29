@@ -1,148 +1,186 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA98824BF;
-	Mon, 29 Jul 2024 06:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838E584DEB;
+	Mon, 29 Jul 2024 07:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722234163; cv=none; b=M+wb6zoJ9IwwJxpvJSGp2VQjtsBPtCwNPmD0dwekf9Mo9xDg9243zqdLLxdAxRedAceZZMWQADmpQ8oZIrLeSL1xSeJUdyZhCLq9MBC18NC+EnC1nms63Qw3x+8SAmzHVHOHpg8dXvApabp57H3SxizxwV5JprlMdY3MSolXES8=
+	t=1722236877; cv=none; b=P7pwPDFEQBZfseuPhHk0IuSqN0XEQs68efcMAqD13QK/umbBz2HDOxhZJnFSKI4N9c9l0jjxYKqO7GjTcQv12yEMIjhssFYTzwA9LEkggED3qPtulhQijV+4878i9IPPsZn+e6P05cL3+9nz0tFHMvk4mXJGX/fC9bzNk4574R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722234163; c=relaxed/simple;
-	bh=hjjIMtLXsRowWJTsFZFs0FGHMWuAIRn3zMKwdzFZlVw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IHcp2BEpdwkvvOem/1THvJPRwB51KzSFbR614T7Po8vgP7ifZxCeg7JLLArVkjdstnXlBbHTVKWFc93YHTEdBOjQ6HYzn5BcWv6E6XER7qHmWXShglZxeW3MecLfgylq7j/55rIm2g6ZXw+0B6oD37jFCtCF3w9SGdk6RLgJZBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42802ddfaa6so1084945e9.1;
-        Sun, 28 Jul 2024 23:22:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722234160; x=1722838960;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BcrMmy1kl1trlyFU4fNrbFfE/gf001bjOnJ7xTNIN84=;
-        b=su/Ht2/4+OQXn2D4j/k5+mkjq0An9al3QsPW8vvpI2ACn0gUS+/a5Y4tJnXExZBlZK
-         4GbuDx2NNLLOa+Ki5awhxqa30iarAtCH6OrJEj9qvxb0Fv/0dDS0FTJ+09CeCObRf/HM
-         3JsthszRo/yeot+ihnoflOc6skeSTnSW4XxQd3atX28Uhhw4gIwCHDjEL0nuPVy5OvO9
-         j+FE2irwBdqNs565gHqMWgYqfPPZM5CH5/wG2PRZNR8CE6oShOHWU/wiJ+YEJ0EH6S01
-         MeqjoYp4v9FJwRqKPULwQcyXOKK0S85PFLr6BjoEWC4uxT8OYNPeCE8JR9sWleaMPcLI
-         wMDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhbVVVxhDEi6fv/4JcwBd6Iy2FwNXNVZY3+J9CBs9tEsCAOB052yP+KzpfKZw9gUaGCDzVoJdygkyFuIIKHa/MruHNyshe3RvsmeIYQg==
-X-Gm-Message-State: AOJu0YzuhLUs0LpcQLumjWPPhClZwZ8k0fyzTU2wWU7/WyzStRHv/CjK
-	BDz5cLf6ptu7pgneWreVzUl1nc/TKCBsld14pgLk2S0KLb4zX1W0
-X-Google-Smtp-Source: AGHT+IFYGT1k7kCPuLrOqHIqyzA2D6/4fdpD7+t3cofOCztVkirsr19TzmkJvH5ZMr0361MeWFJ8hA==
-X-Received: by 2002:a05:600c:19c7:b0:427:9f6f:4913 with SMTP id 5b1f17b1804b1-4280576b7famr58912055e9.5.1722234159977;
-        Sun, 28 Jul 2024 23:22:39 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4280574003bsm161755635e9.17.2024.07.28.23.22.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jul 2024 23:22:39 -0700 (PDT)
-Message-ID: <aa94fd00-0a91-4924-a943-2e21e6da1df8@grimberg.me>
-Date: Mon, 29 Jul 2024 09:22:38 +0300
+	s=arc-20240116; t=1722236877; c=relaxed/simple;
+	bh=QQtDhehlcWFo9AvE43GyaCoamFx3oSQ0GWxaXuRWer4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d3hkOAXmBP53P0u5V/B64jcHLo2DYJD315xvB0xUyTZhoW0ydcl5U57+ahyaz9PO19PDThu30DySV3J/BVkjdw6z9g/RxtICV4fIyoDxuvNRSE5ileZcNyPa5cWapvGmgY9AqAy7/7tC6u8SGsSRJabHPZZHzFusxzKxzJAcwH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ha4OfweL; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ha4OfweL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722236876; x=1753772876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QQtDhehlcWFo9AvE43GyaCoamFx3oSQ0GWxaXuRWer4=;
+  b=ha4OfweL/G9SgeXp0yknMlSJvJCANer8/aUZzbW50T0KiYebBfNoyYHd
+   aiELIIE4V551q9J9s4xVomNyh5EqQzw0ZMFOSrxnDzw1RGEbL/eHpJ4Kg
+   LDjQlwO62hlCmGIeEKLWiecnxhTLV0AOP+xBCAA2XJeBpe5Txn7llKy3k
+   s42/vu/u4fo4HP6FjGLGSBkpEWow4gUgGMX4HxnMH1YzhvulpLiIMCWsE
+   8jeQMXHWE/THzFrmrq2OLJ5hjBznzFdhJcOD9GTR4UBVLk5f+emUH/MtJ
+   6v0cc+N1Q3E2AHKzAigEBbwtTuEDOCUJHm1XXisFKmXnES/TBqlFSA4kb
+   w==;
+X-CSE-ConnectionGUID: Trs4swveSoWP6pUAD96aDA==
+X-CSE-MsgGUID: nsiK9UDUQRKzwFqUid+Bgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="12762824"
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
+   d="scan'208";a="12762824"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 00:07:55 -0700
+X-CSE-ConnectionGUID: EuvxeFMCSxWvlb3onqRjiw==
+X-CSE-MsgGUID: UlzR2TDLS+OFyu6UkjVGGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
+   d="scan'208";a="53576823"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2024 00:06:36 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYKSo-000rWA-0w;
+	Mon, 29 Jul 2024 07:06:34 +0000
+Date: Mon, 29 Jul 2024 15:06:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ bitmap_gather+0x6b (section: .text) -> sg_mask (section: .init.rodata)
+Message-ID: <202407291552.gxr1x7vB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using
- special stateids and write delegations
-To: kernel test robot <lkp@intel.com>, Chuck Lever <chuck.lever@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Dai Ngo <dai.ngo@oracle.com>, Olga Kornievskaia <aglo@umich.edu>,
- Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org
-References: <20240728204104.519041-4-sagi@grimberg.me>
- <202407290814.7REsmaH7-lkp@intel.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <202407290814.7REsmaH7-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Andy,
 
+FYI, the error/warning still remains.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc1c8034e31b14a2e5e212104ec508aec44ce1b9
+commit: de5f84338970815b9fdd3497a975fb572d11e0b5 lib/bitmap: Introduce bitmap_scatter() and bitmap_gather() helpers
+date:   5 months ago
+config: um-randconfig-001-20240729 (https://download.01.org/0day-ci/archive/20240729/202407291552.gxr1x7vB-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407291552.gxr1x7vB-lkp@intel.com/reproduce)
 
-On 29/07/2024 3:35, kernel test robot wrote:
-> Hi Sagi,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.11-rc1 next-20240726]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Grimberg/nfsd-don-t-assume-copy-notify-when-preprocessing-the-stateid/20240729-044834
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240728204104.519041-4-sagi%40grimberg.me
-> patch subject: [PATCH v2 3/3] nfsd: resolve possible conflicts of reads using special stateids and write delegations
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407290814.7REsmaH7-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407290814.7REsmaH7-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'inode' description in 'nfsd4_deleg_read_conflict'
->>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'modified' description in 'nfsd4_deleg_read_conflict'
->>> fs/nfsd/nfs4state.c:8826: warning: Excess function parameter 'size' description in 'nfsd4_deleg_read_conflict'
->
-> vim +8826 fs/nfsd/nfs4state.c
->
->    8805	
->    8806	/**
->    8807	 * nfsd4_deleg_read_conflict - Recall if read causes conflict
->    8808	 * @rqstp: RPC transaction context
->    8809	 * @clp: nfs client
->    8810	 * @fhp: nfs file handle
->    8811	 * @inode: file to be checked for a conflict
->    8812	 * @modified: return true if file was modified
->    8813	 * @size: new size of file if modified is true
->    8814	 *
->    8815	 * This function is called when there is a conflict between a write
->    8816	 * delegation and a read that is using a special stateid where the
->    8817	 * we cannot derive the client stateid exsistence. The server
->    8818	 * must recall a conflicting delegation before allowing the read
->    8819	 * to continue.
->    8820	 *
->    8821	 * Returns 0 if there is no conflict; otherwise an nfs_stat
->    8822	 * code is returned.
->    8823	 */
->    8824	__be32 nfsd4_deleg_read_conflict(struct svc_rqst *rqstp,
->    8825			struct nfs4_client *clp, struct svc_fh *fhp)
->> 8826	{
->    8827		struct nfs4_file *fp;
->    8828		__be32 status = 0;
->    8829	
->    8830		fp = nfsd4_file_hash_lookup(fhp);
->    8831		if (!fp)
->    8832			return nfs_ok;
->    8833	
->    8834		spin_lock(&state_lock);
->    8835		spin_lock(&fp->fi_lock);
->    8836		if (!list_empty(&fp->fi_delegations) &&
->    8837		    !nfs4_delegation_exists(clp, fp)) {
->    8838			/* conflict, recall deleg */
->    8839			status = nfserrno(nfsd_open_break_lease(fp->fi_inode,
->    8840						NFSD_MAY_READ));
->    8841			if (status)
->    8842				goto out;
->    8843			if (!nfsd_wait_for_delegreturn(rqstp, fp->fi_inode))
->    8844				status = nfserr_jukebox;
->    8845		}
->    8846	out:
->    8847		spin_unlock(&fp->fi_lock);
->    8848		spin_unlock(&state_lock);
->    8849		return status;
->    8850	}
->    8851	
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407291552.gxr1x7vB-lkp@intel.com/
 
-Its not clear what is the warning about here...
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_gather+0x6b (section: .text) -> sg_mask (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: bitmap_gather+0x1e2 (section: .text) -> sg_mask (section: .init.rodata)
+>> WARNING: modpost: vmlinux: section mismatch in reference: bitmap_scatter+0x6b (section: .text) -> sg_mask (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: bitmap_scatter+0x1e0 (section: .text) -> sg_mask (section: .init.rodata)
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/resource_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hostfs/hostfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-mmio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version generation failed, symbol will not be versioned.
+Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] version generation failed, symbol will not be versioned.
+Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "csum_partial" [fs/reiserfs/reiserfs.ko] has no CRC!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
