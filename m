@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0E218A92F;
-	Mon, 29 Jul 2024 20:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ABA12E1CA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 20:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722284467; cv=none; b=F8vEAshbHqTdOm7FJnY4S7wIT1lJqLmlVd1zEfcS1RFfd91v3Qt8SNpwSVeO/dg1NZThku7dZBHNc+RIgK2CBA1Mr6cecv4PyJYWVZvKihkwbxcaHnBAUENLM90E3NRPZUvvP/Lhf246bkO87SoiNzg1Y8TwIADABLXeZIGsczI=
+	t=1722285245; cv=none; b=Htq9Nu9qavsvU2VBYUom+J9jRS3v4clM2cgi/Q5y2Qpro+0XSqFfs0aRtFk9gToadjCfRMS2r1PbgVS03tmmwFauDXQxceHFQt7e4c+pJl8nufxiWwIF5q12YIOQhmqXHW8nKrJzgOAVOa7bT/byuTylGppfaZAeIXqc99pxwK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722284467; c=relaxed/simple;
-	bh=9MnFmbMMl4welPbAXfEJprTWfaQmhfFar1+EgR/YeEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2CIAuQTkwnF9BdSojdrdrc48nJockfOtP6dEUOFwZcl7QYaAuAdzXrTJ+5WI7niINzH1jEWZySGu+1t8SkWsQj26AE8cZrpXjz0qu95oCqThKnoBT5Q1f67rD0aAdEh7TQVpAj39X/4+Y7fS45rnJW/4657NYDL67BH8AkZT18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hb9ok3mQ; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1722285245; c=relaxed/simple;
+	bh=db2tGBXXINin/8PFxoVNSFHD1wzMl3nMN71Bb5sfLoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iPOB4PtNPzuSmb8C7NI5DL2udqqpV2SAQLYjWqfO7QkbDTiPPTIOMqAqfYWdFlbNhkAiNLxAzAyj+iwh6DlMD9knsuoBF5348i+tMwERIrop7NMAVWLIrB+CVYi+w+5g6MjrsQCaQVMZM7QxfJdi4x/xoUfr+756500NKcTZBO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKZ/d7fZ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hb9ok3mQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKZ/d7fZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722284465; x=1753820465;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9MnFmbMMl4welPbAXfEJprTWfaQmhfFar1+EgR/YeEY=;
-  b=hb9ok3mQENQK+H/9ucltGEdkCYsyE6kKtgS8gkjv/sI4RXgjZsZUXlu3
-   22CbZQ7hL/ZqI/E47wvt676cI5gzuMLh1gUgOjklgqrb79FB1Z4Jec76W
-   iojp0F2wjBrso65J6a83FWyzfYuZhwbrs0fH+H/Y5BmBbNjyRE5oy/KOT
-   bfAstKt0ryujA4FyhQ3+/XxwoCv/dbqhiGVJv84IIlc+zBiXwRkttAWYz
-   mh2OLUGMU5/dIl2Q1JkZYh/IdmnkbIDSTXyl31YTWQPfWOgTGMJgPq3Ri
-   JMOm29PL8bM5Z3TRPxxoYyXqhkNL+xbkdjLKcBnIjkVBBhwa2SCdIjCsu
-   g==;
-X-CSE-ConnectionGUID: T3/YA03MSi6LVzJx0upgRw==
-X-CSE-MsgGUID: Om8TopFKS46meWH5IKb+BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20222982"
+  t=1722285243; x=1753821243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=db2tGBXXINin/8PFxoVNSFHD1wzMl3nMN71Bb5sfLoo=;
+  b=ZKZ/d7fZ6liPQ1XocSCXBoLasOAN5eD8ECY7lRgiGSGzLrA5C/4tnMd9
+   puvzPPgxRkD7UPQFK1WzFmfFxlYiv5+6S/d+T7S4Cy45hLNKQlBd2ys7q
+   vSe2LZdmaGaqsBX0lNLt+e+LFjbNvuJJPUJoL0wA91cwKvNu0TjWDkyah
+   5ManC0RaqIyhvfMXZsUOyjv61sC8K9Tdhw/YpxHTg14xo4u7xmtDYphP3
+   ZYmqyba2eH6/ea5DB7/cRWmRt4i34C2SQnMMXlnPSiDd9JmC5fn8IA7J8
+   wbKJUt2RqlC0tCEY1re1aAlPwz7xy5z7MTGfDyQTHpai0POtv829IyJ7Z
+   A==;
+X-CSE-ConnectionGUID: WBoXZTjNQl6jtzdvLOYAaQ==
+X-CSE-MsgGUID: Z3N++6LCTAWxC9ThALY4wQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="45486559"
 X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="20222982"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 13:21:04 -0700
-X-CSE-ConnectionGUID: JMsHV9crROu7a5Rx0cgJEA==
-X-CSE-MsgGUID: NRpEEVfCSs2EuHroYVXk+g==
+   d="scan'208";a="45486559"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 13:34:03 -0700
+X-CSE-ConnectionGUID: qXDDoOX3SwGMFsIybx9wbA==
+X-CSE-MsgGUID: VJGEKlxVT7mraHu7LCmwXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="85050208"
+   d="scan'208";a="54018546"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Jul 2024 13:21:01 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 Jul 2024 13:34:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYWra-000s2F-2j;
-	Mon, 29 Jul 2024 20:20:58 +0000
-Date: Tue, 30 Jul 2024 04:20:51 +0800
+	id 1sYX4B-000s32-0u;
+	Mon, 29 Jul 2024 20:33:59 +0000
+Date: Tue, 30 Jul 2024 04:33:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baruch Siach <baruch@tkos.co.il>, Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-s390@vger.kernel.org, Baruch Siach <baruch@tkos.co.il>,
-	Ramon Fried <ramon@neureality.ai>,
-	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
-	Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, Elad Nachman <enachman@marvell.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 2/3] dma-mapping: replace zone_dma_bits by
- zone_dma_limit
-Message-ID: <202407300338.oaUo6jtB-lkp@intel.com>
-References: <053fa4806a2c63efcde80caca473a8b670a2701c.1722249878.git.baruch@tkos.co.il>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:ptdesc 11/17] arch/riscv/include/asm/pgalloc.h:189:28:
+ error: 'ptdesc' undeclared
+Message-ID: <202407300449.gZTNWIT0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,68 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <053fa4806a2c63efcde80caca473a8b670a2701c.1722249878.git.baruch@tkos.co.il>
 
-Hi Baruch,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on powerpc/next powerpc/fixes s390/features linus/master v6.11-rc1 next-20240729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baruch-Siach/dma-mapping-improve-DMA-zone-selection/20240729-211018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/053fa4806a2c63efcde80caca473a8b670a2701c.1722249878.git.baruch%40tkos.co.il
-patch subject: [PATCH v3 2/3] dma-mapping: replace zone_dma_bits by zone_dma_limit
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240730/202407300338.oaUo6jtB-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300338.oaUo6jtB-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git ptdesc
+head:   f15e36d2055d050fc545a456368a6426fee74544
+commit: 45d2cd05baf4a67434dcb10ebb8d246997a46dfa [11/17] mm/pgtable: introduce ptdesc_pfn and use ptdesc in free_pte_range()
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240730/202407300449.gZTNWIT0-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300449.gZTNWIT0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300338.oaUo6jtB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300449.gZTNWIT0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/dma/direct.c:23:46: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-      23 | phys_addr_t zone_dma_limit __ro_after_init = DMA_BIT_MASK(24);
-         |             ~~~~~~~~~~~~~~                   ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:40: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                        ^~~~~
-   2 warnings generated.
+   In file included from mm/filemap.c:49:
+   arch/riscv/include/asm/pgalloc.h: In function '__pte_free_tlb':
+>> arch/riscv/include/asm/pgalloc.h:189:28: error: 'ptdesc' undeclared (first use in this function)
+     189 |         pagetable_pte_dtor(ptdesc);
+         |                            ^~~~~~
+   arch/riscv/include/asm/pgalloc.h:189:28: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +23 kernel/dma/direct.c
+vim +/ptdesc +189 arch/riscv/include/asm/pgalloc.h
 
-   > 7	#include <linux/memblock.h>
-     8	#include <linux/export.h>
-     9	#include <linux/mm.h>
-    10	#include <linux/dma-map-ops.h>
-    11	#include <linux/scatterlist.h>
-    12	#include <linux/pfn.h>
-    13	#include <linux/vmalloc.h>
-    14	#include <linux/set_memory.h>
-    15	#include <linux/slab.h>
-    16	#include "direct.h"
-    17	
-    18	/*
-    19	 * Most architectures use ZONE_DMA for the first 16 Megabytes, but some use
-    20	 * it for entirely different regions. In that case the arch code needs to
-    21	 * override the variable below for dma-direct to work properly.
-    22	 */
-  > 23	phys_addr_t zone_dma_limit __ro_after_init = DMA_BIT_MASK(24);
-    24	
+07037db5d479f9 Palmer Dabbelt    2017-07-10  185  
+45d2cd05baf4a6 Alex Shi          2024-07-22  186  static inline void __pte_free_tlb(struct mmu_gather *tlb, struct ptdesc *pte,
+40d1bb92a49313 Jisheng Zhang     2023-12-20  187  				  unsigned long addr)
+40d1bb92a49313 Jisheng Zhang     2023-12-20  188  {
+40d1bb92a49313 Jisheng Zhang     2023-12-20 @189  	pagetable_pte_dtor(ptdesc);
+aaa56c8f378dd7 Samuel Holland    2024-03-26  190  	riscv_tlb_remove_ptdesc(tlb, ptdesc);
+40d1bb92a49313 Jisheng Zhang     2023-12-20  191  }
+6bd33e1ece528f Christoph Hellwig 2019-10-28  192  #endif /* CONFIG_MMU */
+07037db5d479f9 Palmer Dabbelt    2017-07-10  193  
+
+:::::: The code at line 189 was first introduced by commit
+:::::: 40d1bb92a49313b3e0dc5513fdd2578362c40312 riscv: tlb: convert __p*d_free_tlb() to inline functions
+
+:::::: TO: Jisheng Zhang <jszhang@kernel.org>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
