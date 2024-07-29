@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E7912FB37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 21:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880B418E77E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 22:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722290228; cv=none; b=ZWlcpoAJoGlp1Q3IrCpTLXKi26ugvR1EjhIMSjig1vu8s9oP+akrJ4iXVbpIgqE3Zh3tVytCW88eq9MNIGHLXwuhotBD6oWi1Jln4ExF8pjMHx1BCCFpwkVPaJlAmw7SHYk5G2qEn4y68UK1vY9kiSwCGZtTZV42D6+X6cd3rQI=
+	t=1722290948; cv=none; b=b1+0nRQ/Wwuiw+DnlNvXC5edF64pUo6pbGjMfbHVX/xD2w8kdfznSaK+bsPy9iUZ5SsVdOLPVupuAUtBltwVZW5Z0KVCNL94doeRxB2j73/OaUQBTkNZz/xx3FwlDQyakgSst2NiI1MOjEu6o6bhdKtUxfbxNwEMiKdgwKKQDO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722290228; c=relaxed/simple;
-	bh=I6gJpt9dYv07DHYNkTegwKxSVihy2n+aXr1CD7mzDfE=;
+	s=arc-20240116; t=1722290948; c=relaxed/simple;
+	bh=/R/gLSYAJ25dSaQ8oF89ox+wvwjc4z2AyAcZjWIZIEY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TaLqNqYS7NTkZKsYIEjscpmkvNwhOwA4vTjctr+NL5RL4TJrhErT2RsLeBiC0ih/clHUrIfmIh+FHn7uIQwV8zUW+YzqxReuPBG3jyuwR/w7sgHYfOSW2U7TVo6Tk2LR34btckGZ+1IWWoD/l5OUYbGR7GSBJaaqPBQgTtblDu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBKGyIhz; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=dejiN7Ere2tbHg4M4Xsc5kcqXjHUJdK8rI+aNiJ5Qe87h+67AbXw2Wfk26TFhW/ulnzzZ9zJ8xCLOsRZ+X06gO8I107MuUVPi0k9adxYNqMpwbk+brGishXKgkmz4NCzmLmuQpnfbXzf09ZUHOfzZXSsoagR/+NtStog14IV824=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bU4hgrff; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBKGyIhz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bU4hgrff"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722290226; x=1753826226;
+  t=1722290947; x=1753826947;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I6gJpt9dYv07DHYNkTegwKxSVihy2n+aXr1CD7mzDfE=;
-  b=HBKGyIhzdTWiYbNKR6iYUSfEYhs7pcczYLbTrPnmPkgaWs8YkgtsZv7Y
-   Nm0JkFxi2GlXSWDQRn9fxQGhgZ8hPozCcElP2vp/0sZuHLRj/9MrxQBOK
-   Ffxap/GgvtFvAFfaW903LfnEeMzE83eHi08UHUuklUfoio1FTRY01yeJU
-   rh7dZGU3FOz4CASykd1PCA59O35939KFdMQH3TyWk201pEFuhBmwTndA9
-   MqFG9s+qYMXbj1EqZmbkWkyYQ4t7baKO/KrT2D1KzhPxoX2u3qNkraOK8
-   cEXcBUzeF3VvraPYQ4+vovgOvp+ymqbLILu2KDD6mRdm/7WgKVE84wVKw
-   A==;
-X-CSE-ConnectionGUID: 1CGw4I4dTCqWAayD9ruAoQ==
-X-CSE-MsgGUID: 1FIIxanpQLq4ez4F7/SJqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="30702224"
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="30702224"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 14:57:05 -0700
-X-CSE-ConnectionGUID: 9pxfYpCyTtmtG3HAUcCyOw==
-X-CSE-MsgGUID: a1e3I3+xTiyzb/wcZFi31g==
+  bh=/R/gLSYAJ25dSaQ8oF89ox+wvwjc4z2AyAcZjWIZIEY=;
+  b=bU4hgrff22C2jmrULJyPiDhL3TjPyoviPmHth/KJHkhOK8Mk7bWbbc6r
+   0clPjdEbZg5KhbmPIi399N5ZZZjd57gWkW+P8UnhHKuNhWyxMXOJTB1Hg
+   sjHkYMFG4q5ca/m1pNxLkh6LpSzlGyVSPwWo3MflYW9RyZLt26dlqwqke
+   NQs6hVe+8T4K7w4UiwL6thJgx4+k2fbuhPR6EdME972CBZ/KuGq1RIK2g
+   GQdSAyXRdgFeSAh1vUVeydD0Hnjd8aY1H+4hbZlaN0ojR70pxrUbUYY9b
+   uyF6OHmELWTvg3sCQknPGUkzGdwHt3o+0HG5no+UDl3gyHXXhWjqOHN23
+   w==;
+X-CSE-ConnectionGUID: gs4lOePnTLWs4XPaAtdoqQ==
+X-CSE-MsgGUID: UhtP02sATdW4FxT7icRIEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="42604879"
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
+   d="scan'208";a="42604879"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 15:09:06 -0700
+X-CSE-ConnectionGUID: 1p482hqFTMSBIYLLxfFnOg==
+X-CSE-MsgGUID: owAy2lN+TzaRRNM4tWMKOg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="54000102"
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
+   d="scan'208";a="53766358"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Jul 2024 14:57:04 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Jul 2024 15:09:04 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYYMY-000s6m-07;
-	Mon, 29 Jul 2024 21:57:02 +0000
-Date: Tue, 30 Jul 2024 05:56:21 +0800
+	id 1sYYYA-000s7S-1I;
+	Mon, 29 Jul 2024 22:09:02 +0000
+Date: Tue, 30 Jul 2024 06:08:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-diff 7/7] WARNING: modpost: "__divsi3_table"
- [lib/lz4/lz4_compress.ko] undefined!
-Message-ID: <202407300505.5Hl3sJzl-lkp@intel.com>
+To: Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: drivers/usb/dwc3/core.c:1499:47: warning: '%u' directive output may
+ be truncated writing between 1 and 10 bytes into a region of size 4
+Message-ID: <202407300647.A8UggFiR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,125 +63,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Josh,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-diff
-head:   caecd138f3c820b6e24d9fa9eb0ee20d755cd5c0
-commit: caecd138f3c820b6e24d9fa9eb0ee20d755cd5c0 [7/7] todo
-config: nios2-randconfig-r064-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300505.5Hl3sJzl-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300505.5Hl3sJzl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6b5faec9f564ea627c66064a4a6a5904fe5a07dd
+commit: 3f12222a4bebeb13ce06ddecc1610ad32fa835dd usb: dwc3: core: Fix compile warning on s390 gcc in dwc3_get_phy call
+date:   3 months ago
+config: x86_64-randconfig-071-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300647.A8UggFiR-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300647.A8UggFiR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300505.5Hl3sJzl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300647.A8UggFiR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_phonet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-betopff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-hammer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
->> WARNING: modpost: "__divsi3_table" [lib/lz4/lz4_compress.ko] undefined!
+   drivers/usb/dwc3/core.c: In function 'dwc3_core_init':
+>> drivers/usb/dwc3/core.c:1499:47: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 4 [-Wformat-truncation=]
+       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
+                                                  ^~
+   drivers/usb/dwc3/core.c:1499:41: note: directive argument in the range [0, 2147483647]
+       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
+                                            ^~~~~~~~~
+   drivers/usb/dwc3/core.c:1499:4: note: 'snprintf' output between 7 and 16 bytes into a destination of size 9
+       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc3/core.c:1482:48: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 4 [-Wformat-truncation=]
+       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
+                                                   ^~
+   drivers/usb/dwc3/core.c:1482:42: note: directive argument in the range [0, 2147483647]
+       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
+                                             ^~~~~~~~~
+   drivers/usb/dwc3/core.c:1482:4: note: 'snprintf' output between 7 and 16 bytes into a destination of size 9
+       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +1499 drivers/usb/dwc3/core.c
+
+  1445	
+  1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
+  1447	{
+  1448		struct device		*dev = dwc->dev;
+  1449		struct device_node	*node = dev->of_node;
+  1450		char phy_name[9];
+  1451		int ret;
+  1452		u8 i;
+  1453	
+  1454		if (node) {
+  1455			dwc->usb2_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 0);
+  1456			dwc->usb3_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 1);
+  1457		} else {
+  1458			dwc->usb2_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB2);
+  1459			dwc->usb3_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB3);
+  1460		}
+  1461	
+  1462		if (IS_ERR(dwc->usb2_phy)) {
+  1463			ret = PTR_ERR(dwc->usb2_phy);
+  1464			if (ret == -ENXIO || ret == -ENODEV)
+  1465				dwc->usb2_phy = NULL;
+  1466			else
+  1467				return dev_err_probe(dev, ret, "no usb2 phy configured\n");
+  1468		}
+  1469	
+  1470		if (IS_ERR(dwc->usb3_phy)) {
+  1471			ret = PTR_ERR(dwc->usb3_phy);
+  1472			if (ret == -ENXIO || ret == -ENODEV)
+  1473				dwc->usb3_phy = NULL;
+  1474			else
+  1475				return dev_err_probe(dev, ret, "no usb3 phy configured\n");
+  1476		}
+  1477	
+  1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
+  1479			if (dwc->num_usb2_ports == 1)
+  1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
+  1481			else
+  1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
+  1483	
+  1484			dwc->usb2_generic_phy[i] = devm_phy_get(dev, phy_name);
+  1485			if (IS_ERR(dwc->usb2_generic_phy[i])) {
+  1486				ret = PTR_ERR(dwc->usb2_generic_phy[i]);
+  1487				if (ret == -ENOSYS || ret == -ENODEV)
+  1488					dwc->usb2_generic_phy[i] = NULL;
+  1489				else
+  1490					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
+  1491								phy_name);
+  1492			}
+  1493		}
+  1494	
+  1495		for (i = 0; i < dwc->num_usb3_ports; i++) {
+  1496			if (dwc->num_usb3_ports == 1)
+  1497				snprintf(phy_name, sizeof(phy_name), "usb3-phy");
+  1498			else
+> 1499				snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
+  1500	
+  1501			dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
+  1502			if (IS_ERR(dwc->usb3_generic_phy[i])) {
+  1503				ret = PTR_ERR(dwc->usb3_generic_phy[i]);
+  1504				if (ret == -ENOSYS || ret == -ENODEV)
+  1505					dwc->usb3_generic_phy[i] = NULL;
+  1506				else
+  1507					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
+  1508								phy_name);
+  1509			}
+  1510		}
+  1511	
+  1512		return 0;
+  1513	}
+  1514	
 
 -- 
 0-DAY CI Kernel Test Service
