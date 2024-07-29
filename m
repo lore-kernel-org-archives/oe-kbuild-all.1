@@ -1,68 +1,43 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E299A1586DB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 15:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC7014F9FD;
+	Mon, 29 Jul 2024 15:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722266910; cv=none; b=urSCllSZvf/7WULyryrSRoR6QJFCoaeNK6MqVoaCKJ4EdKOLZnsM1A8R4bKpSO1oFTnuUHjOQ7WhxUNIq8E9YxpL1TdHNW8ceW8v2c6caUl6X12blmE3dTxbKGjTNuSzmmfWSL9ilH13QoclNGxrwcCKwLA0TJyG4Kn1Ut7cBvE=
+	t=1722267011; cv=none; b=HNfTuxo3IbYMByoCo3+57a7DqeWdOXV2Zxu3Z1nfcx8n1Nj4+h0zuqQJHxdkYMBQWz2dqVfCVGk7hCbR+1vbfn82RjaHelhNp0rNZ1rMgScPIjQCpPp0aDlJHM+nShcZV1FExNFlOk3GDHjfXTRrkGsGkkVjVnIiGh+hXmvqORM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722266910; c=relaxed/simple;
-	bh=2VdueXarTxYaEFkEX0WeN1UrxcchMky9c16EYjnuL+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=i4Dr1E7XyspE3equxDOhYzl4fLwqpSJzkfPQalh+98n7UUOJhs9mWsYg4OmM9FS6P6+kmzfrM6+B+sEeg9+VBubUnHrDgws5NXQPGmN2ixqnu8iJrlk1XOPjcb+cobj5fbl8Ky1drnh1Ag0lhC1b4PW7zxhGlOJ+TTzuSKWYTB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YnHzPbS5; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1722267011; c=relaxed/simple;
+	bh=ndzDCEmWVqlMpqggu+GgSzXYK/Y1s948Sog4W6pkXyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+tAmD4ZgVqkm0pqERl7v8dFsAmprsT+YKzBxCckJAk9dvI0C73hh2MxqIAFzKk0xoYiWr5D6SUOt2ey50GB97sweh2d5smQznHhF8SReXHbAIXMBEHZzJw4Vt0bsjQFkJad9Ye5/lPqK3WC6G2HLjkz4bkMQlK9UOEOz6B4qXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r3FNmVmx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YnHzPbS5"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5c667b28c82so1736857eaf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 08:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722266908; x=1722871708; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
-        b=YnHzPbS5FbVAkk3nJZSUfJh0CjwaMWgIOtuKxMu3SSGc5RtiMT/s/PxW4mibxFhoke
-         aDd060cdMFWbrefjdWQSq8w1CcjlYiUEBdko6RgJkh4a5+A6US0a+4cZbl8izXXvDjG8
-         LM7zgRKqfkbLjLEYpXYK/kUejs/3u4cTddBd5+T61vxHHmnbriIt7vHnOePaImIzQWFz
-         DwrjOIPUyGlKeaLUy8IA71+Xn91zuKeLcjGdx+hj7YIDn0s3jV4ifvlWc4A8w8R26ZPx
-         DgpTd7doy2F8OFdFxATgsGOc6jH6SCEO94W+L13ciYaoY4QvA3r5SxOv1pOQtsb08YCp
-         fpEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722266908; x=1722871708;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
-        b=teJdjw7GpstCNJreN4LwCzEStiNEGt4s3n5SBFHyNIwY1mHvGV+uk2+DaiXYamtPAB
-         FdlBoHZh/iRT/4kpRvBnVCPGu7Y9SybKmDIrirEcmFA3m6iMdK2wCYRERGRwDVibIJnw
-         Pe8tx7MMnx4rRfPvVjAwXR23L+rU8K91ciZOFxO9Lqj38GVjBYwvd3V8EB9LSpLzlLHL
-         xyqwcksRQ5HwzULqZ3JmkhyPot0EgmaiSqZZ39j89WYM7DvxPFVnp7A767ud0o5PGycd
-         QrFWWVA6OU0DhHjPCxghAptl8R7Y1+g+BJKf9MsRFK9/Sd/X/YFW2x4QfgkyUl6FcSIh
-         gLcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZiy4qKl4WVETP04xc+PzNAc9+AuSobDnrfyIFLrg6AM3INB3SUwWUY//lNa5qqHxNB/jUO3R5XIJ6T6S3AZ+VTK59Y9lYIrGB9buIWg==
-X-Gm-Message-State: AOJu0YxhaYq2Ijxv9XGKCDuAVFRyQW0FMArGSYhEEi8UOzl3fbkh2Naq
-	+Mwm4YRn1XaQ6KaSgv/SJ4U3Q6YXWpUH1n9MDk/xSTfwSuwCHRxMsZM2I91+kGA=
-X-Google-Smtp-Source: AGHT+IFgMh59C0XIlRKMyr8wkfMpGdx8PqeQNsD/YBhsvAs4P5UXJrO02yYCLrR7pKKTwqKAlx2f4Q==
-X-Received: by 2002:a05:6870:d1ca:b0:254:a218:89e6 with SMTP id 586e51a60fabf-267d67046e1mr3886279fac.23.1722266908048;
-        Mon, 29 Jul 2024 08:28:28 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7093050a3d0sm2136596a34.14.2024.07.29.08.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 08:28:27 -0700 (PDT)
-Date: Mon, 29 Jul 2024 10:28:21 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, wangshuaijie@awinic.com, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, waqar.hameed@axis.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, wangshuaijie@awinic.com,
-	liweilei@awinic.com, kangjiajun@awinic.com
-Subject: Re: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x
- proximity sensor
-Message-ID: <7227ddbf-a851-4997-83ba-b8f8c0fcc722@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r3FNmVmx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9557CC32786;
+	Mon, 29 Jul 2024 15:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722267011;
+	bh=ndzDCEmWVqlMpqggu+GgSzXYK/Y1s948Sog4W6pkXyw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r3FNmVmxJSENQY/tBVzlojnsnOO/XLYOme3j10H4ISrIgxicyoteQ69TS9QDNELTQ
+	 BVx24grjry2+duu1MS1L5TYMKK5T83OyyuLQjhpIPrmDD1C8XfPD90Ajfj10+xEGe3
+	 9SBlBzaW6Ufie66kKdAHGqPf7gvzM7CgycphWWQSszX0j0PVdyfj4quoHFyMiW2xDd
+	 Ht9fuSubV6AvdmFh5XWm+Z9aR0UBM5LXjrEZ82g6s+A9GC+omYcNkx3qFutThl7jsa
+	 86ATPOv6cIbtI0eV5/O3uNqcTBWVFuRzuTzKRT2Ipz2p2rkhVkvOn8r8xlQZ3sCvqO
+	 G4YQXLxYWK4Tg==
+Date: Mon, 29 Jul 2024 08:30:08 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [tip:x86/microcode 1/1]
+ arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is
+ used uninitialized whenever 'if' condition is false
+Message-ID: <20240729153008.GA685493@thelio-3990X>
+References: <202407291815.gJBST0P3-lkp@intel.com>
+ <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,60 +46,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240726061312.1371450-3-wangshuaijie@awinic.com>
+In-Reply-To: <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
 
-Hi,
+Hi Boris,
 
-kernel test robot noticed the following build warnings:
+On Mon, Jul 29, 2024 at 01:26:14PM +0200, Borislav Petkov wrote:
+> + Nathan.
+> 
+> On Mon, Jul 29, 2024 at 07:04:51PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/microcode
+> > head:   94838d230a6c835ced1bad06b8759e0a5f19c1d3
+> > commit: 94838d230a6c835ced1bad06b8759e0a5f19c1d3 [1/1] x86/microcode/AMD: Use the family,model,stepping encoded in the patch ID
+> > config: i386-buildonly-randconfig-001-20240729 (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/config)
+> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202407291815.gJBST0P3-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+> >      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+> >          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
+> >      720 |         return cache_find_patch(uci, equiv_id);
+> >          |                                      ^~~~~~~~
+> >    arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
+> >      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >    arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
+> >      706 |         u16 equiv_id;
+> >          |                     ^
+> >          |                      = 0
+> >    1 warning generated.
+> > 
+> > 
+> > vim +714 arch/x86/kernel/cpu/microcode/amd.c
+> > 
+> >    701	
+> >    702	static struct ucode_patch *find_patch(unsigned int cpu)
+> >    703	{
+> >    704		struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
+> >    705		u32 rev, dummy __always_unused;
+> >    706		u16 equiv_id;
+> >    707	
+> >    708		/* fetch rev if not populated yet: */
+> >    709		if (!uci->cpu_sig.rev) {
+> >    710			rdmsr(MSR_AMD64_PATCH_LEVEL, rev, dummy);
+> >    711			uci->cpu_sig.rev = rev;
+> >    712		}
+> >    713	
+> >  > 714		if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+> >    715			equiv_id = find_equiv_id(&equiv_table, uci->cpu_sig.sig);
+> >    716			if (!equiv_id)
+> >    717				return NULL;
+> >    718		}
+> >    719	
+> >    720		return cache_find_patch(uci, equiv_id);
+> >    721	}
+> >    722	
+> 
+> That's a false positive, I think.
+> 
+> clang can't see that equiv_id is used in cache_find_patch() ->
+> patch_cpus_equivalent() *only* in the
+> 
+> 	if (x86_family(bsp_cpuid_1_eax) < 0x17)
+> 
+> case.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-aw9610x-Add-bindings-for-aw9610x-sensor/20240726-141450
-base:   1722389b0d863056d78287a120a1d6cadb8d4f7b
-patch link:    https://lore.kernel.org/r/20240726061312.1371450-3-wangshuaijie%40awinic.com
-patch subject: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x proximity sensor
-config: x86_64-randconfig-r071-20240728 (https://download.01.org/0day-ci/archive/20240728/202407282339.D0ICTGHF-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Right, as clang does not perform interprocedural analysis for the sake
+of warnings. That's partly why GCC's version of this warning was
+disabled in commit 78a5255ffb6a ("Stop the ad-hoc games with
+-Wno-maybe-initialized").
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407282339.D0ICTGHF-lkp@intel.com/
+> And that case is handled properly in this function.
 
-smatch warnings:
-drivers/iio/proximity/aw9610x.c:575 aw9610x_read_chipid() error: uninitialized symbol 'reg_val'.
+While it may be properly handled now, I think this pattern of
+conditionally avoiding using a variable uninitialized is dubious.
 
-vim +/reg_val +575 drivers/iio/proximity/aw9610x.c
+> So, unless I'm missing something else, it's a good thing this warning is
+> behind a W=1. Keep it there.
 
-1e0a5bf0d81329 shuaijie wang 2024-07-26  558  static int aw9610x_read_chipid(struct aw9610x *aw9610x)
-1e0a5bf0d81329 shuaijie wang 2024-07-26  559  {
-1e0a5bf0d81329 shuaijie wang 2024-07-26  560  	unsigned char cnt = 0;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  561  	u32 reg_val;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  562  	int ret;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  563  
-1e0a5bf0d81329 shuaijie wang 2024-07-26  564  	while (cnt < AW_READ_CHIPID_RETRIES) {
+It's not behind W=1, this happens in a normal build:
 
-if cnt == AW_READ_CHIPID_RETRIES then reg_value is uninitialized
+  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper defconfig arch/x86/kernel/cpu/microcode/amd.o
+  arch/x86/kernel/cpu/microcode/amd.c:714:6: error: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+    714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+        |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
+    720 |         return cache_find_patch(uci, equiv_id);
+        |                                      ^~~~~~~~
+  arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
+    714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
+    706 |         u16 equiv_id;
+        |                     ^
+        |                      = 0
+  1 error generated.
 
-1e0a5bf0d81329 shuaijie wang 2024-07-26  565  		ret = aw9610x_i2c_read(aw9610x, REG_CHIPID, &reg_val);
-1e0a5bf0d81329 shuaijie wang 2024-07-26  566  		if (ret < 0) {
-1e0a5bf0d81329 shuaijie wang 2024-07-26  567  			cnt++;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  568  			usleep_range(2000, 3000);
-1e0a5bf0d81329 shuaijie wang 2024-07-26  569  		} else {
-1e0a5bf0d81329 shuaijie wang 2024-07-26  570  			reg_val = FIELD_GET(AW9610X_CHIPID_MASK, reg_val);
-1e0a5bf0d81329 shuaijie wang 2024-07-26  571  			break;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  572  		}
-1e0a5bf0d81329 shuaijie wang 2024-07-26  573  	}
-1e0a5bf0d81329 shuaijie wang 2024-07-26  574  
-1e0a5bf0d81329 shuaijie wang 2024-07-26 @575  	if (reg_val == AW9610X_CHIP_ID)
-                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-It's harmless but the checker is correct to warn
+Even GCC would warn about this code if not for the commit I mentioned
+above:
 
-1e0a5bf0d81329 shuaijie wang 2024-07-26  576  		return 0;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  577  
-1e0a5bf0d81329 shuaijie wang 2024-07-26  578  	return -EINVAL;
-1e0a5bf0d81329 shuaijie wang 2024-07-26  579  }
+  $ make -skj"$(nproc)" ARCH=x86_64 CROSS_COMPILE=x86_64-linux- KCFLAGS=-Wmaybe-uninitialized mrproper defconfig arch/x86/kernel/cpu/microcode/amd.o
+  In function 'cache_find_patch',
+      inlined from 'find_patch' at arch/x86/kernel/cpu/microcode/amd.c:720:9:
+  arch/x86/kernel/cpu/microcode/amd.c:647:20: error: 'equiv_id' may be used uninitialized [-Werror=maybe-uninitialized]
+    647 |                 if (patch_cpus_equivalent(p, &n))
+        |                    ^
+  arch/x86/kernel/cpu/microcode/amd.c: In function 'find_patch':
+  arch/x86/kernel/cpu/microcode/amd.c:706:13: note: 'equiv_id' was declared here
+    706 |         u16 equiv_id;
+        |             ^~~~~~~~
+  cc1: all warnings being treated as errors
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So I guess you can just ignore this if you want but others (maybe even
+Linus) will likely notice this and report it as well.
 
+Cheers,
+Nathan
