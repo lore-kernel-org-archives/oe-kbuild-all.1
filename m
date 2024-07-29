@@ -1,83 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454B6F31E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 13:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2074152166
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 13:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722258892; cv=none; b=BAGgTz81MA4xCbQnppGbtTAsmf7ClFW6LvTKi/yrxnoQtyalyzci6FcOIAnr6YXZFvuG8TmTLCAsTONMbnLLNclBUR5LWHL8ndWepwzWUOhW7lA02Kzd5MNpkNiHLl0Xkh6FNKKEDg+Lj2X/565LZHLpKES/jCXWTTjMDp/pkOo=
+	t=1722260733; cv=none; b=U2U1wtQm/ojDKLj1zldb478GFlBTGbhgO0Au4uXOXRP/2hmd4GSp2gza6hm5c7QMZiWHpaBdHgZyIksyQtyEu+aJRqAG6Fw2zex2mtQd/vxfDr5Nz8EQVwkY633NZ2JMlFsZukvylM/XqPaLj0S/ffpeUu5jtxUu6HqHcxzdOjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722258892; c=relaxed/simple;
-	bh=MYjN0MDmcKVoQwyflYK3YylBHDPXmNIIoOSJ6ebVHsI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=m6lC0t4NG3cx5xvPzPXMS7xkOatFPNMx2I3M2/wiLJz/zbbDdmTvqRgxvxmatpirrpaIvepVm57pwoqPE0fJIiMuVkKDHaREzQZOq3kQr9P439aoRB6BNPDmv/RRDsy91x7y6eUiHPc6HSp+kXcmhyaQwk+wUkoH5G8NGIOinRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RoGsswIb; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722260733; c=relaxed/simple;
+	bh=UbWRQTpQEzeXs/avfzHN3XRm06yQr7tsogtEoarkBQE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=muudqC2sZnFwPaEGf5nF5fU2NgSmXMZXst1JzxzygywQ6zoyoGMXdwRtXl3OTvoLERS6EXEbvkhpoPDILg5NN7Hf5TmvUdHu4VPHB1I/nhA3mPCJjrzGJ7cecSdelPCR3VYc1yt89LT/V/rRP7U0karbodRFzbfhCIcGvUwKC2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=TZ1+CPfG; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RoGsswIb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722258890; x=1753794890;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=MYjN0MDmcKVoQwyflYK3YylBHDPXmNIIoOSJ6ebVHsI=;
-  b=RoGsswIbNAvpQ2hcXlA2htuTlJ7fF5RmY4VL5nh5tQQdB+Xb/sm1ywnt
-   cCb6WdJDcwcX35s/uoAHN4fGnZL9OnU4ZPiSQAlbbZZT+K5qbURTj3KQx
-   Tc2/mPRcIicMMJQps0HzO3ADe4JmGRa73M/z7tHFJeY+LWp2i4JeVaumX
-   wOGzWiWOR3IcG48wwprBUSyZOwsNZSjRgss9Y88TAzE8cAyL51bV/P9SP
-   zE3mwt3JgSRE16zbmJqrlGehQfBf9zNbYY45eCyODVmBItIXIOnEYDiuZ
-   Me44EsLRo7XtJbiyEMNXTDa7DvyEFq5c7/vW/CPBjuc3wtrmHDv0WfTHE
-   A==;
-X-CSE-ConnectionGUID: DI16AE71TEWKJR5uAlceFA==
-X-CSE-MsgGUID: St2jJi1ATZC/rJn40JN7EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="37482822"
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="37482822"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 06:14:50 -0700
-X-CSE-ConnectionGUID: bs1uldADTzyv7fIzu2HbSw==
-X-CSE-MsgGUID: +uLIDL+wTcG9GsVHDcd5Kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="53932017"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Jul 2024 06:14:49 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYQD7-000riW-1f;
-	Mon, 29 Jul 2024 13:14:45 +0000
-Date: Mon, 29 Jul 2024 21:14:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] dt-bindings: imx335: Mention reset-gpio polarity
-Message-ID: <ZqeVwapFJOsYmB8x@6724a33121ae>
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="TZ1+CPfG"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-70940c9657dso1338817a34.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 06:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vimeo.com; s=google; t=1722260731; x=1722865531; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RvamCnhF7r32z4+iKhdiypORBTSaJg1fy8qu9w6+n+Q=;
+        b=TZ1+CPfGimNEwuSKLKaBnRCkHeBK2DpEM5tKQ+BlgCIBNUZaHZk3YACQpiXnmk9Js+
+         GRoDR8GR/E59CNpROnq7cMFDqGY3bHNfvKCuSBmo4RzST+NPsMKCDhTck3Sgck6UeSlu
+         /3MhCI+7S+xRmi+as9c6qXa7/YGj0F7376VLw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722260731; x=1722865531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RvamCnhF7r32z4+iKhdiypORBTSaJg1fy8qu9w6+n+Q=;
+        b=YC2BvQAklJAHPkoKdsgkt1NEft2uaSErWBk/td9U1wwC60kUxEGSExehxQwmps+oOx
+         PiGwljEuoE4QuoZs/j39e96BzjK6Tnumk53l+NjNNhJZ9RW67asC+G9jeIS6P5BNQHpJ
+         iNITGbPOegaFXV2MxysCFWiQPjIil0akIRnUj1st2QF2qpY5T1ZFfse9zIvBJVYMyK6w
+         y8gmnXCHeomxZjIGK3YHAnSg8EmEqJMmXFqEz3taE6iUM1KDja4QuROqMn4GiPxcR0d9
+         +kANlJGQRjk9Deq3R2sSBiw7ugCCuK2x3lFA0uYC761z76/HaqzQwgFafwo7CDyETbyz
+         cYfA==
+X-Forwarded-Encrypted: i=1; AJvYcCUvS1wde+nFDmoLOrU07rQKvXIq2PifaeowX24CCw//CXrAD9eDrBSsudYd0kP5RIXYuytbE3awrGsgYjYUfYcISZRaVuWlypA3JevcFQ==
+X-Gm-Message-State: AOJu0YyCHwYYJ5IALzq0C1dROxOJofchYDRm9lhtM0hSnjmQsu9nkexi
+	it5RsQlhdjevXtsvneJih085lNy/RFJixrDoWMd0udKrFMTerYOartwOZDM4XMh1ijsXhGXkN9P
+	/P2HZUuTamtwiFC8BOzx0v6Y3K/IfL0T57BnrjA==
+X-Google-Smtp-Source: AGHT+IEFP9e4qIdr7UC4mf6+Bt/3WALRELF0sMdPXc268DI1l6R7la56+gngTQsJwz1LeWuy0PGz8j8iM4PosZlpRlY=
+X-Received: by 2002:a05:6870:569e:b0:25e:b732:a913 with SMTP id
+ 586e51a60fabf-267d4a4492amr8753349fac.0.1722260730750; Mon, 29 Jul 2024
+ 06:45:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729110437.199428-2-umang.jain@ideasonboard.com>
+References: <ZqXB99KGKrzyePeL@rli9-mobl> <20240728131824.51628ab73f6318fe62e85742@linux-foundation.org>
+ <Zqb8f4ldSvBgHd2h@rli9-mobl>
+In-Reply-To: <Zqb8f4ldSvBgHd2h@rli9-mobl>
+From: David Finkel <davidf@vimeo.com>
+Date: Mon, 29 Jul 2024 09:45:19 -0400
+Message-ID: <CAFUnj5NoDGAd1y-8N3ikPwZdk6Ujb2OG8kq-fcnOjF52AXA=jg@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-unstable 36/78] test_memcontrol.c:201:6: warning:
+ variable 'fd4_closed' is used uninitialized whenever 'if' condition is true
+To: Philip Li <philip.li@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sun, Jul 28, 2024 at 10:21=E2=80=AFPM Philip Li <philip.li@intel.com> wr=
+ote:
+>
+> On Sun, Jul 28, 2024 at 01:18:24PM -0700, Andrew Morton wrote:
+> > On Sun, 28 Jul 2024 11:58:47 +0800 kernel test robot <lkp@intel.com> wr=
+ote:
+> >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git m=
+m-unstable
+> > > head:   b39b3892d20a337489c55806f91af581474f3943
+> > > commit: f2db5cca8182337f4ad485ebfd532b1a2d1c223a [36/78] mm, memcg: c=
+g2 memory{.swap,}.peak write tests
+> > > :::::: branch date: 2 days ago
+> > > :::::: commit date: 3 days ago
+> > > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project =
+617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20240727/202407272301.bBC2CidR-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/r/202407272301.bBC2CidR-lkp@intel.c=
+om/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > > >> test_memcontrol.c:201:6: warning: variable 'fd4_closed' is used un=
+initialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> >
+> > um,
+> >
+> >       bool fd2_closed =3D false, fd3_closed =3D false, fd4_closed =3D f=
+alse;
+> >
+> > fd4_closed cannot possibly be used uninitialized?
+>
+> One possible flow is early peak_fd fails to open and go to cleanup, then
+> in cleanup side, the variable like fd4_closed is directly used.
 
-Thanks for your patch.
+Thanks for pointing that out!
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+My next patchset will move that line to the top of the function.
+(Looks like the same issue is present for f2_closed and fd_3_closed)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+>
+> +       if (peak_fd =3D=3D -1)
+> +               goto cleanup;
+> +
+> +       bool fd2_closed =3D false, fd3_closed =3D false, fd4_closed =3D f=
+alse;
+> +       int peak_fd2 =3D cg_open(memcg, "memory.peak", O_RDWR | O_APPEND =
+| O_CLOEXEC);
+> +
+>  ...
+>
+>  cleanup:
+> +       close(peak_fd);
+> +       if (!fd2_closed)
+> +               close(peak_fd2);
+> +       if (!fd3_closed)
+> +               close(peak_fd3);
+> +       if (!fd4_closed)
+> +               close(peak_fd4);
+>
+> >
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2 1/2] dt-bindings: imx335: Mention reset-gpio polarity
-Link: https://lore.kernel.org/stable/20240729110437.199428-2-umang.jain%40ideasonboard.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
 
-
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
