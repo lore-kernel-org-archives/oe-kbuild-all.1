@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D233618EFC4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 22:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB86516F278
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 22:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722290948; cv=none; b=oXUS3QeAMt4BK0DA45f3JCo8PTXgRRMTlVuuIOU1pH1qhfvROmbiYrfU+KPOtzy9c6JsR/BqniPsktkP78gTb5AgsSAC/imcCAqmgRzZ/m0mc3Spprq9Z78tpe3qjApDRvxb7P0Wi0MjfNSbHyJp4RKGdX+f1OqiR8A94SmPdiE=
+	t=1722292930; cv=none; b=sxMlQjyuJFOPQez4Q684/riyBjixgxmYiM6sd1ox0nSriJ8INLnvoQ6IHVCS4Ccwo1Re6fZ8my33+poXvOuXo+hNGC41zCqWxqL2h/JypWqBq8wCBk3hAw+HXQ3xwohMzLMYV4g+8PbFGFa78ajpyiZfm4b2ja56mBWe6ZAMIc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722290948; c=relaxed/simple;
-	bh=5EsNrrwKY+GPlDlyqRxWHNHxgmXidoOjeIgSh1hwPxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jvwCxI2GN0M4e/EB7lvT+ZytKF0h+gcEMGyvKPglwJpYvKPQajyXfOLz8cYAzfKbLU6S1/9u+AYM9YbHCmkNp9zXFw/zutRKKaSSB8xOz5/bxafbfM0of4tyLxjPQcvKSDnNVgWYvubmU2Jb6qmhkWUcaO4R+M7qOTjXxlqwtEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKfaT1im; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1722292930; c=relaxed/simple;
+	bh=kGkVjkeR+ub08TcvY2MUEqfwX17GViZtwx6w+BwKrw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhVqs/UR9ICEdu+Pcx450D09v3Bta8pobfBUtExXcWex3I4B/b/df76zikeU46cZL/3idb45YkIo5D4FlWIlPQFE9qxTh7UkyZM19Aw8HDpOMOP18hMliMdnyWbKMDdQ6rfmNPtynaerQATv8iXUQdvr+eJgX6CpYQRh1WfP8f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXGjHHgH; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKfaT1im"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXGjHHgH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722290947; x=1753826947;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5EsNrrwKY+GPlDlyqRxWHNHxgmXidoOjeIgSh1hwPxg=;
-  b=gKfaT1im3tB9TPyV2Nq9XeaENLN5VvwYWBaA0sHWgCWfM5+vHgGcKCuY
-   SsfnBPIg4XJSQ8LnzWNs7bsLYrIROZXO4+pcc0LOqR08n/H+hvuiQTvQk
-   sJ9Fvn0B5BXwfY9DsBVlq25t0XYxQdu65DwSL2nQAByuCRXyQZ7UVYis5
-   LdNq6yul02P6kI56IBvHFzkeIJhB3WlzB6Ttu/QOQn3OjYIFh5I2ITFX7
-   QR5BckTAvlraRIQ0USKIbk+ysnHVepDgmsiiQUwS/ZuYNgkEhEcyGDu72
-   /oonf3VxP+g1WC/Bq/DQXaK7wWVYQPa2nqNVfZE+Q+pJjp6BJdAtjzefV
+  t=1722292928; x=1753828928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kGkVjkeR+ub08TcvY2MUEqfwX17GViZtwx6w+BwKrw0=;
+  b=VXGjHHgHzFS1rUSk50ZlFRqNTiXMY7WuIcV7bI6PgrFN2hb0XxzLBqK5
+   rJs+q0PQrXAOIbtGXHGM0T/GLFHV37nP0G7q6GuXxuTyQo0EKW09snG7e
+   ozAabq//6sOS6LQBcmq4a5k6MuTarZXbg+nh5yAnH8ZFZ5j1RofXQ9grL
+   Lkpfd7kFUR5z4seGiqGyJs5hwpvDOP/sqVKQVCKbo8t/JtFbjqcbTjWI8
+   orvTGsVWUOZC9LwmSE6k7rdizXLNqKxpQwjiAtTA9kogC67+L1hYcQOvQ
+   wGoYjADRVGwIMOA/iVJN4mRTE0gSU+DhJlmrqF6XGkoGcKBub2bQlT1AI
    Q==;
-X-CSE-ConnectionGUID: d8du2mejQriGCkwlwfo9FA==
-X-CSE-MsgGUID: B/6sK4hPQ0Sc1n0OuXtS1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="23831003"
+X-CSE-ConnectionGUID: dXeQi/MAR1uDNMIZvNLl6g==
+X-CSE-MsgGUID: M4Z3EmRrQHmAnRqjAw19NA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20236346"
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="23831003"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 15:09:06 -0700
-X-CSE-ConnectionGUID: vIdpWbYzRrO2FON++ogkZA==
-X-CSE-MsgGUID: MxpkOvnlT+GQbn4TeijOWA==
+   d="scan'208";a="20236346"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 15:42:07 -0700
+X-CSE-ConnectionGUID: XUPIBcEmRU28xwJWunpnGw==
+X-CSE-MsgGUID: 6tZQkkE8RteE22HIy7Vjlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="54084654"
+   d="scan'208";a="54095586"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Jul 2024 15:09:05 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Jul 2024 15:42:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYYYA-000s7V-1O;
-	Mon, 29 Jul 2024 22:09:02 +0000
-Date: Tue, 30 Jul 2024 06:08:53 +0800
+	id 1sYZ47-000s9Q-1J;
+	Mon, 29 Jul 2024 22:42:03 +0000
+Date: Tue, 30 Jul 2024 06:41:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kamlesh Gurudasani <kamlesh@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.6.y-wip 107/137] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_CRC64_ISO3309 when selected by
- CRYPTO_DEV_TI_MCRC64
-Message-ID: <202407300541.Yw9winHT-lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever <chuck.lever@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dai Ngo <dai.ngo@oracle.com>,
+	Olga Kornievskaia <aglo@umich.edu>,
+	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] nfsd: Offer write delegations for o_wronly opens
+Message-ID: <202407300630.V7R20Aao-lkp@intel.com>
+References: <20240728204104.519041-3-sagi@grimberg.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +64,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240728204104.519041-3-sagi@grimberg.me>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
-head:   6de6e418c80edfbe08f4a5f851c721bd60c0123b
-commit: 2af1725d4bd6b8b24a1a2b47e1de27949d1cee9b [107/137] crypto: ti - add driver for MCRC64 engine
-config: x86_64-kismet-CONFIG_CRYPTO_CRC64_ISO3309-CONFIG_CRYPTO_DEV_TI_MCRC64-0-0 (https://download.01.org/0day-ci/archive/20240730/202407300541.Yw9winHT-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300541.Yw9winHT-lkp@intel.com/reproduce)
+Hi Sagi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc1 next-20240729]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Grimberg/nfsd-don-t-assume-copy-notify-when-preprocessing-the-stateid/20240729-044834
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240728204104.519041-3-sagi%40grimberg.me
+patch subject: [PATCH v2 2/3] nfsd: Offer write delegations for o_wronly opens
+config: sparc64-randconfig-r121-20240729 (https://download.01.org/0day-ci/archive/20240730/202407300630.V7R20Aao-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300630.V7R20Aao-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300541.Yw9winHT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300630.V7R20Aao-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309 when selected by CRYPTO_DEV_TI_MCRC64
-   WARNING: unmet direct dependencies detected for CRYPTO_CRC64_ISO3309
-     Depends on [n]: CRYPTO [=y] && CRC64 [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_TI_MCRC64 [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfsd/nfs4state.c:5985:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected int status @@     got restricted __be32 @@
+   fs/nfsd/nfs4state.c:5985:32: sparse:     expected int status
+   fs/nfsd/nfs4state.c:5985:32: sparse:     got restricted __be32
+   fs/nfsd/nfs4state.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:218:19: sparse: sparse: context imbalance in 'put_clnt_odstate' - unexpected unlock
+   fs/nfsd/nfs4state.c:1197:9: sparse: sparse: context imbalance in 'nfs4_put_stid' - unexpected unlock
+
+vim +5985 fs/nfsd/nfs4state.c
+
+  5895	
+  5896	/*
+  5897	 * The Linux NFS server does not offer write delegations to NFSv4.0
+  5898	 * clients in order to avoid conflicts between write delegations and
+  5899	 * GETATTRs requesting CHANGE or SIZE attributes.
+  5900	 *
+  5901	 * With NFSv4.1 and later minorversions, the SEQUENCE operation that
+  5902	 * begins each COMPOUND contains a client ID. Delegation recall can
+  5903	 * be avoided when the server recognizes the client sending a
+  5904	 * GETATTR also holds write delegation it conflicts with.
+  5905	 *
+  5906	 * However, the NFSv4.0 protocol does not enable a server to
+  5907	 * determine that a GETATTR originated from the client holding the
+  5908	 * conflicting delegation versus coming from some other client. Per
+  5909	 * RFC 7530 Section 16.7.5, the server must recall or send a
+  5910	 * CB_GETATTR even when the GETATTR originates from the client that
+  5911	 * holds the conflicting delegation.
+  5912	 *
+  5913	 * An NFSv4.0 client can trigger a pathological situation if it
+  5914	 * always sends a DELEGRETURN preceded by a conflicting GETATTR in
+  5915	 * the same COMPOUND. COMPOUND execution will always stop at the
+  5916	 * GETATTR and the DELEGRETURN will never get executed. The server
+  5917	 * eventually revokes the delegation, which can result in loss of
+  5918	 * open or lock state.
+  5919	 */
+  5920	static void
+  5921	nfs4_open_delegation(struct svc_rqst *rqstp, struct nfsd4_open *open,
+  5922			struct nfs4_ol_stateid *stp, struct svc_fh *currentfh)
+  5923	{
+  5924		struct nfs4_delegation *dp;
+  5925		struct nfs4_openowner *oo = openowner(stp->st_stateowner);
+  5926		struct nfs4_client *clp = stp->st_stid.sc_client;
+  5927		struct svc_fh *parent = NULL;
+  5928		int cb_up;
+  5929		int status = 0;
+  5930		struct kstat stat;
+  5931		struct path path;
+  5932	
+  5933		cb_up = nfsd4_cb_channel_good(oo->oo_owner.so_client);
+  5934		open->op_recall = false;
+  5935		switch (open->op_claim_type) {
+  5936			case NFS4_OPEN_CLAIM_PREVIOUS:
+  5937				if (!cb_up)
+  5938					open->op_recall = true;
+  5939				break;
+  5940			case NFS4_OPEN_CLAIM_NULL:
+  5941				parent = currentfh;
+  5942				fallthrough;
+  5943			case NFS4_OPEN_CLAIM_FH:
+  5944				/*
+  5945				 * Let's not give out any delegations till everyone's
+  5946				 * had the chance to reclaim theirs, *and* until
+  5947				 * NLM locks have all been reclaimed:
+  5948				 */
+  5949				if (locks_in_grace(clp->net))
+  5950					goto out_no_deleg;
+  5951				if (!cb_up || !(oo->oo_flags & NFS4_OO_CONFIRMED))
+  5952					goto out_no_deleg;
+  5953				if (open->op_share_access & NFS4_SHARE_ACCESS_WRITE &&
+  5954						!clp->cl_minorversion)
+  5955					goto out_no_deleg;
+  5956				break;
+  5957			default:
+  5958				goto out_no_deleg;
+  5959		}
+  5960		dp = nfs4_set_delegation(open, stp, parent);
+  5961		if (IS_ERR(dp))
+  5962			goto out_no_deleg;
+  5963	
+  5964		memcpy(&open->op_delegate_stateid, &dp->dl_stid.sc_stateid, sizeof(dp->dl_stid.sc_stateid));
+  5965	
+  5966		if (open->op_share_access & NFS4_SHARE_ACCESS_WRITE) {
+  5967			open->op_delegate_type = NFS4_OPEN_DELEGATE_WRITE;
+  5968			trace_nfsd_deleg_write(&dp->dl_stid.sc_stateid);
+  5969			path.mnt = currentfh->fh_export->ex_path.mnt;
+  5970			path.dentry = currentfh->fh_dentry;
+  5971			if (vfs_getattr(&path, &stat,
+  5972					(STATX_SIZE | STATX_CTIME | STATX_CHANGE_COOKIE),
+  5973					AT_STATX_SYNC_AS_STAT)) {
+  5974				nfs4_put_stid(&dp->dl_stid);
+  5975				destroy_delegation(dp);
+  5976				goto out_no_deleg;
+  5977			}
+  5978			dp->dl_cb_fattr.ncf_cur_fsize = stat.size;
+  5979			dp->dl_cb_fattr.ncf_initial_cinfo =
+  5980				nfsd4_change_attribute(&stat, d_inode(currentfh->fh_dentry));
+  5981			if ((open->op_share_access & NFS4_SHARE_ACCESS_BOTH) != NFS4_SHARE_ACCESS_BOTH) {
+  5982				struct nfsd_file *nf = NULL;
+  5983	
+  5984				/* make sure the file is opened locally for O_RDWR */
+> 5985				status = nfsd_file_acquire_opened(rqstp, currentfh,
+  5986					nfs4_access_to_access(NFS4_SHARE_ACCESS_BOTH),
+  5987					open->op_filp, &nf);
+  5988				if (status) {
+  5989					nfs4_put_stid(&dp->dl_stid);
+  5990					destroy_delegation(dp);
+  5991					goto out_no_deleg;
+  5992				}
+  5993				stp->st_stid.sc_file->fi_fds[O_RDWR] = nf;
+  5994			}
+  5995		} else {
+  5996			open->op_delegate_type = NFS4_OPEN_DELEGATE_READ;
+  5997			trace_nfsd_deleg_read(&dp->dl_stid.sc_stateid);
+  5998		}
+  5999		nfs4_put_stid(&dp->dl_stid);
+  6000		return;
+  6001	out_no_deleg:
+  6002		open->op_delegate_type = NFS4_OPEN_DELEGATE_NONE;
+  6003		if (open->op_claim_type == NFS4_OPEN_CLAIM_PREVIOUS &&
+  6004		    open->op_delegate_type != NFS4_OPEN_DELEGATE_NONE) {
+  6005			dprintk("NFSD: WARNING: refusing delegation reclaim\n");
+  6006			open->op_recall = true;
+  6007		}
+  6008	
+  6009		/* 4.1 client asking for a delegation? */
+  6010		if (open->op_deleg_want)
+  6011			nfsd4_open_deleg_none_ext(open, status);
+  6012		return;
+  6013	}
+  6014	
 
 -- 
 0-DAY CI Kernel Test Service
