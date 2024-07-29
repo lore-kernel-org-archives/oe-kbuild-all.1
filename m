@@ -1,124 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A8F13E028;
-	Mon, 29 Jul 2024 11:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA13145FE3;
+	Mon, 29 Jul 2024 11:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722251149; cv=none; b=RVUr/dRJkeK6n9Tu3Ng6Xv1mbJnXJqgTgdrz/AH8t/otGt8MVMWaNoGAcE1GXoVR6R3t7yDXcwPIc0kCK2HunjbhYeRqwpvOTRQI5CZHgWrVSXjXBsL8py+615U6LWG9qCfyYvwc1ieAVr9h/zicD+LxVp4YGIOL7Z/h0SWSHFs=
+	t=1722252395; cv=none; b=QkTvDNfTVZekWMYL31zVqyv1z9avcv3MsutuUxmADtKknImFZ5srytFGAd/bs4uxGiHymvX7bmBdzqArFz3j3ABsBJFbgFSwBl8tGz2uzJMI4O9wB6WXAwuIsL/vF1j5pIjJ/Knh2s19r0VCYfLyVJ1CSQ7ZEaAKNHN+wTgqtiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722251149; c=relaxed/simple;
-	bh=WZfxjdzDxF4fUct42H8Yhj2OTGYK85mWDLxDklL4AZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NEt556abjZ9Nu74v3MSSjYCzbWabEtWcp/akZmMar0tf0s4UUJTcDsrQdTQ7JxcJItqS3hubwNwUCSdX0KbBKpvnzKAk08U63+dG84KXr1DgMB7fnF0uA1gH2/j73AcJ2MHGTERjNQEFHOJy4D3pcOijXJj+5C7Nrk/zML5tXT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAddYVFF; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722252395; c=relaxed/simple;
+	bh=8MkwynnXFVbjdZHNToOy7lnR3zTzpWQbyXZtkGx7KBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmHZdl2r5FCX97pHg0keMegzaOU2Q6err74W4OESGC3iYUkAB+UEN756DokAMk27n8WyofRgrkSUtIRL28vGk5NEtUMKVpcvWhZI5LMJAuN2tDmt3koZxYFdZ6KbcuXq5FGV8KIMB8O4LySYtCQZ0FKnpNlT5DJkQ0VqqaCz2zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QNpG3twY; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAddYVFF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722251146; x=1753787146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WZfxjdzDxF4fUct42H8Yhj2OTGYK85mWDLxDklL4AZo=;
-  b=nAddYVFFVd9ZU4jWHYoED9dRQ61Ng4K7qfSQAE6ymw/s1cVP33ByOCNj
-   6688AP3vn0URVRHfqUpuDBN8s/vsJOxw5jrjcDD8qoKABQpURgu7iLdQh
-   KN3XH/wSxpdQ441XsvpSslzaLrUk7ibdgR7TI8dbYk5IBjR5hxtQqi0Tx
-   SLiK3X6V5PgIfka5Qu15Dtyr0i0XCa8soOw6rx0dyxYOXlkfRSpQ5WXql
-   EDSsxs3bYyct1S/dguPhtiLdzdcPadpe6wazyXIGMJwlK82HFRjdEDdlE
-   WPTpVYpfGwGnPVjBdmee9YCGVlDkFxafRpcrclMC93VU/xDvqfvpiZm0I
-   A==;
-X-CSE-ConnectionGUID: wFWDF3y7RVq6K3GhO1DB3A==
-X-CSE-MsgGUID: ZE0EdMLjStiqa0LZoXSH7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="19841650"
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="19841650"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 04:05:46 -0700
-X-CSE-ConnectionGUID: tuz0HiEtQB+M2GmPc6/IQQ==
-X-CSE-MsgGUID: ZJguCmrTQeOKOOUWf+U9tA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
-   d="scan'208";a="53604278"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Jul 2024 04:05:44 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYOCD-000reA-2I;
-	Mon, 29 Jul 2024 11:05:41 +0000
-Date: Mon, 29 Jul 2024 19:04:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Borislav Petkov <bp@alien8.de>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QNpG3twY"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D693B40E0205;
+	Mon, 29 Jul 2024 11:26:30 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id iqTEXWE2H-NC; Mon, 29 Jul 2024 11:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1722252386; bh=GuDXkXCGhTX08yqWrA8jRr3VoIg3kntTZ1rboi0IwCI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QNpG3twYuf/Au+We0UtQefoCXFOMzuv5h4fOhlZV3k/5xGO0ArNOYwOjWnodKcAqY
+	 plpt1iCwkcnW5dlCaGFcSqILaNCZJydbAFlsMDJ2hXcpWbD24pl+MzplicWIH8N+b9
+	 9AKD2ORo3DKAS1Pf31lg4eILQHzo3uw2wFd5RGaPHHv2ZtAcZRBcTGn6qAkKj2j6u/
+	 NfBfJoL5JZq7kxoD7aJLghMOe4NZVvwNqYq1iG4F4YB0T1liWlJpWYB/1sCtoZLlRT
+	 DasnnEfffqVWD+RJjZGsXM/NAw4ugWptzqTk4whR2TbPJCjTnZmPQR+0F7RIR6xZTI
+	 DI4trQIqQbg5wB8pjYPggvhL0L1ti7M0z+9h4NDnybmWMjcZPhBwrvCwI2AFj6mZ75
+	 c6SbLHDykOfX6ytldGk1UymhHvBBt4P71yxr2q1cLqHHeNkNGjIYgKGP6UU2JWqEiT
+	 fbzTIfezXx5iLfZbyVY4AZo4qdD8KSBBvHQC0+zlfjKpJdtKiGxe/slqPHBC7E9WH2
+	 VPf8yEIC1w5jc+8H6HQ5HkUxbXWIEr9OlrUfAzDxQaQ+GDamvfarQBclNm8mhO+2XI
+	 B9C1L/rc4vn/+2kn3fOaG1s0PmgmDMDJkXH6dtrk8aVZnrINbpcoLjW3yhj4GZpE6x
+	 lBbrh4YQspFC0afybKHLAnJY=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D4DEA40E01BB;
+	Mon, 29 Jul 2024 11:26:19 +0000 (UTC)
+Date: Mon, 29 Jul 2024 13:26:14 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: kernel test robot <lkp@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [tip:x86/microcode 1/1] arch/x86/kernel/cpu/microcode/amd.c:714:6:
- warning: variable 'equiv_id' is used uninitialized whenever 'if' condition
- is false
-Message-ID: <202407291815.gJBST0P3-lkp@intel.com>
+Subject: Re: [tip:x86/microcode 1/1]
+ arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is
+ used uninitialized whenever 'if' condition is false
+Message-ID: <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
+References: <202407291815.gJBST0P3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202407291815.gJBST0P3-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/microcode
-head:   94838d230a6c835ced1bad06b8759e0a5f19c1d3
-commit: 94838d230a6c835ced1bad06b8759e0a5f19c1d3 [1/1] x86/microcode/AMD: Use the family,model,stepping encoded in the patch ID
-config: i386-buildonly-randconfig-001-20240729 (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/reproduce)
++ Nathan.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407291815.gJBST0P3-lkp@intel.com/
+On Mon, Jul 29, 2024 at 07:04:51PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/microcode
+> head:   94838d230a6c835ced1bad06b8759e0a5f19c1d3
+> commit: 94838d230a6c835ced1bad06b8759e0a5f19c1d3 [1/1] x86/microcode/AMD: Use the family,model,stepping encoded in the patch ID
+> config: i386-buildonly-randconfig-001-20240729 (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240729/202407291815.gJBST0P3-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407291815.gJBST0P3-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
+>      720 |         return cache_find_patch(uci, equiv_id);
+>          |                                      ^~~~~~~~
+>    arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
+>      714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
+>      706 |         u16 equiv_id;
+>          |                     ^
+>          |                      = 0
+>    1 warning generated.
+> 
+> 
+> vim +714 arch/x86/kernel/cpu/microcode/amd.c
+> 
+>    701	
+>    702	static struct ucode_patch *find_patch(unsigned int cpu)
+>    703	{
+>    704		struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
+>    705		u32 rev, dummy __always_unused;
+>    706		u16 equiv_id;
+>    707	
+>    708		/* fetch rev if not populated yet: */
+>    709		if (!uci->cpu_sig.rev) {
+>    710			rdmsr(MSR_AMD64_PATCH_LEVEL, rev, dummy);
+>    711			uci->cpu_sig.rev = rev;
+>    712		}
+>    713	
+>  > 714		if (x86_family(bsp_cpuid_1_eax) < 0x17) {
+>    715			equiv_id = find_equiv_id(&equiv_table, uci->cpu_sig.sig);
+>    716			if (!equiv_id)
+>    717				return NULL;
+>    718		}
+>    719	
+>    720		return cache_find_patch(uci, equiv_id);
+>    721	}
+>    722	
 
-All warnings (new ones prefixed by >>):
+That's a false positive, I think.
 
->> arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:720:31: note: uninitialized use occurs here
-     720 |         return cache_find_patch(uci, equiv_id);
-         |                                      ^~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:714:2: note: remove the 'if' if its condition is always true
-     714 |         if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/amd.c:706:14: note: initialize the variable 'equiv_id' to silence this warning
-     706 |         u16 equiv_id;
-         |                     ^
-         |                      = 0
-   1 warning generated.
+clang can't see that equiv_id is used in cache_find_patch() ->
+patch_cpus_equivalent() *only* in the
 
+	if (x86_family(bsp_cpuid_1_eax) < 0x17)
 
-vim +714 arch/x86/kernel/cpu/microcode/amd.c
+case.
 
-   701	
-   702	static struct ucode_patch *find_patch(unsigned int cpu)
-   703	{
-   704		struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
-   705		u32 rev, dummy __always_unused;
-   706		u16 equiv_id;
-   707	
-   708		/* fetch rev if not populated yet: */
-   709		if (!uci->cpu_sig.rev) {
-   710			rdmsr(MSR_AMD64_PATCH_LEVEL, rev, dummy);
-   711			uci->cpu_sig.rev = rev;
-   712		}
-   713	
- > 714		if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-   715			equiv_id = find_equiv_id(&equiv_table, uci->cpu_sig.sig);
-   716			if (!equiv_id)
-   717				return NULL;
-   718		}
-   719	
-   720		return cache_find_patch(uci, equiv_id);
-   721	}
-   722	
+And that case is handled properly in this function.
+
+So, unless I'm missing something else, it's a good thing this warning is
+behind a W=1. Keep it there.
+
+Thx.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
