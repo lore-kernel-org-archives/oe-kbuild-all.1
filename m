@@ -1,68 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395EA14659C;
-	Tue, 30 Jul 2024 03:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B412BE68
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 03:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722309085; cv=none; b=aGSQ9JOk1qMSlktNayxxpavRmxjMryuTr1E+CxP/ZszfHcekJigQDv/Cry4e1j6alN7ZCBvU/QYKQ103LO6k7nQNdSFgsDMFn0wrkM98RQzNvHU7tpnKRj98YqI1mZGkHxJukKpViVCqr/y9YFS3anwIsdBtyBvEfJIFwlHunh8=
+	t=1722309828; cv=none; b=XznwuhRaN4LPLSsAe2Lr6/NMOSNw8KUXmb8OgHujIj84yOLHlcixXWMrLq790GVu6yR0ZPpWlBrAVyV1Za1Rj+kWFABCUn1FECJP/+DWvOLes5JS8izkGfSWbSOddFwLHyyKFhy9SSiD94WvcvOlEFykBhKs2k6OF+MzVfhTFqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722309085; c=relaxed/simple;
-	bh=yWuPHpd5wzMhwNUcpnURixCcHhTrI6bkp3+P6v7Ehgc=;
+	s=arc-20240116; t=1722309828; c=relaxed/simple;
+	bh=LPHiNM/ySxmb7ADe95ep1YgztC8+yncxDwt9We8X1WU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hhzSj58UwE5oeIC4qD7Ikd0/dceJfkH3i+o2axe1wVPH04gLfbiszsmkvHP8CLYNt/Hg/FdafO5Lc7mrqcRCOwqelN25DORxywNcite8aJ4vGws9SXq/ViAzczxEK6AseseXUM4GnkDbABTVrV+Vm+4nqvGf9BJu7THiL6MJc0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6whQ4QR; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KhT6zw+39YI/2lwDx4NsHRnIAP0pXxo9kmEGHF1Q92PdNj1hfwe1aj6Lvvxa4eTIcyy7F767b2hwUepuC09DA6MmMzpvQDyad0XCoUgFeN2MTiYohkeidz3dpr7BEWDGWod+n15nVMA8waeWCL1a7MbSn37utUWKneY5HTXhDmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KcSKb+e8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6whQ4QR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722309084; x=1753845084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yWuPHpd5wzMhwNUcpnURixCcHhTrI6bkp3+P6v7Ehgc=;
-  b=H6whQ4QRf6JcY8kohBqMiqEosHDfqTJIeo87rUxvnuA46FMgnWMJHKSj
-   xIs6GdB6u0I231XFrnS9YXRdUKaq1wPMCaYEHbO9qJ44rB0OgtbOeH4+9
-   XbB5J6k0Ng0TQRdfK+N3hkZeyWIKowAD0kB3n2n8dBZBndLB5+dDead6g
-   mZtpvyl6TcnIcCbqJPYXMMqhKN5DwH8N6NhFgw9TWCHdMI67WfuXmfbxQ
-   +N/cCeu+4IqIUr2MJKUdV/Q0+HzLFdaYY7AdAl1Bhf6m/RiksVLHoJqqy
-   guzV+dYdeBavdDs5Ga+kYW24A3WLCz973hwfPunt1bQGID//43Cw6/STh
-   A==;
-X-CSE-ConnectionGUID: YP7VhgEURB6GEezjyxWHoQ==
-X-CSE-MsgGUID: E7xpalDcQQ6BNyux5PYjGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20050017"
-X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="20050017"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 20:11:23 -0700
-X-CSE-ConnectionGUID: ENmaCYy5T1OsMD3tYIK+Bg==
-X-CSE-MsgGUID: DLWVxsHaR6S+zwNdVSyfWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="54152975"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Jul 2024 20:11:18 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYdGe-000sPQ-0I;
-	Tue, 30 Jul 2024 03:11:16 +0000
-Date: Tue, 30 Jul 2024 11:10:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Herve Codina <herve.codina@bootlin.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-	Li Yang <leoyang.li@nxp.com>, Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v1 32/36] soc: fsl: qe: Add resource-managed muram
- allocators
-Message-ID: <202407301032.M27FlsV4-lkp@intel.com>
-References: <20240729142107.104574-33-herve.codina@bootlin.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KcSKb+e8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722309825;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GtrNBkDdZPh+gPccVoPZA+x1HvmaEjVmj6LGnN30uJQ=;
+	b=KcSKb+e8+yJGW0B+lpmH0TyjuBoDITr+4/dGOkxfvTcZtb9WmN6qfxr282bG+hFDcBteJ3
+	+vdzZRc90Ogwtb9bE5dg2dBn2mc+LahCVUSVERacUJzg/QqG6YUdzBS1Fv01WxHK+zoaMW
+	/vadec9lXRr+Ido38TVaU4ZcXJhJ8m0=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-660-GuyB0HIGPIOzdZ3lFXzQnA-1; Mon,
+ 29 Jul 2024 23:23:41 -0400
+X-MC-Unique: GuyB0HIGPIOzdZ3lFXzQnA-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 189041955D45;
+	Tue, 30 Jul 2024 03:23:39 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.91])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9657B19560AE;
+	Tue, 30 Jul 2024 03:23:37 +0000 (UTC)
+Date: Tue, 30 Jul 2024 11:23:33 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from
+ constant value (38400000050e becomes 50e)
+Message-ID: <ZqhctcU7UHxIGs3R@MiWiFi-R3L-srv>
+References: <202407282201.lk1cNoMd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,104 +58,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729142107.104574-33-herve.codina@bootlin.com>
+In-Reply-To: <202407282201.lk1cNoMd-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi Herve,
+On 07/28/24 at 10:43pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   5437f30d3458ad36e83ab96088d490ebfee844d8
+> commit: 0453c9a78015cb2219cda7239d881f4e3137bff8 sh: mm: convert to GENERIC_IOREMAP
+> date:   12 months ago
+> config: sh-randconfig-r133-20240727 (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.1.0
+> reproduce: (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407282201.lk1cNoMd-lkp@intel.com/
 
-kernel test robot noticed the following build errors:
+I every tried to fix this when I got this report one year ago. The thing
+is I found there are many places like this. I am not sure if it's worth
+doing the type casting to satisfy sparse. And the type casting makes
+very long line of code and reduce readibility.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.11-rc1 next-20240729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If this is confirmed worth, I can post patch to fix them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/soc-fsl-cpm1-qmc-Update-TRNSYNC-only-in-transparent-mode/20240730-001631
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240729142107.104574-33-herve.codina%40bootlin.com
-patch subject: [PATCH v1 32/36] soc: fsl: qe: Add resource-managed muram allocators
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240730/202407301032.M27FlsV4-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301032.M27FlsV4-lkp@intel.com/reproduce)
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    kernel/iomem.c:113:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
+>    kernel/iomem.c:113:22: sparse:     expected void *[assigned] addr
+>    kernel/iomem.c:113:22: sparse:     got void [noderef] __iomem *
+>    kernel/iomem.c:116:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
+>    kernel/iomem.c:116:22: sparse:     expected void *[assigned] addr
+>    kernel/iomem.c:116:22: sparse:     got void [noderef] __iomem *
+> >> kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from constant value (38400000050e becomes 50e)
+>    kernel/iomem.c: note: in included file (through include/linux/gfp.h, include/linux/xarray.h, include/linux/radix-tree.h, ...):
+>    include/linux/mmzone.h:1997:40: sparse: sparse: self-comparison always evaluates to false
+> --
+>    arch/sh/boards/board-sh7785lcr.c:298:13: sparse: sparse: symbol 'init_sh7785lcr_IRQ' was not declared. Should it be static?
+>    arch/sh/boards/board-sh7785lcr.c:322:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char *p @@     got void [noderef] __iomem * @@
+>    arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     expected unsigned char *p
+>    arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     got void [noderef] __iomem *
+> >> arch/sh/boards/board-sh7785lcr.c:328:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *p @@
+>    arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     expected void volatile [noderef] __iomem *addr
+>    arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     got unsigned char *p
+>    arch/sh/boards/board-sh7785lcr.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+> --
+>    drivers/spi/spi-sh-sci.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/scatterlist.h, include/linux/spi/spi.h):
+> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+> --
+>    drivers/spi/spi-nxp-fspi.c:513:25: sparse: sparse: cast from restricted __be32
+>    drivers/spi/spi-nxp-fspi.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+> --
+>    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] length @@     got restricted __le32 [usertype] @@
+>    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     expected unsigned int [usertype] length
+>    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     got restricted __le32 [usertype]
+>    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] sgl_page_size @@     got restricted __le32 [usertype] @@
+>    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     expected unsigned int [usertype] sgl_page_size
+>    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     got restricted __le32 [usertype]
+>    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] epoch_time @@     got restricted __le32 [usertype] @@
+>    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     expected unsigned int [usertype] epoch_time
+>    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     got restricted __le32 [usertype]
+>    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
+>    drivers/scsi/esas2r/esas2r_init.c:1196:25: sparse: sparse: cast to restricted __be32
+>    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ctl_len @@     got restricted __le32 [usertype] @@
+>    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     expected unsigned int [usertype] ctl_len
+>    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     got restricted __le32 [usertype]
+>    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] address @@     got restricted __le64 [usertype] @@
+>    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     expected unsigned long long [usertype] address
+>    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     got restricted __le64 [usertype]
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
+>    drivers/scsi/esas2r/esas2r_init.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
+>    drivers/scsi/esas2r/esas2r_init.c:286:15: sparse: sparse: memset with byte count of 557736
+>    drivers/scsi/esas2r/esas2r_init.c: note: in included file:
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
+>    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
+> 
+> vim +18 kernel/iomem.c
+> 
+> 5981690ddb8f72 Dan Williams 2018-03-29  14  
+> 5981690ddb8f72 Dan Williams 2018-03-29  15  #ifndef arch_memremap_wb
+> 5981690ddb8f72 Dan Williams 2018-03-29  16  static void *arch_memremap_wb(resource_size_t offset, unsigned long size)
+> 5981690ddb8f72 Dan Williams 2018-03-29  17  {
+> 5981690ddb8f72 Dan Williams 2018-03-29 @18  	return (__force void *)ioremap_cache(offset, size);
+> 5981690ddb8f72 Dan Williams 2018-03-29  19  }
+> 5981690ddb8f72 Dan Williams 2018-03-29  20  #endif
+> 5981690ddb8f72 Dan Williams 2018-03-29  21  
+> 
+> :::::: The code at line 18 was first introduced by commit
+> :::::: 5981690ddb8f72f9546a2d017a914cf56095fc1f memremap: split devm_memremap_pages() and memremap() infrastructure
+> 
+> :::::: TO: Dan Williams <dan.j.williams@intel.com>
+> :::::: CC: Dan Williams <dan.j.williams@intel.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407301032.M27FlsV4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/soc/fsl/qe/qe_common.c:217:7: error: call to undeclared function 'devres_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     217 |         dr = devres_alloc(devm_cpm_muram_release, sizeof(*dr), GFP_KERNEL);
-         |              ^
-   drivers/soc/fsl/qe/qe_common.c:217:7: note: did you mean 'msrs_alloc'?
-   arch/x86/include/asm/msr.h:328:22: note: 'msrs_alloc' declared here
-     328 | struct msr __percpu *msrs_alloc(void);
-         |                      ^
->> drivers/soc/fsl/qe/qe_common.c:217:5: error: incompatible integer to pointer conversion assigning to 's32 *' (aka 'int *') from 'int' [-Wint-conversion]
-     217 |         dr = devres_alloc(devm_cpm_muram_release, sizeof(*dr), GFP_KERNEL);
-         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/soc/fsl/qe/qe_common.c:224:3: error: call to undeclared function 'devres_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     224 |                 devres_add(dev, dr);
-         |                 ^
->> drivers/soc/fsl/qe/qe_common.c:226:3: error: call to undeclared function 'devres_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     226 |                 devres_free(dr);
-         |                 ^
-   drivers/soc/fsl/qe/qe_common.c:277:7: error: call to undeclared function 'devres_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     277 |         dr = devres_alloc(devm_cpm_muram_release, sizeof(*dr), GFP_KERNEL);
-         |              ^
-   drivers/soc/fsl/qe/qe_common.c:277:5: error: incompatible integer to pointer conversion assigning to 's32 *' (aka 'int *') from 'int' [-Wint-conversion]
-     277 |         dr = devres_alloc(devm_cpm_muram_release, sizeof(*dr), GFP_KERNEL);
-         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/fsl/qe/qe_common.c:284:3: error: call to undeclared function 'devres_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     284 |                 devres_add(dev, dr);
-         |                 ^
-   drivers/soc/fsl/qe/qe_common.c:286:3: error: call to undeclared function 'devres_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     286 |                 devres_free(dr);
-         |                 ^
-   8 errors generated.
-
-
-vim +/devres_alloc +217 drivers/soc/fsl/qe/qe_common.c
-
-   196	
-   197	/**
-   198	 * devm_cpm_muram_alloc - Resource-managed cpm_muram_alloc
-   199	 * @dev: Device to allocate memory for
-   200	 * @size: number of bytes to allocate
-   201	 * @align: requested alignment, in bytes
-   202	 *
-   203	 * This function returns a non-negative offset into the muram area, or
-   204	 * a negative errno on failure as cpm_muram_alloc() does.
-   205	 * Use cpm_muram_addr() to get the virtual address of the area.
-   206	 *
-   207	 * Compare against cpm_muram_alloc(), the memory allocated by this
-   208	 * resource-managed version is automatically freed on driver detach and so,
-   209	 * cpm_muram_free() must not be called to release the allocated memory.
-   210	 */
-   211	s32 devm_cpm_muram_alloc(struct device *dev, unsigned long size,
-   212				 unsigned long align)
-   213	{
-   214		s32 info;
-   215		s32 *dr;
-   216	
- > 217		dr = devres_alloc(devm_cpm_muram_release, sizeof(*dr), GFP_KERNEL);
-   218		if (!dr)
-   219			return -ENOMEM;
-   220	
-   221		info = cpm_muram_alloc(size, align);
-   222		if (info >= 0) {
-   223			*dr = info;
- > 224			devres_add(dev, dr);
-   225		} else {
- > 226			devres_free(dr);
-   227		}
-   228	
-   229		return info;
-   230	}
-   231	EXPORT_SYMBOL(devm_cpm_muram_alloc);
-   232	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
