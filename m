@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDC118E741
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 09:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C693194C78
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 09:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722332195; cv=none; b=aNTUG27fQ+WkMCvPTPvu/cJzoNT7hxRoSA2P5NAewOaUtMSnA4YHgXKw2KyxjmJRhYsnnQBaNh3ToJWYSt+ot3IXO70029fhtnQawgDjC39vVEAjjkjLRa3JUVA0PIlafCNs9a5x65tkICpI62h/71TnrjAw6Ehh/KOWKstJx8U=
+	t=1722332259; cv=none; b=hM0takv6rGpErmAmwNrkgiJCp3IpgPBpwT4z2y/nv7BsGR6s3V6v4TdAA5ezvmbqrNt8alvYseY8ZGj6esEW7ahOx8tmQnMTOeMROHhZt7Ede2YZhiY5ulGQI/tDuU8vI5CXi01GNTBaZ4vdIkXDLySDbYFbMLoUdYRajxGb7/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722332195; c=relaxed/simple;
-	bh=kkS6opl1E3BW4Fwv0GYoQZl5emYIQmLurdb5l6BI4pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F4tWvDcklfnsGCJRM+yNXR7KdC+7jruKwKFnt92zpqnx6iGSmAWG7jiHrnCSezpSLA9vrWc+H1vA5lEeT5vdqeXhmbrGtmqUl8MPrMRQA8680U9ZBw9Xt80a2uTvZ/lu8FtCtFF1U85qB/tdQlcaLU732kxSzBh2rkR98mY3rEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjHvv3uc; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1722332259; c=relaxed/simple;
+	bh=eQ4F1x/lpLxGO5KX65v21lz8EB6jaKNod2yiaHWTOHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pOAD4G1JsKRpPW3OBxrE3CI8EV/CYDD7VhmAv4C9o1vo1j9mGsfqq9Bz6+KwkpP90Y8U1rlVo+sC43bqqzErvLqQnyO7eYUZV9uBG2LgIH99yAPeAO0I/SHHdnKOxbtttZFhG7uZfMccR4NzGSn9mWcYTmfuMFtXDgW4hekC5EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDqxSAI/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjHvv3uc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDqxSAI/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722332193; x=1753868193;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kkS6opl1E3BW4Fwv0GYoQZl5emYIQmLurdb5l6BI4pw=;
-  b=WjHvv3ucei9Mt3Toa08HYY7DPYQunbJuI+25qviDHDvshXn4y07pkoRc
-   qVdK2EjFnxBToQbMV0CfVhbm+0Ak4V7eFGYnAtPTeKkAr0QIiuiJ+VoFk
-   HWwblkPX/gaBDLweYF7GoE0Lw7/Uk+HT9CGMUP8HXUkL8jGS1wEL+3vA8
-   zZHUwOAOLKWcRTbiVweGJwPBN147ECzSCgdASugViDiOqSCGAjXUBsfsD
-   aLLdWF25IMeFBw7alLg+WOAv/atLWD8wg48VPiWMOZsMl5eXrGN4txlcd
-   d6gZ8xFYD3hYdIKvgUcSCjBkdBJjusvfKvUboTvvKnI/YN5k/CzPiLIGF
-   A==;
-X-CSE-ConnectionGUID: veE+7qCSSaqVQp+oe6II0w==
-X-CSE-MsgGUID: OE5KV+jMRvCbCzLhi0vh0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="24001195"
+  t=1722332257; x=1753868257;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eQ4F1x/lpLxGO5KX65v21lz8EB6jaKNod2yiaHWTOHU=;
+  b=gDqxSAI/lWgnwnaZzcjDa32ePLqjrrHcLbJ8GMZQ7jYA7zQq9tmHrRX5
+   UXWnD5xq10uSnm8ATuHK6HyYiDMxP0eNXE8u+s1IesJzMnLiHL+KzoUmx
+   5TPeEs2vRECrx4LTY2l1qeQlLbY/XznxQxc5cRI6bXp0kD/goBjMmQqsl
+   95VQv5G8UQIrMpTYneO5rynQusz3nGEZ5B5AxvD2cd+4n6JkMVEwmkxpz
+   fYy1A7u9daA7KDU/SImxvH/wS1JwrQaHR8yWghZygP913UHJ0sou7CWO6
+   drT6aQmBaupIB9vxJl1Yw7ks1SM6bviJWlmRiXCteb7cFFlxNKkHQ0BAv
+   g==;
+X-CSE-ConnectionGUID: PII6IOmOQ1yhvAFB07EEWw==
+X-CSE-MsgGUID: ZqLMgnYqT8Ofr9uI7E1+1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="37609136"
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="24001195"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 02:36:33 -0700
-X-CSE-ConnectionGUID: aJknaxQ9RhmPj+ZFOcyQEQ==
-X-CSE-MsgGUID: 2SuNOWCBQZqtMbghGN8MKg==
+   d="scan'208";a="37609136"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 02:37:37 -0700
+X-CSE-ConnectionGUID: LKz+kXhGS6K4pP63RiYLZQ==
+X-CSE-MsgGUID: CH0h1jCyQo+6eb2XHzFn6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="85229182"
+   d="scan'208";a="58605605"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2024 02:36:32 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 Jul 2024 02:37:33 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYjHS-000sjM-0s;
-	Tue, 30 Jul 2024 09:36:30 +0000
-Date: Tue, 30 Jul 2024 17:36:25 +0800
+	id 1sYjIQ-000sjU-11;
+	Tue, 30 Jul 2024 09:37:30 +0000
+Date: Tue, 30 Jul 2024 17:36:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jj-apparmor:apparmor-next 4/4] security/apparmor/af_unix.c:604:17:
- error: implicit declaration of function 'unix_state_lock_nested'; did you
- mean 'mmap_write_lock_nested'?
-Message-ID: <202407301751.8RM4AudE-lkp@intel.com>
+To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Chao Wei <chao.wei@sophgo.com>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Jinyu Tang <tangjinyu@tinylab.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 3/4] riscv: dts: sophgo: Add mcu device for Milk-V
+ Pioneer
+Message-ID: <202407301749.K0pFCNLU-lkp@intel.com>
+References: <IA1PR20MB4953826DECDCC141A7CDE634BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +77,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <IA1PR20MB4953826DECDCC141A7CDE634BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   e6b2ff78a1aeb16f290e483536dedf626ba2d1e9
-commit: e6b2ff78a1aeb16f290e483536dedf626ba2d1e9 [4/4] apparmor: add fine grained af_unix mediation
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240730/202407301751.8RM4AudE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301751.8RM4AudE-lkp@intel.com/reproduce)
+Hi Inochi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.11-rc1 next-20240730]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Inochi-Amaoto/dt-bindings-hwmon-Add-Sophgo-SG2042-external-hardware-monitor-support/20240730-160416
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/IA1PR20MB4953826DECDCC141A7CDE634BBB02%40IA1PR20MB4953.namprd20.prod.outlook.com
+patch subject: [PATCH v8 3/4] riscv: dts: sophgo: Add mcu device for Milk-V Pioneer
+config: riscv-randconfig-051-20240730 (https://download.01.org/0day-ci/archive/20240730/202407301749.K0pFCNLU-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301749.K0pFCNLU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407301751.8RM4AudE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407301749.K0pFCNLU-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   security/apparmor/af_unix.c: In function 'unix_state_double_lock':
->> security/apparmor/af_unix.c:604:17: error: implicit declaration of function 'unix_state_lock_nested'; did you mean 'mmap_write_lock_nested'? [-Wimplicit-function-declaration]
-     604 |                 unix_state_lock_nested(sk2, U_LOCK_SECOND);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 mmap_write_lock_nested
->> security/apparmor/af_unix.c:604:45: error: 'U_LOCK_SECOND' undeclared (first use in this function)
-     604 |                 unix_state_lock_nested(sk2, U_LOCK_SECOND);
-         |                                             ^~~~~~~~~~~~~
-   security/apparmor/af_unix.c:604:45: note: each undeclared identifier is reported only once for each function it appears in
---
->> security/apparmor/lsm.c:1143: warning: Function parameter or struct member 'sk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1143: warning: Function parameter or struct member 'peer_sk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1143: warning: Function parameter or struct member 'newsk' not described in 'apparmor_unix_stream_connect'
->> security/apparmor/lsm.c:1175: warning: Function parameter or struct member 'sock' not described in 'apparmor_unix_may_send'
->> security/apparmor/lsm.c:1175: warning: Function parameter or struct member 'peer' not described in 'apparmor_unix_may_send'
-   security/apparmor/lsm.c:1286: warning: Function parameter or struct member 'sock' not described in 'apparmor_socket_bind'
-   security/apparmor/lsm.c:1286: warning: Function parameter or struct member 'address' not described in 'apparmor_socket_bind'
-   security/apparmor/lsm.c:1286: warning: Function parameter or struct member 'addrlen' not described in 'apparmor_socket_bind'
-
-
-vim +604 security/apparmor/af_unix.c
-
-   595	
-   596	static void unix_state_double_lock(struct sock *sk1, struct sock *sk2)
-   597	{
-   598		if (unlikely(sk1 == sk2) || !sk2) {
-   599			unix_state_lock(sk1);
-   600			return;
-   601		}
-   602		if (sk1 < sk2) {
-   603			unix_state_lock(sk1);
- > 604			unix_state_lock_nested(sk2, U_LOCK_SECOND);
-   605		} else {
-   606			unix_state_lock(sk2);
-   607			unix_state_lock_nested(sk1, U_LOCK_SECOND);
-   608		}
-   609	}
-   610	
+>> Error: arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts:29.1-6 Label or path i2c1 not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
