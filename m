@@ -1,61 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63BE4A2D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 01:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04070CA6B;
+	Tue, 30 Jul 2024 01:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722302000; cv=none; b=Tc7oWN8W/ZimCwGU9GZqSNZeT99RCyep9Bg/NEBmIbll9vpYvDFMQ8zbd/TZhSOYLXQhwjmOkjmFzURRAac+Z4tpVH69aKJJGnoEAUG6WGhzr17Yxu4mQLLMudh5pSu73BP3/h5ik9BTITN3bR+BEo6MygUIMSrP9vZk2dU1E0A=
+	t=1722303814; cv=none; b=H1pSw2rtB9KRm2aURl3hLTQZTBEVz7Fb+jNnPpHQFKs2RugFaZRA+Z43s/vLAUGotbbf16R2hpOPkQ1Uec1NEWEMcP0wksMFZ2Iqt+3n1lzTfP1OR3etG9g3ua9Ntc4G/CljLOmZPWPi4c01rM2Wx2dSA6i9omqBVV644FG5KEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722302000; c=relaxed/simple;
-	bh=j0HFy8Wk6xFPhWa9EoSVdUugRGAsx9MmxBxcWU/NWTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZWIIRP3QoFGsgiTx5dMP1EqJb+TFWViqwg38Fc4RWPGEAvKUisvA8FB8keh09rZabbG8aFoHIR0Zn/TyH27OeB/o7UGFxKOvHxX6Se/JL1kGa1Qf6ZatYH1Kemqfc3T7tSt5mH9B4H61IHWmU8T84PRp+RrTEClYnKKJ0DRFVis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5UCF8Yr; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722303814; c=relaxed/simple;
+	bh=AgSFgQ0//kz0E9n05CsuDbftyGjPr0ELi/qTKAqKnXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btUSAQZNmPHK95cowiAWVa/65VLtTzdnD/vQp2Yd9c6sikKSvs1tocUugx7Dq75BijnCOFKQpgHa0sJgLci7x3wxae/BvCsI5cztCg+92xZcKqIuf0Fa45tKwDL4sJYUjrR6MLF+9jh9hUdSd7w+VxiPkCPxGDqusVu1bVQk/ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uo8dUKpm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5UCF8Yr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722301998; x=1753837998;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j0HFy8Wk6xFPhWa9EoSVdUugRGAsx9MmxBxcWU/NWTs=;
-  b=a5UCF8YrWfoFSrgUJyHa4yxTULPOalHywvpk/6ouJj8aeigfJ3YNnYYv
-   9iXgakDO/+0wL4T4k6S2UOzQhydSVu2eIxcsdfx7XuD6W84+EOclS9Whj
-   noRgFx+b90TjiyMGGirPwR0H0QwqRT9Gr8pp/zL4V9M/vEtRKJ76Q7URk
-   LA+Jit+vsVabuVAYqktdR1XuyfyfmgTfpzVGUmhXJTi4JkDdKCg3C7K3B
-   hhiPA+JpeXNhzWrhPSsqVjJbGOYJ1Up23cdIhYybZOgvBBsoZrqUljSPb
-   N0o5UcW56JIihzPpdBA6rvIhWM77FUlIvYPiQjHuPWcGrpgFGYgmR8Xe2
-   Q==;
-X-CSE-ConnectionGUID: 6JFgv+jXThabTD7GYl1MXQ==
-X-CSE-MsgGUID: eI22qFJBTVuc50SpnSCL1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20274895"
-X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="20274895"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 18:13:17 -0700
-X-CSE-ConnectionGUID: Ca1NiYgDSUuKZSelrZfGyA==
-X-CSE-MsgGUID: imwY7VWGR0u+iGv8wm/ySg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="54129256"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Jul 2024 18:13:12 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYbQM-000sI0-1a;
-	Tue, 30 Jul 2024 01:13:10 +0000
-Date: Tue, 30 Jul 2024 09:12:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <j-luthra@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Manorit Chawdhry <m-chawdhry@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 92/339] kismet: WARNING: unmet direct
- dependencies detected for GENERIC_PHY_MIPI_DPHY when selected by
- VIDEO_CADENCE_CSI2RX
-Message-ID: <202407300915.fdw3Wgec-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uo8dUKpm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235C7C32786;
+	Tue, 30 Jul 2024 01:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722303813;
+	bh=AgSFgQ0//kz0E9n05CsuDbftyGjPr0ELi/qTKAqKnXQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uo8dUKpmuzO9+avDGlMhp7fUL/YZtchZEQknDFtqFZyVCgguXQuQnaCl5MFAT8Bzm
+	 NOfD3gY8tDMikY+uR5sT3uLAlEVcZAdoVBPAxka/XW7vNB5lCuSzGNcVry2EEYqPS9
+	 3MtNcVW7WafzBAQGjg6UmjHAQ9koRyqY94AKd6XuBhIvP2mPee9YOrAeSgOqQRDHyn
+	 7WdEGZ2mAzkTRsApAzHDkPG9+jPUnkJ5IJW2dC5QCTQD1A9idRZjKSvwn0GaNGW8sc
+	 IStnhL9HBijFfcy3ZVcx9iQnvSxPmtb9mlfyE0FEm3cs7qFkTwurXS+Qfc8XdcRT4T
+	 pws7B6nJou13Q==
+Date: Mon, 29 Jul 2024 18:43:31 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [tip:x86/microcode 1/1]
+ arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is
+ used uninitialized whenever 'if' condition is false
+Message-ID: <20240730014331.GB685493@thelio-3990X>
+References: <202407291815.gJBST0P3-lkp@intel.com>
+ <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
+ <20240729153008.GA685493@thelio-3990X>
+ <20240729165036.GGZqfIXNZLA7l5zyRH@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,25 +48,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240729165036.GGZqfIXNZLA7l5zyRH@fat_crate.local>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   04a9ad081f0f255a046f398abf6faf1d4374267f
-commit: 7149fb6fface964718d99db0070c5cc5a2bae81a [92/339] media: platform: cadence: select MIPI_DPHY dependency
-config: x86_64-kismet-CONFIG_GENERIC_PHY_MIPI_DPHY-CONFIG_VIDEO_CADENCE_CSI2RX-0-0 (https://download.01.org/0day-ci/archive/20240730/202407300915.fdw3Wgec-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300915.fdw3Wgec-lkp@intel.com/reproduce)
+On Mon, Jul 29, 2024 at 06:50:36PM +0200, Borislav Petkov wrote:
+> On Mon, Jul 29, 2024 at 08:30:08AM -0700, Nathan Chancellor wrote:
+> > It's not behind W=1, this happens in a normal build:
+> 
+> "reproduce (this is a W=1 build):"
+> 
+> I guess that mail formulation is misleading.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300915.fdw3Wgec-lkp@intel.com/
+Yeah, I can definitely see how that can be misleading. It might be nice
+if the robot could do a regular and a W=1 build at the same time to
+report which warnings show up at which levels. For the record/future,
+-Wsometimes-uninitialized and -Wuninitialized from clang should always
+appear in a normal build; if they don't, that's a bug.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GENERIC_PHY_MIPI_DPHY when selected by VIDEO_CADENCE_CSI2RX
-   WARNING: unmet direct dependencies detected for GENERIC_PHY_MIPI_DPHY
-     Depends on [n]: GENERIC_PHY [=n]
-     Selected by [y]:
-     - VIDEO_CADENCE_CSI2RX [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && VIDEO_DEV [=y]
+> Ok, lemme fix that then.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks a lot :)
+
+Cheers,
+Nathan
