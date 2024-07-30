@@ -1,183 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B412BE68
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 03:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20324BE5D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 03:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722309828; cv=none; b=XznwuhRaN4LPLSsAe2Lr6/NMOSNw8KUXmb8OgHujIj84yOLHlcixXWMrLq790GVu6yR0ZPpWlBrAVyV1Za1Rj+kWFABCUn1FECJP/+DWvOLes5JS8izkGfSWbSOddFwLHyyKFhy9SSiD94WvcvOlEFykBhKs2k6OF+MzVfhTFqs=
+	t=1722311648; cv=none; b=otgZaSi8dtSYyJj2BVkX8G27PF2TvsmtqQPkjwBLwe1s2nhPorFbVfI4jTTjPMmO1Zvzu8vpEsmhyCyuRlCPmlwLSh7EkFA1D6+CTKv3Uyz8AJzakAZRQrLxexJ9hhAbmHxQEQFnshbtLfbRN9MaLsnClq7q/oBQLLdmnUApeQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722309828; c=relaxed/simple;
-	bh=LPHiNM/ySxmb7ADe95ep1YgztC8+yncxDwt9We8X1WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhT6zw+39YI/2lwDx4NsHRnIAP0pXxo9kmEGHF1Q92PdNj1hfwe1aj6Lvvxa4eTIcyy7F767b2hwUepuC09DA6MmMzpvQDyad0XCoUgFeN2MTiYohkeidz3dpr7BEWDGWod+n15nVMA8waeWCL1a7MbSn37utUWKneY5HTXhDmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KcSKb+e8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722311648; c=relaxed/simple;
+	bh=E1pEfdyR6kjbhVV3NfB4TZ4buDsY8BPr6TEvfS/3EXM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VotCDx/DMcfdKJQLd/CpAphQbFHvYfDkXgGenoLmDpYAVz4l8POABYp9IBaPKXN3B/GZP1D10lyJzuwwzL6ogmjWfSSAg8qNVGmoGZNaGbp2iNH1u3ox49gogt4+QVueeqffnwPYdZ83HJoO63PPoD1CcdJ1Bz70fE6R0eR3uhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TZLbKT1G; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KcSKb+e8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722309825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GtrNBkDdZPh+gPccVoPZA+x1HvmaEjVmj6LGnN30uJQ=;
-	b=KcSKb+e8+yJGW0B+lpmH0TyjuBoDITr+4/dGOkxfvTcZtb9WmN6qfxr282bG+hFDcBteJ3
-	+vdzZRc90Ogwtb9bE5dg2dBn2mc+LahCVUSVERacUJzg/QqG6YUdzBS1Fv01WxHK+zoaMW
-	/vadec9lXRr+Ido38TVaU4ZcXJhJ8m0=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-660-GuyB0HIGPIOzdZ3lFXzQnA-1; Mon,
- 29 Jul 2024 23:23:41 -0400
-X-MC-Unique: GuyB0HIGPIOzdZ3lFXzQnA-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 189041955D45;
-	Tue, 30 Jul 2024 03:23:39 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.91])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9657B19560AE;
-	Tue, 30 Jul 2024 03:23:37 +0000 (UTC)
-Date: Tue, 30 Jul 2024 11:23:33 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from
- constant value (38400000050e becomes 50e)
-Message-ID: <ZqhctcU7UHxIGs3R@MiWiFi-R3L-srv>
-References: <202407282201.lk1cNoMd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TZLbKT1G"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5c667b28c82so2058516eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 20:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722311646; x=1722916446; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OnDGx7qmklgbXgUTSkMGiYMoIqr1aBMkQxJCxk3Reyk=;
+        b=TZLbKT1GLcm1/ALTl22kobaLzaEFrYPk+8wwSBq8OxxzO+sOeJ3WMf7cNCsjWzgxY2
+         XnmpsgBOwfpPlvJ3QueWA/pm5KT4ZneP6UVR+KIRKiAtgz8hT8sUzN276bry6Ls3aOQN
+         QvVDEjN560Z1mE0SHxkDpzNO9tQMQ8gj9GaMNBu/y8CYbnhCmSYwl7Cvuf2qlEtA75+G
+         COBevdutUEJ39UJfRvVCLdvkOnXzpfliAFfCHyBVAUAnEb9ZH/a5boqu8HSyD9lzSS88
+         mJ6sibe7cLlVGjxag6QWgBU5ScJB8ElUqkV/a8Ttxs9zCkkI50d6+EvANVx/fglKF3Oh
+         r+Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722311646; x=1722916446;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OnDGx7qmklgbXgUTSkMGiYMoIqr1aBMkQxJCxk3Reyk=;
+        b=YyKKL8kgh9Cm4SOJztKlGbiu+YVcdl3Fh0Ybg7s/djG15BOU5LwZumluU+vwRTyJ7j
+         /D9nbL/AYMkkZYLKtnGcJvtNMAtTJBWKLKNLeKa6X1EAoXpsW1K6JH8L4Z3ZhAGS5zQP
+         UhMGlQtZWjXvUoV3PInE9/wBu9eBSvsQu8IuaRP1XVvKJDIs+rFc/uSaviGdi6dyHXSs
+         jW2EtTTg7kA/HynQ0kPKnIcSEsFHiVMbeamJ/Ap0ir6EWfS007ICaSimOxQ8FTVVPbsr
+         OYCaz6SMeIdkIzLzDMJ+5WtKeG7PM+77yu6R2B3dnUu2aP7keDbFcQir3WiOa8BuGvLj
+         Inew==
+X-Forwarded-Encrypted: i=1; AJvYcCUs6kIefGUf7rSzIZ99Yc/mFBbRHaqlXpIHKS9v/iVz0j6+C2IBmXNW5XffO/bCzwcQfpL/BX3AwKxelmXRYN3oeNcJEzcG+Kp3xC5SrQ==
+X-Gm-Message-State: AOJu0YyE/xFuIsoIGH5OGJLhqYNQ2DMnaQE4FO12IAyGsQF0jeL68k5W
+	BOhDX0Y6ACfhylbTKUwRCfVhnF9+Z4SI0X6CP8fqeMs6rPb+U/KrRD0kuyosna4K9AuHNYlVZyQ
+	vYmW3xCoqhGxCFgtwYlVoEQL2Gr0=
+X-Google-Smtp-Source: AGHT+IEix7+Kdd9xJYVjKhlzKY+sffwouAnzxFhKguuMc2IgGOzgB/BAXb5CFcn22c5gKtun4hEBqKw32D4j+TfoJsg=
+X-Received: by 2002:a05:6820:614:b0:5ce:3ccb:2118 with SMTP id
+ 006d021491bc7-5d605e01115mr326090eaf.3.1722311646149; Mon, 29 Jul 2024
+ 20:54:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202407282201.lk1cNoMd-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <202407300812.1VvDFdxD-lkp@intel.com>
+In-Reply-To: <202407300812.1VvDFdxD-lkp@intel.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 30 Jul 2024 11:53:40 +0800
+Message-ID: <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
+Subject: Re: [lwn:docs-next 2/8] htmldocs: Warning: Documentation/translations/zh_CN/kbuild/index.rst
+ references a file that doesn't exist: Documentation/kbuild/index
+To: kernel test robot <lkp@intel.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, oe-kbuild-all@lists.linux.dev, 
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/28/24 at 10:43pm, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   5437f30d3458ad36e83ab96088d490ebfee844d8
-> commit: 0453c9a78015cb2219cda7239d881f4e3137bff8 sh: mm: convert to GENERIC_IOREMAP
-> date:   12 months ago
-> config: sh-randconfig-r133-20240727 (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.1.0
-> reproduce: (https://download.01.org/0day-ci/archive/20240728/202407282201.lk1cNoMd-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+On Tue, Jul 30, 2024 at 8:59=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   git://git.lwn.net/linux.git docs-next
+> head:   60666fbc81ac91af2cf2f511d60859288f7ea8e5
+> commit: e6a5af90f0a24f08445e3b8a11b727ac84a9520c [2/8] docs/zh_CN: add th=
+e translation of kbuild/headers_install.rst
+> reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300812=
+.1VvDFdxD-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407282201.lk1cNoMd-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt ref=
+erences a file that doesn't exist: Documentation/devicetree/bindings/input/=
+qcom,pm8xxx-keypad.txt
+>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm57=
+03-regulator.yaml references a file that doesn't exist: Documentation/devic=
+etree/bindings/mfd/siliconmitus,sm5703.yaml
+>    Warning: Documentation/hwmon/g762.rst references a file that doesn't e=
+xist: Documentation/devicetree/bindings/hwmon/g762.txt
+> >> Warning: Documentation/translations/zh_CN/kbuild/index.rst references =
+a file that doesn't exist: Documentation/kbuild/index
 
-I every tried to fix this when I got this report one year ago. The thing
-is I found there are many places like this. I am not sure if it's worth
-doing the type casting to satisfy sparse. And the type casting makes
-very long line of code and reduce readibility.
+This is my problem.
 
-If this is confirmed worth, I can post patch to fix them.
+But curious: why does my local `make htmldocs` not report this issue?
+I tested it locally again, but no such warning is reported.
 
-> 
-> sparse warnings: (new ones prefixed by >>)
->    kernel/iomem.c:113:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
->    kernel/iomem.c:113:22: sparse:     expected void *[assigned] addr
->    kernel/iomem.c:113:22: sparse:     got void [noderef] __iomem *
->    kernel/iomem.c:116:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] addr @@     got void [noderef] __iomem * @@
->    kernel/iomem.c:116:22: sparse:     expected void *[assigned] addr
->    kernel/iomem.c:116:22: sparse:     got void [noderef] __iomem *
-> >> kernel/iomem.c:18:32: sparse: sparse: cast truncates bits from constant value (38400000050e becomes 50e)
->    kernel/iomem.c: note: in included file (through include/linux/gfp.h, include/linux/xarray.h, include/linux/radix-tree.h, ...):
->    include/linux/mmzone.h:1997:40: sparse: sparse: self-comparison always evaluates to false
+I will send a patch to fix this issue.
+
+Dongliang Mu
+
+>    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/reserved-memory/qcom
+>    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/display/exynos/
+>    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
+on/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>    Using alabaster theme
+>
 > --
->    arch/sh/boards/board-sh7785lcr.c:298:13: sparse: sparse: symbol 'init_sh7785lcr_IRQ' was not declared. Should it be static?
->    arch/sh/boards/board-sh7785lcr.c:322:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char *p @@     got void [noderef] __iomem * @@
->    arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     expected unsigned char *p
->    arch/sh/boards/board-sh7785lcr.c:322:11: sparse:     got void [noderef] __iomem *
-> >> arch/sh/boards/board-sh7785lcr.c:328:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *p @@
->    arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     expected void volatile [noderef] __iomem *addr
->    arch/sh/boards/board-sh7785lcr.c:328:17: sparse:     got unsigned char *p
->    arch/sh/boards/board-sh7785lcr.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
-> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
-> --
->    drivers/spi/spi-sh-sci.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/scatterlist.h, include/linux/spi/spi.h):
-> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
-> --
->    drivers/spi/spi-nxp-fspi.c:513:25: sparse: sparse: cast from restricted __be32
->    drivers/spi/spi-nxp-fspi.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
-> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
-> --
->    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] length @@     got restricted __le32 [usertype] @@
->    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     expected unsigned int [usertype] length
->    drivers/scsi/esas2r/esas2r_init.c:908:41: sparse:     got restricted __le32 [usertype]
->    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] sgl_page_size @@     got restricted __le32 [usertype] @@
->    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     expected unsigned int [usertype] sgl_page_size
->    drivers/scsi/esas2r/esas2r_init.c:1164:35: sparse:     got restricted __le32 [usertype]
->    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] epoch_time @@     got restricted __le32 [usertype] @@
->    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     expected unsigned int [usertype] epoch_time
->    drivers/scsi/esas2r/esas2r_init.c:1166:32: sparse:     got restricted __le32 [usertype]
->    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1178:41: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1181:38: sparse: sparse: cast to restricted __le16
->    drivers/scsi/esas2r/esas2r_init.c:1196:25: sparse: sparse: cast to restricted __be32
->    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ctl_len @@     got restricted __le32 [usertype] @@
->    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     expected unsigned int [usertype] ctl_len
->    drivers/scsi/esas2r/esas2r_init.c:1207:56: sparse:     got restricted __le32 [usertype]
->    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] address @@     got restricted __le64 [usertype] @@
->    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     expected unsigned long long [usertype] address
->    drivers/scsi/esas2r/esas2r_init.c:1209:56: sparse:     got restricted __le64 [usertype]
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1223:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c:1225:41: sparse: sparse: cast to restricted __le32
->    drivers/scsi/esas2r/esas2r_init.c: note: in included file (through arch/sh/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
-> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
-> >> include/asm-generic/io.h:1089:41: sparse: sparse: cast truncates bits from constant value (384000000506 becomes 506)
->    drivers/scsi/esas2r/esas2r_init.c:286:15: sparse: sparse: memset with byte count of 557736
->    drivers/scsi/esas2r/esas2r_init.c: note: in included file:
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] ppsense_buf @@     got restricted __le64 [usertype] @@
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     expected unsigned long long [usertype] ppsense_buf
->    drivers/scsi/esas2r/esas2r.h:1260:17: sparse:     got restricted __le64 [usertype]
-> 
-> vim +18 kernel/iomem.c
-> 
-> 5981690ddb8f72 Dan Williams 2018-03-29  14  
-> 5981690ddb8f72 Dan Williams 2018-03-29  15  #ifndef arch_memremap_wb
-> 5981690ddb8f72 Dan Williams 2018-03-29  16  static void *arch_memremap_wb(resource_size_t offset, unsigned long size)
-> 5981690ddb8f72 Dan Williams 2018-03-29  17  {
-> 5981690ddb8f72 Dan Williams 2018-03-29 @18  	return (__force void *)ioremap_cache(offset, size);
-> 5981690ddb8f72 Dan Williams 2018-03-29  19  }
-> 5981690ddb8f72 Dan Williams 2018-03-29  20  #endif
-> 5981690ddb8f72 Dan Williams 2018-03-29  21  
-> 
-> :::::: The code at line 18 was first introduced by commit
-> :::::: 5981690ddb8f72f9546a2d017a914cf56095fc1f memremap: split devm_memremap_pages() and memremap() infrastructure
-> 
-> :::::: TO: Dan Williams <dan.j.williams@intel.com>
-> :::::: CC: Dan Williams <dan.j.williams@intel.com>
-> 
-> -- 
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
-> 
-
+>
