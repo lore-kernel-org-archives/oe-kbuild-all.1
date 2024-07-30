@@ -1,139 +1,125 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC828187568;
-	Tue, 30 Jul 2024 08:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C9A194099;
+	Tue, 30 Jul 2024 08:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722326634; cv=none; b=kvQ1mPCwCiG5CkEJghhUcBUz5c91Fj81iqdTsIrXUtE4p+C0z6CZ3PVwMDaxhoeJPSzQw7U+8XTIgRJOFTG2dHpT6xi8LHIN5BPff7nGz64B/qUYOc4cS42p0LI9cZkqichZYITMXeEDkeJU+mdkPTjdJRQwE71QylFp0E9O98c=
+	t=1722329555; cv=none; b=YJCFI+gnEJCDYhocguSlUnv9OOGy3WcLFoT1NlktPB7znsRfckQEsnWGTy5HnXwLj9Gug/g5A7rdyX9OZr/5WWmAHKLJXIOCkFd8cco4HIaq6tVQE6NLEd/1Jjt1593jo1o57AKZ/0bgXiNF6Y3Rj2wk1/OGHKclvA6cnG1XB50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722326634; c=relaxed/simple;
-	bh=DWNGubRHzRjEGM6zExLcknP5Nhoynsr4fLCjY31dlVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nrWRqUhmS6Qbem8vgurh+K/bZcR/W/JRkJfp0GHp1419ZZJzvp3/l148yR7Zt9OFFM+Smq5L5o6jYDH0836hOCqAf8mZqa+XJu+fTY/C3D03nBOMkQhDjNs6y61/fB8Nzfohvquc+Z8sqEfF0aUXkDww1WRBkLQJ5g+iNRvpMdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Gza4Y6Q3; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1722329555; c=relaxed/simple;
+	bh=Ea3ve7peZUSUgI1nGhKZ+3SYpfu8k2OjBL5nFNHsu24=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ATqUsmViI5m8GPoXwzqFxA/ahle3foQFWBhijlb6VssdeBztffT8t4aUmIL70htCorUNO0W/4O0qbWLutiRX3nuka4Cr5f4kEn33vsiiEMhiZad/C5oiVdeIF0SNezgx3W1ODnidSv4rLaVlBczuwK0OzbnAoCw1PzlhFnzZV9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6v4gkF0; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Gza4Y6Q3"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0F7F140E019C;
-	Tue, 30 Jul 2024 08:03:43 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id L0jvRNJ3Hi_0; Tue, 30 Jul 2024 08:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1722326618; bh=uS3wYUx2MIQdz67Z0GsNFcq352DD4UyeUgFguSrShBQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gza4Y6Q3mVzoO/ieO9julrMhVsdsn2Fp82fRyCIxnf9q6DtczIhRHYoNisb1AvpL5
-	 wlHN57sGvNQuYZR9sOgvqGyJvjdng5mvWMpNvS4ubKIkS4y0oRbZfTSy4Ht+B/xzy5
-	 HqTuOdU+Din0kGBkwhfEIUhe7PccA5/THisY9ptVQn93WwtCinT/Xw2oTRVyuwwiNb
-	 IMcR7+4m4QHS9+17SC9v5oUn9BwEyPv2gEA/Kfhmg79KPOsBVz/xX5V6NUHUc3ocFv
-	 5Sy0WpHGTW/Y8cFfCuo+DM2JOcG7Vs4gcjb2tlbZcQoNWQd3OBHvjblVN+qbakCnUe
-	 NsVoth3ZzxbFgWKGt4pvuMekIfB109Em0ApoHrnVLgbNTYkv8r609HGyzDsDCCZE3B
-	 eNxisJS0IrGKigXASPe+6Bx/gE9DDybblFBDhfqzi901WaFLOIleoH61Q6NAUCnrvG
-	 SDPDlieuC5nmQudaoVWfadELWZRjkWD8vHYBo36rWSplEvt1pJibgonyoNCaPxpjQY
-	 xW6oP3NI3TlDSDNUd/OcaNKINyE5ADrllXUjwE5GZONbUUlAkpdRPj0adGv5TckpOv
-	 XOCPHIVZRpBh9cPeLLswKSdEG3XUAFK+lLw9FTV+7bFJfbYCTk4HrjQWh/UAYzD9Oc
-	 FDzGWpv2aIIUtU6vuB+cU9Q8=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AF5D140E01BB;
-	Tue, 30 Jul 2024 08:03:32 +0000 (UTC)
-Date: Tue, 30 Jul 2024 10:03:26 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [tip:x86/microcode 1/1]
- arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is
- used uninitialized whenever 'if' condition is false
-Message-ID: <20240730080326.GAZqieTl1Gz4RheSiI@fat_crate.local>
-References: <202407291815.gJBST0P3-lkp@intel.com>
- <20240729112614.GBZqd8Vu27mFVSHynA@fat_crate.local>
- <20240729153008.GA685493@thelio-3990X>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6v4gkF0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722329552; x=1753865552;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ea3ve7peZUSUgI1nGhKZ+3SYpfu8k2OjBL5nFNHsu24=;
+  b=X6v4gkF0QJhx/dMt48332KmGzayRi0ynewGodHB8+srr2TDbq6cWYO7A
+   TQ2CpWOhmmot+6yI4rq+x34UpaTWPNrwUYx2bagWTVaKj4mOLcD6SajGw
+   C21ybwmPgebbn7t0PlYq9GnV5JnMr0MMGzpxEf2bZnKk7r7CjR6JGMuiE
+   dtYrIg5ziXxAT0OvH3XWFe93YnRJppCjCbTt3kL+LrofFUQHentI004k8
+   FIWPe27IrXspM8cQftklJ3342rVXx2B3CCJH8Z/pdVMVG6Xwc0YSqjc29
+   bjVOAS3zAByrb7hCDOLPFd2Xt6cUWlmfqQvwELmPiOR9/TJRD/kzde+fu
+   Q==;
+X-CSE-ConnectionGUID: 3tRaEq/QSk+4v0X362tElA==
+X-CSE-MsgGUID: KcMPjEh4Twa32oARx0TDLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="19932207"
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
+   d="scan'208";a="19932207"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 01:52:32 -0700
+X-CSE-ConnectionGUID: Iirznax9QHaRVp0Tpl5m9Q==
+X-CSE-MsgGUID: qqAv4ZR1Tc+YBZbN9KiwYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
+   d="scan'208";a="91765967"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 30 Jul 2024 01:52:31 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYiaq-000sgY-2e;
+	Tue, 30 Jul 2024 08:52:28 +0000
+Date: Tue, 30 Jul 2024 16:52:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/fastpath_pi_nv 2/2] arch/x86/kvm/svm/svm.c:4147:39:
+ error: expected ';' after expression
+Message-ID: <202407301650.BHl33FuL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729153008.GA685493@thelio-3990X>
 
-On Mon, Jul 29, 2024 at 08:30:08AM -0700, Nathan Chancellor wrote:
-> Right, as clang does not perform interprocedural analysis for the sake
-> of warnings. That's partly why GCC's version of this warning was
-> disabled in commit 78a5255ffb6a ("Stop the ad-hoc games with
-> -Wno-maybe-initialized").
+tree:   https://github.com/sean-jc/linux x86/fastpath_pi_nv
+head:   b2746b169a9de85ccd1760906aadedd71e30497d
+commit: b2746b169a9de85ccd1760906aadedd71e30497d [2/2] KVM: x86: Add a fastpath HLT handler
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240730/202407301650.BHl33FuL-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301650.BHl33FuL-lkp@intel.com/reproduce)
 
-So why aren't we shutting up clang too?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407301650.BHl33FuL-lkp@intel.com/
 
-> While it may be properly handled now, I think this pattern of
-> conditionally avoiding using a variable uninitialized is dubious.
+All error/warnings (new ones prefixed by >>):
 
-Well, in this particular case of the microcode loader, this is the best
-compromise I can think of - I have two different paths of handling a microcode
-patch - Zen and newer - and before - so I need those separate flows.
+>> arch/x86/kvm/svm/svm.c:4147:39: error: expected ';' after expression
+    4147 |         to_svm(vcpu)->vmcb->control.exit_code
+         |                                              ^
+         |                                              ;
+>> arch/x86/kvm/svm/svm.c:4151:6: error: use of undeclared identifier 'exit_code'; did you mean 'exit_creds'?
+    4151 |         if (exit_code == SVM_EXIT_MSR &&
+         |             ^~~~~~~~~
+         |             exit_creds
+   include/linux/cred.h:150:13: note: 'exit_creds' declared here
+     150 | extern void exit_creds(struct task_struct *);
+         |             ^
+   arch/x86/kvm/svm/svm.c:4155:6: error: use of undeclared identifier 'exit_code'; did you mean 'exit_creds'?
+    4155 |         if (exit_code == SVM_EXIT_HLT)
+         |             ^~~~~~~~~
+         |             exit_creds
+   include/linux/cred.h:150:13: note: 'exit_creds' declared here
+     150 | extern void exit_creds(struct task_struct *);
+         |             ^
+>> arch/x86/kvm/svm/svm.c:4147:30: warning: expression result unused [-Wunused-value]
+    4147 |         to_svm(vcpu)->vmcb->control.exit_code
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~
+   1 warning and 3 errors generated.
 
-So sometimes it makes sense.
 
-> So I guess you can just ignore this if you want but others (maybe even
-> Linus) will likely notice this and report it as well.
+vim +4147 arch/x86/kvm/svm/svm.c
 
-I think this warning should be behind W=1 if it can trigger false positives.
-
-Anyway:
-
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Tue, 30 Jul 2024 09:52:43 +0200
-Subject: [PATCH] x86/microcode/AMD: Fix a -Wsometimes-uninitialized clang
- false positive
-
-Initialize equiv_id in order to shut up:
-
-  arch/x86/kernel/cpu/microcode/amd.c:714:6: warning: variable 'equiv_id' is \
-  used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-        if (x86_family(bsp_cpuid_1_eax) < 0x17) {
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-because clang doesn't do interprocedural analysis for warnings to see
-that this variable won't be used uninitialized.
-
-Fixes: 94838d230a6c ("x86/microcode/AMD: Use the family,model,stepping encoded in the patch ID")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202407291815.gJBST0P3-lkp@intel.com/
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
----
- arch/x86/kernel/cpu/microcode/amd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/microcode/amd.c b/arch/x86/kernel/cpu/microcode/amd.c
-index 1f5d36f92b8a..f63b051f25a0 100644
---- a/arch/x86/kernel/cpu/microcode/amd.c
-+++ b/arch/x86/kernel/cpu/microcode/amd.c
-@@ -703,7 +703,7 @@ static struct ucode_patch *find_patch(unsigned int cpu)
- {
- 	struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
- 	u32 rev, dummy __always_unused;
--	u16 equiv_id;
-+	u16 equiv_id = 0;
- 
- 	/* fetch rev if not populated yet: */
- 	if (!uci->cpu_sig.rev) {
--- 
-2.43.0
-
+  4144	
+  4145	static fastpath_t svm_exit_handlers_fastpath(struct kvm_vcpu *vcpu)
+  4146	{
+> 4147		to_svm(vcpu)->vmcb->control.exit_code
+  4148		if (is_guest_mode(vcpu))
+  4149			return EXIT_FASTPATH_NONE;
+  4150	
+> 4151		if (exit_code == SVM_EXIT_MSR &&
+  4152		    to_svm(vcpu)->vmcb->control.exit_info_1)
+  4153			return handle_fastpath_set_msr_irqoff(vcpu);
+  4154	
+  4155		if (exit_code == SVM_EXIT_HLT)
+  4156			return handle_fastpath_hlt(vcpu);
+  4157	
+  4158		return EXIT_FASTPATH_NONE;
+  4159	}
+  4160	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
