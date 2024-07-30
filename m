@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F9C18A92D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jul 2024 23:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3691173;
+	Tue, 30 Jul 2024 00:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722296714; cv=none; b=an/S5qaorJCn3sXt3VTWuIuAgfWUX009HPyDQxFEwX82Wk+EDqCJfxQSMUXAt4PHhhcmXa05obGSPeXw0nfRY/u3FoU59ksOPJpZFdOROMog1OYRtX3EyDVJETmKR347oC2RnYCA0qzU5OXQvzUXu/GL43K/AE9qTMlqweE+mlo=
+	t=1722297973; cv=none; b=AYebpEoMrV137a04tWw4QSieVuv4s7j8kOigGNadrKvcr3CDIfiBYDfxL8snbN5veJyQ2fm30dGuwCdogzYxMR54DdGGsNMpUv/ZCHeP3GyhVa6oPkYYlDR4DrYY69sU2RbDBcAvnPf6YTjqWnVukS7EBhTz4SxU6CaJm4bfk6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722296714; c=relaxed/simple;
-	bh=jsEouXldoNvEvwAUR0x1SXHsSpJJXXkpqS9prI6hwYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oif3QMYIiBo+Od03ETrVuNUoBl/Onhg4OGndFpV4Uu0IvYGJI/2vF1WqkXbUhPKM4D5iQWFAqQAlKbTooNeltY7F4PnKDe3nNoLx8xy9p+s6VlbMlr8PtbiIBvauv7njwwm7ONK+DCMbHixikqcs02tyycXpA0cZPx/vZ6/gc98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsXWWgt/; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1722297973; c=relaxed/simple;
+	bh=JdV5Zi/voKmoumEx0xFyRRVJpUhApKDdBNAJ5k6Bec8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YbjXsljmlimvNEeSQD5nAzoMWU9O1pPf+JLjN+8j/MSQlLQP9VM9oFi/PByewQ0gtWK5af+TTchvTO74NzlqmqZt8EcdVa7ui3KtSentlsc9Dr3/kl6FkPrKGEhOUIolZSVYGy0ezswakVQ0II7NhYnt76Tb/7DwA0w1m+0NdQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fuIAJS9g; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsXWWgt/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fuIAJS9g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722296712; x=1753832712;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jsEouXldoNvEvwAUR0x1SXHsSpJJXXkpqS9prI6hwYU=;
-  b=GsXWWgt/Uah6i80P4iG3b8qrIwsAmvoS+Txg4kDmyWPNa+dC5n2DHsp9
-   IruZ61R4cAWV+285VAv7laZVqM13T7WPVMwmU9rD1p9rLBBXR3x8sSIJt
-   zkofBI/7UOc7XczlziRyUzFv2JkCMG9ADSelf9741aRY85GmlPSBJXDUA
-   6/krK2Qnq3iL+Oj8SKtP0YDwG8y0RtMvtMWQuEwDug5SkO/suZRjfl/Do
-   dMDdp1NbFbzC0D3GYpjRh56Pl8XL/GzFpYnt4KMsAWsWNDIwk8LcZwZ4y
-   EDCyCK84ueADa4c5TGYOBRqWH4VbO/doA2wcsgoyRXYswacjzbXyBzlrR
-   w==;
-X-CSE-ConnectionGUID: vkgPKKznTc+ViEuF+e997w==
-X-CSE-MsgGUID: yIN6AWdrRnCR3QU/YwtbCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="23876206"
+  t=1722297972; x=1753833972;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JdV5Zi/voKmoumEx0xFyRRVJpUhApKDdBNAJ5k6Bec8=;
+  b=fuIAJS9gjsGzx5kew9O2pUlnmazjB76QdVM50dKV9VYPA2DqOyxtzGsp
+   xpTKg/ZR7/gLkfpvGdufyW0Azxn0Qju9ppkN1ss/JnTYEqphSh8KLquj/
+   F2WMkOEsTA/+orpac5kfzBZGhs3UNnEM1dNivn+K5q+1N/FnFRIJcvPc2
+   O7Dyqbgl1LRgZXNlmkSK1+6Hy1Zg9tDQTR/1+9FanwyAqP1SXRtdP9KwH
+   i5p3qyqrOyoYR2U2OaZpy7UibQoZ6NmKadK2rY4kgYJFALoxXujmU7x2Z
+   GPeUWxiTxj5SEDU48uL3vsUh1mrmWphr1ELV1hDKOJm4fXRyVU4jBuGfF
+   Q==;
+X-CSE-ConnectionGUID: owPqLQATTyWRBTFcyJCcnA==
+X-CSE-MsgGUID: UthRZG9jSgyOdoHXezUx5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="19889466"
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="23876206"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 16:45:11 -0700
-X-CSE-ConnectionGUID: qZAIMuy4SfKGomQArj4TLA==
-X-CSE-MsgGUID: bX83H8VARNGtTkm7/0tBGw==
+   d="scan'208";a="19889466"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 17:06:11 -0700
+X-CSE-ConnectionGUID: Qjz/n4GYTkeMIWmfYwuvDg==
+X-CSE-MsgGUID: hyBqoLUhTb+0ogX0jRq+Zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="58753537"
+   d="scan'208";a="77373738"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jul 2024 16:45:08 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Jul 2024 17:06:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYa38-000sC0-2j;
-	Mon, 29 Jul 2024 23:45:06 +0000
-Date: Tue, 30 Jul 2024 07:45:01 +0800
+	id 1sYaNT-000sD2-1A;
+	Tue, 30 Jul 2024 00:06:07 +0000
+Date: Tue, 30 Jul 2024 08:05:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	lukasz.luba@arm.com, quic_manafm@quicinc.com
-Subject: Re: [PATCH v1 1/7] thermal/core: Encapsulate more handle_thermal_trip
-Message-ID: <202407300733.L6f9tFOM-lkp@intel.com>
-References: <20240729150259.1089814-2-daniel.lezcano@linaro.org>
+To: John Johansen <john.johansen@canonical.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jj-apparmor:apparmor-next 4/4] security/apparmor/af_unix.c:604:3:
+ error: call to undeclared function 'unix_state_lock_nested'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202407300828.EbdfjLX0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,83 +62,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729150259.1089814-2-daniel.lezcano@linaro.org>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v6.11-rc1 next-20240729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-core-Encapsulate-more-handle_thermal_trip/20240730-005842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20240729150259.1089814-2-daniel.lezcano%40linaro.org
-patch subject: [PATCH v1 1/7] thermal/core: Encapsulate more handle_thermal_trip
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240730/202407300733.L6f9tFOM-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300733.L6f9tFOM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
+head:   e6b2ff78a1aeb16f290e483536dedf626ba2d1e9
+commit: e6b2ff78a1aeb16f290e483536dedf626ba2d1e9 [4/4] apparmor: add fine grained af_unix mediation
+config: i386-buildonly-randconfig-004-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300828.EbdfjLX0-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300828.EbdfjLX0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407300733.L6f9tFOM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407300828.EbdfjLX0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/thermal/thermal_trip.c:80: warning: Function parameter or struct member 'low' not described in 'thermal_zone_set_trips'
->> drivers/thermal/thermal_trip.c:80: warning: Function parameter or struct member 'high' not described in 'thermal_zone_set_trips'
+>> security/apparmor/af_unix.c:604:3: error: call to undeclared function 'unix_state_lock_nested'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     604 |                 unix_state_lock_nested(sk2, U_LOCK_SECOND);
+         |                 ^
+>> security/apparmor/af_unix.c:604:31: error: use of undeclared identifier 'U_LOCK_SECOND'
+     604 |                 unix_state_lock_nested(sk2, U_LOCK_SECOND);
+         |                                             ^
+   security/apparmor/af_unix.c:607:3: error: call to undeclared function 'unix_state_lock_nested'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     607 |                 unix_state_lock_nested(sk1, U_LOCK_SECOND);
+         |                 ^
+   security/apparmor/af_unix.c:607:31: error: use of undeclared identifier 'U_LOCK_SECOND'
+     607 |                 unix_state_lock_nested(sk1, U_LOCK_SECOND);
+         |                                             ^
+   4 errors generated.
 
 
-vim +80 drivers/thermal/thermal_trip.c
+vim +/unix_state_lock_nested +604 security/apparmor/af_unix.c
 
-5b8de18ee9027c Daniel Lezcano    2023-01-23   63  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   64  /**
-28d5cc12671c8b Rafael J. Wysocki 2024-06-07   65   * thermal_zone_set_trips - Computes the next trip points for the driver
-5b8de18ee9027c Daniel Lezcano    2023-01-23   66   * @tz: a pointer to a thermal zone device structure
-5b8de18ee9027c Daniel Lezcano    2023-01-23   67   *
-5b8de18ee9027c Daniel Lezcano    2023-01-23   68   * The function computes the next temperature boundaries by browsing
-5b8de18ee9027c Daniel Lezcano    2023-01-23   69   * the trip points. The result is the closer low and high trip points
-5b8de18ee9027c Daniel Lezcano    2023-01-23   70   * to the current temperature. These values are passed to the backend
-5b8de18ee9027c Daniel Lezcano    2023-01-23   71   * driver to let it set its own notification mechanism (usually an
-5b8de18ee9027c Daniel Lezcano    2023-01-23   72   * interrupt).
-5b8de18ee9027c Daniel Lezcano    2023-01-23   73   *
-5b8de18ee9027c Daniel Lezcano    2023-01-23   74   * This function must be called with tz->lock held. Both tz and tz->ops
-5b8de18ee9027c Daniel Lezcano    2023-01-23   75   * must be valid pointers.
-5b8de18ee9027c Daniel Lezcano    2023-01-23   76   *
-5b8de18ee9027c Daniel Lezcano    2023-01-23   77   * It does not return a value
-5b8de18ee9027c Daniel Lezcano    2023-01-23   78   */
-4c090556217f53 Daniel Lezcano    2024-07-29   79  void thermal_zone_set_trips(struct thermal_zone_device *tz, int low, int high)
-5b8de18ee9027c Daniel Lezcano    2023-01-23  @80  {
-0c0c4740c9d266 Rafael J. Wysocki 2023-12-04   81  	int ret;
-5b8de18ee9027c Daniel Lezcano    2023-01-23   82  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   83  	lockdep_assert_held(&tz->lock);
-5b8de18ee9027c Daniel Lezcano    2023-01-23   84  
-698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22   85  	if (!tz->ops.set_trips)
-5b8de18ee9027c Daniel Lezcano    2023-01-23   86  		return;
-5b8de18ee9027c Daniel Lezcano    2023-01-23   87  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   88  	/* No need to change trip points */
-5b8de18ee9027c Daniel Lezcano    2023-01-23   89  	if (tz->prev_low_trip == low && tz->prev_high_trip == high)
-5b8de18ee9027c Daniel Lezcano    2023-01-23   90  		return;
-5b8de18ee9027c Daniel Lezcano    2023-01-23   91  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   92  	tz->prev_low_trip = low;
-5b8de18ee9027c Daniel Lezcano    2023-01-23   93  	tz->prev_high_trip = high;
-5b8de18ee9027c Daniel Lezcano    2023-01-23   94  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   95  	dev_dbg(&tz->device,
-5b8de18ee9027c Daniel Lezcano    2023-01-23   96  		"new temperature boundaries: %d < x < %d\n", low, high);
-5b8de18ee9027c Daniel Lezcano    2023-01-23   97  
-5b8de18ee9027c Daniel Lezcano    2023-01-23   98  	/*
-5b8de18ee9027c Daniel Lezcano    2023-01-23   99  	 * Set a temperature window. When this window is left the driver
-5b8de18ee9027c Daniel Lezcano    2023-01-23  100  	 * must inform the thermal core via thermal_zone_device_update.
-5b8de18ee9027c Daniel Lezcano    2023-01-23  101  	 */
-698a1eb1f75eb6 Rafael J. Wysocki 2024-02-22  102  	ret = tz->ops.set_trips(tz, low, high);
-5b8de18ee9027c Daniel Lezcano    2023-01-23  103  	if (ret)
-5b8de18ee9027c Daniel Lezcano    2023-01-23  104  		dev_err(&tz->device, "Failed to set trips: %d\n", ret);
-5b8de18ee9027c Daniel Lezcano    2023-01-23  105  }
-5b8de18ee9027c Daniel Lezcano    2023-01-23  106  
+   595	
+   596	static void unix_state_double_lock(struct sock *sk1, struct sock *sk2)
+   597	{
+   598		if (unlikely(sk1 == sk2) || !sk2) {
+   599			unix_state_lock(sk1);
+   600			return;
+   601		}
+   602		if (sk1 < sk2) {
+   603			unix_state_lock(sk1);
+ > 604			unix_state_lock_nested(sk2, U_LOCK_SECOND);
+   605		} else {
+   606			unix_state_lock(sk2);
+   607			unix_state_lock_nested(sk1, U_LOCK_SECOND);
+   608		}
+   609	}
+   610	
 
 -- 
 0-DAY CI Kernel Test Service
