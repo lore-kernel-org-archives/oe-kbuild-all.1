@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8D8194098
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 09:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE7318A92A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 10:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722333579; cv=none; b=JbVIsss7y6LzER/4wsQi2rL/Uh/eCqO5BkSWPsoWZ0a5wbHZJYvilgk5H5oIbFwbwEcJAdJsCusa9UdUaDh4i4C7SXtTQPembBig4MYahjtMJMBgwdOCJqMxQZ8PY6hnlmctxmpZ/iJ5fmjd7PYk0/KqMguRP/itVOOuQkG6iIc=
+	t=1722334237; cv=none; b=CPmwTwnXHW6pNHfR0fCJqfSPoycaWlS2jmDPNqsLHLogcHWw4EsN2wHF2HhH4INYuBMr+laiGLEXX7vqurtS2SRNnoHvgymhn8s9HFLHnIZDsdLpBWU0IU9cN0XfBQI6MSjbzQXVP4DBlvja8/5BLONHAL5VXdxleeLyccvgg7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722333579; c=relaxed/simple;
-	bh=P2IN5rpmwUqedEttveeycf9C6gDuAqWf3TQ64sYrffE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQVElnEptawgQjzDTceOZQpbtWirhgtepDhnZVE9906ndnNZkUjV7UIIVZ3y5mPrMNmD3gqSsrwVCwbd0Jz9vrDaQUKSWMYQu1628zF1P1JemEb4O3ROCKW7STpbJXtz6MJSQwp3axOq4vmhYES2lFUvOaBR4W/p6oLU/7WtW8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6YIVf9j; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1722334237; c=relaxed/simple;
+	bh=tYHEt6aQ/dIq7kqRNgqwKHlKYJyE+wQ8PEJdg6uzXP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sgb0jlnnSKs+x4XHG/7KwlqNNnhoMQz01XvT98PW4/Aq2VGGsRiYIH69q49blb7QuPO4ojqg3kG4y+0PrEWm4IxCJe2IaMGl9z8Z/8rhIt3bjNW/T6dd8YYzYEJJchbXNFwIXkMQK7U2tJSFoqxpYVCuANbaS8Tk+WID2o8pmoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L1usnJ50; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6YIVf9j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1usnJ50"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722333577; x=1753869577;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P2IN5rpmwUqedEttveeycf9C6gDuAqWf3TQ64sYrffE=;
-  b=O6YIVf9jGpVVSUMYlO+Jc2YGUHsvvPyw31EaiWOH+7eAplSFwKRRpRds
-   Zvu1/+1Gs3ztntvayaI53P03N7XapDD/eNvRSd0lIvJi+tdtnUcgwTSDd
-   /PS9UJuMNEkgaWNop993taVXvWTHVezTOmRKBC4q15phGDSQvIeQg68kH
-   lQFHYrhgGzJnfEKdqnox60zUb1TDgzB1L82vw6FetgZzSwfDxSazS5UVN
-   fb1nyCd6jVHj2Wlf3+aq9DXyBTft3n3l+mWtdqx614Tj0L650nssqFFA2
-   DWJeOdooXw9+sfRvqAyIaMag4r7azUXx8ht9rRXGGKZY4kX3UeSvF/P+y
-   A==;
-X-CSE-ConnectionGUID: FUjoks6tRaaBz0nInXqHqQ==
-X-CSE-MsgGUID: LmLXSQZVTVCoZ61RzWnHqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="19940344"
+  t=1722334235; x=1753870235;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tYHEt6aQ/dIq7kqRNgqwKHlKYJyE+wQ8PEJdg6uzXP8=;
+  b=L1usnJ50PhRgsL6Xe0JEkzMMthelSL5pxmzH+iXMugBKo73I1c8DMLZt
+   +lKFDvhfdO/HEw0D5ySDoitr0UQ2JF1pgkvoQ45CeUpu37WnhpCb/FO1A
+   5ZbbVBy33q4uQpHFBcMoEBk25aT7x3hV0rqLs4DoVlR7ci1miWTxA5wvR
+   xNM1f2ENHPxVv8vs4NEJGETeGPy6MWevztSMymRe5nF+2W/58/Wqmu5o/
+   ou3+K3RV205Ie85l/fujFyiRP5mmQRaICZR5Rb9Hx89ejCMh5IBiVmEql
+   DX2pSi+GO+pW4d836eGLY0+Rea/irTEYSYwJn7RWkbvkLHtrzsV6hhIlo
+   Q==;
+X-CSE-ConnectionGUID: +lMbK50GRFmE3Svmmp3LxQ==
+X-CSE-MsgGUID: dvvhxiDvR4+KYq53HhLzJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="31286772"
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="19940344"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 02:59:36 -0700
-X-CSE-ConnectionGUID: yEQdJkDYT6ey/of9Y9lvgw==
-X-CSE-MsgGUID: 2fpdTJBrSW6a1MTYJRqDjw==
+   d="scan'208";a="31286772"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 03:10:34 -0700
+X-CSE-ConnectionGUID: 3TYbmAXvTEymZg87UciF0Q==
+X-CSE-MsgGUID: pZMg2QQGTPiTU2/+UfvBPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="54259706"
+   d="scan'208";a="53995688"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jul 2024 02:59:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jul 2024 03:10:33 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYjdi-000sk4-2O;
-	Tue, 30 Jul 2024 09:59:30 +0000
-Date: Tue, 30 Jul 2024 17:59:23 +0800
+	id 1sYjoM-000skK-2z;
+	Tue, 30 Jul 2024 10:10:30 +0000
+Date: Tue, 30 Jul 2024 18:10:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Peter Xu <peterx@redhat.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Donet Tom <donettom@linux.ibm.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@suse.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v2 9/9] mm: Consolidate common checks in
- hugetlb_mmap_check_and_align
-Message-ID: <202407301708.tn4PRNvn-lkp@intel.com>
-References: <20240729091018.2152-10-osalvador@suse.de>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:asahi-wip 1060/1158] warning: unsafe impl missing a
+ safety comment
+Message-ID: <202407301818.PCzhKoJf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,60 +61,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729091018.2152-10-osalvador@suse.de>
 
-Hi Oscar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on s390/features]
-[also build test WARNING on akpm-mm/mm-everything deller-parisc/for-next linus/master v6.11-rc1 next-20240730]
-[cannot apply to powerpc/next powerpc/fixes arnd-asm-generic/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-mmap-Teach-generic_get_unmapped_area-_topdown-to-handle-hugetlb-mappings/20240729-171449
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-patch link:    https://lore.kernel.org/r/20240729091018.2152-10-osalvador%40suse.de
-patch subject: [PATCH v2 9/9] mm: Consolidate common checks in hugetlb_mmap_check_and_align
-config: mips-randconfig-r062-20240729 (https://download.01.org/0day-ci/archive/20240730/202407301708.tn4PRNvn-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301708.tn4PRNvn-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux asahi-wip
+head:   15b881fcbe5bdc0bdbfa1a22cc1adc38ad484e30
+commit: c1a65f4ec22c4985b3462675d434f080fbe8fb76 [1060/1158] fixup! rust: of: Add OF node abstraction
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240730/202407301818.PCzhKoJf-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301818.PCzhKoJf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407301708.tn4PRNvn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407301818.PCzhKoJf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/hugetlb.h:792,
-                    from kernel/fork.c:53:
-   arch/mips/include/asm/hugetlb.h: In function 'prepare_hugepage_range':
->> arch/mips/include/asm/hugetlb.h:20:24: warning: unused variable 'h' [-Wunused-variable]
-      20 |         struct hstate *h = hstate_file(file);
-         |                        ^
-
-
-vim +/h +20 arch/mips/include/asm/hugetlb.h
-
-50a41ff292fafe David Daney     2009-05-27  13  
-78d6e4e8ea8700 Alexandre Ghiti 2018-10-26  14  #define __HAVE_ARCH_PREPARE_HUGEPAGE_RANGE
-50a41ff292fafe David Daney     2009-05-27  15  static inline int prepare_hugepage_range(struct file *file,
-50a41ff292fafe David Daney     2009-05-27  16  					 unsigned long addr,
-50a41ff292fafe David Daney     2009-05-27  17  					 unsigned long len)
-50a41ff292fafe David Daney     2009-05-27  18  {
-50a41ff292fafe David Daney     2009-05-27  19  	unsigned long task_size = STACK_TOP;
-50a41ff292fafe David Daney     2009-05-27 @20  	struct hstate *h = hstate_file(file);
-50a41ff292fafe David Daney     2009-05-27  21  
-50a41ff292fafe David Daney     2009-05-27  22  	if (len > task_size)
-50a41ff292fafe David Daney     2009-05-27  23  		return -ENOMEM;
-50a41ff292fafe David Daney     2009-05-27  24  	if (task_size - len < addr)
-50a41ff292fafe David Daney     2009-05-27  25  		return -EINVAL;
-50a41ff292fafe David Daney     2009-05-27  26  	return 0;
-50a41ff292fafe David Daney     2009-05-27  27  }
-50a41ff292fafe David Daney     2009-05-27  28  
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:435:1
+   |
+   435 | unsafe impl FromBytes for u16 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+   note: the lint level is defined here
+   --> rust/kernel/lib.rs:25:9
+   |
+   25  | #![warn(clippy::undocumented_unsafe_blocks)]
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:447:1
+   |
+   447 | unsafe impl<T: FromBytes, const N: usize> FromBytes for [T; N] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:468:1
+   |
+   468 | unsafe impl AsBytes for u16 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:469:1
+   |
+   469 | unsafe impl AsBytes for u32 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:470:1
+   |
+   470 | unsafe impl AsBytes for u64 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:471:1
+   |
+   471 | unsafe impl AsBytes for usize {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:472:1
+   |
+   472 | unsafe impl AsBytes for i8 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:473:1
+   |
+   473 | unsafe impl AsBytes for i16 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:474:1
+   |
+   474 | unsafe impl AsBytes for i32 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:475:1
+   |
+   475 | unsafe impl AsBytes for i64 {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/types.rs:476:1
+   |
+   476 | unsafe impl AsBytes for isize {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+..
 
 -- 
 0-DAY CI Kernel Test Service
