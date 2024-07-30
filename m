@@ -1,97 +1,150 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22D529A2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 15:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36871197A83
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 15:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722352755; cv=none; b=tUbm8eyTf/g6flmYvuUDwfAEdH9jadw5A4CXcwhcJeamCqbfGJrKAOJXUEBQ1o+xtpx8Np8lerrWxmMx4AHOA56t745guLNEXZHx/HhsFruBi2n5tTYUL9LaKifb2wTNI2lVg+r+yqp1ds28eUCepTXNUIiPFXjFmxO32vMkyQM=
+	t=1722353510; cv=none; b=lEAXsFaD9IiqaZ8yk2XHjLwjjo/9FiGerodLVS0z1vop5w5nMUtGhHTf2chDOIUrxovNVAbc2ExrrVw4MLqWaH4Ue//jMYgWJ2JchsYPPbKZlBuxH5j2m/nBuicze6i/BpaJevMBkkOgj7dHKbz1LEVaulzon+y3EEy8UXLAzPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722352755; c=relaxed/simple;
-	bh=0kiUXaTZG9XfxMhm0+X8mOo7eWN4gVxGbG1FQ98Db90=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BAx5Tq6Uq3gJr4WaRemzfqw0woet50OQgAQk4WSQP4WO5cgy2p18ljWnkplmQKp5iKWjkXxR2dH6DNDaSxvRUE252Pg1mWznMwgM+/ucFp6+hLKuki9HmzXR5sIv4WnconVpfMbU4PNj0nMD+QPmK83nQV4hrR5VwnXpBXOxnVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fssh8/yL; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1722353510; c=relaxed/simple;
+	bh=/ODKqendkicASBGqDKt23LR6U6SFzxoTwp3NYxAXvYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KRy8l49JQKS6dthVUu7PRl8Gmgd1P4bE6XBZwsSNPzxFLss1jwrWIlMCeJprYmv+ycF+FuMlAVeBpf8C7is9qyBBtPVyYILqB0OSqycxw1JfbZLB5oL6KDJ8ff9pmd1E+l69e9uNjqSWF4mPMfjWOF0QyrEoBpI+ehLwS6NoO4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBsmbQ2u; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fssh8/yL"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AA591418B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722352746; bh=g/gjRalHFRsVoIZ8WYQD16VYmKi/y2TadumZxDaPaZ8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fssh8/yLRU+DCg+Ndg9Om20C5HbUe6Od+eQmTzbcGtSSCTIzf6wyQccggKOFMjKY8
-	 L2jpS5Ksv13QoBxQXdBuMF5xSf8ceTv1RqxidYYKsBNM2Wfvt2EaNhMKMSK+1z7c0C
-	 gofh3Pvqc8XE5dIsfpyLgYmjpdGCcGxFMBYfJC3OzBzMSYP1LRDJhvoGezGmT/EUxr
-	 xVJDRTp8fTbzOYKXTIa2cVpmfyb/Dz8XoefLVd2cLsH3h5yzDa//rgiknng+nF6Val
-	 Ikz70cnV4zUZJWgYa5Q3SSUM6Q8ANM6irio2aEWeXPHshiSftxgGeKkrpB/kxBSLBd
-	 LHYXceaHtBwqQ==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AA591418B2;
-	Tue, 30 Jul 2024 15:19:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <mudongliangabcd@gmail.com>, kernel test robot <lkp@intel.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, oe-kbuild-all@lists.linux.dev,
- linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>, Yanteng Si
- <siyanteng@loongson.cn>
-Subject: Re: [lwn:docs-next 2/8] htmldocs: Warning:
- Documentation/translations/zh_CN/kbuild/index.rst references a file that
- doesn't exist: Documentation/kbuild/index
-In-Reply-To: <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
-References: <202407300812.1VvDFdxD-lkp@intel.com>
- <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
-Date: Tue, 30 Jul 2024 09:19:05 -0600
-Message-ID: <87bk2e9ac6.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBsmbQ2u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722353509; x=1753889509;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/ODKqendkicASBGqDKt23LR6U6SFzxoTwp3NYxAXvYU=;
+  b=NBsmbQ2uMr71F/9Xpg9gkaGpC6T/6h+XEPlu+vfitJ4Zv6XQ8QPYmNlp
+   RJclubdMmTtn6W6V6KKsInn2ZgrIvEpSfn7VB3b7zNhhxHDSRQ9EW0tRu
+   N3LIOUep5k9Z4+UII8gJyfy6NO16cM71QKUbXihcdIJ15QQMIP1/WtiTa
+   38nMRb2Ax1tOoGMj/ee5/LrmWsaAfzRwHUn61PQbkrH7dl/xSslu6prlI
+   rnp01V5b4q1jnXdUaWne1HNmpUBYV1DEA79MvncMGhwqKDTuqnwKQLccK
+   wsSSkUk/ZMRnASaAVlYGibjJaozMuB8vNPgb8wgg+1Bcyg2C/HlHWg783
+   w==;
+X-CSE-ConnectionGUID: IC7J2/L+TkyB0x1FyuSsOw==
+X-CSE-MsgGUID: xtrMvy9YS7yxIcaFJIHDCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="42705731"
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
+   d="scan'208";a="42705731"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 08:31:46 -0700
+X-CSE-ConnectionGUID: ptIJ90QuSRCNth5vOL7J5Q==
+X-CSE-MsgGUID: 3hU3ebhLTGevqCnLzvyCew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
+   d="scan'208";a="54370316"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 30 Jul 2024 08:31:44 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYopC-000t12-0B;
+	Tue, 30 Jul 2024 15:31:42 +0000
+Date: Tue, 30 Jul 2024 23:31:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Witold Sadowski <wsadowski@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 1008/1677] drivers/spi/spi-cadence-xspi.c:529:33:
+ error: implicit declaration of function 'readq'; did you mean 'readl'?
+Message-ID: <202407302351.yYAIELQC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dongliang Mu <mudongliangabcd@gmail.com> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cd19ac2f903276b820f5d0d89de0c896c27036ed
+commit: 75128e2a14a9f443e8debdd30445f5934b5a7c83 [1008/1677] spi: cadence: Add Marvell SDMA operations
+config: powerpc-randconfig-r023-20230208 (https://download.01.org/0day-ci/archive/20240730/202407302351.yYAIELQC-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407302351.yYAIELQC-lkp@intel.com/reproduce)
 
-> On Tue, Jul 30, 2024 at 8:59=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
->>
->> tree:   git://git.lwn.net/linux.git docs-next
->> head:   60666fbc81ac91af2cf2f511d60859288f7ea8e5
->> commit: e6a5af90f0a24f08445e3b8a11b727ac84a9520c [2/8] docs/zh_CN: add t=
-he translation of kbuild/headers_install.rst
->> reproduce: (https://download.01.org/0day-ci/archive/20240730/20240730081=
-2.1VvDFdxD-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
-sion of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-lk=
-p@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt re=
-ferences a file that doesn't exist: Documentation/devicetree/bindings/input=
-/qcom,pm8xxx-keypad.txt
->>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5=
-703-regulator.yaml references a file that doesn't exist: Documentation/devi=
-cetree/bindings/mfd/siliconmitus,sm5703.yaml
->>    Warning: Documentation/hwmon/g762.rst references a file that doesn't =
-exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> >> Warning: Documentation/translations/zh_CN/kbuild/index.rst references=
- a file that doesn't exist: Documentation/kbuild/index
->
-> This is my problem.
->
-> But curious: why does my local `make htmldocs` not report this issue?
-> I tested it locally again, but no such warning is reported.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407302351.yYAIELQC-lkp@intel.com/
 
-I'm guessing they are running scripts/documentation-file-ref-check.  I
-should probably do that more regularly myself...
+All errors (new ones prefixed by >>):
 
-jon
+   drivers/spi/spi-cadence-xspi.c: In function 'm_ioreadq':
+>> drivers/spi/spi-cadence-xspi.c:529:33: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
+     529 |                         u64 b = readq(addr);
+         |                                 ^~~~~
+         |                                 readl
+   drivers/spi/spi-cadence-xspi.c: In function 'm_iowriteq':
+>> drivers/spi/spi-cadence-xspi.c:555:25: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+     555 |                         writeq(*buffer++, addr);
+         |                         ^~~~~~
+         |                         writel
+   cc1: some warnings being treated as errors
+
+
+vim +529 drivers/spi/spi-cadence-xspi.c
+
+   518	
+   519	static void m_ioreadq(void __iomem  *addr, void *buf, int len)
+   520	{
+   521		if (IS_ALIGNED((long)buf, 8) && len >= 8) {
+   522			u64 full_ops = len / 8;
+   523			u64 *buffer = buf;
+   524	
+   525			len -= full_ops * 8;
+   526			buf += full_ops * 8;
+   527	
+   528			do {
+ > 529				u64 b = readq(addr);
+   530				*buffer++ = b;
+   531			} while (--full_ops);
+   532		}
+   533	
+   534	
+   535		while (len) {
+   536			u64 tmp_buf;
+   537	
+   538			tmp_buf = readq(addr);
+   539			memcpy(buf, &tmp_buf, min(len, 8));
+   540			len = len > 8 ? len - 8 : 0;
+   541			buf += 8;
+   542		}
+   543	}
+   544	
+   545	static void m_iowriteq(void __iomem *addr, const void *buf, int len)
+   546	{
+   547		if (IS_ALIGNED((long)buf, 8) && len >= 8) {
+   548			u64 full_ops = len / 8;
+   549			const u64 *buffer = buf;
+   550	
+   551			len -= full_ops * 8;
+   552			buf += full_ops * 8;
+   553	
+   554			do {
+ > 555				writeq(*buffer++, addr);
+   556			} while (--full_ops);
+   557		}
+   558	
+   559		while (len) {
+   560			u64 tmp_buf;
+   561	
+   562			memcpy(&tmp_buf, buf, min(len, 8));
+   563			writeq(tmp_buf, addr);
+   564			len = len > 8 ? len - 8 : 0;
+   565			buf += 8;
+   566		}
+   567	}
+   568	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
