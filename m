@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8251AA3E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 23:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9291917D5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 23:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722380707; cv=none; b=aewTpL0L55w15iHzvqItmCWZbg20zNqzkN3+sPqlSL06fTuQVqPr/9VVgGxnvTcF6zTJ2mM6VYjFGWi5bdFptshk8IezEX8cMdWhN490A/XWgqaijBM3qUZIeD6qCSXpB+bymUmVkyWg14DOAZbb3sOHhVMN1w3VgUkTPlSYQcg=
+	t=1722382029; cv=none; b=GgyPhea3yrgr1sHREOqQsl4R0hdw8nkYGEATpZj1bpV2WqfKtQjhZWfYN+dile+ITJJ3pltnwbopqj2+Fo0uzkilWoxUACAxraePZC1FiKq1LxGQaAs3fL6ppOUPDCBLPB62RhlcY19exUDS8icr0ZcsO8VUyS4dXuDuIKwNdr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722380707; c=relaxed/simple;
-	bh=haNb2WEHs49SmxQJJrwRnSB0McMR+i9lfsy0bdhSxOY=;
+	s=arc-20240116; t=1722382029; c=relaxed/simple;
+	bh=1I2YIz+AZ1WbKIuGnOvY6fR5Y+zIFratpPEerULDaC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ffjxelKMi7wiAa6n2Lof0OgqR1WsCISAH0X+hJoOX8o5rMsUPiavUybBTIZIMdq0nc7FDT2lmieSDOy7Rj6GwYX9g82VlUQkqWxaUnzFKHMYhYvYKtam2kis+F5InWYAT50x+RFtTpmcLcVQ6GGCZS/1DzDb7KDrFQ/I+rCg2fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnYSc98n; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=eEZbedNRxO9nZtMqhoF4SjWnUDvE8xrrj+rtY89gcaq7A0j9Kpj/LAAajVpIFCwNuBHNKG5j6WbQemZ0IpmQ4mP1tonKJpKg3Zg68kEg1szgl6o5J/6jJbZlpB8aujpT3HD1vlkSK5lPnKG6h3xZX7jkkwXkTLcfVB8Q4gWzZPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DYZyOEhA; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnYSc98n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DYZyOEhA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722380705; x=1753916705;
+  t=1722382026; x=1753918026;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=haNb2WEHs49SmxQJJrwRnSB0McMR+i9lfsy0bdhSxOY=;
-  b=AnYSc98nGg8qWZ1pSV5mVF10+upYElvhw9w9a88iSwU9/zjughAYjYLx
-   ofwlKlA8pyYHhIeMirM3mwZaD4Qb0uKLXmTz2o+l7/k2dRC0VFuPDESvn
-   qawGwqGCbNSDSMK+etV2zOeEzc76Kw9WE6SowkVeL2PPgw/8TF+0aoHpK
-   seHJ+5+TDz+BO9fCazqX/0akCSiAmjSOZVy/kDvJ4l2Z615E9L4K/XvBI
-   5ysWuvAgZ90crVr+pTI2pIug5bmeSimiJQbpnzqERdp/iRGlC0G+484yQ
-   uh3g/G+I3MBhBr21vvyVehDeGSfS7mfFC8MimPV1c6Be/TImD7NT+Tlo/
-   A==;
-X-CSE-ConnectionGUID: x/sXUQIsTgySD4DS3h5nyA==
-X-CSE-MsgGUID: GG2JnOV/T5OZWYt4wl+d9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20038816"
+  bh=1I2YIz+AZ1WbKIuGnOvY6fR5Y+zIFratpPEerULDaC0=;
+  b=DYZyOEhA7KF1JOix3Ji5tdiJBUPu4VtFo49O82ONV1V09JgbTc2sfJru
+   5VS5GRUlmaXECsRLoPA8x+MkiT1H/r2QONmCSh7yabdsemCISrIYwt4Pz
+   5ahhk87xpa5tj0bsV4heBJoa8mkh+VcY7bC+zP/IgCD3y2YbZxuO9JTTH
+   LpHv+GLvMekOxgXGxQ0HWXN4IkvEvLpQqbQCiBEswAMd18zXtGp593qH0
+   V7EiSCKh6JxAHJJtgwEslyUD6mNe29TIiO1BdSmSIfJ2mgMZ9KWNjXSxj
+   UXDaihrFSBcLVBmy/Yvp9TP5O994W01oHgsbWceX9FZm9dIwuY9mxJGBl
+   g==;
+X-CSE-ConnectionGUID: +xMHnNwvQWiXniKZ0lKJbQ==
+X-CSE-MsgGUID: oLVi4eNXTRiShOyDRHDUDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20040816"
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="20038816"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 16:05:04 -0700
-X-CSE-ConnectionGUID: 2ldjJmxsS7+DhMQW9RnCVA==
-X-CSE-MsgGUID: HTU44qoRQUespgRxVaMatg==
+   d="scan'208";a="20040816"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 16:27:05 -0700
+X-CSE-ConnectionGUID: FK3TqmT8RF6Y/x6le0r5sw==
+X-CSE-MsgGUID: h2LGIfXbSbKM7rFXOVakaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="59575372"
+   d="scan'208";a="85419053"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jul 2024 16:05:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2024 16:27:05 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYvtt-000tTA-26;
-	Tue, 30 Jul 2024 23:05:01 +0000
-Date: Wed, 31 Jul 2024 07:04:57 +0800
+	id 1sYwFC-000tVQ-1v;
+	Tue, 30 Jul 2024 23:27:02 +0000
+Date: Wed, 31 Jul 2024 07:26:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:ptdesc 9/17] mm/memory.c:448:33: error: initialization of
- 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'}
-Message-ID: <202407310911.XJKXzVhQ-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20240729-cbc 8/9]
+ include/linux/stddef.h:16:33: error: expected declaration specifiers or
+ '...' before '__builtin_offsetof'
+Message-ID: <202407310719.KIRn0GjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +65,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git ptdesc
-head:   e9eb6331a5abf0a71cf90c2d7d349fc32e12ae2e
-commit: 9a8dc8f79c872ccb821178a11f3f29574769763a [9/17] mm/pgtable: fully use ptdesc in pte_alloc_one series functions
-config: m68k-mvme147_defconfig (https://download.01.org/0day-ci/archive/20240731/202407310911.XJKXzVhQ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310911.XJKXzVhQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc
+head:   303f7de5e5f60dfc378b9a32a201110936b43d83
+commit: d9b68641e04510cbd540f81b8ef4379e4d26e201 [8/9] scsi: fc: Avoid -Wflex-array-member-not-at-end warnings
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240731/202407310719.KIRn0GjQ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310719.KIRn0GjQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407310911.XJKXzVhQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407310719.KIRn0GjQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function '__pte_alloc':
->> mm/memory.c:448:33: error: initialization of 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'} [-Werror=incompatible-pointer-types]
-     448 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
-         |                                 ^~~~~~~~~~~~~
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:8,
-                    from mm/memory.c:43:
-   include/linux/mm_types.h:509:41: error: passing argument 2 of 'pte_free' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     508 |         const struct ptdesc *:          (const struct page *)(pt),      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     509 |         struct ptdesc *:                (struct page *)(pt)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct page *
-   mm/memory.c:454:30: note: in expansion of macro 'ptdesc_page'
-     454 |                 pte_free(mm, ptdesc_page(ptdesc));
-         |                              ^~~~~~~~~~~
-   In file included from arch/m68k/include/asm/pgalloc.h:16,
-                    from mm/memory.c:86:
-   arch/m68k/include/asm/motorola_pgalloc.h:42:61: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'struct page *'
-      42 | static inline void pte_free(struct mm_struct *mm, pgtable_t pgtable)
-         |                                                   ~~~~~~~~~~^~~~~~~
-   mm/memory.c: In function '__do_fault':
-   include/linux/mm_types.h:507:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:4650:37: note: in expansion of macro 'ptdesc_page'
-    4650 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-   mm/memory.c: In function 'do_fault_around':
-   include/linux/mm_types.h:507:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:5013:37: note: in expansion of macro 'ptdesc_page'
-    5013 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vmf->vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/sh/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:305,
+                    from include/linux/export.h:5,
+                    from drivers/scsi/libfc/fc_elsct.c:12:
+>> include/linux/stddef.h:16:33: error: expected declaration specifiers or '...' before '__builtin_offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/uapi/scsi/fc/fc_els.h:1131:15: note: in expansion of macro 'offsetof'
+    1131 | static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+         |               ^~~~~~~~
+   In file included from drivers/scsi/libfc/fc_elsct.c:16:
+>> include/uapi/scsi/fc/fc_els.h:1132:15: error: expected declaration specifiers or '...' before string constant
+    1132 |               "struct member likely outside of __struct_group()");
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: expected declaration specifiers or '...' before '__builtin_offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/uapi/scsi/fc/fc_els.h:1149:15: note: in expansion of macro 'offsetof'
+    1149 | static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
+         |               ^~~~~~~~
+   include/uapi/scsi/fc/fc_els.h:1150:15: error: expected declaration specifiers or '...' before string constant
+    1150 |               "struct member likely outside of __struct_group()");
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +448 mm/memory.c
+vim +16 include/linux/stddef.h
 
-   445	
-   446	int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
-   447	{
- > 448		struct ptdesc *ptdesc = pte_alloc_one(mm);
-   449		if (!ptdesc)
-   450			return -ENOMEM;
-   451	
-   452		pmd_install(mm, pmd, (pgtable_t *)&ptdesc);
-   453		if (ptdesc)
-   454			pte_free(mm, ptdesc_page(ptdesc));
-   455		return 0;
-   456	}
-   457	
+6e218287432472 Richard Knutsson 2006-09-30  14  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
+14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+3876488444e712 Denys Vlasenko   2015-03-09  17  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: 14e83077d55ff4b88fe39f5e98fb8230c2ccb4fb include: drop pointless __compiler_offsetof indirection
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
