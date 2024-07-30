@@ -1,118 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0623418FC75
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 14:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22D529A2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 15:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722351526; cv=none; b=VO/mSSw8JkiF215EvMyDYWhy2U9Uhf8FZED2Teluqu+jYDKahYxMPEF5rCeFqRZMYzS/QLeKcm/Ftg6f8t/iFWp7oMAmCBOfUxDAG7dUvxirMYLYcSb3hyL6BYrGPbQtXM2cpdNS+su71ILpzpBsmiiTbedW7M4/Bbu8K2pE58U=
+	t=1722352755; cv=none; b=tUbm8eyTf/g6flmYvuUDwfAEdH9jadw5A4CXcwhcJeamCqbfGJrKAOJXUEBQ1o+xtpx8Np8lerrWxmMx4AHOA56t745guLNEXZHx/HhsFruBi2n5tTYUL9LaKifb2wTNI2lVg+r+yqp1ds28eUCepTXNUIiPFXjFmxO32vMkyQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722351526; c=relaxed/simple;
-	bh=exS7BBg29bkfLm6pyKyjd39sKyvi6XSARHn2U0LYNfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L4hoY3rj+/VPIP7UxF/TtlIZYMdIFGEksRck/OhPNJdEVOxiLouBe1xcqkrITrq9YYek8XFG1Uy235UvULMqdV4sMXwDGY0blCROoT777J5ECBLZVvMDrYsX0Jrj/OVmBDDa/4/ZrO9EcsWs4X4fp9wa5f/Uww9ouSV5zk5a85I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+Qwhsvz; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722352755; c=relaxed/simple;
+	bh=0kiUXaTZG9XfxMhm0+X8mOo7eWN4gVxGbG1FQ98Db90=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BAx5Tq6Uq3gJr4WaRemzfqw0woet50OQgAQk4WSQP4WO5cgy2p18ljWnkplmQKp5iKWjkXxR2dH6DNDaSxvRUE252Pg1mWznMwgM+/ucFp6+hLKuki9HmzXR5sIv4WnconVpfMbU4PNj0nMD+QPmK83nQV4hrR5VwnXpBXOxnVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fssh8/yL; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+Qwhsvz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722351525; x=1753887525;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=exS7BBg29bkfLm6pyKyjd39sKyvi6XSARHn2U0LYNfU=;
-  b=A+Qwhsvzr2CSfk4dWyoj8pGEUPjJ2fl5qDUXqPKYATj5teUHsp9REqtH
-   2TdPchZLfT0nLyl8ZsDSX0zXvtnUAkWSXziNXcOgznEbpdFRPxKjFG25e
-   hrvtXdNsc/cJwhxNt+lIQCcjOMHQKkob/HNEf1JU7NCoCknCUT7M1bs3c
-   PkDeShc8S9gc5omE535JcD72h4mRMd9Gx2VWpUNT3aChDq0idNHrjYvhT
-   nxB57JrnW3CrexXD9q8LxeCxhg73ZyiIDZRS+rf72ytX13q1Hkk35oBlM
-   zfO8X+RtQtRB0hhx09njCNfc7vmCGh+ySvODz0Bk+CnA9CNTYv/zJvHYs
-   Q==;
-X-CSE-ConnectionGUID: qd+FhM4wQA+vfzr/hby5Qg==
-X-CSE-MsgGUID: W/cs868+RyeJp/Z3H4l3yQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20057609"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="20057609"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 07:58:44 -0700
-X-CSE-ConnectionGUID: 1dY9SUdrRCazXdk2IfUBwQ==
-X-CSE-MsgGUID: cs2cnwwFRKOZphzCH9lnsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="59157201"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Jul 2024 07:58:43 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYoJE-000syp-2T;
-	Tue, 30 Jul 2024 14:58:40 +0000
-Date: Tue, 30 Jul 2024 22:58:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/fastpath_pi_nv 2/2] arch/x86/kvm/svm/svm.c:4147:46:
- error: expected ';' before 'if'
-Message-ID: <202407302211.4Yvj6Tnj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fssh8/yL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AA591418B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1722352746; bh=g/gjRalHFRsVoIZ8WYQD16VYmKi/y2TadumZxDaPaZ8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fssh8/yLRU+DCg+Ndg9Om20C5HbUe6Od+eQmTzbcGtSSCTIzf6wyQccggKOFMjKY8
+	 L2jpS5Ksv13QoBxQXdBuMF5xSf8ceTv1RqxidYYKsBNM2Wfvt2EaNhMKMSK+1z7c0C
+	 gofh3Pvqc8XE5dIsfpyLgYmjpdGCcGxFMBYfJC3OzBzMSYP1LRDJhvoGezGmT/EUxr
+	 xVJDRTp8fTbzOYKXTIa2cVpmfyb/Dz8XoefLVd2cLsH3h5yzDa//rgiknng+nF6Val
+	 Ikz70cnV4zUZJWgYa5Q3SSUM6Q8ANM6irio2aEWeXPHshiSftxgGeKkrpB/kxBSLBd
+	 LHYXceaHtBwqQ==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AA591418B2;
+	Tue, 30 Jul 2024 15:19:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dongliang Mu <mudongliangabcd@gmail.com>, kernel test robot <lkp@intel.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, oe-kbuild-all@lists.linux.dev,
+ linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <siyanteng@loongson.cn>
+Subject: Re: [lwn:docs-next 2/8] htmldocs: Warning:
+ Documentation/translations/zh_CN/kbuild/index.rst references a file that
+ doesn't exist: Documentation/kbuild/index
+In-Reply-To: <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
+References: <202407300812.1VvDFdxD-lkp@intel.com>
+ <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
+Date: Tue, 30 Jul 2024 09:19:05 -0600
+Message-ID: <87bk2e9ac6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/sean-jc/linux x86/fastpath_pi_nv
-head:   b2746b169a9de85ccd1760906aadedd71e30497d
-commit: b2746b169a9de85ccd1760906aadedd71e30497d [2/2] KVM: x86: Add a fastpath HLT handler
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240730/202407302211.4Yvj6Tnj-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407302211.4Yvj6Tnj-lkp@intel.com/reproduce)
+Dongliang Mu <mudongliangabcd@gmail.com> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407302211.4Yvj6Tnj-lkp@intel.com/
+> On Tue, Jul 30, 2024 at 8:59=E2=80=AFAM kernel test robot <lkp@intel.com>=
+ wrote:
+>>
+>> tree:   git://git.lwn.net/linux.git docs-next
+>> head:   60666fbc81ac91af2cf2f511d60859288f7ea8e5
+>> commit: e6a5af90f0a24f08445e3b8a11b727ac84a9520c [2/8] docs/zh_CN: add t=
+he translation of kbuild/headers_install.rst
+>> reproduce: (https://download.01.org/0day-ci/archive/20240730/20240730081=
+2.1VvDFdxD-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-lk=
+p@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt re=
+ferences a file that doesn't exist: Documentation/devicetree/bindings/input=
+/qcom,pm8xxx-keypad.txt
+>>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5=
+703-regulator.yaml references a file that doesn't exist: Documentation/devi=
+cetree/bindings/mfd/siliconmitus,sm5703.yaml
+>>    Warning: Documentation/hwmon/g762.rst references a file that doesn't =
+exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> >> Warning: Documentation/translations/zh_CN/kbuild/index.rst references=
+ a file that doesn't exist: Documentation/kbuild/index
+>
+> This is my problem.
+>
+> But curious: why does my local `make htmldocs` not report this issue?
+> I tested it locally again, but no such warning is reported.
 
-All error/warnings (new ones prefixed by >>):
+I'm guessing they are running scripts/documentation-file-ref-check.  I
+should probably do that more regularly myself...
 
-   arch/x86/kvm/svm/svm.c: In function 'svm_exit_handlers_fastpath':
->> arch/x86/kvm/svm/svm.c:4147:36: warning: value computed is not used [-Wunused-value]
-    4147 |         to_svm(vcpu)->vmcb->control.exit_code
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
->> arch/x86/kvm/svm/svm.c:4147:46: error: expected ';' before 'if'
-    4147 |         to_svm(vcpu)->vmcb->control.exit_code
-         |                                              ^
-         |                                              ;
-    4148 |         if (is_guest_mode(vcpu))
-         |         ~~                                    
->> arch/x86/kvm/svm/svm.c:4151:13: error: 'exit_code' undeclared (first use in this function); did you mean 'exit_creds'?
-    4151 |         if (exit_code == SVM_EXIT_MSR &&
-         |             ^~~~~~~~~
-         |             exit_creds
-   arch/x86/kvm/svm/svm.c:4151:13: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +4147 arch/x86/kvm/svm/svm.c
-
-  4144	
-  4145	static fastpath_t svm_exit_handlers_fastpath(struct kvm_vcpu *vcpu)
-  4146	{
-> 4147		to_svm(vcpu)->vmcb->control.exit_code
-  4148		if (is_guest_mode(vcpu))
-  4149			return EXIT_FASTPATH_NONE;
-  4150	
-> 4151		if (exit_code == SVM_EXIT_MSR &&
-  4152		    to_svm(vcpu)->vmcb->control.exit_info_1)
-  4153			return handle_fastpath_set_msr_irqoff(vcpu);
-  4154	
-  4155		if (exit_code == SVM_EXIT_HLT)
-  4156			return handle_fastpath_hlt(vcpu);
-  4157	
-  4158		return EXIT_FASTPATH_NONE;
-  4159	}
-  4160	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+jon
