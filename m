@@ -1,120 +1,88 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EBA101C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 02:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D49B2F37
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 02:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722392043; cv=none; b=txFtiWkI8gDQQU3PqjtyBiNpmKz/rpJuBjkRKpQHzRy1JVW7jsmOgGTwv1HATxFQoGqd1fZTsJYVu3HC7yISZMjeTRosoYom77WBUDYZ3aDUZL9+mq4HuF6F7BgNvKqqplhUa6a+MrelBDNtJucEpTJi3WSetGknNle18XzczlU=
+	t=1722393014; cv=none; b=F+XajBXIxCiM73ZTgVEL67Z+Bl8RF7RHjU3jkUKJBFkEYRlgHf6/+z78PRcU5R0MSU9dx1pqC6qGlaN30Ar7/ITTze7JVgBS9odbBZMCHbxIAeV9u1xX4OlEhnCgarNYsfvfY4LBJgL7ACxG3bW6fG8qyL+3UrlzEdZ9obCWBsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722392043; c=relaxed/simple;
-	bh=iM1sgtJFOzwcMsPsrDB0y2KVeYvDhZQm0u+TUmM1PW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p/R7JHMrDy7ZS/pqc9nGNCHBCz2ReB+3jf3HtyijJg03ZUugqWy9AyCRBsEQo0HEHMubBZ7Nwxt9wTxuI1AjuJMGI/hAGmh8AXWKtu2KH68JGwe7yfgqRpDIF2itpki7aCL8YDJoWcx+dpV/IoD+OV8P2sTX7XT/NuvfpZklNec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUBdl96X; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722393014; c=relaxed/simple;
+	bh=6uAEMUk5PreydjSVoBbHB0wXQK8ZaZp3YtcAp8R4WAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Vl4+RbcplKk7cwX3z3zHGmE3woUdjKHdxcZc1ytiSizwRSiKTT1+/qTinQsPVV7+3WvUFjKejn0uMUrGwPf0DgnnoaTebBOvh4t6i8x02hEqSEzTpwle/FYKqtJl9AyTNFMb8jbOGM+OEyi0hzyKGiPmZj5oCtw7nKMWgo8HgPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaA3zyVU; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUBdl96X"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5d60ab4f25bso618344eaf.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jul 2024 19:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722392041; x=1722996841; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S2Y9iW0CzoN1ACWRbKshbLpj+1WPAbblBkNz+cXNKqE=;
-        b=QUBdl96X4ZDjPzFxdFjqRMuchb/+pvjTFmcdvopI20/XuWILpOHsr7fuxOBZtiO/YV
-         wecmFB5YBUAJEguQInSxe8fELW0vsJrlv0PisntMziwzq4EvZ99w2KEo9x2QIYThLRCS
-         Gz5hVVsLh4KqfCvlMc8giUQCV+EDDcXaykfHHO7KY7cgATOBCdBoa7tvJCq65dkeAOCH
-         WSaCC6DE1aNb81OHC+a4RDGHJW2zANs64ou3nHo48Fyb6xVKud3QbWh0MjruQMoAv9uC
-         2/n0shmvm0oMVD19dC+sGAbk6cdVUTIWP6Uob2ty+/OfSp6tWcxfRIcjxHkPFPxDwoOr
-         8KLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722392041; x=1722996841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S2Y9iW0CzoN1ACWRbKshbLpj+1WPAbblBkNz+cXNKqE=;
-        b=k3okDR6OH/8NGOlAQbZZsnzOPkJDlKFve2akxHMbzxFeTXTnJyUGS1vB0Eo0hmpX9c
-         yrQVFjLo6Nsm9cocDeT59i0CL7tFplcLMOIyBHu4B3KVeIB8kSR6naa8hwFO3TaBwI9h
-         n9kzPk/cNLKyKsaekKbpb7+ZWKbMPyW4QQBUrjpGG/SYZE2qvyVuFTtxQVRqSwU6vU1H
-         Cl3Wn2ckZrr8lZnh6PGu9voyK1jCSLDELoA/ItBsnttlwcEk6tDX5DZ/wLBDztsvg/VS
-         eDNKkBKC2qxmuR7mjyh4Hq/rcjm5wrt/aLsy6m42qzP9Acf5FCUcg9RyU/0gAc2PbAZK
-         VLfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVh5QyHwPRtoKqri8XokfYUPObsbueqXPZD2Xp5f+q/9OPgDQLKXvSkzLzo7U8GQujbnrsVaWdWtJKiW39venvICkWOb5ArsS/ngH6riA==
-X-Gm-Message-State: AOJu0YyRJDglJerIp00YrsWMDENJS+bZ/KXu7hBHnXjqCYHAjqT2baSy
-	rRRIPcL9FVJVU7QT5qdUlgYI5TATJktngWKHIWGpaysQeAyfYJXaPTk6TjZnDWSI2fpON5siov4
-	YsuGt0je+2Ovse8OLkOUZO1WhJN0=
-X-Google-Smtp-Source: AGHT+IF2VzNiv/5WrS6GmxcOYTCV4725KiIEkkONyb03cY7vDg8zixCo86IyKOPdGbbiLJg4P+NqFd9MjUwaPAphp88=
-X-Received: by 2002:a05:6820:2222:b0:5c4:2497:c92d with SMTP id
- 006d021491bc7-5d5d0e19036mr16557733eaf.2.1722392041480; Tue, 30 Jul 2024
- 19:14:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaA3zyVU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722393013; x=1753929013;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6uAEMUk5PreydjSVoBbHB0wXQK8ZaZp3YtcAp8R4WAs=;
+  b=ZaA3zyVUHkye7voZ6xAUqDKXbWt5A5jdGbleDq5j6msS2rtqRkM7CUYj
+   S3vsgHF94JZItKPKs6v6VvVm1jREfQOpWZIlDzM5XGyDgpvLaZUzOKJfc
+   7UJlWhMgSGjl6lVU/JgrAkCoX930pA4TwiwADj/bLMrr0WVxJaxIrqidD
+   rzaB51ycx7Qe/Ljqvd8p/R7jCVwkVaHlKwbLOyfNQw8eVGPjArpSRVbu2
+   LKnc4VgOV72m7bhEhawP1SgNjmqepKLG7dpzMlt2n9OmUEpUXuOx8Cbcd
+   xdyQkLX6y9eYR598+piZwowX17Y19v5QyYJx8LhUHDwZFZF0Wg6I/RsTp
+   Q==;
+X-CSE-ConnectionGUID: M13fMIhESTSSUjJVqYq4fQ==
+X-CSE-MsgGUID: ue/NdC3STZKZpeplWPWifw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="30831818"
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="30831818"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 19:30:12 -0700
+X-CSE-ConnectionGUID: /cvgKe9iR0iXeF9xrDAbBg==
+X-CSE-MsgGUID: qLBsGbgCRDGkfr/XClKYDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="85174171"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Jul 2024 19:30:10 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYz6N-000teS-3A;
+	Wed, 31 Jul 2024 02:30:07 +0000
+Date: Wed, 31 Jul 2024 10:29:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 13169/23386] mm/userfaultfd.o: warning:
+ objtool: mcopy_atomic()+0x1e78: unreachable instruction
+Message-ID: <202407311035.uLDyyIFP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202407300812.1VvDFdxD-lkp@intel.com> <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
- <87bk2e9ac6.fsf@trenco.lwn.net>
-In-Reply-To: <87bk2e9ac6.fsf@trenco.lwn.net>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 31 Jul 2024 10:13:35 +0800
-Message-ID: <CAD-N9QVOZEF0cjDYYz4O24vbw1aGNmbq-88qdWasfGq6tGJoPw@mail.gmail.com>
-Subject: Re: [lwn:docs-next 2/8] htmldocs: Warning: Documentation/translations/zh_CN/kbuild/index.rst
- references a file that doesn't exist: Documentation/kbuild/index
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: kernel test robot <lkp@intel.com>, Dongliang Mu <dzm91@hust.edu.cn>, oe-kbuild-all@lists.linux.dev, 
-	linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jul 30, 2024 at 11:19=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> Dongliang Mu <mudongliangabcd@gmail.com> writes:
->
-> > On Tue, Jul 30, 2024 at 8:59=E2=80=AFAM kernel test robot <lkp@intel.co=
-m> wrote:
-> >>
-> >> tree:   git://git.lwn.net/linux.git docs-next
-> >> head:   60666fbc81ac91af2cf2f511d60859288f7ea8e5
-> >> commit: e6a5af90f0a24f08445e3b8a11b727ac84a9520c [2/8] docs/zh_CN: add=
- the translation of kbuild/headers_install.rst
-> >> reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300=
-812.1VvDFdxD-lkp@intel.com/reproduce)
-> >>
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-=
-lkp@intel.com/
-> >>
-> >> All warnings (new ones prefixed by >>):
-> >>
-> >>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt =
-references a file that doesn't exist: Documentation/devicetree/bindings/inp=
-ut/qcom,pm8xxx-keypad.txt
-> >>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,s=
-m5703-regulator.yaml references a file that doesn't exist: Documentation/de=
-vicetree/bindings/mfd/siliconmitus,sm5703.yaml
-> >>    Warning: Documentation/hwmon/g762.rst references a file that doesn'=
-t exist: Documentation/devicetree/bindings/hwmon/g762.txt
-> >> >> Warning: Documentation/translations/zh_CN/kbuild/index.rst referenc=
-es a file that doesn't exist: Documentation/kbuild/index
-> >
-> > This is my problem.
-> >
-> > But curious: why does my local `make htmldocs` not report this issue?
-> > I tested it locally again, but no such warning is reported.
->
-> I'm guessing they are running scripts/documentation-file-ref-check.  I
-> should probably do that more regularly myself...
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e5ea67ef45bf84add14bf009f071b29909f087cb
+commit: 8b9ea9010139596e71aae4be5264c3dd901b13cb [13169/23386] pagecache: support percpu refcount to imporve performance
+config: x86_64-randconfig-003-20240731 (https://download.01.org/0day-ci/archive/20240731/202407311035.uLDyyIFP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311035.uLDyyIFP-lkp@intel.com/reproduce)
 
-I see. Next time I will check this before sending patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311035.uLDyyIFP-lkp@intel.com/
 
->
-> jon
+All warnings (new ones prefixed by >>):
+
+   In file included from mm/userfaultfd.c:12:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+>> mm/userfaultfd.o: warning: objtool: mcopy_atomic()+0x1e78: unreachable instruction
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
