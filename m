@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B71B3749;
-	Wed, 31 Jul 2024 14:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C0B1BBBC3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 14:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722435227; cv=none; b=MlDpw+rQtl+tnEZHC2Bd+1tIEPmN0aqK7O1PCrAF8tE1U5aexmTOnFKM8i11OC9e574sBkFkP2KZQBlQew7n6uW2o9tarMCkzSx4shtkt5EXsZo78QOa+ne9KK57vrmzyHjCXNtuSKtJGyw1KcE6gY3yPyTCIZg13Djmszpx1pE=
+	t=1722437088; cv=none; b=ZZLXafc1jgyMONk13cz76gickQbKBhx6NdZItrDv5LjPKUUoJFPnkTOpMQXbsvGF6Df/N7iGWjEn/aDWSRYkDLowTMmlWZsDPdfR7/Fq7sRxo/bJC5TDy2gluo9K8MpZehitp/1Z/z5didttmXHu69u6m5V4S7WN+x8vYJbbD/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722435227; c=relaxed/simple;
-	bh=PsZ7vZbtm6qZyG0nHh+ujBlh/HQ25NrLbIHOdDMREow=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F//0tHF9HKNGbuzqMEmFTjvX+aFHO/e0iaUnSs9Dm0Fvet7Qn7TJ7pD+hZsIgrnaMXDYdvVUQ5J7BE16CcMmVewPmxyRLYv7oeDF2puv8493L3Wnl2dcm97+/XZvyRNwsRrnB9VBriUZNNO7duWB8U2VO5FXOl08n+70oXEmbSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjC8UgQ2; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1722437088; c=relaxed/simple;
+	bh=0i7+5bg5UJif9MuAVh7inaS5qO0L8EjfbCHmxXjjGzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uvSHSjQMQCYl5cPW1qiIx7mWImNdWpiW5rSF7HNaFAzdEmb0krdfFhFXHyVHRUYwXAn440Xl8dAKpn+Zr/at4VF4P4kkaie8de7kpu0qIbJLUMRfqCwtzH06nIb497UCGSCy4+A/pIVg26QRiLKM+2GwL372cq+8qnB0CX5OBXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqBfQaqq; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjC8UgQ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqBfQaqq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722435224; x=1753971224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsZ7vZbtm6qZyG0nHh+ujBlh/HQ25NrLbIHOdDMREow=;
-  b=jjC8UgQ2eM2Lwz+LX5y/AMmEbddZcnaX9K9vyqg3j1VZXDUZY2sYd+At
-   ngt/CWzcgGERHmJNm6OlyJISJ5RXQAvNyzFx1I0wLC5icqlIz//kouKo/
-   2Xx0PnmJkeUTH4RJvFCzPmjtrwFPGc+p6BqazRPwdgU3tnQvyBr/zz82v
-   M3x8AnOn9qd5uy1qMFEYzne/V1RBkpLHuP1r1P/cr2BU+jUR0mtcTYwQk
-   Oyuv5IHVBbzLQnJq6dM4n9/zST7oVs7j0ehz+EDqcD6SQTvd3YPC5gy9o
-   T+SUgco5/TLbwo2aFxlpPYR9P4jYvQwDJF9mrF55suxK1Zf6a/DwH4od6
+  t=1722437088; x=1753973088;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0i7+5bg5UJif9MuAVh7inaS5qO0L8EjfbCHmxXjjGzw=;
+  b=fqBfQaqq9xWwh8X490eTdZFRl5iCHIQsObQgYhSvfW9ZFZrevdkjyxCN
+   ihmdFF9tAzi4dj4othR3zaKiPuRPKJEyyeWtJC6Al24gk2g7NAHdY0hQC
+   WtO1hshfsLCzfJUUlGJJLFRoRGxqkBFdndizPNp62xERCfzWPKLvUphXU
+   S01ocsXvm6Ln3kwwmv5sDHJyAAt/tKOqJdUab+jbY/CYvyod1FXJwC1nm
+   95SkvjvmGa8Aj1jOQp4gTPblH+5bkoxFw0tzTb7DNi92dOFID6fQ0H2la
+   ShIrBy88MLHnsoDihF7WdcCGp1FWzicgOdXoMRgEjmxk6nZ3VsCBv+Qt2
    Q==;
-X-CSE-ConnectionGUID: MwPncxMJQOOvTMvd4uBBFA==
-X-CSE-MsgGUID: ZfDTPrw/SNukJWJkKTi34A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="30899325"
+X-CSE-ConnectionGUID: KlqP+QOyQQOlagXgdkD+DA==
+X-CSE-MsgGUID: UlNCy1wZTZC/QwPPLFmbTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="24113208"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="30899325"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 07:13:43 -0700
-X-CSE-ConnectionGUID: 7hvZbxjQTP2MR4C1o+DkNw==
-X-CSE-MsgGUID: 7hDysihvRIyNzIlnuqHv9Q==
+   d="scan'208";a="24113208"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 07:44:47 -0700
+X-CSE-ConnectionGUID: hHDcSOkuRsy4to6rLrrfkw==
+X-CSE-MsgGUID: LgsJcSNcR1GywUDW+A2Zqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="85333005"
+   d="scan'208";a="77975585"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Jul 2024 07:13:41 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Jul 2024 07:44:43 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZA5C-000uPL-38;
-	Wed, 31 Jul 2024 14:13:38 +0000
-Date: Wed, 31 Jul 2024 22:13:17 +0800
+	id 1sZAZF-000uTe-07;
+	Wed, 31 Jul 2024 14:44:41 +0000
+Date: Wed, 31 Jul 2024 22:44:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20240729-cbc-2 8/9]
- ./usr/include/scsi/fc/fc_els.h:1130:53: error: use of undeclared identifier
- 'desc_tags'
-Message-ID: <202407312216.neWTKzbG-lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+	Huan Yang <link@vivo.com>
+Subject: Re: [PATCH v2 3/5] dma-buf: heaps: support alloc async read file
+Message-ID: <202407312202.LhLTLEhX-lkp@intel.com>
+References: <20240730075755.10941-4-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,38 +70,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240730075755.10941-4-link@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc-2
-head:   7028047dd569cc1fc6fcda22626a7c85347fadbd
-commit: 06621fb3befe6bcfd46d10a14ea18b22b9daa740 [8/9] scsi: fc: Avoid -Wflex-array-member-not-at-end warnings
-config: i386-buildonly-randconfig-003-20240731 (https://download.01.org/0day-ci/archive/20240731/202407312216.neWTKzbG-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407312216.neWTKzbG-lkp@intel.com/reproduce)
+Hi Huan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 931a3b3bccc96e7708c82b30b2b5fa82dfd04890]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/dma-buf-heaps-Introduce-DMA_HEAP_ALLOC_AND_READ_FILE-heap-flag/20240730-170340
+base:   931a3b3bccc96e7708c82b30b2b5fa82dfd04890
+patch link:    https://lore.kernel.org/r/20240730075755.10941-4-link%40vivo.com
+patch subject: [PATCH v2 3/5] dma-buf: heaps: support alloc async read file
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240731/202407312202.LhLTLEhX-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407312202.LhLTLEhX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407312216.neWTKzbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407312202.LhLTLEhX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:1:
->> ./usr/include/scsi/fc/fc_els.h:1130:16: error: implicit declaration of function 'offsetof' [-Werror,-Wimplicit-function-declaration]
-    1130 | _Static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
-         |                ^
->> ./usr/include/scsi/fc/fc_els.h:1130:25: error: expected expression
-    1130 | _Static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
-         |                         ^
->> ./usr/include/scsi/fc/fc_els.h:1130:53: error: use of undeclared identifier 'desc_tags'
-    1130 | _Static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
-         |                                                     ^
-   ./usr/include/scsi/fc/fc_els.h:1148:25: error: expected expression
-    1148 | _Static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
-         |                         ^
->> ./usr/include/scsi/fc/fc_els.h:1148:44: error: use of undeclared identifier 'desc'
-    1148 | _Static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
-         |                                            ^
-   5 errors generated.
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'priv' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'heap_devt' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'list' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:45: warning: Function parameter or struct member 'heap_cdev' not described in 'dma_heap'
+>> drivers/dma-buf/dma-heap.c:158: warning: Function parameter or struct member 'lock' not described in 'dma_heap_file_control'
+   drivers/dma-buf/dma-heap.c:482: warning: expecting prototype for Trigger sync file read, read into dma(). Prototype was for dma_heap_read_file_sync() instead
+
+
+vim +158 drivers/dma-buf/dma-heap.c
+
+   133	
+   134	/**
+   135	 * struct dma_heap_file_control - global control of dma_heap file read.
+   136	 * @works:		@dma_heap_file_work's list head.
+   137	 *
+   138	 * @threadwq:		wait queue for @work_thread, if commit work, @work_thread
+   139	 *			wakeup and read this work's file contains.
+   140	 *
+   141	 * @workwq:		used for main thread wait for file read end, if allocation
+   142	 *			end before file read. @dma_heap_file_task ref effect this.
+   143	 *
+   144	 * @work_thread:	file read kthread. the dma_heap_file_task work's consumer.
+   145	 *
+   146	 * @heap_fwork_cachep:	@dma_heap_file_work's cachep, it's alloc/free frequently.
+   147	 *
+   148	 * @nr_work:		global number of how many work committed.
+   149	 */
+   150	struct dma_heap_file_control {
+   151		struct list_head works;
+   152		spinlock_t lock; // only lock for @works.
+   153		wait_queue_head_t threadwq;
+   154		wait_queue_head_t workwq;
+   155		struct task_struct *work_thread;
+   156		struct kmem_cache *heap_fwork_cachep;
+   157		atomic_t nr_work;
+ > 158	};
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
