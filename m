@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B001AAE00
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 09:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BED18E028
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 09:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722418476; cv=none; b=GB7SOAL8T14fa1NMFrjs8iq3P+ol/pOJjgF+zZJ2LxFZpeQjfmop3bTLhbr1oc0U3aQuUZVVyWjKk/47Uz+7OB2N7DscwPn8+5+NedM4sCNqmwUPX9UmRRZvsdPgy43AIS3dvNrltDiFRDpTEDQJqI7hE6r5JyI4w00yjXR45yM=
+	t=1722419134; cv=none; b=tHZWQA3yPONoGrpI/mPbdmVDLCtDTQyPyP7/AVkJZSZrK+JNZxI3eyF95dehjsp4WzQdnfRR0kEE3dxKHK8SrAiOOaF+W0Yrxw9/CdMdAgVoT6q0usDpsGBuklzjQJtqw+EANWGfVwRiwBNxKStIHyUy3rPTjX/qW0BD7LTvlDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722418476; c=relaxed/simple;
-	bh=KlpK0SwHaMTAMXHQEF4K/rCB8PE/T83ED3Fv9638Uko=;
+	s=arc-20240116; t=1722419134; c=relaxed/simple;
+	bh=N9cpiHwPH6B/BQy0IXPvykEu79bonXwgSf3iSkoHJ0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=roDUz2a2TXxrd3XZOnc3bygTc0YF+SdNqJ24U5uEpSqcgKyuDtK4zQzYv7LAmDdpZHviJGRBOpo2LBma+KsX2DZo/QyzRFGousG8Vz+0XHPu+d97Kgv3PDyhQJd71YyVjX+w4So0lbBYVfDygGTGZJJ8IqghbyARW5HW/tqF0uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQNimnP+; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=eCHtbhAR4iq00N4Kbx2yeHZ3MC0Drkl5LSytFhsjSIfK66NxMXVa1FET5yGotfsUGFQfSLHnq+8oGGDSxWntzEjiNna+VKWZEXGJ4LGPj3cR1Pf79cClzdXwVG+e83h37rr3NDsuIpSe8jAfTokZD3AMVGsIByYGzFuLdepM3UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ke/9Txiz; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQNimnP+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ke/9Txiz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722418474; x=1753954474;
+  t=1722419133; x=1753955133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KlpK0SwHaMTAMXHQEF4K/rCB8PE/T83ED3Fv9638Uko=;
-  b=IQNimnP+oMYNyD8w8BjYVybRweWgPTHWUaWTaKrYTCKtW/Y/jLeUqg3v
-   6BbAttshdTqJh4cPeXppfFTmPCfChoU8su+gppUQTLwTOy41glMt+h4ud
-   0wlbNHypucM3oITHfR+/AxtPyNtqs5x6qVmCaWdkiGYQbicdE3EH7eNzS
-   j3y7toAeew5agxR4MmkDJ40J0DqUWU0C53hvvIQFRVTrZlG6/ETm6lNbV
-   zS5ay5gq5USoXm0Co2wD209W+N3IhX/xkcu8FuYzBFYn7QdyO4tNEepyy
-   Ho1gch/d8PLtSqk4qVcyYUu1Mp9dpSxeH1dTt6Mk8DPm0w/mycIlknuTN
+  bh=N9cpiHwPH6B/BQy0IXPvykEu79bonXwgSf3iSkoHJ0U=;
+  b=ke/9TxizL9S6DbRGEywMHFUrvnJuf/5mzJfGVKKgbDOfOFOcSTK0+2pF
+   xs4M4wRW0pL1Bc10+3amSZ5zE6DS6nK5kygC7/ll2QyA9xKXBFSYQUoxy
+   Pc58FNOn3E/0bU9wszqd66CHMDgBcVlyCY7ZcG7oMSHoX+IKdohv8ITvd
+   EsSlDgI38F+BAnH+yc2dtrD+JIBfhXEFx5xsX/C4uZfeFURCz0AE1nckj
+   4+B7HPlW/6td9puDH7+ETvOCL/76vOn3J19mvwEWt4H5ivhmgLHb2mDhe
+   2cN/imHxlEQv5aEoV/VOlq4ZntUDzH53G3SZ/i3zVAtV3kmjvZd22sHhO
    w==;
-X-CSE-ConnectionGUID: WPJD4wBqQzWx3NSOytGvag==
-X-CSE-MsgGUID: SgrGYlH7RCurp5QuEXEUhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="12803296"
+X-CSE-ConnectionGUID: cyYPXQy+RpO5XjZSpsggjg==
+X-CSE-MsgGUID: 5jtIc0FHQpiaMwWXsyyBaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20234422"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="12803296"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 02:34:32 -0700
-X-CSE-ConnectionGUID: u0bNwAomTTGlKsqUPXlhzQ==
-X-CSE-MsgGUID: R6HRhkQ3Sv+oWjLBOZnPug==
+   d="scan'208";a="20234422"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 02:45:32 -0700
+X-CSE-ConnectionGUID: xhgO8kKTSgius7anbTgDBQ==
+X-CSE-MsgGUID: QbGZUC3DRdiJZCXLjnseTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="54871123"
+   d="scan'208";a="85264680"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2024 02:34:30 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Jul 2024 02:45:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZ5j1-000u5s-11;
-	Wed, 31 Jul 2024 09:34:27 +0000
-Date: Wed, 31 Jul 2024 17:34:21 +0800
+	id 1sZ5tf-000u6S-1i;
+	Wed, 31 Jul 2024 09:45:27 +0000
+Date: Wed, 31 Jul 2024 17:44:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philip Yang <Philip.Yang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Felix Kuehling <felix.kuehling@amd.com>
-Subject: [linux-next:master 837/1677]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:107:10: warning: assignment
- makes pointer from integer without a cast
-Message-ID: <202407311751.DspbODml-lkp@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202407311737.VsJ0Sr1w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,192 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   cd19ac2f903276b820f5d0d89de0c896c27036ed
-commit: b049504e211e8f4dbcd40434f2dcab2215ea1039 [837/1677] drm/amdkfd: Validate user queue svm memory residency
-config: x86_64-randconfig-013-20240731 (https://download.01.org/0day-ci/archive/20240731/202407311751.DspbODml-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311751.DspbODml-lkp@intel.com/reproduce)
+Hi Ville,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e4fc196f5ba36eb7b9758cf2c73df49a44199895
+commit: dc6fcaaba5a5411237d042a26c4d46689f3346bb drm/omap: Allow build with COMPILE_TEST=y
+date:   3 months ago
+config: sh-randconfig-r112-20240731 (https://download.01.org/0day-ci/archive/20240731/202407311737.VsJ0Sr1w-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240731/202407311737.VsJ0Sr1w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407311751.DspbODml-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311737.VsJ0Sr1w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *wa_dma_data @@
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:122:16: sparse:     got unsigned int [usertype] *wa_dma_data
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *wa_dma_data @@
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:130:9: sparse:     got unsigned int [usertype] *wa_dma_data
+>> drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c:414:9: sparse:     got unsigned int *
+   drivers/gpu/drm/omapdrm/omap_dmm_tiler.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:241:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:241:46: sparse: sparse: self-comparison always evaluates to false
 
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c: In function 'kfd_queue_buffer_svm_get':
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:107:12: error: implicit declaration of function 'svm_range_from_addr'; did you mean 'svm_range_get_info'? [-Werror=implicit-function-declaration]
-      prange = svm_range_from_addr(&p->svms, addr, NULL);
-               ^~~~~~~~~~~~~~~~~~~
-               svm_range_get_info
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:107:10: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      prange = svm_range_from_addr(&p->svms, addr, NULL);
-             ^
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:111:14: error: dereferencing pointer to incomplete type 'struct svm_range'
-      if (!prange->mapped_to_gpu)
-                 ^~
-   In file included from include/linux/bits.h:22:0,
-                    from include/linux/gfp_types.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:16,
-                    from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:25:
-   include/linux/compiler_types.h:451:27: error: expression in static assertion is not an integer
-    #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                              ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
-     container_of(ptr, type, member)
-     ^~~~~~~~~~~~
-   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
-     list_entry((ptr)->next, type, member)
-     ^~~~~~~~~~
-   include/linux/list.h:778:13: note: in expansion of macro 'list_first_entry'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-                ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:139:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(prange, &update_list, update_list)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:451:27: error: expression in static assertion is not an integer
-    #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                              ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
-     container_of(ptr, type, member)
-     ^~~~~~~~~~~~
-   include/linux/list.h:645:2: note: in expansion of macro 'list_entry'
-     list_entry((pos)->member.next, typeof(*(pos)), member)
-     ^~~~~~~~~~
-   include/linux/list.h:780:13: note: in expansion of macro 'list_next_entry'
-          pos = list_next_entry(pos, member))
-                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:139:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(prange, &update_list, update_list)
-     ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c: In function 'kfd_queue_buffer_svm_put':
-   include/linux/container_of.h:20:47: error: dereferencing pointer to incomplete type 'struct svm_range'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                                                  ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:165:12: note: in expansion of macro 'container_of'
-      prange = container_of(node, struct svm_range, it_node);
-               ^~~~~~~~~~~~
-   include/linux/compiler_types.h:451:27: error: expression in static assertion is not an integer
-    #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                              ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:165:12: note: in expansion of macro 'container_of'
-      prange = container_of(node, struct svm_range, it_node);
-               ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5:0,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/uapi/linux/sysinfo.h:5,
-                    from include/uapi/linux/kernel.h:5,
-                    from include/linux/cache.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c:25:
-   include/linux/stddef.h:16:32: error: invalid use of undefined type 'struct svm_range'
-    #define offsetof(TYPE, MEMBER) __builtin_offsetof(TYPE, MEMBER)
-                                   ^
+vim +122 drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
 
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  101  
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  102  static u32 dmm_read_wa(struct dmm *dmm, u32 reg)
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  103  {
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  104  	dma_addr_t src, dst;
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  105  	int r;
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  106  
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  107  	src = dmm->phys_base + reg;
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  108  	dst = dmm->wa_dma_handle;
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  109  
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  110  	r = dmm_dma_copy(dmm, src, dst);
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  111  	if (r) {
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  112  		dev_err(dmm->dev, "sDMA read transfer timeout\n");
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  113  		return readl(dmm->base + reg);
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  114  	}
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  115  
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  116  	/*
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  117  	 * As per i878 workaround, the DMA is used to access the DMM registers.
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  118  	 * Make sure that the readl is not moved by the compiler or the CPU
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  119  	 * earlier than the DMA finished writing the value to memory.
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  120  	 */
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  121  	rmb();
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26 @122  	return readl(dmm->wa_dma_data);
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  123  }
+f5b9930b85dc63 Tomi Valkeinen 2018-09-26  124  
 
-vim +107 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_queue.c
+:::::: The code at line 122 was first introduced by commit
+:::::: f5b9930b85dc6319fd6bcc259e447eff62fc691c drm/omap: partial workaround for DRA7xx DMM errata i878
 
-    86	
-    87	static int kfd_queue_buffer_svm_get(struct kfd_process_device *pdd, u64 addr, u64 size)
-    88	{
-    89		struct kfd_process *p = pdd->process;
-    90		struct list_head update_list;
-    91		struct svm_range *prange;
-    92		int ret = -EINVAL;
-    93	
-    94		INIT_LIST_HEAD(&update_list);
-    95		addr >>= PAGE_SHIFT;
-    96		size >>= PAGE_SHIFT;
-    97	
-    98		mutex_lock(&p->svms.lock);
-    99	
-   100		/*
-   101		 * range may split to multiple svm pranges aligned to granularity boundaery.
-   102		 */
-   103		while (size) {
-   104			uint32_t gpuid, gpuidx;
-   105			int r;
-   106	
- > 107			prange = svm_range_from_addr(&p->svms, addr, NULL);
-   108			if (!prange)
-   109				break;
-   110	
-   111			if (!prange->mapped_to_gpu)
-   112				break;
-   113	
-   114			r = kfd_process_gpuid_from_node(p, pdd->dev, &gpuid, &gpuidx);
-   115			if (r < 0)
-   116				break;
-   117			if (!test_bit(gpuidx, prange->bitmap_access) &&
-   118			    !test_bit(gpuidx, prange->bitmap_aip))
-   119				break;
-   120	
-   121			if (!(prange->flags & KFD_IOCTL_SVM_FLAG_GPU_ALWAYS_MAPPED))
-   122				break;
-   123	
-   124			list_add(&prange->update_list, &update_list);
-   125	
-   126			if (prange->last - prange->start + 1 >= size) {
-   127				size = 0;
-   128				break;
-   129			}
-   130	
-   131			size -= prange->last - prange->start + 1;
-   132			addr += prange->last - prange->start + 1;
-   133		}
-   134		if (size) {
-   135			pr_debug("[0x%llx 0x%llx] not registered\n", addr, addr + size - 1);
-   136			goto out_unlock;
-   137		}
-   138	
-   139		list_for_each_entry(prange, &update_list, update_list)
-   140			atomic_inc(&prange->queue_refcount);
-   141		ret = 0;
-   142	
-   143	out_unlock:
-   144		mutex_unlock(&p->svms.lock);
-   145		return ret;
-   146	}
-   147	
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
+:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
