@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFF68BE0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 01:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD74D512;
+	Wed, 31 Jul 2024 01:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722387852; cv=none; b=TiLVFi6OPJc3SS8TIqGZchHr3TA9e/PBtNMWRAjRqGiiRaf/hVeSCqPpaJ4xXHI3ncX7ZlUz55fN36gnUqkIGk2mH//UAw0slbo25LqfNSsFCKiVi3+DnyVJIy7yFiRAKAKKbO/9MkSyfsMQaKdDFKBSRe6XRm4TZz8nzXQ69rw=
+	t=1722391033; cv=none; b=rYNU8r87PJETVrPyjTeFBbvpVkPqsnE7eOLk2GXiEr6CWVZvkcgdnkrDhKgzIDhZGMhdtwBhZ2fin9QyFPG//oZ80O+PktK0PGwhQK8hhO2dLm0blG5/uTabrEdceS3O1+SpQmFXBp5kobvOhUMME7VwImP8clqFi2khOiQB1/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722387852; c=relaxed/simple;
-	bh=kj5bwQzeBKE9CpSa+mNzKy2SIZBKPKtCuibdrtT1kHk=;
+	s=arc-20240116; t=1722391033; c=relaxed/simple;
+	bh=RCdNowIwLLOvGeo7UOW1THxlROaOWcSUiiLBHtq2S5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VHvFqCPuoeMAGF6s+LDg7esTSy7NlP4eStvjAUYfUlw1qll+rexYLOvWvwbSNWtlQfB/yv2vWis0TCyFaumfFLwZKMXg79Y3ddmTulu0tOPi/kuItlIkOWtbQpkjmfcDG1rzwqu8T+oUf7Celao02XO6IIad8lL+H/k6ivF5oNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOqFxI4G; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=TKi6E4A111XFuZsN1sPugU0wVzVA8pF5JdMiBj44zw7f2TaHWsom0xDoTkQDyTEwPrKYNPXSHXArd88nfJGuoCabGMV5T0m4gOcdtm8uVyP5yDfhHk4ILfb6jgExrZkosXx5rKEn22BriL6b9X7xW07VXdtesZH05+orDO8PZ7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecgcw19M; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOqFxI4G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecgcw19M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722387850; x=1753923850;
+  t=1722391032; x=1753927032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kj5bwQzeBKE9CpSa+mNzKy2SIZBKPKtCuibdrtT1kHk=;
-  b=HOqFxI4GCokBHHVs4t6+EzeroV0UYM293QhvCfvd9ie7wGy2S+ad7wen
-   Tv7aMD9lqQp3wpoF6sio5sKy2vsIcdZzzPFzFlZbc9IwmEqmbuLID13sv
-   wDXz3/mgk+WuMmVx3LP/y49Drn1UOqlM4ESYq3L/043K9Sr4RPo21ljfe
-   Fxj8ZT7/JM3LlPk05VptW0/ZbYwV3u7XjzbIYKd6hLFyktaAVeFNSIFr8
-   IGj3pE5eCTX/HP6uMkt9Ia/ZqT+gxJCsEdR/54wNNeKZ273jymIRaXsJC
-   Z5Xqmlf6kyqit1yzV8orXg/AQh4PmVHzIKlH6NlBDGM/giPIFI5DisZ5t
-   Q==;
-X-CSE-ConnectionGUID: rnFEoJUyQriOIy2FErtA2w==
-X-CSE-MsgGUID: OQJ6N5t2R4aaMxNLxgMxZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="45658484"
+  bh=RCdNowIwLLOvGeo7UOW1THxlROaOWcSUiiLBHtq2S5o=;
+  b=ecgcw19MJ977cuK6Xw9UWL13kc0liBnRNV365xDBZNCzUjcDh/IliZSC
+   wWHfi8u01cQRRUaG4VAxcxkyU5LCrv9dTFjUaJVsUb//UDDDLGGttXoP5
+   IC/V3g3IEU2jNfxMxq5CEfUumIAFVDfPtb0g96SR8T/H++ObD/yayWvx9
+   PTG3E97JqvJNhmTy7MX0kEd6dGr1KCwt3m6Yry7zV95bbk41nuOw0Rhff
+   uF7tEIMbBHo7OI3o6COtM/3S23UHhosLZRJikxdSGH2uPIpeq36WAkGSV
+   ye5gEwt2yEzcb/vdjFBO6Z2wvdI5Ld6YFzz614oCk0oiHzV2S3IRI0mnp
+   A==;
+X-CSE-ConnectionGUID: rg6GijVPTkq5EByFpG6TGA==
+X-CSE-MsgGUID: maUXBe9MRWmstzfOY0rcXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20372907"
 X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
-   d="scan'208";a="45658484"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 18:04:09 -0700
-X-CSE-ConnectionGUID: jihIKJ60TDifl1nZDXzCCw==
-X-CSE-MsgGUID: a4O4e/T2Tju9hIhlnsRSVw==
+   d="scan'208";a="20372907"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 18:57:11 -0700
+X-CSE-ConnectionGUID: c3yEIM8kS+uVhdm8NzgN7w==
+X-CSE-MsgGUID: uSAYfPr9TZGm098+B58eNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
-   d="scan'208";a="54437199"
+   d="scan'208";a="54779947"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Jul 2024 18:04:08 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Jul 2024 18:57:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYxl6-000tYo-2h;
-	Wed, 31 Jul 2024 01:04:04 +0000
-Date: Wed, 31 Jul 2024 09:03:51 +0800
+	id 1sYyaQ-000tcJ-29;
+	Wed, 31 Jul 2024 01:57:06 +0000
+Date: Wed, 31 Jul 2024 09:56:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:ptdesc 15/17] include/linux/mm_types.h:509:41: error:
- passing argument 2 of 'pmd_set' from incompatible pointer type
-Message-ID: <202407311151.72AedzJG-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20240729-cbc 8/9]
+ include/uapi/scsi/fc/fc_els.h:1131:15: error: expected parameter declarator
+Message-ID: <202407310922.Mkw2WfT2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +64,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git ptdesc
-head:   e9eb6331a5abf0a71cf90c2d7d349fc32e12ae2e
-commit: 91aef8fb59bf6f8e0c5966caac5813139c10e818 [15/17] mm/pgtable: pass ptdesc to pmd_populate
-config: m68k-mvme147_defconfig (https://download.01.org/0day-ci/archive/20240731/202407311151.72AedzJG-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311151.72AedzJG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc
+head:   303f7de5e5f60dfc378b9a32a201110936b43d83
+commit: d9b68641e04510cbd540f81b8ef4379e4d26e201 [8/9] scsi: fc: Avoid -Wflex-array-member-not-at-end warnings
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240731/202407310922.Mkw2WfT2-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310922.Mkw2WfT2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407311151.72AedzJG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407310922.Mkw2WfT2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/dax.h:5,
-                    from mm/filemap.c:15:
-   arch/m68k/include/asm/motorola_pgalloc.h: In function 'pmd_populate':
->> include/linux/mm_types.h:509:41: error: passing argument 2 of 'pmd_set' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     508 |         const struct ptdesc *:          (const struct page *)(pt),      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     509 |         struct ptdesc *:                (struct page *)(pt)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct page *
-   arch/m68k/include/asm/motorola_pgalloc.h:89:22: note: in expansion of macro 'ptdesc_page'
-      89 |         pmd_set(pmd, ptdesc_page(page));
-         |                      ^~~~~~~~~~~
-   In file included from arch/m68k/include/asm/pgtable_mm.h:157,
-                    from arch/m68k/include/asm/pgtable.h:10,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from include/linux/dax.h:6:
-   arch/m68k/include/asm/motorola_pgtable.h:96:48: note: expected 'pte_t *' but argument is of type 'struct page *'
-      96 | static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
-         |                                         ~~~~~~~^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:8,
-                    from mm/memory.c:43:
-   arch/m68k/include/asm/motorola_pgalloc.h: In function 'pmd_populate':
->> include/linux/mm_types.h:509:41: error: passing argument 2 of 'pmd_set' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     508 |         const struct ptdesc *:          (const struct page *)(pt),      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     509 |         struct ptdesc *:                (struct page *)(pt)))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         struct page *
-   arch/m68k/include/asm/motorola_pgalloc.h:89:22: note: in expansion of macro 'ptdesc_page'
-      89 |         pmd_set(pmd, ptdesc_page(page));
-         |                      ^~~~~~~~~~~
-   In file included from arch/m68k/include/asm/pgtable_mm.h:157,
-                    from arch/m68k/include/asm/pgtable.h:10,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from mm/memory.c:44:
-   arch/m68k/include/asm/motorola_pgtable.h:96:48: note: expected 'pte_t *' but argument is of type 'struct page *'
-      96 | static inline void pmd_set(pmd_t *pmdp, pte_t *ptep)
-         |                                         ~~~~~~~^~~~
-   mm/memory.c: In function '__pte_alloc':
-   mm/memory.c:449:33: error: initialization of 'struct ptdesc *' from incompatible pointer type 'pgtable_t' {aka 'pte_t *'} [-Werror=incompatible-pointer-types]
-     449 |         struct ptdesc *ptdesc = pte_alloc_one(mm);
-         |                                 ^~~~~~~~~~~~~
-   mm/memory.c: In function '__do_fault':
-   include/linux/mm_types.h:507:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:4651:37: note: in expansion of macro 'ptdesc_page'
-    4651 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-   mm/memory.c: In function 'do_fault_around':
-   include/linux/mm_types.h:507:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     507 | #define ptdesc_page(pt)                 (_Generic((pt),                 \
-         |                                                   ^
-   mm/memory.c:5014:37: note: in expansion of macro 'ptdesc_page'
-    5014 |                 vmf->prealloc_pte = ptdesc_page(pte_alloc_one(vmf->vma->vm_mm));
-         |                                     ^~~~~~~~~~~
-   mm/memory.c: In function 'do_fault':
-   include/linux/mm_types.h:515:51: error: '_Generic' selector of type 'pte_t *' is not compatible with any association
-     515 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/memory.c:5200:33: note: in expansion of macro 'page_ptdesc'
-    5200 |                 pte_free(vm_mm, page_ptdesc(vmf->prealloc_pte));
-         |                                 ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/scsi/libfc/fc_elsct.c:16:
+>> include/uapi/scsi/fc/fc_els.h:1131:15: error: expected parameter declarator
+    1131 | static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+         |               ^
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   In file included from drivers/scsi/libfc/fc_elsct.c:16:
+>> include/uapi/scsi/fc/fc_els.h:1131:15: error: expected ')'
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   include/uapi/scsi/fc/fc_els.h:1131:14: note: to match this '('
+    1131 | static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+         |              ^
+>> include/uapi/scsi/fc/fc_els.h:1131:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+    1131 | static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+         | ^
+         | int
+>> include/uapi/scsi/fc/fc_els.h:1131:14: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+    1131 | static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+         |              ^
+    1132 |               "struct member likely outside of __struct_group()");
+         |                                                                 
+         |                                                                 void
+   include/uapi/scsi/fc/fc_els.h:1149:15: error: expected parameter declarator
+    1149 | static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
+         |               ^
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   In file included from drivers/scsi/libfc/fc_elsct.c:16:
+   include/uapi/scsi/fc/fc_els.h:1149:15: error: expected ')'
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   include/uapi/scsi/fc/fc_els.h:1149:14: note: to match this '('
+    1149 | static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
+         |              ^
+   include/uapi/scsi/fc/fc_els.h:1149:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+    1149 | static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
+         | ^
+         | int
+   include/uapi/scsi/fc/fc_els.h:1149:14: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+    1149 | static_assert(offsetof(struct fc_els_rdf, desc) == sizeof(struct fc_els_rdf_hdr),
+         |              ^
+    1150 |               "struct member likely outside of __struct_group()");
+         |                                                                 
+         |                                                                 void
+   In file included from drivers/scsi/libfc/fc_elsct.c:17:
+   In file included from include/scsi/libfc.h:16:
+   In file included from include/scsi/scsi_transport.h:10:
+   In file included from include/linux/transport_class.h:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:168:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/scsi/libfc/fc_elsct.c:17:
+   In file included from include/scsi/libfc.h:16:
+   In file included from include/scsi/scsi_transport.h:10:
+   In file included from include/linux/transport_class.h:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:168:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/scsi/libfc/fc_elsct.c:17:
+   In file included from include/scsi/libfc.h:16:
+   In file included from include/scsi/scsi_transport.h:10:
+   In file included from include/linux/transport_class.h:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:168:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/scsi/libfc/fc_elsct.c:17:
+   In file included from include/scsi/libfc.h:16:
+   In file included from include/scsi/scsi_transport.h:10:
+   In file included from include/linux/transport_class.h:11:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:168:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
 
 
-vim +/pmd_set +509 include/linux/mm_types.h
+vim +1131 include/uapi/scsi/fc/fc_els.h
 
-9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  506) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  507) #define ptdesc_page(pt)			(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  508) 	const struct ptdesc *:		(const struct page *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @509) 	struct ptdesc *:		(struct page *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  510) 
-
-:::::: The code at line 509 was first introduced by commit
-:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
-
-:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+  1110	
+  1111	/* Diagnostic Function Descriptor - FPIN Registration */
+  1112	struct fc_df_desc_fpin_reg {
+  1113		/* New members MUST be added within the __struct_group() macro below. */
+  1114		__struct_group(fc_df_desc_fpin_reg_hdr, hdr, /* no attrs */,
+  1115			__be32		desc_tag; /* FPIN Registration (0x00030001) */
+  1116			__be32		desc_len; /* Length of Descriptor (in bytes).
+  1117						   * Size of descriptor excluding
+  1118						   * desc_tag and desc_len fields.
+  1119						   */
+  1120			__be32		count;	  /* Number of desc_tags elements */
+  1121		);
+  1122		__be32		desc_tags[];	/* Array of Descriptor Tags.
+  1123						 * Each tag indicates a function
+  1124						 * supported by the N_Port (request)
+  1125						 * or by the  N_Port and Fabric
+  1126						 * Controller (reply; may be a subset
+  1127						 * of the request).
+  1128						 * See ELS_FN_DTAG_xxx for tag values.
+  1129						 */
+  1130	};
+> 1131	static_assert(offsetof(struct fc_df_desc_fpin_reg, desc_tags) == sizeof(struct fc_df_desc_fpin_reg_hdr),
+  1132		      "struct member likely outside of __struct_group()");
+  1133	
 
 -- 
 0-DAY CI Kernel Test Service
