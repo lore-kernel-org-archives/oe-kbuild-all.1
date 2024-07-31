@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660B11AED54;
-	Wed, 31 Jul 2024 11:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C142718562A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 11:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722424120; cv=none; b=tsdryrREFG7Lx9mIziydhs6g55GYJG1aGQa/VObTmI+OUqLy7qyWr2/+F3x32Ddzstc5f9qNiy5i2UhAc3j2mDKMgJkczVGslKtivlnyCXNKEkKyFPCjd7noxbaYxcXr1fnpsl5aatBQCxEF437hyW3z7dWMKHPaPJvnZfdFINU=
+	t=1722425316; cv=none; b=eycWkaST5l+zY/vrOCW+kCkhyhtUDa5dC44Roqivrl23mQpJYkOD+AuNN8l4JmbR06ngpH3m7opWx/Aq/9NXhPRXbnv7Jxkwopbbu3lGY526xRnpVmWOi2DIEASOac2a9LkPcz2ymaS2b/ZkB7u8+3XBRCj0LCi/pvPjz2NUZ98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722424120; c=relaxed/simple;
-	bh=eQjwMDoouIP/4AjpJ4tXStd0emno6a87yQ35Lc2dPaM=;
+	s=arc-20240116; t=1722425316; c=relaxed/simple;
+	bh=E+hnrLeWH/OfbwA7U7v5BfbBpE0V5mjHibQjdYqzUT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oQB8I33SltvnEqvDkRXBUEzxEM6P5NrTshrAnfgORXNw16jrr8GJ1F+mCisG27i1sLBH+JRxxZZdJbejha71B2qCBIGC9ZtUcq4mWw5n77uqxzdtqJxkqiwVNnG/T3Vsk57KUQjNYB/xAphrGZXyn7ks3NB0kM37l4Sd+gOzHKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGP+VxvQ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=prviY+7+Wvox0j79CRS++skKtN0yPzTCbcEwH3wZXT9e4WNc+aVnkNabrvy+Xbn59D127hYq/UR4vtjChnkoohjDZB+SVp4xFLNWe/sMKsh3pPolorpJYMbscDUMf8P4dJo1LhLINCSYRQGPlQZJnaoZf8QP4Rc3tRP+pkiSTps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fV9ICy1b; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGP+VxvQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fV9ICy1b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722424119; x=1753960119;
+  t=1722425315; x=1753961315;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eQjwMDoouIP/4AjpJ4tXStd0emno6a87yQ35Lc2dPaM=;
-  b=WGP+VxvQ4KEkieOFC/qhKLPPrsS+LvgXokLmStD9oHPCdcmYX8fhTXXr
-   bfj78Rgmnj6CN85Js1yr/8/CKjcGcvEk7MxP7V6et9xwlLTiyErkVNCkd
-   19P1LyK4TsNoTdpE1P05UDNHtHePEg63c0QqBtuI85o/U9YqdYaCkeg2M
-   e4cyX10wHZFym7Al87l4KpYRdXPRoXoCATTRRMzd6RGr0gZmMLQW2iPXB
-   2OSxujWOseKKylmmIEt6CaKXac0HBWNbJ3uJ3bTY+vgnMw3BgdcYAbT2r
-   lNZdHbFp7qyJIQzvh7f9PZAWxgU6wCLJgrigueIReJ7f7xUfFXrlcHtD7
-   w==;
-X-CSE-ConnectionGUID: tjTkT20aRtaPBgIflvCNnw==
-X-CSE-MsgGUID: AXZrgVqHSPmZXvU5U40VOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="37766436"
+  bh=E+hnrLeWH/OfbwA7U7v5BfbBpE0V5mjHibQjdYqzUT0=;
+  b=fV9ICy1bSJMqUTTx4BNcu/2W4twTiYDvTnHgjkOIbOO8jH+wsV6MfMpv
+   AlhKuOuqtw1lYC9kYDAvWa8gln1s9oNZaC5mNDv6Q4ei9JxHuqNP7G2H3
+   6LXkZALFxB0PPE7qV89SIvaAQrGYY8q6lgZpYkbJbqEf/GLywWxT0qWGy
+   VWMyQRA6DXte39c+7a/0R7PCbCBMDBi56BI97Nz1lX1HP6MRPWRj9oigM
+   gpPkOFp+iuM/rPaS2QGEsA3Y+iOpFZnbtodSIXfpUxKduCZA5rIXcz1Bi
+   SJ3+/v/PbxPz4flA1Ta6jM/Q+rkxja4nfoMHZ3ZXc9+w8Sb/tlLwAfSu3
+   A==;
+X-CSE-ConnectionGUID: 2EmrhHSFRLKcIacI5Uu0kw==
+X-CSE-MsgGUID: oaB56QGHRFur5O2EBJwfeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="19990484"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="37766436"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 04:08:35 -0700
-X-CSE-ConnectionGUID: 8s5y3RJmTi+EVYgF4CSSyw==
-X-CSE-MsgGUID: n2sHKpAiRZqeaArgt8NUag==
+   d="scan'208";a="19990484"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 04:28:34 -0700
+X-CSE-ConnectionGUID: OAnOZ1BbSE6qrS6bAXdU1Q==
+X-CSE-MsgGUID: 3wuYoNuZRL677zZESpng9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="54646211"
+   d="scan'208";a="54710018"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2024 04:08:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 31 Jul 2024 04:28:33 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZ7C2-000uAU-0h;
-	Wed, 31 Jul 2024 11:08:30 +0000
-Date: Wed, 31 Jul 2024 19:08:06 +0800
+	id 1sZ7VP-000uBs-00;
+	Wed, 31 Jul 2024 11:28:31 +0000
+Date: Wed, 31 Jul 2024 19:28:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org
-Subject: [rafael-pm:thermal-core-testing 25/28]
- drivers/thermal/thermal_of.c:321:28: error: use of undeclared identifier
- 'map_np'
-Message-ID: <202407311944.iOv9zv1c-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] fs/f2fs/file.c:42:12: warning: no
+ previous prototype for function 'f2fs_filemap_fault'
+Message-ID: <202407311936.Mz6SAabv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,80 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal-core-testing
-head:   41bf1a2a2fc20676ee073bbcb20fdd0bccc62245
-commit: 0c361ef704f9e22f6f062b73542c845440c2c043 [25/28] thermal/of: Use the .should_bind() thermal zone callback
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240731/202407311944.iOv9zv1c-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311944.iOv9zv1c-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   50061e6d7f65f65487f586d257952bfe7f5c4fd3
+commit: db302359ea1b5252a28abcb23a382be91c961ac0 [1/1] ANDROID: 16K: Handle pgoff > file_size for shmem and file backed VMAs
+config: i386-buildonly-randconfig-002-20240731 (https://download.01.org/0day-ci/archive/20240731/202407311936.Mz6SAabv-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311936.Mz6SAabv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407311944.iOv9zv1c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311936.Mz6SAabv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/thermal/thermal_of.c:321:28: error: use of undeclared identifier 'map_np'
-                   tr_np = of_parse_phandle(map_np, "trip", 0);
-                                            ^
-   1 error generated.
+>> fs/f2fs/file.c:42:12: warning: no previous prototype for function 'f2fs_filemap_fault' [-Wmissing-prototypes]
+      42 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
+         |            ^
+   fs/f2fs/file.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/map_np +321 drivers/thermal/thermal_of.c
+vim +/f2fs_filemap_fault +42 fs/f2fs/file.c
 
-   297	
-   298	static bool thermal_of_should_bind(struct thermal_zone_device *tz,
-   299					   const struct thermal_trip *trip,
-   300					   struct thermal_cooling_device *cdev,
-   301					   struct cooling_spec *c)
-   302	{
-   303		struct device_node *tz_np, *cm_np, *child;
-   304		bool result = false;
-   305	
-   306		tz_np = thermal_of_zone_get_by_name(tz);
-   307		if (IS_ERR(tz_np)) {
-   308			pr_err("Failed to get node tz by name\n");
-   309			return false;
-   310		}
-   311	
-   312		cm_np = of_get_child_by_name(tz_np, "cooling-maps");
-   313		if (!cm_np)
-   314			goto out;
-   315	
-   316		/* Look up the trip and the cdev in the cooling maps. */
-   317		for_each_child_of_node(cm_np, child) {
-   318			struct device_node *tr_np;
-   319			int count, i;
-   320	
- > 321			tr_np = of_parse_phandle(map_np, "trip", 0);
-   322			if (tr_np != trip->priv) {
-   323				of_node_put(child);
-   324				continue;
-   325			}
-   326	
-   327			/* The trip has been found, look up the cdev. */
-   328			count = of_count_phandle_with_args(child, "cooling-device", "#cooling-cells");
-   329			if (count <= 0)
-   330				pr_err("Add a cooling_device property with at least one device\n");
-   331	
-   332			for (i = 0; i < count; i++) {
-   333				result = thermal_of_get_cooling_spec(child, i, cdev, c);
-   334				if (result)
-   335					break;
-   336			}
-   337	
-   338			of_node_put(child);
-   339			break;
-   340		}
-   341	
-   342		of_node_put(cm_np);
-   343	out:
-   344		of_node_put(tz_np);
-   345	
-   346		return result;
-   347	}
-   348	
+    41	
+  > 42	vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
+    43	{
+    44		struct inode *inode = file_inode(vmf->vma->vm_file);
+    45		vm_flags_t flags = vmf->vma->vm_flags;
+    46		vm_fault_t ret;
+    47	
+    48		ret = filemap_fault(vmf);
+    49		if (ret & VM_FAULT_LOCKED)
+    50			f2fs_update_iostat(F2FS_I_SB(inode), inode,
+    51						APP_MAPPED_READ_IO, F2FS_BLKSIZE);
+    52	
+    53		trace_f2fs_filemap_fault(inode, vmf->pgoff, flags, ret);
+    54	
+    55		return ret;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
