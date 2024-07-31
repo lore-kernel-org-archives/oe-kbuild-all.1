@@ -1,237 +1,352 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80581870
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 04:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722399408; cv=fail; b=YoK+n90c4Fp2/p7ZNsAjoCX3G3odawPK3UjvWF4LottVXRlIJX3AHa+7NMd+c7rtzCLkCDP2W9wMsXzcK37ZZWtXWZdPaRzTs1JGpA3rO+5GyPuwvgcCUSeKK3wLXWEzio1iyzOjzrtibig7EV0wDBjIwl7nNHGWY+YlFZf7k/4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722399408; c=relaxed/simple;
-	bh=pgjvKMvdDHZJ/Aul744Fzv9gqwH4KRw/gdaEH6jLH+g=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=tJIjPbyEexKzE56nYIG0yq1payH9zhoG2SvGYIKaH2oQXYfIXHICibAuBY8/syjlkfxw+O+/ZQ0kMyx1MDMEe71fhQj04Z44iL+8wsyC/r/UJ20W8fQnK9JVe5KTj+n2UIBvEEqVQe3JrPQxOCDLUWwk+ijfFQex0ODaQxmlW+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E34ZAaG1; arc=fail smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAF61A8BEA;
+	Wed, 31 Jul 2024 09:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722416615; cv=none; b=g0HJC207YtV1XtlpYwttBtCMe5lcZBinKHtZPtp8pYDjr+9hwVuCX4Mt8bviM4F7FJS9jSWlGdtmtFUdQofUz0/7ua6VT6XjiFKLj9lxn4GcLh5AUDsBk+wDID4Nx/KzNLGTBJoQj+GAY9DOzdLGK1OIcdDO02bShdaYA5bW3g8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722416615; c=relaxed/simple;
+	bh=1xL4ScgYE0AjGwCs/m6ZktlgCQEzWRD7FzEYWLZ8E24=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F+gn8JQp1lTaP+rb6/PpUSiOlTrqcVLbeMXi7mtyu8SEQHIDRqkQxK7ttrzduKgwUUwQG3TupLB2w0iLMeNJI4RFoq1+2QLXZVPkaeLeLfz2jsWUbQtbm8yiS4etoxpZaenrPgLx4Y4BjvYON+2sei75/JBXD0ZBT5IdN96/QbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkk5ZreK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E34ZAaG1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkk5ZreK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722399407; x=1753935407;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pgjvKMvdDHZJ/Aul744Fzv9gqwH4KRw/gdaEH6jLH+g=;
-  b=E34ZAaG1AuqspNtn9SIrxAiMAJz/6us+WdFNL0n6CrcsmjWpCPb2gpwV
-   vTybRR9HCzOqmfrKP+UuT4I04Bj6aHFmMZbR5KYt2o1RgdU5QWYBkfbVp
-   q6y+l5psYIdZf9MGEFKN23k+d5PNP41I8RpipKI/qckBYfq2R4WnwotFL
-   2iI3WbuWXBSgomHV5ROwKSrtv3gj4xQ3SevSGmvF+HYGEJIj0+WKLrdZy
-   IDY/ffkD3dDQOQtsRBIMZ3+lgLOx1/M5wdk2ubmZt5NkDuSyeL06fdIBc
-   ju/NqfBzqIzekuMiUMTBsLlHP8Gm+cbLOH9kYp+GFZc/YIlA+u5jpX4SM
-   w==;
-X-CSE-ConnectionGUID: 0ull/rGTSaGMX3YSQPVEnw==
-X-CSE-MsgGUID: jYNaeEKBSWa0wWYKy5iXLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="37725741"
-X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
-   d="scan'208";a="37725741"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 21:16:46 -0700
-X-CSE-ConnectionGUID: TMvT6sWITx2YWErtqjYwmw==
-X-CSE-MsgGUID: vZpfp9dpTXKLvbNDIwSPOQ==
+  t=1722416612; x=1753952612;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=1xL4ScgYE0AjGwCs/m6ZktlgCQEzWRD7FzEYWLZ8E24=;
+  b=hkk5ZreK2pNE0uddIvBN381uUEkJAWpje7TRPiunzBbEje53hVphrRo3
+   OV/p2XOIeTjBXC7hT6TRimVG7fu9a6/D8ajOy+6RsUOoIUX/WZaZiy4oj
+   Lj7uIPw8PdxF4WjR09fViCLGIHIThI7F+gniU9/qAuN+r9637NYLBe9Gf
+   k7u63DqYcaFIuL2b0EsJCOAFyre+d84mN5QTuFcG+7MhgqN1Mo6es1qFp
+   fUU0I3jFA/qW+aTzmZ6T1VBJiJYqnnE/+cTNK4czFH4if+DN0HwltrnHQ
+   zMjgLcaEoKO8mgeM9diItAvxZEkF89fnkDxPxErr50/T0oU6SyElnea1k
+   Q==;
+X-CSE-ConnectionGUID: uX8WvMeJT7qh1gXLoAfZGw==
+X-CSE-MsgGUID: tDIcz6hMRQu052Xl6GP8ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="30862083"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="30862083"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 02:03:29 -0700
+X-CSE-ConnectionGUID: 3b9CKRLGQxC1UcxcuTDy9g==
+X-CSE-MsgGUID: dkgZDfiEQZ25sVCmz1kKRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
-   d="scan'208";a="54474409"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 30 Jul 2024 21:16:46 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 30 Jul 2024 21:16:45 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 30 Jul 2024 21:16:45 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 30 Jul 2024 21:16:45 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 30 Jul 2024 21:16:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qtAkhg45DSdhUej29buHb6F60mWqR942/t7jgMcAa89dx2+na8ZWiBP/U+SRG8A60rBn0QhKt6bJ8BnnSAgVXKV1Vl6ODAZni2EoZL0WZvPGRo5wEdKZ68aEWbPr/8ksYHlU5KVpejwZdZLiVVf1mwtnfdEl/xa7vDzdh5VtVyJTgFn1InsxWFlRlRNKQ4YpCQqlJTi8SZGhO1MVwTe54QGTKqr5zujxqfSqG+oT2CeckMJrOP2nkFWSrZKZQr/uJXol3JHzXkjBYRoZ3U3udH8q08s3fAqAHwHpv0eUfxvDuTx5NQ+lLd2l22VZ8a8fhWXgCC7YdJtxy5RYCB86gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFLA+Lmyhc9F3p6sfCoIIFT4T/JRfC83uyF0YOFvHh8=;
- b=pLTmOGKysJHsD6id6efGIzVZtwD/IcO291PBfQ2/E7Q4JyMk0pB1rInyYvfC5kzI8yK68LcGDI7vfxwjgaEtvD3QEkw49wk3+lvDzeVuew652+k7N9nQInV8R8kUBxbBmpVKI8HnAY7fx2jAgf4Rz6nyDRu7OxDHj73knR5QHF8QQJQk1gBO3ehQ9JXgVTZRt9PWz4eGh0x2qRkUOZosIhvMALBKz5e+pdqu0VMMH2+03HnczZCTgmojFNzuBGuC+REWW9KRLJRqMUa9xS1biE/tje6rUjwkAeW4qu4Wf/Zj+6EjcBv7Bm+wRknxZMF6wP5aDdKM91hU0FI6rmuAZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by MW4PR11MB6738.namprd11.prod.outlook.com (2603:10b6:303:20c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Wed, 31 Jul
- 2024 04:16:42 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
- 04:16:42 +0000
-Date: Wed, 31 Jul 2024 12:16:33 +0800
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="92137902"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2024 02:03:29 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sZ5F0-000u4R-0I;
+	Wed, 31 Jul 2024 09:03:26 +0000
+Date: Wed, 31 Jul 2024 17:03:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [frank-w-bpi-r2-4.14:6.9-main 37/58]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000:
- compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci',
- 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci',
- 'mediatek,mt7629-xhci', 'mediatek,m...
-Message-ID: <Zqm6oQvTso4tumUu@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0157.apcprd04.prod.outlook.com (2603:1096:4::19)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: rust_fmt_argument+0x76: missing int3
+ after ret
+Message-ID: <202407311733.KVI8Ey68-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|MW4PR11MB6738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5348d65f-7060-4096-ffb2-08dcb11794cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ADGMghGj3gAPVvZ5dH/1Q+jMbecNYZxmgpXYhOyi4KFV4iY9932ujxHHb5IQ?=
- =?us-ascii?Q?nmURFmvPawVAfNIgnGAvQknSL90oiVVC4mvjsIddd6nmEYfa3pOrvKRA91cm?=
- =?us-ascii?Q?ATIFMSM0BrzEUs0zgj+ZB7+bfTZ3LhsozkkGe1n8OWCBMytbQq8FXNYJ1P0W?=
- =?us-ascii?Q?qrBMvICKtLI36EETocdIJAOJwDPFG8B9Q2j5loHk29QXgiNPXzdHsA2HgdBG?=
- =?us-ascii?Q?n9UjuAvz5LoJy3bS0ZqHYoBOLvcoLo/KykFZdMnSTNM4M3NM/AoR+k3VeYsu?=
- =?us-ascii?Q?dxleAoYibI6i1RNmyD/YyRSOA9MqU8MkrDbLB6nD41XEbacM+xj448ekmZb7?=
- =?us-ascii?Q?YCFODDuPIH3JqCrRCfNRTGIFolXixFjOsyv7wZwvwlGUvQ/mwupV5Zml+8BZ?=
- =?us-ascii?Q?Oxhbvf2fngRm0pI3cekclVdATBasgQDEvXEsWrUDVyyyNxtazpPyvAKyU+4R?=
- =?us-ascii?Q?zLdgNKs1FehVnjiy/rgmpljC5HpYBC5kV/3i3krknhzntdzWEcwODkYwXuXb?=
- =?us-ascii?Q?UgJdpIn3tlECPK9xkW3LuWfR1GIAt6OdaAxSmBWlaKd0vFihGJk6oYHAi5y4?=
- =?us-ascii?Q?DZF+vbmFFSGRZE1V703CymejE9YQG1+At+z9CEK2+fSoUlBEgpeWCEbXhRQY?=
- =?us-ascii?Q?+yq8j89LbWF3coswu1m1ZBOpDOzhdVLtskn80ryY3J4S3675qcs4I0aGk2yc?=
- =?us-ascii?Q?WxQg/zvxc2AcMwSnkKMD2JH+hTVpXnatpuSlxJFjkIDBsdFxL/D6Lwm1rUKe?=
- =?us-ascii?Q?zz7UQN17lp+OjElJO/+UN2zT3EbMeFvoYySbed0F6NmcjqXQioSlsh3NKXII?=
- =?us-ascii?Q?h4Aj+SBR5wVdI8y5ORA2ZnxzmKCjgLhzyL7WVx4VQPDyts61WucwWxSgp3vE?=
- =?us-ascii?Q?uA49l5e6ZLHOhvUbViz7b7AM0Ufu6atuWOF0+0YdiasoaIG63iBL/z+slwAO?=
- =?us-ascii?Q?J4DqhL1qqjrmmd2rBLXKgwIph7rt5s7adqGDF5KY/nTr99HRDegT5cL9MIDt?=
- =?us-ascii?Q?FlAOAKPxz4WICBPOKH6mQdcv5AoMblBPjZ2jo2tPjYG66qWlIo+TK1OwnRT1?=
- =?us-ascii?Q?DEd0XSaeLl4BIiOaG3VYlTqwYHe9RSWDnRafI/7hpiiWxF9RafatBL+L4FFH?=
- =?us-ascii?Q?nfzghnV8PLLRdlaJDJclUBgNhJcB+YADfNwa5iHvZhqn3AoaZAv1e9Lh2EES?=
- =?us-ascii?Q?uEd+eN46SrjK/f/KS6O5POXx3+oVUERrNyIG11E2kt9yE1FoDIGjfhCPk3TW?=
- =?us-ascii?Q?UZSt487Q+mtwVeWKs62O6E0D/Iy+Kpm9eQYEx+15D4m/2SEBTvG45+rLClJn?=
- =?us-ascii?Q?okxMtX6O7fmwnzpYVYAv8C/FkqEKbcbngiwPosMiIpjm/7zC7C51PjD0X3YS?=
- =?us-ascii?Q?V2Ae2EM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IXtR8ps423pq4gmYbkapeEkCNPZJmuUNVRq51GzoaIYecFcO1wrcqxQzlYPn?=
- =?us-ascii?Q?otWGhxvDQ304Np49GX9b8YQirsvDNiS/Vg1bZFgvwcznZDgXelwj4yiBknPl?=
- =?us-ascii?Q?X7FOIFu/TrbnqurrHxrr1xfTglXgaV+aNROds8VE8Ekk/YjWnUv3PDDgApiC?=
- =?us-ascii?Q?yHHmwituLc62oJHcbyGRfBcW7BPLWQTYk0H4o4oV2t9TcEREiVK5mxbRnPzq?=
- =?us-ascii?Q?9uxLFcLdzkDxDtz08McWjKhEpg12JHZpWOVvjYXjCq6Y2GEPTo6yXMeeXYGZ?=
- =?us-ascii?Q?4xDzSUAeVhQCK6YYy5rTgeNNkj38yYTFKB2/UqJeCuXNOkKAE6tt6yCULUoG?=
- =?us-ascii?Q?4WuOu9dymo3+YWsVXKKYjZjQUH6SjR6xib92GPgGpxY/lrpEtelAWv6BU9T2?=
- =?us-ascii?Q?+hIYsTth3rUUHCmGXYgrnMta3Z4vSiMRi29ZEaWNQAE+Sr1Q7fdDFAGNiAK/?=
- =?us-ascii?Q?8+7rEPxteCBaGcloSp0V7Js2Ehn7TZ0H/VbY5phlSGsLmhAavPXZ76yrD2Mo?=
- =?us-ascii?Q?WqsAOhuGR6t3xedCZ/XXIeesOCWOEz8l2OL1+1zxRgXhuIab65B05BRsT2mh?=
- =?us-ascii?Q?97jO4yeVD68r5CnlyMUJlqOv+quJRj6YD+PbDyjd8XzvmARy+z0DftD18sTH?=
- =?us-ascii?Q?L3t+YR/jh/vYDWDCcEID2IbnUQOqSU/+u1zYwjS/OVM+3pUVjyFp3wKd45Du?=
- =?us-ascii?Q?IKbdR4PmJz3/Bb9THGAXVaGQO5XYbTeMZVoqtxyxmzgW0BYenctXpf2GOyPH?=
- =?us-ascii?Q?Z26+xnOcfhzQvBHsVfI9AlC/aPN8PONFHhZO+w2osZnh0dBPUvBWwrJG1R9O?=
- =?us-ascii?Q?WwclHNDL4Nc1CtcUKERrWa63z+eto3BCRCaNf/pIkzrP/PFzEDiiSJRsEVni?=
- =?us-ascii?Q?MQibo/sDy4NOO8aYLbxJmQPeKuD4xs7ncHNMRMlVXfcZdsh17GK+gbOJihw8?=
- =?us-ascii?Q?w2QwtzZ3hOIQKG/Dg6JIrDEkEIzHVcVHxjn9I+csFyIygE95YRxUaP18lprb?=
- =?us-ascii?Q?0JUmZNKmlrI+EeBLpNsarllHcvvAmAD5HmGOetPgKriRyDV0ymOO4kEXmI0I?=
- =?us-ascii?Q?CgA1IRXq0r6DCdjrT8jwTgB4bVKzHuz4y3C0Mr2ADYSIEqfv7LaILS3TuO+q?=
- =?us-ascii?Q?3AeVM8HZKMAAzWg6b/SYEjSqqjZ4D4yBGYQkc2zeIWBmfIrcWPsQlnv/Sby/?=
- =?us-ascii?Q?AXVdd0GT2NgB1YkKLtAhda9PR0eiSedKZ89xtno9QW9pm7sKmFWT3O9/HMtC?=
- =?us-ascii?Q?Z/K4A0s6mnng4soeTsfiCDo+givTwU8t95c9i3ffa5pbjGymDfBF0ely792V?=
- =?us-ascii?Q?tWENKTWpM9s8bPHksxFvp5xaUyqGalhk5sJHx9Ing1mbUr83PS4LkXSaiACm?=
- =?us-ascii?Q?D3FaiOfz4JGxsecJXcpFprpRIzI3RisDABHrpI01nhNeydwXM4OtajEP53ml?=
- =?us-ascii?Q?9EleF91XNo1hcYqVrbDpPgQru0+/lS+lWwdcSc27OVMgPC2jTp6OWgu8F2Dh?=
- =?us-ascii?Q?YIIQeyZR1v9k1hzVwtv7Y/wenJq2+uOyklktZN+YU2SuZWgC7vuPmViyloym?=
- =?us-ascii?Q?Qo8oRfCuY+96DMeFVkBs5pN+GYDou5sN4g1s0Dug?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5348d65f-7060-4096-ffb2-08dcb11794cc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 04:16:41.9946
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SiFsxf4ZrObvg1d4cO0jEih/MMPZ+jeFvpAllHPZ5xTGOFOl3yhGDgAKsMmgACVau5m9aed4FPZ/6BoPjJ7nRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6738
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-main
-head:   959c1ad797a5a85d12c6f551250af0a137f9f248
-commit: d7acb897a81fb93e2c143d15e356a4ef82148c68 [37/58] dts: arm64: mediatek: add MT7988A reference board device tree
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-051-20240730 (https://download.01.org/0day-ci/archive/20240731/202407310103.nj1yCQwI-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310103.nj1yCQwI-lkp@intel.com/reproduce)
+CC: linux-kernel@vger.kernel.org
+TO: Breno Leitao <leitao@debian.org>
+CC: Ingo Molnar <mingo@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e4fc196f5ba36eb7b9758cf2c73df49a44199895
+commit: 7b75782ffd8243288d0661750b2dcc2596d676cb x86/bugs: Rename CONFIG_SLS                  => CONFIG_MITIGATION_SLS
+date:   7 months ago
+config: x86_64-randconfig-003-20240731 (https://download.01.org/0day-ci/archive/20240731/202407311733.KVI8Ey68-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311733.KVI8Ey68-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407310103.nj1yCQwI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311733.KVI8Ey68-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: spi@11009000: clock-names:3: 'hclk' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11009000: failed to match any schema with compatible: ['mediatek,ipm-spi-quad', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:3: 'dma_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:4: 'xhci_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #address-cells: 1 was expected
---
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: spi@11009000: clock-names:3: 'hclk' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: /soc/spi@11009000: failed to match any schema with compatible: ['mediatek,ipm-spi-quad', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:3: 'dma_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:4: 'xhci_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #address-cells: 1 was expected
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: _RNvXs75_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_4credNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs76_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_14sighand_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs77_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_20multiprocess_signalsNtNtCse0oTBvBC9oH_4core7default7Default7default+0x1a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs79_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10core_stateNtNtCse0oTBvBC9oH_4core7default7Default7default+0x72: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7a_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13signal_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7d_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_8rcu_syncNtNtCse0oTBvBC9oH_4core7default7Default7default+0x6a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7e_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_19percpu_rw_semaphoreNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7i_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5io_cqNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7j_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_8vfsmountNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7k_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15percpu_ref_dataNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7p_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5iattrNtNtCse0oTBvBC9oH_4core7default7Default7default+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7q_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16qtree_mem_dqinfoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7t_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10mem_dqinfoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x4a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7u_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5dquotNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7v_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_17quota_format_typeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7w_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10quota_infoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7z_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5kiocbNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7A_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13address_spaceNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7F_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5inodeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7G_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_11fown_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7I_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_4fileNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7J_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13fasync_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x62: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7K_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10sb_writersNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7L_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_11super_blockNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7M_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10renamedataNtNtCse0oTBvBC9oH_4core7default7Default7default+0x42: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7N_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16inode_operationsNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7O_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_8filenameNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7Q_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10offset_ctxNtNtCse0oTBvBC9oH_4core7default7Default7default+0x5a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7R_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_18user32_fxsr_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7T_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_42compat_siginfo__bindgen_ty_1__bindgen_ty_2NtNtCse0oTBvBC9oH_4core7default7Default7default+0x11: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7V_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_56compat_siginfo__bindgen_ty_1__bindgen_ty_5__bindgen_ty_1NtNtCse0oTBvBC9oH_4core7default7Default7default+0x11: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7W_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_42compat_siginfo__bindgen_ty_1__bindgen_ty_5NtNtCse0oTBvBC9oH_4core7default7Default7default+0x12: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7X_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_28compat_siginfo__bindgen_ty_1NtNtCse0oTBvBC9oH_4core7default7Default7default+0x79: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7Y_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_14compat_siginfoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x82: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs7Z_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13compat_direntNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs80_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_29compat_sigevent__bindgen_ty_1NtNtCse0oTBvBC9oH_4core7default7Default7default+0x39: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs81_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15compat_sigeventNtNtCse0oTBvBC9oH_4core7default7Default7default+0x42: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs83_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_26compat_ifreq__bindgen_ty_2NtNtCse0oTBvBC9oH_4core7default7Default7default+0x12: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs84_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_12compat_ifreqNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs85_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16user_i387_structNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs86_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_4userNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs88_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_29user_xstateregs__bindgen_ty_1NtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs89_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15user_xstateregsNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8a_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10vdso_imageNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8b_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_12va_alignmentNtNtCse0oTBvBC9oH_4core7default7Default7default+0x82: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8f_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_9Elf64_DynNtNtCse0oTBvBC9oH_4core7default7Default7default+0x12: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8g_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_3idrNtNtCse0oTBvBC9oH_4core7default7Default7default+0x5a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8h_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_3idaNtNtCse0oTBvBC9oH_4core7default7Default7default+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8i_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_19kernfs_global_locksNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8j_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15kernfs_elem_dirNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8n_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_11kernfs_nodeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8o_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16kernfs_open_fileNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8r_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_23kobj_ns_type_operationsNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8s_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_9attributeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x2a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8v_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13bin_attributeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x62: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8w_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_7kobjectNtNtCse0oTBvBC9oH_4core7default7Default7default+0x42: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8z_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15kobj_uevent_envNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8A_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_14kobj_attributeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8B_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_4ksetNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8D_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_12kernel_paramNtNtCse0oTBvBC9oH_4core7default7Default7default+0x2a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8G_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15latch_tree_nodeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8H_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15latch_tree_rootNtNtCse0oTBvBC9oH_4core7default7Default7default+0x42: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8I_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_7__ddebugNtNtCse0oTBvBC9oH_4core7default7Default7default+0x2a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8K_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16ddebug_class_mapNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8L_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_12__ddebug_infoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x1a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8N_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_18ddebug_class_paramNtNtCse0oTBvBC9oH_4core7default7Default7default+0x1a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8P_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_15modversion_infoNtNtCse0oTBvBC9oH_4core7default7Default7default+0x42: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8Q_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_14module_kobjectNtNtCse0oTBvBC9oH_4core7default7Default7default+0x62: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8R_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_16module_attributeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8S_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_24module_version_attributeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x62: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8T_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10module_useNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8U_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13mod_tree_nodeNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8V_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_13module_memoryNtNtCse0oTBvBC9oH_4core7default7Default7default+0x4a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8W_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_12mod_kallsymsNtNtCse0oTBvBC9oH_4core7default7Default7default+0x22: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8Y_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_10kunit_caseNtNtCse0oTBvBC9oH_4core7default7Default7default+0x32: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8Z_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_11kunit_suiteNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs91_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_5kunitNtNtCse0oTBvBC9oH_4core7default7Default7default+0x14: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs92_NtCsfUwkYmtA92T_8bindings12bindings_rawNtB6_14kunit_resourceNtNtCse0oTBvBC9oH_4core7default7Default7default+0x3a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCs3W1cgBU1ewb_5alloc7raw_vec11finish_growNtNtB4_5alloc6GlobalECs5SDWJrlPZ8_6kernel+0x11e: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeQNtNtCs5SDWJrlPZ8_6kernel3str12RawFormatterEBL_+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placelECs5SDWJrlPZ8_6kernel+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str12RawFormatterNtB2_5Write10write_charBw_+0x117: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str12RawFormatterNtB2_5Write9write_fmtBw_+0x1b: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str12RawFormatterNtB2_5Write9write_strBw_+0x61: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str9FormatterNtB2_5Write10write_charBw_+0x125: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str9FormatterNtB2_5Write9write_fmtBw_+0x1b: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNtCse0oTBvBC9oH_4core3fmtQNtNtCs5SDWJrlPZ8_6kernel3str9FormatterNtB2_5Write9write_strBw_+0x67: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMNtCs5SDWJrlPZ8_6kernel5errorNtB2_5Error8to_errno+0x2: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMNtCs5SDWJrlPZ8_6kernel5errorNtB2_5Error4name+0x43: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_NtCs5SDWJrlPZ8_6kernel5errorNtB4_5ErrorNtNtCse0oTBvBC9oH_4core3fmt5Debug3fmt+0x8c: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs0_NtCs5SDWJrlPZ8_6kernel5errorNtB5_5ErrorINtNtCse0oTBvBC9oH_4core7convert4FromNtNtBN_5alloc10AllocErrorE4from+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs1_NtCs5SDWJrlPZ8_6kernel5errorNtB5_5ErrorINtNtCse0oTBvBC9oH_4core7convert4FromNtNtNtBN_3num5error15TryFromIntErrorE4from+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs2_NtCs5SDWJrlPZ8_6kernel5errorNtB5_5ErrorINtNtCse0oTBvBC9oH_4core7convert4FromNtNtNtBN_3str5error9Utf8ErrorE4from+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs3_NtCs5SDWJrlPZ8_6kernel5errorNtB5_5ErrorINtNtCse0oTBvBC9oH_4core7convert4FromNtNtCs3W1cgBU1ewb_5alloc11collections15TryReserveErrorE4from+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel5error9to_result+0x8: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs8_NtNtCs5SDWJrlPZ8_6kernel4init10___internalNtB5_16OnlyCallFromDrop3new+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel5ioctl8__IOC_DIR+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel5ioctl9__IOC_TYPE+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel5ioctl7__IOC_NR+0x4: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel5ioctl9__IOC_SIZE+0xa: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_fmt_argument+0x76: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtNtCs5SDWJrlPZ8_6kernel5print14format_strings8generate+0xb3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs5SDWJrlPZ8_6kernel3strNtB4_4CStr19from_bytes_with_nul+0x1a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs5SDWJrlPZ8_6kernel3strNtB4_4CStr10to_cstring+0xd: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs0_NtCs5SDWJrlPZ8_6kernel3strNtB5_4CStrNtNtCse0oTBvBC9oH_4core3fmt7Display3fmt+0x10a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs1_NtCs5SDWJrlPZ8_6kernel3strNtB5_4CStrNtNtCse0oTBvBC9oH_4core3fmt5Debug3fmt+0x175: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs8_NtCs5SDWJrlPZ8_6kernel3strNtB5_12RawFormatterNtNtCse0oTBvBC9oH_4core3fmt5Write9write_str+0x61: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsa_NtCs5SDWJrlPZ8_6kernel3strNtB5_9FormatterNtNtNtCse0oTBvBC9oH_4core3ops5deref5Deref5deref+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsb_NtCs5SDWJrlPZ8_6kernel3strNtB5_9FormatterNtNtCse0oTBvBC9oH_4core3fmt5Write9write_str+0x67: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMsc_NtCs5SDWJrlPZ8_6kernel3strNtB5_7CString12try_from_fmt+0x22b: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsd_NtCs5SDWJrlPZ8_6kernel3strNtB5_7CStringNtNtNtCse0oTBvBC9oH_4core3ops5deref5Deref5deref+0xc: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXse_NtCs5SDWJrlPZ8_6kernel3strNtB5_7CStringINtNtCse0oTBvBC9oH_4core7convert7TryFromRNtB5_4CStrE8try_from+0xc6: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtNtCs5SDWJrlPZ8_6kernel4sync7condvarNtB5_7CondVar3new+0xe: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs5SDWJrlPZ8_6kernel4syncNtB4_12LockClassKey3new+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs5SDWJrlPZ8_6kernel4syncNtB4_12LockClassKey6as_ptr+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtCs5SDWJrlPZ8_6kernel4taskNtB5_4Task7current+0xb: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNvMs0_NtCs5SDWJrlPZ8_6kernel4taskNtB8_4Task7currentNtB2_7TaskRefNtNtNtCse0oTBvBC9oH_4core3ops5deref5Deref5deref+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtCs5SDWJrlPZ8_6kernel4taskNtB5_4Task12group_leader+0xb: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtCs5SDWJrlPZ8_6kernel4taskNtB5_4Task3pid+0x6: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtCs5SDWJrlPZ8_6kernel4taskNtB5_4Task14signal_pending+0xc: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_NtCs5SDWJrlPZ8_6kernel5typesuNtB4_14ForeignOwnable12into_foreign+0x5: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_NtCs5SDWJrlPZ8_6kernel5typesuNtB4_14ForeignOwnable12from_foreign+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs0_NtCs5SDWJrlPZ8_6kernel9workqueueNtB5_5Queue8from_raw+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue6system+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue14system_highpri+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue11system_long+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue14system_unbound+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue16system_freezable+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue22system_power_efficient+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtCs5SDWJrlPZ8_6kernel9workqueue32system_freezable_power_efficient+0x7: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_Cs5SDWJrlPZ8_6kernelNtB4_10ThisModule8from_ptr+0x3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXCs8kFVvruG1ec_4uapiNtB2_32ftrace_branch_data__bindgen_ty_1NtNtCse0oTBvBC9oH_4core7default7Default7default+0x12: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_Cs8kFVvruG1ec_4uapiNtB4_18ftrace_branch_dataNtNtCse0oTBvBC9oH_4core7default7Default7default+0x2a: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCs3W1cgBU1ewb_5alloc7raw_vec11finish_growNtNtB4_5alloc6GlobalECs88S2v0RilCB_25doctests_kernel_generated+0x9d: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeNtNtCs5SDWJrlPZ8_6kernel3str16CStrConvertErrorECs88S2v0RilCB_25doctests_kernel_generated+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeNtNtCs5SDWJrlPZ8_6kernel5error5ErrorECs88S2v0RilCB_25doctests_kernel_generated+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeRjECs88S2v0RilCB_25doctests_kernel_generated+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs3W1cgBU1ewb_5alloc7raw_vecINtB4_6RawVechE20try_reserve_for_pushCs88S2v0RilCB_25doctests_kernel_generated+0xad: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsP_NtCse0oTBvBC9oH_4core3fmtRINtNtB7_6option6OptionjENtB5_5Debug3fmtCs88S2v0RilCB_25doctests_kernel_generated+0x31: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsP_NtCse0oTBvBC9oH_4core3fmtRTmENtB5_5Debug3fmtCs88S2v0RilCB_25doctests_kernel_generated+0x48: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_build_assert_rs_0+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_build_assert_rs_1+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_0+0x46: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_1+0xfd: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_2+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_3+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_34main60__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_122_08bindings11destroy_foo+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNtNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_34main60__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_122_08bindings10enable_foo+0x2: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_34main60__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_122_0NtB4_6RawFoo3new+0x2: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_4+0x118: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_5+0x46: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_6+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_7+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_8+0x46: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_9+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_94main60__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_468_0NtB2_3Foo3new+0x0: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_10+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_12+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_13+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_14+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_15+0xd0: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_16+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_init_rs_17+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_prelude_rs_0+0x3f: missing int3 after ret
+>> vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_0+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_1+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_2+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_3+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_4+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_5+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_6+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_7+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_print_rs_8+0xbf: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_static_assert_rs_0+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_std_vendor_rs_0+0x2a7: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_std_vendor_rs_1+0x375: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_std_vendor_rs_2+0x1f1: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_std_vendor_rs_3+0xfb: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_std_vendor_rs_4+0xfa: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNvNvNvCs88S2v0RilCB_25doctests_kernel_generated35rust_doctest_kernel_std_vendor_rs_44main65__doctest_main__kbuild_src_consumer_rust_kernel_std_vendor_rs_73_09factorial+0x224: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_0+0x182: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_1+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_2+0x3d5: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_3+0x3db: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_4+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_5+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_str_rs_6+0x4c8: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_0+0x182: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_1+0x1a8: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_2+0x190: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_3+0xa1: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_4+0x99: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_5+0x37f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_6+0xa1: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_arc_rs_7+0x190: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_condvar_rs_0+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_lock_mutex_rs_0+0x488: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_lock_mutex_rs_1+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_lock_spinlock_rs_0+0x479: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_lock_spinlock_rs_1+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_sync_locked_by_rs_0+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_task_rs_0+0x5b: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_task_rs_1+0x63: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_task_rs_2+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_types_rs_0+0xd3: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_types_rs_1+0x219: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvNvNvNvCs88S2v0RilCB_25doctests_kernel_generated30rust_doctest_kernel_types_rs_14main61__doctest_main__kbuild_src_consumer_rust_kernel_types_rs_132_08example3+0x1d8: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_types_rs_2+0x11d: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_workqueue_rs_0+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_NvNvNvCs88S2v0RilCB_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_35_0NtB4_8MyStructNtNtCs5SDWJrlPZ8_6kernel9workqueue8WorkItem3run+0x85: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_workqueue_rs_1+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_workqueue_rs_2+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: rust_doctest_kernel_workqueue_rs_3+0x3f: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_NvNvNvCs88S2v0RilCB_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_34main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_78_0NtB4_8MyStructINtNtCs5SDWJrlPZ8_6kernel9workqueue8WorkItemKy1_E3run+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs0_NvNvNvCs88S2v0RilCB_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_34main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_78_0NtB5_8MyStructINtNtCs5SDWJrlPZ8_6kernel9workqueue8WorkItemKy2_E3run+0x88: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNvNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_24main61__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_1219_01__NtB2_12___ThePinDataNtNtCse0oTBvBC9oH_4core5clone5Clone5clone+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs4_NvNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_24main61__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_1219_01__NtB7_3FooNtNtNtCse0oTBvBC9oH_4core3ops4drop4Drop4drop+0x57: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXNvNvNvCs88S2v0RilCB_25doctests_kernel_generated29rust_doctest_kernel_init_rs_24main61__doctest_main__kbuild_src_consumer_rust_kernel_init_rs_1219_0NtB2_3FooNtNtCs5SDWJrlPZ8_6kernel4init10PinnedDrop4drop+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCs3W1cgBU1ewb_5alloc7raw_vec11finish_growNtNtB4_5alloc6GlobalECs4P7a0KxXUiy_12rust_minimal+0x9d: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeINtNtB4_6option6OptionNtCs4P7a0KxXUiy_12rust_minimal11RustMinimalEEB14_+0xde: missing int3 after ret
+   vmlinux.o: warning: objtool: _RINvNtCse0oTBvBC9oH_4core3ptr13drop_in_placeRjECs4P7a0KxXUiy_12rust_minimal+0x0: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvMs_NtCs3W1cgBU1ewb_5alloc7raw_vecINtB4_6RawVeclE20try_reserve_for_pushCs4P7a0KxXUiy_12rust_minimal+0xbd: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXsk_NtCs3W1cgBU1ewb_5alloc3vecINtB5_3VeclENtNtCse0oTBvBC9oH_4core3fmt5Debug3fmtCs4P7a0KxXUiy_12rust_minimal+0x75: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXCs4P7a0KxXUiy_12rust_minimalNtB2_11RustMinimalNtCs5SDWJrlPZ8_6kernel6Module4init+0x1d3: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_Cs4P7a0KxXUiy_12rust_minimalNtB4_11RustMinimalNtNtNtCse0oTBvBC9oH_4core3ops4drop4Drop4drop+0xab: missing int3 after ret
+   vmlinux.o: warning: objtool: __rust_minimal_init+0x41: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXCsccsOw2AQuff_10rust_printNtB2_9RustPrintNtCs5SDWJrlPZ8_6kernel6Module4init+0xa58: missing int3 after ret
+   vmlinux.o: warning: objtool: _RNvXs_CsccsOw2AQuff_10rust_printNtB4_9RustPrintNtNtNtCse0oTBvBC9oH_4core3ops4drop4Drop4drop+0x52: missing int3 after ret
+   vmlinux.o: warning: objtool: __rust_print_init+0x78: missing int3 after ret
+
+
+objdump-func vmlinux.o rust_fmt_argument:
+0000 00000000000d1cb0 <rust_fmt_argument>:
+0000    d1cb0:	48 83 ec 58          	sub    $0x58,%rsp
+0004    d1cb4:	48 8d 44 24 10       	lea    0x10(%rsp),%rax
+0009    d1cb9:	f6 c2 07             	test   $0x7,%dl
+000c    d1cbc:	48 89 7c 24 10       	mov    %rdi,0x10(%rsp)
+0011    d1cc1:	48 89 7c 24 18       	mov    %rdi,0x18(%rsp)
+0016    d1cc6:	48 89 74 24 20       	mov    %rsi,0x20(%rsp)
+001b    d1ccb:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+0020    d1cd0:	75 55                	jne    d1d27 <rust_fmt_argument+0x77>
+0022    d1cd2:	48 8b 42 28          	mov    0x28(%rdx),%rax
+0026    d1cd6:	48 8d 7c 24 08       	lea    0x8(%rsp),%rdi
+002b    d1cdb:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	d1cde: R_X86_64_32S	.rodata+0x10160
+0032    d1ce2:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+0037    d1ce7:	48 8b 42 20          	mov    0x20(%rdx),%rax
+003b    d1ceb:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+0040    d1cf0:	48 8b 42 18          	mov    0x18(%rdx),%rax
+0044    d1cf4:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+0049    d1cf9:	48 8b 42 10          	mov    0x10(%rdx),%rax
+004d    d1cfd:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+0052    d1d02:	48 8b 02             	mov    (%rdx),%rax
+0055    d1d05:	48 8b 4a 08          	mov    0x8(%rdx),%rcx
+0059    d1d09:	48 8d 54 24 28       	lea    0x28(%rsp),%rdx
+005e    d1d0e:	48 89 4c 24 30       	mov    %rcx,0x30(%rsp)
+0063    d1d13:	48 89 44 24 28       	mov    %rax,0x28(%rsp)
+0068    d1d18:	e8 00 00 00 00       	call   d1d1d <rust_fmt_argument+0x6d>	d1d19: R_X86_64_PLT32	_RNvNtCse0oTBvBC9oH_4core3fmt5write-0x4
+006d    d1d1d:	48 8b 44 24 18       	mov    0x18(%rsp),%rax
+0072    d1d22:	48 83 c4 58          	add    $0x58,%rsp
+0076    d1d26:	c3                   	ret
+0077    d1d27:	48 89 d6             	mov    %rdx,%rsi
+007a    d1d2a:	bf 08 00 00 00       	mov    $0x8,%edi
+007f    d1d2f:	48 c7 c2 00 00 00 00 	mov    $0x0,%rdx	d1d32: R_X86_64_32S	.rodata+0x102f8
+0086    d1d36:	e8 00 00 00 00       	call   d1d3b <rust_fmt_argument+0x8b>	d1d37: R_X86_64_PLT32	_RNvNtCse0oTBvBC9oH_4core9panicking36panic_misaligned_pointer_dereference-0x4
+008b    d1d3b:	0f 0b                	ud2
+008d    d1d3d:	0f 1f 00             	nopl   (%rax)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
