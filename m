@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401203AC36
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 17:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B3D45979
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 18:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722448739; cv=none; b=D5n4eg6E8lUVErqo3MEbVnCpVXtMzitMDT76p8JAjksxdaATJXTB/5AJ5AmB5gGShjb0ewozfY4s2+9QyJldTJg9SDdSAa8phaKY4P+xaFDXK5r4QAUHp3PmrmJ3+hhjg0zGWAZmfmsoCw6U4pgSETWRw2xUN0jMN0RiitEeAMA=
+	t=1722450003; cv=none; b=ds3vq+Ouu2aCLzM8A+zZKppml+XOW9Hobq6MRtj9uGTpxS8CUF41ZjB3rZmrYZ3DYzv/H8mZTQ8Hnt43WG0+CF1wmkLc0Y4cJywtejdBzArGrYhNUhLp6uXY+GNfY/BSI+TtGNPpEkVeFSQoEzrrM8up5jCxZvmVyV+2pIi28KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722448739; c=relaxed/simple;
-	bh=dB7F/4syqFoBtfnHnfAcCoqz1SCvMHO7LE6eT6nWs8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kD5Z+6sSJhBFPNwDGCCf1Nknj3hATaQCUOPywGUUZSDFqx+cYX+X+/nu3jQk59AK43Wrvd9fiDn6z73ZnJcU0mF6pWnXh/PL30EZ4xHNZzxq0XqlLRN1z7XHFsPZUo7Q7VkJKvc6GP40SRAdZIPfHOcp6yehNFPNKgbDXF1JGcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CU+kmXz2; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1722450003; c=relaxed/simple;
+	bh=mhUJZkJDoBn6UrBK6j9k/Zhefn6WhHvCy2ysDMhWtOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gjpuWtC1uDS9oJ8OPfJJuumiQiCxfsLpexmJ54cTjhmxmUtRgFK175UXFz6sUgozW4+nQMC9cg3aRKxsXdRyirrIDHLVJTjOoOtoyzUspNFlktjcmXhiqBt4avOGhIClZzH6WN4gMMBfAtHP75YC2sIrMgBM3EuFiVvJsHWylEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHrDunwf; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CU+kmXz2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHrDunwf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722448737; x=1753984737;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dB7F/4syqFoBtfnHnfAcCoqz1SCvMHO7LE6eT6nWs8k=;
-  b=CU+kmXz2rHpo7j6li3Sy6zd/IWR31xFTQxypM84eIiYs2C3y89474DKU
-   x+f7VFFiAgNIR3C/ZfqLJ790LyQNqiGBVFyJXKHmvoF27D45+AEqzsJN2
-   uIt5RQF7pmkr5lflCQquLvfkWQnfnc0YoC+jDVaUDDoBdyhh+KNQ2hWtr
-   CpmJP+K2UZOi7zNgC5FG/bmXooGRop2uOfBCE0lIcb5Z1xqaTWvIymlxO
-   ocbko7KMJyeqklYRUlBJHidureKH6aMWisIVGENoELZ8Wa/lVpniJWRnv
-   gaskZ8U7OyHP1DifhBC0I0YRSZoiNLfbZO7SPk2Al0jqhFq76gMfpCund
-   g==;
-X-CSE-ConnectionGUID: FwTsU6X+RZqVhqwVHozOCA==
-X-CSE-MsgGUID: NqKwTXaFSVWvhfsQTJ4dPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="31740427"
+  t=1722450001; x=1753986001;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mhUJZkJDoBn6UrBK6j9k/Zhefn6WhHvCy2ysDMhWtOg=;
+  b=QHrDunwfmTljnjUMhJp4vd5IXXUNGVW/dgSH/T/RyNzOlzNJbKuDoxpt
+   wZyHV+t86/OpZ2CoTrVC5r794mqkDPGyh42bsdd1BFl/ph2X1w33RfMb0
+   mr8AREaPMDqxH+7ES+IuOn29VRBkgv3131Og+oR2bioLqlQdcfRJM/jod
+   FF1L+JOcnRCjuugoQf1VxZ68UUqkPIgmoHQ9WLM3FSyKlTH7grazvfHIm
+   nbg4gYyzn5/U+xp8fHUtG69qRccZdnfKyF/swvf3ydSFTgkQzS0PVVFiE
+   OQASByNZMbLsmG8N3L9oj1NQJjiOMcstWbNCMsPcn6bTi3DC59uXjb7OY
+   Q==;
+X-CSE-ConnectionGUID: MkkCHa2qRSGV9ceh3CcApw==
+X-CSE-MsgGUID: /MldCVdrQVqYMnrEs5w8DA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="23268185"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="31740427"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 10:58:57 -0700
-X-CSE-ConnectionGUID: FRgKMhlLTLmy2XlLt6TbCQ==
-X-CSE-MsgGUID: Pp9NSZCPQ5Gi81tiM8ndgg==
+   d="scan'208";a="23268185"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 11:20:00 -0700
+X-CSE-ConnectionGUID: g2GxWhHnQRqpX6Q0Gsc6Bw==
+X-CSE-MsgGUID: RwGiN8jVSjmeOtf88aroXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="59597255"
+   d="scan'208";a="55368613"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 31 Jul 2024 10:58:55 -0700
+  by orviesa007.jf.intel.com with ESMTP; 31 Jul 2024 11:19:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZDbA-000ugm-25;
-	Wed, 31 Jul 2024 17:58:52 +0000
-Date: Thu, 1 Aug 2024 01:58:32 +0800
+	id 1sZDvV-000uhg-0v;
+	Wed, 31 Jul 2024 18:19:53 +0000
+Date: Thu, 1 Aug 2024 02:19:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:thermal-core-testing 2/28]
- drivers/thermal/hisi_thermal.c:484:29: warning: unused variable 'trip'
-Message-ID: <202408010134.hozVfGEo-lkp@intel.com>
+To: Zhiguo Jiang <justinjiang@vivo.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>, linux-arch@vger.kernel.org,
+	cgroups@vger.kernel.org, Barry Song <21cnbao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	opensource.kernel@vivo.com
+Subject: Re: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
+Message-ID: <202408010150.13yZScv6-lkp@intel.com>
+References: <20240730114426.511-3-justinjiang@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +75,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240730114426.511-3-justinjiang@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal-core-testing
-head:   c213ec5d265075e670b175f577fc30f12c2bf093
-commit: 09a7303648169c6d8c5f2608b0764a7095a15c21 [2/28] thermal: hisi: Use thermal_zone_for_each_trip() in hisi_thermal_register_sensor()
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240801/202408010134.hozVfGEo-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010134.hozVfGEo-lkp@intel.com/reproduce)
+Hi Zhiguo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhiguo-Jiang/mm-move-task_is_dying-to-h-headfile/20240730-215136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240730114426.511-3-justinjiang%40vivo.com
+patch subject: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
+config: i386-randconfig-061-20240731 (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408010134.hozVfGEo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408010150.13yZScv6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/mmu_gather.c:54:10: sparse: sparse: symbol 'nr_exiting_processes' was not declared. Should it be static?
+   mm/mmu_gather.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-   drivers/thermal/hisi_thermal.c: In function 'hisi_thermal_register_sensor':
->> drivers/thermal/hisi_thermal.c:484:29: warning: unused variable 'trip' [-Wunused-variable]
-     484 |         struct thermal_trip trip;
-         |                             ^~~~
->> drivers/thermal/hisi_thermal.c:483:18: warning: unused variable 'i' [-Wunused-variable]
-     483 |         int ret, i;
-         |                  ^
+vim +/nr_exiting_processes +54 mm/mmu_gather.c
 
-
-vim +/trip +484 drivers/thermal/hisi_thermal.c
-
-09a7303648169c Rafael J. Wysocki 2024-07-29  479  
-9a5238a9c6c33d kongxinwei        2015-05-20  480  static int hisi_thermal_register_sensor(struct platform_device *pdev,
-a160a465297362 Kevin Wangtao     2017-10-22  481  					struct hisi_thermal_sensor *sensor)
-9a5238a9c6c33d kongxinwei        2015-05-20  482  {
-9a5238a9c6c33d kongxinwei        2015-05-20 @483  	int ret, i;
-68a306cc839718 Daniel Lezcano    2022-10-03 @484  	struct thermal_trip trip;
-9a5238a9c6c33d kongxinwei        2015-05-20  485  
-5ee7811e9afa4f Daniel Lezcano    2022-08-05  486  	sensor->tzd = devm_thermal_of_zone_register(&pdev->dev,
-49e778d1c750d5 Daniel Lezcano    2018-09-25  487  						    sensor->id, sensor,
-81d7cb7946f03d Daniel Lezcano    2017-10-19  488  						    &hisi_of_thermal_ops);
-9a5238a9c6c33d kongxinwei        2015-05-20  489  	if (IS_ERR(sensor->tzd)) {
-9a5238a9c6c33d kongxinwei        2015-05-20  490  		ret = PTR_ERR(sensor->tzd);
-439dc96811739a Leo Yan           2016-03-29  491  		sensor->tzd = NULL;
-9a5238a9c6c33d kongxinwei        2015-05-20  492  		dev_err(&pdev->dev, "failed to register sensor id %d: %d\n",
-9a5238a9c6c33d kongxinwei        2015-05-20  493  			sensor->id, ret);
-9a5238a9c6c33d kongxinwei        2015-05-20  494  		return ret;
-9a5238a9c6c33d kongxinwei        2015-05-20  495  	}
-9a5238a9c6c33d kongxinwei        2015-05-20  496  
-09a7303648169c Rafael J. Wysocki 2024-07-29  497  	thermal_zone_for_each_trip(sensor->tzd, hisi_trip_walk_cb, sensor);
-9a5238a9c6c33d kongxinwei        2015-05-20  498  
-9a5238a9c6c33d kongxinwei        2015-05-20  499  	return 0;
-9a5238a9c6c33d kongxinwei        2015-05-20  500  }
-9a5238a9c6c33d kongxinwei        2015-05-20  501  
-
-:::::: The code at line 484 was first introduced by commit
-:::::: 68a306cc839718d1875b46ebf73c25c8fa7f704a thermal/drivers/hisi: Use generic thermal_zone_get_trip() function
-
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Daniel Lezcano <daniel.lezcano@kernel.org>
+    53	
+  > 54	atomic_t nr_exiting_processes = ATOMIC_INIT(0);
+    55	static struct kmem_cache *swap_gather_cachep;
+    56	static struct workqueue_struct *swapfree_wq;
+    57	static DEFINE_STATIC_KEY_TRUE(tlb_swap_asyncfree_disabled);
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
