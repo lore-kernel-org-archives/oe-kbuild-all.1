@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B3D45979
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 18:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5A31805E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jul 2024 19:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722450003; cv=none; b=ds3vq+Ouu2aCLzM8A+zZKppml+XOW9Hobq6MRtj9uGTpxS8CUF41ZjB3rZmrYZ3DYzv/H8mZTQ8Hnt43WG0+CF1wmkLc0Y4cJywtejdBzArGrYhNUhLp6uXY+GNfY/BSI+TtGNPpEkVeFSQoEzrrM8up5jCxZvmVyV+2pIi28KM=
+	t=1722453721; cv=none; b=gHl7RfUepxU1gj2U1I+Q17jC6Im/rkEfmmGH5iNqHytbmQz4m6szS9ER4XHUA2IFGbc2QOOM3/cql7Sgc2cAHvxiwn1lduKyAiLtmwH3el9bYdx+SPpQdi9OTG91TANbt6oD5s5DLAsz1f6bskmIHi8qoFrgKRIddV83R5AoGVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722450003; c=relaxed/simple;
-	bh=mhUJZkJDoBn6UrBK6j9k/Zhefn6WhHvCy2ysDMhWtOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gjpuWtC1uDS9oJ8OPfJJuumiQiCxfsLpexmJ54cTjhmxmUtRgFK175UXFz6sUgozW4+nQMC9cg3aRKxsXdRyirrIDHLVJTjOoOtoyzUspNFlktjcmXhiqBt4avOGhIClZzH6WN4gMMBfAtHP75YC2sIrMgBM3EuFiVvJsHWylEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHrDunwf; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1722453721; c=relaxed/simple;
+	bh=xnSTTqLy26wm96qZHrb8UorwR7mB6Pph+t24qt6vyOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RAPInYNfF5Gg9g8vbFsX8sgeKu+2zINvAyFHl6+Fe+nvvAbPhL4fUMsv7EDEjdy0KdqExw8wse3/QNHmLQWx8QhjFVb4SGd5f0vMcgTsUnux7B7xlx2KQ8owPZgGjCCMy6KZBmd1W35RC1UjyrbZbb3q63RbKQZoeQtIjWTO6p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KN/9bujz; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHrDunwf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KN/9bujz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722450001; x=1753986001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mhUJZkJDoBn6UrBK6j9k/Zhefn6WhHvCy2ysDMhWtOg=;
-  b=QHrDunwfmTljnjUMhJp4vd5IXXUNGVW/dgSH/T/RyNzOlzNJbKuDoxpt
-   wZyHV+t86/OpZ2CoTrVC5r794mqkDPGyh42bsdd1BFl/ph2X1w33RfMb0
-   mr8AREaPMDqxH+7ES+IuOn29VRBkgv3131Og+oR2bioLqlQdcfRJM/jod
-   FF1L+JOcnRCjuugoQf1VxZ68UUqkPIgmoHQ9WLM3FSyKlTH7grazvfHIm
-   nbg4gYyzn5/U+xp8fHUtG69qRccZdnfKyF/swvf3ydSFTgkQzS0PVVFiE
-   OQASByNZMbLsmG8N3L9oj1NQJjiOMcstWbNCMsPcn6bTi3DC59uXjb7OY
-   Q==;
-X-CSE-ConnectionGUID: MkkCHa2qRSGV9ceh3CcApw==
-X-CSE-MsgGUID: /MldCVdrQVqYMnrEs5w8DA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="23268185"
+  t=1722453719; x=1753989719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xnSTTqLy26wm96qZHrb8UorwR7mB6Pph+t24qt6vyOw=;
+  b=KN/9bujzhtZoAqGbzojl2UuojNOQrezofOfyZlSNH4RQxRCQ1/jESxf9
+   yLRRNElNK0VC2MLU6EW2G6qtNRbkBZrfrtazoU2+1HhmqYbRLbplsDMb+
+   91D7fpLJkOq/GSa9W/FCIqD7UubFF1DBmOGEVRTaLI9KZ2CPbe4o2aOqy
+   gVGEu7r+ZrfTRnONQTtVqdW2PHdqyHcbpZNRjECDRiiDLnXPTEsomDP9/
+   vPX5rA1nLFatXvu1AaUdbiDyZIA0IBCpx6Tndilc3el3S8Tgc18RkbGp7
+   LrVihA0QhmDddHsBbLj61cUTEz4mcdLWunH0qtJaM2imtvvtvor7/DMuu
+   w==;
+X-CSE-ConnectionGUID: jlW+UIbnRwGMD6AZFoTP8w==
+X-CSE-MsgGUID: lmtG4X4KRF6gQmjX9expUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="37831445"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="23268185"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 11:20:00 -0700
-X-CSE-ConnectionGUID: g2GxWhHnQRqpX6Q0Gsc6Bw==
-X-CSE-MsgGUID: RwGiN8jVSjmeOtf88aroXA==
+   d="scan'208";a="37831445"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 12:21:58 -0700
+X-CSE-ConnectionGUID: bxL/LGRUQYKvjd3K92Wvcw==
+X-CSE-MsgGUID: buNhoeA4SrecQJRV9I0jlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="55368613"
+   d="scan'208";a="59620338"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 31 Jul 2024 11:19:56 -0700
+  by orviesa003.jf.intel.com with ESMTP; 31 Jul 2024 12:21:57 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZDvV-000uhg-0v;
-	Wed, 31 Jul 2024 18:19:53 +0000
-Date: Thu, 1 Aug 2024 02:19:19 +0800
+	id 1sZEtW-000ujs-2i;
+	Wed, 31 Jul 2024 19:21:54 +0000
+Date: Thu, 1 Aug 2024 03:20:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhiguo Jiang <justinjiang@vivo.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@kernel.dk>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>, linux-arch@vger.kernel.org,
-	cgroups@vger.kernel.org, Barry Song <21cnbao@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	opensource.kernel@vivo.com
-Subject: Re: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
-Message-ID: <202408010150.13yZScv6-lkp@intel.com>
-References: <20240730114426.511-3-justinjiang@vivo.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-per-rtg-bitmap 16/16] fs/xfs/libxfs/xfs_types.c:158
+ xfs_verify_rtbno() warn: always true condition '(rtx >= (0)) => (0-u64max >=
+ 0)'
+Message-ID: <202408010311.hEbWQg5J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,41 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730114426.511-3-justinjiang@vivo.com>
 
-Hi Zhiguo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhiguo-Jiang/mm-move-task_is_dying-to-h-headfile/20240730-215136
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240730114426.511-3-justinjiang%40vivo.com
-patch subject: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
-config: i386-randconfig-061-20240731 (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap
+head:   8b529e4989033bbdaa794c3ed2632d2684994e17
+commit: 8b529e4989033bbdaa794c3ed2632d2684994e17 [16/16] xfs: use per-RTG bitmaps and summaries
+config: x86_64-randconfig-161-20240731 (https://download.01.org/0day-ci/archive/20240801/202408010311.hEbWQg5J-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408010150.13yZScv6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408010311.hEbWQg5J-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/mmu_gather.c:54:10: sparse: sparse: symbol 'nr_exiting_processes' was not declared. Should it be static?
-   mm/mmu_gather.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+smatch warnings:
+fs/xfs/libxfs/xfs_types.c:158 xfs_verify_rtbno() warn: always true condition '(rtx >= (0)) => (0-u64max >= 0)'
 
-vim +/nr_exiting_processes +54 mm/mmu_gather.c
+vim +158 fs/xfs/libxfs/xfs_types.c
 
-    53	
-  > 54	atomic_t nr_exiting_processes = ATOMIC_INIT(0);
-    55	static struct kmem_cache *swap_gather_cachep;
-    56	static struct workqueue_struct *swapfree_wq;
-    57	static DEFINE_STATIC_KEY_TRUE(tlb_swap_asyncfree_disabled);
-    58	
+   138	
+   139	/*
+   140	 * Verify that a realtime block number pointer neither points outside the
+   141	 * allocatable areas of the rtgroup nor off the end of the realtime
+   142	 * device.
+   143	 */
+   144	inline bool
+   145	xfs_verify_rtbno(
+   146		struct xfs_mount	*mp,
+   147		xfs_rtblock_t		rtbno)
+   148	{
+   149		if (rtbno >= mp->m_sb.sb_rblocks)
+   150			return false;
+   151	
+   152		if (xfs_has_rtgroups(mp)) {
+   153			xfs_rgnumber_t	rgno = xfs_rtb_to_rgno(mp, rtbno);
+   154			xfs_rtxnum_t	rtx = xfs_rtb_to_rtx(mp, rtbno);
+   155	
+   156			if (rgno >= mp->m_sb.sb_rgcount)
+   157				return false;
+ > 158			if (rtx >= xfs_rtgroup_extents(mp, rgno))
+   159				return false;
+   160			if (xfs_has_rtsb(mp) && rgno == 0 && rtx == 0)
+   161				return false;
+   162		}
+   163		return true;
+   164	}
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
