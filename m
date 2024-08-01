@@ -1,48 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7598C14B097;
-	Thu,  1 Aug 2024 22:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857FA14B956
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 22:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722550470; cv=none; b=APOXoTrSkO32rquRuRHnts1ICWbOS7iOTZ9n7fXtJ/Gyx/ODxswfLbfHJixMF0Mc8V04DYzcwosMXrawwpdPHOt+5cAoUpOwsAaizBTNu1l8ZGgddZNtmiUPxA75dRpShGs5mLsrdk1iDEfeZQBbSSHN4Oged5ZRE7fV+auhz7E=
+	t=1722551338; cv=none; b=k46EOU7osq/KBZiVsDaggGNEnU/ICBsmcj3JCmBDGoFaUgtgJbEY/Pmw+h5o3qFffYbOgWqgbjpngnKfAaXnzp9lEK8cEqnzT1VjvzHlb/qKy6wIEt5z869nosOKYt/g7IXh56ZHbrNAzcwV28wU2gE/sR2LNwLhG2iwRVzn8dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722550470; c=relaxed/simple;
-	bh=CeR3LVp7OW0w7GTxNWNq2oLZvH6C4PKoEL3irC/Eq+s=;
+	s=arc-20240116; t=1722551338; c=relaxed/simple;
+	bh=5J6mExnZ6kyIwXnhYIpO3liFJjrlqOH8Z5QqPPP7/KQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xnydi05IE7cpnDK5cqlOnlxqrmGec0SYXDsgigyP28MG9rM9nzmLkLiueHHHLJL0nRkGTv6sj2AKWQVZr32++/VMALXTyGwjyBVx7WWqL5tl06qUplEUy/oBOpyJBodtLqi3uoykaWKSOWYpCHNJm2BKfvOHdpGTEVQpEfYrs2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BOxaEvCf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XPW6nY2sVGD7qdC6E08/CKQsCS9gbw/mSRj/GGSz9xL3WMDCbXY9LMdHmlo1gdfV8aX5t200cseuYcaXvOjNr5yoNjHlz2fA2A2XytGc4y+15bHEMf0SLzBFA/wdaC/tqrpZe5UukSVT7xYQ1eqSM5DIxwnc2jn0rKPZGuNynCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BdItHveg; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BOxaEvCf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804F8C32786;
-	Thu,  1 Aug 2024 22:14:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722550470;
-	bh=CeR3LVp7OW0w7GTxNWNq2oLZvH6C4PKoEL3irC/Eq+s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BOxaEvCfLBUq2g9e5M/sEp9MLVwZGW4FFDb/IudJEWOggIs5c7Q9suLcMrpWZq9HM
-	 gTycS/5aBkGnIrwi3NrvhmWT9D6sD1Lx+NhuX/XQ+6OddW06eJ/9u5RPodw3nnvnNF
-	 zrLWY8aTLqq8YEo4Y9jS1g+bxKDGhNGoz9gDUmR3DtTOsfup1HupE9lDdVYH3LQ3Uo
-	 TxXLks/lbabFdDt6ddk/s8Hn3rWzIOpZy22ynVx0uTKvnvqAL0ruDLFcpJjwd37UqY
-	 62eLmaLCN+Jf10gmZQw9DgLfWtT8dBT8+UakKmq7WIWijPKISYad3L2MQ9Xa6y2Zr6
-	 e24jsPf0nHmww==
-Date: Thu, 1 Aug 2024 15:14:27 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: kernel test robot <lkp@intel.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
-Subject: Re: [gustavoars:testing/wfamnae-next20240729-cbc-2 11/18]
- include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to
- requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
- sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of
- struct_group_tagged()
-Message-ID: <20240801221427.GA3773553@thelio-3990X>
-References: <202408011956.wscyBwq6-lkp@intel.com>
- <138da3e5-0e24-41a6-bb35-df5d07045eb3@embeddedor.com>
- <20240801190813.GC122261@thelio-3990X>
- <f40160aa-7cbd-4264-be44-45396b09574f@embeddedor.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdItHveg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722551337; x=1754087337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5J6mExnZ6kyIwXnhYIpO3liFJjrlqOH8Z5QqPPP7/KQ=;
+  b=BdItHvegmVcNKJwwSfVGU5fifysy0L2wtmylGfvgfNJoai+mMXwYwIgl
+   QVAYMYf0mM0u3hsBDxvkrCAerwVr25guv6/xmK3qw3iT9EnqnQVqtODQY
+   IW4JdMZAmNF3kZvRtYlE1htBQpcr4LAeBYj6xYonXTIUsm/aBIT2U/xpc
+   69MSqlfAsgoQX55BBv1ppVOY+k+ihSsnhByq6g2sWyzgC/T8TFSa36MMl
+   Q99cFuuxc1lkyLQncYE5IcnNVUeOdaLR4R4ayQUsgRAfdd2k2M/KGTRJ5
+   p4IAiNBkzwOPG8sPtCp4bQIAa19b7h7TYyiu+Dxf0GSlznZIZ2JshUUOn
+   g==;
+X-CSE-ConnectionGUID: NqRyR/3wSnOUgDlvAh/YiA==
+X-CSE-MsgGUID: Z67B7OnnS3yRG59K+3bAWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38006607"
+X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
+   d="scan'208";a="38006607"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 15:28:56 -0700
+X-CSE-ConnectionGUID: AMVcz9uqTICt3qcoyWHyeg==
+X-CSE-MsgGUID: MAsJlQVzSAaGanaocv86Lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
+   d="scan'208";a="60036909"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Aug 2024 15:28:53 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sZeHy-000w5s-1X;
+	Thu, 01 Aug 2024 22:28:50 +0000
+Date: Fri, 2 Aug 2024 06:28:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Elson Roy Serrao <quic_eserrao@quicinc.com>, andersson@kernel.org,
+	konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: Re: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
+Message-ID: <202408020600.vU0uKLa7-lkp@intel.com>
+References: <20240730222439.3469-8-quic_eserrao@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,135 +67,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f40160aa-7cbd-4264-be44-45396b09574f@embeddedor.com>
+In-Reply-To: <20240730222439.3469-8-quic_eserrao@quicinc.com>
 
-On Thu, Aug 01, 2024 at 02:17:50PM -0600, Gustavo A. R. Silva wrote:
-> 
-> 
-> On 01/08/24 13:08, Nathan Chancellor wrote:
-> > On Thu, Aug 01, 2024 at 06:47:58AM -0600, Gustavo A. R. Silva wrote:
-> > > 
-> > > 
-> > > On 01/08/24 05:35, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc-2
-> > > > head:   df15c862c1b93b6e1f6c90b0d7971f7a6ad66751
-> > > > commit: e7cd9f429a852fb7e37a706c7d08fc36e7863e06 [11/18] RDMA/uverbs: Use static_assert() to check struct sizes
-> > > > config: hexagon-randconfig-001-20240801 (https://download.01.org/0day-ci/archive/20240801/202408011956.wscyBwq6-lkp@intel.com/config)
-> > > > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 430b90f04533b099d788db2668176038be38c53b)
-> > > 
-> > > 
-> > > Clang 20.0.0?? (thinkingface)
-> > 
-> > Indeed, Clang 19 branched and main is now 20 :)
-> > 
-> > https://github.com/llvm/llvm-project/commit/8f701b5df0adb3a2960d78ca2ad9cf53f39ba2fe
-> 
-> Yeah, but is that a stable release?
+Hi Elson,
 
-No, but the Intel folks have tested tip of tree LLVM against the kernel
-for us for a few years now to try and catch issues such as this.
+kernel test robot noticed the following build warnings:
 
-> BTW, I don't see GCC reporting the same problem below:
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11-rc1 next-20240801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hexagon does not have a GCC backend anymore so it is not going to be
-possible to do an exact A/B comparison with this configuration but...
+url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/dt-bindings-soc-qcom-eud-Add-phy-related-bindings/20240801-210521
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240730222439.3469-8-quic_eserrao%40quicinc.com
+patch subject: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240802/202408020600.vU0uKLa7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020600.vU0uKLa7-lkp@intel.com/reproduce)
 
-> > > > > > include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of struct_group_tagged()
-> > > >        643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
-> > > >            | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >        644 |               "struct member likely outside of struct_group_tagged()");
-> > > >            |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >      include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-> > > >         16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-> > > >            |                                 ^
-> > > >      include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-> > > >         77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-> > > >            |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >      include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-> > > >         78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-> > > >            |                                                        ^~~~
-> > > >      include/rdma/uverbs_ioctl.h:643:58: note: expression evaluates to '56 == 52'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408020600.vU0uKLa7-lkp@intel.com/
 
-This seems to give some indication that perhaps there may be some
-architecture specific here with padding maybe? I seem to recall ARM OABI
-having something similar. Adding the Hexagon folks/list to get some more
-clarification. Full warning and context:
+All warnings (new ones prefixed by >>):
 
-https://lore.kernel.org/202408011956.wscyBwq6-lkp@intel.com/
+   drivers/usb/misc/qcom_eud.c: In function 'handle_eud_irq_thread':
+>> drivers/usb/misc/qcom_eud.c:227:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     227 |         int ret;
+         |             ^~~
 
-The problematic section preprocessed since sometimes the macros
-obfuscate things:
 
-struct uverbs_attr_bundle {
-        union {
-                struct {
-                        struct ib_udata driver_udata;
-                        struct ib_udata ucore;
-                        struct ib_uverbs_file *ufile;
-                        struct ib_ucontext *context;
-                        struct ib_uobject *uobject;
-                        unsigned long attr_present[(((UVERBS_API_ATTR_BKEY_LEN) +
-                                                     ((sizeof(long) * 8)) - 1) /
-                                                    ((sizeof(long) * 8)))];
-                };
-                struct uverbs_attr_bundle_hdr {
-                        struct ib_udata driver_udata;
-                        struct ib_udata ucore;
-                        struct ib_uverbs_file *ufile;
-                        struct ib_ucontext *context;
-                        struct ib_uobject *uobject;
-                        unsigned long attr_present[(((UVERBS_API_ATTR_BKEY_LEN) +
-                                                     ((sizeof(long) * 8)) - 1) /
-                                                    ((sizeof(long) * 8)))];
-                } hdr;
-        };
+vim +/ret +227 drivers/usb/misc/qcom_eud.c
 
-        struct uverbs_attr attrs[];
-};
-_Static_assert(__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
-                       sizeof(struct uverbs_attr_bundle_hdr),
-               "struct member likely outside of struct_group_tagged()");
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  223  
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  224  static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  225  {
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  226  	struct eud_chip *chip = data;
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08 @227  	int ret;
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  228  
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  229  	if (chip->usb_attached)
+c007e96bfd0471 Elson Roy Serrao    2024-07-30  230  		ret = eud_usb_role_set(chip, USB_ROLE_DEVICE);
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  231  	else
+c007e96bfd0471 Elson Roy Serrao    2024-07-30  232  		ret = eud_usb_role_set(chip, USB_ROLE_HOST);
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  233  
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  234  	/* set and clear vbus_int_clr[0] to clear interrupt */
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  235  	writel(BIT(0), chip->base + EUD_REG_VBUS_INT_CLR);
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  236  	writel(0, chip->base + EUD_REG_VBUS_INT_CLR);
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  237  
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  238  	return IRQ_HANDLED;
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  239  }
+9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  240  
 
-FWIW, I see this with all versions of Clang that the kernel supports
-with this configuration.
-
-Cheers,
-Nathan
-
-> > > >        643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
-> > > >            | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >        644 |               "struct member likely outside of struct_group_tagged()");
-> > > >            |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >      include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-> > > >         77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-> > > >            |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >      include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-> > > >         78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-> > > >            |                                                        ^~~~
-> > > >      7 warnings and 1 error generated.
-> > > > 
-> > > > 
-> > > > vim +643 include/rdma/uverbs_ioctl.h
-> > > > 
-> > > >      630	
-> > > >      631	struct uverbs_attr_bundle {
-> > > >      632		/* New members MUST be added within the struct_group() macro below. */
-> > > >      633		struct_group_tagged(uverbs_attr_bundle_hdr, hdr,
-> > > >      634			struct ib_udata driver_udata;
-> > > >      635			struct ib_udata ucore;
-> > > >      636			struct ib_uverbs_file *ufile;
-> > > >      637			struct ib_ucontext *context;
-> > > >      638			struct ib_uobject *uobject;
-> > > >      639			DECLARE_BITMAP(attr_present, UVERBS_API_ATTR_BKEY_LEN);
-> > > >      640		);
-> > > >      641		struct uverbs_attr attrs[];
-> > > >      642	};
-> > > >    > 643	static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
-> > > >      644		      "struct member likely outside of struct_group_tagged()");
-> > > >      645	
-> > > > 
-> > > 
-> 
-> Thanks
-> --
-> Gustavo
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
