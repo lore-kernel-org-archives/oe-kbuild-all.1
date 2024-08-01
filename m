@@ -1,126 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857FA14B956
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 22:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7B538DD6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 22:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722551338; cv=none; b=k46EOU7osq/KBZiVsDaggGNEnU/ICBsmcj3JCmBDGoFaUgtgJbEY/Pmw+h5o3qFffYbOgWqgbjpngnKfAaXnzp9lEK8cEqnzT1VjvzHlb/qKy6wIEt5z869nosOKYt/g7IXh56ZHbrNAzcwV28wU2gE/sR2LNwLhG2iwRVzn8dg=
+	t=1722551765; cv=none; b=Dak6R5pqNBUitONaO2XFeeSvSwzj+ACqEkKaHcQVKEDmq5lykn6kdA0tIJm2GX6pIYyerbQfIDE1N1YqYqobAHzjIh6vaO2dKxhKos1m8mKkTp7n+rvK0ZVyaziWV1Q6Mdpq8d84wLrS6/dzaoTWkAM531UOLC28UD2ZigAAFsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722551338; c=relaxed/simple;
-	bh=5J6mExnZ6kyIwXnhYIpO3liFJjrlqOH8Z5QqPPP7/KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XPW6nY2sVGD7qdC6E08/CKQsCS9gbw/mSRj/GGSz9xL3WMDCbXY9LMdHmlo1gdfV8aX5t200cseuYcaXvOjNr5yoNjHlz2fA2A2XytGc4y+15bHEMf0SLzBFA/wdaC/tqrpZe5UukSVT7xYQ1eqSM5DIxwnc2jn0rKPZGuNynCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BdItHveg; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722551765; c=relaxed/simple;
+	bh=io5ptOM2yLV7Yx6TkZgB3r0B2lEmO5avVNXyNXIP1Fc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cOdOix8AigkO5ENbXhiEW7mtziwONBIhxME7KHCbzp0tCvhilLT9Q7UmYkg+wVCVV+1TxiEMIkDUurFMbiCTZyuze8SuX0i32aoKH+n2W+78xn9QsOi6MjJgeefE8cr3UZLRh1WYj7mC9m78lUyX3Xy3bDsM8gYfWdDYNjHibYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=Dg9mD2MX; arc=none smtp.client-ip=35.89.44.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdItHveg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722551337; x=1754087337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5J6mExnZ6kyIwXnhYIpO3liFJjrlqOH8Z5QqPPP7/KQ=;
-  b=BdItHvegmVcNKJwwSfVGU5fifysy0L2wtmylGfvgfNJoai+mMXwYwIgl
-   QVAYMYf0mM0u3hsBDxvkrCAerwVr25guv6/xmK3qw3iT9EnqnQVqtODQY
-   IW4JdMZAmNF3kZvRtYlE1htBQpcr4LAeBYj6xYonXTIUsm/aBIT2U/xpc
-   69MSqlfAsgoQX55BBv1ppVOY+k+ihSsnhByq6g2sWyzgC/T8TFSa36MMl
-   Q99cFuuxc1lkyLQncYE5IcnNVUeOdaLR4R4ayQUsgRAfdd2k2M/KGTRJ5
-   p4IAiNBkzwOPG8sPtCp4bQIAa19b7h7TYyiu+Dxf0GSlznZIZ2JshUUOn
-   g==;
-X-CSE-ConnectionGUID: NqRyR/3wSnOUgDlvAh/YiA==
-X-CSE-MsgGUID: Z67B7OnnS3yRG59K+3bAWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38006607"
-X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
-   d="scan'208";a="38006607"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 15:28:56 -0700
-X-CSE-ConnectionGUID: AMVcz9uqTICt3qcoyWHyeg==
-X-CSE-MsgGUID: MAsJlQVzSAaGanaocv86Lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
-   d="scan'208";a="60036909"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Aug 2024 15:28:53 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sZeHy-000w5s-1X;
-	Thu, 01 Aug 2024 22:28:50 +0000
-Date: Fri, 2 Aug 2024 06:28:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elson Roy Serrao <quic_eserrao@quicinc.com>, andersson@kernel.org,
-	konrad.dybcio@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: Re: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
-Message-ID: <202408020600.vU0uKLa7-lkp@intel.com>
-References: <20240730222439.3469-8-quic_eserrao@quicinc.com>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="Dg9mD2MX"
+Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
+	by cmsmtp with ESMTPS
+	id ZaV2sSmljjnP5ZeOwskp5e; Thu, 01 Aug 2024 22:36:02 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id ZeOvsKuQ1RBkMZeOvsQBk2; Thu, 01 Aug 2024 22:36:01 +0000
+X-Authority-Analysis: v=2.4 cv=CbPD56rl c=1 sm=1 tr=0 ts=66ac0dd1
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=frY+GlAHrI6frpeK1MvySw==:17
+ a=IkcTkHD0fZMA:10 a=yoJbH4e0A30A:10 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8 a=SBNduZsKBOnCDnG2JV0A:9 a=QEXdDO2ut3YA:10
+ a=IMS77xXFAjTPSJ8Q-sgV:22 a=AjGcO6oz07-iQ99wixmX:22 a=mmqRlSCDY2ywfjPLJ4af:22
+ a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3MRVNS9BLDd/euXQzMdeIf+rl3T+v08bwDEE7pegjac=; b=Dg9mD2MXtuWUsyAV0oB+VR3Okj
+	VyUsvtfrWDxL+WkEj4mFlWV5cTB57jpHsXBwr/Z/D9amX8xnFiFHZuxiqY3eDN2OHbjgKOM5bUntK
+	Vwzo9y2jITds9KFNVFFSkH5KREnTd6lsajB4/pAeV6jHp+fmuOMmd14hacGX3Lpw/+0U7OAez62aA
+	hCKGxPsTZ3rEAKyQXjAQ8I/ORsGtplofKxkOiHICfhDeuWJurziA/hbIlY7NmgFIgC+c1fqRX966V
+	zfjGvs/N1wi+MKWV9mfQmRfMjSF0/h3fCMvZ1m0ntzXGJnbtqn97zBnfycVsHVcSUXSZ1TgORd4Zg
+	hoVrYIDA==;
+Received: from [201.172.173.139] (port=59916 helo=[192.168.15.14])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1sZeOu-002cvG-2f;
+	Thu, 01 Aug 2024 17:36:00 -0500
+Message-ID: <ca056227-30c3-47b9-a19a-fbab87778f20@embeddedor.com>
+Date: Thu, 1 Aug 2024 16:35:59 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240730222439.3469-8-quic_eserrao@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [gustavoars:testing/wfamnae-next20240729-cbc-2 11/18]
+ include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to
+ requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
+ sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of
+ struct_group_tagged()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
+References: <202408011956.wscyBwq6-lkp@intel.com>
+ <138da3e5-0e24-41a6-bb35-df5d07045eb3@embeddedor.com>
+ <20240801190813.GC122261@thelio-3990X>
+ <f40160aa-7cbd-4264-be44-45396b09574f@embeddedor.com>
+ <20240801221427.GA3773553@thelio-3990X>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20240801221427.GA3773553@thelio-3990X>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.173.139
+X-Source-L: No
+X-Exim-ID: 1sZeOu-002cvG-2f
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.14]) [201.172.173.139]:59916
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 4
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfLIn3WMd4bo5W+Pp348bGjXPiBY+D+juxgWlGoZlV35CIKE+Ou9jdZ1wtOoto/TeIbzj/ZJx41UBfgQCXX+guD8tQy/MGmbjD0/W602YKvZSjQJ7BK7D
+ 4O4PkESosSV/fOFMqYcHCgFH8a/9N2qoAqNg6YupsME1dvb6rMcBP+U3PFCI2LsrAmWnqlDs/I+h2Pp1QO8DY3L4IZn7bGTdHjddKfsfKkzNSCdpP9YVRlga
 
-Hi Elson,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11-rc1 next-20240801]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/dt-bindings-soc-qcom-eud-Add-phy-related-bindings/20240801-210521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240730222439.3469-8-quic_eserrao%40quicinc.com
-patch subject: [PATCH 7/8] usb: misc: eud: Handle usb role switch notifications
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240802/202408020600.vU0uKLa7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020600.vU0uKLa7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408020600.vU0uKLa7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/usb/misc/qcom_eud.c: In function 'handle_eud_irq_thread':
->> drivers/usb/misc/qcom_eud.c:227:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     227 |         int ret;
-         |             ^~~
 
 
-vim +/ret +227 drivers/usb/misc/qcom_eud.c
+On 01/08/24 16:14, Nathan Chancellor wrote:
+> On Thu, Aug 01, 2024 at 02:17:50PM -0600, Gustavo A. R. Silva wrote:
+>>
+>>
+>> On 01/08/24 13:08, Nathan Chancellor wrote:
+>>> On Thu, Aug 01, 2024 at 06:47:58AM -0600, Gustavo A. R. Silva wrote:
+>>>>
+>>>>
+>>>> On 01/08/24 05:35, kernel test robot wrote:
+>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc-2
+>>>>> head:   df15c862c1b93b6e1f6c90b0d7971f7a6ad66751
+>>>>> commit: e7cd9f429a852fb7e37a706c7d08fc36e7863e06 [11/18] RDMA/uverbs: Use static_assert() to check struct sizes
+>>>>> config: hexagon-randconfig-001-20240801 (https://download.01.org/0day-ci/archive/20240801/202408011956.wscyBwq6-lkp@intel.com/config)
+>>>>> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 430b90f04533b099d788db2668176038be38c53b)
+>>>>
+>>>>
+>>>> Clang 20.0.0?? (thinkingface)
+>>>
+>>> Indeed, Clang 19 branched and main is now 20 :)
+>>>
+>>> https://github.com/llvm/llvm-project/commit/8f701b5df0adb3a2960d78ca2ad9cf53f39ba2fe
+>>
+>> Yeah, but is that a stable release?
+> 
+> No, but the Intel folks have tested tip of tree LLVM against the kernel
+> for us for a few years now to try and catch issues such as this.
 
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  223  
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  224  static irqreturn_t handle_eud_irq_thread(int irq, void *data)
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  225  {
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  226  	struct eud_chip *chip = data;
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08 @227  	int ret;
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  228  
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  229  	if (chip->usb_attached)
-c007e96bfd0471 Elson Roy Serrao    2024-07-30  230  		ret = eud_usb_role_set(chip, USB_ROLE_DEVICE);
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  231  	else
-c007e96bfd0471 Elson Roy Serrao    2024-07-30  232  		ret = eud_usb_role_set(chip, USB_ROLE_HOST);
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  233  
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  234  	/* set and clear vbus_int_clr[0] to clear interrupt */
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  235  	writel(BIT(0), chip->base + EUD_REG_VBUS_INT_CLR);
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  236  	writel(0, chip->base + EUD_REG_VBUS_INT_CLR);
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  237  
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  238  	return IRQ_HANDLED;
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  239  }
-9a1bf58ccd4432 Souradeep Chowdhury 2022-02-08  240  
+Oh, I see, fine. :)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>> BTW, I don't see GCC reporting the same problem below:
+> 
+> Hexagon does not have a GCC backend anymore so it is not going to be
+> possible to do an exact A/B comparison with this configuration but...
+> 
+>>>>>>> include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of struct_group_tagged()
+>>>>>         643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+>>>>>             | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>         644 |               "struct member likely outside of struct_group_tagged()");
+>>>>>             |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>       include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+>>>>>          16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+>>>>>             |                                 ^
+>>>>>       include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+>>>>>          77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>>>>>             |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>       include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+>>>>>          78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>>>>>             |                                                        ^~~~
+>>>>>       include/rdma/uverbs_ioctl.h:643:58: note: expression evaluates to '56 == 52'
+> 
+> This seems to give some indication that perhaps there may be some
+> architecture specific here with padding maybe? I seem to recall ARM OABI
+> having something similar. Adding the Hexagon folks/list to get some more
+> clarification. Full warning and context:
+> 
+> https://lore.kernel.org/202408011956.wscyBwq6-lkp@intel.com/
+> 
+> The problematic section preprocessed since sometimes the macros
+> obfuscate things:
+> 
+> struct uverbs_attr_bundle {
+>          union {
+>                  struct {
+>                          struct ib_udata driver_udata;
+>                          struct ib_udata ucore;
+>                          struct ib_uverbs_file *ufile;
+>                          struct ib_ucontext *context;
+>                          struct ib_uobject *uobject;
+>                          unsigned long attr_present[(((UVERBS_API_ATTR_BKEY_LEN) +
+>                                                       ((sizeof(long) * 8)) - 1) /
+>                                                      ((sizeof(long) * 8)))];
+>                  };
+>                  struct uverbs_attr_bundle_hdr {
+>                          struct ib_udata driver_udata;
+>                          struct ib_udata ucore;
+>                          struct ib_uverbs_file *ufile;
+>                          struct ib_ucontext *context;
+>                          struct ib_uobject *uobject;
+>                          unsigned long attr_present[(((UVERBS_API_ATTR_BKEY_LEN) +
+>                                                       ((sizeof(long) * 8)) - 1) /
+>                                                      ((sizeof(long) * 8)))];
+>                  } hdr;
+>          };
+> 
+>          struct uverbs_attr attrs[];
+> };
+> _Static_assert(__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
+>                         sizeof(struct uverbs_attr_bundle_hdr),
+>                 "struct member likely outside of struct_group_tagged()");
+> 
+> FWIW, I see this with all versions of Clang that the kernel supports
+> with this configuration.
+
+I don't have access to a Clang compiler right now; I wonder if you could
+help me get the output of this command:
+
+pahole -C uverbs_attr_bundle drivers/infiniband/core/rdma_core.o
+
+Thanks in advance!
+-Gustavo
+
+> 
+> Cheers,
+> Nathan
+> 
+>>>>>         643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+>>>>>             | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>         644 |               "struct member likely outside of struct_group_tagged()");
+>>>>>             |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>       include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+>>>>>          77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>>>>>             |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>       include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+>>>>>          78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>>>>>             |                                                        ^~~~
+>>>>>       7 warnings and 1 error generated.
+>>>>>
+>>>>>
+>>>>> vim +643 include/rdma/uverbs_ioctl.h
+>>>>>
+>>>>>       630	
+>>>>>       631	struct uverbs_attr_bundle {
+>>>>>       632		/* New members MUST be added within the struct_group() macro below. */
+>>>>>       633		struct_group_tagged(uverbs_attr_bundle_hdr, hdr,
+>>>>>       634			struct ib_udata driver_udata;
+>>>>>       635			struct ib_udata ucore;
+>>>>>       636			struct ib_uverbs_file *ufile;
+>>>>>       637			struct ib_ucontext *context;
+>>>>>       638			struct ib_uobject *uobject;
+>>>>>       639			DECLARE_BITMAP(attr_present, UVERBS_API_ATTR_BKEY_LEN);
+>>>>>       640		);
+>>>>>       641		struct uverbs_attr attrs[];
+>>>>>       642	};
+>>>>>     > 643	static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+>>>>>       644		      "struct member likely outside of struct_group_tagged()");
+>>>>>       645	
+>>>>>
+>>>>
+>>
+>> Thanks
+>> --
+>> Gustavo
