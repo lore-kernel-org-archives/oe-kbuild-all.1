@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B04A13E04C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 23:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BB625757
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 23:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722555058; cv=none; b=eZkSjmCx6rzR+hWMuAvxOWZnONs3lMEoYyqgJAosgsnqeBtGnuKSjLnhXKIniba6DSYMuSLF2htQZLxEnqvMVnmqvKaABihbKESYVNs+F8AsCHF9VH9ayQ+fGdKNKoQcavYvhOiPpgZ5Dg32TLi8XtD6oSKTT7FoV5kNXxZ7AiQ=
+	t=1722555657; cv=none; b=eszLtfwjiGDP2t6f01FIBuDUgg1hIoAl48d+ueZ50kC5mNggEsBKoMK9JwO0OhDcNdOEmlmy2K6XBy71vEmY7idj+EPoMARvBwg5ucbHJNJu1gq9CLreQ6bLa+V/iHXijSOb0bl6GJOx6TtEHbScrL0ek7r+xJNs29zeuTUPRPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722555058; c=relaxed/simple;
-	bh=WQZClHm7/QAHTYi549FS//RYgZDz/4OUthk62hLOUWA=;
+	s=arc-20240116; t=1722555657; c=relaxed/simple;
+	bh=bq70bHtbwpE1DRizZX3pKrlmalSLmWJsqPZrKPC2awc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jQ4eTNOo2RDNfemXRhPi8WyOz+HyzCwLAu1KvEuGrieENlnJXaphB9A33+Hib+sVUTaDoMLM7dRCxiD4y6n4UGa4ozvi9uCCiOPwdM8RPsI3eJ8ULYNvHkW/9hLZuqL+cX7NNC37RKVRP/6DFHWUhQi7ahBy5tzWDYkBkeSyOtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2LAs4zy; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=hQ3/wPphcovVCZ6uUUfBginEaxT7OewBNduLnAMYCAau4kkJl1RwI99Cv5eg3brmyIAaZHs9dO0qsKGEQ2ntyVjgEr4qiT4CVBqxlGrUK1WDe4vtV94b490Aonx0Ifr/JGaq2x1lR1dfAHCXibJOUFSkngXnHaXOlXBwNCbHLN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzzQDsGh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2LAs4zy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzzQDsGh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722555057; x=1754091057;
+  t=1722555655; x=1754091655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WQZClHm7/QAHTYi549FS//RYgZDz/4OUthk62hLOUWA=;
-  b=I2LAs4zy0kKqUUe1iebvK6XDPJTTBsaUKRxHLYPwmSLJSjZY4qLO1CoN
-   C2B035x1u7W69ndLDiSOxGe8kohSRc3pIUrM0gdL8YVav6fkUkGHjpjpE
-   rT8FnrNjlUEOrNEhST3LJtiL5Tv1+O9LCNWbmLVN7TOf9wSuXAaKGZAe6
-   JPs0FS5gfOO5f8PvqWjsev74H8Tx8qsJq9V+Bx8i9x9zObOrGkrx7+MzS
-   /lEhpqv1RR2n5CuFGtYftemQrgwZEDuaSpmojZs+3Nffcp/xAFFtrUP7h
-   /TKx7D+j3q7PRN9yYEu/rLaSNnfrXE+r8ghFmhGsUJJsQdobnoe6aT9F3
+  bh=bq70bHtbwpE1DRizZX3pKrlmalSLmWJsqPZrKPC2awc=;
+  b=XzzQDsGh3YqDIZNl3IWqJt9mGnnQ7DFbgd+BA+ggOqpa691kjh7aZDpZ
+   veZflPzJq23dE39ofJgikmGLE2uHTRoilh0bzvNFWhKNzRJHrSV1TRQlJ
+   y7EHWiSKgdh+t0phEAO3weKQeV+lk+oH4GSLVcf838PiY+s8yIJJiynso
+   83GHOLpNajMiNN0+1W/FPgAKDcxNZJ/gpT/zUFE0e8fY9xT9TiIzF2/fV
+   M6nV0exq9Z8VFK2biKgTHAY+6cuH9beY7RzlAbmEVQhbkZOzqgBrFveVS
+   o04CMbsB/wGMv1g8b29ChM8br1jcXL0TSg1xiZlMz06Fh8kroDz+N/W31
    g==;
-X-CSE-ConnectionGUID: QUUOW6Y2TEanH9JrPaU9yQ==
-X-CSE-MsgGUID: e1UTmrbXRImM7UdqaVi37g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="45956467"
+X-CSE-ConnectionGUID: DIzRKG6BSMiTkyMenoVlDg==
+X-CSE-MsgGUID: hrMDan/WTxiSCcyyd91CWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="43071554"
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="45956467"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 16:30:56 -0700
-X-CSE-ConnectionGUID: 2+8Vi/L1QQ6Jui0kFr6fVg==
-X-CSE-MsgGUID: vnroObATSSWL/C8u7Fg2SQ==
+   d="scan'208";a="43071554"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 16:40:55 -0700
+X-CSE-ConnectionGUID: IqyeNyLMSzqBDBqFO2Namg==
+X-CSE-MsgGUID: CY9NWWj6TOCWDsevz4FajQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="85795635"
+   d="scan'208";a="59316848"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Aug 2024 16:30:54 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 Aug 2024 16:40:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZfFz-000w8K-1o;
-	Thu, 01 Aug 2024 23:30:51 +0000
-Date: Fri, 2 Aug 2024 07:29:54 +0800
+	id 1sZfPf-000w8i-2Z;
+	Thu, 01 Aug 2024 23:40:51 +0000
+Date: Fri, 2 Aug 2024 07:40:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Saeed Mahameed <saeedm@nvidia.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: [saeed:temp/zcrx-mlx5 5/44] net/core/devmem.c:87:undefined reference
- to `gen_pool_has_addr'
-Message-ID: <202408020740.Kvhjyaci-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 27/30] fs/utimes.c:25:16: error: variable
+ 'delegated_inode' has initializer but incomplete type
+Message-ID: <202408020741.MyNOkFRw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,99 +62,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git temp/zcrx-mlx5
-head:   86d67e0dea281a7762636cc545694ca81f5b4621
-commit: c76cb91cfec2d7b06ac6435692c4e619acddb8d8 [5/44] netdev: netdevice devmem allocator
-config: i386-randconfig-006-20240801 (https://download.01.org/0day-ci/archive/20240802/202408020740.Kvhjyaci-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   4326b3d364cb1a5f0c4578c9fa19b1ab03de8b0d
+commit: 4c3348b2fdf1d92c520023cf3ff108afe5554503 [27/30] fs: add struct delegated_inode
+config: i386-buildonly-randconfig-004-20240802 (https://download.01.org/0day-ci/archive/20240802/202408020741.MyNOkFRw-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020740.Kvhjyaci-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020741.MyNOkFRw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408020740.Kvhjyaci-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408020741.MyNOkFRw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   ld: net/core/devmem.o: in function `__net_devmem_dmabuf_binding_free':
-   net/core/devmem.c:39:(.text+0x3a): undefined reference to `gen_pool_for_each_chunk'
-   ld: net/core/devmem.c:42:(.text+0x42): undefined reference to `gen_pool_size'
-   ld: net/core/devmem.c:43:(.text+0x4c): undefined reference to `gen_pool_avail'
-   ld: net/core/devmem.c:47:(.text+0x58): undefined reference to `gen_pool_destroy'
-   ld: net/core/devmem.o: in function `gen_pool_alloc_owner':
->> include/linux/genalloc.h:131:(.text+0xdf): undefined reference to `gen_pool_alloc_algo_owner'
-   ld: net/core/devmem.o: in function `net_devmem_free_dmabuf':
->> net/core/devmem.c:87:(.text+0x187): undefined reference to `gen_pool_has_addr'
-   ld: net/core/devmem.o: in function `gen_pool_free':
->> include/linux/genalloc.h:172:(.text+0x1d2): undefined reference to `gen_pool_free_owner'
-   ld: net/core/devmem.o: in function `net_devmem_bind_dmabuf':
-   net/core/devmem.c:225:(.text+0x570): undefined reference to `gen_pool_create'
-   ld: net/core/devmem.c:245:(.text+0x605): undefined reference to `gen_pool_add_owner'
-   ld: net/core/devmem.c:274:(.text+0x6a0): undefined reference to `gen_pool_for_each_chunk'
-   ld: net/core/devmem.c:276:(.text+0x6a8): undefined reference to `gen_pool_destroy'
+   fs/utimes.c: In function 'vfs_utimes':
+>> fs/utimes.c:25:16: error: variable 'delegated_inode' has initializer but incomplete type
+      25 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+>> fs/utimes.c:25:32: error: storage size of 'delegated_inode' isn't known
+      25 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+>> fs/utimes.c:25:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+--
+   fs/xattr.c: In function 'vfs_setxattr':
+>> fs/xattr.c:308:16: error: variable 'delegated_inode' has initializer but incomplete type
+     308 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+>> fs/xattr.c:308:32: error: storage size of 'delegated_inode' isn't known
+     308 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+>> fs/xattr.c:308:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/xattr.c: In function 'vfs_removexattr':
+   fs/xattr.c:570:16: error: variable 'delegated_inode' has initializer but incomplete type
+     570 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/xattr.c:570:32: error: storage size of 'delegated_inode' isn't known
+     570 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/xattr.c:570:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+--
+   fs/open.c: In function 'chmod_common':
+>> fs/open.c:636:16: error: variable 'delegated_inode' has initializer but incomplete type
+     636 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+>> fs/open.c:636:32: error: storage size of 'delegated_inode' isn't known
+     636 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+>> fs/open.c:636:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/open.c: In function 'chown_common':
+   fs/open.c:760:16: error: variable 'delegated_inode' has initializer but incomplete type
+     760 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/open.c:760:32: error: storage size of 'delegated_inode' isn't known
+     760 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/open.c:760:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+--
+   fs/namei.c: In function 'open_last_lookups':
+>> fs/namei.c:3540:16: error: variable 'delegated_inode' has initializer but incomplete type
+    3540 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+>> fs/namei.c:3540:32: error: storage size of 'delegated_inode' isn't known
+    3540 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+>> fs/namei.c:3540:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_mknodat':
+   fs/namei.c:4082:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4082 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4082:32: error: storage size of 'delegated_inode' isn't known
+    4082 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4082:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_mkdirat':
+   fs/namei.c:4205:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4205 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4205:32: error: storage size of 'delegated_inode' isn't known
+    4205 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4205:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_rmdir':
+   fs/namei.c:4315:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4315 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4315:32: error: storage size of 'delegated_inode' isn't known
+    4315 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4315:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_unlinkat':
+   fs/namei.c:4464:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4464 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4464:32: error: storage size of 'delegated_inode' isn't known
+    4464 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4464:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_linkat':
+   fs/namei.c:4730:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4730 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4730:32: error: storage size of 'delegated_inode' isn't known
+    4730 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4730:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'do_renameat2':
+   fs/namei.c:5030:16: error: variable 'delegated_inode' has initializer but incomplete type
+    5030 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:5030:32: error: storage size of 'delegated_inode' isn't known
+    5030 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:5030:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+--
+   fs/posix_acl.c: In function 'vfs_set_acl':
+>> fs/posix_acl.c:1095:16: error: variable 'delegated_inode' has initializer but incomplete type
+    1095 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+>> fs/posix_acl.c:1095:32: error: storage size of 'delegated_inode' isn't known
+    1095 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+>> fs/posix_acl.c:1095:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/posix_acl.c: In function 'vfs_remove_acl':
+   fs/posix_acl.c:1216:16: error: variable 'delegated_inode' has initializer but incomplete type
+    1216 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/posix_acl.c:1216:32: error: storage size of 'delegated_inode' isn't known
+    1216 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/posix_acl.c:1216:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
 
 
-vim +87 net/core/devmem.c
+vim +/delegated_inode +25 fs/utimes.c
 
-    34	
-    35	void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
-    36	{
-    37		size_t size, avail;
-    38	
-  > 39		gen_pool_for_each_chunk(binding->chunk_pool,
-    40					net_devmem_dmabuf_free_chunk_owner, NULL);
-    41	
-    42		size = gen_pool_size(binding->chunk_pool);
-    43		avail = gen_pool_avail(binding->chunk_pool);
-    44	
-    45		if (!WARN(size != avail, "can't destroy genpool. size=%zu, avail=%zu",
-    46			  size, avail))
-    47			gen_pool_destroy(binding->chunk_pool);
+    19	
+    20	int vfs_utimes(const struct path *path, struct timespec64 *times)
+    21	{
+    22		int error;
+    23		struct iattr newattrs;
+    24		struct inode *inode = path->dentry->d_inode;
+  > 25		struct delegated_inode delegated_inode = { };
+    26	
+    27		if (times) {
+    28			if (!nsec_valid(times[0].tv_nsec) ||
+    29			    !nsec_valid(times[1].tv_nsec))
+    30				return -EINVAL;
+    31			if (times[0].tv_nsec == UTIME_NOW &&
+    32			    times[1].tv_nsec == UTIME_NOW)
+    33				times = NULL;
+    34		}
+    35	
+    36		error = mnt_want_write(path->mnt);
+    37		if (error)
+    38			goto out;
+    39	
+    40		newattrs.ia_valid = ATTR_CTIME | ATTR_MTIME | ATTR_ATIME;
+    41		if (times) {
+    42			if (times[0].tv_nsec == UTIME_OMIT)
+    43				newattrs.ia_valid &= ~ATTR_ATIME;
+    44			else if (times[0].tv_nsec != UTIME_NOW) {
+    45				newattrs.ia_atime = times[0];
+    46				newattrs.ia_valid |= ATTR_ATIME_SET;
+    47			}
     48	
-    49		dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-    50					 DMA_FROM_DEVICE);
-    51		dma_buf_detach(binding->dmabuf, binding->attachment);
-    52		dma_buf_put(binding->dmabuf);
-    53		xa_destroy(&binding->bound_rxq_list);
-    54		kfree(binding);
-    55	}
-    56	
-    57	struct net_iov *
-    58	net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
-    59	{
-    60		struct dmabuf_genpool_chunk_owner *owner;
-    61		unsigned long dma_addr;
-    62		struct net_iov *niov;
-    63		ssize_t offset;
-    64		ssize_t index;
-    65	
-    66		dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
-    67						(void **)&owner);
-    68		if (!dma_addr)
-    69			return NULL;
-    70	
-    71		offset = dma_addr - owner->base_dma_addr;
-    72		index = offset / PAGE_SIZE;
-    73		niov = &owner->niovs[index];
+    49			if (times[1].tv_nsec == UTIME_OMIT)
+    50				newattrs.ia_valid &= ~ATTR_MTIME;
+    51			else if (times[1].tv_nsec != UTIME_NOW) {
+    52				newattrs.ia_mtime = times[1];
+    53				newattrs.ia_valid |= ATTR_MTIME_SET;
+    54			}
+    55			/*
+    56			 * Tell setattr_prepare(), that this is an explicit time
+    57			 * update, even if neither ATTR_ATIME_SET nor ATTR_MTIME_SET
+    58			 * were used.
+    59			 */
+    60			newattrs.ia_valid |= ATTR_TIMES_SET;
+    61		} else {
+    62			newattrs.ia_valid |= ATTR_TOUCH;
+    63		}
+    64	retry_deleg:
+    65		inode_lock(inode);
+    66		error = notify_change(mnt_idmap(path->mnt), path->dentry, &newattrs,
+    67				      &delegated_inode);
+    68		inode_unlock(inode);
+    69		if (delegated_inode.di_inode) {
+    70			error = break_deleg_wait(&delegated_inode);
+    71			if (!error)
+    72				goto retry_deleg;
+    73		}
     74	
-    75		niov->dma_addr = 0;
-    76	
-    77		net_devmem_dmabuf_binding_get(binding);
-    78	
-    79		return niov;
-    80	}
-    81	
-    82	void net_devmem_free_dmabuf(struct net_iov *niov)
-    83	{
-    84		struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
-    85		unsigned long dma_addr = net_iov_dma_addr(niov);
-    86	
-  > 87		if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
-    88			gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
-    89	
-    90		net_devmem_dmabuf_binding_put(binding);
-    91	}
-    92	
+    75		mnt_drop_write(path->mnt);
+    76	out:
+    77		return error;
+    78	}
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
