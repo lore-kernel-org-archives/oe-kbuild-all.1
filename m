@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161158F70
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 11:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8353C18DF7E;
+	Thu,  1 Aug 2024 11:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722510934; cv=none; b=WDyowWpyDF3GMQ8TQ2P2AiwCLInnY2WBE+FsIe71j8zxHYb49DWoEK2vbd36jzkKLc19E+36sycYyxnmckaiDTfNqtyBsbK6RJqSxx4hPFD9qd8kXSD4jr1X65DBDh2iGJqaC0UBetVl+T/THOz7Re5LvEBch7ZNS+1h/WMpvv8=
+	t=1722512133; cv=none; b=BTYPzUQz5Aqg2sb20u3vo3vedav7nZqqU6HQQAxcz5e8gu4diyBaF94TenZhVj4vBYFCzLV7xmc/GREAc+G0NGXWeQ5+PCe8lmx5b5C+oJsp8IIYBCvF5K7CC3FFDxxoeXzwjbIRnb6ztL5+W1mGMoLmQpc0y952wtsqXmPXmU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722510934; c=relaxed/simple;
-	bh=BGFfhXwEpuPzUJdNpbhdWzaMd+R/4VwUXFkpcmhBa24=;
+	s=arc-20240116; t=1722512133; c=relaxed/simple;
+	bh=qhdqmMNrGaKh+6q/FW281omFfqWYlK8TRFPg+zf3Qss=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KkQiP5vMAkOF5SzSFtFrsQgQfYAS2rDFDRAcCQSUC3QJVI0wsSatA7/RNcIw1D0YlSjU18MIP325BFLoPuhpOHsraud4qnFtTuGlqDfE4M0xe5MVqHb6XcXM4fBJFlHxrUHFHxbyNCKUCZi4ehj1l7MiQ42KUMTd+B/MFqG1aHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lu3WYTZ4; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=noum3Ki0gTV6jRFrgONqYPxrBhmu8o1lxD9N+V51P719kdhFHjHbBgU/8kTttSFw5KMcAMiE25v9RyLmLTC7JrsTmLq1HZoW0KIS345WGJEUPZJq8LF5V5Aj5gLH7LmMtxpH8fsrgS8KZ/c8tEYqpqCUz1SnoN6eSK4JN554Od8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l83NJdSh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lu3WYTZ4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l83NJdSh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722510933; x=1754046933;
+  t=1722512132; x=1754048132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BGFfhXwEpuPzUJdNpbhdWzaMd+R/4VwUXFkpcmhBa24=;
-  b=Lu3WYTZ4zp98a10YziDeMF7IMi0aCU58dfxT2NUuJMNuj03NWp/kHBxw
-   HoLPYwbQsiv6c2MdguXRg5N3nY468WWfSrwjdyYIXRboPCOQgH3vxhoJy
-   4oUgBKBpVO4PCJ+e9dLE6BVJb4/qXPjwpOaCU8+yATTT4FTYEA5d5hjdh
-   Y79MZawA7SeU74UeXW498IFoNnbRCuBMykyc8/J+SNNPk8GsM5SysdC4c
-   b72Fg/bgiwCd8as8/Etx58MHaT3v87BFsZn0rZxJEAEY6qMO9AkUYYtfF
-   WB9JgW3iGPNA66rUJYr5G4imgm3cL9j+E2/vn/NhSBD0CqTB/YiGkobYv
-   Q==;
-X-CSE-ConnectionGUID: jGJx2hx8RW+IlJTksfOs5Q==
-X-CSE-MsgGUID: wu5eQC4TQ8SREqOdmTcbJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="37921627"
+  bh=qhdqmMNrGaKh+6q/FW281omFfqWYlK8TRFPg+zf3Qss=;
+  b=l83NJdShNxWruXx9WLV+IHcPEgya3ZI2mo9hAG26wufS1G1hNGIMZA1u
+   cQ4sThOzhILFTmWqkAMJUnzpIFxQvmNBKMINbvRGCvNk6rIXxnDwAr/yb
+   pcsw2u3/UuEpbzsMBxn5dC577SuBNB0hmKSRVfIynZxtoxCCxGe+r6y7F
+   PCgOv26bSm0mbBaW1rtsiQ2hy4AJOw0kQ7WdhKh1QM+6fKxmLqxecYhT7
+   5MAOmlxpAiiLIaUkAEHcm184EjYp9+1mNOxyLx0V3080uNsN9leHNklCO
+   nLiWPmX0ygcdesW81E8/ZZ88MLtT6bqIQrDR9udWvHiZwo1OevFueQMTg
+   g==;
+X-CSE-ConnectionGUID: aMvD4tgmS2ibwpGcVBh/aA==
+X-CSE-MsgGUID: k4cjmuLwRie4AW2gDLguPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="42982780"
 X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="37921627"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 04:15:33 -0700
-X-CSE-ConnectionGUID: o97iQxxzShWrpwDaC2n9+w==
-X-CSE-MsgGUID: RhL4ffE2RBqoEFmMqVD5Nw==
+   d="scan'208";a="42982780"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 04:35:31 -0700
+X-CSE-ConnectionGUID: Kl7rpbVgTDWJf6a6rQ2ilg==
+X-CSE-MsgGUID: wzOpMSq5T/agRDfGIpk21w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="59119982"
+   d="scan'208";a="54978926"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Aug 2024 04:15:29 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Aug 2024 04:35:29 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZTmI-000vWo-1T;
-	Thu, 01 Aug 2024 11:15:26 +0000
-Date: Thu, 1 Aug 2024 19:14:43 +0800
+	id 1sZU5e-000vXY-2V;
+	Thu, 01 Aug 2024 11:35:26 +0000
+Date: Thu, 1 Aug 2024 19:35:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 9265/9880] kernel/cgroup/sli.c:537:7: warning: no
- previous prototype for 'disk_name'
-Message-ID: <202408011917.HyVYnKBc-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20240729-cbc-2 11/18]
+ include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to
+ requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) ==
+ sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of
+ struct_group_tagged()
+Message-ID: <202408011956.wscyBwq6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,79 +67,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   336eee539414035fa6531cd17d4d833f36100834
-commit: aa493c7aa24a8bfeafb0e8a2b806c57e6b431ac4 [9265/9880] sli/io: backport iolat function from tk3
-config: x86_64-oc_stream_base_config (https://download.01.org/0day-ci/archive/20240801/202408011917.HyVYnKBc-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408011917.HyVYnKBc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240729-cbc-2
+head:   df15c862c1b93b6e1f6c90b0d7971f7a6ad66751
+commit: e7cd9f429a852fb7e37a706c7d08fc36e7863e06 [11/18] RDMA/uverbs: Use static_assert() to check struct sizes
+config: hexagon-randconfig-001-20240801 (https://download.01.org/0day-ci/archive/20240801/202408011956.wscyBwq6-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 430b90f04533b099d788db2668176038be38c53b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408011956.wscyBwq6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408011917.HyVYnKBc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408011956.wscyBwq6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/cgroup/sli.c:14:
-   kernel/cgroup/../sched/sched.h: In function 'mm_cid_get':
-   kernel/cgroup/../sched/sched.h:3581:25: warning: variable 'cpumask' set but not used [-Wunused-but-set-variable]
-    3581 |         struct cpumask *cpumask;
-         |                         ^~~~~~~
-   kernel/cgroup/sli.c: At top level:
->> kernel/cgroup/sli.c:537:7: warning: no previous prototype for 'disk_name' [-Wmissing-prototypes]
-     537 | char *disk_name(struct gendisk *hd, int partno, char *buf)
-         |       ^~~~~~~~~
->> kernel/cgroup/sli.c:549:13: warning: no previous prototype for 'bio_devname' [-Wmissing-prototypes]
-     549 | const char *bio_devname(struct bio *bio, char *buf)
-         |             ^~~~~~~~~~~
-   kernel/cgroup/sli.c:807:16: warning: no previous prototype for 'get_cgroup_from_task_id' [-Wmissing-prototypes]
-     807 | struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/cgroup/sli.c: In function 'disk_name':
->> kernel/cgroup/sli.c:544:51: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-     544 |                 snprintf(buf, BDEVNAME_SIZE, "%s%d", hd->disk_name, partno);
+   In file included from drivers/infiniband/core/ib_core_uverbs.c:8:
+   In file included from drivers/infiniband/core/uverbs.h:46:
+   In file included from include/rdma/ib_verbs.h:15:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/infiniband/core/ib_core_uverbs.c:8:
+   In file included from drivers/infiniband/core/uverbs.h:46:
+   In file included from include/rdma/ib_verbs.h:15:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
          |                                                   ^
-   In function 'disk_name',
-       inlined from 'disk_name' at kernel/cgroup/sli.c:537:7:
-   kernel/cgroup/sli.c:544:17: note: 'snprintf' output between 2 and 43 bytes into a destination of size 32
-     544 |                 snprintf(buf, BDEVNAME_SIZE, "%s%d", hd->disk_name, partno);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/cgroup/sli.c: In function 'disk_name':
->> kernel/cgroup/sli.c:542:50: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size between 0 and 31 [-Wformat-truncation=]
-     542 |                 snprintf(buf, BDEVNAME_SIZE, "%sp%d", hd->disk_name, partno);
-         |                                                  ^~
-   In function 'disk_name',
-       inlined from 'disk_name' at kernel/cgroup/sli.c:537:7:
-   kernel/cgroup/sli.c:542:46: note: using the range [-2147483648, 2147483647] for directive argument
-     542 |                 snprintf(buf, BDEVNAME_SIZE, "%sp%d", hd->disk_name, partno);
-         |                                              ^~~~~~~
-   kernel/cgroup/sli.c:542:17: note: 'snprintf' output between 3 and 44 bytes into a destination of size 32
-     542 |                 snprintf(buf, BDEVNAME_SIZE, "%sp%d", hd->disk_name, partno);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/infiniband/core/ib_core_uverbs.c:8:
+   In file included from drivers/infiniband/core/uverbs.h:46:
+   In file included from include/rdma/ib_verbs.h:15:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/infiniband/core/ib_core_uverbs.c:8:
+   In file included from drivers/infiniband/core/uverbs.h:46:
+   In file included from include/rdma/ib_verbs.h:15:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/infiniband/core/ib_core_uverbs.c:8:
+   In file included from drivers/infiniband/core/uverbs.h:49:
+   In file included from include/rdma/uverbs_std_types.h:10:
+>> include/rdma/uverbs_ioctl.h:643:15: error: static assertion failed due to requirement '__builtin_offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr)': struct member likely outside of struct_group_tagged()
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/rdma/uverbs_ioctl.h:643:58: note: expression evaluates to '56 == 52'
+     643 | static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     644 |               "struct member likely outside of struct_group_tagged()");
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   7 warnings and 1 error generated.
 
 
-vim +/disk_name +537 kernel/cgroup/sli.c
+vim +643 include/rdma/uverbs_ioctl.h
 
-   535	
-   536	/* copy from v5.4, adapt gendisk */
- > 537	char *disk_name(struct gendisk *hd, int partno, char *buf)
-   538	{
-   539		if (!partno)
-   540			snprintf(buf, BDEVNAME_SIZE, "%s", hd->disk_name);
-   541		else if (isdigit(hd->disk_name[strlen(hd->disk_name)-1]))
- > 542			snprintf(buf, BDEVNAME_SIZE, "%sp%d", hd->disk_name, partno);
-   543		else
- > 544			snprintf(buf, BDEVNAME_SIZE, "%s%d", hd->disk_name, partno);
-   545	
-   546		return buf;
-   547	}
-   548	
- > 549	const char *bio_devname(struct bio *bio, char *buf)
-   550	{
-   551		return disk_name(bio->bi_bdev->bd_disk, bio->bi_bdev->bd_partno, buf);
-   552	}
-   553	
+   630	
+   631	struct uverbs_attr_bundle {
+   632		/* New members MUST be added within the struct_group() macro below. */
+   633		struct_group_tagged(uverbs_attr_bundle_hdr, hdr,
+   634			struct ib_udata driver_udata;
+   635			struct ib_udata ucore;
+   636			struct ib_uverbs_file *ufile;
+   637			struct ib_ucontext *context;
+   638			struct ib_uobject *uobject;
+   639			DECLARE_BITMAP(attr_present, UVERBS_API_ATTR_BKEY_LEN);
+   640		);
+   641		struct uverbs_attr attrs[];
+   642	};
+ > 643	static_assert(offsetof(struct uverbs_attr_bundle, attrs) == sizeof(struct uverbs_attr_bundle_hdr),
+   644		      "struct member likely outside of struct_group_tagged()");
+   645	
 
 -- 
 0-DAY CI Kernel Test Service
