@@ -1,305 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2052.outbound.protection.outlook.com [40.107.215.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB4A157490;
-	Thu,  1 Aug 2024 06:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722495025; cv=none; b=kEwuf0tKN0LzoRNRgc/5BSYCIB2thgsOJXfbceTk+ykq64TmLbboKk0j0QhMakbe7/OCeoxuJUr4+sxZijbAkuXp5lKH1WRj4dah0Me0nJCtH4EEOk9+x3Uy7smt4YD1lZdqe1cbyEVI2M2Sc1qIvHFOmZqD2m7U9SDSlL1SKzE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722495025; c=relaxed/simple;
-	bh=msRzht8qdzNV0lKy0LTl7tVJT2ctJSyUGL405yMrHXk=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PrKn7WkZK2+/AkoUtfKAXyQj3KEVL5Cma6ZFU2WZdPbpUVzKde6mJI8DbJGyB7hkKXq2VF9YPwUCFHpUcSmKMCe6++olgD47wi6YYLMe+5AG6m62mYXRcBpL5dhRtLZgtSAmSo7/5QPICe25yq3pOfhqTAxYFg7F9kfa9KTTmb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVRGqBFC; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF87158547
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 06:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722495287; cv=fail; b=P/as4XmbEtvNnlW6pb5IGYgifRKO/RKEMtTp61DtNZKW4u546d3180YVA8i0FQHir9eVVcFYWRDznvs5BDL0PWaw1bdHSK87Id6M51ppCoNgod8+Qk4KJZk76+8W4ZO26rwxgSshyxcMeEzQmA32VC79JJ1B5UBXP1T1T35NbVA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722495287; c=relaxed/simple;
+	bh=E2hHsjDaFFFwGnVv/bPaXVomk7xeiDb31aF92OYuoXY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XVHAp8DUWyIAaXSAygVdRvlGJYtXQJYs36m3e8+BnmRRwX//XYH88nleJDtSxoPzofzVoov5TQj0BMMDAukXjo6JZHGuZEo8imMMm3kiXMn6CTBpS7vyw4ColZ0q63722+58szLTl88nFnsXAoDvRXaaxWxwuFQK+KSHdTpxHKM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=gStPPzx2; arc=fail smtp.client-ip=40.107.215.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVRGqBFC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722495022; x=1754031022;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=msRzht8qdzNV0lKy0LTl7tVJT2ctJSyUGL405yMrHXk=;
-  b=HVRGqBFCy/79NzNDHoa9zLU55j6v0wZhFGahA9dFaTfMiyZBbXjlUNkE
-   7rU/JLLCgKfmIU4lqVVoGQkseO6+kVgcikNe6fbzmTu77SGIFNiMhZzb2
-   HsxwngLyHg8jtrI956fm0eTN0TITb5E6XTL3cdkUrTgJo7clA6yNYfUF/
-   0nHJjI4tfC9zcoc34Orl5N0w7D3EGkOtnqk6IYMxIlD7pqihU77y35RZV
-   OcQz+6CEcvxcQMakyRdhF0uMDeuBkMFTL5PMVZ1+4F5yLCOIzVC81vPKb
-   NlIfbNocUN+QqRB95p5JDHYeiIdbwRuG/vPyS1lThOMGzWawwCxCpBeqJ
-   A==;
-X-CSE-ConnectionGUID: FG0lYOSUQ8mwZHraHw5VuA==
-X-CSE-MsgGUID: SkdJw6IpRmGmEtE/gSGP9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20545754"
-X-IronPort-AV: E=Sophos;i="6.09,253,1716274800"; 
-   d="scan'208";a="20545754"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 23:50:22 -0700
-X-CSE-ConnectionGUID: aMMhf44XTaWjWlO+drGUdw==
-X-CSE-MsgGUID: czvBKrYpTti302FOuDOtNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,253,1716274800"; 
-   d="scan'208";a="54893890"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2024 23:50:20 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sZPdh-000vIO-2j;
-	Thu, 01 Aug 2024 06:50:17 +0000
-Date: Thu, 1 Aug 2024 14:49:19 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [rust:rust-dev 15/16] vmlinux.o: warning: objtool:
- _RNvXsen_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6cgroupNtNtCs5QSdWC790r4_4core7default7Default7default+0x14:
- missing int3 after ret
-Message-ID: <202408011456.TEzhsd4K-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="gStPPzx2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C5K9oOe54qf7ZN7dKwQkGw8nmZuXfaprg07/x87B4ZjbOjcuI1GgMvS2+okiUoxDITedcgsiXrZmBWOI1ZtgKHYHpS3I1HTWVDb1PNCCRCTg+IKKVKxQuL4HP7djqTm9ZmcoakZX4lIcZW/m6aKEeSzX3joNmWLdGEE3l2oKyDDCfT+TaC0CvjvMKaZYZ3jDdyv4B6I0HhHz/bHflPDoAHNvDkDGbu21YjK3X3c01mR/0Kdj+AZDAnDco3AqnaSzRbbeItjgyY4OyMbu2D2woXM7GEXZ7KDWN3JLsBVen5g3SIA674bOiTZCMQwKCCTmor+bmpCsdEaBCtiyCkRo5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LM0qvX/De6C5F0IRlJaRFL1CLHiRsa0e8RLNw6uQVIM=;
+ b=CXiBBJP2N89hgg9HaTJZj7xGuQmsYjAtyyoQC7QHYeZ1/Ee/cAsNCui5igCjZG0ABO1wS/RXixI7bnYtZG7UzGA6XyyFECwe9545dI79R9htSU9LBDA9hDPMWvqZN38GxFM8axMOoBpA6P8fxRnNEq9H8/JWewf584dXB75ILqEzxcrrjUUn/OTA2XQa7DmWTjSi+AKmdFp1GXjVFFGJz4oiNOyxwH0apDWzyGGd/rgFcntMaUwvJIv2+xiWi+BaR0AjM3Xy5a9PCnnOsQo1B2BAaWNzg0o8IhZBQNnlj3Q7QavhGm5cyLrPlA172wQ/CXvvbJfuENKs9M93bSWlEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LM0qvX/De6C5F0IRlJaRFL1CLHiRsa0e8RLNw6uQVIM=;
+ b=gStPPzx2ZmjMrv28bCxuvF+9PuqXSX18d5TLdEAMeDuZvO9DeZTrREYCSdh8VXF+mh+FzIDXG9eDwEAj0hcyHtbnTJM2i4xIq2LJ0uucmo0ftw+8+BiBeAy+pIT474J2dm33Ls0zE2ShhcuBt0yzyqM7cnXn4Q4oLZ7pwxyNLQGjj4KzH8xLEKK52IPO86guiuHwzO5fKXUV5NAiHCh6LjDRP3tw7s7Ofhfb+hIohLwQlY5fVGuauzduTA2NAywT3GzeKeI3M7FBNx1m43NapBBjFst8zZ6+hSaeu3mnYxzEiVvYkcrv5tY/36xoaBNMWhhHhyr7uEhJXZWdgOERJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from JH0PR06MB6849.apcprd06.prod.outlook.com (2603:1096:990:47::12)
+ by SEZPR06MB7227.apcprd06.prod.outlook.com (2603:1096:101:233::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
+ 2024 06:54:36 +0000
+Received: from JH0PR06MB6849.apcprd06.prod.outlook.com
+ ([fe80::ed24:a6cd:d489:c5ed]) by JH0PR06MB6849.apcprd06.prod.outlook.com
+ ([fe80::ed24:a6cd:d489:c5ed%3]) with mapi id 15.20.7828.016; Thu, 1 Aug 2024
+ 06:54:36 +0000
+Message-ID: <4379c4cb-3b09-4ad7-8859-54949f778c78@vivo.com>
+Date: Thu, 1 Aug 2024 14:54:32 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
+To: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@kernel.dk>, Peter Zijlstra <peterz@infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ linux-arch@vger.kernel.org, cgroups@vger.kernel.org,
+ Barry Song <21cnbao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, opensource.kernel@vivo.com
+References: <20240730114426.511-3-justinjiang@vivo.com>
+ <202408010150.13yZScv6-lkp@intel.com>
+From: zhiguojiang <justinjiang@vivo.com>
+In-Reply-To: <202408010150.13yZScv6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR02CA0027.apcprd02.prod.outlook.com
+ (2603:1096:4:195::14) To JH0PR06MB6849.apcprd06.prod.outlook.com
+ (2603:1096:990:47::12)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-CC: Miguel Ojeda <ojeda@kernel.org>
-TO: Alice Ryhl <aliceryhl@google.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Benno Lossin <benno.lossin@proton.me>
-CC: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-CC: Trevor Gross <tmgross@umich.edu>
-
-tree:   https://github.com/Rust-for-Linux/linux rust-dev
-head:   6dc5ff2a9a87b5f6e3b8ab11ee4835d7d82fc01e
-commit: 09103460655f980354f99d058775431b699acb1e [15/16] rust: file: add `Kuid` wrapper
-config: x86_64-randconfig-003-20240731 (https://download.01.org/0day-ci/archive/20240801/202408011456.TEzhsd4K-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408011456.TEzhsd4K-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408011456.TEzhsd4K-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   vmlinux.o: warning: objtool: _RNvXs29_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14___kernel_timexNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2i_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13pid_namespaceNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2l_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19kmsan_context_stateNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2m_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9kmsan_ctxNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2I_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_21siginfo__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x82: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2P_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_8sigqueueNtNtCs5QSdWC790r4_4core7default7Default7default+0x52: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2R_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7ksignalNtNtCs5QSdWC790r4_4core7default7Default7default+0x5a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs2W_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_20posix_cputimers_workNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs32_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9seqlock_tNtNtCs5QSdWC790r4_4core7default7Default7default+0x7a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs35_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9sched_avgNtNtCs5QSdWC790r4_4core7default7Default7default+0x82: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs36_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16sched_statisticsNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs39_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15sched_dl_entityNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3d_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11task_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3f_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12thread_unionNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3j_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13msr_regs_infoNtNtCs5QSdWC790r4_4core7default7Default7default+0x4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3l_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10saved_msrsNtNtCs5QSdWC790r4_4core7default7Default7default+0x4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3q_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_17bpf_raw_event_mapNtNtCs5QSdWC790r4_4core7default7Default7default+0x22: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3r_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11old_timex32NtNtCs5QSdWC790r4_4core7default7Default7default+0x82: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3s_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14user_namespaceNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3B_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14maple_range_64NtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3O_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12rw_semaphoreNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs3X_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11work_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x4a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs44_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9srcu_dataNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs45_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9srcu_nodeNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs46_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10srcu_usageNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4d_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_18srcu_notifier_headNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4e_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_25arch_uprobe__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4A_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19folio__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x42: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4F_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_5folioNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4V_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_23mm_struct__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs53_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13lru_gen_folioNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs54_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16lru_gen_mm_stateNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs55_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15lru_gen_mm_walkNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs56_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13lru_gen_memcgNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs57_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6lruvecNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs58_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13per_cpu_pagesNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs59_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16per_cpu_nodestatNtNtCs5QSdWC790r4_4core7default7Default7default+0x32: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5a_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_4zoneNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5e_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11pglist_dataNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5w_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10rhashtableNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5L_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_53___kernel_sockaddr_storage__bindgen_ty_1__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x82: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5O_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_22sockaddr__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5P_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_8sockaddrNtNtCs5QSdWC790r4_4core7default7Default7default+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6g_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_18shrinker_info_unitNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6n_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7xa_nodeNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6w_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_3pidNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6E_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19x86_legacy_featuresNtNtCs5QSdWC790r4_4core7default7Default7default+0x1a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6F_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16x86_platform_opsNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6G_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14___large_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs6V_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_3keyNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs70_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16hrtimer_cpu_baseNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7a_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14sighand_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7d_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10core_stateNtNtCs5QSdWC790r4_4core7default7Default7default+0x72: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7e_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13signal_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7r_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13fs_sysfs_pathNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7z_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_5dquotNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7B_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10quota_infoNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7F_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13address_spaceNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7K_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_5inodeNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7P_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10sb_writersNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7Q_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11super_blockNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7W_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_18user32_fxsr_structNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs7Y_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_42compat_siginfo__bindgen_ty_1__bindgen_ty_2NtNtCs5QSdWC790r4_4core7default7Default7default+0x11: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs81_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_42compat_siginfo__bindgen_ty_1__bindgen_ty_5NtNtCs5QSdWC790r4_4core7default7Default7default+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs82_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_28compat_siginfo__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x79: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs84_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13compat_direntNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs85_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_29compat_sigevent__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x39: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs86_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15compat_sigeventNtNtCs5QSdWC790r4_4core7default7Default7default+0x42: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs89_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12compat_ifreqNtNtCs5QSdWC790r4_4core7default7Default7default+0x22: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs8b_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_4userNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs8n_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19kernfs_global_locksNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs8s_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11kernfs_nodeNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs8t_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16kernfs_open_fileNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs8E_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15kobj_uevent_envNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs94_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11kunit_suiteNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs96_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_5kunitNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs9K_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11device_linkNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs9N_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12block_deviceNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs9P_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_17bio__bindgen_ty_2NtNtCs5QSdWC790r4_4core7default7Default7default+0x0: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs9T_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7bio_setNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsa0_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19partition_meta_infoNtNtCs5QSdWC790r4_4core7default7Default7default+0x6a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsa1_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13blk_integrityNtNtCs5QSdWC790r4_4core7default7Default7default+0x2: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsa6_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13request_queueNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsan_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7requestNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsas_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_17blk_mq_queue_dataNtNtCs5QSdWC790r4_4core7default7Default7default+0x4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsay_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12sockaddr_in6NtNtCs5QSdWC790r4_4core7default7Default7default+0x21: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsaz_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9ipv6_mreqNtNtCs5QSdWC790r4_4core7default7Default7default+0x19: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsaB_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_32tc_fq_codel_xstats__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x29: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsaC_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_18tc_fq_codel_xstatsNtNtCs5QSdWC790r4_4core7default7Default7default+0x2a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsaE_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_37flow_dissector_key_vlan__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x2: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsaH_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_27flow_dissector_key_enc_optsNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsbJ_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15sk_buff_fclonesNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXscA_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14bpf_tunnel_keyNtNtCs5QSdWC790r4_4core7default7Default7default+0x31: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsdw_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13bpf_flow_keysNtNtCs5QSdWC790r4_4core7default7Default7default+0x3a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsdL_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10sock_fprogNtNtCs5QSdWC790r4_4core7default7Default7default+0x4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsdT_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_4nodeNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsdV_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_3cpuNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsdW_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14text_poke_insnNtNtCs5QSdWC790r4_4core7default7Default7default+0x2: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsei_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_9psi_groupNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsek_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19cgroup_subsys_stateNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
->> vmlinux.o: warning: objtool: _RNvXsen_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6cgroupNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
->> vmlinux.o: warning: objtool: _RNvXseo_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11cgroup_rootNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXseA_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16backing_dev_infoNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXseR_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7bpf_mapNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXseS_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_17bpf_offloaded_mapNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsf3_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_8bpf_ksymNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsf5_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_15bpf_tramp_imageNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsfa_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14bpf_dispatcherNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsfj_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12bpf_prog_auxNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsfw_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14bpf_struct_opsNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsfM_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_31bpf_iter_aux_info__bindgen_ty_2NtNtCs5QSdWC790r4_4core7default7Default7default+0x4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsg5_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_14compat_rtentryNtNtCs5QSdWC790r4_4core7default7Default7default+0x59: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsg6_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_16compat_group_reqNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsg9_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_47compat_group_filter__bindgen_ty_1__bindgen_ty_2NtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsgb_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_19compat_group_filterNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsgc_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_11scm_fp_listNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsgq_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_41ethtool_rx_ntuple_flow_spec__bindgen_ty_1NtNtCs5QSdWC790r4_4core7default7Default7default+0x4a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsgt_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_13ethtool_flashNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsgu_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_20ethtool_per_queue_opNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXshb_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12dmi_strmatchNtNtCs5QSdWC790r4_4core7default7Default7default+0x52: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXshm_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_12led_classdevNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXshw_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_7mii_busNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXshx_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_10phy_deviceNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RINvNtCs5QSdWC790r4_4core3ptr13drop_in_placeNtNtCs1cdwasc6FUb_6kernel3str12RawFormatterEBK_+0x0: missing int3 after ret
-   vmlinux.o: warning: objtool: _RINvNtCs5QSdWC790r4_4core3ptr13drop_in_placelECs1cdwasc6FUb_6kernel+0x0: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvYNtNtCs1cdwasc6FUb_6kernel3str12RawFormatterNtNtCs5QSdWC790r4_4core3fmt5Write10write_charB6_+0x117: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvYNtNtCs1cdwasc6FUb_6kernel3str9FormatterNtNtCs5QSdWC790r4_4core3fmt5Write10write_charB6_+0x125: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXNtNtCs1cdwasc6FUb_6kernel5alloc7vec_extINtNtCscg2doA4GLaz_5alloc3vec3VechEINtB2_6VecExthE7reserveB6_+0x131: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4credNtB5_10Credential9get_secid+0x18: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4credNtB5_10Credential4euid+0x3: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtCs1cdwasc6FUb_6kernel6deviceNtB2_6Device8from_raw+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtCs1cdwasc6FUb_6kernel5errorNtB2_5Error4name+0x30: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs_NtCs1cdwasc6FUb_6kernel5errorNtB4_5ErrorNtNtCs5QSdWC790r4_4core3fmt5Debug3fmt+0x8c: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel5error9to_result+0x8: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel8firmwareNtB4_8Firmware7request+0xb4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel8firmwareNtB4_8Firmware14request_nowarn+0xb4: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel8firmwareNtB4_8Firmware4size+0xc: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel8firmwareNtB4_8Firmware4data+0x1c: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtNtCs1cdwasc6FUb_6kernel2fs4fileNtB5_9LocalFile4cred+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs5_NtNtCs1cdwasc6FUb_6kernel2fs4fileNtB5_25FileDescriptorReservation19get_unused_fd_flags+0x15: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device6phy_id+0x6: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device5state+0x11: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device10is_link_up+0xc: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device18is_autoneg_enabled+0xc: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device20is_autoneg_completed+0xa: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device9set_speed+0x6: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device10set_duplex+0x11: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device4read+0xa7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device5write+0x31: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device10read_paged+0x98: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device17genphy_soft_reset+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device7init_hw+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device10start_aneg+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device13genphy_resume+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device14genphy_suspend+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device18genphy_read_status+0x92: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device18genphy_update_link+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device15genphy_read_lpa+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtNtCs1cdwasc6FUb_6kernel3net3phyNtB2_6Device21genphy_read_abilities+0x13: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs2_NtNtCs1cdwasc6FUb_6kernel3net3phyNtB5_12Registration8register+0x5d: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4pageNtB5_4Page8read_raw+0x84: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4pageNtB5_4Page9write_raw+0x84: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4pageNtB5_4Page13fill_zero_raw+0x63: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4pageNtB5_4Page24copy_from_user_slice_raw+0xa0: missing int3 after ret
-   vmlinux.o: warning: objtool: rust_fmt_argument+0x69: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtCs1cdwasc6FUb_6kernel8securityNtB2_11SecurityCtx10from_secid+0xc1: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMNtCs1cdwasc6FUb_6kernel8securityNtB2_11SecurityCtx8as_bytes+0x19: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs_NtCs1cdwasc6FUb_6kernel3strNtB4_4BStrNtNtCs5QSdWC790r4_4core3fmt7Display3fmt+0x164: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs0_NtCs1cdwasc6FUb_6kernel3strNtB5_4BStrNtNtCs5QSdWC790r4_4core3fmt5Debug3fmt+0x62: missing int3 after indirect jump
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr19from_bytes_with_nul+0x1a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr10to_cstring+0xd: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr20make_ascii_lowercase+0x2c: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr20make_ascii_uppercase+0x2c: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr18to_ascii_lowercase+0x88: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs3_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStr18to_ascii_uppercase+0x88: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs4_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStrNtNtCs5QSdWC790r4_4core3fmt7Display3fmt+0x11f: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs5_NtCs1cdwasc6FUb_6kernel3strNtB5_4CStrNtNtCs5QSdWC790r4_4core3fmt5Debug3fmt+0x17a: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsc_NtCs1cdwasc6FUb_6kernel3strNtB5_12RawFormatterNtNtCs5QSdWC790r4_4core3fmt5Write9write_str+0x61: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsf_NtCs1cdwasc6FUb_6kernel3strNtB5_9FormatterNtNtCs5QSdWC790r4_4core3fmt5Write9write_str+0x67: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMsg_NtCs1cdwasc6FUb_6kernel3strNtB5_7CString12try_from_fmt+0x147: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsh_NtCs1cdwasc6FUb_6kernel3strNtB5_7CStringNtNtNtCs5QSdWC790r4_4core3ops5deref5Deref5deref+0xd: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsi_NtCs1cdwasc6FUb_6kernel3strNtB5_7CStringNtNtNtCs5QSdWC790r4_4core3ops5deref8DerefMut9deref_mut+0xd: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsj_NtCs1cdwasc6FUb_6kernel3strNtB5_7CStringINtNtCs5QSdWC790r4_4core7convert7TryFromRNtB5_4CStrE8try_from+0xd2: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4taskNtB5_4Task12group_leader+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4taskNtB5_4Task3pid+0x6: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel4taskNtB5_4Task14signal_pending+0xc: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXs_NtCs1cdwasc6FUb_6kernel5typesuNtB4_14ForeignOwnable12into_foreign+0x5: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel7uaccessNtB4_15UserSliceReader4skip+0x1c: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel7uaccessNtB4_15UserSliceReader8read_raw+0x4e: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel7uaccessNtB4_15UserSliceReader10read_slice+0x4e: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs_NtCs1cdwasc6FUb_6kernel7uaccessNtB4_15UserSliceReader8read_all+0x71: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvMs0_NtCs1cdwasc6FUb_6kernel7uaccessNtB5_15UserSliceWriter11write_slice+0x4b: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue6system+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue14system_highpri+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue11system_long+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue14system_unbound+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue16system_freezable+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue22system_power_efficient+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvNtCs1cdwasc6FUb_6kernel9workqueue32system_freezable_power_efficient+0x7: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsk_Cs2dcoKnfGXnn_4uapiNtB5_13___u128_halvesNtNtCs5QSdWC790r4_4core7default7Default7default+0x12: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsn_Cs2dcoKnfGXnn_4uapiNtB5_6moduleNtNtCs5QSdWC790r4_4core7default7Default7default+0x14: missing int3 after ret
-   vmlinux.o: warning: objtool: _RNvXsx_Cs2dcoKnfGXnn_4uapiNtB5_8pi_entryNtNtCs5QSdWC790r4_4core7default7Default7default+0x31: missing int3 after ret
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: JH0PR06MB6849:EE_|SEZPR06MB7227:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38de77bb-38bb-490a-aba5-08dcb1f6ce77
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|921020|43062017;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Z2svZzhtOHlZbEo1QkplZnBvMGYvSWtJaUFHSHEwRWxXeEZRb2ZlbWowUzI1?=
+ =?utf-8?B?TWdwN0g5V2ZLR3l3TWpZR25uOGZjZTYwVEpLd0U4ZXRrT21adGgyZlVXNDFq?=
+ =?utf-8?B?TnN1aUNJNzVjS1N1cGQxNXdPVW9vYnI4R2pQMzRsM2l0cnVVR041U3l3aUdY?=
+ =?utf-8?B?M05BQThwNnl5M3lDRGlobHZWakhLQ2ViUVlJekFqM1FvYkVpakxTdE5sRFVJ?=
+ =?utf-8?B?OWZpYVJrNXdtRUJIWnFCRGZOSzJ1VFVOeTkzeHZPUU56WHo4ZFRSaEJ3Z1NW?=
+ =?utf-8?B?VU5aOTM2VHFMZjBqN1VERm5DbFVKQ3BmV3BHV3RVSW1PMEF3bVIxZGFWZ0FV?=
+ =?utf-8?B?cldZeXhncXd0ZW1PVEdTY2pvbXFpa2dsME5zMi9rMnRtai9jc0IzNUJzdHVx?=
+ =?utf-8?B?Njc5V2tPYUpGZFlxdGlKK0JWdlQvbWsvNWZIUEdqa0E0aG9MMkdBT1E2ME14?=
+ =?utf-8?B?bGhsS3l4Qmx1TDJrZSt2K3JXbDc4M2QrUWVuTEROSk0rK3ZZSXBUWVdwSDlC?=
+ =?utf-8?B?T3dkVk55M0xLTzg0MlZUZXA4dHNkV3lRME9WWTU0RmlvL0JlVG9MZjlXNXAw?=
+ =?utf-8?B?bjlGZlN3U29RZm1DTGdXWWs1RFpPQlhHWTk2U093dTdJbGY5T0NEWkVQVm5F?=
+ =?utf-8?B?cEptL3JQalRSOVp2dy91bE9JVXJpVCtKNklINml0cjJmakpLbnIrNmRjL0F0?=
+ =?utf-8?B?aG1IeHdwSndBTHJUck14cmtDTWpzT3JHaktUVGtDV2pTdmxmUDZpRmFuYmxQ?=
+ =?utf-8?B?VXZLeXZzYlJrZmpZaTZzRS8zc1NtRjB6NHlFT0ZMYjNUdTNpRkx0M0Z1Y29C?=
+ =?utf-8?B?MVZtM3FORDk4dEhPL0QyRHNLbHpWc3d6ZWt0NStZYnhNUlJyY2xFSDQzVmJR?=
+ =?utf-8?B?a0JyaGNYQnkzbG5ZWndmUFpFOGNtVGFkWVd3SHNFWVU0ZlI4ZEdPNUNzSC9s?=
+ =?utf-8?B?SjdBNks4Q0YxM2lUWWtJaVBreGdOdEZiSDVMZExwbS85R1p2QlFXbzNaTThP?=
+ =?utf-8?B?c0U3RmJ4OEtDWThzVmdodWNtY1BLL1ZyYmIzZmVla0g4S0tGbUxudk5LWG1U?=
+ =?utf-8?B?bUJXTE4vTXprWGp2TlJrRGgyMjBOU2RLZ2NnM053M2RVQnFCMlpna29sMjF4?=
+ =?utf-8?B?d3JCZXcvMjZSQXZRalgyTE1zbUY3dThlQlpJMU5VdGJUY1p6NmUwdlJkdjZp?=
+ =?utf-8?B?RWVZb21RbTJsaGdkQlZ1aFhObVlEWi9CZ2FJV1BHQ3dFZm9yWEREVWtkZWNH?=
+ =?utf-8?B?azQ1dG5LS0E4M0xGUjk2eWwzZEYraHFkOXpEMkQrQVAvME5jQVBJdnZWZWkx?=
+ =?utf-8?B?aVpJNzZ4ZkVDNkRMUDlvNWFzcURaWFlhWnQxcS80aWRhU3FRRjczL1p5ckMv?=
+ =?utf-8?B?UmluNmxxcHFHK0VhakthZ0R4Q1IxMzBMdTV4cXIyaHY5OUNGZ2VLNktZTTRZ?=
+ =?utf-8?B?elc2OGtRR2xMVEp5RXl1ZnNRb0p3SENqbVN6a1Z6U1NJcDNJVllvcXMrVXM4?=
+ =?utf-8?B?elNEdVdoTTFQYUk1RHlkT1JYUmpZVW8zN2lYQVVjYjdMSjNhejV2NE5Pc1Jm?=
+ =?utf-8?B?NHZlZjlUZXFQKzVjOVE2YzBLNm9ZcXhNL2txN2J6dEswT2lUUDNuSWpteWpU?=
+ =?utf-8?B?K1pWdWZtSW9QTEUyRXQxK2k1NFJ1QXZ5TDhyUGNwd0RZeGhXUEFHbjdXbkov?=
+ =?utf-8?B?Qit5V2N3bmNxVVpDSFZ6MnZKdEVXZGtkM1lLWlYzN0tTUlIzVmIrNGNmY2dt?=
+ =?utf-8?B?L01LS1V0UUxZM3kzT0JnMHp2MEQxYWp6dFdtblRNMFExRWEwQVF3dnVaZkxt?=
+ =?utf-8?Q?PZryEUdtXKxQjLewMBs9h4Nk3qcTwnnMyvqKs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:JH0PR06MB6849.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(921020)(43062017);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZnZXLzZXVXlUNlRLTHc4RjBrOVRONzhQZUh2Y3VZUVdLdzVMNUZ1ai9ia0NF?=
+ =?utf-8?B?dzMrZlFYcjBYQUYzQVRodGFnTFB1N0FIbCtUUVFrcXhJMFptdzZNMVluU0JK?=
+ =?utf-8?B?UUVGcVM3WGhhU3RlYXZxNUQ5dWhMdHdua0lJUklBMVN1NmVqS29POWJyTWVU?=
+ =?utf-8?B?elNteUIvVkNuTVVXeXJmSDB6ZmhhWVltZjVPeDNCdjlubEg3STkwQ1RBZFlM?=
+ =?utf-8?B?NDVIeWJLZTFjMXpVeDdEVGxRaWVOMkgrVEJIZXBXL3FFcS8xbHN3TzBlU1BF?=
+ =?utf-8?B?S3BLVkt4TkNEZjNadS9jL3QwVzM5ZWZuNEFZak8vWXJBbTh0OHNVRGVhNjUv?=
+ =?utf-8?B?cmlPU2VOaldpSDdibmMzdkJHUTBBalExanFJQzJtV3Avb1FQbm9GbHZUWStR?=
+ =?utf-8?B?ODI0Si9LaFl6NG9TajR0REloVVhXN2RMU3ljbnA2UEtIRGNsZ003eU5Dd0pD?=
+ =?utf-8?B?RlZQTnllWUh6b01sb0lpeVNwV1k2eEZXdnVSRE1rL0I2MkxuYWhveHVxMUJW?=
+ =?utf-8?B?eTQvbXVBUjB5ZjdaTXJyV044WVJGYkZNT25YQ1hSTm1yTkF4aFhMdTlxM3FQ?=
+ =?utf-8?B?Zjg5ZExUVXNrQVB3OGhFTWlJa1Y3N290anQ4SkdJYkNFOVZ0Y1pyZldpVzV4?=
+ =?utf-8?B?VWo0d3ExMnV3S1ZkcFd0azFKUG00Q0paSFVVTHpydlZTV2lYTzkyTnp3TzRQ?=
+ =?utf-8?B?M0s2UGFiSUVQMktQMEVtT3NScUJGVzFOMHdZVzk5aStseVZPSmxoRDlvb2RD?=
+ =?utf-8?B?TFlUTFI2ME5sWUZkUXJVdE9yYUFPemF2TE1IZUN4NCs5NFp5R0dIT2krZE1o?=
+ =?utf-8?B?UkhLVTNSTWFxVzRwOS92OW1lS3NLRkEyZThaSlcxb0ZRMXdoRktQL2VvdzRk?=
+ =?utf-8?B?cERLak9VM3dYcWFGZVZWZW5zbUo2Z0MwQUxWcS9DdC9DQ0k5Z0dIVk9QOTJD?=
+ =?utf-8?B?VnU4RmN6RnlxNXRTSUpGeEdvc21NSWdCWFJRdFBUaTR3YVczWjFjRitCbk1S?=
+ =?utf-8?B?N2VWcGRDTDl5ZDRwenlnZ2orZ01MMmFlWWp0S3Z4SFg5KzlkYnJlSnh5N0l2?=
+ =?utf-8?B?Z1pvR29XakZ2enJOMEI2ckluZTF3T29sYWpuYktCbFdycWMzS3pVeTI5QzUy?=
+ =?utf-8?B?ZEhhRkxYTTRUSy9QdGk2MHUyaU1kNUZ1UGRUZXNwN3NlSENEd2g4dVBkQjYy?=
+ =?utf-8?B?bmd4Qk54Q1hDMXFaVWRZNHIycEVEVUljc0RMRG9vckpBbXpFaEk1dVdOZnVR?=
+ =?utf-8?B?ZmQvUm0wc2lCcTZPcE5nMGNtejhqZ0R3NWtzS08zOE01dWk3R3k1dWZ1SDhp?=
+ =?utf-8?B?ZVB1WGk1S1NYdjBlSzNiZmtBTjJUS01TNkVqQ2pjd1luangxVkZWUUtjWWUv?=
+ =?utf-8?B?TzNmUU9zNCtLT25EelNqbVQ0djkwNEdkN1BzaFhPejNsTGd2UlZsc0xGRWNI?=
+ =?utf-8?B?UkxYVGFrQjlORGpPcVFyME9uN1JvcUdObUJ4WG9UNy93Tk4rOEVvOVZGNW1I?=
+ =?utf-8?B?R3VSL0I5RHhyak9YbEl4dlF5N3hvd2dCVkRHQ3Rjc1FXWVpnSWs4Ylk3NlQv?=
+ =?utf-8?B?K1lMNVkzSTV6WGFHRkxZd0hCK1JIa3lDYmRvQytnNS9Qck9hbXV6TnBRMXhY?=
+ =?utf-8?B?ZDFNK2FIbHJLRzVYOFg1MU9XUkhuWnpHZHJZaHQwWTRibWFzcWgyNkdzdjVa?=
+ =?utf-8?B?b0NqL2NTTkY5RjViRnhCQ3FJYzkvYTFVME50U1R5TFQvR0U2OUFwblFWbFYw?=
+ =?utf-8?B?eElCZUhUMVUxWDNtbTVocU9Rd0M4cTZVZmo3azdVbWhMVU5CUW1rWUFIcklY?=
+ =?utf-8?B?TWVmdTV6SFB0NUhFbCtBcXZ5RE9RVC9vRGNrMlAwVG81WStRNU9Eb01qRTVm?=
+ =?utf-8?B?Z1E1VUdJNisrdW5UTGo5WER3d3FIYkNwTVN3NnExYlNtV0RRd3Q4NnZONkFT?=
+ =?utf-8?B?Y1pTeXlCWVkyUE1HQ29pRFgzV1IwS1NBZUNCZ2NPbXVKejJUN2g2WXE1bTBH?=
+ =?utf-8?B?VWRpNXVCcHkxVUl6YXVsSmFwZWsyNXQrdHh3RzNDM1o3cDMreUVUdmN1ZTVL?=
+ =?utf-8?B?dFh0U0JKRGExZWVuUlZYbTR3MTJONUduVWIvUzVHQ1dDQXR0Z2Jia2QzYjBC?=
+ =?utf-8?Q?MgwmPH2tZWAPeRJxgkGsYvjyD?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38de77bb-38bb-490a-aba5-08dcb1f6ce77
+X-MS-Exchange-CrossTenant-AuthSource: JH0PR06MB6849.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 06:54:36.4857
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X0/IVc/W5TcieAlJ7wBHYv1slLjiAKGKw91RbFSZCOrA99gr9ufKwu5F+YNoN0eZPNf2PpiXRw2JX7uBYPQL6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7227
 
 
-objdump-func vmlinux.o _RNvXsen_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6cgroupNtNtCs5QSdWC790r4_4core7default7Default7default:
-0000 0000000000084090 <_RNvXsen_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6cgroupNtNtCs5QSdWC790r4_4core7default7Default7default>:
-0000    84090:	53                   	push   %rbx
-0001    84091:	ba b0 05 00 00       	mov    $0x5b0,%edx
-0006    84096:	31 f6                	xor    %esi,%esi
-0008    84098:	48 89 fb             	mov    %rdi,%rbx
-000b    8409b:	e8 00 00 00 00       	call   840a0 <_RNvXsen_NtCs1c52SCZ2Jyz_8bindings12bindings_rawNtB6_6cgroupNtNtCs5QSdWC790r4_4core7default7Default7default+0x10>	8409c: R_X86_64_PLT32	memset-0x4
-0010    840a0:	48 89 d8             	mov    %rbx,%rax
-0013    840a3:	5b                   	pop    %rbx
-0014    840a4:	c3                   	ret
-0015    840a5:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-001f    840af:	90                   	nop
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+在 2024/8/1 2:19, kernel test robot 写道:
+> Hi Zhiguo,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Zhiguo-Jiang/mm-move-task_is_dying-to-h-headfile/20240730-215136
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240730114426.511-3-justinjiang%40vivo.com
+> patch subject: [PATCH 2/2] mm: tlb: add tlb swap entries batch async release
+> config: i386-randconfig-061-20240731 (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010150.13yZScv6-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408010150.13yZScv6-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+Hi,
+
+I have fix this compilation warning issue in the bellow patch. Please
+kindly help to test with this patch.
+https://lore.kernel.org/linux-mm/20240801065035.621-1-justinjiang@vivo.com/T/#u
+
+Thanks
+Zhiguo
+>>> mm/mmu_gather.c:54:10: sparse: sparse: symbol 'nr_exiting_processes' was not declared. Should it be static?
+>     mm/mmu_gather.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h):
+>     include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>     include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>
+> vim +/nr_exiting_processes +54 mm/mmu_gather.c
+>
+>      53	
+>    > 54	atomic_t nr_exiting_processes = ATOMIC_INIT(0);
+>      55	static struct kmem_cache *swap_gather_cachep;
+>      56	static struct workqueue_struct *swapfree_wq;
+>      57	static DEFINE_STATIC_KEY_TRUE(tlb_swap_asyncfree_disabled);
+>      58	
+>
+
