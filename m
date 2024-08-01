@@ -1,59 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ACA13B7B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Aug 2024 15:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572EB1B142B;
+	Thu,  1 Aug 2024 15:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722525681; cv=none; b=ev9Nky7KyDlMo4IBPjkl2Z7VAP0tiMGy9spn9r5A0EUoZZ03zLUYmTQcv0iMmxcAD8GvrfJpemakeHeUsTeKJXq58tbV0lJhFLf57iSTaiNBO2bh8Wa2NpdjMgFzA21GoOxtHaUygyWwT3Eov/qqK2m8CIbNgNg5wPir6/ZO4gE=
+	t=1722525776; cv=none; b=fMHvfeMbWUqKZWPOSp9bAwWgQnxhopG42yG5na8mrpwQQ7MlJ7M0otQX0G+qpWKZo3cdlb+O9PYcR8A0cVuD7u2sI31C+b+VfSIvzUJ++Y1/BEwxoiZeLI1mEpqclxks6zjgl0SsVxZYYY/2YzBn7r+OnGfbU5fpPwRde4RlYTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722525681; c=relaxed/simple;
-	bh=iiG9+QbntPzGjMzfX/++/1BKtptX583PyGUHJZVDOiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ke8Xaj9VnLfY2a913Bt53ZeKU/S6a5LTI9mJa/+KaUmN5Iidsj8bf2+MMgEF4pOp1fdnTznMb+jh52ow/1fdoKFHPjNigBPexnT2aJImwUlJrLRNtvjTtw+crxCsvuL+2bu+pgvg1TM7y4YdlbnHrbZrCqW6/G1Dx5rAJ/qjsZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAzNfT8z; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722525776; c=relaxed/simple;
+	bh=MCfSDdIjcHZQ9l663dFR3qY6umGQeR97WyGmOHY9GQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t2ARvRB8W5dPC2GeYLbCa8gVZnyrkEF01ukx8XFYLlAPL5juwv6j87D7aQgOIUx9WCXRAthunC626oMxkhOJbhebB+8Rrea4vsBNY0mRVT6k3RXRBTKXv7RadICBRsVrWdvVhgukBDWNeqD6siLbiblRMBJwPjCOGn0rRcugbXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Knkt0BM+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAzNfT8z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722525680; x=1754061680;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iiG9+QbntPzGjMzfX/++/1BKtptX583PyGUHJZVDOiU=;
-  b=dAzNfT8zCHT1wTn8RctrzRcIzZzEhtpIr+jXBSBvkjPjPQWhgok72WmG
-   Z9gEoN+DgZBHYyBDoTKLNjkEJ26VNZLAK3rMLnLS3RU9eaOrCFcCrImgT
-   vywDZN4TesNipXE602Zshu5TC77q422Ups9DEDXv5bUppODjCdJsuI+0M
-   xDHtLCqipzUdGtMwhWH0cklPZS6i43PgQtFTyvgKzU0oiU+sJhLfE/jby
-   nNsh7cwtYyVMrCCHBpsDqH2ICTyyK3iQGFncjKHHmfq5m86zklBrx5jnM
-   zf3rJX9LTWlbFvklR1wEXpuaoSTNO9N3QgpbDha5rjrudD0hkGQ3I9LdC
-   w==;
-X-CSE-ConnectionGUID: PzhiSBVrTm6GFxN0JeppvQ==
-X-CSE-MsgGUID: DjQK/07yTRiomPlYe8qqAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38000587"
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="38000587"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 08:20:35 -0700
-X-CSE-ConnectionGUID: FkhyCFyAR2yKXsu7UwA2zw==
-X-CSE-MsgGUID: AYCfDdF4TR6tJdv7vGqMbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
-   d="scan'208";a="54733147"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Aug 2024 08:20:34 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sZXbT-000vgy-21;
-	Thu, 01 Aug 2024 15:20:31 +0000
-Date: Thu, 1 Aug 2024 23:20:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 16810/23403]
- drivers/misc/uacce/uacce.o: warning: objtool: missing symbol for section
- .init.text
-Message-ID: <202408012317.Ocvc77l4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Knkt0BM+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E072FC32786;
+	Thu,  1 Aug 2024 15:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722525775;
+	bh=MCfSDdIjcHZQ9l663dFR3qY6umGQeR97WyGmOHY9GQc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Knkt0BM+MQksHfY/hnZ5m9c3nrY9foJmh8e9BoyHVve6RRLlCuddPDzrCGNCt/ftL
+	 mJF1PBOEm4zuxZ3M4vi/Iql7r+0kclcoSgV9S9lPeNHT6ZcMEgXBv/31FWDFXpO9Qb
+	 LgXolyyLaYGMKNhDuoXGyMRYwXifC+krPUjWBUsvb83wmz1H14Vz5okPqc/h8Ia081
+	 +3ol8UNGML6OUyf9IM8ssrnducmo4Qp4OTOssdyBMF37pqAa9Wv7R9XPFa7QB9+a9l
+	 4HzHa7PCR4h177R7pzQ5I1b5muNgo5WbJxJ4fv7jpaXCsxPzGrcizXKCx38obDNCND
+	 nUpMq3yjdLwOw==
+Date: Thu, 1 Aug 2024 08:22:53 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: kernel test robot <lkp@intel.com>, Baruch Siach <baruch@tkos.co.il>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
+	Ramon Fried <ramon@neureality.ai>,
+	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
+	Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, Elad Nachman <enachman@marvell.com>,
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 2/3] dma-mapping: replace zone_dma_bits by
+ zone_dma_limit
+Message-ID: <20240801152253.GA122261@thelio-3990X>
+References: <053fa4806a2c63efcde80caca473a8b670a2701c.1722249878.git.baruch@tkos.co.il>
+ <202407300338.oaUo6jtB-lkp@intel.com>
+ <20240730021208.GA8272@thelio-3990X>
+ <20240730153450.GA30021@lst.de>
+ <20240801012424.GA1640480@thelio-3990X>
+ <20240801134454.GB2245@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +56,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240801134454.GB2245@lst.de>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   39e859c5836c18cb021d3435101c4066536caa81
-commit: 451823febcb610969f048556cedc41b5e08fafb1 [16810/23403] UACCE backport from mainline
-config: x86_64-buildonly-randconfig-002-20240731 (https://download.01.org/0day-ci/archive/20240801/202408012317.Ocvc77l4-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408012317.Ocvc77l4-lkp@intel.com/reproduce)
+On Thu, Aug 01, 2024 at 03:44:54PM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 31, 2024 at 06:24:24PM -0700, Nathan Chancellor wrote:
+> > Unfortunately, I am not sure either... I do not see anything obviously,
+> > so perhaps it could just be avoided with the __diag() infrastructure?
+> > 
+> > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> > index 3dbc0b89d6fb..b58e7eb9c8f1 100644
+> > --- a/kernel/dma/direct.c
+> > +++ b/kernel/dma/direct.c
+> > @@ -20,7 +20,12 @@
+> >   * it for entirely different regions. In that case the arch code needs to
+> >   * override the variable below for dma-direct to work properly.
+> >   */
+> > +__diag_push();
+> > +__diag_ignore(clang, 13, "-Wconstant-conversion",
+> > +	      "Clang incorrectly thinks the n == 64 case in DMA_BIT_MASK() can happen here,"
+> > +	      "which would truncate with a 32-bit phys_addr_t");
+> >  phys_addr_t zone_dma_limit __ro_after_init = DMA_BIT_MASK(24);
+> 
+> So..  The code above is clearly wrong, as DMA_BIT_MASK always returns a
+> u64, and phys_addr_t can be smaller than that.  So at least in this case
+> the warning seems perfectly valid and the code has issues because it is
+> mixing different concepts.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408012317.Ocvc77l4-lkp@intel.com/
+Sure, that seems like a reasonable way to look at things even if the
+warning itself is a false positive.
 
-All warnings (new ones prefixed by >>):
+> Where do you see warnings like this upstream?
 
-   drivers/misc/uacce/uacce.c: In function 'numa_distance_show':
-   drivers/misc/uacce/uacce.c:1032:23: warning: unused variable 'uacce' [-Wunused-variable]
-    1032 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   drivers/misc/uacce/uacce.c: In function 'node_id_show':
-   drivers/misc/uacce/uacce.c:1046:23: warning: unused variable 'uacce' [-Wunused-variable]
-    1046 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   drivers/misc/uacce/uacce.c:60: warning: Function parameter or member 'dev' not described in 'dev_to_uacce'
-   drivers/misc/uacce/uacce.c:81: warning: Function parameter or member 'uacce' not described in 'uacce_hw_err_isolate'
-   drivers/misc/uacce/uacce.c:140: warning: Function parameter or member 'q' not described in 'uacce_wake_up'
->> drivers/misc/uacce/uacce.o: warning: objtool: missing symbol for section .init.text
+I don't see this upstream, this is from patch 2 of this series:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://lore.kernel.org/053fa4806a2c63efcde80caca473a8b670a2701c.1722249878.git.baruch@tkos.co.il/
+
+Cheers,
+Nathan
