@@ -1,65 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B43416BE25
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Aug 2024 17:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1601ABEA5
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Aug 2024 19:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722619074; cv=none; b=L8JntIJjrZU/kbLRbfsbsMJvX+6zbcdYKIySZqs635dXlS9mDRg08KDhblD7CWbYQq69x9wuJxd+b8bwB156fTwGlOulU9hVHAdYwL/Nhy4wi5vbrmv280EPLX5rwyx8YiPU9EzvZmNNgUlbBZ+nfBTt7M77xf69pp13uo0cJMk=
+	t=1722627388; cv=none; b=WqeAdtSXseBvSu7Ku+q2aveLcAKx8eb620EnVKIXt5Bio9yAlPlW4gWCTqoT/FmImp0O5mSBEvqjtsi+6p+IKzWKA8ngLYKifHUT5P/vBW54AFwpTE7L18xH5rqoP1B7S4ByN08UYYPLvQ475aXdHSP79/6e21D3NvXbuZr/NUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722619074; c=relaxed/simple;
-	bh=o9DJWhGlqtKQ1iWtEKepaZu/t4tj65qSh5IdSpzdbCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T1ajjr83KS19GVuVUpuiFB5imF8JI9yaHN2EPWmKYXmsQbey8vARCbbm9kpJePvM+CYXW5mqcAh8VXo3OjObEBxzqZVVIThtlDpkbJesKkTv34xw8XSGrZtw3hfgApW+G0YbliMwWQWTFJVIXV9m1WXA+Tfy/VGeGLNpDDHS8/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwScdWuM; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722627388; c=relaxed/simple;
+	bh=45QT20w/pRXzXq4A3dLPNrAFEsTXeF07xH6PFko8DtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HYWgk1DEK72OYcqcDdwjx8C/v06WNlg+9hVtaKr7UxAPheGrRD8tjaW78pYzV6tzZUTZ8cgc4wbxJwqHDwrgPrvV1eESTtW8MWPRtlVl47IMb15CMgoKC83jiCBszYyxBoMtGRdzyNBHSeADWD5tmilJ/gLL32HjlvUjdR8J2hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=no3vtk0n; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwScdWuM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722619071; x=1754155071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o9DJWhGlqtKQ1iWtEKepaZu/t4tj65qSh5IdSpzdbCo=;
-  b=lwScdWuMXWfATwt8ajLJsjWNIXh7m1sGOtHbIaA4em/8WJd6M5jM0H9A
-   82X+4mfvmXYZvg8LS+ktYt4+obivx1m1YllOWGxxvCdxREQgl87nSPaQ9
-   lNBkWFAuEBldeRz+C5JTTRds1GgHXo4c1GCpHv2CL3s2h+FT4n5al29qW
-   gnQQn2a17XvE27Tj9PXYXAG/0VCr/h9/c9UByXu4I9/GLDn76rELhCqMo
-   ey/xwa3BqbInygujcPNLJvSBOJgB1nglbt37eW8oIGoUEDwzy2GoaRriQ
-   TqRwOrhc1PLZJCl/4rk5wXvjTMoMdu9/zmrlb+niiCKO/TxNzr/Y+mjfY
-   Q==;
-X-CSE-ConnectionGUID: D/ksfy3/SYqXJ+HQzLoTWg==
-X-CSE-MsgGUID: nWagaW++S9GpR89lA9cQpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="31296285"
-X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
-   d="scan'208";a="31296285"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 10:17:50 -0700
-X-CSE-ConnectionGUID: hRN/0xX9QpaChBGARfY0ow==
-X-CSE-MsgGUID: PPBUJ3eyQS+/+TdOfJxyBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
-   d="scan'208";a="60309478"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Aug 2024 10:17:46 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sZvuR-000xBO-2v;
-	Fri, 02 Aug 2024 17:17:43 +0000
-Date: Sat, 3 Aug 2024 01:16:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org, jdelvare@suse.com,
-	linux@roeck-us.net, dmitry.torokhov@gmail.com, pavel@ucw.cz
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, heiko@sntech.de, ukleinek@debian.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 2/7] mfd: add base driver for qnap-mcu devices
-Message-ID: <202408030016.QLOhRHF1-lkp@intel.com>
-References: <20240731212430.2677900-3-heiko@sntech.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="no3vtk0n"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-260f81f7fb5so5285425fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 02 Aug 2024 12:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722627385; x=1723232185; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
+        b=no3vtk0nWnNtxpUU+IEGMQSkZq6fUChCwGO/VH5rKTJ4OjgQ5OW/r4bS5bKaCIihLN
+         f/X96+fOSKxoGGe3wKO3V1QcoK5iOIAgWIsJtEeQIULZEDCRM8e67cx5b8ARpapMscrw
+         FCd4aEFRgYKf0AQwY1a3/QXdS2AI2jFfkkvUQIwiJ4Rx6KopChny2B8TtH/uhxW5d+6Y
+         nqai4iyydbtgljZIIm/Y6ZmeIIUv5Rh1sQvc8A7Ayb2E5y/J6pWPOHcirF1c8WJtdfR4
+         V39sEntPK3l+RgqSKmSzBTKkGGMy9b+2+GPblsIELnWoomJu855HWhg30sAkTsOq+WdY
+         1Ygw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722627385; x=1723232185;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
+        b=SCwgq4I1k/PVWuRobIWXjcERPDgWMv1CLOeRyZ2PxbCbnTm/R/LYWFPc/hArHOosQ4
+         nB/R/NocS13C22gvOVtIAWy0dtTIJ+IzzuGCOjwYXtIK5jhD9lY2ehSQGp2TCPbMm3kT
+         Cli3gWtObHpupXJ8S1RobJzhan++44j8MSGs0kM6r48QKa9h1tEH20RQyl4s6LtEtfXH
+         ThGNrNb7794XoSrqfFWVSh6ZIDlVqNTQ5Uy6p4WO96tlhhjHR37pTvCbZ5r6FMcTtVAX
+         GYsGaVLh3FaT3ifm6zzzFpP8g+iqlD8bgrFNTowpmKG7bOmaeLef2tQkGyrYzL5xHe2J
+         KQHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXGHik01PDUvodfcfjFJhDQ6ekzlJWdyqEha/vsLRZqpcspEUN18c+Xn/G1bO6qsq2H6VWpdrH+XWn7qvESgtk3Mv2fPgdOPb7URwHeDg==
+X-Gm-Message-State: AOJu0YyjtIiFl1fZh1UypeCQjSMU9OzHXnYKVXGBQNOAJVonKC1Bew6F
+	8KQK9Ku8Fb73Id8yiVqFa81Lwr8RATC1ghXlEmFZX3+g47RaHGOauz5kj5QNZLg=
+X-Google-Smtp-Source: AGHT+IHbZTNCd8KdLG/8uZwbh1D/uLyIhI5I/8nWdFtBEqAAk6Oh9r7V8HDtSSW3MJCLTZc9J+oqwA==
+X-Received: by 2002:a05:6871:582a:b0:261:16da:decb with SMTP id 586e51a60fabf-26891adfa9bmr5306186fac.11.1722627385306;
+        Fri, 02 Aug 2024 12:36:25 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2689a2a8686sm503970fac.6.2024.08.02.12.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 12:36:24 -0700 (PDT)
+Date: Fri, 2 Aug 2024 14:36:22 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-per-rtg-bitmap 5/5] fs/xfs/xfs_rtalloc.c:1157
+ xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) =>
+ (0-u32max > u32max)'
+Message-ID: <201b1727-8409-42fc-8ffe-8f27cc067eb2@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,107 +66,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731212430.2677900-3-heiko@sntech.de>
 
-Hi Heiko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20240801]
-[also build test WARNING on v6.11-rc1]
-[cannot apply to groeck-staging/hwmon-next lee-leds/for-leds-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v6.11-rc1 v6.10 v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-mfd-add-binding-for-qnap-ts433-mcu-devices/20240802-103948
-base:   next-20240801
-patch link:    https://lore.kernel.org/r/20240731212430.2677900-3-heiko%40sntech.de
-patch subject: [PATCH v3 2/7] mfd: add base driver for qnap-mcu devices
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240803/202408030016.QLOhRHF1-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408030016.QLOhRHF1-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap
+head:   a20a115ce4258bcd890eddb67ff3b15c7a4e9157
+commit: a20a115ce4258bcd890eddb67ff3b15c7a4e9157 [5/5] xfs: use per-RTG bitmaps and summaries
+config: x86_64-randconfig-161-20240802 (https://download.01.org/0day-ci/archive/20240803/202408030320.zYTuPl1H-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408030016.QLOhRHF1-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408030320.zYTuPl1H-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/xfs/xfs_rtalloc.c:1157 xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) => (0-u32max > u32max)'
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from include/linux/mfd/core.h:13,
-                    from drivers/mfd/qnap-mcu.c:12:
-   drivers/mfd/qnap-mcu.c: In function 'qnap_mcu_receive_buf':
->> drivers/mfd/qnap-mcu.c:108:31: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     108 |                 dev_warn(dev, "received %lu bytes, we were not waiting for\n",
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/mfd/qnap-mcu.c:108:17: note: in expansion of macro 'dev_warn'
-     108 |                 dev_warn(dev, "received %lu bytes, we were not waiting for\n",
-         |                 ^~~~~~~~
-   drivers/mfd/qnap-mcu.c:108:43: note: format string is defined here
-     108 |                 dev_warn(dev, "received %lu bytes, we were not waiting for\n",
-         |                                         ~~^
-         |                                           |
-         |                                           long unsigned int
-         |                                         %u
+vim +1157 fs/xfs/xfs_rtalloc.c
 
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1082  int
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1083  xfs_growfs_rt(
+a20a115ce4258b Christoph Hellwig   2024-07-31  1084  	struct xfs_mount	*mp,
+a20a115ce4258b Christoph Hellwig   2024-07-31  1085  	struct xfs_growfs_rt	*in)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1086  {
+a20a115ce4258b Christoph Hellwig   2024-07-31  1087  	xfs_rgnumber_t		last_rgno = mp->m_sb.sb_rgcount - 1;
+a20a115ce4258b Christoph Hellwig   2024-07-31  1088  	unsigned int		new_rgcount = 1;
 
-vim +108 drivers/mfd/qnap-mcu.c
+Should this be a u64?
 
-    96	
-    97	static size_t qnap_mcu_receive_buf(struct serdev_device *serdev,
-    98					   const u8 *buf, size_t size)
-    99	{
-   100		struct device *dev = &serdev->dev;
-   101		struct qnap_mcu *mcu = dev_get_drvdata(dev);
-   102		struct qnap_mcu_reply *reply = mcu->reply;
-   103		const u8 *src = buf;
-   104		const u8 *end = buf + size;
-   105	
-   106		mutex_lock(&mcu->reply_lock);
-   107		if (!reply) {
- > 108			dev_warn(dev, "received %lu bytes, we were not waiting for\n",
-   109				 size);
-   110			mutex_unlock(&mcu->reply_lock);
-   111			return size;
-   112		}
-   113	
-   114		while (src < end) {
-   115			reply->data[reply->received] = *src++;
-   116			reply->received++;
-   117	
-   118			if (reply->received == reply->length) {
-   119				complete(&reply->done);
-   120				mutex_unlock(&mcu->reply_lock);
-   121	
-   122				/*
-   123				 * We report the consumed number of bytes. If there
-   124				 * are still bytes remaining (though there shouldn't)
-   125				 * the serdev layer will re-execute this handler with
-   126				 * the remainder of the Rx bytes.
-   127				 */
-   128				return src - buf;
-   129			}
-   130		}
-   131	
-   132		/*
-   133		 * The only way to get out of the above loop and end up here
-   134		 * is through consuming all of the supplied data, so here we
-   135		 * report that we processed it all.
-   136		 */
-   137		mutex_unlock(&mcu->reply_lock);
-   138		return size;
-   139	}
-   140	
+a20a115ce4258b Christoph Hellwig   2024-07-31  1089  	xfs_rtxnum_t		nrextents;
+a20a115ce4258b Christoph Hellwig   2024-07-31  1090  	struct xfs_rtgroup	*rtg;
+a20a115ce4258b Christoph Hellwig   2024-07-31  1091  	xfs_rgnumber_t		rgno;
+a20a115ce4258b Christoph Hellwig   2024-07-31  1092  	struct xfs_buf		*bp;
+a20a115ce4258b Christoph Hellwig   2024-07-31  1093  	int			error;	
+a20a115ce4258b Christoph Hellwig   2024-07-31  1094  	unsigned int		i;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1095  
+743bb4650da9e2 sandeen@sandeen.net 2008-11-25  1096  	if (!capable(CAP_SYS_ADMIN))
+2451337dd04390 Dave Chinner        2014-06-25  1097  		return -EPERM;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1098  
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1099  	/* Needs to have been mounted with an rt device. */
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1100  	if (!XFS_IS_REALTIME_MOUNT(mp))
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1101  		return -EINVAL;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1102  
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1103  	/* Shrink not supported. */
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1104  	if (in->newblocks <= mp->m_sb.sb_rblocks)
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1105  		return -EINVAL;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1106  
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1107  	/* Can only change rt extent size when adding rt volume. */
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1108  	if (mp->m_sb.sb_rblocks > 0 && in->extsize != mp->m_sb.sb_rextsize)
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1109  		return -EINVAL;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1110  
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1111  	/* Range check the extent size. */
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1112  	if (XFS_FSB_TO_B(mp, in->extsize) > XFS_MAX_RTEXTSIZE ||
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1113  	    XFS_FSB_TO_B(mp, in->extsize) < XFS_MIN_RTEXTSIZE)
+2451337dd04390 Dave Chinner        2014-06-25  1114  		return -EINVAL;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1115  
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1116  	/* Unsupported realtime features. */
+bb88dce9eeb696 Darrick J. Wong     2024-05-28  1117  	if (!xfs_has_rtgroups(mp) && (xfs_has_rmapbt(mp) || xfs_has_reflink(mp)))
+bb88dce9eeb696 Darrick J. Wong     2024-05-28  1118  		return -EOPNOTSUPP;
+bb88dce9eeb696 Darrick J. Wong     2024-05-28  1119  	if (xfs_has_quota(mp))
+a7b6869effc4eb Darrick J. Wong     2024-05-28  1120  		return -EOPNOTSUPP;
+bb88dce9eeb696 Darrick J. Wong     2024-05-28  1121  	if (xfs_has_reflink(mp) && in->extsize != 1)
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1122  		return -EOPNOTSUPP;
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1123  
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1124  	error = xfs_sb_validate_fsb_count(&mp->m_sb, in->newblocks);
+0e2af9296f4f9c Darrick J. Wong     2021-07-12  1125  	if (error)
+4cc929ee305c69 Nathan Scott        2007-05-14  1126  		return error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1127  	/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1128  	 * Read in the last block of the device, make sure it exists.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1129  	 */
+ba3726742c1712 Dave Chinner        2014-10-02  1130  	error = xfs_buf_read_uncached(mp->m_rtdev_targp,
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1131  				XFS_FSB_TO_BB(mp, in->newblocks - 1),
+ba3726742c1712 Dave Chinner        2014-10-02  1132  				XFS_FSB_TO_BB(mp, 1), 0, &bp, NULL);
+ba3726742c1712 Dave Chinner        2014-10-02  1133  	if (error)
+eab4e63368b4cf Dave Chinner        2012-11-12  1134  		return error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1135  	xfs_buf_relse(bp);
+1922c949c59f93 Dave Chinner        2010-09-22  1136  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1137  	/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1138  	 * Calculate new parameters.  These are the final values to be reached.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1139  	 */
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1140  	nrextents = div_u64(in->newblocks, in->extsize);
+5bb69dac440d87 Christoph Hellwig   2024-07-30  1141  	if (nrextents == 0)
+e14293803f4e84 Darrick J. Wong     2023-12-01  1142  		return -EINVAL;
+6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1143  
+31e8765dfb1353 Darrick J. Wong     2024-05-28  1144  	/* Make sure the new fs size won't cause problems with the log. */
+31e8765dfb1353 Darrick J. Wong     2024-05-28  1145  	error = xfs_growfs_check_rtgeom(mp, mp->m_sb.sb_dblocks, in->newblocks,
+31e8765dfb1353 Darrick J. Wong     2024-05-28  1146  			in->extsize);
+31e8765dfb1353 Darrick J. Wong     2024-05-28  1147  	if (error)
+31e8765dfb1353 Darrick J. Wong     2024-05-28  1148  		return error;
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1149  
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1150  	/*
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1151  	 * Compute the new number of rt groups.  Changing the rtgroup size is
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1152  	 * not allowed (even if the rt volume hasn't yet been initialized)
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1153  	 * because the userspace ABI doesn't support it.
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1154  	 */
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1155  	if (xfs_has_rtgroups(mp)) {
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1156  		new_rgcount = howmany_64(nrextents, mp->m_sb.sb_rgextents);
+d40c00393d9cf8 Darrick J. Wong     2024-05-28 @1157  		if (new_rgcount > XFS_MAX_RGNUMBER)
+
+howmany_64() returns a u64.
+
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1158  			return -EINVAL;
+d40c00393d9cf8 Darrick J. Wong     2024-05-28  1159  
+a20a115ce4258b Christoph Hellwig   2024-07-31  1160  		/*
+a20a115ce4258b Christoph Hellwig   2024-07-31  1161  		 * Set up the realtime superblock if we're adding a new rt
+a20a115ce4258b Christoph Hellwig   2024-07-31  1162  		 * section.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
