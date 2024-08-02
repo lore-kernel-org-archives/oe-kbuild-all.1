@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B3D482CA;
-	Fri,  2 Aug 2024 08:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8680C256D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Aug 2024 09:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722585916; cv=none; b=REjS7yFZHEQ+mXgoIpI+n5Yf7bYUK8AHOc+uErfyrgiqyhV1oBZv/YcT9BHLYoiWc8jeWsfMiHrW0olaFpWYYdOHyKHD2PzqzkdKx04Mlb2M7/ayjKxRtum13xDtn+hjSZCI7iX7CRbY8Nrnv+mbgHYYdWSyICa6UjorKBRhJRo=
+	t=1722592027; cv=none; b=EfBzNLmijt7bdDAi/O1BQSlSX//VzKzX04sAXW8BqnT6Y9NYMj9zbnZ+vafiPqJkJWbBu7bvSdQIB1J2rSuZAHqeXxNODWdfFcCGAHQZpKAj9mQ1VZ2MAHJxehGdSCgXJYC+R4dVNbuKgInZXonbMUhkC5oDFBzX0OYnERNRo7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722585916; c=relaxed/simple;
-	bh=2EcGfDArf+MGK7/GjIOlC6bogSo7gt7YM540zICjH5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=isPqllwQC6UB2fZzPrglsC3Ux2mjgFh9IQej6NHTDn9/JRNHdvqNyHIfHumdnaJsrfXmFzMQ1Ev6JlzJRt7uxhP8XxNR1SnotXk1wx2MeN8ekjDKyUFG5ffkbqWFVAznRZprawxMxqa1JlcEzuH8/Pa2EcyaLDZoVE6An91Eonc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqCM53CA; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1722592027; c=relaxed/simple;
+	bh=/en7QzOEerNTzqWXeODT4DRUseKIhiJGMP6dfs2iYsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W3sAbKNYynmY4M9qkKSnK22drSIYd01wu4X5CbGe8eLpQ2bZVXZCebjcvZcFmn6nD7VjYd/aqgIZp9uhBy6c20/0f726azJke4fL/ajFMYYBy5QMwgChosi9Rn2rxpurkQkaGU1DK8waunAw1ftepakW+28bkDHNNQcl0V4vSw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7sHVCBv; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqCM53CA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7sHVCBv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722585915; x=1754121915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2EcGfDArf+MGK7/GjIOlC6bogSo7gt7YM540zICjH5g=;
-  b=JqCM53CAkagEKjM9qFPbUyvy6D2AhebzLsILOvTWYSGofNnpxrmVK33p
-   m9/NvEpM0tfGDaKkzuBhlCu2E5lubsQSO2xnHMLxiK0zR4+i8Yxl3Qnhh
-   4dTfCgRCAV1RSo5T3QCh7pxrOcxjR1xOxSTzJ5MTwbAOX+L9MukpwAFdD
-   np9pqvWYuLR8+IASpse4hEA9ELaqlkO7yCo7MdHUEw905XDV4LfpO/dWq
-   OcFvGTDC6HACQRXu9I252Q4X/AbKii5PoN3nn2/vvEgkRdfeQUQ0I/7l5
-   qCgk71qWsyeoJd2GJvA1ZJzey+dRZsm5ObEJCj81VHb+uBEGqJNreo/xK
+  t=1722592025; x=1754128025;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/en7QzOEerNTzqWXeODT4DRUseKIhiJGMP6dfs2iYsc=;
+  b=M7sHVCBvwRxBJ5+sdTM8dJve8Yszr7C46/ltHYdYEhhrwiPTIhn9irIB
+   iaqMwLtcf/tAgXmPcTywlosFNp5AmQb1pn2nsBMF5nskg1hgGq/tpEnAV
+   MoGMFZQyQoppesFLlNLKzHR2bPTqrOXgfzpy9D99aqfWf7wu+lX+W42oI
+   Uo/yWMNjdLF11O4OEnKFiXZPuQ/OZd98qJ3IPyl/Aq3u6CWK866EKl0Bs
+   ZsV6phiQ8EX1OBigjxQ/l2xGDbyN2xNk9RZi14O+PQSq09sjn6SMencfG
+   1iHbtViH30oLIp4ltIzdz/0bDBDKbSwdp//7bcKjXVkqqL+IC4Mc7cbTQ
    g==;
-X-CSE-ConnectionGUID: UBK3VrUmRQGcby6wr3tHmA==
-X-CSE-MsgGUID: F/TV0vGMSyKTU7+Zae6htA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20429986"
+X-CSE-ConnectionGUID: cETBq3uWQNSqJdraISTlMA==
+X-CSE-MsgGUID: LieBJb5RQPC7Fmt+Sgw2jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="38105891"
 X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="20429986"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 01:05:14 -0700
-X-CSE-ConnectionGUID: KTOEGHfcSVCCsCfHzck+rQ==
-X-CSE-MsgGUID: S/dNMuleT3aCQ537zgFuWw==
+   d="scan'208";a="38105891"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 02:47:05 -0700
+X-CSE-ConnectionGUID: PXrYtv+BRcS7fXCeuomsCQ==
+X-CSE-MsgGUID: 5WC84UaiS8yY6RXM/Fvvgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="55922863"
+   d="scan'208";a="55583177"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Aug 2024 01:05:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Aug 2024 02:47:04 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZnHf-000wYW-2W;
-	Fri, 02 Aug 2024 08:05:07 +0000
-Date: Fri, 2 Aug 2024 16:04:40 +0800
+	id 1sZosH-000wbf-23;
+	Fri, 02 Aug 2024 09:47:01 +0000
+Date: Fri, 2 Aug 2024 17:46:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mariel Tinaco <Mariel.Tinaco@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] iio: dac: support the ad8460 Waveform DAC
-Message-ID: <202408021509.ug75TMoS-lkp@intel.com>
-References: <20240730030509.57834-3-Mariel.Tinaco@analog.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:extron 5/6]
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1008:51:
+ warning: 'DCEC' directive output may be truncated writing 4 bytes into a
+ region of size between 0 and 53
+Message-ID: <202408021703.aofQ0dlW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,107 +63,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730030509.57834-3-Mariel.Tinaco@analog.com>
 
-Hi Mariel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9900e7a54764998ba3a22f06ec629f7b5fe0b422]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mariel-Tinaco/dt-bindings-iio-dac-add-docs-for-ad8460/20240730-112724
-base:   9900e7a54764998ba3a22f06ec629f7b5fe0b422
-patch link:    https://lore.kernel.org/r/20240730030509.57834-3-Mariel.Tinaco%40analog.com
-patch subject: [PATCH v2 2/2] iio: dac: support the ad8460 Waveform DAC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240802/202408021509.ug75TMoS-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408021509.ug75TMoS-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git extron
+head:   1685af4ec94f45de230eb603bb47bf4b985a1f1c
+commit: 64403b1cf011de24701c54aa5c71fa3897b3a920 [5/6] media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
+config: x86_64-randconfig-103-20240802 (https://download.01.org/0day-ci/archive/20240802/202408021703.aofQ0dlW-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408021703.aofQ0dlW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408021509.ug75TMoS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408021703.aofQ0dlW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/dac/ad8460.c:159:8: error: call to undeclared function 'ad8460_get_hvdac_word'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     159 |         ret = ad8460_get_hvdac_word(state, private, &reg);
-         |               ^
->> drivers/iio/dac/ad8460.c:163:34: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
-     163 |         return sysfs_emit(buf, "%ld\n", reg);
-         |                                 ~~~     ^~~
-         |                                 %u
-   drivers/iio/dac/ad8460.c:176:27: error: too few arguments to function call, expected 3, have 2
-     176 |         ret = kstrtou32(buf, &reg);
-         |               ~~~~~~~~~          ^
-   include/linux/kstrtox.h:84:32: note: 'kstrtou32' declared here
-      84 | static inline int __must_check kstrtou32(const char *s, unsigned int base, u32 *res)
-         |                                ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad8460.c:182:9: error: call to undeclared function 'ad8460_set_hvdac_word'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     182 |         return ad8460_set_hvdac_word(state, private, reg);
-         |                ^
-   drivers/iio/dac/ad8460.c:211:27: error: too few arguments to function call, expected 3, have 2
-     211 |         ret = kstrtou16(buf, &sym);
-         |               ~~~~~~~~~          ^
-   include/linux/kstrtox.h:94:18: note: 'kstrtou16' declared here
-      94 | int __must_check kstrtou16(const char *s, unsigned int base, u16 *res);
-         |                  ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad8460.c:249:33: error: too few arguments to function call, expected 3, have 2
-     249 |         ret = kstrtou16(buf, &toggle_en);
-         |               ~~~~~~~~~                ^
-   include/linux/kstrtox.h:94:18: note: 'kstrtou16' declared here
-      94 | int __must_check kstrtou16(const char *s, unsigned int base, u16 *res);
-         |                  ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad8460.c:335:12: error: static declaration of 'ad8460_get_hvdac_word' follows non-static declaration
-     335 | static int ad8460_get_hvdac_word(struct ad8460_state *state,
-         |            ^
-   drivers/iio/dac/ad8460.c:159:8: note: previous implicit declaration is here
-     159 |         ret = ad8460_get_hvdac_word(state, private, &reg);
-         |               ^
-   drivers/iio/dac/ad8460.c:346:9: error: call to undeclared function 'get_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     346 |         *val = get_unaligned_le16(state->spi_tx_buf);
-         |                ^
-   drivers/iio/dac/ad8460.c:351:12: error: static declaration of 'ad8460_set_hvdac_word' follows non-static declaration
-     351 | static int ad8460_set_hvdac_word(struct ad8460_state *state,
-         |            ^
-   drivers/iio/dac/ad8460.c:182:9: note: previous implicit declaration is here
-     182 |         return ad8460_set_hvdac_word(state, private, reg);
-         |                ^
-   drivers/iio/dac/ad8460.c:355:2: error: call to undeclared function 'put_unaligned_le16'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     355 |         put_unaligned_le16(val & 0x3FFF, &state->spi_tx_buf);
-         |         ^
-   drivers/iio/dac/ad8460.c:855:8: error: call to undeclared function 'devm_regulator_get_enable_read_voltage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     855 |         ret = devm_regulator_get_enable_read_voltage(&spi->dev, "refio_1p2v");
-         |               ^
-   drivers/iio/dac/ad8460.c:855:8: note: did you mean 'devm_regulator_get_enable_optional'?
-   include/linux/regulator/consumer.h:166:5: note: 'devm_regulator_get_enable_optional' declared here
-     166 | int devm_regulator_get_enable_optional(struct device *dev, const char *id);
-         |     ^
-   drivers/iio/dac/ad8460.c:859:43: error: use of undeclared identifier 'vrefio'
-     859 |                 return dev_err_probe(&spi->dev, PTR_ERR(vrefio),
-         |                                                         ^
-   1 warning and 11 errors generated.
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_transmit':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1008:51: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+    1008 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |                                                   ^~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1008:9: note: 'snprintf' output between 13 and 72 bytes into a destination of size 61
+    1008 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1009 |                  port->direction, port->port.port,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1010 |                  cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +163 drivers/iio/dac/ad8460.c
+vim +/DCEC +1008 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
 
-   149	
-   150	static ssize_t ad8460_dac_input_read(struct iio_dev *indio_dev,
-   151					     uintptr_t private,
-   152					     const struct iio_chan_spec *chan,
-   153					     char *buf)
-   154	{
-   155		struct ad8460_state *state = iio_priv(indio_dev);
-   156		unsigned int reg;
-   157		int ret;
-   158	
-   159		ret = ad8460_get_hvdac_word(state, private, &reg);
-   160		if (ret)
-   161			return ret;
-   162	
- > 163		return sysfs_emit(buf, "%ld\n", reg);
-   164	}
-   165	
+   996	
+   997	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+   998					    u32 signal_free_time, struct cec_msg *msg)
+   999	{
+  1000		struct extron_port *port = cec_get_drvdata(adap);
+  1001		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+  1002		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
+  1003		unsigned int i;
+  1004	
+  1005		buf[0] = 0;
+  1006		for (i = 0; i < msg->len - 1; i++)
+  1007			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+> 1008		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+  1009			 port->direction, port->port.port,
+  1010			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+  1011		return extron_send_and_wait(port->extron, port, cmd, NULL);
+  1012	}
+  1013	
 
 -- 
 0-DAY CI Kernel Test Service
