@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04BF17571
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Aug 2024 01:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80006BA47
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Aug 2024 03:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722563583; cv=none; b=T5r4UdYTGARgBseOki+UHG/VG3TIqI8NfB8vI3t4us97SKYPHY0y5uGgMD9RLmfZsl2KrpOqLbZ5GwCnplpyt5f3mhdIOJwbb93+IVsFFtpuCzqVXWi/QMhfq6HOM1oBcEBGPz9h8XjEyR9UY1sTXwEPWWNJxHfNpEMipCJhL8g=
+	t=1722570369; cv=none; b=cvDP1WPD0ytygh5fzOsDh1PtZZKrFmWwc/6p85o9PZJn9c5shZuJBBjp0+n3oiOaMPO/cS5TvnoRcWdtLrfJIuz3imfCss1HXI3iamWY5QxKL7qnyG6XWR32XFmYFMLzGKAoiEOHr+JqNhHkZQSQ/9a6yqi/za1xTsLuLqINVUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722563583; c=relaxed/simple;
-	bh=js/noxqvwYCGZfwM0D1xppL/Dccb5XOjvpIwuYbt7z0=;
+	s=arc-20240116; t=1722570369; c=relaxed/simple;
+	bh=yHxHg8V4uvNrifvHCRfpIi8QoS/2hncSMbEwN/1M/D8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h8pV3jZAIVkqJb6OntOwLfc/EU5WU9QSjiJ91Z25UWC+kil4QqsoMiDwKkBf6QpXxYj2xNrvpgoh0iqjmZWWsJ7InlC+yzdk2b6VzBqhtxzPmaydoycYXJ4jJBlDsfZKUCapglrkODL5ajFd1su0hdwj/RTTe+DBsQN1SL/7w3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHb6ZH7Y; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=fkvFNDp60SEmEJ5SqG3/WrKE0+/4ayt/EeJuwU+GrLfqRP179UsIc8D+yufoxEFcO0cBtpUOMTi6WJ+Km9trd5N2/3usLDm7CsH02WY3LSUROFaRAAvWMLRT5UuT9WHCOsBpJsV7tBi+GDd1A+9ahAJFIDMM2M8tBotbr8alzwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=df94G4DH; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHb6ZH7Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="df94G4DH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722563582; x=1754099582;
+  t=1722570364; x=1754106364;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=js/noxqvwYCGZfwM0D1xppL/Dccb5XOjvpIwuYbt7z0=;
-  b=dHb6ZH7YWXD49qdXZ8bQqOEKzbI97RALA5+uBYu1vLbPaEFTVl1L++g/
-   bgLg6UfjnveI/Wc1WV5EmBhkBxINO858bv3m6kiMPOm3UHFCsha9Rqpi/
-   Sjq1CWMcMKdbkUHsKNVflqulPsSaXW5PEH3S3sACwWaR9DpjeJf7ILadT
-   Bp3MwtsQmbtGpofo0IAHgh2tmrq7aSuDb5ZBIdfy06f6nUIJpEXr7MSCF
-   UYj+hqjGDLiFOETtf9exwnVVy1cYZboZ2hrLyneLYxLJVBjY0d3dbCgqm
-   8y/jn1ys18hZ27P2GkFr53aRr23ZQhuL0K3VPO3lsfd3UVJS64CvWda4E
-   Q==;
-X-CSE-ConnectionGUID: 3GnxLHZASqePCp7W/nD7qg==
-X-CSE-MsgGUID: Z2cNRw2nRryMAcK7QyNMlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20448353"
+  bh=yHxHg8V4uvNrifvHCRfpIi8QoS/2hncSMbEwN/1M/D8=;
+  b=df94G4DHYOXu2rncQVxG+lYqUfxjZQgtbGxWgasKDDfUEZmKEtB0zrDy
+   KdT+/99ijnuEiitFHuhRtZDMsokVscYxGULZ1d+6UJVleUrBVzwXvC2xr
+   +/6XRbUkG+jeRQh5/I74SPms+KyljWcxktq4FIawb9VfT7IAdS6BgYTCF
+   LFguszuQCJt5YsTH6NAY3mz96+J4xHTxExyVDWTtxGvmJZO4agZxYMxNh
+   glZm0N/thxN5SV63UB8wFXmw0s1kUrHjdJg+sL3DHShRHIV8CG1ThQtrh
+   Kt98FmlVvXAPwvVBABd4i5y89vg93OG6yg56t5qeZG3Onj+XK8NSV1S2t
+   A==;
+X-CSE-ConnectionGUID: zZ+X+bsNRb676YKGgi9ftQ==
+X-CSE-MsgGUID: 9xF6hiqcQV6YMrOzgBUvLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20153372"
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="20448353"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 18:52:59 -0700
-X-CSE-ConnectionGUID: iSIQLj7nSjOwkJCnhKfGrg==
-X-CSE-MsgGUID: 7xsnDaNBQOmr88jw5lM9ZA==
+   d="scan'208";a="20153372"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 20:46:04 -0700
+X-CSE-ConnectionGUID: /t0NwGp7TZOc/xCUMtOfAA==
+X-CSE-MsgGUID: Teu/lLqDS8CwtjPprnmoSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="55843967"
+   d="scan'208";a="54930563"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Aug 2024 18:52:57 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 01 Aug 2024 20:46:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZhTS-000wDi-2T;
-	Fri, 02 Aug 2024 01:52:54 +0000
-Date: Fri, 2 Aug 2024 09:52:54 +0800
+	id 1sZjEu-000wJA-1p;
+	Fri, 02 Aug 2024 03:46:00 +0000
+Date: Fri, 2 Aug 2024 11:45:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fd 7/39] drivers/block/ataflop.c:428:13: error:
- conflicting types for 'fd_error'; have 'void(void)'
-Message-ID: <202408020919.BhS4vbmr-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:fileek6JoY 10/11] sound/soc/codecs/cs35l45.c:180:20:
+ error: implicit declaration of function
+ 'snd_soc_component_get_kcontrol_locked'; did you mean
+ 'snd_soc_component_get_kcontrol'?
+Message-ID: <202408021131.1aBGm0AI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +64,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
-head:   a2303c1df65cfa7933b43246c298d558ad70dbce
-commit: baf640c41da47e7cd98b422391e0d219f749a92d [7/39] introduce struct fderr, convert overlayfs uses to that
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240802/202408020919.BhS4vbmr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020919.BhS4vbmr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileek6JoY
+head:   9eb2bbfc62e372988a4c5cd1cb551231a65ec818
+commit: e174e5ea5df61289c1f6f94dfc00b8c9f95630d6 [10/11] ASoC: cs35l45: Use new snd_soc_component_get_kcontrol() helper
+config: x86_64-randconfig-002-20240802 (https://download.01.org/0day-ci/archive/20240802/202408021131.1aBGm0AI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408021131.1aBGm0AI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408020919.BhS4vbmr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408021131.1aBGm0AI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/block/ataflop.c:428:13: error: conflicting types for 'fd_error'; have 'void(void)'
-     428 | static void fd_error( void );
-         |             ^~~~~~~~
-   In file included from include/linux/blkdev.h:27,
-                    from include/linux/blk-mq.h:5,
-                    from drivers/block/ataflop.c:70:
-   include/linux/file.h:58:20: note: previous definition of 'fd_error' with type 'long int(struct fderr)'
-      58 | static inline long fd_error(struct fderr f)
-         |                    ^~~~~~~~
+   sound/soc/codecs/cs35l45.c: In function 'cs35l45_activate_ctl':
+>> sound/soc/codecs/cs35l45.c:180:20: error: implicit declaration of function 'snd_soc_component_get_kcontrol_locked'; did you mean 'snd_soc_component_get_kcontrol'? [-Werror=implicit-function-declaration]
+     180 |         kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                    snd_soc_component_get_kcontrol
+>> sound/soc/codecs/cs35l45.c:180:18: warning: assignment to 'struct snd_kcontrol *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     180 |         kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
+         |                  ^
+   cc1: some warnings being treated as errors
 
 
-vim +428 drivers/block/ataflop.c
+vim +180 sound/soc/codecs/cs35l45.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  421  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  422  static void fd_select_side( int side );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  423  static void fd_select_drive( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  424  static void fd_deselect( void );
-24ed960abf1d50 Kees Cook         2017-08-28  425  static void fd_motor_off_timer(struct timer_list *unused);
-24ed960abf1d50 Kees Cook         2017-08-28  426  static void check_change(struct timer_list *unused);
-7d12e780e003f9 David Howells     2006-10-05  427  static irqreturn_t floppy_irq (int irq, void *dummy);
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @428  static void fd_error( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  429  static int do_format(int drive, int type, struct atari_format_descr *desc);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  430  static void do_fd_action( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  431  static void fd_calibrate( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  432  static void fd_calibrate_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  433  static void fd_seek( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  434  static void fd_seek_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  435  static void fd_rwsec( void );
-24ed960abf1d50 Kees Cook         2017-08-28  436  static void fd_readtrack_check(struct timer_list *unused);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  437  static void fd_rwsec_done( int status );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  438  static void fd_rwsec_done1(int status);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  439  static void fd_writetrack( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  440  static void fd_writetrack_done( int status );
-24ed960abf1d50 Kees Cook         2017-08-28  441  static void fd_times_out(struct timer_list *unused);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  442  static void finish_fdc( void );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  443  static void finish_fdc_done( int dummy );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  444  static void setup_req_params( int drive );
-05bdb9965305bb Christoph Hellwig 2023-06-08  445  static int fd_locked_ioctl(struct block_device *bdev, blk_mode_t mode,
-05bdb9965305bb Christoph Hellwig 2023-06-08  446  		unsigned int cmd, unsigned long param);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  447  static void fd_probe( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  448  static int fd_test_drive_present( int drive );
-^1da177e4c3f41 Linus Torvalds    2005-04-16  449  static void config_types( void );
-05bdb9965305bb Christoph Hellwig 2023-06-08  450  static int floppy_open(struct gendisk *disk, blk_mode_t mode);
-ae220766d87cd6 Christoph Hellwig 2023-06-08  451  static void floppy_release(struct gendisk *disk);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  452  
-
-:::::: The code at line 428 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   171	
+   172	static int cs35l45_activate_ctl(struct snd_soc_component *component,
+   173					const char *ctl_name, bool active)
+   174	{
+   175		struct snd_card *card = component->card->snd_card;
+   176		struct snd_kcontrol *kcontrol;
+   177		struct snd_kcontrol_volatile *vd;
+   178		unsigned int index_offset;
+   179	
+ > 180		kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
+   181		if (!kcontrol) {
+   182			dev_err(component->dev, "Can't find kcontrol %s\n", ctl_name);
+   183			return -EINVAL;
+   184		}
+   185	
+   186		index_offset = snd_ctl_get_ioff(kcontrol, &kcontrol->id);
+   187		vd = &kcontrol->vd[index_offset];
+   188		if (active)
+   189			vd->access |= SNDRV_CTL_ELEM_ACCESS_WRITE;
+   190		else
+   191			vd->access &= ~SNDRV_CTL_ELEM_ACCESS_WRITE;
+   192	
+   193		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_INFO, &kcontrol->id);
+   194	
+   195		return 0;
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
