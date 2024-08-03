@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C35133987
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 10:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B649E84E1C;
+	Sat,  3 Aug 2024 11:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722681803; cv=none; b=C9kpCZKUIJHCCe/RDleQ+lZxNB8ZDDifmh5EDqEbO+dWLmU6OEjCZZYWEUka//HP0To3etaWHP/9NtqJADZPCxSrJg7NgLcGIMog6iW5IJj4HK3lLe6PSqnCa6gbpWDD04Ap5L4w+pkTq2RLr4FclS3SfjecGOCBRAwEA75EWKA=
+	t=1722683405; cv=none; b=bVVK8f0dXOgjY1iQAEtxhiXN4S5eB2jgW2g/dZszClbNMNSem5n6QeDoKD6t7dmeGrRfDzyGcBtCl2A3C9e1oba8qaTvEF5R4DrD/dlAc+GwJjU0k2oDdWJHLOlLMk0bklT85XHV8wciCcr2ZWPiNwHRqPnlqm99C3jiSYPUH2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722681803; c=relaxed/simple;
-	bh=2VkQEPcA/U+CUxZ+CRCPYlTvVwF/ZbqrFwDy5+F7148=;
+	s=arc-20240116; t=1722683405; c=relaxed/simple;
+	bh=8lyIZtJ2MY+ILXH/uKyEkqiJE4bkBSi6tQXnItZNG3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Re6CNoq7vx0EPHX3LruXGb0vXFoiIJ6mxamvCfi7R63p3A2X4+uI4pdQ1hnJere5SoboamVlPYLQpRg0+Hf5hb12Mp2tfuGc5PfJ3ndr4hiXySkytn4KfJ1wDYUTIfrqyiWcsd4i5x9DFEA7qwk5ejeaS+bKd5mznnjbphXq6N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgthAo6v; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=UHfbjg4efbdsnyq7ZlatiJWJuN7lr21Bl2gscsConn6Bs/LNjeFY7Yy7wE7hMjr4z5/mHlA0I6t6nGD9Q/6xkBXwbCTBfNGHUWIjdn28JyW+8aOhIySeNKVuoCfRFR/4IiA2N6viX2HwpO4is1kwmppDmmmrSNzSE6UbgpIbJO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fw4JFzIf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgthAo6v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fw4JFzIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722681801; x=1754217801;
+  t=1722683402; x=1754219402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2VkQEPcA/U+CUxZ+CRCPYlTvVwF/ZbqrFwDy5+F7148=;
-  b=hgthAo6vTotaE72AlUtWIq+1ZqviOxt7HqBtMedCpm9CKjRHEkvoqkhr
-   VwoPrV8GP0XD1CxTG+OZK8pXefgSSnDm779OjwZaT6b2CdkDORzQm7MYQ
-   ysGzMFMUDojDmi7jsBtsoXmP7GHByF2bQ6s9MGdkzLyz5iQ/zR+cC58UV
-   Fnc4i/UlFo8+ywImuYKwPWy9uU0TXUqZPmZKNaDEOSfr1ICHKJ8UZ3Ary
-   C8Wd0Gkdu4qjBxkUq2wAOnHq68+ij1QC0kGiDJC2ngrTDH0K3eTynAgkG
-   fbWjYofSn/ROqWFtoE+z3XmsUSDz8pd2NjGP1ZDdjBehgIqOrjoTidN4n
+  bh=8lyIZtJ2MY+ILXH/uKyEkqiJE4bkBSi6tQXnItZNG3Y=;
+  b=fw4JFzIfkPkgHK2Cofl7H5CJA7EVGh5nkx/Dw7AYtUxNxgWJhnOD5daV
+   uih1YmQ7TW/NQSQ7fMqeGS3n7s3qDjD6OwXtXblD6fXlXvuqes/VX6fjR
+   C/KI/pMzuytzz1AkfwbLePenyx26KypResoT0+DpYfXPWsZd19X7ZKrmH
+   yUX8Q7+xhCtky1Vw4oRCmSCR/b6Og+9DDSEihHhsQvuQKcMJnLU3z5Bd7
+   p7YLJOtSfqdbYeTqrPf4aMPTxyObtL5SETi1aMFRRefsS+iXAuIkQUVei
+   qZNffCMS4aHg4oLnqXKLz7mnq2uSjNw/XCnnyEjaVgpPpldpxLkhpj1Dx
    w==;
-X-CSE-ConnectionGUID: empbjKaWQSylKWdXG9P5/Q==
-X-CSE-MsgGUID: ooXeCcVpReGAuNsOvcoxgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="32100617"
+X-CSE-ConnectionGUID: COgIQ5CuTYKfGZ+arusKfA==
+X-CSE-MsgGUID: 8QOVm+glQsSAPBR5v7YS4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20816031"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="32100617"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 03:43:18 -0700
-X-CSE-ConnectionGUID: azA2TWdjQ1OoF8nOJyoapg==
-X-CSE-MsgGUID: XB0/b+Z2S2+xiW698a06yQ==
+   d="scan'208";a="20816031"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 04:10:01 -0700
+X-CSE-ConnectionGUID: d+gctCiMTOSNMBifOSsDIQ==
+X-CSE-MsgGUID: IKKVm2x+TZuGL10ebXWFHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="93217828"
+   d="scan'208";a="60323237"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 03 Aug 2024 03:43:16 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Aug 2024 04:10:00 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saCED-0000Nc-1U;
-	Sat, 03 Aug 2024 10:43:13 +0000
-Date: Sat, 3 Aug 2024 18:42:30 +0800
+	id 1saCe5-0000Oe-17;
+	Sat, 03 Aug 2024 11:09:57 +0000
+Date: Sat, 3 Aug 2024 19:03:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: [cifs:5.15-backport-8-1-24 546/600] fs/cifs/cifspdu.h:885:9: error:
- expected specifier-qualifier-list before 'struct_group'
-Message-ID: <202408031820.DixjpZTt-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.11-rc1 114/128]
+ drivers/platform/arm64/mpam/mpam_resctrl.c:384:6: warning: variable 'err' is
+ used uninitialized whenever 'if' condition is true
+Message-ID: <202408031840.zel29JoK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,356 +63,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git 5.15-backport-8-1-24
-head:   c931999946e12679e0adc129509a1e23a4a64b5d
-commit: 26f5e6f0efbd340b409c826c0a242a9b01f78e7c [546/600] smb: client, common: fix fortify warnings
-config: i386-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031820.DixjpZTt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031820.DixjpZTt-lkp@intel.com/reproduce)
+Hi James,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.11-rc1
+head:   063bc546005302904092c158fe3228dc8af798a9
+commit: f6cf53b477a878020ffbcbfcfc4bc520d6b5332a [114/128] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240803/202408031840.zel29JoK-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031840.zel29JoK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031820.DixjpZTt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031840.zel29JoK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/cifs/file.c:26:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
->> fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
-     885 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
-    2269 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/file.c:27:
->> fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
-     705 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
-     322 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
->> fs/cifs/cifsglob.h:2161:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2161 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
-         |                                             ^~
-   fs/cifs/cifsglob.h:2162:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2162 |         dst->AccessFlags = src->AccessFlags;
-         |                               ^~
->> fs/cifs/cifsglob.h:2163:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
-    2163 |         dst->CurrentByteOffset = src->CurrentByteOffset;
-         |                                     ^~
->> fs/cifs/cifsglob.h:2164:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
-    2164 |         dst->Mode = src->Mode;
-         |                        ^~
->> fs/cifs/cifsglob.h:2165:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
-    2165 |         dst->AlignmentRequirement = src->AlignmentRequirement;
-         |                                        ^~
->> fs/cifs/cifsglob.h:2166:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
-    2166 |         dst->FileNameLength = src->FileNameLength;
-         |                                  ^~
---
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/asn1.c:6:
->> fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
-     705 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
-     322 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:97:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
->> fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
-     885 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
-    2269 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
->> fs/cifs/cifsglob.h:2161:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2161 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
-         |                                             ^~
-   fs/cifs/cifsglob.h:2162:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2162 |         dst->AccessFlags = src->AccessFlags;
-         |                               ^~
->> fs/cifs/cifsglob.h:2163:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
-    2163 |         dst->CurrentByteOffset = src->CurrentByteOffset;
-         |                                     ^~
->> fs/cifs/cifsglob.h:2164:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
-    2164 |         dst->Mode = src->Mode;
-         |                        ^~
->> fs/cifs/cifsglob.h:2165:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
-    2165 |         dst->AlignmentRequirement = src->AlignmentRequirement;
-         |                                        ^~
->> fs/cifs/cifsglob.h:2166:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
-    2166 |         dst->FileNameLength = src->FileNameLength;
-         |                                  ^~
---
-   In file included from fs/cifs/connect.c:35:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
->> fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
-     885 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
-    2269 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/connect.c:36:
->> fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
-     705 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
-     322 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
->> fs/cifs/cifsglob.h:2161:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2161 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
-         |                                             ^~
-   fs/cifs/cifsglob.h:2162:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2162 |         dst->AccessFlags = src->AccessFlags;
-         |                               ^~
->> fs/cifs/cifsglob.h:2163:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
-    2163 |         dst->CurrentByteOffset = src->CurrentByteOffset;
-         |                                     ^~
->> fs/cifs/cifsglob.h:2164:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
-    2164 |         dst->Mode = src->Mode;
-         |                        ^~
->> fs/cifs/cifsglob.h:2165:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
-    2165 |         dst->AlignmentRequirement = src->AlignmentRequirement;
-         |                                        ^~
->> fs/cifs/cifsglob.h:2166:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
-    2166 |         dst->FileNameLength = src->FileNameLength;
-         |                                  ^~
-   fs/cifs/connect.c: In function 'cifs_get_smb_ses':
-   fs/cifs/connect.c:2344:49: warning: passing argument 1 of 'load_nls' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2344 |         ses->local_nls = load_nls(ctx->local_nls->charset);
-         |                                   ~~~~~~~~~~~~~~^~~~~~~~~
-   In file included from fs/cifs/cifsproto.h:10,
-                    from fs/cifs/connect.c:37:
-   include/linux/nls.h:50:35: note: expected 'char *' but argument is of type 'const char *'
-      50 | extern struct nls_table *load_nls(char *);
-         |                                   ^~~~~~
---
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/smb1ops.c:11:
->> fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
-     705 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
-     322 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:97:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
->> fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
-     885 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
-    2269 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
->> fs/cifs/cifsglob.h:2161:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2161 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
-         |                                             ^~
-   fs/cifs/cifsglob.h:2162:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2162 |         dst->AccessFlags = src->AccessFlags;
-         |                               ^~
->> fs/cifs/cifsglob.h:2163:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
-    2163 |         dst->CurrentByteOffset = src->CurrentByteOffset;
-         |                                     ^~
->> fs/cifs/cifsglob.h:2164:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
-    2164 |         dst->Mode = src->Mode;
-         |                        ^~
->> fs/cifs/cifsglob.h:2165:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
-    2165 |         dst->AlignmentRequirement = src->AlignmentRequirement;
-         |                                        ^~
->> fs/cifs/cifsglob.h:2166:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
-    2166 |         dst->FileNameLength = src->FileNameLength;
-         |                                  ^~
-   In file included from include/linux/byteorder/little_endian.h:5,
-                    from arch/x86/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/qrwlock_types.h:6,
-                    from arch/x86/include/asm/spinlock_types.h:7,
-                    from include/linux/spinlock_types_raw.h:7,
-                    from include/linux/spinlock_types.h:12,
-                    from include/linux/ratelimit_types.h:7,
-                    from include/linux/printk.h:10,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:84,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:9,
-                    from include/linux/pagemap.h:8,
-                    from fs/cifs/smb1ops.c:8:
-   fs/cifs/smb1ops.c: In function 'cifs_query_path_info':
->> fs/cifs/smb1ops.c:579:37: error: 'FILE_ALL_INFO' has no member named 'Attributes'
-     579 |                 if (!(le32_to_cpu(fi.Attributes) & ATTR_REPARSE))
-         |                                     ^
-   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition of macro '__le32_to_cpu'
-      34 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   fs/cifs/smb1ops.c:579:23: note: in expansion of macro 'le32_to_cpu'
-     579 |                 if (!(le32_to_cpu(fi.Attributes) & ATTR_REPARSE))
-         |                       ^~~~~~~~~~~
---
-   In file included from fs/cifs/readdir.c:15:
-   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^~~~~~~~~~~~~~~~~~
->> fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
-     885 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
-    2269 |         struct_group(common_attributes,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
-         |         ^~~~~~~~~~~~~~~~~~
-   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:26,
-                    from fs/cifs/readdir.c:16:
->> fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
-     705 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^~~~~~~~~~~~~~~~~~
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^~~~~~~~~~~~~~~~~~
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
-     322 |         struct_group(network_open_info,
-         |         ^~~~~~~~~~~~
-   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
->> fs/cifs/cifsglob.h:2161:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2161 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
-         |                                             ^~
-   fs/cifs/cifsglob.h:2162:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
-    2162 |         dst->AccessFlags = src->AccessFlags;
-         |                               ^~
->> fs/cifs/cifsglob.h:2163:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
-    2163 |         dst->CurrentByteOffset = src->CurrentByteOffset;
-         |                                     ^~
->> fs/cifs/cifsglob.h:2164:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
-    2164 |         dst->Mode = src->Mode;
-         |                        ^~
->> fs/cifs/cifsglob.h:2165:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
-    2165 |         dst->AlignmentRequirement = src->AlignmentRequirement;
-         |                                        ^~
->> fs/cifs/cifsglob.h:2166:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
-    2166 |         dst->FileNameLength = src->FileNameLength;
-         |                                  ^~
-   fs/cifs/readdir.c: In function 'cifs_fill_dirent_unix':
-   fs/cifs/readdir.c:549:25: error: 'FILE_UNIX_INFO' has no member named 'FileName'
-     549 |         de->name = &info->FileName[0];
-         |                         ^~
-..
+   In file included from drivers/platform/arm64/mpam/mpam_resctrl.c:6:
+   In file included from include/linux/arm_mpam.h:7:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/arm64/mpam/mpam_resctrl.c:384:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     384 |         if (irqs_disabled()) {
+         |             ^~~~~~~~~~~~~~~
+   include/linux/irqflags.h:248:2: note: expanded from macro 'irqs_disabled'
+     248 |         ({                                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     249 |                 unsigned long _flags;                   \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     250 |                 raw_local_save_flags(_flags);           \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     251 |                 raw_irqs_disabled_flags(_flags);        \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     252 |         })
+         |         ~~
+   drivers/platform/arm64/mpam/mpam_resctrl.c:403:9: note: uninitialized use occurs here
+     403 |         return err;
+         |                ^~~
+   drivers/platform/arm64/mpam/mpam_resctrl.c:384:2: note: remove the 'if' if its condition is always false
+     384 |         if (irqs_disabled()) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+     385 |                 /* Check if we can access this domain without an IPI */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     386 |         } else {
+         |         ~~~~~~
+   drivers/platform/arm64/mpam/mpam_resctrl.c:353:9: note: initialize the variable 'err' to silence this warning
+     353 |         int err;
+         |                ^
+         |                 = 0
+   6 warnings generated.
 
 
-vim +/struct_group +885 fs/cifs/cifspdu.h
+vim +384 drivers/platform/arm64/mpam/mpam_resctrl.c
 
-   876	
-   877	typedef struct smb_com_open_rsp {
-   878		struct smb_hdr hdr;	/* wct = 34 BB */
-   879		__u8 AndXCommand;
-   880		__u8 AndXReserved;
-   881		__le16 AndXOffset;
-   882		__u8 OplockLevel;
-   883		__u16 Fid;
-   884		__le32 CreateAction;
- > 885		struct_group(common_attributes,
-   886			__le64 CreationTime;
-   887			__le64 LastAccessTime;
-   888			__le64 LastWriteTime;
-   889			__le64 ChangeTime;
-   890			__le32 FileAttributes;
-   891		);
-   892		__le64 AllocationSize;
-   893		__le64 EndOfFile;
-   894		__le16 FileType;
-   895		__le16 DeviceState;
-   896		__u8 DirectoryFlag;
-   897		__u16 ByteCount;	/* bct = 0 */
-   898	} __attribute__((packed)) OPEN_RSP;
-   899	
+0225f5d17c991f James Morse 2023-03-09  348  
+511a450ae3ea92 James Morse 2021-06-25  349  int resctrl_arch_rmid_read(struct rdt_resource	*r, struct rdt_mon_domain *d,
+511a450ae3ea92 James Morse 2021-06-25  350  			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
+511a450ae3ea92 James Morse 2021-06-25  351  			   u64 *val, void *arch_mon_ctx)
+511a450ae3ea92 James Morse 2021-06-25  352  {
+511a450ae3ea92 James Morse 2021-06-25  353  	int err;
+511a450ae3ea92 James Morse 2021-06-25  354  	u64 cdp_val;
+511a450ae3ea92 James Morse 2021-06-25  355  	struct mon_cfg cfg;
+511a450ae3ea92 James Morse 2021-06-25  356  	struct mpam_resctrl_dom *dom;
+511a450ae3ea92 James Morse 2021-06-25  357  	u32 mon = *(u32 *)arch_mon_ctx;
+511a450ae3ea92 James Morse 2021-06-25  358  	enum mpam_device_features type;
+511a450ae3ea92 James Morse 2021-06-25  359  
+511a450ae3ea92 James Morse 2021-06-25  360  	resctrl_arch_rmid_read_context_check();
+511a450ae3ea92 James Morse 2021-06-25  361  
+511a450ae3ea92 James Morse 2021-06-25  362  	dom = container_of(d, struct mpam_resctrl_dom, resctrl_mon_dom);
+511a450ae3ea92 James Morse 2021-06-25  363  
+511a450ae3ea92 James Morse 2021-06-25  364  	switch (eventid) {
+511a450ae3ea92 James Morse 2021-06-25  365  	case QOS_L3_OCCUP_EVENT_ID:
+511a450ae3ea92 James Morse 2021-06-25  366  		type = mpam_feat_msmon_csu;
+511a450ae3ea92 James Morse 2021-06-25  367  		break;
+511a450ae3ea92 James Morse 2021-06-25  368  	case QOS_L3_MBM_LOCAL_EVENT_ID:
+511a450ae3ea92 James Morse 2021-06-25  369  	case QOS_L3_MBM_TOTAL_EVENT_ID:
+511a450ae3ea92 James Morse 2021-06-25  370  		type = mpam_feat_msmon_mbwu;
+511a450ae3ea92 James Morse 2021-06-25  371  		break;
+511a450ae3ea92 James Morse 2021-06-25  372  	default:
+511a450ae3ea92 James Morse 2021-06-25  373  		return -EINVAL;
+511a450ae3ea92 James Morse 2021-06-25  374  	}
+511a450ae3ea92 James Morse 2021-06-25  375  
+511a450ae3ea92 James Morse 2021-06-25  376  	cfg.mon = mon;
+511a450ae3ea92 James Morse 2021-06-25  377  	if (cfg.mon == USE_RMID_IDX)
+511a450ae3ea92 James Morse 2021-06-25  378  		cfg.mon = resctrl_arch_rmid_idx_encode(closid, rmid);
+511a450ae3ea92 James Morse 2021-06-25  379  
+511a450ae3ea92 James Morse 2021-06-25  380  	cfg.match_pmg = true;
+511a450ae3ea92 James Morse 2021-06-25  381  	cfg.pmg = rmid;
+0225f5d17c991f James Morse 2023-03-09  382  	cfg.opts = resctrl_evt_config_to_mpam(dom->mbm_local_evt_cfg);
+511a450ae3ea92 James Morse 2021-06-25  383  
+511a450ae3ea92 James Morse 2021-06-25 @384  	if (irqs_disabled()) {
+511a450ae3ea92 James Morse 2021-06-25  385  		/* Check if we can access this domain without an IPI */
+511a450ae3ea92 James Morse 2021-06-25  386  	} else {
+511a450ae3ea92 James Morse 2021-06-25  387  		if (cdp_enabled) {
+511a450ae3ea92 James Morse 2021-06-25  388  			cfg.partid = closid << 1;
+511a450ae3ea92 James Morse 2021-06-25  389  			err = mpam_msmon_read(dom->comp, &cfg, type, val);
+511a450ae3ea92 James Morse 2021-06-25  390  			if (err)
+511a450ae3ea92 James Morse 2021-06-25  391  				return err;
+511a450ae3ea92 James Morse 2021-06-25  392  
+511a450ae3ea92 James Morse 2021-06-25  393  			cfg.partid += 1;
+511a450ae3ea92 James Morse 2021-06-25  394  			err = mpam_msmon_read(dom->comp, &cfg, type, &cdp_val);
+511a450ae3ea92 James Morse 2021-06-25  395  			if (!err)
+511a450ae3ea92 James Morse 2021-06-25  396  				*val += cdp_val;
+511a450ae3ea92 James Morse 2021-06-25  397  		} else {
+511a450ae3ea92 James Morse 2021-06-25  398  			cfg.partid = closid;
+511a450ae3ea92 James Morse 2021-06-25  399  			err = mpam_msmon_read(dom->comp, &cfg, type, val);
+511a450ae3ea92 James Morse 2021-06-25  400  		}
+511a450ae3ea92 James Morse 2021-06-25  401  	}
+511a450ae3ea92 James Morse 2021-06-25  402  
+511a450ae3ea92 James Morse 2021-06-25  403  	return err;
+511a450ae3ea92 James Morse 2021-06-25  404  }
+511a450ae3ea92 James Morse 2021-06-25  405  
+
+:::::: The code at line 384 was first introduced by commit
+:::::: 511a450ae3ea928b6095521b4e44a6c874eeae86 arm_mpam: resctrl: Add resctrl_arch_rmid_read() and resctrl_arch_reset_rmid()
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: James Morse <james.morse@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
