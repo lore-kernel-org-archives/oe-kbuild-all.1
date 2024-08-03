@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F34D272
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068DE6FC1
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 03:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722655627; cv=none; b=katMBW7yi7Tdp2mswqOwbIZk8tovpxeTresAGlsiZV1Phf5kWUeR6XlLMXlDJDtJAU2Lok661P1Hqmnlr80YHnHN2AhqcvnRzqwFqmyGUL5HR5ul4p5EMlXvtDlAfXLT5rWJ35Pzgpm/OStPxaYo8b6Q1tp2MJeRWlR76rctodw=
+	t=1722655629; cv=none; b=V1MU9Ofh9KXt+imS/J5mJsjraSyju4bV92zcfGaS+300t/Nzwk+WC8ZA1kxT+ePoruYV5PZKjFfQMp9//uSajag5IKR0DCetVfY5WWYFbFYwkA2/I85kMM52PgKCkDGiQIE5ognhj+5gcMAP7PWzrIcBUYBWP3vWgDq+6lWx7uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722655627; c=relaxed/simple;
-	bh=JF+P6Y4wlPuHMWPWecbAuG3o8hYeE4p0W6PopneepNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ANsM1hEy4aOQPFj274YDW0mXZqhw6psYr7IKs0d3aNP/ddqvs5QLEjoJz5ZAmNMO33aI77BlvGh9dL6ri4ByVPArjW7oq6QarKaUZQdyNQ/VeIajbS+uxP6WiL/h8IcYx+E7UWo6QTRjlt6v6bTmjdZKxKITtCCdKosYxTe3F7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyubiQS5; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1722655629; c=relaxed/simple;
+	bh=t2g+cy/OjgVWTqCGmKuJZhUjGvTSGuqpZ6cCB8REBgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K/o3ZPha0FI7Etk6MNaG0BbgZFik7QbnVmUfbqB03MMbHBKZRqcQyFX475BjFuVxsOl71SFG3EKjwwX2IdiQtzRL7IwJHpHv0XVWY1gx6KrXrouUxqGkk5R5FAOme03KmgwdzaTLuuFZfafHI/r4KjrlbuaSyq64dRUR26NcHDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXtY5/50; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyubiQS5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXtY5/50"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722655625; x=1754191625;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JF+P6Y4wlPuHMWPWecbAuG3o8hYeE4p0W6PopneepNg=;
-  b=LyubiQS5o5GJsD1e2kfW9dj/Mpcel34damV1Fs1JQu6WKfcLaP/pl1Ei
-   PNPSAHdjW+feWchiX7Zzt22CynyIFdrjT25EeyaA7tMuDS8T6p8gTQVF2
-   tGCqLMItDdSq+IFWf/Uqa0S41lDb1XM6Yh6l0HtGRoVtfplWnA54ij0w8
-   MqOVDI68PTg/qXEItLF/bRY5BacXfucSRiItaTlGz4xfWbpIqsRwtVOXi
-   u2VvIYjAFiG0YwUjjowFG0QG/5GH33rUGUptgNnnyElYClq61KysGl7St
-   KNcRGIhTVSYEogXoC2z4Y6uXLULL4UBqEb+iXIQrIBVIvD5WommtRFuqa
-   w==;
-X-CSE-ConnectionGUID: SDYNqlaWRs2uxmWMbYXn0A==
-X-CSE-MsgGUID: vUos73TMRcGaibrTS4TOUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="31839928"
+  t=1722655626; x=1754191626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t2g+cy/OjgVWTqCGmKuJZhUjGvTSGuqpZ6cCB8REBgQ=;
+  b=aXtY5/500c+x3A3uT2xIhBdv24wKBXYe64pUdnFCSAGY2FmIC2kl2hZO
+   erVSqA/8odgTT/pLcCbCH8eXKUtwlfP4yDFPCDoqhaZtQDVmnLUOmaYQr
+   nfyEeue8P5WSkv/FLQEh9qkwk20A8IugKBQMhHYUJXSj1ss1wHMZ/fLh3
+   Sq48hVgY+JR8Q6PZG+aQcjcUgYUw2Vrl7HQJbuOymywsT61dhwtcYfsPX
+   KuCzsi7TAoWPBj1Gj8cnUGRk1p2DV7Mot0tHe1GECqLzIlBCf9HB9PSry
+   uBhsNlL25IOLGE202c00XLbFlp3ZzvlckjLV+H3RM2SlfOE8W86dWjgNE
+   A==;
+X-CSE-ConnectionGUID: jtlm43acSFqfcBAjaOXKdw==
+X-CSE-MsgGUID: PaT/a0ZxRv2teKilhveFnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20267037"
 X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
-   d="scan'208";a="31839928"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 20:27:04 -0700
-X-CSE-ConnectionGUID: fgkICvSeRla2LBGZXlRNIg==
-X-CSE-MsgGUID: MDqN6xH+SXWBxL8kkFS6UQ==
+   d="scan'208";a="20267037"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 20:27:05 -0700
+X-CSE-ConnectionGUID: rbqBfRUrRgiFVmVIqy1xHw==
+X-CSE-MsgGUID: p6nMtJlYSXiU1nlVEpmJpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
-   d="scan'208";a="78880736"
+   d="scan'208";a="60603074"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Aug 2024 20:27:03 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 Aug 2024 20:27:04 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sa5Q5-000xx8-0a;
+	id 1sa5Q5-000xxB-0e;
 	Sat, 03 Aug 2024 03:27:01 +0000
-Date: Sat, 3 Aug 2024 11:26:27 +0800
+Date: Sat, 3 Aug 2024 11:26:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:ptdesc 14/17]
- arch/powerpc/include/asm/book3s/64/pgtable.h:1372:52: error: incompatible
- pointer types passing 'struct ptdesc *' to parameter of type 'struct ptdesc
- *'
-Message-ID: <202408031130.UnwgnuLS-lkp@intel.com>
+To: Tom Herbert <tom@herbertland.com>, davem@davemloft.net, kuba@kernel.org,
+	edumazet@google.com, netdev@vger.kernel.org, felipe@sipanda.io
+Cc: oe-kbuild-all@lists.linux.dev, Tom Herbert <tom@herbertland.com>
+Subject: Re: [PATCH 07/12] flow_dissector: Parse vxlan in UDP
+Message-ID: <202408031144.ln4wxJc4-lkp@intel.com>
+References: <20240731172332.683815-8-tom@herbertland.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,123 +63,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240731172332.683815-8-tom@herbertland.com>
 
-tree:   https://github.com/alexshi/linux.git ptdesc
-head:   3735e634f8feb67c941d17222b53906ace2fd2b8
-commit: 8ac2ea5f299444d065b292043aed0a1e94996159 [14/17] mm/pgtable: use ptdesc in pgtable_trans_huge_deposit
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240803/202408031130.UnwgnuLS-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031130.UnwgnuLS-lkp@intel.com/reproduce)
+Hi Tom,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.11-rc1 next-20240802]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Herbert/skbuff-Unconstantify-struct-net-argument-in-flowdis-functions/20240802-084418
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240731172332.683815-8-tom%40herbertland.com
+patch subject: [PATCH 07/12] flow_dissector: Parse vxlan in UDP
+config: i386-randconfig-062-20240802 (https://download.01.org/0day-ci/archive/20240803/202408031144.ln4wxJc4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031144.ln4wxJc4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031130.UnwgnuLS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031144.ln4wxJc4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/core/flow_dissector.c:780:16: sparse: sparse: restricted __be32 degrades to integer
+   net/core/flow_dissector.c: note: in included file (through include/linux/if_pppox.h):
+   include/uapi/linux/if_pppox.h:153:29: sparse: sparse: array of flexible structures
 
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
-   In file included from arch/powerpc/include/asm/current.h:13:
-   In file included from arch/powerpc/include/asm/paca.h:18:
-   In file included from arch/powerpc/include/asm/mmu.h:377:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
-   In file included from arch/powerpc/include/asm/book3s/64/pgtable.h:297:
-   In file included from arch/powerpc/include/asm/book3s/64/hash.h:17:
-   arch/powerpc/include/asm/book3s/64/hash-64k.h:277:18: warning: declaration of 'struct ptdesc' will not be visible outside of this function [-Wvisibility]
-     277 |                                              struct ptdesc *ptdesc);
-         |                                                     ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
-   In file included from arch/powerpc/include/asm/current.h:13:
-   In file included from arch/powerpc/include/asm/paca.h:18:
-   In file included from arch/powerpc/include/asm/mmu.h:377:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
->> arch/powerpc/include/asm/book3s/64/pgtable.h:1372:52: error: incompatible pointer types passing 'struct ptdesc *' to parameter of type 'struct ptdesc *' [-Werror,-Wincompatible-pointer-types]
-    1372 |         return hash__pgtable_trans_huge_deposit(mm, pmdp, ptdesc);
-         |                                                           ^~~~~~
-   arch/powerpc/include/asm/book3s/64/hash-64k.h:277:26: note: passing argument to parameter 'ptdesc' here
-     277 |                                              struct ptdesc *ptdesc);
-         |                                                             ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:19:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2234:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1193: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +780 net/core/flow_dissector.c
 
-
-vim +1372 arch/powerpc/include/asm/book3s/64/pgtable.h
-
-  1355	
-  1356	#define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR_FULL
-  1357	pmd_t pmdp_huge_get_and_clear_full(struct vm_area_struct *vma,
-  1358					   unsigned long addr,
-  1359					   pmd_t *pmdp, int full);
-  1360	
-  1361	#define __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR_FULL
-  1362	pud_t pudp_huge_get_and_clear_full(struct vm_area_struct *vma,
-  1363					   unsigned long addr,
-  1364					   pud_t *pudp, int full);
-  1365	
-  1366	#define __HAVE_ARCH_PGTABLE_DEPOSIT
-  1367	static inline void pgtable_trans_huge_deposit(struct mm_struct *mm,
-  1368						      pmd_t *pmdp, struct ptdesc *ptdesc)
-  1369	{
-  1370		if (radix_enabled())
-  1371			return radix__pgtable_trans_huge_deposit(mm, pmdp, ptdesc);
-> 1372		return hash__pgtable_trans_huge_deposit(mm, pmdp, ptdesc);
-  1373	}
-  1374	
+   760	
+   761	static enum flow_dissect_ret
+   762	__skb_flow_dissect_vxlan(const struct sk_buff *skb,
+   763				 struct flow_dissector *flow_dissector,
+   764				 void *target_container, const void *data,
+   765				 __be16 *p_proto, int *p_nhoff, int hlen,
+   766				 unsigned int flags)
+   767	{
+   768		struct vxlanhdr *hdr, _hdr;
+   769		__be16 protocol;
+   770	
+   771		hdr = __skb_header_pointer(skb, *p_nhoff, sizeof(_hdr), data, hlen,
+   772					   &_hdr);
+   773		if (!hdr)
+   774			return FLOW_DISSECT_RET_OUT_BAD;
+   775	
+   776		/* VNI flag always required to be set */
+   777		if (!(hdr->vx_flags & VXLAN_HF_VNI))
+   778			return FLOW_DISSECT_RET_OUT_BAD;
+   779	
+ > 780		if (hdr->vx_flags & VXLAN_F_GPE) {
+   781			struct vxlanhdr_gpe *gpe = (struct vxlanhdr_gpe *)hdr;
+   782	
+   783			/* Need to have Next Protocol set for interfaces in GPE mode. */
+   784			if (!gpe->np_applied)
+   785				return FLOW_DISSECT_RET_OUT_BAD;
+   786	
+   787			/* The initial version is 0 */
+   788			if (gpe->version != 0)
+   789				return FLOW_DISSECT_RET_OUT_GOOD;
+   790	
+   791			/* "When the O bit is set to 1, the packet is an OAM packet and
+   792			 * OAM so ignore
+   793			 */
+   794			if (gpe->oam_flag)
+   795				return FLOW_DISSECT_RET_OUT_GOOD;
+   796	
+   797			protocol = tun_p_to_eth_p(gpe->next_protocol);
+   798			if (!protocol)
+   799				return FLOW_DISSECT_RET_OUT_GOOD;
+   800		} else {
+   801			protocol = htons(ETH_P_TEB);
+   802		}
+   803	
+   804		*p_nhoff += sizeof(struct vxlanhdr);
+   805		*p_proto = protocol;
+   806	
+   807		return FLOW_DISSECT_RET_PROTO_AGAIN;
+   808	}
+   809	
 
 -- 
 0-DAY CI Kernel Test Service
