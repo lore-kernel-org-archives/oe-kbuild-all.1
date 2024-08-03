@@ -1,66 +1,60 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F05C1B94F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 19:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B28770E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 19:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722714080; cv=none; b=VTDAR7OcmhQBpJE58QxcR+pbZ7lcg6EwK4v1vavDKeuCcLfCWBEs/mz6xF+6cOceInSM/ryyciJXHmGgONi8IUfvDNpZGMWUkQvH/gYhgH1nbyxVR5iYdmYFb7wByRqFgw2z8KcGlz0k27HeWY1ar1BfzRgWBB4Q5uP/I2B3HW0=
+	t=1722714809; cv=none; b=MHN/igNx5ZdUPeOpx1wFV0DpiKKNIaCIaVY0AeHE09zrXX1ahUM1Trs+aEcdtCiQhjGsX8UUdkDSJc7/TUG9wadriBeIEoXFag/K1fGyPCg5Xrs06OBZIDJwgqabJKVM0NfnD8vttSlF3W8TyaYahNep2pkoa0RhpiATpK2lfq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722714080; c=relaxed/simple;
-	bh=QPRArO0MuBSL6Ptc7Qttul93uAgP87NlNurKfzODOU8=;
+	s=arc-20240116; t=1722714809; c=relaxed/simple;
+	bh=XIQQfr/j5RbIe6aGycbvkK7n6pcN1kM4XK/bGjt4SM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UQVlhOGbdKDB3Rw06ZmoA4UZZK+GMN5e5mK3sT8KF3z7N629Q+DguV4GG32ghlIrY69SxMudtbq/jP6iumVvCwRSbziLzpn/FzFJC3++inUWZhCz/sLQHkMtWjjmMxQuDkn7+28KqXQB2z/KJwW+PJR5jtpOB8gwAskLb/oTVP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IItvZSQt; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=ghUxGWM1mfYGUk1oLX3zBVNIP6611R4kTiu4W8hVxp/kcEtQ4GMs4zFxn+6pC5PN1OpiMhUrIwSmTmWJABFNzA+bGeLCjKsHr39KiCdnykx0warmNDEoArpv+x60Bm1jaXppBTfVvP/uPTUSdh9ixweiX8yti0ahtkw/rHQOEew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NSiYul1g; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IItvZSQt"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-709340bd54dso2302266a34.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Aug 2024 12:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722714078; x=1723318878; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SXi4FDi/lG1ua7pG911h3uQhY5wW6bTIlHOV/7MkZHY=;
-        b=IItvZSQtH3r44P3WCKcTIL2nKCDsVrUigOgzuIddtQ5hGOXNvLZ9qMyxEiOURljeJG
-         3cNqSDvvnXOqHKjhksNxSf/maMKFXa2AoJT2iEKiFc46ksUQIHyTm7zeCCGc3KwmTnZM
-         zJHk4QwZ41BYZa9FoVYfzL/e4rIUrVqY/F4QRLbExpwhb/dtHCSY+DS9Vkmrp9qf5tcu
-         /4n62KJNbfsYGPu0wKP7Gn01NrNHFvMRWoiOPbFoYB5U0eSZM5jUZnCki6GRYW2Qf4vd
-         SeGt994/J5uPsYbhpdKmdZeV76fOOOuM2Dd52/y2aE9KxzL9gTOctbLdRKUFcB9hkqkT
-         PacA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722714078; x=1723318878;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SXi4FDi/lG1ua7pG911h3uQhY5wW6bTIlHOV/7MkZHY=;
-        b=AoyP/I/V/O7nUjGGTTA48hthycJf9SjGBRYi6Kv/M1lWKfwLSJ7q/SiMlirzXBAnJb
-         Qu84btB4uF6UZZ7Ux3ldDlENVoGSssGeaE9pk9XAQ/D/imE9JlfYE+zYiCNyTWOR+XxC
-         ClbOISS5+5ddhRRNLaaNlL2DHVCfnToOEDOJci7tihlFmM8HW20X3ZqcMYaws0+Rm874
-         JcRh74trjoboYaX2gDlDdQAUbUU3rPX0jFaHJCUW2kUSEERMB2QlSHTtm2/BksXy2X5l
-         ChecTt4g/yRuF3iBKzlbGX00Kao0Oml7KLiRcHc+l0BD/4TOjNoXkzqC3QXhDpOeK4u8
-         rTnw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Ye+/JIglrFobGLyOB6YO64fUTddQZZZzpEsRMdXsJI5fg8kHNG4wX7r5h/Tkkw3jI+Y2nf6KDVYpuviyNNG4K4ZEUCAu1dMwVAjt+g==
-X-Gm-Message-State: AOJu0YwZ31sjL7kAP9wqjfzTTCfRbvZU3cIT+brlORQb1TkEsm/FqoXf
-	yfdglodVL1hW7SE9AzH0PDS4wyGzsd+nfIXFy3695JnNM6VbnsN67ILChFFqNOk=
-X-Google-Smtp-Source: AGHT+IHlbBi5iVPhTtzyHdf7wzm9eydZUeT0S3ljF/oaqIpQWZBEUb0XOM4K2jmDFZ8rks469IDnKQ==
-X-Received: by 2002:a05:6830:6b83:b0:709:373f:fc92 with SMTP id 46e09a7af769-7096feb4f8bmr3742311a34.1.1722714077688;
-        Sat, 03 Aug 2024 12:41:17 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:9579:8eb1:34ef:d5d7])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70a3a769072sm1585908a34.68.2024.08.03.12.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Aug 2024 12:41:17 -0700 (PDT)
-Date: Sat, 3 Aug 2024 14:41:14 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.12 28/29]
- drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn:
- passing zero to 'PTR_ERR'
-Message-ID: <5256b88a-63e1-4e32-9383-5fc9f9bee0d4@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSiYul1g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722714807; x=1754250807;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XIQQfr/j5RbIe6aGycbvkK7n6pcN1kM4XK/bGjt4SM4=;
+  b=NSiYul1gUpkFXaFLOcvWB0Vsd6//+fOb6ezEbIagbOBpkt+0sLeiUXlP
+   kbXNGZ8u+UOTBEEmVaLniS/SD0g3jpUYVeNSAoVDVvXz3kgOLJW9FJSFb
+   UD3mOWZ5Ux5n6aQ6R158dR+LPuYybbOCkt2BqCOZJJzJ73TMNHFWf3MKa
+   FL2/3ppM6VCySkLQLKYb5G1ZkinKdI0fGXvthigaOc1LShUbHYuD2SQbz
+   HlYpn1KJ4i1E/GITxPgsqoOYspUirY1xKNvWp34QBev4n+DAmiYILnBI0
+   7CmUZrYKjBXjEFrHqG/CdlXz1m9upedDMRFXMX037aoQbWdQdw9mUDl5D
+   Q==;
+X-CSE-ConnectionGUID: 5mB5XDnWQsmLwUUjH8kVLQ==
+X-CSE-MsgGUID: Y1IjlM8nS7eBe5HJUbpYqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="23628752"
+X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
+   d="scan'208";a="23628752"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 12:53:26 -0700
+X-CSE-ConnectionGUID: TsiE3a/cQweMFA+N7zcYJA==
+X-CSE-MsgGUID: LSLFFZqGSQu7MIAm7TOVCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
+   d="scan'208";a="55443562"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 03 Aug 2024 12:53:25 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1saKod-0000ss-1H;
+	Sat, 03 Aug 2024 19:53:23 +0000
+Date: Sun, 4 Aug 2024 03:52:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nava kishore Manne <nava.manne@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 595/1093]
+ drivers/fpga/fpga-mgr.c:933:undefined reference to `dma_buf_get'
+Message-ID: <202408040354.qoBUCPSg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,85 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.12
-head:   42b54d52ecb7a81998592c2b40f8a963e82ed02e
-commit: dd22e56217495e2d392ded86a1e11a908e424e64 [28/29] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
-config: parisc-randconfig-r081-20240803 (https://download.01.org/0day-ci/archive/20240803/202408032025.ve2JMaoV-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
+head:   868286d51b5753a66ab89c1c899510c6047b998d
+commit: dc67651172095c04c4e6e1a64983036f4e654fd2 [595/1093] fpga: support loading from a pre-allocated buffer
+config: riscv-randconfig-001-20240803 (https://download.01.org/0day-ci/archive/20240804/202408040354.qoBUCPSg-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040354.qoBUCPSg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408032025.ve2JMaoV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408040354.qoBUCPSg-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +269 drivers/clk/renesas/rzv2h-cpg.c
+   riscv64-linux-ld: drivers/fpga/fpga-mgr.o: in function `fpga_device_ioctl':
+>> drivers/fpga/fpga-mgr.c:933:(.text+0x8fa): undefined reference to `dma_buf_get'
+   riscv64-linux-ld: drivers/fpga/fpga-mgr.o: in function `firmware_store':
+>> drivers/fpga/fpga-mgr.c:715:(.text+0x1090): undefined reference to `dma_buf_attach'
+>> riscv64-linux-ld: drivers/fpga/fpga-mgr.c:723:(.text+0x10b8): undefined reference to `dma_buf_map_attachment'
+   riscv64-linux-ld: drivers/fpga/fpga-mgr.o: in function `fpga_mgr_load':
+>> drivers/fpga/fpga-mgr.c:616:(.text+0x10e0): undefined reference to `dma_buf_unmap_attachment'
+>> riscv64-linux-ld: drivers/fpga/fpga-mgr.c:617:(.text+0x10ee): undefined reference to `dma_buf_detach'
+   riscv64-linux-ld: drivers/fpga/fpga-mgr.o: in function `fpga_dmabuf_load':
+>> drivers/fpga/fpga-mgr.c:536:(.text+0x10fc): undefined reference to `dma_buf_put'
 
-dd22e56217495e Lad Prabhakar 2024-07-29  220  static void __init
-dd22e56217495e Lad Prabhakar 2024-07-29  221  rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
-dd22e56217495e Lad Prabhakar 2024-07-29  222  			    struct rzv2h_cpg_priv *priv)
-dd22e56217495e Lad Prabhakar 2024-07-29  223  {
-dd22e56217495e Lad Prabhakar 2024-07-29  224  	struct clk *clk = ERR_PTR(-EOPNOTSUPP), *parent;
-dd22e56217495e Lad Prabhakar 2024-07-29  225  	unsigned int id = core->id, div = core->div;
-dd22e56217495e Lad Prabhakar 2024-07-29  226  	struct device *dev = priv->dev;
-dd22e56217495e Lad Prabhakar 2024-07-29  227  	const char *parent_name;
-dd22e56217495e Lad Prabhakar 2024-07-29  228  	struct clk_hw *clk_hw;
-dd22e56217495e Lad Prabhakar 2024-07-29  229  
-dd22e56217495e Lad Prabhakar 2024-07-29  230  	WARN_DEBUG(id >= priv->num_core_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  231  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
-dd22e56217495e Lad Prabhakar 2024-07-29  232  
-dd22e56217495e Lad Prabhakar 2024-07-29  233  	switch (core->type) {
-dd22e56217495e Lad Prabhakar 2024-07-29  234  	case CLK_TYPE_IN:
-dd22e56217495e Lad Prabhakar 2024-07-29  235  		clk = of_clk_get_by_name(priv->dev->of_node, core->name);
-dd22e56217495e Lad Prabhakar 2024-07-29  236  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  237  	case CLK_TYPE_FF:
-dd22e56217495e Lad Prabhakar 2024-07-29  238  		WARN_DEBUG(core->parent >= priv->num_core_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  239  		parent = priv->clks[core->parent];
-dd22e56217495e Lad Prabhakar 2024-07-29  240  		if (IS_ERR(parent)) {
-dd22e56217495e Lad Prabhakar 2024-07-29  241  			clk = parent;
-dd22e56217495e Lad Prabhakar 2024-07-29  242  			goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  243  		}
-dd22e56217495e Lad Prabhakar 2024-07-29  244  
-dd22e56217495e Lad Prabhakar 2024-07-29  245  		parent_name = __clk_get_name(parent);
-dd22e56217495e Lad Prabhakar 2024-07-29  246  		clk_hw = devm_clk_hw_register_fixed_factor(dev, core->name,
-dd22e56217495e Lad Prabhakar 2024-07-29  247  							   parent_name, CLK_SET_RATE_PARENT,
-dd22e56217495e Lad Prabhakar 2024-07-29  248  							   core->mult, div);
-dd22e56217495e Lad Prabhakar 2024-07-29  249  		if (IS_ERR(clk_hw))
-dd22e56217495e Lad Prabhakar 2024-07-29  250  			clk = ERR_CAST(clk_hw);
-dd22e56217495e Lad Prabhakar 2024-07-29  251  		else
-dd22e56217495e Lad Prabhakar 2024-07-29  252  			clk = clk_hw->clk;
-dd22e56217495e Lad Prabhakar 2024-07-29  253  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  254  	case CLK_TYPE_PLL:
-dd22e56217495e Lad Prabhakar 2024-07-29  255  		clk = rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
-dd22e56217495e Lad Prabhakar 2024-07-29  256  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  257  	default:
-dd22e56217495e Lad Prabhakar 2024-07-29  258  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  259  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  260  
-dd22e56217495e Lad Prabhakar 2024-07-29  261  	if (IS_ERR_OR_NULL(clk))
-dd22e56217495e Lad Prabhakar 2024-07-29  262  		goto fail;
 
-Generally when a function returns both error pointers and NULL, the NULL
-should not print a dev_err().  I feel like in this case, the Kconfig
-rules should prevent a NULL return so this bug is likely harmless but
-I haven't investigated outside of looking at this email.
+vim +933 drivers/fpga/fpga-mgr.c
 
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-dd22e56217495e Lad Prabhakar 2024-07-29  263  
-dd22e56217495e Lad Prabhakar 2024-07-29  264  	dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
-dd22e56217495e Lad Prabhakar 2024-07-29  265  	priv->clks[id] = clk;
-dd22e56217495e Lad Prabhakar 2024-07-29  266  	return;
-dd22e56217495e Lad Prabhakar 2024-07-29  267  
-dd22e56217495e Lad Prabhakar 2024-07-29  268  fail:
-dd22e56217495e Lad Prabhakar 2024-07-29 @269  	dev_err(dev, "Failed to register core clock %s: %ld\n",
-dd22e56217495e Lad Prabhakar 2024-07-29  270  		core->name, PTR_ERR(clk));
-dd22e56217495e Lad Prabhakar 2024-07-29  271  }
+   926	
+   927	static long fpga_device_ioctl(struct file *file, unsigned int cmd,
+   928				      unsigned long arg)
+   929	{
+   930		char __user *argp = (char __user *)arg;
+   931		int err;
+   932	
+ > 933		switch (cmd) {
+   934		case FPGA_IOCTL_LOAD_DMA_BUFF:
+   935			err = fpga_dmabuf_fd_get(file, argp);
+   936			break;
+   937		default:
+   938			err = -ENOTTY;
+   939		}
+   940	
+   941		return err;
+   942	}
+   943	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
