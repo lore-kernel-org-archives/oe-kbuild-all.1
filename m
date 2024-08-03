@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4B914D28F;
-	Sat,  3 Aug 2024 06:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B601D2EE
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 07:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722667417; cv=none; b=r4dvWZ1E53iieAkWVlbhycBDrd4rollvZmRYuc6h0OOKPY5bTo6NE//ZLt41GQ6MnqkbE0VYkBw0E34pd/WX7Ctbpewc4pTU5RsqJLtp9n5LLvRIZkEAoW2dDrypHbBKR/G7tzwk3RLCcJ9FIj5dCsVUrLfxr2SI7nd0ERceRJ0=
+	t=1722668594; cv=none; b=qxG0nkj20o5j0Wcir5VBeytTkP0Mlpz9RUvSx6+r2v37JM0t08zSrQRSmpHlRZN6TVBBSeajzpXgl24Q/xbKklSYY4TmUN8E94XwA3qzpA1oH8+OnF6BaRu2klHv+OjtPW5OmjYmBMdmuUG439mWjx4zbFSEStvySzmTsCiopBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722667417; c=relaxed/simple;
-	bh=7SlswvezL0zvAhUahzb7iLkepv0ev2wkEtxh6jzMK9U=;
+	s=arc-20240116; t=1722668594; c=relaxed/simple;
+	bh=hYzi8riaGnM9XUu2vO476yvoQjVYbT9Di7Gxk/LkAS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BXquc1oOFjMnJIjxMCjadrqrJi6sqSTxYWSiWgaaX6ZB83Z6OYqbzPtv6ZkyN0a8sz2AHC6FbtFNYI5DV5pdRJCOA6efMdgdXc6yKKGA3E3NXX4E09xWuQyqo6Di3AJHvaEEzMkbHzQdsoXcrjpOjggf2gcckpfgrDi27GG0vkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nr5Mo8rV; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=aDr72ZptxIs+idHSnR4aYDZRWW5nqn/8yvb54vK47UPrUAmdj4G+OU7tws56p8KwQ48FLcQa7Vmr1NRMjx2wRf0DZm8tTw7/ZcE2XfRl96aeMVagDCS2Oo+aCfUxvx0GfffgjpMsw9LYqB6uwwBuDiJWXGkW5OvGQxXYwMenAqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZir4/Bk; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nr5Mo8rV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZir4/Bk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722667416; x=1754203416;
+  t=1722668591; x=1754204591;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7SlswvezL0zvAhUahzb7iLkepv0ev2wkEtxh6jzMK9U=;
-  b=Nr5Mo8rVsqP46lRjIrwylwWgV+ZhEKPNZ2FTPgG7+bfX/TIHpAUCuG8A
-   trvF1tqsUNnkL0lhcp8Z0sEKkik9CdxmfLlIEeOYKdHL6oQTap7CWwShe
-   pkl5ZcYRP+PWYHUTeZAUwjE+iNx3rHHinYG5MkAattH6FZvmhXp0CDB9m
-   RhIYK1tr0FfDTNg0eJ4zvy5rsLp3/1Kt2eqbOvTtj8eTAWLmojT8r56S9
-   wRGkfgljvIyiHV7i2bQ468g0b8x7jKYizD6zsT5WBus1d+DY87ht4sGGN
-   dSKKD3bLZjnhoKZvFSh8t+BSRGpQmGfNomUtNeMg3jN98ikkI9qRbyE+V
+  bh=hYzi8riaGnM9XUu2vO476yvoQjVYbT9Di7Gxk/LkAS8=;
+  b=gZir4/BkPhDBp5MmmMLRkwEnJ8M3dWT7Y6P1fgcb1KFK+7xdnzkeUVz1
+   Z81jw1jO679fyoI4yVZICDy9TZ1c9d71AzBQsbeG/iJARtG3dpouRtNIu
+   wTjbsvl1pcWPPSN2VrHtMOXsmr21Xx92POLq36n2xgrGNbpcBbOL3eBZI
+   lS1Uu4VN49tuHoTO8pllYJAvhTPmn4ni58R2VyAWZ/t4doSb+uXAmw4ni
+   HZy6RxXJVihtWS7cW9mcpn1Mz+dOtXPQnshB4lXz3pyemZuypU5x0NQLW
+   GGXSerlza1xi7sPm65+Pf0Ht8CfD0GhWeDx3iELa2PzJFlgBeD3f4VBXb
    A==;
-X-CSE-ConnectionGUID: IQ/Euh2XSaqeBLwk4ZpL9Q==
-X-CSE-MsgGUID: /xBb7WRBT7aiiKrQoTuIPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20810082"
+X-CSE-ConnectionGUID: PskMY2JYQGutF/rSUxGFCA==
+X-CSE-MsgGUID: IcGialEYRuKBKkuSGKRkuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20640602"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="20810082"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 23:43:36 -0700
-X-CSE-ConnectionGUID: 9NmlPVhzQM6ecZsJL0ZguA==
-X-CSE-MsgGUID: +bOlF8RqRf6CAkFI/5G8Zw==
+   d="scan'208";a="20640602"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 00:03:11 -0700
+X-CSE-ConnectionGUID: KPfVvY4fQEmCas1hcjyiIQ==
+X-CSE-MsgGUID: N2qCF2XSQMiirYoq92Z5Gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="56244622"
+   d="scan'208";a="55298360"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Aug 2024 23:43:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 03 Aug 2024 00:03:08 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sa8UE-0000Bp-1J;
-	Sat, 03 Aug 2024 06:43:31 +0000
-Date: Sat, 3 Aug 2024 14:41:43 +0800
+	id 1sa8n1-0000Eo-2G;
+	Sat, 03 Aug 2024 07:02:58 +0000
+Date: Sat, 3 Aug 2024 15:02:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot+extras/v6.11-rc1 151/152]
- include/linux/arm_mpam.h:11:10: fatal error: 'asm/mpam.h' file not found
-Message-ID: <202408031416.mhtafdic-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	Steve French <stfrench@microsoft.com>
+Subject: [cifs:5.15-backport-8-1-24 340/600] fs/cifs/readdir.c:554:25: error:
+ 'FILE_UNIX_INFO' has no member named 'FileName'
+Message-ID: <202408031410.PCGwvvpJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +64,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot+extras/v6.11-rc1
-head:   31781dfaf7c1998c9a37ccb074dea9638612653c
-commit: 8b1745a307374e2ce65e37e124232410b0183ac3 [151/152] fs/resctrl: Add cranky debug for reading CPU msr values
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240803/202408031416.mhtafdic-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031416.mhtafdic-lkp@intel.com/reproduce)
+Hi Kees,
+
+FYI, the error/warning still remains.
+
+tree:   git://git.samba.org/sfrench/cifs-2.6.git 5.15-backport-8-1-24
+head:   c931999946e12679e0adc129509a1e23a4a64b5d
+commit: 57058257ea5c99c77c015cb17a3f97d8f6a4cf9f [340/600] cifs: Replace remaining 1-element arrays
+config: i386-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031410.PCGwvvpJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031410.PCGwvvpJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031416.mhtafdic-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031410.PCGwvvpJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/platform/arm64/mpam/mpam_resctrl.c:6:
->> include/linux/arm_mpam.h:11:10: fatal error: 'asm/mpam.h' file not found
-      11 | #include <asm/mpam.h>
-         |          ^~~~~~~~~~~~
-   1 error generated.
+   In file included from fs/cifs/readdir.c:15:
+   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2289:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2289 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2328:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2328 |         DECLARE_FLEX_ARRAY(char, LinkDest);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2377:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2377 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2488:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2488 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/readdir.c: In function 'cifs_fill_dirent_unix':
+>> fs/cifs/readdir.c:554:25: error: 'FILE_UNIX_INFO' has no member named 'FileName'
+     554 |         de->name = &info->FileName[0];
+         |                         ^~
 
 
-vim +11 include/linux/arm_mpam.h
+vim +554 fs/cifs/readdir.c
 
-    10	
-  > 11	#include <asm/mpam.h>
-    12	
+3d519bd1269f1f Aurelien Aptel    2020-02-08  550  
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  551  static void cifs_fill_dirent_unix(struct cifs_dirent *de,
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  552  		const FILE_UNIX_INFO *info, bool is_unicode)
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  553  {
+cda0ec6a86f181 Christoph Hellwig 2011-07-16 @554  	de->name = &info->FileName[0];
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  555  	if (is_unicode)
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  556  		de->namelen = cifs_unicode_bytelen(de->name);
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  557  	else
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  558  		de->namelen = strnlen(de->name, PATH_MAX);
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  559  	de->resume_key = info->ResumeKey;
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  560  	de->ino = le64_to_cpu(info->basic.UniqueId);
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  561  }
+cda0ec6a86f181 Christoph Hellwig 2011-07-16  562  
+
+:::::: The code at line 554 was first introduced by commit
+:::::: cda0ec6a86f18127d490048a46de954c03886d5e cifs: introduce cifs_dirent
+
+:::::: TO: Christoph Hellwig <hch@infradead.org>
+:::::: CC: Steve French <sfrench@us.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
