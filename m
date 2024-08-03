@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FDE18E10
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 19:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F05C1B94F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 19:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722712339; cv=none; b=E4TxptEGvmiwk4BLpQ1jZmsMBD1e34AIDcJHUhYLxY/uuFc/EhNJ1VKcQVbwWdK0yoZURJ8/4gtYp9lEGykQzDovcgmjhbHDhr5BCWYiFc4ykBRFeE7JwaOTY41crwaJ1kZe1NSHJfAIWTYB1ewGJpZxBqFPHgO4M/ZIf8lZiyQ=
+	t=1722714080; cv=none; b=VTDAR7OcmhQBpJE58QxcR+pbZ7lcg6EwK4v1vavDKeuCcLfCWBEs/mz6xF+6cOceInSM/ryyciJXHmGgONi8IUfvDNpZGMWUkQvH/gYhgH1nbyxVR5iYdmYFb7wByRqFgw2z8KcGlz0k27HeWY1ar1BfzRgWBB4Q5uP/I2B3HW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722712339; c=relaxed/simple;
-	bh=j0XCYJUkQ27QOKqepw8d573zOaisTMn7DfqFCZinWTs=;
+	s=arc-20240116; t=1722714080; c=relaxed/simple;
+	bh=QPRArO0MuBSL6Ptc7Qttul93uAgP87NlNurKfzODOU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=APvqRRsf2CRYRvCfIlbHJzs6tl7qLHy5v7/RaEVsrhO8vq99wmxh10iICEztEfJMd4PISbUX7rwK1yww193kxAWcXusitUxQYH3h0giq5bdJSpVAeDn1+Z3WRt+kH6e2t/5rcIOLU1C2Zi2/kYYFv6oXeJBKH1Pz+IuKEmqnsJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bstBDpqF; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=UQVlhOGbdKDB3Rw06ZmoA4UZZK+GMN5e5mK3sT8KF3z7N629Q+DguV4GG32ghlIrY69SxMudtbq/jP6iumVvCwRSbziLzpn/FzFJC3++inUWZhCz/sLQHkMtWjjmMxQuDkn7+28KqXQB2z/KJwW+PJR5jtpOB8gwAskLb/oTVP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IItvZSQt; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bstBDpqF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722712337; x=1754248337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j0XCYJUkQ27QOKqepw8d573zOaisTMn7DfqFCZinWTs=;
-  b=bstBDpqFO8HzAmoei6DSRYB7IQ0ZVluqdLXvHWuIUvm1X+f0Aq6We2eQ
-   0V7TwjZAaHkggI4KOKxnYrcSneTlQqt7JtjV7ImU7COY/WIkMyMAHXSag
-   aXtk6Ie1aCqpjwtQ2AdHcK0//zDjq88Cztem9ZcqTQmdFimvGfdFYjbSk
-   8ibyJJYc2udmX/kica3eIcm1b6bUXi8zdKz4M01Wa88+XXIo4hjgnwpqX
-   kuzvGGo4AboYtsAIEBTx9Yj1YV6l31udQEA/eRuzdN+JljDFL07zqF7IM
-   lOdtEcJCHqe8aOFQ2ckoZ2U2JAyyiPyFCsBpiH5I0hwtEuJSpmQvtLl45
-   Q==;
-X-CSE-ConnectionGUID: S6sl4K+fQnC1ryVKdI9vfw==
-X-CSE-MsgGUID: syMB1rzkTdqOufDB58FKSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20557659"
-X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="20557659"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 12:12:16 -0700
-X-CSE-ConnectionGUID: JjnVZuvrTOiQuMv57CPmdQ==
-X-CSE-MsgGUID: +7KoKhdnSZ6VBerg4BzgKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="56511172"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 03 Aug 2024 12:12:14 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1saKAl-0000rE-32;
-	Sat, 03 Aug 2024 19:12:11 +0000
-Date: Sun, 4 Aug 2024 03:11:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ian Abbott <abbotti@mev.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: ERROR: modpost: "__popcountsi2"
- [drivers/comedi/drivers/adl_pci9111.ko] undefined!
-Message-ID: <202408040337.zq5qZ5bA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IItvZSQt"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-709340bd54dso2302266a34.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Aug 2024 12:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722714078; x=1723318878; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SXi4FDi/lG1ua7pG911h3uQhY5wW6bTIlHOV/7MkZHY=;
+        b=IItvZSQtH3r44P3WCKcTIL2nKCDsVrUigOgzuIddtQ5hGOXNvLZ9qMyxEiOURljeJG
+         3cNqSDvvnXOqHKjhksNxSf/maMKFXa2AoJT2iEKiFc46ksUQIHyTm7zeCCGc3KwmTnZM
+         zJHk4QwZ41BYZa9FoVYfzL/e4rIUrVqY/F4QRLbExpwhb/dtHCSY+DS9Vkmrp9qf5tcu
+         /4n62KJNbfsYGPu0wKP7Gn01NrNHFvMRWoiOPbFoYB5U0eSZM5jUZnCki6GRYW2Qf4vd
+         SeGt994/J5uPsYbhpdKmdZeV76fOOOuM2Dd52/y2aE9KxzL9gTOctbLdRKUFcB9hkqkT
+         PacA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722714078; x=1723318878;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SXi4FDi/lG1ua7pG911h3uQhY5wW6bTIlHOV/7MkZHY=;
+        b=AoyP/I/V/O7nUjGGTTA48hthycJf9SjGBRYi6Kv/M1lWKfwLSJ7q/SiMlirzXBAnJb
+         Qu84btB4uF6UZZ7Ux3ldDlENVoGSssGeaE9pk9XAQ/D/imE9JlfYE+zYiCNyTWOR+XxC
+         ClbOISS5+5ddhRRNLaaNlL2DHVCfnToOEDOJci7tihlFmM8HW20X3ZqcMYaws0+Rm874
+         JcRh74trjoboYaX2gDlDdQAUbUU3rPX0jFaHJCUW2kUSEERMB2QlSHTtm2/BksXy2X5l
+         ChecTt4g/yRuF3iBKzlbGX00Kao0Oml7KLiRcHc+l0BD/4TOjNoXkzqC3QXhDpOeK4u8
+         rTnw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Ye+/JIglrFobGLyOB6YO64fUTddQZZZzpEsRMdXsJI5fg8kHNG4wX7r5h/Tkkw3jI+Y2nf6KDVYpuviyNNG4K4ZEUCAu1dMwVAjt+g==
+X-Gm-Message-State: AOJu0YwZ31sjL7kAP9wqjfzTTCfRbvZU3cIT+brlORQb1TkEsm/FqoXf
+	yfdglodVL1hW7SE9AzH0PDS4wyGzsd+nfIXFy3695JnNM6VbnsN67ILChFFqNOk=
+X-Google-Smtp-Source: AGHT+IHlbBi5iVPhTtzyHdf7wzm9eydZUeT0S3ljF/oaqIpQWZBEUb0XOM4K2jmDFZ8rks469IDnKQ==
+X-Received: by 2002:a05:6830:6b83:b0:709:373f:fc92 with SMTP id 46e09a7af769-7096feb4f8bmr3742311a34.1.1722714077688;
+        Sat, 03 Aug 2024 12:41:17 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:9579:8eb1:34ef:d5d7])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70a3a769072sm1585908a34.68.2024.08.03.12.41.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Aug 2024 12:41:17 -0700 (PDT)
+Date: Sat, 3 Aug 2024 14:41:14 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.12 28/29]
+ drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn:
+ passing zero to 'PTR_ERR'
+Message-ID: <5256b88a-63e1-4e32-9383-5fc9f9bee0d4@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,135 +70,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ian,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   17712b7ea0756799635ba159cc773082230ed028
-commit: 98a15816636044f25be4644db2a3e09fad68aaf7 Revert "comedi: add HAS_IOPORT dependencies"
-date:   11 months ago
-config: arm-randconfig-r054-20240802 (https://download.01.org/0day-ci/archive/20240804/202408040337.zq5qZ5bA-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040337.zq5qZ5bA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.12
+head:   42b54d52ecb7a81998592c2b40f8a963e82ed02e
+commit: dd22e56217495e2d392ded86a1e11a908e424e64 [28/29] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+config: parisc-randconfig-r081-20240803 (https://download.01.org/0day-ci/archive/20240803/202408032025.ve2JMaoV-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408040337.zq5qZ5bA-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408032025.ve2JMaoV-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn: passing zero to 'PTR_ERR'
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xenbus/xenbus_probe_frontend.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-evtchn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-privcmd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/mdio-bitbang.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/ezchip/nps_enet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arcnet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/rfc1201.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/rfc1051.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arc-rawmode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com90xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com90io.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arc-rimi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/fddi/skfp/skfp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/plip/plip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/hfcpci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/avmfritz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/mISDNinfineon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/mISDNipac.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_dsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/interconnect_qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/icc-rpmh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/fddi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_multiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_skbprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_taprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_cgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-ERROR: modpost: "__popcountsi2" [drivers/input/keyboard/pmic8xxx-keypad.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/addi_apci_3120.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/adl_pci9111.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/adv_pci1710.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/amplc_pci224.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/amplc_pci230.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/cb_pcidas64.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/cb_pcidas.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/ni_pcimio.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/rtd520.ko] undefined!
-WARNING: modpost: suppressed 6 unresolved symbol warnings because there were too many)
+vim +/PTR_ERR +269 drivers/clk/renesas/rzv2h-cpg.c
+
+dd22e56217495e Lad Prabhakar 2024-07-29  220  static void __init
+dd22e56217495e Lad Prabhakar 2024-07-29  221  rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
+dd22e56217495e Lad Prabhakar 2024-07-29  222  			    struct rzv2h_cpg_priv *priv)
+dd22e56217495e Lad Prabhakar 2024-07-29  223  {
+dd22e56217495e Lad Prabhakar 2024-07-29  224  	struct clk *clk = ERR_PTR(-EOPNOTSUPP), *parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  225  	unsigned int id = core->id, div = core->div;
+dd22e56217495e Lad Prabhakar 2024-07-29  226  	struct device *dev = priv->dev;
+dd22e56217495e Lad Prabhakar 2024-07-29  227  	const char *parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  228  	struct clk_hw *clk_hw;
+dd22e56217495e Lad Prabhakar 2024-07-29  229  
+dd22e56217495e Lad Prabhakar 2024-07-29  230  	WARN_DEBUG(id >= priv->num_core_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  231  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
+dd22e56217495e Lad Prabhakar 2024-07-29  232  
+dd22e56217495e Lad Prabhakar 2024-07-29  233  	switch (core->type) {
+dd22e56217495e Lad Prabhakar 2024-07-29  234  	case CLK_TYPE_IN:
+dd22e56217495e Lad Prabhakar 2024-07-29  235  		clk = of_clk_get_by_name(priv->dev->of_node, core->name);
+dd22e56217495e Lad Prabhakar 2024-07-29  236  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  237  	case CLK_TYPE_FF:
+dd22e56217495e Lad Prabhakar 2024-07-29  238  		WARN_DEBUG(core->parent >= priv->num_core_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  239  		parent = priv->clks[core->parent];
+dd22e56217495e Lad Prabhakar 2024-07-29  240  		if (IS_ERR(parent)) {
+dd22e56217495e Lad Prabhakar 2024-07-29  241  			clk = parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  242  			goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  243  		}
+dd22e56217495e Lad Prabhakar 2024-07-29  244  
+dd22e56217495e Lad Prabhakar 2024-07-29  245  		parent_name = __clk_get_name(parent);
+dd22e56217495e Lad Prabhakar 2024-07-29  246  		clk_hw = devm_clk_hw_register_fixed_factor(dev, core->name,
+dd22e56217495e Lad Prabhakar 2024-07-29  247  							   parent_name, CLK_SET_RATE_PARENT,
+dd22e56217495e Lad Prabhakar 2024-07-29  248  							   core->mult, div);
+dd22e56217495e Lad Prabhakar 2024-07-29  249  		if (IS_ERR(clk_hw))
+dd22e56217495e Lad Prabhakar 2024-07-29  250  			clk = ERR_CAST(clk_hw);
+dd22e56217495e Lad Prabhakar 2024-07-29  251  		else
+dd22e56217495e Lad Prabhakar 2024-07-29  252  			clk = clk_hw->clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  253  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  254  	case CLK_TYPE_PLL:
+dd22e56217495e Lad Prabhakar 2024-07-29  255  		clk = rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
+dd22e56217495e Lad Prabhakar 2024-07-29  256  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  257  	default:
+dd22e56217495e Lad Prabhakar 2024-07-29  258  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  259  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  260  
+dd22e56217495e Lad Prabhakar 2024-07-29  261  	if (IS_ERR_OR_NULL(clk))
+dd22e56217495e Lad Prabhakar 2024-07-29  262  		goto fail;
+
+Generally when a function returns both error pointers and NULL, the NULL
+should not print a dev_err().  I feel like in this case, the Kconfig
+rules should prevent a NULL return so this bug is likely harmless but
+I haven't investigated outside of looking at this email.
+
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+dd22e56217495e Lad Prabhakar 2024-07-29  263  
+dd22e56217495e Lad Prabhakar 2024-07-29  264  	dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  265  	priv->clks[id] = clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  266  	return;
+dd22e56217495e Lad Prabhakar 2024-07-29  267  
+dd22e56217495e Lad Prabhakar 2024-07-29  268  fail:
+dd22e56217495e Lad Prabhakar 2024-07-29 @269  	dev_err(dev, "Failed to register core clock %s: %ld\n",
+dd22e56217495e Lad Prabhakar 2024-07-29  270  		core->name, PTR_ERR(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  271  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
