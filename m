@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A6413BAE4;
-	Sat,  3 Aug 2024 15:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC91312B64;
+	Sat,  3 Aug 2024 17:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722700629; cv=none; b=pAa+QVjKBVbYdmShcfFM6twb5c5oyu3L4dSzr6lL1snhhm5ZrLgHFqsnVLTwDQ9Am+Utoze/Ergwpw6zOUH7Qi6gJPfO/jHrX5APQ9hnFuIT8uW7JAGz0aV9ky+sqmlJ4YOR5a/JQ+2uMECE33FS/50ygSthDry0s8GrptsigiQ=
+	t=1722706741; cv=none; b=DBxhb8CIsE0Kku3TBBbSoh9dakeCkRSmGeptXLFwsRpHh5lbgZc0SdkZ2qKYZ1zOdEWzwUJe4xlC07ENT5gF2faj34dk3sMJiS36c1ErpIq8mZ3AE2iEMuQ3jw8RBr4rC0+TKlvFsXP6awzOuDe+NnssWDOQdprmll+7Sl5b2yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722700629; c=relaxed/simple;
-	bh=IiPM5fKmjfXl0AHOKH0fbu6QjYolBv4O4tte1Vuu0cI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DjnZPfWbsO8soBsrYHdRju8Aq1yr8566BmURGNS7gcGAzo3M7g9j8sZR+QAobcWVYVdzDoqsntm+ZTs6LGuTKX+sNnNQ6a4VvVR/ogcSE4ct8jUe2RBvyHBAgd+syYD134wNrCv2Nk6UKSxUoNUNiSbPIb0e8vMyy78JYLke+aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKn5yn65; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1722706741; c=relaxed/simple;
+	bh=6aijyQFeR/YkZEmq9mx6Su9P3RWmAUxeJFBlNdce7BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6dgO2HIPw6h2TTAGaoEvCP+EKhS0TrCED8RbNVvqzpEmv6JqmXzccVMXz0gK0W18asgoYK8KXFdwf9bfYVaSE1dqwTmXl3X+IryJ+63urZjDpP7P5SBCqjfmVdExdOQfT4e4d2bPZkXVB/0cyF57rOpPP/2D12CxfMgbGs4x78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhHq7JvW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKn5yn65"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhHq7JvW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722700627; x=1754236627;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IiPM5fKmjfXl0AHOKH0fbu6QjYolBv4O4tte1Vuu0cI=;
-  b=UKn5yn65wNCJZPzkmV01Sj1Hb+SRTp6zGbuUmLBpMbb5ptOHL0//66xp
-   ai+hoJeP19I0wlkppk7siZJ0TpJV5Fp9/Lctui1QnV5SazqGlPk11u77W
-   QAJFtepL1+X7l10jz8BbKh86rqPLKtAyzO/Zbkarw+cUOFxO8HJYgXtz6
-   ubK5khTYNFtxmmdt7u9TW5NwDkQknmS1SOJLV+gx1vvhooYSR8sK8vkwl
-   5MYLcWyRuudKrOqKNka26zUMc1aJDumm/gqFACRUZpMBqnHEa7vuXPyMY
-   C0kLOcDvRBOcT4/3FU5b8zM8g59inZKknTeivdEzMxFdR7MCBsC+q1jWa
+  t=1722706739; x=1754242739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6aijyQFeR/YkZEmq9mx6Su9P3RWmAUxeJFBlNdce7BE=;
+  b=fhHq7JvWliS4TbC1ZABDhOqrKtNwCuslARmzIBHl3lnLHmCpcupDEVjR
+   x93rDkLZ+HUCcper4RlA+sWBRnWm6rcnj2O5prcWpSCRlFWGfIupuehjq
+   LoBTFF2vcUYnG1i9PHXjtqcLejCmuw0+9oqq4Wo/IJ1qDSd2gS7zJN5Ig
+   CGGN7vripEcm1QqKF2aL6z+WyiS0msq8qNePpIxq+o4DTKsFweZyptXzE
+   7NQHxjMKxmwiMNlCYLy1PR88WnCdI1BaiakC1fZr2WFoLmC0bVrvY/oua
+   v95Y3iVzC1TKe1qvKqoY84Fv6VUuDzXr9gAOcDOB/Ye7VIrSALOmfwdfs
    Q==;
-X-CSE-ConnectionGUID: 8B+Xt5mDRGmvP0fyFm/AZQ==
-X-CSE-MsgGUID: ZFAQBRaqQiiGfipqlmPF2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20550236"
+X-CSE-ConnectionGUID: mqFUJzXfQ5qUdFlhFDtQpQ==
+X-CSE-MsgGUID: bRqr5Xm5R/OT92P19ioSYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="31337228"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="20550236"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 08:56:55 -0700
-X-CSE-ConnectionGUID: vsLQZT3yRqaiBYCvO5W/kA==
-X-CSE-MsgGUID: qYyxrCAOQP6aGnfMQM8+lA==
+   d="scan'208";a="31337228"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 10:38:58 -0700
+X-CSE-ConnectionGUID: r0krMamSSPKGapyGvaF81A==
+X-CSE-MsgGUID: hICiBLgpQfyt0LLDP6dmdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="86671352"
+   d="scan'208";a="60552879"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Aug 2024 08:56:52 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2024 10:38:56 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saH7i-0000do-16;
-	Sat, 03 Aug 2024 15:56:50 +0000
-Date: Sat, 3 Aug 2024 23:56:05 +0800
+	id 1saIiU-0000nq-1X;
+	Sat, 03 Aug 2024 17:38:54 +0000
+Date: Sun, 4 Aug 2024 01:38:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mounik Katikala <mounik.katikala@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Vishal Sagar <vishal.sagar@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 1067/1093]
- drivers/media/platform/xilinx/xilinx-isppipeline.c:287:3: error: call to
- undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202408032346.jEunaUIp-lkp@intel.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/3] iio: adc: ad7625: add driver
+Message-ID: <202408040114.uAr0ifMP-lkp@intel.com>
+References: <20240731-ad7625_r1-v1-2-a1efef5a2ab9@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,99 +62,189 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240731-ad7625_r1-v1-2-a1efef5a2ab9@baylibre.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
-head:   868286d51b5753a66ab89c1c899510c6047b998d
-commit: 116fbf86655bcc669b416defceabf085291f4500 [1067/1093] v4l: xilinx: isppipeline: Add support for AEC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240803/202408032346.jEunaUIp-lkp@intel.com/config)
+Hi Trevor,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ac6a258892793f0a255fe7084ec2b612131c67fc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Gamblin/dt-bindings-iio-adc-add-AD762x-AD796x-ADCs/20240802-054208
+base:   ac6a258892793f0a255fe7084ec2b612131c67fc
+patch link:    https://lore.kernel.org/r/20240731-ad7625_r1-v1-2-a1efef5a2ab9%40baylibre.com
+patch subject: [PATCH RFC 2/3] iio: adc: ad7625: add driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240804/202408040114.uAr0ifMP-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408032346.jEunaUIp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040114.uAr0ifMP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408032346.jEunaUIp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408040114.uAr0ifMP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/xilinx/xilinx-isppipeline.c:287:3: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     287 |                 XISP_SET_CFG(XISP_AEC_INDEX, XISP_AEC_CONFIG_REG, xisp->threshold_aec);
-         |                 ^
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:104:13: note: expanded from macro 'XISP_SET_CFG'
-     104 |                 bool en = XGET_BIT(_index, xisp->module_en); \
-         |                           ^
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:100:36: note: expanded from macro 'XGET_BIT'
-     100 | #define XGET_BIT(bitmask, reg)    (FIELD_GET(BIT(bitmask), (reg)))
-         |                                    ^
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:815:18: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     815 |         bool en_index = XGET_BIT(index, xisp->module_en);
-         |                         ^
-   drivers/media/platform/xilinx/xilinx-isppipeline.c:100:36: note: expanded from macro 'XGET_BIT'
-     100 | #define XGET_BIT(bitmask, reg)    (FIELD_GET(BIT(bitmask), (reg)))
-         |                                    ^
-   2 errors generated.
+>> drivers/iio/adc/ad7625.c:553:33: warning: variable 'ref_clk' is uninitialized when used here [-Wuninitialized]
+     553 |         ret = devm_ad7625_pwm_get(dev, ref_clk, st);
+         |                                        ^~~~~~~
+   drivers/iio/adc/ad7625.c:459:21: note: initialize the variable 'ref_clk' to silence this warning
+     459 |         struct clk *ref_clk;
+         |                            ^
+         |                             = NULL
+   1 warning generated.
 
 
-vim +/FIELD_GET +287 drivers/media/platform/xilinx/xilinx-isppipeline.c
+vim +/ref_clk +553 drivers/iio/adc/ad7625.c
 
-   272	
-   273	static int xisp_s_ctrl(struct v4l2_ctrl *ctrl)
-   274	{
-   275		struct xisp_dev *xisp =
-   276			container_of(ctrl->handler,
-   277				     struct xisp_dev, ctrl_handler);
-   278	
-   279		switch (ctrl->id) {
-   280		case V4L2_CID_XILINX_ISP_AEC_EN:
-   281			xisp->module_bypass = xisp_module_bypass(xisp->module_bypass,
-   282								 XISP_AEC_INDEX, ctrl->val);
-   283			xvip_write(&xisp->xvip, XISP_FUNCS_BYPASS_CONFIG_REG, xisp->module_bypass);
-   284			break;
-   285		case V4L2_CID_XILINX_ISP_AEC_THRESHOLD:
-   286			xisp->threshold_aec = ctrl->val;
- > 287			XISP_SET_CFG(XISP_AEC_INDEX, XISP_AEC_CONFIG_REG, xisp->threshold_aec);
-   288			break;
-   289		case V4L2_CID_XILINX_ISP_RED_GAIN:
-   290			xisp->rgain = ctrl->val;
-   291			xvip_write(&xisp->xvip, XISP_RGAIN_REG, xisp->rgain);
-   292			break;
-   293		case V4L2_CID_XILINX_ISP_BLUE_GAIN:
-   294			xisp->bgain = ctrl->val;
-   295			xvip_write(&xisp->xvip, XISP_BGAIN_REG, xisp->bgain);
-   296			break;
-   297		case V4L2_CID_XILINX_ISP_AWB:
-   298			xisp->mode_reg = ctrl->val;
-   299			xvip_write(&xisp->xvip, XISP_MODE_REG, xisp->mode_reg);
-   300			break;
-   301		case V4L2_CID_XILINX_ISP_THRESHOLD:
-   302			xisp->pawb = ctrl->val;
-   303			xvip_write(&xisp->xvip, XISP_PAWB_REG, xisp->pawb);
-   304			break;
-   305		case V4L2_CID_XILINX_ISP_RED_GAMMA:
-   306			select_gamma(ctrl->val, &xisp->red_lut, xisp->gamma_table);
-   307			dev_dbg(xisp->xvip.dev, "Setting Red Gamma to %d.%d",
-   308				ctrl->val / 10, ctrl->val % 10);
-   309			xisp_set_lut_entries(xisp, xisp->red_lut, XISP_GAMMA_RED_REG);
-   310			break;
-   311		case V4L2_CID_XILINX_ISP_GREEN_GAMMA:
-   312			select_gamma(ctrl->val, &xisp->green_lut, xisp->gamma_table);
-   313			dev_dbg(xisp->xvip.dev, "Setting Green Gamma to %d.%d",
-   314				ctrl->val / 10, ctrl->val % 10);
-   315			xisp_set_lut_entries(xisp, xisp->green_lut, XISP_GAMMA_GREEN_REG);
-   316			break;
-   317		case V4L2_CID_XILINX_ISP_BLUE_GAMMA:
-   318			select_gamma(ctrl->val, &xisp->blue_lut, xisp->gamma_table);
-   319			dev_dbg(xisp->xvip.dev, "Setting Blue Gamma to %d.%d",
-   320				ctrl->val / 10, ctrl->val % 10);
-   321			xisp_set_lut_entries(xisp, xisp->blue_lut, XISP_GAMMA_BLUE_REG);
-   322			break;
-   323		default:
-   324			return -EINVAL;
-   325		}
-   326	
-   327		return 0;
-   328	}
-   329	
+   448	
+   449	static int ad7625_probe(struct platform_device *pdev)
+   450	{
+   451		/*
+   452		 * Power-up info for the device says to bring up vio, then
+   453		 * vdd2, then vdd1
+   454		 */
+   455		static const char * const regulator_names[] = { "vio", "vdd2", "vdd1" };
+   456		struct device *dev = &pdev->dev;
+   457		struct iio_dev *indio_dev;
+   458		struct ad7625_state *st;
+   459		struct clk *ref_clk;
+   460		int ret, ref_mv;
+   461		int default_sample_freq;
+   462		bool have_refin;
+   463	
+   464		indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+   465		if (!indio_dev)
+   466			return -ENOMEM;
+   467	
+   468		st = iio_priv(indio_dev);
+   469	
+   470		st->info = device_get_match_data(dev);
+   471		if (!st->info)
+   472			return dev_err_probe(dev, -EINVAL, "no chip info\n");
+   473	
+   474		ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
+   475			regulator_names);
+   476		if (ret)
+   477			return ret;
+   478	
+   479		if (st->info->has_bandwidth_control)
+   480			ret = ad7625_parse_mode(dev, st, 4);
+   481		else
+   482			ret = ad7625_parse_mode(dev, st, 2);
+   483	
+   484		if (ret)
+   485			return ret;
+   486	
+   487		/*
+   488		 * Determine the source of the reference voltage:
+   489		 * - internal reference: neither REF or REFIN is connected
+   490		 *   (invalid for AD796x)
+   491		 * - internal buffer, external reference: REF not connected,
+   492		 *   is REFIN connected
+   493		 * - external reference: REF connected, REFIN not connected
+   494		 */
+   495		ret = devm_regulator_get_enable_read_voltage(dev, "ref");
+   496		if (ret < 0 && ret != -ENODEV)
+   497			return dev_err_probe(dev, ret, "failed to get REF voltage\n");
+   498	
+   499		ref_mv = ret == -ENODEV ? 0 : ret / 1000;
+   500	
+   501		ret = devm_regulator_get_enable_optional(dev, "refin");
+   502		if (ret < 0 && ret != -ENODEV)
+   503			return dev_err_probe(dev, ret, "failed to get REFIN voltage\n");
+   504	
+   505		have_refin = ret != -ENODEV;
+   506	
+   507		if (have_refin && !st->can_refin)
+   508			return dev_err_probe(dev, -EINVAL,
+   509					     "REFIN provided in unsupported mode\n");
+   510	
+   511		if (!st->info->has_internal_vref && !have_refin && !ref_mv)
+   512			return dev_err_probe(dev, -EINVAL,
+   513					     "Need either REFIN or REF");
+   514	
+   515		if (have_refin && ref_mv)
+   516			return dev_err_probe(dev, -EINVAL,
+   517					     "cannot have both REFIN and REF supplies\n");
+   518	
+   519		st->vref_mv = ref_mv ?: AD7625_INTERNAL_REF_MV;
+   520	
+   521		if (ref_mv == 4096 && !st->can_ref_4v096)
+   522			return dev_err_probe(dev, -EINVAL,
+   523					     "REF is 4.096V in unsupported mode\n");
+   524	
+   525		if (ref_mv == 5000 && !st->can_ref_5v)
+   526			return dev_err_probe(dev, -EINVAL,
+   527					     "REF is 5V in unsupported mode\n");
+   528	
+   529		/* Set the device mode based on detected EN configuration. */
+   530		if (!st->info->has_bandwidth_control) {
+   531			ad7625_set_en_gpios_for_vref(st, have_refin, ref_mv);
+   532		} else {
+   533			/*
+   534			 * If neither sampling mode is available, then report an error,
+   535			 * since the other modes are not useful defaults.
+   536			 */
+   537			if (st->can_wide_bandwidth) {
+   538				ret = ad7960_set_mode(st, AD7960_MODE_WIDE_BANDWIDTH,
+   539					have_refin, ref_mv);
+   540			} else if (st->can_narrow_bandwidth) {
+   541				ret = ad7960_set_mode(st, AD7960_MODE_NARROW_BANDWIDTH,
+   542					have_refin, ref_mv);
+   543			} else {
+   544				return dev_err_probe(dev, -EINVAL,
+   545					"couldn't set device to wide or narrow bandwidth modes\n");
+   546			}
+   547	
+   548			if (ret)
+   549				return dev_err_probe(dev, -EINVAL,
+   550						     "failed to set EN pins\n");
+   551		}
+   552	
+ > 553		ret = devm_ad7625_pwm_get(dev, ref_clk, st);
+   554		if (ret)
+   555			return dev_err_probe(dev, -EINVAL,
+   556					     "failed to set ref_clk_rate_hz\n");
+   557	
+   558		indio_dev->channels = &st->info->chan_spec;
+   559		indio_dev->num_channels = 1;
+   560		indio_dev->name = st->info->name;
+   561		indio_dev->info = &ad7625_info;
+   562	
+   563		st->back = devm_iio_backend_get(dev, NULL);
+   564		if (IS_ERR(st->back))
+   565			return dev_err_probe(dev, PTR_ERR(st->back),
+   566					     "failed to get IIO backend");
+   567	
+   568		ret = devm_iio_backend_request_buffer(dev, st->back, indio_dev);
+   569		if (ret)
+   570			return ret;
+   571	
+   572		ret = devm_iio_backend_enable(dev, st->back);
+   573		if (ret)
+   574			return ret;
+   575	
+   576		/*
+   577		 * Set the initial sampling frequency to the maximum, unless the
+   578		 * AD796x device is limited to narrow bandwidth, in which case
+   579		 * the sampling frequency should be limited to 2MSPS
+   580		 */
+   581		if (!st->info->has_bandwidth_control) {
+   582			default_sample_freq = st->info->max_sample_rate_hz;
+   583		} else {
+   584			default_sample_freq = !st->can_wide_bandwidth ? AD7960_MAX_NBW_FREQ :
+   585					      st->info->max_sample_rate_hz;
+   586		}
+   587	
+   588		ret = ad7625_set_sampling_freq(st, default_sample_freq);
+   589		if (ret < 0)
+   590			dev_err_probe(dev, ret, "failed to set sampling frequency\n");
+   591	
+   592		return devm_iio_device_register(dev, indio_dev);
+   593	}
+   594	
 
 -- 
 0-DAY CI Kernel Test Service
