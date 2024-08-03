@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1C913E04C;
-	Sat,  3 Aug 2024 11:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098DD13E04C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 11:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722683406; cv=none; b=pT5ruLgttzpXdWeUTDONtW5+N9+7SOFt94vWeWgaPgxf4ZNzG5tuUa2iKIWjxbkyoXedj3nHV0nrMoG5lqq+gfsHgkPLZgOJxiIoYiYOkvjVKDYxRh0K5eRuY0DI0f+oOiYP32sTxa6z3KeNg2D93U84y7xez/qaeQnAvhAJ2U8=
+	t=1722683408; cv=none; b=HcjwZv/ZHWmghAq94hkgmD3zqU0uKP3mM0h38Mzt4RLDnaL0JY/oTsrArB9jclxeNiYQGaLiJWLkEupO1A3YJJ8jUcFtbQU0W0Aj9gQZlj1gnUFCLtwr6n/wsoDKbC0/krkvcUS0OMPLRrM6dGx+ZdcoNySkifs0FMtuGJmak8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722683406; c=relaxed/simple;
-	bh=uTxSclRvpWb0a0xfFWe82lQmj5dFsNhpZMhmmNqCOfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GTG4ucyTm7vFnuVScbz2vjCLkn4tqa1eL+NaBBtW7VrTav6s3OJCR91yz9HOYsvM4Y+xNq+OftYSWqGChhfBGDJhQw5IrsJgJAtSWkQmEwIJ9S8HYlBqPB3fIsQnc9LBkIH26wVdRLSBRWBvVO6T63VUtpqvE79hmSxDg3tHgTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghAh/xxY; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1722683408; c=relaxed/simple;
+	bh=x3si7t6ipvGyzFV+5rMUKZh3I2NBFPG9mfGUanh83vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TT/FNMckdcnPhanXhVe0pphjTH0sO2NeL5F7RdFUfl4bb0ruGN/2+zdfLrzhDeKBwhM+YKyElnXD7yYFsY4xNwep71m65TB1dyWGb58qwNtMNPmVHG++UigGPT4SZ9rqMpNXByvix2yDBbe2pV73+8FC/DV8nuPObPWVfAG/doM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6jXY7uE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghAh/xxY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6jXY7uE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722683404; x=1754219404;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uTxSclRvpWb0a0xfFWe82lQmj5dFsNhpZMhmmNqCOfo=;
-  b=ghAh/xxYT64byUTCdtEqNNs88DeHG5xzXERprAWxfvEG62PKQz1jPiR7
-   fH7T5os3LiGugryqLKiTToUXO151k0GeFdJ8zKvN+x0NyhjSBfD7q5JQb
-   pZmnMG3SdeBtNQ/glbAZ9EZfbEKcGkoZJ3/Ld8KyfyQ+SwiG8lQ9s/3I3
-   FrA7YXhDXrnXctdht9XHxjSMYzeM55L+AlshvR/KKcsAmcx96vIfQP2Jt
-   KZrb+vToeJ0Asx6Uq/LWx6pG3rh6+157bOC0iaKmssTKgqTIZW7hi4uzP
-   3PzZV69Ve4ZDyqBduLMMeEazH+Gv1yt4i126cGsXrrjH74ixRyD+lMWU4
-   A==;
-X-CSE-ConnectionGUID: hnDgXVOBRjiT8Id96yS78g==
-X-CSE-MsgGUID: w+VPWo3DRF+zCUqoB/OyWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="24466422"
+  t=1722683406; x=1754219406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3si7t6ipvGyzFV+5rMUKZh3I2NBFPG9mfGUanh83vw=;
+  b=X6jXY7uEPlRnIaVMbocTAcc+1pDx4x/5mCMY705//Lf/9xfmgsIETIhp
+   WRY4+zNnBZVflD1LUzVe0uH8hqzafCqNm8kEdo5GbaXmvqq2YlkojPiHd
+   X7Lo4cjsZ0SCwegqy+YmjUfQ/JT1N3vX5HJB2Ed7qxH/dezNkZKsAejUX
+   Njz3WPE3UnhKF1XDTa7SmV9rFjNSqnk21Hog+dPGcM2GpA8EJRVu1srBW
+   7fnB5S/7w0rYPnedogmltKwt5LWyXMogXu0/1DU6q0hwPtbik7QI5V51n
+   QW+zGVanrtXEa1vYN4njxwOndLunf+JsfQtTPcf2BWBlrmU7aneGk1AcT
+   g==;
+X-CSE-ConnectionGUID: kgpGhxe1SoyfqHbujKYzLg==
+X-CSE-MsgGUID: h/vUG9iVSfa36sOL0XNZ7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="24466437"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="24466422"
+   d="scan'208";a="24466437"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 04:10:01 -0700
-X-CSE-ConnectionGUID: YhsRj73ITVioBgg759Jgjg==
-X-CSE-MsgGUID: zjxPXZX/QfCC0f7trmUpdg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 04:10:02 -0700
+X-CSE-ConnectionGUID: vbop2u3rS16WtPYntLB90A==
+X-CSE-MsgGUID: zuckd/NTQYq2l0XJmqlmmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="55626182"
+   d="scan'208";a="55626183"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
   by fmviesa009.fm.intel.com with ESMTP; 03 Aug 2024 04:09:59 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saCe5-0000Om-1Z;
+	id 1saCe5-0000Ok-1V;
 	Sat, 03 Aug 2024 11:09:57 +0000
-Date: Sat, 3 Aug 2024 19:03:55 +0800
+Date: Sat, 3 Aug 2024 19:03:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: [cifs:5.15-backport-8-1-24 546/600] fs/cifs/cifspdu.h:886:3: error:
- unexpected type name '__le64': expected identifier
-Message-ID: <202408031811.SJuzffSt-lkp@intel.com>
+To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	lukas@wunner.de, mika.westerberg@linux.intel.com,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Re: [PATCH v5 2/4] PCI: Rename pci_bridge_d3_possible() to
+ pci_bridge_d3_allowed()
+Message-ID: <202408031855.TEPJlfzl-lkp@intel.com>
+References: <20240802-pci-bridge-d3-v5-2-2426dd9e8e27@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,193 +70,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240802-pci-bridge-d3-v5-2-2426dd9e8e27@linaro.org>
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git 5.15-backport-8-1-24
-head:   c931999946e12679e0adc129509a1e23a4a64b5d
-commit: 26f5e6f0efbd340b409c826c0a242a9b01f78e7c [546/600] smb: client, common: fix fortify warnings
-config: i386-randconfig-003-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031811.SJuzffSt-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031811.SJuzffSt-lkp@intel.com/reproduce)
+Hi Manivannan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 705c1da8fa4816fb0159b5602fef1df5946a3ee2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-portdrv-Make-use-of-pci_dev-bridge_d3-for-checking-the-D3-possibility/20240803-074434
+base:   705c1da8fa4816fb0159b5602fef1df5946a3ee2
+patch link:    https://lore.kernel.org/r/20240802-pci-bridge-d3-v5-2-2426dd9e8e27%40linaro.org
+patch subject: [PATCH v5 2/4] PCI: Rename pci_bridge_d3_possible() to pci_bridge_d3_allowed()
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240803/202408031855.TEPJlfzl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031855.TEPJlfzl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031811.SJuzffSt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031855.TEPJlfzl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/cifs/cifsfs.c:32:
-   fs/cifs/cifspdu.h:512:3: error: type name requires a specifier or qualifier
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^
-   fs/cifs/cifspdu.h:512:37: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                                                   ^
-         |                                                   int
-   fs/cifs/cifspdu.h:885:2: error: type name requires a specifier or qualifier
-     885 |         struct_group(common_attributes,
-         |         ^
->> fs/cifs/cifspdu.h:886:3: error: unexpected type name '__le64': expected identifier
-     886 |                 __le64 CreationTime;
-         |                 ^
->> fs/cifs/cifspdu.h:886:10: error: expected ')'
-     886 |                 __le64 CreationTime;
-         |                        ^
-   fs/cifs/cifspdu.h:885:14: note: to match this '('
-     885 |         struct_group(common_attributes,
-         |                     ^
->> fs/cifs/cifspdu.h:885:15: error: a parameter list without types is only allowed in a function definition
-     885 |         struct_group(common_attributes,
-         |                      ^
-   fs/cifs/cifspdu.h:891:2: error: type name requires a specifier or qualifier
-     891 |         );
-         |         ^
->> fs/cifs/cifspdu.h:891:2: error: expected member name or ';' after declaration specifiers
->> fs/cifs/cifspdu.h:890:25: error: expected ';' at end of declaration list
-     890 |                 __le32 FileAttributes;
-         |                                       ^
-         |                                       ;
-   fs/cifs/cifspdu.h:2269:2: error: type name requires a specifier or qualifier
-    2269 |         struct_group(common_attributes,
-         |         ^
-   fs/cifs/cifspdu.h:2270:3: error: unexpected type name '__le64': expected identifier
-    2270 |                 __le64 CreationTime;
-         |                 ^
-   fs/cifs/cifspdu.h:2270:10: error: expected ')'
-    2270 |                 __le64 CreationTime;
-         |                        ^
-   fs/cifs/cifspdu.h:2269:14: note: to match this '('
-    2269 |         struct_group(common_attributes,
-         |                     ^
-   fs/cifs/cifspdu.h:2269:15: error: a parameter list without types is only allowed in a function definition
-    2269 |         struct_group(common_attributes,
-         |                      ^
-   fs/cifs/cifspdu.h:2275:2: error: type name requires a specifier or qualifier
-    2275 |         );
-         |         ^
-   fs/cifs/cifspdu.h:2275:2: error: expected member name or ';' after declaration specifiers
-   fs/cifs/cifspdu.h:2274:21: error: expected ';' at end of declaration list
-    2274 |                 __le32 Attributes;
-         |                                   ^
-         |                                   ;
-   fs/cifs/cifspdu.h:2293:3: error: type name requires a specifier or qualifier
-    2293 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^
-   fs/cifs/cifspdu.h:2293:28: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
-    2293 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                                          ^
-         |                                          int
-   fs/cifs/cifspdu.h:2332:2: error: type name requires a specifier or qualifier
-    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
-         |         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   drivers/gpu/drm/radeon/radeon_atpx_handler.c: In function 'radeon_atpx_detect':
+>> drivers/gpu/drm/radeon/radeon_atpx_handler.c:568:59: error: 'struct pci_dev' has no member named 'bridge_d3'
+     568 |                 d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+         |                                                           ^~
+   drivers/gpu/drm/radeon/radeon_atpx_handler.c:578:59: error: 'struct pci_dev' has no member named 'bridge_d3'
+     578 |                 d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+         |                                                           ^~
 --
-   In file included from fs/cifs/cached_dir.c:9:
-   In file included from fs/cifs/cifsglob.h:26:
-   fs/cifs/../smbfs_common/smb2pdu.h:705:2: error: type name requires a specifier or qualifier
-     705 |         struct_group(network_open_info,
-         |         ^
->> fs/cifs/../smbfs_common/smb2pdu.h:706:3: error: unexpected type name '__le64': expected identifier
-     706 |                 __le64 CreationTime;
-         |                 ^
->> fs/cifs/../smbfs_common/smb2pdu.h:706:10: error: expected ')'
-     706 |                 __le64 CreationTime;
-         |                        ^
-   fs/cifs/../smbfs_common/smb2pdu.h:705:14: note: to match this '('
-     705 |         struct_group(network_open_info,
-         |                     ^
->> fs/cifs/../smbfs_common/smb2pdu.h:705:15: error: a parameter list without types is only allowed in a function definition
-     705 |         struct_group(network_open_info,
-         |                      ^
-   fs/cifs/../smbfs_common/smb2pdu.h:714:2: error: type name requires a specifier or qualifier
-     714 |         );
-         |         ^
->> fs/cifs/../smbfs_common/smb2pdu.h:714:2: error: expected member name or ';' after declaration specifiers
->> fs/cifs/../smbfs_common/smb2pdu.h:713:21: error: expected ';' at end of declaration list
-     713 |                 __le32 Attributes;
-         |                                   ^
-         |                                   ;
-   fs/cifs/../smbfs_common/smb2pdu.h:845:3: error: type name requires a specifier or qualifier
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                 ^
-   fs/cifs/../smbfs_common/smb2pdu.h:845:48: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
-     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
-         |                                                              ^
-         |                                                              int
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:3: error: type name requires a specifier or qualifier
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                 ^
-   fs/cifs/../smbfs_common/smb2pdu.h:1685:28: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
-    1685 |                 DECLARE_FLEX_ARRAY(char, FileName);
-         |                                          ^
-         |                                          int
-   In file included from fs/cifs/cached_dir.c:9:
-   In file included from fs/cifs/cifsglob.h:27:
->> fs/cifs/smb2pdu.h:322:2: error: type name requires a specifier or qualifier
-     322 |         struct_group(network_open_info,
-         |         ^
->> fs/cifs/smb2pdu.h:323:3: error: unexpected type name '__le64': expected identifier
-     323 |                 __le64 CreationTime;
-         |                 ^
->> fs/cifs/smb2pdu.h:323:10: error: expected ')'
-     323 |                 __le64 CreationTime;
-         |                        ^
-   fs/cifs/smb2pdu.h:322:14: note: to match this '('
-     322 |         struct_group(network_open_info,
-         |                     ^
->> fs/cifs/smb2pdu.h:322:15: error: a parameter list without types is only allowed in a function definition
-     322 |         struct_group(network_open_info,
-         |                      ^
-   fs/cifs/smb2pdu.h:330:2: error: type name requires a specifier or qualifier
-     330 |         );
-         |         ^
->> fs/cifs/smb2pdu.h:330:2: error: expected member name or ';' after declaration specifiers
->> fs/cifs/smb2pdu.h:329:21: error: expected ';' at end of declaration list
-     329 |                 __le32 Attributes;
-         |                                   ^
-         |                                   ;
-   In file included from fs/cifs/cached_dir.c:9:
-   In file included from fs/cifs/cifsglob.h:97:
-   fs/cifs/cifspdu.h:512:3: error: type name requires a specifier or qualifier
-     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
-         |                 ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c: In function 'amdgpu_atpx_detect':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c:628:59: error: 'struct pci_dev' has no member named 'bridge_d3'
+     628 |                 d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+         |                                                           ^~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c:638:59: error: 'struct pci_dev' has no member named 'bridge_d3'
+     638 |                 d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+         |                                                           ^~
+--
+   drivers/gpu/drm/nouveau/nouveau_acpi.c: In function 'nouveau_dsm_pci_probe':
+>> drivers/gpu/drm/nouveau/nouveau_acpi.c:229:32: error: 'struct pci_dev' has no member named 'bridge_d3'
+     229 |                 if (parent_pdev->bridge_d3)
+         |                                ^~
 
 
-vim +/__le64 +886 fs/cifs/cifspdu.h
+vim +568 drivers/gpu/drm/radeon/radeon_atpx_handler.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  876  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  877  typedef struct smb_com_open_rsp {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  878  	struct smb_hdr hdr;	/* wct = 34 BB */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  879  	__u8 AndXCommand;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  880  	__u8 AndXReserved;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  881  	__le16 AndXOffset;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  882  	__u8 OplockLevel;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  883  	__u16 Fid;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  884  	__le32 CreateAction;
-26f5e6f0efbd34 Steve French   2024-01-26 @885  	struct_group(common_attributes,
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @886  		__le64 CreationTime;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  887  		__le64 LastAccessTime;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  888  		__le64 LastWriteTime;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  889  		__le64 ChangeTime;
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @890  		__le32 FileAttributes;
-26f5e6f0efbd34 Steve French   2024-01-26 @891  	);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  892  	__le64 AllocationSize;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  893  	__le64 EndOfFile;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  894  	__le16 FileType;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  895  	__le16 DeviceState;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  896  	__u8 DirectoryFlag;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  897  	__u16 ByteCount;	/* bct = 0 */
-0753ca7bc2b876 Steve French   2005-10-27  898  } __attribute__((packed)) OPEN_RSP;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  899  
-
-:::::: The code at line 886 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+6a9ee8af344e3b Dave Airlie  2010-02-01  545  
+82e029357d4726 Alex Deucher 2012-08-16  546  /**
+82e029357d4726 Alex Deucher 2012-08-16  547   * radeon_atpx_detect - detect whether we have PX
+82e029357d4726 Alex Deucher 2012-08-16  548   *
+82e029357d4726 Alex Deucher 2012-08-16  549   * Check if we have a PX system (all asics).
+82e029357d4726 Alex Deucher 2012-08-16  550   * Returns true if we have a PX system, false if not.
+82e029357d4726 Alex Deucher 2012-08-16  551   */
+6a9ee8af344e3b Dave Airlie  2010-02-01  552  static bool radeon_atpx_detect(void)
+6a9ee8af344e3b Dave Airlie  2010-02-01  553  {
+6a9ee8af344e3b Dave Airlie  2010-02-01  554  	char acpi_method_name[255] = { 0 };
+6a9ee8af344e3b Dave Airlie  2010-02-01  555  	struct acpi_buffer buffer = {sizeof(acpi_method_name), acpi_method_name};
+6a9ee8af344e3b Dave Airlie  2010-02-01  556  	struct pci_dev *pdev = NULL;
+6a9ee8af344e3b Dave Airlie  2010-02-01  557  	bool has_atpx = false;
+6a9ee8af344e3b Dave Airlie  2010-02-01  558  	int vga_count = 0;
+bcfdd5d5105087 Alex Deucher 2016-11-28  559  	bool d3_supported = false;
+bcfdd5d5105087 Alex Deucher 2016-11-28  560  	struct pci_dev *parent_pdev;
+6a9ee8af344e3b Dave Airlie  2010-02-01  561  
+6a9ee8af344e3b Dave Airlie  2010-02-01  562  	while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev)) != NULL) {
+6a9ee8af344e3b Dave Airlie  2010-02-01  563  		vga_count++;
+6a9ee8af344e3b Dave Airlie  2010-02-01  564  
+6a9ee8af344e3b Dave Airlie  2010-02-01  565  		has_atpx |= (radeon_atpx_pci_probe_handle(pdev) == true);
+bcfdd5d5105087 Alex Deucher 2016-11-28  566  
+bcfdd5d5105087 Alex Deucher 2016-11-28  567  		parent_pdev = pci_upstream_bridge(pdev);
+bcfdd5d5105087 Alex Deucher 2016-11-28 @568  		d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+6a9ee8af344e3b Dave Airlie  2010-02-01  569  	}
+6a9ee8af344e3b Dave Airlie  2010-02-01  570  
+e9a4099a59cc59 Alex Deucher 2014-04-15  571  	/* some newer PX laptops mark the dGPU as a non-VGA display device */
+e9a4099a59cc59 Alex Deucher 2014-04-15  572  	while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_OTHER << 8, pdev)) != NULL) {
+e9a4099a59cc59 Alex Deucher 2014-04-15  573  		vga_count++;
+e9a4099a59cc59 Alex Deucher 2014-04-15  574  
+e9a4099a59cc59 Alex Deucher 2014-04-15  575  		has_atpx |= (radeon_atpx_pci_probe_handle(pdev) == true);
+bcfdd5d5105087 Alex Deucher 2016-11-28  576  
+bcfdd5d5105087 Alex Deucher 2016-11-28  577  		parent_pdev = pci_upstream_bridge(pdev);
+bcfdd5d5105087 Alex Deucher 2016-11-28  578  		d3_supported |= parent_pdev && parent_pdev->bridge_d3;
+e9a4099a59cc59 Alex Deucher 2014-04-15  579  	}
+e9a4099a59cc59 Alex Deucher 2014-04-15  580  
+6a9ee8af344e3b Dave Airlie  2010-02-01  581  	if (has_atpx && vga_count == 2) {
+492b49a2f21a7c Alex Deucher 2012-08-16  582  		acpi_get_name(radeon_atpx_priv.atpx.handle, ACPI_FULL_PATHNAME, &buffer);
+7ca85295d8cc28 Joe Perches  2017-02-28  583  		pr_info("vga_switcheroo: detected switching method %s handle\n",
+6a9ee8af344e3b Dave Airlie  2010-02-01  584  			acpi_method_name);
+6a9ee8af344e3b Dave Airlie  2010-02-01  585  		radeon_atpx_priv.atpx_detected = true;
+bcfdd5d5105087 Alex Deucher 2016-11-28  586  		radeon_atpx_priv.bridge_pm_usable = d3_supported;
+69ee9742f945cd Alex Deucher 2016-07-27  587  		radeon_atpx_init();
+6a9ee8af344e3b Dave Airlie  2010-02-01  588  		return true;
+6a9ee8af344e3b Dave Airlie  2010-02-01  589  	}
+6a9ee8af344e3b Dave Airlie  2010-02-01  590  	return false;
+6a9ee8af344e3b Dave Airlie  2010-02-01  591  }
+6a9ee8af344e3b Dave Airlie  2010-02-01  592  
 
 -- 
 0-DAY CI Kernel Test Service
