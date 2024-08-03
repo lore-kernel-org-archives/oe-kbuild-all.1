@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC8A136E09
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 13:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F155449659
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 13:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722693181; cv=none; b=GXobAvu75dzTPjCy1sL9yU5+joC8c6RQhWmhDEsx9Xa+bX1pRW1QvnN/7ooNjyLzon0qDshlNi1STMN/XlGMhCdSXHOBD8HNznodLeWNSbnoayQ6HFAByB6qqFAfN8bVADlx/jaXy4+lW3X1Zg1Bb8Au48Zsg3q5oxG35+gEUNQ=
+	t=1722693243; cv=none; b=IEs/OtWH4pBMEPA9yIFPIjQy2wE5Mxcoab8GOKunMdG4jmZZqeGw4aG1xn+rzEIgZb405MM4U5kr2e8N1Esfrjr3bsYDcFqRWM7tw9brBwFtRqGZhUvcjl1fjR39/bREgwi1VLkR0nnxfPGkArMdt3QNHvB8aKUPYBPfDbv3Bgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722693181; c=relaxed/simple;
-	bh=u9PB3XUR/ySD5ocJgmXuw9J1LydDozcHJCrpJvj6MJ4=;
+	s=arc-20240116; t=1722693243; c=relaxed/simple;
+	bh=3du39j/J1e+/JJKFwhAKzAbBTW0THJJs6mQxY+AibJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HJznZWM0uyqy+FVIkpeYJr8vHmMQrIHxCjKxmy8ZX+IHs4xavv/C/bOVUi29z7ahreWHGwDOGLsHEvkLCnGAo3aDZba6Qi07ZCYMgKKpOhWuJ9eSpU+U3iWKOZpnr01OOz7MwLuOKmuDi++bIFGYEMdx6qHS2pO9XYxPc17OTsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GZCSRuQP; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=B55m0bJ/yCeT8FdSBVBsDp9e3zDl5H5TsDvZCLbB25sFN0F2CwDU177sruYGchdZ5MQbCoqxDqvrNRk0eguSB3RxMhYCwnzVZ0JZ/ugkT8kwQu2P8zMDR3xlLmgopXo9YqiicqdFU6Vtwc5LfyuPlquF3xfJ+6lBoVY7umptNhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXrqbspj; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZCSRuQP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXrqbspj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722693179; x=1754229179;
+  t=1722693242; x=1754229242;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u9PB3XUR/ySD5ocJgmXuw9J1LydDozcHJCrpJvj6MJ4=;
-  b=GZCSRuQPZNi0OfQIfkRI4OpAu874eFoP2ZqYzGvAhdc7dOQfNLe1eOva
-   GyoSBVA7ephQ3FwM7xofk21TuKQWBgxZ+5CaqeQB51LXeLG2qa/4fRuVP
-   WBVgbCeRO7/gNGoB0HJ8h2+zqqDgrsNNtVqU3XXiQ7h0VQp4LVf0msCcr
-   HMq0JVz4ILmx3eXsLR95PsdXGhDmg7V30YQDgZutfpyQ0Ywm/LNUe4LUG
-   timUBIR7ZWAnwOV/cxO7JvvBE5anrClYVxi1BExk0Uy50GaRxLGlICvkr
-   DdYVKSa/pU5EFgXJ94tkhvXO9gS9WNVrq1wsw9ItQ46TvHOxeFzcZ4BFT
+  bh=3du39j/J1e+/JJKFwhAKzAbBTW0THJJs6mQxY+AibJQ=;
+  b=jXrqbspjR4nBoeD4hFPrrYrYyQSmMsL/RFuOSGtzLAjsMcqXwWp3YflG
+   VMDn4xVxZmjP6zfZLXTPSLewQbZuvJl1NP41Rzj/EXS6huZ7r9kF/uhca
+   rvHLGG2ErKp6BMN9aG5iaAf/OKvJFM79sjC5IOE2nnTjiIXvgsJkuFRRN
+   pC70VLArLQqgW/fw0HYNT4QyAuX9p6NAbiIcXHZ/4mGwUM4bc4++diqq1
+   3bSqX14GbDTLCfQ+WD5B0S8IrW0c/f8YSDxI1T5YCn16HQNsggLUVmdSt
+   1QXaXWW+6yqpq7MBftcW1uz90NsGDy5iwcRhWIrYGJ0AUkhvHwnoytPZz
    w==;
-X-CSE-ConnectionGUID: d9jBPCdBSQO7cJXlYff2Sw==
-X-CSE-MsgGUID: QREP7uAkS1m13U8VDq1k9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="23617652"
+X-CSE-ConnectionGUID: G7D16f3eQpqR3283pvHwpA==
+X-CSE-MsgGUID: 8eV9Ov6kRWu0SB/++kMgVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20838506"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="23617652"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 06:52:58 -0700
-X-CSE-ConnectionGUID: H6G7cXDsQNeF1X/ChKQ9GA==
-X-CSE-MsgGUID: 7J5YlGn2TLaZE1+lwp5/Pg==
+   d="scan'208";a="20838506"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 06:54:02 -0700
+X-CSE-ConnectionGUID: V+dnqm8uS9mFA8abtNTq1w==
+X-CSE-MsgGUID: nHfDbQKETkGZRRx8vpke7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="78982482"
+   d="scan'208";a="60720450"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Aug 2024 06:52:56 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Aug 2024 06:54:00 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saFBg-0000Uo-1g;
-	Sat, 03 Aug 2024 13:52:49 +0000
-Date: Sat, 3 Aug 2024 21:52:39 +0800
+	id 1saFCj-0000Us-38;
+	Sat, 03 Aug 2024 13:53:55 +0000
+Date: Sat, 3 Aug 2024 21:52:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT'
- undeclared; did you mean 'CONFIG_LOG_BUF_SHIFT'?
-Message-ID: <202408032138.P7sBvIns-lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	"Paulo Alcantara (SUSE)" <pc@manguebit.com>
+Subject: [cifs:5.15-backport-8-1-24 579/600] fs/cifs/readdir.c:68:35: error:
+ implicit declaration of function 'inode_get_ctime'; did you mean
+ 'inode_get_bytes'?
+Message-ID: <202408032149.nYY75Z7B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,227 +65,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   17712b7ea0756799635ba159cc773082230ed028
-commit: 5394f1e9b687bcf26595cabf83483e568676128d arch: define CONFIG_PAGE_SIZE_*KB on all architectures
-date:   5 months ago
-config: m68k-alldefconfig (https://download.01.org/0day-ci/archive/20240803/202408032138.P7sBvIns-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408032138.P7sBvIns-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/sfrench/cifs-2.6.git 5.15-backport-8-1-24
+head:   c931999946e12679e0adc129509a1e23a4a64b5d
+commit: dcb1e6f4a287802e0f9e1db6a81ea280481b2d4b [579/600] smb: client: stop revalidating reparse points unnecessarily
+config: i386-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240803/202408032149.nYY75Z7B-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408032149.nYY75Z7B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408032138.P7sBvIns-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408032149.nYY75Z7B-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from arch/m68k/include/asm/processor.h:11,
-                    from include/linux/sched.h:13,
-                    from arch/m68k/kernel/asm-offsets.c:15:
-   arch/m68k/include/asm/page_mm.h: In function 'virt_to_pfn':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
-     125 |         return __pa(kaddr) >> PAGE_SHIFT;
-         |                               ^~~~~~~~~~
-   arch/m68k/include/asm/page.h:10:25: note: each undeclared identifier is reported only once for each function it appears in
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
-     125 |         return __pa(kaddr) >> PAGE_SHIFT;
-         |                               ^~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h: In function 'pfn_to_virt':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:130:28: note: in expansion of macro 'PAGE_SHIFT'
-     130 |         return __va(pfn << PAGE_SHIFT);
-         |                            ^~~~~~~~~~
-   include/asm-generic/getorder.h: In function 'get_order':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
-      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
-         |                                                ^~~~~~~~~~
-   arch/m68k/include/asm/thread_info.h: At top level:
-   arch/m68k/include/asm/page.h:10:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/thread_info.h:13:5: note: in expansion of macro 'PAGE_SHIFT'
-      13 | #if PAGE_SHIFT < 13
-         |     ^~~~~~~~~~
-   arch/m68k/include/asm/page.h:10:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   include/linux/mm_types_task.h:40:30: note: in expansion of macro 'PAGE_SIZE'
-      40 | #if (BITS_PER_LONG > 32) || (PAGE_SIZE >= 65536)
-         |                              ^~~~~~~~~
-   arch/m68k/include/asm/page.h:10:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   include/linux/mm_types.h:502:6: note: in expansion of macro 'PAGE_SIZE'
-     502 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
-         |      ^~~~~~~~~
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13:
-   arch/m68k/include/asm/page.h:10:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   include/linux/mm_types.h:479:41: note: in expansion of macro '__ALIGN_MASK'
-     479 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
-         |                                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   arch/m68k/include/asm/page.h:12:28: note: in expansion of macro 'PAGE_SIZE'
-      12 | #define PAGE_MASK       (~(PAGE_SIZE-1))
-         |                            ^~~~~~~~~
-   include/linux/mm_types.h:479:62: note: in expansion of macro 'PAGE_MASK'
-     479 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
-         |                                                              ^~~~~~~~~
-   include/linux/mm_types.h:502:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
-     502 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:10:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                             ^~~~
-   include/linux/mm_types.h:479:41: note: in expansion of macro '__ALIGN_MASK'
-     479 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
-         |                                         ^~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   arch/m68k/include/asm/page.h:12:28: note: in expansion of macro 'PAGE_SIZE'
-      12 | #define PAGE_MASK       (~(PAGE_SIZE-1))
-         |                            ^~~~~~~~~
-   include/linux/mm_types.h:479:62: note: in expansion of macro 'PAGE_MASK'
-     479 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
-         |                                                              ^~~~~~~~~
-   include/linux/mm_types.h:502:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
-     502 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmalloc.h: In function 'arch_vmap_pte_range_map_size':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   include/linux/vmalloc.h:109:16: note: in expansion of macro 'PAGE_SIZE'
-     109 |         return PAGE_SIZE;
-         |                ^~~~~~~~~
-   include/linux/vmalloc.h: In function 'arch_vmap_pte_supported_shift':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/linux/vmalloc.h:116:16: note: in expansion of macro 'PAGE_SHIFT'
-     116 |         return PAGE_SHIFT;
-         |                ^~~~~~~~~~
-   include/linux/vmalloc.h: In function 'get_vm_area_size':
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   arch/m68k/include/asm/page.h:11:40: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PAGE_SIZE       (_AC(1, UL) << PAGE_SHIFT)
-         |                                        ^~~~~~~~~~
-   include/linux/vmalloc.h:200:37: note: in expansion of macro 'PAGE_SIZE'
-     200 |                 return area->size - PAGE_SIZE;
-         |                                     ^~~~~~~~~
-   include/linux/slab.h: At top level:
->> arch/m68k/include/asm/page.h:10:25: error: 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/linux/slab.h:309:34: note: in expansion of macro 'PAGE_SHIFT'
-     309 | #define KMALLOC_SHIFT_HIGH      (PAGE_SHIFT + 1)
-         |                                  ^~~~~~~~~~
-   include/linux/slab.h:379:34: note: in expansion of macro 'KMALLOC_SHIFT_HIGH'
-     379 | kmalloc_caches[NR_KMALLOC_TYPES][KMALLOC_SHIFT_HIGH + 1];
-         |                                  ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6:
->> arch/m68k/include/asm/page.h:10:25: error: expression in static assertion is not an integer
-      10 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
-         |                         ^~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/slab.h:475:1: note: in expansion of macro 'static_assert'
-     475 | static_assert(PAGE_SHIFT <= 20);
-         | ^~~~~~~~~~~~~
-   include/linux/slab.h:475:15: note: in expansion of macro 'PAGE_SHIFT'
-     475 | static_assert(PAGE_SHIFT <= 20);
-         |               ^~~~~~~~~~
-   In file included from include/linux/irq.h:21,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from arch/m68k/kernel/asm-offsets.c:16:
-   include/linux/slab.h:522:47: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
-     522 |                                               __alloc_size(1);
-         |                                               ^~~~~~~~~~~~
-   include/linux/slab.h:525:62: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
-     525 |                                                              __alloc_size(1);
-         |                                                              ^~~~~~~~~~~~
-   include/linux/slab.h: In function 'kmalloc':
-   include/linux/slab.h:584:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-     584 |                 unsigned int index;
-         |                              ^~~~~
-   include/linux/slab.h: In function 'kmalloc_node':
-   include/linux/slab.h:600:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-     600 |                 unsigned int index;
-         |                              ^~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/m68k/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1199: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from fs/cifs/readdir.c:15:
+   fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:885:9: error: expected specifier-qualifier-list before 'struct_group'
+     885 |         struct_group(common_attributes,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2269:9: error: expected specifier-qualifier-list before 'struct_group'
+    2269 |         struct_group(common_attributes,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2332:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2332 |         DECLARE_FLEX_ARRAY(char, LinkDest);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2381:9: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2381 |         DECLARE_FLEX_ARRAY(__u8, alt_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifspdu.h:2492:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    2492 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from fs/cifs/cifsglob.h:26,
+                    from fs/cifs/readdir.c:16:
+   fs/cifs/../smbfs_common/smb2pdu.h:705:9: error: expected specifier-qualifier-list before 'struct_group'
+     705 |         struct_group(network_open_info,
+         |         ^~~~~~~~~~~~
+   fs/cifs/../smbfs_common/smb2pdu.h:845:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     845 |                 DECLARE_FLEX_ARRAY(struct smb2_lock_element, locks);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/../smbfs_common/smb2pdu.h:1686:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+    1686 |                 DECLARE_FLEX_ARRAY(char, FileName);
+         |                 ^~~~~~~~~~~~~~~~~~
+   In file included from fs/cifs/cifsglob.h:27:
+   fs/cifs/smb2pdu.h:322:9: error: expected specifier-qualifier-list before 'struct_group'
+     322 |         struct_group(network_open_info,
+         |         ^~~~~~~~~~~~
+   fs/cifs/cifsglob.h: In function 'move_cifs_info_to_smb2':
+   fs/cifs/cifsglob.h:2182:45: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
+    2182 |         memcpy(dst, src, (size_t)((u8 *)&src->AccessFlags - (u8 *)src));
+         |                                             ^~
+   fs/cifs/cifsglob.h:2183:31: error: 'FILE_ALL_INFO' has no member named 'AccessFlags'
+    2183 |         dst->AccessFlags = src->AccessFlags;
+         |                               ^~
+   fs/cifs/cifsglob.h:2184:37: error: 'FILE_ALL_INFO' has no member named 'CurrentByteOffset'
+    2184 |         dst->CurrentByteOffset = src->CurrentByteOffset;
+         |                                     ^~
+   fs/cifs/cifsglob.h:2185:24: error: 'FILE_ALL_INFO' has no member named 'Mode'
+    2185 |         dst->Mode = src->Mode;
+         |                        ^~
+   fs/cifs/cifsglob.h:2186:40: error: 'FILE_ALL_INFO' has no member named 'AlignmentRequirement'
+    2186 |         dst->AlignmentRequirement = src->AlignmentRequirement;
+         |                                        ^~
+   fs/cifs/cifsglob.h:2187:34: error: 'FILE_ALL_INFO' has no member named 'FileNameLength'
+    2187 |         dst->FileNameLength = src->FileNameLength;
+         |                                  ^~
+   fs/cifs/readdir.c: In function 'reparse_inode_match':
+>> fs/cifs/readdir.c:68:35: error: implicit declaration of function 'inode_get_ctime'; did you mean 'inode_get_bytes'? [-Werror=implicit-function-declaration]
+      68 |         struct timespec64 ctime = inode_get_ctime(inode);
+         |                                   ^~~~~~~~~~~~~~~
+         |                                   inode_get_bytes
+>> fs/cifs/readdir.c:68:35: error: invalid initializer
+   fs/cifs/readdir.c: In function 'cifs_fill_dirent_unix':
+   fs/cifs/readdir.c:522:25: error: 'FILE_UNIX_INFO' has no member named 'FileName'
+     522 |         de->name = &info->FileName[0];
+         |                         ^~
+   cc1: some warnings being treated as errors
 
 
-vim +10 arch/m68k/include/asm/page.h
+vim +68 fs/cifs/readdir.c
 
-     8	
-     9	/* PAGE_SHIFT determines the page size */
-  > 10	#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
-  > 11	#define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
-    12	#define PAGE_MASK	(~(PAGE_SIZE-1))
-    13	#define PAGE_OFFSET	(PAGE_OFFSET_RAW)
-    14	
+    57	
+    58	/*
+    59	 * Match a reparse point inode if reparse tag and ctime haven't changed.
+    60	 *
+    61	 * Windows Server updates ctime of reparse points when their data have changed.
+    62	 * The server doesn't allow changing reparse tags from existing reparse points,
+    63	 * though it's worth checking.
+    64	 */
+    65	static inline bool reparse_inode_match(struct inode *inode,
+    66					       struct cifs_fattr *fattr)
+    67	{
+  > 68		struct timespec64 ctime = inode_get_ctime(inode);
+    69	
+    70		return (CIFS_I(inode)->cifsAttrs & ATTR_REPARSE) &&
+    71			CIFS_I(inode)->reparse_tag == fattr->cf_cifstag &&
+    72			timespec64_equal(&ctime, &fattr->cf_ctime);
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
