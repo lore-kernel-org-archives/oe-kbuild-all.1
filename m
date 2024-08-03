@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CF828376
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 07:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD6349647;
+	Sat,  3 Aug 2024 07:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722670196; cv=none; b=hFheQElp6OIVrGylaGKEbJiZG0AScJ+lNCdUDc4HMGiSShxXMWUM81R5lXGCfT0CJydiU0HvO4vROi6W1KXEK7r4BXTLZrJgPZEvSB94HeAtdDBU2rduXF7wayEzv6ecbfMo37qi923/Rt7ApkL3YY7G1AwKS9BK/AaesGETJuU=
+	t=1722671924; cv=none; b=bHVvV3KSsDWIDbGlSGi+yR8kx/N1qMTNmprS8F5wAAQyH/wfhx94PwPmgfcPX04OT5pQHUFB4X/5/PlznQ2orefTYMvXq6r5440SzHF3r/Jsi8YlCdnBkydBL+23HgVqrbz50IVe1h5HqGhKVV2g5miT926VBHrCL6ktL9luY/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722670196; c=relaxed/simple;
-	bh=XTYTOC7cCPSdcTzrbUtDV7Q/khL4meh43s+9//R09sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJRQagFUOoWEA22e2SKc7roCm+AZCrPcFDKxy3urjWHthK6BDhWqsXnQpDBX+KFkn5eUMJzYPQktytO1oPSGi4SY1YUQmdVxv4LCGzE0eIqH95bK4/HaTV83unYamxPXBsAbKXvEPfNiqwYevV04Xa7fV+BmY1BPD5hyCicJUuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOoTQDf0; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1722671924; c=relaxed/simple;
+	bh=Tmhy9x28m4fqBFRPAkuSRtvypk1CzkzPz54QUFusO6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B8XOx2/ttFFtpEwoQU8Ak1pOmtFgKBmUVYzatm2JGvEbW2ktb0UdMHDz1bmsoJsJb2a+09/UIGAF66xbl8w6gVicrOfdj1EYCs+XrSyHlUGeBBxvnfbs+CJ+Av63kfZyfTFLR1DwtWXkwObl3I37zRXh3bmIGJJn7w3mSu5fJEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTvVnCsH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOoTQDf0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTvVnCsH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722670195; x=1754206195;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XTYTOC7cCPSdcTzrbUtDV7Q/khL4meh43s+9//R09sw=;
-  b=NOoTQDf0x/7nUKvPWla3MK+3ZAKYmCxK9+LhOtwvCw+eygruOMEaN2Ze
-   YCaVokvTSuE3IsY9W+y6B/In8fWik8smQjGZvd//ULcmtTimxs3TnG2JW
-   Xk6WKXWZKm5oH+GV0p842VunPfhEFKkA6CYx5V/lkHTloNDKHBmHcHL+3
-   pozqNki5UfmmaYWGtQCwpHW04vPBchc/rpKhPfrItKg6Sqb3XUomOZGi0
-   XUjX7htAgmfZpxnckVYdAdmcwXpjuo/x1R+n5tB+wIZNDh1QPID9EeLmr
-   CK3kB1fpI+eD9TEUxBEKR9lb0MS+pqfCW1xuRRh0Jt7D3/f9Md7nVnEMj
-   g==;
-X-CSE-ConnectionGUID: cdJJurlVTg6H7ANMizmVxg==
-X-CSE-MsgGUID: npXN6wtbRKWn5p+nsN8o5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="43215885"
+  t=1722671922; x=1754207922;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Tmhy9x28m4fqBFRPAkuSRtvypk1CzkzPz54QUFusO6Q=;
+  b=jTvVnCsHY49Pq5iGkljQMwiy4wFLZXpIzKJR5ktIEX2/UU/gc8oZpG7D
+   F2VkOqpTalx3sfmqejgkaOHOl2QP1UKULGvka28pWgRcCILQQIup+nhLG
+   RGN/POTLB531Cu3lrkyxQRMRiSbD5TXE/AHQO+ohcVgMyO1PwWIUn6gzC
+   YxKRH/c6PciexN6TRIzYH6zol+XlH34gcoykotST0nHa6Hbc2Oyea94Wc
+   3Ke5nDVxi9XOsdBeigKj2OLz/2xAR+bCK6EDr4g1NMg+mmkdwlLAVDvEU
+   lW6nhwKSzUCfYyr7W61xwVKmHH7/vRmKodZFt6ADvVUxWwOefuso8Mc4D
+   w==;
+X-CSE-ConnectionGUID: OK42pvfnQFSkXHr/LtKjpQ==
+X-CSE-MsgGUID: yEdaogJWSm+JUWCp3/fOcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20642858"
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="43215885"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 00:29:54 -0700
-X-CSE-ConnectionGUID: eRzOxe2aRZy3iG6kmSm1GA==
-X-CSE-MsgGUID: qm6WptYUTU23MnLaTxwJrw==
+   d="scan'208";a="20642858"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 00:58:34 -0700
+X-CSE-ConnectionGUID: Ayavin1uQwWLLq0B/yzZ6g==
+X-CSE-MsgGUID: x2mHZiK/Sy+IPb4BELHYJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="60658330"
+   d="scan'208";a="55310305"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 03 Aug 2024 00:29:53 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 03 Aug 2024 00:58:32 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sa9Cl-0000Go-2W;
-	Sat, 03 Aug 2024 07:29:34 +0000
-Date: Sat, 3 Aug 2024 15:25:53 +0800
+	id 1sa9eI-0000Ha-0Z;
+	Sat, 03 Aug 2024 07:58:09 +0000
+Date: Sat, 3 Aug 2024 15:56:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] usb: misc: onboard_usb_dev: add Microchip usb5744
- SMBus programming support
-Message-ID: <202408031522.0gVAPj3W-lkp@intel.com>
-References: <1722440548-107682-3-git-send-email-radhey.shyam.pandey@amd.com>
+To: Kyle Swenson <kyle.swenson@est.tech>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [netdev-net:main 4/5] drivers/net/pse-pd/tps23881.c:755:6: error:
+ call to undeclared function 'FIELD_GET'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202408031528.M5Qden7Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +64,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1722440548-107682-3-git-send-email-radhey.shyam.pandey@amd.com>
 
-Hi Radhey,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e4fc196f5ba36eb7b9758cf2c73df49a44199895]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Radhey-Shyam-Pandey/usb-misc-onboard_dev-extend-platform-data-to-add-power-on-delay-field/20240802-073632
-base:   e4fc196f5ba36eb7b9758cf2c73df49a44199895
-patch link:    https://lore.kernel.org/r/1722440548-107682-3-git-send-email-radhey.shyam.pandey%40amd.com
-patch subject: [PATCH v3 2/2] usb: misc: onboard_usb_dev: add Microchip usb5744 SMBus programming support
-config: loongarch-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031522.0gVAPj3W-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031522.0gVAPj3W-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git main
+head:   fba917b169bea5f8f2ee300e19d5f7a6341a5251
+commit: 89108cb5c28527c1882df2987394e5c261a1f4aa [4/5] net: pse-pd: tps23881: Fix the device ID check
+config: i386-randconfig-003-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031528.M5Qden7Z-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031528.M5Qden7Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031522.0gVAPj3W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031528.M5Qden7Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/usb/misc/onboard_usb_dev.o: in function `onboard_dev_probe':
->> onboard_usb_dev.c:(.text+0xfe8): undefined reference to `i2c_find_device_by_fwnode'
->> loongarch64-linux-ld: onboard_usb_dev.c:(.text+0x10f4): undefined reference to `i2c_smbus_write_block_data'
->> loongarch64-linux-ld: onboard_usb_dev.c:(.text+0x1108): undefined reference to `i2c_smbus_write_word_data'
-   loongarch64-linux-ld: onboard_usb_dev.c:(.text+0x111c): undefined reference to `i2c_smbus_write_word_data'
+>> drivers/net/pse-pd/tps23881.c:755:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     755 |         if (FIELD_GET(TPS23881_REG_DEVID_MASK, ret) != TPS23881_DEVICE_ID) {
+         |             ^
+   1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+
+vim +/FIELD_GET +755 drivers/net/pse-pd/tps23881.c
+
+   734	
+   735	static int tps23881_i2c_probe(struct i2c_client *client)
+   736	{
+   737		struct device *dev = &client->dev;
+   738		struct tps23881_priv *priv;
+   739		int ret;
+   740		u8 val;
+   741	
+   742		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+   743			dev_err(dev, "i2c check functionality failed\n");
+   744			return -ENXIO;
+   745		}
+   746	
+   747		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   748		if (!priv)
+   749			return -ENOMEM;
+   750	
+   751		ret = i2c_smbus_read_byte_data(client, TPS23881_REG_DEVID);
+   752		if (ret < 0)
+   753			return ret;
+   754	
+ > 755		if (FIELD_GET(TPS23881_REG_DEVID_MASK, ret) != TPS23881_DEVICE_ID) {
+   756			dev_err(dev, "Wrong device ID\n");
+   757			return -ENXIO;
+   758		}
+   759	
+   760		ret = tps23881_flash_sram_fw(client);
+   761		if (ret < 0)
+   762			return ret;
+   763	
+   764		ret = i2c_smbus_read_byte_data(client, TPS23881_REG_FWREV);
+   765		if (ret < 0)
+   766			return ret;
+   767	
+   768		dev_info(&client->dev, "Firmware revision 0x%x\n", ret);
+   769	
+   770		/* Set configuration B, 16 bit access on a single device address */
+   771		ret = i2c_smbus_read_byte_data(client, TPS23881_REG_GEN_MASK);
+   772		if (ret < 0)
+   773			return ret;
+   774	
+   775		val = ret | TPS23881_REG_NBITACC;
+   776		ret = i2c_smbus_write_byte_data(client, TPS23881_REG_GEN_MASK, val);
+   777		if (ret)
+   778			return ret;
+   779	
+   780		priv->client = client;
+   781		i2c_set_clientdata(client, priv);
+   782		priv->np = dev->of_node;
+   783	
+   784		priv->pcdev.owner = THIS_MODULE;
+   785		priv->pcdev.ops = &tps23881_ops;
+   786		priv->pcdev.dev = dev;
+   787		priv->pcdev.types = ETHTOOL_PSE_C33;
+   788		priv->pcdev.nr_lines = TPS23881_MAX_CHANS;
+   789		ret = devm_pse_controller_register(dev, &priv->pcdev);
+   790		if (ret) {
+   791			return dev_err_probe(dev, ret,
+   792					     "failed to register PSE controller\n");
+   793		}
+   794	
+   795		return ret;
+   796	}
+   797	
 
 -- 
 0-DAY CI Kernel Test Service
