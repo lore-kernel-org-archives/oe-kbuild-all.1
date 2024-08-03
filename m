@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F196B4C74
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 05:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B274C74
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Aug 2024 05:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722662174; cv=none; b=BO2suG1/X4mQ3RFxt8CMxY99zLTbb6IeG99SqSE5sLY/Rjb/Zjlok8iEOGc5ogSHB+2mWOEin4H72X7YrUXMjm18g82YAfFyNGXVd25tWvFwc/7m31CyNUzpLWODfihv1SQIKLlu+/GIWMjYvfONdXUTh5a6nkNpxWLucPLC3s0=
+	t=1722662183; cv=none; b=AxNLmSSo1y6RYgyVbN06npuFQLi2Dkq3QYI8FxkErFx7Azh/oYRFh8L4YX9HvLsS9NX6hxDmAJDevHDwzC8dW66rHuy6BikeZu9bH6VBzOVjcLii8Fd9ZiujDV6oim5dJ0M7z/KwZ/5XXcc4RBkJNIYMnqR9lv79Os5ouEqtBNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722662174; c=relaxed/simple;
-	bh=aLbAsemGuGh1A4xy9zLjEM1P9eitll2nJ1p0GC5FNUo=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BFh7XHgtsMZHDczDo7ErsJfdvUekBV4fkmt7NsgjHGo99jVfR13gsn0GQpgUxb51lz/eg3Fm3ejH0p3o1m4gYh9ybMlUh81WWcAxq4tCYpW9O6F4IopC08Thg2eVoESr/4P41XX80S/udA4psh4Q5aMZt9b0gmx5TzXdMuRVVsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGTun3oL; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1722662183; c=relaxed/simple;
+	bh=gtXf5MljnWlUDdrAGpUZhmR7LLEZvldj9ThqMK9GRb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Phzbl6wMgB5vt6DcC+u8K6dUGvz0Sgxadp3LA2bZTQH8hpGS53n5B1QUk6viYqaOkWvX+3XKXKqyVJVj1aJsKNSgJNWsjgn3i+wcsoXJM/JnjJKIfhxEUhQ/Ix6FcjEdBLqBhyMaUYDnctppHDZDfNm9U2prUy6cbiUI+9YszR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzY7BaEQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGTun3oL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzY7BaEQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722662172; x=1754198172;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=aLbAsemGuGh1A4xy9zLjEM1P9eitll2nJ1p0GC5FNUo=;
-  b=XGTun3oLXem61rx2sCwo4PAHX07fmOdr9C09xNfd+nV6cY2IQI9aJx5Z
-   aouhSON5h/ue5uqhmLUEkXukRFNryKlqMgsM8pqCvlHcmldxfVMOw/Xfr
-   qty9ELsIzjTdHDx9/WYrdXHME7g93uWoj7xZWqrqcvYfMqbvT5iPff99d
-   NNkY4QydwEoCYsKnxdjuC3BudTeTbTTLntmvvK58Jp6+R/B1JreXlf5ji
-   TYYIwA6Q7aVBpxCi8AkaIpA4jwck7LnCiB9ibCjQpf4CbOc4y2LRMPX2i
-   6pXcGIfX2FeKFddvbgpnIyK5EYIofsjPa6LZDEm8RhMm+Kg45jX8vOPqt
-   g==;
-X-CSE-ConnectionGUID: T9692i7AQAaP6EPe91h0dw==
-X-CSE-MsgGUID: HsIdqUsMR6G6E6XZNc5kBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="31340615"
+  t=1722662181; x=1754198181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gtXf5MljnWlUDdrAGpUZhmR7LLEZvldj9ThqMK9GRb4=;
+  b=UzY7BaEQWMLfS/fRFzrZgrLj1Py1KZVKpBzzqa+PT6qEJ2jQqw8zS1VN
+   DJt6gmKDTZ3EPjZsxjoibMKnJrymCzOf+g0MyFsJexI539zvJ4/+RueOW
+   WzzYnq96jwhWTHwTiQPIKQYsJLm5JFK7MkAf25qHIBwv2NSiiL+SqpZMH
+   wIQ2mtVBTeQGfgKoLCu44fk1+zdrQyvfzkqjyOG+7YkRYfLPiAU1nYm5W
+   AdH7Spra2GjurGGtrh88DpksM6rx1Q5upDjrEB2YTyGx8ewTBS4B5D72M
+   r8Sd5cP1yLrmVSN+65hBdGKImpICvdSNvrxuSesmh//ih6sLwApcOu8jL
+   A==;
+X-CSE-ConnectionGUID: iHs9eIG6SIGlOUBqbkJJgA==
+X-CSE-MsgGUID: U3YgzG0aRWWcvPeeOBdK+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20852856"
 X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
-   d="scan'208";a="31340615"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 22:16:11 -0700
-X-CSE-ConnectionGUID: qrcJT84aTuCt53jCS1uYGg==
-X-CSE-MsgGUID: T2ST23GpQjqfmoWwu9guXA==
+   d="scan'208";a="20852856"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 22:16:20 -0700
+X-CSE-ConnectionGUID: SjHjkmnfQMyey+1j1t6xxw==
+X-CSE-MsgGUID: WEku4IIpTdiNskuN1fka6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
-   d="scan'208";a="56229643"
+   d="scan'208";a="55308840"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Aug 2024 22:16:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Aug 2024 22:16:19 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sa77X-00006U-0c
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 03 Aug 2024 05:16:01 +0000
-Date: Sat, 3 Aug 2024 13:15:42 +0800
+	id 1sa77f-00006W-2I;
+	Sat, 03 Aug 2024 05:16:11 +0000
+Date: Sat, 3 Aug 2024 13:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:5.15/android_t 868/29299] ld: hvc_console.c:undefined
- reference to `tty_do_resize'
-Message-ID: <202408031337.nWne7Qej-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	Steve French <stfrench@microsoft.com>,
+	Kees Cook <keescook@chromium.org>,
+	Ronnie Sahlberg <lsahlber@redhat.com>
+Subject: [cifs:5.15-backport-8-1-24 226/600] fs/cifs/cifspdu.h:512:17: error:
+ expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+Message-ID: <202408031336.QdFIpntb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +66,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_t
-head:   9485d66da87d67d1efc4a5f2d357616c6501dc72
-commit: 180e8150bde1627efa62910f16ff32d2e4fa85db [868/29299] ANDROID: GKI: build in HVC_DRIVER
-config: x86_64-buildonly-randconfig-003-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031337.nWne7Qej-lkp@intel.com/config)
+Hi Gustavo,
+
+FYI, the error/warning still remains.
+
+tree:   git://git.samba.org/sfrench/cifs-2.6.git 5.15-backport-8-1-24
+head:   c931999946e12679e0adc129509a1e23a4a64b5d
+commit: cb470770db4ecdaf46a6c4b1703889ba2d6a4b19 [226/600] cifs: Replace a couple of one-element arrays with flexible-array members
+config: i386-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240803/202408031336.QdFIpntb-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031337.nWne7Qej-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031336.QdFIpntb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408031337.nWne7Qej-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408031336.QdFIpntb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
-   hvc_console.c:(.text+0x188): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
-   hvc_console.c:(.text+0x211): undefined reference to `tty_port_tty_get'
->> ld: hvc_console.c:(.text+0x243): undefined reference to `tty_do_resize'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
-   hvc_console.c:(.text+0x32e): undefined reference to `tty_port_tty_set'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
-   hvc_console.c:(.text+0x3b2): undefined reference to `tty_port_tty_set'
->> ld: hvc_console.c:(.text+0x451): undefined reference to `tty_port_tty_set'
->> ld: hvc_console.c:(.text+0x462): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
->> (.text+0x48f): undefined reference to `tty_port_tty_get'
->> ld: (.text+0x4da): undefined reference to `tty_port_put'
->> ld: (.text+0x4e7): undefined reference to `tty_vhangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
-   hvc_console.c:(.text+0x50d): undefined reference to `tty_hung_up_p'
-   ld: hvc_console.c:(.text+0x575): undefined reference to `tty_port_tty_set'
->> ld: hvc_console.c:(.text+0x5d5): undefined reference to `tty_wait_until_sent'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
->> (.text+0x619): undefined reference to `__tty_alloc_driver'
->> ld: (.text+0x657): undefined reference to `tty_std_termios'
-   ld: (.text+0x66a): undefined reference to `tty_std_termios'
-   ld: (.text+0x67a): undefined reference to `tty_std_termios'
-   ld: (.text+0x68d): undefined reference to `tty_std_termios'
-   ld: (.text+0x698): undefined reference to `tty_std_termios'
-   ld: drivers/tty/hvc/hvc_console.o:(.text+0x6a2): more undefined references to `tty_std_termios' follow
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
->> (.text+0x6ab): undefined reference to `tty_set_operations'
-   ld: (.text+0x6eb): undefined reference to `tty_register_driver'
->> ld: (.text+0x74e): undefined reference to `tty_port_init'
-   ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
-   hvc_console.c:(.text+0x947): undefined reference to `tty_port_tty_get'
->> ld: hvc_console.c:(.text+0x986): undefined reference to `tty_buffer_request_room'
->> ld: hvc_console.c:(.text+0x9cf): undefined reference to `__tty_insert_flip_char'
->> ld: hvc_console.c:(.text+0xa8f): undefined reference to `tty_flip_buffer_push'
-   ld: hvc_console.c:(.text+0xb7c): undefined reference to `tty_port_tty_get'
->> ld: hvc_console.c:(.text+0xbcb): undefined reference to `tty_wakeup'
->> ld: hvc_console.c:(.text+0xc36): undefined reference to `tty_hangup'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
-   hvc_console.c:(.text+0xf1f): undefined reference to `tty_port_install'
-   ld: hvc_console.c:(.text+0xf38): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
->> (.text+0xfd0): undefined reference to `tty_port_put'
-   ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc.cold':
-   hvc_console.c:(.text.unlikely+0x35): undefined reference to `put_tty_driver'
-   ld: hvc_console.c:(.text.unlikely+0x6f): undefined reference to `put_tty_driver'
+   In file included from fs/cifs/dir.c:17:
+>> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+--
+   In file included from fs/cifs/cifsglob.h:100,
+                    from fs/cifs/cached_dir.c:8:
+>> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cached_dir.c:415:6: warning: no previous prototype for 'free_cached_dir' [-Wmissing-prototypes]
+     415 | void free_cached_dir(struct cached_fid *cfid)
+         |      ^~~~~~~~~~~~~~~
+--
+   In file included from fs/cifs/ioctl.c:16:
+>> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/ioctl.c: In function 'cifs_ioctl':
+   fs/cifs/ioctl.c:324:17: warning: variable 'caps' set but not used [-Wunused-but-set-variable]
+     324 |         __u64   caps;
+         |                 ^~~~
+--
+   In file included from fs/cifs/cifssmb.c:26:
+>> fs/cifs/cifspdu.h:512:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
+     512 |                 DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+         |                 ^~~~~~~~~~~~~~~~~~
+   fs/cifs/cifssmb.c: In function 'decode_ext_sec_blob':
+>> fs/cifs/cifssmb.c:381:33: error: 'union <anonymous>' has no member named 'extended_response'
+     381 |         char    *guid = pSMBr->u.extended_response.GUID;
+         |                                 ^
+   fs/cifs/cifssmb.c:405:33: error: 'union <anonymous>' has no member named 'extended_response'
+     405 |                         pSMBr->u.extended_response.SecurityBlob, count, server);
+         |                                 ^
+   fs/cifs/cifssmb.c: In function 'CIFSSMBNegotiate':
+>> fs/cifs/cifssmb.c:516:55: error: 'union <anonymous>' has no member named 'EncryptionKey'
+     516 |                 memcpy(ses->server->cryptkey, pSMBr->u.EncryptionKey,
+         |                                                       ^
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+
+vim +/DECLARE_FLEX_ARRAY +512 fs/cifs/cifspdu.h
+
+   490	
+   491	#define READ_RAW_ENABLE 1
+   492	#define WRITE_RAW_ENABLE 2
+   493	#define RAW_ENABLE (READ_RAW_ENABLE | WRITE_RAW_ENABLE)
+   494	#define SMB1_CLIENT_GUID_SIZE (16)
+   495	typedef struct negotiate_rsp {
+   496		struct smb_hdr hdr;	/* wct = 17 */
+   497		__le16 DialectIndex; /* 0xFFFF = no dialect acceptable */
+   498		__u8 SecurityMode;
+   499		__le16 MaxMpxCount;
+   500		__le16 MaxNumberVcs;
+   501		__le32 MaxBufferSize;
+   502		__le32 MaxRawSize;
+   503		__le32 SessionKey;
+   504		__le32 Capabilities;	/* see below */
+   505		__le32 SystemTimeLow;
+   506		__le32 SystemTimeHigh;
+   507		__le16 ServerTimeZone;
+   508		__u8 EncryptionKeyLength;
+   509		__u16 ByteCount;
+   510		union {
+   511			/* cap extended security off */
+ > 512			DECLARE_FLEX_ARRAY(unsigned char, EncryptionKey);
+   513			/* followed by Domain name - if extended security is off */
+   514			/* followed by 16 bytes of server GUID */
+   515			/* then security blob if cap_extended_security negotiated */
+   516			struct {
+   517				unsigned char GUID[SMB1_CLIENT_GUID_SIZE];
+   518				unsigned char SecurityBlob[];
+   519			} __attribute__((packed)) extended_response;
+   520		} __attribute__((packed)) u;
+   521	} __attribute__((packed)) NEGOTIATE_RSP;
+   522	
 
 -- 
 0-DAY CI Kernel Test Service
