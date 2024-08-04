@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0E84405
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Aug 2024 00:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4B3803;
+	Sun,  4 Aug 2024 01:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722732704; cv=none; b=soUlgOgRUitnjdIVVLI/5q9nMro6Jz/S7T/0HoNEmwCWbeejoA5I9ePR+zPj+gpzwvmnweWgiU0wWxmZUX2ACJEkDwyMz6BfZNffvJ92AYx9Bfrc7996Dko0wPWtVnfTrO7x7Rl78KLRKGMK5SbnqD6RMJ3eEDSqw+B1VAfs9ZI=
+	t=1722734509; cv=none; b=GmDIDWZS2uKoPtxl6BOrBJVYoOYv+Pw4o58Kdm8JyLZ5zWQ6pAYlAw+Ez32MBp8UYSXgdbURrLMWH0J3SAwC7zk+PB6ZaenPI8yQXvqYDBmMrliBddaNMuoHTk9/faoAMI+06ApxyFeQ4WWZg8J7pDBj1CJ0B3dxP/1U2FPmsx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722732704; c=relaxed/simple;
-	bh=egm68ysDF4n8/hpTwPqTTdH+anNbmwqAgRbv+SZomxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GoLZ/h7pFrmW8BV5rc5VhLV3nqDYLiN/jbp9MSHZb0ZyWWPorE4BWyA/U4DOfqtku0nu3qWTWCXl3my7tyojQQUj+6FGOIHMCwWaaVebm3XjDKz7vJiw9Htv5iTk5DtH4soD3YRoPViN1iH505BQOcmrgyJccqljwNkMZAGmpZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTeK1nqR; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1722734509; c=relaxed/simple;
+	bh=ULD8hu/6LbE9TECygni6jXGyKWNJRoJvqssfORjqyc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QEnfqExTo2aQ0tLTc39A+hbmTb+TkFr0iJrikq5dYZtjCBLepjPZL2T3rxXOXyc2T20SHsqYDNN18zJNXp50fOSQPq3bv2U03kGdwAZrZC0pzIweFwz246zKlCA2vWuPFLzJOP9lXqgCKss5oxxC6nTaFNv161eAK+9YxciN62k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOU2MVWz; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTeK1nqR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOU2MVWz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722732703; x=1754268703;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=egm68ysDF4n8/hpTwPqTTdH+anNbmwqAgRbv+SZomxA=;
-  b=aTeK1nqRMkcFascM2EheqNdi+7Ti369sfr7TVLJRr5caBDPeisM3c2jo
-   nv1WZ4k8mWfby1d1904cZ7tgxQiCDBSDqprDcR2ah2M8ahc4LOn9Yc3fp
-   aFc5oIK3/lQplZaFYSUKMtI5LkKt162wU2edAT3XyU1+nx0+lWNlcNYel
-   HrWiFt5+fFcpyGhi1aiXvV4PK2ThksUjYobZnT9ty2TCtP2MmB5LmISMv
-   ibrNePcPnckf7zxYSpSOeoLWEUQXuBGllTktkzKjvZDDyT49ivMbJ3edg
-   TqkrxZPd3WunZJ+p/Q33ACdPcPP71lZbqR0yiok76PB8kxQEzN1vKWotD
+  t=1722734506; x=1754270506;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ULD8hu/6LbE9TECygni6jXGyKWNJRoJvqssfORjqyc8=;
+  b=LOU2MVWzaJyoyqVF79SI1vqNewRmL68GO7EuatB6b9j2gRTjo2vZlnAh
+   8tNsAjvgubCxTIRRajJpbN8ZfPhU1q8T47uF7I+x8r6g4zLWZlu201NGB
+   rxcPQkZGRZJ15HSTGRnnM0aTwh5BwSphuzl1mEs6Mu3Ysw4q91uPi2AeS
+   ZVKNAM9tNCzra0HbIqQgC4++FIeC3F8wpDzCBAkdL4xtJ9/Ao0/qcBTVU
+   bFvUp0vj7pP/LNiL8p56xy95vMqfZqZ/kck9WWPW5FnsTgr00mCknlEfx
+   V2XoNr53R4HG97siWwzt7G70MjsrcMqmkXtcRw8F7A6sJuHmPuoKk4wj8
    w==;
-X-CSE-ConnectionGUID: s4GVsr4xTpmqo9f4oJqA7w==
-X-CSE-MsgGUID: dcbHzLMLSiubWcfGughTiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20535987"
+X-CSE-ConnectionGUID: fSTHMhGMTtOx81yqxmA9KQ==
+X-CSE-MsgGUID: bn+VH4cIRSSVhpQUzAHuTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20859143"
 X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="20535987"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 17:51:41 -0700
-X-CSE-ConnectionGUID: Fa+VLVqvR4GZ5EnKcY+c+g==
-X-CSE-MsgGUID: TnN/GOu0R8+2SNiIn2lCZQ==
+   d="scan'208";a="20859143"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 18:21:45 -0700
+X-CSE-ConnectionGUID: cqwGBeSoQvuKkFJN5XcBXA==
+X-CSE-MsgGUID: 44clfnrcTBWWL/76f/LRnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="55669613"
+   d="scan'208";a="55705972"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 03 Aug 2024 17:51:40 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Aug 2024 18:21:41 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saPTF-000130-27;
-	Sun, 04 Aug 2024 00:51:37 +0000
-Date: Sun, 4 Aug 2024 08:51:03 +0800
+	id 1saPwH-00013S-38;
+	Sun, 04 Aug 2024 01:21:37 +0000
+Date: Sun, 4 Aug 2024 09:21:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/6] ERROR: modpost:
- "v4l2_m2m_ioctl_stateless_try_decoder_cmd"
- [drivers/media/test-drivers/visl/visl.ko] undefined!
-Message-ID: <202408040810.83hvfkST-lkp@intel.com>
+To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org, jdelvare@suse.com,
+	linux@roeck-us.net, dmitry.torokhov@gmail.com, pavel@ucw.cz
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	ukleinek@debian.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 2/7] mfd: add base driver for qnap-mcu devices
+Message-ID: <202408040850.uHsR1c30-lkp@intel.com>
+References: <20240731212430.2677900-3-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,147 +68,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240731212430.2677900-3-heiko@sntech.de>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   947bacdf1faad68524b8266b45952551063dde14
-commit: cefb5c96f328e7ece57ff0a5c39d554e1d6cd171 [1/6] Merge 0c6bc3725592 ("Merge tag 'ubifs-for-linus-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs") into android-mainline
-config: arm-randconfig-002-20240803 (https://download.01.org/0day-ci/archive/20240804/202408040810.83hvfkST-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040810.83hvfkST-lkp@intel.com/reproduce)
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240801]
+[also build test WARNING on v6.11-rc1]
+[cannot apply to groeck-staging/hwmon-next lee-leds/for-leds-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v6.11-rc1 v6.10 v6.10-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-mfd-add-binding-for-qnap-ts433-mcu-devices/20240802-103948
+base:   next-20240801
+patch link:    https://lore.kernel.org/r/20240731212430.2677900-3-heiko%40sntech.de
+patch subject: [PATCH v3 2/7] mfd: add base driver for qnap-mcu devices
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240804/202408040850.uHsR1c30-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040850.uHsR1c30-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408040810.83hvfkST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408040850.uHsR1c30-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-jpgdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-hif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-apmixed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7988-infracfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vpp1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/clk-qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pmdomain/amlogic/meson-gx-pwrc-vpu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/8390/8390.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/litex/litex_liteeth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/qualcomm/emac/qcom-emac.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/smsc/smsc911x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ieee802154/fakelb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_midi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/ampere_cspmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-ERROR: modpost: "v4l2_m2m_init" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_next_buf" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_ctx_release" [drivers/media/test-drivers/visl/visl.ko] undefined!
->> ERROR: modpost: "v4l2_m2m_ioctl_stateless_try_decoder_cmd" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_buf_remove" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_buf_done_and_job_finish" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_ioctl_expbuf" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_ioctl_querybuf" [drivers/media/test-drivers/visl/visl.ko] undefined!
->> ERROR: modpost: "v4l2_m2m_ioctl_stateless_decoder_cmd" [drivers/media/test-drivers/visl/visl.ko] undefined!
-ERROR: modpost: "v4l2_m2m_request_queue" [drivers/media/test-drivers/visl/visl.ko] undefined!
-WARNING: modpost: suppressed 16 unresolved symbol warnings because there were too many)
+   In file included from drivers/mfd/qnap-mcu.c:17:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/mfd/qnap-mcu.c:17:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/mfd/qnap-mcu.c:17:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/mfd/qnap-mcu.c:109:5: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     108 |                 dev_warn(dev, "received %lu bytes, we were not waiting for\n",
+         |                                         ~~~
+         |                                         %zu
+     109 |                          size);
+         |                          ^~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   7 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=m] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+vim +109 drivers/mfd/qnap-mcu.c
+
+    96	
+    97	static size_t qnap_mcu_receive_buf(struct serdev_device *serdev,
+    98					   const u8 *buf, size_t size)
+    99	{
+   100		struct device *dev = &serdev->dev;
+   101		struct qnap_mcu *mcu = dev_get_drvdata(dev);
+   102		struct qnap_mcu_reply *reply = mcu->reply;
+   103		const u8 *src = buf;
+   104		const u8 *end = buf + size;
+   105	
+   106		mutex_lock(&mcu->reply_lock);
+   107		if (!reply) {
+   108			dev_warn(dev, "received %lu bytes, we were not waiting for\n",
+ > 109				 size);
+   110			mutex_unlock(&mcu->reply_lock);
+   111			return size;
+   112		}
+   113	
+   114		while (src < end) {
+   115			reply->data[reply->received] = *src++;
+   116			reply->received++;
+   117	
+   118			if (reply->received == reply->length) {
+   119				complete(&reply->done);
+   120				mutex_unlock(&mcu->reply_lock);
+   121	
+   122				/*
+   123				 * We report the consumed number of bytes. If there
+   124				 * are still bytes remaining (though there shouldn't)
+   125				 * the serdev layer will re-execute this handler with
+   126				 * the remainder of the Rx bytes.
+   127				 */
+   128				return src - buf;
+   129			}
+   130		}
+   131	
+   132		/*
+   133		 * The only way to get out of the above loop and end up here
+   134		 * is through consuming all of the supplied data, so here we
+   135		 * report that we processed it all.
+   136		 */
+   137		mutex_unlock(&mcu->reply_lock);
+   138		return size;
+   139	}
+   140	
 
 -- 
 0-DAY CI Kernel Test Service
