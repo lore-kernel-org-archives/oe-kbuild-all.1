@@ -1,63 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE4D38DD3
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Aug 2024 12:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB1613AF9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Aug 2024 13:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722774940; cv=none; b=tK32XbwFlp9o21AU4Rq0RxrKjmc9prbXRsJEhCOQEFEhe1e8NERUqKrmYZJ7/YQsuh46Jp3ppeb269jdjIKOe0SXQZ5lppYFbHSIwjNm8s7xrl0gtaRcSgAOTiRJKBRltcxnHQXBYnqGFKbj0uj/BV92g9bvU1E/ahsLA8kItuI=
+	t=1722779350; cv=none; b=H8SfkEP4+OVxZdyjmv89WeugJeq9oPptGDDhzu285sBszJYIRUMSNGWbYCskmmZGShIMwZYhUBge41ZqVHtdzuQhN0adMiKfQPv8UVzF+FMdbns69a6j6ARvCja6JRJDHbABcem/6QmDyFME5hP5hHyJ7z1nh8J+ivinfs4amD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722774940; c=relaxed/simple;
-	bh=jjKV0xLuptdposzI9dpa1FGLCMj36AteT2gwHbav3fY=;
+	s=arc-20240116; t=1722779350; c=relaxed/simple;
+	bh=ZEvV73YBlKrPcu6njYHmN/07ygxyiQcHWg7qogNJQPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZFbcUzmaXAyJHi3iuynY2hYgysC5S3U/MpQUKoyPBfxMvwcWWZjodwQFjAU/13XXDDMD8h3C8axZRcMd2q5tynPCwMcQc6QgSa3iGGyQCyCN68KMZY4hMK/8PwA63Pd2VRdXMUBjnwNsD0p2ef3TQcHZ+XEK6iEczJA4/vboqOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5hciWMN; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=urp0ImBGeLRCg9FKd3VRJE1Kucur295OgOy4FP0rlZXb00Z9OCTV2pmmvv2zy47ULCz/JqoAZJmSoUXTu31P4espqLfxYEnCyk1teaxSTZKdGrCVonln+OBBa+/PiI3/JF9pCojrsqbWQqzXNQ/gX0Y8Ml6SZkyTXk99b2BpBQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MoD5azae; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5hciWMN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MoD5azae"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722774939; x=1754310939;
+  t=1722779348; x=1754315348;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jjKV0xLuptdposzI9dpa1FGLCMj36AteT2gwHbav3fY=;
-  b=B5hciWMNAOf/NUSsX8B2ZqTEg3BSj8gE6u4xf61yBX4ckFq5gR4f2y7c
-   NisKqdF0pBxYPPV9ONWtlIdxImw/Sw+8LvELEKSUvzuC4nEWtBO107BLr
-   xwqRu1DGoxCy3/w3gJJ28ZgN9oY9dtTiiAIBC+dfp21Les9EwSDps2L8N
-   KpvMAi9v/LyoQ2XUhFNc6o0sfMEOVhFeRdXuwgmMsM5ncdFjRWfEP+XD/
-   rQzg0hOxRSVj3bMM9q0rTMByIul2MICvfCvwfkROnid8PqT1SZVghgfBW
-   0HiDqPN+KIUTPUpIhAahCAIfefdt9gBFFpPNziirNJdgomuAYwa/SkTTy
-   Q==;
-X-CSE-ConnectionGUID: hEMsMY3HR8636/WPl1Zy4Q==
-X-CSE-MsgGUID: TVIxRqEpTBO/U3fZkFkRhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31893926"
+  bh=ZEvV73YBlKrPcu6njYHmN/07ygxyiQcHWg7qogNJQPk=;
+  b=MoD5azaeXbyyU9z2/XGftHMDwR2zw54DwZgJxn5oQdV7LY/x5SALm/hD
+   UHD1bU8tUx8Q9cTtPKLePaiMJvWPtxeoIU7yGav/LNeZUxznHVW1fthBw
+   1W8Hc7XjqzyFc+NevMhx5robXwfyrXtdD7xnfOezNSFKpVOWP152jlzAy
+   z0otMEUvCnLFzLcg/m93d/8JK7ktEUs78RB5TwYAhJVzCx6sAaXWRRtGx
+   0HO0w8rLwMC534GUDks65nVNmjI9y55MxJrwi6Nt7kTvw6fZUDhILfzS2
+   POt73ZGlus6jmPOjpI3itxqdhGNK70IXC55OtDWRdwbeP+wW8MvLNAy+e
+   A==;
+X-CSE-ConnectionGUID: 96JkGbdiSxapMMek2C1vGA==
+X-CSE-MsgGUID: gu6duqRxSPyTYPh4AtatXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="32117723"
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="31893926"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 05:35:36 -0700
-X-CSE-ConnectionGUID: hjv/Q4J5TVuFOf+Wd6GovQ==
-X-CSE-MsgGUID: QMhMauHCSNWfhFi3dBH+ww==
+   d="scan'208";a="32117723"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 06:49:08 -0700
+X-CSE-ConnectionGUID: qtAM2HN1T0GeKA0Lann3AQ==
+X-CSE-MsgGUID: 9yukeT7/QKeGvvlkzvmkfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="86465817"
+   d="scan'208";a="56657427"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 04 Aug 2024 05:35:33 -0700
+  by orviesa008.jf.intel.com with ESMTP; 04 Aug 2024 06:49:02 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saaSR-0001RA-0w;
-	Sun, 04 Aug 2024 12:35:31 +0000
-Date: Sun, 4 Aug 2024 20:35:06 +0800
+	id 1sabbX-0001Sg-1X;
+	Sun, 04 Aug 2024 13:48:59 +0000
+Date: Sun, 4 Aug 2024 21:48:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	kernel test robot <lkp@intel.com>,
-	Greg Ungerer <gerg@linux-m68k.org>, linux-m68k@lists.linux-m68k.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] m68k: move sun3 into a top-level platform option
-Message-ID: <202408041920.ZhM3RsXp-lkp@intel.com>
-References: <20240803140115.3305547-1-arnd@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/6] nvme: assign of_node to nvme device
+Message-ID: <202408042134.wVQ7VdU6-lkp@intel.com>
+References: <20240804114108.1893-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,184 +77,194 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240803140115.3305547-1-arnd@kernel.org>
+In-Reply-To: <20240804114108.1893-3-ansuelsmth@gmail.com>
 
-Hi Arnd,
+Hi Christian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on geert-m68k/for-next]
-[also build test ERROR on geert-m68k/for-linus soc/for-next gerg-m68knommu/for-next linus/master v6.11-rc1 next-20240802]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.11-rc1 next-20240802]
+[cannot apply to mtd/mtd/next mtd/mtd/fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/m68k-move-sun3-into-a-top-level-platform-option/20240804-001711
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git for-next
-patch link:    https://lore.kernel.org/r/20240803140115.3305547-1-arnd%40kernel.org
-patch subject: [PATCH] m68k: move sun3 into a top-level platform option
-config: m68k-randconfig-r121-20240804 (https://download.01.org/0day-ci/archive/20240804/202408041920.ZhM3RsXp-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240804/202408041920.ZhM3RsXp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240804-194357
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240804114108.1893-3-ansuelsmth%40gmail.com
+patch subject: [PATCH 2/6] nvme: assign of_node to nvme device
+config: i386-buildonly-randconfig-002-20240804 (https://download.01.org/0day-ci/archive/20240804/202408042134.wVQ7VdU6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408042134.wVQ7VdU6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408041920.ZhM3RsXp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408042134.wVQ7VdU6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:15,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/alloc_tag.h:13,
-                    from include/linux/percpu.h:5,
-                    from include/linux/arch_topology.h:9,
-                    from include/linux/topology.h:30,
-                    from include/linux/gfp.h:8,
-                    from include/linux/slab.h:16,
-                    from arch/m68k/include/asm/pgtable_no.h:11,
-                    from arch/m68k/include/asm/pgtable.h:8,
-                    from include/linux/pgtable.h:6,
-                    from arch/m68k/kernel/head.S:254:
-   include/linux/align.h:8:9: warning: "ALIGN" redefined
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |         ^~~~~
-   In file included from arch/m68k/kernel/head.S:252:
-   include/linux/linkage.h:103:9: note: this is the location of the previous definition
-     103 | #define ALIGN __ALIGN
-         |         ^~~~~
-   In file included from include/linux/panic.h:5,
-                    from include/linux/kernel.h:30:
-   include/linux/compiler_attributes.h:55:9: warning: "__always_inline" redefined
-      55 | #define __always_inline                 inline __attribute__((__always_inline__))
-         |         ^~~~~~~~~~~~~~~
-   In file included from include/linux/stddef.h:5,
-                    from include/linux/container_of.h:6,
-                    from include/linux/alloc_tag.h:10:
-   include/uapi/linux/stddef.h:8:9: note: this is the location of the previous definition
-       8 | #define __always_inline inline
-         |         ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:91:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-      91 | #if __has_attribute(__copy__)
-         |     ^~~~~~~~~~~~~~~
->> include/linux/compiler_attributes.h:91:20: error: missing binary operator before token "("
-      91 | #if __has_attribute(__copy__)
-         |                    ^
-   include/linux/compiler_attributes.h:104:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     104 | #if __has_attribute(__counted_by__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:104:20: error: missing binary operator before token "("
-     104 | #if __has_attribute(__counted_by__)
-         |                    ^
-   include/linux/compiler_attributes.h:107:10: warning: "__counted_by" redefined
-     107 | # define __counted_by(member)
-         |          ^~~~~~~~~~~~
-   include/uapi/linux/stddef.h:55:9: note: this is the location of the previous definition
-      55 | #define __counted_by(m)
-         |         ^~~~~~~~~~~~
-   include/linux/compiler_attributes.h:116:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     116 | #if __has_attribute(__diagnose_as_builtin__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:116:20: error: missing binary operator before token "("
-     116 | #if __has_attribute(__diagnose_as_builtin__)
-         |                    ^
-   include/linux/compiler_attributes.h:139:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     139 | #if __has_attribute(__designated_init__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:139:20: error: missing binary operator before token "("
-     139 | #if __has_attribute(__designated_init__)
-         |                    ^
-   include/linux/compiler_attributes.h:150:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     150 | #if __has_attribute(__error__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:150:20: error: missing binary operator before token "("
-     150 | #if __has_attribute(__error__)
-         |                    ^
-   include/linux/compiler_attributes.h:161:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     161 | #if __has_attribute(__externally_visible__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:161:20: error: missing binary operator before token "("
-     161 | #if __has_attribute(__externally_visible__)
-         |                    ^
-   include/linux/compiler_attributes.h:198:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     198 | #if __has_attribute(__no_caller_saved_registers__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:198:20: error: missing binary operator before token "("
-     198 | #if __has_attribute(__no_caller_saved_registers__)
-         |                    ^
-   include/linux/compiler_attributes.h:209:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     209 | #if __has_attribute(__noclone__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:209:20: error: missing binary operator before token "("
-     209 | #if __has_attribute(__noclone__)
-         |                    ^
-   include/linux/compiler_attributes.h:226:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     226 | #if __has_attribute(__fallthrough__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:226:20: error: missing binary operator before token "("
-     226 | #if __has_attribute(__fallthrough__)
-         |                    ^
-   include/linux/compiler_attributes.h:252:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     252 | #if __has_attribute(__nonstring__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:252:20: error: missing binary operator before token "("
-     252 | #if __has_attribute(__nonstring__)
-         |                    ^
-   include/linux/compiler_attributes.h:264:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     264 | #if __has_attribute(__no_profile_instrument_function__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:264:20: error: missing binary operator before token "("
-     264 | #if __has_attribute(__no_profile_instrument_function__)
-         |                    ^
-   include/linux/compiler_attributes.h:283:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     283 | #if __has_attribute(__no_stack_protector__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:283:20: error: missing binary operator before token "("
-     283 | #if __has_attribute(__no_stack_protector__)
-         |                    ^
-   include/linux/compiler_attributes.h:294:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     294 | #if __has_attribute(__overloadable__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:294:20: error: missing binary operator before token "("
-     294 | #if __has_attribute(__overloadable__)
-         |                    ^
-   include/linux/compiler_attributes.h:313:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     313 | #if __has_attribute(__pass_dynamic_object_size__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:313:20: error: missing binary operator before token "("
-     313 | #if __has_attribute(__pass_dynamic_object_size__)
-         |                    ^
-   include/linux/compiler_attributes.h:318:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     318 | #if __has_attribute(__pass_object_size__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:318:20: error: missing binary operator before token "("
-     318 | #if __has_attribute(__pass_object_size__)
-         |                    ^
-   include/linux/compiler_attributes.h:342:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     342 | #if __has_attribute(__uninitialized__)
-         |     ^~~~~~~~~~~~~~~
-   include/linux/compiler_attributes.h:342:20: error: missing binary operator before token "("
-     342 | #if __has_attribute(__uninitialized__)
-         |                    ^
-   include/linux/compiler_attributes.h:388:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
-     388 | #if __has_attribute(__warning__)
+   drivers/nvme/host/core.c: In function 'nvme_uninit_ctrl':
+>> drivers/nvme/host/core.c:4654:9: error: implicit declaration of function 'of_node_put'; did you mean 'bpf_token_put'? [-Werror=implicit-function-declaration]
+    4654 |         of_node_put(ctrl->device->of_node);
+         |         ^~~~~~~~~~~
+         |         bpf_token_put
+   drivers/nvme/host/core.c: In function 'nvme_init_ctrl':
+>> drivers/nvme/host/core.c:4775:33: error: implicit declaration of function 'of_get_compatible_child' [-Werror=implicit-function-declaration]
+    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvme/host/core.c:4775:31: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
+         |                               ^
+   cc1: some warnings being treated as errors
 
 
-vim +91 include/linux/compiler_attributes.h
+vim +4654 drivers/nvme/host/core.c
 
-a3f8a30f3f0079 Miguel Ojeda 2018-08-30  84  
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  85  /*
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  86   * Optional: only supported since gcc >= 9
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  87   * Optional: not supported by clang
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  88   *
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  89   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-copy-function-attribute
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  90   */
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08 @91  #if __has_attribute(__copy__)
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  92  # define __copy(symbol)                 __attribute__((__copy__(symbol)))
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  93  #else
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  94  # define __copy(symbol)
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  95  #endif
-c0d9782f5b6d71 Miguel Ojeda 2019-02-08  96  
+  4648	
+  4649	void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+  4650	{
+  4651		nvme_hwmon_exit(ctrl);
+  4652		nvme_fault_inject_fini(&ctrl->fault_inject);
+  4653		dev_pm_qos_hide_latency_tolerance(ctrl->device);
+> 4654		of_node_put(ctrl->device->of_node);
+  4655		cdev_device_del(&ctrl->cdev, ctrl->device);
+  4656		nvme_put_ctrl(ctrl);
+  4657	}
+  4658	EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
+  4659	
+  4660	static void nvme_free_cels(struct nvme_ctrl *ctrl)
+  4661	{
+  4662		struct nvme_effects_log	*cel;
+  4663		unsigned long i;
+  4664	
+  4665		xa_for_each(&ctrl->cels, i, cel) {
+  4666			xa_erase(&ctrl->cels, i);
+  4667			kfree(cel);
+  4668		}
+  4669	
+  4670		xa_destroy(&ctrl->cels);
+  4671	}
+  4672	
+  4673	static void nvme_free_ctrl(struct device *dev)
+  4674	{
+  4675		struct nvme_ctrl *ctrl =
+  4676			container_of(dev, struct nvme_ctrl, ctrl_device);
+  4677		struct nvme_subsystem *subsys = ctrl->subsys;
+  4678	
+  4679		if (!subsys || ctrl->instance != subsys->instance)
+  4680			ida_free(&nvme_instance_ida, ctrl->instance);
+  4681		key_put(ctrl->tls_key);
+  4682		nvme_free_cels(ctrl);
+  4683		nvme_mpath_uninit(ctrl);
+  4684		cleanup_srcu_struct(&ctrl->srcu);
+  4685		nvme_auth_stop(ctrl);
+  4686		nvme_auth_free(ctrl);
+  4687		__free_page(ctrl->discard_page);
+  4688		free_opal_dev(ctrl->opal_dev);
+  4689	
+  4690		if (subsys) {
+  4691			mutex_lock(&nvme_subsystems_lock);
+  4692			list_del(&ctrl->subsys_entry);
+  4693			sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
+  4694			mutex_unlock(&nvme_subsystems_lock);
+  4695		}
+  4696	
+  4697		ctrl->ops->free_ctrl(ctrl);
+  4698	
+  4699		if (subsys)
+  4700			nvme_put_subsystem(subsys);
+  4701	}
+  4702	
+  4703	/*
+  4704	 * Initialize a NVMe controller structures.  This needs to be called during
+  4705	 * earliest initialization so that we have the initialized structured around
+  4706	 * during probing.
+  4707	 *
+  4708	 * On success, the caller must use the nvme_put_ctrl() to release this when
+  4709	 * needed, which also invokes the ops->free_ctrl() callback.
+  4710	 */
+  4711	int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+  4712			const struct nvme_ctrl_ops *ops, unsigned long quirks)
+  4713	{
+  4714		int ret;
+  4715	
+  4716		WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
+  4717		ctrl->passthru_err_log_enabled = false;
+  4718		clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+  4719		spin_lock_init(&ctrl->lock);
+  4720		mutex_init(&ctrl->namespaces_lock);
+  4721	
+  4722		ret = init_srcu_struct(&ctrl->srcu);
+  4723		if (ret)
+  4724			return ret;
+  4725	
+  4726		mutex_init(&ctrl->scan_lock);
+  4727		INIT_LIST_HEAD(&ctrl->namespaces);
+  4728		xa_init(&ctrl->cels);
+  4729		ctrl->dev = dev;
+  4730		ctrl->ops = ops;
+  4731		ctrl->quirks = quirks;
+  4732		ctrl->numa_node = NUMA_NO_NODE;
+  4733		INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+  4734		INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+  4735		INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+  4736		INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+  4737		init_waitqueue_head(&ctrl->state_wq);
+  4738	
+  4739		INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+  4740		INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
+  4741		memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+  4742		ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+  4743		ctrl->ka_last_check_time = jiffies;
+  4744	
+  4745		BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
+  4746				PAGE_SIZE);
+  4747		ctrl->discard_page = alloc_page(GFP_KERNEL);
+  4748		if (!ctrl->discard_page) {
+  4749			ret = -ENOMEM;
+  4750			goto out;
+  4751		}
+  4752	
+  4753		ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
+  4754		if (ret < 0)
+  4755			goto out;
+  4756		ctrl->instance = ret;
+  4757	
+  4758		ret = nvme_auth_init_ctrl(ctrl);
+  4759		if (ret)
+  4760			goto out_release_instance;
+  4761	
+  4762		nvme_mpath_init_ctrl(ctrl);
+  4763	
+  4764		device_initialize(&ctrl->ctrl_device);
+  4765		ctrl->device = &ctrl->ctrl_device;
+  4766		ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
+  4767				ctrl->instance);
+  4768		ctrl->device->class = &nvme_class;
+  4769		ctrl->device->parent = ctrl->dev;
+  4770		if (ops->dev_attr_groups)
+  4771			ctrl->device->groups = ops->dev_attr_groups;
+  4772		else
+  4773			ctrl->device->groups = nvme_dev_attr_groups;
+  4774		ctrl->device->release = nvme_free_ctrl;
+> 4775		ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
+  4776								"nvme-card");
+  4777		dev_set_drvdata(ctrl->device, ctrl);
+  4778	
+  4779		return ret;
+  4780	
+  4781	out_release_instance:
+  4782		ida_free(&nvme_instance_ida, ctrl->instance);
+  4783	out:
+  4784		if (ctrl->discard_page)
+  4785			__free_page(ctrl->discard_page);
+  4786		cleanup_srcu_struct(&ctrl->srcu);
+  4787		return ret;
+  4788	}
+  4789	EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+  4790	
 
 -- 
 0-DAY CI Kernel Test Service
