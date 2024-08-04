@@ -1,74 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7694741A8E;
-	Sun,  4 Aug 2024 15:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E8C558B7;
+	Sun,  4 Aug 2024 16:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722784926; cv=none; b=t39ibzMpPhQ7XkKSx29ADELr/ezAS488xAfyRTjo7fhHvQVvW9Yjb3wFCEmMHEiQDsqCN5WveP39qz/LNjO9dnC8t0X981m+wxnwmuY8x6T6kzzdGzHCmw6mZfpCOSonj09hF/jnp1qnRWbyYYRQclmzbb2oR+ND9TkToqkYg7k=
+	t=1722789801; cv=none; b=eOn0OBA1NYS0s4FX3/eJITfn7GdO3NvC3nw68EzFowZGGymgXKL2+0/EirhL5QgOUGN6/XknLWWfje9UhgKrFbs8HzVLYYwHkYVsPvSXdewUVwx1HQcDoVIU12OBcOmgMu3wlV0JU5NweBwKGgk9Ynwg/m3QiDzMVUHeKHut6S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722784926; c=relaxed/simple;
-	bh=pMW2V5YCdfDRYopjZj7CafypLSiEa8//6/HwOwZDAaQ=;
+	s=arc-20240116; t=1722789801; c=relaxed/simple;
+	bh=HNyFFfVNO+jBUsoZ+Wz9kLjM5s7uzZZ8sEH1bOQtruM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+8AoSQJEfIUfCv7tfe5A7tIidqeAVA7c/3hz7YjGdLeFv7F2A6JY1anPwRQonkuOBaovfl4kvvrPQs3+6QsD7k3VnGPqwdZklhzFu5UAIn9d73jjbwaL/FL6Wt91tv5vTnO7EnQ1/UQpf79bnFyxdBcIHHSS05rVm+Y+AXLsCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2ZGQAdg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=fd7WAYh8K3/69OGGoSfKC25mMU6KHM3Kdaf9kvtwZFGkMkeVdybjF8NWEws2ItJnJsQSv1LRl3/dZsw792k7Y5ibnttfJAS9N/7ozy4wEwqlYb6lgc6R5ngoymz6wxnEIGcMaIYgwhRMNDEaDHwbwZzIEkT40ghQapYi75QQfR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVpPDQir; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2ZGQAdg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVpPDQir"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722784924; x=1754320924;
+  t=1722789799; x=1754325799;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pMW2V5YCdfDRYopjZj7CafypLSiEa8//6/HwOwZDAaQ=;
-  b=g2ZGQAdgoa+C1Nmuhw+Qdon5PwTLvRa21UgKT3h1A0ww9RN75dK+yLt7
-   d0EkHcx+V8cmaUDA6xDkkllwNh2WR35jn3oyjvj3zSJaruCke3bV1TZSC
-   QAS2Gvak1YiO6IxfskNlYXjy4ifoEEyJJdeQh2agvrq8xfi4fqQ0SBZx4
-   U1gq9BlcWCL9XT0nbrRzHDMk0OOoEdYLrcFge9UIi8S41wwo0ojRlEGN+
-   JkRSF9nnxIqj6KBhQ2XrbfVCATo/+wwC+gMxy3CeenNuvC7O25KdmPqw/
-   puo0oNwChVOBzlHkIMobUzoJt1MGREFh7p/x4QkOQPqOa9QKWvfMYghAi
-   A==;
-X-CSE-ConnectionGUID: N9eEwB+6SlirJ7F90SPEWw==
-X-CSE-MsgGUID: Ajx98oh1QZO+06AYdmtKiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="20910269"
+  bh=HNyFFfVNO+jBUsoZ+Wz9kLjM5s7uzZZ8sEH1bOQtruM=;
+  b=jVpPDQir7Pd9NT/6Xx0rwh+6XIbwPwSKtnblU3radQQU4y5rXt5aEKaI
+   Nevhw3QQVg7cEGx1C7kgSwqCuiD+dLfG3rrbJBLc3e+0hpA7Uktn+L5Gb
+   crVqxE0WsRTa0nuQ7Z56yyWUe5etXsa+8YMtxqxMp2WgEONzl/d7Iq7Yr
+   7JAKIQ45YLf0puMr+qs2EjHnHbj5lQRkkDiFMAZcX05tQkXmFg3N7d6qi
+   1MK1w0uR4jc9dMWUQh/TNRFZNOe7WTQ/kkUYEDphNd0kA2TSUMVqwQzVy
+   HND6618kjAj6xIcfKIIcf9084Mc3YxaYxT1J2yKwCdOG6vL82mA06XHOp
+   g==;
+X-CSE-ConnectionGUID: R6AqA+CJQlCU25GlKAaEmw==
+X-CSE-MsgGUID: 8cJDNal0RAuCS3ADf0g1rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31405543"
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="20910269"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 08:22:04 -0700
-X-CSE-ConnectionGUID: g7fQh+VDQoWJtahEfnAHNg==
-X-CSE-MsgGUID: rFqPu/ZDQyOddIZtPRAcLg==
+   d="scan'208";a="31405543"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 09:43:18 -0700
+X-CSE-ConnectionGUID: u6Pnklg0TqWgDnh9Ko0luA==
+X-CSE-MsgGUID: ci8I1AuCRjmzQLt9AVKhOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="60757645"
+   d="scan'208";a="55884556"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2024 08:21:58 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 04 Aug 2024 09:43:15 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sad3T-0001Ty-1T;
-	Sun, 04 Aug 2024 15:21:55 +0000
-Date: Sun, 4 Aug 2024 23:21:25 +0800
+	id 1saeK8-0001Xm-2A;
+	Sun, 04 Aug 2024 16:43:12 +0000
+Date: Mon, 5 Aug 2024 00:42:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Joern Engel <joern@lazybastard.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nvme@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/6] nvme: assign of_node to nvme device
-Message-ID: <202408042203.CNpuv8Wt-lkp@intel.com>
-References: <20240804114108.1893-3-ansuelsmth@gmail.com>
+To: zhenghaowei@loongson.cn, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+	p.zabel@pengutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	loongarch@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] tty: serial: 8250: Add loongson uart driver
+ support
+Message-ID: <202408050031.dYYkSqDM-lkp@intel.com>
+References: <20240804063834.70022-2-zhenghaowei@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,193 +68,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240804114108.1893-3-ansuelsmth@gmail.com>
+In-Reply-To: <20240804063834.70022-2-zhenghaowei@loongson.cn>
 
-Hi Christian,
+Hi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.11-rc1 next-20240802]
-[cannot apply to mtd/mtd/next mtd/mtd/fixes]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus robh/for-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11-rc1 next-20240802]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240804-194357
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240804114108.1893-3-ansuelsmth%40gmail.com
-patch subject: [PATCH 2/6] nvme: assign of_node to nvme device
-config: i386-buildonly-randconfig-005-20240804 (https://download.01.org/0day-ci/archive/20240804/202408042203.CNpuv8Wt-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408042203.CNpuv8Wt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/zhenghaowei-loongson-cn/tty-serial-8250-Add-loongson-uart-driver-support/20240804-145047
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240804063834.70022-2-zhenghaowei%40loongson.cn
+patch subject: [PATCH v2 2/3] tty: serial: 8250: Add loongson uart driver support
+config: mips-lemote2f_defconfig (https://download.01.org/0day-ci/archive/20240805/202408050031.dYYkSqDM-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050031.dYYkSqDM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408042203.CNpuv8Wt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408050031.dYYkSqDM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/nvme/host/core.c:4654:2: error: call to undeclared function 'of_node_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4654 |         of_node_put(ctrl->device->of_node);
-         |         ^
->> drivers/nvme/host/core.c:4775:26: error: call to undeclared function 'of_get_compatible_child'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-         |                                 ^
->> drivers/nvme/host/core.c:4775:24: error: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
-    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4776 |                                                         "nvme-card");
-         |                                                         ~~~~~~~~~~~~
-   3 errors generated.
+>> drivers/tty/serial/8250/8250_loongson.c:200:35: error: implicit declaration of function 'of_match_ptr' [-Werror=implicit-function-declaration]
+     200 |                 .of_match_table = of_match_ptr(of_platform_serial_table),
+         |                                   ^~~~~~~~~~~~
+>> drivers/tty/serial/8250/8250_loongson.c:200:35: warning: initialization of 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/tty/serial/8250/8250_loongson.c:200:35: note: (near initialization for 'loongson_uart_driver.driver.of_match_table')
+>> drivers/tty/serial/8250/8250_loongson.c:200:35: error: initializer element is not constant
+   drivers/tty/serial/8250/8250_loongson.c:200:35: note: (near initialization for 'loongson_uart_driver.driver.of_match_table')
+   cc1: some warnings being treated as errors
 
 
-vim +/of_node_put +4654 drivers/nvme/host/core.c
+vim +/of_match_ptr +200 drivers/tty/serial/8250/8250_loongson.c
 
-  4648	
-  4649	void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
-  4650	{
-  4651		nvme_hwmon_exit(ctrl);
-  4652		nvme_fault_inject_fini(&ctrl->fault_inject);
-  4653		dev_pm_qos_hide_latency_tolerance(ctrl->device);
-> 4654		of_node_put(ctrl->device->of_node);
-  4655		cdev_device_del(&ctrl->cdev, ctrl->device);
-  4656		nvme_put_ctrl(ctrl);
-  4657	}
-  4658	EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
-  4659	
-  4660	static void nvme_free_cels(struct nvme_ctrl *ctrl)
-  4661	{
-  4662		struct nvme_effects_log	*cel;
-  4663		unsigned long i;
-  4664	
-  4665		xa_for_each(&ctrl->cels, i, cel) {
-  4666			xa_erase(&ctrl->cels, i);
-  4667			kfree(cel);
-  4668		}
-  4669	
-  4670		xa_destroy(&ctrl->cels);
-  4671	}
-  4672	
-  4673	static void nvme_free_ctrl(struct device *dev)
-  4674	{
-  4675		struct nvme_ctrl *ctrl =
-  4676			container_of(dev, struct nvme_ctrl, ctrl_device);
-  4677		struct nvme_subsystem *subsys = ctrl->subsys;
-  4678	
-  4679		if (!subsys || ctrl->instance != subsys->instance)
-  4680			ida_free(&nvme_instance_ida, ctrl->instance);
-  4681		key_put(ctrl->tls_key);
-  4682		nvme_free_cels(ctrl);
-  4683		nvme_mpath_uninit(ctrl);
-  4684		cleanup_srcu_struct(&ctrl->srcu);
-  4685		nvme_auth_stop(ctrl);
-  4686		nvme_auth_free(ctrl);
-  4687		__free_page(ctrl->discard_page);
-  4688		free_opal_dev(ctrl->opal_dev);
-  4689	
-  4690		if (subsys) {
-  4691			mutex_lock(&nvme_subsystems_lock);
-  4692			list_del(&ctrl->subsys_entry);
-  4693			sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
-  4694			mutex_unlock(&nvme_subsystems_lock);
-  4695		}
-  4696	
-  4697		ctrl->ops->free_ctrl(ctrl);
-  4698	
-  4699		if (subsys)
-  4700			nvme_put_subsystem(subsys);
-  4701	}
-  4702	
-  4703	/*
-  4704	 * Initialize a NVMe controller structures.  This needs to be called during
-  4705	 * earliest initialization so that we have the initialized structured around
-  4706	 * during probing.
-  4707	 *
-  4708	 * On success, the caller must use the nvme_put_ctrl() to release this when
-  4709	 * needed, which also invokes the ops->free_ctrl() callback.
-  4710	 */
-  4711	int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
-  4712			const struct nvme_ctrl_ops *ops, unsigned long quirks)
-  4713	{
-  4714		int ret;
-  4715	
-  4716		WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
-  4717		ctrl->passthru_err_log_enabled = false;
-  4718		clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-  4719		spin_lock_init(&ctrl->lock);
-  4720		mutex_init(&ctrl->namespaces_lock);
-  4721	
-  4722		ret = init_srcu_struct(&ctrl->srcu);
-  4723		if (ret)
-  4724			return ret;
-  4725	
-  4726		mutex_init(&ctrl->scan_lock);
-  4727		INIT_LIST_HEAD(&ctrl->namespaces);
-  4728		xa_init(&ctrl->cels);
-  4729		ctrl->dev = dev;
-  4730		ctrl->ops = ops;
-  4731		ctrl->quirks = quirks;
-  4732		ctrl->numa_node = NUMA_NO_NODE;
-  4733		INIT_WORK(&ctrl->scan_work, nvme_scan_work);
-  4734		INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-  4735		INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-  4736		INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-  4737		init_waitqueue_head(&ctrl->state_wq);
-  4738	
-  4739		INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-  4740		INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
-  4741		memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
-  4742		ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-  4743		ctrl->ka_last_check_time = jiffies;
-  4744	
-  4745		BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
-  4746				PAGE_SIZE);
-  4747		ctrl->discard_page = alloc_page(GFP_KERNEL);
-  4748		if (!ctrl->discard_page) {
-  4749			ret = -ENOMEM;
-  4750			goto out;
-  4751		}
-  4752	
-  4753		ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
-  4754		if (ret < 0)
-  4755			goto out;
-  4756		ctrl->instance = ret;
-  4757	
-  4758		ret = nvme_auth_init_ctrl(ctrl);
-  4759		if (ret)
-  4760			goto out_release_instance;
-  4761	
-  4762		nvme_mpath_init_ctrl(ctrl);
-  4763	
-  4764		device_initialize(&ctrl->ctrl_device);
-  4765		ctrl->device = &ctrl->ctrl_device;
-  4766		ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
-  4767				ctrl->instance);
-  4768		ctrl->device->class = &nvme_class;
-  4769		ctrl->device->parent = ctrl->dev;
-  4770		if (ops->dev_attr_groups)
-  4771			ctrl->device->groups = ops->dev_attr_groups;
-  4772		else
-  4773			ctrl->device->groups = nvme_dev_attr_groups;
-  4774		ctrl->device->release = nvme_free_ctrl;
-> 4775		ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-  4776								"nvme-card");
-  4777		dev_set_drvdata(ctrl->device, ctrl);
-  4778	
-  4779		return ret;
-  4780	
-  4781	out_release_instance:
-  4782		ida_free(&nvme_instance_ida, ctrl->instance);
-  4783	out:
-  4784		if (ctrl->discard_page)
-  4785			__free_page(ctrl->discard_page);
-  4786		cleanup_srcu_struct(&ctrl->srcu);
-  4787		return ret;
-  4788	}
-  4789	EXPORT_SYMBOL_GPL(nvme_init_ctrl);
-  4790	
+   193	
+   194	static struct platform_driver loongson_uart_driver = {
+   195		.probe = loongson_uart_probe,
+   196		.remove = loongson_uart_remove,
+   197		.driver = {
+   198			.name = "ls7a-uart",
+   199			.pm = &loongson_uart_pm_ops,
+ > 200			.of_match_table = of_match_ptr(of_platform_serial_table),
+   201		},
+   202	};
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
