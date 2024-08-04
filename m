@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E8C558B7;
-	Sun,  4 Aug 2024 16:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB1DA953
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Aug 2024 17:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722789801; cv=none; b=eOn0OBA1NYS0s4FX3/eJITfn7GdO3NvC3nw68EzFowZGGymgXKL2+0/EirhL5QgOUGN6/XknLWWfje9UhgKrFbs8HzVLYYwHkYVsPvSXdewUVwx1HQcDoVIU12OBcOmgMu3wlV0JU5NweBwKGgk9Ynwg/m3QiDzMVUHeKHut6S4=
+	t=1722791662; cv=none; b=Y0e+EndCJq3s0DpGukkSCfl2AhNZGiREmlEnYBmtzNvKKULMCbXposB6yei8XJXv34mx6sDR3vdyj1+hOm4ljJlPw28n4tKprXukedT3val4aVb1J+TjSYQAhueJa9XqacQKnRiJxmqkRuFZa7f/NgyQgdxgty0dm70pCeyQWFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722789801; c=relaxed/simple;
-	bh=HNyFFfVNO+jBUsoZ+Wz9kLjM5s7uzZZ8sEH1bOQtruM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fd7WAYh8K3/69OGGoSfKC25mMU6KHM3Kdaf9kvtwZFGkMkeVdybjF8NWEws2ItJnJsQSv1LRl3/dZsw792k7Y5ibnttfJAS9N/7ozy4wEwqlYb6lgc6R5ngoymz6wxnEIGcMaIYgwhRMNDEaDHwbwZzIEkT40ghQapYi75QQfR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVpPDQir; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1722791662; c=relaxed/simple;
+	bh=GMQApKlg/bFCKR7G6l3x8mkAa/Kt+X8b4GwqON/bj7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jF4yJYgomo2w8FRyHYrIh4YT6f9/UgJxtpz4lZZk8CwL2V8e0QyTsTlgMCSRU7+851xXVY5tOHjPxmIJeLiWFXdJVAu+Ucy7ey/v+G3vK+XCuZnLI2oPeXzln3oMQmhQ1caxzOgHKiKTp+3PPSa/VQPDBAT7XbDf1BHa+HM/8WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5suyyH6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVpPDQir"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5suyyH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722789799; x=1754325799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HNyFFfVNO+jBUsoZ+Wz9kLjM5s7uzZZ8sEH1bOQtruM=;
-  b=jVpPDQir7Pd9NT/6Xx0rwh+6XIbwPwSKtnblU3radQQU4y5rXt5aEKaI
-   Nevhw3QQVg7cEGx1C7kgSwqCuiD+dLfG3rrbJBLc3e+0hpA7Uktn+L5Gb
-   crVqxE0WsRTa0nuQ7Z56yyWUe5etXsa+8YMtxqxMp2WgEONzl/d7Iq7Yr
-   7JAKIQ45YLf0puMr+qs2EjHnHbj5lQRkkDiFMAZcX05tQkXmFg3N7d6qi
-   1MK1w0uR4jc9dMWUQh/TNRFZNOe7WTQ/kkUYEDphNd0kA2TSUMVqwQzVy
-   HND6618kjAj6xIcfKIIcf9084Mc3YxaYxT1J2yKwCdOG6vL82mA06XHOp
+  t=1722791660; x=1754327660;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GMQApKlg/bFCKR7G6l3x8mkAa/Kt+X8b4GwqON/bj7Y=;
+  b=j5suyyH6PJI2NaICfTSLkOjua1JgkV3Pzh6GZtgr429KwBx4AoDP4+od
+   5f5AP6nclYpRDeqLlb3LDDYA4qhEL3Zo2jWfK11Hzz9k959nRwJncFnZl
+   8QYKAOXv8XI7Lc+XQWnHgb6lLMHjjvWsJ2P8d37GRhXmHm3eJb5tVqi6Q
+   QThtYuLG9eJBxWKEm/SZAsDCdBVkdzR/qZcdbyOP0cN5Sd3WdBk0VzywL
+   sqM3HQ726TKzIQ27EOCFwJcQGridhu6YGbY89e+GBfWgEV4NCmD368urA
+   UJL543oT+66vqlaJpiAF2CR/8pWXetr9bX5rv20iVykhQtbKuidAoEjpQ
    g==;
-X-CSE-ConnectionGUID: R6AqA+CJQlCU25GlKAaEmw==
-X-CSE-MsgGUID: 8cJDNal0RAuCS3ADf0g1rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31405543"
+X-CSE-ConnectionGUID: Hek6EZAERj+x3xWoCoWkFw==
+X-CSE-MsgGUID: Ufd1jze/TiCkrlxGb41M6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="32124741"
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="31405543"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 09:43:18 -0700
-X-CSE-ConnectionGUID: u6Pnklg0TqWgDnh9Ko0luA==
-X-CSE-MsgGUID: ci8I1AuCRjmzQLt9AVKhOQ==
+   d="scan'208";a="32124741"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 10:14:20 -0700
+X-CSE-ConnectionGUID: 1JZYvvCgTzCWCJZmkR9Sxw==
+X-CSE-MsgGUID: 0B34EsA/SwWHG9pR5X6LIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="55884556"
+   d="scan'208";a="79208047"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Aug 2024 09:43:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Aug 2024 10:14:18 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saeK8-0001Xm-2A;
-	Sun, 04 Aug 2024 16:43:12 +0000
-Date: Mon, 5 Aug 2024 00:42:51 +0800
+	id 1saeoB-0001Ya-0a;
+	Sun, 04 Aug 2024 17:14:15 +0000
+Date: Mon, 5 Aug 2024 01:13:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: zhenghaowei@loongson.cn, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
-	p.zabel@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] tty: serial: 8250: Add loongson uart driver
- support
-Message-ID: <202408050031.dYYkSqDM-lkp@intel.com>
-References: <20240804063834.70022-2-zhenghaowei@loongson.cn>
+To: John Garry <john.g.garry@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: ERROR: modpost: "__popcountsi2"
+ [drivers/comedi/drivers/usbduxsigma.ko] undefined!
+Message-ID: <202408050106.nL2F1M8o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,56 +64,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240804063834.70022-2-zhenghaowei@loongson.cn>
 
-Hi,
+Hi John,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus robh/for-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11-rc1 next-20240802]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhenghaowei-loongson-cn/tty-serial-8250-Add-loongson-uart-driver-support/20240804-145047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20240804063834.70022-2-zhenghaowei%40loongson.cn
-patch subject: [PATCH v2 2/3] tty: serial: 8250: Add loongson uart driver support
-config: mips-lemote2f_defconfig (https://download.01.org/0day-ci/archive/20240805/202408050031.dYYkSqDM-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050031.dYYkSqDM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   17712b7ea0756799635ba159cc773082230ed028
+commit: af2817229158cea7960b9132e0a8c4470ebbfef5 virtio_blk: Don't bother validating blocksize
+date:   4 weeks ago
+config: arm-randconfig-r113-20240803 (https://download.01.org/0day-ci/archive/20240805/202408050106.nL2F1M8o-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce: (https://download.01.org/0day-ci/archive/20240805/202408050106.nL2F1M8o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408050031.dYYkSqDM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408050106.nL2F1M8o-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/tty/serial/8250/8250_loongson.c:200:35: error: implicit declaration of function 'of_match_ptr' [-Werror=implicit-function-declaration]
-     200 |                 .of_match_table = of_match_ptr(of_platform_serial_table),
-         |                                   ^~~~~~~~~~~~
->> drivers/tty/serial/8250/8250_loongson.c:200:35: warning: initialization of 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/tty/serial/8250/8250_loongson.c:200:35: note: (near initialization for 'loongson_uart_driver.driver.of_match_table')
->> drivers/tty/serial/8250/8250_loongson.c:200:35: error: initializer element is not constant
-   drivers/tty/serial/8250/8250_loongson.c:200:35: note: (near initialization for 'loongson_uart_driver.driver.of_match_table')
-   cc1: some warnings being treated as errors
-
-
-vim +/of_match_ptr +200 drivers/tty/serial/8250/8250_loongson.c
-
-   193	
-   194	static struct platform_driver loongson_uart_driver = {
-   195		.probe = loongson_uart_probe,
-   196		.remove = loongson_uart_remove,
-   197		.driver = {
-   198			.name = "ls7a-uart",
-   199			.pm = &loongson_uart_pm_ops,
- > 200			.of_match_table = of_match_ptr(of_platform_serial_table),
-   201		},
-   202	};
-   203	
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/minix/minix.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/bus/vexpress-config.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/versatile/clk-vexpress-osc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/vexpress-sysreg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+ERROR: modpost: "__popcountsi2" [fs/ext4/ext4.ko] undefined!
+ERROR: modpost: "__popcountsi2" [fs/xfs/xfs.ko] undefined!
+ERROR: modpost: "__popcountdi2" [fs/btrfs/btrfs.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/block/loop.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/hwtracing/intel_th/intel_th_pti.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/hsi/clients/hsi_char.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/vhost/vhost.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/comedi_test.ko] undefined!
+ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/usbduxfast.ko] undefined!
+>> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/usbduxsigma.ko] undefined!
+WARNING: modpost: suppressed 2 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
