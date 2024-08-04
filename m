@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F7A7F8;
-	Sun,  4 Aug 2024 01:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD8964C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Aug 2024 01:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722735175; cv=none; b=mKN5pPVM6lAjrgBc9TOx3VcK9jzIGZP+JaWypi6lVjuGKeEubiO4OimcjmApCxkEecF6HXkliXr0QqWQQnhefks68c9yv2NX4/XSt7hsdtzke1sa4PVAcIL58ILfiQaIf6ZGNRvp/8o9XOvT30RXGYi6t26a9z/c+rg23ULJu24=
+	t=1722736394; cv=none; b=Fqso0coY6k5JDcgDlrRMBGGyAz11OOTDSkF2iw9KrctZSnFgiT0qSfLYEoTxetyKoFMgdZL/l3IWHFAFGy5VyVZC6lOWUdeAqCu5TAb7aVVnjLDIdo1BqEnluyX/ShJY4JTqKNgGA/DX5sf/TpecUsHHFV6gbNsEmmgov7jBip0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722735175; c=relaxed/simple;
-	bh=4QSxjevKixayOPdeKTw/VDQeEuF+l+sxHOMlV0Wxg6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C7fkwKL2tyGdhpT+adIIkO/u2v66OBbuhYumnTiXCw6wiqk+mp04IOhB9BCIidbCeit0sPcjyS7aGRoc5XK2IfuSFKg79lXBzRrZwQbh8iDyBrkOyqYiseNJX6t6bQM+jhVCScV2gcKxPRDG9q75ih7oQsZqH5SM2Ou5KMUiQOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3BU+F3I; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1722736394; c=relaxed/simple;
+	bh=hTtyj+2GN06nhbjwGVCPDIwDUGx6x7DaNGHBdYvzvBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LD4G1uGsuvgA0b8Z40UXU+L2zDJ9jNw+FL2kM/A+WibPipnFUOTGpe1FG0Lo+K4dhdcRplIixhY4fUn2EYiIA+NZnkgERnwU2cfGm10iEcPWid2zQUPmibaD6zSU8Z3oxbS2UX0YZsxzOnV9mRtWlCjL+w7oxJt1VwMODilqBV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPltkE8y; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3BU+F3I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPltkE8y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722735174; x=1754271174;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4QSxjevKixayOPdeKTw/VDQeEuF+l+sxHOMlV0Wxg6s=;
-  b=a3BU+F3IULbyPn2aQPlEBivKRNlIELh1x2+F27m+0ys7gw+snDWr6iO7
-   dqCR3lt/GUpHoSEEwc9IiJQCQ4RTPh2XXKSml3x0tHlttCLX0PBYrsFxh
-   gk6Po5u03O4aJjpisyI7Epw/PBNaRV6ySQ4/mpAW7WmaYSb0WW9oBshec
-   r8Eezvwb5rXMRF7ZujqWLSqkhdG0xj6Lt5nODs/RZXckr3VeLQInKRlKP
-   i6GwUE09VFb8Ipbr0Mm5uwTbYPQZsm6bRRdkPm0z56XWIbComHSzOE1Yq
-   Hd8oguZhuYnGqx12C7eOLoD/kXhx78bHydA19SxG2ANhIHDNUb/I/9FO7
-   w==;
-X-CSE-ConnectionGUID: 0onNtjJfThqJXvXpr7WiNg==
-X-CSE-MsgGUID: zgMprUkOSJyovUjbW/HXzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="31376696"
+  t=1722736392; x=1754272392;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hTtyj+2GN06nhbjwGVCPDIwDUGx6x7DaNGHBdYvzvBk=;
+  b=HPltkE8yojKL5VOecykgKOe0SBljTtW1BX3gPIWndjiDbK7ky57hNHjQ
+   TIg1osGYf5yrj1PzPH9vY2d8De6jO7IzmfYBzBuSVi21A1ltnwcFuaZy4
+   ZwllFP1+R6Tw6Ug4qdUH/jyXDFZnPUWI1oazeSiOTH0EWVER6o6q5RzHj
+   AGbfNolMshuYgVlX4+FxrcpNT2rYS4HWl6osaF2dmld+Aq13hZ1ezIzo9
+   wV82siUOYwOiRdDH2bAdUOlVlZgp52oWv8mzbEg3nwtNlhk2IDOjVcRgm
+   QSRlRCiLXue8zJ/TVhDXT5jnoDzRztieoSxHcoQFWpH7VeQT0DTFSNFEq
+   Q==;
+X-CSE-ConnectionGUID: iYMWGMNtTPqhH2rl9A1EXA==
+X-CSE-MsgGUID: P1ZSW8AgSia62EbiZejBqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="24514663"
 X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="31376696"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 18:32:42 -0700
-X-CSE-ConnectionGUID: LQp/GfZSSaKxZSSr+uAexg==
-X-CSE-MsgGUID: iRT8bFi5SHu2yoWfyWL2Ow==
+   d="scan'208";a="24514663"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 18:53:10 -0700
+X-CSE-ConnectionGUID: Fdba3fbbRNe6RuSy69AN9g==
+X-CSE-MsgGUID: GiM87j/KQjOA0AI4n3fL3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
-   d="scan'208";a="55752962"
+   d="scan'208";a="59943608"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Aug 2024 18:32:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 Aug 2024 18:53:07 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saQ6w-00013i-0T;
-	Sun, 04 Aug 2024 01:32:38 +0000
-Date: Sun, 4 Aug 2024 09:31:54 +0800
+	id 1saQQi-000142-2I;
+	Sun, 04 Aug 2024 01:53:04 +0000
+Date: Sun, 4 Aug 2024 09:52:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rajesh Gugulothu <rajesh.gugulothu@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 1090/1093]
- drivers/clk/idt/clk-idt8t49n24x.c:631:11: error: incompatible function
- pointer types initializing 'int (*)(struct i2c_client *)' with an expression
- of type 'int (struct i2c_client *, const struct i2c_device_id *)'
-Message-ID: <202408040958.Sxhrb7X9-lkp@intel.com>
+To: Chunyan Zhang <zhangchunyan@iscas.ac.cn>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Subject: Re: [PATCH V2 2/3] riscv: mm: Add soft-dirty page tracking support
+Message-ID: <202408040937.f2DDJjCu-lkp@intel.com>
+References: <20240731040444.3384790-3-zhangchunyan@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,40 +70,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240731040444.3384790-3-zhangchunyan@iscas.ac.cn>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
-head:   868286d51b5753a66ab89c1c899510c6047b998d
-commit: 7cf22576ec2e441f1e90cc58d57eefad7698bf42 [1090/1093] Revert "Revert "clk: Add ccf driver for IDT 8T49N24x UFT""
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240804/202408040958.Sxhrb7X9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040958.Sxhrb7X9-lkp@intel.com/reproduce)
+Hi Chunyan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.11-rc1 next-20240802]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chunyan-Zhang/riscv-mm-Prepare-for-reuse-PTE-RSW-bit-9/20240801-231628
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240731040444.3384790-3-zhangchunyan%40iscas.ac.cn
+patch subject: [PATCH V2 2/3] riscv: mm: Add soft-dirty page tracking support
+config: riscv-randconfig-r133-20240802 (https://download.01.org/0day-ci/archive/20240804/202408040937.f2DDJjCu-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce: (https://download.01.org/0day-ci/archive/20240804/202408040937.f2DDJjCu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408040958.Sxhrb7X9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408040937.f2DDJjCu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clk/idt/clk-idt8t49n24x.c:631:11: error: incompatible function pointer types initializing 'int (*)(struct i2c_client *)' with an expression of type 'int (struct i2c_client *, const struct i2c_device_id *)' [-Wincompatible-function-pointer-types]
-     631 |         .probe = idt24x_probe,
-         |                  ^~~~~~~~~~~~
-   1 error generated.
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:752:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     752 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:760:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     760 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:769:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     769 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:778:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:787:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     787 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:36:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1115:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1115 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   In file included from lib/vsprintf.c:50:
+   In file included from lib/../mm/internal.h:13:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   In file included from lib/vsprintf.c:50:
+>> lib/../mm/internal.h:1332:41: error: call to undeclared function 'pmd_soft_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1332 |         return vma_soft_dirty_enabled(vma) && !pmd_soft_dirty(pmd);
+         |                                                ^
+   lib/../mm/internal.h:1332:41: note: did you mean 'pmd_swp_soft_dirty'?
+   include/linux/pgtable.h:1415:19: note: 'pmd_swp_soft_dirty' declared here
+    1415 | static inline int pmd_swp_soft_dirty(pmd_t pmd)
+         |                   ^
+   In file included from lib/vsprintf.c:50:
+>> lib/../mm/internal.h:1337:41: error: call to undeclared function 'pte_soft_dirty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1337 |         return vma_soft_dirty_enabled(vma) && !pte_soft_dirty(pte);
+         |                                                ^
+   16 warnings and 2 errors generated.
 
 
-vim +631 drivers/clk/idt/clk-idt8t49n24x.c
+vim +/pmd_soft_dirty +1332 lib/../mm/internal.h
 
-   625	
-   626	static struct i2c_driver idt24x_driver = {
-   627		.driver = {
-   628			.name = DRV_NAME,
-   629			.of_match_table = idt24x_of_match,
-   630		},
- > 631		.probe = idt24x_probe,
-   632		.remove = idt24x_remove,
-   633		.id_table = idt24x_id,
-   634	};
-   635	
+76aefad628aae1 Peter Xu   2022-07-25  1329  
+f38ee285191813 Barry Song 2024-06-08  1330  static inline bool pmd_needs_soft_dirty_wp(struct vm_area_struct *vma, pmd_t pmd)
+f38ee285191813 Barry Song 2024-06-08  1331  {
+f38ee285191813 Barry Song 2024-06-08 @1332  	return vma_soft_dirty_enabled(vma) && !pmd_soft_dirty(pmd);
+f38ee285191813 Barry Song 2024-06-08  1333  }
+f38ee285191813 Barry Song 2024-06-08  1334  
+f38ee285191813 Barry Song 2024-06-08  1335  static inline bool pte_needs_soft_dirty_wp(struct vm_area_struct *vma, pte_t pte)
+f38ee285191813 Barry Song 2024-06-08  1336  {
+f38ee285191813 Barry Song 2024-06-08 @1337  	return vma_soft_dirty_enabled(vma) && !pte_soft_dirty(pte);
+f38ee285191813 Barry Song 2024-06-08  1338  }
+f38ee285191813 Barry Song 2024-06-08  1339  
 
 -- 
 0-DAY CI Kernel Test Service
