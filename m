@@ -1,60 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225B21E4B2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 06:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B243A14F9EB;
+	Mon,  5 Aug 2024 08:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722840027; cv=none; b=n2dqYqGtsoWmAA5+KzQsUnP9iXPcbfx8LkG/7vMAZ7k7KHMupoYLc52t+I7ngvco00gRLtuxQBWjQugDqmsPMfXyLVdsaDjg19AmjjYXKRs5Be4C2GIsRKfiEObjACNTnEcIJhx0EvsONXCppdOLuA70UVpWZzGkCGuwxevpHos=
+	t=1722846832; cv=none; b=BDi/dbtxWxcMqvoZKzf9hxb95emVaeFkx8LJ1B1/F729PnyDBMq0etSfQVcNXZdNDVAbrIZjbtv2XBabVGbM8xcfV9ocw8UHw8CqlNa07gwWB6lJSInr2n9SHXp1k82EpShvQ0eAuYgPELEmGL5RffvKtT9XmsxKArSnxAZM8BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722840027; c=relaxed/simple;
-	bh=Hc0DKJ+K/2FIRa7TAVEZH9jo99UD0sZM1KT8VTALwmo=;
+	s=arc-20240116; t=1722846832; c=relaxed/simple;
+	bh=E91a+VTwhceaSODgrHkbHHr5BYlJ7t1Ysj7YhU/h+bY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AJYuxu0jrPPhhoqDdbdpXo92EiY5Cr8B+2dYTEnqV2RvQuvpUGDewkS+Vad8qXEL6lnAvfmmOydfhDeyhFEYV2+v3EQSziwRL5Khw6xN4j8/ARQ3FtQG75Rh5d7ZvGK/Dm/L/cTwFXhel12J2UXmpr3/UTZy9W0243gwFkc+xuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1BYl6xT; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O4xrNMuej3bRzvU+UeKzEDaXLQs9T5qz354N5y6hj+YQwv0CIyiZDh34oeLFO5o/pdXk2UmvwK0mu17eLje9n10OImlhPspnYhON2KAVMmHNeotT7eX60fUwagkAymJX7UyXjsWLAE9RIhzweVjLxeRwLXAWmg92sED+p4+gf4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=c1xn301e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SeD4BYcx; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1BYl6xT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722840025; x=1754376025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hc0DKJ+K/2FIRa7TAVEZH9jo99UD0sZM1KT8VTALwmo=;
-  b=P1BYl6xT/WI/Krm7FxL3NySrtPkP9yrT263sZz/j948jQ+nUuZtZVwGB
-   rxAs7rLR4nTO3bmi8Y2b2aqnXFBJkGhAIC7/Yabm/eT1R63Bh5IpS6BE3
-   zC6iFPF86MSUPm6h8a836H+TAv/UdXt0gJRVikwNmxR91ivhYvjcg10IC
-   wwXaAtZ9GZiAjl/t0jGuFgKwjVEQ/9Bs1i+9wAWOoeTB9VC+d6y6bNCW7
-   6FsL1i+ciGxLz9ZH+F0nO05PZvI4v1EUjB/JPkxrnqVMfbITBL/ZgwOQ1
-   I2Xqam5APTwcR1Ups/Fe/tb/OlhD0/kixzqQiWjwwHlZNeymQUkio4Xfc
-   Q==;
-X-CSE-ConnectionGUID: D0nMSidXRG+gFqUeWoYBAg==
-X-CSE-MsgGUID: kZtMNSPlRreVFy/etbRXEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31412946"
-X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="31412946"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 23:40:24 -0700
-X-CSE-ConnectionGUID: OJKOyiOOQuCW1Mrta3Ls3A==
-X-CSE-MsgGUID: phGUJvFGRE2GaG6YLmaXfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="60429873"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Aug 2024 23:40:23 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sarOD-0001kq-2E;
-	Mon, 05 Aug 2024 06:40:18 +0000
-Date: Mon, 5 Aug 2024 14:40:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mengyuan Lou <mengyuanlou@net-swift.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mengyuan Lou <mengyuanlou@net-swift.com>
-Subject: Re: [PATCH net-next v5 07/10] net: libwx: allocate devlink for
- devlink port
-Message-ID: <202408051455.A9boD1Oe-lkp@intel.com>
-References: <5CCBD90FF2823C29+20240804124841.71177-8-mengyuanlou@net-swift.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="c1xn301e";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SeD4BYcx"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id DC4C51151DC2;
+	Mon,  5 Aug 2024 04:33:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 05 Aug 2024 04:33:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1722846829; x=
+	1722933229; bh=zJ9UFW3JNgRiKo3q812jCKGIld512jGf9/66Tll64Ls=; b=c
+	1xn301eGytn+wVO1yDQK7keAg51KkyefkwH7umZ/HpnpT34xYA1IkNaB3yMOGUNj
+	WYuV9aAKj91S4rnDu9sVYy3ZVDtt9T7bafSwW5nWmzFt7oaOqz8NDuEAAhTmi3/B
+	I4nRCrY1hWoutdn559YzWyIsVuTbMDPNrX8aqHNN6oOlkTQUs/TedrJy5elpzTKG
+	wkzMhwrX0xF+zN0ZOSQBGx/ooRnNdD8CZbyL/J97uOD95fs9RkRbGn/6vN90SnD5
+	DJDn2BMWHXG/CyFDOGqtT2b4K0y2dT/3b3NUeKNu3/CKzzm4kucfQ7BklXWfWk3k
+	jHDixHmoqugSeSi0OthRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1722846829; x=1722933229; bh=zJ9UFW3JNgRiKo3q812jCKGIld51
+	2jGf9/66Tll64Ls=; b=SeD4BYcxOLcdEs4eGIo4ctBaMjlGxDgRPHyUERRUd2sy
+	2m6bAtjpv86yMUcbFy0zf4MAIQKYNS72ZyzfBA2XmFxKMQfOOT4kCAg8c457e6nf
+	/5kRdmgoJYoShFN9G2pRSuYkxMbCW9YsIPJz6VdPf11r5Cn2ss9JEy+m6iHk8Wji
+	paJViiJhGtMkatlEJXZtgfVc+OBEh/vpldpQ2OA5AV4c6bwqMj7qhUZzM9NLSYsO
+	ZRuPQgdwZkGkvj1i417xhyD6pIWMhavNvuv3wmN+yvopMjQgjLbVZTP3AIDFIOkf
+	4otq5ieKzMTspcd4BbfLGCJGdtoZBEBKAIokjqw8JA==
+X-ME-Sender: <xms:bY6wZuW6MrqXscaKw96EOb09DPNSNZ2F8-PY1mNQwNgwoDO3Q1Mddw>
+    <xme:bY6wZqltlQSjtmcKH2AFgoIrat0L7puMtpAKLR_joOHXCDD9RvrjVBN35OZO9DU2w
+    wjkLG3KeXu2wzOFtms>
+X-ME-Received: <xmr:bY6wZibfUdEzWvs66yiMn9QTiRa8ulogjtgIW6Tr_pP0Kvcz9hrcgO86gEcc-dMKDKzl_3IuE0tGaS6h8icJFUjoUM7BOH-t>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeeigddthecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgr
+    shhhihesshgrkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhepuedvffegge
+    egfeevheehlefhgfevfedtgfffgeelhefghffhvdetheefhffggfefnecuffhomhgrihhn
+    pehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopedt
+X-ME-Proxy: <xmx:bY6wZlWTQ547DS4fWmLXjwiIoby65VXO52Z_LbjYyeuBx_lEI86DnA>
+    <xmx:bY6wZondw92IWsNK9FMn2WQsO__X_1HBICUvAtUNUgH8CRNrkdupUw>
+    <xmx:bY6wZqcFoe6J9m34l78kpaT5HnuJq_Mo4W49YUG00w3jc2BZ4wqxPQ>
+    <xmx:bY6wZqEDNcC63EOcAdKDflUcaZag9oIzUe4IdJ1vXdkfHueQCMVFDg>
+    <xmx:bY6wZnu00_6EF5ZhaP14cmFuDlIzVPv_d-ML7vLJiXjeYKmo2yysEHzO>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Aug 2024 04:33:48 -0400 (EDT)
+Date: Mon, 5 Aug 2024 17:33:45 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: kernel test robot <lkp@intel.com>
+Cc: linux1394-devel@lists.sourceforge.net, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 17/17] firewire: ohci: use guard macro to serialize
+ operations for isochronous contexts
+Message-ID: <20240805083345.GA248096@workstation.local>
+Mail-Followup-To: kernel test robot <lkp@intel.com>,
+	linux1394-devel@lists.sourceforge.net, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240804130225.243496-18-o-takashi@sakamocchi.jp>
+ <202408050730.y1eyRcTv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +87,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5CCBD90FF2823C29+20240804124841.71177-8-mengyuanlou@net-swift.com>
+In-Reply-To: <202408050730.y1eyRcTv-lkp@intel.com>
 
-Hi Mengyuan,
+On Mon, Aug 05, 2024 at 07:33:01AM +0800, kernel test robot wrote:
+> url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Sakamoto/firewire-core-use-guard-macro-to-maintain-static-packet-data-for-phy-configuration/20240804-210645
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git for-next
+> patch link:    https://lore.kernel.org/r/20240804130225.243496-18-o-takashi%40sakamocchi.jp
+> patch subject: [PATCH 17/17] firewire: ohci: use guard macro to serialize operations for isochronous contexts
+> config: arm64-randconfig-003-20240805 (https://download.01.org/0day-ci/archive/20240805/202408050730.y1eyRcTv-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050730.y1eyRcTv-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408050730.y1eyRcTv-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/firewire/ohci.c:3138:2: error: expected expression
+>     3138 |         guard(spinlock_irq)(&ohci->lock);
+>          |         ^
+>    include/linux/cleanup.h:167:2: note: expanded from macro 'guard'
+>      167 |         CLASS(_name, __UNIQUE_ID(guard))
+>          |         ^
+>    include/linux/cleanup.h:122:2: note: expanded from macro 'CLASS'
+>      122 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+>          |         ^
+>    <scratch space>:133:1: note: expanded from here
+>      133 | class_spinlock_irq_t
+>          | ^
+>    1 error generated.
 
-kernel test robot noticed the following build errors:
+The macro expands a declaration, while the line just after the label
+should be still any statement in C11.
 
-[auto build test ERROR on net-next/main]
+I'll post take 2 patchset.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mengyuan-Lou/net-libwx-Add-sriov-api-for-wangxun-nics/20240804-214836
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/5CCBD90FF2823C29%2B20240804124841.71177-8-mengyuanlou%40net-swift.com
-patch subject: [PATCH net-next v5 07/10] net: libwx: allocate devlink for devlink port
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240805/202408051455.A9boD1Oe-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408051455.A9boD1Oe-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408051455.A9boD1Oe-lkp@intel.com/
+Thanks
 
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_free':
->> wx_devlink.c:(.text+0x58): undefined reference to `devlink_unregister'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x6c): undefined reference to `devlink_free'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_create_pf_port':
->> wx_devlink.c:(.text+0xa0): undefined reference to `priv_to_devlink'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0xfc): undefined reference to `devlink_port_attrs_set'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x110): undefined reference to `devlink_port_register_with_ops'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_destroy_pf_port':
->> wx_devlink.c:(.text+0x174): undefined reference to `devl_port_unregister'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_create_devlink':
->> wx_devlink.c:(.text+0x2a0): undefined reference to `devlink_alloc_ns'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x2d4): undefined reference to `devlink_unregister'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x2dc): undefined reference to `devlink_free'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x304): undefined reference to `devlink_register'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x31c): undefined reference to `devlink_priv'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_create_vf_port':
-   wx_devlink.c:(.text+0x354): undefined reference to `priv_to_devlink'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x3d0): undefined reference to `devlink_port_attrs_set'
->> loongarch64-linux-ld: wx_devlink.c:(.text+0x3e8): undefined reference to `devl_port_register_with_ops'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_destroy_vf_port':
-   wx_devlink.c:(.text+0x47c): undefined reference to `devl_port_unregister'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi Sakamoto
