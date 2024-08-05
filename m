@@ -1,216 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF2C42A9F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 22:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111DA136330;
+	Mon,  5 Aug 2024 23:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722897370; cv=none; b=l7TgDWH4SWEow5jWKYjdg/wc8bFmikWpCZmDfdXGj8pBHWpiwalk6bXf/kEUV8Chho88jVWOPcaJIDuyiMyyz8ymfitrZneazgaOq/UKaY5+ZFOgZEdQORQIIck1WTCzFq1G254KwFXNZQRxXPW/frr6Wyvx7aS+13SjU010zhM=
+	t=1722898968; cv=none; b=QkPnEoCIUchNE8fRlcrnDEBopgGjkRUk8Mjexwh1E/dO2QDhhSrXX7MHvHNoySOy15tKjY1RRgBvni0xW6vP91YdUQFcPzgxa6h4W9uBTZXmKI6xT5XkcjMuX4zGLYKEvPkBvvh6bfKSXZ/2nxxmrxU5vAAgNlZ+G6aI6655M7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722897370; c=relaxed/simple;
-	bh=43dnGTGZZbSaUIOlkbCkc0UEocR+2izz7uEaWoKVN1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RRiB0qzd6OYbiu98WKbWBhjhKg7Gu9HL8Ox6uHKKxV+f/+MBDrt+bEQYVXzGv6v/l7m/8mdrvNDSEAjGSbhN5dLwOQO9QkGuScqQPC4VozvIAm/zjUw48Qsj4zhkNXIoyUxgTaFDhKZg0eTZVIgdRYKFVORxHlh8tvbZedX0roA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2A8eUaI; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722898968; c=relaxed/simple;
+	bh=0Gdo3nqq540CcL7ibzeEufeGCXxLYGPGMYHqMRwmTRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kqx03QbQm1YgDS8fHyN0WthZFdvgQvbFlwZQBXCs8/0P3zQMg02jTJmB/+iYgXih4hYx6FXGYWQ5UGy6JKvxt0EYzYTZr/68qdwTEKnV3GvXJe6AwyynMMP7lztC2LIK7+a4Tp88acBT9wxDqDiaiUiJvIaCRoHqt/KG4PXtRPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ljl3GFCb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2A8eUaI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722897368; x=1754433368;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=43dnGTGZZbSaUIOlkbCkc0UEocR+2izz7uEaWoKVN1o=;
-  b=k2A8eUaIvvX19HbvugRsCpkhmJGFMZ2qWNXfaE0eLlKvcVhg7WEwVfum
-   CA4ekA2vou/gos3TNDrvjRv34Cnh0tHWUwbdeCyxhxF3zoqLPdw4QuIrv
-   Vp8NT/FZb+9Q7mbPBvjrlPCDEP3u7UIqMzEFR0sGaob/dUK6R5hORe35r
-   JhM5QaHqqRD6Kp+E9ROy7MynrtHfKwWrjCCWoJAv8EHtI5ilTZQKPQ66u
-   +n4c1PfNDpUW7Rol2yn9JrwzmQYdeKNLoFd1lisG+LB/7v6k5DwA/v2PP
-   ul0kFgtee0y47uCKeB94YaKFyZytb6m3iEi5l6Q0KI8AICKDvDdLHNc4l
-   w==;
-X-CSE-ConnectionGUID: afIrOch3TCq2qqubee84TQ==
-X-CSE-MsgGUID: d3zWJ3aCQ0qVnzwpGtbXKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20467267"
-X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
-   d="scan'208";a="20467267"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 15:36:08 -0700
-X-CSE-ConnectionGUID: LYibMPd/TeyF3mRywoumjw==
-X-CSE-MsgGUID: e6LS9SqNRlGhqA1zmJLgLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
-   d="scan'208";a="55990209"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Aug 2024 15:36:07 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sb6JB-0003q0-0T;
-	Mon, 05 Aug 2024 22:36:05 +0000
-Date: Tue, 6 Aug 2024 06:35:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 28/30] fs/open.c:640:16: error: variable
- 'delegated_inode' has initializer but incomplete type
-Message-ID: <202408060621.1lh3pegF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ljl3GFCb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC0CC4AF0B;
+	Mon,  5 Aug 2024 23:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722898967;
+	bh=0Gdo3nqq540CcL7ibzeEufeGCXxLYGPGMYHqMRwmTRs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ljl3GFCbllR+AUqgxto9ZIuPsuUSl+fPJ1c06Tv8gHVvZXoMES+wrjYutBNJ021F2
+	 OsaUE5jE3NCAoA71+yYiBpw7P+LZB6nHlcMuqFAx5SZS2XySbmSRMjE8HzhyUz5Lda
+	 XCFQhMbO9ZVHz75FH6fZgrZe9t3iQWs1UAbPcskpaHp/x0guNDDDim6dLQP3AL8Uii
+	 aul1kT26Crp0OUZPMW6RXAWrik4jUk0N0UtmEGYYyHNSgU/+lRCX24iKjyMIYhTk5H
+	 tG3CwsJ9nxWehNeSGdQCiuodKE5YYxf5CEPy1fwCyP/UjO3xBFwzJ4cpAYqNek2Jzx
+	 /DpfnVhqDUv3w==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ef2cce8be8so133668811fa.1;
+        Mon, 05 Aug 2024 16:02:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWMmamQsupBD5TZdVL7oXq5gB1lsP0VP2NvnPLvx/Y6qNN1OuzLvhyB0RRrrDuuexbWTBn7C800XmHX1DuiIMRXkDthM7PWlsmJqOSWrCdtycYoddmPK3d5yxQRcSarhpOXupA=
+X-Gm-Message-State: AOJu0YzpQKXF2oY5/Ini9UMvqeh635VT7q/NAD7p92zCLPvQ0ygsmAFL
+	wvC9qE4zOU+EqM55somGhevAFxsPhPwJA3Zy+bGdecYFZyPP8B+nLhTA+b2CHhBM1I35uUYFnk3
+	sduXvmtLj9PFAdRFjl5//NK34sw==
+X-Google-Smtp-Source: AGHT+IE5UpL2i4KpdFQOQEkLIa7k+4ENdHDQfrjNsLeWhbg/3HLPQs//pjnhx3TTitjgRK4reX+wiHVeBzqLw5GCe9A=
+X-Received: by 2002:a2e:9b0b:0:b0:2f0:2a55:8c4a with SMTP id
+ 38308e7fff4ca-2f15ab53707mr89313251fa.49.1722898965951; Mon, 05 Aug 2024
+ 16:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202408030418.gnJDcCpm-lkp@intel.com> <20240805104758.52obllbjvuvtmd4n@vireshk-i7>
+ <CAL_Jsq+evBH2+XVeMAGXy9Ucof=G574+sFKcG94MqSUdgzFSgw@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+evBH2+XVeMAGXy9Ucof=G574+sFKcG94MqSUdgzFSgw@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 5 Aug 2024 17:02:33 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK6rY7S3X9sNSZFqhKPqz1wYz3QdgaQu42pnaKVA0HrwA@mail.gmail.com>
+Message-ID: <CAL_JsqK6rY7S3X9sNSZFqhKPqz1wYz3QdgaQu42pnaKVA0HrwA@mail.gmail.com>
+Subject: Re: [vireshk-pm:cpufreq/arm/linux-next 2/2] drivers/cpufreq/spear-cpufreq.c:202:12:
+ warning: variable 'i' is uninitialized when used here
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   3ef3065a07c0fc797ef9b034216f09d8b324e0b1
-commit: 7fe1a63b7276713f10c1d9d23aaa10c40869fbb5 [28/30] fs: add struct delegated_inode
-config: m68k-m5407c3_defconfig (https://download.01.org/0day-ci/archive/20240806/202408060621.1lh3pegF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060621.1lh3pegF-lkp@intel.com/reproduce)
+On Mon, Aug 5, 2024 at 8:00=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Aug 5, 2024 at 4:48=E2=80=AFAM Viresh Kumar <viresh.kumar@linaro.=
+org> wrote:
+> >
+> > On 03-08-24, 05:01, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.gi=
+t cpufreq/arm/linux-next
+> > > head:   dca2ef2b7d916c718c6e88084170413a8a1942d0
+> > > commit: dca2ef2b7d916c718c6e88084170413a8a1942d0 [2/2] cpufreq: spear=
+: Use of_property_for_each_u32() instead of open coding
+> > > config: arm-defconfig (https://download.01.org/0day-ci/archive/202408=
+03/202408030418.gnJDcCpm-lkp@intel.com/config)
+> > > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project =
+f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20240803/202408030418.gnJDcCpm-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202408030418.gnJDcCpm=
+-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > > >> drivers/cpufreq/spear-cpufreq.c:202:12: warning: variable 'i' is u=
+ninitialized when used here [-Wuninitialized]
+> > >                    freq_tbl[i].frequency =3D val;
+> > >                             ^
+> > >    drivers/cpufreq/spear-cpufreq.c:176:12: note: initialize the varia=
+ble 'i' to silence this warning
+> > >            int cnt, i, ret;
+> > >                      ^
+> > >                       =3D 0
+> > >    1 warning generated.
+> > >
+> > >
+> > > vim +/i +202 drivers/cpufreq/spear-cpufreq.c
+> >
+> > Rob, can you please send a fix for this ?
+>
+> Will do. Looks like it is only with clang...
+>
+> Is there some reason COMPILE_TEST is not enabled for almost everything
+> in cpufreq/?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408060621.1lh3pegF-lkp@intel.com/
+Pushed this out for builders to test:
 
-All errors (new ones prefixed by >>):
-
-   fs/open.c: In function 'chmod_common':
->> fs/open.c:640:16: error: variable 'delegated_inode' has initializer but incomplete type
-     640 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
->> fs/open.c:640:32: error: storage size of 'delegated_inode' isn't known
-     640 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/open.c:640:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/open.c: In function 'chown_common':
-   fs/open.c:764:16: error: variable 'delegated_inode' has initializer but incomplete type
-     764 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/open.c:764:32: error: storage size of 'delegated_inode' isn't known
-     764 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/open.c:764:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
---
-   fs/namei.c: In function 'open_last_lookups':
->> fs/namei.c:3613:16: error: variable 'delegated_inode' has initializer but incomplete type
-    3613 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
->> fs/namei.c:3613:32: error: storage size of 'delegated_inode' isn't known
-    3613 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:3613:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_mknodat':
-   fs/namei.c:4155:16: error: variable 'delegated_inode' has initializer but incomplete type
-    4155 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:4155:32: error: storage size of 'delegated_inode' isn't known
-    4155 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:4155:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_mkdirat':
-   fs/namei.c:4278:16: error: variable 'delegated_inode' has initializer but incomplete type
-    4278 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:4278:32: error: storage size of 'delegated_inode' isn't known
-    4278 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:4278:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_rmdir':
-   fs/namei.c:4389:16: error: variable 'delegated_inode' has initializer but incomplete type
-    4389 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:4389:32: error: storage size of 'delegated_inode' isn't known
-    4389 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:4389:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_unlinkat':
-   fs/namei.c:4538:16: error: variable 'delegated_inode' has initializer but incomplete type
-    4538 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:4538:32: error: storage size of 'delegated_inode' isn't known
-    4538 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:4538:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_linkat':
-   fs/namei.c:4804:16: error: variable 'delegated_inode' has initializer but incomplete type
-    4804 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:4804:32: error: storage size of 'delegated_inode' isn't known
-    4804 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:4804:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/namei.c: In function 'do_renameat2':
-   fs/namei.c:5104:16: error: variable 'delegated_inode' has initializer but incomplete type
-    5104 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/namei.c:5104:32: error: storage size of 'delegated_inode' isn't known
-    5104 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/namei.c:5104:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
---
-   fs/xattr.c: In function 'vfs_setxattr':
->> fs/xattr.c:308:16: error: variable 'delegated_inode' has initializer but incomplete type
-     308 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
->> fs/xattr.c:308:32: error: storage size of 'delegated_inode' isn't known
-     308 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/xattr.c:308:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-   fs/xattr.c: In function 'vfs_removexattr':
-   fs/xattr.c:570:16: error: variable 'delegated_inode' has initializer but incomplete type
-     570 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
-   fs/xattr.c:570:32: error: storage size of 'delegated_inode' isn't known
-     570 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/xattr.c:570:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
---
-   fs/utimes.c: In function 'vfs_utimes':
->> fs/utimes.c:25:16: error: variable 'delegated_inode' has initializer but incomplete type
-      25 |         struct delegated_inode delegated_inode = { };
-         |                ^~~~~~~~~~~~~~~
->> fs/utimes.c:25:32: error: storage size of 'delegated_inode' isn't known
-      25 |         struct delegated_inode delegated_inode = { };
-         |                                ^~~~~~~~~~~~~~~
-   fs/utimes.c:25:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
-
-
-vim +/delegated_inode +640 fs/open.c
-
-   636	
-   637	int chmod_common(const struct path *path, umode_t mode)
-   638	{
-   639		struct inode *inode = path->dentry->d_inode;
- > 640		struct delegated_inode delegated_inode = { };
-   641		struct iattr newattrs;
-   642		int error;
-   643	
-   644		error = mnt_want_write(path->mnt);
-   645		if (error)
-   646			return error;
-   647	retry_deleg:
-   648		inode_lock(inode);
-   649		error = security_path_chmod(path, mode);
-   650		if (error)
-   651			goto out_unlock;
-   652		newattrs.ia_mode = (mode & S_IALLUGO) | (inode->i_mode & ~S_IALLUGO);
-   653		newattrs.ia_valid = ATTR_MODE | ATTR_CTIME;
-   654		error = notify_change(mnt_idmap(path->mnt), path->dentry,
-   655				      &newattrs, &delegated_inode);
-   656	out_unlock:
-   657		inode_unlock(inode);
-   658		if (delegated_inode.di_inode) {
-   659			error = break_deleg_wait(&delegated_inode);
-   660			if (!error)
-   661				goto retry_deleg;
-   662		}
-   663		mnt_drop_write(path->mnt);
-   664		return error;
-   665	}
-   666	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/log/?h=3Dcpu=
+freq-compile-test
