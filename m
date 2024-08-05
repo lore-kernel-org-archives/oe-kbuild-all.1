@@ -1,185 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D7548CCD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 18:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1840F1D540;
+	Mon,  5 Aug 2024 18:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722881440; cv=none; b=cMsybs7zIl5IRtFIUoqrOQb1BIR/WwHC3xuHLNv47Aw6/YwiL1iVaRrNOSxfR6MVX1bis/7DTJbldJQJH4H9qZ2aARHw9qIxQ3aOuoJ8sseGOLm83J4sCm8/6poe5ETtv1oILf7ISodlTO9muYaFRBhHkshOIXvAihny7AUzqqc=
+	t=1722883655; cv=none; b=ioT8g/vqX88sj0F3VtdJj9YWA713Ix3jkauIaWf1OS62MCqZs6dWYuT5IFl4d8rKDji9CJPKWV524YH+oz9VLtplXg5wbAUtpiA/lb4YzA03GQqWfybsTAMoexkJe0OusF5HJ6YNOHJZFsGq+JECVWAgB3WFQ2kOi2+4N7WydJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722881440; c=relaxed/simple;
-	bh=CrDqFr+VrgDXOiK1trVs9vkeQE9/1cV8jNg7kkkmz4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mGjJplEC7gpPzya6MF6NZhcXA2a1H7yZDGi5Jwp854z9GuHChuLE0hJtQRB2ahoTf83DEQEg57ybjBkEoRxjCVezd52I1EPEsAI3qMfu74zNXm360v63t7tZppydhoxcTkM5xrAyiAxlRHLTt5ExRgBUO+8972OfLQhxF3stWXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3U0wt4C; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722883655; c=relaxed/simple;
+	bh=RB5ABq4ub7SeudjawYwgkqLmnuH/wm0HeSQlI0Pti0o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q5YigqCxpm1UBJRtosXx2yHYludvlPya1+IKNFjYvsrWpZXjMDMkO453DYB/jyOQN5QQqojuDT5pvo/5mLfxFeCaXbIz5VqoH7n5uurKoRTwbgfmqAVrs3lLe/Jj7QX9BM0vq7HNux316Cn147YD2E18YYvoN3V8MNjzH8f8uUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=yR+2mv4D; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3U0wt4C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722881438; x=1754417438;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CrDqFr+VrgDXOiK1trVs9vkeQE9/1cV8jNg7kkkmz4o=;
-  b=U3U0wt4C8HiP18a/vv/xVJOOLop1Gc6oxJQfKZcvqdIJajGhNxvYZxiB
-   5SVVLH230tOV9T89TsL4CMeH4p07sug2EaQ6aHbzxs0d6C0DbwQgmCE70
-   HQ5AYwHDu3idWIhwRcUIJKD79k2QVvBeLPrnTnSaFaB+8SXBTAFWuCqm9
-   RMJT8PvqkRyaJVEaVVLlxLenFhvEf+xAPqFvYNUMoTMtiPihtmzfESmfP
-   Q0DjZDcFUSycwEFNp7FKOc1//GxIhVXszSkak5yuLrtQQs0HtUgcvVLff
-   yybZIgmZPtuz90qKN/3N09BlUsuc994uIVrsR+0MbV0pN1dXd9ZZKwnho
-   g==;
-X-CSE-ConnectionGUID: IwJwHDEoRXKKFXV9ED2ggw==
-X-CSE-MsgGUID: /2Q/O/QbTFGO9WkzYMyd/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20827882"
-X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
-   d="scan'208";a="20827882"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 11:10:38 -0700
-X-CSE-ConnectionGUID: Q7XxXmixSMWk9jb4Ntb59w==
-X-CSE-MsgGUID: qQ3/dJsuRDyHpyYA44Ss6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,265,1716274800"; 
-   d="scan'208";a="79497391"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Aug 2024 11:10:35 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sb2AD-0003PY-0X;
-	Mon, 05 Aug 2024 18:10:33 +0000
-Date: Tue, 6 Aug 2024 02:09:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Subject: Re: [PATCH 05/13] serial: use guards for simple mutex locks
-Message-ID: <202408060140.glPvoH1S-lkp@intel.com>
-References: <20240805102046.307511-6-jirislaby@kernel.org>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="yR+2mv4D"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=pCPe3QNW7Gfv8d+9jcf1cpKcadC66WQXFO95ychUD+Y=; t=1722883653;
+	x=1723315653; b=yR+2mv4DZBV+IsdFZ72IsCebDbikWluBbzbnKaU7jHS5W/X9i2a9UXjs0MY6u
+	Xlkf5U/TNAx3fJHFB4wJSLGpm9mHUzNW2yNsJZ9Wcjfu8U9H7zwVwZtVVtRCW9r9bAVz1ponxKAJX
+	QCNREF62OgVGtkR67zd9x49nzD55Hs2mzJlhfjdFWo9uCOtmruTEzlYEXHWyOkNk0jVws3T4Gf5vT
+	8jggAruTmNswuEJwdULcIy7p87c0IrB1eNu0dYcRSclt7eFQh4Y4Hv8K0DMpjkHbZVzYxeEsckk/q
+	HT1qqu5dOOVgrNH6X6yADu2t5rjZxsRXzMTkHRi2BjH64+yk/g==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sb2jw-0002t2-Nz; Mon, 05 Aug 2024 20:47:28 +0200
+Message-ID: <4bba778c-79b6-49a6-9839-5f492cc4251b@leemhuis.info>
+Date: Mon, 5 Aug 2024 20:47:28 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240805102046.307511-6-jirislaby@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [herbert-cryptodev-2.6:master 2/9]
+ arch/arm64/crypto/poly1305-core.S:415:(.text+0x3d4): relocation truncated to
+ fit: R_AARCH64_ADR_PREL_LO21 against `.rodata'
+To: Jia He <justin.he@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, kernel test robot <lkp@intel.com>
+References: <202408040817.OWKXtCv6-lkp@intel.com>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <202408040817.OWKXtCv6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1722883653;7fa585eb;
+X-HE-SMSGID: 1sb2jw-0002t2-Nz
 
-Hi Jiri,
+On 04.08.24 02:20, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+> head:   e0d3b845a1b10b7b5abdad7ecc69d45b2aab3209
+> commit: 47d96252099a7184b4bad852fcfa3c233c1d2f71 [2/9] crypto: arm64/poly1305 - move data to rodata section
+> config: arm64-randconfig-002-20240804 (https://download.01.org/0day-ci/archive/20240804/202408040817.OWKXtCv6-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040817.OWKXtCv6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408040817.OWKXtCv6-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arch/arm64/crypto/poly1305-core.o: in function `poly1305_blocks_neon':
+>>> arch/arm64/crypto/poly1305-core.S:415:(.text+0x3d4): relocation truncated to fit: R_AARCH64_ADR_PREL_LO21 against `.rodata'
 
-kernel test robot noticed the following build errors:
+Ran into the same problem today with my kernel vanilla next builds for
+Fedora. Build log:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.11-rc2 next-20240805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://download.copr.fedorainfracloud.org/results/@kernel-vanilla/next/fedora-40-aarch64/07852205-next-next-all/builder-live.log.gz
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby-SUSE/tty-simplify-tty_dev_name_to_number-using-guard-mutex/20240805-184227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20240805102046.307511-6-jirislaby%40kernel.org
-patch subject: [PATCH 05/13] serial: use guards for simple mutex locks
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240806/202408060140.glPvoH1S-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060140.glPvoH1S-lkp@intel.com/reproduce)
+Happens with Fedora 39 and Fedora rawhide as well.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408060140.glPvoH1S-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/tty/serial/serial_core.c: In function 'uart_suspend_port':
->> drivers/tty/serial/serial_core.c:2400:17: error: label 'unlock' used but not defined
-    2400 |                 goto unlock;
-         |                 ^~~~
-
-
-vim +/unlock +2400 drivers/tty/serial/serial_core.c
-
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2369  
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2370  int uart_suspend_port(struct uart_driver *drv, struct uart_port *uport)
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2371  {
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2372  	struct uart_state *state = drv->state + uport->line;
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2373  	struct tty_port *port = &state->port;
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2374  	struct device *tty_dev;
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2375  	struct uart_match match = {uport, drv};
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2376  
-d2d8bbc5cc74b7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE        2024-08-05  2377) 	guard(mutex)(&port->mutex);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2378  
-b286f4e87e325b drivers/tty/serial/serial_core.c Tony Lindgren           2023-11-13  2379  	tty_dev = device_find_child(&uport->port_dev->dev, &match, serial_match_port);
-88e2582e90bb89 drivers/tty/serial/serial_core.c Lucas Stach             2017-05-11  2380  	if (tty_dev && device_may_wakeup(tty_dev)) {
-aef3ad103a686f drivers/tty/serial/serial_core.c Andy Shevchenko         2017-08-13  2381  		enable_irq_wake(uport->irq);
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2382  		put_device(tty_dev);
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2383  		return 0;
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2384  	}
-5a65dcc04cda41 drivers/tty/serial/serial_core.c Federico Vaga           2013-04-15  2385  	put_device(tty_dev);
-5a65dcc04cda41 drivers/tty/serial/serial_core.c Federico Vaga           2013-04-15  2386  
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2387  	/*
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2388  	 * Nothing to do if the console is not suspending
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2389  	 * except stop_rx to prevent any asynchronous data
-cfab87c2c27157 drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-06-08  2390  	 * over RX line. However ensure that we will be
-cfab87c2c27157 drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-06-08  2391  	 * able to Re-start_rx later.
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2392  	 */
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2393  	if (!console_suspend_enabled && uart_console(uport)) {
-abcb0cf1f5b2d9 drivers/tty/serial/serial_core.c John Ogness             2023-05-25  2394  		if (uport->ops->start_rx) {
-559c7ff4e32455 drivers/tty/serial/serial_core.c Thomas Gleixner         2023-09-14  2395  			uart_port_lock_irq(uport);
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2396  			uport->ops->stop_rx(uport);
-559c7ff4e32455 drivers/tty/serial/serial_core.c Thomas Gleixner         2023-09-14  2397  			uart_port_unlock_irq(uport);
-abcb0cf1f5b2d9 drivers/tty/serial/serial_core.c John Ogness             2023-05-25  2398  		}
-a47cf07f60dcb0 drivers/tty/serial/serial_core.c Claudiu Beznea          2024-04-30  2399  		device_set_awake_path(uport->dev);
-b164c9721e3ea4 drivers/tty/serial/serial_core.c Peter Hurley            2015-01-22 @2400  		goto unlock;
-c9d2325cdb92fd drivers/tty/serial/serial_core.c Vijaya Krishna Nivarthi 2022-05-16  2401  	}
-b164c9721e3ea4 drivers/tty/serial/serial_core.c Peter Hurley            2015-01-22  2402  
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2403  	uport->suspended = 1;
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski   2007-10-16  2404  
-d41861ca19c9e9 drivers/tty/serial/serial_core.c Peter Hurley            2016-04-09  2405  	if (tty_port_initialized(port)) {
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2406  		const struct uart_ops *ops = uport->ops;
-c8c6bfa39d6bd7 drivers/serial/serial_core.c     Russell King            2008-02-04  2407  		int tries;
-18c9d4a3c249e9 drivers/tty/serial/serial_core.c Al Cooper               2022-03-24  2408  		unsigned int mctrl;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2409  
-75b20a2ac425b9 drivers/tty/serial/serial_core.c Ilpo Järvinen           2023-01-17  2410  		tty_port_set_suspended(port, true);
-515be7baeddb04 drivers/tty/serial/serial_core.c Ilpo Järvinen           2023-01-17  2411  		tty_port_set_initialized(port, false);
-a6b93a90850881 drivers/serial/serial_core.c     Russell King            2006-10-01  2412  
-559c7ff4e32455 drivers/tty/serial/serial_core.c Thomas Gleixner         2023-09-14  2413  		uart_port_lock_irq(uport);
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2414  		ops->stop_tx(uport);
-7c7f9bc986e698 drivers/tty/serial/serial_core.c Lukas Wunner            2022-09-22  2415  		if (!(uport->rs485.flags & SER_RS485_ENABLED))
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2416  			ops->set_mctrl(uport, 0);
-18c9d4a3c249e9 drivers/tty/serial/serial_core.c Al Cooper               2022-03-24  2417  		/* save mctrl so it can be restored on resume */
-18c9d4a3c249e9 drivers/tty/serial/serial_core.c Al Cooper               2022-03-24  2418  		mctrl = uport->mctrl;
-18c9d4a3c249e9 drivers/tty/serial/serial_core.c Al Cooper               2022-03-24  2419  		uport->mctrl = 0;
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2420  		ops->stop_rx(uport);
-559c7ff4e32455 drivers/tty/serial/serial_core.c Thomas Gleixner         2023-09-14  2421  		uart_port_unlock_irq(uport);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2422  
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2423  		/*
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2424  		 * Wait for the transmitter to empty.
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2425  		 */
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2426  		for (tries = 3; !ops->tx_empty(uport) && tries; tries--)
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2427  			msleep(10);
-c8c6bfa39d6bd7 drivers/serial/serial_core.c     Russell King            2008-02-04  2428  		if (!tries)
-cade3580f79aeb drivers/tty/serial/serial_core.c Andy Shevchenko         2017-03-31  2429  			dev_err(uport->dev, "%s: Unable to drain transmitter\n",
-cade3580f79aeb drivers/tty/serial/serial_core.c Andy Shevchenko         2017-03-31  2430  				uport->name);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2431  
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2432  		ops->shutdown(uport);
-18c9d4a3c249e9 drivers/tty/serial/serial_core.c Al Cooper               2022-03-24  2433  		uport->mctrl = mctrl;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2434  	}
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2435  
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2436  	/*
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2437  	 * Disable the console device before suspending.
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2438  	 */
-b164c9721e3ea4 drivers/tty/serial/serial_core.c Peter Hurley            2015-01-22  2439  	if (uart_console(uport))
-ccce6debb62d94 drivers/serial/serial_core.c     Alan Cox                2009-09-19  2440  		console_stop(uport->cons);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2441  
-6f538fe31c1d45 drivers/tty/serial/serial_core.c Linus Walleij           2012-12-07  2442  	uart_change_pm(state, UART_PM_STATE_OFF);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2443  
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2444  	return 0;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2445  }
-15dc475bcc1739 drivers/tty/serial/serial_core.c Jiri Slaby              2022-01-24  2446  EXPORT_SYMBOL(uart_suspend_port);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds          2005-04-16  2447  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ciao, Thorsten
