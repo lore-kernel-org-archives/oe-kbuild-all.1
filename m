@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9D714F9CC
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 10:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B071311AC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 10:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722852286; cv=none; b=WJDhBJ1HoE+kKg5lPb6BPYsv49Y/TzLSRjyr9DcvIW8VB+qzfPYbKy+hN2tUPuwyT0opHRnK0XZwDSC8+Dcp6iEI0mkKWsqqX7rnE9zM/+jOgqKCyO/y94UxcTBAm7yFpZEGBB2r/qkADVb237AXSbEguBDJ+Z5cCO1NXqEw4qk=
+	t=1722854883; cv=none; b=MjbZUVnHGPtj6LALVtBBCD80R3tfUWpJcnvim840LQRhYC4tVrgnjLcX99gAP134PyIGEDhICYCyrm+MZMo+HJzoGnYIC9I8cfmpHggpmg+u0Mql3Ah4NlBHiLL4g5Xr4JtRLnx/EMLygrazbIIHdpbRUWi5cDCqSNsMAS6xFyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722852286; c=relaxed/simple;
-	bh=ToDphomYN0bQnyqulhkcAB76UxHr84zoFKIZyYfPsWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hx+pwho4ZLmo4YXzGkvWw0MZfRnjGUzt9mO/JitAXBSQlAByC9T7l5DGpI9itYs/0358xydeDinLUL0wmP8ZOTmAQVcW3aoVbQ8n/dZhqgXYNFOlTBm+kUWk7Xrt586ftpZyPp9Q/ka42dtK0Gfv426g/h1Av/t8NPjZDQ0ei3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f3umD3oY; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722854883; c=relaxed/simple;
+	bh=1erOG6BD+UVqmjSzqgy0UeFWC6Qbup+YMTG/351ock8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZkgT2OBnu44U4ZzaKhXbtd90kPQ0TBnENKd3bLGRrIUtEZvQoUa9BJbJ2+s37MyKkMx21NYm/0ysjW4cDWE/nbAcZEf5gYSF+cc5JAz5gbd5o86LnDCsqGbkbRzpV3LQzs8B5htOzzARi8LgpOQ7QdsT3DY22miCyL+c3DsD+8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oXjSHM0C; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f3umD3oY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722852282; x=1754388282;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ToDphomYN0bQnyqulhkcAB76UxHr84zoFKIZyYfPsWk=;
-  b=f3umD3oYKtm2XdBNvXALa6j0kYseTnzbHk1meIywiBR3QY1+MujuupXx
-   muWdD/dx5PiI3gjDPKLq18ZloFIvZsBNBkfdpER0gMfVPWTilyIjz01Ie
-   byL6A9wpi9ZWIM4oqApWBPzXhbgg46piGqKOF4h1ARLtgczgIkKbpxTGi
-   /87bTPhDxP5zZgmKWQfhXpZXhIlCX5g7qKHcahmc35h/oQdSfQXA+gyec
-   U7aY8eQiHQYBW9DGAbnRQDEoDUvSDtkKk2Y65s0Fvpxpw/psFiQVxWOl5
-   2MI1ixLh7V0rLNcAV359QY4rsJdjdN8aALmfZsgKNiDFmTgShyJO1vSCo
-   w==;
-X-CSE-ConnectionGUID: OM3ZquoLQu+Y8prBedcIBA==
-X-CSE-MsgGUID: njujStgnS5eY3iTPdYXPEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31462840"
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="31462840"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 03:04:41 -0700
-X-CSE-ConnectionGUID: nvxV0/MoQlCqRvsr2XBj0Q==
-X-CSE-MsgGUID: 8h1yuF3cRxuYaueTnAHVeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="56036267"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 05 Aug 2024 03:04:40 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sauZx-00023q-2A;
-	Mon, 05 Aug 2024 10:04:37 +0000
-Date: Mon, 5 Aug 2024 18:04:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [linux-next:master /3069] ERROR: modpost: "tpm2_sessions_init"
- [drivers/char/tpm/tpm_ibmvtpm.ko] undefined!
-Message-ID: <202408051735.ZJkAPQ3b-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oXjSHM0C"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1fc6ee64512so76145065ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Aug 2024 03:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722854881; x=1723459681; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bZ4eC6aco2OMzLZcW32lNcwJ0jDMMtztuSf2DOiIEmU=;
+        b=oXjSHM0CpVuabVEDVc6RRLSIMn7xoVyEinRoxr4POJI1wAil0D34vTaag3FVQ6VYUe
+         mrdHZXTb21tPi5jig0CCw6iWbXumEVcIhLYh6q+QRvP1TP41Zpq4/F14czQNuB13ARBN
+         7wM+KiazcY9ekZfS+2bJJIVStXZ1LaOEV3QBu3hKYdM7kRau8s/aydRIjOi6zrnLOxnH
+         iG+ScJP3IzGFTfvQdXMrWXwNcrgzNzEBN6GiSnBjm6wx/PTGX9HB+VWqxsfl90Xd1tIH
+         B2jG2AbESFQMsIOxo6b2lPh9oUq5Vd5VrJ7eMg2vj+FHSKSui0jq2aAYNcVRCvgUKdkC
+         u8RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722854881; x=1723459681;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bZ4eC6aco2OMzLZcW32lNcwJ0jDMMtztuSf2DOiIEmU=;
+        b=u5DOcJEWtpTkcBRY5mh39kSIpl028tn6Ubwc4NZEOfaidE+4ZIAcSLiG8sdPzX3eJd
+         Y1NCVOJuIsoSsQEkIH32r6D1SMa4ulQ/Q/I3aMyCbPzoICXYzFsHdkfSonlyFABBM66l
+         nnpwVIb0GhjkHK2E5H1faErq4OxaSuCR5S+ZushvMLJHLMvLRrYAATa5rdxPipZhBWx4
+         rLjtU4gA4GS70qV9E/xbH8N1nTWACLSehPouT3HIL1qxBt3JmesP684gwIXshrkXNSvJ
+         65jGpGQ/GzTSRl9KbBLEcyxN8y8tVczeQDqYiwPk87o5DpPi9lKDLLKO8vvyEME4U0Z4
+         nXzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFE5LWpQvNVFZrnL8Bb0x0qcrkTYAotawmEIQaf54+6lTUesPoBEM4U98BLGCViEFafylKtKKmcMDw3NsvIobhcPMGfUwWVVKSD5vFzA==
+X-Gm-Message-State: AOJu0Yw3ukve0DgdAMwaEWAiOw50po7fFG9P67sjKwD+RRU9QkHPd8zu
+	9tyzaKX+Q3jtwvGU5kP2KvkGoQ5znGomoFonc8A2ml1a4UJPGZgNeY0VZR3jAn0=
+X-Google-Smtp-Source: AGHT+IHspederY56HLknhhlUUMxPp2/ot8UlLUewi1mzpD8jqzWyRsMD9OvpzVtKoiLvrCnVYGjDng==
+X-Received: by 2002:a17:903:234b:b0:1fb:984c:555a with SMTP id d9443c01a7336-1ff574ba872mr107623905ad.52.1722854881353;
+        Mon, 05 Aug 2024 03:48:01 -0700 (PDT)
+Received: from localhost ([122.172.84.129])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff591797f6sm64592435ad.208.2024.08.05.03.48.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 03:48:00 -0700 (PDT)
+Date: Mon, 5 Aug 2024 16:17:58 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [vireshk-pm:cpufreq/arm/linux-next 2/2]
+ drivers/cpufreq/spear-cpufreq.c:202:12: warning: variable 'i' is
+ uninitialized when used here
+Message-ID: <20240805104758.52obllbjvuvtmd4n@vireshk-i7>
+References: <202408030418.gnJDcCpm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +69,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202408030418.gnJDcCpm-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f524a5e4dfb75b277c9a5ad819ca5f035f490f14
-commit: a223ab72caee9aa1250386c90176fa3f2c2f1d50 [/3069] tpm: ibmvtpm: Call tpm2_sessions_init() to initialize session support
-config: powerpc64-randconfig-002-20240804 (https://download.01.org/0day-ci/archive/20240805/202408051735.ZJkAPQ3b-lkp@intel.com/config)
-compiler: powerpc64le-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408051735.ZJkAPQ3b-lkp@intel.com/reproduce)
+On 03-08-24, 05:01, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/arm/linux-next
+> head:   dca2ef2b7d916c718c6e88084170413a8a1942d0
+> commit: dca2ef2b7d916c718c6e88084170413a8a1942d0 [2/2] cpufreq: spear: Use of_property_for_each_u32() instead of open coding
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20240803/202408030418.gnJDcCpm-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408030418.gnJDcCpm-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408030418.gnJDcCpm-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/cpufreq/spear-cpufreq.c:202:12: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+>                    freq_tbl[i].frequency = val;
+>                             ^
+>    drivers/cpufreq/spear-cpufreq.c:176:12: note: initialize the variable 'i' to silence this warning
+>            int cnt, i, ret;
+>                      ^
+>                       = 0
+>    1 warning generated.
+> 
+> 
+> vim +/i +202 drivers/cpufreq/spear-cpufreq.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408051735.ZJkAPQ3b-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->> ERROR: modpost: "tpm2_sessions_init" [drivers/char/tpm/tpm_ibmvtpm.ko] undefined!
+Rob, can you please send a fix for this ?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
