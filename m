@@ -1,79 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9ADE1FA1;
-	Mon,  5 Aug 2024 03:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB4F13D24C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Aug 2024 03:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722826845; cv=none; b=Pe5HEu5rDFj9USGl79wa4u1IYNvsW/Ai3SA4W91EWlHMdU1Df92wZUHLURCLDjD0xfwL+JFdNa/eGdDdBNWXxzDuzqUlEu8jlq6oZpDUHugSWwtwT96eTKHXnS0SBQu06FZ+w3Ky8PRvN5lbTTsKCC45XjUEqlk5i7eUJirPSpM=
+	t=1722827093; cv=none; b=WNVF0fvpYhjKGdikSM32Da70ErNl6/BCqdP7DLQE0i22ynm7j6UBKh8PWRpLBMFK7qdIAPagzu2C/0pdiH+Obe5c57whX6aWGI7+GbOgD57YKmP9ZSwJwFhj79M/jbiZf4JskcCVfKcfWxC7JifHZtVw+ikuxTlovWlTPb1wMvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722826845; c=relaxed/simple;
-	bh=5WOwwX41bg9jUkw5aLZTaElQmfmRJJ1nHSdt7Fih1t8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uW4dusYbmEfam3MXM99iKkwvSheAp6Jm1LKKb6pDKywAvRIjHIaOIdSvWKDxBiWcX5ii+iwsXM/NUbcXupWniiVXn/CTBf5zcJ+1Y+3i9MnUn10Rm8UD5B/QXzkJnYVA79exScWvjLooLA9OgQNW2tOYBYf6sgONIAjew9ASfME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VG5JVEME; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722827093; c=relaxed/simple;
+	bh=17hrF7NDASeOzAKfE0wgbVZHAWZiCsDox80RR8poFG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dRxfmtHT8tiSsiYsHdXKo8rlyW6K066iQNvtQAcFcfBRHz7VbXAZIALnEBrkDAfW9PrC6FKMECqd7FM0mgn7udsuCe4W6WdHurTwDojmwLftPla+lyRJ1nNPUti69BEf/GuuEKQpDFss+ZA4AXUaAyqByGVRhzV3LrxVhi4YyRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VlRIfB/G; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VG5JVEME"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C0DC32786;
-	Mon,  5 Aug 2024 03:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722826845;
-	bh=5WOwwX41bg9jUkw5aLZTaElQmfmRJJ1nHSdt7Fih1t8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VG5JVEMEhpbFp9IzTJAGC3a4brcKHXUrZehXzrWK76ry1PadAU3HsbPc0AdSsoVW2
-	 Hm7ErmVB12JoQRHm/uex4Jep+F7IGUDxr2qAmOyYJx4QNY2QHiqPrs7YbqCwkbnUqV
-	 nTNtlJujikH7p59/D9jU4ERTjQNBsTCAUHJoENuj7hscxaCQEy2C2pQAh2GnoUWUto
-	 MJ7Xl5Ff1w724pdydZr3JS9m4vifG3ZzjgxO7ZCMOygy9zax0qZA5buljT9Fx3eNj6
-	 klPVftONJs7rff4AtPP0iY/aKZYJVYWCKoyOE0H+5pmVN0R5EdebEpvgazy6a4BMP0
-	 bfexZQX58RKMw==
-Date: Sun, 4 Aug 2024 20:00:43 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Gow <davidgow@google.com>
-Subject: Re: ERROR: modpost: "__popcountdi2"
- [lib/kunit/kunit-example-test.ko] undefined!
-Message-ID: <20240805030043.GA3417507@thelio-3990X>
-References: <202408041932.EzITeEV4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VlRIfB/G"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fed72d23a7so73583465ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Aug 2024 20:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722827092; x=1723431892; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DCt8m+ZKYNh2UEFvQXA3vrNBfoxHfltWq0395Bem0Vg=;
+        b=VlRIfB/GIDacxSjdMjgOjH5r9OeEUOZovFC4+7G1MfGeIXqD9CqeAAF6pD8Ze4oLxs
+         nguuyxsE+NP6rRHi/BO11cVtvia276mbuwu6sXn25OXpMUKeyeG4kcjp6urQTBKNnk1K
+         GRYqt3PZ+ECRdHxRt0AzTj35iMJcnM//HorTxkR5P+aYStJuOj/mZWmxIdmCpUtMrwIM
+         9iAPErlDqVJs96KLj/G2h7xGpM3+h8M9rjqnNM39T8r0pNQht+g03elbsve+d6OS0QYx
+         rJMX1C11GuqpACigip8YOWvrOL9E4+HCq/CdwDJXDSsrzkwdwz1oysToCJ+v901Dspo7
+         8KwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722827092; x=1723431892;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DCt8m+ZKYNh2UEFvQXA3vrNBfoxHfltWq0395Bem0Vg=;
+        b=c8L+IsfMSRUowXP4HZwM1G1WETQmg5wCHlTErZ4w+aa+PfKKwFKeIWqkg/Ere0NydZ
+         uSBLQzPDBcrHHl5o0m7VZD5gWuHoZreZtQiY8kQJpYPHmiD3uETdzGDIt/zdys4wf5yv
+         tJeAX9uI9llVipt/cQzB58AmTGfysDpQGvUnb5ZP44kHrRlN0z2RTYF5sXIfWpcxnqY1
+         B62IB9oouP+kNlTmBy8ERjtzGatHcONGaQDYZu6ujPdJsICiqIAWPKd2U4kSsW0a7Xxv
+         KWI/klS5Pqloa9qP3eCcd5/RYdgyg7bMcbSuZIGaLdPX1cV0DnejiXEJjJz+DJzUSDnR
+         Ufog==
+X-Gm-Message-State: AOJu0YwCPWVTWLzRgv3nGBwn8YMqfxuz8n6S74RufxndivGaizy0IVBe
+	YPmcrQRdNZImdENArUk2lM5htPZDraVUGvrNVdmNkTRsJFgWTVLQ
+X-Google-Smtp-Source: AGHT+IEVGX1/3bYz3p/49QHYkcAu26ooDcIKSi1CaRtmjY+MWd33WyJ7pMuBv0QL22G7JfPn/CtkHg==
+X-Received: by 2002:a17:902:d2cc:b0:1fd:8f2c:5dae with SMTP id d9443c01a7336-1ff572953bfmr98269945ad.24.1722827091602;
+        Sun, 04 Aug 2024 20:04:51 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff58f19bd5sm56478705ad.50.2024.08.04.20.04.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Aug 2024 20:04:51 -0700 (PDT)
+Message-ID: <feeba873-32f4-4677-8eb4-743af24d50f2@gmail.com>
+Date: Mon, 5 Aug 2024 11:04:48 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202408041932.EzITeEV4-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [alexshi:ptdesc 14/17]
+ arch/powerpc/include/asm/book3s/64/pgtable.h:1372:52: error: incompatible
+ pointer types passing 'struct ptdesc *' to parameter of type 'struct ptdesc
+ *'
+To: kernel test robot <lkp@intel.com>, alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202408031130.UnwgnuLS-lkp@intel.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <202408031130.UnwgnuLS-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 04, 2024 at 07:13:11PM +0800, kernel test robot wrote:
-> Hi Michal,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   17712b7ea0756799635ba159cc773082230ed028
-> commit: ee5f8cc2770b2f0f7cfefb5bf7534e2859e39485 kunit: Reset test status on each param iteration
-> date:   11 months ago
-> config: riscv-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20240804/202408041932.EzITeEV4-lkp@intel.com/config)
+
+
+On 8/3/24 11:26 AM, kernel test robot wrote:
+> tree:   https://github.com/alexshi/linux.git ptdesc
+> head:   3735e634f8feb67c941d17222b53906ace2fd2b8
+> commit: 8ac2ea5f299444d065b292043aed0a1e94996159 [14/17] mm/pgtable: use ptdesc in pgtable_trans_huge_deposit
+> config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240803/202408031130.UnwgnuLS-lkp@intel.com/config)
 > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408041932.EzITeEV4-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408041932.EzITeEV4-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-...
-> >> ERROR: modpost: "__popcountdi2" [lib/kunit/kunit-example-test.ko] undefined!
-> ERROR: modpost: "__popcountdi2" [lib/test_hexdump.ko] undefined!
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240803/202408031130.UnwgnuLS-lkp@intel.com/reproduce)
 
-Sorry for the noise, this appears to be a regression with tip of tree
-LLVM:
+>    In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
+>>> arch/powerpc/include/asm/book3s/64/pgtable.h:1372:52: error: incompatible pointer types passing 'struct ptdesc *' to parameter of type 'struct ptdesc *' [-Werror,-Wincompatible-pointer-types]
 
-https://github.com/llvm/llvm-project/pull/101786#issuecomment-2268077506
+Hi guys,
 
-Cheers,
-Nathan
+I still don't understand this problem. what's the meaning of 'struct ptdesc *' incompatible with 'struct ptdesc *'?
+
+Thanks
+Alex
