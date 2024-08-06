@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CA1184D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 03:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FA618FC91
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 03:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722914472; cv=none; b=GXb8JYEkpehoo9KFulNkmbv/XghgVxWTg53GUv35lmuwpBNcArX6zS/yFdk4WMgoQ3fnxGcUAeK02vplqTpN8bsPfim1TwGkMP75r95IV/ZVmiGPJtOX7vnvLMFNIO8g+tbAPR633hHXDFQE2zfVe6SUwqtFr7LbfVRjVSrLd8g=
+	t=1722915694; cv=none; b=AEzvA0zla4du15otIlvghBUix79NGYIVr/65OX2Wb+5jFLztpyUa4WAmRlk5FqGM8bx+FdH+7Kw9AqomDAQ9PX2ay0iGL0rh1qwhDvfE/RDrvMpt6EAN47AIH+wEfgNh1SzPUGBCZC3Cg1wjrUuhe54LMEJG3eIwoVWi23YsFCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722914472; c=relaxed/simple;
-	bh=/PjDIgC1AdM+VFrKt5b8qgbE6p4BW8mIM3/GvNc2jLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pyP6HoeO5rYd7d4yiWIwxHqf83CcrPFolA6j8/Z+GkWvwCCysTefhUgh/ziSyXBOmS8VNwFVOaCZSAaJHAd//V00Jx7wojyrJucvMYX/g8yfS1xnrzU6qHAFiTuI71bzy29UFR+3afuEpowMG/J+UlVFrecI3xwywMGncfh6jTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7esAOrm; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1722915694; c=relaxed/simple;
+	bh=NOIA6GXFGUTwznlVCMnQLZoaTmmRQ/fJ1wpbp9mPd7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Df0fwH38MJeiQUlkGuqClqpYdMEQ2KKqrdeqUwzubRoUrmOvffaUqEY+s8WMjrnVPr9jSFBjgOu90OmV+mE+Pdi/FAAQHG4iKTBVkL/ICch1BeYRhS7OKXI1z8oa0hcFRaFWr3JRNQo6AfVHQTP28IdYqNIKfgj0rCJVHAiEgmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oApA7WMI; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7esAOrm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oApA7WMI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722914470; x=1754450470;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/PjDIgC1AdM+VFrKt5b8qgbE6p4BW8mIM3/GvNc2jLA=;
-  b=X7esAOrm1sT7co3L6TCyGl24D4WIoOso0KU+x7qjpbqRL8DhCmPdZapy
-   8Kl609lwK7keca+c0AMXnka6dEhQ24b/n8YrO+w2gzS8yre7SVwA7gVTW
-   dIZNyx3rdPB9eoDGCWzDIdS8jwRhbLwWv7XtuRa6C4Cu7zmNamBlNfRre
-   Ns5SVPz4C7Q366sOF2vdJfE1ky6UpjhwXSu/Hj02OcVY8S4k7trqX0WLE
-   XkfURmeejiUUOSJQD9t2glFYMK8+7GAq2TrnGCLT+qHIMm4KnEFnylkRx
-   qxHCGNRWkJ+dzjwjZRw2Gip79H3E9SPGwP7CbAToc2Ul0jJxkr3mitdm+
-   Q==;
-X-CSE-ConnectionGUID: St97X74URkGVwXfWNKiRgw==
-X-CSE-MsgGUID: CMsxftCoS8GE8mM4JU8QAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="31482601"
+  t=1722915686; x=1754451686;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NOIA6GXFGUTwznlVCMnQLZoaTmmRQ/fJ1wpbp9mPd7Q=;
+  b=oApA7WMI0H7Wclys04JnqDfiCHCseQBK5Ya+dKEUP4WvuzjWrpRL0mH1
+   BfAnhtInnOHoHbTA4e72O//6UYIBjc9TeHeC/kBe1pcVqweNgLoy8Tlw8
+   koYBXmT89p49/BazZN5obGjS9DxYI7gMsz7Wgi8iyDwS2LLF91+Yh/awf
+   yoUePHGPJhmxf5K/OO4crhjhJL7+XSPWnc4O2jD9HRmGwKiyUHwmcJd9k
+   Unockj3WeWcHjNByqyN3iaTk/5NqAzOuLwwls9nrvHPGbOqFWzO18Az/s
+   qWJg9IVgmcrDgCm76/2kZYsBHK7X+BUTtPe/m7OvRvmuBgtnh6J/j+7vS
+   A==;
+X-CSE-ConnectionGUID: IGQ7S5X+SiacLFNZsqSA7w==
+X-CSE-MsgGUID: SYeQN9slTRmpDr7puts7+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21074698"
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="31482601"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 20:21:10 -0700
-X-CSE-ConnectionGUID: diVFB3BeS967P4LQ2q3yow==
-X-CSE-MsgGUID: ewlVtK50QGOVPHfaFCRDuQ==
+   d="scan'208";a="21074698"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 20:41:24 -0700
+X-CSE-ConnectionGUID: kUDKNsGpSAOl9OOZqiGlLA==
+X-CSE-MsgGUID: v1FaqqFETtOfVCKn83hT7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="87292940"
+   d="scan'208";a="56308200"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Aug 2024 20:21:07 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 05 Aug 2024 20:41:23 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbAky-00046S-3A;
-	Tue, 06 Aug 2024 03:21:04 +0000
-Date: Tue, 6 Aug 2024 11:20:23 +0800
+	id 1sbB4a-000474-2P;
+	Tue, 06 Aug 2024 03:41:20 +0000
+Date: Tue, 6 Aug 2024 11:40:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colin Ian King <colin.king@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, rppt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] md/raid6 algorithms: scale test duration for speedier
- boots
-Message-ID: <202408061040.0kdEdUBV-lkp@intel.com>
-References: <20240805170816.6025-1-colin.king@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org
+Subject: [arnd-asm-generic:master 5/5] error:
+ arch/arm64/tools/syscall_64.tbl: syscall table is not sorted or duplicates
+ the same syscall number
+Message-ID: <202408061154.f8BOOZRJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,35 +62,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240805170816.6025-1-colin.king@intel.com>
 
-Hi Colin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.11-rc2 next-20240805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/md-raid6-algorithms-scale-test-duration-for-speedier-boots/20240806-012444
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240805170816.6025-1-colin.king%40intel.com
-patch subject: [PATCH] md/raid6 algorithms: scale test duration for speedier boots
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240806/202408061040.0kdEdUBV-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061040.0kdEdUBV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+head:   95cca8c0b66557774e5d08d5d0cc28c099938f15
+commit: 95cca8c0b66557774e5d08d5d0cc28c099938f15 [5/5] syscalls: add back legacy __NR_nfsservctl macro
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240806/202408061154.f8BOOZRJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061154.f8BOOZRJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408061040.0kdEdUBV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408061154.f8BOOZRJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
->> ERROR: modpost: "__udivdi3" [lib/raid6/raid6_pq.ko] undefined!
+>> error: arch/arm64/tools/syscall_64.tbl: syscall table is not sorted or duplicates the same syscall number
+   make[3]: *** [scripts/Makefile.asm-headers:88: arch/arm64/include/generated/asm/syscall_table_64.h] Error 1
+   make[3]: *** Deleting file 'arch/arm64/include/generated/asm/syscall_table_64.h'
+   make[3]: Target 'all' not remade because of errors.
+   make[2]: *** [Makefile:1211: asm-generic] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
