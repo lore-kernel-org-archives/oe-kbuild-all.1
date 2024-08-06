@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC268F6C;
-	Tue,  6 Aug 2024 15:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2040E182D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 15:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722957371; cv=none; b=Dm8DqS9i4oOl7bhyZS6oUDLRseXcRWRN9Nuu86bt6lciBd/077GOPj+hQUM/Ke8U5DIupf0DVjDHRkt/WHlRQEMv1QToyZGaOLWBd5tr2aMj9Z5N7+1Z5FQQWZgkI4tIduopWxc6j89Y4AUzBcjRNlnG6oQ6KyL05tuISqKSsDA=
+	t=1722957979; cv=none; b=qrIWrsYkxitGaHmRI0KZnEmXZS5TcBJIPFIHw1BhH1Y1O6Ow0iS9WxpnCRsNP8w3UxPlIf9q+W7ll+/4ZGc/SEJRWj92fEkO7D99iFT/UaYEowRa5uOriidosUDpuY957CV5RBKtDA/eWBYQutC1zReOFpFUKaL4yqx5HWITvZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722957371; c=relaxed/simple;
-	bh=3MlkYy6g36sLgZpc3PWyAkbXfVEleD3+rQVgjcMz2Co=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oi1NEVcl95ap0j4xc/y+ccqCVz3pN1e6/ujp9lDsgBDMxErwFPMRykjOc74KgoAbSktCqgGvMhD+gSeyFhaf7lWhUgqIz/6oj4BRH/xvupfGBPkqfiGT/a8L3/ezc90NojhBLM14TIR+aHyEPDhoSPjjCU1Ppx09Xvr0VUSk+ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4zxx7M5; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1722957979; c=relaxed/simple;
+	bh=mD75Xctq4yS/cPaKorMX+Y6w4g0GnpZUcCJJQt2VGqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=muQuAbmbU+gbbLWnEaehTIgVbuTRdeyZZKKOUiyNDJdf8dclpGn7WI54Q+wZ+IRL8FxjfvIr0LS6PUMsaBwpkS38WeGRnPi1HutzCsRmqSlojdrxIRMJnnIFvlUp3nRB54KvpP3ETLdEFwz5wMMM5R//ObV69Ywgj3Xpujz21GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XK38AO62; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4zxx7M5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XK38AO62"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722957368; x=1754493368;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3MlkYy6g36sLgZpc3PWyAkbXfVEleD3+rQVgjcMz2Co=;
-  b=J4zxx7M55RQu3O52RYmcv6ROgfcpNksgCIn38KTnAozxyo7wYCRMWAqP
-   J9hyUEaGOCg5Hd7qe4kCT8DGg9S0t2894Ov5q51M8/ZpkTMrq1Qu/9Z9u
-   zzDGVRdEHCIioT+cmKoHlT7knPWImG3YCiS39X+ixcpc/+WIYCtNXMX97
-   W3bt7KIRens3bVi1Td7vht/wxRsuc3yyRqtYL74LQrkZLrXhpLbE/Ps79
-   o4z0mQek82cRsJgWXML8x2JdI3mLChgGS2tziz2Jf3TxK4qV0zXECbrB1
-   FfgGTHxp+jv58pOlJlrGjrLipfFPmt2qeR9yVnkgU/3Wr6pwCfh+FHPoY
+  t=1722957978; x=1754493978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mD75Xctq4yS/cPaKorMX+Y6w4g0GnpZUcCJJQt2VGqA=;
+  b=XK38AO62D/qeYY6oQZGkgsixhLX2QL00Ey2huSreA+Pc0o1Jy6qcFNYS
+   hMpkOz2aWUXGy1LMl9pcdOjI0wptP3E8AOfDmkU5Z2WRQEISo/AxmdEvN
+   vldrWxhMUCjfjJvPFbfvgffH78uliJl9LV2ZZ/dJ0liTEVdONHrpYg5P2
+   GNRu1Gq8ewbMxrpKvVY1jnBYd7P7i5uAajxgH9Udy31Z9E/Pv2ClksD2I
+   DqW0el5jO4KdG8CuyHkc1hFLMCH3NLV5qTdYYA+9bvj3sIPe33t05U9T3
+   4begfhHhzNXfocoDQkobTl2WuiunjzWpYsC4l8S7Aifcilb7t9bJTvnWU
    g==;
-X-CSE-ConnectionGUID: 2bVPLyOLQcio+EJEONkvzQ==
-X-CSE-MsgGUID: /eX5u0GqTNqv85MV2OaTxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="20858435"
+X-CSE-ConnectionGUID: pZq7AQwlR/K1I7SoGe+ItA==
+X-CSE-MsgGUID: ntJXUFp0SUyiEC4TzaO39w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31651915"
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="20858435"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 08:16:07 -0700
-X-CSE-ConnectionGUID: chAZ4jaIRXW3tiOcmWle4g==
-X-CSE-MsgGUID: cTr0BnKSQXuSMG/bQ9gFsQ==
+   d="scan'208";a="31651915"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 08:26:17 -0700
+X-CSE-ConnectionGUID: KNFzWon7T029//c+cAK3+w==
+X-CSE-MsgGUID: cItpXbeoSJ6+ny3aXdOzfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="56481914"
+   d="scan'208";a="61374995"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Aug 2024 08:16:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2024 08:26:17 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbLus-0004bS-00;
-	Tue, 06 Aug 2024 15:16:02 +0000
-Date: Tue, 6 Aug 2024 23:15:16 +0800
+	id 1sbM4j-0004c4-23;
+	Tue, 06 Aug 2024 15:26:13 +0000
+Date: Tue, 6 Aug 2024 23:25:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Song Liu <song@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>
-Subject: Re: [PATCH] Revert "perf: Add a counter for number of user access
- events in context"
-Message-ID: <202408062245.C5TeYWiV-lkp@intel.com>
-References: <20240805231031.1760371-1-song@kernel.org>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 15490/23451] ld:
+ drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.o:drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c:50:
+ multiple definition of `debug';
+ arch/x86/entry/entry_64.o:arch/x86/entry/entry_64.S:1094: first defined here
+Message-ID: <202408062343.e6vm5gKl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,162 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240805231031.1760371-1-song@kernel.org>
 
-Hi Song,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc2 next-20240806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/Revert-perf-Add-a-counter-for-number-of-user-access-events-in-context/20240806-071159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240805231031.1760371-1-song%40kernel.org
-patch subject: [PATCH] Revert "perf: Add a counter for number of user access events in context"
-config: arm64-randconfig-001-20240806 (https://download.01.org/0day-ci/archive/20240806/202408062245.C5TeYWiV-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408062245.C5TeYWiV-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b99509998bfe488900920c783664b4b4a70795da
+commit: ea190d90c609e9909f37afa0d1a19f938ffb95d3 [15490/23451] Huawei BMA: Adding Huawei BMA driver: host_edma_drv
+config: x86_64-randconfig-003-20240806 (https://download.01.org/0day-ci/archive/20240806/202408062343.e6vm5gKl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408062343.e6vm5gKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408062245.C5TeYWiV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408062343.e6vm5gKl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:147:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     147 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:133:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
-     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:148:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     148 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:134:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
-     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:149:42: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     149 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:131:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
-     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:150:43: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     150 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:132:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
-     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:152:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     152 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:148:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
-     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:153:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     153 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:149:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
-     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-     140 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
->> drivers/perf/arm_pmuv3.c:824:18: error: no member named 'nr_user' in 'struct perf_event_context'
-     824 |                 nr_user = ctx->nr_user;
-         |                           ~~~  ^
-   60 warnings and 1 error generated.
-
-
-vim +824 drivers/perf/arm_pmuv3.c
-
-030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon      2012-03-05  816  
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  817  static void armv8pmu_start(struct arm_pmu *cpu_pmu)
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  818  {
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  819  	struct perf_event_context *ctx;
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  820  	int nr_user = 0;
-83a7a4d643d33a arch/arm64/kernel/perf_event.c Rob Herring      2021-12-08  821  
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  822  	ctx = perf_cpu_task_ctx();
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  823  	if (ctx)
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08 @824  		nr_user = ctx->nr_user;
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  825  
-bd27568117664b arch/arm64/kernel/perf_event.c Peter Zijlstra   2022-10-08  826  	if (sysctl_perf_user_access && nr_user)
-83a7a4d643d33a arch/arm64/kernel/perf_event.c Rob Herring      2021-12-08  827  		armv8pmu_enable_user_access(cpu_pmu);
-83a7a4d643d33a arch/arm64/kernel/perf_event.c Rob Herring      2021-12-08  828  	else
-83a7a4d643d33a arch/arm64/kernel/perf_event.c Rob Herring      2021-12-08  829  		armv8pmu_disable_user_access();
-83a7a4d643d33a arch/arm64/kernel/perf_event.c Rob Herring      2021-12-08  830  
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  831  	/* Enable all counters */
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  832  	armv8pmu_pmcr_write(armv8pmu_pmcr_read() | ARMV8_PMU_PMCR_E);
-b1f778a223a2a8 drivers/perf/arm_pmuv3.c       Marc Zyngier     2023-08-20  833  
-b1f778a223a2a8 drivers/perf/arm_pmuv3.c       Marc Zyngier     2023-08-20  834  	kvm_vcpu_pmu_resync_el0();
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  835  }
-3cce50dfec4a5b arch/arm64/kernel/perf_event.c Suzuki K Poulose 2018-07-10  836  
+>> ld: drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.o:drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c:50: multiple definition of `debug'; arch/x86/entry/entry_64.o:arch/x86/entry/entry_64.S:1094: first defined here
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
 
 -- 
 0-DAY CI Kernel Test Service
