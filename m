@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F040A2A1CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 11:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0DC1C579A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 13:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722944784; cv=none; b=BFNfp+SzL4YGpWggRVy6zNP4fHfixnK7a8wCz72b6e7vv75TD9Sp9Q2YzkbdiM3cRDQPqNaO7UDnfiXQs9O9OiGkGY/c3PIUbqtfD7v9eAEMUTKDTiD4Bo41wcPI1g0uifTdeSjX5toX5M1TEax3rfaFn8FN/JnI076LiAvTQGU=
+	t=1722949717; cv=none; b=EwsLTVR9uBBxvRD5Yp8DUocY3D9t9ub+qzCcN4/NciZUMBuyW8lv1+bsYPeX+EPL7P4+S5Aji4WMTK/EDOLSMbj9kBbH0XU1Vxp3veUxNW6LomLQsonTi63a9TeOPLobCZ7xNas3OpK1oUiU1rCgJg69egedaKPWHfghP8PzlEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722944784; c=relaxed/simple;
-	bh=CGqAeU1faPg2pTmxOli2hRDYxwkFWG+YbBsd78Aq2W8=;
+	s=arc-20240116; t=1722949717; c=relaxed/simple;
+	bh=RNrL9CN+dN6RJP1VI37W81GvijLeQZx/f0QxcrrQ3jM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lHmF3Ov7re9c04iSWIr0PXaPN96VvUwJ8qbkRuxqjKBm7PK5eVd+avoEuoTWPzS8PJvmw4M/fEjkyRfbffgMX0AGGg/iYQ0JBC5gsnLiurIFMT7rzDlkqp/8fm6phEPYAms3lBGhxMDURewWtb+6m4PivnsGihhU5I+BaE60pDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RboGA0X4; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=SAR98DvW9ofuF3q5QpE1assmawcipnln03Wz6SEgc8nlMNm5bRrVGyylPkHyzFruOTjOao1Kuc2nFtkiyGExhAm2Z3VvfuZu4/8nz4HN/y01aGTbFg5ip95rLshiWGwaf0lx/k9smw65olNVirvq+2z067xBhPk8rnqBY64TKek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=al3f5CNy; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RboGA0X4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="al3f5CNy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722944782; x=1754480782;
+  t=1722949715; x=1754485715;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CGqAeU1faPg2pTmxOli2hRDYxwkFWG+YbBsd78Aq2W8=;
-  b=RboGA0X4p6Ns3Hhg+5JbGm8FaOimNn08SuTwEzbruC0lBYrCNhLzrmqV
-   8JtRzBlSSAFL2f8p3R8SohJvM/QyEqyrZBMchL7b2S4OqxcvehaXftoEy
-   mj+mphU2siY+m1WHgH3vKQ/mCx6GMrZhGAY6OPuc6XyfuXMOT3zJwl61q
-   L5fT9sAkKSM98N/Hrjvxvydh5lglgL8w/jxQ8H11GN5HIoHpLaBCxYZi+
-   Ga431ImBS9V63vA0mgj1SOjV+ykLCfvhLm7BSuaiCazOwAlwGm84ovHj2
-   NnXHBU1Vsg3BwmHxS6RzEbGTvCMEz/p8FvR4HtYPI+6l5upU2+q7La1M+
-   g==;
-X-CSE-ConnectionGUID: FphziQhUQi6gkVP7bEjTEw==
-X-CSE-MsgGUID: IEyGVviYSBaq4FU1IO3CZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20831896"
+  bh=RNrL9CN+dN6RJP1VI37W81GvijLeQZx/f0QxcrrQ3jM=;
+  b=al3f5CNyGtOH3gfLR9u5jRD9AT3pSCoeTZkk6218vQSpYpxuUlA/fvAp
+   mCvAtduHPWqdCgb91byRQPiqia+1pOpyf0rUquee1LNeXt1DJLSXDBZNv
+   P+t/dRJlO1vpvqdKPD7xYop8HC3TpDkg0B1MA20Zp+4n1geK2lW51DF0n
+   elEV7/j5gdqqukpitiz95Mrb2ej7sTBB66znwnE7jGiZcS8OK/7ug75Am
+   c0iTgtjqPsFn76W23CJgXcKhsy3jdmsAIdizCeWsrINaOK0cV6zQwdysn
+   nBvvI7sVaTfxuAqpxgdcwwmRVHBOI7LgGowEvaFsFG4CcGwRKCF88mcDq
+   w==;
+X-CSE-ConnectionGUID: iTgR/XVaRneR6BCrsuDL0A==
+X-CSE-MsgGUID: XzqIixSQSAehyIgEztAlKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="20778871"
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="20831896"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 04:46:21 -0700
-X-CSE-ConnectionGUID: jijA+9d0SM+ddj0Rg2ZZvg==
-X-CSE-MsgGUID: VHrcXCMRRYuouwouOZ51Qg==
+   d="scan'208";a="20778871"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 06:07:57 -0700
+X-CSE-ConnectionGUID: I7kZhXtMR8iCSgm6MeE11w==
+X-CSE-MsgGUID: lITOk8SxSyePUVOemACZ3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="61449823"
+   d="scan'208";a="57216435"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2024 04:46:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2024 06:07:55 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbIdt-0004SG-2L;
-	Tue, 06 Aug 2024 11:46:17 +0000
-Date: Tue, 6 Aug 2024 19:46:14 +0800
+	id 1sbJup-0004UO-2w;
+	Tue, 06 Aug 2024 13:07:51 +0000
+Date: Tue, 6 Aug 2024 21:07:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.10/main 3/1422] kernel/sched/core.c:3887:41: error: no member
- named 'wake_entry' in 'struct task_struct'
-Message-ID: <202408061915.zMwupbLg-lkp@intel.com>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ping-Ke Shih <pkshih@realtek.com>
+Subject: include/linux/bitfield.h:189:18: warning: 'value32' is used
+ uninitialized
+Message-ID: <202408062100.DWhN0CYH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,294 +63,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.10/main
-head:   0816340db848460e20ae01ab50245be7b2c189b7
-commit: d821e3e85092581709b1b5f9ab8cacf0ce70c1a8 [3/1422] Project C v5.7.5-r2
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240806/202408061915.zMwupbLg-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061915.zMwupbLg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b446a2dae984fa5bd56dd7c3a02a426f87e05813
+commit: 59ea089dcba3b51769280522fd62696d4d436cbc wifi: rtlwifi: Enable the new rtl8192du driver
+date:   10 weeks ago
+config: mips-randconfig-r061-20240806 (https://download.01.org/0day-ci/archive/20240806/202408062100.DWhN0CYH-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408062100.DWhN0CYH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408061915.zMwupbLg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408062100.DWhN0CYH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:9:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2258:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from kernel/sched/core.c:33:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from kernel/sched/core.c:33:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from kernel/sched/core.c:33:
-   In file included from include/linux/sched/isolation.h:7:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from kernel/sched/core.c:87:
-   kernel/sched/sched.h:2075:5: error: no member named 'wake_cpu' in 'struct task_struct'
-    2075 |         p->wake_cpu = cpu;
-         |         ~  ^
-   kernel/sched/core.c:2633:7: error: no member named 'wake_cpu' in 'struct task_struct'
-    2633 |                         p->wake_cpu = arg->dest_cpu;
-         |                         ~  ^
->> kernel/sched/core.c:3887:41: error: no member named 'wake_entry' in 'struct task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/llist.h:203:47: note: expanded from macro 'llist_for_each_entry_safe'
-     203 |         for (pos = llist_entry((node), typeof(*pos), member);                  \
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/llist.h:110:26: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:451:74: note: expanded from macro '__same_type'
-     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> kernel/sched/core.c:3887:2: error: no member named 'wake_entry' in 'task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ^                                      ~~~~~~~~~~
-   include/linux/llist.h:203:13: note: expanded from macro 'llist_for_each_entry_safe'
-     203 |         for (pos = llist_entry((node), typeof(*pos), member);                  \
-         |                    ^                                 ~~~~~~
-   include/linux/llist.h:110:2: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |         ^                       ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> kernel/sched/core.c:3887:2: error: assigning to 'struct task_struct *' from incompatible type 'void'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/llist.h:203:11: note: expanded from macro 'llist_for_each_entry_safe'
-     203 |         for (pos = llist_entry((node), typeof(*pos), member);                  \
-         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/core.c:3887:2: error: no member named 'wake_entry' in 'task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ^                                      ~~~~~~~~~~
-   include/linux/llist.h:204:7: note: expanded from macro 'llist_for_each_entry_safe'
-     204 |              member_address_is_nonnull(pos, member) &&                         \
-         |              ^                              ~~~~~~
-   include/linux/llist.h:127:22: note: expanded from macro 'member_address_is_nonnull'
-     127 |         ((uintptr_t)(ptr) + offsetof(typeof(*(ptr)), member) != 0)
-         |                             ^                        ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> kernel/sched/core.c:3887:41: error: no member named 'wake_entry' in 'struct task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |                                   ~            ^
-   include/linux/llist.h:205:32: note: expanded from macro 'llist_for_each_entry_safe'
-     205 |                 (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-         |                                  ~~~  ^
-   include/linux/llist.h:110:15: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |                      ^~~
-   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
->> kernel/sched/core.c:3887:41: error: no member named 'wake_entry' in 'struct task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |                                   ~            ^
-   include/linux/llist.h:205:32: note: expanded from macro 'llist_for_each_entry_safe'
-     205 |                 (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-         |                                  ~~~  ^
-   include/linux/llist.h:110:15: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |                      ^~~
-   include/linux/container_of.h:20:30: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                     ^~~
-   include/linux/compiler_types.h:451:63: note: expanded from macro '__same_type'
-     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> kernel/sched/core.c:3887:41: error: no member named 'wake_entry' in 'struct task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |                                   ~            ^
-   include/linux/llist.h:205:32: note: expanded from macro 'llist_for_each_entry_safe'
-     205 |                 (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-         |                                  ~~~  ^
-   include/linux/llist.h:110:15: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |                      ^~~
-   include/linux/container_of.h:21:23: note: expanded from macro 'container_of'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                                     ^~~
-   include/linux/compiler_types.h:451:63: note: expanded from macro '__same_type'
-     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> kernel/sched/core.c:3887:2: error: no member named 'wake_entry' in 'task_struct'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ^                                      ~~~~~~~~~~
-   include/linux/llist.h:205:15: note: expanded from macro 'llist_for_each_entry_safe'
-     205 |                 (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-         |                      ^                                         ~~~~~~
-   include/linux/llist.h:110:2: note: expanded from macro 'llist_entry'
-     110 |         container_of(ptr, type, member)
-         |         ^                       ~~~~~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> kernel/sched/core.c:3887:2: error: assigning to 'struct task_struct *' from incompatible type 'void'
-    3887 |         llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/llist.h:205:13: note: expanded from macro 'llist_for_each_entry_safe'
-     205 |                 (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:3940:35: error: no member named 'wake_entry' in 'struct task_struct'
-    3940 |         __smp_call_single_queue(cpu, &p->wake_entry.llist);
-         |                                       ~  ^
-   kernel/sched/core.c:4362:30: error: no member named 'wake_cpu' in 'struct task_struct'
-    4362 |                 cpu = select_task_rq(p, p->wake_cpu, wake_flags | WF_TTWU);
-         |                                         ~  ^
-   kernel/sched/core.c:4564:5: error: no member named 'wake_entry' in 'struct task_struct'
-    4564 |         p->wake_entry.u_flags = CSD_TYPE_TTWU;
-         |         ~  ^
-   kernel/sched/core.c:4891:5: error: no member named 'recent_used_cpu' in 'struct task_struct'
-    4891 |         p->recent_used_cpu = task_cpu(p);
-         |         ~  ^
-   13 warnings and 15 errors generated.
+   In file included from include/linux/ieee80211.h:21,
+                    from include/net/mac80211.h:20,
+                    from drivers/net/wireless/realtek/rtlwifi/rtl8192du/../wifi.h:14,
+                    from drivers/net/wireless/realtek/rtlwifi/rtl8192du/hw.c:4:
+   In function 'u32p_replace_bits',
+       inlined from '_rtl92du_init_queue_reserved_page.isra' at drivers/net/wireless/realtek/rtlwifi/rtl8192du/hw.c:225:2:
+>> include/linux/bitfield.h:189:18: warning: 'value32' is used uninitialized [-Wuninitialized]
+     189 |         *p = (*p & ~to(field)) | type##_encode_bits(val, field);        \
+         |              ~~~~^~~~~~~~~~~~~
+   include/linux/bitfield.h:198:9: note: in expansion of macro '____MAKE_OP'
+     198 |         ____MAKE_OP(u##size,u##size,,)
+         |         ^~~~~~~~~~~
+   include/linux/bitfield.h:201:1: note: in expansion of macro '__MAKE_OP'
+     201 | __MAKE_OP(32)
+         | ^~~~~~~~~
+   drivers/net/wireless/realtek/rtlwifi/rtl8192du/hw.c: In function '_rtl92du_init_queue_reserved_page.isra':
+   drivers/net/wireless/realtek/rtlwifi/rtl8192du/hw.c:188:13: note: 'value32' was declared here
+     188 |         u32 value32;
+         |             ^~~~~~~
 
 
-vim +3887 kernel/sched/core.c
+vim +/value32 +189 include/linux/bitfield.h
 
-c05fbafba1c548 kernel/sched.c      Peter Zijlstra 2011-04-05  3872  
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3873  #ifdef CONFIG_SMP
-a148866489fbe2 kernel/sched/core.c Peter Zijlstra 2020-05-26  3874  void sched_ttwu_pending(void *arg)
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3875  {
-a148866489fbe2 kernel/sched/core.c Peter Zijlstra 2020-05-26  3876  	struct llist_node *llist = arg;
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3877  	struct rq *rq = this_rq();
-73215849dfbf63 kernel/sched/core.c Byungchul Park 2017-05-12  3878  	struct task_struct *p, *t;
-d8ac897137a230 kernel/sched/core.c Matt Fleming   2016-09-21  3879  	struct rq_flags rf;
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3880  
-e3baac47f0e82c kernel/sched/core.c Peter Zijlstra 2014-06-04  3881  	if (!llist)
-e3baac47f0e82c kernel/sched/core.c Peter Zijlstra 2014-06-04  3882  		return;
-e3baac47f0e82c kernel/sched/core.c Peter Zijlstra 2014-06-04  3883  
-8a8c69c3277886 kernel/sched/core.c Peter Zijlstra 2016-10-04  3884  	rq_lock_irqsave(rq, &rf);
-77558e4d01ac0c kernel/sched/core.c Peter Zijlstra 2017-02-21  3885  	update_rq_clock(rq);
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3886  
-8c4890d1c3358f kernel/sched/core.c Peter Zijlstra 2020-06-22 @3887  	llist_for_each_entry_safe(p, t, llist, wake_entry.llist) {
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3888  		if (WARN_ON_ONCE(p->on_cpu))
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3889  			smp_cond_load_acquire(&p->on_cpu, !VAL);
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3890  
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3891  		if (WARN_ON_ONCE(task_cpu(p) != cpu_of(rq)))
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3892  			set_task_cpu(p, cpu_of(rq));
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3893  
-73215849dfbf63 kernel/sched/core.c Byungchul Park 2017-05-12  3894  		ttwu_do_activate(rq, p, p->sched_remote_wakeup ? WF_MIGRATED : 0, &rf);
-b6e13e85829f03 kernel/sched/core.c Peter Zijlstra 2020-06-22  3895  	}
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3896  
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3897  	/*
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3898  	 * Must be after enqueueing at least once task such that
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3899  	 * idle_cpu() does not observe a false-negative -- if it does,
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3900  	 * it is possible for select_idle_siblings() to stack a number
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3901  	 * of tasks on this CPU during that window.
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3902  	 *
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3903  	 * It is ok to clear ttwu_pending when another task pending.
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3904  	 * We will receive IPI after local irq enabled and then enqueue it.
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3905  	 * Since now nr_running > 0, idle_cpu() will always get correct result.
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3906  	 */
-d6962c4fe8f96f kernel/sched/core.c Tianchen Ding  2022-11-04  3907  	WRITE_ONCE(rq->ttwu_pending, 0);
-8a8c69c3277886 kernel/sched/core.c Peter Zijlstra 2016-10-04  3908  	rq_unlock_irqrestore(rq, &rf);
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3909  }
-317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3910  
+e2192de59e457a Johannes Berg   2023-01-18  120  
+e2192de59e457a Johannes Berg   2023-01-18  121  /**
+e2192de59e457a Johannes Berg   2023-01-18  122   * FIELD_PREP_CONST() - prepare a constant bitfield element
+e2192de59e457a Johannes Berg   2023-01-18  123   * @_mask: shifted mask defining the field's length and position
+e2192de59e457a Johannes Berg   2023-01-18  124   * @_val:  value to put in the field
+e2192de59e457a Johannes Berg   2023-01-18  125   *
+e2192de59e457a Johannes Berg   2023-01-18  126   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+e2192de59e457a Johannes Berg   2023-01-18  127   * be combined with other fields of the bitfield using logical OR.
+e2192de59e457a Johannes Berg   2023-01-18  128   *
+e2192de59e457a Johannes Berg   2023-01-18  129   * Unlike FIELD_PREP() this is a constant expression and can therefore
+e2192de59e457a Johannes Berg   2023-01-18  130   * be used in initializers. Error checking is less comfortable for this
+e2192de59e457a Johannes Berg   2023-01-18  131   * version, and non-constant masks cannot be used.
+e2192de59e457a Johannes Berg   2023-01-18  132   */
+e2192de59e457a Johannes Berg   2023-01-18  133  #define FIELD_PREP_CONST(_mask, _val)					\
+e2192de59e457a Johannes Berg   2023-01-18  134  	(								\
+e2192de59e457a Johannes Berg   2023-01-18  135  		/* mask must be non-zero */				\
+e2192de59e457a Johannes Berg   2023-01-18  136  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
+e2192de59e457a Johannes Berg   2023-01-18  137  		/* check if value fits */				\
+e2192de59e457a Johannes Berg   2023-01-18  138  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
+e2192de59e457a Johannes Berg   2023-01-18  139  		/* check if mask is contiguous */			\
+e2192de59e457a Johannes Berg   2023-01-18  140  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
+e2192de59e457a Johannes Berg   2023-01-18  141  		/* and create the value */				\
+e2192de59e457a Johannes Berg   2023-01-18  142  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+e2192de59e457a Johannes Berg   2023-01-18  143  	)
+e2192de59e457a Johannes Berg   2023-01-18  144  
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  145  /**
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  146   * FIELD_GET() - extract a bitfield element
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  147   * @_mask: shifted mask defining the field's length and position
+7240767450d6d8 Masahiro Yamada 2017-10-03  148   * @_reg:  value of entire bitfield
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  149   *
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  150   * FIELD_GET() extracts the field specified by @_mask from the
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  151   * bitfield passed in as @_reg by masking and shifting it down.
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  152   */
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  153  #define FIELD_GET(_mask, _reg)						\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  154  	({								\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  155  		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  156  		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  157  	})
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  158  
+e7d4a95da86e0b Johannes Berg   2018-06-20  159  extern void __compiletime_error("value doesn't fit into mask")
+00b0c9b82663ac Al Viro         2017-12-14  160  __field_overflow(void);
+00b0c9b82663ac Al Viro         2017-12-14  161  extern void __compiletime_error("bad bitfield mask")
+00b0c9b82663ac Al Viro         2017-12-14  162  __bad_mask(void);
+00b0c9b82663ac Al Viro         2017-12-14  163  static __always_inline u64 field_multiplier(u64 field)
+00b0c9b82663ac Al Viro         2017-12-14  164  {
+00b0c9b82663ac Al Viro         2017-12-14  165  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
+00b0c9b82663ac Al Viro         2017-12-14  166  		__bad_mask();
+00b0c9b82663ac Al Viro         2017-12-14  167  	return field & -field;
+00b0c9b82663ac Al Viro         2017-12-14  168  }
+00b0c9b82663ac Al Viro         2017-12-14  169  static __always_inline u64 field_mask(u64 field)
+00b0c9b82663ac Al Viro         2017-12-14  170  {
+00b0c9b82663ac Al Viro         2017-12-14  171  	return field / field_multiplier(field);
+00b0c9b82663ac Al Viro         2017-12-14  172  }
+e31a50162feb35 Alex Elder      2020-03-12  173  #define field_max(field)	((typeof(field))field_mask(field))
+00b0c9b82663ac Al Viro         2017-12-14  174  #define ____MAKE_OP(type,base,to,from)					\
+00b0c9b82663ac Al Viro         2017-12-14  175  static __always_inline __##type type##_encode_bits(base v, base field)	\
+00b0c9b82663ac Al Viro         2017-12-14  176  {									\
+e7d4a95da86e0b Johannes Berg   2018-06-20  177  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
+00b0c9b82663ac Al Viro         2017-12-14  178  		__field_overflow();					\
+00b0c9b82663ac Al Viro         2017-12-14  179  	return to((v & field_mask(field)) * field_multiplier(field));	\
+00b0c9b82663ac Al Viro         2017-12-14  180  }									\
+00b0c9b82663ac Al Viro         2017-12-14  181  static __always_inline __##type type##_replace_bits(__##type old,	\
+00b0c9b82663ac Al Viro         2017-12-14  182  					base val, base field)		\
+00b0c9b82663ac Al Viro         2017-12-14  183  {									\
+00b0c9b82663ac Al Viro         2017-12-14  184  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro         2017-12-14  185  }									\
+00b0c9b82663ac Al Viro         2017-12-14  186  static __always_inline void type##p_replace_bits(__##type *p,		\
+00b0c9b82663ac Al Viro         2017-12-14  187  					base val, base field)		\
+00b0c9b82663ac Al Viro         2017-12-14  188  {									\
+00b0c9b82663ac Al Viro         2017-12-14 @189  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
+00b0c9b82663ac Al Viro         2017-12-14  190  }									\
+00b0c9b82663ac Al Viro         2017-12-14  191  static __always_inline base type##_get_bits(__##type v, base field)	\
+00b0c9b82663ac Al Viro         2017-12-14  192  {									\
+00b0c9b82663ac Al Viro         2017-12-14  193  	return (from(v) & field)/field_multiplier(field);		\
+00b0c9b82663ac Al Viro         2017-12-14  194  }
+00b0c9b82663ac Al Viro         2017-12-14  195  #define __MAKE_OP(size)							\
+00b0c9b82663ac Al Viro         2017-12-14  196  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
+00b0c9b82663ac Al Viro         2017-12-14  197  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
+00b0c9b82663ac Al Viro         2017-12-14  198  	____MAKE_OP(u##size,u##size,,)
+37a3862e123826 Johannes Berg   2018-06-20  199  ____MAKE_OP(u8,u8,,)
+00b0c9b82663ac Al Viro         2017-12-14  200  __MAKE_OP(16)
+00b0c9b82663ac Al Viro         2017-12-14  201  __MAKE_OP(32)
+00b0c9b82663ac Al Viro         2017-12-14  202  __MAKE_OP(64)
+00b0c9b82663ac Al Viro         2017-12-14  203  #undef __MAKE_OP
+00b0c9b82663ac Al Viro         2017-12-14  204  #undef ____MAKE_OP
+00b0c9b82663ac Al Viro         2017-12-14  205  
 
-:::::: The code at line 3887 was first introduced by commit
-:::::: 8c4890d1c3358fb8023d46e1e554c41d54f02878 smp, irq_work: Continue smp_call_function*() and irq_work*() integration
+:::::: The code at line 189 was first introduced by commit
+:::::: 00b0c9b82663ac42e5a09f58ce960f81f29d64ee Add primitives for manipulating bitfields both in host- and fixed-endian.
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Borislav Petkov <bp@suse.de>
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
