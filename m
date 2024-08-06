@@ -1,193 +1,239 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4398815B137;
-	Tue,  6 Aug 2024 20:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722977049; cv=none; b=UyEXn8zVBgE/ta3+EFjY0+awkbAYi5wb8TdL0OVaeALLpJx1EXht5DwSEZ/p1mezZgCQS57LLsN2q/oR5apoRHgJyjxJ+qj50hDrSB8l6IWK1YwT57ZFoWBCdNe5VhOXB/Km0H0T22Ro1kufjT53Jg0eaMxJ4LyRseEESd2bjlc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722977049; c=relaxed/simple;
-	bh=IutHGMeTkeySW5/QvcVGeAyZEXnmwsngxPhILvafk/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lEX+rD+8mdbkTWcF75JHC0V/9HrILwVKp3KJwMkRfiPDI8b5Dpvfiv8+Oj43B7xUJMkV0NoVw+YKo7YDvt9LrXBSHxhEVRFUopmJIP3Ylt571gEPF+jBhQx2JeZYRRTSclqUj9wtuMlRildv7tqEDRrjq9DSTKRCPVubPC7VRy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQ2Wgocs; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7354F171E5F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 21:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722979740; cv=fail; b=tgCKgLv/gjYOtEHub7UZERCk8w0u+/38CF7D6pePZtGTtTAXFrAd+tKI+V3Xjbfm3zCNSVzcsXLgBiW4+4GrAfNNpmeE5b1HnqymJCiKop8mheYDZ16qOKpu4GW4xSvarv0DaO4QYO8cnj2Fpe+NLvxwE+jgKXfgXfei4K6ZKUM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722979740; c=relaxed/simple;
+	bh=IAl2nlZE2O1gh2DMloMcFXzOHObNFiD0zPmxMLr/VbY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=FFsjPPazjkJkba9m0CCwBV+G6veRONPjrC+UwvS2zyLM7o+MWtqo6Lx8a4GY6PdquTSqfJhvslwDzU0iAxXlMZnhTjdEUbdgNiPo+ZthmqWyWj7VmWS5yW6GMprpQHmgok1J6rwRx/J0L5mRFAeoYv6W+/QeLzxd2WtXvZkx8Kc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SfBRrENl; arc=fail smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQ2Wgocs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SfBRrENl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722977046; x=1754513046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IutHGMeTkeySW5/QvcVGeAyZEXnmwsngxPhILvafk/4=;
-  b=YQ2Wgocs8g6M0LrgoxN/HKEdevlJKpxfGOGTQGIB1r+s9Z92eq8eSX6H
-   pfAIFWXt0qkSdAUXOZx0iHz780Oa53apN3AakgU1/D6KDUGUMSIO1rHT1
-   Y+WOpsWJoSBMOV0DfTE/lVaxbgs94IuQ+ZRtor8ZhUw1QFdZ6MFAYH8sa
-   efi3m67VROV1cwZ+DWlqfZm1nXJfdkVILcD0cWH6oIzlPAoW65C5q+SGk
-   YPX1vWpIbcMwTf8h/om1M8jenm6CucwPtHA7fcEKe8DnnPZhvKhGGF4Om
-   pJL73RfL7lhaWzvgeWFEYS2p+RWOtZOGXSOsMB2y+JE7Jt49DFlwfWk4q
+  t=1722979739; x=1754515739;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=IAl2nlZE2O1gh2DMloMcFXzOHObNFiD0zPmxMLr/VbY=;
+  b=SfBRrENlQlrH7dg0zP9A53b75Lx3UZZSdEaO1+QZKvU4VYu8BhlyVt2O
+   ni9Smmg1PwlypsRtZcXCGwc1H5Bnwrv4MvBsXjBW1os5rMzt6OwhV6Mgq
+   NASlb2hj8JLIejGLtImxjnFqcKYHyX8JPE4+kX1rRYOf3eCoiKITYHHfN
+   VqMF+a4hYRbEDgj/yVbVdYadCmzfuFldDOcbKr1mLAiL+0Wx/V+d4OuFy
+   SjyB/fv1K3t57c07RfMQaE0bQFMshTXuT2Dla9IKoAFOJxmObuBiCDJow
+   gN3drPu5xceK2B3gRtous0KDBoYDsHUqLFAhAW3o3ZZaB5FIpW5/c88QQ
    g==;
-X-CSE-ConnectionGUID: qOrOBjyoTgWKllvUTDwR6g==
-X-CSE-MsgGUID: uIFLr+7MQwK9AX7+aXw+Qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38526901"
+X-CSE-ConnectionGUID: ENNnhNG4T76cZNUIlTImdQ==
+X-CSE-MsgGUID: AXBnn6VSS4a0CGmAvB8rpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="32429209"
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="38526901"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 13:44:05 -0700
-X-CSE-ConnectionGUID: Sg5ZoonVTfqVJDgwVwumdA==
-X-CSE-MsgGUID: lVzE3irpQai0H/rfJf9GCA==
+   d="scan'208";a="32429209"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 14:28:58 -0700
+X-CSE-ConnectionGUID: QLxEMZ7rT+OMOn8LkNjx/g==
+X-CSE-MsgGUID: 55XtNC04TECT+Ko3zbzMWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="56577988"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Aug 2024 13:44:04 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sbR2I-0004pE-13;
-	Tue, 06 Aug 2024 20:44:02 +0000
-Date: Wed, 7 Aug 2024 04:43:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: ERROR: modpost: "__popcountsi2" [fs/bcachefs/bcachefs.ko] undefined!
-Message-ID: <202408070432.X6n56VaY-lkp@intel.com>
+   d="scan'208";a="87306689"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Aug 2024 14:28:57 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 6 Aug 2024 14:28:56 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 6 Aug 2024 14:28:56 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 6 Aug 2024 14:28:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=foIalUR6mdKZFk9TwHFvFS99xKpUU8wvgZR9r8Ku4Ids4yKTvjEBr6k2op89PbdjMEC5T9sh4Ln3sA+OoyCRo56386DGAvrLUmFNMEEzIO0QyIqYAwviqvv74LIPuTqJ0eqg1sibA/7TF//v91nXPm7+Wev0qZ8uYki/uoH0TmtvHor+oPWGJog9iL/81OiA6byDwvFw1VzmbVYwobBNJpRMksGD/JZe7MOc93ZpMVXfTvuZCYEwT50T7wa4vTx7DgxKo7YFyOKIb1f5siRO73ayyKJ2rO9Sn3jn/a24KVmJd2EXdduC9+SD69SIrP/VDeq8veKs4JjRsQL7n02N7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wYS9ffU3wfX5TeUtKbtEDpaboxY8NmLn+TCszfgg1rI=;
+ b=y7xGQ9um9m1vOAVZoEXvPeKHBvn3U1NbSh2sz6qFnwMDBqnaWaj36DC/BFdqV0Vi1cm3sbTOYVjTra/KNN6FfPgIk3x51tKY6nLOsz0eMASuZF4+ojl1YVG4SGjQT9pcQBCj5AwNpp8XzHNc2XVa+0U1A/RcM+bw6I/6DUq5zyAoaE54VOiFoXwP/sHtEXS/QHvSD1hCEUhN3eYhUo918NvgZ0eJsciJhXtEIUQBZUF4+VvDTAI7U2jvYr9U8KBKhvpAij+WLpOaM9bCmm1e/WbKVSzN8OThw+r/Tk6NHoZVdlK3D+mvkqIvSE9er6rG7U8Ox1UPh37MKbkhfteORg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY8PR11MB7747.namprd11.prod.outlook.com (2603:10b6:930:91::17)
+ by CH3PR11MB8518.namprd11.prod.outlook.com (2603:10b6:610:1b8::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23; Tue, 6 Aug
+ 2024 21:28:54 +0000
+Received: from CY8PR11MB7747.namprd11.prod.outlook.com
+ ([fe80::dd94:c5ad:7fd:fd4f]) by CY8PR11MB7747.namprd11.prod.outlook.com
+ ([fe80::dd94:c5ad:7fd:fd4f%4]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
+ 21:28:54 +0000
+From: "King, Colin" <colin.king@intel.com>
+To: lkp <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>, "Masahiro
+ Yamada" <masahiroy@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Linux
+ Memory Management List" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] md/raid6 algorithms: scale test duration for speedier
+ boots
+Thread-Topic: [PATCH] md/raid6 algorithms: scale test duration for speedier
+ boots
+Thread-Index: AQHa51oYbsloL5/3/kCDJAa7Abyd5bIZm80AgAEjgMA=
+Date: Tue, 6 Aug 2024 21:28:54 +0000
+Message-ID: <CY8PR11MB774743159DA70F6BF601FF0F8DBF2@CY8PR11MB7747.namprd11.prod.outlook.com>
+References: <20240805170816.6025-1-colin.king@intel.com>
+ <202408061134.O5o8RpVV-lkp@intel.com>
+In-Reply-To: <202408061134.O5o8RpVV-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR11MB7747:EE_|CH3PR11MB8518:EE_
+x-ms-office365-filtering-correlation-id: 40ec30f7-ae6c-437c-3655-08dcb65ec61d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Q3/CY62QLcQxRlqmI9nI/mSTwHJ8/H4gtQm4atRf6805fyTu3F+z6Tq93cQn?=
+ =?us-ascii?Q?QJ9TbEXEnrkKdxFjaCLuDxRovRLtx6iQvcLFvQWoePzLh9AAauEKFQLKc4NA?=
+ =?us-ascii?Q?WdwwYgfvAUI4QTSsyVWtIUOvwBUrJEImk3X+nvHl+Ty3Q3RjZg5D0b3KCY32?=
+ =?us-ascii?Q?ACggNzJ+2cQEBB0qpZYWqx7fAWhQoivlU+8Y1ylDa8nfDNpce/6nBe2myqCL?=
+ =?us-ascii?Q?W1XTsQXFlyoa6RNQ/Cl99Ei8q/0n2QHcb3QmW4nf+kAXGZYn8nPu9ni8R/lb?=
+ =?us-ascii?Q?lfQ9LD9yHBYkW+1jgVRVjsJifrnyKdK2hPtpcdMSQCAp/wfPJMCn/ppidW3M?=
+ =?us-ascii?Q?Oo+IoH1e3xr04kYczv2dUAY7FS3o1lz66P2OXwXBPsQjBr2w3sO0xA1HJBXt?=
+ =?us-ascii?Q?5oHL+fJE+IODWa42WVsBSNmd4v9+H/cEG850tVHykjF2+fruKm1m1adRpWZI?=
+ =?us-ascii?Q?gJuI6sh7sI3ahnRDKUmuqCSiUAWTJMIvDMe73aaeBJxDmOqyPZn30mM2wIFv?=
+ =?us-ascii?Q?c6THGSP7FHgDP6EX6qb2XVmI6IVTQ65wa+EehnWawgZ8ShUsMkcA77qwFmM3?=
+ =?us-ascii?Q?r+Rp7tpL0rxAbZcHnrnMWLJXmdgSmoQEl/G9xs1OQndw8HdjWevcbnAZyAN+?=
+ =?us-ascii?Q?RlAXmzrqKfZ2mDpnJMLPRJTlpwVMPa9toDgXFmt4JjhodisXCi8YBOMjvV9A?=
+ =?us-ascii?Q?7uCu84eLvs8L81UzpNmHKCCBKOlwo5bMgdwH7kdLVhvdj5zdvNkUKtB1bPYV?=
+ =?us-ascii?Q?LJdBDo29uUybh8d4cc3/y5CwlAjnjweQppBQFdzo0KeuK9U6R6tKq9Zftk98?=
+ =?us-ascii?Q?Vb3R3R0Ka4JytKuuJJaALOWwxUPgrywvLi3r7FyhCf9M8eF/kat8rMAN79Y3?=
+ =?us-ascii?Q?AHW1nMuoDX9SvBkGXW2R7ttKaHPvhr9iqYyG89rULyP7jeC06t+xY/6yW+Ug?=
+ =?us-ascii?Q?aOLD3wTJr8/C5KjQlT5Aj1CMVl+atgsZRRBkcE6jrjp5Tj9qs90XzmXMdPmC?=
+ =?us-ascii?Q?ULhgd/SlB5QJXkxXvZViHcNTgbFA9usNC2vs0Iwk3g0OZzjKKSB1/okFwI5N?=
+ =?us-ascii?Q?IsuHCKXRGIC+BBBEPWVL6v1NjXiSsRB3+rw7Mdk02wWbZL72dgQbtl5UIxSc?=
+ =?us-ascii?Q?i5B2zpXSQQ3dId5zDj32L8Mcpr4Ztkoo6PzlvZbDGNNQYCVetg45sK8JLpUH?=
+ =?us-ascii?Q?IwGmp7NFrMFMqsAiCHML0xzUrVZDt1vlsxZ5JW7JwD9l2l+rvVvUEUsbho8y?=
+ =?us-ascii?Q?sBy+avDQntNNFrq2+9c3OiiNNtZCLk1i4pqpfggVRLqsZysanVfEJdwx6mr2?=
+ =?us-ascii?Q?A6AQTgjK8BmP1kROmqWGLh5uYTFw3/bGUGRDbie7GLFXaq2mhpOfsRX9HRYa?=
+ =?us-ascii?Q?qdNPyUI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7747.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?S7avmn8NvmR6dBZ+3wE9kQS21q0KNmrM5S2mysbfEpahzDHQHfN3HHfTqu+0?=
+ =?us-ascii?Q?2EZSsyiNd7M41CGYoAO7Mg6Gg68fof6FWeoBIAn1mr9NfOS+wr0MyiPHkC/5?=
+ =?us-ascii?Q?XBID3gecUFHfybAK2VpAsXP70MrcfydLnRUPAwcAnrXJPqh6J3ywwC1PdcCp?=
+ =?us-ascii?Q?+GbCLsovazT25fPoAf1dm2Upn+tvkxlbJSXzaV52tZvRnFbKdd5C92tOxwFO?=
+ =?us-ascii?Q?LAKMV55S3hyZBFDXk26nJEJoC5MpBQi4vVyu3j0f9lF4KQA79r2HrWMR+zww?=
+ =?us-ascii?Q?4AOtHZomBr+WepEWLxQQPuDPYD/9xw9gQj3H+ZzMO1y9eHBaGf8VYyR39kfJ?=
+ =?us-ascii?Q?4eCEWjjAWiDeKbMcWS0yZ8KPfDFpp4uap374pRTwXklLKco6x5nTFMZgSfqh?=
+ =?us-ascii?Q?l8n32iGq6tUSGudv0FMnOE/K+LyihhkSR8bMJVevMbawBSxHjHZBSV4CV25N?=
+ =?us-ascii?Q?Q2OC3F2G9eXTxjSZo7B4fvjPzNroxoL/1GTYAokl0jb2IUcKI1z64YfObp6g?=
+ =?us-ascii?Q?djqL/ukfGm5EdXZkgIGA7NWyDwXpE9dybMb1I4vRuPRTooWTCKavFBeNoQbH?=
+ =?us-ascii?Q?djJl0eViQLfmepgw0bY/ZOQ6E9lvAcaKUS6mTsdN0jhB6SLdFxzvoWPM2HGW?=
+ =?us-ascii?Q?P9bwzWwwCsp+Jdp9B2yUUCaq5BgIeESh4b8FgZYpjyDwEIXc8vCZzcWM/HzA?=
+ =?us-ascii?Q?ovj1TuF5XaC/891+FxfnzkchtUmdDhvY0MwbQ4f7mnFd6mP/eIcDDkhrld31?=
+ =?us-ascii?Q?Zvp/0O6NUGtosFhxHzR6ZRjhGleixtW7aME9ZxI2gNf9+dEOy7828zN/3PjD?=
+ =?us-ascii?Q?OaZusmDgrSvu5FtuBG0OaLT5Sg4mdweguUNFHk6vKAaS5tKBTHMFnFx4Iy7q?=
+ =?us-ascii?Q?3M1R/d8w2vtpgyd9qD8tszwnxl0wI4JdfNWXQvNMCEq8BsP5zF1WLuxF7oby?=
+ =?us-ascii?Q?w36B3+W+l9hHc0OLfZ72XXjgpWURAGItT+uMfJUbT/1qOqIbg24hbqHi5b3K?=
+ =?us-ascii?Q?r/2CrEY/wAOZZ7SRyiROt7jRh6QYhjLFQZg/eHjYE8Getvz886Z1c5Mb8mcv?=
+ =?us-ascii?Q?X8BQT4i/2BJprdHjRt21vXM9f8p2jbwKVLv1GQlH19FexstoMkKAgZ9NEgn0?=
+ =?us-ascii?Q?wTV6duV7MYpj6r+9sWa2YrIyQLa/pi1AWBinBBOjqBEy0VLypxkj7gObt1Ft?=
+ =?us-ascii?Q?5uSgAJ2WRSbqpacBnr0EfvEFKaW3hYSw+LBaUIcF5zooTeHvlTpkLzJZmjvA?=
+ =?us-ascii?Q?of1ZR567IUVC+pL3HrwNQq4o4ujBrxn3AJIG5XKys8y+0pX+Jgf5hbbTs1Th?=
+ =?us-ascii?Q?JpxPJSDneVY3x3iwSvatumBHxpUmbVmBA8UB8jxZIbMaJJ3Q0o8d0XAuRu5o?=
+ =?us-ascii?Q?imYOD/+62XjUaqmZCtLlqaFKABmYhsludsC3q2vFWjfJq3rh9nIdp8A+34ri?=
+ =?us-ascii?Q?8Bzy5XBASWGUaDfF0vuF8H6k0p+xrJOqq2rpeMjTekL7fgW3RvgKV58ayS6q?=
+ =?us-ascii?Q?AU8N7mzPGj9DHvgle8Z/xxxetoIfnSw9uvtGImVyhj16txRHG+vPyqjcnTr5?=
+ =?us-ascii?Q?0UpvSwgFIQlaNbZydf3AyZPCekU2E4n4whmvWa2z?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7747.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40ec30f7-ae6c-437c-3655-08dcb65ec61d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 21:28:54.6215
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uCb99DXOFjHvmrIWKPyQxs1WbxPzxtgsPVnMt0PMpFveiCxr1LZQtWVKnItJ+ilOixhCTsYE7jnFj31IXdUITA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8518
+X-OriginatorOrg: intel.com
 
-Hi Kent,
+Hi,
 
-First bad commit (maybe != root cause):
+Two issues with the patch, firstly the 64 bit divisions should be using div=
+64_u64() and also on i386 testing in a VM the selection of the raid6 avx2* =
+algorithm is sometimes incorrect because of a difference in benchmark speed=
+ rates on avx2x2 and avx2x1 - so I think this patch needs to be reverted/re=
+moved for now until I can figure out why it's not fully stable.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eb5e56d1491297e0881c95824e2050b7c205f0d4
-commit: 9ae82fe6ace1b267005758ccfb2347a4a6aa4398 bcachefs: Inline make_bfloat() into __build_ro_aux_tree()
-date:   10 months ago
-config: arm-randconfig-002-20240805 (https://download.01.org/0day-ci/archive/20240807/202408070432.X6n56VaY-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070432.X6n56VaY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
+Colin
+
+-----Original Message-----
+From: lkp <lkp@intel.com>=20
+Sent: Tuesday, August 6, 2024 5:01 AM
+To: King, Colin <colin.king@intel.com>; Andrew Morton <akpm@linux-foundatio=
+n.org>; Masahiro Yamada <masahiroy@kernel.org>; rppt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-mm@k=
+vack.org>; linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] md/raid6 algorithms: scale test duration for speedier =
+boots
+
+Hi Colin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable] [also build test ERROR=
+ on akpm-mm/mm-everything linus/master v6.11-rc2 next-20240805] [If your pa=
+tch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in http=
+s://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/md-ra=
+id6-algorithms-scale-test-duration-for-speedier-boots/20240806-012444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonm=
+m-unstable
+patch link:    https://lore.kernel.org/r/20240805170816.6025-1-colin.king%4=
+0intel.com
+patch subject: [PATCH] md/raid6 algorithms: scale test duration for speedie=
+r boots
+config: i386-buildonly-randconfig-002-20240806 (https://download.01.org/0da=
+y-ci/archive/20240806/202408061134.O5o8RpVV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0 reproduce (this is a W=3D1 build=
+): (https://download.01.org/0day-ci/archive/20240806/202408061134.O5o8RpVV-=
+lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408070432.X6n56VaY-lkp@intel.com/
+| Closes:=20
+| https://lore.kernel.org/oe-kbuild-all/202408061134.O5o8RpVV-lkp@intel.
+| com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/pcs/pcs-mtk-lynxi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_synctty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/plip/plip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-is.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/interconnect_qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/selftests.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/mrp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_sfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ets.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_skbprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_etf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-ERROR: modpost: "__popcountsi2" [fs/ext4/ext4.ko] undefined!
-ERROR: modpost: "__popcountsi2" [fs/fat/fat.ko] undefined!
-ERROR: modpost: "__popcountsi2" [fs/hfsplus/hfsplus.ko] undefined!
-ERROR: modpost: "__popcountsi2" [fs/xfs/xfs.ko] undefined!
-ERROR: modpost: "__popcountsi2" [fs/gfs2/gfs2.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [fs/bcachefs/bcachefs.ko] undefined!
-ERROR: modpost: "__aeabi_uldivmod" [fs/bcachefs/bcachefs.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/block/virtio_blk.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/net/ipa/ipa.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/memory/emif.ko] undefined!
-WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
+   ld: lib/raid6/algos.o: in function `raid6_choose_gen.constprop.0':
+>> algos.c:(.text+0xe6): undefined reference to `__udivdi3'
+>> ld: algos.c:(.text+0x163): undefined reference to `__udivdi3'
+   ld: algos.c:(.text+0x1fd): undefined reference to `__udivdi3'
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
