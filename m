@@ -1,62 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E71BD015;
-	Tue,  6 Aug 2024 10:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0DD1BE229
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 11:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722941724; cv=none; b=qYXaqeWpCQUM3USE3Ul9rSVS9Bqm+B0pwgHYGocngZQBRozsmfSBYy20drcBBSTtkZbk1+ihXT77qCOFgLqtQ8lEdVn4zbHi136GAUIcMjMkoStIce9Un7rBIMPP675jrrdoaax0qDS9TGtnfb/DZCS9LK/Wl3EF98vk3nhxV28=
+	t=1722943980; cv=none; b=Qt0Y2R31JgOK+zRDW6AE/n9EcTNKmT8AQbvck4Q6HK8ac3FQ5z3kdwBFetO9P/U+ySgpGengWYhtXt00qf7N1abxGyX1Ub8GMM7Nb40sVYkn87D2qjbEGMr+38NndDQFuSi+sJjIBpMtGiJEuGKlZUwlUgEZuF+HHpyDgdr1nV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722941724; c=relaxed/simple;
-	bh=/MR1ebzW7k9VGiKpMDDzT4sklvuyGgdkkPfc8OJqc+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cmJso1oKLFWVo4nhtrc3wzYDEFKgKiVZfiKRPftPveUlnxySXc50Ul0vo5niVA6/+CTw9cZylqK9fjc7TmHcLkC47jPLZ1qfLzhhJaqLiFPuzyXEo1Kr8DlY1Le3Sad0Hvh9+A06bI1plpYNpLTqeYvDwMGUcWyAyEU/MwGCObs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyuaFq+T; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722943980; c=relaxed/simple;
+	bh=EcRtA1U8qgaYeFf87D2o2VR8P52XBfeQwJ39AxaXKkg=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P6aU/6yCGSrqhWY2kgtTBzam2boHgkV38+rZTtHzi5yKRENVyoZCwFpJoHgZWI7YK+IzSA962PKOftuZAvh6DHdlMRGP24nFVFTCsDuSZ0V7H6SufOnddXfX4t/UUQqsc1YX8QlE75U6IFwvvKKM6iKk0xfSUdrYxneotP6qliY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X61ZV+78; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyuaFq+T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722941723; x=1754477723;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/MR1ebzW7k9VGiKpMDDzT4sklvuyGgdkkPfc8OJqc+I=;
-  b=OyuaFq+Tch1RsgeDfDIPQy+tm8wFPe6OWXwTRQZORenUIH6z3yOgh+Sa
-   FKpYjfFjY8iRInYZAKx6toFMSlvQRfE+Jg/JfybSynRyp9ex4YHOIgA1I
-   DT83nNqomZayl0TGqfja9c1Hloc1A9vC+bp7CJ9cjDDt7pJxF39y7B1Ly
-   CRX/c2vzlkHY6tOezAlwMRb7JK9kOFyPe5PGP4jIM/YzmJ0LjsuYxZjis
-   PmBrrRJKATjddxR6LfAR894o7aJD8EOB96MI9UVObd5oAFbeJf3S5ZAYO
-   N90k1Hzk7r0gwq5xYN3lp+mc9r6PYjP+IX1oKwZUyrxBHaSlBCcrArFGx
-   g==;
-X-CSE-ConnectionGUID: FUf/PUDGR5ieUGV1IHOStQ==
-X-CSE-MsgGUID: RI26Az+ZT86LbGeAYWCLPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21098579"
-X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="21098579"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 03:55:22 -0700
-X-CSE-ConnectionGUID: z1gMKHkLRaycNOzXp+yROQ==
-X-CSE-MsgGUID: LwS90z30SxiEadyw4ayNkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="87411340"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Aug 2024 03:55:20 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sbHqO-0004QA-15;
-	Tue, 06 Aug 2024 10:55:11 +0000
-Date: Tue, 6 Aug 2024 18:53:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [linux-next:master 2827/3348] mm/numa_memblks.c:427:31: warning:
- implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka
- 'unsigned int') changes value from 18446744073709551615 to 4294967295
-Message-ID: <202408061849.90foAdAx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X61ZV+78"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ef27bfd15bso4786371fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Aug 2024 04:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722943977; x=1723548777; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=IVejJhSSwefbToNWC/vMSJDYdMIZMCdNUKTcNbMdxLc=;
+        b=X61ZV+78gsGG5FigD1Fc6qIcSrZdcfUcxB9yHtQHZysH0U79jwLp+gQ7OyJCkVQ7Rx
+         +l6Q71DaoIutWIyeT+rqmh1JGPeBvxH8asobuYJRmsRDdsqg9rPK30zpo9N9J2obhZRK
+         6jKhc3pN1DMbsSHjKDuRF7nuNerK7GKPg9yenh804nUlwhml+qeSwjxE7Qrq4olZ6TzY
+         l19Z+25IzV8gb86+AQeYMxJ8JEV1kQxWTDY4GVLARQkQCWqF5tlkcwRvdFtpzAhsUPye
+         VAX33TPxQ7F4yyuNqn9PSun/jYi9Zo2kCReirUOd/NnbboAid2QvlU0ydxkTrLK5xouG
+         9KTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722943977; x=1723548777;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IVejJhSSwefbToNWC/vMSJDYdMIZMCdNUKTcNbMdxLc=;
+        b=cYjZOoog0oxe7r88HpwkyI15SWobiD42FkB59ELQJRkPcEBVT843u4H4MPBCHGe/fe
+         Ku1YrbxVNVw0VO64L0kyvkBfDatdf4Qdx3GdLQfoDLQSgOp59JxSWp4C+2te4jSyd39H
+         jf1XM3mOuo6UM8E+Os8JK6irA4AJHNs57BhVuKihbt+QRBJp/7x7baH5wFf4pm3fUQcc
+         dsniyNhvR0XRTe6j5YFot+g7DRKOR+LNkXnCCPUYleltsqOj7nG+0wvMSqXEjb11gH9s
+         UIIM4/21Wn6xpHZiVYqwxbju4LXU+zBxt6KdHjpWKJanYDKqgvcGiAH9GkBFudPRm9s4
+         bRrA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpFTOpnvG87xsiU1Jr2occKe5Ri9xmaupnAxcpexYT6yxFZghFvLwKhDpq47taoVru1JuWcyEknWy0mNMLPISZcNluNLJ7ZD8WVc1MOg==
+X-Gm-Message-State: AOJu0Ywml029yhHo1PSInXKjhp5DyU/xcNHbUgITTb040tcEiCxhkFkZ
+	QMA/filKGpptHJGFNQAqRwzURtQf/mMvzG0836s6nJlzN5vtbo+v
+X-Google-Smtp-Source: AGHT+IEIML1fcbxEmifD6CYWnibQGgfrmZhaChuLVp5niogHyeL8TR72e1QzDfH14JBGB+amQfws3Q==
+X-Received: by 2002:a2e:8046:0:b0:2ee:7c12:7b36 with SMTP id 38308e7fff4ca-2f15aaacc1dmr104556941fa.19.1722943976887;
+        Tue, 06 Aug 2024 04:32:56 -0700 (PDT)
+Received: from Ansuel-XPS. (host-87-6-196-30.retail.telecomitalia.it. [87.6.196.30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282babaa2esm240389145e9.25.2024.08.06.04.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 04:32:56 -0700 (PDT)
+Message-ID: <66b209e8.050a0220.1f20c8.5a92@mx.google.com>
+X-Google-Original-Message-ID: <ZrIJ4y8S0sEtDOQ2@Ansuel-XPS.>
+Date: Tue, 6 Aug 2024 13:32:51 +0200
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
+References: <20240804174414.18171-7-ansuelsmth@gmail.com>
+ <202408050612.Ya1m6REu-lkp@intel.com>
+ <66b0b109.050a0220.93681.d015@mx.google.com>
+ <ZrHrn9NzeOhp+Sdl@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,213 +85,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZrHrn9NzeOhp+Sdl@rli9-mobl>
 
-Hi Mike,
+On Tue, Aug 06, 2024 at 05:23:43PM +0800, Philip Li wrote:
+> On Mon, Aug 05, 2024 at 04:54:45AM +0200, Christian Marangi wrote:
+> > On Mon, Aug 05, 2024 at 06:52:04AM +0800, kernel test robot wrote:
+> > > Hi Christian,
+> > > 
+> > > kernel test robot noticed the following build errors:
+> > > 
+> > > [auto build test ERROR on robh/for-next]
+> > > [also build test ERROR on linus/master v6.11-rc1 next-20240802]
+> > > [cannot apply to mtd/mtd/next mtd/mtd/fixes]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240805-014740
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> > > patch link:    https://lore.kernel.org/r/20240804174414.18171-7-ansuelsmth%40gmail.com
+> > > patch subject: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
+> > > config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/config)
+> > > compiler: xtensa-linux-gcc (GCC) 14.1.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202408050612.Ya1m6REu-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > >    drivers/mtd/parsers/ofpart_airoha.c: In function 'airoha_partitions_post_parse':
+> > >    drivers/mtd/parsers/ofpart_airoha.c:33:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+> > >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> > >          |                ^~~~~~~
+> > > >> drivers/mtd/parsers/ofpart_airoha.c:33:14: error: assignment to 'struct property *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+> > >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> > >          |              ^
+> > > 
+> > > 
+> > > vim +33 drivers/mtd/parsers/ofpart_airoha.c
+> > > 
+> > >     10	
+> > >     11	int airoha_partitions_post_parse(struct mtd_info *mtd,
+> > >     12					 struct mtd_partition *parts,
+> > >     13					 int nr_parts)
+> > >     14	{
+> > >     15		struct mtd_partition *part;
+> > >     16		int len, a_cells, s_cells;
+> > >     17		struct device_node *pp;
+> > >     18		struct property *prop;
+> > >     19		const __be32 *reg;
+> > >     20		__be32 *new_reg;
+> > >     21	
+> > >     22		part = &parts[nr_parts - 1];
+> > >     23		pp = part->of_node;
+> > >     24	
+> > >     25		/* Skip if ART partition have a valid offset instead of a dynamic one */
+> > >     26		if (!of_device_is_compatible(pp, "airoha,dynamic-art"))
+> > >     27			return 0;
+> > >     28	
+> > >     29		/* ART partition is set at the end of flash - size */
+> > >     30		part->offset = mtd->size - part->size;
+> > >     31	
+> > >     32		/* Update the offset with the new calculate value in DT */
+> > >   > 33		prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> > 
+> > Mhhh somehow I can't repro this with instructions?
+> 
+> Hi Ansuel, would you mind sharing the steps of reproduce? I can reproduce this with steps
+> described in the repro link [1]
+> 
+> [1] https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce
+>
 
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1e391b34f6aa043c7afa40a2103163a0ef06d179
-commit: 79776ac67c17335deeaa3e34fb52ef5250730193 [2827/3348] arch_numa: switch over to numa_memblks
-config: riscv-randconfig-002-20240806 (https://download.01.org/0day-ci/archive/20240806/202408061849.90foAdAx-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061849.90foAdAx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408061849.90foAdAx-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/numa_memblks.c:6:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2199:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> mm/numa_memblks.c:409:5: warning: format specifies type 'unsigned long long' but the argument has type 'phys_addr_t' (aka 'unsigned int') [-Wformat]
-     408 |                         pr_warn("Node alignment %LuMB < min %LuMB, rejecting NUMA config\n",
-         |                                                 ~~~
-         |                                                 %u
-     409 |                                 PFN_PHYS(pfn_align) >> 20,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:518:37: note: expanded from macro 'pr_warn'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   include/linux/pfn.h:21:21: note: expanded from macro 'PFN_PHYS'
-      21 | #define PFN_PHYS(x)     ((phys_addr_t)(x) << PAGE_SHIFT)
-         |                         ^
-   mm/numa_memblks.c:410:5: warning: format specifies type 'unsigned long long' but the argument has type 'phys_addr_t' (aka 'unsigned int') [-Wformat]
-     408 |                         pr_warn("Node alignment %LuMB < min %LuMB, rejecting NUMA config\n",
-         |                                                             ~~~
-         |                                                             %u
-     409 |                                 PFN_PHYS(pfn_align) >> 20,
-     410 |                                 PFN_PHYS(PAGES_PER_SECTION) >> 20);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:518:37: note: expanded from macro 'pr_warn'
-     518 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   include/linux/pfn.h:21:21: note: expanded from macro 'PFN_PHYS'
-      21 | #define PFN_PHYS(x)     ((phys_addr_t)(x) << PAGE_SHIFT)
-         |                         ^
->> mm/numa_memblks.c:427:31: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     427 |         WARN_ON(memblock_set_node(0, ULLONG_MAX, &memblock.memory,
-         |                 ~~~~~~~~~~~~~~~~~    ^~~~~~~~~~
-   include/vdso/limits.h:16:21: note: expanded from macro 'ULLONG_MAX'
-      16 | #define ULLONG_MAX      (~0ULL)
-         |                          ^~~~~
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/numa_memblks.c:429:31: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     429 |         WARN_ON(memblock_set_node(0, ULLONG_MAX, &memblock.reserved,
-         |                 ~~~~~~~~~~~~~~~~~    ^~~~~~~~~~
-   include/vdso/limits.h:16:21: note: expanded from macro 'ULLONG_MAX'
-      16 | #define ULLONG_MAX      (~0ULL)
-         |                          ^~~~~
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/numa_memblks.c:432:36: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     432 |         WARN_ON(memblock_clear_hotplug(0, ULLONG_MAX));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~    ^~~~~~~~~~
-   include/vdso/limits.h:16:21: note: expanded from macro 'ULLONG_MAX'
-      16 | #define ULLONG_MAX      (~0ULL)
-         |                          ^~~~~
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   10 warnings generated.
-
-
-vim +427 mm/numa_memblks.c
-
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  373) 
-c197ac49b602c0 Mike Rapoport (Microsoft  2024-08-01  374) static int __init numa_register_meminfo(struct numa_meminfo *mi)
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  375) {
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  376) 	int i;
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  377) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  378) 	/* Account for nodes with cpus and no memory */
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  379) 	node_possible_map = numa_nodes_parsed;
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  380) 	numa_nodemask_from_meminfo(&node_possible_map, mi);
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  381) 	if (WARN_ON(nodes_empty(node_possible_map)))
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  382) 		return -EINVAL;
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  383) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  384) 	for (i = 0; i < mi->nr_blks; i++) {
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  385) 		struct numa_memblk *mb = &mi->blk[i];
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  386) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  387) 		memblock_set_node(mb->start, mb->end - mb->start,
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  388) 				  &memblock.memory, mb->nid);
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  389) 	}
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  390) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  391) 	/*
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  392) 	 * At very early time, the kernel have to use some memory such as
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  393) 	 * loading the kernel image. We cannot prevent this anyway. So any
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  394) 	 * node the kernel resides in should be un-hotpluggable.
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  395) 	 *
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  396) 	 * And when we come here, alloc node data won't fail.
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  397) 	 */
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  398) 	numa_clear_kernel_node_hotplug();
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  399) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  400) 	/*
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  401) 	 * If sections array is gonna be used for pfn -> nid mapping, check
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  402) 	 * whether its granularity is fine enough.
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  403) 	 */
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  404) 	if (IS_ENABLED(NODE_NOT_IN_PAGE_FLAGS)) {
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  405) 		unsigned long pfn_align = node_map_pfn_alignment();
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  406) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  407) 		if (pfn_align && pfn_align < PAGES_PER_SECTION) {
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  408) 			pr_warn("Node alignment %LuMB < min %LuMB, rejecting NUMA config\n",
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01 @409) 				PFN_PHYS(pfn_align) >> 20,
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  410) 				PFN_PHYS(PAGES_PER_SECTION) >> 20);
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  411) 			return -EINVAL;
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  412) 		}
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  413) 	}
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  414) 
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  415) 	return 0;
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  416) }
-31d21d671fdc31 Mike Rapoport (Microsoft  2024-08-01  417) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  418) int __init numa_memblks_init(int (*init_func)(void),
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  419) 			     bool memblock_force_top_down)
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  420) {
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  421) 	int ret;
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  422) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  423) 	nodes_clear(numa_nodes_parsed);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  424) 	nodes_clear(node_possible_map);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  425) 	nodes_clear(node_online_map);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  426) 	memset(&numa_meminfo, 0, sizeof(numa_meminfo));
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01 @427) 	WARN_ON(memblock_set_node(0, ULLONG_MAX, &memblock.memory,
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  428) 				  NUMA_NO_NODE));
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  429) 	WARN_ON(memblock_set_node(0, ULLONG_MAX, &memblock.reserved,
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  430) 				  NUMA_NO_NODE));
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  431) 	/* In case that parsing SRAT failed. */
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  432) 	WARN_ON(memblock_clear_hotplug(0, ULLONG_MAX));
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  433) 	numa_reset_distance();
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  434) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  435) 	ret = init_func();
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  436) 	if (ret < 0)
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  437) 		return ret;
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  438) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  439) 	/*
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  440) 	 * We reset memblock back to the top-down direction
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  441) 	 * here because if we configured ACPI_NUMA, we have
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  442) 	 * parsed SRAT in init_func(). It is ok to have the
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  443) 	 * reset here even if we did't configure ACPI_NUMA
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  444) 	 * or acpi numa init fails and fallbacks to dummy
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  445) 	 * numa init.
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  446) 	 */
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  447) 	if (memblock_force_top_down)
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  448) 		memblock_set_bottom_up(false);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  449) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  450) 	ret = numa_cleanup_meminfo(&numa_meminfo);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  451) 	if (ret < 0)
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  452) 		return ret;
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  453) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  454) 	numa_emulation(&numa_meminfo, numa_distance_cnt);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  455) 
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  456) 	return numa_register_meminfo(&numa_meminfo);
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  457) }
-d971e58110f7f8 Mike Rapoport (Microsoft  2024-08-01  458) 
-
-:::::: The code at line 427 was first introduced by commit
-:::::: d971e58110f7f8a3869d75578d245fcd9759c947 mm: numa_memblks: introduce numa_memblks_init
-
-:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+Hi, thanks for confirming that. Manage to repro, just had dirty
+build-dir and config wasn't correctly applying.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Ansuel
