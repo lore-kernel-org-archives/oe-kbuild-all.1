@@ -1,239 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7354F171E5F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 21:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722979740; cv=fail; b=tgCKgLv/gjYOtEHub7UZERCk8w0u+/38CF7D6pePZtGTtTAXFrAd+tKI+V3Xjbfm3zCNSVzcsXLgBiW4+4GrAfNNpmeE5b1HnqymJCiKop8mheYDZ16qOKpu4GW4xSvarv0DaO4QYO8cnj2Fpe+NLvxwE+jgKXfgXfei4K6ZKUM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722979740; c=relaxed/simple;
-	bh=IAl2nlZE2O1gh2DMloMcFXzOHObNFiD0zPmxMLr/VbY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FFsjPPazjkJkba9m0CCwBV+G6veRONPjrC+UwvS2zyLM7o+MWtqo6Lx8a4GY6PdquTSqfJhvslwDzU0iAxXlMZnhTjdEUbdgNiPo+ZthmqWyWj7VmWS5yW6GMprpQHmgok1J6rwRx/J0L5mRFAeoYv6W+/QeLzxd2WtXvZkx8Kc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SfBRrENl; arc=fail smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8B5374C4;
+	Tue,  6 Aug 2024 21:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722980102; cv=none; b=fgX0TBX6YS4qevEHdrCNLtw4EhyTak9NcFjrf6xaqUsdTIVYRoVKSQAFStLYuzrOlBs22DnJ7AlUBFmxJyCIfnKZpFo4BzQTQfTpBeLEGH6IS59vtJIHOgTkZc/zzGZs4AbTXS8mtvvCq6RKULeWEvtF8OG4gt1sionhNPjSX5w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722980102; c=relaxed/simple;
+	bh=tGM+xMTtXdF3SYhLRFBMQ6Mal+S5V0On21qnP69v0Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VB7kL9RFmlghnKnqsogCe+p3GlfC5Lo4ShEeqnAmBJ1tWUhplygm8492iUAjBoemIbAqTiXuNwY8TAtuQjHCuO7Re796TXREDoWW8stmuZTKvwaWcA1zhlmwosDeXgDJ5HC++OjdSnz8AdP3WhrbPO1bluUCT0+fxO+ykqaLkrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWzXm0d5; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SfBRrENl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWzXm0d5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722979739; x=1754515739;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=IAl2nlZE2O1gh2DMloMcFXzOHObNFiD0zPmxMLr/VbY=;
-  b=SfBRrENlQlrH7dg0zP9A53b75Lx3UZZSdEaO1+QZKvU4VYu8BhlyVt2O
-   ni9Smmg1PwlypsRtZcXCGwc1H5Bnwrv4MvBsXjBW1os5rMzt6OwhV6Mgq
-   NASlb2hj8JLIejGLtImxjnFqcKYHyX8JPE4+kX1rRYOf3eCoiKITYHHfN
-   VqMF+a4hYRbEDgj/yVbVdYadCmzfuFldDOcbKr1mLAiL+0Wx/V+d4OuFy
-   SjyB/fv1K3t57c07RfMQaE0bQFMshTXuT2Dla9IKoAFOJxmObuBiCDJow
-   gN3drPu5xceK2B3gRtous0KDBoYDsHUqLFAhAW3o3ZZaB5FIpW5/c88QQ
-   g==;
-X-CSE-ConnectionGUID: ENNnhNG4T76cZNUIlTImdQ==
-X-CSE-MsgGUID: AXBnn6VSS4a0CGmAvB8rpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="32429209"
+  t=1722980101; x=1754516101;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tGM+xMTtXdF3SYhLRFBMQ6Mal+S5V0On21qnP69v0Ns=;
+  b=dWzXm0d5zvQXiHv1avP/LthKV0H/aM8MnV+a5FPiGYUCvzvaYUXOtRqu
+   VxtZabsHL2mx1gBCc0UIWrDkQ1pDYkbU9ZrI6qF383m1Q9axfKhVd0dDx
+   pfcUYiIo8ZZa3ythagE9Ey22WYQjWsib8WtaKCoFAIpZX7kF8s1SRK5px
+   y6FOwBynTSPfrVYFzxFAddNpRM5uxGtYGNXINOVIoqYXeKQog+YR9922n
+   iyzk8LA8ad/u5H7BjwljBALU2FnXihRYjWelIQPDfibwxhJlZ2q3FNCX8
+   QLF62K8yeVGZd7hxk6rot9OhwAjQtZOHWIAu7Y5enNq/VC+IuO8QHydGO
+   Q==;
+X-CSE-ConnectionGUID: uZcK1knST6ib5GB3R+0YtA==
+X-CSE-MsgGUID: kMGxkfz0TEOFR9K3uznH/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="32410115"
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="32429209"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 14:28:58 -0700
-X-CSE-ConnectionGUID: QLxEMZ7rT+OMOn8LkNjx/g==
-X-CSE-MsgGUID: 55XtNC04TECT+Ko3zbzMWQ==
+   d="scan'208";a="32410115"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 14:35:00 -0700
+X-CSE-ConnectionGUID: 2P7qEu/uRy+1dOi5wf9UCg==
+X-CSE-MsgGUID: etScqqnQRLeKo2XIJt2QEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="87306689"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Aug 2024 14:28:57 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 6 Aug 2024 14:28:56 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 6 Aug 2024 14:28:56 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 6 Aug 2024 14:28:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=foIalUR6mdKZFk9TwHFvFS99xKpUU8wvgZR9r8Ku4Ids4yKTvjEBr6k2op89PbdjMEC5T9sh4Ln3sA+OoyCRo56386DGAvrLUmFNMEEzIO0QyIqYAwviqvv74LIPuTqJ0eqg1sibA/7TF//v91nXPm7+Wev0qZ8uYki/uoH0TmtvHor+oPWGJog9iL/81OiA6byDwvFw1VzmbVYwobBNJpRMksGD/JZe7MOc93ZpMVXfTvuZCYEwT50T7wa4vTx7DgxKo7YFyOKIb1f5siRO73ayyKJ2rO9Sn3jn/a24KVmJd2EXdduC9+SD69SIrP/VDeq8veKs4JjRsQL7n02N7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wYS9ffU3wfX5TeUtKbtEDpaboxY8NmLn+TCszfgg1rI=;
- b=y7xGQ9um9m1vOAVZoEXvPeKHBvn3U1NbSh2sz6qFnwMDBqnaWaj36DC/BFdqV0Vi1cm3sbTOYVjTra/KNN6FfPgIk3x51tKY6nLOsz0eMASuZF4+ojl1YVG4SGjQT9pcQBCj5AwNpp8XzHNc2XVa+0U1A/RcM+bw6I/6DUq5zyAoaE54VOiFoXwP/sHtEXS/QHvSD1hCEUhN3eYhUo918NvgZ0eJsciJhXtEIUQBZUF4+VvDTAI7U2jvYr9U8KBKhvpAij+WLpOaM9bCmm1e/WbKVSzN8OThw+r/Tk6NHoZVdlK3D+mvkqIvSE9er6rG7U8Ox1UPh37MKbkhfteORg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB7747.namprd11.prod.outlook.com (2603:10b6:930:91::17)
- by CH3PR11MB8518.namprd11.prod.outlook.com (2603:10b6:610:1b8::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23; Tue, 6 Aug
- 2024 21:28:54 +0000
-Received: from CY8PR11MB7747.namprd11.prod.outlook.com
- ([fe80::dd94:c5ad:7fd:fd4f]) by CY8PR11MB7747.namprd11.prod.outlook.com
- ([fe80::dd94:c5ad:7fd:fd4f%4]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
- 21:28:54 +0000
-From: "King, Colin" <colin.king@intel.com>
-To: lkp <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Linux
- Memory Management List" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] md/raid6 algorithms: scale test duration for speedier
- boots
-Thread-Topic: [PATCH] md/raid6 algorithms: scale test duration for speedier
- boots
-Thread-Index: AQHa51oYbsloL5/3/kCDJAa7Abyd5bIZm80AgAEjgMA=
-Date: Tue, 6 Aug 2024 21:28:54 +0000
-Message-ID: <CY8PR11MB774743159DA70F6BF601FF0F8DBF2@CY8PR11MB7747.namprd11.prod.outlook.com>
-References: <20240805170816.6025-1-colin.king@intel.com>
- <202408061134.O5o8RpVV-lkp@intel.com>
-In-Reply-To: <202408061134.O5o8RpVV-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7747:EE_|CH3PR11MB8518:EE_
-x-ms-office365-filtering-correlation-id: 40ec30f7-ae6c-437c-3655-08dcb65ec61d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?Q3/CY62QLcQxRlqmI9nI/mSTwHJ8/H4gtQm4atRf6805fyTu3F+z6Tq93cQn?=
- =?us-ascii?Q?QJ9TbEXEnrkKdxFjaCLuDxRovRLtx6iQvcLFvQWoePzLh9AAauEKFQLKc4NA?=
- =?us-ascii?Q?WdwwYgfvAUI4QTSsyVWtIUOvwBUrJEImk3X+nvHl+Ty3Q3RjZg5D0b3KCY32?=
- =?us-ascii?Q?ACggNzJ+2cQEBB0qpZYWqx7fAWhQoivlU+8Y1ylDa8nfDNpce/6nBe2myqCL?=
- =?us-ascii?Q?W1XTsQXFlyoa6RNQ/Cl99Ei8q/0n2QHcb3QmW4nf+kAXGZYn8nPu9ni8R/lb?=
- =?us-ascii?Q?lfQ9LD9yHBYkW+1jgVRVjsJifrnyKdK2hPtpcdMSQCAp/wfPJMCn/ppidW3M?=
- =?us-ascii?Q?Oo+IoH1e3xr04kYczv2dUAY7FS3o1lz66P2OXwXBPsQjBr2w3sO0xA1HJBXt?=
- =?us-ascii?Q?5oHL+fJE+IODWa42WVsBSNmd4v9+H/cEG850tVHykjF2+fruKm1m1adRpWZI?=
- =?us-ascii?Q?gJuI6sh7sI3ahnRDKUmuqCSiUAWTJMIvDMe73aaeBJxDmOqyPZn30mM2wIFv?=
- =?us-ascii?Q?c6THGSP7FHgDP6EX6qb2XVmI6IVTQ65wa+EehnWawgZ8ShUsMkcA77qwFmM3?=
- =?us-ascii?Q?r+Rp7tpL0rxAbZcHnrnMWLJXmdgSmoQEl/G9xs1OQndw8HdjWevcbnAZyAN+?=
- =?us-ascii?Q?RlAXmzrqKfZ2mDpnJMLPRJTlpwVMPa9toDgXFmt4JjhodisXCi8YBOMjvV9A?=
- =?us-ascii?Q?7uCu84eLvs8L81UzpNmHKCCBKOlwo5bMgdwH7kdLVhvdj5zdvNkUKtB1bPYV?=
- =?us-ascii?Q?LJdBDo29uUybh8d4cc3/y5CwlAjnjweQppBQFdzo0KeuK9U6R6tKq9Zftk98?=
- =?us-ascii?Q?Vb3R3R0Ka4JytKuuJJaALOWwxUPgrywvLi3r7FyhCf9M8eF/kat8rMAN79Y3?=
- =?us-ascii?Q?AHW1nMuoDX9SvBkGXW2R7ttKaHPvhr9iqYyG89rULyP7jeC06t+xY/6yW+Ug?=
- =?us-ascii?Q?aOLD3wTJr8/C5KjQlT5Aj1CMVl+atgsZRRBkcE6jrjp5Tj9qs90XzmXMdPmC?=
- =?us-ascii?Q?ULhgd/SlB5QJXkxXvZViHcNTgbFA9usNC2vs0Iwk3g0OZzjKKSB1/okFwI5N?=
- =?us-ascii?Q?IsuHCKXRGIC+BBBEPWVL6v1NjXiSsRB3+rw7Mdk02wWbZL72dgQbtl5UIxSc?=
- =?us-ascii?Q?i5B2zpXSQQ3dId5zDj32L8Mcpr4Ztkoo6PzlvZbDGNNQYCVetg45sK8JLpUH?=
- =?us-ascii?Q?IwGmp7NFrMFMqsAiCHML0xzUrVZDt1vlsxZ5JW7JwD9l2l+rvVvUEUsbho8y?=
- =?us-ascii?Q?sBy+avDQntNNFrq2+9c3OiiNNtZCLk1i4pqpfggVRLqsZysanVfEJdwx6mr2?=
- =?us-ascii?Q?A6AQTgjK8BmP1kROmqWGLh5uYTFw3/bGUGRDbie7GLFXaq2mhpOfsRX9HRYa?=
- =?us-ascii?Q?qdNPyUI=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7747.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?S7avmn8NvmR6dBZ+3wE9kQS21q0KNmrM5S2mysbfEpahzDHQHfN3HHfTqu+0?=
- =?us-ascii?Q?2EZSsyiNd7M41CGYoAO7Mg6Gg68fof6FWeoBIAn1mr9NfOS+wr0MyiPHkC/5?=
- =?us-ascii?Q?XBID3gecUFHfybAK2VpAsXP70MrcfydLnRUPAwcAnrXJPqh6J3ywwC1PdcCp?=
- =?us-ascii?Q?+GbCLsovazT25fPoAf1dm2Upn+tvkxlbJSXzaV52tZvRnFbKdd5C92tOxwFO?=
- =?us-ascii?Q?LAKMV55S3hyZBFDXk26nJEJoC5MpBQi4vVyu3j0f9lF4KQA79r2HrWMR+zww?=
- =?us-ascii?Q?4AOtHZomBr+WepEWLxQQPuDPYD/9xw9gQj3H+ZzMO1y9eHBaGf8VYyR39kfJ?=
- =?us-ascii?Q?4eCEWjjAWiDeKbMcWS0yZ8KPfDFpp4uap374pRTwXklLKco6x5nTFMZgSfqh?=
- =?us-ascii?Q?l8n32iGq6tUSGudv0FMnOE/K+LyihhkSR8bMJVevMbawBSxHjHZBSV4CV25N?=
- =?us-ascii?Q?Q2OC3F2G9eXTxjSZo7B4fvjPzNroxoL/1GTYAokl0jb2IUcKI1z64YfObp6g?=
- =?us-ascii?Q?djqL/ukfGm5EdXZkgIGA7NWyDwXpE9dybMb1I4vRuPRTooWTCKavFBeNoQbH?=
- =?us-ascii?Q?djJl0eViQLfmepgw0bY/ZOQ6E9lvAcaKUS6mTsdN0jhB6SLdFxzvoWPM2HGW?=
- =?us-ascii?Q?P9bwzWwwCsp+Jdp9B2yUUCaq5BgIeESh4b8FgZYpjyDwEIXc8vCZzcWM/HzA?=
- =?us-ascii?Q?ovj1TuF5XaC/891+FxfnzkchtUmdDhvY0MwbQ4f7mnFd6mP/eIcDDkhrld31?=
- =?us-ascii?Q?Zvp/0O6NUGtosFhxHzR6ZRjhGleixtW7aME9ZxI2gNf9+dEOy7828zN/3PjD?=
- =?us-ascii?Q?OaZusmDgrSvu5FtuBG0OaLT5Sg4mdweguUNFHk6vKAaS5tKBTHMFnFx4Iy7q?=
- =?us-ascii?Q?3M1R/d8w2vtpgyd9qD8tszwnxl0wI4JdfNWXQvNMCEq8BsP5zF1WLuxF7oby?=
- =?us-ascii?Q?w36B3+W+l9hHc0OLfZ72XXjgpWURAGItT+uMfJUbT/1qOqIbg24hbqHi5b3K?=
- =?us-ascii?Q?r/2CrEY/wAOZZ7SRyiROt7jRh6QYhjLFQZg/eHjYE8Getvz886Z1c5Mb8mcv?=
- =?us-ascii?Q?X8BQT4i/2BJprdHjRt21vXM9f8p2jbwKVLv1GQlH19FexstoMkKAgZ9NEgn0?=
- =?us-ascii?Q?wTV6duV7MYpj6r+9sWa2YrIyQLa/pi1AWBinBBOjqBEy0VLypxkj7gObt1Ft?=
- =?us-ascii?Q?5uSgAJ2WRSbqpacBnr0EfvEFKaW3hYSw+LBaUIcF5zooTeHvlTpkLzJZmjvA?=
- =?us-ascii?Q?of1ZR567IUVC+pL3HrwNQq4o4ujBrxn3AJIG5XKys8y+0pX+Jgf5hbbTs1Th?=
- =?us-ascii?Q?JpxPJSDneVY3x3iwSvatumBHxpUmbVmBA8UB8jxZIbMaJJ3Q0o8d0XAuRu5o?=
- =?us-ascii?Q?imYOD/+62XjUaqmZCtLlqaFKABmYhsludsC3q2vFWjfJq3rh9nIdp8A+34ri?=
- =?us-ascii?Q?8Bzy5XBASWGUaDfF0vuF8H6k0p+xrJOqq2rpeMjTekL7fgW3RvgKV58ayS6q?=
- =?us-ascii?Q?AU8N7mzPGj9DHvgle8Z/xxxetoIfnSw9uvtGImVyhj16txRHG+vPyqjcnTr5?=
- =?us-ascii?Q?0UpvSwgFIQlaNbZydf3AyZPCekU2E4n4whmvWa2z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="61290372"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Aug 2024 14:34:57 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbRpT-0004qa-1t;
+	Tue, 06 Aug 2024 21:34:53 +0000
+Date: Wed, 7 Aug 2024 05:34:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Luke D. Jones" <luke@ljones.dev>, linux-input@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
+Message-ID: <202408070520.r1N2Tpys-lkp@intel.com>
+References: <20240806081212.56860-1-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7747.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40ec30f7-ae6c-437c-3655-08dcb65ec61d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 21:28:54.6215
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uCb99DXOFjHvmrIWKPyQxs1WbxPzxtgsPVnMt0PMpFveiCxr1LZQtWVKnItJ+ilOixhCTsYE7jnFj31IXdUITA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8518
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240806081212.56860-1-luke@ljones.dev>
 
-Hi,
+Hi Luke,
 
-Two issues with the patch, firstly the 64 bit divisions should be using div=
-64_u64() and also on i386 testing in a VM the selection of the raid6 avx2* =
-algorithm is sometimes incorrect because of a difference in benchmark speed=
- rates on avx2x2 and avx2x1 - so I think this patch needs to be reverted/re=
-moved for now until I can figure out why it's not fully stable.
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on next-20240806]
+[cannot apply to linus/master v6.11-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Colin
+url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/hid-asus-ally-Add-full-gamepad-support/20240806-170850
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240806081212.56860-1-luke%40ljones.dev
+patch subject: [PATCH] hid-asus-ally: Add full gamepad support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/reproduce)
 
------Original Message-----
-From: lkp <lkp@intel.com>=20
-Sent: Tuesday, August 6, 2024 5:01 AM
-To: King, Colin <colin.king@intel.com>; Andrew Morton <akpm@linux-foundatio=
-n.org>; Masahiro Yamada <masahiroy@kernel.org>; rppt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-mm@k=
-vack.org>; linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] md/raid6 algorithms: scale test duration for speedier =
-boots
-
-Hi Colin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable] [also build test ERROR=
- on akpm-mm/mm-everything linus/master v6.11-rc2 next-20240805] [If your pa=
-tch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in http=
-s://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/md-ra=
-id6-algorithms-scale-test-duration-for-speedier-boots/20240806-012444
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonm=
-m-unstable
-patch link:    https://lore.kernel.org/r/20240805170816.6025-1-colin.king%4=
-0intel.com
-patch subject: [PATCH] md/raid6 algorithms: scale test duration for speedie=
-r boots
-config: i386-buildonly-randconfig-002-20240806 (https://download.01.org/0da=
-y-ci/archive/20240806/202408061134.O5o8RpVV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0 reproduce (this is a W=3D1 build=
-): (https://download.01.org/0day-ci/archive/20240806/202408061134.O5o8RpVV-=
-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of the same patch/commit), kindly add following tags
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes:=20
-| https://lore.kernel.org/oe-kbuild-all/202408061134.O5o8RpVV-lkp@intel.
-| com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408070520.r1N2Tpys-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: lib/raid6/algos.o: in function `raid6_choose_gen.constprop.0':
->> algos.c:(.text+0xe6): undefined reference to `__udivdi3'
->> ld: algos.c:(.text+0x163): undefined reference to `__udivdi3'
-   ld: algos.c:(.text+0x1fd): undefined reference to `__udivdi3'
+   In file included from drivers/hid/hid-asus-ally.c:17:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/hid/hid-asus-ally.c:17:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hid/hid-asus-ally.c:17:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hid/hid-asus-ally.c:17:
+   In file included from include/linux/hid.h:29:
+   In file included from include/linux/hid_bpf.h:6:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/hid/hid-asus-ally.c:565:10: warning: variable 'max_output_report_size' set but not used [-Wunused-but-set-variable]
+     565 |         uint8_t max_output_report_size;
+         |                 ^
+   drivers/hid/hid-asus-ally.c:1177:6: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
+    1177 |         int cmd, side, is_tr;
+         |             ^
+>> drivers/hid/hid-asus-ally.c:894:1: warning: unused variable 'btn_mapping_lt_attr_group' [-Wunused-const-variable]
+     894 | ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
+     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
+     306 |         static const struct attribute_group _fname##_attr_group = {       \
+         |                                             ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:125:1: note: expanded from here
+     125 | btn_mapping_lt_attr_group
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-asus-ally.c:895:1: warning: unused variable 'btn_mapping_rt_attr_group' [-Wunused-const-variable]
+     895 | ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
+     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
+     306 |         static const struct attribute_group _fname##_attr_group = {       \
+         |                                             ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:167:1: note: expanded from here
+     167 | btn_mapping_rt_attr_group
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   11 warnings generated.
 
---
+
+vim +/btn_mapping_lt_attr_group +894 drivers/hid/hid-asus-ally.c
+
+   882	
+   883	/* button map attributes, regular and macro*/
+   884	ALLY_BTN_MAPPING(m2, btn_pair_m1_m2, btn_pair_side_left);
+   885	ALLY_BTN_MAPPING(m1, btn_pair_m1_m2, btn_pair_side_right);
+   886	ALLY_BTN_MAPPING(a, btn_pair_a_b, btn_pair_side_left);
+   887	ALLY_BTN_MAPPING(b, btn_pair_a_b, btn_pair_side_right);
+   888	ALLY_BTN_MAPPING(x, btn_pair_x_y, btn_pair_side_left);
+   889	ALLY_BTN_MAPPING(y, btn_pair_x_y, btn_pair_side_right);
+   890	ALLY_BTN_MAPPING(lb, btn_pair_lb_rb, btn_pair_side_left);
+   891	ALLY_BTN_MAPPING(rb, btn_pair_lb_rb, btn_pair_side_right);
+   892	ALLY_BTN_MAPPING(ls, btn_pair_ls_rs, btn_pair_side_left);
+   893	ALLY_BTN_MAPPING(rs, btn_pair_ls_rs, btn_pair_side_right);
+ > 894	ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
+ > 895	ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
+   896	ALLY_BTN_MAPPING(dpad_u, btn_pair_dpad_u_d, btn_pair_side_left);
+   897	ALLY_BTN_MAPPING(dpad_d, btn_pair_dpad_u_d, btn_pair_side_right);
+   898	ALLY_BTN_MAPPING(dpad_l, btn_pair_dpad_l_r, btn_pair_side_left);
+   899	ALLY_BTN_MAPPING(dpad_r, btn_pair_dpad_l_r, btn_pair_side_right);
+   900	ALLY_BTN_MAPPING(view, btn_pair_view_menu, btn_pair_side_left);
+   901	ALLY_BTN_MAPPING(menu, btn_pair_view_menu, btn_pair_side_right);
+   902	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
