@@ -1,135 +1,102 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB391B647
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 02:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CA1184D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 03:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722910075; cv=none; b=sBf3ZTxywP6qmn+ABsPRme7pVW9zSm+GZqHUyurlAG3MIP1rL3MJpVEriWn5J+06jx5Yg7nTmcRv6CqSh5zQSdxFZly9qK9MjouXttj5YCAScT1d/mGvZn85YltuCXnvhac2FpcT1xMVVZP2WPp737iEEvpmTmxQvPNwsAOs0Fo=
+	t=1722914472; cv=none; b=GXb8JYEkpehoo9KFulNkmbv/XghgVxWTg53GUv35lmuwpBNcArX6zS/yFdk4WMgoQ3fnxGcUAeK02vplqTpN8bsPfim1TwGkMP75r95IV/ZVmiGPJtOX7vnvLMFNIO8g+tbAPR633hHXDFQE2zfVe6SUwqtFr7LbfVRjVSrLd8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722910075; c=relaxed/simple;
-	bh=jt59FQqSI9OmpBDvj+W6jJgmftz6aU0OfR2v5brJ7QA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DaeUTE/+sWcB7pqGD4IZz0N6L3rgtYq8Dwz6Q/I54R/pmmqAdbBU6/8Yw/wffVM/lQpeBGKcE0gY+TyGy/rhvJMHIMYE6nJUDhw6j/Pzi7AdjXniel40GgBkT3awOzOOQKVeW8zIjyhphVZyVfhQ4r/PTQb75D9O2rUcxnJJIHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBnOgUqT; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722914472; c=relaxed/simple;
+	bh=/PjDIgC1AdM+VFrKt5b8qgbE6p4BW8mIM3/GvNc2jLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyP6HoeO5rYd7d4yiWIwxHqf83CcrPFolA6j8/Z+GkWvwCCysTefhUgh/ziSyXBOmS8VNwFVOaCZSAaJHAd//V00Jx7wojyrJucvMYX/g8yfS1xnrzU6qHAFiTuI71bzy29UFR+3afuEpowMG/J+UlVFrecI3xwywMGncfh6jTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7esAOrm; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBnOgUqT"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5bb8e62570fso320075a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Aug 2024 19:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722910072; x=1723514872; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zH0hbgsnu6T52bt7D2n0S9Ogopg+qvghTIRm+AHbkMs=;
-        b=eBnOgUqTLnQifXna2pe8j4EY4HjxD6mi/MDKSRhFWiFmPv4/JJs27kkwZDIAlKEGcS
-         KxwnQT3egvt/Imxc1fRdrKrlBUTZMu+JLbqfgDW6hwHor9vYfgRzdlWeJxoGXojRypjs
-         Rkhrp1K0iAOilihop4T7XMkfNLOPEbpMkEuwZlvoA2LwYn+kza0ZHoQTHYN0ndME+RuA
-         7GqglOcZvPWi2VfEMQK+GKN0N9Aujqf69nn9Q1kNom/t3JMiXvOIfpdW07/KbefKHbNs
-         iOexmoHZV0+5uG9WwQDj2SItUfRCh5sHIPqDcSjfSVzrca58lSieHlnnbrKCb7q/Fa7j
-         xh7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722910072; x=1723514872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zH0hbgsnu6T52bt7D2n0S9Ogopg+qvghTIRm+AHbkMs=;
-        b=GLTVmgbgPWL1NobKckb9Op7+85gyx+2+deVmHfabqVnxrjECO5t/lgxr2erp17fCcE
-         KHvpxfoxoROZsBvJG2UJSXrYEJRaQKC5objcEjJkU72U6ax9DNJ4ZXVIftqdxCV7fnA4
-         Y9iU0iIRTEXF7hAB9Va7ckOHvOztJTu5chb4GtiEvL4E/vYMAfWnEnirxhau0Q6bOzhE
-         fyTJgjTER7kWqjV5gIlTSz5FMEca8Zb5kAe/o27LV2ktedbGiq5cipI4B+uTJLEIVIqe
-         /YAIl51QG9hCLflyGQRYWHEes5Bus9H8laI7hm1nQtvaEs0su+4+rOC+X5WV4IGUVqG0
-         YTOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTWvaTyzwYB4DdMyGBxipnf8n6IeDbEmeIgQwZg5gLuFQzBMmsrjscztTC4sR7mf7yA2m3LQUFklA21PWzNG78iHTm+y7/5e5fRo1KUw==
-X-Gm-Message-State: AOJu0YywSGLdz3uVyVTgRSOe5p0hEVFU692Pj1Y9lphjQAZW14SpsS2u
-	QZNMs6cCH0lCEjuIFuWeF8yG+WsWSXQOCkUYnWfnJgZgqarWHaGdBs8Ja6mEd+W7jCGcmytHTtu
-	AF5SQfL7pCY+F+fBA17EeVvzcE9U=
-X-Google-Smtp-Source: AGHT+IH8KdNlkin5gZxqjz6qSZjvvOQo2DyRfKySRIFg4fZEIJZgYjqB5SipRayRcG+D3+kKWg+MU4QoRN3B4OC72vs=
-X-Received: by 2002:aa7:cf09:0:b0:5a2:5bd2:ca50 with SMTP id
- 4fb4d7f45d1cf-5b7f5413badmr9781655a12.25.1722910071747; Mon, 05 Aug 2024
- 19:07:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7esAOrm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722914470; x=1754450470;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/PjDIgC1AdM+VFrKt5b8qgbE6p4BW8mIM3/GvNc2jLA=;
+  b=X7esAOrm1sT7co3L6TCyGl24D4WIoOso0KU+x7qjpbqRL8DhCmPdZapy
+   8Kl609lwK7keca+c0AMXnka6dEhQ24b/n8YrO+w2gzS8yre7SVwA7gVTW
+   dIZNyx3rdPB9eoDGCWzDIdS8jwRhbLwWv7XtuRa6C4Cu7zmNamBlNfRre
+   Ns5SVPz4C7Q366sOF2vdJfE1ky6UpjhwXSu/Hj02OcVY8S4k7trqX0WLE
+   XkfURmeejiUUOSJQD9t2glFYMK8+7GAq2TrnGCLT+qHIMm4KnEFnylkRx
+   qxHCGNRWkJ+dzjwjZRw2Gip79H3E9SPGwP7CbAToc2Ul0jJxkr3mitdm+
+   Q==;
+X-CSE-ConnectionGUID: St97X74URkGVwXfWNKiRgw==
+X-CSE-MsgGUID: CMsxftCoS8GE8mM4JU8QAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="31482601"
+X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
+   d="scan'208";a="31482601"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 20:21:10 -0700
+X-CSE-ConnectionGUID: diVFB3BeS967P4LQ2q3yow==
+X-CSE-MsgGUID: ewlVtK50QGOVPHfaFCRDuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
+   d="scan'208";a="87292940"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Aug 2024 20:21:07 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbAky-00046S-3A;
+	Tue, 06 Aug 2024 03:21:04 +0000
+Date: Tue, 6 Aug 2024 11:20:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Colin Ian King <colin.king@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>, rppt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] md/raid6 algorithms: scale test duration for speedier
+ boots
+Message-ID: <202408061040.0kdEdUBV-lkp@intel.com>
+References: <20240805170816.6025-1-colin.king@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240802-loongson1-dma-v11-2-85392357d4e0@gmail.com>
- <202408051242.8kGK28W7-lkp@intel.com> <ZrEAaB_I1S2vM2EE@matsya>
-In-Reply-To: <ZrEAaB_I1S2vM2EE@matsya>
-From: Keguang Zhang <keguang.zhang@gmail.com>
-Date: Tue, 6 Aug 2024 10:07:15 +0800
-Message-ID: <CAJhJPsX16-=HfDMWuYAPSuXL246Sn_L=j1=i+zpUPNK1mED8zA@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] dmaengine: Loongson1: Add Loongson-1 APB DMA driver
-To: Vinod Koul <vkoul@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, 
-	Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-mips@vger.kernel.org, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240805170816.6025-1-colin.king@intel.com>
 
-On Tue, Aug 6, 2024 at 12:40=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wrote=
-:
->
-> On 05-08-24, 12:58, kernel test robot wrote:
-> > Hi Keguang,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > [auto build test WARNING on 048d8cb65cde9fe7534eb4440bcfddcf406bb49c]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang-vi=
-a-B4-Relay/dt-bindings-dma-Add-Loongson-1-APB-DMA/20240803-111220
-> > base:   048d8cb65cde9fe7534eb4440bcfddcf406bb49c
-> > patch link:    https://lore.kernel.org/r/20240802-loongson1-dma-v11-2-8=
-5392357d4e0%40gmail.com
-> > patch subject: [PATCH v11 2/2] dmaengine: Loongson1: Add Loongson-1 APB=
- DMA driver
-> > config: sparc64-randconfig-r063-20240804 (https://download.01.org/0day-=
-ci/archive/20240805/202408051242.8kGK28W7-lkp@intel.com/config)
-> > compiler: sparc64-linux-gcc (GCC) 14.1.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240805/202408051242.8kGK28W7-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408051242.8kGK28W7-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    drivers/dma/loongson1-apb-dma.c: In function 'ls1x_dma_chan_probe':
-> > >> drivers/dma/loongson1-apb-dma.c:520:34: warning: '%u' directive writ=
-ing between 1 and 10 bytes into a region of size 2 [-Wformat-overflow=3D]
-> >      520 |         sprintf(pdev_irqname, "ch%u", chan_id);
-> >          |                                  ^~
-> >    drivers/dma/loongson1-apb-dma.c:520:31: note: directive argument in =
-the range [0, 2147483646]
-> >      520 |         sprintf(pdev_irqname, "ch%u", chan_id);
-> >          |                               ^~~~~~
-> >    drivers/dma/loongson1-apb-dma.c:520:9: note: 'sprintf' output betwee=
-n 4 and 13 bytes into a destination of size 4
-> >      520 |         sprintf(pdev_irqname, "ch%u", chan_id);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Pls fix these warnings!
->
-Sorry for these warnings.
-Will fix them ASAP.
-Thanks!
-> --
-> ~Vinod
+Hi Colin,
 
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.11-rc2 next-20240805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---=20
-Best regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/md-raid6-algorithms-scale-test-duration-for-speedier-boots/20240806-012444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240805170816.6025-1-colin.king%40intel.com
+patch subject: [PATCH] md/raid6 algorithms: scale test duration for speedier boots
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240806/202408061040.0kdEdUBV-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061040.0kdEdUBV-lkp@intel.com/reproduce)
 
-Keguang Zhang
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408061040.0kdEdUBV-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+>> ERROR: modpost: "__udivdi3" [lib/raid6/raid6_pq.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
