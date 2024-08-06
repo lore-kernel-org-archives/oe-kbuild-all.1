@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B59016B386
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 07:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5941BA895
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 07:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722929315; cv=none; b=ZWDmr0PXeMx/oqliHT+eTBMP16RdQS1D9eO/1kU/pl0TO20summDx+hphRWYpnG34iWvwgREYd4AjEpMTwKH9k1+nkdVoSTb9tCoS82o5Ds9HbmH81xJLMkLBPPjhlYhLPS3uKV9e4o2xuVku7rRPyafeftD9h8uG8DH7hVOTfI=
+	t=1722929315; cv=none; b=WZpDtVUrqul91lcNFaftg+Mg/yOhuuzCySlA2ejhaac3y14ZUpOQGpKXjNc7ZxliZrh0EOfxkcZhSc5gAfOtQx98nS/yqErjTfUbLgNJivjCEJZ6pPgNMsAG95naynY/LxmQOeyMogEL/GUDraQJoJnKl0kMs/lkq3wZ+6nUatg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722929315; c=relaxed/simple;
-	bh=X5MxvYqyqa8+gt0e4dKG0jl6xjg2wgYTpRdkMjdK9BY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AYFDL4RccomtC9StEmRFFgONbaWbk2m4cprQoL5njP5TN+9jr8WDiCvcvdc9dmUIBoL5xemY5KqugmlFtx24Ge8UxmhGYHkvDsLPGdWXZ71Dw0E4aGnC0rcYp8qdbIX2a+x/DEq4UibT9RdWI3YFFxjnVgSZm7TtzecGmxRswW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZspuas8; arc=none smtp.client-ip=192.198.163.14
+	bh=JhST8h93TnZoay4YOEdbDtiujIciasjgvJOfFM4j8U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Jbf55Ot57j0ZJH5QOE72/UjU64wzOVh1PZ3lq2LfAs3r+BC34HI8oWHKTJdrd6aK8j39dsmMGnCyIxfzKwwIr8Ot/YMUqZ0EG4kkRYO2JrIBoiwJXW5ZHIb+xBWZzbsdK0rLQKaG/EKQTOd09wa5KQnLXHEQiXY8kJ5vRggWjV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT6r7wgg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZspuas8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT6r7wgg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722929313; x=1754465313;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X5MxvYqyqa8+gt0e4dKG0jl6xjg2wgYTpRdkMjdK9BY=;
-  b=gZspuas8GfFrXyjYEumWTqhpmZP8BKZCNmGMjVEiBB+1TixikbXSRv+M
-   p98K0qX17jXo6c7T3Q3OjPm1PiHykMJbkfaOw7cPZiCnk6nxp6Cb/2afb
-   +VbCZ6tfR4wW4jzGQATHxYk4GUhvRHQhZ05tX2WAr589P1CGBg8M2TK9/
-   8TgU4GE56a5sNZlf1rhnDgnDI4b2i1vojZaBbj83KaEGI893K42ocGQ/5
-   64IvtpKre8IqTq+8+YktsFD3LEwlBS219Nov61zTl0YgZiulWzOjHtV+E
-   XWz1T3EAR5o2eerwVopIs3ouvHs9adu/IFFdwWe0O633pbFzc2TNj18rP
-   g==;
-X-CSE-ConnectionGUID: xGIPzv4DQvqPZumC2vAoiQ==
-X-CSE-MsgGUID: ZVc0BwOPQ4C8FdbUG9jInQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21105989"
+  t=1722929314; x=1754465314;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JhST8h93TnZoay4YOEdbDtiujIciasjgvJOfFM4j8U4=;
+  b=jT6r7wggMKXsmw+opeIMTW5ADdXCYKB2ObDmfe3pcQCiP+giio5JzlS/
+   oZjkgUQaXWFuWTj3CnREY/Hd14zepGdyyUdzRmpDFD+x73n+lQCKGxR+k
+   5Bm2AsWijYno9WYiIQIz85kkx5qwQW9wllb9NhXazIJfo3/Gwr0L59u31
+   /aiTWG9uB01HPC2Fmc05sQ+sSvNZfWU6pY1KgWSdHGJJWvorVpxnNzqrP
+   exPQpr6TaIBQ/pVbUfohEVMWU37sTXWY60dwPDwJNbEU+y2lkNgO45tQE
+   Qx2f3IBnlGqBqNJ82Zhz2N/fudusycd49LWjMnwlJzIEbBJVJ7kX5aUJn
+   Q==;
+X-CSE-ConnectionGUID: kRDi9e/PT7mVCYxZpySeDA==
+X-CSE-MsgGUID: +0/a0lUATliehPxNH4os8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="24691869"
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="21105989"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 00:28:31 -0700
-X-CSE-ConnectionGUID: XJvRG46AQ/Wpb0wEmWwNiQ==
-X-CSE-MsgGUID: 02wJFl/uS5GyjAMM/nlB9w==
+   d="scan'208";a="24691869"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 00:28:31 -0700
+X-CSE-ConnectionGUID: l+d59IRcRXudfyAm4187Ig==
+X-CSE-MsgGUID: izyCx0nYRvK54VxfUVrlDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="79678735"
+   d="scan'208";a="60555437"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2024 00:28:30 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Aug 2024 00:28:29 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbEcN-0004GK-1y;
+	id 1sbEcN-0004GO-28;
 	Tue, 06 Aug 2024 07:28:27 +0000
-Date: Tue, 6 Aug 2024 15:27:04 +0800
+Date: Tue, 6 Aug 2024 15:27:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mengyuan Lou <mengyuanlou@net-swift.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mengyuan Lou <mengyuanlou@net-swift.com>
-Subject: Re: [PATCH net-next v5 09/10] net: txgbe: add devlink and devlink
- port created
-Message-ID: <202408061505.h7AJKdXp-lkp@intel.com>
-References: <9203F9254D59FF19+20240804124841.71177-10-mengyuanlou@net-swift.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-per-rtg-bitmap-rebase 22/60]
+ fs/xfs/xfs_log_recover.c:3413:12: error: call to undeclared function
+ 'xfs_rtgroup_alloc'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202408061559.k7FPMgfR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +63,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9203F9254D59FF19+20240804124841.71177-10-mengyuanlou@net-swift.com>
 
-Hi Mengyuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mengyuan-Lou/net-libwx-Add-sriov-api-for-wangxun-nics/20240804-214836
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/9203F9254D59FF19%2B20240804124841.71177-10-mengyuanlou%40net-swift.com
-patch subject: [PATCH net-next v5 09/10] net: txgbe: add devlink and devlink port created
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240806/202408061505.h7AJKdXp-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061505.h7AJKdXp-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap-rebase
+head:   556815df77c3443419163e1deccade141c065289
+commit: 498f602e6140084af4f2fb1abf3da9502090439b [22/60] xfs: create incore realtime group structures
+config: arm-randconfig-001-20240806 (https://download.01.org/0day-ci/archive/20240806/202408061559.k7FPMgfR-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061559.k7FPMgfR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408061505.h7AJKdXp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408061559.k7FPMgfR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_free':
-   wx_devlink.c:(.text+0x58): undefined reference to `devlink_unregister'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x6c): undefined reference to `devlink_free'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_create_pf_port':
-   wx_devlink.c:(.text+0xa0): undefined reference to `priv_to_devlink'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0xfc): undefined reference to `devlink_port_attrs_set'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x110): undefined reference to `devlink_port_register_with_ops'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_destroy_pf_port':
-   wx_devlink.c:(.text+0x174): undefined reference to `devl_port_unregister'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_create_devlink':
-   wx_devlink.c:(.text+0x2a0): undefined reference to `devlink_alloc_ns'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x2d4): undefined reference to `devlink_unregister'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x2dc): undefined reference to `devlink_free'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x304): undefined reference to `devlink_register'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x31c): undefined reference to `devlink_priv'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_create_vf_port':
-   wx_devlink.c:(.text+0x354): undefined reference to `priv_to_devlink'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x3d0): undefined reference to `devlink_port_attrs_set'
-   loongarch64-linux-ld: wx_devlink.c:(.text+0x3e8): undefined reference to `devl_port_register_with_ops'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_devlink.o: in function `wx_devlink_destroy_vf_port':
-   wx_devlink.c:(.text+0x47c): undefined reference to `devl_port_unregister'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_eswitch.o: in function `wx_eswitch_mode_set':
-   wx_eswitch.c:(.text+0x1c): undefined reference to `devlink_priv'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_eswitch.o: in function `wx_eswitch_mode_get':
-   wx_eswitch.c:(.text+0x138): undefined reference to `devlink_priv'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/txgbe/txgbe_main.o: in function `txgbe_remove':
->> txgbe_main.c:(.text+0xf4): undefined reference to `devl_port_unregister'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/txgbe/txgbe_main.o: in function `txgbe_probe':
-   txgbe_main.c:(.text+0x834): undefined reference to `devl_port_unregister'
+   In file included from fs/xfs/xfs_log_recover.c:6:
+   In file included from fs/xfs/xfs.h:26:
+   In file included from fs/xfs/xfs_linux.h:25:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/xfs/xfs_log_recover.c:3413:12: error: call to undeclared function 'xfs_rtgroup_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3413 |                         error = xfs_rtgroup_alloc(mp, rgno);
+         |                                 ^
+   fs/xfs/xfs_log_recover.c:3413:12: note: did you mean 'xfs_rtgroup_hold'?
+   fs/xfs/libxfs/xfs_rtgroup.h:53:1: note: 'xfs_rtgroup_hold' declared here
+      53 | xfs_rtgroup_hold(struct xfs_rtgroup *rtg)
+         | ^
+   1 warning and 1 error generated.
+--
+   In file included from fs/xfs/xfs_mount.c:6:
+   In file included from fs/xfs/xfs.h:26:
+   In file included from fs/xfs/xfs_linux.h:25:
+   In file included from include/linux/mm.h:2258:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/xfs/xfs_mount.c:846:11: error: call to undeclared function 'xfs_rtgroup_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     846 |                 error = xfs_rtgroup_alloc(mp, rgno);
+         |                         ^
+   fs/xfs/xfs_mount.c:846:11: note: did you mean 'xfs_rtgroup_hold'?
+   fs/xfs/libxfs/xfs_rtgroup.h:53:1: note: 'xfs_rtgroup_hold' declared here
+      53 | xfs_rtgroup_hold(struct xfs_rtgroup *rtg)
+         | ^
+   1 warning and 1 error generated.
+
+
+vim +/xfs_rtgroup_alloc +3413 fs/xfs/xfs_log_recover.c
+
+  3337	
+  3338	/*
+  3339	 * Do the actual recovery
+  3340	 */
+  3341	STATIC int
+  3342	xlog_do_recover(
+  3343		struct xlog		*log,
+  3344		xfs_daddr_t		head_blk,
+  3345		xfs_daddr_t		tail_blk)
+  3346	{
+  3347		struct xfs_mount	*mp = log->l_mp;
+  3348		struct xfs_buf		*bp = mp->m_sb_bp;
+  3349		struct xfs_sb		*sbp = &mp->m_sb;
+  3350		xfs_rgnumber_t		old_rgcount = sbp->sb_rgcount;
+  3351		int			error;
+  3352	
+  3353		trace_xfs_log_recover(log, head_blk, tail_blk);
+  3354	
+  3355		/*
+  3356		 * First replay the images in the log.
+  3357		 */
+  3358		error = xlog_do_log_recovery(log, head_blk, tail_blk);
+  3359		if (error)
+  3360			return error;
+  3361	
+  3362		if (xlog_is_shutdown(log))
+  3363			return -EIO;
+  3364	
+  3365		/*
+  3366		 * We now update the tail_lsn since much of the recovery has completed
+  3367		 * and there may be space available to use.  If there were no extent or
+  3368		 * iunlinks, we can free up the entire log.  This was set in
+  3369		 * xlog_find_tail to be the lsn of the last known good LR on disk.  If
+  3370		 * there are extent frees or iunlinks they will have some entries in the
+  3371		 * AIL; so we look at the AIL to determine how to set the tail_lsn.
+  3372		 */
+  3373		xfs_ail_assign_tail_lsn(log->l_ailp);
+  3374	
+  3375		/*
+  3376		 * Now that we've finished replaying all buffer and inode updates,
+  3377		 * re-read the superblock and reverify it.
+  3378		 */
+  3379		xfs_buf_lock(bp);
+  3380		xfs_buf_hold(bp);
+  3381		error = _xfs_buf_read(bp, XBF_READ);
+  3382		if (error) {
+  3383			if (!xlog_is_shutdown(log)) {
+  3384				xfs_buf_ioerror_alert(bp, __this_address);
+  3385				ASSERT(0);
+  3386			}
+  3387			xfs_buf_relse(bp);
+  3388			return error;
+  3389		}
+  3390	
+  3391		/* Convert superblock from on-disk format */
+  3392		xfs_sb_from_disk(sbp, bp->b_addr);
+  3393		xfs_buf_relse(bp);
+  3394	
+  3395		/* re-initialise in-core superblock and geometry structures */
+  3396		mp->m_features |= xfs_sb_version_to_features(sbp);
+  3397		xfs_reinit_percpu_counters(mp);
+  3398		error = xfs_initialize_perag(mp, sbp->sb_agcount, sbp->sb_dblocks,
+  3399				&mp->m_maxagi);
+  3400		if (error) {
+  3401			xfs_warn(mp, "Failed post-recovery per-ag init: %d", error);
+  3402			return error;
+  3403		}
+  3404	
+  3405		if (sbp->sb_rgcount < old_rgcount) {
+  3406			xfs_warn(mp, "rgcount shrink not supported");
+  3407			return -EINVAL;
+  3408		}
+  3409		if (sbp->sb_rgcount > old_rgcount) {
+  3410			xfs_rgnumber_t		rgno;
+  3411	
+  3412			for (rgno = old_rgcount; rgno < sbp->sb_rgcount; rgno++) {
+> 3413				error = xfs_rtgroup_alloc(mp, rgno);
+  3414				if (error) {
+  3415					xfs_warn(mp,
+  3416		"Failed post-recovery rtgroup init: %d",
+  3417						error);
+  3418					return error;
+  3419				}
+  3420			}
+  3421		}
+  3422		mp->m_alloc_set_aside = xfs_alloc_set_aside(mp);
+  3423	
+  3424		/* Normal transactions can now occur */
+  3425		clear_bit(XLOG_ACTIVE_RECOVERY, &log->l_opstate);
+  3426		return 0;
+  3427	}
+  3428	
 
 -- 
 0-DAY CI Kernel Test Service
