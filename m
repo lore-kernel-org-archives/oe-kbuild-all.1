@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E9710F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 00:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C910F1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 00:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722903518; cv=none; b=WQYIdXgcsewLKFVtg81qJovQ/VskMPdtwF1VqFUxYed7V3XrsFtYVxhKqHf8g2WnPBBkir80DlIbYsWc8NTvIgq7LTro8PIcbGZgn2VGlacma3H6ZQ9yRIXg7LhtvdtlXd8SUnB0MG5vMTO2zSjTs1aMAXhk929AMhq+sG2Wz9k=
+	t=1722904144; cv=none; b=MyZF76MU5JzbdFpPuK6WM7Lx+pfE3GwwwzITGqpS1/ktu50yincx2AKn9ZOFJWO5UZWRAZb825fta+nkYv5IiT3m6N2rC/T4QSdrl4gmEcygJQ8x5cJOtCzCBSDK9Ju5Z0VfjtPUP4VrWd5eE3eoJSSEHqSLb07ChWqQo69kpds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722903518; c=relaxed/simple;
-	bh=iBQQoPnPFu3x0hoJEL6ONUfPNzhAReU3HB5vyjT/ajQ=;
+	s=arc-20240116; t=1722904144; c=relaxed/simple;
+	bh=mqcnfysI80yvd7AX9P8hFxCW93JT1mT0kS3G03RxbdA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tF2/5JzO5XmdtrIVG1VUMYGnXRyNqy1vwVMnttN9qKU3dChBpzITXuCVwB9YaSvGyqLD3DO/kT9Yjt3MnPMBCIVkY3bp00Xy3UAZvwM+Afn7Xol81Fd49Q0P5jT0QvODSXUMZ5Gio2H9iFNE8cM33GnVlurBWD+skmLZseFK02c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hf92CWj8; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=lF/zNsM9NPs3H1HoOpnT1yEtTjq/tiNaD8+12mhqq7+2BRVDuBWuIiqFhm6g3aMa1x7b1IslQp80KDXEyFJqVYcQ7+RujyjsYDSe5ZSWyEMAazeUY279vzbDYVlnSXaX40WgiO2oJyjfDziItEKhFDavs2tseadnBxp6sL30wyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpG0ncqf; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hf92CWj8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpG0ncqf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722903517; x=1754439517;
+  t=1722904143; x=1754440143;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iBQQoPnPFu3x0hoJEL6ONUfPNzhAReU3HB5vyjT/ajQ=;
-  b=hf92CWj8uY7sB/DgqySAqmqkdmaPkmeoFTaWu60fk5mRY0SEjK0VCpSG
-   r8PYTjHhXA4V0llz9LXiMqz/GB+S1gRYjselp4u98aSlG0D/Odi22DjW3
-   6xhvkphird8V8WyioaCLdu7/wuU+HcmRJypeP4eRDYs9bgYsgsAB/PdBO
-   50HMzcfOXkmx3C9g2APCe/jK80Rvu7HXDiEhdconA1GylyGFtAMCXscae
-   zGE7qsC4UFQtBlnDHjo5d+xkm/lAbE+CtFSYLSDdEqTfqoNrNqq4iW+Rc
-   u3hWZ56UvQfJwlTOJOdHbCu3YyOZLIxq/PbmKaIhwbhtH9GDiGFah8aW/
-   Q==;
-X-CSE-ConnectionGUID: PcSwHqp+Q6iwPEGppO57CQ==
-X-CSE-MsgGUID: 9MN5h6tYSTeHox0IAULuqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="24660601"
+  bh=mqcnfysI80yvd7AX9P8hFxCW93JT1mT0kS3G03RxbdA=;
+  b=SpG0ncqfYdUF9JxR1qH5VFZYbXLQH1mtVixg55cdMHGDIAXSwzdbBC3e
+   3xIxTGYcuch+uBfeVeA/gdwZIB7aAmNhnGNs7AMgDbam3jHXSZrCQeuIS
+   AOpnMfpV5J6Ujjs2PgFcu8BDyv4vCaVrNL+wrI+PUKd+ntTzLY7KTGM+o
+   dLXPhan5RN45rVCEWBGPYXELdTbvVs9Md9yd5dBSXfdxBQqn6Ypm4+o4e
+   KxFhHVt6j30QbvXMeMyiYXkMNMLPBcFHviXBnxjkDE+Myk15tm3Q3MMg/
+   2pJloH/2wG2F49RCP4mZtReIqwQnli/e9Al0eQgcIv5FDBuFYTb89SIC0
+   A==;
+X-CSE-ConnectionGUID: mPc8qwQDQI6+9TuHH7K0pw==
+X-CSE-MsgGUID: 9T3EnRdMQea1BzAELDDFcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="32277102"
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="24660601"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 17:18:36 -0700
-X-CSE-ConnectionGUID: +w5pes7HR9yg7A/B+boM8Q==
-X-CSE-MsgGUID: gcuPaYToTy+lRjN8h2GvHA==
+   d="scan'208";a="32277102"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 17:29:02 -0700
+X-CSE-ConnectionGUID: oRJW9g3sQdO6v8IelQJZ2w==
+X-CSE-MsgGUID: pvHTrEsfR+q8lCOjdr8zxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="56420300"
+   d="scan'208";a="55998946"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Aug 2024 17:18:34 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 05 Aug 2024 17:29:01 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sb7uJ-0003wb-30;
-	Tue, 06 Aug 2024 00:18:31 +0000
-Date: Tue, 6 Aug 2024 08:17:22 +0800
+	id 1sb84Q-0003yA-2j;
+	Tue, 06 Aug 2024 00:28:58 +0000
+Date: Tue, 6 Aug 2024 08:28:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Russell King <rmk+kernel@armlinux.org.uk>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Abbott Liu <liuwenliang@huawei.com>,
-	Florian Fainelli <f.fainelli@gmail.com>
-Subject: drivers/interconnect/qcom/bcm-voter.c:339:1: warning: the frame size
- of 1104 bytes is larger than 1024 bytes
-Message-ID: <202408060845.RPSHdunC-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/14] mm/memblock.c:2327:28: warning:
+ cast to pointer from integer of different size
+Message-ID: <202408060805.nFu3wAHQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,138 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b446a2dae984fa5bd56dd7c3a02a426f87e05813
-commit: 421015713b306e47af95d4d61cdfbd96d462e4cb ARM: 9017/2: Enable KASan for ARM
-date:   3 years, 9 months ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240806/202408060845.RPSHdunC-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   1e3be49d68df84f8e0aad1b29e7c756b4ff9a13e
+commit: 3368d09174c6e8f3759bd201dbe6ca20ed0cd0e0 [1/14] FROMLIST: memblock: introduce memsize showing reserved memory
+config: arm-randconfig-002-20240806 (https://download.01.org/0day-ci/archive/20240806/202408060805.nFu3wAHQ-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060845.RPSHdunC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060805.nFu3wAHQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408060845.RPSHdunC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408060805.nFu3wAHQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/interconnect/qcom/bcm-voter.c: In function 'qcom_icc_bcm_voter_commit':
->> drivers/interconnect/qcom/bcm-voter.c:339:1: warning: the frame size of 1104 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     339 | }
-         | ^
+   mm/memblock.c: In function 'memblock_memsize_show':
+>> mm/memblock.c:2327:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2327 |                            (void *)base, (void *)end,
+         |                            ^
+   mm/memblock.c:2327:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2327 |                            (void *)base, (void *)end,
+         |                                          ^
 
 
-vim +339 drivers/interconnect/qcom/bcm-voter.c
+vim +2327 mm/memblock.c
 
-976daac4a1c581 David Dai   2020-02-28  239  
-976daac4a1c581 David Dai   2020-02-28  240  /**
-976daac4a1c581 David Dai   2020-02-28  241   * qcom_icc_bcm_voter_commit - generates and commits tcs cmds based on bcms
-976daac4a1c581 David Dai   2020-02-28  242   * @voter: voter that needs flushing
-976daac4a1c581 David Dai   2020-02-28  243   *
-976daac4a1c581 David Dai   2020-02-28  244   * This function generates a set of AMC commands and flushes to the BCM device
-976daac4a1c581 David Dai   2020-02-28  245   * associated with the voter. It conditionally generate WAKE and SLEEP commands
-976daac4a1c581 David Dai   2020-02-28  246   * based on deltas between WAKE/SLEEP requirements. The ws_list persists
-976daac4a1c581 David Dai   2020-02-28  247   * through multiple commit requests and bcm nodes are removed only when the
-976daac4a1c581 David Dai   2020-02-28  248   * requirements for WAKE matches SLEEP.
-976daac4a1c581 David Dai   2020-02-28  249   *
-976daac4a1c581 David Dai   2020-02-28  250   * Returns 0 on success, or an appropriate error code otherwise.
-976daac4a1c581 David Dai   2020-02-28  251   */
-976daac4a1c581 David Dai   2020-02-28  252  int qcom_icc_bcm_voter_commit(struct bcm_voter *voter)
-976daac4a1c581 David Dai   2020-02-28  253  {
-976daac4a1c581 David Dai   2020-02-28  254  	struct qcom_icc_bcm *bcm;
-976daac4a1c581 David Dai   2020-02-28  255  	struct qcom_icc_bcm *bcm_tmp;
-976daac4a1c581 David Dai   2020-02-28  256  	int commit_idx[MAX_VCD + 1];
-976daac4a1c581 David Dai   2020-02-28  257  	struct tcs_cmd cmds[MAX_BCMS];
-976daac4a1c581 David Dai   2020-02-28  258  	int ret = 0;
-976daac4a1c581 David Dai   2020-02-28  259  
-976daac4a1c581 David Dai   2020-02-28  260  	if (!voter)
-976daac4a1c581 David Dai   2020-02-28  261  		return 0;
-976daac4a1c581 David Dai   2020-02-28  262  
-976daac4a1c581 David Dai   2020-02-28  263  	mutex_lock(&voter->lock);
-976daac4a1c581 David Dai   2020-02-28  264  	list_for_each_entry(bcm, &voter->commit_list, list)
-976daac4a1c581 David Dai   2020-02-28  265  		bcm_aggregate(bcm);
-976daac4a1c581 David Dai   2020-02-28  266  
-976daac4a1c581 David Dai   2020-02-28  267  	/*
-976daac4a1c581 David Dai   2020-02-28  268  	 * Pre sort the BCMs based on VCD for ease of generating a command list
-976daac4a1c581 David Dai   2020-02-28  269  	 * that groups the BCMs with the same VCD together. VCDs are numbered
-976daac4a1c581 David Dai   2020-02-28  270  	 * with lowest being the most expensive time wise, ensuring that
-976daac4a1c581 David Dai   2020-02-28  271  	 * those commands are being sent the earliest in the queue. This needs
-976daac4a1c581 David Dai   2020-02-28  272  	 * to be sorted every commit since we can't guarantee the order in which
-976daac4a1c581 David Dai   2020-02-28  273  	 * the BCMs are added to the list.
-976daac4a1c581 David Dai   2020-02-28  274  	 */
-976daac4a1c581 David Dai   2020-02-28  275  	list_sort(NULL, &voter->commit_list, cmp_vcd);
-976daac4a1c581 David Dai   2020-02-28  276  
-976daac4a1c581 David Dai   2020-02-28  277  	/*
-976daac4a1c581 David Dai   2020-02-28  278  	 * Construct the command list based on a pre ordered list of BCMs
-976daac4a1c581 David Dai   2020-02-28  279  	 * based on VCD.
-976daac4a1c581 David Dai   2020-02-28  280  	 */
-b92902fddf4200 Mike Tipton 2020-09-03  281  	tcs_list_gen(voter, QCOM_ICC_BUCKET_AMC, cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  282  	if (!commit_idx[0])
-976daac4a1c581 David Dai   2020-02-28  283  		goto out;
-976daac4a1c581 David Dai   2020-02-28  284  
-73edcd38d7720b Maulik Shah 2020-06-18  285  	rpmh_invalidate(voter->dev);
-976daac4a1c581 David Dai   2020-02-28  286  
-976daac4a1c581 David Dai   2020-02-28  287  	ret = rpmh_write_batch(voter->dev, RPMH_ACTIVE_ONLY_STATE,
-976daac4a1c581 David Dai   2020-02-28  288  			       cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  289  	if (ret) {
-976daac4a1c581 David Dai   2020-02-28  290  		pr_err("Error sending AMC RPMH requests (%d)\n", ret);
-976daac4a1c581 David Dai   2020-02-28  291  		goto out;
-976daac4a1c581 David Dai   2020-02-28  292  	}
-976daac4a1c581 David Dai   2020-02-28  293  
-976daac4a1c581 David Dai   2020-02-28  294  	list_for_each_entry_safe(bcm, bcm_tmp, &voter->commit_list, list)
-976daac4a1c581 David Dai   2020-02-28  295  		list_del_init(&bcm->list);
-976daac4a1c581 David Dai   2020-02-28  296  
-976daac4a1c581 David Dai   2020-02-28  297  	list_for_each_entry_safe(bcm, bcm_tmp, &voter->ws_list, ws_list) {
-976daac4a1c581 David Dai   2020-02-28  298  		/*
-976daac4a1c581 David Dai   2020-02-28  299  		 * Only generate WAKE and SLEEP commands if a resource's
-976daac4a1c581 David Dai   2020-02-28  300  		 * requirements change as the execution environment transitions
-976daac4a1c581 David Dai   2020-02-28  301  		 * between different power states.
-976daac4a1c581 David Dai   2020-02-28  302  		 */
-976daac4a1c581 David Dai   2020-02-28  303  		if (bcm->vote_x[QCOM_ICC_BUCKET_WAKE] !=
-976daac4a1c581 David Dai   2020-02-28  304  		    bcm->vote_x[QCOM_ICC_BUCKET_SLEEP] ||
-976daac4a1c581 David Dai   2020-02-28  305  		    bcm->vote_y[QCOM_ICC_BUCKET_WAKE] !=
-976daac4a1c581 David Dai   2020-02-28  306  		    bcm->vote_y[QCOM_ICC_BUCKET_SLEEP])
-976daac4a1c581 David Dai   2020-02-28  307  			list_add_tail(&bcm->list, &voter->commit_list);
-976daac4a1c581 David Dai   2020-02-28  308  		else
-976daac4a1c581 David Dai   2020-02-28  309  			list_del_init(&bcm->ws_list);
-976daac4a1c581 David Dai   2020-02-28  310  	}
-976daac4a1c581 David Dai   2020-02-28  311  
-976daac4a1c581 David Dai   2020-02-28  312  	if (list_empty(&voter->commit_list))
-976daac4a1c581 David Dai   2020-02-28  313  		goto out;
-976daac4a1c581 David Dai   2020-02-28  314  
-976daac4a1c581 David Dai   2020-02-28  315  	list_sort(NULL, &voter->commit_list, cmp_vcd);
-976daac4a1c581 David Dai   2020-02-28  316  
-b92902fddf4200 Mike Tipton 2020-09-03  317  	tcs_list_gen(voter, QCOM_ICC_BUCKET_WAKE, cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  318  
-976daac4a1c581 David Dai   2020-02-28  319  	ret = rpmh_write_batch(voter->dev, RPMH_WAKE_ONLY_STATE, cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  320  	if (ret) {
-976daac4a1c581 David Dai   2020-02-28  321  		pr_err("Error sending WAKE RPMH requests (%d)\n", ret);
-976daac4a1c581 David Dai   2020-02-28  322  		goto out;
-976daac4a1c581 David Dai   2020-02-28  323  	}
-976daac4a1c581 David Dai   2020-02-28  324  
-b92902fddf4200 Mike Tipton 2020-09-03  325  	tcs_list_gen(voter, QCOM_ICC_BUCKET_SLEEP, cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  326  
-976daac4a1c581 David Dai   2020-02-28  327  	ret = rpmh_write_batch(voter->dev, RPMH_SLEEP_STATE, cmds, commit_idx);
-976daac4a1c581 David Dai   2020-02-28  328  	if (ret) {
-976daac4a1c581 David Dai   2020-02-28  329  		pr_err("Error sending SLEEP RPMH requests (%d)\n", ret);
-976daac4a1c581 David Dai   2020-02-28  330  		goto out;
-976daac4a1c581 David Dai   2020-02-28  331  	}
-976daac4a1c581 David Dai   2020-02-28  332  
-976daac4a1c581 David Dai   2020-02-28  333  out:
-976daac4a1c581 David Dai   2020-02-28  334  	list_for_each_entry_safe(bcm, bcm_tmp, &voter->commit_list, list)
-976daac4a1c581 David Dai   2020-02-28  335  		list_del_init(&bcm->list);
-976daac4a1c581 David Dai   2020-02-28  336  
-976daac4a1c581 David Dai   2020-02-28  337  	mutex_unlock(&voter->lock);
-976daac4a1c581 David Dai   2020-02-28  338  	return ret;
-976daac4a1c581 David Dai   2020-02-28 @339  }
-976daac4a1c581 David Dai   2020-02-28  340  EXPORT_SYMBOL_GPL(qcom_icc_bcm_voter_commit);
-976daac4a1c581 David Dai   2020-02-28  341  
-
-:::::: The code at line 339 was first introduced by commit
-:::::: 976daac4a1c581e5d5fd64047519fd6fcde39738 interconnect: qcom: Consolidate interconnect RPMh support
-
-:::::: TO: David Dai <daidavid1@codeaurora.org>
-:::::: CC: Georgi Djakov <georgi.djakov@linaro.org>
+  2308	
+  2309	static int memblock_memsize_show(struct seq_file *m, void *private)
+  2310	{
+  2311		int i;
+  2312		struct memsize_rgn_struct *rgn;
+  2313		unsigned long reserved = 0, reusable = 0;
+  2314	
+  2315		sort(memsize_rgn, memsize_rgn_count,
+  2316		     sizeof(memsize_rgn[0]), memsize_rgn_cmp, NULL);
+  2317		for (i = 0; i < memsize_rgn_count; i++) {
+  2318			phys_addr_t base, end;
+  2319			long size;
+  2320	
+  2321			rgn = &memsize_rgn[i];
+  2322			base = rgn->base;
+  2323			size = rgn->size;
+  2324			end = base + size;
+  2325	
+  2326			seq_printf(m, "0x%pK-0x%pK 0x%08lx ( %7lu KB ) %s %s %s\n",
+> 2327				   (void *)base, (void *)end,
+  2328				   size, DIV_ROUND_UP(size, SZ_1K),
+  2329				   rgn->nomap ? "nomap" : "  map",
+  2330				   rgn->reusable ? "reusable" : "unusable",
+  2331				   rgn->name);
+  2332			if (rgn->reusable)
+  2333				reusable += (unsigned long)rgn->size;
+  2334			else
+  2335				reserved += (unsigned long)rgn->size;
+  2336		}
+  2337	
+  2338		seq_puts(m, "\n");
+  2339		seq_printf(m, " .unusable  : %7lu KB\n",
+  2340			   DIV_ROUND_UP(reserved, SZ_1K));
+  2341		seq_printf(m, " .reusable  : %7lu KB\n",
+  2342			   DIV_ROUND_UP(reusable, SZ_1K));
+  2343		return 0;
+  2344	}
+  2345	
 
 -- 
 0-DAY CI Kernel Test Service
