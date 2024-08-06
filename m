@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C910F1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 00:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2736FBF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 00:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722904144; cv=none; b=MyZF76MU5JzbdFpPuK6WM7Lx+pfE3GwwwzITGqpS1/ktu50yincx2AKn9ZOFJWO5UZWRAZb825fta+nkYv5IiT3m6N2rC/T4QSdrl4gmEcygJQ8x5cJOtCzCBSDK9Ju5Z0VfjtPUP4VrWd5eE3eoJSSEHqSLb07ChWqQo69kpds=
+	t=1722904738; cv=none; b=MRLfrNvSJIga63NGKBCkAJplmfCHMYYNUvAXVneTjrbo9MAxYBBSvjkzIAwjanVKkEgZxq0knfOYzpB56TAWyEuhtjD5kXlz62yEZqwojpHE9Kv/xoN1+PTEJZNnMecD3eqRKkTLjLDvsodHRmxlc7ztZJIaan4vnVnLiWemsa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722904144; c=relaxed/simple;
-	bh=mqcnfysI80yvd7AX9P8hFxCW93JT1mT0kS3G03RxbdA=;
+	s=arc-20240116; t=1722904738; c=relaxed/simple;
+	bh=G3amhSmAsMWXaIp/WGGQdx7Zv72ORJ03Ey1LnD08z1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lF/zNsM9NPs3H1HoOpnT1yEtTjq/tiNaD8+12mhqq7+2BRVDuBWuIiqFhm6g3aMa1x7b1IslQp80KDXEyFJqVYcQ7+RujyjsYDSe5ZSWyEMAazeUY279vzbDYVlnSXaX40WgiO2oJyjfDziItEKhFDavs2tseadnBxp6sL30wyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpG0ncqf; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=EcOuC1C12Ez16H1dZvHwsCclb8+rFO81Zx4dYwKQUSMA0gWeKbts61erlHOUZYf6fLrDX+vHVsniK7dFGwlZ7DGSouUYYrL8ZK84Ly2iYGtF7lVm/SXXLXRT7vFLfc/wV4sA3Sqo84bK7AQ5+f6VNn7FozGUfWs2X5TW11OGP+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GlaQ5FEq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpG0ncqf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GlaQ5FEq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722904143; x=1754440143;
+  t=1722904737; x=1754440737;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mqcnfysI80yvd7AX9P8hFxCW93JT1mT0kS3G03RxbdA=;
-  b=SpG0ncqfYdUF9JxR1qH5VFZYbXLQH1mtVixg55cdMHGDIAXSwzdbBC3e
-   3xIxTGYcuch+uBfeVeA/gdwZIB7aAmNhnGNs7AMgDbam3jHXSZrCQeuIS
-   AOpnMfpV5J6Ujjs2PgFcu8BDyv4vCaVrNL+wrI+PUKd+ntTzLY7KTGM+o
-   dLXPhan5RN45rVCEWBGPYXELdTbvVs9Md9yd5dBSXfdxBQqn6Ypm4+o4e
-   KxFhHVt6j30QbvXMeMyiYXkMNMLPBcFHviXBnxjkDE+Myk15tm3Q3MMg/
-   2pJloH/2wG2F49RCP4mZtReIqwQnli/e9Al0eQgcIv5FDBuFYTb89SIC0
+  bh=G3amhSmAsMWXaIp/WGGQdx7Zv72ORJ03Ey1LnD08z1o=;
+  b=GlaQ5FEql3vmOnKUYa3JvadWIMOwovbLa2y0l6XuH0TmDcg4cSDpsFuJ
+   Tvj97rQF6BgVWmOsNCQgVcIyZ5STXCsy8brc7HP0yqefA3iD3FS5ZoOp3
+   tsJncXmnqeSzxP3aYrOo8Nzmhw/yeqVtE3y7TCdCYyuYNbaPb21mRuRWN
+   bEn2YtUQJ86tUQbhEzcL34vypBf96WkJHPz1mq7Uyzs9KnDENsHhDqL8I
+   ASr8HKFzwKmpepCJveGWz6WEfh6/OpztXI1XqLar5gJcT+JoJRxDGYSlw
+   HyhsAVcX2ztVjIaksac9+iXuET4lw/YNuZI62YItGFQ9Pqb+Jez5nWfxa
    A==;
-X-CSE-ConnectionGUID: mPc8qwQDQI6+9TuHH7K0pw==
-X-CSE-MsgGUID: 9T3EnRdMQea1BzAELDDFcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="32277102"
+X-CSE-ConnectionGUID: sZOwSaQ9T96Nhqbz/yPrCg==
+X-CSE-MsgGUID: dzdts8QfTemuT1cFs2o32g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20711887"
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="32277102"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 17:29:02 -0700
-X-CSE-ConnectionGUID: oRJW9g3sQdO6v8IelQJZ2w==
-X-CSE-MsgGUID: pvHTrEsfR+q8lCOjdr8zxw==
+   d="scan'208";a="20711887"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 17:38:56 -0700
+X-CSE-ConnectionGUID: Ly1DAo1lS7SLNTxXzwsuUA==
+X-CSE-MsgGUID: wtMQ99WsRUSdLWW3XziL3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="55998946"
+   d="scan'208";a="60961370"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Aug 2024 17:29:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2024 17:38:54 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sb84Q-0003yA-2j;
-	Tue, 06 Aug 2024 00:28:58 +0000
-Date: Tue, 6 Aug 2024 08:28:03 +0800
+	id 1sb8Dv-0003zM-00;
+	Tue, 06 Aug 2024 00:38:49 +0000
+Date: Tue, 6 Aug 2024 08:38:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/14] mm/memblock.c:2327:28: warning:
- cast to pointer from integer of different size
-Message-ID: <202408060805.nFu3wAHQ-lkp@intel.com>
+Subject: [jlayton:dir-deleg 29/30] fs/namei.c:3265:38: error:
+ 'LEASE_BREAK_DIR_CREATE' undeclared
+Message-ID: <202408060841.BdwTriU7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +62,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   1e3be49d68df84f8e0aad1b29e7c756b4ff9a13e
-commit: 3368d09174c6e8f3759bd201dbe6ca20ed0cd0e0 [1/14] FROMLIST: memblock: introduce memsize showing reserved memory
-config: arm-randconfig-002-20240806 (https://download.01.org/0day-ci/archive/20240806/202408060805.nFu3wAHQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060805.nFu3wAHQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   3ef3065a07c0fc797ef9b034216f09d8b324e0b1
+commit: 121ae7108b842f3ca7dc5dfd771ae94fe41fcecb [29/30] fs: add a "reason" parameter to try_break_deleg
+config: m68k-m5407c3_defconfig (https://download.01.org/0day-ci/archive/20240806/202408060841.BdwTriU7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408060841.BdwTriU7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408060805.nFu3wAHQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408060841.BdwTriU7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/memblock.c: In function 'memblock_memsize_show':
->> mm/memblock.c:2327:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2327 |                            (void *)base, (void *)end,
-         |                            ^
-   mm/memblock.c:2327:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2327 |                            (void *)base, (void *)end,
-         |                                          ^
+   fs/namei.c: In function '__vfs_create':
+>> fs/namei.c:3265:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    3265 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:3265:38: note: each undeclared identifier is reported only once for each function it appears in
+   fs/namei.c: In function 'lookup_open':
+   fs/namei.c:3582:52: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    3582 |                 error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'open_last_lookups':
+   fs/namei.c:3613:16: error: variable 'delegated_inode' has initializer but incomplete type
+    3613 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:3613:32: error: storage size of 'delegated_inode' isn't known
+    3613 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:3613:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function '__vfs_mknod':
+   fs/namei.c:4097:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    4097 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_mknodat':
+   fs/namei.c:4155:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4155 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4155:32: error: storage size of 'delegated_inode' isn't known
+    4155 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4155:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function '__vfs_mkdir':
+   fs/namei.c:4240:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    4240 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_mkdirat':
+   fs/namei.c:4278:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4278 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4278:32: error: storage size of 'delegated_inode' isn't known
+    4278 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4278:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function '__vfs_rmdir':
+>> fs/namei.c:4339:38: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    4339 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_rmdir':
+   fs/namei.c:4389:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4389 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4389:32: error: storage size of 'delegated_inode' isn't known
+    4389 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4389:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'vfs_unlink':
+   fs/namei.c:4496:54: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    4496 |                         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_unlinkat':
+   fs/namei.c:4538:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4538 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4538:32: error: storage size of 'delegated_inode' isn't known
+    4538 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4538:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'vfs_link':
+   fs/namei.c:4770:46: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    4770 |                 error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_linkat':
+   fs/namei.c:4804:16: error: variable 'delegated_inode' has initializer but incomplete type
+    4804 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:4804:32: error: storage size of 'delegated_inode' isn't known
+    4804 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:4804:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
+   fs/namei.c: In function 'vfs_rename':
+>> fs/namei.c:5039:54: error: 'LEASE_BREAK_DIR_RENAME' undeclared (first use in this function)
+    5039 |                                 old_dir == new_dir ? LEASE_BREAK_DIR_RENAME :
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:5040:54: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    5040 |                                                      LEASE_BREAK_DIR_DELETE,
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:5045:50: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    5045 |                 error = try_break_deleg(new_dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'do_renameat2':
+   fs/namei.c:5107:16: error: variable 'delegated_inode' has initializer but incomplete type
+    5107 |         struct delegated_inode delegated_inode = { };
+         |                ^~~~~~~~~~~~~~~
+   fs/namei.c:5107:32: error: storage size of 'delegated_inode' isn't known
+    5107 |         struct delegated_inode delegated_inode = { };
+         |                                ^~~~~~~~~~~~~~~
+   fs/namei.c:5107:32: warning: unused variable 'delegated_inode' [-Wunused-variable]
 
 
-vim +2327 mm/memblock.c
+vim +/LEASE_BREAK_DIR_CREATE +3265 fs/namei.c
 
-  2308	
-  2309	static int memblock_memsize_show(struct seq_file *m, void *private)
-  2310	{
-  2311		int i;
-  2312		struct memsize_rgn_struct *rgn;
-  2313		unsigned long reserved = 0, reusable = 0;
-  2314	
-  2315		sort(memsize_rgn, memsize_rgn_count,
-  2316		     sizeof(memsize_rgn[0]), memsize_rgn_cmp, NULL);
-  2317		for (i = 0; i < memsize_rgn_count; i++) {
-  2318			phys_addr_t base, end;
-  2319			long size;
-  2320	
-  2321			rgn = &memsize_rgn[i];
-  2322			base = rgn->base;
-  2323			size = rgn->size;
-  2324			end = base + size;
-  2325	
-  2326			seq_printf(m, "0x%pK-0x%pK 0x%08lx ( %7lu KB ) %s %s %s\n",
-> 2327				   (void *)base, (void *)end,
-  2328				   size, DIV_ROUND_UP(size, SZ_1K),
-  2329				   rgn->nomap ? "nomap" : "  map",
-  2330				   rgn->reusable ? "reusable" : "unusable",
-  2331				   rgn->name);
-  2332			if (rgn->reusable)
-  2333				reusable += (unsigned long)rgn->size;
-  2334			else
-  2335				reserved += (unsigned long)rgn->size;
-  2336		}
-  2337	
-  2338		seq_puts(m, "\n");
-  2339		seq_printf(m, " .unusable  : %7lu KB\n",
-  2340			   DIV_ROUND_UP(reserved, SZ_1K));
-  2341		seq_printf(m, " .reusable  : %7lu KB\n",
-  2342			   DIV_ROUND_UP(reusable, SZ_1K));
-  2343		return 0;
-  2344	}
-  2345	
+  3247	
+  3248	static int __vfs_create(struct mnt_idmap *idmap, struct inode *dir,
+  3249				struct dentry *dentry, umode_t mode, bool want_excl,
+  3250				struct delegated_inode *delegated_inode)
+  3251	{
+  3252		int error;
+  3253	
+  3254		error = may_create(idmap, dir, dentry);
+  3255		if (error)
+  3256			return error;
+  3257	
+  3258		if (!dir->i_op->create)
+  3259			return -EACCES;	/* shouldn't it be ENOSYS? */
+  3260	
+  3261		mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+  3262		error = security_inode_create(dir, dentry, mode);
+  3263		if (error)
+  3264			return error;
+> 3265		error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+  3266		if (error)
+  3267			return error;
+  3268		error = dir->i_op->create(idmap, dir, dentry, mode, want_excl);
+  3269		if (!error)
+  3270			fsnotify_create(dir, dentry);
+  3271		return error;
+  3272	}
+  3273	
 
 -- 
 0-DAY CI Kernel Test Service
