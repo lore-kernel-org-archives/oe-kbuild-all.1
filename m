@@ -1,155 +1,188 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA417A59B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 22:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE0414EC50
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 22:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722981763; cv=none; b=G9Hdb5sEPbSd3mtvM1XaNYGL3gXtT1aKFNwE7evoX2rliQhfnx/RNtsdgzHDK9JSsFbtjRItru9S6COIW8fDs0zaX7Lt2qcr8Q9csxw1W1/dTwVLkqTe7+4z4G5E6j24zzCSjiTuGFfl2ZxwvtUbcDC3TQHfQ/0TcU2flNvIwIk=
+	t=1722982558; cv=none; b=u4Vv6veN2OGbKnQLXAPnOoT18LMQEGbS4dcLxHDHQKL5YZ79eZGQfK8FL8G+ZRYb1rNc36X9XjkLx9wFAcGEUobD4QdvAeLP+zfsOQSLIKpaxRLr79jD9yTi6Gbk34nOCj8TOGjzFNxlxCzJCc5CXKt60QhEK/VonZY+Y7fEhNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722981763; c=relaxed/simple;
-	bh=aR1W/c9RP1fIj6vHqwGqd/uGjv/1lmu03CBJ0wO/Hw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2pGL+CsGH/hIuFyq5bRX9vYOXi3tDzzLCs0S3gZwu0TU4Vebl/B1I+egxI7gmr3ZQsN1vYl+jvKcowVvr3HywN5NJwTbqLZhe/+xEdnlszanLgVZLBrWBWgkiBEMhrnC+uVN5Z6Xl/dJkZweIIDzz2MNMUcqq2nWxw23qW42ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCE7bx/N; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722982558; c=relaxed/simple;
+	bh=uF4eoDBw+gjEfGRoRwX0D5TOGrdt+eQngKtvZ8/2s00=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yy7Zs2zm29itJ3MiFsiLwI5Fg+JHdSqqkoVweDUmMpF8RGmR68CbimY1QpPdoC26QsKv5GXDIUOfreqsP3dqE9r1Z97hBCyppmv8XOqMwNXn67/dN4DJEeca+L82kBWvTzUF8BitflT3/6Urg3QIWWoq2kSsHMTm1wbEkLBP4ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvftj0Jz; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XCE7bx/N"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-428243f928cso7728015e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Aug 2024 15:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722981760; x=1723586560; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mp0WpaiC2XvuDjPrqJ1y4U3Oi9te7Bps6SXi4DFmtEs=;
-        b=XCE7bx/NkThaN44pEnM73qnmWI4PKvi4RxDd/7MLgCKxdRhqm2K9/eTOIFqwZJHWgW
-         IToh3qYczmeU3j+546gKmKHmceUDd2liYRBa3p+LifYkau6d3GG5ienapLYyN9ak+7hl
-         LDyfUq2joODfP+em4e6GvpAdsW6+gAZfdzVVy2DfOXHiA34QXe0s0hRWwvusYoV6EyRz
-         xl/LMaU0eL8MWoqfERSq8KK9OKx4yDnTcEZ47sV/ct+3oFpp2zzzswA+wojnik2la9P9
-         QS709oXkIomHqNvreOm9/woO+1EDk2yQQoHKbLfeVn1P0drHObXCT25VCt4I0tK8g7cA
-         WAAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722981760; x=1723586560;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mp0WpaiC2XvuDjPrqJ1y4U3Oi9te7Bps6SXi4DFmtEs=;
-        b=ol9oj2dhhxs9jyfHbQC2tFqliICJP14Sd1yJdpM7iOUzvAwBEneNc/c9m7t3K9XKWl
-         Uyuw0h/tz3NxdW70nutsTDUDU9Jy4rjVQ3daznJ5H9oW/guU+GCjZuUNUMJ2A0+UShES
-         vqEkmAkRNUDPQcYkLT/mcUqR00B0ip8kpGm3U3J1edipKomigWRxAt9AHpAAZKYyibF4
-         XYQfhHf4dddLj/8uXh9/2tJbBlm1yIAgSpqSPvDSlQf1b321q77FKaXmoWiHspC1iRA8
-         Y+YYsCt7vgkAqpo5sHP/gwCEZAcdXMZ2G6XOXs1DtmpVWgp8JSVy4fftSLMGdtjPQIg7
-         Oymw==
-X-Gm-Message-State: AOJu0YwVmKfe7molR8vTRT+TmLGYnP3JTL6f9YphOIjrcRrX9vcOUAIM
-	qqrj2HAEMVzPmA+WWUiUugoelXA9Lv37Lv4PNTOznds2sxw+wcEK
-X-Google-Smtp-Source: AGHT+IG4Dx1g+NkaBIciA+wHIQJHu1E+LL7rr9z6w9T0IuFUILRLHEvNl+aoTVLSgg2g8CbSu9m0iQ==
-X-Received: by 2002:a05:600c:1f90:b0:427:9dad:e6ac with SMTP id 5b1f17b1804b1-428e6b96b2fmr114221385e9.34.1722981759894;
-        Tue, 06 Aug 2024 15:02:39 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429057e8fe9sm255675e9.1.2024.08.06.15.02.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 15:02:39 -0700 (PDT)
-Message-ID: <4ed9feaa-b7dc-4a02-a58d-ee845e872bd2@gmail.com>
-Date: Tue, 6 Aug 2024 23:02:38 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvftj0Jz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722982557; x=1754518557;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uF4eoDBw+gjEfGRoRwX0D5TOGrdt+eQngKtvZ8/2s00=;
+  b=mvftj0Jz+gkvh+GfMfEx4Lf4rCZ6ic4ohYV29h7dyP8gRpKX/uZ6965D
+   xMku4zovxcEr9Sx2sxXKIMFXQ0+NdlOkv9WCzOv56IEtNnGEFBLtXYYPW
+   7gowsUMhlWS1YOnQyynEDL7oizCk3aLYuNiI6nWw3Pt3nEB0nli9pDm0o
+   w1YEut22ztE/WO3Wr/L3cnArPVoKDsf/dDKypyYBtt/kxMa37/sIEC0PA
+   BgEl24pu39cfRgqZdWeX3AnhB9MGpq1k5LxnQTpuxfKBE0q1Y+uEYpdes
+   cX9XtiCfN+s7Mzk8Aakmd6ffYoVDFN2I+irmC1rGh0+Hxg6xFS5hGEbDE
+   Q==;
+X-CSE-ConnectionGUID: Wd9prtZASwKbMuZktYB9Sw==
+X-CSE-MsgGUID: K4Y8cMa+QV6VToW8LQTt4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21172854"
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="21172854"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 15:15:56 -0700
+X-CSE-ConnectionGUID: m5ON7G1ZRwODLmUf4Ct5pQ==
+X-CSE-MsgGUID: 7KoYiX8uTbuzut3cDrV59w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="61297434"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Aug 2024 15:15:55 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbSSz-0004s8-03;
+	Tue, 06 Aug 2024 22:15:44 +0000
+Date: Wed, 7 Aug 2024 06:15:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:sdw/sdca-library 14/16]
+ sound/soc/sdca/sdca_interrupts.c:328:9: error: 'registered_source_mask'
+ undeclared
+Message-ID: <202408070646.TyFEUyGr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] mm: add selftests to split_huge_page() to verify
- unmap/zap of zero pages
-To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, roman.gushchin@linux.dev, yuzhao@google.com,
- david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Alexander Zhu <alexlzhu@fb.com>, riel@surriel.com
-References: <ZqsS/1ts8leyUeEQ@rli9-mobl>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <ZqsS/1ts8leyUeEQ@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Pierre-Louis,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/plbossart/sound sdw/sdca-library
+head:   86fef73acfdde4617610445f764813129e80587e
+commit: 85417b9e17ebe038d2927b99da842ccb29a8a131 [14/16] ASoC: rt711-sdca: use generic SDCA interrupt handler
+config: arm-randconfig-003-20240807 (https://download.01.org/0day-ci/archive/20240807/202408070646.TyFEUyGr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070646.TyFEUyGr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408070646.TyFEUyGr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sound/soc/sdca/sdca_interrupts.c: In function 'sdca_interrupt_register_handler':
+>> sound/soc/sdca/sdca_interrupts.c:328:9: error: 'registered_source_mask' undeclared (first use in this function)
+     328 |         registered_source_mask = interrupt_info->registered_source_mask >> (reg_index << 3);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sdca/sdca_interrupts.c:328:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
+vim +/registered_source_mask +328 sound/soc/sdca/sdca_interrupts.c
 
-On 01/08/2024 05:45, kernel test robot wrote:
-> Hi Usama,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/Revert-memcg-remove-mem_cgroup_uncharge_list/20240730-223949
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20240730125346.1580150-6-usamaarif642%40gmail.com
-> patch subject: [PATCH 5/6] mm: add selftests to split_huge_page() to verify unmap/zap of zero pages
-> :::::: branch date: 32 hours ago
-> :::::: commit date: 32 hours ago
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010618.lgnamdZd-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202408010618.lgnamdZd-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    vm_util.c: In function 'rss_anon':
->>> vm_util.c:188:41: warning: format '%ld' expects argument of type 'long int *', but argument 3 has type 'uint64_t *' {aka 'long long unsigned int *'} [-Wformat=]
->      188 |         if (sscanf(buffer, "RssAnon:%10ld kB", &rss_anon) != 1)
->          |                                     ~~~~^      ~~~~~~~~~
->          |                                         |      |
->          |                                         |      uint64_t * {aka long long unsigned int *}
->          |                                         long int *
->          |                                     %10lld
-> 
-> 
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  301  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  302  /* helper called with the 'irq_lock' mutex held */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  303  static int sdca_interrupt_register_handler(struct sdw_slave *slave,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  304  					   struct sdca_interrupt_info *interrupt_info,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  305  					   int reg_index)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  306  {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  307  	struct device *dev = &slave->dev;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  308  	unsigned long status_filtered;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  309  	unsigned long status2;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  310  	unsigned long status;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  311  	const int retry = 3;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  312  	int count = 0;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  313  	int bit;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  314  	int ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  315  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  316  	ret = sdw_read_no_pm(slave, SDW_SCP_SDCA_INT1 + reg_index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  317  	if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  318  		dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  319  				    "%s: read of SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  320  				    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  321  		goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  322  	}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  323  	status = ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  324  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  325  	if (!status)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  326  		return 0;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  327  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30 @328  	registered_source_mask = interrupt_info->registered_source_mask >> (reg_index << 3);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  329  	if (status & ~registered_source_mask) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  330  		dev_warn_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  331  				     "%s: interrupt %#x, registered sources %#x, unregistered sources will be ignored\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  332  				     __func__, status, registered_source_mask);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  333  	}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  334  	status_filtered = status & registered_source_mask;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  335  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  336  	do {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  337  		/*
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  338  		 * Record detected interrupt sources, source-specific actions
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  339  		 * will be taken after all interrupts have been cleared.
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  340  		 */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  341  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  342  		for_each_set_bit(bit, &status_filtered, 8) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  343  			int index = (reg_index << 3) + bit;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  344  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  345  			interrupt_info->detected_interrupt_mask |= BIT(index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  346  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  347  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  348  		/* clear the interrupts, including unregistered ones, for this register */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  349  		ret = sdw_write_no_pm(slave,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  350  				      SDW_SCP_SDCA_INT1 + reg_index,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  351  				      status);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  352  		if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  353  			dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  354  					    "%s: write to SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  355  					    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  356  			goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  357  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  358  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  359  		/*
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  360  		 * The SoundWire specification requires an additional read to make sure
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  361  		 * no interrupts are lost
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  362  		 */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  363  		ret = sdw_read_no_pm(slave, SDW_SCP_SDCA_INT1 + reg_index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  364  		if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  365  			dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  366  					    "%s: re-read of SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  367  					    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  368  			goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  369  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  370  		status2 = ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  371  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  372  		/* filter to limit loop to interrupts identified in the first status read */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  373  		status &= status2;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  374  		status_filtered = status & registered_source_mask;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  375  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  376  		count++;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  377  	} while (status_filtered && (count < retry));
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  378  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  379  	if (count == retry)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  380  		dev_warn_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  381  				     "%s: Reached max_retry %d on SDW_SCP_SDCA_INT%d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  382  				     __func__, retry, reg_index + 1);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  383  io_error:
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  384  	return ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  385  }
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  386  
 
-Interesting affect of different compilers!
+:::::: The code at line 328 was first introduced by commit
+:::::: 00aeb217afea12f802d74042d21e8894becb69f5 ASoC: SDCA: add helpers to handle SDCA interrupt sources
 
-If I compile with the above suggestion on my machine, i.e. convert ld to lld, I get a warning on my machine that uint64_t is long unsigned int (and not long long unsigned int as above):
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-vm_util.c: In function ‘rss_anon’:
-vm_util.c:188:42: warning: format ‘%lld’ expects argument of type ‘long long int *’, but argument 3 has type ‘uint64_t *’ {aka ‘long unsigned int *’} [-Wformat=]
-  188 |         if (sscanf(buffer, "RssAnon:%10lld kB", &rss_anon) != 1)
-      |                                     ~~~~~^      ~~~~~~~~~
-      |                                          |      |
-      |                                          |      uint64_t * {aka long unsigned int *}
-      |                                          long long int *
-      |                                     %10ld
-
-
-I will just do below which should work hopefully with all compilers: 
-diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-index 7b7e763ba8e3..bd147bdb1bb2 100644
---- a/tools/testing/selftests/mm/vm_util.c
-+++ b/tools/testing/selftests/mm/vm_util.c
-@@ -172,9 +172,9 @@ uint64_t read_pmd_pagesize(void)
-        return strtoul(buf, NULL, 10);
- }
- 
--uint64_t rss_anon(void)
-+long unsigned rss_anon(void)
- {
--       uint64_t rss_anon = 0;
-+       long unsigned rss_anon = 0;
-        FILE *fp;
-        char buffer[MAX_LINE_LENGTH];
- 
-@@ -185,7 +185,7 @@ uint64_t rss_anon(void)
-        if (!check_for_pattern(fp, "RssAnon:", buffer, sizeof(buffer)))
-                goto err_out;
- 
--       if (sscanf(buffer, "RssAnon:%10ld kB", &rss_anon) != 1)
-+       if (sscanf(buffer, "RssAnon:%10lu kB", &rss_anon) != 1)
-                ksft_exit_fail_msg("Reading status error\n");
- 
- err_out:
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
