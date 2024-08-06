@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4CA1BDA85
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 09:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E83216D9A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 10:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722937354; cv=none; b=fgdQxWRwKy+yOVC2baf8tXXFSGG5d4xDCPjWEPPgcVl78UlkubYNST7BIOrJZ+upy8ElkkiFj0VS/b32MbnyQQ4EWgWHAWu4sPz/o2zzv+6JKRgApxzOoEDbxvxm5r6yBGNZLWXj8rTL4CzXbVkXaQOdq2Vo7o+iUdNX/99B0sU=
+	t=1722938638; cv=none; b=FG1gX+7rdacmIX78t8i3vv6zw1jRj541bPH1j7J1ouDF+wDa5ctjfkF/8dz0qdVLOIakec9cjDxrTCHzKeIYl1It27YH3oZfRvU21CSaJ6tg5Sd1VSWpgXNLfEaVl4vQTLgHkHiCqVIsrcull2cmAaDBf12JxuWvfGvdj0/ck5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722937354; c=relaxed/simple;
-	bh=IZn7speP+xoerFkC55ZXUSz2mmiZ42yMY/QoBdHoHZ8=;
+	s=arc-20240116; t=1722938638; c=relaxed/simple;
+	bh=lGD20t/HqaYERn9Ji/0Eva6gvI/gxozUobghkSLHy6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lU0BTwxcNjkMsO1VM02mHCMFKOYkDwjJ/v8u6F3zqqwkiWmsFdCS8Zam1lMapP8FZ9oMxX4+iX9m4r4ouSgOHuLJm/9jyr8egn9c0Z+ASCJRtyUWS8FXvijViWFjRQ2zq7O3zUg5xAanEy46M5zRHDIfS0jxxD96RF6gQUrnVMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/vSipoG; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=JqVbww9BviXGpc5qCseoTV34rXr6LzIvmSCsMseeV2oY9a2LPB3ScJq0hp1MkdFs60pV8x2S4QfAJTWLvt+cxu/t4My0LGmgCuxDvd0noeiyoi7CnKM+1kvg/gg7zWOLRwA6CK0VdEXaBv0dW091uWbVrqiJXUbreI1GoiGaa0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/DQzQPU; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/vSipoG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/DQzQPU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722937351; x=1754473351;
+  t=1722938637; x=1754474637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IZn7speP+xoerFkC55ZXUSz2mmiZ42yMY/QoBdHoHZ8=;
-  b=N/vSipoGD6W4P+a4QU86sp5SEcd5Fg/obHwZmiGwwHJDhdMk/S3OgBYx
-   D8zxf6LTHOXFyoBUL/hA30qYBB2ciTEa7DZh//Fzy51XfD0q5M8S64OzF
-   hHazS6D/HN8dPEkwkYspQJwZR4KAwap4Zu5xAb0feIgidUNpjTQI0MxLA
-   gmDcHgyvuVLCtjiDtegiCkSiWY5640yvhhMsZJk0mvxnA2KCGkHNsxFUO
-   rCrGZMtoQiHOwjofDP8SFe+txxzlgyGw3PhQNbryJzP4yKDGZk9O2LSet
-   8KTRHYvLg85BLhzb5ghHu8ritK0Z5A0Z3mPqb2/3Ag3iJ56g+UbRPUWMX
-   g==;
-X-CSE-ConnectionGUID: dCdMiDaDR5Gmi8+ejsuQzQ==
-X-CSE-MsgGUID: 3+Cpbz4dQOO0irn+/zoLkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="31604022"
+  bh=lGD20t/HqaYERn9Ji/0Eva6gvI/gxozUobghkSLHy6w=;
+  b=K/DQzQPU/9M9lDp2o4t2cldBo4Bu+RH9B28n9PSRW/hNhq4iKoJhx2Nc
+   fmRDB2ZRi/Zp5usHIkujYkjfCJnPeLfzYlJ6v4jrr7PanUAVh+pNQrKW1
+   9YZwT+072qgUOU+kaSjwA/tYMMwlpBa+3Hf6y/qCgl34IL53n5aVc+76Z
+   oBg16ZhmQ7NlRxzOpnr9DHhEy0UVNSBwRxpaiE0LXry5pc5JcrmJXsEW7
+   Sg0qjKWUz2HdyTM7U/nsBOnVrWdHmo2mkEUq1gYVEf67X/ypVTwilDucl
+   olR93noYDPbxgmzNT7q3GQSiB4+fnJgjI0uGewA+y5AYV+PCjATjJMeD+
+   A==;
+X-CSE-ConnectionGUID: IsfTsQjFT1OlXBknS0aLRw==
+X-CSE-MsgGUID: utX4vRWkQbW6ggWbSZf/xA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21085889"
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="31604022"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 02:42:30 -0700
-X-CSE-ConnectionGUID: vpK+OUGMSget8k+YNLBCEA==
-X-CSE-MsgGUID: awTUVpA3RmOsjbAtUkRJJg==
+   d="scan'208";a="21085889"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 03:03:56 -0700
+X-CSE-ConnectionGUID: tn6EQNwtRwexsdHZrRftjw==
+X-CSE-MsgGUID: At+gCAknRN6ineoxh3iRog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="57024709"
+   d="scan'208";a="57180057"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 06 Aug 2024 02:42:29 -0700
+  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2024 03:03:55 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbGi2-0004MZ-20;
-	Tue, 06 Aug 2024 09:42:26 +0000
-Date: Tue, 6 Aug 2024 17:42:13 +0800
+	id 1sbH2l-0004O4-2o;
+	Tue, 06 Aug 2024 10:03:51 +0000
+Date: Tue, 6 Aug 2024 18:02:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Smart <jsmart2021@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
-	Ram Vegesna <ram.vegesna@broadcom.com>
-Subject: drivers/scsi/elx/efct/efct_hw.c:227:1: warning: the frame size of
- 1136 bytes is larger than 1024 bytes
-Message-ID: <202408061721.gfnwpv1W-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:cpufreq-compile-test 6/6] drivers/opp/ti-opp-supply.c:364:34:
+ warning: 'ti_opp_supply_of_match' defined but not used
+Message-ID: <202408061750.VVrK7wBT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,106 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi James,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b446a2dae984fa5bd56dd7c3a02a426f87e05813
-commit: ebc076b3eddc807729bd81f7bc48e798a3ddc477 scsi: elx: efct: Tie into kernel Kconfig and build process
-date:   3 years, 2 months ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240806/202408061721.gfnwpv1W-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061721.gfnwpv1W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git cpufreq-compile-test
+head:   51646201e21cdf40aad3925f7742a8d2ac727f43
+commit: 51646201e21cdf40aad3925f7742a8d2ac727f43 [6/6] cpufreq: Drop CONFIG_ARM and CONFIG_ARM64 dependency on Arm drivers
+config: i386-buildonly-randconfig-003-20240806 (https://download.01.org/0day-ci/archive/20240806/202408061750.VVrK7wBT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061750.VVrK7wBT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408061721.gfnwpv1W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408061750.VVrK7wBT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/elx/efct/efct_hw.c: In function 'efct_hw_cb_link':
->> drivers/scsi/elx/efct/efct_hw.c:227:1: warning: the frame size of 1136 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     227 | }
-         | ^
+>> drivers/opp/ti-opp-supply.c:364:34: warning: 'ti_opp_supply_of_match' defined but not used [-Wunused-const-variable=]
+     364 | static const struct of_device_id ti_opp_supply_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/cpufreq/ti-cpufreq.c:422:34: warning: 'ti_cpufreq_of_match' defined but not used [-Wunused-const-variable=]
+     422 | static const struct of_device_id ti_cpufreq_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~
 
 
-vim +227 drivers/scsi/elx/efct/efct_hw.c
+vim +/ti_opp_supply_of_match +364 drivers/opp/ti-opp-supply.c
 
-4df84e8466242d James Smart 2021-06-01  162  
-4df84e8466242d James Smart 2021-06-01  163  static int
-4df84e8466242d James Smart 2021-06-01  164  efct_hw_cb_link(void *ctx, void *e)
-4df84e8466242d James Smart 2021-06-01  165  {
-4df84e8466242d James Smart 2021-06-01  166  	struct efct_hw *hw = ctx;
-4df84e8466242d James Smart 2021-06-01  167  	struct sli4_link_event *event = e;
-4df84e8466242d James Smart 2021-06-01  168  	struct efc_domain *d = NULL;
-4df84e8466242d James Smart 2021-06-01  169  	int rc = 0;
-4df84e8466242d James Smart 2021-06-01  170  	struct efct *efct = hw->os;
-4df84e8466242d James Smart 2021-06-01  171  
-4df84e8466242d James Smart 2021-06-01  172  	efct_hw_link_event_init(hw);
-4df84e8466242d James Smart 2021-06-01  173  
-4df84e8466242d James Smart 2021-06-01  174  	switch (event->status) {
-4df84e8466242d James Smart 2021-06-01  175  	case SLI4_LINK_STATUS_UP:
-4df84e8466242d James Smart 2021-06-01  176  
-4df84e8466242d James Smart 2021-06-01  177  		hw->link = *event;
-4df84e8466242d James Smart 2021-06-01  178  		efct->efcport->link_status = EFC_LINK_STATUS_UP;
-4df84e8466242d James Smart 2021-06-01  179  
-4df84e8466242d James Smart 2021-06-01  180  		if (event->topology == SLI4_LINK_TOPO_NON_FC_AL) {
-4df84e8466242d James Smart 2021-06-01  181  			struct efc_domain_record drec = {0};
-4df84e8466242d James Smart 2021-06-01  182  
-4df84e8466242d James Smart 2021-06-01  183  			efc_log_info(hw->os, "Link Up, NPORT, speed is %d\n",
-4df84e8466242d James Smart 2021-06-01  184  				     event->speed);
-4df84e8466242d James Smart 2021-06-01  185  			drec.speed = event->speed;
-4df84e8466242d James Smart 2021-06-01  186  			drec.fc_id = event->fc_id;
-4df84e8466242d James Smart 2021-06-01  187  			drec.is_nport = true;
-4df84e8466242d James Smart 2021-06-01  188  			efc_domain_cb(efct->efcport, EFC_HW_DOMAIN_FOUND,
-4df84e8466242d James Smart 2021-06-01  189  				      &drec);
-4df84e8466242d James Smart 2021-06-01  190  		} else if (event->topology == SLI4_LINK_TOPO_FC_AL) {
-4df84e8466242d James Smart 2021-06-01  191  			u8 buf[SLI4_BMBX_SIZE];
-4df84e8466242d James Smart 2021-06-01  192  
-4df84e8466242d James Smart 2021-06-01  193  			efc_log_info(hw->os, "Link Up, LOOP, speed is %d\n",
-4df84e8466242d James Smart 2021-06-01  194  				     event->speed);
-4df84e8466242d James Smart 2021-06-01  195  
-4df84e8466242d James Smart 2021-06-01  196  			if (!sli_cmd_read_topology(&hw->sli, buf,
-4df84e8466242d James Smart 2021-06-01  197  						   &hw->loop_map)) {
-4df84e8466242d James Smart 2021-06-01  198  				rc = efct_hw_command(hw, buf, EFCT_CMD_NOWAIT,
-4df84e8466242d James Smart 2021-06-01  199  						__efct_read_topology_cb, NULL);
-4df84e8466242d James Smart 2021-06-01  200  			}
-4df84e8466242d James Smart 2021-06-01  201  
-4df84e8466242d James Smart 2021-06-01  202  			if (rc)
-4df84e8466242d James Smart 2021-06-01  203  				efc_log_debug(hw->os, "READ_TOPOLOGY failed\n");
-4df84e8466242d James Smart 2021-06-01  204  		} else {
-4df84e8466242d James Smart 2021-06-01  205  			efc_log_info(hw->os, "%s(%#x), speed is %d\n",
-4df84e8466242d James Smart 2021-06-01  206  				     "Link Up, unsupported topology ",
-4df84e8466242d James Smart 2021-06-01  207  				     event->topology, event->speed);
-4df84e8466242d James Smart 2021-06-01  208  		}
-4df84e8466242d James Smart 2021-06-01  209  		break;
-4df84e8466242d James Smart 2021-06-01  210  	case SLI4_LINK_STATUS_DOWN:
-4df84e8466242d James Smart 2021-06-01  211  		efc_log_info(hw->os, "Link down\n");
-4df84e8466242d James Smart 2021-06-01  212  
-4df84e8466242d James Smart 2021-06-01  213  		hw->link.status = event->status;
-4df84e8466242d James Smart 2021-06-01  214  		efct->efcport->link_status = EFC_LINK_STATUS_DOWN;
-4df84e8466242d James Smart 2021-06-01  215  
-4df84e8466242d James Smart 2021-06-01  216  		d = efct->efcport->domain;
-4df84e8466242d James Smart 2021-06-01  217  		if (d)
-4df84e8466242d James Smart 2021-06-01  218  			efc_domain_cb(efct->efcport, EFC_HW_DOMAIN_LOST, d);
-4df84e8466242d James Smart 2021-06-01  219  		break;
-4df84e8466242d James Smart 2021-06-01  220  	default:
-4df84e8466242d James Smart 2021-06-01  221  		efc_log_debug(hw->os, "unhandled link status %#x\n",
-4df84e8466242d James Smart 2021-06-01  222  			      event->status);
-4df84e8466242d James Smart 2021-06-01  223  		break;
-4df84e8466242d James Smart 2021-06-01  224  	}
-4df84e8466242d James Smart 2021-06-01  225  
-4df84e8466242d James Smart 2021-06-01  226  	return 0;
-4df84e8466242d James Smart 2021-06-01 @227  }
-4df84e8466242d James Smart 2021-06-01  228  
+9a835fa6e47f27 Dave Gerlach 2017-12-14  363  
+9a835fa6e47f27 Dave Gerlach 2017-12-14 @364  static const struct of_device_id ti_opp_supply_of_match[] = {
+9a835fa6e47f27 Dave Gerlach 2017-12-14  365  	{.compatible = "ti,omap-opp-supply", .data = &omap_generic_of_data},
+9a835fa6e47f27 Dave Gerlach 2017-12-14  366  	{.compatible = "ti,omap5-opp-supply", .data = &omap_omap5_of_data},
+9a835fa6e47f27 Dave Gerlach 2017-12-14  367  	{.compatible = "ti,omap5-core-opp-supply",
+9a835fa6e47f27 Dave Gerlach 2017-12-14  368  	 .data = &omap_omap5core_of_data},
+9a835fa6e47f27 Dave Gerlach 2017-12-14  369  	{},
+9a835fa6e47f27 Dave Gerlach 2017-12-14  370  };
+9a835fa6e47f27 Dave Gerlach 2017-12-14  371  MODULE_DEVICE_TABLE(of, ti_opp_supply_of_match);
+9a835fa6e47f27 Dave Gerlach 2017-12-14  372  
 
-:::::: The code at line 227 was first introduced by commit
-:::::: 4df84e8466242de835416a4ec0c856c0e2ed26eb scsi: elx: efct: Driver initialization routines
+:::::: The code at line 364 was first introduced by commit
+:::::: 9a835fa6e47f27b1ae71390b6f12efce7335aaac PM / OPP: Add ti-opp-supply driver
 
-:::::: TO: James Smart <jsmart2021@gmail.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: Dave Gerlach <d-gerlach@ti.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
