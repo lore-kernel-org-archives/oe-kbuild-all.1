@@ -1,260 +1,199 @@
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF0D16BE1B;
-	Tue,  6 Aug 2024 22:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396EC3612D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Aug 2024 22:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722982864; cv=none; b=EMcAh+ZwTMIRn4jwIeugi5BRBZBkxMhkR68JUPeFXkIFyKj9/tpR0pi1h8GuEiV96WlzB+EXm89NN6Cha05O6ubQnGFSyCVQqJmSqH6jH37kH73/VZP2BHOJmIRE0EoCQOtJwl0x6YpbyAlyAbjkAWkWiCwFbWk53Z/D5biSwAA=
+	t=1722983197; cv=none; b=WucXhLphUhkW0257XoH5etkBXcLNdwK10NHyo7Isdh0fl3wlYbkJB+wW2dZJIKKKAA5IpCB/ndp+pxsr+u74/4I0PIbAi41otBQk2R7PFg4ATft+yQXCo95i4338eFb08l4AQUde0Z6znALl+9kIY/7O5Se7oTopYIZlDSvwpEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722982864; c=relaxed/simple;
-	bh=OcfpEBA/YoUMFzxCcxJs8XsIh86XtElvSDFM9o5ZArs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tl45vPkChGrDW+BilcBz40vMGkvoB/9+TvqEvyXeu6+jkaZ1uTvHCDbMxNPvBnWljJuvrBsUupQraKS3/ccq7Hk1U63ZMBEcupSL+lNCOXp3PV74OX/PQxf+nLXa0sCjxDwsAnZxzJ1cN4FaxykfOuOAJJavypV2ZvTbeuc0vJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=rKQgDKNi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lk4ipcuH; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+	s=arc-20240116; t=1722983197; c=relaxed/simple;
+	bh=0T80cfqZ0UgDh5tioHXH3FJUxPD567GEWKTXZfXUZng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=au0M1zxBoBaAToG76BLFt+Qa7uLHzixZXCf7s3SRxTxpq8aBM48ZWMr+piqdXu6nvc1eDwRo4ry8CgS/qClvXyZ6Ytv0hijub1N/4qh3GlDc0Fa8squGXfrmmMgEsabXqArYKsKfO7ICJcNae4dS/gO97enI++4A7LuAdAzY7DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d6YVXwF+; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="rKQgDKNi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lk4ipcuH"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id D888A114B060;
-	Tue,  6 Aug 2024 18:20:59 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Tue, 06 Aug 2024 18:20:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1722982859;
-	 x=1723069259; bh=ckVWeKkiO13bW4HzDYwVSL+LMwbmo1HdCa4CANBBsJY=; b=
-	rKQgDKNiD1DSB7epKE1tPMn9aShKLlbVnA4CQp9FTyvHB5Ali+tuvzael3Z9sRqV
-	xVnkonNNBwMmsyDv6fKaMMMCMvXm4XrX15+aufMvcIj1jJbeUs+Wu/ad35lraSNp
-	Q1fXrVFPgBPzSojfdpwyOTSGVl9CnqbKIYu0fxhPk0/03uje1/N19ZHQVj2ljBkT
-	tLYYgYK9DxfOMIfhKFU4nCZE8551p/Y6O4rEaoRiUz0prfzn1FnHbqP6l8jPGFEP
-	9FwZ26mvNYLl9hVdqpquyie9jN54SC+/WOrvgjmTPvSyBwZdy6be3vXUIuJWmJYD
-	VdsWcLRX3eV9JHvnkDc+gw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1722982859; x=
-	1723069259; bh=ckVWeKkiO13bW4HzDYwVSL+LMwbmo1HdCa4CANBBsJY=; b=l
-	k4ipcuHnBu831vu/emjE2Fi3vOpLNcE1mISjLeSLSbjCWWVx7eNggSV9egy2rN75
-	fk/wCG+T09m/+q6//fjNo9oPasUw8DYduJfb9oFMC8UEVMGjFYqlXuYdJUnHqAIg
-	w6JJJyXZXE1Aw54h2aMU46C51E8o3OB7csqa4IXyWtUNvOaprWqDNV/jnEGEfrPs
-	wnRaPY20M4SUI3gVXo1UfFeMd005zs45bBM16GDDqhyBN945xTz3GzJ1PJYX/aLO
-	njbfxsJGsW+8aiGiocumuJQg2i+cDwHGNHvQ6JGhsVFqCb7qlufkpaxL01FAvuih
-	7pSvk01d9LsWNkgAI0Niw==
-X-ME-Sender: <xms:y6GyZlvKVdzEkjZDd5BQMd2nb8SWxztDtGnMQq3_iIq5htPazed43g>
-    <xme:y6GyZucGL6JL_-ELSqrFAlzi93nSmdo8C7I9JdISRzyZm68oyQJdTkNJRdSaakulT
-    fopx1GaFAi67wRn4ps>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeelgdduudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdfnuhhk
-    vgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdruggvvheqnecuggftrfgrthhtvg
-    hrnhepkedvleetfeelfedufffgueekfeehueffveevveetveegveejgedtleetffekffeh
-    necuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrh
-    hnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghvpdhnsggprhgtphhtth
-    hopedt
-X-ME-Proxy: <xmx:y6GyZozSjfSKaj6EuGcrxF7ut9qAZ26PWYkE0OCj-9B93wjQbrM15Q>
-    <xmx:y6GyZsPZf1GPpyMbUSkylTEIcVkyQ6A6AcBSTFCEwgaDVQimJ36Zug>
-    <xmx:y6GyZl-uHKcZsI9QrfifZmkE0ccXGbq9iGS4TYtYpinquxWkub0wIQ>
-    <xmx:y6GyZsU0Wo5s6GIv8VGMM44n-rzsZzvEBogI4vCgRNqswWR5oBl-Pw>
-    <xmx:y6GyZomPpr49Tlt8yxd060oGZ7o8IqnGgs41K3JrDcfuXLvPYAHuTYEm>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 8A8722340080; Tue,  6 Aug 2024 18:20:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d6YVXwF+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722983195; x=1754519195;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0T80cfqZ0UgDh5tioHXH3FJUxPD567GEWKTXZfXUZng=;
+  b=d6YVXwF+sZjdnh0s9nw0Su5N6Bu3as2wtwKagAYeAsxB9I87R7pSI9cN
+   WtYm7VAz0k2w3lNEKdLgwgfM+rmFdi/WGems8gDqJeilzplI21VM80i9l
+   m4hctxWb5CshlGPvsb9jGkqpmeXgEVIFvSEqQNhvA/1RLtMNsXY9sbonO
+   YDAPkp4qZv65b8eDGVQvdYsA1+nlUE/wpLCSKjBPOjU6Tl11yTdsYmKGM
+   XWPNpTMc4X45uS0gk+v+0vH1VJ9anyG9uTr+7grhtCWszrhJ0FXfjPnFW
+   D/tPd09/0RV44ZpzfvjBZCiGbuGwaOupKsTmOQmwndW8Pwr2g6uqV/7D7
+   w==;
+X-CSE-ConnectionGUID: 9AVU4/nHRL6HxImWdbmf8g==
+X-CSE-MsgGUID: +yWe4JZETrqgXDTVmSp5+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31660272"
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="31660272"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 15:26:35 -0700
+X-CSE-ConnectionGUID: tJxHI7OnQY6+vbtn2VVYfA==
+X-CSE-MsgGUID: 7HvdbTirQ9G3bghfpsau/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="61595639"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2024 15:26:34 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbSdT-0004sS-0b;
+	Tue, 06 Aug 2024 22:26:31 +0000
+Date: Wed, 7 Aug 2024 06:25:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:sdw/sdca-library 14/16]
+ sound/soc/sdca/sdca_interrupts.c:328:2: error: use of undeclared identifier
+ 'registered_source_mask'
+Message-ID: <202408070603.lKNbsScC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 07 Aug 2024 10:20:39 +1200
-From: "Luke Jones" <luke@ljones.dev>
-To: "kernel test robot" <lkp@intel.com>, linux-input@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Benjamin Tissoires" <bentiss@kernel.org>,
- "Jiri Kosina" <jikos@kernel.org>
-Message-Id: <a24dd146-2991-46af-a6f7-6f2b0a7eb97f@app.fastmail.com>
-In-Reply-To: <202408070520.r1N2Tpys-lkp@intel.com>
-References: <20240806081212.56860-1-luke@ljones.dev>
- <202408070520.r1N2Tpys-lkp@intel.com>
-Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Pierre-Louis,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/plbossart/sound sdw/sdca-library
+head:   86fef73acfdde4617610445f764813129e80587e
+commit: 85417b9e17ebe038d2927b99da842ccb29a8a131 [14/16] ASoC: rt711-sdca: use generic SDCA interrupt handler
+config: i386-buildonly-randconfig-004-20240807 (https://download.01.org/0day-ci/archive/20240807/202408070603.lKNbsScC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070603.lKNbsScC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408070603.lKNbsScC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/sdca/sdca_interrupts.c:328:2: error: use of undeclared identifier 'registered_source_mask'
+     328 |         registered_source_mask = interrupt_info->registered_source_mask >> (reg_index << 3);
+         |         ^
+   sound/soc/sdca/sdca_interrupts.c:329:16: error: use of undeclared identifier 'registered_source_mask'
+     329 |         if (status & ~registered_source_mask) {
+         |                       ^
+   sound/soc/sdca/sdca_interrupts.c:332:28: error: use of undeclared identifier 'registered_source_mask'
+     332 |                                      __func__, status, registered_source_mask);
+         |                                                        ^
+   sound/soc/sdca/sdca_interrupts.c:334:29: error: use of undeclared identifier 'registered_source_mask'
+     334 |         status_filtered = status & registered_source_mask;
+         |                                    ^
+   sound/soc/sdca/sdca_interrupts.c:374:30: error: use of undeclared identifier 'registered_source_mask'
+     374 |                 status_filtered = status & registered_source_mask;
+         |                                            ^
+   5 errors generated.
 
 
+vim +/registered_source_mask +328 sound/soc/sdca/sdca_interrupts.c
 
-On Wed, 7 Aug 2024, at 9:34 AM, kernel test robot wrote:
-> Hi Luke,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on hid/for-next]
-> [also build test WARNING on next-20240806]
-> [cannot apply to linus/master v6.11-rc2]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/hid-asus-ally-Add-full-gamepad-support/20240806-170850
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-> patch link:    https://lore.kernel.org/r/20240806081212.56860-1-luke%40ljones.dev
-> patch subject: [PATCH] hid-asus-ally: Add full gamepad support
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408070520.r1N2Tpys-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408070520.r1N2Tpys-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:21:
->    In file included from include/linux/kallsyms.h:13:
->    In file included from include/linux/mm.h:2228:
->    include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->      514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
->          |                               ~~~~~~~~~~~ ^ ~~~
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      548 |         val = __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->          |                                                   ^
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    In file included from drivers/hid/hid-asus-ally.c:17:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:25:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      585 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    drivers/hid/hid-asus-ally.c:565:10: warning: variable 'max_output_report_size' set but not used [-Wunused-but-set-variable]
->      565 |         uint8_t max_output_report_size;
->          |                 ^
->    drivers/hid/hid-asus-ally.c:1177:6: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
->     1177 |         int cmd, side, is_tr;
->          |             ^
-> >> drivers/hid/hid-asus-ally.c:894:1: warning: unused variable 'btn_mapping_lt_attr_group' [-Wunused-const-variable]
->      894 | ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
->      321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
->      306 |         static const struct attribute_group _fname##_attr_group = {       \
->          |                                             ^~~~~~~~~~~~~~~~~~~
->    <scratch space>:125:1: note: expanded from here
->      125 | btn_mapping_lt_attr_group
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/hid/hid-asus-ally.c:895:1: warning: unused variable 'btn_mapping_rt_attr_group' [-Wunused-const-variable]
->      895 | ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:321:2: note: expanded from macro 'ALLY_BTN_MAPPING'
->      321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/hid/hid-asus-ally.h:306:38: note: expanded from macro 'ALLY_BTN_ATTRS_GROUP'
->      306 |         static const struct attribute_group _fname##_attr_group = {       \
->          |                                             ^~~~~~~~~~~~~~~~~~~
->    <scratch space>:167:1: note: expanded from here
->      167 | btn_mapping_rt_attr_group
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~
->    11 warnings generated.
-> 
-> 
-> vim +/btn_mapping_lt_attr_group +894 drivers/hid/hid-asus-ally.c
-> 
->    882
->    883 /* button map attributes, regular and macro*/
->    884 ALLY_BTN_MAPPING(m2, btn_pair_m1_m2, btn_pair_side_left);
->    885 ALLY_BTN_MAPPING(m1, btn_pair_m1_m2, btn_pair_side_right);
->    886 ALLY_BTN_MAPPING(a, btn_pair_a_b, btn_pair_side_left);
->    887 ALLY_BTN_MAPPING(b, btn_pair_a_b, btn_pair_side_right);
->    888 ALLY_BTN_MAPPING(x, btn_pair_x_y, btn_pair_side_left);
->    889 ALLY_BTN_MAPPING(y, btn_pair_x_y, btn_pair_side_right);
->    890 ALLY_BTN_MAPPING(lb, btn_pair_lb_rb, btn_pair_side_left);
->    891 ALLY_BTN_MAPPING(rb, btn_pair_lb_rb, btn_pair_side_right);
->    892 ALLY_BTN_MAPPING(ls, btn_pair_ls_rs, btn_pair_side_left);
->    893 ALLY_BTN_MAPPING(rs, btn_pair_ls_rs, btn_pair_side_right);
-> > 894 ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
-> > 895 ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
->    896 ALLY_BTN_MAPPING(dpad_u, btn_pair_dpad_u_d, btn_pair_side_left);
->    897 ALLY_BTN_MAPPING(dpad_d, btn_pair_dpad_u_d, btn_pair_side_right);
->    898 ALLY_BTN_MAPPING(dpad_l, btn_pair_dpad_l_r, btn_pair_side_left);
->    899 ALLY_BTN_MAPPING(dpad_r, btn_pair_dpad_l_r, btn_pair_side_right);
->    900 ALLY_BTN_MAPPING(view, btn_pair_view_menu, btn_pair_side_left);
->    901 ALLY_BTN_MAPPING(menu, btn_pair_view_menu, btn_pair_side_right);
->    902
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  301  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  302  /* helper called with the 'irq_lock' mutex held */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  303  static int sdca_interrupt_register_handler(struct sdw_slave *slave,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  304  					   struct sdca_interrupt_info *interrupt_info,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  305  					   int reg_index)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  306  {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  307  	struct device *dev = &slave->dev;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  308  	unsigned long status_filtered;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  309  	unsigned long status2;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  310  	unsigned long status;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  311  	const int retry = 3;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  312  	int count = 0;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  313  	int bit;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  314  	int ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  315  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  316  	ret = sdw_read_no_pm(slave, SDW_SCP_SDCA_INT1 + reg_index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  317  	if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  318  		dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  319  				    "%s: read of SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  320  				    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  321  		goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  322  	}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  323  	status = ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  324  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  325  	if (!status)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  326  		return 0;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  327  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30 @328  	registered_source_mask = interrupt_info->registered_source_mask >> (reg_index << 3);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  329  	if (status & ~registered_source_mask) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  330  		dev_warn_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  331  				     "%s: interrupt %#x, registered sources %#x, unregistered sources will be ignored\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  332  				     __func__, status, registered_source_mask);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  333  	}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  334  	status_filtered = status & registered_source_mask;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  335  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  336  	do {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  337  		/*
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  338  		 * Record detected interrupt sources, source-specific actions
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  339  		 * will be taken after all interrupts have been cleared.
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  340  		 */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  341  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  342  		for_each_set_bit(bit, &status_filtered, 8) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  343  			int index = (reg_index << 3) + bit;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  344  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  345  			interrupt_info->detected_interrupt_mask |= BIT(index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  346  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  347  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  348  		/* clear the interrupts, including unregistered ones, for this register */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  349  		ret = sdw_write_no_pm(slave,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  350  				      SDW_SCP_SDCA_INT1 + reg_index,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  351  				      status);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  352  		if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  353  			dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  354  					    "%s: write to SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  355  					    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  356  			goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  357  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  358  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  359  		/*
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  360  		 * The SoundWire specification requires an additional read to make sure
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  361  		 * no interrupts are lost
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  362  		 */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  363  		ret = sdw_read_no_pm(slave, SDW_SCP_SDCA_INT1 + reg_index);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  364  		if (ret < 0) {
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  365  			dev_err_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  366  					    "%s: re-read of SDW_SCP_SDCA_INT%d failed: %d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  367  					    __func__, reg_index + 1, ret);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  368  			goto io_error;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  369  		}
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  370  		status2 = ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  371  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  372  		/* filter to limit loop to interrupts identified in the first status read */
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  373  		status &= status2;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  374  		status_filtered = status & registered_source_mask;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  375  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  376  		count++;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  377  	} while (status_filtered && (count < retry));
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  378  
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  379  	if (count == retry)
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  380  		dev_warn_ratelimited(dev,
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  381  				     "%s: Reached max_retry %d on SDW_SCP_SDCA_INT%d\n",
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  382  				     __func__, retry, reg_index + 1);
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  383  io_error:
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  384  	return ret;
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  385  }
+00aeb217afea12 Pierre-Louis Bossart 2024-05-30  386  
 
+:::::: The code at line 328 was first introduced by commit
+:::::: 00aeb217afea12f802d74042d21e8894becb69f5 ASoC: SDCA: add helpers to handle SDCA interrupt sources
 
-I like this service. The above warnings will be fixed in next version after I get some review.
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Regards,
-Luke.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
