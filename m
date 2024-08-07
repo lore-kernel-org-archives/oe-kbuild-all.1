@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B4820013E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 13:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24560823D1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 14:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037820; cv=none; b=g1i6gvXAfFmtP5nc43clpxV+WlDYorIO1Mpyv3IAPJ6tZ9yMnmPPLGff5Hm00cbNdWODG7wdNMQnBO+oxFmZRrYZu0VVDwgOEDEqswIeid28UnVN3W/dZxF2nAue20hMj6hNQ4t7oUgGLKivo3Hij1xH1NIzliC6G0YAQmi0kNY=
+	t=1723041499; cv=none; b=uUqslqUuRM/VmDOQ1W/KTc2DrFBFc89Rmw/LGMOncZyrMMku5Xhm530K8nZPWySoNWX7Hix81DMSxTk1L13NrajcuDDo1Vj7dvbe1i/5Rb5YqnOSKTOa1s8+XJO3DHGRan7Wz93nXJkgvQyU19sz5JkxFHAW31cWvTdnE/IwkGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723037820; c=relaxed/simple;
-	bh=FGJgBe4Ycg/er2YIWKnZmCVgm9IpFLCV+zj9uRvyV9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XzSdb/DtEGvIxNiKNyEazhCpC95c4AzM8S8XQ1k2gWCAtaqFbqRV6uVue2+ZYzHPffI7QY8PhZMoM7Iai/yC0pjThwE3cvtIZBIaV+OzW23jbRNKCcvxpG2gE9oG//8rRCqOye8V3Cugl5AtqKlebOkVIUXjQDtYffCIMu2iFPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UoAB7TPV; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1723041499; c=relaxed/simple;
+	bh=zRQpdo7BBTTcsSC2liKlqKKUzttqnArW5lEZumdXuq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFy0D5lt/A0Kn7BDm7lNMsqGWhV7EMnKyeqq/SvoWMykZHapCuDMjyg1vAu5nyr5JQzdqZP4FYxLbXwhuX0vUeP63GAEZZXOIDgkK+pnHN3/rUWTxjOvImWqYb/+6LpFHzS2szDyaTnsIdKRCG6NiOSPbaMkMVFeYc4mTmcQCzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyiixmBR; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoAB7TPV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyiixmBR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723037819; x=1754573819;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FGJgBe4Ycg/er2YIWKnZmCVgm9IpFLCV+zj9uRvyV9c=;
-  b=UoAB7TPV8j2X5/KbobhVkVh8ynnSde3iRmg0HEoGROsywHCAhw3jWM34
-   LJ/k6cC4UsUEyA+OPrsfjJScBixL26v8H/nqKf/HooSAf9EvZ0nW/tG3B
-   k1gc4v/4iq1jlYrgp9QaiV4KfypbWxxLQ5Gxi2juUMaFDQBo1ptT7qSI8
-   ZwN4MAtD/W4q8u0Ce4cCwSbYCleRfMhlATdMt4TUiPxYm2g0P3Lv07gRA
-   lOFPa+PaO8GEEsz5bkcJFEIHj4VDis/kuD9CUHzQ+tgfNMzQhfHGgET/d
-   ItyH+EKTF01wB6YgaFWta+llIHZAo7h2rU1+GA9IHqZT5G2FqU22mluEL
-   g==;
-X-CSE-ConnectionGUID: uI1lNySXT/CzRNw1Qu/wUQ==
-X-CSE-MsgGUID: CTMpXdJXRzqMAT0ufDxTmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="31737317"
+  t=1723041497; x=1754577497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zRQpdo7BBTTcsSC2liKlqKKUzttqnArW5lEZumdXuq4=;
+  b=OyiixmBRc6O7V0v0zTtjpSbzGtjJcsCsZKgxb/AT1R3CwolO582xe/1c
+   reOoOQKsr3lbRySznlAQPQ0VDr4YIJiSXSfKsCrN0p1OTkdczJNi8s90i
+   TtsGBhfIZTQ6NluSUSuu9nGavmW8OuBZ1RfygnFuRp6o6KCLFL/sMqRlV
+   8aDr1fUXfA2BDfBWJ5zF5duQgGtW4+Vw0KxakFuvUkeW8fywFKvhwuCyo
+   du+rDXNTbI6vZkN0ZdoKpBSk24S4qQGw1Od4sbrNdBkdBHoBPHESyyar5
+   tIIWIBQqb+k+aIp93FK7r8rZisghk7XMRJAMjtJsQCZpSxfc5skni4LTP
+   w==;
+X-CSE-ConnectionGUID: sTHOCfT1Rea2qRqkjcfDjQ==
+X-CSE-MsgGUID: iL2QqaayRkW9y3luapo6hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="20970314"
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="31737317"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 06:36:58 -0700
-X-CSE-ConnectionGUID: 669sEBsMQZeQ4h6dc03R0w==
-X-CSE-MsgGUID: ApEA8L6zRNyDhQmlx58Uww==
+   d="scan'208";a="20970314"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 07:38:09 -0700
+X-CSE-ConnectionGUID: RNoCPyQUTCKzhWtyOGo7bw==
+X-CSE-MsgGUID: uPksUnPQQqyPAYU6qBC+lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="56819218"
+   d="scan'208";a="61756935"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2024 06:36:56 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Aug 2024 07:38:07 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbgqT-0005Pk-2U;
-	Wed, 07 Aug 2024 13:36:53 +0000
-Date: Wed, 7 Aug 2024 21:36:51 +0800
+	id 1sbhnC-0005Sq-0Z;
+	Wed, 07 Aug 2024 14:37:40 +0000
+Date: Wed, 7 Aug 2024 22:37:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengchang Tang <tangchengchang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
-	Junxian Huang <huangjunxian6@hisilicon.com>
-Subject: [leon-rdma:rdma-next 4/31] ERROR: modpost: "zap_vma_ptes"
- [drivers/infiniband/core/ib_core.ko] undefined!
-Message-ID: <202408072142.mVX227UI-lkp@intel.com>
+To: Aruna Ramakrishna <aruna.ramakrishna@oracle.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org,
+	aruna.ramakrishna@oracle.com
+Subject: Re: [PATCH 3/4] mm/mempolicy: Remove alloc_pages_mpol_noprof()
+Message-ID: <202408072152.nuStNgLu-lkp@intel.com>
+References: <20240805163120.5971-3-aruna.ramakrishna@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +63,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240805163120.5971-3-aruna.ramakrishna@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   dfc65296d0d188b72b143d07c57af61d1595cfb8
-commit: 29df39ce0a64f0d51eed84e7d378ddf5cfef6a3f [4/31] RDMA/core: Provide rdma_user_mmap_disassociate() to disassociate mmap pages
-config: arm-randconfig-003-20240807 (https://download.01.org/0day-ci/archive/20240807/202408072142.mVX227UI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408072142.mVX227UI-lkp@intel.com/reproduce)
+Hi Aruna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2b820b576dfc4aa9b65f18b68f468cb5b38ece84]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aruna-Ramakrishna/mm-mempolicy-Make-alloc_pages_mpol_noprof-static/20240806-004215
+base:   2b820b576dfc4aa9b65f18b68f468cb5b38ece84
+patch link:    https://lore.kernel.org/r/20240805163120.5971-3-aruna.ramakrishna%40oracle.com
+patch subject: [PATCH 3/4] mm/mempolicy: Remove alloc_pages_mpol_noprof()
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408072152.nuStNgLu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408072152.nuStNgLu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408072142.mVX227UI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408072152.nuStNgLu-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
->> ERROR: modpost: "zap_vma_ptes" [drivers/infiniband/core/ib_core.ko] undefined!
+>> mm/mempolicy.c:2221: warning: expecting prototype for folio_alloc_mpol_noprof(). Prototype was for folio_alloc_mpol() instead
+
+
+vim +2221 mm/mempolicy.c
+
+4c54d94908e089 Feng Tang               2021-09-02  2208  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2209  /**
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2210   * folio_alloc_mpol_noprof - Allocate pages according to NUMA mempolicy.
+eb350739605107 Matthew Wilcox (Oracle  2021-04-29  2211)  * @gfp: GFP flags.
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2212   * @order: Order of the folio allocation.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2213   * @pol: Pointer to the NUMA mempolicy.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2214   * @ilx: Index for interleave mempolicy (also distinguishes alloc_pages()).
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2215   * @nid: Preferred node (usually numa_node_id() but @mpol may override it).
+eb350739605107 Matthew Wilcox (Oracle  2021-04-29  2216)  *
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2217   * Return: The folio on success or NULL if allocation fails.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2218   */
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2219  struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2220  		struct mempolicy *pol, pgoff_t ilx, int nid)
+^1da177e4c3f41 Linus Torvalds          2005-04-16 @2221  {
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2222  	nodemask_t *nodemask;
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2223  	struct folio *folio;
+adf88aa8ea7ff1 Matthew Wilcox (Oracle  2022-05-12  2224) 
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2225  	gfp |= __GFP_COMP;
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2226  	nodemask = policy_nodemask(gfp, pol, ilx, &nid);
+4c54d94908e089 Feng Tang               2021-09-02  2227  
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2228  	if (pol->mode == MPOL_PREFERRED_MANY)
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2229  		return page_rmappable_folio(
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2230  				alloc_pages_preferred_many(gfp, order,
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2231  					nid, nodemask));
+19deb7695e072d David Rientjes          2019-09-04  2232  
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2233  	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2234  	    /* filter "hugepage" allocation, unless from alloc_pages() */
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2235  	    order == HPAGE_PMD_ORDER && ilx != NO_INTERLEAVE_INDEX) {
+19deb7695e072d David Rientjes          2019-09-04  2236  		/*
+19deb7695e072d David Rientjes          2019-09-04  2237  		 * For hugepage allocation and non-interleave policy which
+19deb7695e072d David Rientjes          2019-09-04  2238  		 * allows the current node (or other explicitly preferred
+19deb7695e072d David Rientjes          2019-09-04  2239  		 * node) we only try to allocate from the current/preferred
+19deb7695e072d David Rientjes          2019-09-04  2240  		 * node and don't fall back to other nodes, as the cost of
+19deb7695e072d David Rientjes          2019-09-04  2241  		 * remote accesses would likely offset THP benefits.
+19deb7695e072d David Rientjes          2019-09-04  2242  		 *
+b27abaccf8e8b0 Dave Hansen             2021-09-02  2243  		 * If the policy is interleave or does not allow the current
+19deb7695e072d David Rientjes          2019-09-04  2244  		 * node in its nodemask, we allocate the standard way.
+19deb7695e072d David Rientjes          2019-09-04  2245  		 */
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2246  		if (pol->mode != MPOL_INTERLEAVE &&
+fa3bea4e1f8202 Gregory Price           2024-02-02  2247  		    pol->mode != MPOL_WEIGHTED_INTERLEAVE &&
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2248  		    (!nodemask || node_isset(nid, *nodemask))) {
+cc638f329ef605 Vlastimil Babka         2020-01-13  2249  			/*
+cc638f329ef605 Vlastimil Babka         2020-01-13  2250  			 * First, try to allocate THP only on local node, but
+cc638f329ef605 Vlastimil Babka         2020-01-13  2251  			 * don't reclaim unnecessarily, just compact.
+cc638f329ef605 Vlastimil Babka         2020-01-13  2252  			 */
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2253  			folio = __folio_alloc_node_noprof(
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2254  					gfp | __GFP_THISNODE | __GFP_NORETRY,
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2255  					order, nid);
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2256  
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2257  			if (folio || !(gfp & __GFP_DIRECT_RECLAIM))
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2258  				return folio;
+76e654cc91bbe6 David Rientjes          2019-09-04  2259  			/*
+76e654cc91bbe6 David Rientjes          2019-09-04  2260  			 * If hugepage allocations are configured to always
+76e654cc91bbe6 David Rientjes          2019-09-04  2261  			 * synchronous compact or the vma has been madvised
+76e654cc91bbe6 David Rientjes          2019-09-04  2262  			 * to prefer hugepage backing, retry allowing remote
+cc638f329ef605 Vlastimil Babka         2020-01-13  2263  			 * memory with both reclaim and compact as well.
+76e654cc91bbe6 David Rientjes          2019-09-04  2264  			 */
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2265  		}
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2266  	}
+76e654cc91bbe6 David Rientjes          2019-09-04  2267  
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2268  	folio = __folio_alloc_noprof(gfp, order, nid, nodemask);
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2269  
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2270  	if (unlikely(pol->mode == MPOL_INTERLEAVE) && folio) {
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2271  		/* skip NUMA_INTERLEAVE_HIT update if numa stats is disabled */
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2272  		if (static_branch_likely(&vm_numa_stat_key) &&
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2273  		    folio_nid(folio) == nid) {
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2274  			preempt_disable();
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2275  			__count_numa_event(folio_zone(folio), NUMA_INTERLEAVE_HIT);
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2276  			preempt_enable();
+19deb7695e072d David Rientjes          2019-09-04  2277  		}
+356ff8a9a78fb3 David Rientjes          2018-12-07  2278  	}
+356ff8a9a78fb3 David Rientjes          2018-12-07  2279  
+116fd18cc881fc Aruna Ramakrishna       2024-08-05  2280  	return folio;
+a19621ed4e0ac9 Kefeng Wang             2024-05-15  2281  }
+a19621ed4e0ac9 Kefeng Wang             2024-05-15  2282  
 
 -- 
 0-DAY CI Kernel Test Service
