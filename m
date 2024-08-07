@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37881D1F62
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 09:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EC53612D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 10:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723024235; cv=none; b=Lk7Zoex5XBT0aeg1M0/+Z5P4y5i9XLTE2eRQCaERQk2L7DcdJlY6UTgA9B2u+3CmC4GYTN9IK7m5y8dIOR8yCmBgNmnaqw6scwQ/WpMsXjccs26wrM7hQSG/I4ZbcwX7zI+1+EcL37NuqqNCWG+OnSwORqD3vInkX2YV43VKTMA=
+	t=1723026103; cv=none; b=Xqu8r9FkVpBCQJyDK8+cgSLwqYv2hroi/iraQULh2Yg0MHmjbNRe0GHqSUiaCI/8qMNUPJARVuEJIH33j5JSsLtOjbqx1zicuAAD/h4oCeL2jnnlWLBLrqZp3T7dhvzC+Ifk+b6S8Ld8AKvFBtVr9WD4wF9TeubOMgT/kiual8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723024235; c=relaxed/simple;
-	bh=mUjY9ixgfxwjEEIW3FiijfuqlQl0p2VLrfkkATvsJqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aWKGoiJGSmlo4rhYd/SmToV1BTl+cFOAq1JRfYCrsbeLcYHoGrUn0nbtxr1djleiS+42HEGHvyskWVl4yJQDKG/k1+g0rIXiUREObEf+R2F4yMFD5gLMnjrXcCs3OyzPBclogaCdtBSmNop3uQ+ZqNuYFlpJKOplfY+zhZ9Lrx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACCoSYt6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1723026103; c=relaxed/simple;
+	bh=HnpfusNJjQyqOrsGWQ88E5yEo8ECihLbqG96DuUrTDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AaiR/rnrCtD2yNCn4Q2z2wb1k4qiwaEc15prr2h2p4Z5WFwAdDDWxNMezM9tpOhsb/uzMjmwKpTdSNaHF1nGT+jajp1kJise/kaZiI/IptbG0t5uptyETh9SGh7ywnAaAFXb3ucspXi99w9tWLGH6thq5L1cU2ju03F2rLZSf00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nq/YXWGi; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACCoSYt6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nq/YXWGi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723024234; x=1754560234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mUjY9ixgfxwjEEIW3FiijfuqlQl0p2VLrfkkATvsJqo=;
-  b=ACCoSYt6w/U8e4ayQ1Pk7KvLlvgZ+/wXr527BjXIJNT+Raul5X2jmAHR
-   qs3v3zUGXX/vSfqfGv1/15YNTsWd+HpZtpHBfWLbK4mWtMZ0gJYASEahv
-   EQjwg9aKVtBUkD/HXhRqYcBJq0UboDaKXRx0dYJjco0Vz5w+CsDfH41Du
-   0Y9ArcxSou+R4GuNoxzANpalei/g4jZnnYh2x3Z1ky4bbWja7uSCzE/Y6
-   O3IZAEHnJa9VrRtxh1tVkr/RW5zgeORc6Y/MmcvqIdmrCbL6fayYQe9cm
-   oykYOWau0B8QSPEzxMaUPYUtVzvQXDgPtLpkup5YxfrTACpm7lMEkbfGD
-   Q==;
-X-CSE-ConnectionGUID: TI7tWxwaTtCdYllokcaGJw==
-X-CSE-MsgGUID: Twz6Rzr3R3yqL+/K8E61yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="32486935"
+  t=1723026102; x=1754562102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HnpfusNJjQyqOrsGWQ88E5yEo8ECihLbqG96DuUrTDo=;
+  b=nq/YXWGiuUAh2tMOeoBveV6F6sjQS/MosmGjfkBUazEEHZyfvwXVZenX
+   JI2pFOX8xnkGbX96EJ+qQqKfPGhH8Z3MJiryC8sbAQE/01PePSnp/hk6w
+   Hhq84DzlChbFd8Hh0wDl95KqW0jsoJnE4Sqzt0tPgI9GNN7MsStImCY7R
+   ytV8T9ii4attp8/Gd+u7vYLf+LQhlUup3mnr8GvrrfcGEwMQU2IcpGJDJ
+   dkAgHeXEzwxq1Qu2fvxUv0qIH4s5feRcDhxCOdNThuNxzFBQFib7vQVgx
+   CFyCfQ1fBos3VjQD7S46fUZkg505afgRq5EfWYs2hd6QxNXlZS8jdxKmq
+   g==;
+X-CSE-ConnectionGUID: fjAzax+0R8ifMC8+C7/3Ww==
+X-CSE-MsgGUID: 1pKRpWEzTl+OhgZkmSnZvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="24848708"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="32486935"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 02:50:33 -0700
-X-CSE-ConnectionGUID: 3q4OSmWKT5qdhAokF2/pug==
-X-CSE-MsgGUID: nu2YmeCkTdSqN4w4aObU2A==
+   d="scan'208";a="24848708"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 03:21:41 -0700
+X-CSE-ConnectionGUID: IZUbq2eFQYqhFF/bKPfQOg==
+X-CSE-MsgGUID: Bo1TO1xNSEWFOp2VQg71PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="56469436"
+   d="scan'208";a="87742410"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2024 02:50:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2024 03:21:39 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbdJN-0005HI-1t;
-	Wed, 07 Aug 2024 09:50:29 +0000
-Date: Wed, 7 Aug 2024 17:50:02 +0800
+	id 1sbdnU-0005Ho-2Z;
+	Wed, 07 Aug 2024 10:21:36 +0000
+Date: Wed, 7 Aug 2024 18:20:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Luke D. Jones" <luke@ljones.dev>, linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	bentiss@kernel.org, jikos@kernel.org,
-	"Luke D. Jones" <luke@ljones.dev>
-Subject: Re: [PATCH] hid-asus-ally: Add full gamepad support
-Message-ID: <202408071743.00IxSKrf-lkp@intel.com>
-References: <20240806081212.56860-1-luke@ljones.dev>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:ptdesc 15/18] mm/khugepaged.c:772:39: error: passing
+ argument 3 of 'pmd_populate' from incompatible pointer type
+Message-ID: <202408071832.Dw0jpbT0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,128 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806081212.56860-1-luke@ljones.dev>
 
-Hi Luke,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on next-20240807]
-[cannot apply to linus/master v6.11-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/hid-asus-ally-Add-full-gamepad-support/20240806-170850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20240806081212.56860-1-luke%40ljones.dev
-patch subject: [PATCH] hid-asus-ally: Add full gamepad support
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408071743.00IxSKrf-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071743.00IxSKrf-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git ptdesc
+head:   105a369317c56f14df26b6ddbd83d0bd4e20a9cc
+commit: 88a0f2a1182f58bd4e05ad4c8efd4d7824f4a225 [15/18] mm/pgtable: pass ptdesc to pmd_populate
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240807/202408071832.Dw0jpbT0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071832.Dw0jpbT0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408071743.00IxSKrf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408071832.Dw0jpbT0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hid/hid-asus-ally.c: In function 'ally_x_create':
->> drivers/hid/hid-asus-ally.c:565:17: warning: variable 'max_output_report_size' set but not used [-Wunused-but-set-variable]
-     565 |         uint8_t max_output_report_size;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.c: In function '__gamepad_store_deadzones':
->> drivers/hid/hid-asus-ally.c:1177:13: warning: variable 'cmd' set but not used [-Wunused-but-set-variable]
-    1177 |         int cmd, side, is_tr;
-         |             ^~~
-   In file included from drivers/hid/hid-asus-ally.c:24:
-   drivers/hid/hid-asus-ally.c: At top level:
->> drivers/hid/hid-asus-ally.h:321:44: warning: 'btn_mapping_rt_attr_group' defined but not used [-Wunused-const-variable=]
-     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
-         |                                            ^~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.h:306:45: note: in definition of macro 'ALLY_BTN_ATTRS_GROUP'
-     306 |         static const struct attribute_group _fname##_attr_group = {       \
-         |                                             ^~~~~~
-   drivers/hid/hid-asus-ally.c:895:1: note: in expansion of macro 'ALLY_BTN_MAPPING'
-     895 | ALLY_BTN_MAPPING(rt, btn_pair_lt_rt, btn_pair_side_right);
-         | ^~~~~~~~~~~~~~~~
->> drivers/hid/hid-asus-ally.h:321:44: warning: 'btn_mapping_lt_attr_group' defined but not used [-Wunused-const-variable=]
-     321 |         ALLY_BTN_ATTRS_GROUP(btn_##_fname, btn_mapping_##_fname)
-         |                                            ^~~~~~~~~~~~
-   drivers/hid/hid-asus-ally.h:306:45: note: in definition of macro 'ALLY_BTN_ATTRS_GROUP'
-     306 |         static const struct attribute_group _fname##_attr_group = {       \
-         |                                             ^~~~~~
-   drivers/hid/hid-asus-ally.c:894:1: note: in expansion of macro 'ALLY_BTN_MAPPING'
-     894 | ALLY_BTN_MAPPING(lt, btn_pair_lt_rt, btn_pair_side_left);
-         | ^~~~~~~~~~~~~~~~
+   mm/khugepaged.c: In function '__collapse_huge_page_copy_failed':
+>> mm/khugepaged.c:772:39: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
+     772 |         pmd_populate(vma->vm_mm, pmd, (struct ptdesc *)pmd_pgtable(orig_pmd));
+   In file included from arch/s390/include/asm/mmu_context.h:11,
+                    from arch/s390/include/asm/elf.h:181,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/blk_types.h:11,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:23,
+                    from include/linux/rmap.h:12,
+                    from mm/khugepaged.c:9:
+   arch/s390/include/asm/pgalloc.h:129:55: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'struct ptdesc *'
+     129 |                                 pmd_t *pmd, pgtable_t pte)
+         |                                             ~~~~~~~~~~^~~
+   mm/khugepaged.c: In function 'collapse_huge_page':
+   mm/khugepaged.c:1201:39: error: passing argument 3 of 'pmd_populate' from incompatible pointer type [-Wincompatible-pointer-types]
+    1201 |                 pmd_populate(mm, pmd, (struct ptdesc *)pmd_pgtable(_pmd));
+   arch/s390/include/asm/pgalloc.h:129:55: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'struct ptdesc *'
+     129 |                                 pmd_t *pmd, pgtable_t pte)
+         |                                             ~~~~~~~~~~^~~
 
 
-vim +/max_output_report_size +565 drivers/hid/hid-asus-ally.c
+vim +/pmd_populate +772 mm/khugepaged.c
 
-   562	
-   563	static struct ally_x_device *ally_x_create(struct hid_device *hdev)
-   564	{
- > 565		uint8_t max_output_report_size;
-   566		struct ally_x_device *ally_x;
-   567		struct ff_report *report;
-   568		int ret;
-   569	
-   570		ally_x = devm_kzalloc(&hdev->dev, sizeof(*ally_x), GFP_KERNEL);
-   571		if (!ally_x)
-   572			return ERR_PTR(-ENOMEM);
-   573	
-   574		ally_x->hdev = hdev;
-   575		INIT_WORK(&ally_x->output_worker, ally_x_work);
-   576		spin_lock_init(&ally_x->lock);
-   577		ally_x->output_worker_initialized = true;
-   578		ally_x->qam_btns_steam_mode =
-   579			true; /* Always default to steam mode, it can be changed by userspace attr */
-   580	
-   581		max_output_report_size = sizeof(struct ally_x_input_report);
-   582		report = devm_kzalloc(&hdev->dev, sizeof(*report), GFP_KERNEL);
-   583		if (!report) {
-   584			ret = -ENOMEM;
-   585			goto free_ally_x;
-   586		}
-   587	
-   588		/* None of these bytes will change for the FF command for now */
-   589		report->report_id = 0x0D;
-   590		report->ff.enable = 0x0F; /* Enable all by default */
-   591		report->ff.pulse_sustain_10ms = 0xFF; /* Duration */
-   592		report->ff.pulse_release_10ms = 0x00; /* Start Delay */
-   593		report->ff.loop_count = 0xEB; /* Loop Count */
-   594		ally_x->ff_packet = report;
-   595	
-   596		ally_x->input = ally_x_setup_input(hdev);
-   597		if (IS_ERR(ally_x->input)) {
-   598			ret = PTR_ERR(ally_x->input);
-   599			goto free_ff_packet;
-   600		}
-   601	
-   602		if (sysfs_create_file(&hdev->dev.kobj, &dev_attr_ally_x_qam_mode.attr)) {
-   603			ret = -ENODEV;
-   604			goto unregister_input;
-   605		}
-   606	
-   607		ally_x->update_ff = true;
-   608		if (ally_x->output_worker_initialized)
-   609			schedule_work(&ally_x->output_worker);
-   610	
-   611		hid_info(hdev, "Registered Ally X controller using %s\n",
-   612			 dev_name(&ally_x->input->dev));
-   613		return ally_x;
-   614	
-   615	unregister_input:
-   616		input_unregister_device(ally_x->input);
-   617	free_ff_packet:
-   618		kfree(ally_x->ff_packet);
-   619	free_ally_x:
-   620		kfree(ally_x);
-   621		return ERR_PTR(ret);
-   622	}
-   623	
+   756	
+   757	static void __collapse_huge_page_copy_failed(pte_t *pte,
+   758						     pmd_t *pmd,
+   759						     pmd_t orig_pmd,
+   760						     struct vm_area_struct *vma,
+   761						     struct list_head *compound_pagelist)
+   762	{
+   763		spinlock_t *pmd_ptl;
+   764	
+   765		/*
+   766		 * Re-establish the PMD to point to the original page table
+   767		 * entry. Restoring PMD needs to be done prior to releasing
+   768		 * pages. Since pages are still isolated and locked here,
+   769		 * acquiring anon_vma_lock_write is unnecessary.
+   770		 */
+   771		pmd_ptl = pmd_lock(vma->vm_mm, pmd);
+ > 772		pmd_populate(vma->vm_mm, pmd, (struct ptdesc *)pmd_pgtable(orig_pmd));
+   773		spin_unlock(pmd_ptl);
+   774		/*
+   775		 * Release both raw and compound pages isolated
+   776		 * in __collapse_huge_page_isolate.
+   777		 */
+   778		release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+   779	}
+   780	
 
 -- 
 0-DAY CI Kernel Test Service
