@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF7B13C8F3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 17:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9A412A14C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 17:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723051945; cv=none; b=B6IXo1ObZCNsmByA69WjXS1gyZ9EW1QB2VCg/sXmjIEXqMjkAKadBZMmRuciiOQV2Z/seXXI8Mo5Gct18bIbU85fZKuqox7zCboHxNB2JIh9MmTPiX0dHjUG47PX7RmVfeYp0doIuc/Q92c+Qx3jHUxjs5fp/kPRV47IWHcnI2M=
+	t=1723053144; cv=none; b=fUv+OyeFGEfAbAoClxwLRttaZJg6qdpXMAzMOiM5J57P8edAcNDsuAaxB487GuJWJqIAafXmpCEoWnLj0cDq+rXPxzqKDve5vGcpgbpYQmfBainUtHNUkJiny3PgQKczMcGWKaAnzkMFxv6jG/+ABmKjczr3d+/1wfvrf07sBuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723051945; c=relaxed/simple;
-	bh=1sYHixPrcIYTFR1PPKPLG9fQCGuPqk/uaaGBNPfk0QQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KOXmD7+b20uxN0Mz53fdInJs38aurWEh8oTm3u7mqnDKqPHL4HmRzj78YNGls/hfonUkUeM2ed/HnGDz9Y4GIB3IbuAdReIFSIqkcqm9YMjaORHTNKUqPtQsBZM7y+qkUh6Z90w/jJ4VrjS4/E2qpYObbVgQWTRGv3hkIsGJbO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ujdgo5zX; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1723053144; c=relaxed/simple;
+	bh=2QIEYYMcrnf392RkbuhW/zcLvYunP/hFQ9rgwMlfvS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xtzm/ivg4zqCsTIpazhrpX6gyLh6kTdSKxsRfXhifHrLgeK/h0AIwYA6FjFA4cqbwTmCG9S79WBqNPr9Qf9nDs239BWF5UAd41G9HtJzk2R0m3JLbKyRGhCSzaRyS9bFogbcWxfSSQLBaPTqN+UDKwjCoHehstvWF9ruLpdFYtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ntZTvuvB; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ujdgo5zX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntZTvuvB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723051944; x=1754587944;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1sYHixPrcIYTFR1PPKPLG9fQCGuPqk/uaaGBNPfk0QQ=;
-  b=Ujdgo5zXlpkN2HTb+1PB7AppgqEWfUg8X3iFbsVgYC8kvTzx0P77yFX+
-   kJBtkZQaLzjwgwXiXMlU0Dj8NiMQ6urf/1DzK8x15Dhaq79ZhCrcHEgJ6
-   IjTtj5lNECSgcqWZDjgRNRjPk2SFpSdFPf0TzcSqQVj4JqGXuuiwJG8kC
-   TFv5eEzQj7qUJ6v6HaPe7b7CU9YeDNfQeoRaBekcap09FJE6OMJM3+T0K
-   5U79rwNGmx5iPbusvRqA1GgitUe/tRoMLMuhcLlezcoklguRm71XWL0uy
-   +yo476X4ysA+MhpmYqaIvqCCVXo9w5+Rq8x84X+hO5WY6VuyyTTDkFW7+
-   A==;
-X-CSE-ConnectionGUID: WPPLDPotQx+YNP+m7Kxy4w==
-X-CSE-MsgGUID: q8mY4aOhT0qzjkdjFQ1H4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="12905615"
+  t=1723053142; x=1754589142;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2QIEYYMcrnf392RkbuhW/zcLvYunP/hFQ9rgwMlfvS0=;
+  b=ntZTvuvBLeSUw5BXe2/OSgk4CaSwKE8JeJ8nPP4uhf6WH+UZVjlIjH3X
+   IyWxPByL/IrL0AaYE8RhsDcQqurVqEIPOteM3YLXChwh5UNLx/Ge0vYV9
+   R2YdXEKwYduZqoI4/rMw4lt3/3X2sZpejlaWxSYLOZqGoKGoiWXtgXJHN
+   DJ1IfPFCQ+veqi5LV6s9xp1m++v62aP1TXkpJZREQJHQP7G/JtFdLHnsT
+   0MWCbgAud9fgvXtAx/oU9quJhoqJSApsua65Y2teGFJUW7lvUAB3ab880
+   gWg8fb5RyzVPaBTkTVm7UUviXAtk35eMaKyR6woUWcXcz8kZTARNzw+ky
+   g==;
+X-CSE-ConnectionGUID: QAcK6NIaRZihuq7mL1ce8A==
+X-CSE-MsgGUID: n5GeeB3lT8+A/e9p9sBWsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="38603170"
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="12905615"
+   d="scan'208";a="38603170"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 10:32:23 -0700
-X-CSE-ConnectionGUID: tPmdtRHERJuo17M6CtE6Ag==
-X-CSE-MsgGUID: hVo4n/qdRL2sVKCQf+RyLQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 10:52:21 -0700
+X-CSE-ConnectionGUID: FwmTdJxUT+OgE5sFF3wa1A==
+X-CSE-MsgGUID: oswCD3KcTfC2IodjAegtRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="94500080"
+   d="scan'208";a="94505344"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2024 10:32:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2024 10:52:20 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbkWH-0005bQ-0H;
-	Wed, 07 Aug 2024 17:32:17 +0000
-Date: Thu, 8 Aug 2024 01:31:54 +0800
+	id 1sbkpd-0005bl-1P;
+	Wed, 07 Aug 2024 17:52:17 +0000
+Date: Thu, 8 Aug 2024 01:52:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, peterz@infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, mingo@redhat.com, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	vschneid@redhat.com, linux-kernel@vger.kernel.org,
-	Menglong Dong <dongml2@chinatelecom.cn>,
-	Bin Lai <laib2@chinatelecom.cn>
-Subject: Re: [PATCH next] sched: make printk safe when rq lock is held
-Message-ID: <202408080114.hpttUZjC-lkp@intel.com>
-References: <20240806074131.36007-1-dongml2@chinatelecom.cn>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:6.1/linux 1361/2351] include/linux/mmzone.h:1593:2:
+ error: Allocator MAX_ORDER exceeds SECTION_SIZE
+Message-ID: <202408080158.puhSbZbI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,80 +61,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806074131.36007-1-dongml2@chinatelecom.cn>
 
-Hi Menglong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240806]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/sched-make-printk-safe-when-rq-lock-is-held/20240806-155153
-base:   next-20240806
-patch link:    https://lore.kernel.org/r/20240806074131.36007-1-dongml2%40chinatelecom.cn
-patch subject: [PATCH next] sched: make printk safe when rq lock is held
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240808/202408080114.hpttUZjC-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080114.hpttUZjC-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
+head:   0befbdddbefb059abf74da2be69b64341846cc95
+commit: 7becae7cdff87cebf08a3a07fa30ca209f6ce16b [1361/2351] mm, treewide: redefine MAX_ORDER sanely
+config: arm64-randconfig-003-20240807 (https://download.01.org/0day-ci/archive/20240808/202408080158.puhSbZbI-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080158.puhSbZbI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408080114.hpttUZjC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408080158.puhSbZbI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/core.c:88:
-   kernel/sched/sched.h: In function 'rq_pin_lock':
->> kernel/sched/sched.h:1705:9: error: implicit declaration of function '__printk_safe_enter'; did you mean '__printk_deferred_enter'? [-Wimplicit-function-declaration]
-    1705 |         __printk_safe_enter();
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         __printk_deferred_enter
-   kernel/sched/sched.h: In function 'rq_unpin_lock':
->> kernel/sched/sched.h:1722:9: error: implicit declaration of function '__printk_safe_exit'; did you mean '__printk_ratelimit'? [-Wimplicit-function-declaration]
-    1722 |         __printk_safe_exit();
-         |         ^~~~~~~~~~~~~~~~~~
-         |         __printk_ratelimit
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   In file included from include/linux/idr.h:15:
+   In file included from include/linux/radix-tree.h:21:
+   In file included from include/linux/xarray.h:15:
+   In file included from include/linux/gfp.h:7:
+>> include/linux/mmzone.h:1593:2: error: Allocator MAX_ORDER exceeds SECTION_SIZE
+   #error Allocator MAX_ORDER exceeds SECTION_SIZE
+    ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                           set->sig[1] | set->sig[0]) == 0;
+                           ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[1] | set->sig[0]) == 0;
+                           ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
 
 
-vim +1705 kernel/sched/sched.h
+vim +1593 include/linux/mmzone.h
 
-  1690	
-  1691	/*
-  1692	 * Lockdep annotation that avoids accidental unlocks; it's like a
-  1693	 * sticky/continuous lockdep_assert_held().
-  1694	 *
-  1695	 * This avoids code that has access to 'struct rq *rq' (basically everything in
-  1696	 * the scheduler) from accidentally unlocking the rq if they do not also have a
-  1697	 * copy of the (on-stack) 'struct rq_flags rf'.
-  1698	 *
-  1699	 * Also see Documentation/locking/lockdep-design.rst.
-  1700	 */
-  1701	static inline void rq_pin_lock(struct rq *rq, struct rq_flags *rf)
-  1702	{
-  1703		rf->cookie = lockdep_pin_lock(__rq_lockp(rq));
-  1704	
-> 1705		__printk_safe_enter();
-  1706	#ifdef CONFIG_SCHED_DEBUG
-  1707		rq->clock_update_flags &= (RQCF_REQ_SKIP|RQCF_ACT_SKIP);
-  1708		rf->clock_update_flags = 0;
-  1709	# ifdef CONFIG_SMP
-  1710		SCHED_WARN_ON(rq->balance_callback && rq->balance_callback != &balance_push_callback);
-  1711	# endif
-  1712	#endif
-  1713	}
-  1714	
-  1715	static inline void rq_unpin_lock(struct rq *rq, struct rq_flags *rf)
-  1716	{
-  1717	#ifdef CONFIG_SCHED_DEBUG
-  1718		if (rq->clock_update_flags > RQCF_ACT_SKIP)
-  1719			rf->clock_update_flags = RQCF_UPDATED;
-  1720	#endif
-  1721	
-> 1722		__printk_safe_exit();
-  1723		lockdep_unpin_lock(__rq_lockp(rq), rf->cookie);
-  1724	}
-  1725	
+d41dee369bff3b Andy Whitcroft     2005-06-23  1588  
+835c134ec4dd75 Mel Gorman         2007-10-16  1589  #define SECTION_BLOCKFLAGS_BITS \
+d9c2340052278d Mel Gorman         2007-10-16  1590  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
+835c134ec4dd75 Mel Gorman         2007-10-16  1591  
+7becae7cdff87c Kirill A. Shutemov 2023-03-15  1592  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
+d41dee369bff3b Andy Whitcroft     2005-06-23 @1593  #error Allocator MAX_ORDER exceeds SECTION_SIZE
+d41dee369bff3b Andy Whitcroft     2005-06-23  1594  #endif
+d41dee369bff3b Andy Whitcroft     2005-06-23  1595  
+
+:::::: The code at line 1593 was first introduced by commit
+:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
+
+:::::: TO: Andy Whitcroft <apw@shadowen.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
