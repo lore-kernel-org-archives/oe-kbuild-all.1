@@ -1,65 +1,62 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F491E6753
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 13:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61D61E7A22
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 13:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723036176; cv=none; b=qONBByBwzSe40YayT1P+hYg/ecW2GW38+SaiaXE3v/g6J0HgBpqSs6ELSLbQBc1UIX4o3SjdAd9hxBEqGKibK2UAi6TsfMeaexWUYd46gd5Uo0DRwhFTcCA2Pz9gaLhCpn2zG8JGLogv/tvFbOyLkRxJNzW54q3cYEwCE6FqJjU=
+	t=1723036462; cv=none; b=Wo5ceGCzQDh8VXHURvYUI2n618RW+RTkWhPs4Z2euJaBKdD16StX/dbTHKHyPQt2C0IilBM8Nh/PNSV7SRre9cK8LFpDD5kK+NKrIe8lZR4/qtbse3O70KSDN5ipWKQvzQUX2DrtUdNG0GT6VnfztGYza2G076gSti8+TPnXtvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723036176; c=relaxed/simple;
-	bh=h5D+TxxzyQOd6cFLpqhzBGmIlcHnvQChvX3mlW8gCyc=;
+	s=arc-20240116; t=1723036462; c=relaxed/simple;
+	bh=odzGnnxO/ts2KuDjpBIAB3FI15uc4mVhBXWFfSOJcKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p31UxhHo2dEYq2hkrthg1tlpOFSl45APWY7kBkPcDf/YwuIZjJDIzoo3GAQSl7y+587YRM96pBovqwV7h0MBY8HFm+FscK1bHzz723PRbI4zKkIN+euFUrBLAmyf93FD4lH2qAGFG8U+ohFi5UhSu2YOYqXU8hwCPtzcomGHNT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=husTUjh2; arc=none smtp.client-ip=209.85.128.41
+	 Content-Disposition; b=ZkaWU6AJDYG4roh9Kq+AZCPPCo8XFgtytBrrdDxJktdLuNbLnmFSKwpW5zzCRT2nKLaHePnXqXgIgB5cEP0e9UbCoIPrhwOctLWS9tVYg8Dvch4qMvKd88qVtTurg1XhEdaTDedCJ87eqyOXj4+SnwmQaOfKU4fHCJIVfzsZZT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=epPpjtVi; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="husTUjh2"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4281ca54fd3so12190535e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Aug 2024 06:09:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="epPpjtVi"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4281c164408so11997625e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Aug 2024 06:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723036172; x=1723640972; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1723036459; x=1723641259; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FSD5ZSfiVX3CykW683z0+/F5lPHuAwYoRAjZAf9aOlE=;
-        b=husTUjh21ioHgssJf2DwjoB1Lr0r801e9NfXvB408HIDE4W9poteFWDVQC5kUdFiKn
-         y3IbxYmscJDmyMeso8VzUNmEs0FNEPwiet8lTA6tVurfu2Gqj/Rm8weUD93OBOL1hmd6
-         fWRm/HaAKSFykdhfk8194lAjwWc/LWie+YsKXy+iFkdaEHd+Bj82nNhXZvbUEbQd4Dkf
-         tFmA5tKvr3Ux0/2PmxdHMjL9g8jWrnyaXVVBKm1lhEwUfKwJl1hkYA2/3H7kTX7C/0cP
-         8suv0pdqvJjR+birbM2UwbvXqg5NvHnKjsEaZHgVyp8+gbp6CxbTtDfwzEIMPc8uUegK
-         qNhw==
+        bh=jM6X8Ydp59P8PBOF42t5kMHir+yd+GqTuVe2tD6qM44=;
+        b=epPpjtVi9VG7SRkGFjXi+ZJlUAGSZq+DXIw5Ymy3yktHbjQVjxOh/ag3hNSmTJAitJ
+         kUHxp7sEmrowWf2Gk8TFIHSPpKNTvNO7RywNlPtk7r3sofKjFfj72VJMezok9dOscpvQ
+         wao9IpiFys4Mae+PSQIB9OaKHpBcbuTtzCfy4oQpINuy+4Mz0SdKNyrcWkKcAm4112Gu
+         FJUDdzVYTXbOUMPold46vQvO94PD48hAaGdSMhSPhELAP28vUjytTqLvwPiQv2jXc8pw
+         QaAP3PpV2AUZhnbat/vX2n+mSP/jAaqFH46nhubvoLwxqrx9TQ29ZK5Q9CPcEYmJI3x8
+         dHuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723036172; x=1723640972;
+        d=1e100.net; s=20230601; t=1723036459; x=1723641259;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FSD5ZSfiVX3CykW683z0+/F5lPHuAwYoRAjZAf9aOlE=;
-        b=EXOFsUFJFlHQ6VbeR3OVqHXQudDBODKEq5TS8RF6Cx7kJjU1tL3CGFuS5yPIniGxYw
-         OrmUsrtrB3meNUgHACYh7POQ2T/GogmxKBmpQb9vbP6kfim8NRTL6RqFbcovjiL8wxDS
-         a2FCXDM22ztdy3+rgwUsEa2OyFT+Z/SFHnvTN3qEIqLxVvC1VVOiGS4rogPEKbrcH/AE
-         xx/9K4JqsPyUWNOeJdP/DZ4avBxzYteGBNXQlqjXY9mKiIJsPKH0Gv+42bahX8/DR3hU
-         TXgmIzUBcmTHqBfRfCAtVgw6nh94fsWdQ/lCfCB558D8ZN2ISzl7J1kRBKLdeBa1vO6/
-         e/Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCU74hdsB79/LoHQU085EOQD1ze+RihGQyUeAdX8+S2vgMcc4Z8oRRE2CSRnWpCoKibSNSfL1YWrxiExovhjWLM0loCmKiqodRODAEGnyQ==
-X-Gm-Message-State: AOJu0YyhAoGi6KgBkUUoFncj6iFB3+Rfl9nh3GW/OdO5eE0k7gQfZeYO
-	/TwcQOhzXKhz2d89N4tHTE6B1wead88Sg5jnFjJwTcAnQYBaqiolONWE/D/dgS4=
-X-Google-Smtp-Source: AGHT+IHvB3LkDgYwKbjr7I2JMY+coCXXo9BwC2WGoOjltmhK0af8zEz3y+p9ADJJ3nDgWh+TPCchNA==
-X-Received: by 2002:a05:600c:1c17:b0:426:5ee5:3129 with SMTP id 5b1f17b1804b1-428e6aea7bdmr134763095e9.2.1723036172089;
-        Wed, 07 Aug 2024 06:09:32 -0700 (PDT)
+        bh=jM6X8Ydp59P8PBOF42t5kMHir+yd+GqTuVe2tD6qM44=;
+        b=hTXN4aiS4LFRjLW3fPtSm0A1Er+BdvWDv8ftGqaNpJZLofCzaeZlRU+AGDkJ+7WZxe
+         jLXerljdB8vRqCYXxSlpnINFWlJgMlWEHb9NPscgrqVVW3+HXu4NDQ0KoOTOqD791abS
+         h8i5wzFmJi+ClgtjXCfygVN1HblY+rBAIQS3IO0N20GWs9l3sWiME0d/MUwQRxWzG815
+         hg2KSY3DdFlAXmHXGlDGUgv4NEGvjrTtXICxJ+ChYVuPjedPfOi+HGG9mI32xcJ9tdPw
+         7mw4TSjmLr6ZYUk4cKa38l/0TnsxIMTy38EJNAPHkf2lbSjBrF3MHJTejI9T/XvJjqdt
+         yIbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTox0yANOiPCdoCIGgZSPCOURV1qU6P9SALHh8tezuAht+Or3/rpDWsNBOKNGB2OEVTNfqAwxjGnmRvn9omJC+kjxMbm0d4ctbTHaGPQ==
+X-Gm-Message-State: AOJu0YxsF7OVS7OUpaws31aGQuwHXgKNDkL61dXXU5ev27EelZiwGTls
+	q77YFKS6zYfgtKkpukqHqnQUs8xxyqLHRnZQdxwl4PSslZHncOuhgzjJnjBGi9k=
+X-Google-Smtp-Source: AGHT+IEQbkJqFTP4c7679kF3t68vhH6mm7YNl+MYqzLyuajep4s/eioKcmA4Me0W+o4zwV7pP+c9Bg==
+X-Received: by 2002:a05:600c:a47:b0:427:fa39:b0a1 with SMTP id 5b1f17b1804b1-428e6b930e9mr113937625e9.36.1723036459139;
+        Wed, 07 Aug 2024 06:14:19 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4290579fe08sm28766335e9.16.2024.08.07.06.09.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42905796a29sm29361705e9.10.2024.08.07.06.14.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 06:09:31 -0700 (PDT)
-Date: Wed, 7 Aug 2024 08:09:27 -0500
+        Wed, 07 Aug 2024 06:14:18 -0700 (PDT)
+Date: Wed, 7 Aug 2024 08:14:16 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [plbossart-sound:sdw/fix-bool-properties 16/19]
- sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error:
- uninitialized symbol 'string'.
-Message-ID: <dabf48bf-3762-4291-8014-0c6f3892a1c2@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-per-rtg-bitmap-rebase 48/60] fs/xfs/xfs_rtalloc.c:1157
+ xfs_growfs_rt_prep_rtgs() error: uninitialized symbol 'error'.
+Message-ID: <45b0c4af-7d71-4ba4-8404-84898de24888@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,73 +66,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/plbossart/sound sdw/fix-bool-properties
-head:   cc66cbd8eb2728b3b654f29c0a44009826c7a108
-commit: 98ab12fb50b6f367cd21ac2c59898574a0a6297c [16/19] ASoC: SOF: debug-dsp-ops: Add a debugfs entry to read current FW status
-config: x86_64-randconfig-161-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071524.CplRSiTF-lkp@intel.com/config)
+tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap-rebase
+head:   a6af886fd0b4ff036a3e9fcc4b9cb0b8db41a36c
+commit: fd68ff6669695c8885e8bea955960c089bbefd49 [48/60] xfs: grow the realtime section when realtime groups are enabled
+config: x86_64-randconfig-161-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071825.AfsI6d6W-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408071524.CplRSiTF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408071825.AfsI6d6W-lkp@intel.com/
 
-smatch warnings:
-sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error: uninitialized symbol 'string'.
+New smatch warnings:
+fs/xfs/xfs_rtalloc.c:1157 xfs_growfs_rt_prep_rtgs() error: uninitialized symbol 'error'.
 
-vim +/string +174 sound/soc/sof/debug-dsp-ops.c
+vim +/error +1157 fs/xfs/xfs_rtalloc.c
 
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  142  static ssize_t sof_dsp_ops_tester_dfs_read(struct file *file, char __user *buffer,
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  143  					   size_t count, loff_t *ppos)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  144  {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  145  	struct snd_sof_dfsentry *dfse = file->private_data;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  146  	struct snd_sof_dev *sdev = dfse->sdev;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  147  	struct dentry *dentry;
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  148  	const char *string;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  149  	size_t size_ret;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  150  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  151  	/* return the FW filename or path */
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  152  	dentry = file->f_path.dentry;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  153  	if (!strcmp(dentry->d_name.name, "fw_filename")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  154  		string = sdev->test_profile.fw_name;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  155  	} else if (!strcmp(dentry->d_name.name, "fw_path")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  156  		string = sdev->test_profile.fw_path;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  157  	} else if (!strcmp(dentry->d_name.name, "dsp_power_state")) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  158  		switch (sdev->dsp_power_state.state) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  159  		case SOF_DSP_PM_D0:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  160  			string = "D0\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  161  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  162  		case SOF_DSP_PM_D3:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  163  			string = "D3\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  164  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  165  		default:
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  166  			break;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1128  static int
+fd68ff6669695c Darrick J. Wong   2024-08-04  1129  xfs_growfs_rt_prep_rtgs(
+fd68ff6669695c Darrick J. Wong   2024-08-04  1130  	struct xfs_mount	*mp,
+fd68ff6669695c Darrick J. Wong   2024-08-04  1131  	xfs_rfsblock_t		rblocks,
+fd68ff6669695c Darrick J. Wong   2024-08-04  1132  	xfs_extlen_t		rextsize)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1133  {
+fd68ff6669695c Darrick J. Wong   2024-08-04  1134  	int			error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1135  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1136  	/* Set up the realtime superblock if we're adding a new rt section. */
+fd68ff6669695c Darrick J. Wong   2024-08-04  1137  	if (xfs_has_rtsb(mp) && mp->m_sb.sb_rblocks == 0) {
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+fd68ff6669695c Darrick J. Wong   2024-08-04  1138  		error = xfs_growfs_rt_init_super(mp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1139  		if (error)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1140  			return error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1141  	}
+fd68ff6669695c Darrick J. Wong   2024-08-04  1142  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1143  	/* Make sure the /rtgroups dir has been created */
+fd68ff6669695c Darrick J. Wong   2024-08-04  1144  	if (!mp->m_rtdirip) {
+                                                            ^^^^^^^^^^^^^^
+Is it possible for both of these conditions to be false?
 
-string not initialized for the default case.
+fd68ff6669695c Darrick J. Wong   2024-08-04  1145  		struct xfs_trans	*tp;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1146  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1147  		error = xfs_trans_alloc_empty(mp, &tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1148  		if (error)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1149  			return error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1150  		error = xfs_rtginode_load_parent(tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1151  		xfs_trans_cancel(tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1152  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1153  		if (error == -ENOENT)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1154  			error = xfs_rtginode_mkdir_parent(mp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1155  	}
+fd68ff6669695c Darrick J. Wong   2024-08-04  1156  
+fd68ff6669695c Darrick J. Wong   2024-08-04 @1157  	return error;
+                                                               ^^^^^
+If so then this could be uninitialized
 
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  167  		}
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  168  	} else if (!strcmp(dentry->d_name.name, "fw_state")) {
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  169  		return sof_dsp_ops_fw_state_read(sdev, buffer, count, ppos);
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  170  	} else {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  171  		return 0;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  172  	}
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  173  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21 @174  	if (*ppos || !string)
-                                                                     ^^^^^^^
-
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  175  		return 0;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  176  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  177  	count = min_t(size_t, count, strlen(string));
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  178  	size_ret = copy_to_user(buffer, string, count);
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  179  	if (size_ret)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  180  		return -EFAULT;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  181  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  182  	*ppos += count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  183  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  184  	return count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  185  }
+fd68ff6669695c Darrick J. Wong   2024-08-04  1158  }
 
 -- 
 0-DAY CI Kernel Test Service
