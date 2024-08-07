@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511BD13CFA3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 19:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1394E145333
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 19:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723058071; cv=none; b=aOTwxqcdwXa95QmsFIfz6ZmMbJdsVaFjREEHe0P4ecqv/N1MghASYC0xT4s9kDSiEgOkaFDy20XSiV/VAgmld/bYy15n5wgJd265WLeZJ6co/DSCcDde3xhIu398hVCJoMFMDlXhE84Xvo54RUc8k09fUtmG8t1Bl/3zBmEZv6Q=
+	t=1723060527; cv=none; b=JtDjYK/MhSK6DNQ8AyWpDgZss113U8jin+VAMjZzHk15mY69v319AfrN1s/KfS0dN5bdXzIbsAWQ3tCwbc/tMEBgRs9GGSof9XphCrlvbYxdzKYOQ4ZwYC3hWIoFJarmvB3nwUBYDxZTvfCBHeyFDPkLn/mGEiBFgyyBn0m+YSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723058071; c=relaxed/simple;
-	bh=EF8BtXKRn0eSNc05982FUsqB02G8WQaIY1aHsNHkV9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WXEN/YULgzP/pdmOFI2KHTfdQimKgN6ldzJDHQPUFjUzG4V8gdekU/H3Uy6+u/4GA9X/rM5dREcZLtaIUgrFcNhVDkM3NJiO0D1puvBs3EnyFxXIM/TpGQWghZbP0pKapkDiwM41PQTM3rjD0cPqyU/PGHcICja9BT62g0gAAmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbcPF/Wt; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1723060527; c=relaxed/simple;
+	bh=RKALN1MHgOVJVqePwTXnjIhOh9hyZF92BM3lVOga2yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uapuSls0iYOE3MdN/CseHxN9wJHiDSutUdOns5KKGE9gI4o+qya/IGXVWVwVL+DDtcjjEqV1qn5uYAD38KXCnDhBrzoFQoGR/oCw7ykhcyEYS+BNIqds8qR6Q4apa8Zw2iZOjPpGV+6iwCwJHO0bhu+e4QKRLrM1i1ZLT/kX3FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVMYCLF9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbcPF/Wt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVMYCLF9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723058068; x=1754594068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EF8BtXKRn0eSNc05982FUsqB02G8WQaIY1aHsNHkV9E=;
-  b=AbcPF/WtEPV0rUAE7acP6oxF1Gza+yeOJMIdDeYXoF14BpwxXPqTfGKe
-   TwwU5EOYfBt7XTUgpWZhzXh+AQU81B3D9xKODASmQKHOYHN8KPBiSvG6a
-   62umYeZSFv2surziTR5lzDXGoAD3n0aLEhkzO2W6whyB0M0UWVjFRU9nd
-   RlAk05AEmquQRnLJD5oM3DlwEpgn7MwtaUw9EmMcJt01+SyvFp7O1s/UC
-   60rHCkCEmFX+4chCGluIGr6SDcQlf1fDjzh9YnGf1lsf4yj/DYT8qF91m
-   beufqwVRTMFecSd44VYZaGdKCO/spVutCNxGPTYQZW8+1NZQECRvp2znv
+  t=1723060526; x=1754596526;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RKALN1MHgOVJVqePwTXnjIhOh9hyZF92BM3lVOga2yY=;
+  b=KVMYCLF9KBzeQon2H0qsTz/FMFb0xXsNwbkR+NAewARpFBt3Ru4fS3Fa
+   ul3XMZsnLKQW/MA9bBExXpFm8C3His+Wo+B13UiQdQjTKLwkJuMuzw4Ws
+   ozWZhmPyPK7OPhk1VZxn2jK02COK9VDBr92tLaMHBbpxbssNMzYevWCXs
+   L4EfsnJHeZ5qtL6nEZH05KuX7w3wIYbw61uW9zKmkqvgs/HLxAboQNjpR
+   MEed0uJxElgTqY3jSLOoHoxzZwC/ekh+fjEcRidPrhRahCXRSygZ+6nsI
+   Cbe4bseWlTQu813t/ruH6vE6mmrtZWB8HezphwLq2yNUTFT3YocBtLIce
    Q==;
-X-CSE-ConnectionGUID: SpdyrqD7SJarPfYjp4N1WQ==
-X-CSE-MsgGUID: IApT3N47R3G6kN1SGytuiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21312553"
+X-CSE-ConnectionGUID: 5xB2M+ssRfO7xd50x2ajhA==
+X-CSE-MsgGUID: hp7AkyplTJyt3gg0Bx+ozA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21326062"
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="21312553"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 12:14:27 -0700
-X-CSE-ConnectionGUID: b2yRPJw1S/qPEOpEHJyX1Q==
-X-CSE-MsgGUID: X6J1B2IWRcO/2D59LXNR1A==
+   d="scan'208";a="21326062"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 12:55:23 -0700
+X-CSE-ConnectionGUID: srXxKOTER3CFdoyls1tzXw==
+X-CSE-MsgGUID: WkFTE3fxS5SQE37NlZ7rIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="87883705"
+   d="scan'208";a="56647724"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2024 12:14:26 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2024 12:55:21 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbm71-0005e4-0Y;
-	Wed, 07 Aug 2024 19:14:21 +0000
-Date: Thu, 8 Aug 2024 03:13:31 +0800
+	id 1sbmkh-0005fy-19;
+	Wed, 07 Aug 2024 19:55:19 +0000
+Date: Thu, 8 Aug 2024 03:55:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 9/9]
- drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c:2341:22: error:
- variable 'ctx' set but not used
-Message-ID: <202408080335.xFZoPb8N-lkp@intel.com>
+To: 824731276@qq.com, axboe@kernel.dk
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, baiguo@kylinos.cn
+Subject: Re: [PATCH] block:added printing when bio->bi_status fails
+Message-ID: <202408080303.bwOWkFK1-lkp@intel.com>
+References: <tencent_F71A15579D1E52ED0B58EF2F3607AA883308@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +63,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_F71A15579D1E52ED0B58EF2F3607AA883308@qq.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   f35e4ab7d881e058813ccd2de5aec024a2d7f656
-commit: f35e4ab7d881e058813ccd2de5aec024a2d7f656 [9/9] CHROMIUM: media: platform: mediatek: isp: camsys support standard v4l2
-config: arm64-randconfig-001-20240808 (https://download.01.org/0day-ci/archive/20240808/202408080335.xFZoPb8N-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080335.xFZoPb8N-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.11-rc2 next-20240807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/824731276-qq-com/block-added-printing-when-bio-bi_status-fails/20240807-174005
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/tencent_F71A15579D1E52ED0B58EF2F3607AA883308%40qq.com
+patch subject: [PATCH] block:added printing when bio->bi_status fails
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240808/202408080303.bwOWkFK1-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080303.bwOWkFK1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408080335.xFZoPb8N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408080303.bwOWkFK1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c:11:
-   In file included from include/linux/remoteproc.h:40:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1776:
-   include/linux/vmstat.h:502:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     502 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     503 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:509:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     509 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     510 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:516:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:521:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     521 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     522 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c:2341:22: error: variable 'ctx' set but not used [-Werror,-Wunused-but-set-variable]
-    2341 |         struct mtk_cam_ctx *ctx;
-         |                             ^
-   5 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DEVFREQ_THERMAL
-   Depends on [n]: THERMAL [=n] && PM_DEVFREQ [=y] && PM_OPP [=y]
-   Selected by [m]:
-   - MALI [=m] && HAS_IOMEM [=y] && ARM64 [=y] && ARM64_PAGE_SHIFT [=12]=12 && !MALI_MIDGARD && MALI_MIDGARD!=m [=m]
+   block/bio.c: In function 'bio_endio':
+>> block/bio.c:1620:34: error: 'struct bio' has no member named 'bi_disk'
+    1620 |         if (bio->bi_status && bio->bi_disk)
+         |                                  ^~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from block/bio.c:5:
+   block/bio.c:1622:62: error: 'struct bio' has no member named 'bi_disk'
+    1622 |                                 __func__, bio->bi_status, bio->bi_disk->major,\
+         |                                                              ^~
+   include/linux/printk.h:437:33: note: in definition of macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   block/bio.c:1621:17: note: in expansion of macro 'printk'
+    1621 |                 printk(KERN_ERR "bio: %s status is %d, disk[%d:%d]\n",\
+         |                 ^~~~~~
+   block/bio.c:1623:36: error: 'struct bio' has no member named 'bi_disk'
+    1623 |                                 bio->bi_disk->first_minor);
+         |                                    ^~
+   include/linux/printk.h:437:33: note: in definition of macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   block/bio.c:1621:17: note: in expansion of macro 'printk'
+    1621 |                 printk(KERN_ERR "bio: %s status is %d, disk[%d:%d]\n",\
+         |                 ^~~~~~
 
 
-vim +/ctx +2341 drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_cam.c
+vim +1620 block/bio.c
 
-  2334	
-  2335	static int mtk_cam_buf_config(struct mtk_cam_device *cam,
-  2336				      struct mtkcam_ipi_frame_param *frame_param,
-  2337				      struct mtk_cam_buffer *buf)
-  2338	{
-  2339		struct vb2_buffer *vb;
-  2340		struct mtk_cam_video_device *node;
-> 2341		struct mtk_cam_ctx *ctx;
-  2342		int ret;
-  2343	
-  2344		vb = &buf->vbb.vb2_buf;
-  2345		node = mtk_cam_vbq_to_vdev(vb->vb2_queue);
-  2346	
-  2347		ctx = mtk_cam_find_ctx(cam, &node->vdev.entity);
-  2348	
-  2349		/* update buffer format */
-  2350		switch (node->desc.dma_port) {
-  2351		case MTKCAM_IPI_RAW_IMGO:
-  2352			mtk_cam_config_raw_path(cam, frame_param, buf);
-  2353			mtk_cam_config_raw_img_out_imgo(cam, frame_param, buf);
-  2354			ret = mtk_cam_config_raw_img_fmt(cam, frame_param, buf);
-  2355			if (ret)
-  2356				return ret;
-  2357			break;
-  2358		case MTKCAM_IPI_RAW_YUVO_1:
-  2359		case MTKCAM_IPI_RAW_YUVO_2:
-  2360		case MTKCAM_IPI_RAW_YUVO_3:
-  2361		case MTKCAM_IPI_RAW_YUVO_4:
-  2362		case MTKCAM_IPI_RAW_YUVO_5:
-  2363		case MTKCAM_IPI_RAW_RZH1N2TO_1:
-  2364		case MTKCAM_IPI_RAW_RZH1N2TO_2:
-  2365		case MTKCAM_IPI_RAW_RZH1N2TO_3:
-  2366		case MTKCAM_IPI_RAW_DRZS4NO_1:
-  2367		case MTKCAM_IPI_RAW_DRZS4NO_2:
-  2368		case MTKCAM_IPI_RAW_DRZS4NO_3:
-  2369			mtk_cam_config_raw_img_out(cam, frame_param, buf);
-  2370			break;
-  2371		default:
-  2372			/* Do nothing for the ports not related to crop settings */
-  2373			break;
-  2374		}
-  2375	
-  2376		return 0;
-  2377	}
-  2378	
+  1589	
+  1590	/**
+  1591	 * bio_endio - end I/O on a bio
+  1592	 * @bio:	bio
+  1593	 *
+  1594	 * Description:
+  1595	 *   bio_endio() will end I/O on the whole bio. bio_endio() is the preferred
+  1596	 *   way to end I/O on a bio. No one should call bi_end_io() directly on a
+  1597	 *   bio unless they own it and thus know that it has an end_io function.
+  1598	 *
+  1599	 *   bio_endio() can be called several times on a bio that has been chained
+  1600	 *   using bio_chain().  The ->bi_end_io() function will only be called the
+  1601	 *   last time.
+  1602	 **/
+  1603	void bio_endio(struct bio *bio)
+  1604	{
+  1605	again:
+  1606		if (!bio_remaining_done(bio))
+  1607			return;
+  1608		if (!bio_integrity_endio(bio))
+  1609			return;
+  1610	
+  1611		blk_zone_bio_endio(bio);
+  1612	
+  1613		rq_qos_done_bio(bio);
+  1614	
+  1615		if (bio->bi_bdev && bio_flagged(bio, BIO_TRACE_COMPLETION)) {
+  1616			trace_block_bio_complete(bdev_get_queue(bio->bi_bdev), bio);
+  1617			bio_clear_flag(bio, BIO_TRACE_COMPLETION);
+  1618		}
+  1619	
+> 1620		if (bio->bi_status && bio->bi_disk)
+  1621			printk(KERN_ERR "bio: %s status is %d, disk[%d:%d]\n",\
+  1622					__func__, bio->bi_status, bio->bi_disk->major,\
+  1623					bio->bi_disk->first_minor);
+  1624	
+  1625		/*
+  1626		 * Need to have a real endio function for chained bios, otherwise
+  1627		 * various corner cases will break (like stacking block devices that
+  1628		 * save/restore bi_end_io) - however, we want to avoid unbounded
+  1629		 * recursion and blowing the stack. Tail call optimization would
+  1630		 * handle this, but compiling with frame pointers also disables
+  1631		 * gcc's sibling call optimization.
+  1632		 */
+  1633		if (bio->bi_end_io == bio_chain_endio) {
+  1634			bio = __bio_chain_endio(bio);
+  1635			goto again;
+  1636		}
+  1637	
 
 -- 
 0-DAY CI Kernel Test Service
