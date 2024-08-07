@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0964F22334
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 08:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84E31C9ED0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Aug 2024 09:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723020018; cv=none; b=rSNyxe8iq33qYMjiBixxeeXGfxd3caPSiisZWnqALCKeUEyt0DsHkK9MuPL9XlWN8rW1FtC6XeqX4x7znZUbzbRMjuNOPnwGjnDXeVfIk0U0iC5UISJntDvYr7R58NIfEsGSeMdzTiDerQxqyGK4MnYYqTkJ8lSKII1waqjf8OM=
+	t=1723022415; cv=none; b=H5siXl8j57DMVI4t88RSiWn0INlcVMi0GnEgvQRvaC86ykuF50oKxguVKoaT8WDM6M5b72Ifbxw87YaG9BmMMj0anI9TNix7SgP0QIkroP/BNNkNx2bF535EUJurgv/g1A54LJsT2wUwPvAQdaH+V35m2do3G852VzMEUO+UtLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723020018; c=relaxed/simple;
-	bh=eGxqFOheFEDBZRT+ryYAWAHXRFo2vDZErhpOUSa37sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PTM2l/+yNEaqP+XtqGresq4uyOLOqPSIy3GldwTXLYy3+spsW4pOywNYy/mCd58MYuK/I4k8uUt5giZZccaO08fv0/fC1fdwqpKe6tTupwD38VjYegNSx2nV37OfAUlXaxtzIp1Rt+S+LY40b34U8gBT6uByTu77D0Zyj6C5AHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaKtO+O7; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1723022415; c=relaxed/simple;
+	bh=9EnVftXVQX8DQRImvxhrpfvL4NSOIAveu8bVaaXe7iI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZjI3A09PKjLjPODAfmTTYPmISsLHDBb17JHxKuUu12qw9wB29Siwvz3DezRJCRZhx0UZbagyT9A590fnOs88Zv0N9sLsbrQphLOt+01Q1G3l4GJWPOmTvyrrG2kSQlSek7HfdsLJaNVmw0eVNAUAja6swmZXCpekay1kRqlqLbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gki+FWDk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaKtO+O7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gki+FWDk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723020015; x=1754556015;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eGxqFOheFEDBZRT+ryYAWAHXRFo2vDZErhpOUSa37sw=;
-  b=CaKtO+O7Q9e0h+VS0UBw+ul8L+f/bOS3aM4ytTW4OWuOpZOcGHBcOqLP
-   okkmkcp6iHaML4kI/DgZfnGGR1gZQS1CixJ6regUuHlfYqgZBh2IC6e0N
-   /0qIehS1aVSXvdAU/Z87xAuKaM17wfkkHwpGti8cpnu6EpUW5G2TR98kM
-   /wPH0t8SKc7N7nWEchhyQqLdVKYIEwlCn6qu8DabG0S06fml5sPh14F/B
-   qnUK3UJbvfgLsAgkeRw/bweLVp7zuQt24JpDwvpl6inmD5s78vhYesmVu
-   QuOi+k4wmYsLoul6fgDtM3v9Hvsd+mVdlwYVlD+4IW6K0EnRULJ1f4a6/
-   g==;
-X-CSE-ConnectionGUID: MMHdwS2tQWaxTfZtsH7b/w==
-X-CSE-MsgGUID: A/QaY15wS7GtEM/e/Cchlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21049553"
+  t=1723022414; x=1754558414;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9EnVftXVQX8DQRImvxhrpfvL4NSOIAveu8bVaaXe7iI=;
+  b=gki+FWDkWU/juUyt3XOO6f4lwiU+74WZdG2IZ8W4sWVzBe/WIa27vBXM
+   37AHKKlnUnKtx3jiaKyZlWLcenjYGRA9sEdCfnmTOEw/Y1XC1tiM0zA6u
+   WXAK1atS4qjytsAbeKbp2jS3jIYlLrkfnp7KB7xSqkZgyKyGzW4aqVMPH
+   b7YqJKTLxSORVr5aDygJ2JgyiPGOHKhDtR90jqb2RKzc1SDWIjSitdu2Y
+   ZCBOqObtEqkepAYU+UuXTPBytuTnb7OwQFCp4NmCTYv1jQD/JhvXvZrAO
+   SkG33cNXhvM19nF30AuTzh8TLhDMfirL8gCqQty35mcQWmMG0fMR4qlzO
+   A==;
+X-CSE-ConnectionGUID: yDQISiQQRlWsE1PR8PQCgw==
+X-CSE-MsgGUID: lvrWZ/RUQ/KVXtlq4Hg6wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21223622"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="21049553"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:39:57 -0700
-X-CSE-ConnectionGUID: YocajDd5R6uVSURNJoILLA==
-X-CSE-MsgGUID: BxZCDZUWRPWM9gwnRteiiw==
+   d="scan'208";a="21223622"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 02:20:13 -0700
+X-CSE-ConnectionGUID: wmfEZko7Q+uOQf1HlCkJag==
+X-CSE-MsgGUID: B0k27i1mTH6RZCQT47491Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="56717228"
+   d="scan'208";a="56760713"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 07 Aug 2024 01:39:55 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2024 02:20:09 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbcD3-0005Ey-1E;
-	Wed, 07 Aug 2024 08:39:53 +0000
-Date: Wed, 7 Aug 2024 16:38:59 +0800
+	id 1sbcpv-0005GC-2d;
+	Wed, 07 Aug 2024 09:20:05 +0000
+Date: Wed, 7 Aug 2024 17:19:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 3357/3555]
- arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: global-utilities@e2000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202408071644.pf24FNtG-lkp@intel.com>
+To: David Ruth <druth@chromium.org>, nbd@nbd.name, lorenzo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	timvp@chromium.org, sean.wang@mediatek.com, ryder.lee@mediatek.com,
+	shayne.chen@mediatek.com, David Ruth <druth@chromium.org>
+Subject: Re: [PATCH] wifi: mt76: mt7921: Cancel scan work on unregister.
+Message-ID: <202408071657.Qkyy8VqM-lkp@intel.com>
+References: <20240806222113.2689446-1-druth@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,377 +64,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240806222113.2689446-1-druth@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eec5d86d5bac6b3e972eb9c1898af3c08303c52d
-commit: ad21e3840a88bc781572a82cb54473b54726d185 [3357/3555] dt-bindings: soc: fsl: Convert rcpm to yaml format
-config: powerpc-randconfig-051-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071644.pf24FNtG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071644.pf24FNtG-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.11-rc2 next-20240807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Ruth/wifi-mt76-mt7921-Cancel-scan-work-on-unregister/20240807-065202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240806222113.2689446-1-druth%40chromium.org
+patch subject: [PATCH] wifi: mt76: mt7921: Cancel scan work on unregister.
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240807/202408071657.Qkyy8VqM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071657.Qkyy8VqM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408071644.pf24FNtG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408071657.Qkyy8VqM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5020-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5020-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p5020-serdes']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p2041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p2041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p2041-serdes']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/rmu@d3000/port-write-unit@4e0: failed to match any schema with compatible: ['fsl,srio-port-write-unit']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/oca4080.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/oca4080.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p4080-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p4080-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p4080-serdes']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p2041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p2041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p2041-serdes']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p3041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p3041-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p3041-serdes']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/rmu@d3000/port-write-unit@4e0: failed to match any schema with compatible: ['fsl,srio-port-write-unit']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/p4080ds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/p4080ds.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p4080-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p4080-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p4080-serdes']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5020-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5020-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p5020-serdes']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p5040-device-config', 'fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p5040-device-config', 'fsl,qoriq-device-config-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,p5040-pin-control', 'fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,p5040-pin-control', 'fsl,qoriq-pin-control-1.0']
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e2000: '#sleep-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5040-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5040-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p5040-serdes']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@100300: failed to match any schema with compatible: ['fsl,eloplus-dma']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@100300/dma-channel@0: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@100300/dma-channel@80: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@100300/dma-channel@100: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@100300/dma-channel@180: failed to match any schema with compatible: ['fsl,eloplus-dma-channel']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/dma@101300: failed to match any schema with compatible: ['fsl,eloplus-dma']
---
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t1023-rcpm', 'fsl,qoriq-rcpm-2.1']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1023-serdes']
---
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t1024qds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t1023-rcpm', 'fsl,qoriq-rcpm-2.1']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1023-serdes']
---
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t1023-rcpm', 'fsl,qoriq-rcpm-2.1']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1023-serdes']
---
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/msi@41c00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t2080-rcpm', 'fsl,qoriq-rcpm-2.0']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t2080-sfp']
---
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/msi@41c00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t2080-rcpm', 'fsl,qoriq-rcpm-2.0']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t2080-sfp']
---
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/msi@41800: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/msi@41a00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/msi@41c00: failed to match any schema with compatible: ['fsl,mpic-msi-v4.3']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0']
->> arch/powerpc/boot/dts/fsl/t2081qds.dtb: global-utilities@e2000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/global-utilities@e2000: failed to match any schema with compatible: ['fsl,t2080-rcpm', 'fsl,qoriq-rcpm-2.0']
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t2080-sfp']
+All errors (new ones prefixed by >>):
+
+   drivers/net/wireless/mediatek/mt76/mt7921/sdio.c: In function 'mt7921s_unregister_device':
+>> drivers/net/wireless/mediatek/mt76/mt7921/sdio.c:44:47: error: invalid type argument of '->' (have 'struct mt76_phy')
+      44 |         struct mt792x_phy *phy = dev->mt76.phy->priv;
+         |                                               ^~
+
+
+vim +44 drivers/net/wireless/mediatek/mt76/mt7921/sdio.c
+
+    40	
+    41	static void mt7921s_unregister_device(struct mt792x_dev *dev)
+    42	{
+    43		struct mt76_connac_pm *pm = &dev->pm;
+  > 44		struct mt792x_phy *phy = dev->mt76.phy->priv;
+    45	
+    46		cancel_delayed_work_sync(&phy->scan_work);
+    47		cancel_work_sync(&dev->init_work);
+    48		mt76_unregister_device(&dev->mt76);
+    49		cancel_delayed_work_sync(&pm->ps_work);
+    50		cancel_work_sync(&pm->wake_work);
+    51	
+    52		mt76s_deinit(&dev->mt76);
+    53		mt7921s_wfsys_reset(dev);
+    54		skb_queue_purge(&dev->mt76.mcu.res_q);
+    55	
+    56		mt76_free_device(&dev->mt76);
+    57	}
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
