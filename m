@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D53E148307
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 16:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F2018E764
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 16:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723134052; cv=none; b=QZVvH7tu2cL07tBuxgyN/LfE7YqwKU1ZvaNulZ9z3xXdzodVLhG7RXDB+FwxhENchSecbQUeet9daNm9m3C4URz1IL6cRAwHNHN7AIGHuPFV4LHjGKozwPKygrfnFyVUtSUh8f5QQM6SNr6twnbFj6JuWjjVn0JW5f872m54E9Y=
+	t=1723134679; cv=none; b=QcukSjNzQHl9x7X/ftnGPLr6cLfI4PC/+h+uDaWzd5Mbxpr2U65q5TqXmgflAboFO/vQ5aUt0/y3AyuVoD+moQyvmjcQ05eYVFtNH4lOwHPh7cL5pH3V9CYNsu6aBRz1PAakqVU75UANoZyVuMppLtJN9fmAqoqsIgI8ZxqwxiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723134052; c=relaxed/simple;
-	bh=Hu1/XhXjLn63ndBiFSydtkGGQy+zkqw0rUEiPYebllo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZvodnkfIdedIc2V9Rf6VBRsIiv3gTagv1jphoMMABOCKUYj45nIJAsRxJu0p9NrHdyyd4d7il+TFv1lrF7NP1oRhfPmnMLQQQue2l9T8fZLdf24GJUNtNInrQy0NU3cO5Qnx5Gwhool267+n2MXvyLQijaXge5LKYFrKUqDVjQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J9oxSfnQ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1723134679; c=relaxed/simple;
+	bh=i6y2cqEWTEwCDBsqoXKv1SRsckm/rq5zK8+VNost7X4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VNvj8BfLhf09k2tzIlN1yhvISmfz0ykPz7K6Ck9cH+lIdZk4A18SWTF43Tx7YnVuj2rY9Y+4dDpEjhhosbjP5q4a4enWKPyCexHnBBuh+i6B00XUK+i9/tEesfbWnQuSafw5jNx3UqMSikiRVT70HX2moux8TcyZ3FpBOQtO+4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+FSN8AJ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9oxSfnQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+FSN8AJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723134049; x=1754670049;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hu1/XhXjLn63ndBiFSydtkGGQy+zkqw0rUEiPYebllo=;
-  b=J9oxSfnQKthgOCBdNxj/7q2A6DycsyYrFFVCS+nFRKV1pxbNgUQHmeyP
-   yns/V6vUsnbX5eDZ+Np9nku4Zt1Rfc077KyoETddsmyA2drNViOC3D1e5
-   rdKpjQmfh6PiWk+YTjp3A9bK6j8tOfgxzI1ktnyX/Vb0JKyTUnuYmfak1
-   ZzlDYsPtfDbjsHAc06Khm5N/mdd57oI3/r9vRZ6XS+4cEe7DqPgvCGhjH
-   JgOj3jB+8VF7K8CcB981VU0iauXTgbZfH15XytYS887CmUo6Cvs8ns34y
-   V6y6KUKk8i4R0W9a0UecA8a5QW1shxams5D6Nd+BZqNoDeffrws3sRibY
+  t=1723134678; x=1754670678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i6y2cqEWTEwCDBsqoXKv1SRsckm/rq5zK8+VNost7X4=;
+  b=X+FSN8AJimWjhMbn7c426xq0SxLJam6z6eJ71/7A3jSoO2jA3TyCUUf9
+   GPdRBfg6RyYQKMaOSZPLiMhkJgOwNzpAsvjcZpgebCe5GQcCftP6Z0KB6
+   sbK05RkBGj2szrsoUmmmejOLgK3DDOMBEwfhURPzccLeuAMN52gNIQYH2
+   87JrNBssFJklZrJno3AbzsE3WO0a8NbZQBQlOxz+EYx7n+XoluJCL7TLn
+   3srOI3lE0x3/LQKq5VbMeGS/GxBQkSO4qur0bxLmoQzrv6GaLO/b25mmo
+   nvda9h/nGOlCSqqvy9EMj0VkfNMMQmCXBI49JglX6vUrYxOWWG5dlJQj0
    A==;
-X-CSE-ConnectionGUID: 0QHdgEmpQN+VCivxfK42YQ==
-X-CSE-MsgGUID: 05UQRILTRBiDbwXRMeIxSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="20841150"
+X-CSE-ConnectionGUID: QKHgQgB9Tb6/VQ1pjB3Thg==
+X-CSE-MsgGUID: eop+kFueT4eaXt6cN/A6fQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21444974"
 X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
-   d="scan'208";a="20841150"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 09:20:48 -0700
-X-CSE-ConnectionGUID: 1+HUPegnQFCizEUsUx7ZBA==
-X-CSE-MsgGUID: Y6KuVRtSQISdsyMoX0DE7Q==
+   d="scan'208";a="21444974"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 09:31:02 -0700
+X-CSE-ConnectionGUID: li47KWzYSFWtivNEm2pgFg==
+X-CSE-MsgGUID: L+tLVbAjTfSewiVpaReS6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
-   d="scan'208";a="57507927"
+   d="scan'208";a="62223974"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 08 Aug 2024 09:20:47 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 Aug 2024 09:31:00 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sc5sV-0006J4-0R;
-	Thu, 08 Aug 2024 16:20:40 +0000
-Date: Fri, 9 Aug 2024 00:20:28 +0800
+	id 1sc62T-0006Jq-1n;
+	Thu, 08 Aug 2024 16:30:57 +0000
+Date: Fri, 9 Aug 2024 00:30:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [tiwai-sound:for-next 32/79] sound/pcmcia/vx/vxpocket.c:208:13:
- error: 'struct vx_core' has no member named 'dev'
-Message-ID: <202408090016.kW0TA6fc-lkp@intel.com>
+To: hexue <xue01.he@samsung.com>, axboe@kernel.dk, asml.silence@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, io-uring@vger.kernel.org,
+	linux-kernel@vger.kernel.org, hexue <xue01.he@samsung.com>
+Subject: Re: [PATCH v7 RESENT] io_uring: releasing CPU resources when polling
+Message-ID: <202408090038.uF18SUul-lkp@intel.com>
+References: <20240808071712.2429842-1-xue01.he@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +63,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240808071712.2429842-1-xue01.he@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   9b88d0890ed9adab413ea991fac90842688e1017
-commit: b426b3ba9f6fe17990893c5324727dd217d420b6 [32/79] ALSA: vx_core: Drop unused dev field
-config: i386-randconfig-141-20240808 (https://download.01.org/0day-ci/archive/20240809/202408090016.kW0TA6fc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090016.kW0TA6fc-lkp@intel.com/reproduce)
+Hi hexue,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc2 next-20240808]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hexue/io_uring-releasing-CPU-resources-when-polling/20240808-153455
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240808071712.2429842-1-xue01.he%40samsung.com
+patch subject: [PATCH v7 RESENT] io_uring: releasing CPU resources when polling
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240809/202408090038.uF18SUul-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090038.uF18SUul-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408090016.kW0TA6fc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408090038.uF18SUul-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/pcmcia/vx/vxpocket.c: In function 'vxpocket_config':
->> sound/pcmcia/vx/vxpocket.c:208:13: error: 'struct vx_core' has no member named 'dev'
-     208 |         chip->dev = &link->dev;
-         |             ^~
+   io_uring/rw.c: In function 'io_do_iopoll':
+>> io_uring/rw.c:1210:30: warning: unused variable 'file' [-Wunused-variable]
+    1210 |                 struct file *file = req->file;
+         |                              ^~~~
 
 
-vim +208 sound/pcmcia/vx/vxpocket.c
+vim +/file +1210 io_uring/rw.c
 
-6d00a3127972e7 Takashi Iwai      2005-06-30  170  
-6d00a3127972e7 Takashi Iwai      2005-06-30  171  
-6d00a3127972e7 Takashi Iwai      2005-06-30  172  /*
-6d00a3127972e7 Takashi Iwai      2005-06-30  173   * configuration callback
-6d00a3127972e7 Takashi Iwai      2005-06-30  174   */
-6d00a3127972e7 Takashi Iwai      2005-06-30  175  
-15b99ac1729503 Dominik Brodowski 2006-03-31  176  static int vxpocket_config(struct pcmcia_device *link)
-6d00a3127972e7 Takashi Iwai      2005-06-30  177  {
-af26367f69a474 Takashi Iwai      2005-11-17  178  	struct vx_core *chip = link->priv;
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  179  	int ret;
-6d00a3127972e7 Takashi Iwai      2005-06-30  180  
-6d00a3127972e7 Takashi Iwai      2005-06-30  181  	snd_printdd(KERN_DEBUG "vxpocket_config called\n");
-6d00a3127972e7 Takashi Iwai      2005-06-30  182  
-6d00a3127972e7 Takashi Iwai      2005-06-30  183  	/* redefine hardware record according to the VERSION1 string */
-af2b3b503ad1b0 Dominik Brodowski 2006-10-25  184  	if (!strcmp(link->prod_id[1], "VX-POCKET")) {
-6d00a3127972e7 Takashi Iwai      2005-06-30  185  		snd_printdd("VX-pocket is detected\n");
-6d00a3127972e7 Takashi Iwai      2005-06-30  186  	} else {
-6d00a3127972e7 Takashi Iwai      2005-06-30  187  		snd_printdd("VX-pocket 440 is detected\n");
-6d00a3127972e7 Takashi Iwai      2005-06-30  188  		/* overwrite the hardware information */
-6d00a3127972e7 Takashi Iwai      2005-06-30  189  		chip->hw = &vxp440_hw;
-6d00a3127972e7 Takashi Iwai      2005-06-30  190  		chip->type = vxp440_hw.type;
-6d00a3127972e7 Takashi Iwai      2005-06-30  191  		strcpy(chip->card->driver, vxp440_hw.name);
-6d00a3127972e7 Takashi Iwai      2005-06-30  192  	}
-6d00a3127972e7 Takashi Iwai      2005-06-30  193  
-90abdc3b973229 Dominik Brodowski 2010-07-24  194  	ret = pcmcia_request_io(link);
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  195  	if (ret)
-db0a5214b8d6cc Takashi Iwai      2014-09-09  196  		goto failed_preirq;
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  197  
-db0a5214b8d6cc Takashi Iwai      2014-09-09  198  	ret = request_threaded_irq(link->irq, snd_vx_irq_handler,
-db0a5214b8d6cc Takashi Iwai      2014-09-09  199  				   snd_vx_threaded_irq_handler,
-db0a5214b8d6cc Takashi Iwai      2014-09-09  200  				   IRQF_SHARED, link->devname, link->priv);
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  201  	if (ret)
-db0a5214b8d6cc Takashi Iwai      2014-09-09  202  		goto failed_preirq;
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  203  
-1ac71e5a35eebe Dominik Brodowski 2010-07-29  204  	ret = pcmcia_enable_device(link);
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  205  	if (ret)
-7c5af6ffd69bb2 Dominik Brodowski 2009-10-24  206  		goto failed;
-6d00a3127972e7 Takashi Iwai      2005-06-30  207  
-dd2e5a156525f1 Dominik Brodowski 2009-11-03 @208  	chip->dev = &link->dev;
-6d00a3127972e7 Takashi Iwai      2005-06-30  209  
-9a017a910346af Dominik Brodowski 2010-07-24  210  	if (snd_vxpocket_assign_resources(chip, link->resource[0]->start,
-9a017a910346af Dominik Brodowski 2010-07-24  211  						link->irq) < 0)
-6d00a3127972e7 Takashi Iwai      2005-06-30  212  		goto failed;
-6d00a3127972e7 Takashi Iwai      2005-06-30  213  
-79ca4f3f625e14 Takashi Iwai      2006-04-12  214  	return 0;
-6d00a3127972e7 Takashi Iwai      2005-06-30  215  
-6d00a3127972e7 Takashi Iwai      2005-06-30  216   failed:
-db0a5214b8d6cc Takashi Iwai      2014-09-09  217  	free_irq(link->irq, link->priv);
-db0a5214b8d6cc Takashi Iwai      2014-09-09  218  failed_preirq:
-fba395eee7d3f3 Dominik Brodowski 2006-03-31  219  	pcmcia_disable_device(link);
-15b99ac1729503 Dominik Brodowski 2006-03-31  220  	return -ENODEV;
-6d00a3127972e7 Takashi Iwai      2005-06-30  221  }
-6d00a3127972e7 Takashi Iwai      2005-06-30  222  
-
-:::::: The code at line 208 was first introduced by commit
-:::::: dd2e5a156525f11754d9b1e0583f6bb49c253d62 pcmcia: remove deprecated handle_to_dev() macro
-
-:::::: TO: Dominik Brodowski <linux@dominikbrodowski.net>
-:::::: CC: Dominik Brodowski <linux@dominikbrodowski.net>
+e61753df273102 hexue          2024-08-08  1193  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1194  int io_do_iopoll(struct io_ring_ctx *ctx, bool force_nonspin)
+f3b44f92e59a80 Jens Axboe     2022-06-13  1195  {
+f3b44f92e59a80 Jens Axboe     2022-06-13  1196  	struct io_wq_work_node *pos, *start, *prev;
+54bdd67d0f8848 Keith Busch    2023-03-20  1197  	unsigned int poll_flags = 0;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1198  	DEFINE_IO_COMP_BATCH(iob);
+f3b44f92e59a80 Jens Axboe     2022-06-13  1199  	int nr_events = 0;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1200  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1201  	/*
+f3b44f92e59a80 Jens Axboe     2022-06-13  1202  	 * Only spin for completions if we don't have multiple devices hanging
+f3b44f92e59a80 Jens Axboe     2022-06-13  1203  	 * off our complete list.
+f3b44f92e59a80 Jens Axboe     2022-06-13  1204  	 */
+f3b44f92e59a80 Jens Axboe     2022-06-13  1205  	if (ctx->poll_multi_queue || force_nonspin)
+f3b44f92e59a80 Jens Axboe     2022-06-13  1206  		poll_flags |= BLK_POLL_ONESHOT;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1207  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1208  	wq_list_for_each(pos, start, &ctx->iopoll_list) {
+f3b44f92e59a80 Jens Axboe     2022-06-13  1209  		struct io_kiocb *req = container_of(pos, struct io_kiocb, comp_list);
+a1119fb0711591 Jens Axboe     2022-09-02 @1210  		struct file *file = req->file;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1211  		int ret;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1212  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1213  		/*
+f3b44f92e59a80 Jens Axboe     2022-06-13  1214  		 * Move completed and retryable entries to our local lists.
+f3b44f92e59a80 Jens Axboe     2022-06-13  1215  		 * If we find a request that requires polling, break out
+f3b44f92e59a80 Jens Axboe     2022-06-13  1216  		 * and complete those lists first, if we have entries there.
+f3b44f92e59a80 Jens Axboe     2022-06-13  1217  		 */
+f3b44f92e59a80 Jens Axboe     2022-06-13  1218  		if (READ_ONCE(req->iopoll_completed))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1219  			break;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1220  
+e61753df273102 hexue          2024-08-08  1221  		if (ctx->flags & IORING_SETUP_HY_POLL)
+e61753df273102 hexue          2024-08-08  1222  			ret = io_uring_hybrid_poll(req, &iob, poll_flags);
+e61753df273102 hexue          2024-08-08  1223  		else
+e61753df273102 hexue          2024-08-08  1224  			ret = io_uring_classic_poll(req, &iob, poll_flags);
+5756a3a7e713bc Kanchan Joshi  2022-08-23  1225  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1226  		if (unlikely(ret < 0))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1227  			return ret;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1228  		else if (ret)
+f3b44f92e59a80 Jens Axboe     2022-06-13  1229  			poll_flags |= BLK_POLL_ONESHOT;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1230  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1231  		/* iopoll may have completed current req */
+f3b44f92e59a80 Jens Axboe     2022-06-13  1232  		if (!rq_list_empty(iob.req_list) ||
+f3b44f92e59a80 Jens Axboe     2022-06-13  1233  		    READ_ONCE(req->iopoll_completed))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1234  			break;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1235  	}
+f3b44f92e59a80 Jens Axboe     2022-06-13  1236  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1237  	if (!rq_list_empty(iob.req_list))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1238  		iob.complete(&iob);
+f3b44f92e59a80 Jens Axboe     2022-06-13  1239  	else if (!pos)
+f3b44f92e59a80 Jens Axboe     2022-06-13  1240  		return 0;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1241  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1242  	prev = start;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1243  	wq_list_for_each_resume(pos, prev) {
+f3b44f92e59a80 Jens Axboe     2022-06-13  1244  		struct io_kiocb *req = container_of(pos, struct io_kiocb, comp_list);
+f3b44f92e59a80 Jens Axboe     2022-06-13  1245  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1246  		/* order with io_complete_rw_iopoll(), e.g. ->result updates */
+f3b44f92e59a80 Jens Axboe     2022-06-13  1247  		if (!smp_load_acquire(&req->iopoll_completed))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1248  			break;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1249  		nr_events++;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1250  		req->cqe.flags = io_put_kbuf(req, 0);
+a9165b83c1937e Jens Axboe     2024-03-18  1251  		if (req->opcode != IORING_OP_URING_CMD)
+a9165b83c1937e Jens Axboe     2024-03-18  1252  			io_req_rw_cleanup(req, 0);
+544d163d659d45 Pavel Begunkov 2023-01-12  1253  	}
+f3b44f92e59a80 Jens Axboe     2022-06-13  1254  	if (unlikely(!nr_events))
+f3b44f92e59a80 Jens Axboe     2022-06-13  1255  		return 0;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1256  
+f3b44f92e59a80 Jens Axboe     2022-06-13  1257  	pos = start ? start->next : ctx->iopoll_list.first;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1258  	wq_list_cut(&ctx->iopoll_list, prev, start);
+ec26c225f06f59 Pavel Begunkov 2023-08-24  1259  
+ec26c225f06f59 Pavel Begunkov 2023-08-24  1260  	if (WARN_ON_ONCE(!wq_list_empty(&ctx->submit_state.compl_reqs)))
+ec26c225f06f59 Pavel Begunkov 2023-08-24  1261  		return 0;
+ec26c225f06f59 Pavel Begunkov 2023-08-24  1262  	ctx->submit_state.compl_reqs.first = pos;
+ec26c225f06f59 Pavel Begunkov 2023-08-24  1263  	__io_submit_flush_completions(ctx);
+f3b44f92e59a80 Jens Axboe     2022-06-13  1264  	return nr_events;
+f3b44f92e59a80 Jens Axboe     2022-06-13  1265  }
+a9165b83c1937e Jens Axboe     2024-03-18  1266  
 
 -- 
 0-DAY CI Kernel Test Service
