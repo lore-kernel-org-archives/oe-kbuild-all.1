@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DC92BAF1;
-	Thu,  8 Aug 2024 03:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C44726AF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 03:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723086407; cv=none; b=nl9dTDxpcT5HCbtA6LFEcQfnhLZDU8oUnzE1H/86Xt9kB6SzLQRhzNBdi5zMRGyydNSXqRKn8c8l5r/AGn0/2+nzP/f8o9Af3iAjh4DhPX4mi3Sq5tgpK8ehkW4NDaJv1kS+bdw24Rlfzh3YWfB5AaiNq63bvalFObxcTlr/VbI=
+	t=1723086408; cv=none; b=atZDQLusVScrFJGTv37F5SDqhd8i+jnaI8LG9qAxcfn7OJtM8nnZcWPbY5ji3oAfNFmUrvQdO+3CxrUzM5QSdUVdycke0BzA72/9OgQR0IIOk5Q25flRgg/IVjP3q6o5lKru2QjHb1y01vr1b7hJB59UFfu0u8RH8hXFeS9pt80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723086407; c=relaxed/simple;
-	bh=OAguPm1vv0JYTUgrnLdM51rnSHkaSw/KFayihsFbzyI=;
+	s=arc-20240116; t=1723086408; c=relaxed/simple;
+	bh=YCmbyQanPw3vuwKaQHr4MtLBUjyYVzF52LWa8YVi76s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dKGZ+FidFFSxkMERWlkqlv9LvoXBUITFsinlrzHNrrxzLwMHy9Zaz6/Uj0V+rlGcbiK3UHHCW68VOMGSsOLuop6hThBsyjfB4cZqnj1L1J4zS5jPczthi7prHJJehyHmVs3V5ttaMnsqV4AbnPur0S9A7AeLZmEj98fbe+KiDR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGu2n58a; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=BWGvP/6CDUlVIWk2j9tH+16PU/EFMGuBDzL/TYDhT/WvHxxhXjc0hKal3a0pRhtUuuffZOHgfVfo1k/10utb4Y2wtK5l4YWpDy0hA+dS/EGRv9ASKDfN3hkM1EMW5NwUhkC7czBKGTarmE6AvDlgFSSkxpBOOZ4iG21AxdtLYRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gI9WAjzV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGu2n58a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gI9WAjzV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1723086406; x=1754622406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OAguPm1vv0JYTUgrnLdM51rnSHkaSw/KFayihsFbzyI=;
-  b=MGu2n58aLwWBSJkaOxgR97uXQU/RI31u7eEhU/u5aJi7n4f2nqoguRa7
-   JJpQ6lHTu+Aws6rhGSLu+e0tCJWqPBHuGgLEEfn6Yg9csqXjqS+EC1ELS
-   wHno+xJJ0u6+DPn0DEqgzg6AhQnupHnvM/DOOWNxUvwgj3EJNfn6mx7UB
-   eVkKKXKFTdB0/zXSjqEMOluWfHO5BvfiGoRyNTwssPPNYjesmXEItze6w
-   evhNV52pnMqc7/UbvF29vpbrMdvQYLXZELiVeTcbojN8HDziiiJ9okcOe
-   WMWu1SzqN+Nf5r8g/00Kq6ci/5HwMrxZ8rlFUlUYZyRoN+V1BJwVxKlVJ
+  bh=YCmbyQanPw3vuwKaQHr4MtLBUjyYVzF52LWa8YVi76s=;
+  b=gI9WAjzVZlr1OPF34V6higoPgAkJjQwCjH4MAAqVIE1il3jrX67MVltj
+   Qhkl5K09/UpOM3j+D+49Sh4u8LUFKKOkvwAK2FUchspyw9TjZpKiT5R2C
+   dSqr+Utp6BNGfdTkzA8n6YdMfYAEes0fY/aCS3rNxGowLqpcVFA1UizZ0
+   cjlC0uYPzkcaz92fxIsLnB+d4AYz1jXWc6Z8oE+y/79PEbdCrojRwlhQW
+   3e+ht/x4dc0buKjxnYdxKMkR6x6133lwVWlCHlxP67HZkthfdmQqoGhtW
+   vazrPPUqPzeDKnOcYU0ZGDCJeCjXAhrYOLneQ8jYtg9A5warxC6zOxk7F
    w==;
-X-CSE-ConnectionGUID: QMGxzE9MTjG/9Z9vXfP28w==
-X-CSE-MsgGUID: eryR1vIYRy2MAoLq1f7LuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="38696781"
+X-CSE-ConnectionGUID: elavp+o/QnqtLOZvpu564w==
+X-CSE-MsgGUID: XV4jEyEXRKufHipbQGlnRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="32596301"
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="38696781"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 20:06:46 -0700
-X-CSE-ConnectionGUID: XQ+rr9Q7TtKFK0svU5gpgQ==
-X-CSE-MsgGUID: 5d7fk9u+S1ifC4StuOtEGg==
+   d="scan'208";a="32596301"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 20:06:45 -0700
+X-CSE-ConnectionGUID: OqP3DVC9To6wEA1DgjCsng==
+X-CSE-MsgGUID: nQvnWqJKQ4e0TeTCKvsdpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="61724613"
+   d="scan'208";a="57032738"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2024 20:06:45 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2024 20:06:44 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbtUA-0005sw-1V;
+	id 1sbtUA-0005su-1R;
 	Thu, 08 Aug 2024 03:06:42 +0000
-Date: Thu, 8 Aug 2024 11:05:45 +0800
+Date: Thu, 8 Aug 2024 11:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-fixes 2/2] fs/netfs/buffered_read.c:25:9:
- warning: variable 'account' set but not used
-Message-ID: <202408081159.LolG3pVE-lkp@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org
+Subject: [awilliam-vfio:vfio-huge-fault 443/453]
+ arch/s390/pci/pci_mmio.c:127:21: warning: unused variable 'ptl'
+Message-ID: <202408081010.KniYhdHB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,120 +62,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
-head:   b8a80b5ec3422a4c5ff5ca20f8eef24816fad840
-commit: b8a80b5ec3422a4c5ff5ca20f8eef24816fad840 [2/2] netfs: Fix handling of USE_PGPRIV2 and WRITE_TO_CACHE flags
-config: i386-buildonly-randconfig-003-20240808 (https://download.01.org/0day-ci/archive/20240808/202408081159.LolG3pVE-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081159.LolG3pVE-lkp@intel.com/reproduce)
+tree:   https://github.com/awilliam/linux-vfio.git vfio-huge-fault
+head:   0b72bf5c1dbf066b3a167e0033d8401ae2e2726f
+commit: e93ffb9dfe21dc8f7f91afb6947bf30fff79d9a6 [443/453] s390/pci_mmio: Use follow_pfnmap API
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240808/202408081010.KniYhdHB-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081010.KniYhdHB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408081159.LolG3pVE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408081010.KniYhdHB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/netfs/buffered_read.c:25:9: warning: variable 'account' set but not used [-Wunused-but-set-variable]
-      25 |         size_t account = 0;
-         |                ^
-   1 warning generated.
+   arch/s390/pci/pci_mmio.c: In function '__do_sys_s390_pci_mmio_write':
+>> arch/s390/pci/pci_mmio.c:127:21: warning: unused variable 'ptl' [-Wunused-variable]
+     127 |         spinlock_t *ptl;
+         |                     ^~~
+>> arch/s390/pci/pci_mmio.c:126:16: warning: unused variable 'ptep' [-Wunused-variable]
+     126 |         pte_t *ptep;
+         |                ^~~~
 
 
-vim +/account +25 fs/netfs/buffered_read.c
+vim +/ptl +127 arch/s390/pci/pci_mmio.c
 
-    11	
-    12	/*
-    13	 * [DEPRECATED] Unlock the folios in a read operation for when the filesystem
-    14	 * is using PG_private_2 and direct writing to the cache from here rather than
-    15	 * marking the page for writeback.
-    16	 *
-    17	 * Note that we don't touch folio->private in this code.
-    18	 */
-    19	static void netfs_rreq_unlock_folios_pgpriv2(struct netfs_io_request *rreq)
-    20	{
-    21		struct netfs_io_subrequest *subreq;
-    22		struct folio *folio;
-    23		pgoff_t start_page = rreq->start / PAGE_SIZE;
-    24		pgoff_t last_page = ((rreq->start + rreq->len) / PAGE_SIZE) - 1;
-  > 25		size_t account = 0;
-    26		bool subreq_failed = false;
-    27	
-    28		XA_STATE(xas, &rreq->mapping->i_pages, start_page);
-    29	
-    30		/* Walk through the pagecache and the I/O request lists simultaneously.
-    31		 * We may have a mixture of cached and uncached sections and we only
-    32		 * really want to write out the uncached sections.  This is slightly
-    33		 * complicated by the possibility that we might have huge pages with a
-    34		 * mixture inside.
-    35		 */
-    36		subreq = list_first_entry(&rreq->subrequests,
-    37					  struct netfs_io_subrequest, rreq_link);
-    38		subreq_failed = (subreq->error < 0);
-    39	
-    40		trace_netfs_rreq(rreq, netfs_rreq_trace_unlock_pgpriv2);
-    41	
-    42		rcu_read_lock();
-    43		xas_for_each(&xas, folio, last_page) {
-    44			loff_t pg_end;
-    45			bool pg_failed = false;
-    46			bool folio_started = false;
-    47	
-    48			if (xas_retry(&xas, folio))
-    49				continue;
-    50	
-    51			pg_end = folio_pos(folio) + folio_size(folio) - 1;
-    52	
-    53			for (;;) {
-    54				loff_t sreq_end;
-    55	
-    56				if (!subreq) {
-    57					pg_failed = true;
-    58					break;
-    59				}
-    60	
-    61				if (!folio_started &&
-    62				    test_bit(NETFS_SREQ_COPY_TO_CACHE, &subreq->flags) &&
-    63				    fscache_operation_valid(&rreq->cache_resources)) {
-    64					trace_netfs_folio(folio, netfs_folio_trace_copy_to_cache);
-    65					folio_start_private_2(folio);
-    66					folio_started = true;
-    67				}
-    68	
-    69				pg_failed |= subreq_failed;
-    70				sreq_end = subreq->start + subreq->len - 1;
-    71				if (pg_end < sreq_end)
-    72					break;
-    73	
-    74				account += subreq->transferred;
-    75				if (!list_is_last(&subreq->rreq_link, &rreq->subrequests)) {
-    76					subreq = list_next_entry(subreq, rreq_link);
-    77					subreq_failed = (subreq->error < 0);
-    78				} else {
-    79					subreq = NULL;
-    80					subreq_failed = false;
-    81				}
-    82	
-    83				if (pg_end == sreq_end)
-    84					break;
-    85			}
-    86	
-    87			if (!pg_failed) {
-    88				flush_dcache_folio(folio);
-    89				folio_mark_uptodate(folio);
-    90			}
-    91	
-    92			if (!test_bit(NETFS_RREQ_DONT_UNLOCK_FOLIOS, &rreq->flags)) {
-    93				if (folio->index == rreq->no_unlock_folio &&
-    94				    test_bit(NETFS_RREQ_NO_UNLOCK_FOLIO, &rreq->flags))
-    95					_debug("no unlock");
-    96				else
-    97					folio_unlock(folio);
-    98			}
-    99		}
-   100		rcu_read_unlock();
-   101	}
-   102	
+4eafad7febd482 Alexey Ishchuk    2014-11-14  117  
+4eafad7febd482 Alexey Ishchuk    2014-11-14  118  SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned long, mmio_addr,
+4eafad7febd482 Alexey Ishchuk    2014-11-14  119  		const void __user *, user_buffer, size_t, length)
+4eafad7febd482 Alexey Ishchuk    2014-11-14  120  {
+e93ffb9dfe21dc Peter Xu          2024-04-23  121  	struct follow_pfnmap_args args = { };
+4eafad7febd482 Alexey Ishchuk    2014-11-14  122  	u8 local_buf[64];
+4eafad7febd482 Alexey Ishchuk    2014-11-14  123  	void __iomem *io_addr;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  124  	void *buf;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  125  	struct vm_area_struct *vma;
+a67a88b0b8de16 Daniel Vetter     2020-10-21 @126  	pte_t *ptep;
+a67a88b0b8de16 Daniel Vetter     2020-10-21 @127  	spinlock_t *ptl;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  128  	long ret;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  129  
+4eafad7febd482 Alexey Ishchuk    2014-11-14  130  	if (!zpci_is_enabled())
+4eafad7febd482 Alexey Ishchuk    2014-11-14  131  		return -ENODEV;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  132  
+4eafad7febd482 Alexey Ishchuk    2014-11-14  133  	if (length <= 0 || PAGE_SIZE - (mmio_addr & ~PAGE_MASK) < length)
+4eafad7febd482 Alexey Ishchuk    2014-11-14  134  		return -EINVAL;
+f058599e22d59e Niklas Schnelle   2020-03-26  135  
+f058599e22d59e Niklas Schnelle   2020-03-26  136  	/*
+4631f3ca493a7c Niklas Schnelle   2020-07-07  137  	 * We only support write access to MIO capable devices if we are on
+4631f3ca493a7c Niklas Schnelle   2020-07-07  138  	 * a MIO enabled system. Otherwise we would have to check for every
+4631f3ca493a7c Niklas Schnelle   2020-07-07  139  	 * address if it is a special ZPCI_ADDR and would have to do
+a67a88b0b8de16 Daniel Vetter     2020-10-21  140  	 * a pfn lookup which we don't need for MIO capable devices.  Currently
+4631f3ca493a7c Niklas Schnelle   2020-07-07  141  	 * ISM devices are the only devices without MIO support and there is no
+4631f3ca493a7c Niklas Schnelle   2020-07-07  142  	 * known need for accessing these from userspace.
+f058599e22d59e Niklas Schnelle   2020-03-26  143  	 */
+f058599e22d59e Niklas Schnelle   2020-03-26  144  	if (static_branch_likely(&have_mio)) {
+f058599e22d59e Niklas Schnelle   2020-03-26  145  		ret = __memcpy_toio_inuser((void  __iomem *) mmio_addr,
+f058599e22d59e Niklas Schnelle   2020-03-26  146  					user_buffer,
+f058599e22d59e Niklas Schnelle   2020-03-26  147  					length);
+f058599e22d59e Niklas Schnelle   2020-03-26  148  		return ret;
+f058599e22d59e Niklas Schnelle   2020-03-26  149  	}
+f058599e22d59e Niklas Schnelle   2020-03-26  150  
+4eafad7febd482 Alexey Ishchuk    2014-11-14  151  	if (length > 64) {
+4eafad7febd482 Alexey Ishchuk    2014-11-14  152  		buf = kmalloc(length, GFP_KERNEL);
+4eafad7febd482 Alexey Ishchuk    2014-11-14  153  		if (!buf)
+4eafad7febd482 Alexey Ishchuk    2014-11-14  154  			return -ENOMEM;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  155  	} else
+4eafad7febd482 Alexey Ishchuk    2014-11-14  156  		buf = local_buf;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  157  
+a67a88b0b8de16 Daniel Vetter     2020-10-21  158  	ret = -EFAULT;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  159  	if (copy_from_user(buf, user_buffer, length))
+a67a88b0b8de16 Daniel Vetter     2020-10-21  160  		goto out_free;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  161  
+a67a88b0b8de16 Daniel Vetter     2020-10-21  162  	mmap_read_lock(current->mm);
+a67a88b0b8de16 Daniel Vetter     2020-10-21  163  	ret = -EINVAL;
+a8b92b8c1eac8d David Hildenbrand 2021-09-09  164  	vma = vma_lookup(current->mm, mmio_addr);
+a67a88b0b8de16 Daniel Vetter     2020-10-21  165  	if (!vma)
+a67a88b0b8de16 Daniel Vetter     2020-10-21  166  		goto out_unlock_mmap;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  167  	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+a67a88b0b8de16 Daniel Vetter     2020-10-21  168  		goto out_unlock_mmap;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  169  	ret = -EACCES;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  170  	if (!(vma->vm_flags & VM_WRITE))
+a67a88b0b8de16 Daniel Vetter     2020-10-21  171  		goto out_unlock_mmap;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  172  
+e93ffb9dfe21dc Peter Xu          2024-04-23  173  	args.address = mmio_addr;
+e93ffb9dfe21dc Peter Xu          2024-04-23  174  	args.vma = vma;
+e93ffb9dfe21dc Peter Xu          2024-04-23  175  	ret = follow_pfnmap_start(&args);
+4eafad7febd482 Alexey Ishchuk    2014-11-14  176  	if (ret)
+a67a88b0b8de16 Daniel Vetter     2020-10-21  177  		goto out_unlock_mmap;
+a67a88b0b8de16 Daniel Vetter     2020-10-21  178  
+e93ffb9dfe21dc Peter Xu          2024-04-23  179  	io_addr = (void __iomem *)((args.pfn << PAGE_SHIFT) |
+f058599e22d59e Niklas Schnelle   2020-03-26  180  			(mmio_addr & ~PAGE_MASK));
+4eafad7febd482 Alexey Ishchuk    2014-11-14  181  
+4eafad7febd482 Alexey Ishchuk    2014-11-14  182  	if ((unsigned long) io_addr < ZPCI_IOMAP_ADDR_BASE)
+a67a88b0b8de16 Daniel Vetter     2020-10-21  183  		goto out_unlock_pt;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  184  
+f0483044c1c960 Sebastian Ott     2015-02-25  185  	ret = zpci_memcpy_toio(io_addr, buf, length);
+a67a88b0b8de16 Daniel Vetter     2020-10-21  186  out_unlock_pt:
+e93ffb9dfe21dc Peter Xu          2024-04-23  187  	follow_pfnmap_end(&args);
+a67a88b0b8de16 Daniel Vetter     2020-10-21  188  out_unlock_mmap:
+a67a88b0b8de16 Daniel Vetter     2020-10-21  189  	mmap_read_unlock(current->mm);
+a67a88b0b8de16 Daniel Vetter     2020-10-21  190  out_free:
+4eafad7febd482 Alexey Ishchuk    2014-11-14  191  	if (buf != local_buf)
+4eafad7febd482 Alexey Ishchuk    2014-11-14  192  		kfree(buf);
+4eafad7febd482 Alexey Ishchuk    2014-11-14  193  	return ret;
+4eafad7febd482 Alexey Ishchuk    2014-11-14  194  }
+4eafad7febd482 Alexey Ishchuk    2014-11-14  195  
+
+:::::: The code at line 127 was first introduced by commit
+:::::: a67a88b0b8de16b4cd6ad50bfe0e03605904dc75 s390/pci: remove races against pte updates
+
+:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: CC: Heiko Carstens <hca@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
