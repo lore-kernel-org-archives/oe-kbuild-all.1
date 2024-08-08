@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5A9145B3F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 23:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9F1155A59;
+	Thu,  8 Aug 2024 23:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723159797; cv=none; b=cUw57laEwcrUFh5G0nKvnaVgD8R7Op+cdfsX6sVrfvd/ZcoSXhZboHBKWOK800ytma7oBAXHSBRkim0+NrxJkPplyF5errI1xKhIihD2X8i6qGDRZ4t08Y0nQsU1S2mtPK07lI4myaGtXI1+PZrd6HdNSyptat/8scpcEpvO5S8=
+	t=1723161049; cv=none; b=Y7+dUkgav9Xwob/GF8Mfpm1chVLXHmItTPFqPzm7vktdTLQx2iIgQHmVslDbLuqOFSjcc83ROrW7gm5AjHqE/8AU0js/v+TM8vFV/PKIz+91Zn0ZUOGi1nKEwYkdhbe0EzFcTYugMFLgLJ7Dre2qMmRFjBjwAqMVw7WhMLwvltM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723159797; c=relaxed/simple;
-	bh=Z2sfJ4PhhVvOfMblYFhsWlspQR3132oOwXd/5g/schI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=imzvI9CapuLtM0+wkhNT6MG7/84AbwZDNUAMgVTPDyH5ZuTjti73GdDU8wZJrFeFStqxYD2/4NiE4epfDC/8BcFww4Pla2NahWIce+1E7uv1x6sPVe0W/9VL93yM2zOlr7KD55Ss3A2o0a46JKmoWcXTAbDMjGGFiBlCmVKBjuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLOnIqTX; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1723161049; c=relaxed/simple;
+	bh=msStPv78tQHsgiFR+ibTiL1MtKZ9jSJTczTEuZULeAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mm23eW1o+o/Yse/jqZx199PluVfpwilESM/goElMifzB5i/fYF4GIvQdEJKHU4M1nE8Xeu3Va1B2UIa93mBCBBex6MvaM+O66df7Er7OR4+R4pOLBnCtYeLnuOxwkQwWY4ApkRp8I9QJKIO2/R4uBqol9fJ+9l3vARRpmmrBgnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yauq01mz; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLOnIqTX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yauq01mz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723159795; x=1754695795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z2sfJ4PhhVvOfMblYFhsWlspQR3132oOwXd/5g/schI=;
-  b=VLOnIqTXl7BTorgyadiR8HEe5Glqk35o0ucttOkWfwuvpYS3g9+JuBKp
-   49vMhX1BO8dz4Don3r4XIronAEu6xGiYq//8DvNFk9y2DEQznwbNquhz4
-   Ottu7nVzddGu6YdzjW8/RDUTmoCbmRN7qbeskqyEj34vaQnH7Xpisj+ww
-   ZkFmRvM9o8afQvvGZ7zfBElFGj7YuPztcp3cJ1NEH/kl/R0u6k59TOUcR
-   YhYQVZHJFo+iftdE7xi9HedM7uOToikMG+kaDqhDBvSd7u47iEC9dWgIw
-   yUoJ06nRptA929scJJlCpcgtE08XtHIrzK4nX4HEzB1t4i4mqXwuWTJ0x
-   Q==;
-X-CSE-ConnectionGUID: svVEs8CWRZCHFRi1z1NU4g==
-X-CSE-MsgGUID: HyaP4LlFS8adCUvGi7knLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="38826062"
+  t=1723161047; x=1754697047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=msStPv78tQHsgiFR+ibTiL1MtKZ9jSJTczTEuZULeAI=;
+  b=Yauq01mz3KMvcE0nkpwBYV3qCgPH6JKs9GYemo9WwZuakbMynhJinvpH
+   njedIKoXsncCciOBfiU/DMqiur9jCg0VfZouYk5l71ca2f5TndcxqMyKC
+   kfC/K4aVWkMeJltxNztkJb9HHdrGjD5wzI54LCIKQwEjOfxbej/sQg1mh
+   xFj9BUGvz5apIYRLr4DV0LppyVJFi7orrZbwhrorpdZUdAoh3xqB0fRa8
+   ULVgiGpJ6h38+tV/8LmX/wOwxrEvotbUQo/NxlIlD3HYRKauexnx3FKRs
+   eWSfct2rB8wmMwXIvy0q7sFxHuvDKEUDuh6macyrvT+N5GGa/3os6M20G
+   A==;
+X-CSE-ConnectionGUID: axnVF6BaR6+w8KPFaffX1g==
+X-CSE-MsgGUID: fXo99yeQRYK9v0Z1+BgXGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="32711964"
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="38826062"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:29:55 -0700
-X-CSE-ConnectionGUID: m0XirGIQTFukpiqm5DL8zQ==
-X-CSE-MsgGUID: EV5CX3bnRVSp0aCukBlHow==
+   d="scan'208";a="32711964"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:50:20 -0700
+X-CSE-ConnectionGUID: VAU9Z6MPSQqj9ETSNKLMjg==
+X-CSE-MsgGUID: Ecc3zQWtTPGhvCQPzzVwWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="57943136"
+   d="scan'208";a="61778876"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 08 Aug 2024 16:29:53 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Aug 2024 16:50:14 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scCZl-0006cY-2j;
-	Thu, 08 Aug 2024 23:29:47 +0000
-Date: Fri, 9 Aug 2024 07:28:42 +0800
+	id 1scCtX-0006d4-0r;
+	Thu, 08 Aug 2024 23:50:11 +0000
+Date: Fri, 9 Aug 2024 07:49:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cip:linux-6.1.y-cip 41/43]
- arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb:
- /soc/i2c@10058000/camera@3c: failed to match any schema with compatible:
- ['ovti,ov5645']
-Message-ID: <202408090702.CddcaVsP-lkp@intel.com>
+To: Hanjun Guo <guohanjun@huawei.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH 3/3] ARM64: ACPI: Move the NUMA code to
+ drivers/acpi/arm64/
+Message-ID: <202408090735.Oa78ciK8-lkp@intel.com>
+References: <20240808131522.1032431-4-guohanjun@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +69,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240808131522.1032431-4-guohanjun@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip
-head:   ab928510d84ecc8ba347a32bc3a2ef037003ab93
-commit: 6da5d90e3fa6ca7efb9a6e76cd1fd2bbb4132859 [41/43] arm64: dts: renesas: rzg2lc-smarc: Enable CRU, CSI support
-config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240809/202408090702.CddcaVsP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090702.CddcaVsP-lkp@intel.com/reproduce)
+Hi Hanjun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.11-rc2 next-20240808]
+[cannot apply to arm-perf/for-next/perf]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hanjun-Guo/ARM64-ACPI-Remove-the-leftover-acpi_init_cpus/20240808-212154
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20240808131522.1032431-4-guohanjun%40huawei.com
+patch subject: [PATCH 3/3] ARM64: ACPI: Move the NUMA code to drivers/acpi/arm64/
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240809/202408090735.Oa78ciK8-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 4527fba9ad6bc682eceda603150bfaec65ec6916)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090735.Oa78ciK8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408090702.CddcaVsP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408090735.Oa78ciK8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:711.12-719.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:721.12-730.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:756.12-765.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: cache-controller-0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: cache-controller-0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: cache-controller-0: Unevaluated properties are not allowed ('cache-size', 'cache-unified' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: /soc/i2c@10058000/camera@3c: failed to match any schema with compatible: ['ovti,ov5645']
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: flash@0: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['micron,mt25qu512a', 'jedec,spi-nor'] is too long
-   	'micron,mt25qu512a' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'micron,mt25qu512a' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: /soc/spi@10060000/flash@0: failed to match any schema with compatible: ['micron,mt25qu512a', 'jedec,spi-nor']
-   arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: fcp@10880000: compatible:0: 'renesas,r9a07g044-fcpvd' is not one of ['renesas,fcpv', 'renesas,fcpf']
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/nvme/host/pci.c:7:
+>> include/linux/acpi.h:260:19: error: redefinition of 'acpi_numa_get_nid'
+     260 | static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+         |                   ^
+   arch/riscv/include/asm/acpi.h:68:19: note: previous definition is here
+      68 | static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+         |                   ^
+   In file included from drivers/nvme/host/pci.c:9:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/riscv/include/asm/cacheflush.h:9:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   drivers/nvme/host/pci.c:2982:41: warning: shift count >= width of type [-Wshift-count-overflow]
+    2982 |                 dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+         |                                                       ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   2 warnings and 1 error generated.
+
+
+vim +/acpi_numa_get_nid +260 include/linux/acpi.h
+
+   254	
+   255	#ifdef CONFIG_ARM64
+   256	int acpi_numa_get_nid(unsigned int cpu);
+   257	void acpi_map_cpus_to_nodes(void);
+   258	void acpi_numa_gicc_affinity_init(struct acpi_srat_gicc_affinity *pa);
+   259	#else
+ > 260	static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+   261	static inline void acpi_map_cpus_to_nodes(void) { }
+   262	static inline void
+   263	acpi_numa_gicc_affinity_init(struct acpi_srat_gicc_affinity *pa) { }
+   264	#endif
+   265	
 
 -- 
 0-DAY CI Kernel Test Service
