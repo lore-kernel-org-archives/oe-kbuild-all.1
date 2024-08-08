@@ -1,113 +1,129 @@
-Received: from msa.smtpout.orange.fr (msa-210.smtpout.orange.fr [193.252.23.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C2187859
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 06:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0CD188CB6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 07:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723098757; cv=none; b=IxhCZ8vXOdSi98R3kAdQWtF/kVNf8UuAdKUfqmKRRyQ7vtJ0gKQrS6w86N/1s6k64dvRwTaPFHxm7wFA1J8eOsD6NfEd3U3y114lcvTtYX27Zmk/PMDMKkoz4oyIfo4zS4iNv69eUwzfH8ZlCxTYzguE51uyt4UBJYTDz6bAeLM=
+	t=1723103431; cv=none; b=pJLP2s7xQ8MaqWdKoN2hB6V8v2+1CGfHEi6/BvJyKbgkLVQg0qO9bsWeR/7eZwjRfQVOLW0/Y//BcPczjCwulLDyedyAVfhST2m9t5qdR4o7GbnHYL7JBEqB2znADp/eOSSiEqEWdQiiqInEZtAozoI5DKWvM2IuqJTk/2mWsHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723098757; c=relaxed/simple;
-	bh=33jPo4vhPLqsyySaNcevP8gg0qfJrI7Z546GA/oleCw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gjdqxv9a2jIb/90dxuisuE2GOoNE5H/YYuczgGrEqpOfhVTCybIOFuimLQGnJ4ErQ6hYAg2jz4VSeGp6abwaJ7QrVMNAfHh9LgpNJfG6KRMdFndvC6fJuymy2wtpl2PQTvemNd2ZekxQhsSveuMLTdOIAna2MY+XOxLSP1ZgDA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=tKFv5GZ9; arc=none smtp.client-ip=193.252.23.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1723103431; c=relaxed/simple;
+	bh=cdAcsRX8PzRuhpsVg+nJFD39f1PcfB55FWkob4vmMeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VOU8K7R9C/M8ivFpNw1PO+DT3JLiVOywbSk+ytPAqvudWQSE4/s5C5oRudIr/Od9M/wU/9b4t7GSgZND8vWHyzjGGHSxWwcJommh2wAS6Eyv3p1+xM0pfD5AjsUhlzTveO8x0sIqBx7EKXtop1lgTW+JLFddk9Q7QoCot77Uzc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvBtZR27; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tKFv5GZ9"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id bwhJsmEy4IDadbwhJsi83k; Thu, 08 Aug 2024 08:32:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1723098752;
-	bh=9n2P6IRzAGh+cFhbPIBM2pmgk2vAQEV42VzZZngjGKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=tKFv5GZ9se01NVzobXg1CwuAfRk9fH18mUG17VqbjiuKidda2BJLc6Y3ap6VAw4hI
-	 zlltn8hguaRyrMEyThFHbFjqFulRaTXhG1lrEM3+/oimhD2tl24WwZ5rn+dnn0BIkW
-	 yMuXJfsTNQjilOhdVkenTm4PEy77Jt6JCCf0EQYdTYFpGTPpG8uEOcYGdOR8+oT8EK
-	 4apQoVvl3saELTcYAKs+Nl00vgcId9t+xuZ9sQ0OTJtip2AOThmmn4Ets0psM9nS0I
-	 DpiL+9imtzqXyYP30X3AzBW83LByx0D0UnZjWyjOZbpKamCgPX6zoO67CamoIxIMbl
-	 QgWv66utheizg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Thu, 08 Aug 2024 08:32:32 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <733a8111-5e7a-41fe-b01b-75d8190fa752@wanadoo.fr>
-Date: Thu, 8 Aug 2024 08:32:29 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvBtZR27"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723103429; x=1754639429;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cdAcsRX8PzRuhpsVg+nJFD39f1PcfB55FWkob4vmMeI=;
+  b=GvBtZR27LGua0x8Z1bp9h15aB3gOAX203rRv6VuHLg2uhTQAIcAbe92Q
+   B9bWefzkQeCykilFR7AByDXkavtLYUbBAA1M4z0FDbsLi7UnawuRz1SVk
+   mdj6315Gi/7lQYEBEzobNo24KUfXndjWyTZ4rX7MJRJDLualmNXXRap8k
+   OWpLl4BLkoUqYat6fnv9iO5t4Rws9kejObb2XczlP4zLjyoAWqAbee2cy
+   vyYYshjqf7l5mTDHAz/90XyX+u2npQVpo2F1VjuFkfsw2vOOuZXGDrl7Q
+   xNTs4Yd+quUoISjgUtQ2ko30PUDqI4HZ5a1+t59GzN5xek2kiGOPJv+EC
+   g==;
+X-CSE-ConnectionGUID: PTKUP38nSpeMdP14tANbvQ==
+X-CSE-MsgGUID: advgDLThRL+m+4zTNP95cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="32618832"
+X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
+   d="scan'208";a="32618832"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 00:50:28 -0700
+X-CSE-ConnectionGUID: sl/eGk/lTU6IXWw9530OdQ==
+X-CSE-MsgGUID: taHcyNrtTbeCc8ReeWS5sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
+   d="scan'208";a="57059517"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 08 Aug 2024 00:50:25 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbxug-00061i-1U;
+	Thu, 08 Aug 2024 07:50:22 +0000
+Date: Thu, 8 Aug 2024 15:50:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@pengutronix.de,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev
+ port features
+Message-ID: <202408081557.FiEe9Tzz-lkp@intel.com>
+References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] net: ibm/emac: Constify struct mii_phy_def
-To: kernel test robot <lkp@intel.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <dfc7876d660d700a840e64c35de0a6519e117539.1723031352.git.christophe.jaillet@wanadoo.fr>
- <202408080631.rKnoa41D-lkp@intel.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <202408080631.rKnoa41D-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9@pengutronix.de>
 
-Le 08/08/2024 à 01:00, kernel test robot a écrit :
-> Hi Christophe,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/net-ibm-emac-Constify-struct-mii_phy_def/20240807-195146
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/dfc7876d660d700a840e64c35de0a6519e117539.1723031352.git.christophe.jaillet%40wanadoo.fr
-> patch subject: [PATCH net-next] net: ibm/emac: Constify struct mii_phy_def
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240808/202408080631.rKnoa41D-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080631.rKnoa41D-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408080631.rKnoa41D-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     drivers/net/ethernet/ibm/emac/core.c: In function 'emac_dt_phy_connect':
->>> drivers/net/ethernet/ibm/emac/core.c:2648:30: error: assignment of member 'phy_id' in read-only object
->      2648 |         dev->phy.def->phy_id = dev->phy_dev->drv->phy_id;
->           |                              ^
->>> drivers/net/ethernet/ibm/emac/core.c:2649:35: error: assignment of member 'phy_id_mask' in read-only object
->      2649 |         dev->phy.def->phy_id_mask = dev->phy_dev->drv->phy_id_mask;
->           |                                   ^
->>> drivers/net/ethernet/ibm/emac/core.c:2650:28: error: assignment of member 'name' in read-only object
->      2650 |         dev->phy.def->name = dev->phy_dev->drv->name;
->           |                            ^
->>> drivers/net/ethernet/ibm/emac/core.c:2651:27: error: assignment of member 'ops' in read-only object
->      2651 |         dev->phy.def->ops = &emac_dt_mdio_phy_ops;
->           |                           ^
->     drivers/net/ethernet/ibm/emac/core.c: In function 'emac_init_phy':
->>> drivers/net/ethernet/ibm/emac/core.c:2818:32: error: assignment of member 'features' in read-only object
->      2818 |         dev->phy.def->features &= ~dev->phy_feat_exc;
->           |                                ^~
-> 
-> 
+Hi Marco,
 
-Ouch,
+kernel test robot noticed the following build errors:
 
-I missed the depends on PPC_DCR.
+[auto build test ERROR on 0c3836482481200ead7b416ca80c68a29cfdaabd]
 
-I did:
-    - make -j8 drivers/net/ethernet/ibm/emac/phy.o
-then
-    - make -j8 drivers/net/ethernet/ibm/emac/
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/usb-hub-add-infrastructure-to-pass-onboard_dev-port-features/20240807-224100
+base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+patch link:    https://lore.kernel.org/r/20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9%40pengutronix.de
+patch subject: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev port features
+config: i386-randconfig-141-20240808 (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/reproduce)
 
-but the later does not build anything on x86, and I missed that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408081557.FiEe9Tzz-lkp@intel.com/
 
-CJ
+All errors (new ones prefixed by >>):
 
+   ld: drivers/usb/core/hub.o: in function `set_port_feature':
+>> drivers/usb/core/hub.c:481: undefined reference to `onboard_dev_port_feature'
+   ld: drivers/usb/core/hub.o: in function `usb_clear_port_feature':
+   drivers/usb/core/hub.c:462: undefined reference to `onboard_dev_port_feature'
+
+
+vim +481 drivers/usb/core/hub.c
+
+   466	
+   467	/*
+   468	 * USB 2.0 spec Section 11.24.2.13
+   469	 */
+   470	static int set_port_feature(struct usb_device *hdev, int port1, int feature)
+   471	{
+   472		int ret;
+   473	
+   474		ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+   475			USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
+   476			NULL, 0, 1000);
+   477		if (ret)
+   478			return ret;
+   479	
+   480		if (!is_root_hub(hdev))
+ > 481			ret = onboard_dev_port_feature(hdev, true, feature, port1);
+   482	
+   483		return ret;
+   484	}
+   485	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
