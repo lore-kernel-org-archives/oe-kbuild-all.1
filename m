@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E82157466
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 23:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FE0157466;
+	Thu,  8 Aug 2024 23:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723158525; cv=none; b=euq4GhY+5XGuafIXBP2zSKm1SisArHd42d6IPxuyZzrAU51AticNeHU2fMCbe8ta4NGPOpDHKDH+Fvfeg0vReVXaRxjmirijSrJo6oX7YzXn+H0pNh63QvWs4PkZyLhkg/m9qguj9JvceGM4hWg8UcACcjgwrNC1856pPVmoDTk=
+	t=1723158527; cv=none; b=PEiJ/YrOdNDxdKWGYBn6Vta04WZXjNSyXLN9w0lbOxeEDWkO+OtjcipTmeqvMiPHd3qMIukP5sT+PWN2k0ay6ZeY6a31Kzj9EMLKmjOsju8+YBTTHWpcEIpeDlxu6dWPA5CaVT8GN3kA+tRKppedT2CrX+QcqG0eM/K1EZQhMtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723158525; c=relaxed/simple;
-	bh=uKozS3A95G8a2XnTGxABFgSI9yunjEE+wCfjKDM96kM=;
+	s=arc-20240116; t=1723158527; c=relaxed/simple;
+	bh=T7KdUeo7zRdu2V4NwX3BnZOQDuovZf6qEZiSGn3VOz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lcugSt0reuzGtDnqQbG0JQmFY7m23w3JIKbJuUupu77ieEVSJV40HOilzhyrocnpo0GdH6uC920iO9aDYEHAeT/jV16vzPCH7xRLIPA0INuNaUQkdSgZ7ftX+ea2oCmjLQ2vUa4UTXUFMIAqyrsYcf0EJUZG4mLnnlOGsTC5wjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5RwhzBp; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=XTMMlO7FQ+MGv6fItxwHYdZmldUWipqOMXo+NmZGM4a+EDzzq4l0Gdozhnt7G21ZHnQkz54KaO5INctaen63q8HEfKDCgn30M56D46rLmkgwOLAjTnNIZxDpp9+WaFQIfxL8zfBG83+YUs+wJlSOfG4SmoAXtNoz4ivyG6tMpjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVP8ZVeX; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5RwhzBp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVP8ZVeX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723158523; x=1754694523;
+  t=1723158527; x=1754694527;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uKozS3A95G8a2XnTGxABFgSI9yunjEE+wCfjKDM96kM=;
-  b=Q5RwhzBpx02EWkQ9U9+t6//W1LBW/8rdPMjlvuTKLhXlnFgO9N5IkKZD
-   yJUFV2FEiCLsLm8v/h0rhVzLkZ592MbIzWxvGrj9J53pFQdq5n5JkuSB8
-   CPrwLwztqrGfNQXjqk36PdlPYTeHNp+P2+OPhgA5E+wQ//lmXmBqpqcYd
-   DS+l9OR0hwDQHK1jRxcyMV5Kxgu204WnhSFX/ZDt1oGMVQT1+GolFMbSI
-   r5roYYTD7A6r9ZSMYoJVH3bU20n9Kl1hRTs8hLhOwD4lu9kGU7aP0Svoo
-   lQqWCuh+jgUkm31K3ArvH12ddYOUrW+MdAGG19q98ojTCNFTt7w4KOxoK
+  bh=T7KdUeo7zRdu2V4NwX3BnZOQDuovZf6qEZiSGn3VOz8=;
+  b=lVP8ZVeXbOKsO2q4p12OhTkTdzJf2JTjBOqswY3ml71m2qzbr2zAs/mG
+   2l9crPFVeQmCDIZ4ddQuj3pcTld/340nb+3gEQ73krBksviBS3nWrTf5b
+   8pI3i9N5n5grtcjf4gK6n7lTMHC88LlaW5WR4MzfiNoFMv1EgTPW/Ssd+
+   KYsuoCgmhw+ywLYaZwnCtFbFqw6y6HZftzp+MaP73YZ1HUhqGkYX+P2Sg
+   GAvpBdSitY5fNiHpzzP2L/EO+EbwsLmIrjPFIDPq+OwqNq8u59VNsQ/44
+   8AwwvmKsiqpR7qFMV23Gez+y5nWc45tj0OUGWpgvPcVxdCMRyMkRrPHyU
    g==;
-X-CSE-ConnectionGUID: ZxSwwun9Qba7C1i7HLs5QA==
-X-CSE-MsgGUID: RCpP2w1ISUGpXjB+Zu8VeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21124897"
+X-CSE-ConnectionGUID: pT4ta4rNR6aRZHV8RpgusQ==
+X-CSE-MsgGUID: swAgNs4ZSk+Di37vmG14Yg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="20977161"
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="21124897"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:08:42 -0700
-X-CSE-ConnectionGUID: WYdqR+m+Sei5owT4HXyMWw==
-X-CSE-MsgGUID: +kmvO9eBSESaK1lt8+Ysvg==
+   d="scan'208";a="20977161"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:08:46 -0700
+X-CSE-ConnectionGUID: yiARJAgUSQ6iMi70uo66VQ==
+X-CSE-MsgGUID: X00cbstkRRO3ElG4P2oYeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="57037100"
+   d="scan'208";a="62015850"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Aug 2024 16:08:41 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 08 Aug 2024 16:08:41 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scCFK-0006ba-2C;
+	id 1scCFK-0006bW-1v;
 	Thu, 08 Aug 2024 23:08:38 +0000
-Date: Fri, 9 Aug 2024 07:08:15 +0800
+Date: Fri, 9 Aug 2024 07:08:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ALSA: snd-usb-caiaq: use snd_pcm_rate_to_rate_bit
-Message-ID: <202408090637.Jp34Kwf4-lkp@intel.com>
-References: <20240808134857.86749-1-jbrunet@baylibre.com>
+To: Jinjian Song <jinjian.song@fibocom.com>,
+	chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+	corbet@lwn.net, linux-mediatek@lists.infradead.org,
+	danielwinkler@google.com, korneld@google.com,
+	Jinjian Song <jinjian.song@fibocom.com>
+Subject: Re: [net-next v1] net: wwan: t7xx: PCIe reset rescan
+Message-ID: <202408090610.w01C56AC-lkp@intel.com>
+References: <20240808111801.8514-1-jinjian.song@fibocom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,125 +74,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240808134857.86749-1-jbrunet@baylibre.com>
+In-Reply-To: <20240808111801.8514-1-jinjian.song@fibocom.com>
 
-Hi Jerome,
+Hi Jinjian,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.11-rc2 next-20240808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/ALSA-snd-usb-caiaq-use-snd_pcm_rate_to_rate_bit/20240808-215111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240808134857.86749-1-jbrunet%40baylibre.com
-patch subject: [PATCH] ALSA: snd-usb-caiaq: use snd_pcm_rate_to_rate_bit
-config: arc-randconfig-001-20240809 (https://download.01.org/0day-ci/archive/20240809/202408090637.Jp34Kwf4-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090637.Jp34Kwf4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjian-Song/net-wwan-t7xx-PCIe-reset-rescan/20240808-192313
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240808111801.8514-1-jinjian.song%40fibocom.com
+patch subject: [net-next v1] net: wwan: t7xx: PCIe reset rescan
+config: i386-buildonly-randconfig-004-20240809 (https://download.01.org/0day-ci/archive/20240809/202408090610.w01C56AC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090610.w01C56AC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408090637.Jp34Kwf4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408090610.w01C56AC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/usb/caiaq/audio.c: In function 'snd_usb_caiaq_pcm_prepare':
->> sound/usb/caiaq/audio.c:179:41: warning: unused variable 'i' [-Wunused-variable]
-     179 |         int bytes_per_sample, bpp, ret, i;
-         |                                         ^
+>> drivers/net/wwan/t7xx/t7xx_modem_ops.c:204:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     204 |         } else if (type == PLDR) {
+         |                    ^~~~~~~~~~~~
+   drivers/net/wwan/t7xx/t7xx_modem_ops.c:215:9: note: uninitialized use occurs here
+     215 |         return ret;
+         |                ^~~
+   drivers/net/wwan/t7xx/t7xx_modem_ops.c:204:9: note: remove the 'if' if its condition is always true
+     204 |         } else if (type == PLDR) {
+         |                ^~~~~~~~~~~~~~~~~
+     205 |                 ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
+     206 |         } else if (type == FASTBOOT) {
+         |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     207 |                 t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     208 |                 t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     209 |                 msleep(FASTBOOT_RESET_DELAY_MS);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     210 |         }
+         |         ~
+   drivers/net/wwan/t7xx/t7xx_modem_ops.c:196:9: note: initialize the variable 'ret' to silence this warning
+     196 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/i +179 sound/usb/caiaq/audio.c
+vim +204 drivers/net/wwan/t7xx/t7xx_modem_ops.c
 
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  176  
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  177  static int snd_usb_caiaq_pcm_prepare(struct snd_pcm_substream *substream)
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  178  {
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26 @179  	int bytes_per_sample, bpp, ret, i;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  180  	int index = substream->number;
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  181  	struct snd_usb_caiaqdev *cdev = snd_pcm_substream_chip(substream);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  182  	struct snd_pcm_runtime *runtime = substream->runtime;
-f1f6b8f65ff08a sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  183  	struct device *dev = caiaqdev_to_dev(cdev);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  184  
-f1f6b8f65ff08a sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  185  	dev_dbg(dev, "%s(%p)\n", __func__, substream);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  186  
-a9b487fa1e00b4 sound/usb/caiaq/audio.c       Daniel Mack   2009-04-27  187  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  188  		int out_pos;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  189  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  190  		switch (cdev->spec.data_alignment) {
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  191  		case 0:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  192  		case 2:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  193  			out_pos = BYTES_PER_SAMPLE + 1;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  194  			break;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  195  		case 3:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  196  		default:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  197  			out_pos = 0;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  198  			break;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  199  		}
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  200  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  201  		cdev->period_out_count[index] = out_pos;
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  202  		cdev->audio_out_buf_pos[index] = out_pos;
-a9b487fa1e00b4 sound/usb/caiaq/audio.c       Daniel Mack   2009-04-27  203  	} else {
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  204  		int in_pos;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  205  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  206  		switch (cdev->spec.data_alignment) {
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  207  		case 0:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  208  			in_pos = BYTES_PER_SAMPLE + 2;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  209  			break;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  210  		case 2:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  211  			in_pos = BYTES_PER_SAMPLE;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  212  			break;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  213  		case 3:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  214  		default:
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  215  			in_pos = 0;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  216  			break;
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  217  		}
-15c5ab607045e2 sound/usb/caiaq/audio.c       Daniel Mack   2010-09-10  218  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  219  		cdev->period_in_count[index] = in_pos;
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  220  		cdev->audio_in_buf_pos[index] = in_pos;
-a9b487fa1e00b4 sound/usb/caiaq/audio.c       Daniel Mack   2009-04-27  221  	}
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  222  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  223  	if (cdev->streaming)
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  224  		return 0;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  225  
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  226  	/* the first client that opens a stream defines the sample rate
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  227  	 * setting for all subsequent calls, until the last client closed. */
-fcb26c77ddb6a1 sound/usb/caiaq/audio.c       Jerome Brunet 2024-08-08  228  	cdev->pcm_info.rates = snd_pcm_rate_to_rate_bit(runtime->rate);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  229  	snd_pcm_limit_hw_rates(runtime);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  230  
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  231  	bytes_per_sample = BYTES_PER_SAMPLE;
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  232  	if (cdev->spec.data_alignment >= 2)
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  233  		bytes_per_sample++;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  234  
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  235  	bpp = ((runtime->rate / 8000) + CLOCK_DRIFT_TOLERANCE)
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  236  		* bytes_per_sample * CHANNELS_PER_STREAM * cdev->n_streams;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  237  
-6e9fc6bd5db34a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2008-04-14  238  	if (bpp > MAX_ENDPOINT_SIZE)
-6e9fc6bd5db34a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2008-04-14  239  		bpp = MAX_ENDPOINT_SIZE;
-6e9fc6bd5db34a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2008-04-14  240  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  241  	ret = snd_usb_caiaq_set_audio_params(cdev, runtime->rate,
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  242  					     runtime->sample_bits, bpp);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  243  	if (ret)
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  244  		return ret;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  245  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  246  	ret = stream_start(cdev);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  247  	if (ret)
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  248  		return ret;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  249  
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  250  	cdev->output_running = 0;
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  251  	wait_event_timeout(cdev->prepare_wait_queue, cdev->output_running, HZ);
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  252  	if (!cdev->output_running) {
-1c8470ce311c6b sound/usb/caiaq/audio.c       Daniel Mack   2013-03-03  253  		stream_stop(cdev);
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  254  		return -EPIPE;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  255  	}
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  256  
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  257  	return 0;
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  258  }
-523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack   2007-03-26  259  
+   193	
+   194	int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type)
+   195	{
+   196		int ret;
+   197	
+   198		pci_save_state(t7xx_dev->pdev);
+   199		t7xx_pci_reprobe_early(t7xx_dev);
+   200		t7xx_mode_update(t7xx_dev, T7XX_RESET);
+   201	
+   202		if (type == FLDR) {
+   203			ret = t7xx_acpi_reset(t7xx_dev, "_RST");
+ > 204		} else if (type == PLDR) {
+   205			ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
+   206		} else if (type == FASTBOOT) {
+   207			t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
+   208			t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
+   209			msleep(FASTBOOT_RESET_DELAY_MS);
+   210		}
+   211	
+   212		pci_restore_state(t7xx_dev->pdev);
+   213		t7xx_pci_reprobe(t7xx_dev, true);
+   214	
+   215		return ret;
+   216	}
+   217	
 
 -- 
 0-DAY CI Kernel Test Service
