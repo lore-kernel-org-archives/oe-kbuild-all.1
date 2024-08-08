@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C81110E9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 00:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C77C2107;
+	Thu,  8 Aug 2024 00:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723076548; cv=none; b=rjSj2EC5Tf3ZapHIriyEi86wG9VaN5xuR4JOr6eWjY7LM4X/HpSNXAcSlPiY/Y4CkgEZ5U/jRL8QgfuKkiL57FVxnPS/FpMiNgLcq0LnmAJ66k3vtMhECJoE2W2mOIOdouqNsqKYxO2aUPg2wCZHiO7ixa7NCJtEsVMvEqGig4I=
+	t=1723077808; cv=none; b=o6dHGwLIJ59McX/ousi4PMR18EVBTRhzU1Hd4hZhUr5AzVxu/w5ONm9kQ9JydIu2cIHXGWDiN94Y83Yt1uofSNdfx8faTmVD8XR0yJvKW5GCGiVjL4gWA2TvW4Cpa50pwUqkpk4nGxv9S8Hwl222t5UdNCzk9QPiwX2amiTcVOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723076548; c=relaxed/simple;
-	bh=H3cogk1LM4kF5xYVlMitUd2erx2BYREQYLxXVEuGTT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OF4xbE6Df4i3IDuUpDLwT0SkEdXdb455TWK8Yi3HWHWAcIeoLfQrHvSAwh7KWKCJBA0ocixDbADh4DxoQRQVQtDAVD8z0Dkd9OqlK+XA0FWXKkNh0dn8bpvvweDt8b1nkMKQDRaWVMBJXaknvsZq5FHHxkFRR9VykgryS/J96nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izlFPlTF; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1723077808; c=relaxed/simple;
+	bh=feWacHYaPnIbpAOajEpd3LHUQ+7MZKIahPasyzDrR1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QzoFXw1dIvoBSyqlb5P7q5WCKaVfZAzKG73wPdu28LI10hkelEcMpX+Qm4lZV69Vdxsg7HagJs+cwNmp5IodHaApHGVmRKFHBBs0wWEc6BpL6x1wytQ1gqWI98XgW30rFn4cZR4ObbTV1G9rnKZfPDTQK+l3rMO3PFoaCZ2RfN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhodNeVS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izlFPlTF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhodNeVS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723076546; x=1754612546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H3cogk1LM4kF5xYVlMitUd2erx2BYREQYLxXVEuGTT8=;
-  b=izlFPlTFRaQqtwq+XtWKkhKriKpQR6/ACdo7g/SCTHllh+U0Cs1dO7aI
-   6D6eaGUkV6kSaTRBCI1U6HHnCSCSm91RKzSMvQs65eONCk2V+fsKcU4bH
-   PcQr68aJISteFu4f2h3pAnpe4I/SxP564cL0jwl+nQ6fcJ5SPocA8E4aF
-   nh7QbKL929wy93e7AB/iTN7gCk1/o6X7Qj8vsYCGL9b4THu16rkTYY4eu
-   fWh3xOeDh0UWa3kYdMINswpygt9rLMyn3OPlEqXYa26EYNfpSmX53spdR
-   bDVfMSLByP1Ah/Zzs056Fgu5NoCY++Tt6cI0dTPRlVIghPEeM6IiN/d3S
-   g==;
-X-CSE-ConnectionGUID: ugjOK8OTQ3+gqanioPObtg==
-X-CSE-MsgGUID: /m4kFqgmQpO23QoUq9p7sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="31753919"
+  t=1723077806; x=1754613806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=feWacHYaPnIbpAOajEpd3LHUQ+7MZKIahPasyzDrR1o=;
+  b=IhodNeVSfcwSP00eBL6MCvP8TfsZhqeMNv3yjpbvCabLFf3PuOh/xc1w
+   VmlzKO7L0PKjdyDvmRGCOXsvZcAXwgqoVem1CLAf2LsI1MTE+BftXqAVw
+   ZgrqGp/s2LnT6J+eb9Cq0e495/8CUtKkyqXHollMLHOD06Yhs0+mYWsD5
+   UoCX56p5V/N84GW37eNEz9BxEghoa9p8w4gNdGKEjyCIfXgQAYh1jNwVr
+   xgCBBa5qGq1rOXUO7l+km+30KbUJq+LOtOZsnhXtPKrvsFKZeOmlQl4S+
+   nX/uEIPGDS+yiJUAVmSAhj8eJi33k9B61c1D6z2VcGgfVhg7+Gl0s0oeP
+   Q==;
+X-CSE-ConnectionGUID: KcBqWQvaQ5WSNZH1RzrvKg==
+X-CSE-MsgGUID: SNKHP6PBR36S1Aa8ZlUTfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="20844368"
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="31753919"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 17:22:25 -0700
-X-CSE-ConnectionGUID: USfg1PVLQqmuuG9rHXKSGg==
-X-CSE-MsgGUID: hAOLV4npQ/yooi7pH0+10g==
+   d="scan'208";a="20844368"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 17:43:26 -0700
+X-CSE-ConnectionGUID: YJCq9+jkTTaPj1f0roGVpQ==
+X-CSE-MsgGUID: oWQmbrKORhWLZQIh8ShSbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="87947289"
+   d="scan'208";a="57003374"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2024 17:22:22 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2024 17:43:23 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbqv6-0005oW-1M;
-	Thu, 08 Aug 2024 00:22:20 +0000
-Date: Thu, 8 Aug 2024 08:21:53 +0800
+	id 1sbrFQ-0005p4-2p;
+	Thu, 08 Aug 2024 00:43:20 +0000
+Date: Thu, 8 Aug 2024 08:42:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: ERROR: modpost: "__popcountsi2"
- [drivers/comedi/drivers/cb_pcidas.ko] undefined!
-Message-ID: <202408080822.j66QlMph-lkp@intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next] net: ibm/emac: Constify struct mii_phy_def
+Message-ID: <202408080850.QKqTbf5o-lkp@intel.com>
+References: <dfc7876d660d700a840e64c35de0a6519e117539.1723031352.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,107 +68,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <dfc7876d660d700a840e64c35de0a6519e117539.1723031352.git.christophe.jaillet@wanadoo.fr>
 
-Hi Alison,
+Hi Christophe,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a0e38264012809afa24113ee2162dc07f4ed22b
-commit: 86954ff5032d9d60a5458334001ab3ae3b2c45e8 cxl/region: Move cxl_trace_hpa() work to the region driver
-date:   3 months ago
-config: arm-randconfig-r133-20240807 (https://download.01.org/0day-ci/archive/20240808/202408080822.j66QlMph-lkp@intel.com/config)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/net-ibm-emac-Constify-struct-mii_phy_def/20240807-195146
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/dfc7876d660d700a840e64c35de0a6519e117539.1723031352.git.christophe.jaillet%40wanadoo.fr
+patch subject: [PATCH net-next] net: ibm/emac: Constify struct mii_phy_def
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240808/202408080850.QKqTbf5o-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 423aec6573df4424f90555468128e17073ddc69e)
-reproduce: (https://download.01.org/0day-ci/archive/20240808/202408080822.j66QlMph-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080850.QKqTbf5o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408080822.j66QlMph-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408080850.QKqTbf5o-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kfence/kfence_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-stub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/versatile/clk-vexpress-osc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-ERROR: modpost: "__popcountsi2" [drivers/hwmon/adt7462.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/addi_apci_2032.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/addi_apci_3120.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/addi_apci_3xxx.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/adl_pci9111.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/adl_pci9118.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/adv_pci1710.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/amplc_pci224.ko] undefined!
-ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/cb_pcidas64.ko] undefined!
->> ERROR: modpost: "__popcountsi2" [drivers/comedi/drivers/cb_pcidas.ko] undefined!
-WARNING: modpost: suppressed 12 unresolved symbol warnings because there were too many)
+   In file included from drivers/net/ethernet/ibm/emac/core.c:28:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/powerpc/include/asm/io.h:24:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ibm/emac/core.c:2648:23: error: cannot assign to non-static data member 'def' with const-qualified type 'const struct mii_phy_def *'
+    2648 |         dev->phy.def->phy_id = dev->phy_dev->drv->phy_id;
+         |         ~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/ethernet/ibm/emac/phy.h:50:28: note: non-static data member 'def' declared const here
+      50 |         const struct mii_phy_def *def;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/net/ethernet/ibm/emac/core.c:2649:28: error: cannot assign to non-static data member 'def' with const-qualified type 'const struct mii_phy_def *'
+    2649 |         dev->phy.def->phy_id_mask = dev->phy_dev->drv->phy_id_mask;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/ethernet/ibm/emac/phy.h:50:28: note: non-static data member 'def' declared const here
+      50 |         const struct mii_phy_def *def;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/net/ethernet/ibm/emac/core.c:2650:21: error: cannot assign to non-static data member 'def' with const-qualified type 'const struct mii_phy_def *'
+    2650 |         dev->phy.def->name = dev->phy_dev->drv->name;
+         |         ~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/ethernet/ibm/emac/phy.h:50:28: note: non-static data member 'def' declared const here
+      50 |         const struct mii_phy_def *def;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/net/ethernet/ibm/emac/core.c:2651:20: error: cannot assign to non-static data member 'def' with const-qualified type 'const struct mii_phy_def *'
+    2651 |         dev->phy.def->ops = &emac_dt_mdio_phy_ops;
+         |         ~~~~~~~~~~~~~~~~~ ^
+   drivers/net/ethernet/ibm/emac/phy.h:50:28: note: non-static data member 'def' declared const here
+      50 |         const struct mii_phy_def *def;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/net/ethernet/ibm/emac/core.c:2818:25: error: cannot assign to non-static data member 'def' with const-qualified type 'const struct mii_phy_def *'
+    2818 |         dev->phy.def->features &= ~dev->phy_feat_exc;
+         |         ~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/ethernet/ibm/emac/phy.h:50:28: note: non-static data member 'def' declared const here
+      50 |         const struct mii_phy_def *def;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   5 warnings and 5 errors generated.
+
+
+vim +2648 drivers/net/ethernet/ibm/emac/core.c
+
+a577ca6badb526 Christian Lamparter 2017-02-20  2632  
+a577ca6badb526 Christian Lamparter 2017-02-20  2633  static int emac_dt_phy_connect(struct emac_instance *dev,
+a577ca6badb526 Christian Lamparter 2017-02-20  2634  			       struct device_node *phy_handle)
+a577ca6badb526 Christian Lamparter 2017-02-20  2635  {
+a577ca6badb526 Christian Lamparter 2017-02-20  2636  	dev->phy.def = devm_kzalloc(&dev->ofdev->dev, sizeof(*dev->phy.def),
+a577ca6badb526 Christian Lamparter 2017-02-20  2637  				    GFP_KERNEL);
+a577ca6badb526 Christian Lamparter 2017-02-20  2638  	if (!dev->phy.def)
+a577ca6badb526 Christian Lamparter 2017-02-20  2639  		return -ENOMEM;
+a577ca6badb526 Christian Lamparter 2017-02-20  2640  
+a577ca6badb526 Christian Lamparter 2017-02-20  2641  	dev->phy_dev = of_phy_connect(dev->ndev, phy_handle, &emac_adjust_link,
+a577ca6badb526 Christian Lamparter 2017-02-20  2642  				      0, dev->phy_mode);
+a577ca6badb526 Christian Lamparter 2017-02-20  2643  	if (!dev->phy_dev) {
+a577ca6badb526 Christian Lamparter 2017-02-20  2644  		dev_err(&dev->ofdev->dev, "failed to connect to PHY.\n");
+a577ca6badb526 Christian Lamparter 2017-02-20  2645  		return -ENODEV;
+a577ca6badb526 Christian Lamparter 2017-02-20  2646  	}
+a577ca6badb526 Christian Lamparter 2017-02-20  2647  
+a577ca6badb526 Christian Lamparter 2017-02-20 @2648  	dev->phy.def->phy_id = dev->phy_dev->drv->phy_id;
+a577ca6badb526 Christian Lamparter 2017-02-20  2649  	dev->phy.def->phy_id_mask = dev->phy_dev->drv->phy_id_mask;
+a577ca6badb526 Christian Lamparter 2017-02-20  2650  	dev->phy.def->name = dev->phy_dev->drv->name;
+a577ca6badb526 Christian Lamparter 2017-02-20  2651  	dev->phy.def->ops = &emac_dt_mdio_phy_ops;
+3c1bcc8614db10 Andrew Lunn         2018-11-10  2652  	ethtool_convert_link_mode_to_legacy_u32(&dev->phy.features,
+3c1bcc8614db10 Andrew Lunn         2018-11-10  2653  						dev->phy_dev->supported);
+a577ca6badb526 Christian Lamparter 2017-02-20  2654  	dev->phy.address = dev->phy_dev->mdio.addr;
+a577ca6badb526 Christian Lamparter 2017-02-20  2655  	dev->phy.mode = dev->phy_dev->interface;
+a577ca6badb526 Christian Lamparter 2017-02-20  2656  	return 0;
+a577ca6badb526 Christian Lamparter 2017-02-20  2657  }
+a577ca6badb526 Christian Lamparter 2017-02-20  2658  
 
 -- 
 0-DAY CI Kernel Test Service
