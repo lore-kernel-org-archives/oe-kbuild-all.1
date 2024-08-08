@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17EA18950C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 08:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875A918991D;
+	Thu,  8 Aug 2024 08:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723106554; cv=none; b=cD6hQ+s91gysPSf32WQ71D7HHpV1eBsrLC2eSHxc2y1grceGIU/jVo5YW4CaUsXB3//rwwTHNeYK5ixqkLotV2clYEtrYxTUK/8+XQvlai/knBGaM7aKIHd1tGNIFtWbeJHEwTe7bNH+1rovH76opPO8NsMXOa5puA/+Eszt2yE=
+	t=1723107203; cv=none; b=pn4o8qJkA/KdK4+CZ1n9F13xn9ip0TY47HJJJy+08YqNPYpu5cF9IIUH42xzUIV0w5LiknalQBkkIh+uRLgGDwuIQby9hg6X3Go4VD4cHnYr4RB0Q8Skdp4fySJK/HrinWAialt7LfyKSkvMrp6EAAQYG5miMLjgeu+R0GPVpbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723106554; c=relaxed/simple;
-	bh=r9RNJViT7ami3h2d1K00ZrgIsi6u650kH+s/q4mI9LY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBi1DYk/rV1mFRfizC5YF2rdwZLNI38lsM04+6PX8yN4evZ+YoE4xu1AHN1hwY5h5GRMSvomyaYNNafWNUrO3p7z/flo6UJvsC7aJZTw/CMBzP8AazYacMGHJTU3LAvgATsVKEoVsqAUmooii4kD2GjSDk2uTE3XKyWYknqqpoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jarWXBBx; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1723107203; c=relaxed/simple;
+	bh=gQ1tJG9N6SvPT5+hu2o4fz+MI6OXlvuYXLedjN+ULio=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aKrkQdMFj7mLHngMXlBd/48+5EUkdvsx0AGIBa1Q70ab8SiDYW/uB3QRzn7EDFO+/jdyiZORVz3QnvW87Ib2Ew/3wr/ECjLq2GBEZK2c4DP/9adkN2M4iG76ZOoSLp/v5BtxL+7fPZu6Ho8MP4gYdiWzlYGTBSnf4ioqN0eFE60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HayDAs1J; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jarWXBBx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HayDAs1J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723106553; x=1754642553;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r9RNJViT7ami3h2d1K00ZrgIsi6u650kH+s/q4mI9LY=;
-  b=jarWXBBx+AyzOc0HPUb1tWRBUAHRNHu3a1ftRseWWmxnLRPMsDVNQ49u
-   L/kiJ4+MtIhivoDUvSOO9YcuT4I/67jEvuxPkUm/3R6UAk2JMij1mBBtY
-   JNYrRvD0AHbcTmcqVf+x/4zF6pAMIuXqXNATl48WheDyNiZRNtkhXtM3c
-   t+HhYC/yZjPU1cWKojBgb8a3T+iZwOO8fh+yS4p30H8g1dapM8c2z7c4q
-   lWSyuO5WZgPqK1Sn7fJ8ugzjM5Ssmx08InhhtxgBCeXwa5KX1CWMCVGx+
-   i51Csp/cow3lZlz1KZDoMhYxiA0jrwRpDjkwsuwlS9MVTNpHqM4tC+4S8
-   w==;
-X-CSE-ConnectionGUID: pxONpOe/SL+I0swuFLBE5w==
-X-CSE-MsgGUID: jWeHGnLxQ1Ktc6JtP1XDgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21361349"
+  t=1723107201; x=1754643201;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gQ1tJG9N6SvPT5+hu2o4fz+MI6OXlvuYXLedjN+ULio=;
+  b=HayDAs1J22ups1xivwEVSufYN9embfSuepnwfYz4Qi8Vj52+GToBn97W
+   Mk8KCpt1J+UjdzhmzbD6hgz0dNYhzb4mKhGLrKWAUOFN1QwcPDnHTMbLQ
+   uxzrn6YoyjiAB6j1lvEzUuqKWdMJA+KPHeVdEaJIGCZUpAPyvInab9mrh
+   J/bYe6rF953MUf/AFPDI0PNP6pT8Vjp9KAn0SqNZE+l5B7Jo32dgJUT2R
+   0FMxm08Tj9SwXOKvd/XrIqMKkM7N4ZEhiV+/z8lUedCldIk/FsL40XvKR
+   z6VpnDVXRYKSTJg+oTXLo09dhq8Ul9IfmcvriSXk3mFHu3ART07dz7tdm
+   A==;
+X-CSE-ConnectionGUID: GVzcXLTTR6GsLr00KzPYFQ==
+X-CSE-MsgGUID: PS0Wd31sSoG0mIJ6E/OuGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="32610878"
 X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
-   d="scan'208";a="21361349"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 01:42:32 -0700
-X-CSE-ConnectionGUID: gImmUdZgRQuiK7bQKfLylg==
-X-CSE-MsgGUID: eMsd/QLZRYOBGbvuh7D4SA==
+   d="scan'208";a="32610878"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 01:53:21 -0700
+X-CSE-ConnectionGUID: GzCMqjNDT/Odyx2wNMB5QA==
+X-CSE-MsgGUID: kjhLbdQFSwSXwsFjXeNwww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
-   d="scan'208";a="61989297"
+   d="scan'208";a="56836211"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 08 Aug 2024 01:42:31 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 08 Aug 2024 01:53:18 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbyj6-00063S-2e;
-	Thu, 08 Aug 2024 08:42:28 +0000
-Date: Thu, 8 Aug 2024 16:41:47 +0800
+	id 1sbytF-000641-2C;
+	Thu, 08 Aug 2024 08:53:05 +0000
+Date: Thu, 8 Aug 2024 16:52:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:rw_iter 429/444] drivers/pinctrl/pinmux.c:756:29:
- error: 'pinmux_select_write' undeclared here (not in a function); did you
- mean 'pinmux_select_fops'?
-Message-ID: <202408081623.sWELQ9cz-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+Message-ID: <202408081623.ua9EBfoZ-lkp@intel.com>
+References: <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +68,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   63ad9eea4ab41c8275895cba6ec9fce9fe81781c
-commit: bebc8388fad49b751f668f46fa7574709d672700 [429/444] pinctrl: convert to read/write iterators
-config: x86_64-randconfig-075-20240807 (https://download.01.org/0day-ci/archive/20240808/202408081623.sWELQ9cz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081623.sWELQ9cz-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7cad163c39cb642ed587d3eeb37a5637ee02740f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad4695-implement-triggered-buffer/20240808-063333
+base:   7cad163c39cb642ed587d3eeb37a5637ee02740f
+patch link:    https://lore.kernel.org/r/20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283%40baylibre.com
+patch subject: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240808/202408081623.ua9EBfoZ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 408d82d352eb98e2d0a804c66d359cd7a49228fe)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081623.ua9EBfoZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408081623.sWELQ9cz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408081623.ua9EBfoZ-lkp@intel.com/
 
-Note: the axboe-block/rw_iter HEAD 63ad9eea4ab41c8275895cba6ec9fce9fe81781c builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All error/warnings (new ones prefixed by >>):
+   In file included from drivers/iio/adc/ad4695.c:24:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/iio/adc/ad4695.c:24:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/iio/adc/ad4695.c:24:
+   In file included from include/linux/iio/triggered_buffer.h:6:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad4695.c:28:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/iio/adc/ad4695.c:454:8: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     454 |         val = FIELD_PREP(mask, temp_chan_en ? 1 : 0);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
+      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      74 |                                  _pfx "type of reg too small for mask"); \
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
+     498 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+     490 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   8 warnings generated.
 
-   In file included from include/linux/debugfs.h:16,
-                    from drivers/pinctrl/pinmux.c:17:
->> drivers/pinctrl/pinmux.c:756:29: error: 'pinmux_select_write' undeclared here (not in a function); did you mean 'pinmux_select_fops'?
-     756 | DEFINE_SHOW_STORE_ATTRIBUTE(pinmux_select);
-         |                             ^~~~~~~~~~~~~
-   include/linux/seq_file.h:230:27: note: in definition of macro 'DEFINE_SHOW_STORE_ATTRIBUTE'
-     230 |         .write          = __name ## _write,                             \
-         |                           ^~~~~~
->> drivers/pinctrl/pinmux.c:682:16: warning: 'pinmux_select_write_iter' defined but not used [-Wunused-function]
-     682 | static ssize_t pinmux_select_write_iter(struct kiocb *iocb, struct iov_iter *from)
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
 
+vim +454 drivers/iio/adc/ad4695.c
 
-vim +756 drivers/pinctrl/pinmux.c
-
-2744e8afb3b763 Linus Walleij   2011-05-02  681  
-bebc8388fad49b Jens Axboe      2024-08-02 @682  static ssize_t pinmux_select_write_iter(struct kiocb *iocb, struct iov_iter *from)
-6199f6becc869d Drew Fustini    2021-03-01  683  {
-bebc8388fad49b Jens Axboe      2024-08-02  684  	struct seq_file *sfile = iocb->ki_filp->private_data;
-6199f6becc869d Drew Fustini    2021-03-01  685  	struct pinctrl_dev *pctldev = sfile->private;
-6199f6becc869d Drew Fustini    2021-03-01  686  	const struct pinmux_ops *pmxops = pctldev->desc->pmxops;
-bebc8388fad49b Jens Axboe      2024-08-02  687  	size_t len = iov_iter_count(from);
-6199f6becc869d Drew Fustini    2021-03-01  688  	const char *const *groups;
-6199f6becc869d Drew Fustini    2021-03-01  689  	char *buf, *gname, *fname;
-6199f6becc869d Drew Fustini    2021-03-01  690  	unsigned int num_groups;
-6199f6becc869d Drew Fustini    2021-03-01  691  	int fsel, gsel, ret;
-6199f6becc869d Drew Fustini    2021-03-01  692  
-bebc8388fad49b Jens Axboe      2024-08-02  693  	buf = iterdup_nul(from, len);
-0d8675e1dfa625 Andy Shevchenko 2023-06-04  694  	if (IS_ERR(buf))
-0d8675e1dfa625 Andy Shevchenko 2023-06-04  695  		return PTR_ERR(buf);
-6199f6becc869d Drew Fustini    2021-03-01  696  
-6199f6becc869d Drew Fustini    2021-03-01  697  	/* remove leading and trailing spaces of input buffer */
-6199f6becc869d Drew Fustini    2021-03-01  698  	gname = strstrip(buf);
-6199f6becc869d Drew Fustini    2021-03-01  699  	if (*gname == '\0') {
-6199f6becc869d Drew Fustini    2021-03-01  700  		ret = -EINVAL;
-6199f6becc869d Drew Fustini    2021-03-01  701  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  702  	}
-6199f6becc869d Drew Fustini    2021-03-01  703  
-6199f6becc869d Drew Fustini    2021-03-01  704  	/* find a separator which is a spacelike character */
-6199f6becc869d Drew Fustini    2021-03-01  705  	for (fname = gname; !isspace(*fname); fname++) {
-6199f6becc869d Drew Fustini    2021-03-01  706  		if (*fname == '\0') {
-6199f6becc869d Drew Fustini    2021-03-01  707  			ret = -EINVAL;
-6199f6becc869d Drew Fustini    2021-03-01  708  			goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  709  		}
-6199f6becc869d Drew Fustini    2021-03-01  710  	}
-6199f6becc869d Drew Fustini    2021-03-01  711  	*fname = '\0';
-6199f6becc869d Drew Fustini    2021-03-01  712  
-6199f6becc869d Drew Fustini    2021-03-01  713  	/* drop extra spaces between function and group names */
-6199f6becc869d Drew Fustini    2021-03-01  714  	fname = skip_spaces(fname + 1);
-6199f6becc869d Drew Fustini    2021-03-01  715  	if (*fname == '\0') {
-6199f6becc869d Drew Fustini    2021-03-01  716  		ret = -EINVAL;
-6199f6becc869d Drew Fustini    2021-03-01  717  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  718  	}
-6199f6becc869d Drew Fustini    2021-03-01  719  
-6199f6becc869d Drew Fustini    2021-03-01  720  	ret = pinmux_func_name_to_selector(pctldev, fname);
-6199f6becc869d Drew Fustini    2021-03-01  721  	if (ret < 0) {
-6199f6becc869d Drew Fustini    2021-03-01  722  		dev_err(pctldev->dev, "invalid function %s in map table\n", fname);
-6199f6becc869d Drew Fustini    2021-03-01  723  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  724  	}
-6199f6becc869d Drew Fustini    2021-03-01  725  	fsel = ret;
-6199f6becc869d Drew Fustini    2021-03-01  726  
-6199f6becc869d Drew Fustini    2021-03-01  727  	ret = pmxops->get_function_groups(pctldev, fsel, &groups, &num_groups);
-6199f6becc869d Drew Fustini    2021-03-01  728  	if (ret) {
-6199f6becc869d Drew Fustini    2021-03-01  729  		dev_err(pctldev->dev, "no groups for function %d (%s)", fsel, fname);
-6199f6becc869d Drew Fustini    2021-03-01  730  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  731  	}
-6199f6becc869d Drew Fustini    2021-03-01  732  
-6199f6becc869d Drew Fustini    2021-03-01  733  	ret = match_string(groups, num_groups, gname);
-6199f6becc869d Drew Fustini    2021-03-01  734  	if (ret < 0) {
-6199f6becc869d Drew Fustini    2021-03-01  735  		dev_err(pctldev->dev, "invalid group %s", gname);
-6199f6becc869d Drew Fustini    2021-03-01  736  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  737  	}
-6199f6becc869d Drew Fustini    2021-03-01  738  
-6199f6becc869d Drew Fustini    2021-03-01  739  	ret = pinctrl_get_group_selector(pctldev, gname);
-091e81b8677961 Andy Shevchenko 2023-01-09  740  	if (ret < 0)
-6199f6becc869d Drew Fustini    2021-03-01  741  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  742  	gsel = ret;
-6199f6becc869d Drew Fustini    2021-03-01  743  
-6199f6becc869d Drew Fustini    2021-03-01  744  	ret = pmxops->set_mux(pctldev, fsel, gsel);
-6199f6becc869d Drew Fustini    2021-03-01  745  	if (ret) {
-6199f6becc869d Drew Fustini    2021-03-01  746  		dev_err(pctldev->dev, "set_mux() failed: %d", ret);
-6199f6becc869d Drew Fustini    2021-03-01  747  		goto exit_free_buf;
-6199f6becc869d Drew Fustini    2021-03-01  748  	}
-6199f6becc869d Drew Fustini    2021-03-01  749  	ret = len;
-6199f6becc869d Drew Fustini    2021-03-01  750  
-6199f6becc869d Drew Fustini    2021-03-01  751  exit_free_buf:
-6199f6becc869d Drew Fustini    2021-03-01  752  	kfree(buf);
-6199f6becc869d Drew Fustini    2021-03-01  753  
-6199f6becc869d Drew Fustini    2021-03-01  754  	return ret;
-6199f6becc869d Drew Fustini    2021-03-01  755  }
-932640c0f78947 Andy Shevchenko 2024-04-04 @756  DEFINE_SHOW_STORE_ATTRIBUTE(pinmux_select);
-6199f6becc869d Drew Fustini    2021-03-01  757  
-
-:::::: The code at line 756 was first introduced by commit
-:::::: 932640c0f78947c59a6e9c743a17a355165d69d5 pinctrl: Use DEFINE_SHOW_STORE_ATTRIBUTE() helper for debugfs
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+   373	
+   374	static int ad4695_buffer_preenable(struct iio_dev *indio_dev)
+   375	{
+   376		struct ad4695_state *st = iio_priv(indio_dev);
+   377		struct spi_transfer *xfer;
+   378		u8 temp_chan_bit = st->chip_info->num_voltage_inputs;
+   379		bool temp_chan_en = false;
+   380		u32 reg, mask, val, bit, num_xfer, num_slots;
+   381		int ret;
+   382	
+   383		/*
+   384		 * We are using the advanced sequencer since it is the only way to read
+   385		 * multiple channels that allows individual configuration of each
+   386		 * voltage input channel. Slot 0 in the advanced sequencer is used to
+   387		 * account for the gap between trigger polls - we don't read data from
+   388		 * this slot. Each enabled voltage channel is assigned a slot starting
+   389		 * with slot 1.
+   390		 */
+   391		num_slots = 1;
+   392	
+   393		memset(st->buf_read_xfer, 0, sizeof(st->buf_read_xfer));
+   394	
+   395		/* First xfer is only to trigger conversion of slot 1, so no rx. */
+   396		xfer = &st->buf_read_xfer[0];
+   397		xfer->cs_change = 1;
+   398		xfer->delay.value = AD4695_T_CNVL_NS;
+   399		xfer->delay.unit = SPI_DELAY_UNIT_NSECS;
+   400		xfer->cs_change_delay.value = AD4695_T_CONVERT_NS;
+   401		xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+   402		num_xfer = 1;
+   403	
+   404		iio_for_each_active_channel(indio_dev, bit) {
+   405			xfer = &st->buf_read_xfer[num_xfer];
+   406			xfer->bits_per_word = 16;
+   407			xfer->rx_buf = &st->buf[(num_xfer - 1) * 2];
+   408			xfer->len = 2;
+   409			xfer->cs_change = 1;
+   410			xfer->cs_change_delay.value = AD4695_T_CONVERT_NS;
+   411			xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+   412	
+   413			if (bit == temp_chan_bit) {
+   414				temp_chan_en = true;
+   415			} else {
+   416				reg = AD4695_REG_AS_SLOT(num_slots);
+   417				val = FIELD_PREP(AD4695_REG_AS_SLOT_INX, bit);
+   418	
+   419				ret = regmap_write(st->regmap, reg, val);
+   420				if (ret)
+   421					return ret;
+   422	
+   423				num_slots++;
+   424			}
+   425	
+   426			num_xfer++;
+   427		}
+   428	
+   429		/*
+   430		 * Don't keep CS asserted after last xfer. Also triggers conversion of
+   431		 * slot 0.
+   432		 */
+   433		xfer->cs_change = 0;
+   434	
+   435		/**
+   436		 * The advanced sequencer requires that at least 2 slots are enabled.
+   437		 * Since slot 0 is always used for other purposes, we need only 1
+   438		 * enabled voltage channel to meet this requirement. This error will
+   439		 * only happen if only the temperature channel is enabled.
+   440		 */
+   441		if (num_slots < 2) {
+   442			dev_err_ratelimited(&indio_dev->dev,
+   443				"Buffered read requires at least 1 voltage channel enabled\n");
+   444			return -EINVAL;
+   445		}
+   446	
+   447		/*
+   448		 * Temperature channel isn't included in the sequence, but rather
+   449		 * controlled by setting a bit in the TEMP_CTRL register.
+   450		 */
+   451	
+   452		reg = AD4695_REG_TEMP_CTRL;
+   453		mask = AD4695_REG_TEMP_CTRL_TEMP_EN;
+ > 454		val = FIELD_PREP(mask, temp_chan_en ? 1 : 0);
+   455	
+   456		ret = regmap_update_bits(st->regmap, reg, mask, val);
+   457		if (ret)
+   458			return ret;
+   459	
+   460		spi_message_init_with_transfers(&st->buf_read_msg, st->buf_read_xfer,
+   461						num_xfer);
+   462	
+   463		ret = spi_optimize_message(st->spi, &st->buf_read_msg);
+   464		if (ret)
+   465			return ret;
+   466	
+   467		/* This triggers conversion of slot 0. */
+   468		ret = ad4695_enter_advanced_sequencer_mode(st, num_slots);
+   469		if (ret) {
+   470			spi_unoptimize_message(&st->buf_read_msg);
+   471			return ret;
+   472		}
+   473	
+   474		return 0;
+   475	}
+   476	
 
 -- 
 0-DAY CI Kernel Test Service
