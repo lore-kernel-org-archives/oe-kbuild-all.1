@@ -1,71 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FE0157466;
-	Thu,  8 Aug 2024 23:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A968115F402
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Aug 2024 23:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723158527; cv=none; b=PEiJ/YrOdNDxdKWGYBn6Vta04WZXjNSyXLN9w0lbOxeEDWkO+OtjcipTmeqvMiPHd3qMIukP5sT+PWN2k0ay6ZeY6a31Kzj9EMLKmjOsju8+YBTTHWpcEIpeDlxu6dWPA5CaVT8GN3kA+tRKppedT2CrX+QcqG0eM/K1EZQhMtU=
+	t=1723159733; cv=none; b=kDnHkaH4r9SjRF6nAST+WIBsd6OesWwBAaY6wWQjyzuzyoIHs+7j8Y2tq+M/rq0OadZWOD/VgT0eRvl9HVtm5MYy/1msv7/MnUNC+7iyTMAgyrhftivUNJxCh+mXSDY3d8mL7abO+/wOn/1Q5BsyK4Zn7yI2RhrPV3WD5D5pS4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723158527; c=relaxed/simple;
-	bh=T7KdUeo7zRdu2V4NwX3BnZOQDuovZf6qEZiSGn3VOz8=;
+	s=arc-20240116; t=1723159733; c=relaxed/simple;
+	bh=7T6z9rkm3U/1nCTIfjEAJ/4vtOZ5BhHQxzLT9IJc17w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTMMlO7FQ+MGv6fItxwHYdZmldUWipqOMXo+NmZGM4a+EDzzq4l0Gdozhnt7G21ZHnQkz54KaO5INctaen63q8HEfKDCgn30M56D46rLmkgwOLAjTnNIZxDpp9+WaFQIfxL8zfBG83+YUs+wJlSOfG4SmoAXtNoz4ivyG6tMpjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVP8ZVeX; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZNCBPv6b0JqDly/RoZu/RWXGIkbQ8gkrrqhqUTyssBJ0LPRqUBjlBWSsgayQwoZ3E7OSLa9oHmljqUv/sDe6kEjDg+v63DWcVPRGn0UGgPtUIZif5z6CFmOwCLrTX2Af6TNjNSAAHs4ciH9SJJsrFwJFCyWdr/dN4C2G97yUZLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=THPdx+Jr; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVP8ZVeX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THPdx+Jr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723158527; x=1754694527;
+  t=1723159732; x=1754695732;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=T7KdUeo7zRdu2V4NwX3BnZOQDuovZf6qEZiSGn3VOz8=;
-  b=lVP8ZVeXbOKsO2q4p12OhTkTdzJf2JTjBOqswY3ml71m2qzbr2zAs/mG
-   2l9crPFVeQmCDIZ4ddQuj3pcTld/340nb+3gEQ73krBksviBS3nWrTf5b
-   8pI3i9N5n5grtcjf4gK6n7lTMHC88LlaW5WR4MzfiNoFMv1EgTPW/Ssd+
-   KYsuoCgmhw+ywLYaZwnCtFbFqw6y6HZftzp+MaP73YZ1HUhqGkYX+P2Sg
-   GAvpBdSitY5fNiHpzzP2L/EO+EbwsLmIrjPFIDPq+OwqNq8u59VNsQ/44
-   8AwwvmKsiqpR7qFMV23Gez+y5nWc45tj0OUGWpgvPcVxdCMRyMkRrPHyU
+  bh=7T6z9rkm3U/1nCTIfjEAJ/4vtOZ5BhHQxzLT9IJc17w=;
+  b=THPdx+JrPdzp9TfCQWpFkPHUMpOqO8ckdmDYMMOryyCx6Rzy/QqQKthR
+   /g2TNsCdqgg+dk/fU3QtIXjcmUm92dDDntfEQje92b928P08Z5WLluUqg
+   ZOdhuW6AR55RQjAdAjSw5Ikgj33xNoI9qqZZnodycwDxlROoU9veIyR5T
+   4LruTFLf2grKkSbqQOho5YpSx8pEeOpfaUnwM9JU9n/MsklXJtzZzlPjq
+   EPdrBj9vVIumG3k1dhNVaVPKEYWCPq/Z6rPA5NIad7vcVb0e/HNdvEwLw
+   XcH8xrWzK0g1H5kFiJ+I7tsHdHNkycHTP8Z7CA4BxoOHTHg220YKZydUA
    g==;
-X-CSE-ConnectionGUID: pT4ta4rNR6aRZHV8RpgusQ==
-X-CSE-MsgGUID: swAgNs4ZSk+Di37vmG14Yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="20977161"
+X-CSE-ConnectionGUID: 9YYJRXriRIKR24trd+AHPw==
+X-CSE-MsgGUID: qnJ6Ob1TT+u7R+xEx+jieg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="38825990"
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="20977161"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:08:46 -0700
-X-CSE-ConnectionGUID: yiARJAgUSQ6iMi70uo66VQ==
-X-CSE-MsgGUID: X00cbstkRRO3ElG4P2oYeQ==
+   d="scan'208";a="38825990"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 16:28:51 -0700
+X-CSE-ConnectionGUID: ymqTIQVcR/OjzQXhMSQm1A==
+X-CSE-MsgGUID: N+7qjUO6SA6E4bdt8nVHmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="62015850"
+   d="scan'208";a="57616008"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Aug 2024 16:08:41 -0700
+  by orviesa006.jf.intel.com with ESMTP; 08 Aug 2024 16:28:48 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scCFK-0006bW-1v;
-	Thu, 08 Aug 2024 23:08:38 +0000
-Date: Fri, 9 Aug 2024 07:08:16 +0800
+	id 1scCYk-0006cU-1Y;
+	Thu, 08 Aug 2024 23:28:43 +0000
+Date: Fri, 9 Aug 2024 07:28:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjian Song <jinjian.song@fibocom.com>,
-	chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
-	corbet@lwn.net, linux-mediatek@lists.infradead.org,
-	danielwinkler@google.com, korneld@google.com,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: Re: [net-next v1] net: wwan: t7xx: PCIe reset rescan
-Message-ID: <202408090610.w01C56AC-lkp@intel.com>
-References: <20240808111801.8514-1-jinjian.song@fibocom.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 3/3] net: phy: dp83tg720: Add cable testing
+ support
+Message-ID: <202408090754.e4G2nq88-lkp@intel.com>
+References: <20240808130833.2083875-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,83 +70,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240808111801.8514-1-jinjian.song@fibocom.com>
+In-Reply-To: <20240808130833.2083875-3-o.rempel@pengutronix.de>
 
-Hi Jinjian,
+Hi Oleksij,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjian-Song/net-wwan-t7xx-PCIe-reset-rescan/20240808-192313
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/phy-Add-Open-Alliance-helpers-for-the-PHY-framework/20240808-211730
 base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240808111801.8514-1-jinjian.song%40fibocom.com
-patch subject: [net-next v1] net: wwan: t7xx: PCIe reset rescan
-config: i386-buildonly-randconfig-004-20240809 (https://download.01.org/0day-ci/archive/20240809/202408090610.w01C56AC-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090610.w01C56AC-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240808130833.2083875-3-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v2 3/3] net: phy: dp83tg720: Add cable testing support
+config: i386-buildonly-randconfig-001-20240809 (https://download.01.org/0day-ci/archive/20240809/202408090754.e4G2nq88-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090754.e4G2nq88-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408090610.w01C56AC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408090754.e4G2nq88-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/wwan/t7xx/t7xx_modem_ops.c:204:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     204 |         } else if (type == PLDR) {
-         |                    ^~~~~~~~~~~~
-   drivers/net/wwan/t7xx/t7xx_modem_ops.c:215:9: note: uninitialized use occurs here
-     215 |         return ret;
-         |                ^~~
-   drivers/net/wwan/t7xx/t7xx_modem_ops.c:204:9: note: remove the 'if' if its condition is always true
-     204 |         } else if (type == PLDR) {
-         |                ^~~~~~~~~~~~~~~~~
-     205 |                 ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
-     206 |         } else if (type == FASTBOOT) {
-         |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     207 |                 t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     208 |                 t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     209 |                 msleep(FASTBOOT_RESET_DELAY_MS);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     210 |         }
-         |         ~
-   drivers/net/wwan/t7xx/t7xx_modem_ops.c:196:9: note: initialize the variable 'ret' to silence this warning
-     196 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +204 drivers/net/wwan/t7xx/t7xx_modem_ops.c
-
-   193	
-   194	int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type)
-   195	{
-   196		int ret;
-   197	
-   198		pci_save_state(t7xx_dev->pdev);
-   199		t7xx_pci_reprobe_early(t7xx_dev);
-   200		t7xx_mode_update(t7xx_dev, T7XX_RESET);
-   201	
-   202		if (type == FLDR) {
-   203			ret = t7xx_acpi_reset(t7xx_dev, "_RST");
- > 204		} else if (type == PLDR) {
-   205			ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
-   206		} else if (type == FASTBOOT) {
-   207			t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
-   208			t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
-   209			msleep(FASTBOOT_RESET_DELAY_MS);
-   210		}
-   211	
-   212		pci_restore_state(t7xx_dev->pdev);
-   213		t7xx_pci_reprobe(t7xx_dev, true);
-   214	
-   215		return ret;
-   216	}
-   217	
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "oa_1000bt1_get_ethtool_cable_result_code" [drivers/net/phy/dp83tg720.ko] undefined!
+>> ERROR: modpost: "oa_1000bt1_get_tdr_distance" [drivers/net/phy/dp83tg720.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
