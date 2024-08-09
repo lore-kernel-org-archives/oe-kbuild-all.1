@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC13E17BBF;
-	Fri,  9 Aug 2024 13:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8113FFC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 14:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723208644; cv=none; b=RcfiRZeLgKXpHbTnME62rT2/dOdzMWI3J0pwW1mAnZUPt/qtBRm+6rUNvhGprYlmmzYXLmDci2MbnHmo6yiRx0znlyxlhCtBqf4wgLZKMymALEO8pfdWg0qU9f1r9RDPWm4WOX0To9a+TV90A5f0c3gMsxpATO1xn4Ap4ipEFNI=
+	t=1723215137; cv=none; b=gGEZ25y7W8TJwFzbwtCiRTCjWvoRqE6wQmBKGtUtxbImqMQgeS2TtAWCd5BHL7N9smvEPh7VCUqVja1FMEWfxzdRiTDwyly2ShOVnpDYYVfs/6pLGcFuE5a9C7hrFqnTYGOZceVh5pK/qv3QuKCZzgFDXezF0IJdSUXeV0RYfmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723208644; c=relaxed/simple;
-	bh=Iu9g4cXXQfyRBajjpYj9YppWW91EA9ZF/wnThkZr79Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRMeanPeCsHR7nOWCmNwDSm+E7hWk2C9xrYraaoT+maiAbyN8dyZ+qrv8dVEwVM1BXf1WNWSnjxo14ek0AKHInkoeJijzpGguUDkAGtUyAHK1wtULvlrZdRlh5/ucl+H6OaYbIV5NCcQbMCDCJzj0ApADHmc2EKKyJRjaQc0Ll4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5ksVXEx; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1723215137; c=relaxed/simple;
+	bh=7WplMSug71/EOusgaQrPAOpsFo4e08Jx7F5wiEeran4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nWoira5m/JsqBYv+l8KXctzp1EpNVI740GN3JWlR43Dysm+YWNXdwcvPK5po3+XHkZUjX2NE9E4mrQmHRqJq0WalEeUoMuhGndksxnbYG6K+OOyOVeSwTVPKqyFr+ucFd2qSHLezlWPf8iyNxXEJNY+i0qs5Prpv0XkiRiA+CQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fig52glp; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5ksVXEx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fig52glp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723208643; x=1754744643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Iu9g4cXXQfyRBajjpYj9YppWW91EA9ZF/wnThkZr79Y=;
-  b=d5ksVXExHwmFomxlUJlt9HZanGMMlro/p5M45owm1veFXG/GOKO3EtTR
-   ayh8iRrv8I8Cj3kgXfza/Wy/ToqjDTx0Sp9iH4+NnDQORx5nW01NXPOSR
-   ojm5vU5xU8EH9aaLy4LCWWtMvdrv5Q6df1KrVM+RnEw0MPXwN5+hy4JCZ
-   bLLfzqY7NT6TT6lgLsll/8+7+TAsbF6gndNT4p8sxz8YLIzfV72iM2bkg
-   AtEmFIL3cxtTNh6cv5uFhZsq378RbWNNiPwvHfO0fJirTk5XOO9Pm2p+W
-   Z9OzvbNYOzw/4TV0ebAl0ipd2LgfX1X1LEWFmw8hCrbwc6uLVeuRQ/kqV
-   Q==;
-X-CSE-ConnectionGUID: MbiATAKoRf665a140Icurg==
-X-CSE-MsgGUID: dTE43loHTvG3MhXoJM+Tfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21507892"
+  t=1723215136; x=1754751136;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7WplMSug71/EOusgaQrPAOpsFo4e08Jx7F5wiEeran4=;
+  b=fig52glpQ6ISl8rTs1/elHxsUlPkRbDvj1e1YQVhW4bRGpj6NvVyBSBZ
+   Pgh8H7a5DXP9OnzHKQa/vh2aMjo3i2RLmWNFglDN7u6eFHtpY/fJwNmWQ
+   mk2DCiuTpXskxgbO3gkvEjFuuU/6gAFhCB7NVqtNRIoc05I25slYwtChE
+   g6h8lETfkiSAelMsDO9bI8FJXYP5qligj84PflRoyJFK75oqsUP6DB1Jc
+   okdyCn4tBeY11wxBtRKWQuxkh/hGY7RRP1c4Ex0LgH1eNZXsRi2uwZFmN
+   jcPvyR5Vb8dOnXtQQcnPNOHiic8zihD6T3KZt+FrZexWIkYulr59+zngm
+   g==;
+X-CSE-ConnectionGUID: cXIpl2OJTvixqypHBKJ+hA==
+X-CSE-MsgGUID: 22VqCZC5Q5+XO5tP4Oc0Rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21249388"
 X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="21507892"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 06:04:02 -0700
-X-CSE-ConnectionGUID: tyr/c8aoRLmCsE+IMHkZEA==
-X-CSE-MsgGUID: ee4Kc0tlTYGPM+DYHbq6qg==
+   d="scan'208";a="21249388"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 07:52:15 -0700
+X-CSE-ConnectionGUID: 0udurY+eQ7qN3rFsyrjGZA==
+X-CSE-MsgGUID: hMiX7EJ+RMOdGFQ7ncAeLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="57443158"
+   d="scan'208";a="57252255"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 09 Aug 2024 06:04:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Aug 2024 07:52:13 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scPH8-00082a-25;
-	Fri, 09 Aug 2024 13:03:49 +0000
-Date: Fri, 9 Aug 2024 21:00:03 +0800
+	id 1scQyM-0008In-36;
+	Fri, 09 Aug 2024 14:52:08 +0000
+Date: Fri, 9 Aug 2024 22:51:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, venkat.jayaraman@intel.com,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: Re: [PATCH] usb: typec: ucsi: Add DATA_RESET option of Connector
- Reset command
-Message-ID: <202408092049.X5fsVaNn-lkp@intel.com>
-References: <20240808231443.1772374-1-venkat.jayaraman@intel.com>
+To: Jordan Niethe <jniethe5@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Gautam Menghani <gautam@linux.ibm.com>
+Subject: arch/powerpc/kvm/powerpc.c:1061:9: error: implicit declaration of
+ function 'kvmppc_get_vsx_vr'; did you mean 'kvmppc_get_sr'?
+Message-ID: <202408092224.k3BjS6oT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,64 +63,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240808231443.1772374-1-venkat.jayaraman@intel.com>
 
-Hi Venkat,
+Hi Jordan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.11-rc2 next-20240809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Venkat-Jayaraman/usb-typec-ucsi-Add-DATA_RESET-option-of-Connector-Reset-command/20240809-122908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240808231443.1772374-1-venkat.jayaraman%40intel.com
-patch subject: [PATCH] usb: typec: ucsi: Add DATA_RESET option of Connector Reset command
-config: i386-buildonly-randconfig-005-20240809 (https://download.01.org/0day-ci/archive/20240809/202408092049.X5fsVaNn-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408092049.X5fsVaNn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ee9a43b7cfe2d8a3520335fea7d8ce71b8cabd9d
+commit: 52425a3b3c11cec58cf66e4c897fc1504f3911a9 KVM: PPC: Introduce FPR/VR accessor functions
+date:   11 months ago
+config: powerpc64-randconfig-r051-20240809 (https://download.01.org/0day-ci/archive/20240809/202408092224.k3BjS6oT-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408092224.k3BjS6oT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408092049.X5fsVaNn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408092224.k3BjS6oT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/usb/typec/ucsi/ucsi.c:1347: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Hard Reset bit field was defined with value 1 in UCSI spec version 1.0.
+   arch/powerpc/kvm/powerpc.c: In function 'kvmppc_set_vmx_dword':
+>> arch/powerpc/kvm/powerpc.c:1061:9: error: implicit declaration of function 'kvmppc_get_vsx_vr'; did you mean 'kvmppc_get_sr'? [-Wimplicit-function-declaration]
+    1061 |         kvmppc_get_vsx_vr(vcpu, index, &val.vval);
+         |         ^~~~~~~~~~~~~~~~~
+         |         kvmppc_get_sr
+>> arch/powerpc/kvm/powerpc.c:1063:9: error: implicit declaration of function 'kvmppc_set_vsx_vr'; did you mean 'kvmppc_set_sr'? [-Wimplicit-function-declaration]
+    1063 |         kvmppc_set_vsx_vr(vcpu, index, &val.vval);
+         |         ^~~~~~~~~~~~~~~~~
+         |         kvmppc_set_sr
+   In file included from arch/powerpc/kvm/powerpc.c:25:
+   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_get_one_reg':
+>> arch/powerpc/kvm/powerpc.c:1729:52: error: implicit declaration of function 'kvmppc_get_vscr'; did you mean 'kvmppc_get_sr'? [-Wimplicit-function-declaration]
+    1729 |                         val = get_reg_val(reg->id, kvmppc_get_vscr(vcpu));
+         |                                                    ^~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/kvm_ppc.h:412:29: note: in definition of macro 'get_reg_val'
+     412 |         case 4: __u.wval = (reg); break;        \
+         |                             ^~~
+   arch/powerpc/kvm/powerpc.c: In function 'kvm_vcpu_ioctl_set_one_reg':
+>> arch/powerpc/kvm/powerpc.c:1780:25: error: implicit declaration of function 'kvmppc_set_vscr'; did you mean 'kvmppc_set_sr'? [-Wimplicit-function-declaration]
+    1780 |                         kvmppc_set_vscr(vcpu, set_reg_val(reg->id, val));
+         |                         ^~~~~~~~~~~~~~~
+         |                         kvmppc_set_sr
 
 
-vim +1347 drivers/usb/typec/ucsi/ucsi.c
+vim +1061 arch/powerpc/kvm/powerpc.c
 
-  1345	
-  1346	/**
-> 1347	 * Hard Reset bit field was defined with value 1 in UCSI spec version 1.0.
-  1348	 * Starting with spec version 1.1, Hard Reset bit field was removed from the
-  1349	 * CONNECTOR_RESET command, until spec 2.0 reintroduced it with value 0, so, in effect,
-  1350	 * the value to pass in to the command for a Hard Reset is different depending
-  1351	 * on the supported UCSI version by the LPM.
-  1352	 *
-  1353	 * For performing a Data Reset on LPMs supporting version 2.0 and greater,
-  1354	 * this function needs to be called with the second argument set to 0.
-  1355	 */
-  1356	static int ucsi_reset_connector(struct ucsi_connector *con, bool hard)
-  1357	{
-  1358		u64 command;
-  1359	
-  1360		command = UCSI_CONNECTOR_RESET | UCSI_CONNECTOR_NUMBER(con->num);
-  1361	
-  1362		if (con->ucsi->version < UCSI_VERSION_1_1)
-  1363			command |= hard ? UCSI_CONNECTOR_RESET_HARD_VER_1_0 : 0;
-  1364		else if (con->ucsi->version >= UCSI_VERSION_2_0)
-  1365			command |= hard ? 0 : UCSI_CONNECTOR_RESET_DATA_VER_2_0;
-  1366	
-  1367		return ucsi_send_command(con->ucsi, command, NULL, 0);
-  1368	}
-  1369	
+  1048	
+  1049	
+  1050	static inline void kvmppc_set_vmx_dword(struct kvm_vcpu *vcpu,
+  1051		u64 gpr)
+  1052	{
+  1053		union kvmppc_one_reg val;
+  1054		int offset = kvmppc_get_vmx_dword_offset(vcpu,
+  1055				vcpu->arch.mmio_vmx_offset);
+  1056		int index = vcpu->arch.io_gpr & KVM_MMIO_REG_MASK;
+  1057	
+  1058		if (offset == -1)
+  1059			return;
+  1060	
+> 1061		kvmppc_get_vsx_vr(vcpu, index, &val.vval);
+  1062		val.vsxval[offset] = gpr;
+> 1063		kvmppc_set_vsx_vr(vcpu, index, &val.vval);
+  1064	}
+  1065	
 
 -- 
 0-DAY CI Kernel Test Service
