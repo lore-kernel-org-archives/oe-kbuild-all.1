@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C56224EA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 20:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32200160860;
+	Fri,  9 Aug 2024 21:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723236539; cv=none; b=Q42IRL2JUkK5/C5UN1/DGyDqMN9unRvgA+BIFVzWNzVKE0EXZj3/0XU4dUpWQ+LP839RI6HWMu0ZEegy+yAe4g5dE3cWLosAvkgMti+tKWO1u1ytnLYU1tarIiI4zUIjAFbcG4uxHzFDFjlIFyM8drY7rDn65uFB2dQJH9WFnaI=
+	t=1723237815; cv=none; b=ap1PJjMfT0Y5nWu5ajFyPYrtxsZsUl42MBXq7JrrN9+SStNkJoo5AxuNvADqqV+xCl+GTYnNElslz2Ks2Zye81vZObpDLkd9Ez5skE56EX5ixax1Op/8f64W0l398D3Y9stFUbpUA4azixdkGeQhsIoRZx5/qG63K8mDIKTWau0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723236539; c=relaxed/simple;
-	bh=LQRpGUBrP4WLVH27RipF1PGbuYLU8ZOry99cQeZsWgc=;
+	s=arc-20240116; t=1723237815; c=relaxed/simple;
+	bh=mqq+JEfGxXJbA9UuP3dN134huReQHnwuwzViD9L6Ti0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWEwN/OeswbdIzgqdHyJfmPnM7SYbVxqosfd4cH0cXCLXSqlmax8deE1QAN8SBY9MNU1Jd32uc/QekOWffNFWaVeAP4vL6ZhAbRbjkR1UZWd/fWvsZncGH+tQWQbtMPjVlnn7/Xm1kEuCd3evAra+5/tMNaS3Azrq3L9vqJrsa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkG67kbi; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=qsW82xINouXdVix81axTnfxsTMD9hCmKCiZdJIXvvFO8uID/w+C4wk3IQ77y+BHt6YD0Kb+dx3J/CxhfAQI5KlQcHKK0cxKFBRKdIEg6pYcTVAwjy0Vadt1r3sy++lrydW5uAzasvgE7sZ3wR6eSjBpMUaK+VFgu5ckA698bVl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpG5/puR; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkG67kbi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpG5/puR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723236538; x=1754772538;
+  t=1723237814; x=1754773814;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LQRpGUBrP4WLVH27RipF1PGbuYLU8ZOry99cQeZsWgc=;
-  b=kkG67kbi+AmK42UkUQbQ+l6W+i4z7RlhA4g9mHawUoTK8sUZiqFpOb6M
-   sgyRRMxvg8BPC+pMHUHAd7QzE3sqcB/DK+Sv6N3DhFkwhewVqna0IaPlI
-   fvo4ZXqr8CszCndrdcIxc/WfQ/i45jjYOw9e8tVqnOdqXIofITceXW6aU
-   L0X9/t6rZafFhj0VMLeMXijcbuzowHcIxVW0pNpMBGhLYiuB7wSAvSxQ2
-   JJDuroIlogLKyKiqTcK3u19MnXcXPo5xK2MfzO/THUyvKXdqo99pD/Zu0
-   NK4/1lKei8FJJK9ZvirdWV1lqBokCm65cEYfQv61AyOvNgupFmiGoFW11
-   A==;
-X-CSE-ConnectionGUID: EDJcBx8ESvq2VbVuI3qPTQ==
-X-CSE-MsgGUID: Zz0NFaBuSHaDmNFIOu07CQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21086008"
+  bh=mqq+JEfGxXJbA9UuP3dN134huReQHnwuwzViD9L6Ti0=;
+  b=QpG5/puRWANUUrYiag9dgf9ldVDEeI4rjPE2DrejdRHsKTFyrIKhqkOR
+   +iaO55TjpcK7UKpw+AXjqGpMkdnHkUCdnJV1bZrT28sB58iG43pnx/XlR
+   Iwj1FYG8buUCzDDHX91n0oa+HY/5Fkr9cyEXOFZMgDLKEnsWwWoCuOT9V
+   8veIXCVFG+rAWnDBvDJMt+k4rOEx2VpKzubqX7WaTsqEw29CMw4tejwhE
+   agQ3u+JCjUlDR3NjLu7hdRjpVpqF+Xb30MPJrhBHQRS6xFS7C6yztZvxV
+   Rz1ApAEPdSNcC+/VW52s8bemS+z0K3y8xBKw4Am9dIzZjztRQWDTqzTCJ
+   Q==;
+X-CSE-ConnectionGUID: 3qivdPQpTVWYN3/b+Z0PGA==
+X-CSE-MsgGUID: OlAFEc1MTP60EyupOXDO6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21403409"
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="21086008"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 13:48:57 -0700
-X-CSE-ConnectionGUID: nZZWNeEBS0uGLtOZIanY+w==
-X-CSE-MsgGUID: UOaZEDifTu2Qhnfc1lsqJA==
+   d="scan'208";a="21403409"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 14:10:12 -0700
+X-CSE-ConnectionGUID: 8FlihEywRfunBIQxxE36fA==
+X-CSE-MsgGUID: hXN7S+L4S3iqCNgzJ24Hzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="88528687"
+   d="scan'208";a="88323810"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Aug 2024 13:48:52 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Aug 2024 14:10:05 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scWXZ-0009Fz-0o;
-	Fri, 09 Aug 2024 20:48:49 +0000
-Date: Sat, 10 Aug 2024 04:48:46 +0800
+	id 1scWs5-0009Gp-2t;
+	Fri, 09 Aug 2024 21:10:01 +0000
+Date: Sat, 10 Aug 2024 05:09:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -67,14 +67,15 @@ To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Mark Yao <markyao0591@gmail.com>,
 	Sascha Hauer <s.hauer@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
 	kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
 	Luis de Arquer <ldearquer@gmail.com>,
 	Algea Cao <algea.cao@rock-chips.com>
 Subject: Re: [PATCH v2 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Message-ID: <202408100456.yY6K40pK-lkp@intel.com>
+Message-ID: <202408100431.ujB0M1q7-lkp@intel.com>
 References: <20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,21 +97,100 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Ciocaltea/dt-bin
 base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
 patch link:    https://lore.kernel.org/r/20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b%40collabora.com
 patch subject: [PATCH v2 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240810/202408100456.yY6K40pK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100456.yY6K40pK-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240810/202408100431.ujB0M1q7-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100431.ujB0M1q7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408100456.yY6K40pK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408100431.ujB0M1q7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:18:10: fatal error: drm/bridge/dw_hdmi_qp.h: No such file or directory
+   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
+   In file included from include/linux/phy/phy.h:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:18:10: fatal error: 'drm/bridge/dw_hdmi_qp.h' file not found
       18 | #include <drm/bridge/dw_hdmi_qp.h>
          |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   7 warnings and 1 error generated.
 
 
 vim +18 drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
