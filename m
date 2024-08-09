@@ -1,82 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32200160860;
-	Fri,  9 Aug 2024 21:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9198B225D6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 21:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723237815; cv=none; b=ap1PJjMfT0Y5nWu5ajFyPYrtxsZsUl42MBXq7JrrN9+SStNkJoo5AxuNvADqqV+xCl+GTYnNElslz2Ks2Zye81vZObpDLkd9Ez5skE56EX5ixax1Op/8f64W0l398D3Y9stFUbpUA4azixdkGeQhsIoRZx5/qG63K8mDIKTWau0=
+	t=1723238409; cv=none; b=XMA8XG0E389FPPM5RwC5Q3KRUir8+vD+OBHJ3QJKsnIa7JiOsRfE/ilryTgZkZmeLqalPauXOB+R01q3gKP0mclACcx6YvDrXi1pP8rysBjrDecyqQH5GUgsaWowUXCcKzQCbXoOunp2+u5HlXP/FMDEJsUlgpgNR3Hyrh74eTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723237815; c=relaxed/simple;
-	bh=mqq+JEfGxXJbA9UuP3dN134huReQHnwuwzViD9L6Ti0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qsW82xINouXdVix81axTnfxsTMD9hCmKCiZdJIXvvFO8uID/w+C4wk3IQ77y+BHt6YD0Kb+dx3J/CxhfAQI5KlQcHKK0cxKFBRKdIEg6pYcTVAwjy0Vadt1r3sy++lrydW5uAzasvgE7sZ3wR6eSjBpMUaK+VFgu5ckA698bVl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpG5/puR; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1723238409; c=relaxed/simple;
+	bh=G+eU5nHfwgGjUf/lr9ABG1PW9p01Dli2brO4lyMXH0Y=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JvcpjqD4dO8px8XjiH0m9dfeQRBeWyeLPRH/lmIyNt1ZYVorlg3FeVxD/GbYk3NM2UBHHKyR5iXmt16n3ertz2rHhhBQI5wlI9Mhb4un4w076+aMR4zyfCw0HVwau9POfeH9v5D0pycVtr+ayuIxFqwpUlKjAao25URGbTF+YbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeX5tb4M; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpG5/puR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeX5tb4M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723237814; x=1754773814;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mqq+JEfGxXJbA9UuP3dN134huReQHnwuwzViD9L6Ti0=;
-  b=QpG5/puRWANUUrYiag9dgf9ldVDEeI4rjPE2DrejdRHsKTFyrIKhqkOR
-   +iaO55TjpcK7UKpw+AXjqGpMkdnHkUCdnJV1bZrT28sB58iG43pnx/XlR
-   Iwj1FYG8buUCzDDHX91n0oa+HY/5Fkr9cyEXOFZMgDLKEnsWwWoCuOT9V
-   8veIXCVFG+rAWnDBvDJMt+k4rOEx2VpKzubqX7WaTsqEw29CMw4tejwhE
-   agQ3u+JCjUlDR3NjLu7hdRjpVpqF+Xb30MPJrhBHQRS6xFS7C6yztZvxV
-   Rz1ApAEPdSNcC+/VW52s8bemS+z0K3y8xBKw4Am9dIzZjztRQWDTqzTCJ
-   Q==;
-X-CSE-ConnectionGUID: 3qivdPQpTVWYN3/b+Z0PGA==
-X-CSE-MsgGUID: OlAFEc1MTP60EyupOXDO6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21403409"
+  t=1723238407; x=1754774407;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=G+eU5nHfwgGjUf/lr9ABG1PW9p01Dli2brO4lyMXH0Y=;
+  b=QeX5tb4MxHlY88oLpYNdM7isF3+Mv2HcAnw0FMhA7O/E3IUvtm9pA79G
+   Zx3EWWwn5vCmb3hU9ryOX8QDkZVohvGz3FQt21HdYdseBZIWrcbmPAeta
+   pkPsDQQXNti89FclriXrbb75D2CuROe8cx3Q/V+Ta5ecCA4DgYhgVWYfU
+   YRZW2Lex12rLgFNMeIj8yJUyT4YdLM2By0cvBug4DFdY3MJX7doBHXCue
+   UGaH5/IqKTcOaanPv45NENYNe6R08MOYX4LkVTm9uCi9cXXhua5kCIC/H
+   0RODoxJqPYQXd3gT6eCQwIHS6pt8arTRLJbs7TnOoF4YPguiQnLHEDzJP
+   g==;
+X-CSE-ConnectionGUID: +ZOfH5kORKqmi8k96wQP2g==
+X-CSE-MsgGUID: 9wzzy1jkRIiH/WzshZyBbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="20993511"
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="21403409"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 14:10:12 -0700
-X-CSE-ConnectionGUID: 8FlihEywRfunBIQxxE36fA==
-X-CSE-MsgGUID: hXN7S+L4S3iqCNgzJ24Hzw==
+   d="scan'208";a="20993511"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 14:20:06 -0700
+X-CSE-ConnectionGUID: 2DffZPhRTEiMeg9I1aMpiw==
+X-CSE-MsgGUID: X3ixxzf6TaO/kinE2f339w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="88323810"
+   d="scan'208";a="58242802"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 09 Aug 2024 14:10:05 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Aug 2024 14:20:04 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scWs5-0009Gp-2t;
-	Fri, 09 Aug 2024 21:10:01 +0000
-Date: Sat, 10 Aug 2024 05:09:20 +0800
+	id 1scX1m-0009H9-0K;
+	Fri, 09 Aug 2024 21:20:02 +0000
+Date: Sat, 10 Aug 2024 05:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mark Yao <markyao0591@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-	kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
-	Luis de Arquer <ldearquer@gmail.com>,
-	Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v2 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Message-ID: <202408100431.ujB0M1q7-lkp@intel.com>
-References: <20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Udit Kumar <u-kumar1@ti.com>, Andrew Davis <afd@ti.com>,
+	Hari Nagalla <hnagalla@ti.com>
+Subject: [ti:ti-linux-6.6.y-wip 32/46] drivers/mailbox/omap-mailbox.c:635:34:
+ warning: 'omap_mailbox_of_match' defined but not used
+Message-ID: <202408100529.viKFbTRf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,123 +62,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b@collabora.com>
 
-Hi Cristian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Ciocaltea/dt-bindings-display-rockchip-Add-schema-for-RK3588-HDMI-TX-Controller/20240802-173018
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240801-b4-rk3588-bridge-upstream-v2-3-9fa657a4e15b%40collabora.com
-patch subject: [PATCH v2 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240810/202408100431.ujB0M1q7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100431.ujB0M1q7-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.6.y-wip
+head:   d80245c38ed4432878e5fe309f6ba958fd2c2e8f
+commit: acc3573ed94e855c69e7bec2855bc05caebc829d [32/46] remoteproc: k3-m4: Add a remoteproc driver for M4F subsystem
+config: alpha-randconfig-r061-20240809 (https://download.01.org/0day-ci/archive/20240810/202408100529.viKFbTRf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100529.viKFbTRf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408100431.ujB0M1q7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408100529.viKFbTRf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:15:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c:18:10: fatal error: 'drm/bridge/dw_hdmi_qp.h' file not found
-      18 | #include <drm/bridge/dw_hdmi_qp.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   7 warnings and 1 error generated.
+>> drivers/mailbox/omap-mailbox.c:635:34: warning: 'omap_mailbox_of_match' defined but not used [-Wunused-const-variable=]
+     635 | static const struct of_device_id omap_mailbox_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
 
 
-vim +18 drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+vim +/omap_mailbox_of_match +635 drivers/mailbox/omap-mailbox.c
 
-    17	
-  > 18	#include <drm/bridge/dw_hdmi_qp.h>
-    19	#include <drm/drm_bridge_connector.h>
-    20	#include <drm/drm_of.h>
-    21	#include <drm/drm_probe_helper.h>
-    22	#include <drm/drm_simple_kms_helper.h>
-    23	
+ea2ec1e80f78e5 Suman Anna 2018-07-11  634  
+75288cc66dc478 Suman Anna 2014-09-10 @635  static const struct of_device_id omap_mailbox_of_match[] = {
+75288cc66dc478 Suman Anna 2014-09-10  636  	{
+75288cc66dc478 Suman Anna 2014-09-10  637  		.compatible	= "ti,omap2-mailbox",
+ea2ec1e80f78e5 Suman Anna 2018-07-11  638  		.data		= &omap2_data,
+75288cc66dc478 Suman Anna 2014-09-10  639  	},
+75288cc66dc478 Suman Anna 2014-09-10  640  	{
+75288cc66dc478 Suman Anna 2014-09-10  641  		.compatible	= "ti,omap3-mailbox",
+ea2ec1e80f78e5 Suman Anna 2018-07-11  642  		.data		= &omap2_data,
+75288cc66dc478 Suman Anna 2014-09-10  643  	},
+75288cc66dc478 Suman Anna 2014-09-10  644  	{
+75288cc66dc478 Suman Anna 2014-09-10  645  		.compatible	= "ti,omap4-mailbox",
+ea2ec1e80f78e5 Suman Anna 2018-07-11  646  		.data		= &omap4_data,
+75288cc66dc478 Suman Anna 2014-09-10  647  	},
+9c1f2a5dc2948b Suman Anna 2019-06-04  648  	{
+9c1f2a5dc2948b Suman Anna 2019-06-04  649  		.compatible	= "ti,am654-mailbox",
+9c1f2a5dc2948b Suman Anna 2019-06-04  650  		.data		= &omap4_data,
+9c1f2a5dc2948b Suman Anna 2019-06-04  651  	},
+595be654b0c23b Suman Anna 2021-02-09  652  	{
+595be654b0c23b Suman Anna 2021-02-09  653  		.compatible	= "ti,am64-mailbox",
+595be654b0c23b Suman Anna 2021-02-09  654  		.data		= &omap4_data,
+595be654b0c23b Suman Anna 2021-02-09  655  	},
+75288cc66dc478 Suman Anna 2014-09-10  656  	{
+75288cc66dc478 Suman Anna 2014-09-10  657  		/* end */
+75288cc66dc478 Suman Anna 2014-09-10  658  	},
+75288cc66dc478 Suman Anna 2014-09-10  659  };
+75288cc66dc478 Suman Anna 2014-09-10  660  MODULE_DEVICE_TABLE(of, omap_mailbox_of_match);
+75288cc66dc478 Suman Anna 2014-09-10  661  
+
+:::::: The code at line 635 was first introduced by commit
+:::::: 75288cc66dc478b32e43970dd6913396526504ae mailbox/omap: add support for parsing dt devices
+
+:::::: TO: Suman Anna <s-anna@ti.com>
+:::::: CC: Tony Lindgren <tony@atomide.com>
 
 -- 
 0-DAY CI Kernel Test Service
