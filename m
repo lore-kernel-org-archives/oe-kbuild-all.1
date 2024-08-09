@@ -1,91 +1,91 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3616CF9DA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 02:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587A411CAF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 02:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723168994; cv=fail; b=Wos5SyDjgCNrceWihB9fui3fEXR69t89WaI7vUus+tjAbZXkqGIIT748MjR6cSltZUi/AOOu/TP3+I9ckcIif+wSduPSDmm4PD6pOvyPK872keRqMMFyLTLBLRTRa95EqDT2gDAhAdf7B//6WDmWt41Wftlb4nqHJX6U7347tKE=
+	t=1723169018; cv=fail; b=c/WY6eytdtTlDO6JNlFNMPGlENlflTZi2b1tfrZzFpXQDkUwFZzbV7Wsa84gU7X2KpNRLTE2oxJE0cJXdw3RFd80aqKFCLZfpSio5YSJX9FljKlTsZKloLatPY2lBDndY0+LclBYD5AStLCUfFgej2ja24Ib4RorfxCoS8ouSec=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723168994; c=relaxed/simple;
-	bh=Zo0jo8oBnTAdDCL7Z3LP8A5jTZNioIxyfiCrHmqymiM=;
+	s=arc-20240116; t=1723169018; c=relaxed/simple;
+	bh=iljzf71tV+S0HQhTvH8g7SB9IjNT1+QFmwayMdGZtq8=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=O85gWZSBAwtYnMtN1iwn139eClJfbNJyuJWHFGGfdsoCy876NcBaa7kWkw2+4WbtBeR2GP5Jdj0ecjPVnpj76wAzP+B9jLpdg5Xye+yYO94cCR31hGMuK+batp4D7xWXekntfZ9cMv5U2YWYDhWbCZqgUUKe7dEaGRhnBHENb9Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rh/a7tSj; arc=fail smtp.client-ip=198.175.65.13
+	 Content-Disposition:MIME-Version; b=skflwCO8qj4DWLEtRdGsjahV8FRga3rCrPvjeDRsY+BVX3D5tvXUlXemaYQO49YTaktDNHGIm3Zyqj+fF0LcLQaGdqy94T4HVMVEvjj5maPinZbHphn/cvM8hTciXXBZ9skMf8oTt/BrLpfRpi4hjKmQwy+34DvclXWby67SNlw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GtOLGrTO; arc=fail smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rh/a7tSj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GtOLGrTO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723168993; x=1754704993;
+  t=1723169017; x=1754705017;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zo0jo8oBnTAdDCL7Z3LP8A5jTZNioIxyfiCrHmqymiM=;
-  b=Rh/a7tSjNqZBs/kfL8RspQHrtyt/Xf5THKZW27d7Y0WNdhmWZvX9im/q
-   XWk/sfov151X4+Wp1NEypAN5Z92wyBdSFdtkqVX+a+7lqI1KOrWfmdQbr
-   6S5kOcEBZ/IuKLeUbIRot+eF5sZkpUwj7UYblWSiPhlQLxwFWB1izV2eP
-   lbd165hwG1pvwsLHRdSO6quuwc7mp89zTBCiLrx9wqeIK0Abtk8SbcFUK
-   cCjrspeSttbvJPlhTxbsNl9/5pctik36Y0Ynx7MQzWX32lat9K4rJ6jQv
-   Uhj+JPGGuEq7LfC4YMALUkYgBXiBF9Ruu4to8TSobU2l1WWCEg7Ue3r7G
+  bh=iljzf71tV+S0HQhTvH8g7SB9IjNT1+QFmwayMdGZtq8=;
+  b=GtOLGrTOwOZDxsXlc8oYt7JwBjO0p/qQFWnQj3J3xycNzV1I/CxltVhd
+   uSgWn2LqGVVdobrYf1afxJtocFgveB3pUac93wyGDROHvnPiht12JA+jg
+   H6CWuZwPKa4fRSE6XR/Bryrn6O1bDXxGypN9J2leXKEjq6WoGEFTTVC2L
+   uHhBTclvj6j2Sy/D2H046okjqrhQ2QdfR9JtG1CZpxspMogilaszknxT4
+   tFoXLCmte3IfCyqoqBAJC6RmhOLNZEFc2mdZsK/heiqNuosuhypW/zKH1
+   XudZbqa0zeduZenZGaG/UiRyVdWaYW3j6gSSl3yL49JqX4V1qW0mLtMTV
    g==;
-X-CSE-ConnectionGUID: 4uufS3ECS2aMVN4qy590+A==
-X-CSE-MsgGUID: RzYhtAXfQcWjsf8AufYCcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="32476627"
+X-CSE-ConnectionGUID: 78HIl32YSJ2WVQiVqBK77g==
+X-CSE-MsgGUID: ngQStQvMQPqX0xZsbxcXkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="32476659"
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="32476627"
+   d="scan'208";a="32476659"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 19:03:12 -0700
-X-CSE-ConnectionGUID: 3LVq5X31RmaNgphWR9UtAg==
-X-CSE-MsgGUID: NHWUkRLtQ8y+LTY4Le5xnQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 19:03:36 -0700
+X-CSE-ConnectionGUID: RDnRjsjvSoOnF0E59uI3Cg==
+X-CSE-MsgGUID: s+kZtQsqST2WrXut3bib5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,274,1716274800"; 
-   d="scan'208";a="57077759"
+   d="scan'208";a="57077788"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Aug 2024 19:03:13 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Aug 2024 19:03:38 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 8 Aug 2024 19:03:11 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.39; Thu, 8 Aug 2024 19:03:36 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 8 Aug 2024 19:03:11 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Thu, 8 Aug 2024 19:03:36 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 8 Aug 2024 19:03:11 -0700
+ 15.1.2507.39; Thu, 8 Aug 2024 19:03:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MgDgInTMT28orXyizijVqvaOmnorkJn8brBERoOqr0M7avGfGTpk7jP7ow7ziizo5qxO2qBlCXCZoqWU2CupGC5CruSdcX0OFucutt8JY6RUEtiNQU53RN+HwOeKERkM+a0bi0dNAhNO3JmpxI5ZzHDsCS9Wgb8ivQyd5Ukwo5nyN1kXByH9/dr06d4GUGW4OU1BmVDO565E9vAAersU6jCOFCxtCPRyrjzOVIjqud13lgVmkv3VYraKR5xqn57VpapGXsj0MS3tJOLOHagdw7OCh7gbcO59ToWOHWAeqT5HYS3mJNegCEQC0BqG6nMoUmStRrzB8R1st1McZU2eQw==
+ b=hnUx291m6/DtHNparMInMzIJVpYB6MMYeJFPxwlwBwD76wKSscB22Ej1xxf5cDRxqY/K1NrcUbL7VAULWd7htGzkGKcSixqW0ga9lSkTJmGow1lWcCGLKBSXgZ3N55pNhAQRHTY0IVwLEwzna5tPf7PK9jREB6dYynaUFIMZgR07U4EPhoVBKzymsUjEGopw7fDUSod8FpYSqvC1KN5eKCibaaw5/ngfdBQ47PRQPLO0zi4iFRq1XJsnLekI0stbD6r/rWS2tJDqemjcDFYHbjaPBsXOpm17OgMfflBute9Lu+m4l4IztHMgrqP26TmfVwpZNJB5QZMH2AxHVoKvtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3WYTv0O3jwEfcPlqqN95Z4pH+oPEkTDYnVysO83xPWI=;
- b=t57VYM6Lkdp923OhyIVvO73L+tIEDzLTbJUdl/C6rXSumY4MWJxZgrkXeAwfs/fHl4YIvpHqq6J183W8oXkcfg0YF/mHGlnJyevAtXdWfdB6rFyt/4C6+amnEGcJ4hN/UXn+tHsDjEVaThEezlu48P1nVKjXpHd+7gTeE2moDfH+JwWOCPyjjiD4t1Ws2NwWrPDQIAzECVwHRJQsP9o6ZJQwKDO/SWN55WJJC3msZBTfrGtMNkLY5L5Mt1gW0X03sDtkGYKDZ9RKX0hoQ8hqmE3Cd2zK0koUSP/AsdPdJnk9I8Axnf8nb9s8DRv5FJxlknRF8kZUSqiJsrH2Hu7UUw==
+ bh=L/Yc+zTeND7QmwKGrLwBOULltXg5A5M9KB52DnhCS9M=;
+ b=laveszeUtddNYChkbOM1I3XR8GblDszNPbbM/DSs1ZiazU59MkYPlTMxVoIt0nmsFDSLC4WcLSwb/ALHtl7J9p6WThjokovmCLovqZCeuBrBO9Zj+AgtiblUdINO7ftqykAc824gjZTM8pA07SPhiyidpx+6VA6J0QUSLa9MXkuxCwhCd2o6GtXJzMnCBiHx7HqEo1Zu2cOxCarK41ZDl5T/n1tB1jUoGx93d38EnFKtmnJVfoiXgX3ZbfkZQS4TqxL7pQ/S9Mm9OgsTxeQ0c52u/HzUqlrTggrKZneX7SCM3BZxLg0+cYetiqAKP5LlfUF2TFR8IGYzHmJzdY74BA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by IA0PR11MB7379.namprd11.prod.outlook.com (2603:10b6:208:431::9) with
+ by SA1PR11MB7109.namprd11.prod.outlook.com (2603:10b6:806:2ba::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Fri, 9 Aug
- 2024 02:03:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Fri, 9 Aug
+ 2024 02:03:33 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7828.029; Fri, 9 Aug 2024
- 02:03:07 +0000
-Date: Fri, 9 Aug 2024 10:02:59 +0800
+ 02:03:33 +0000
+Date: Fri, 9 Aug 2024 10:03:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-CC: <oe-kbuild-all@lists.linux.dev>, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-6.1.y 10/91]
- arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: phy@fe8c0000: reg: [[0,
- 4270587904, 0, 131072]] is too short
-Message-ID: <ZrV40xTuZ7WS+A4H@rli9-mobl>
+To: Dongjin Kim <tobetter@gmail.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [tobetter:odroid-6.6.y 28/78]
+ arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000:
+ amlogic,tx-delay-ns: [2] is not of type 'integer'
+Message-ID: <ZrV47SLWk19svd9q@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0165.apcprd04.prod.outlook.com (2603:1096:4::27)
+X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -95,146 +95,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|IA0PR11MB7379:EE_
-X-MS-Office365-Filtering-Correlation-Id: 863b910f-b9b5-4161-fe91-08dcb8176951
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SA1PR11MB7109:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7acf0f2f-3932-4a02-3ee3-08dcb81778b4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hYrFNJR5mSi1bqiXQqycKfHp3HWQTteYJho1vcKCkFO4+Le0RsOjE8B0+F/2?=
- =?us-ascii?Q?kzfeZSQpL7BnlycX9UzpT52N1XXNQByxdZ1MniEVYo4wu5U/4XFeHumCHO/M?=
- =?us-ascii?Q?b+KaAbX95JasiVDobhlfyvd35+N29LDW3UxPBNCea39L6RurJ63kNwVXqGOb?=
- =?us-ascii?Q?MtFwu0xavHxNIzfSUae2YGX8XvnwqY3Dc3T0Yb+kMpeS1/Gc3N6SAZQWW6nx?=
- =?us-ascii?Q?bCi5bgbwPJLogpC9UWZa0FwC1pKkQnWsFNEDvM+dWvO/snr4BI97O1x9sV/m?=
- =?us-ascii?Q?EuZK3px6pjT0UFlg4mkkcnTedbUjnaRJrnWKVFMZkgTXnrlKOR2BNwlU2vEb?=
- =?us-ascii?Q?gBFivAbyJ/16+6+mas1XcIehmAZI2PEzbiP1RVfn5K7J/7h8utc+K7Fz6Yot?=
- =?us-ascii?Q?RsDpiozxR5OD5hnhJmV6d6ZN+QiVeAqw8azciom+IcL9H7BK/7KL9a8T64mM?=
- =?us-ascii?Q?/qWKVFRDPywG4ymvGO4GpDoQnihLNjnTKhnIhXswwR2d3FrraWquvJ9tSo9y?=
- =?us-ascii?Q?yyshE5qTWB+26kHC5LvKmoqnKhiIFiFcJ9v+NECGjlJ0XbFRW+PKx1jbaYAE?=
- =?us-ascii?Q?cl+aJ2RdITL90ZPfrXgWk1qgnGlPfqTCklmLzue1A9q+qud3ArrfPWqa3m25?=
- =?us-ascii?Q?98DxA1x1AxS0aUMIFp9brKiRJ3H02zxzKCN+L6ggNytSuqTGC2ySP/xQip56?=
- =?us-ascii?Q?0Wp9hzo42/b3Mnuk5UDRDCK0k9d4wCfYt4j9LGFqNb0wh154+768HHIXvLEO?=
- =?us-ascii?Q?Y4mnZRkxOQ5tHc8UrwEobUaBg7y8l1yiPHRuOGDpgi1a71ZDHpbrrS5WS+UJ?=
- =?us-ascii?Q?cr6i5lt0I01LVlPp9/5Rv7mv8srcg+p6wCY8wP2gpdRSrz3RiC1CcYopRcn/?=
- =?us-ascii?Q?PmMLjsWiEmsLM1+bFJRtcXyZL1LzVOD0yLMbee6xMcgFQtNAJVobK44gujA/?=
- =?us-ascii?Q?reWvdGFcsIcUubXrxQdXbgXXrlMaASwcpdnrvr1vCTBZf+3tYrmDE5gMpIny?=
- =?us-ascii?Q?VSuusYpPIT2J0brl14Vnil3M/f7W74Z9o9n7+vBH20mMfxeDwUtCjkSQ02Ch?=
- =?us-ascii?Q?W7vmE0QuWRao0rpABly/KoQq08nPxqBPiqgHo6/gGBPGO0ukKdU5je7Hc/LJ?=
- =?us-ascii?Q?59Uf+RZM9ZJsUyjF9aYF6acp6zvHtdPgXjiAqVh83yJmiRTJWNUo8/H0LLIg?=
- =?us-ascii?Q?UGaGyJrtmWPrvmFPKklEwuv9EYtqt1xv6Gdh3iMwhwJh5IOrGbP9wDxIJWOi?=
- =?us-ascii?Q?RUtkwLZ3y5MQEVW6MdP1G2qc563/7oyJkn+LmshIcYXMgreiPYG5sUfFMwEG?=
- =?us-ascii?Q?eWx6317uu7GTuweyY9NJjO3eL26U6/XUcjhZMNQ3oiXwC1U24OoZkm81+kC+?=
- =?us-ascii?Q?dmm9+KE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(220923002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KbKS0RePyeTVIkZFk95rvBYWCYkgYJY+k2n6MuvL7q2HYlldxsjTptBfduN7?=
+ =?us-ascii?Q?403w3nnt7iScOb9px7hg8daHVdhe4SOhqv9DpaHnC0i5GQ+iMjnCDbLyzFRq?=
+ =?us-ascii?Q?FCWtAYsLoZGRsUxGHAe9RDyRj8ugMCjuYdHxw9tei+pBlPRSptT1WfVtFfrq?=
+ =?us-ascii?Q?c7jMcl6uKtqwu+EwYlMOjL1dbr6b9BTTTS0y0Xcvy0jJPdvXiOqSGGotlXeS?=
+ =?us-ascii?Q?CYGpDOsxYdMjr/xNufR4oJzO0KJQRaGZX6YKwLi0eEv+BgDTqxB8gu4ZO5Qt?=
+ =?us-ascii?Q?5LBrehIu8wyeGfilM9RUjE8YLLAvv7vmjOjb3antmwRmmlj41ikJ8zl/yoRi?=
+ =?us-ascii?Q?0mYiMmenSiXMwNMxExmejH4ZsoJoy96J8qJsb2LpDeeHdZS4driyW6pEFm75?=
+ =?us-ascii?Q?IwWuPSVDOpkCjzeXl6q46eUbvPluOPRtQ6X4WiYwGmnnuaGo8aA52uwwp4EA?=
+ =?us-ascii?Q?9B8FwB2CabXo7XSx6mbeILE/5QEUCst3dyEo/h2XhUdT37HPaGv1AC7DnH91?=
+ =?us-ascii?Q?XAOFkCNLs7L8NNiLl3iVE+ugz3UZAdRTvB4W+RS6tFapDkT/GcYWbDB1hMlK?=
+ =?us-ascii?Q?Vt9OoC3d9hKCycTWhgSAxUPKqirtS6QwP7f73kqaoNIN5dNmWWtPvaIaOK8G?=
+ =?us-ascii?Q?xXE+gowJqGGgjjnpIKarq+qczqEA7P0MFHQrGjjT/wGhANGuirUrowxRo2Pq?=
+ =?us-ascii?Q?bvuhxC/5xOKM9Vd9hTS9BD3Qu3xYTkVd5ZDGhjYrad7j+UNpME6sXvsJOxsW?=
+ =?us-ascii?Q?ynThiMvm/78qFbQAEcPz0qkw012ibAE9lXeaXCsyNVeqdeyVGDTg20WclmIj?=
+ =?us-ascii?Q?WzQd/qwe4DzQVSe0f9EnN0+WHbIt0wyEX9Z8l8ytZULEhn85QyPVmFx6JW/x?=
+ =?us-ascii?Q?OtL8pM0EQTMd2GXUB1+iYjYtGwPW65rOWe6U/XMWCPf4EkRd2kgp4p+Wjeqb?=
+ =?us-ascii?Q?6w65lq/n+z0DS/J50jzL+8zIoShguRJC7sp+NdtdNKricR49CM9isKh08N1n?=
+ =?us-ascii?Q?o9SxkVhnLme6Zj7/TcR3DUSmQ751kSTQk3hsm7TZhLZsgDHMq0vnpbv1IF1I?=
+ =?us-ascii?Q?24Wejytpl7yaw44sGuEFIg6GVZXXR3bOX9JlU6yfotyuEOUH6XQL90vgeMaI?=
+ =?us-ascii?Q?oY1SGwZPE0mT6GCQEVc7Np3PzaRYs6tRuwmU3O/R2vnZez8eRirG9fKm6SDN?=
+ =?us-ascii?Q?ltt6bSCwD2Fjo2NKFyKdBue8DHOC0PJ0eIp6Y6t7DNhTz0XnF06ilbRMKtUq?=
+ =?us-ascii?Q?GucrBKwaS6F2MWVvjneEsC9oc0AXFUYDb7EltFvJUeRxXTpid4juI4Cl4Ecr?=
+ =?us-ascii?Q?PGD7MKFONimyJJwsBTqCQiAXZKjHaXItYu1y0032dIGA0FzA13oa6F0zA11n?=
+ =?us-ascii?Q?0pqFDuE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d1m6Zz6JiTskzufABldUmfrQ+R3Y2Laxxf0eFiz07dw9RTjIGWUFAs1Wvn1C?=
- =?us-ascii?Q?JqD0betnmJNFVBU0XJje/p74DaNDpow2McORtqq+HDxTJiHj4YD1DdSXxokx?=
- =?us-ascii?Q?UdEFySTKVnJ+rIWxjwRAmlvmHPUJeltVyQhIdyDr/zCBRTp4evbIpISfCPhF?=
- =?us-ascii?Q?EYR5wiSIKXCU5VfJ5nQJ45YcXu2Z93lo0C3DkPJqcujByDp8IMX1LflRi1YN?=
- =?us-ascii?Q?cxtZaNmdXr8d6FeHixA58/V8LbJVzH0kJuskHfyb/zlW0k2HSEt6XCG57AO5?=
- =?us-ascii?Q?A+oAhMQuph/Z2dfr1Q6WWTAI+7bJNbBWhrTu685Dr3KJaQ+4c4bpidVIIUrW?=
- =?us-ascii?Q?9aCYmyB8DKJaoSBoGEDGWULKnaWUY0jhm9k+wS+bxkIXjeU8eAlAmzIjIKMM?=
- =?us-ascii?Q?R0GvK6e4HD7Bat8/bqYJN2jDvt2WfBabQmYxejecYy6rnQZVNlGLxdspiTdt?=
- =?us-ascii?Q?iK5qW/5GiAbpD6OBme3Lcd5IzWyFtIPt44bqy2BH+U22etaANGbso5VubyxE?=
- =?us-ascii?Q?1Q97e6t47lfKdJ6iXbggxl2z/Rbg836xqFgDzVB1xdFEwmDj5OQ1+3Skc22g?=
- =?us-ascii?Q?hdrfAstJHlwjPJyBw66KiZ0IcUjmprgrq2UKRrNlDHDQ0A2nbtvSPDytBupf?=
- =?us-ascii?Q?fXEtDauFwXdd3fIqTE+b07Fre8P9p6MbfvJJqJ+8c3VbUYtF5PlAySTRtvrZ?=
- =?us-ascii?Q?oputD8Iu17X3LZMTjT7YWx8Z3AD6vbeJ3RgbgxHAf7ml8/Mc3gXpDpSdNnVh?=
- =?us-ascii?Q?7UM3khUktXmIKvWCPj3QT/PR4s7yy6YGPwGiR1bGWK7gVB7xMa+eozjpevJ2?=
- =?us-ascii?Q?XjQKUtt9bPphIuj6Sbk3QNGTBXbbq+rpQB4UGvQKgL98TuHnpiu9FWtDL260?=
- =?us-ascii?Q?F8p52ck1skQLsxpKrzJ7jAvAH0aYf6vGpRjfJx+KpZSZQuo5lbT07ZGuEPeK?=
- =?us-ascii?Q?YSP3eO5OMHq4s6MD20szjL28Il43y038kj424k/ibymu8YWzJXtZNN+VMwX0?=
- =?us-ascii?Q?2drKQAbV4bc1vLqGsnA+gcD1fa47XtYA3btk9TX6Aa5mS5saRiVSBiDLZfWO?=
- =?us-ascii?Q?SzB2duSXuYczthGOed5OSOXVYhiY35MPWjPrkd3XITAhcF6cAol2tDvLQmZh?=
- =?us-ascii?Q?kCQUkK69YLj8ulppr13S4UgSxBg+PPtI4VXuruMqSWZpKCO0XlMw8oaJbTQW?=
- =?us-ascii?Q?SwadwP4LZISYf4krOkf+lIU95rRqZj1Ndfi6NFDr4W2TY36o/ki99RnBoLlw?=
- =?us-ascii?Q?gwTCcWZdT9AiSI6pRQNaJ5FlPc6deXVN45ga+p9/7NQvhwnzE4QkUgNVVSkY?=
- =?us-ascii?Q?3q9lnZ+6q1CmuDu03ga+1sNK1nLZ561wAyLoFOKmBTP6jZIcS62QRv4CUZV5?=
- =?us-ascii?Q?6Airq/xRCIoLCtcZo6+VX+7ZS+NU+CnGkBEKX2WLuxyaUTFSChFbqLaqdTwD?=
- =?us-ascii?Q?Ep/L7HAcjZE8Dl4T92ctgBBC+75/77bDSQm5hKZaA3XFSLyxK7PsV+EQCYcZ?=
- =?us-ascii?Q?+50U5z+9YXClKXAYGpov9dCNzG9jl3NodL6ToUx2rrPQHxn32AeBz0MG4KXl?=
- =?us-ascii?Q?pEvzspwHu/o6Qzi1sakMqEMAtAFdU5b/ONuKcS7O?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 863b910f-b9b5-4161-fe91-08dcb8176951
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rEz8TNKsXvdV7AR5/+c0FK7nf5iN1BPcQDYK5mDyYfYxkKmCqU407LnXzDMV?=
+ =?us-ascii?Q?St/sgrxNXaSd6O3oHVvqGujWcH4clSvHkan5FMHRyPKDYHfI3nsIt/+TMhtD?=
+ =?us-ascii?Q?1uRj8rWOVbC27n5JbrY9FSUfIVXzzEpeXq7VQl3wvPuDri3VKwKJhIzx4MEZ?=
+ =?us-ascii?Q?xCx8u+429iZWNJiJh1iMLbz+HObk994+3TeFeO46vXv7osSJT76nniqJSb2R?=
+ =?us-ascii?Q?25Kj5YYpI4gZqAwcB+4jbdOuexp4WstdxTZdOqjdmimTaIPwCOsipjGMId+j?=
+ =?us-ascii?Q?nWRTchd4UuLNzqnnZ6tKETFoHsPCzSQxkMqHnsLrCiw4GcUDh+Mm0CXun/pr?=
+ =?us-ascii?Q?L7YQdIlq5iw8DCoWxN2ohRX/a+307ESY2IfP0h3JkPHdHMyEZ0YMDNHgGsvI?=
+ =?us-ascii?Q?vgDKJm3osU8JB984ApVVnLhhhocqLsI83EzXcVCF5Pv3TlQ3cw9eVvt9RALA?=
+ =?us-ascii?Q?dYFI16nFHp4nh9ACE95ZimN5mjBmoAwSDBlimW710je3mJGgwBRCnMjyFgP5?=
+ =?us-ascii?Q?P5dWSMBZ1u0YwAAKL5QViAgvxwp+XWujhouTwaDi5G7uky3vOddKtkep3ie/?=
+ =?us-ascii?Q?4NSuC5D+yPpqVwhA4P3l4a9bw9MrIPYfUK5+xgDsFaYKXQc1rvq/PmAv8Gxz?=
+ =?us-ascii?Q?wIolhyoprO0qikfn2RtvJ3S8CgvaLgb6a+JKZQPax9mig/vXxKyTukA2Qali?=
+ =?us-ascii?Q?ZcaSGgz9oOWpn8jGLZHCgLiLMZIyttnjCF9+OkFGYqqo01Q/c+/3pYYcGZna?=
+ =?us-ascii?Q?g41rZORB3Wbrf8e+pXvgFY+PE9NP8u/Qdn9yFpbUofau/UoG0Ge37AWWkCg1?=
+ =?us-ascii?Q?q4wMBwVhD7p6EP6MBBlA+o3zHQUIQ1kDUpDeqgKYXHWQp9/71DSHUxq92LGp?=
+ =?us-ascii?Q?gk+4PiFLxhJybvMVxYQHEY7j4y1Opfp8ZQtx2UT/hPEbMw6xEX5EniuiwhIt?=
+ =?us-ascii?Q?yotvoESixaW7J1x9gUBl9upttWJy3fFhMHxsXmP8mIPRiPg0XGja1NdTapqJ?=
+ =?us-ascii?Q?00kMIRgsXw7+guZLF4ngl9I2xzLd4C+UpwEeVDFjieyEVEM9+U8Y+YuRmYbp?=
+ =?us-ascii?Q?LDbKGH2qGc2gZ6G8872JmqIHwnA2uLJhN2aUE+VqVlGlhV9Cd6g8vZFpw2gD?=
+ =?us-ascii?Q?Dj/vpbUA8DYMwiw3v0G9iNixi9uri7DwrkDMdkUsaYh+2H4lm/vYaoVYclSD?=
+ =?us-ascii?Q?MPnECUAw+u7mOHQAI2Vpr2zMkrZtH28xXz7LPeL2ccCv98gJ/GGuwsL2ZzvZ?=
+ =?us-ascii?Q?91iIB7rv4dcZz46VqfGbe2pQ5k0wT5kDLQ2fLX+j0MxKh6ix+PoPYjNlwT98?=
+ =?us-ascii?Q?rRzigPROxTQ394NtjqzZG1VXYqIOg99aMW9ZOPKi7YCchLG26A7A4b1HjMbk?=
+ =?us-ascii?Q?wj2pomvfe3ZSl1v3IQKoKnSAacN3geGOsxZyeArj3QfJMbmFAbw3JuaWyicr?=
+ =?us-ascii?Q?JjdcunfO+ufm7X4fZ59Xi7LWyB3QTIl+Sw7nXCt8P0n7D48FAVebrqgRlgPC?=
+ =?us-ascii?Q?lb51TQCvu+B2+2OKvsoIwPH3v4OrEAXb9D4bdGct8R7/aXPr6gq9PFEd67RO?=
+ =?us-ascii?Q?+xQNccTDLLd+VCdPVbmBmA2RjSUrelPwydcz6+GE4BRjSL+HUz08//YNtMPd?=
+ =?us-ascii?Q?IQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7acf0f2f-3932-4a02-3ee3-08dcb81778b4
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 02:03:07.5502
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 02:03:33.0029
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U/L8IzbGGqtjrUHtny3aZssnnZUdCxjExMdvklz4LmIoGL0YE+1OdpYS/UG52wqxJXv2Ot2HbMDwuPnOM4kp1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7379
+X-MS-Exchange-CrossTenant-UserPrincipalName: XcMjEcENJAvClI8t3CjvzD8mPhFPdHWDv+/PcBLohyvNGbsWFvYLb/p5uaHNjXDR2aumALflRMuyraWKXF1PRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7109
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   2a5f985c90ffd8f4e2de3a2fd76f00c3e322aa6f
-commit: 8129a8776feae59666307627215e7b4f653f3d60 [10/91] dt-bindings: phy: rockchip: add pcie3 phy
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 7 months ago
-config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240809/202408090604.1b4dGyhw-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
+commit: 4c378b4ec3bb24f4d0d8621604a6433d9afe04b1 [28/78] ODROID-C2: arm64/dts: add 'meson64_odroidc2.dts' for compability
+:::::: branch date: 33 hours ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240808/202408082359.e4iIEmNp-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408090604.1b4dGyhw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408082359.e4iIEmNp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408090604.1b4dGyhw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408082359.e4iIEmNp-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: ethernet@fe010000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /i2c@fe5c0000/rtc@51: failed to match any schema with compatible: ['haoyu,hym8563']
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: phy@fe8c0000: reg: [[0, 4270587904, 0, 131072]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-pcie3-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: phy@fe8c0000: 'data-lanes', 'phy-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-pcie3-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: phy@fe8c0000: Unevaluated properties are not allowed ('data-lanes', 'phy-supply', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-pcie3-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: pcie@fe270000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'legacy-interrupt-controller', 'num-ib-windows', 'num-ob-windows' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: pcie@fe280000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'legacy-interrupt-controller', 'num-ib-windows', 'num-ob-windows' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: ethernet@fe2a0000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: vcc3v3-pi6c-05-regulator: Unevaluated properties are not allowed ('gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: ethernet@fe010000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: phy@fe8c0000: reg: [[0, 4270587904, 0, 131072]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-pcie3-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: ethernet@fe2a0000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: pcie@fe260000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'legacy-interrupt-controller', 'num-ib-windows', 'num-ob-windows' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /i2c@fe5e0000/rtc@51: failed to match any schema with compatible: ['haoyu,hym8563']
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: phy@fe8c0000: reg: [[0, 4270587904, 0, 131072]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-pcie3-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: vcc3v3-pcie-regulator: Unevaluated properties are not allowed ('gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-733.4: Warning (unit_address_vs_reg): /soc/bus@c8834000/pinctrl@4b0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-733.4: Warning (simple_bus_reg): /soc/bus@c8834000/pinctrl@4b0: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: usb@c9100000: '#address-cells', '#size-cells', 'hub@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/dwc2.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: hub@1: 'reset-gpio' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/genesys,gl850g.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
