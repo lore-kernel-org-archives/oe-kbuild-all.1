@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025B91607B5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 19:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AE0224EA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 20:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723233481; cv=none; b=smhPNRz/a9VYTxwC4xmqJUJap7B9u5WAR8ht3vhkzcPm6p7QCmux8KUwqYZyX6qJr4eGFgHdaK/RP2OkJzqUHsoFrRtS5SciBf+VmCQ/EYmpDSa/RdyTJefRwaTPO7mBFRqvSQ4WHqU/qCcNDRJRxXs6FDG42qjHqdBSpoOUnQc=
+	t=1723236537; cv=none; b=eApAp1WGjnjfYfuhHckVCDp3MrPR/hPePI68fObQeyXejD6+iAlfLd6tBu5mZGRKl0Bj3c/ZD9rhlyTyMj30KV+BXG96wCCkBLSJNeXPMzNxr/OfkgjGqgqB8pofOiZAVP6AmjgZ4yhzAw0MjnA+A3X9I5pWYtQNG7w2+PzASwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723233481; c=relaxed/simple;
-	bh=sg2iS4MgBIyaUcFaJrbtKiFwDQCzucstJIOSUW/GSMA=;
+	s=arc-20240116; t=1723236537; c=relaxed/simple;
+	bh=yA87GnSUxoe5EK5WMeN2tad9pO+R6wU9Ve37TpigsVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pUV5oHFGUc5WrGlh+DL5ksEcfmDOw5DPIhxu5fOgTHuB9y6DJtsx9vbdmVOiqM3MlGs2rPPFJlYoNEzkNaZfcmni5HK4mBR+fMBd5J76LXnCRXyUP/IBpurbdwejMffCFTmO0hcv7+AhCgKUnnbElygm3yS9YdQwX6DCxgJ2fbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8y5ADlh; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1kX9VfK2gv/eyfJ2cQPNOMdCsSAj+uepr081zD/b2kZ+rgXj18nscw/T56/KeHSkmtMwMxo3zjKGEXK8nOPhDoHttyBSX+HtROnubrqV5C8cv3xnWGT4cQQKH4U8YNA/PYYnX0XCIwlSOWDXR/UQpoyLroTHQG0t64xpShj19o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c7SX8q+F; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8y5ADlh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c7SX8q+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723233481; x=1754769481;
+  t=1723236536; x=1754772536;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sg2iS4MgBIyaUcFaJrbtKiFwDQCzucstJIOSUW/GSMA=;
-  b=m8y5ADlhH0h+NC9lRWGh+7X6b47PWfrCCBQMI47f0PmC1ZLutCQUwNwb
-   /PDTN388/n0He9ZmydJPVO9UqzQTGJ2ACi1qWKNbclsE/wh68uff+Llw3
-   y2F8rNcNrsjvJkWGdRWXlHyseNCEeWFcXznGlJIHhruWBFE6OfGPGMcCK
-   YDKwjRpmH6TE6m7kAmT0kg+dYfinEVID8qVwtQbBbyi/Ktmx3e8XRmaj9
-   PTZnFNzeer3Om/SGx8sClQtsSoGOvtz0ClalCA2i3cGz3uI1lRDlRBcyq
-   FUIPprYSnH4SSRKSrPLvWvWNn6mhHH2ev266POsX0DVWA/VfoVEjXfMFE
+  bh=yA87GnSUxoe5EK5WMeN2tad9pO+R6wU9Ve37TpigsVE=;
+  b=c7SX8q+FU9vh7+7U0e9nXK921Up2ho/PY8Zok4ugKVjZfMo36R/E6J0h
+   F8xJ7rD/ywx9wPQKyEEja1dr0kx5U+fgjNmUuS2sMDF1fiAtQXgTkc6Lp
+   AgBn9HNsFGG/mmnbIuFfBmK9rKI+9J3dp8B1sg+2zL1pb6lT7tGMRWZtz
+   AxkwyrWQO2q8TDe/h2TgyvXgqH6EEjqLZcmrZkJnuLURvlelnoArmELwh
+   1xIMvr3mOCqN+KCjg4u3/bUDPa4+UX9igIg+Bt+7uvUNqbOEBScgHz8ow
+   cHkS5jfYLk1SJYmQ1q5RU1plOzYn0iw4xzA4H0WXc4KMivY0EYucluR25
    w==;
-X-CSE-ConnectionGUID: pD+mCrWVRoKXByBRNi3sfA==
-X-CSE-MsgGUID: yrDT8W4IS0mqseZpIZyArA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="25191864"
+X-CSE-ConnectionGUID: lZS7jGTGTfyZVpqZxDG8/A==
+X-CSE-MsgGUID: YZSiGkWwS1q7RIfbaTEMaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21086005"
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="25191864"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 12:58:00 -0700
-X-CSE-ConnectionGUID: Z7dv4MKDTo61cMhltIKGxw==
-X-CSE-MsgGUID: q2snOAhcRrObFn1gVT+xkg==
+   d="scan'208";a="21086005"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 13:48:55 -0700
+X-CSE-ConnectionGUID: Nqg5w6f5SGSlNh+OReOTag==
+X-CSE-MsgGUID: o7noeVyjQT+zYL0eAsS2CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,277,1716274800"; 
-   d="scan'208";a="58225012"
+   d="scan'208";a="88528654"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 09 Aug 2024 12:57:56 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Aug 2024 13:48:52 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scVkH-0009EJ-2A;
-	Fri, 09 Aug 2024 19:57:53 +0000
-Date: Sat, 10 Aug 2024 03:57:35 +0800
+	id 1scWXZ-0009G1-0t;
+	Fri, 09 Aug 2024 20:48:49 +0000
+Date: Sat, 10 Aug 2024 04:48:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com,
+	nabijaczleweli@nabijaczleweli.xyz, akpm@linux-foundation.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v3 3/3] net: phy: dp83tg720: Add cable testing
- support
-Message-ID: <202408100348.U6S1jP0z-lkp@intel.com>
-References: <20240809072440.3477125-3-o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next] net: sunvnet: use ethtool_sprintf/puts
+Message-ID: <202408100443.OXvAtrM9-lkp@intel.com>
+References: <20240809044502.4184-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,70 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240809072440.3477125-3-o.rempel@pengutronix.de>
+In-Reply-To: <20240809044502.4184-1-rosenp@gmail.com>
 
-Hi Oleksij,
+Hi Rosen,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/phy-Add-Open-Alliance-helpers-for-the-PHY-framework/20240809-172119
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-sunvnet-use-ethtool_sprintf-puts/20240809-145830
 base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240809072440.3477125-3-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v3 3/3] net: phy: dp83tg720: Add cable testing support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240810/202408100348.U6S1jP0z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100348.U6S1jP0z-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240809044502.4184-1-rosenp%40gmail.com
+patch subject: [PATCH net-next] net: sunvnet: use ethtool_sprintf/puts
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240810/202408100443.OXvAtrM9-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100443.OXvAtrM9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408100348.U6S1jP0z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408100443.OXvAtrM9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/phy/open_alliance_helpers.c: In function 'oa_1000bt1_get_ethtool_cable_result_code':
->> drivers/net/phy/open_alliance_helpers.c:34:25: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      34 |         u8 tdr_status = FIELD_GET(OA_1000BT1_HDD_TDR_STATUS_MASK, reg_value);
-         |                         ^~~~~~~~~
+   drivers/net/ethernet/sun/sunvnet.c: In function 'vnet_get_strings':
+>> drivers/net/ethernet/sun/sunvnet.c:120:36: error: passing argument 2 of 'ethtool_puts' from incompatible pointer type [-Wincompatible-pointer-types]
+     120 |                 ethtool_puts(&buf, &ethtool_stats_keys);
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    const struct <anonymous> (*)[14]
+   In file included from drivers/net/ethernet/sun/sunvnet.c:17:
+   include/linux/ethtool.h:1273:49: note: expected 'const char *' but argument is of type 'const struct <anonymous> (*)[14]'
+    1273 | extern void ethtool_puts(u8 **data, const char *str);
+         |                                     ~~~~~~~~~~~~^~~
 
 
-vim +/FIELD_GET +34 drivers/net/phy/open_alliance_helpers.c
+vim +/ethtool_puts +120 drivers/net/ethernet/sun/sunvnet.c
 
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  21  
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  22  /**
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  23   * oa_1000bt1_get_ethtool_cable_result_code - Convert TDR status to ethtool
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  24   *					      result code
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  25   * @reg_value: Value read from the TDR register
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  26   *
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  27   * This function takes a register value from the HDD.TDR register and converts
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  28   * the TDR status to the corresponding ethtool cable test result code.
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  29   *
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  30   * Return: The appropriate ethtool result code based on the TDR status
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  31   */
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  32  int oa_1000bt1_get_ethtool_cable_result_code(u16 reg_value)
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  33  {
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09 @34  	u8 tdr_status = FIELD_GET(OA_1000BT1_HDD_TDR_STATUS_MASK, reg_value);
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  35  	u8 dist_val = FIELD_GET(OA_1000BT1_HDD_TDR_DISTANCE_MASK, reg_value);
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  36  
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  37  	switch (tdr_status) {
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  38  	case OA_1000BT1_HDD_TDR_STATUS_CABLE_OK:
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  39  		return ETHTOOL_A_CABLE_RESULT_CODE_OK;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  40  	case OA_1000BT1_HDD_TDR_STATUS_OPEN:
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  41  		return ETHTOOL_A_CABLE_RESULT_CODE_OPEN;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  42  	case OA_1000BT1_HDD_TDR_STATUS_SHORT:
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  43  		return ETHTOOL_A_CABLE_RESULT_CODE_SAME_SHORT;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  44  	case OA_1000BT1_HDD_TDR_STATUS_NOISE:
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  45  		return ETHTOOL_A_CABLE_RESULT_CODE_NOISE;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  46  	default:
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  47  		if (dist_val == OA_1000BT1_HDD_TDR_DISTANCE_RESOLUTION_NOT_POSSIBLE)
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  48  			return ETHTOOL_A_CABLE_RESULT_CODE_RESOLUTION_NOT_POSSIBLE;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  49  		return ETHTOOL_A_CABLE_RESULT_CODE_UNSPEC;
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  50  	}
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  51  }
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  52  EXPORT_SYMBOL_GPL(oa_1000bt1_get_ethtool_cable_result_code);
-f4eee3aa678aeb0 Oleksij Rempel 2024-08-09  53  
+   112	
+   113	static void vnet_get_strings(struct net_device *dev, u32 stringset, u8 *buf)
+   114	{
+   115		struct vnet *vp = (struct vnet *)netdev_priv(dev);
+   116		struct vnet_port *port;
+   117	
+   118		switch (stringset) {
+   119		case ETH_SS_STATS:
+ > 120			ethtool_puts(&buf, &ethtool_stats_keys);
+   121	
+   122			rcu_read_lock();
+   123			list_for_each_entry_rcu(port, &vp->port_list, list) {
+   124				ethtool_sprintf(&buf, "p%u.%s-%pM", port->q_index,
+   125						port->switch_port ? "s" : "q",
+   126						port->raddr);
+   127				ethtool_sprintf(&buf, "p%u.rx_packets", port->q_index);
+   128				ethtool_sprintf(&buf, "p%u.tx_packets", port->q_index);
+   129				ethtool_sprintf(&buf, "p%u.rx_bytes", port->q_index);
+   130				ethtool_sprintf(&buf, "p%u.tx_bytes", port->q_index);
+   131				ethtool_sprintf(&buf, "p%u.event_up", port->q_index);
+   132				ethtool_sprintf(&buf, "p%u.event_reset", port->q_index);
+   133			}
+   134			rcu_read_unlock();
+   135			break;
+   136		default:
+   137			WARN_ON(1);
+   138			break;
+   139		}
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
