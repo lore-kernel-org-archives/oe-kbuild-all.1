@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBA3167D8C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 05:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1211945027
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 05:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723180070; cv=none; b=VlEu+qrpCqV4yP40oAaLCZnCULIGQzb63HXuE+NApMiG66BG3KtGvrYrn34ac3HSyOqGaIh7knEKtNSPSydkpDgu/iCCvNhYc3+Rjjguobpf4x+32le3OiAffNrAJiblE66YPckLMij7G4349Y4okai7Nxym8/qc90z5UJSkEzs=
+	t=1723180728; cv=none; b=m8yYEzZaKJeEa4xfDqN+TXBqUsu7C9XqHqADmsMdBdf8ORsk/lPVP3ioPdIIEscr+r/y34Y7qKtK1q9C0cTw+yNd7Mr1ex8CQWrTjzgDPR52aa1T/ZlEkEU8IwRS9a73NqXZmkVB5V9FrdtSEYSIqwe4bv4t+TDvs+KQZZLzgp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723180070; c=relaxed/simple;
-	bh=ZptQs3UOqFBKSbuovNc/H4+NThhzfM56K27tt5qD/to=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kq1TRLRgyEA0bhdo8o4pqkCYd/dK083Dlrd1BuPX78xU05Do7T/DBBtLJFqnz8cJwrljkHdZRLN+UISBORXVI/te9/vG1yllV5N1IB2M/WZ896zORG6fqZ53BYq38thsUg2MBMW2RevgiT9ln5cXJTxCktrChBkh5jwYNXVX43w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4I6kuc8; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1723180728; c=relaxed/simple;
+	bh=Juxbp9ak2PjN3dOT3DogVKDt7Et+DZA9MF8N4cmAajg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/I5x24QqcfcWnacWxTjnr+wj2JineHsNhRAl8x0pjK3GaxbZgkvMiHWTfqkcF+tzgwoyU/kkKPlu5sPs6ml8MdbrJvoM0doQ4KE7dhOs/qs9Fh5dHqh9VsdqqYO9XWHN49pqd4l+GibHmnZOtfkA1yEEjDx4ekDXYw3ix+StXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+rKYhnQ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4I6kuc8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+rKYhnQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723180068; x=1754716068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZptQs3UOqFBKSbuovNc/H4+NThhzfM56K27tt5qD/to=;
-  b=m4I6kuc8Am13HZ6jYQplddLrzN+r3LbTPx/UDWn1i69j/wy+gOPKXS9V
-   FblDgIWBrp2B37i1QNsre2fk5Pa6nqNs+gIrL/HUdVtpnJIS/BMn9L9rV
-   Dk6063Mw2NK30C8uOjVxT+rrm0eoQnBLg2F+JAKeUeOV5J05XyJ3uSkWU
-   ceW+IlF3Ad8rEf+xsKrcsbyx30mXQaJntv8N+nEKK11FJPHq8V8w2t6C4
-   qkIcuHG+I0pR0JvJxer1P7KaDsrDNmMGGRr1g1GVAq1K6uyK+yXra/sHW
-   puwy1+SfPAbVUyZ16kp7A3625ft3jZ3MTV4n4xVQ8L8yQr0uzKuGcvEfO
-   w==;
-X-CSE-ConnectionGUID: +Du/AGsPQ6eRzNc70A6jag==
-X-CSE-MsgGUID: 7G7SfnuvSxee3ooRg7exgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21200177"
+  t=1723180727; x=1754716727;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Juxbp9ak2PjN3dOT3DogVKDt7Et+DZA9MF8N4cmAajg=;
+  b=d+rKYhnQwnB0vc4aY/BCYqr/NGNjiD0PhV7xVzFM7/5d77KlFbggr++0
+   0pBclVkeTl5OmJKBe6OdPnG3wM2y/OJ20mnxIq9d+2g4jOiHCVowPXzeA
+   DDAPMMNMcFXJ8AFt11FPkMOOBRqsQI2+vDEITMocswiatJZSr4q1IkMsK
+   9biCravZJYlWbvXwlhJn85nARSY1hLc2mIkdZqWgMSh/OhYTDTwnopheC
+   8d+14NtvHZxIbQsIBXaHjYSi1ixIyVLHyZEUwNKDMo5bp3Bj9LUT75pbP
+   KHyTDoG2i6Jl72nFkoSxm+W7W/wFtBF3haEAmfPl/9SYzryMVp7M66z6d
+   A==;
+X-CSE-ConnectionGUID: PEBjDFrXTKm1JFxrIrDIQw==
+X-CSE-MsgGUID: 1aGE8EwlQhCDf5H74KT63A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="32018746"
 X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="21200177"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 22:07:46 -0700
-X-CSE-ConnectionGUID: tu8uXDhuRfykZ5nrC2Nmow==
-X-CSE-MsgGUID: vyI46XcjTHGdtWjtwRomBA==
+   d="scan'208";a="32018746"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 22:18:46 -0700
+X-CSE-ConnectionGUID: p6v3+DmsRcyuW/Mkv1Wrow==
+X-CSE-MsgGUID: RJmQARAORKuOEYS47asw6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="58017031"
+   d="scan'208";a="57116779"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 08 Aug 2024 22:07:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 Aug 2024 22:18:45 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scHqn-0006r8-2m;
-	Fri, 09 Aug 2024 05:07:41 +0000
-Date: Fri, 9 Aug 2024 13:07:40 +0800
+	id 1scI1S-0006rU-27;
+	Fri, 09 Aug 2024 05:18:42 +0000
+Date: Fri, 9 Aug 2024 13:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [mcgrof-next:20240808-large-block-misc 15388/15390]
- fs/xfs/xfs_super.c:1654:1: warning: format '%ld' expects argument of type
- 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202408091252.1752rXRr-lkp@intel.com>
+To: Barry Song <21cnbao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] mm: collect the number of anon large folios
+Message-ID: <202408091325.dYV3OVPV-lkp@intel.com>
+References: <20240808010457.228753-2-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,358 +62,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240808010457.228753-2-21cnbao@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git 20240808-large-block-misc
-head:   f87d6ccd9d1e95abe5c254c89b52d42e6a99ca81
-commit: c85bf06395ffe514c6312414a1ab6a9a5c2e16c1 [15388/15390] xfs: enable block size larger than page size support
-config: i386-buildonly-randconfig-003-20240809 (https://download.01.org/0day-ci/archive/20240809/202408091252.1752rXRr-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408091252.1752rXRr-lkp@intel.com/reproduce)
+Hi Barry,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240807]
+[also build test ERROR on v6.11-rc2]
+[cannot apply to akpm-mm/mm-everything linus/master v6.11-rc2 v6.11-rc1 v6.10]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-collect-the-number-of-anon-large-folios/20240808-090627
+base:   next-20240807
+patch link:    https://lore.kernel.org/r/20240808010457.228753-2-21cnbao%40gmail.com
+patch subject: [PATCH RFC 1/2] mm: collect the number of anon large folios
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240809/202408091325.dYV3OVPV-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408091325.dYV3OVPV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408091252.1752rXRr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408091325.dYV3OVPV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/xfs/xfs_linux.h:82,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/xfs_super.c: In function 'xfs_fs_fill_super':
->> fs/xfs/xfs_super.c:1654:1: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    1654 | "block size (%u bytes) not supported; Only block size (%ld) or less is supported",
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1655 |                         mp->m_sb.sb_blocksize, max_folio_size);
-         |                                                ~~~~~~~~~~~~~~
-         |                                                |
-         |                                                size_t {aka unsigned int}
-   fs/xfs/xfs_message.h:16:42: note: in definition of macro 'xfs_printk_index_wrap'
-      16 |         xfs_printk_level(kern_level, mp, fmt, ##__VA_ARGS__);   \
-         |                                          ^~~
-   fs/xfs/xfs_super.c:1653:25: note: in expansion of macro 'xfs_warn'
-    1653 |                         xfs_warn(mp,
-         |                         ^~~~~~~~
-   fs/xfs/xfs_super.c:1654:58: note: format string is defined here
-    1654 | "block size (%u bytes) not supported; Only block size (%ld) or less is supported",
-         |                                                        ~~^
-         |                                                          |
-         |                                                          long int
-         |                                                        %d
+   mm/rmap.c: In function 'folio_add_new_anon_rmap':
+>> mm/rmap.c:1470:9: error: implicit declaration of function 'mod_mthp_stat'; did you mean 'mod_memcg_state'? [-Wimplicit-function-declaration]
+    1470 |         mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, 1);
+         |         ^~~~~~~~~~~~~
+         |         mod_memcg_state
+>> mm/rmap.c:1470:43: error: 'MTHP_STAT_NR_ANON' undeclared (first use in this function)
+    1470 |         mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, 1);
+         |                                           ^~~~~~~~~~~~~~~~~
+   mm/rmap.c:1470:43: note: each undeclared identifier is reported only once for each function it appears in
+   mm/rmap.c: In function '__folio_remove_rmap':
+   mm/rmap.c:1587:51: error: 'MTHP_STAT_NR_ANON' undeclared (first use in this function)
+    1587 |                 mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, -1);
+         |                                                   ^~~~~~~~~~~~~~~~~
 
 
-vim +1654 fs/xfs/xfs_super.c
+vim +1470 mm/rmap.c
 
-  1496	
-  1497	static int
-  1498	xfs_fs_fill_super(
-  1499		struct super_block	*sb,
-  1500		struct fs_context	*fc)
-  1501	{
-  1502		struct xfs_mount	*mp = sb->s_fs_info;
-  1503		struct inode		*root;
-  1504		int			flags = 0, error;
-  1505	
-  1506		mp->m_super = sb;
-  1507	
-  1508		/*
-  1509		 * Copy VFS mount flags from the context now that all parameter parsing
-  1510		 * is guaranteed to have been completed by either the old mount API or
-  1511		 * the newer fsopen/fsconfig API.
-  1512		 */
-  1513		if (fc->sb_flags & SB_RDONLY)
-  1514			set_bit(XFS_OPSTATE_READONLY, &mp->m_opstate);
-  1515		if (fc->sb_flags & SB_DIRSYNC)
-  1516			mp->m_features |= XFS_FEAT_DIRSYNC;
-  1517		if (fc->sb_flags & SB_SYNCHRONOUS)
-  1518			mp->m_features |= XFS_FEAT_WSYNC;
-  1519	
-  1520		error = xfs_fs_validate_params(mp);
-  1521		if (error)
-  1522			return error;
-  1523	
-  1524		sb_min_blocksize(sb, BBSIZE);
-  1525		sb->s_xattr = xfs_xattr_handlers;
-  1526		sb->s_export_op = &xfs_export_operations;
-  1527	#ifdef CONFIG_XFS_QUOTA
-  1528		sb->s_qcop = &xfs_quotactl_operations;
-  1529		sb->s_quota_types = QTYPE_MASK_USR | QTYPE_MASK_GRP | QTYPE_MASK_PRJ;
-  1530	#endif
-  1531		sb->s_op = &xfs_super_operations;
-  1532	
-  1533		/*
-  1534		 * Delay mount work if the debug hook is set. This is debug
-  1535		 * instrumention to coordinate simulation of xfs mount failures with
-  1536		 * VFS superblock operations
-  1537		 */
-  1538		if (xfs_globals.mount_delay) {
-  1539			xfs_notice(mp, "Delaying mount for %d seconds.",
-  1540				xfs_globals.mount_delay);
-  1541			msleep(xfs_globals.mount_delay * 1000);
-  1542		}
-  1543	
-  1544		if (fc->sb_flags & SB_SILENT)
-  1545			flags |= XFS_MFSI_QUIET;
-  1546	
-  1547		error = xfs_open_devices(mp);
-  1548		if (error)
-  1549			return error;
-  1550	
-  1551		if (xfs_debugfs) {
-  1552			mp->m_debugfs = xfs_debugfs_mkdir(mp->m_super->s_id,
-  1553							  xfs_debugfs);
-  1554		} else {
-  1555			mp->m_debugfs = NULL;
-  1556		}
-  1557	
-  1558		error = xfs_init_mount_workqueues(mp);
-  1559		if (error)
-  1560			goto out_shutdown_devices;
-  1561	
-  1562		error = xfs_init_percpu_counters(mp);
-  1563		if (error)
-  1564			goto out_destroy_workqueues;
-  1565	
-  1566		error = xfs_inodegc_init_percpu(mp);
-  1567		if (error)
-  1568			goto out_destroy_counters;
-  1569	
-  1570		/* Allocate stats memory before we do operations that might use it */
-  1571		mp->m_stats.xs_stats = alloc_percpu(struct xfsstats);
-  1572		if (!mp->m_stats.xs_stats) {
-  1573			error = -ENOMEM;
-  1574			goto out_destroy_inodegc;
-  1575		}
-  1576	
-  1577		error = xchk_mount_stats_alloc(mp);
-  1578		if (error)
-  1579			goto out_free_stats;
-  1580	
-  1581		error = xfs_readsb(mp, flags);
-  1582		if (error)
-  1583			goto out_free_scrub_stats;
-  1584	
-  1585		error = xfs_finish_flags(mp);
-  1586		if (error)
-  1587			goto out_free_sb;
-  1588	
-  1589		error = xfs_setup_devices(mp);
-  1590		if (error)
-  1591			goto out_free_sb;
-  1592	
-  1593		/*
-  1594		 * V4 support is undergoing deprecation.
-  1595		 *
-  1596		 * Note: this has to use an open coded m_features check as xfs_has_crc
-  1597		 * always returns false for !CONFIG_XFS_SUPPORT_V4.
-  1598		 */
-  1599		if (!(mp->m_features & XFS_FEAT_CRC)) {
-  1600			if (!IS_ENABLED(CONFIG_XFS_SUPPORT_V4)) {
-  1601				xfs_warn(mp,
-  1602		"Deprecated V4 format (crc=0) not supported by kernel.");
-  1603				error = -EINVAL;
-  1604				goto out_free_sb;
-  1605			}
-  1606			xfs_warn_once(mp,
-  1607		"Deprecated V4 format (crc=0) will not be supported after September 2030.");
-  1608		}
-  1609	
-  1610		/* ASCII case insensitivity is undergoing deprecation. */
-  1611		if (xfs_has_asciici(mp)) {
-  1612	#ifdef CONFIG_XFS_SUPPORT_ASCII_CI
-  1613			xfs_warn_once(mp,
-  1614		"Deprecated ASCII case-insensitivity feature (ascii-ci=1) will not be supported after September 2030.");
-  1615	#else
-  1616			xfs_warn(mp,
-  1617		"Deprecated ASCII case-insensitivity feature (ascii-ci=1) not supported by kernel.");
-  1618			error = -EINVAL;
-  1619			goto out_free_sb;
-  1620	#endif
-  1621		}
-  1622	
-  1623		/* Filesystem claims it needs repair, so refuse the mount. */
-  1624		if (xfs_has_needsrepair(mp)) {
-  1625			xfs_warn(mp, "Filesystem needs repair.  Please run xfs_repair.");
-  1626			error = -EFSCORRUPTED;
-  1627			goto out_free_sb;
-  1628		}
-  1629	
-  1630		/*
-  1631		 * Don't touch the filesystem if a user tool thinks it owns the primary
-  1632		 * superblock.  mkfs doesn't clear the flag from secondary supers, so
-  1633		 * we don't check them at all.
-  1634		 */
-  1635		if (mp->m_sb.sb_inprogress) {
-  1636			xfs_warn(mp, "Offline file system operation in progress!");
-  1637			error = -EFSCORRUPTED;
-  1638			goto out_free_sb;
-  1639		}
-  1640	
-  1641		if (mp->m_sb.sb_blocksize > PAGE_SIZE) {
-  1642			size_t max_folio_size = mapping_max_folio_size_supported();
-  1643	
-  1644			if (!xfs_has_crc(mp)) {
-  1645				xfs_warn(mp,
-  1646	"V4 Filesystem with blocksize %d bytes. Only pagesize (%ld) or less is supported.",
-  1647					mp->m_sb.sb_blocksize, PAGE_SIZE);
-  1648				error = -ENOSYS;
-  1649				goto out_free_sb;
-  1650			}
-  1651	
-  1652			if (mp->m_sb.sb_blocksize > max_folio_size) {
-  1653				xfs_warn(mp,
-> 1654	"block size (%u bytes) not supported; Only block size (%ld) or less is supported",
-  1655				mp->m_sb.sb_blocksize, max_folio_size);
-  1656				error = -ENOSYS;
-  1657				goto out_free_sb;
-  1658			}
-  1659	
-  1660			xfs_warn(mp,
-  1661	"EXPERIMENTAL: V5 Filesystem with Large Block Size (%d bytes) enabled.",
-  1662				mp->m_sb.sb_blocksize);
-  1663		}
-  1664	
-  1665		/* Ensure this filesystem fits in the page cache limits */
-  1666		if (xfs_sb_validate_fsb_count(&mp->m_sb, mp->m_sb.sb_dblocks) ||
-  1667		    xfs_sb_validate_fsb_count(&mp->m_sb, mp->m_sb.sb_rblocks)) {
-  1668			xfs_warn(mp,
-  1669			"file system too large to be mounted on this system.");
-  1670			error = -EFBIG;
-  1671			goto out_free_sb;
-  1672		}
-  1673	
-  1674		/*
-  1675		 * XFS block mappings use 54 bits to store the logical block offset.
-  1676		 * This should suffice to handle the maximum file size that the VFS
-  1677		 * supports (currently 2^63 bytes on 64-bit and ULONG_MAX << PAGE_SHIFT
-  1678		 * bytes on 32-bit), but as XFS and VFS have gotten the s_maxbytes
-  1679		 * calculation wrong on 32-bit kernels in the past, we'll add a WARN_ON
-  1680		 * to check this assertion.
-  1681		 *
-  1682		 * Avoid integer overflow by comparing the maximum bmbt offset to the
-  1683		 * maximum pagecache offset in units of fs blocks.
-  1684		 */
-  1685		if (!xfs_verify_fileoff(mp, XFS_B_TO_FSBT(mp, MAX_LFS_FILESIZE))) {
-  1686			xfs_warn(mp,
-  1687	"MAX_LFS_FILESIZE block offset (%llu) exceeds extent map maximum (%llu)!",
-  1688				 XFS_B_TO_FSBT(mp, MAX_LFS_FILESIZE),
-  1689				 XFS_MAX_FILEOFF);
-  1690			error = -EINVAL;
-  1691			goto out_free_sb;
-  1692		}
-  1693	
-  1694		error = xfs_filestream_mount(mp);
-  1695		if (error)
-  1696			goto out_free_sb;
-  1697	
-  1698		/*
-  1699		 * we must configure the block size in the superblock before we run the
-  1700		 * full mount process as the mount process can lookup and cache inodes.
-  1701		 */
-  1702		sb->s_magic = XFS_SUPER_MAGIC;
-  1703		sb->s_blocksize = mp->m_sb.sb_blocksize;
-  1704		sb->s_blocksize_bits = ffs(sb->s_blocksize) - 1;
-  1705		sb->s_maxbytes = MAX_LFS_FILESIZE;
-  1706		sb->s_max_links = XFS_MAXLINK;
-  1707		sb->s_time_gran = 1;
-  1708		if (xfs_has_bigtime(mp)) {
-  1709			sb->s_time_min = xfs_bigtime_to_unix(XFS_BIGTIME_TIME_MIN);
-  1710			sb->s_time_max = xfs_bigtime_to_unix(XFS_BIGTIME_TIME_MAX);
-  1711		} else {
-  1712			sb->s_time_min = XFS_LEGACY_TIME_MIN;
-  1713			sb->s_time_max = XFS_LEGACY_TIME_MAX;
-  1714		}
-  1715		trace_xfs_inode_timestamp_range(mp, sb->s_time_min, sb->s_time_max);
-  1716		sb->s_iflags |= SB_I_CGROUPWB;
-  1717	
-  1718		set_posix_acl_flag(sb);
-  1719	
-  1720		/* version 5 superblocks support inode version counters. */
-  1721		if (xfs_has_crc(mp))
-  1722			sb->s_flags |= SB_I_VERSION;
-  1723	
-  1724		if (xfs_has_dax_always(mp)) {
-  1725			error = xfs_setup_dax_always(mp);
-  1726			if (error)
-  1727				goto out_filestream_unmount;
-  1728		}
-  1729	
-  1730		if (xfs_has_discard(mp) && !bdev_max_discard_sectors(sb->s_bdev)) {
-  1731			xfs_warn(mp,
-  1732		"mounting with \"discard\" option, but the device does not support discard");
-  1733			mp->m_features &= ~XFS_FEAT_DISCARD;
-  1734		}
-  1735	
-  1736		if (xfs_has_reflink(mp)) {
-  1737			if (mp->m_sb.sb_rblocks) {
-  1738				xfs_alert(mp,
-  1739		"reflink not compatible with realtime device!");
-  1740				error = -EINVAL;
-  1741				goto out_filestream_unmount;
-  1742			}
-  1743	
-  1744			if (xfs_globals.always_cow) {
-  1745				xfs_info(mp, "using DEBUG-only always_cow mode.");
-  1746				mp->m_always_cow = true;
-  1747			}
-  1748		}
-  1749	
-  1750		if (xfs_has_rmapbt(mp) && mp->m_sb.sb_rblocks) {
-  1751			xfs_alert(mp,
-  1752		"reverse mapping btree not compatible with realtime device!");
-  1753			error = -EINVAL;
-  1754			goto out_filestream_unmount;
-  1755		}
-  1756	
-  1757		if (xfs_has_exchange_range(mp))
-  1758			xfs_warn(mp,
-  1759		"EXPERIMENTAL exchange-range feature enabled. Use at your own risk!");
-  1760	
-  1761		if (xfs_has_parent(mp))
-  1762			xfs_warn(mp,
-  1763		"EXPERIMENTAL parent pointer feature enabled. Use at your own risk!");
-  1764	
-  1765		error = xfs_mountfs(mp);
-  1766		if (error)
-  1767			goto out_filestream_unmount;
-  1768	
-  1769		root = igrab(VFS_I(mp->m_rootip));
-  1770		if (!root) {
-  1771			error = -ENOENT;
-  1772			goto out_unmount;
-  1773		}
-  1774		sb->s_root = d_make_root(root);
-  1775		if (!sb->s_root) {
-  1776			error = -ENOMEM;
-  1777			goto out_unmount;
-  1778		}
-  1779	
-  1780		return 0;
-  1781	
-  1782	 out_filestream_unmount:
-  1783		xfs_filestream_unmount(mp);
-  1784	 out_free_sb:
-  1785		xfs_freesb(mp);
-  1786	 out_free_scrub_stats:
-  1787		xchk_mount_stats_free(mp);
-  1788	 out_free_stats:
-  1789		free_percpu(mp->m_stats.xs_stats);
-  1790	 out_destroy_inodegc:
-  1791		xfs_inodegc_free_percpu(mp);
-  1792	 out_destroy_counters:
-  1793		xfs_destroy_percpu_counters(mp);
-  1794	 out_destroy_workqueues:
-  1795		xfs_destroy_mount_workqueues(mp);
-  1796	 out_shutdown_devices:
-  1797		xfs_shutdown_devices(mp);
-  1798		return error;
-  1799	
-  1800	 out_unmount:
-  1801		xfs_filestream_unmount(mp);
-  1802		xfs_unmountfs(mp);
-  1803		goto out_free_sb;
-  1804	}
-  1805	
+  1402	
+  1403	/**
+  1404	 * folio_add_new_anon_rmap - Add mapping to a new anonymous folio.
+  1405	 * @folio:	The folio to add the mapping to.
+  1406	 * @vma:	the vm area in which the mapping is added
+  1407	 * @address:	the user virtual address mapped
+  1408	 * @flags:	The rmap flags
+  1409	 *
+  1410	 * Like folio_add_anon_rmap_*() but must only be called on *new* folios.
+  1411	 * This means the inc-and-test can be bypassed.
+  1412	 * The folio doesn't necessarily need to be locked while it's exclusive
+  1413	 * unless two threads map it concurrently. However, the folio must be
+  1414	 * locked if it's shared.
+  1415	 *
+  1416	 * If the folio is pmd-mappable, it is accounted as a THP.
+  1417	 */
+  1418	void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+  1419			unsigned long address, rmap_t flags)
+  1420	{
+  1421		const int nr = folio_nr_pages(folio);
+  1422		const bool exclusive = flags & RMAP_EXCLUSIVE;
+  1423		int nr_pmdmapped = 0;
+  1424	
+  1425		VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
+  1426		VM_WARN_ON_FOLIO(!exclusive && !folio_test_locked(folio), folio);
+  1427		VM_BUG_ON_VMA(address < vma->vm_start ||
+  1428				address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
+  1429	
+  1430		/*
+  1431		 * VM_DROPPABLE mappings don't swap; instead they're just dropped when
+  1432		 * under memory pressure.
+  1433		 */
+  1434		if (!folio_test_swapbacked(folio) && !(vma->vm_flags & VM_DROPPABLE))
+  1435			__folio_set_swapbacked(folio);
+  1436		__folio_set_anon(folio, vma, address, exclusive);
+  1437	
+  1438		if (likely(!folio_test_large(folio))) {
+  1439			/* increment count (starts at -1) */
+  1440			atomic_set(&folio->_mapcount, 0);
+  1441			if (exclusive)
+  1442				SetPageAnonExclusive(&folio->page);
+  1443		} else if (!folio_test_pmd_mappable(folio)) {
+  1444			int i;
+  1445	
+  1446			for (i = 0; i < nr; i++) {
+  1447				struct page *page = folio_page(folio, i);
+  1448	
+  1449				/* increment count (starts at -1) */
+  1450				atomic_set(&page->_mapcount, 0);
+  1451				if (exclusive)
+  1452					SetPageAnonExclusive(page);
+  1453			}
+  1454	
+  1455			/* increment count (starts at -1) */
+  1456			atomic_set(&folio->_large_mapcount, nr - 1);
+  1457			atomic_set(&folio->_nr_pages_mapped, nr);
+  1458		} else {
+  1459			/* increment count (starts at -1) */
+  1460			atomic_set(&folio->_entire_mapcount, 0);
+  1461			/* increment count (starts at -1) */
+  1462			atomic_set(&folio->_large_mapcount, 0);
+  1463			atomic_set(&folio->_nr_pages_mapped, ENTIRELY_MAPPED);
+  1464			if (exclusive)
+  1465				SetPageAnonExclusive(&folio->page);
+  1466			nr_pmdmapped = nr;
+  1467		}
+  1468	
+  1469		__folio_mod_stat(folio, nr, nr_pmdmapped);
+> 1470		mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, 1);
+  1471	}
+  1472	
 
 -- 
 0-DAY CI Kernel Test Service
