@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D87716426
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 17:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9655C14831F;
+	Fri,  9 Aug 2024 17:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723224945; cv=none; b=EAh97LFV40+0J8J4I3+p9MoCOYEMA1InlO5bzJ39B6sTvvAFnXrDKzMwY8HzW3k7T6jF+UH1LzCq2CZXOSV69h26WUIwVSXqlhRU0g2d/GXC7UpFyZGZCYZ25YUHXh3puT0At/wTu6RY24+xwuM+Bg0XP1PPxrAxZcW9Ak33k0k=
+	t=1723226150; cv=none; b=WI2P/4i7CsIqlXSaOINhSIhgLvwM2wyH0SfNOXDbxifG52D6kUPpF649Wvj3+XWzdNyFVsRs7SqmFPHi8BYTVdYTMim5q1xbNr8I55TCF++DuJkGLL2075OEPsj2YTWwEy99jFz//bq7iyGOsst2fs1wE1y/Qwr2j4RbyE7MDnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723224945; c=relaxed/simple;
-	bh=W04MHsVh8NOhDlpd3L999QEV35u7nwAXNjaHR0sIRfM=;
+	s=arc-20240116; t=1723226150; c=relaxed/simple;
+	bh=+iXpuPgid6DxBYa77w6sggo41fe1Ace0EXgPhx7Xwpk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ROY1OnUmowAgar6OAx+omsn4zYwtv8rWyrSIwAk+lNYJWdPw1/BvjyMH8NpfiQq0SfyP5IDWmFyEv49345zvqx4050rGZn2nxW2vwwUUYuEZH8lifTkSw+CK8XYEW0kRJkLCOrR6rcrKT9PMCNwDWt9tSck63EaEq1NrPLnwByk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WpZxZ9y2; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=blJUmmLlfsi4Voy6Z7iJwzddv/3u+lFbcOY9q+261mn1OFcGrARSpNPXChYpF8zvjHiNfO0epodXopJMGwti/y/QxjUDm1IT+Xxx7q/CWW2aL9WKkYsaRp8OO4iEghNOT2vt+oPo4+WaOAziof6qRm0Topo4PQ02VfZbaJQjZno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzfJ1d+L; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpZxZ9y2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzfJ1d+L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723224944; x=1754760944;
+  t=1723226147; x=1754762147;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W04MHsVh8NOhDlpd3L999QEV35u7nwAXNjaHR0sIRfM=;
-  b=WpZxZ9y2MDK3SCUYUqLET/wFcszzfuEddk3qlQ0oYIPY4lZ3nSUSNyyM
-   ca82PlgiFIGTY1xQtDHxGrVJOprA6OiYMwecpqesxnmVzVK3MlT+HRlKl
-   uUKrnkRHm5W70PfbTw4tkC92ZvfeVCCKF07a4kfr6BEKt/MYe+P5btsPf
-   LUCvPUpZ9TW4mp5ZrjWBYz7uY9acr5FceX+EphZRu0joQOdNh0RC/0bXp
-   oySg3AiOPRg7Mfz0HUYK6Z2EedePJPvzDNWz6dTCixbCVhBGqME8paZ6i
-   HCkJyb+wn/ODLbmyt0RvJpqF33ztPgoXsykMz+oDlYc7pAZ2rsbm5AhEv
-   A==;
-X-CSE-ConnectionGUID: lFHLmfANT7yKZkVPqarMgw==
-X-CSE-MsgGUID: wyfu45TpS+CJYowBi2GB2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="32557445"
+  bh=+iXpuPgid6DxBYa77w6sggo41fe1Ace0EXgPhx7Xwpk=;
+  b=mzfJ1d+LuloCItp33Xqka6T4FCNgreSt+Md0D3um0WYbsUsjoRLKRkas
+   OR5noap/xAxlhSbfwRJ2l59mFkevffGsZ9AU1v7GZ4eR+3kqdOEy+86KR
+   CWNUS/0pnKzjnPn8vRFM20XpJ60TBCzQtWt/dDM5bJNCEmYS7/4z5NpRk
+   CZvzopd6yF3siTES3QzLb5F8nN559Xf8GzUSJVZHb/iiHVShZggxvYmQx
+   G06EklHpyeOEJTyARvW1DCNYNo4TrSXiAd9n01HxeQGwaTm2rWLycanoG
+   z6Ot/okAwfd4GD0QxjWtqh8v1Pg6oNf5/1oF1hz1z2dz09YeeTemH2J28
+   Q==;
+X-CSE-ConnectionGUID: R/3p0M9UQgu127caKyA/lg==
+X-CSE-MsgGUID: WxSyZfhFQMm7O3zcLIqPJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="25276723"
 X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="32557445"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 10:35:43 -0700
-X-CSE-ConnectionGUID: HcHsWnQ4TT+I/LZtqufOvg==
-X-CSE-MsgGUID: PZ8c+huKSp2fBB+reW9b4w==
+   d="scan'208";a="25276723"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 10:55:46 -0700
+X-CSE-ConnectionGUID: bwO5QsAGQDy27iTyCy9gwA==
+X-CSE-MsgGUID: kau1XRtIRo+XBCQPN6dzow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="62462102"
+   d="scan'208";a="62034555"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 09 Aug 2024 10:35:42 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Aug 2024 10:55:45 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scTWd-00091B-0s;
-	Fri, 09 Aug 2024 17:35:39 +0000
-Date: Sat, 10 Aug 2024 01:34:47 +0800
+	id 1scTq3-00097z-2M;
+	Fri, 09 Aug 2024 17:55:43 +0000
+Date: Sat, 10 Aug 2024 01:55:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hari Nagalla <hnagalla@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.6.y-cicd 25/42]
- drivers/remoteproc/ti_k3_dsp_remoteproc.c:403:2-3: Unneeded semicolon
-Message-ID: <202408100136.0bFKdf1X-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [kees:dev/v6.11-rc2/alloc-per-call-site 5/5] mm/slub.c:4143:35:
+ error: no member named 'alloc_tag' in 'struct task_struct'
+Message-ID: <202408100156.mj7EpsVv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
-head:   2cc066b2c5d12544415bd84564e633bf852bef74
-commit: ad1343ca42653d9262860d721cd5186bb456a133 [25/42] remoteproc: k3-dsp: support for graceful shutdown of remote cores
-config: arm64-randconfig-r062-20240809 (https://download.01.org/0day-ci/archive/20240810/202408100136.0bFKdf1X-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/v6.11-rc2/alloc-per-call-site
+head:   d6fc9b7195894f3cdbef0bb406efa3b376b6c0f7
+commit: d6fc9b7195894f3cdbef0bb406efa3b376b6c0f7 [5/5] slab: Allocate and use per-call-site caches
+config: x86_64-buildonly-randconfig-002-20240810 (https://download.01.org/0day-ci/archive/20240810/202408100156.mj7EpsVv-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100156.mj7EpsVv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408100136.0bFKdf1X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408100156.mj7EpsVv-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/remoteproc/ti_k3_dsp_remoteproc.c:403:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +403 drivers/remoteproc/ti_k3_dsp_remoteproc.c
+>> mm/slub.c:4143:35: error: no member named 'alloc_tag' in 'struct task_struct'
+    4143 |         struct alloc_tag *tag = current->alloc_tag;
+         |                                 ~~~~~~~  ^
+>> mm/slub.c:4148:9: error: initializing 'void *' with an expression of incompatible type 'void'
+    4148 |                 void *p = READ_ONCE(tag->meta.cache);
+         |                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4152:6: error: assigning to 'void *' from incompatible type 'void'
+    4152 |                         p = READ_ONCE(tag->meta.cache);
+         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
-   377	
-   378	/*
-   379	 * Stop the DSP remote processor.
-   380	 *
-   381	 * This function puts the DSP processor into reset, and finishes processing
-   382	 * of any pending messages. This callback is invoked only in remoteproc mode.
-   383	 */
-   384	static int k3_dsp_rproc_stop(struct rproc *rproc)
-   385	{
-   386		unsigned long to = msecs_to_jiffies(30000);
-   387		struct k3_dsp_rproc *kproc = rproc->priv;
-   388		struct device *dev = kproc->dev;
-   389		u32 msg = omap_mbox_message(RP_MBOX_SHUTDOWN);
-   390		u32 stat = 0;
-   391		int ret;
-   392	
-   393		reinit_completion(&kproc->shut_comp);
-   394		ret = mbox_send_message(kproc->mbox, (void *) (uintptr_t) msg);
-   395		if (ret < 0) {
-   396			dev_err(dev, "PM mbox_send_message failed: %d\n", ret);
-   397				return ret;
-   398		}
-   399	
-   400		ret = wait_for_completion_timeout(&kproc->shut_comp, to);
-   401		if (ret == 0) {
-   402			dev_err(dev, "%s: timedout waiting for rproc completion event\n", __func__);
- > 403		};
-   404	
-   405		mbox_free_channel(kproc->mbox);
-   406	
-   407		ret = readx_poll_timeout(is_core_in_wfi, kproc, stat, stat, 200, 2000);
-   408		if (ret)
-   409			return ret;
-   410	
-   411		k3_dsp_rproc_reset(kproc);
-   412	
-   413		return 0;
-   414	}
-   415	
+
+vim +4143 mm/slub.c
+
+  4137	
+  4138	static __always_inline
+  4139	struct kmem_cache *choose_slab(size_t size, kmem_buckets *b, gfp_t flags,
+  4140				       unsigned long caller)
+  4141	{
+  4142	#ifdef CONFIG_SLAB_PER_SITE
+> 4143		struct alloc_tag *tag = current->alloc_tag;
+  4144	
+  4145		if (!b && tag && tag->meta.sized &&
+  4146		    kmalloc_type(flags, caller) == KMALLOC_NORMAL &&
+  4147		    (flags & GFP_ATOMIC) != GFP_ATOMIC) {
+> 4148			void *p = READ_ONCE(tag->meta.cache);
+  4149	
+  4150			if (!p && slab_state >= UP) {
+  4151				alloc_tag_site_init(&tag->ct, true);
+> 4152				p = READ_ONCE(tag->meta.cache);
+  4153			}
+  4154	
+  4155			if (tag->meta.sized < SIZE_MAX) {
+  4156				if (p)
+  4157					return p;
+  4158				/* Otherwise continue with default buckets. */
+  4159			} else {
+  4160				b = p;
+  4161			}
+  4162		}
+  4163	#endif
+  4164		return kmalloc_slab(size, b, flags, caller);
+  4165	}
+  4166	
 
 -- 
 0-DAY CI Kernel Test Service
