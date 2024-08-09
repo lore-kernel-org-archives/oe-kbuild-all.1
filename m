@@ -1,50 +1,66 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1D61DA21
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 09:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC71192B98
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 11:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723196009; cv=none; b=j6nJIJRL7MeX4fvG0ybvS1v/jCLWHApQamEPUeBiG1Ehl9P83sFjA9306lsUiuRzRbiwLy92UjIV2H4YaghKOokOiok7GqB2tIWk+GV0n+jid2gVvMUYjtOurwAExsZ92rcVAoHiXDJYTo63/QA+Ks3NJrQdOpvN5ePTss9F1DQ=
+	t=1723204117; cv=none; b=L5t46+HA9IxzUsge5kiLYH/O4Q1tXZ4uzXVYakO8HIuTYFlefi6i2My+I1YYZXG7I1eh6f69hE7uesMDpligxG1JdBngeEtuVOldeNs+Ds0kZ18HFxEMzFOGoxeqcNwA8lYaqk8fOYh23IVPdcinWdQrh2XwqeQ8v7uDVrHaF4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723196009; c=relaxed/simple;
-	bh=Jo1QAopdRGkAg1qTnVNcj32JKUPDLDyrOzFVHb1ZNEk=;
+	s=arc-20240116; t=1723204117; c=relaxed/simple;
+	bh=xzbTSU7hvjS4ZqdqP09hBUAYcDwniEeE/J0sXofj5Hs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V7J6tvGCXWTqr3xXdyNbSZlaJzcOAz7d/zZwz8tSTRszA3R/nMwOHHP9S2EtQAh16exU900UQNRcL2kcORTdfz+ARi4tJbLL2pd5RD7brvViNQucXL55x/Y/HE/YL9hIpgDzIacjxMF9kuBSji0a95guWzqLmgvtIAZ9kWtdAl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1scLzn-0004XE-8g; Fri, 09 Aug 2024 11:33:15 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1scLzm-005dKS-09; Fri, 09 Aug 2024 11:33:14 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1scLzl-00Aljg-2r;
-	Fri, 09 Aug 2024 11:33:13 +0200
-Date: Fri, 9 Aug 2024 11:33:13 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	kernel@pengutronix.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev
- port features
-Message-ID: <20240809093313.xn3x2p3st2b32g27@pengutronix.de>
-References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9@pengutronix.de>
- <202408081557.FiEe9Tzz-lkp@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WHK++zeiGOhXAhd5O3strFQUEG5P7Y6AdDIg8ADOmSC55GiwFLzq97cksiGM0Mqs5lJgip3vN5ThJm/Kxz10OyyeMM1tfnS/zGB2tzPGGoXX6EwuXe6+eijtFTZztxPS9mRbrES3wfXkN2Ejv/EL47qZ8B+2j9BxVg12UIyvInk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZaJbiXj; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZaJbiXj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723204116; x=1754740116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xzbTSU7hvjS4ZqdqP09hBUAYcDwniEeE/J0sXofj5Hs=;
+  b=CZaJbiXj0KnyEEKbazp2+CgxXAtMGqi/0XItqfuH2DIvavF6p5PO9WkD
+   EPK/p9wlXoaICFyJGUskxz9dI0LxPpqHpewa+OSjPG8476WHkkiMeN3cw
+   xlHoJ+3mgSx5w8lBLTmhk8j6b5FzFu/xTKfS/2VE3u7FvxhkJgcClfeks
+   ILhjt82NkZ7u9VBlwGbOA82hls61+sJgidnwlevlINrgwI3V80CrepL5y
+   AsMEQdh14XfYemzrFXGCIEO5vJ7Jd8IvNnooTXXkD9klFgWMmdgawh5yG
+   rbyWflFFkDD1iVqxsqkgomchDJ6XOnVEAG01agf+NU9konnOvF646k/qi
+   Q==;
+X-CSE-ConnectionGUID: 7ZE8971uQvuO6Sn3g3KHsA==
+X-CSE-MsgGUID: PcWT18flTpOGaGZW+Nvlaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21548731"
+X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
+   d="scan'208";a="21548731"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 04:48:35 -0700
+X-CSE-ConnectionGUID: GmvAt9TMShyFFtIoHfNpOg==
+X-CSE-MsgGUID: 9XXBcAUVSH6fAeMx6zhw7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
+   d="scan'208";a="62500435"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 09 Aug 2024 04:48:30 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1scO6d-0007u6-2v;
+	Fri, 09 Aug 2024 11:48:28 +0000
+Date: Fri, 9 Aug 2024 19:48:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shiyang Ruan <ruansy.fnst@fujitsu.com>, qemu-devel@nongnu.org,
+	linux-cxl@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-mm@kvack.org, dan.j.williams@intel.com,
+	vishal.l.verma@intel.com, Jonathan.Cameron@huawei.com,
+	alison.schofield@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, dave.jiang@intel.com,
+	dave@stgolabs.net, ira.weiny@intel.com, james.morse@arm.com,
+	linmiaohe@huawei.com, mchehab@kernel.org, nao.horiguchi@gmail.com,
+	rric@kernel.org, tony.luck@intel.com, ruansy.fnst@fujitsu.com
+Subject: Re: [PATCH v4 2/2] cxl: avoid duplicated report from MCE & device
+Message-ID: <202408091914.TFbjPuNQ-lkp@intel.com>
+References: <20240808151328.707869-3-ruansy.fnst@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,116 +69,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202408081557.FiEe9Tzz-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240808151328.707869-3-ruansy.fnst@fujitsu.com>
 
-Hi all,
+Hi Shiyang,
 
-On 24-08-08, kernel test robot wrote:
-> Hi Marco,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 0c3836482481200ead7b416ca80c68a29cfdaabd]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/usb-hub-add-infrastructure-to-pass-onboard_dev-port-features/20240807-224100
-> base:   0c3836482481200ead7b416ca80c68a29cfdaabd
-> patch link:    https://lore.kernel.org/r/20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9%40pengutronix.de
-> patch subject: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev port features
-> config: i386-randconfig-141-20240808 (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408081557.FiEe9Tzz-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: drivers/usb/core/hub.o: in function `set_port_feature':
-> >> drivers/usb/core/hub.c:481: undefined reference to `onboard_dev_port_feature'
->    ld: drivers/usb/core/hub.o: in function `usb_clear_port_feature':
->    drivers/usb/core/hub.c:462: undefined reference to `onboard_dev_port_feature'
+kernel test robot noticed the following build warnings:
 
-I understood the isse but have a few questions. Before continue the work
-on this topic I would like to ask if the patchset is okay in general?
-I'm open for alternatives if the patchset approach is not okay.
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on cxl/next linus/master v6.11-rc2 next-20240809]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I have a few ideas in mind (see below) to fix the 0day build issue which
-was caused by the Kconfig selection:
+url:    https://github.com/intel-lab-lkp/linux/commits/Shiyang-Ruan/cxl-core-introduce-device-reporting-poison-hanlding/20240809-013658
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20240808151328.707869-3-ruansy.fnst%40fujitsu.com
+patch subject: [PATCH v4 2/2] cxl: avoid duplicated report from MCE & device
+config: x86_64-randconfig-121-20240809 (https://download.01.org/0day-ci/archive/20240809/202408091914.TFbjPuNQ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408091914.TFbjPuNQ-lkp@intel.com/reproduce)
 
- - CONFIG_USB=y
- - CONFIG_USB_ONBOARD_DEV=m.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408091914.TFbjPuNQ-lkp@intel.com/
 
-Idea-1:
--------
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cxl/core/mbox.c:1465:1: sparse: sparse: symbol 'cxl_mce_records' was not declared. Should it be static?
+   drivers/cxl/core/mbox.c: note: in included file (through include/linux/gfp.h, include/linux/xarray.h, include/linux/list_lru.h, ...):
+   include/linux/mmzone.h:2018:40: sparse: sparse: self-comparison always evaluates to false
 
-Dropping the module support for CONFIG_USB_ONBOARD_DEV.
+vim +/cxl_mce_records +1465 drivers/cxl/core/mbox.c
 
-Idea-2:
--------
+  1464	
+> 1465	DEFINE_XARRAY(cxl_mce_records);
+  1466	
 
-CONFIG_USB_ONBOARD_DEV follows CONFIG_USB:
-
-CONFIG_USB=y -> CONFIG_USB_ONBOARD_DEV=y,
-CONFIG_USB=m -> CONFIG_USB_ONBOARD_DEV=m.
-
-and exporting usb_clear_port_feature().
-
-I don't know to add such Kconfig dependency and also this idea require
-that the usbcore have to load the usb_onboard_dev module always,
-regardless if used.
-
-So this idea is rather suboptimal.
-
-Idea-3:
--------
-
-Adding a function to the hub.c usbcore which can be used by the
-usb-onboard-dev driver to register this function as hook. This removes
-the dependency from the core and the usb-onboard-dev module is only
-pulled if really required. Of course this require that the hub.c usbcore
-driver allows custom hooks.
-
-Idea-X:
--------
-
-I'm open for your input :)
-
-
-Regards,
-  Marco
-
-PS: My favourite is Idea-3 followed by Idea-1.
-
-> vim +481 drivers/usb/core/hub.c
-> 
->    466	
->    467	/*
->    468	 * USB 2.0 spec Section 11.24.2.13
->    469	 */
->    470	static int set_port_feature(struct usb_device *hdev, int port1, int feature)
->    471	{
->    472		int ret;
->    473	
->    474		ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
->    475			USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
->    476			NULL, 0, 1000);
->    477		if (ret)
->    478			return ret;
->    479	
->    480		if (!is_root_hub(hdev))
->  > 481			ret = onboard_dev_port_feature(hdev, true, feature, port1);
->    482	
->    483		return ret;
->    484	}
->    485	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
