@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F7E101E6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Aug 2024 07:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A296217BA2;
+	Fri,  9 Aug 2024 07:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723186922; cv=none; b=l4rtjI97avh/SG8h4GuLwKiv1Wst6cV+Zu2bTiKH/RK1aC2PiaZ7rFTW9Ne7PDSJWXMwtza8msjuvOhNKcoaZ2llyDGS5hjXLxbqgtweJ9oPUXUAdxEk5/LIvxAn/QJBfUY2JZEGy7bxwFLK0jcRro9WYIf2thcMDwfoRo2EH0E=
+	t=1723188136; cv=none; b=cPdtqZIwmAZpA+IR6h+/f7jkJ2YCTqza8G9/LkwjkPb2r1/sM/xWHie87C/WdgGrshzS/umyMkX1f6HV+75mm6OxA40P85vFAJTEw0XMenzIsMn2VKE6aDblL5idnmxlSWFUzdk9fX54SsLH319e4Q2s9cGbSGaclwMixQB5ksg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723186922; c=relaxed/simple;
-	bh=TA0O4kSV44StmXvhPbMfiwpf5ZbF8TrR1o+iGXvKaXg=;
+	s=arc-20240116; t=1723188136; c=relaxed/simple;
+	bh=d5FxnMHUMv2rC7ppbxaCgzn622SWNQ8X1+UVYqUlvS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTrb8IuOZDxOS/5vLpDkowiVN8nLvDowAXwwZ9T5ZDeg6XWgjfm4Iff3s6o72VZ621kDdBvJFm379eIiyatB6yioSkOirTjqkbUymfkszTDKtif8MmwC97e+knFpAuoaQxK+XAoH5MG4FLdrtutxq4p4rWr8366CHSXrs6Tu8Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0kZDnkL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4XslaNZbOYKnLEh4yT5ZuLvIzIZJeiyPJOvzeSoDhXld3kyIaiPB7QvBBJVg/R3s458Nzumf88v1YPgfbjfyfI21p23FTw7/SKhD7idIgEsOAdyczKC6cniqmm427+L+3bRsgG4iefs1IFr6S+5hVwo/xzwxxi0e+vaTwyNXgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgbVLzbO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0kZDnkL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgbVLzbO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723186920; x=1754722920;
+  t=1723188133; x=1754724133;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=TA0O4kSV44StmXvhPbMfiwpf5ZbF8TrR1o+iGXvKaXg=;
-  b=i0kZDnkLMdnjV3r56AxjuoR2JNYdXWhnTTYUvn3QuSqGxh17ZKWWPAVR
-   /Ny/+gaOfLmMuG985rs2TXo6nckP/24nHxFl0+sOFEj40uZdVakinIJrW
-   1mW+RBpMLW0UTUydkP2sag9Oln0h/uSMPym3WGBwGZyLmkOb66yU/0QHA
-   dDGFN3xZJD7xBrg0thWYJMEwHI7hIJODTxN5F5vUo2/n48poJ46w9wBou
-   BTVCVYv1OOq9aMZzBO4kT1g9luvRP2/21obNAG/pk2EmpAIQYdRaIt8+c
-   VXa4Zpny5w9QsjwUjSA3q5oTpx9szrc7zpYgOe/Lubrwv24GjYSXt7lFG
-   A==;
-X-CSE-ConnectionGUID: ah29tiGERR+5qVPRS41ZlA==
-X-CSE-MsgGUID: 9FIbBifJSGKQ4lJb5vSV+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21160445"
+  bh=d5FxnMHUMv2rC7ppbxaCgzn622SWNQ8X1+UVYqUlvS4=;
+  b=lgbVLzbO9fNqW9iki5yFb565NfjbUQ2v3oLmc30JhkmsdlmX9UGG0BaR
+   EcvEQ93ucMM3WtkmCLPuOWoLw6VrQFXCCTagjPISrMiV9dvVCOSHMoZLC
+   jo6Ub50Is4P3vAe17bulzMPGolKxupfj2dM9B8jGbapkIhdecWu5tB6ju
+   5dr89zb4Yo7a6bESbPo4xS0VoPdwm7gGxSUCzIA6UG3E9KMBWthHo/L3m
+   uJwr/fRoI6npdcWWWATMKhZAdXen9kfCj6V/G/XyaN+gM6SYS69eGy8x1
+   80Vk625PK0LoQ6KecWmhMmJkQ3PQt9TvCEcE66gZgw/WoSmi4EVzXBlDW
+   g==;
+X-CSE-ConnectionGUID: whEsvlTaRCympyajT4dRRQ==
+X-CSE-MsgGUID: ALDhb3TBSSW3h1zGvsTe3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="12929698"
 X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="21160445"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 00:01:58 -0700
-X-CSE-ConnectionGUID: DuVKJJ5CQTyckkJNOaf2MA==
-X-CSE-MsgGUID: PjcgnyvjRHutAiVLuDL2sg==
+   d="scan'208";a="12929698"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 00:22:13 -0700
+X-CSE-ConnectionGUID: +BsZKSnbSxu+0vMS++pG3g==
+X-CSE-MsgGUID: 4zKBcZwESw+ROgNMgEBBIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="57447822"
+   d="scan'208";a="61603129"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Aug 2024 00:01:54 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Aug 2024 00:22:09 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scJdI-00077G-11;
-	Fri, 09 Aug 2024 07:01:52 +0000
-Date: Fri, 9 Aug 2024 15:01:03 +0800
+	id 1scJwt-0007Db-1T;
+	Fri, 09 Aug 2024 07:22:07 +0000
+Date: Fri, 9 Aug 2024 15:21:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Alim Akhtar <alim.akhtar@samsung.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jiri Slaby <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Peter Griffin <peter.griffin@linaro.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Griffin <peter.griffin@linaro.org>,
 	Tudor Ambarus <tudor.ambarus@linaro.org>,
 	Will McVicker <willmcvicker@google.com>, kernel-team@android.com,
 	linux-arm-kernel@lists.infradead.org,
@@ -63,7 +64,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Peter Griffin <peter.griffin@linaro.org>,
 	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
 Subject: Re: [PATCH 2/2] tty: serial: samsung_tty: cast the interrupt's void
  *id just once
-Message-ID: <202408091405.QtjNlf8Z-lkp@intel.com>
+Message-ID: <202408091530.vvvqEiPv-lkp@intel.com>
 References: <20240806-samsung-tty-cleanup-v1-2-a68d3abf31fe@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,51 +79,50 @@ In-Reply-To: <20240806-samsung-tty-cleanup-v1-2-a68d3abf31fe@linaro.org>
 
 Hi André,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 1e391b34f6aa043c7afa40a2103163a0ef06d179]
+[auto build test ERROR on 1e391b34f6aa043c7afa40a2103163a0ef06d179]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/tty-serial-samsung_tty-drop-unused-argument-to-irq-handlers/20240806-234342
 base:   1e391b34f6aa043c7afa40a2103163a0ef06d179
 patch link:    https://lore.kernel.org/r/20240806-samsung-tty-cleanup-v1-2-a68d3abf31fe%40linaro.org
 patch subject: [PATCH 2/2] tty: serial: samsung_tty: cast the interrupt's void *id just once
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240809/202408091405.QtjNlf8Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408091405.QtjNlf8Z-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240809/202408091530.vvvqEiPv-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240809/202408091530.vvvqEiPv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408091405.QtjNlf8Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408091530.vvvqEiPv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/samsung_tty.c: In function 's3c64xx_serial_handle_irq':
->> drivers/tty/serial/samsung_tty.c:948:45: warning: passing argument 1 of 's3c24xx_serial_rx_irq' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>> drivers/tty/serial/samsung_tty.c:948:31: error: passing 'const struct s3c24xx_uart_port *' to parameter of type 'struct s3c24xx_uart_port *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
      948 |                 ret = s3c24xx_serial_rx_irq(ourport);
          |                                             ^~~~~~~
-   drivers/tty/serial/samsung_tty.c:856:68: note: expected 'struct s3c24xx_uart_port *' but argument is of type 'const struct s3c24xx_uart_port *'
+   drivers/tty/serial/samsung_tty.c:856:68: note: passing argument to parameter 'ourport' here
      856 | static irqreturn_t s3c24xx_serial_rx_irq(struct s3c24xx_uart_port *ourport)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
->> drivers/tty/serial/samsung_tty.c:952:45: warning: passing argument 1 of 's3c24xx_serial_tx_irq' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+         |                                                                    ^
+   drivers/tty/serial/samsung_tty.c:952:31: error: passing 'const struct s3c24xx_uart_port *' to parameter of type 'struct s3c24xx_uart_port *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
      952 |                 ret = s3c24xx_serial_tx_irq(ourport);
          |                                             ^~~~~~~
-   drivers/tty/serial/samsung_tty.c:927:68: note: expected 'struct s3c24xx_uart_port *' but argument is of type 'const struct s3c24xx_uart_port *'
+   drivers/tty/serial/samsung_tty.c:927:68: note: passing argument to parameter 'ourport' here
      927 | static irqreturn_t s3c24xx_serial_tx_irq(struct s3c24xx_uart_port *ourport)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   drivers/tty/serial/samsung_tty.c: In function 'apple_serial_handle_irq':
-   drivers/tty/serial/samsung_tty.c:969:45: warning: passing argument 1 of 's3c24xx_serial_rx_irq' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+         |                                                                    ^
+   drivers/tty/serial/samsung_tty.c:969:31: error: passing 'const struct s3c24xx_uart_port *' to parameter of type 'struct s3c24xx_uart_port *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
      969 |                 ret = s3c24xx_serial_rx_irq(ourport);
          |                                             ^~~~~~~
-   drivers/tty/serial/samsung_tty.c:856:68: note: expected 'struct s3c24xx_uart_port *' but argument is of type 'const struct s3c24xx_uart_port *'
+   drivers/tty/serial/samsung_tty.c:856:68: note: passing argument to parameter 'ourport' here
      856 | static irqreturn_t s3c24xx_serial_rx_irq(struct s3c24xx_uart_port *ourport)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   drivers/tty/serial/samsung_tty.c:973:45: warning: passing argument 1 of 's3c24xx_serial_tx_irq' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+         |                                                                    ^
+   drivers/tty/serial/samsung_tty.c:973:31: error: passing 'const struct s3c24xx_uart_port *' to parameter of type 'struct s3c24xx_uart_port *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
      973 |                 ret = s3c24xx_serial_tx_irq(ourport);
          |                                             ^~~~~~~
-   drivers/tty/serial/samsung_tty.c:927:68: note: expected 'struct s3c24xx_uart_port *' but argument is of type 'const struct s3c24xx_uart_port *'
+   drivers/tty/serial/samsung_tty.c:927:68: note: passing argument to parameter 'ourport' here
      927 | static irqreturn_t s3c24xx_serial_tx_irq(struct s3c24xx_uart_port *ourport)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+         |                                                                    ^
+   4 errors generated.
 
 
 vim +948 drivers/tty/serial/samsung_tty.c
@@ -141,7 +141,7 @@ vim +948 drivers/tty/serial/samsung_tty.c
    949			wr_regl(port, S3C64XX_UINTP, S3C64XX_UINTM_RXD_MSK);
    950		}
    951		if (pend & S3C64XX_UINTM_TXD_MSK) {
- > 952			ret = s3c24xx_serial_tx_irq(ourport);
+   952			ret = s3c24xx_serial_tx_irq(ourport);
    953			wr_regl(port, S3C64XX_UINTP, S3C64XX_UINTM_TXD_MSK);
    954		}
    955		return ret;
