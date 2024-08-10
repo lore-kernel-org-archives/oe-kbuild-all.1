@@ -1,66 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3109C14D2B5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 15:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8719614D2B5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 15:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723302969; cv=fail; b=UvMrfoo9fYK49VrzfR4dsXjSEfM+u4tOGum3uKkqxy1QJ/pYLcmQ5ypS/tF1VT8zWTsmIgfXBeoZtwYbwI0Ey2kn4LfByQF9C8prrot2pzvS3dYEGqjtFwRztmBZQ3vyEgts1tJHVhbBjaFEWCXNCLXYubh0t1oU2pypFknBU94=
+	t=1723302997; cv=fail; b=u1Jma586FWEDaEEOd5e/n1sLTRJVyfb3dyprM5eejiOcbQaGV1U6jGWBm6Yh0rTnNHH+F+EI4bQenQX2bnJ5dDzZf6GZh2+uqQE0Dkl8dmg3vyIrTg1+Kh53wtG8ZYjdCB6pn9ABaAKWatqrdJxODk0WHmbw9sY57ItLKr9kZAs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723302969; c=relaxed/simple;
-	bh=cOEx4jw8TqJTjiPdxiMX+yLLhAtf1xEk/MN8+ce/p/Q=;
+	s=arc-20240116; t=1723302997; c=relaxed/simple;
+	bh=kOW38f36Kk6fe6j+uOFHvCxH28qUTItpeo0q7H3b5A0=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=HzGX6lj5hPd2ScduaqHhXLC2wtnudUU5gX/5M73tH4CgCWQslHVOPrEWdO4xVgLg5bBrXrNFSzDBsOMtGLJM7lmmr+0fm3uZgE3yU/jWpQeB0bZ/1LqgjRfN3rrhBWjcK7wtnpVlIqLUf7+Y4BwHi7pNbOI/FxgoZJ8eVEcHYSI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9nhOFKr; arc=fail smtp.client-ip=198.175.65.11
+	 Content-Disposition:MIME-Version; b=LMRf2MnhoJ+FHKgqz/X9hQjxcPDb7DHVfGMpum+Z8GJXFKMBnJsTpYxL+nhoNCM19ZG66rhzuwcJTxhzyjIQYodQ4Kf02kXnQ5QA9xN7GwH0+86WLSUB0XJOtoDqRT519XMxeqz7pgYmwJMiHJCHDb8+3RTt9wM/QlxBI9PNX8A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpOPZ4kK; arc=fail smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9nhOFKr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpOPZ4kK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723302967; x=1754838967;
+  t=1723302996; x=1754838996;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cOEx4jw8TqJTjiPdxiMX+yLLhAtf1xEk/MN8+ce/p/Q=;
-  b=g9nhOFKrNR369b0q/Hjmq+dL+6nnmvaAgFsOMrWd5pCHPWXNMEGdSzd9
-   UvdnAQXOJKb9K/IXqxMqlTsrpaqt/v+d8sNWehi5UchtNNjVZcWoqbgQt
-   taVHXBLd8Ouwm4mDy89AvYmmCIlqq3wzSOF7fWZpeQ8GharzpIk5n/Q/5
-   HLPZB1Mshwej96d+tvMkQgy4tjJMFxpQc1/SC9+5L9wP5rLPyZm5MULOU
-   9c0dYQP6tZMtkCvDUD+VAQHE3qKn3xrYsjHUThh+XKppTO1gsYMj0F4Sg
-   aiMPxKeAsH6nmS9HCkVArcCdZSk+Op0NaHOYTo+QD5NBcTeY7+VfxAOt6
-   w==;
-X-CSE-ConnectionGUID: rzq/1Ck2RE2gw0tAaSREog==
-X-CSE-MsgGUID: jaA4nZNcQ4CVHFLaF++7Gg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32043330"
+  bh=kOW38f36Kk6fe6j+uOFHvCxH28qUTItpeo0q7H3b5A0=;
+  b=SpOPZ4kK3wp2RhPZuvTEkq1PLo2LYy/46tRz7XprAlLkxZglPmgHKCY8
+   VO3sZU4Z21qJQCDvM23If7nKtDOmBnuxSyOE1B1osuXeeb04BUJMufs71
+   5GmlqDSKQ+cP1uFBDrVeZPIVKmeROmfm6oL8Qt4rMEPR6P22melMUUGKI
+   /0mLabIutNkIRw1gny3k572lSzWXGe/tZ7Q3SFDONUIjeKH3lHjFK1InS
+   H0z3fPNfDkjC3egNNpIi+MzfuI+ODz1qPiAQo5g9XBKOIsPood9LJoAW6
+   jqrwWNaRLjMw3dCSetJVt0jpfjjEIugbeYfQDA1r1rXC9RAB7fE7WhpLw
+   g==;
+X-CSE-ConnectionGUID: hT3V0+6uTTKfj6CDU/r+Jg==
+X-CSE-MsgGUID: 4OU/wBDtSBebM2M7nyRnYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32043360"
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="32043330"
+   d="scan'208";a="32043360"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 08:16:07 -0700
-X-CSE-ConnectionGUID: XyvvlBGxQu+n2/U6pPb4Aw==
-X-CSE-MsgGUID: Mjrzbm8sQR+GYcom05S1Ng==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 08:16:35 -0700
+X-CSE-ConnectionGUID: q7IB7Z1oRiyI68sd/eOvhA==
+X-CSE-MsgGUID: U+wF6cLpSOW9nbq5QSOdmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="81066758"
+   d="scan'208";a="81066779"
 Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Aug 2024 08:16:06 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Aug 2024 08:16:34 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
  ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 10 Aug 2024 08:16:05 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.39; Sat, 10 Aug 2024 08:16:34 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sat, 10 Aug 2024 08:16:05 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Sat, 10 Aug 2024 08:16:34 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sat, 10 Aug 2024 08:16:05 -0700
+ 15.1.2507.39; Sat, 10 Aug 2024 08:16:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mwnq34bOF2WePkrITOydVsQfTOCkXy5vwyw3hW8PS+bjputhGLx3zdiM4WBZe0GPjxV5/uobGAdIy4IyWASZJHrFsDAjsq+po3iuTHUS6KYW2p4z0BISCbJFEGkMrWYfscoiY9F8vxQbyxE7WKjiqlMfuCy0lB98YucM1afenTRCIol2Q7l3SgJrqfPvPjqz+W0UbzZu3+WAevKL1a5Jaiy3I+81bEtuzQceyZq9RjSzd9r2kP6VUyYi/dvyWnC7d7qAsxJf7FssgjQ6lxAVrevRLCa5XIf/v7hhASONlhyBUp1sxyx/YLsy4gFRxlACJ6N5H3/KuPD5AXMmFhU1Ig==
+ b=Q1CEXuHGN+nZE0l02pCXcmkLSo54nwG6OZtJurS8AQPBDa1GW31ATn6p5VjihGrWOg3hJEYL+T9T+4O7X1qpoEZPzLZorvtNS9xSFQ5D9rqKBWrpm6u27CX4EOMdgDGfNTIW/lnOvQwtAaThqKWnRyHxxg6Dm5FuidgK7mLUbNNljtnCKtcyudoFkp8WC223xT39shg0g8Z6RcHlV+P6ROLD8MNqVHpTnV8J37bb4yVifXkMNwGpdySVocHYJ4rf14YqRHNpVQ/8pAMkR/YwM57kP3cDGBFoZ/jK1zz65kwmB1J4eyx0zLFxhT7nBYiUcxVRi+YAhGWieLcO4dPlSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kVFicFyz0qvyMA3I9qW+ZOtBppcM2D+0N3XYkskr3MU=;
- b=qNEBjyf01YFCRjK2iYx2OJ71vGn06bWrFzGsviLbD/FEUE0VAR7XNFTcFwS+c6+0cCvLiV5P99h8FSH8K5jkpdFthRGfIB92xsUNgegpT4SLWE4521gywn23MjDeVVNPgjyQtr7tJqIT2fnv3kNGfJTarCH6oUg7I/TkDwWovxWFx1iVY8kivSm0BGWr+pJXVR1kKKoaNSlJCNK+rOh2UH++z1s27mW+qPNrBMNXslibZa2UTfZg9GmSyn0fZ0TRKBxeF3Mf8MruZtdHC6VxK1bBFakedlVLlnchXA6HWVtUKnV60QfNweFDdzd4HpAfgw0GQj0vdeHEIhPyMh03UA==
+ bh=l8wRwIbFXLMaI98Jm4+n0juKPhrRwDc7j86jXJRTjfU=;
+ b=cgoSekNLQ++shFtWfgjeuq8GaysFlG01RjMJBdxVWjXhqOmFxt82KHnxZmEbV+hThplGqmjyR50J5bPortZ9z+1RlmfaXRTPe33JtNXJNad3RpIW46ygKInv3WChs/o0Yk1eFAOKhT6AgBfR/44kAEx3ehkOLqcSziNjDSEPr9qe+LJ1TdorbRn1MniCWkF1R5tFbMtitfs3D2Eig0VlPN4ZkXvqFZLWjAZ2I25vxtQodGwY8JU4zu2apdxjLqr99pnZJ1fuMn1KmixmoOjcKUmeXqETJvN86RJk6igXIwD7AS9ews/IXhyjgJbJjyeqy9unsgpN95l9vKB/54JRvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,22 +70,22 @@ Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
  by PH7PR11MB5819.namprd11.prod.outlook.com (2603:10b6:510:13b::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.28; Sat, 10 Aug
- 2024 15:16:02 +0000
+ 2024 15:16:23 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7828.029; Sat, 10 Aug 2024
- 15:16:02 +0000
-Date: Sat, 10 Aug 2024 23:15:53 +0800
+ 15:16:23 +0000
+Date: Sat, 10 Aug 2024 23:16:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dongjin Kim <tobetter@gmail.com>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [tobetter:odroid-6.1.y 23/91]
- arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level'
- is a required property
-Message-ID: <ZreEKYfYPImkbsd5@rli9-mobl>
+Subject: [tobetter:odroid-6.6.y 32/78]
+ arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000:
+ amlogic,tx-delay-ns: [2] is not of type 'integer'
+Message-ID: <ZreEPFJoLJIGEEII@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
+X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,155 +96,138 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB5819:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0537160-2a97-400d-04d9-08dcb94f5867
+X-MS-Office365-Filtering-Correlation-Id: 6aa59bd7-709e-441a-3396-08dcb94f655c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JqQKsw9MeadB208My4HTxEnORerJa0MsuLkzVWSRYqoB/HXPbM5JjV2/UYrp?=
- =?us-ascii?Q?GPm/Ke5Z/mQ1+ciOudtsJW5Kta61U9i0dP3ZIw1C/azCGLutd6whyXNjHmxw?=
- =?us-ascii?Q?w6C0b7EnUUHGgmeJ6Nknj62Fan9RTy6nsuYBXb+Df+b4keu3eNlDHX0jE2JS?=
- =?us-ascii?Q?1fLaY7tStGC9Nh/EQvZAqxN3HRjQkOQgM1WTKzqE5bbuw4eFDJNOkaOAi+5r?=
- =?us-ascii?Q?supxaq0hxDzitizQ4rNQKLpvtg5xB5gHXU/V9S8KS1zuzSLac6IHcyViAuWR?=
- =?us-ascii?Q?lTAODMd/NQirrVodGOyxohs5XL5hQEEqijzRMiuYYSQi+FK53wdjqcwBzZqX?=
- =?us-ascii?Q?S2RhtPF1RdPq6Fw+lRJm1GYsvJ3oEBVe0yS8xItLWdiW4D1xNN90Ki4sP1t9?=
- =?us-ascii?Q?lts844SduVMlEqrTz0I1TPytztMGC+amhCbRR4SI7GIGxigOdijnrstiR5DI?=
- =?us-ascii?Q?aiDaYTHGcktgsx+lehd7hfZMz/j2Lg6I0ELvrFakiGG85Mi6PEcSMIKNGfYN?=
- =?us-ascii?Q?+y7GQ1tB/jCdKrNeYvRF6vn0aIAxHAoQzFlbUVnysv3IBFqb1lgrJ/JWowkY?=
- =?us-ascii?Q?NLMCBd0PhSDjJ1OpxEw+qLYMOSeHgWW/MI1qqZBgkG5hx1mTWiZQguyjv1JS?=
- =?us-ascii?Q?QbwduAAoSFgQuMg0w2TnxMYyQ/RkxSRFG5V0naEcaxlqJX/DYFwosgYhh6em?=
- =?us-ascii?Q?u9GyVD+9h37mYERUhqRpMkv5Uibxa8R9mwgH5hkLk9kGOecYTmMFzeFRo2Dr?=
- =?us-ascii?Q?jY9kszM5ott3TmmywCrbhQi+xusLUGcz4/MYvx+cA2lnr44MkFmv1kiUbZ/L?=
- =?us-ascii?Q?EMVE1dLAAyH7bUC5ydUDdqyvnveQNeE58KSB/HpL5cxRb6rj/L+QaV0Bvud8?=
- =?us-ascii?Q?iVLXCKhr8VGHrBnG/4VlATCtB0dM7pAfR2PcyAEQyh608T4bR1GQfeob9bKp?=
- =?us-ascii?Q?vO0aHCNQzVn++z6Bwr6p420Y4PJFQ8MAxa8h5q4ZFxcGUCXW7Rgwtn6/Nkyd?=
- =?us-ascii?Q?zEk7EZyDKcc92vbUi565HQf+0tI1S3/OHG4fzNbFnqlFatyRQ6SLpbzkxeRV?=
- =?us-ascii?Q?AZpu4yaKI9YFAnIAYPzAD4ArWzedrThzyDrluFEZ/00Z+5OqcDZH2/+gmesP?=
- =?us-ascii?Q?0x8hsG8w8I8Guu0pR6Nz0X/fUy5cCo3m9jfuagE/CwCyNB5qhngK5xZlWHuT?=
- =?us-ascii?Q?7GCnKnlXEbTIGcdydXJPd/qDltv8uko2AGueykCAe2CdyKVEYWV9oYQIvuMs?=
- =?us-ascii?Q?34QE+OuFLKjTTc90pSt0oUZt8CNgfHNiGh+OpwcqoIqljGOc6z6mPufHIB4Z?=
- =?us-ascii?Q?pvU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jeS2PMX663Yyg5O1fpigIkmZM1WQXXq6xsO6rhObcUgz+zljWwErawX9O8Hx?=
+ =?us-ascii?Q?onFLCyRkkhVymYXsdGQ5ftaMCqj18LOnwg39tVkT+5mUX0FrQgCYEi2azQ13?=
+ =?us-ascii?Q?aMfBpRE6SImgKdVkxQa3tugTGMoBWG7aheEvQ5FzsuoQ7sJMXh3RxZO8+CH3?=
+ =?us-ascii?Q?eRYgZ3ntKbOtN4OBz6RFEw1DHfPIvjZhC9Xv2Hdnvt1f1zpgSVBK1o1GVyLW?=
+ =?us-ascii?Q?TUsDbSYLI5JDWSvpkCYgix+NH352HJZ2tyPs4emVOgv5rEkxwmN79GhtHpcb?=
+ =?us-ascii?Q?3ZMTlSQXgS8g+82nvEqAUwdU0NNXMbzbKgDOj1O6p2QEf5KrjTPRJCwM9JIL?=
+ =?us-ascii?Q?VUSE95+qB5n9cJ6XWLkkrfjSWuqf8GedXV4ISMN/BU5MwBKlcQnbD4Tn6jsD?=
+ =?us-ascii?Q?VgLQqXTADHuqkpyJom7abLM+VGa6hnbz7J3ivAxHe+pUtf7WiQ9o0FDHW+v6?=
+ =?us-ascii?Q?3BJcOvjDueGt/d8hgVCGGwhW+CKHdn7I0lJEWCCvZjGg9XCcUt4PaqvhLyZH?=
+ =?us-ascii?Q?+oh9eV8EBa+QUm4tvAmNfsnQswv3LNGf7XU/5rFl9OWPKFMI8lqifOMXfg39?=
+ =?us-ascii?Q?LNELXfoMmrha8DaahJnfrLJ1uNdbPRZJB6oCSgORF3X1Vi0f+Eq4BhgMGNLy?=
+ =?us-ascii?Q?Haaw7hhRFdCM1kmTOhYiIRM+lM0Gmxbbqmd4T0Il+nOK4WVn7bQNpghdvHEp?=
+ =?us-ascii?Q?SvDRU/uGrewEn3Ovb07Jv62PPu6xVYT6RtHeMzyS41O9rIiBT7NDZ6hKmauq?=
+ =?us-ascii?Q?fW0+HV6HsBx1REFU6w3agei4eGJM0l9QrQZlmRlVMcDVo8flPGas1DNzZKQl?=
+ =?us-ascii?Q?8O0M+1HMl9Ij4epM2Mvl5LRPSRtHocKyLy466od2/v5nVG1S26IwK2jSwo9J?=
+ =?us-ascii?Q?DTcke+DBz+aHyZLyj8iGA580YpeRxDs/v6CBSn3VEXyWpGm2iWTzHGP5dnKZ?=
+ =?us-ascii?Q?SfOiP7tv2KVFuBll+X2ZhioIaK5gbpIKOLN//d7v4+8Oy9MMBsbBWGnrNVOP?=
+ =?us-ascii?Q?qFcwyVAmrpaVh5a4XxRQuNd9JvX+c+LLSuhs8/oHzp0q0rWJdFn4PZ5HX3Mp?=
+ =?us-ascii?Q?3RYuPC4INogIZJDUG0I0mqFjbuufCILFG2KE/41XkfC9vWsJo5XsbfIY2ORR?=
+ =?us-ascii?Q?IO4SuafkYbE9ZGGNOfR0rU5vMmkZ62sABd2GTHy4ZHFZ/LrIinp9+A3x7CzE?=
+ =?us-ascii?Q?4DfDgwnFVDfkdIaPagwLH17cuZ3g3yDOXig3OuEzld4BmwHBRqpdTwsBe4UH?=
+ =?us-ascii?Q?K1WzQga0D0pAmHtycw0soCeKpeCqrC4+gsI+KWX/TCEOEQF82NGe6VHfFma5?=
+ =?us-ascii?Q?e5I4uOsiSanfbo/GYqiQ8zcWA+S6EtQ2EprQT+22iPTJYMQEHy5tw9yqOvD4?=
+ =?us-ascii?Q?pPTwDas=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vC3/1rVpo8cNF/UAAb2TyTL39IZLRMvwVJanpHtZuwXfcUXG65CrwgecyoNg?=
- =?us-ascii?Q?eZr5gqOM0BXjt0EtxfIRF65UDglkf7J5RhMU0q7XyC+BR4ktnUFOSpF175fW?=
- =?us-ascii?Q?S4qbok1IQY7GhDNGToI7Dys363XWB+DL0UOSplpB6X4nvJgPNT1aRQbkszGI?=
- =?us-ascii?Q?JjD3853OViNR/OzlI1zL4LM66pmoVE+TzFKjiCuid18dohV9V7R4xPakL9aU?=
- =?us-ascii?Q?5RGKW9XWuHEP8reXE43UoEig9MUEBBhBMsEqSmuRen6ptpjrlTg7oQWcqDkb?=
- =?us-ascii?Q?WLN84e7zvLi86TVxH0nfim954WRGFL4NdEAjw2920dfmsEeyWvJGSlll92DC?=
- =?us-ascii?Q?+afeHIovntjTNpzXn2KFkVTUHQ+EMePjUXrF6rmyIZYnB0bEdRn9rymEHTEz?=
- =?us-ascii?Q?9JBzecZyKrKstM+kspJJ+DUva9hL4NiVVyPIlDjYB1EOPwHumR+ANAvnnrYy?=
- =?us-ascii?Q?dJQYq/6pvxkIe1G4lYJrAZV5qidscrMbGogg9A196QtSLgS3E2NMPaumtLmZ?=
- =?us-ascii?Q?irwDa+RCAaHkpQG3N9cWBcJxbrUbNrEYwCNBmZcq8/kMi5eQbud/bHw9kGZq?=
- =?us-ascii?Q?toi7BFCibCgZYoNEX+jsAAZUPvMU+n03I85S7AFqIBjftzPkDqsACT1u4fkA?=
- =?us-ascii?Q?7GX7QYB5w8IA/UDjPoz9FDeFO8aYIdpM62Iqk8pc2RtpGAzj7oHkT94b+LM6?=
- =?us-ascii?Q?CdaE4aCUS6gBkJTfyp2o+Q0tPjIIdTe+4jYsM7yJ6LovpaqxXu2hdYutGB9p?=
- =?us-ascii?Q?Zex/sOQ34HP/FIASPQnqev7xUCc+99YnEwaV4zaQCP3C99eSHJZ6x5nGo5C/?=
- =?us-ascii?Q?DJTjsVK6Eytz45hOBNAa3lHspNFMX2WsmHcLuubpYcn7Ayd4G06WtTKWtP2r?=
- =?us-ascii?Q?yeu+XEDbxpbNDrb3g/TJsn1vmc9Y0vBdDnJT4qNNRDbZ7/6fI2Q6TbzHjrAm?=
- =?us-ascii?Q?JdyZsaM4fvEO4CRmOoBNO1yNrZUo/fmE4lMWoDIt7jHvRUWvRm3rbmZiSGVx?=
- =?us-ascii?Q?zU02gbLnGmQ3JkhZBa+IQNW7NFr4AtudKgXYnLzH23Y02rMXitSDb92NJB0U?=
- =?us-ascii?Q?qTC8oQ+ug89t140JP6oSYzp0XSm6ZwFMTxdBhCkeeF+9HwTs93v3ZIOTtINx?=
- =?us-ascii?Q?jdc8c6+R2Z2JCL2d+dHc9xkflOaN0Hfwkzl4xV2WlLiaZ+72bEo1LbVMm/yJ?=
- =?us-ascii?Q?on0bcqZMx5L/304ZUCkLsW9ehqsMrGOMPhhnI+i9bvDUezdxcF+Aa45tGWgp?=
- =?us-ascii?Q?8HIJgI6gLh3n/7ukGMqxVkG8RxMVqa4d35VUA61q9a9ZJ/u5TMPKg5gq2Olv?=
- =?us-ascii?Q?vQ3vrqcJSvxsurUhkdcVJvVF6scZGmcuHJ5s5krjE45s5DG8F3KCdz1oxgZ+?=
- =?us-ascii?Q?oqoDYOTNCxT+qLQ3fXl4VzDaN1LwJhG4xz1ww4uX/P8EbHu21wWsMA6YYDPs?=
- =?us-ascii?Q?p3GTZYRpp2AWo4jhNnTG+S62spMhSoVqefInzCy7rHdkZmNueGpKW5nZI9ab?=
- =?us-ascii?Q?ehJHp6J56jTyTH3rwaMQa6zZ4nBIYP7XCTu0iBk5y9eLCN2OSPVagVLKDF+O?=
- =?us-ascii?Q?AxoPyIPVyWmlp8MXfD0G4s0McQqVRi9A3hu3QB0+?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0537160-2a97-400d-04d9-08dcb94f5867
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lCM1gyqbrh9BJ7y9EZQSFHKCaHK26ZObIxVpAHQjgG8ulg69Z8LUIi2OJ6ld?=
+ =?us-ascii?Q?FVcNs3aozWRLt2Oydd/ZIo3W+tGgRcmtfZVWuYkKK7VNZIzP1teyIVp/SZ3E?=
+ =?us-ascii?Q?G2Q0o7Dn87eJqwio2iTtX5VJwk3kF0sHnUB77AzekltACd/CZF7WvwMUVGQG?=
+ =?us-ascii?Q?6qq+X2mF7ISw5mjRPsC7ppxIPcbz9jWfWjVwmqb/gXIGhfO21g6XLMbn8mav?=
+ =?us-ascii?Q?rf4R1ZKACRUzJX+3Z2+qybavqTCdEeAnjHPgLL6GGNdx1CKMA5tzQ/zYMBsq?=
+ =?us-ascii?Q?fvA11ZyDmDm2qedtXT4CHq4WtAJhTNpD8bzydRI6VN8K7cWgvTmmxNFuVS0a?=
+ =?us-ascii?Q?t6t9vb8T+k/m6v97jUONgt6Htn79mZFtGe5FyI0AY9YSjpqIXdsxYXNVHWQ/?=
+ =?us-ascii?Q?hdo9l0WGucTBdNh2ZVAESUxosWRpN56BM1xDYZ0YrbM6egEqo+M7R2QRE/PN?=
+ =?us-ascii?Q?322IYz48t0NyADqWGoRU91oQGQxmFZyg/2RSnayyTwNHNNeP+78pMWUskB6s?=
+ =?us-ascii?Q?ENbo95oMM0AClqcMRkRgVBg23pzSOAW2HdguI9GHUiqr/wbQl0n9w8LCX64X?=
+ =?us-ascii?Q?48PWNcSjtms0Ny3e4nnzfLQbrdV+gcCS5vMW0XtHWRQioE/lHEGoc+KWTLti?=
+ =?us-ascii?Q?yyMhyEc+S8JILfQrvJsfO8z1tZ+NQTlfEtY3wcjKl3YG+9IUUOWmK8zUc0jY?=
+ =?us-ascii?Q?GjXGWvJzyP3hc5us83ZY6v93XL4tFH9f2/4KdTI486aiybi8RC3d1KPUslci?=
+ =?us-ascii?Q?ExhtKCY28/xoPyVBVFdR17cYsbajZEuJhpJZUGTYOI2cRIK541CWbuzwN53t?=
+ =?us-ascii?Q?0fSMfZMVYPTq1v7VyC8RMj+GTthN0zv93JQwaTuUuvsTJSgSpfViGLGisVxX?=
+ =?us-ascii?Q?iSBt+anb08WJuCQHgQ8vLXV8niqYVdaYgYfrAJhF42+RtfKZNL3gwyyEyOLS?=
+ =?us-ascii?Q?42kxkt5U6h/FCRa7b9lbR4HM7tc0OGhenpT1FWFXFfRcvTcfTfBEk44OY6qm?=
+ =?us-ascii?Q?D6TVINRXAfHBeyJx2GkUguc/W8sAHVaWWewWwabc9kGRMyBXk31QEtZKtT3r?=
+ =?us-ascii?Q?uqNOK8mFbG+mNGMY7cAfCrjqeBBjJDsEjh+eBLOK8u+c8yIP4klck24b4ByT?=
+ =?us-ascii?Q?DdCIWIKQy+O22H2KEDSzFxrRWIdSql6BPLSoIvTGa33yk5SqfqABgAEEkUGZ?=
+ =?us-ascii?Q?NwdhN71I7RJ9OP9D0lKgP4Cc0qMXa3V8ruumUj6yC0XfdrEOsC9D/j31TVq2?=
+ =?us-ascii?Q?e7JWcKB91954PbtcxBOOa52LKo1g1+NUv0udAKKN/m8958UZhxZfFxQrGIU2?=
+ =?us-ascii?Q?fxCDWTlgwV7FYfpaOBtmWwLtBAHEGqSZcGlS0+mPWrxlLLuubizzojr2iL3b?=
+ =?us-ascii?Q?iZDfOYZ4R0wpqGzatsrCP2uHwxwOP+6G7Ld7Od+ji+Orc9GxQxawRZwiiAO2?=
+ =?us-ascii?Q?e7Coqaf4xGy6T6Ls2ajq9NbHefNOi9TYcXOFN2Pn20AujiS91nYSKhuzVR1P?=
+ =?us-ascii?Q?p94yLSu6d4ugPxalxyHl+X4Ni2lLP5vS19QTWP7Xp988kmgHyNqNfCS1uZ36?=
+ =?us-ascii?Q?iXH33Tuk/qUYubbjvNAIxBRRopuU8ir4kRpg20aC?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6aa59bd7-709e-441a-3396-08dcb94f655c
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2024 15:16:02.1513
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2024 15:16:23.6553
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aNUr+V21qjKNOARXk3nZ1kenmXy6LvMxDcFTQ8IvpRUtWpQ4zw5YZnm0SP2FGQ6vp9WMtr+Teyg6C00gEuxyYw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: CSMLq3d2dPJo7DNoiwQ9c1meDl5Ey19YN3P2JN/eLDCkIg4ONDTLxWJp7xDXVLi2iNXfVlrf/PtomU7XVqqTLw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5819
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   2a5f985c90ffd8f4e2de3a2fd76f00c3e322aa6f
-commit: 5e5c31f1c11458aabfa51021f3e0319bb051330e [23/91] ODROID-C2: arm64/dts: add 'meson64_odroidc2.dts' for compability
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
+commit: 7ac7a6e2dac16d26212911a91515a49a08a10371 [32/78] ODROID-HC4: arm64/dts: add 'meson64_odroidhc4.dts' for compability
 :::::: branch date: 3 days ago
-:::::: commit date: 1 year, 7 months ago
-config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240810/202408101815.KMf8Wrqk-lkp@intel.com/config)
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240810/202408101640.09Yjlgxw-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101815.KMf8Wrqk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101640.09Yjlgxw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408101815.KMf8Wrqk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408101640.09Yjlgxw-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:252.29-257.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (unit_address_vs_reg): /soc/bus@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (unit_address_vs_reg): /soc/bus@c8834000/pinctrl@4b0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (simple_bus_reg): /soc/bus@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (simple_bus_reg): /soc/bus@c8834000/pinctrl@4b0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-unified' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: scpi: clocks: 'scpi_clocks@0' does not match any of the regexes: '^clocks-[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/firmware/arm,scpi.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/clock-measure@8758: failed to match any schema with compatible: ['amlogic,meson-gx-clk-measure']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0: failed to match any schema with compatible: ['amlogic,meson-gx-ao-sysctrl', 'simple-mfd', 'syscon']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pinctrl@14: failed to match any schema with compatible: ['amlogic,meson-gxbb-aobus-pinctrl']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: bus@c8834000: rng: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8834000/pinctrl@4b0: failed to match any schema with compatible: ['amlogic,meson-gxbb-periphs-pinctrl']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0: failed to match any schema with compatible: ['amlogic,meson-gx-hhi-sysctrl', 'simple-mfd', 'syscon']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0/clock-controller: failed to match any schema with compatible: ['amlogic,gxbb-clkc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
    	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
    	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-0:sound-dai: [[57], [0], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:sound-dai: [[57], [0], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:codec-0:sound-dai: [[57], [1], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-2:sound-dai: [[57], [1], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^dai-link-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sound: 'anyOf' conditional failed, one must be fixed:
    	'clocks' is a required property
    	'#clock-cells' is a required property
    	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: pwm-fan: 'pulses-per-revolutions' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
