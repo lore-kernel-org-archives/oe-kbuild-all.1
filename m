@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B45157A55
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 14:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AF2DF53;
+	Sat, 10 Aug 2024 14:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723299508; cv=none; b=KJM4thCJsuIlT6OhhIq3GTcpz4Phn0RBqhI6kOGJT3OCSg0RZLDgCaqitmJta+K9hMBE5AjhmOSjWribcEv5Dva9NsNK+v9KtCWZ8eOHpnAB4iZNspTXf4emcN3mwrSD3gEerkrbLJnwS+E1F5vJkm9gKZ+98htbct5OGYlZuQg=
+	t=1723300108; cv=none; b=pAhzzoJm5n8bSh+u5VoaDdXGwenEHUMaVfTwOKGuTdhYI/Dml/sHps+MSlAY/dd72CRZ6ZX12BZ1vftLIwV6KxLVsT5g3e66QwhQf2lhcRYHlPuDT9+B1nKURpJNquXsYxzkhkRYLDV7FR97SIGfMLxGS7d5J18dNrYInmvTnWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723299508; c=relaxed/simple;
-	bh=mnqJSa61RLD0RE36tTtg0kWzR+kp7Gi484K8CiclVZg=;
+	s=arc-20240116; t=1723300108; c=relaxed/simple;
+	bh=lkOT+UCDJQm437RHMwQ8TUrYFAd62KM9GJ4l6tm7S4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IGoMSYDMm1CDWHGDgfaZHBTBRNVpVKT7T+IGyi+0zeSg0rfBkPEwyOMu3TfOsd2tE2g0aw0A9S5R/w41sm2xIon8TIBnGYFCBnTV0vmIjbLnrtwYZjpQG0yo40YTOSyTigJX41l/coAp6YogTui2m6IkFZeYY+jeOubK9ZXBcVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIyxOg4O; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=eyICQpmKxmECj59qzPatNaULc6lJbB2Eo69pnJ6+bRqr/fegYpl0VbirJRGu2oRoVXFMs4DF1fw8GyDwGUCopAhT3L17v68P3rWVQVXv4cxNlISTTTlYnHs1bkPjZXvf7r2SxX6NkAZeWqVuW618MCBJhGcY0CAZLBu2zE0F1dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lORvRQ2u; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIyxOg4O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lORvRQ2u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723299507; x=1754835507;
+  t=1723300106; x=1754836106;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mnqJSa61RLD0RE36tTtg0kWzR+kp7Gi484K8CiclVZg=;
-  b=lIyxOg4OzFZPXm22l9Xu+cpYDsTMu8SbeDTh7nrX0h1U394dbkw9f4gK
-   tK/RMypJhAuKIzIYKkVNDUBCRkTgKTMxqGk/7XpMO/kMNeElwz2Qo8KB+
-   Xs23xmGH1XhEohM2E6iWubStX23LuWhlhVBpmoc1huSz6hkrijcQ2CgJG
-   dk+At4B5n4db7FIFOneCHXaycU9pM5AFzt7Z1fHbrUfjw77I1fVTJnoLP
-   903mD0n5PKxwV+i/nUyu+41EkWxvyoiJQPFXy8yo+dNcD8jHv6+zl7QdQ
-   BPhlwiYNQgtMJT9h7gh3v5+W1x3G9BVJ9u17iVBGPNRLAxdaOI7yAhihq
-   w==;
-X-CSE-ConnectionGUID: Pp/CyiphS+OqLntkXgRB9g==
-X-CSE-MsgGUID: u7YfUpzORVacQPZ6YHmbAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="38970883"
+  bh=lkOT+UCDJQm437RHMwQ8TUrYFAd62KM9GJ4l6tm7S4o=;
+  b=lORvRQ2u3WPPN2XHdyDRvdURF8SqXTiCcbdtzy6P4kbCuXxTtIVUz2US
+   6C4TdgSvLPXP1JFnHpT5lNSO6MdGA6BB8nRk6psGcKjXyiB2gkJVIMRem
+   gZpPdSw2hIb/xK5NlqmYmtMFnmId2rdx3mIKUnnXXPAD4phIX55OCGtqI
+   vWhfR3NikV5oWdOraEbBKXbygYyJazKRdqULnAXWzkWw4DQIkJRh/DZzu
+   QfRzDfkRxfoWYs+4cRxg+1tvabpWL2UaNNnbl6hHo1+w5fa/Qid78ZwbU
+   krWVgmV5KluTL1pk3mFOHr6iebHj01ZR+cbE1KZxx9+/UVWHHHYMIqSs6
+   A==;
+X-CSE-ConnectionGUID: i9HExgo6QCSYfmHqF7zPGA==
+X-CSE-MsgGUID: 2twTt61bRryLloRRQVvszg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32873193"
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="38970883"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 07:18:25 -0700
-X-CSE-ConnectionGUID: Bos9gpV2RH63M8zVe05Shw==
-X-CSE-MsgGUID: JRDocl7kRe+F6zg6t0RPvA==
+   d="scan'208";a="32873193"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 07:28:25 -0700
+X-CSE-ConnectionGUID: /ZwGlQOMQIifn0yngAIWaA==
+X-CSE-MsgGUID: t8ukzf9mQdeXC3SBr+e0wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="95355829"
+   d="scan'208";a="57782414"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 10 Aug 2024 07:18:23 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Aug 2024 07:28:23 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scmvE-000A0H-34;
-	Sat, 10 Aug 2024 14:18:20 +0000
-Date: Sat, 10 Aug 2024 22:17:48 +0800
+	id 1scn4v-000A0x-17;
+	Sat, 10 Aug 2024 14:28:21 +0000
+Date: Sat, 10 Aug 2024 22:28:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>
-Subject: [viro-vfs:work.fd 3/39] fs/open.c:1654:1: error: expected
- declaration or statement at end of input
-Message-ID: <202408102227.Zok7P1xp-lkp@intel.com>
+Subject: [viro-vfs:work.fd 3/39] fs/namei.c:2499:27: warning: comparison of
+ distinct pointer types ('struct file *' and 'typeof (*(((struct task_struct
+ *const)get_lowcore()->current_task)->cred)) *' (aka 'const struct cred *'))
+Message-ID: <202408102222.D1kJSPiW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,364 +68,302 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
 head:   9d58a36411c167b4126de90e5fe844270b858082
 commit: f3270beef0d85432783be702bb9509879415e747 [3/39] struct fd: representation change
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240810/202408102227.Zok7P1xp-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102227.Zok7P1xp-lkp@intel.com/reproduce)
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240810/202408102222.D1kJSPiW-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102222.D1kJSPiW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408102227.Zok7P1xp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408102222.D1kJSPiW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/open.c:10:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/open.c: In function 'do_sys_ftruncate':
-   fs/open.c:196:25: error: expected ')' before 'return'
-     196 |         if (!fd_file(f))
-         |            ~            ^
-         |                         )
-     197 |                 return -EBADF;
-         |                 ~~~~~~   
-   fs/open.c:196:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-     196 |         if (!fd_file(f))
-         |         ^~
-   fs/open.c:196:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/open.c:1654:1: error: expected declaration or statement at end of input
-    1654 | EXPORT_SYMBOL(stream_open);
-         | ^~~~~~~~~~~~~
-   fs/open.c:191:13: warning: unused variable 'error' [-Wunused-variable]
-     191 |         int error;
-         |             ^~~~~
-   fs/open.c:1655: warning: control reaches end of non-void function [-Wreturn-type]
---
-   In file included from fs/read_write.c:12:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/read_write.c: In function 'ksys_lseek':
-   fs/read_write.c:297:25: error: expected ')' before 'return'
-     297 |         if (!fd_file(f))
-         |            ~            ^
-         |                         )
-     298 |                 return -EBADF;
-         |                 ~~~~~~   
-   fs/read_write.c:297:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-     297 |         if (!fd_file(f))
-         |         ^~
-   fs/read_write.c:297:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/read_write.c:1754:1: error: expected declaration or statement at end of input
-    1754 | }
-         | ^
-   fs/read_write.c:295:15: warning: unused variable 'retval' [-Wunused-variable]
-     295 |         off_t retval;
-         |               ^~~~~~
-   fs/read_write.c:1754:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1754 | }
-         | ^
-   fs/read_write.c: At top level:
-   fs/read_write.c:293:14: warning: 'ksys_lseek' defined but not used [-Wunused-function]
-     293 | static off_t ksys_lseek(unsigned int fd, off_t offset, unsigned int whence)
-         |              ^~~~~~~~~~
---
-   In file included from include/linux/blkdev.h:27,
-                    from fs/stat.c:8:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/stat.c: In function 'vfs_fstat':
-   fs/stat.c:227:25: error: expected ')' before 'return'
-     227 |         if (!fd_file(f))
-         |            ~            ^
-         |                         )
-     228 |                 return -EBADF;
-         |                 ~~~~~~   
-   fs/stat.c:227:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-     227 |         if (!fd_file(f))
-         |         ^~
-   fs/stat.c:227:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/stat.c:952:1: error: expected declaration or statement at end of input
-     952 | EXPORT_SYMBOL(inode_set_bytes);
-         | ^~~~~~~~~~~~~
-   fs/stat.c:224:13: warning: unused variable 'error' [-Wunused-variable]
-     224 |         int error;
-         |             ^~~~~
-   fs/stat.c:953: warning: control reaches end of non-void function [-Wreturn-type]
---
-   In file included from include/linux/kernel_read_file.h:5,
-                    from include/linux/security.h:26,
-                    from fs/namei.c:29:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/namei.c: In function 'path_init':
-   fs/namei.c:2495:33: error: expected ')' before 'return'
-    2495 |                 if (!fd_file(f))
-         |                    ~            ^
-         |                                 )
+   In file included from include/linux/bpf.h:20:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:168:
+   include/linux/compat.h:458:10: warning: array index 3 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:42: warning: array index 2 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                 ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
+     130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+         |         ^
+   include/linux/compat.h:458:53: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     458 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                            ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from fs/namei.c:41:
+   In file included from include/linux/init_task.h:18:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/namei.c:41:
+   In file included from include/linux/init_task.h:18:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/namei.c:41:
+   In file included from include/linux/init_task.h:18:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   fs/namei.c:2496:4: error: expected ')'
     2496 |                         return ERR_PTR(-EBADF);
-         |                         ~~~~~~   
-   fs/namei.c:2495:17: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
+         |                         ^
+   fs/namei.c:2495:6: note: to match this '('
     2495 |                 if (!fd_file(f))
-         |                 ^~
-   fs/namei.c:2495:17: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/namei.c:5340:1: error: expected declaration or statement at end of input
-    5340 | EXPORT_SYMBOL(page_symlink_inode_operations);
-         | ^~~~~~~~~~~~~
-   fs/namei.c:2493:32: warning: unused variable 'dentry' [-Wunused-variable]
-    2493 |                 struct dentry *dentry;
-         |                                ^~~~~~
->> fs/namei.c:5340:1: error: expected declaration or statement at end of input
-    5340 | EXPORT_SYMBOL(page_symlink_inode_operations);
-         | ^~~~~~~~~~~~~
-   fs/namei.c: At top level:
-   fs/namei.c:2425:20: warning: 'path_init' defined but not used [-Wunused-function]
-    2425 | static const char *path_init(struct nameidata *nd, unsigned flags)
-         |                    ^~~~~~~~~
-   fs/namei.c:2329:12: warning: 'link_path_walk' defined but not used [-Wunused-function]
-    2329 | static int link_path_walk(const char *name, struct nameidata *nd)
-         |            ^~~~~~~~~~~~~~
-   fs/namei.c:1243:12: warning: 'may_create_in_sticky' defined but not used [-Wunused-function]
-    1243 | static int may_create_in_sticky(struct mnt_idmap *idmap, struct nameidata *nd,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   fs/namei.c:883:12: warning: 'complete_walk' defined but not used [-Wunused-function]
-     883 | static int complete_walk(struct nameidata *nd)
-         |            ^~~~~~~~~~~~~
-   fs/namei.c:687:13: warning: 'terminate_walk' defined but not used [-Wunused-function]
-     687 | static void terminate_walk(struct nameidata *nd)
-         |             ^~~~~~~~~~~~~~
-   fs/namei.c:627:13: warning: 'restore_nameidata' defined but not used [-Wunused-function]
-     627 | static void restore_nameidata(void)
-         |             ^~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/kernel_read_file.h:5,
-                    from include/linux/security.h:26,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from fs/fcntl.c:8:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/fcntl.c: In function 'f_dupfd_query':
-   fs/fcntl.c:343:34: error: expected ')' before ';' token
-     343 |         return fd_file(f) == filp;
-         |                                  ^
-         |                                  )
-   include/linux/file.h:49:20: note: to match this '('
+         |                    ^
+   fs/namei.c:2499:20: error: member reference type 'unsigned long' is not a pointer
+    2499 |                         if (fd_file(f)->f_cred != current_cred() &&
+         |                             ~~~~~~~~~~  ^
+>> fs/namei.c:2499:27: warning: comparison of distinct pointer types ('struct file *' and 'typeof (*(((struct task_struct *const)get_lowcore()->current_task)->cred)) *' (aka 'const struct cred *')) [-Wcompare-distinct-pointer-types]
+    2499 |                         if (fd_file(f)->f_cred != current_cred() &&
+         |                             ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   fs/namei.c:2500:32: error: member reference type 'unsigned long' is not a pointer
+    2500 |                             !ns_capable(fd_file(f)->f_cred->user_ns, CAP_DAC_READ_SEARCH)) {
+         |                                         ~~~~~~~~~~  ^
+   fs/namei.c:2500:69: error: too few arguments to function call, expected 2, have 1
+    2500 |                             !ns_capable(fd_file(f)->f_cred->user_ns, CAP_DAC_READ_SEARCH)) {
+         |                              ~~~~~~~~~~                                                  ^
+   include/linux/capability.h:149:13: note: 'ns_capable' declared here
+     149 | extern bool ns_capable(struct user_namespace *ns, int cap);
+         |             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:2500:71: error: expected ')'
+    2500 |                             !ns_capable(fd_file(f)->f_cred->user_ns, CAP_DAC_READ_SEARCH)) {
+         |                                                                                            ^
+   fs/namei.c:2499:8: note: to match this '('
+    2499 |                         if (fd_file(f)->f_cred != current_cred() &&
+         |                             ^
+   include/linux/file.h:49:20: note: expanded from macro 'fd_file'
       49 | #define fd_file(f) ((struct file *)((f).word & ~(FDPUT_FPUT|FDPUT_POS_UNLOCK))
          |                    ^
-   fs/fcntl.c:343:16: note: in expansion of macro 'fd_file'
-     343 |         return fd_file(f) == filp;
-         |                ^~~~~~~
-   fs/fcntl.c:343:35: error: expected ';' before '}' token
-     343 |         return fd_file(f) == filp;
-         |                                   ^
-         |                                   ;
-     344 | }
-         | ~                                  
-   fs/fcntl.c: In function '__do_sys_fcntl':
-   fs/fcntl.c:482:25: error: expected ')' before 'goto'
-     482 |         if (!fd_file(f))
-         |            ~            ^
-         |                         )
-     483 |                 goto out;
-         |                 ~~~~     
-   fs/fcntl.c:482:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-     482 |         if (!fd_file(f))
-         |         ^~
-   fs/fcntl.c:482:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/fcntl.c:1073:1: error: expected declaration or statement at end of input
-    1073 | module_init(fcntl_init)
-         | ^~~~~~~~~~~
-   fs/fcntl.c:480:14: warning: unused variable 'err' [-Wunused-variable]
-     480 |         long err = -EBADF;
-         |              ^~~
-   fs/fcntl.c:1073:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1073 | module_init(fcntl_init)
-         | ^~~~~~~~~~~
-   fs/fcntl.c: At top level:
-   fs/fcntl.c:463:12: warning: 'check_fcntl_cmd' defined but not used [-Wunused-function]
-     463 | static int check_fcntl_cmd(unsigned cmd)
-         |            ^~~~~~~~~~~~~~~
-   fs/fcntl.c:346:13: warning: 'do_fcntl' defined but not used [-Wunused-function]
-     346 | static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
-         |             ^~~~~~~~
---
-   In file included from include/linux/kernel_read_file.h:5,
-                    from include/linux/security.h:26,
-                    from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from fs/ioctl.c:8:
-   include/linux/file.h: In function 'fdput':
-   include/linux/file.h:60:34: error: expected ')' before ';' token
-      60 |                 fput(fd_file(fd));
-         |                     ~            ^
-         |                                  )
-   include/linux/file.h:60:35: error: expected ';' before '}' token
-      60 |                 fput(fd_file(fd));
-         |                                   ^
-         |                                   ;
-      61 | }
-         | ~                                  
-   include/linux/file.h: In function 'fdput_pos':
-   include/linux/file.h:94:43: error: expected ')' before ';' token
-      94 |                 __f_unlock_pos(fd_file(f));
-         |                               ~           ^
-         |                                           )
-   include/linux/file.h:95:18: error: expected ';' before '}' token
-      95 |         fdput(f);
-         |                  ^
-         |                  ;
-      96 | }
-         | ~                 
-   fs/ioctl.c: In function 'ioctl_file_clone':
-   fs/ioctl.c:238:32: error: expected ')' before 'return'
-     238 |         if (!fd_file(src_file))
-         |            ~                   ^
-         |                                )
-     239 |                 return -EBADF;
-         |                 ~~~~~~          
-   fs/ioctl.c:238:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-     238 |         if (!fd_file(src_file))
-         |         ^~
-   fs/ioctl.c:238:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/ioctl.c:912:1: error: expected declaration or statement at end of input
-     912 | }
-         | ^
-   fs/ioctl.c:236:13: warning: unused variable 'ret' [-Wunused-variable]
-     236 |         int ret;
-         |             ^~~
-   fs/ioctl.c:235:16: warning: unused variable 'cloned' [-Wunused-variable]
-     235 |         loff_t cloned;
-         |                ^~~~~~
-   fs/ioctl.c:912:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     912 | }
-         | ^
-   fs/ioctl.c: At top level:
-   fs/ioctl.c:231:13: warning: 'ioctl_file_clone' defined but not used [-Wunused-function]
-     231 | static long ioctl_file_clone(struct file *dst_file, unsigned long srcfd,
-         |             ^~~~~~~~~~~~~~~~
-   fs/ioctl.c:200:12: warning: 'ioctl_fiemap' defined but not used [-Wunused-function]
-     200 | static int ioctl_fiemap(struct file *filp, struct fiemap __user *ufiemap)
-         |            ^~~~~~~~~~~~
-   fs/ioctl.c:59:12: warning: 'ioctl_fibmap' defined but not used [-Wunused-function]
-      59 | static int ioctl_fibmap(struct file *filp, int __user *p)
-         |            ^~~~~~~~~~~~
-..
+   fs/namei.c:2504:3: error: expected ')'
+    2504 |                 }
+         |                 ^
+   fs/namei.c:2499:7: note: to match this '('
+    2499 |                         if (fd_file(f)->f_cred != current_cred() &&
+         |                            ^
+   fs/namei.c:2504:3: error: expected statement
+    2504 |                 }
+         |                 ^
+   fs/namei.c:2506:24: error: member reference type 'unsigned long' is not a pointer
+    2506 |                 dentry = fd_file(f)->f_path.dentry;
+         |                          ~~~~~~~~~~  ^
+   fs/namei.c:2506:37: error: expected ')'
+    2506 |                 dentry = fd_file(f)->f_path.dentry;
+         |                                                   ^
+   fs/namei.c:2506:12: note: to match this '('
+    2506 |                 dentry = fd_file(f)->f_path.dentry;
+         |                          ^
+   include/linux/file.h:49:20: note: expanded from macro 'fd_file'
+      49 | #define fd_file(f) ((struct file *)((f).word & ~(FDPUT_FPUT|FDPUT_POS_UNLOCK))
+         |                    ^
+   fs/namei.c:2506:10: error: incompatible pointer types assigning to 'struct dentry *' from 'struct file *' [-Werror,-Wincompatible-pointer-types]
+    2506 |                 dentry = fd_file(f)->f_path.dentry;
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:2513:26: error: member reference type 'unsigned long' is not a pointer
+    2513 |                 nd->path = fd_file(f)->f_path;
+         |                            ~~~~~~~~~~  ^
+   fs/namei.c:2513:32: error: expected ')'
+    2513 |                 nd->path = fd_file(f)->f_path;
+         |                                              ^
+   fs/namei.c:2513:14: note: to match this '('
+    2513 |                 nd->path = fd_file(f)->f_path;
+         |                            ^
+   include/linux/file.h:49:20: note: expanded from macro 'fd_file'
+      49 | #define fd_file(f) ((struct file *)((f).word & ~(FDPUT_FPUT|FDPUT_POS_UNLOCK))
+         |                    ^
+   fs/namei.c:2513:12: error: assigning to 'struct path' from incompatible type 'struct file *'
+    2513 |                 nd->path = fd_file(f)->f_path;
+         |                          ^ ~~~~~~~~~~~~~~~~~~
+   26 warnings and 15 errors generated.
 
 
-vim +1654 fs/open.c
+vim +2499 fs/namei.c
 
-10dce8af34226d Kirill Smelkov 2019-03-26  1653  
-10dce8af34226d Kirill Smelkov 2019-03-26 @1654  EXPORT_SYMBOL(stream_open);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2423  
+edc2b1da779887 Al Viro         2018-07-09  2424  /* must be paired with terminate_walk() */
+c8a53ee5ee4fca Al Viro         2015-05-12  2425  static const char *path_init(struct nameidata *nd, unsigned flags)
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2426  {
+740a16782750a5 Aleksa Sarai    2019-12-07  2427  	int error;
+c8a53ee5ee4fca Al Viro         2015-05-12  2428  	const char *s = nd->name->name;
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2429  
+6c6ec2b0a3e038 Jens Axboe      2020-12-17  2430  	/* LOOKUP_CACHED requires RCU, ask caller to retry */
+6c6ec2b0a3e038 Jens Axboe      2020-12-17  2431  	if ((flags & (LOOKUP_RCU | LOOKUP_CACHED)) == LOOKUP_CACHED)
+6c6ec2b0a3e038 Jens Axboe      2020-12-17  2432  		return ERR_PTR(-EAGAIN);
+6c6ec2b0a3e038 Jens Axboe      2020-12-17  2433  
+c0eb027e5aef70 Linus Torvalds  2017-04-02  2434  	if (!*s)
+c0eb027e5aef70 Linus Torvalds  2017-04-02  2435  		flags &= ~LOOKUP_RCU;
+edc2b1da779887 Al Viro         2018-07-09  2436  	if (flags & LOOKUP_RCU)
+edc2b1da779887 Al Viro         2018-07-09  2437  		rcu_read_lock();
+03fa86e9f79d8b Al Viro         2022-07-04  2438  	else
+03fa86e9f79d8b Al Viro         2022-07-04  2439  		nd->seq = nd->next_seq = 0;
+c0eb027e5aef70 Linus Torvalds  2017-04-02  2440  
+bcba1e7d0d520a Al Viro         2021-04-01  2441  	nd->flags = flags;
+bcba1e7d0d520a Al Viro         2021-04-01  2442  	nd->state |= ND_JUMPED;
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2443  
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2444  	nd->m_seq = __read_seqcount_begin(&mount_lock.seqcount);
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2445  	nd->r_seq = __read_seqcount_begin(&rename_lock.seqcount);
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2446  	smp_rmb();
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2447  
+bcba1e7d0d520a Al Viro         2021-04-01  2448  	if (nd->state & ND_ROOT_PRESET) {
+b18825a7c8e37a David Howells   2013-09-12  2449  		struct dentry *root = nd->root.dentry;
+b18825a7c8e37a David Howells   2013-09-12  2450  		struct inode *inode = root->d_inode;
+93893862fb7ba7 Al Viro         2017-04-15  2451  		if (*s && unlikely(!d_can_lookup(root)))
+368ee9ba565d6e Al Viro         2015-05-08  2452  			return ERR_PTR(-ENOTDIR);
+5b6ca027d85b74 Al Viro         2011-03-09  2453  		nd->path = nd->root;
+5b6ca027d85b74 Al Viro         2011-03-09  2454  		nd->inode = inode;
+5b6ca027d85b74 Al Viro         2011-03-09  2455  		if (flags & LOOKUP_RCU) {
+ab87f9a56c8ee9 Aleksa Sarai    2019-12-07  2456  			nd->seq = read_seqcount_begin(&nd->path.dentry->d_seq);
+8f47a0167c567d Al Viro         2015-05-09  2457  			nd->root_seq = nd->seq;
+5b6ca027d85b74 Al Viro         2011-03-09  2458  		} else {
+5b6ca027d85b74 Al Viro         2011-03-09  2459  			path_get(&nd->path);
+5b6ca027d85b74 Al Viro         2011-03-09  2460  		}
+368ee9ba565d6e Al Viro         2015-05-08  2461  		return s;
+5b6ca027d85b74 Al Viro         2011-03-09  2462  	}
+5b6ca027d85b74 Al Viro         2011-03-09  2463  
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2464  	nd->root.mnt = NULL;
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2465  
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2466  	/* Absolute pathname -- fetch the root (LOOKUP_IN_ROOT uses nd->dfd). */
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2467  	if (*s == '/' && !(flags & LOOKUP_IN_ROOT)) {
+740a16782750a5 Aleksa Sarai    2019-12-07  2468  		error = nd_jump_root(nd);
+740a16782750a5 Aleksa Sarai    2019-12-07  2469  		if (unlikely(error))
+740a16782750a5 Aleksa Sarai    2019-12-07  2470  			return ERR_PTR(error);
+ef55d91700d54f Al Viro         2015-12-05  2471  		return s;
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2472  	}
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2473  
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2474  	/* Relative pathname -- get the starting-point it is relative to. */
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2475  	if (nd->dfd == AT_FDCWD) {
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2476  		if (flags & LOOKUP_RCU) {
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2477  			struct fs_struct *fs = current->fs;
+c28cc36469554d Nicholas Piggin 2011-01-07  2478  			unsigned seq;
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2479  
+c28cc36469554d Nicholas Piggin 2011-01-07  2480  			do {
+c28cc36469554d Nicholas Piggin 2011-01-07  2481  				seq = read_seqcount_begin(&fs->seq);
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2482  				nd->path = fs->pwd;
+ef55d91700d54f Al Viro         2015-12-05  2483  				nd->inode = nd->path.dentry->d_inode;
+c28cc36469554d Nicholas Piggin 2011-01-07  2484  				nd->seq = __read_seqcount_begin(&nd->path.dentry->d_seq);
+c28cc36469554d Nicholas Piggin 2011-01-07  2485  			} while (read_seqcount_retry(&fs->seq, seq));
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2486  		} else {
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2487  			get_fs_pwd(current->fs, &nd->path);
+ef55d91700d54f Al Viro         2015-12-05  2488  			nd->inode = nd->path.dentry->d_inode;
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2489  		}
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2490  	} else {
+582aa64a04a579 Jeff Layton     2012-12-11  2491  		/* Caller must check execute permissions on the starting path component */
+c8a53ee5ee4fca Al Viro         2015-05-12  2492  		struct fd f = fdget_raw(nd->dfd);
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2493  		struct dentry *dentry;
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2494  
+254beb4164efec Al Viro         2024-05-31  2495  		if (!fd_file(f))
+368ee9ba565d6e Al Viro         2015-05-08  2496  			return ERR_PTR(-EBADF);
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2497  
+42bd2af5950456 Linus Torvalds  2024-04-10  2498  		if (flags & LOOKUP_LINKAT_EMPTY) {
+254beb4164efec Al Viro         2024-05-31 @2499  			if (fd_file(f)->f_cred != current_cred() &&
+254beb4164efec Al Viro         2024-05-31  2500  			    !ns_capable(fd_file(f)->f_cred->user_ns, CAP_DAC_READ_SEARCH)) {
+42bd2af5950456 Linus Torvalds  2024-04-10  2501  				fdput(f);
+42bd2af5950456 Linus Torvalds  2024-04-10  2502  				return ERR_PTR(-ENOENT);
+42bd2af5950456 Linus Torvalds  2024-04-10  2503  			}
+42bd2af5950456 Linus Torvalds  2024-04-10  2504  		}
+42bd2af5950456 Linus Torvalds  2024-04-10  2505  
+254beb4164efec Al Viro         2024-05-31  2506  		dentry = fd_file(f)->f_path.dentry;
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2507  
+edc2b1da779887 Al Viro         2018-07-09  2508  		if (*s && unlikely(!d_can_lookup(dentry))) {
+2903ff019b346a Al Viro         2012-08-28  2509  			fdput(f);
+368ee9ba565d6e Al Viro         2015-05-08  2510  			return ERR_PTR(-ENOTDIR);
+2903ff019b346a Al Viro         2012-08-28  2511  		}
+31e6b01f4183ff Nicholas Piggin 2011-01-07  2512  
+254beb4164efec Al Viro         2024-05-31  2513  		nd->path = fd_file(f)->f_path;
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2514  		if (flags & LOOKUP_RCU) {
+34a26b99b78148 Al Viro         2015-05-11  2515  			nd->inode = nd->path.dentry->d_inode;
+34a26b99b78148 Al Viro         2015-05-11  2516  			nd->seq = read_seqcount_begin(&nd->path.dentry->d_seq);
+5590ff0d5528b6 Ulrich Drepper  2006-01-18  2517  		} else {
+2903ff019b346a Al Viro         2012-08-28  2518  			path_get(&nd->path);
+34a26b99b78148 Al Viro         2015-05-11  2519  			nd->inode = nd->path.dentry->d_inode;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2520  		}
+34a26b99b78148 Al Viro         2015-05-11  2521  		fdput(f);
+e41f7d4ee5bdb0 Al Viro         2011-02-22  2522  	}
+8db52c7e7ee1bd Aleksa Sarai    2019-12-07  2523  
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2524  	/* For scoped-lookups we need to set the root to the dirfd as well. */
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2525  	if (flags & LOOKUP_IS_SCOPED) {
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2526  		nd->root = nd->path;
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2527  		if (flags & LOOKUP_RCU) {
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2528  			nd->root_seq = nd->seq;
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2529  		} else {
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2530  			path_get(&nd->root);
+bcba1e7d0d520a Al Viro         2021-04-01  2531  			nd->state |= ND_ROOT_GRABBED;
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2532  		}
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2533  	}
+adb21d2b526f7f Aleksa Sarai    2019-12-07  2534  	return s;
+9b4a9b14a793bc Al Viro         2009-04-07  2535  }
+9b4a9b14a793bc Al Viro         2009-04-07  2536  
 
-:::::: The code at line 1654 was first introduced by commit
-:::::: 10dce8af34226d90fa56746a934f8da5dcdba3df fs: stream_open - opener for stream-like files so that read and write can run simultaneously without deadlock
+:::::: The code at line 2499 was first introduced by commit
+:::::: 254beb4164efececb3e7b85019e0102c36e86e62 introduce fd_file(), convert all accessors to it.
 
-:::::: TO: Kirill Smelkov <kirr@nexedi.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
