@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209A615855D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 13:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F122282E1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 14:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723298246; cv=none; b=Fk3uMKO+zVbr9SdWdUOW4QSHVMfsrru54NjxwQotUTVreQnn0l/Z1/MHag+4N3hLVd3hVaycEpApPNKjt9azj5pqh27HJiKaV22skfu3KTWQBXpO0kbRa/CRaptipHRqvzYe4HOvnqTv84Hz9H5QsekZkcl76bpQFsW7QNz37jE=
+	t=1723299506; cv=none; b=NIF24SZtqmAJpg2Rd97nom4f6wkBg203JpL87maFC9E1jUehFX/q8BVslZZ7FAJSNRsh8AY2cRkpQsmOUcxBO5BK2ZEqxVG3K3wuUBzVhki70v/0m+dqDyJEu1sBHIh6J7IpWFSr+NqZeoD1HfVkIagLbeuTRsmUKdcVjxFPvFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723298246; c=relaxed/simple;
-	bh=+HfYHGqVoxqbuUbVMEKGf75m69T/eD0Ym0/6EcLHHHQ=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hptCQyqWtuOU/eRR4/X/A+llw0IeGJLYD07QTI1KBtscOOXgwuaUMt/KeNx09DKH1H2POwvdLg6XOkiGwOddkdunkiTXETH12WQ4Md1OiFi9caoh1SKI6hLNxWSf9w2jZdtF4Wl/fVAW2jBSKf53QEaM213wxXXwaZo4JKpX0FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LKkx3KSp; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1723299506; c=relaxed/simple;
+	bh=J0gf7Ws1pzgHx+xPz2nMIZvebflqt7n166SsKVj06YE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r5sMj+nqN6wDUNAPZ9Jb++I50DD741hDJnFFDqUTgFKY6KF++epvaZC66SRQY0aq88Gw2P7nPlco7UPsDtKY3bPX+Hu4qqWSim2yXWPQTAng80gUKHLmepy7y5D16B74pzRbHMVqIbhCsJHX/wP4qVs8huOhcfxx1hoASL3+pSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWWXommG; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LKkx3KSp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWWXommG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723298245; x=1754834245;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=+HfYHGqVoxqbuUbVMEKGf75m69T/eD0Ym0/6EcLHHHQ=;
-  b=LKkx3KSp/jl7PlZ9W8TG4lefk0B9zkQsPGl1EcXWR2afIl8RcjWXe+6J
-   SqKKaqUBiOCssYgsw3DJJfCuxg8toILgxnsPFgbNeodxqp4PV4aLqibtu
-   B35FdDDOBjHzYoh6nhF7LKW8Q1juHmtvG5FHYZSRh2BSpBAPR+asoOcua
-   TA5DSq1ybVFh4P0WLncraZM1VhhFb8q0f5Orlf/lLmG/JRNLH1JGiPMDu
-   KdeCSPjxBd6Vxv6eKN0QzDX7Ewvy1VCiL7Edmvcm01BCoqai7qIEhS2Lw
-   47Z2YO/GO2YLc+MBANttQ5WBnFFEwcK+bNaA0QbR7/ecjrUS8JnZjYYyD
-   w==;
-X-CSE-ConnectionGUID: +UZuyShDTdquzDrMDvUESQ==
-X-CSE-MsgGUID: wilM97NSR9KyyIWOqNOjFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="25258306"
+  t=1723299505; x=1754835505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J0gf7Ws1pzgHx+xPz2nMIZvebflqt7n166SsKVj06YE=;
+  b=BWWXommG0cGml5YuZa3U3yfjHYvj6bNKccBW6+4YgH8zngE95TGGbjwB
+   8+DEvOyunx1dYio0BE6+FTIMH6realDjo1drWU3y7orEcL8OtDkENobBh
+   hxruUPFUPhmALab0HLXKhguMo4Hgviq0BA8uCwJg/5e5nLF8NzEEGoJVL
+   85rus6P6bRE1ZW2uIZfEqis8dUR3F0R8jT7W4OUTmrR2J4s7s43N8EyH7
+   2pN6Lz+QZeIgw73Lei5ms+I4BYCeQYx+7JuvVMDx9hZ2ugY+Q0IRC9l3J
+   372l+tHbJ/pGo4X/J2XfqLFPp8Os1CiPrsDrjTEC5XPbGP4eADlpmh7VG
+   g==;
+X-CSE-ConnectionGUID: 992FD5iCSFOlWKsmgoL9EQ==
+X-CSE-MsgGUID: L6TKKWc6RoO8o5ved6hgTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="38970878"
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="25258306"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 06:57:24 -0700
-X-CSE-ConnectionGUID: ZSifN+E4TZmJwV9ig5XfaQ==
-X-CSE-MsgGUID: 4QVXVwWjSoGyW+MMZfuteQ==
+   d="scan'208";a="38970878"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 07:18:25 -0700
+X-CSE-ConnectionGUID: fCPayLSyT/mMR1rdhXp6qw==
+X-CSE-MsgGUID: kCBVr5S+SX+2BHBu6iPX9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="62226948"
+   d="scan'208";a="95355831"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Aug 2024 06:57:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Aug 2024 07:18:23 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scmau-0009zK-12
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 10 Aug 2024 13:57:20 +0000
-Date: Sat, 10 Aug 2024 21:57:10 +0800
+	id 1scmvE-000A0K-3B;
+	Sat, 10 Aug 2024 14:18:20 +0000
+Date: Sat, 10 Aug 2024 22:17:48 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/dovetail-xenomai 3720/9574]
- arch/x86/kernel/dumpstack.c:412:9: warning: format specifies type 'char *'
- but the argument has type 'int'
-Message-ID: <202408102153.qPDRn0SD-lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: [viro-vfs:work.fd 3/39] include/linux/file.h:60:34: error: expected
+ ')' before ';' token
+Message-ID: <202408102233.hZjt9tS1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/dovetail-xenomai
-head:   c2530fc7095f682dd411b807a75445d3ff3b0d7c
-commit: 09c7bb5439e48682e81937413314d9cf3759d81e [3720/9574] x86: irq_pipeline: add IRQ pipeline core
-config: i386-buildonly-randconfig-002-20240810 (https://download.01.org/0day-ci/archive/20240810/202408102153.qPDRn0SD-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102153.qPDRn0SD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fd
+head:   9d58a36411c167b4126de90e5fe844270b858082
+commit: f3270beef0d85432783be702bb9509879415e747 [3/39] struct fd: representation change
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240810/202408102233.hZjt9tS1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102233.hZjt9tS1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408102153.qPDRn0SD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408102233.hZjt9tS1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/dumpstack.c:412:9: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                                ~~
-         |                                %d
-     412 |                ++die_counter, pr,
-         |                ^~~~~~~~~~~~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
->> arch/x86/kernel/dumpstack.c:418:9: warning: data argument not used by format string [-Wformat-extra-args]
-     410 |         printk(KERN_DEFAULT
-         |         ~~~~~~~~~~~~~~~~~~~
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                ++die_counter, pr,
-         |                ~~~~~~~~~~~~~~~~~~
-     413 |                IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     414 |                debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     415 |                IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     416 |                IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |                (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 |                irqs_pipelined()           ? " IRQ_PIPELINE"    : "");
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^
->> arch/x86/kernel/dumpstack.c:411:61: warning: multiple unsequenced modifications to 'die_counter' [-Wunsequenced]
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                                                                    ^
-     412 |                ++die_counter, pr,
-         |                ~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                            ^~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   3 warnings generated.
+   In file included from include/linux/kernel_read_file.h:5,
+                    from include/linux/security.h:26,
+                    from include/linux/perf_event.h:62,
+                    from include/linux/perf/riscv_pmu.h:12,
+                    from arch/riscv/include/asm/kvm_vcpu_pmu.h:12,
+                    from arch/riscv/include/asm/kvm_host.h:23,
+                    from arch/riscv/kernel/asm-offsets.c:14:
+   include/linux/file.h: In function 'fdput':
+>> include/linux/file.h:60:34: error: expected ')' before ';' token
+      60 |                 fput(fd_file(fd));
+         |                     ~            ^
+         |                                  )
+   include/linux/file.h:60:35: error: expected ';' before '}' token
+      60 |                 fput(fd_file(fd));
+         |                                   ^
+         |                                   ;
+      61 | }
+         | ~                                  
+   include/linux/file.h: In function 'fdput_pos':
+   include/linux/file.h:94:43: error: expected ')' before ';' token
+      94 |                 __f_unlock_pos(fd_file(f));
+         |                               ~           ^
+         |                                           )
+   include/linux/file.h:95:18: error: expected ';' before '}' token
+      95 |         fdput(f);
+         |                  ^
+         |                  ;
+      96 | }
+         | ~                 
+   make[3]: *** [scripts/Makefile.build:117: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1193: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +412 arch/x86/kernel/dumpstack.c
+vim +60 include/linux/file.h
 
-878719e831d9e0 Neil Horman      2008-10-23  396  
-aa49f20462c90d Jann Horn        2019-12-19  397  static void __die_header(const char *str, struct pt_regs *regs, long err)
-878719e831d9e0 Neil Horman      2008-10-23  398  {
-cb376c26971ff5 Thomas Gleixner  2019-07-26  399  	const char *pr = "";
-cb376c26971ff5 Thomas Gleixner  2019-07-26  400  
-09c7bb5439e486 Philippe Gerum   2019-04-24  401  	irq_pipeline_oops();
-09c7bb5439e486 Philippe Gerum   2019-04-24  402  
-602bd705da334f Borislav Petkov  2018-04-17  403  	/* Save the regs of the first oops for the executive summary later. */
-602bd705da334f Borislav Petkov  2018-04-17  404  	if (!die_counter)
-602bd705da334f Borislav Petkov  2018-04-17  405  		exec_summary_regs = *regs;
-602bd705da334f Borislav Petkov  2018-04-17  406  
-cb376c26971ff5 Thomas Gleixner  2019-07-26  407  	if (IS_ENABLED(CONFIG_PREEMPTION))
-cb376c26971ff5 Thomas Gleixner  2019-07-26  408  		pr = IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
-cb376c26971ff5 Thomas Gleixner  2019-07-26  409  
-b0f4c4b32c8e3a Prarit Bhargava  2012-01-26  410  	printk(KERN_DEFAULT
-09c7bb5439e486 Philippe Gerum   2019-04-24 @411  	       "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-cb376c26971ff5 Thomas Gleixner  2019-07-26 @412  	       pr,
-8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  413  	       IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
-8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  414  	       debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
-5f26d76c3fd67c Vlastimil Babka  2017-12-19  415  	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
-5f26d76c3fd67c Vlastimil Babka  2017-12-19  416  	       IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
-09c7bb5439e486 Philippe Gerum   2019-04-24  417  	       (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "",
-09c7bb5439e486 Philippe Gerum   2019-04-24 @418  	       irqs_pipelined()           ? " IRQ_PIPELINE"    : "");
-aa49f20462c90d Jann Horn        2019-12-19  419  }
-aa49f20462c90d Jann Horn        2019-12-19  420  NOKPROBE_SYMBOL(__die_header);
-8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  421  
+254beb4164efec Al Viro 2024-05-31  56  
+a5b470ba06aa3f Al Viro 2012-08-27  57  static inline void fdput(struct fd fd)
+a5b470ba06aa3f Al Viro 2012-08-27  58  {
+f3270beef0d854 Al Viro 2024-05-31  59  	if (fd.word & FDPUT_FPUT)
+254beb4164efec Al Viro 2024-05-31 @60  		fput(fd_file(fd));
+a5b470ba06aa3f Al Viro 2012-08-27  61  }
+a5b470ba06aa3f Al Viro 2012-08-27  62  
 
-:::::: The code at line 412 was first introduced by commit
-:::::: cb376c26971ff54f25980ec1f0ae2f06d6a69df0 x86/dumpstack: Indicate PREEMPT_RT in dumps
+:::::: The code at line 60 was first introduced by commit
+:::::: 254beb4164efececb3e7b85019e0102c36e86e62 introduce fd_file(), convert all accessors to it.
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
