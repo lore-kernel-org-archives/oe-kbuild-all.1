@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2551BF4E2;
-	Sat, 10 Aug 2024 13:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85B81BDC3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 13:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723295835; cv=none; b=NN8bOiTlOM1zF2gFSfCkkl5JYzms4pktqzGMesh0LM1WtBTMmNf/GOU2Zvn4KXxYm+Qn7eiKza3lCyYdzh+p2LMXC+kX53QDndgym4flvV+LbvIEiHjanMXby5V6kAEB9QgZ6Kcb3e4ONioZKshfejOa9MdC7E2v1hBFeB3pIPE=
+	t=1723295837; cv=none; b=ToKeB+PzrrNARqCjEBgQgTavOkg2TntaE2dIksDVaTRthbWgXsvcx6rSEkYLsGQEfv3NdM5pK1R8/pNdKmxS7HWA7UKaKC+o7+SKaKwzXf90xjdQYq5iJjkXfDDR3XLFW5z6AIE7w6azGIXH4VwN96Iyuxr+7NqDRNyYzC1fFjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723295835; c=relaxed/simple;
-	bh=EpB1uQoTSHXG3ZUeO1pMFzRIm1KZC9L1WipVrLDZVg4=;
+	s=arc-20240116; t=1723295837; c=relaxed/simple;
+	bh=uF/znA5BDj/9r+RFxkoZl19ioZy/Ah/9R0VoZNna2n0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=deO2GZruauDW8E631J+SdV8s2j3X9+HAtPtfI2dd6+XaLqVvp1D7fZV20QSIh3ZZ/DLZVOeDF3ZKttZzgikXHOISi7l/pAnSU1WUcChMRjk6D83C/cqMM5yyJih5KKvupIhE2KI4dCVn3Pk4Lp//TGq97Q/o0Scz8POBcYV+/aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7EtYVi1; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=nErAhDs+QK+tKMFk4OpAt1mDs9PiW8Y9rp6Ura7TcR8UsZnjWeo2qTvjogya62RXfql3uKFp16ghJDyIgk/CTfORDMlrGqHtyhT285VDtdWUsWTwhbDns/PmvangPtq7656UBg5PsrC/N2VAdr9tq8hLiZ4ahMOXB6uqbuADtEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgeZP54m; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7EtYVi1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgeZP54m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723295833; x=1754831833;
+  t=1723295835; x=1754831835;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EpB1uQoTSHXG3ZUeO1pMFzRIm1KZC9L1WipVrLDZVg4=;
-  b=h7EtYVi1yfPFOeu7UmsKMj/hld01yl3tIIGlgyJpVBnl68OvlnkkbEeQ
-   rX3eQC7Fwqs74H3Hrdrk6Zisy0xb/xamlwT7P/6LW2PzC4vOsMj1mi94T
-   /wL45tWrvMhS6KErqivKs7xgPAm6FBh1qKcUvmMJNNWwxj5WoilpJEZUo
-   7qYUHrdKg8U/5LIr+6fBayFVylT81HKHgGyiO/+hH2uXMw4OqVvcLNUXx
-   RihbUXzVt9n7r/ZTMJCsD3oR8V7+sRc0za93WM2hJSioTRY9BnBB/Qcup
-   Io+xsw0kaw5LhIGfYERNL+xTJzt5sAeAL6kkgykDpY+7wviQLev1pbuEs
-   g==;
-X-CSE-ConnectionGUID: CVV2NVpVSsO77MwzWWbW6w==
-X-CSE-MsgGUID: NqIRgEwmRKuTkwMDQ0S6yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32608768"
+  bh=uF/znA5BDj/9r+RFxkoZl19ioZy/Ah/9R0VoZNna2n0=;
+  b=kgeZP54mhnLK0JdGJnwrnCVLXpqOG2Zghv3HX7gnRot4HUMN33pz/aI9
+   uMh1aesCB2bI5wXEV6rXXQipIhf3o0CifTyHCTeTPtm5GN1+K3qMDShEU
+   LuyVYKhjfWDLWgpmxDir1qH8IeD27++9TLCDO/VeK7sknlw50Fwn5X+RT
+   O73gQve2nA0auFKNcG29P3ME1moaSv0NoriEH3b/GirMaU/NunhUw1h0k
+   z+0s4gzi7bB8G05UL1PwwP3xNCkAo/tdPexYOdfDngMzAvdfItB2fPg0t
+   x8kxFlQb7vDluXgPIsZ9mMFQVqOBJd140A5X5PaEikrybNqU0bP6ntWkh
+   Q==;
+X-CSE-ConnectionGUID: Gt36q8OqSYGBrS0wUd9jag==
+X-CSE-MsgGUID: vitPtmjPRYW/fbRpr0sTkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32608771"
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="32608768"
+   d="scan'208";a="32608771"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 06:17:12 -0700
-X-CSE-ConnectionGUID: jOSjrw22TvmqixQelh7Kzw==
-X-CSE-MsgGUID: DQ1sfXXzS0uIfEU32cBHyw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 06:17:14 -0700
+X-CSE-ConnectionGUID: ZAkCaMTvTW+1izSEtRPrLQ==
+X-CSE-MsgGUID: s+G0lDqhRdeM2aVqWIz4wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="57726139"
+   d="scan'208";a="57726140"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 10 Aug 2024 06:17:11 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Aug 2024 06:17:14 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sclxx-0009xD-1W;
-	Sat, 10 Aug 2024 13:17:05 +0000
+	id 1scly0-0009xF-1N;
+	Sat, 10 Aug 2024 13:17:10 +0000
 Date: Sat, 10 Aug 2024 21:16:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: kaiyang2@cs.cmu.edu
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH] mm,memcg: provide per-cgroup counters for NUMA balancing
  operations
-Message-ID: <202408102136.3slnnqT9-lkp@intel.com>
+Message-ID: <202408102151.wgqnH7OW-lkp@intel.com>
 References: <20240809212115.59291-1-kaiyang2@cs.cmu.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -75,87 +75,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/kaiyang2-cs-cmu-edu/mm-me
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20240809212115.59291-1-kaiyang2%40cs.cmu.edu
 patch subject: [PATCH] mm,memcg: provide per-cgroup counters for NUMA balancing operations
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240810/202408102136.3slnnqT9-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102136.3slnnqT9-lkp@intel.com/reproduce)
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240810/202408102151.wgqnH7OW-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408102151.wgqnH7OW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408102136.3slnnqT9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408102151.wgqnH7OW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/memory.c:44:
-   In file included from include/linux/mm.h:2199:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/memory.c:45:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/memory.c:84:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/memory.c:5376:34: error: use of undeclared identifier 'NUMA_HINT_FAULTS'
+   mm/memory.c: In function 'numa_migrate_prep':
+>> mm/memory.c:5376:41: error: 'NUMA_HINT_FAULTS' undeclared (first use in this function)
     5376 |         count_memcg_folio_events(folio, NUMA_HINT_FAULTS, 1);
-         |                                         ^
-   15 warnings and 1 error generated.
+         |                                         ^~~~~~~~~~~~~~~~
+   mm/memory.c:5376:41: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/NUMA_HINT_FAULTS +5376 mm/memory.c
