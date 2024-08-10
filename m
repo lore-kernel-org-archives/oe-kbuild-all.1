@@ -1,49 +1,60 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0A01CAAC;
-	Sat, 10 Aug 2024 17:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC754AEF2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 19:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723310537; cv=none; b=ae2dZtpi8A556KsZ9ErrvHu3kKLFWYIQn2oPrEFpIjde0chPXOsBiBjY2pBlMZEtzvneyc8fDZxTepPRMo1eUEEY+XZSrXsLK0zBJfhJcWJhEmIVQaGgSAGbW6l4auFKeoYaVxvDtKhpgJzgNEMjKuRnP4/uXRVwUvPbDXQWLfg=
+	t=1723317356; cv=none; b=t96nUFthcG2r/1vuZs6MmgYzsfF6QhEw1dd+9Ae/0v7SDnmBHQEsliLkCTH8l6IAzfo+Ld7jEADaclrZjuSwGLi0sYrDghyqe1HHZaYsVSUs/kNnsA0L+gSgwOpNtjwaJ/AzC+8H0G/4hTv06XJ6f27GaD/X3K57xW5m1aqS7tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723310537; c=relaxed/simple;
-	bh=FXcvZsPolqL78vPPT0fj30IQ54CpwbbG11VvpIXLn0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Za8YD2RMR+KNG3t/kNVSxTwwdnZ35ufnJnKQqJzk7O8YjtX3AZDz0HS169gGAfRkQm7LxLlfJlKSiHqiV9ZG0RVeXF4t7rurki0SWIZ9z9UiDrs570B/EYlW62A+frQDDWjX+RCW4thRmz/OARQx8CYTudRxMUePaGgs+/Wp9C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=3tbH8Mmk; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1723317356; c=relaxed/simple;
+	bh=G8Ne6Kj6Ha07gvetLsF4eCcuWy9w658vRObt201wxX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f3sjTOZHXT1IdsG8jEj0aX96zafn0dGXDCOp1rpnfVwLLEkXNW/JAxegVA6wvTj1woF26SO1pjNwsOOwAjUdNT14x8yna52XaCfkHzq8QvlKrQMAoTyuJW9vT/3vFVjenknZCzmS96lh+jRZnIxKJVntk+5Igt8aVvRHopiL6IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1tStOtK; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="3tbH8Mmk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=xnYMxGma7j6lkx7oGsCIXw80qgHtWv6p/jIGkWtN8fQ=; b=3tbH8MmkcrDScWiswTaS+m2U+q
-	DYmTKgzzHnG+O7o6DCXeb5N6qh3Ge5tfE53i51H7jjCn/DjxrfieSeA2eZyL64LZbF5WifxeTFNWS
-	tiJbbRBGdyBqvt3TyLZm+Q6YHRVYmAzbZQNFUVj52/MWki2q/H3asEsD55GoHL9UasOs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1scpmy-004SLQ-Sa; Sat, 10 Aug 2024 19:22:00 +0200
-Date: Sat, 10 Aug 2024 19:22:00 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: kernel test robot <lkp@intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next v3 3/3] net: phy: dp83tg720: Add cable testing
- support
-Message-ID: <52f84b76-3849-4fc7-94a3-fbaf23ce99af@lunn.ch>
-References: <20240809072440.3477125-3-o.rempel@pengutronix.de>
- <202408100348.U6S1jP0z-lkp@intel.com>
- <ZrcF0HyEUMSudk5M@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1tStOtK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723317354; x=1754853354;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G8Ne6Kj6Ha07gvetLsF4eCcuWy9w658vRObt201wxX8=;
+  b=Y1tStOtKZhTFoEXpyCSeJXp926cv2VVUuss87MJtvVe4L6ti1Zw164Gs
+   mivMqyuuwtBGykUXSYqrYhj6t6Agyl644szlaWeDpr5mIIejBa9huOIG7
+   DI2mWxkYYWyvOmOH4UPq7kCGTAEOct2MUM8qtQLZ+/QXxKpvMcFuM5vjm
+   o7VlLbfokjQ4581tpAyFojtdx80gsX87B0Y1fRLNlLaNnfIVo6Ame6yye
+   KkllFjWmCVk0YPghbDFfRUunycu/gCnVTW3A9NwlaGBmukcTewJKXWIzA
+   GVoEXwtHRz+bMaHZ7Sm6LNe8mGzVVHjTp0WF2D0IZa9X/ruuajmenA3/H
+   w==;
+X-CSE-ConnectionGUID: JpAQlh8+QXqMvIkGTwWqkw==
+X-CSE-MsgGUID: zHchHq9OTwqw96cfHhKjcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="12948774"
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
+   d="scan'208";a="12948774"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 12:15:53 -0700
+X-CSE-ConnectionGUID: iT5/oOS8Q1KwKf6UBRkBcQ==
+X-CSE-MsgGUID: kQxIP2+WQuCQBGiW0LSYaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
+   d="scan'208";a="81095767"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Aug 2024 12:15:52 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1scrYe-000AD5-1O;
+	Sat, 10 Aug 2024 19:15:34 +0000
+Date: Sun, 11 Aug 2024 03:14:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chunkuang-hu:mediatek-cmdq11 3/5]
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c:317:61: error:
+ '*(struct cmdq_client **)&mdp->cmdq_clt' is a pointer; did you mean to use
+ '->'?
+Message-ID: <202408110337.WTjtsqcX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,43 +63,182 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZrcF0HyEUMSudk5M@pengutronix.de>
 
-On Sat, Aug 10, 2024 at 08:16:48AM +0200, Oleksij Rempel wrote:
-> On Sat, Aug 10, 2024 at 03:57:35AM +0800, kernel test robot wrote:
-> > Hi Oleksij,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on net-next/main]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/phy-Add-Open-Alliance-helpers-for-the-PHY-framework/20240809-172119
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20240809072440.3477125-3-o.rempel%40pengutronix.de
-> > patch subject: [PATCH net-next v3 3/3] net: phy: dp83tg720: Add cable testing support
-> > config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240810/202408100348.U6S1jP0z-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 14.1.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100348.U6S1jP0z-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408100348.U6S1jP0z-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    drivers/net/phy/open_alliance_helpers.c: In function 'oa_1000bt1_get_ethtool_cable_result_code':
-> > >> drivers/net/phy/open_alliance_helpers.c:34:25: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-> >       34 |         u8 tdr_status = FIELD_GET(OA_1000BT1_HDD_TDR_STATUS_MASK, reg_value);
-> >          |                         ^~~~~~~~~
-> 
-> Huh.. why it builds on arm?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git mediatek-cmdq11
+head:   e9ea7ca7912d1950de8e4427d644379321a1dbcb
+commit: e049aa93ad2a983301a86570199d254379732d2d [3/5] media: platform: mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240811/202408110337.WTjtsqcX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408110337.WTjtsqcX-lkp@intel.com/reproduce)
 
-There has been a couple of reports like this recently. I suspect there
-is a some architecture header pulling in the needed header, and m68k
-does not.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408110337.WTjtsqcX-lkp@intel.com/
 
-You might want to compare drivers/net/phy/open_alliance_helpers.i for
-arm and m68k.
+All errors (new ones prefixed by >>):
 
-    Andrew
+   drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c: In function 'mdp_probe':
+>> drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c:317:61: error: '*(struct cmdq_client **)&mdp->cmdq_clt' is a pointer; did you mean to use '->'?
+     317 |         mdp->cmdq_shift_pa = cmdq_get_shift_pa(mdp->cmdq_clt->chan);
+         |                                                             ^~
+         |                                                             ->
+
+
+vim +317 drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+
+   221	
+   222	static int mdp_probe(struct platform_device *pdev)
+   223	{
+   224		struct device *dev = &pdev->dev;
+   225		struct mdp_dev *mdp;
+   226		struct platform_device *mm_pdev;
+   227		struct resource *res;
+   228		int ret, i, mutex_id;
+   229	
+   230		mdp = kzalloc(sizeof(*mdp), GFP_KERNEL);
+   231		if (!mdp) {
+   232			ret = -ENOMEM;
+   233			goto err_return;
+   234		}
+   235	
+   236		mdp->pdev = pdev;
+   237		mdp->mdp_data = of_device_get_match_data(&pdev->dev);
+   238	
+   239		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   240		if (res->start != mdp->mdp_data->mdp_con_res) {
+   241			platform_set_drvdata(pdev, mdp);
+   242			goto success_return;
+   243		}
+   244	
+   245		ret = mdp_mm_subsys_deploy(mdp, MDP_INFRA_MMSYS);
+   246		if (ret)
+   247			goto err_destroy_device;
+   248	
+   249		ret = mdp_mm_subsys_deploy(mdp, MDP_INFRA_MUTEX);
+   250		if (ret)
+   251			goto err_destroy_device;
+   252	
+   253		for (i = 0; i < mdp->mdp_data->pipe_info_len; i++) {
+   254			enum mdp_mm_subsys_id idx;
+   255			struct mtk_mutex **m;
+   256	
+   257			idx = mdp->mdp_data->pipe_info[i].sub_id;
+   258			mutex_id = mdp->mdp_data->pipe_info[i].mutex_id;
+   259			m = &mdp->mm_subsys[idx].mdp_mutex[mutex_id];
+   260	
+   261			if (!IS_ERR_OR_NULL(*m))
+   262				continue;
+   263	
+   264			*m = mtk_mutex_get(mdp->mm_subsys[idx].mutex);
+   265			if (IS_ERR(*m)) {
+   266				ret = PTR_ERR(*m);
+   267				goto err_free_mutex;
+   268			}
+   269		}
+   270	
+   271		ret = mdp_comp_config(mdp);
+   272		if (ret) {
+   273			dev_err(dev, "Failed to config mdp components\n");
+   274			goto err_free_mutex;
+   275		}
+   276	
+   277		mdp->job_wq = alloc_workqueue(MDP_MODULE_NAME, WQ_FREEZABLE, 0);
+   278		if (!mdp->job_wq) {
+   279			dev_err(dev, "Unable to create job workqueue\n");
+   280			ret = -ENOMEM;
+   281			goto err_deinit_comp;
+   282		}
+   283	
+   284		mdp->clock_wq = alloc_workqueue(MDP_MODULE_NAME "-clock", WQ_FREEZABLE,
+   285						0);
+   286		if (!mdp->clock_wq) {
+   287			dev_err(dev, "Unable to create clock workqueue\n");
+   288			ret = -ENOMEM;
+   289			goto err_destroy_job_wq;
+   290		}
+   291	
+   292		mdp->scp = scp_get(pdev);
+   293		if (!mdp->scp) {
+   294			mm_pdev = __get_pdev_by_id(pdev, NULL, MDP_INFRA_SCP);
+   295			if (WARN_ON(!mm_pdev)) {
+   296				dev_err(&pdev->dev, "Could not get scp device\n");
+   297				ret = -ENODEV;
+   298				goto err_destroy_clock_wq;
+   299			}
+   300			mdp->scp = platform_get_drvdata(mm_pdev);
+   301		}
+   302	
+   303		mdp->rproc_handle = scp_get_rproc(mdp->scp);
+   304		dev_dbg(&pdev->dev, "MDP rproc_handle: %pK", mdp->rproc_handle);
+   305	
+   306		mutex_init(&mdp->vpu_lock);
+   307		mutex_init(&mdp->m2m_lock);
+   308	
+   309		for (i = 0; i < mdp->mdp_data->pp_used; i++) {
+   310			mdp->cmdq_clt[i] = cmdq_mbox_create(dev, i);
+   311			if (IS_ERR(mdp->cmdq_clt[i])) {
+   312				ret = PTR_ERR(mdp->cmdq_clt[i]);
+   313				goto err_mbox_destroy;
+   314			}
+   315		}
+   316	
+ > 317		mdp->cmdq_shift_pa = cmdq_get_shift_pa(mdp->cmdq_clt->chan);
+   318	
+   319		init_waitqueue_head(&mdp->callback_wq);
+   320		ida_init(&mdp->mdp_ida);
+   321		platform_set_drvdata(pdev, mdp);
+   322	
+   323		vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+   324	
+   325		ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+   326		if (ret) {
+   327			dev_err(dev, "Failed to register v4l2 device\n");
+   328			ret = -EINVAL;
+   329			goto err_mbox_destroy;
+   330		}
+   331	
+   332		ret = mdp_m2m_device_register(mdp);
+   333		if (ret) {
+   334			v4l2_err(&mdp->v4l2_dev, "Failed to register m2m device\n");
+   335			goto err_unregister_device;
+   336		}
+   337	
+   338	success_return:
+   339		dev_dbg(dev, "mdp-%d registered successfully\n", pdev->id);
+   340		return 0;
+   341	
+   342	err_unregister_device:
+   343		v4l2_device_unregister(&mdp->v4l2_dev);
+   344	err_mbox_destroy:
+   345		while (--i >= 0)
+   346			cmdq_mbox_destroy(mdp->cmdq_clt[i]);
+   347		scp_put(mdp->scp);
+   348	err_destroy_clock_wq:
+   349		destroy_workqueue(mdp->clock_wq);
+   350	err_destroy_job_wq:
+   351		destroy_workqueue(mdp->job_wq);
+   352	err_deinit_comp:
+   353		mdp_comp_destroy(mdp);
+   354	err_free_mutex:
+   355		for (i = 0; i < mdp->mdp_data->pipe_info_len; i++) {
+   356			enum mdp_mm_subsys_id idx;
+   357			struct mtk_mutex *m;
+   358	
+   359			idx = mdp->mdp_data->pipe_info[i].sub_id;
+   360			mutex_id = mdp->mdp_data->pipe_info[i].mutex_id;
+   361			m = mdp->mm_subsys[idx].mdp_mutex[mutex_id];
+   362			if (!IS_ERR_OR_NULL(m))
+   363				mtk_mutex_put(m);
+   364		}
+   365	err_destroy_device:
+   366		kfree(mdp);
+   367	err_return:
+   368		dev_dbg(dev, "Errno %d\n", ret);
+   369		return ret;
+   370	}
+   371	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
