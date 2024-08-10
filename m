@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4212328DCB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Aug 2024 10:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4D7182D8;
+	Sat, 10 Aug 2024 11:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723287169; cv=none; b=r5MuaOf1+ACaT75imEOWQ2wWKMhSoouoJDe8p+Xv4cdsApcRGjNz+OBV6zrJRv4F/5d/Er+tuAtPmvJV31UWtqpXymRN+98f8oJTcNlGSiEiH2p5XvVzdM4u52CBVQFWRvZaC26b6Htw/Y1PVyjPsJm/abh8wt2CGMDd6dAUOc4=
+	t=1723289649; cv=none; b=OyKQt5Mc5Y0dDxjW2YnPYMjROll60LQQnR51D4JSSZWjPmQJQZa9IXiLI+ENB26EYvGrSbeAFzQhF2pQcVAv1sYqhmb7npHXaNjSgC5OFOObZXJ9B7tAWSJfSG2bFE+VcyhcbXtbuinw4G9u+IE8JctMpV0qsT7iPaA9lQMl4Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723287169; c=relaxed/simple;
-	bh=ZQouxwWY1Me5rGP4bDZE8Yzrye1Yypr5i+gwie2g7gc=;
+	s=arc-20240116; t=1723289649; c=relaxed/simple;
+	bh=kvUDhPNk5BpwSl3wEh5gwuoCRoQjyGlpCb954t6/yN0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OvQ+u34QuZpa88ZnDv2r0Lu6a7QyMMlvgdJhsGM6UCjiZi3ReIkbboITVLgDhsM2tK+kULuylgjCa07NsKcpe8PBTS/84IPLX2+7PezyyqLJ6Hgs4v4wFLRItCi2COE/tNxAlSWK5lxcnl74NtNpc7w0N6kvRmM3aUS4iCdsoiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmO7K4Xe; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Xgz088ZKHSwDDz22K8Muti1gVPmxCJeHVZwCPvRcxeX9Cb3t4Rqp/GlQi+aqXjltRx8qYMs+s4ETwwhnTwbZZ09H2BzPWvs4+wdNtSlVY9jVia67tHd0vO36rENfrywcHQO9zUAKo7YqkhSrVDbXSVCyGPite6TxDLMxCR4U6gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=It1SanDj; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmO7K4Xe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="It1SanDj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723287168; x=1754823168;
+  t=1723289648; x=1754825648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZQouxwWY1Me5rGP4bDZE8Yzrye1Yypr5i+gwie2g7gc=;
-  b=RmO7K4XeZlaa5v6OpxFamv6V3ZSlCOnGwBjDndbLOsFlzvMSJr/oiSYV
-   ijPvXuzoAWxn3x4LPU6JpyN5wRa2RRZF1IKzjj7Gyy4jJn+1b1qBm3/EO
-   jgjHOsPbpYJn/f9isk9SuGuHEfeGdnMyvTSUyTIbNO4FO4G0R2AORyCLd
-   4203nBECIND23SVCPN5OxA32w3dxTr4Ggjzz07fpqEuPXgZHEMyT/u7db
-   fuzN/xcw7ODLkBhh2Uz7HR+w3T4SvGv3zxwL7t/sCjGcSnAVszmC3lxsR
-   8eEo6QEvdw2c5OzARoRpryBbMw0zyV2lbfxDzwojfAGKx1bzidE7QIuxQ
-   Q==;
-X-CSE-ConnectionGUID: yegavUQ3RTehjA9cIi0qhw==
-X-CSE-MsgGUID: S6nJaRaCSYy1tdKCW+Kzag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="32604344"
+  bh=kvUDhPNk5BpwSl3wEh5gwuoCRoQjyGlpCb954t6/yN0=;
+  b=It1SanDjKtVGEfgAY2bGUZItcJsm7ryszw9htriSqYRvLsHsw/dRMhJo
+   dP7F8Zek7aFTivzWL73FgYhxnvOdHFA570h9usWztR79poYbJq9ZLxlD2
+   rzwXBj66w5HM/9Xqn5bDWNb4nG5BteFsLja9yja5ZmpZ0kpnLNBVkI+Kn
+   dW1COfpc8EkUjolg37us87QbELEfGr9kHXS8demQiQNG0VIg2poMM/R/k
+   ZEiwgnuGyPmhmlZGU1GgprHGb8WXLJNKciuoh1tcgoKh7LYYFT1P1sqNc
+   0xUBXt6tbrl1mRx501bYFUXsGteDGkEtg4Wsue8eetFTsG43ge1EwqE7J
+   w==;
+X-CSE-ConnectionGUID: w2/dd6NmRqqKR4zbGXGwTQ==
+X-CSE-MsgGUID: IF8+wWgHQ12q8H07WE6kkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="32868875"
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="32604344"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 03:52:48 -0700
-X-CSE-ConnectionGUID: hVY1RC8qR6yODL2W/L1XBQ==
-X-CSE-MsgGUID: 2iW+BOB0QaeZlTCw1KNyRg==
+   d="scan'208";a="32868875"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 04:34:07 -0700
+X-CSE-ConnectionGUID: 8FtRWophSLytCWZO3FSaMQ==
+X-CSE-MsgGUID: mbaM6RRDShyHaAPqLp01wA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="57771502"
+   d="scan'208";a="57710533"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Aug 2024 03:52:46 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Aug 2024 04:34:05 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scjiE-0009rQ-37;
-	Sat, 10 Aug 2024 10:52:43 +0000
-Date: Sat, 10 Aug 2024 18:52:18 +0800
+	id 1sckMA-0009tQ-0o;
+	Sat, 10 Aug 2024 11:33:59 +0000
+Date: Sat, 10 Aug 2024 19:33:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-per-rtg-bitmap 5/5] fs/xfs/xfs_rtalloc.c:1015:2-8:
- WARNING: NULL check before some freeing functions is not needed.
-Message-ID: <202408101851.inX7AvrE-lkp@intel.com>
+To: Fabien Parent <fabien.parent@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>, Asahi Lina <lina@asahilina.net>
+Subject: [rust:pr/1040 11/23] error[E0432]: unresolved import
+ `kernel::define_id_table`
+Message-ID: <202408101913.EhszKOP0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap
-head:   a20a115ce4258bcd890eddb67ff3b15c7a4e9157
-commit: a20a115ce4258bcd890eddb67ff3b15c7a4e9157 [5/5] xfs: use per-RTG bitmaps and summaries
-config: m68k-randconfig-r052-20240810 (https://download.01.org/0day-ci/archive/20240810/202408101851.inX7AvrE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/Rust-for-Linux/linux pr/1040
+head:   2419018fe244d9eaee250fc03cb145b474c575b8
+commit: e890268fddcfb88b4a5378a59fd06b0ba5b02a46 [11/23] ASAHI: rust: device_id: Support passing ID tables to modpost for alias generation
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240810/202408101913.EhszKOP0-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101913.EhszKOP0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408101851.inX7AvrE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408101913.EhszKOP0-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_rtalloc.c:1015:2-8: WARNING: NULL check before some freeing functions is not needed.
+All errors (new ones prefixed by >>):
 
-vim +1015 fs/xfs/xfs_rtalloc.c
-
-   985	
-   986	static int
-   987	xfs_growfs_rtg(
-   988		struct xfs_rtgroup	*rtg,
-   989		xfs_rfsblock_t		nrblocks,
-   990		xfs_agblock_t		rextsize)
-   991	{
-   992		uint8_t			*old_rsum_cache = NULL;
-   993		xfs_extlen_t		bmblocks;
-   994		xfs_fileoff_t		bmbno;
-   995		int			error;
-   996	
-   997		error = xfs_growfs_rt_alloc_blocks(rtg, nrblocks, rextsize, &bmblocks);
-   998		if (error)
-   999			return error;
-  1000	
-  1001		if (bmblocks != rtg->rtg_mount->m_sb.sb_rbmblocks) {
-  1002			old_rsum_cache = rtg->rtg_rsum_cache;
-  1003			error = xfs_alloc_rsum_cache(rtg, bmblocks);
-  1004			if (error)
-  1005				return error;
-  1006		}
-  1007	
-  1008		for (bmbno = xfs_last_rt_bmblock(rtg); bmbno < bmblocks; bmbno++) {
-  1009			error = xfs_growfs_rt_bmblock(rtg, nrblocks, rextsize, bmbno);
-  1010			if (error)
-  1011				goto out_error;
-  1012		}
-  1013	
-  1014		if (old_rsum_cache)
-> 1015			kvfree(old_rsum_cache);
-  1016		return 0;
-  1017	
-  1018	out_error:
-  1019		/*
-  1020		 * Reset rtg_extents to the old value if adding more blocks failed.
-  1021		 */
-  1022		rtg->rtg_extents = xfs_rtgroup_extents(rtg->rtg_mount, rtg->rtg_rgno);
-  1023		if (old_rsum_cache) {
-  1024			kvfree(rtg->rtg_rsum_cache);
-  1025			rtg->rtg_rsum_cache = old_rsum_cache;
-  1026		}
-  1027		return error;
-  1028	}
-  1029	
+>> error[E0432]: unresolved import `kernel::define_id_table`
+   --> rust/doctests_kernel_generated.rs:715:14
+   |
+   715 | use kernel::{define_id_table, device_id::RawDeviceId};
+   |              ^^^^^^^^^^^^^^^
+   |              |
+   |              no `define_id_table` in the root
+   |              help: a similar name exists in the module: `driver_id_table`
+--
+>> error: cannot find macro `driver_id_table` in this scope
+   --> rust/doctests_kernel_generated.rs:665:1
+   |
+   665 | driver_id_table!(BUS_ID_TABLE, Id, &'static [u8], A1);
+   | ^^^^^^^^^^^^^^^
+   |
+   help: consider importing this macro
+   |
+   3   + use kernel::driver_id_table;
+   |
+--
+>> error: cannot find macro `module_id_table` in this scope
+   --> rust/doctests_kernel_generated.rs:667:1
+   |
+   667 | module_id_table!(MODULE_ID_TABLE, "mybus", Id, A1);
+   | ^^^^^^^^^^^^^^^
+   |
+   help: consider importing this macro
+   |
+   3   + use kernel::module_id_table;
+   |
 
 -- 
 0-DAY CI Kernel Test Service
