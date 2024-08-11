@@ -1,71 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D673F4CB36
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 12:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102C7E59A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 13:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723379291; cv=none; b=hH/MMzSLOvTZLqnyY70pbEjsXdg03T7LHAybyskbIpmSxX00Tzzl/jHAwYn6j3HBlP+KpcTuHE5hR9VP5WZfRNvvOoYhgESVrYl8dVDupopankuZjEgNxfgKXZ+hAI1ubQwzjGmCli+IGW+2s542RppqiM0TiHorDCwCaP9sdXI=
+	t=1723383022; cv=none; b=fjyyWew2o1qpCQn6J8nceVGKecRymqpseQqwrjxVu+QzR7NLEj7Ue3srqMpnlNVxH2KT69W/1tV6EaCP5pNbGJECdN+Gn2pwO4QT8BPvBY9Qq3PpRsyg4AZ71zwVK8ectzj75tU22oWNww2WqPNWDbSQC987l1ncqRlelHv9kGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723379291; c=relaxed/simple;
-	bh=ifmY/NwVet51VR/YQi8+8+GQTxggPltCSZCaVKRizfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xz3NWF4ECBkTKGyIYf0fOwiaAQAQ2D4puHBFojSrglJN6K006VMqUD/X6tb1RuJ5TK+AnjjVF1kPbHMJuE9w2bwu+uygWW/0WLXhDCsZ46Gtp9BehcsE/ZX4VUDQ46MJwWPqy2LLNfcPb/oJ0OktLG5qt01OiKWpcVTzNyK6GWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5B8B/IL; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723383022; c=relaxed/simple;
+	bh=WI32aLDXzMX73NHJX889i+Bmg8NKd4/36nuecSsCIeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=in9uUXTy43FaI+A+5x5U27sYdFaH+TPKc5h/SqZJviVwCmc69KhElbwT8GJP1/FbQ1h1LYVzxDA0KfQEigvco/iUQ1JceauAFkHBJtTzMbshyfkEucKerPtGf1f7pDmA/B3exOT7rjSlMSMEb9EokYF9eX+gk43aDcCdkUPa2pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LoHfMJHM; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5B8B/IL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723379290; x=1754915290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ifmY/NwVet51VR/YQi8+8+GQTxggPltCSZCaVKRizfk=;
-  b=B5B8B/ILpzQDN7NFrqymp4qPLbh2LtwbDQop1yDZnr3C20Z1rsTNE6mU
-   7FPlQDlr/8tg1pqiYoaE59I12a8I8MGdq9PH/09u4zII45Uqg/5tjaAP5
-   lRLHbGVQ61vXkGBQ1tv/0EiQi0GhhRV6ey04UcHAqi01ubYYvz0E37ZdG
-   jOInzbprlxOORYf3n3fOaFXIQlpAKsLH/Z3aJn2C+6R/MINOxZe0kYIeX
-   qICBJnta5vapmPpe3xDep2w1r1xdZI0PQE1YaoaIFs8USYrXnnphfT3XW
-   RlgV6wLIn1lP0sYtZ/FqB09LG96JwPhWLfxX4MBAHxWC8bROq6ZIzID3l
-   Q==;
-X-CSE-ConnectionGUID: 11/o+I1JTieD5Grx4i+K0w==
-X-CSE-MsgGUID: I6F2h+azTQ6/1cVkvx7vsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="25262673"
-X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="25262673"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 05:28:08 -0700
-X-CSE-ConnectionGUID: dztFoq09TQ+ksk8tLDz1WA==
-X-CSE-MsgGUID: QX/NrWQTRjKd/99h+wucuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="62932464"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 11 Aug 2024 05:28:04 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sd7g1-000ApD-2l;
-	Sun, 11 Aug 2024 12:28:01 +0000
-Date: Sun, 11 Aug 2024 20:27:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, james.quinlan@broadcom.com,
-	justin.chen@broadcom.com, kapil.hali@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH 2/2] firmware: arm_scmi: Support 'reg-io-width' property
- for shared memory
-Message-ID: <202408112059.t5hPmQeS-lkp@intel.com>
-References: <20240810214621.14417-3-florian.fainelli@broadcom.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LoHfMJHM"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f01ec08d6so4827806e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 06:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723383017; x=1723987817; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ophunq+irD/RQYGfTe1EmvYis9lTBIa/JcdniZkh3wo=;
+        b=LoHfMJHM4xeNt7pmBQGzc+muAVlvmBE64wIRB5lBcqni+1v1g0yiXs35uD/nT2ygJW
+         MRceVWCFSIvERBzqgtAYroOYIczZ/Y5Y4JVIwvX55l5GKq93s5tN17BmhWs2u8Ad6Fyy
+         FY/7scEc4OqglqJF+5/6m5oW2G3kqORnSZrdmkKVcLDcvQKhq5bAJj/7nFFhBgi/4XQ+
+         pHHEsGAl40TQa2ZoINfj7Q1/OKPlxycD/8n2jGYpBf6RMO2il3witxWyTBra6SU0DQQm
+         /vfZsB+0pjV7r+QGHEx3x9/qVgazLSsLH2ldCDa43hWDj3DmlTYoU924xPjiV/3kxxSl
+         tAfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723383017; x=1723987817;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ophunq+irD/RQYGfTe1EmvYis9lTBIa/JcdniZkh3wo=;
+        b=OX/V1Ul8ukbmN5axQUSr5Q4steFaoGRRkPue4xknF8hPs3LaueTLO3H3s9YQYXT02N
+         HY3ekNq+gMDvcEDLZ0RnhDHMx9sPwczH5fIuTxi3cBBaUxTaNkV1CHHYvhwceShpERnD
+         0TKQ4TURNZgwXNIKEVstKk4UnAY+k13h/KXJ7+rS0WXWRgX+Ua3mU04aCGcBNfL+dCx1
+         61M5gbStglpaHKILzNmkXuXlo3Btkjg6C/qLBj2ZJ6vIpg31UqboFqMh6LFT6D5wPq9c
+         tW7LG+VkKw0M4oHIir4Vshb81KGyRhpuZMx8DB/1cvCPHhPO+pusBV6pxcUj+7f1OuCF
+         QBkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMjrmKYrq9AT1psTBPIAFpy+ab8bzYQRn5DL0Td09mv1qC4HoMjUPgZ2g606LpHSRjAC9GTv2ET0In0TmBpXfINLRT+VbmBLPMaMNDkA==
+X-Gm-Message-State: AOJu0Yyg0Fof7VkvlQTJo09Gy5ORynJ7a7j6r6AmPH+yJFaQYNHauxZu
+	gaaI73wZcDYPK9arAGpO7CXHPNGIOGBy8y0LCs+lU17BE7HH4NT6AoGMhr1288w=
+X-Google-Smtp-Source: AGHT+IH3NE04N2VqidGut2ih4Aovg/6zbgyk+VvQdaiI3UDBTeO6TYI7TA1F0AtaoaJGPhUsVrHPRg==
+X-Received: by 2002:a05:6512:b96:b0:52c:d84b:eee6 with SMTP id 2adb3069b0e04-530eea25013mr5295040e87.38.1723383016894;
+        Sun, 11 Aug 2024 06:30:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb212e32sm146603566b.166.2024.08.11.06.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 06:30:16 -0700 (PDT)
+Date: Sun, 11 Aug 2024 16:30:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 2/3] crypto: api - Do not wait for tests during
+ registration
+Message-ID: <34069b9d-3731-4d0c-b317-bcbc61df7e9d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,60 +71,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240810214621.14417-3-florian.fainelli@broadcom.com>
+In-Reply-To: <ZrbTfOViUr3S4V7X@gondor.apana.org.au>
 
-Hi Florian,
+Hi Herbert,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20240809]
-[cannot apply to robh/for-next soc/for-next linus/master v6.11-rc2 v6.11-rc1 v6.10 v6.11-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/dt-bindings-sram-Document-reg-io-width-property/20240811-055659
-base:   next-20240809
-patch link:    https://lore.kernel.org/r/20240810214621.14417-3-florian.fainelli%40broadcom.com
-patch subject: [PATCH 2/2] firmware: arm_scmi: Support 'reg-io-width' property for shared memory
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240811/202408112059.t5hPmQeS-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408112059.t5hPmQeS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-api-Do-not-wait-for-tests-during-registration/20240810-160343
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/ZrbTfOViUr3S4V7X%40gondor.apana.org.au
+patch subject: [PATCH 2/3] crypto: api - Do not wait for tests during registration
+config: x86_64-randconfig-161-20240811 (https://download.01.org/0day-ci/archive/20240811/202408110413.vKk2q3qN-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408112059.t5hPmQeS-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408110413.vKk2q3qN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+crypto/algapi.c:396 crypto_alg_tested() error: uninitialized symbol 'test'.
 
->> drivers/firmware/arm_scmi/scmi_transport_mailbox.c:37: warning: Function parameter or struct member 'shmem_io_width' not described in 'scmi_mailbox'
+vim +/test +396 crypto/algapi.c
 
+73d3864a4823ab Herbert Xu     2008-08-03  350  void crypto_alg_tested(const char *name, int err)
+73d3864a4823ab Herbert Xu     2008-08-03  351  {
+73d3864a4823ab Herbert Xu     2008-08-03  352  	struct crypto_larval *test;
+73d3864a4823ab Herbert Xu     2008-08-03  353  	struct crypto_alg *alg;
+73d3864a4823ab Herbert Xu     2008-08-03  354  	struct crypto_alg *q;
+73d3864a4823ab Herbert Xu     2008-08-03  355  	LIST_HEAD(list);
+73d3864a4823ab Herbert Xu     2008-08-03  356  
+73d3864a4823ab Herbert Xu     2008-08-03  357  	down_write(&crypto_alg_sem);
+73d3864a4823ab Herbert Xu     2008-08-03  358  	list_for_each_entry(q, &crypto_alg_list, cra_list) {
+b8e15992b420d0 Herbert Xu     2009-01-28  359  		if (crypto_is_moribund(q) || !crypto_is_larval(q))
+73d3864a4823ab Herbert Xu     2008-08-03  360  			continue;
 
-vim +37 drivers/firmware/arm_scmi/scmi_transport_mailbox.c
+Is it possible for everything to be moribund or larval?
 
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  18  
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  19  /**
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  20   * struct scmi_mailbox - Structure representing a SCMI mailbox transport
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  21   *
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  22   * @cl: Mailbox Client
-9f68ff79ec2cb3 drivers/firmware/arm_scmi/mailbox.c                Cristian Marussi 2023-04-04  23   * @chan: Transmit/Receive mailbox uni/bi-directional channel
-9f68ff79ec2cb3 drivers/firmware/arm_scmi/mailbox.c                Cristian Marussi 2023-04-04  24   * @chan_receiver: Optional Receiver mailbox unidirectional channel
-fa8b28ba22d95b drivers/firmware/arm_scmi/mailbox.c                Peng Fan         2024-05-10  25   * @chan_platform_receiver: Optional Platform Receiver mailbox unidirectional channel
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  26   * @cinfo: SCMI channel info
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  27   * @shmem: Transmit/Receive shared memory area
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  28   */
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  29  struct scmi_mailbox {
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  30  	struct mbox_client cl;
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  31  	struct mbox_chan *chan;
-9f68ff79ec2cb3 drivers/firmware/arm_scmi/mailbox.c                Cristian Marussi 2023-04-04  32  	struct mbox_chan *chan_receiver;
-fa8b28ba22d95b drivers/firmware/arm_scmi/mailbox.c                Peng Fan         2024-05-10  33  	struct mbox_chan *chan_platform_receiver;
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  34  	struct scmi_chan_info *cinfo;
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  35  	struct scmi_shared_mem __iomem *shmem;
-0905440d6ece25 drivers/firmware/arm_scmi/scmi_transport_mailbox.c Florian Fainelli 2024-08-10  36  	u32 shmem_io_width;
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31 @37  };
-5c8a47a5a91d4d drivers/firmware/arm_scmi/mailbox.c                Viresh Kumar     2020-01-31  38  
+73d3864a4823ab Herbert Xu     2008-08-03  361  
+73d3864a4823ab Herbert Xu     2008-08-03  362  		test = (struct crypto_larval *)q;
+73d3864a4823ab Herbert Xu     2008-08-03  363  
+73d3864a4823ab Herbert Xu     2008-08-03  364  		if (!strcmp(q->cra_driver_name, name))
+73d3864a4823ab Herbert Xu     2008-08-03  365  			goto found;
+73d3864a4823ab Herbert Xu     2008-08-03  366  	}
+73d3864a4823ab Herbert Xu     2008-08-03  367  
+c72358571aaadf Karim Eshapa   2017-05-13  368  	pr_err("alg: Unexpected test result for %s: %d\n", name, err);
+73d3864a4823ab Herbert Xu     2008-08-03  369  	goto unlock;
+
+This calling crypto_alg_put() on the last item in the list seems wrong either
+way.
+
+73d3864a4823ab Herbert Xu     2008-08-03  370  
+73d3864a4823ab Herbert Xu     2008-08-03  371  found:
+b8e15992b420d0 Herbert Xu     2009-01-28  372  	q->cra_flags |= CRYPTO_ALG_DEAD;
+73d3864a4823ab Herbert Xu     2008-08-03  373  	alg = test->adult;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  374  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  375  	if (list_empty(&alg->cra_list))
+73d3864a4823ab Herbert Xu     2008-08-03  376  		goto complete;
+73d3864a4823ab Herbert Xu     2008-08-03  377  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  378  	if (err == -ECANCELED)
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  379  		alg->cra_flags |= CRYPTO_ALG_FIPS_INTERNAL;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  380  	else if (err)
+73d3864a4823ab Herbert Xu     2008-08-03  381  		goto complete;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  382  	else
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  383  		alg->cra_flags &= ~CRYPTO_ALG_FIPS_INTERNAL;
+73d3864a4823ab Herbert Xu     2008-08-03  384  
+73d3864a4823ab Herbert Xu     2008-08-03  385  	alg->cra_flags |= CRYPTO_ALG_TESTED;
+73d3864a4823ab Herbert Xu     2008-08-03  386  
+103961609b0935 Herbert Xu     2024-08-10  387  	crypto_alg_finish_registration(alg, &list);
+cce9e06d100df1 Herbert Xu     2006-08-21  388  
+73d3864a4823ab Herbert Xu     2008-08-03  389  complete:
+862e4618d9321e Herbert Xu     2024-08-10  390  	list_del_init(&test->alg.cra_list);
+73d3864a4823ab Herbert Xu     2008-08-03  391  	complete_all(&test->completion);
+2825982d9d66eb Herbert Xu     2006-08-06  392  
+73d3864a4823ab Herbert Xu     2008-08-03  393  unlock:
+73d3864a4823ab Herbert Xu     2008-08-03  394  	up_write(&crypto_alg_sem);
+2825982d9d66eb Herbert Xu     2006-08-06  395  
+862e4618d9321e Herbert Xu     2024-08-10 @396  	crypto_alg_put(&test->alg);
+                                                                ^^^^
+
+73d3864a4823ab Herbert Xu     2008-08-03  397  	crypto_remove_final(&list);
+cce9e06d100df1 Herbert Xu     2006-08-21  398  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
