@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180A41BF58
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 22:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A7141C75
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 22:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723413623; cv=none; b=qAljKizXbvU7nt5QDJqkG0ZkE584tGCv17LM2B2F7pzy6ApX6j5BZCKrD/IAhLkE3l6u/p0MOoUbs0lGTlYvNg0XahVcmpB8dPYWjMo/7z1HLz2lci6lw0uWpFdT4QYNpkQm8cgYZNfgWlITmdqheO4sjR29tqTirV/kdtzg1cM=
+	t=1723414221; cv=none; b=b0zG7amBo+jMPV6JXz5uligVnb1SXzafQkz8EbPzGVrJglC2TdBJ/+3wlJgXN36ozVTMk51BZ8uEAfxDZZZsCsoLlCR2XYDhemFChfzcHTac5dVpTnbMGWGfW8ZDi9KtmdtcxP22vldlAnZthc9gm7Lv459fsB9M3YzoIftpYeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723413623; c=relaxed/simple;
-	bh=5dDFPzlso+518BsD7FxakDrzbMJ7pRsaOi+q4gwwmpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBDflNgcufZC7jG4x5JWoiFJSEqW+JipH//+hfgPH58CvdHeEPSTCIiBAM/Z8HBg3Lho0ZcCyB9Gio+XRXxbOJMI9ZAvyoxKoRPA80UBjf62bRPWMQTiL8t/o8m1qOpvmz0z6FxLz3sr6sMmxArBQYGotIzfE1aAtgquhVu3GQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hU7n1VD8; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1723414221; c=relaxed/simple;
+	bh=id/0WDXa71P5CCvxzaaGjSk7ZJI4Bj5fMysxtJxKnCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p6CV0j6EhsLS8vsm41oLPuBXvLvWGy8wlVQJZIqicduUtG0D5jBUYX5loaZXuOf5GP4Q5E0M28Gcgw6Z7NjVlCJ73V+Pw4tfa0ZFbtJSeW+N07g8xN/w8pMGMhJSomBzBYyWGvk7QKh6xHC/3P1QUgS/Z/bIcD7jZZK9KMHcWj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFTGk3EE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hU7n1VD8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFTGk3EE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723413621; x=1754949621;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5dDFPzlso+518BsD7FxakDrzbMJ7pRsaOi+q4gwwmpE=;
-  b=hU7n1VD8WHWHPM0FjHTBqbqDL7V8s5NIhVILe6+eXN1N/5P1myEwsoWl
-   aQV9MxeIQZpGzarD+CdsKT6seVD9k29ooYyqoZ0333fBp23lKLXGAoagd
-   8x6jB77fEQTGwSNQVoqza6NHdxk3J4MWRUp0Y7bS0NFPlWDIw7Chwh4+K
-   56lZmiasmMe8Egnr7SNvbFzZbMu/7bAUCZwDayVFE+1hWGgX8+0DHvjrJ
-   ULBGdz1CgLw7o6ECHyxUjiQQgHl6Lzfiw+Dxy2KVkp4FH/DDkK4RR2/FZ
-   CU77kbA6qYtEGGWdL2ImuV65Pazt2f861JuYVhcMg4QLPGBAJ5/d/ZFRq
-   w==;
-X-CSE-ConnectionGUID: 3PrloGKKRDCj6xbGHWgNIA==
-X-CSE-MsgGUID: a3tcnAuATfmf7H8v5WPCzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21641741"
+  t=1723414219; x=1754950219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=id/0WDXa71P5CCvxzaaGjSk7ZJI4Bj5fMysxtJxKnCE=;
+  b=gFTGk3EEniCtPOaenfK/ETPZthKiiVsMZDlv7jkVXdet6g7lENVmsjed
+   lbBENZacAZsXOySL9RSHN626OQxFIPcox3jIEihukeJ7mLjRX0dA7MMHm
+   zdHB4/0gXSMOIH1yxjwThK0YSqZKTUQbXXhpmLmlQ0waeiImGqvvG7G5e
+   vb7lk+/nnuAhTQUg5QbeXh58MyG5s289ES2v2KFiCSbqmupezK1MbZBg6
+   aTrsz3vWKqubUbrz/Qg3tTJ9l5xufguZG3wgb54IDWe17rpSHlxWZUXwd
+   L6vrpUzJTDJZ3q1MrqzP9Giy18iqXS90oNpPEDXklsQ6TtpsFuI/FLgqK
+   g==;
+X-CSE-ConnectionGUID: A0F9y1JeSAyGJj/nxY0KZA==
+X-CSE-MsgGUID: FrX1DdRmRiO7RJ7pKjskqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21674853"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="21641741"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 15:00:21 -0700
-X-CSE-ConnectionGUID: iZ2rRz0tSVeF4n5itSEQOQ==
-X-CSE-MsgGUID: CwV2PbkuSD+rWCyJZAoQPQ==
+   d="scan'208";a="21674853"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 15:10:18 -0700
+X-CSE-ConnectionGUID: knelQTcHT5CuAFE/knECEQ==
+X-CSE-MsgGUID: FckNULh0R7mXich8Pi61Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="58040030"
+   d="scan'208";a="58803886"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Aug 2024 15:00:16 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Aug 2024 15:10:17 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdGbm-000BAx-16;
-	Sun, 11 Aug 2024 22:00:14 +0000
-Date: Mon, 12 Aug 2024 05:59:27 +0800
+	id 1sdGlS-000BBD-1r;
+	Sun, 11 Aug 2024 22:10:14 +0000
+Date: Mon, 12 Aug 2024 06:09:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org,
-	sean.wang@kernel.org, linux-mediatek@lists.infradead.org,
-	lorenzo.bianconi83@gmail.com, krzk+dt@kernel.org, robh@kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	upstream@airoha.com, angelogioacchino.delregno@collabora.com,
-	benjamin.larsson@genexis.eu, conor+dt@kernel.org,
-	ansuelsmth@gmail.com
-Subject: Re: [PATCH 2/2] pinctrl: airoha: Add support for EN7581 SoC
-Message-ID: <202408120527.crbqc6PI-lkp@intel.com>
-References: <c69c4a9b8e57eebdde0521731b8cd9f92ed4891b.1723392444.git.lorenzo@kernel.org>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-5.10.y-cip 35/40]
+ drivers/media/platform/vsp1/vsp1_entity.c:145:9: error: implicit declaration
+ of function 'v4l2_subdev_get_try_format'
+Message-ID: <202408120641.Djpj932T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,250 +63,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c69c4a9b8e57eebdde0521731b8cd9f92ed4891b.1723392444.git.lorenzo@kernel.org>
 
-Hi Lorenzo,
+Hi Biju,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next linus/master v6.11-rc2 next-20240809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-pinctrl-airoha-Add-EN7581-pinctrl-controller/20240812-001436
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/c69c4a9b8e57eebdde0521731b8cd9f92ed4891b.1723392444.git.lorenzo%40kernel.org
-patch subject: [PATCH 2/2] pinctrl: airoha: Add support for EN7581 SoC
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240812/202408120527.crbqc6PI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120527.crbqc6PI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
+head:   53be161810164d318caa3cfe563e7054f161f1f4
+commit: 92672773016c4c2910dabcba5ccba00c7dfdf789 [35/40] drm: renesas: Add RZ/G2L DU Support
+config: powerpc64-randconfig-002-20240812 (https://download.01.org/0day-ci/archive/20240812/202408120641.Djpj932T-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120641.Djpj932T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408120527.crbqc6PI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408120641.Djpj932T-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-    1922 | static const struct airoha_pinctrl_func airoha_pinctrl_funcs[] = {
-         |                                                                  ^
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:1922:66: warning: missing braces around initializer [-Wmissing-braces]
-   In file included from include/linux/printk.h:574,
-                    from include/asm-generic/bug.h:22,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/irq.h:14,
-                    from include/linux/irqchip/chained_irq.h:10,
-                    from include/linux/gpio/driver.h:8,
-                    from drivers/pinctrl/mediatek/pinctrl-airoha.c:9:
-   drivers/pinctrl/mediatek/pinctrl-airoha.c: In function 'airoha_pinmux_set_mux':
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2279:21: error: 'struct function_desc' has no member named 'name'
-    2279 |                 desc->name, grp->grp.name);
-         |                     ^~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:2278:9: note: in expansion of macro 'dev_dbg'
-    2278 |         dev_dbg(pctrl_dev->dev, "enable function %s group %s\n",
-         |         ^~~~~~~
-   drivers/pinctrl/mediatek/pinctrl-airoha.c: In function 'airoha_pinctrl_get_conf':
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2359:38: error: implicit declaration of function '__bf_shf' [-Werror=implicit-function-declaration]
-    2359 |         *val = (*val & reg->mask) >> __bf_shf(reg->mask);
-         |                                      ^~~~~~~~
-   drivers/pinctrl/mediatek/pinctrl-airoha.c: In function 'airoha_pinctrl_probe':
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2946:61: error: 'const struct function_desc' has no member named 'name'
-    2946 |                                                   func->desc.name,
-         |                                                             ^
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2947:61: error: 'const struct function_desc' has no member named 'group_names'
-    2947 |                                                   func->desc.group_names,
-         |                                                             ^
->> drivers/pinctrl/mediatek/pinctrl-airoha.c:2948:61: error: 'const struct function_desc' has no member named 'num_group_names'
-    2948 |                                                   func->desc.num_group_names,
-         |                                                             ^
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/pinctrl/mediatek/pinctrl-airoha.c:22:
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:2952:43: error: 'const struct function_desc' has no member named 'name'
-    2952 |                                 func->desc.name);
-         |                                           ^
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/pinctrl/mediatek/pinctrl-airoha.c:2951:25: note: in expansion of macro 'dev_err'
-    2951 |                         dev_err(&pdev->dev, "Failed to register function %s\n",
-         |                         ^~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/media/platform/vsp1/vsp1_entity.c:145:9: error: implicit declaration of function 'v4l2_subdev_get_try_format' [-Werror,-Wimplicit-function-declaration]
+           return v4l2_subdev_get_try_format(&entity->subdev, cfg, pad);
+                  ^
+   drivers/media/platform/vsp1/vsp1_entity.c:145:9: note: did you mean 'vsp1_subdev_get_pad_format'?
+   drivers/media/platform/vsp1/vsp1_entity.h:175:5: note: 'vsp1_subdev_get_pad_format' declared here
+   int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+       ^
+>> drivers/media/platform/vsp1/vsp1_entity.c:145:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_mbus_framefmt *' [-Wint-conversion]
+           return v4l2_subdev_get_try_format(&entity->subdev, cfg, pad);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/vsp1/vsp1_entity.c:166:10: error: implicit declaration of function 'v4l2_subdev_get_try_compose' [-Werror,-Wimplicit-function-declaration]
+                   return v4l2_subdev_get_try_compose(&entity->subdev, cfg, pad);
+                          ^
+>> drivers/media/platform/vsp1/vsp1_entity.c:166:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
+                   return v4l2_subdev_get_try_compose(&entity->subdev, cfg, pad);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/vsp1/vsp1_entity.c:168:10: error: implicit declaration of function 'v4l2_subdev_get_try_crop' [-Werror,-Wimplicit-function-declaration]
+                   return v4l2_subdev_get_try_crop(&entity->subdev, cfg, pad);
+                          ^
+   drivers/media/platform/vsp1/vsp1_entity.c:168:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
+                   return v4l2_subdev_get_try_crop(&entity->subdev, cfg, pad);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   6 errors generated.
+--
+>> drivers/media/platform/vsp1/vsp1_rwpf.c:22:9: error: implicit declaration of function 'v4l2_subdev_get_try_crop' [-Werror,-Wimplicit-function-declaration]
+           return v4l2_subdev_get_try_crop(&rwpf->entity.subdev, config,
+                  ^
+>> drivers/media/platform/vsp1/vsp1_rwpf.c:22:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
+           return v4l2_subdev_get_try_crop(&rwpf->entity.subdev, config,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> drivers/media/platform/vsp1/vsp1_brx.c:103:9: error: implicit declaration of function 'v4l2_subdev_get_try_compose' [-Werror,-Wimplicit-function-declaration]
+           return v4l2_subdev_get_try_compose(&brx->entity.subdev, cfg, pad);
+                  ^
+>> drivers/media/platform/vsp1/vsp1_brx.c:103:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_rect *' [-Wint-conversion]
+           return v4l2_subdev_get_try_compose(&brx->entity.subdev, cfg, pad);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_RENESAS_VSP1
+   Depends on [n]: MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=n] && VIDEO_V4L2 [=n] && (ARCH_RENESAS || COMPILE_TEST [=y]) && (!ARM64 && !VIDEO_RENESAS_FCP [=n] || VIDEO_RENESAS_FCP [=n])
+   Selected by [m]:
+   - DRM_RZG2L_DU [=m] && HAS_IOMEM [=y] && (ARCH_RZG2L [=n] || COMPILE_TEST [=y]) && DRM [=m] && OF [=y]
 
 
-vim +2279 drivers/pinctrl/mediatek/pinctrl-airoha.c
+vim +/v4l2_subdev_get_try_format +145 drivers/media/platform/vsp1/vsp1_entity.c
 
-  2259	
-  2260	static int airoha_pinmux_set_mux(struct pinctrl_dev *pctrl_dev,
-  2261					 unsigned int selector,
-  2262					 unsigned int group)
-  2263	{
-  2264		struct airoha_pinctrl *pinctrl = pinctrl_dev_get_drvdata(pctrl_dev);
-  2265		const struct airoha_pinctrl_func *func;
-  2266		struct function_desc *desc;
-  2267		struct group_desc *grp;
-  2268		int i;
-  2269	
-  2270		desc = pinmux_generic_get_function(pctrl_dev, selector);
-  2271		if (!desc)
-  2272			return -EINVAL;
-  2273	
-  2274		grp = pinctrl_generic_get_group(pctrl_dev, group);
-  2275		if (!grp)
-  2276			return -EINVAL;
-  2277	
-  2278		dev_dbg(pctrl_dev->dev, "enable function %s group %s\n",
-> 2279			desc->name, grp->grp.name);
-  2280	
-  2281		func = desc->data;
-  2282		for (i = 0; i < func->group_size; i++) {
-  2283			const struct airoha_pinctrl_func_group *group;
-  2284			int j;
-  2285	
-  2286			group = &func->groups[i];
-  2287			if (strcmp(group->name, grp->grp.name))
-  2288				continue;
-  2289	
-  2290			for (j = 0; j < group->regmap_size; j++) {
-  2291				void __iomem *base;
-  2292	
-  2293				base = pinctrl->regs.mux[group->regmap[j].mux];
-  2294				airoha_pinctrl_rmw(pinctrl,
-  2295						   base + group->regmap[j].offset,
-  2296						   group->regmap[j].mask,
-  2297						   group->regmap[j].val);
-  2298			}
-  2299			return 0;
-  2300		}
-  2301	
-  2302		return -EINVAL;
-  2303	}
-  2304	
-  2305	static int airoha_pinmux_gpio_set_direction(struct pinctrl_dev *pctrl_dev,
-  2306						    struct pinctrl_gpio_range *range,
-  2307						    unsigned int pin, bool input)
-  2308	{
-  2309		struct airoha_pinctrl *pinctrl = pinctrl_dev_get_drvdata(pctrl_dev);
-  2310		int gpio = pin - range->pin_base;
-  2311	
-  2312		airoha_pinctrl_gpio_set_direction(pinctrl, gpio, input);
-  2313	
-  2314		return 0;
-  2315	}
-  2316	
-  2317	static int airoha_pinctrl_get_gpio_from_pin(struct pinctrl_dev *pctrl_dev,
-  2318						    int pin)
-  2319	{
-  2320		struct pinctrl_gpio_range *range;
-  2321		int gpio;
-  2322	
-  2323		range = pinctrl_find_gpio_range_from_pin_nolock(pctrl_dev, pin);
-  2324		if (!range)
-  2325			return -EINVAL;
-  2326	
-  2327		gpio = pin - range->pin_base;
-  2328		if (gpio < 0)
-  2329			return -EINVAL;
-  2330	
-  2331		return gpio;
-  2332	}
-  2333	
-  2334	static const struct airoha_pinctrl_reg *
-  2335	airoha_pinctrl_get_conf_reg(const struct airoha_pinctrl_conf *conf,
-  2336				    int conf_size, int pin)
-  2337	{
-  2338		int i;
-  2339	
-  2340		for (i = 0; i < conf_size; i++) {
-  2341			if (conf[i].pin == pin)
-  2342				return &conf[i].reg;
-  2343		}
-  2344	
-  2345		return NULL;
-  2346	}
-  2347	
-  2348	static int airoha_pinctrl_get_conf(void __iomem *base,
-  2349					   const struct airoha_pinctrl_conf *conf,
-  2350					   int conf_size, int pin, u32 *val)
-  2351	{
-  2352		const struct airoha_pinctrl_reg *reg;
-  2353	
-  2354		reg = airoha_pinctrl_get_conf_reg(conf, conf_size, pin);
-  2355		if (!reg)
-  2356			return -EINVAL;
-  2357	
-  2358		*val = readl(base + reg->offset);
-> 2359		*val = (*val & reg->mask) >> __bf_shf(reg->mask);
-  2360	
-  2361		return 0;
-  2362	}
-  2363	
+e790c3cb8d904c Laurent Pinchart 2015-11-15  130  
+e790c3cb8d904c Laurent Pinchart 2015-11-15  131  /**
+e790c3cb8d904c Laurent Pinchart 2015-11-15  132   * vsp1_entity_get_pad_format - Get a pad format from storage for an entity
+e790c3cb8d904c Laurent Pinchart 2015-11-15  133   * @entity: the entity
+e790c3cb8d904c Laurent Pinchart 2015-11-15  134   * @cfg: the configuration storage
+e790c3cb8d904c Laurent Pinchart 2015-11-15  135   * @pad: the pad number
+e790c3cb8d904c Laurent Pinchart 2015-11-15  136   *
+e790c3cb8d904c Laurent Pinchart 2015-11-15  137   * Return the format stored in the given configuration for an entity's pad. The
+e790c3cb8d904c Laurent Pinchart 2015-11-15  138   * configuration can be an ACTIVE or TRY configuration.
+e790c3cb8d904c Laurent Pinchart 2015-11-15  139   */
+e790c3cb8d904c Laurent Pinchart 2015-11-15  140  struct v4l2_mbus_framefmt *
+e790c3cb8d904c Laurent Pinchart 2015-11-15  141  vsp1_entity_get_pad_format(struct vsp1_entity *entity,
+e790c3cb8d904c Laurent Pinchart 2015-11-15  142  			   struct v4l2_subdev_pad_config *cfg,
+e790c3cb8d904c Laurent Pinchart 2015-11-15  143  			   unsigned int pad)
+e790c3cb8d904c Laurent Pinchart 2015-11-15  144  {
+e790c3cb8d904c Laurent Pinchart 2015-11-15 @145  	return v4l2_subdev_get_try_format(&entity->subdev, cfg, pad);
+26e0ca22c3b85b Laurent Pinchart 2013-06-04  146  }
+26e0ca22c3b85b Laurent Pinchart 2013-06-04  147  
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  148  /**
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  149   * vsp1_entity_get_pad_selection - Get a pad selection from storage for entity
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  150   * @entity: the entity
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  151   * @cfg: the configuration storage
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  152   * @pad: the pad number
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  153   * @target: the selection target
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  154   *
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  155   * Return the selection rectangle stored in the given configuration for an
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  156   * entity's pad. The configuration can be an ACTIVE or TRY configuration. The
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  157   * selection target can be COMPOSE or CROP.
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  158   */
+b7e5107eebb73d Laurent Pinchart 2015-11-15  159  struct v4l2_rect *
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  160  vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
+b7e5107eebb73d Laurent Pinchart 2015-11-15  161  			      struct v4l2_subdev_pad_config *cfg,
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  162  			      unsigned int pad, unsigned int target)
+b7e5107eebb73d Laurent Pinchart 2015-11-15  163  {
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  164  	switch (target) {
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  165  	case V4L2_SEL_TGT_COMPOSE:
+b7e5107eebb73d Laurent Pinchart 2015-11-15 @166  		return v4l2_subdev_get_try_compose(&entity->subdev, cfg, pad);
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  167  	case V4L2_SEL_TGT_CROP:
+ccd3d95a93de25 Laurent Pinchart 2016-03-03 @168  		return v4l2_subdev_get_try_crop(&entity->subdev, cfg, pad);
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  169  	default:
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  170  		return NULL;
+ccd3d95a93de25 Laurent Pinchart 2016-03-03  171  	}
+b7e5107eebb73d Laurent Pinchart 2015-11-15  172  }
+b7e5107eebb73d Laurent Pinchart 2015-11-15  173  
+
+:::::: The code at line 145 was first introduced by commit
+:::::: e790c3cb8d904c4bad0d4a37885bece2eb848eeb [media] v4l: vsp1: Store active formats in a pad config structure
+
+:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
