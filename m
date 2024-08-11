@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3748528F0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 01:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D328F0;
+	Sun, 11 Aug 2024 01:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723338982; cv=none; b=DQ1rA+z8EPXLpXi4NeSqDpnnhRQkJ1qkM+p3VYgQsyKHsq0D6nbmZgzBCUpb90D5yPjdrPD7RpbF7crsGrrWtvOKPN0yboEO07yw1aORvYUl5vw9gi0jJnrBtz7Yd/z8Tmw74VvOHWaMZcCgew9xc5oyUu5ro/HjpqK6E0I+FcM=
+	t=1723338985; cv=none; b=M/PCBGC1yvUuJm689+3Vz9mTGtrz+3PUWXfePHLJq+dLTW8e4ti+Ufomf+wNlpbWve7DCtuj++cTTELCSFGUpc2LAeK9wTcBMdItBpnx52ME8JozddTLm/Y8Pf201T0eniRDsCysklkCxGqgg9oWSUmtoM56KCe5XMJBbr4GWvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723338982; c=relaxed/simple;
-	bh=wMbOYePXV3t17lqS0AZoPNMtHpgpAJzx6zAziCzK5hw=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MJZRFCxE7nvOr0bZZL2tV+ynfpL/IdhvGBHsJLfQQw8gY/aM8v/nDqMLnKaGQyg5j28muB/TXnw3zFCCeIdr6/aQ+eHf8s+dC5r7Mz638yN8PEPwY+pBZS6XcCBf65DYqzmFXW6W5Rw+8S9+uKJkMUbMNl7NYzWzUzYRvRHsfds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dn4ndOHE; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1723338985; c=relaxed/simple;
+	bh=3TC40Bj7SfvFrdCPW3F0lPZBq4YcUtzaKyXJ1rYP0II=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQbLqNKGqqc6bx//NbyV+hRxb9l5BtKnQe7xSkbmMsh0XxEM+et7SJ9c/cA6CqFwu51Y78N5oAXZBWHyLNb77Y+96wcifTnkKF6WD9qVCxrvRSmv7N8tH36n+Mx3MqH3CSeIZ3DZAfl6yto+OU3fpHDcX0SMeEHQVIYdh2cCDng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bd/zs+97; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dn4ndOHE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bd/zs+97"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723338980; x=1754874980;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=wMbOYePXV3t17lqS0AZoPNMtHpgpAJzx6zAziCzK5hw=;
-  b=Dn4ndOHEMVmJzbiqo6Fx7sj7a+3DDoq9DXhcR+NF2crbZFJb+qzaQy9P
-   6fFIKyCa05JpLU3uMBxHB2WMgq6MSqFJm+SglgmvmXcPSiSvH2nc7f1DX
-   pshJymsI019jfX6rrcYpWbTIPCty3DRPh5wG5WcJRMR2U+4zYURoV0k1t
-   qVMTTPTfKckUgcMwoUUVEAGMKK+sBYXbHMKcVuKdRQ7E6sDUy7U4utfXY
-   /ifj6Uink4D4LQOyhB1Keb12YzNtjJ5uIk84hYpUVNn0OZdHq30axnic4
-   6aUt6s85KONiUkOTWMn3/+VUnTOpJuoDdjcgbpIHADFmrb9jlArpPsTP5
+  t=1723338983; x=1754874983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3TC40Bj7SfvFrdCPW3F0lPZBq4YcUtzaKyXJ1rYP0II=;
+  b=bd/zs+97G8cH4Vz9IT9x1hPd2Sum2fwMU22MpPXd3DAxFmwTGLIwD4qP
+   iW3RW1yChBGmh4qJ29NathtqEm9oBoSrc7fpDKM8DV5N9IoSx0c0quOg9
+   IVLRbCndOA28STmArWjCImyfbH5+xxptRfRJCi3iJUeH/ooFX71LzS18F
+   DOf/LZuNxsHJB43wJK01QTHmP8A1WLVU+lgyZlpciz4gflG0vVDwyfh70
+   be7LabcJoXHaSVGKKosWd+TOQLHAvTNmYcxkxw90NWpFqOvsYjXvhAIlU
+   CAzOllRdo3y43E32xXxvmlZZq99AS/LOHuu2beLJ98ExutWPyANw3/2KX
    A==;
-X-CSE-ConnectionGUID: 3K7f7wy6Rc+GnfE8GrPbMA==
-X-CSE-MsgGUID: wCAnRwoEQZWcjbUvfJ0dLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="25274848"
+X-CSE-ConnectionGUID: KfJoGWpBQXu4MzNy9SnGsw==
+X-CSE-MsgGUID: ZTua9pP5S+CtL4HIpv5N4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="21289869"
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="25274848"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 18:16:19 -0700
-X-CSE-ConnectionGUID: hqL2pOROR4KY1RwCi6anPw==
-X-CSE-MsgGUID: 3+GOPHhBSzKLxQ8vaKQ0NQ==
+   d="scan'208";a="21289869"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 18:16:22 -0700
+X-CSE-ConnectionGUID: xeTS7v2OSYGPJ3Y8wISTDA==
+X-CSE-MsgGUID: r+CI+Az8TjmyOGPYlCSUwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="62584104"
+   d="scan'208";a="81144904"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Aug 2024 18:16:18 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Aug 2024 18:16:18 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scxBw-000ASO-0V
-	for oe-kbuild-all@lists.linux.dev;
+	id 1scxBw-000ASL-0R;
 	Sun, 11 Aug 2024 01:16:16 +0000
 Date: Sun, 11 Aug 2024 09:15:37 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/dovetail-xenomai 3737/9574] net/socket.c:591:46:
- error: use of undeclared identifier 'SOCK_OOB'
-Message-ID: <202408110944.lkS9qQ7P-lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-pwm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ukleinek@kernel.org, lorenzo.bianconi83@gmail.com,
+	krzk+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, upstream@airoha.com,
+	angelogioacchino.delregno@collabora.com,
+	benjamin.larsson@genexis.eu, conor+dt@kernel.org,
+	ansuelsmth@gmail.com
+Subject: Re: [PATCH 2/2] pwm: airoha: Add support for EN7581 SoC
+Message-ID: <202408110920.KEW33sRE-lkp@intel.com>
+References: <a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +68,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo@kernel.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/dovetail-xenomai
-head:   c2530fc7095f682dd411b807a75445d3ff3b0d7c
-commit: 738c5fc1b7348378193f5ae7e16781fe5890969f [3737/9574] net: dovetail: enable out-of-band networking (EXPERIMENTAL)
-config: mips-ath25_defconfig (https://download.01.org/0day-ci/archive/20240811/202408110944.lkS9qQ7P-lkp@intel.com/config)
+Hi Lorenzo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master thierry-reding-pwm/for-next v6.11-rc2 next-20240809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-pwm-Document-Airoha-EN7581-PWM/20240810-143716
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo%40kernel.org
+patch subject: [PATCH 2/2] pwm: airoha: Add support for EN7581 SoC
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240811/202408110920.KEW33sRE-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408110944.lkS9qQ7P-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408110920.KEW33sRE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408110944.lkS9qQ7P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408110920.KEW33sRE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/socket.c:55:
-   In file included from include/linux/bpf-cgroup.h:5:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2178:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/socket.c:591:46: error: use of undeclared identifier 'SOCK_OOB'
-     591 |                 if (IS_ENABLED(CONFIG_NET_OOB) && (flags & SOCK_OOB)) {
-         |                                                            ^
-   net/socket.c:1765:15: error: use of undeclared identifier 'SOCK_OOB'
-    1765 |         BUILD_BUG_ON(SOCK_OOB & SOCK_TYPE_MASK);
-         |                      ^
-   net/socket.c:1767:66: error: use of undeclared identifier 'SOCK_OOB'
-    1767 |         if ((type & ~SOCK_TYPE_MASK) & ~(SOCK_CLOEXEC | SOCK_NONBLOCK | SOCK_OOB))
-         |                                                                         ^
-   1 warning and 3 errors generated.
+   In file included from drivers/pwm/pwm-airoha.c:7:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-airoha.c:7:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-airoha.c:7:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/pwm/pwm-airoha.c:239:19: error: call to undeclared function '__bf_shf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     239 |         val = (period << __bf_shf(mask)) & mask;
+         |                          ^
+   drivers/pwm/pwm-airoha.c:271:24: error: call to undeclared function '__bf_shf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     271 |         val = ((index & 7) << __bf_shf(mask)) & mask;
+         |                               ^
+   6 warnings and 2 errors generated.
 
 
-vim +/SOCK_OOB +591 net/socket.c
+vim +/__bf_shf +239 drivers/pwm/pwm-airoha.c
 
-   579	
-   580	static int sock_map_fd(struct socket *sock, int flags)
-   581	{
-   582		struct file *newfile;
-   583		int fd = get_unused_fd_flags(flags), ret;
-   584		if (unlikely(fd < 0)) {
-   585			sock_release(sock);
-   586			return fd;
-   587		}
-   588	
-   589		newfile = sock_alloc_file(sock, flags, NULL);
-   590		if (!IS_ERR(newfile)) {
- > 591			if (IS_ENABLED(CONFIG_NET_OOB) && (flags & SOCK_OOB)) {
-   592				ret = sock_oob_attach(sock);
-   593				if (ret < 0) {
-   594					put_unused_fd(fd);
-   595					sock_release(sock);
-   596					return ret;
-   597				}
-   598			}
-   599			fd_install(fd, newfile);
-   600			return fd;
-   601		}
-   602	
-   603		put_unused_fd(fd);
-   604		return PTR_ERR(newfile);
-   605	}
-   606	
+   231	
+   232	static void airoha_pwm_config_waveform(struct airoha_pwm *pc, int index,
+   233					       u32 duty, u32 period)
+   234	{
+   235		u32 mask, val;
+   236	
+   237		/* Configure frequency divisor */
+   238		mask = WAVE_GEN_CYCLE_MASK(index % 4);
+ > 239		val = (period << __bf_shf(mask)) & mask;
+   240		airoha_pwm_cycle_rmw(pc, REG_CYCLE_CFG_VALUE(index / 4), mask, val);
+   241	
+   242		/* Configure duty cycle */
+   243		duty = ((DUTY_FULL - duty) << 8) | duty;
+   244		mask = GPIO_FLASH_PRD_MASK(index % 2);
+   245		val = (duty << __bf_shf(mask)) & mask;
+   246		airoha_pwm_flash_rmw(pc, REG_GPIO_FLASH_PRD_SET(index / 2), mask, val);
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
