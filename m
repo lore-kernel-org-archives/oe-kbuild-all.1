@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E1B79F3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 01:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D075258
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 02:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723341419; cv=none; b=l5DO5oCT82XYrAOyI4nrU/OsgWxA+pSDdttqVpU7pDjSu+lYHm9x86+p0AAyDa/FCeIxdGgokKnX4ylUGqhbUNYPIPqXKX6Qbg5Fw5OIQo9CKDoFhkCUCnEaEDtU4FE2D0ogWHgj7SSEVYuHO2C5lYgL+uD+NjgYGcnyq6V32Z4=
+	t=1723343836; cv=none; b=jIhNiobrzjuL3Fr0GkAjzOYS2n+AbOKslIRGvtTBsC2VQm6xpcBq8pyHj/sOVxZFE9Oumgut2jniBAgWkS2d599cm+szwPTf+ekavPrVasZrJIFI0f9u1RKWIxkqbpMMr5Kt9H6ZYGEJK6BcFdpvpnwHJmedEN4Pje+GEj+S/T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723341419; c=relaxed/simple;
-	bh=59PP7CaPhlDP4SUY1u/O8YQ9mjsKRPQfXKJTDBytGhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EE8Mjq/BNx69/ookf6E6s1wfPQLZfGzwLaZqjdPsw0weLd08PVWcgQdETb+mTCW4F6/kBqiQxE5m6h+PFBqdkLtDPSxCmPXESItqJWt4qiSVnSH+nJ0g4p1R1TOtAmF0yTzi6dl99311yvWEsqk0/foXrVdn7ojdnrkJRk//wHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvT7gL2B; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1723343836; c=relaxed/simple;
+	bh=+4QdAkGXGp4hrCX0JM76W0XgS7UHZ/VYqhQE4Fm1ooE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q+NX6xUD0Amgz8ngglgxGngHaWyAX7RaiT0utC8ZsjuUsuLvt1PKHVAPLf3regAlgJRNKipsWmKu1Z3Ma1sxslqlzlQB8oeqZJM2+zMvr9ErUWA5S/Eu3nm+C+CBId7cXeacOzmC3bLOUklaUo9YhwjcDaGv3xer3jtRWJvKOHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8sDRfKn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvT7gL2B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8sDRfKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723341417; x=1754877417;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=59PP7CaPhlDP4SUY1u/O8YQ9mjsKRPQfXKJTDBytGhA=;
-  b=fvT7gL2BF7sMN38+Mm+n6NJG9vWwC2uHwkjaKcvCr8NEXgLcnmgn7fTr
-   nIHEsazUhOpMgOR2BPDX4F+454UBcl2kttf2Z6fGmGiXJpm71QSeEf2mr
-   gcIRraCoZywgRFpD2zuJAr3nOwXrgfchYPRFaEa4vxnPfuMdJSM6Ojxix
-   U0uDUEgZOIsZA/Nztck9MD1QkFFmKdGZZLCG2RALUgHQZ0R0hpXpmF2T3
-   ShLuIUOPcCq9iycfouVmvteD90GiXj6r3kTBuS5JhtNqiB6Ml9V6D3/0l
-   VqRGO86/jkC8QxyI1tP+PEWYbMX7wMky7po5tbQ5/pJwnrqy8ZsJviHYC
-   Q==;
-X-CSE-ConnectionGUID: hGP1M13bSXybuKql9GnFag==
-X-CSE-MsgGUID: H6k3mQrlRXeoEnwrMb0oZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32058938"
+  t=1723343834; x=1754879834;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+4QdAkGXGp4hrCX0JM76W0XgS7UHZ/VYqhQE4Fm1ooE=;
+  b=j8sDRfKnUTXrpG1ZzFsRd94U8i/Kmo82zxHlmkTi9crusUOoXBR+lB7D
+   JBtwKvCkOqHwQ9kRKPCsNVVEpGzPbCjtpzFUjAQd6Sa5Czjso52dQkca7
+   zkVuqn1gynuo/SUWgiOWJGC4jR9/OCJe2Wg9oQotUkP+onXDuSaz865Rh
+   /SzLmOayOfYcosiHOO1bDLCmRhGNgPJORjJpl0bf0aKlxkh4T5hh0Yx1o
+   dPLfDOdnGdAx5c12fLHuvV7ObRtjRJIwKwYF5Ze9yG9cbUIsXZ7iQ/gRA
+   t9enWG9daZkqxV+8Joh1gKH1z7+f6aUZYb5+m/eanfw3i7ahbhNDs23w/
+   A==;
+X-CSE-ConnectionGUID: 7Pqg0nlDTpWBx1Vn4ibMGg==
+X-CSE-MsgGUID: 2/05HqNuQrmMwEo8BCvRcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32891733"
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="32058938"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 18:56:56 -0700
-X-CSE-ConnectionGUID: SdMMT+ARR/6mOsKGnILDUQ==
-X-CSE-MsgGUID: /zYR/EjbSXaY1/KNkoqy8w==
+   d="scan'208";a="32891733"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 19:37:14 -0700
+X-CSE-ConnectionGUID: /989XiLVREGF5kseg4GE4Q==
+X-CSE-MsgGUID: ec5T/6kwSpOc5D2zKMPEHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="57815696"
+   d="scan'208";a="58154033"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 10 Aug 2024 18:56:53 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Aug 2024 19:37:12 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scxpC-000AU3-0n;
-	Sun, 11 Aug 2024 01:56:50 +0000
-Date: Sun, 11 Aug 2024 09:56:20 +0800
+	id 1scySD-000AVv-2r;
+	Sun, 11 Aug 2024 02:37:09 +0000
+Date: Sun, 11 Aug 2024 10:36:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v3 05/13] PCI: endpoint: Assign PCI domain number for
- endpoint controllers
-Message-ID: <202408110938.hFwAHjZo-lkp@intel.com>
-References: <20240731-pci-qcom-hotplug-v3-5-a1426afdee3b@linaro.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:rdma-next 2/37] include/linux/list.h:112:undefined
+ reference to `zap_vma_ptes'
+Message-ID: <202408111008.h9QtgGsJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,98 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731-pci-qcom-hotplug-v3-5-a1426afdee3b@linaro.org>
 
-Hi Manivannan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-qcom-ep-Drop-the-redundant-masking-of-global-IRQ-events/20240802-024847
-base:   8400291e289ee6b2bf9779ff1c83a291501f017b
-patch link:    https://lore.kernel.org/r/20240731-pci-qcom-hotplug-v3-5-a1426afdee3b%40linaro.org
-patch subject: [PATCH v3 05/13] PCI: endpoint: Assign PCI domain number for endpoint controllers
-config: x86_64-randconfig-161-20240810 (https://download.01.org/0day-ci/archive/20240811/202408110938.hFwAHjZo-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   e7a9574cc241bed77344c4b3f114796ceec97499
+commit: dbd16df1e37fa43c15724954d9d56a266b824bbb [2/37] Introducing Multi-Path DMA Support for mlx5 RDMA Driver
+config: riscv-randconfig-001-20240811 (https://download.01.org/0day-ci/archive/20240811/202408111008.h9QtgGsJ-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408111008.h9QtgGsJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408110938.hFwAHjZo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408111008.h9QtgGsJ-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/endpoint/pci-epc-core.c:914 __pci_epc_create() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +914 drivers/pci/endpoint/pci-epc-core.c
+   riscv32-linux-ld: drivers/infiniband/core/ib_core_uverbs.o: in function `__list_del_entry_valid':
+>> include/linux/list.h:112:(.text+0x718): undefined reference to `zap_vma_ptes'
 
-   870	
-   871	/**
-   872	 * __pci_epc_create() - create a new endpoint controller (EPC) device
-   873	 * @dev: device that is creating the new EPC
-   874	 * @ops: function pointers for performing EPC operations
-   875	 * @owner: the owner of the module that creates the EPC device
-   876	 *
-   877	 * Invoke to create a new EPC device and add it to pci_epc class.
-   878	 */
-   879	struct pci_epc *
-   880	__pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
-   881			 struct module *owner)
-   882	{
-   883		int ret;
-   884		struct pci_epc *epc;
-   885	
-   886		if (WARN_ON(!dev)) {
-   887			ret = -EINVAL;
-   888			goto err_ret;
-   889		}
-   890	
-   891		epc = kzalloc(sizeof(*epc), GFP_KERNEL);
-   892		if (!epc) {
-   893			ret = -ENOMEM;
-   894			goto err_ret;
-   895		}
-   896	
-   897		mutex_init(&epc->lock);
-   898		mutex_init(&epc->list_lock);
-   899		INIT_LIST_HEAD(&epc->pci_epf);
-   900	
-   901		device_initialize(&epc->dev);
-   902		epc->dev.class = &pci_epc_class;
-   903		epc->dev.parent = dev;
-   904		epc->dev.release = pci_epc_release;
-   905		epc->ops = ops;
-   906	
-   907		#ifdef CONFIG_PCI_DOMAINS_GENERIC
-   908			epc->domain_nr = pci_bus_find_domain_nr(NULL, dev);
-   909		#else
-   910			/*
-   911			 * TODO: If the architecture doesn't support generic PCI
-   912			 * domains, then a custom implementation has to be used.
-   913			 */
- > 914			WARN_ONCE(1, "This architecture doesn't support generic PCI domains\n");
-   915		#endif
-   916	
-   917		ret = dev_set_name(&epc->dev, "%s", dev_name(dev));
-   918		if (ret)
-   919			goto put_dev;
-   920	
-   921		ret = device_add(&epc->dev);
-   922		if (ret)
-   923			goto put_dev;
-   924	
-   925		epc->group = pci_ep_cfs_add_epc_group(dev_name(dev));
-   926	
-   927		return epc;
-   928	
-   929	put_dev:
-   930		put_device(&epc->dev);
-   931	
-   932	err_ret:
-   933		return ERR_PTR(ret);
-   934	}
-   935	EXPORT_SYMBOL_GPL(__pci_epc_create);
-   936	
+
+vim +112 include/linux/list.h
+
+b16c42c8fde808 Marco Elver 2023-08-11   97  
+b16c42c8fde808 Marco Elver 2023-08-11   98  /*
+b16c42c8fde808 Marco Elver 2023-08-11   99   * Performs list corruption checks before __list_del_entry(). Returns false if a
+b16c42c8fde808 Marco Elver 2023-08-11  100   * corruption is detected, true otherwise.
+aebc7b0d8d91bb Marco Elver 2023-08-11  101   *
+aebc7b0d8d91bb Marco Elver 2023-08-11  102   * With CONFIG_LIST_HARDENED only, performs minimal list integrity checking
+aebc7b0d8d91bb Marco Elver 2023-08-11  103   * inline to catch non-faulting corruptions, and only if a corruption is
+aebc7b0d8d91bb Marco Elver 2023-08-11  104   * detected calls the reporting function __list_del_entry_valid_or_report().
+b16c42c8fde808 Marco Elver 2023-08-11  105   */
+b16c42c8fde808 Marco Elver 2023-08-11  106  static __always_inline bool __list_del_entry_valid(struct list_head *entry)
+b16c42c8fde808 Marco Elver 2023-08-11  107  {
+aebc7b0d8d91bb Marco Elver 2023-08-11  108  	bool ret = true;
+aebc7b0d8d91bb Marco Elver 2023-08-11  109  
+aebc7b0d8d91bb Marco Elver 2023-08-11  110  	if (!IS_ENABLED(CONFIG_DEBUG_LIST)) {
+aebc7b0d8d91bb Marco Elver 2023-08-11  111  		struct list_head *prev = entry->prev;
+aebc7b0d8d91bb Marco Elver 2023-08-11 @112  		struct list_head *next = entry->next;
+aebc7b0d8d91bb Marco Elver 2023-08-11  113  
+aebc7b0d8d91bb Marco Elver 2023-08-11  114  		/*
+aebc7b0d8d91bb Marco Elver 2023-08-11  115  		 * With the hardening version, elide checking if next and prev
+aebc7b0d8d91bb Marco Elver 2023-08-11  116  		 * are NULL, LIST_POISON1 or LIST_POISON2, since the immediate
+aebc7b0d8d91bb Marco Elver 2023-08-11  117  		 * dereference of them below would result in a fault.
+aebc7b0d8d91bb Marco Elver 2023-08-11  118  		 */
+aebc7b0d8d91bb Marco Elver 2023-08-11  119  		if (likely(prev->next == entry && next->prev == entry))
+aebc7b0d8d91bb Marco Elver 2023-08-11  120  			return true;
+aebc7b0d8d91bb Marco Elver 2023-08-11  121  		ret = false;
+aebc7b0d8d91bb Marco Elver 2023-08-11  122  	}
+aebc7b0d8d91bb Marco Elver 2023-08-11  123  
+aebc7b0d8d91bb Marco Elver 2023-08-11  124  	ret &= __list_del_entry_valid_or_report(entry);
+aebc7b0d8d91bb Marco Elver 2023-08-11  125  	return ret;
+b16c42c8fde808 Marco Elver 2023-08-11  126  }
+d7c816733d501b Kees Cook   2016-08-17  127  #else
+d7c816733d501b Kees Cook   2016-08-17  128  static inline bool __list_add_valid(struct list_head *new,
+d7c816733d501b Kees Cook   2016-08-17  129  				struct list_head *prev,
+d7c816733d501b Kees Cook   2016-08-17  130  				struct list_head *next)
+d7c816733d501b Kees Cook   2016-08-17  131  {
+d7c816733d501b Kees Cook   2016-08-17  132  	return true;
+d7c816733d501b Kees Cook   2016-08-17  133  }
+0cd340dcb05c4a Kees Cook   2016-08-17  134  static inline bool __list_del_entry_valid(struct list_head *entry)
+0cd340dcb05c4a Kees Cook   2016-08-17  135  {
+0cd340dcb05c4a Kees Cook   2016-08-17  136  	return true;
+0cd340dcb05c4a Kees Cook   2016-08-17  137  }
+d7c816733d501b Kees Cook   2016-08-17  138  #endif
+d7c816733d501b Kees Cook   2016-08-17  139  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: aebc7b0d8d91bbc69e976909963046bc48bca4fd list: Introduce CONFIG_LIST_HARDENED
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
