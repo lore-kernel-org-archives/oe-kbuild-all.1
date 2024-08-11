@@ -1,65 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D328F0;
-	Sun, 11 Aug 2024 01:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E1B79F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 01:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723338985; cv=none; b=M/PCBGC1yvUuJm689+3Vz9mTGtrz+3PUWXfePHLJq+dLTW8e4ti+Ufomf+wNlpbWve7DCtuj++cTTELCSFGUpc2LAeK9wTcBMdItBpnx52ME8JozddTLm/Y8Pf201T0eniRDsCysklkCxGqgg9oWSUmtoM56KCe5XMJBbr4GWvI=
+	t=1723341419; cv=none; b=l5DO5oCT82XYrAOyI4nrU/OsgWxA+pSDdttqVpU7pDjSu+lYHm9x86+p0AAyDa/FCeIxdGgokKnX4ylUGqhbUNYPIPqXKX6Qbg5Fw5OIQo9CKDoFhkCUCnEaEDtU4FE2D0ogWHgj7SSEVYuHO2C5lYgL+uD+NjgYGcnyq6V32Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723338985; c=relaxed/simple;
-	bh=3TC40Bj7SfvFrdCPW3F0lPZBq4YcUtzaKyXJ1rYP0II=;
+	s=arc-20240116; t=1723341419; c=relaxed/simple;
+	bh=59PP7CaPhlDP4SUY1u/O8YQ9mjsKRPQfXKJTDBytGhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bQbLqNKGqqc6bx//NbyV+hRxb9l5BtKnQe7xSkbmMsh0XxEM+et7SJ9c/cA6CqFwu51Y78N5oAXZBWHyLNb77Y+96wcifTnkKF6WD9qVCxrvRSmv7N8tH36n+Mx3MqH3CSeIZ3DZAfl6yto+OU3fpHDcX0SMeEHQVIYdh2cCDng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bd/zs+97; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=EE8Mjq/BNx69/ookf6E6s1wfPQLZfGzwLaZqjdPsw0weLd08PVWcgQdETb+mTCW4F6/kBqiQxE5m6h+PFBqdkLtDPSxCmPXESItqJWt4qiSVnSH+nJ0g4p1R1TOtAmF0yTzi6dl99311yvWEsqk0/foXrVdn7ojdnrkJRk//wHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvT7gL2B; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bd/zs+97"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvT7gL2B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723338983; x=1754874983;
+  t=1723341417; x=1754877417;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3TC40Bj7SfvFrdCPW3F0lPZBq4YcUtzaKyXJ1rYP0II=;
-  b=bd/zs+97G8cH4Vz9IT9x1hPd2Sum2fwMU22MpPXd3DAxFmwTGLIwD4qP
-   iW3RW1yChBGmh4qJ29NathtqEm9oBoSrc7fpDKM8DV5N9IoSx0c0quOg9
-   IVLRbCndOA28STmArWjCImyfbH5+xxptRfRJCi3iJUeH/ooFX71LzS18F
-   DOf/LZuNxsHJB43wJK01QTHmP8A1WLVU+lgyZlpciz4gflG0vVDwyfh70
-   be7LabcJoXHaSVGKKosWd+TOQLHAvTNmYcxkxw90NWpFqOvsYjXvhAIlU
-   CAzOllRdo3y43E32xXxvmlZZq99AS/LOHuu2beLJ98ExutWPyANw3/2KX
-   A==;
-X-CSE-ConnectionGUID: KfJoGWpBQXu4MzNy9SnGsw==
-X-CSE-MsgGUID: ZTua9pP5S+CtL4HIpv5N4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="21289869"
+  bh=59PP7CaPhlDP4SUY1u/O8YQ9mjsKRPQfXKJTDBytGhA=;
+  b=fvT7gL2BF7sMN38+Mm+n6NJG9vWwC2uHwkjaKcvCr8NEXgLcnmgn7fTr
+   nIHEsazUhOpMgOR2BPDX4F+454UBcl2kttf2Z6fGmGiXJpm71QSeEf2mr
+   gcIRraCoZywgRFpD2zuJAr3nOwXrgfchYPRFaEa4vxnPfuMdJSM6Ojxix
+   U0uDUEgZOIsZA/Nztck9MD1QkFFmKdGZZLCG2RALUgHQZ0R0hpXpmF2T3
+   ShLuIUOPcCq9iycfouVmvteD90GiXj6r3kTBuS5JhtNqiB6Ml9V6D3/0l
+   VqRGO86/jkC8QxyI1tP+PEWYbMX7wMky7po5tbQ5/pJwnrqy8ZsJviHYC
+   Q==;
+X-CSE-ConnectionGUID: hGP1M13bSXybuKql9GnFag==
+X-CSE-MsgGUID: H6k3mQrlRXeoEnwrMb0oZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32058938"
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="21289869"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 18:16:22 -0700
-X-CSE-ConnectionGUID: xeTS7v2OSYGPJ3Y8wISTDA==
-X-CSE-MsgGUID: r+CI+Az8TjmyOGPYlCSUwg==
+   d="scan'208";a="32058938"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 18:56:56 -0700
+X-CSE-ConnectionGUID: SdMMT+ARR/6mOsKGnILDUQ==
+X-CSE-MsgGUID: /zYR/EjbSXaY1/KNkoqy8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="81144904"
+   d="scan'208";a="57815696"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Aug 2024 18:16:18 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Aug 2024 18:56:53 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scxBw-000ASL-0R;
-	Sun, 11 Aug 2024 01:16:16 +0000
-Date: Sun, 11 Aug 2024 09:15:37 +0800
+	id 1scxpC-000AU3-0n;
+	Sun, 11 Aug 2024 01:56:50 +0000
+Date: Sun, 11 Aug 2024 09:56:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-pwm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ukleinek@kernel.org, lorenzo.bianconi83@gmail.com,
-	krzk+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, upstream@airoha.com,
-	angelogioacchino.delregno@collabora.com,
-	benjamin.larsson@genexis.eu, conor+dt@kernel.org,
-	ansuelsmth@gmail.com
-Subject: Re: [PATCH 2/2] pwm: airoha: Add support for EN7581 SoC
-Message-ID: <202408110920.KEW33sRE-lkp@intel.com>
-References: <a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo@kernel.org>
+To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v3 05/13] PCI: endpoint: Assign PCI domain number for
+ endpoint controllers
+Message-ID: <202408110938.hFwAHjZo-lkp@intel.com>
+References: <20240731-pci-qcom-hotplug-v3-5-a1426afdee3b@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,95 +74,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo@kernel.org>
+In-Reply-To: <20240731-pci-qcom-hotplug-v3-5-a1426afdee3b@linaro.org>
 
-Hi Lorenzo,
+Hi Manivannan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master thierry-reding-pwm/for-next v6.11-rc2 next-20240809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-pwm-Document-Airoha-EN7581-PWM/20240810-143716
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/a03f5ea9291e39eab303696eb03fdd44cf04e8d9.1723264979.git.lorenzo%40kernel.org
-patch subject: [PATCH 2/2] pwm: airoha: Add support for EN7581 SoC
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240811/202408110920.KEW33sRE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408110920.KEW33sRE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-qcom-ep-Drop-the-redundant-masking-of-global-IRQ-events/20240802-024847
+base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+patch link:    https://lore.kernel.org/r/20240731-pci-qcom-hotplug-v3-5-a1426afdee3b%40linaro.org
+patch subject: [PATCH v3 05/13] PCI: endpoint: Assign PCI domain number for endpoint controllers
+config: x86_64-randconfig-161-20240810 (https://download.01.org/0day-ci/archive/20240811/202408110938.hFwAHjZo-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408110920.KEW33sRE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408110938.hFwAHjZo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pci/endpoint/pci-epc-core.c:914 __pci_epc_create() warn: inconsistent indenting
 
-   In file included from drivers/pwm/pwm-airoha.c:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/pwm/pwm-airoha.c:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/pwm/pwm-airoha.c:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/pwm/pwm-airoha.c:239:19: error: call to undeclared function '__bf_shf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     239 |         val = (period << __bf_shf(mask)) & mask;
-         |                          ^
-   drivers/pwm/pwm-airoha.c:271:24: error: call to undeclared function '__bf_shf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     271 |         val = ((index & 7) << __bf_shf(mask)) & mask;
-         |                               ^
-   6 warnings and 2 errors generated.
+vim +914 drivers/pci/endpoint/pci-epc-core.c
 
-
-vim +/__bf_shf +239 drivers/pwm/pwm-airoha.c
-
-   231	
-   232	static void airoha_pwm_config_waveform(struct airoha_pwm *pc, int index,
-   233					       u32 duty, u32 period)
-   234	{
-   235		u32 mask, val;
-   236	
-   237		/* Configure frequency divisor */
-   238		mask = WAVE_GEN_CYCLE_MASK(index % 4);
- > 239		val = (period << __bf_shf(mask)) & mask;
-   240		airoha_pwm_cycle_rmw(pc, REG_CYCLE_CFG_VALUE(index / 4), mask, val);
-   241	
-   242		/* Configure duty cycle */
-   243		duty = ((DUTY_FULL - duty) << 8) | duty;
-   244		mask = GPIO_FLASH_PRD_MASK(index % 2);
-   245		val = (duty << __bf_shf(mask)) & mask;
-   246		airoha_pwm_flash_rmw(pc, REG_GPIO_FLASH_PRD_SET(index / 2), mask, val);
-   247	}
-   248	
+   870	
+   871	/**
+   872	 * __pci_epc_create() - create a new endpoint controller (EPC) device
+   873	 * @dev: device that is creating the new EPC
+   874	 * @ops: function pointers for performing EPC operations
+   875	 * @owner: the owner of the module that creates the EPC device
+   876	 *
+   877	 * Invoke to create a new EPC device and add it to pci_epc class.
+   878	 */
+   879	struct pci_epc *
+   880	__pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
+   881			 struct module *owner)
+   882	{
+   883		int ret;
+   884		struct pci_epc *epc;
+   885	
+   886		if (WARN_ON(!dev)) {
+   887			ret = -EINVAL;
+   888			goto err_ret;
+   889		}
+   890	
+   891		epc = kzalloc(sizeof(*epc), GFP_KERNEL);
+   892		if (!epc) {
+   893			ret = -ENOMEM;
+   894			goto err_ret;
+   895		}
+   896	
+   897		mutex_init(&epc->lock);
+   898		mutex_init(&epc->list_lock);
+   899		INIT_LIST_HEAD(&epc->pci_epf);
+   900	
+   901		device_initialize(&epc->dev);
+   902		epc->dev.class = &pci_epc_class;
+   903		epc->dev.parent = dev;
+   904		epc->dev.release = pci_epc_release;
+   905		epc->ops = ops;
+   906	
+   907		#ifdef CONFIG_PCI_DOMAINS_GENERIC
+   908			epc->domain_nr = pci_bus_find_domain_nr(NULL, dev);
+   909		#else
+   910			/*
+   911			 * TODO: If the architecture doesn't support generic PCI
+   912			 * domains, then a custom implementation has to be used.
+   913			 */
+ > 914			WARN_ONCE(1, "This architecture doesn't support generic PCI domains\n");
+   915		#endif
+   916	
+   917		ret = dev_set_name(&epc->dev, "%s", dev_name(dev));
+   918		if (ret)
+   919			goto put_dev;
+   920	
+   921		ret = device_add(&epc->dev);
+   922		if (ret)
+   923			goto put_dev;
+   924	
+   925		epc->group = pci_ep_cfs_add_epc_group(dev_name(dev));
+   926	
+   927		return epc;
+   928	
+   929	put_dev:
+   930		put_device(&epc->dev);
+   931	
+   932	err_ret:
+   933		return ERR_PTR(ret);
+   934	}
+   935	EXPORT_SYMBOL_GPL(__pci_epc_create);
+   936	
 
 -- 
 0-DAY CI Kernel Test Service
