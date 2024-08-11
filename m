@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDF733C9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 07:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3DC8F70
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 09:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723361562; cv=none; b=hh/XzE9w7hdDbSq+KmEI655i+Hu623sgXI3vAOhd8XpVV2fSWSGBwHR2CYLPbiPVjS0ltDfVdaWwi2HhwDlFsuTDlig4Z544LTJbudrWVmshCj4n0fSkz6+NwATnMWdQFXUTuXnstEQZ/y0ZtzsJxr6RgS/3MoQdzNvVOEEya2k=
+	t=1723368257; cv=none; b=lylmrxEuAWbSCdkPHNl9tK1WfdIHyz66Gp269s3BjCvPj9LCzcUKOpioU4k6kqa8+IJ/k5FHM1BCtDWYjCkzGECvnn/jzUz993/H87DqRAiMTPYbaj5lD4esdcyff/EwqXIypuA2qa7J4ijRC8guzsny2L1DN0nLEqwhnf2SF2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723361562; c=relaxed/simple;
-	bh=o6Ae5okHolAbqh4w5nsQyJfAbWN02wl5ufMT31WtNCk=;
+	s=arc-20240116; t=1723368257; c=relaxed/simple;
+	bh=1ptPh6ol4+J1FNOSRZ8rj3pGAvl+pUeQ9ws5eIGlKVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X1QMq8dpZWYiAurCSM4OcemmT74Iz3KlrNx+WYI6scCWksOeGZUD5heVUK0kTI/ZXoMJ6YpMY2uNDs0SFCho8Fhbf/cHgLD5C42VX50eNI6Nxo1w7FwLy8+57vdgpIWSaXfsoo0+o634hnKy974QXCnX/Bo1J4kuL8EeuxS2v3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wpz49F6s; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=kn2AAPlJwcQs2mwOvupSUkwckRWvq8NbGr49UdRFEvIwIvUvqmUEuBv8zEV0U2VJEDZVJG8gXkJC1EJBSeMyJ44xgOU0W+3tv5Ii42sjV3W6EJy45zOEZvH6QUL04gMXUEp/pLIpeKDEtftCncjrQp6bipeGiAMqG1H5Cm8EyBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQFSGOUg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wpz49F6s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQFSGOUg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723361560; x=1754897560;
+  t=1723368256; x=1754904256;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o6Ae5okHolAbqh4w5nsQyJfAbWN02wl5ufMT31WtNCk=;
-  b=Wpz49F6sl4G7Q6vwrC1Sd7hFZtITgigq55mYR7oaosDHuwfs5Ijt1KVp
-   hjO4vNqZbEmFa161WZW6s2PkBU81wTsN0mlZnE0rQ2od7+jBYRCMxoguh
-   awbvst7LAErqS7eDotaSrnxKtEHmIbI7t83C0V22TG6s/zt0QHWbq4/KV
-   jUH5dtdAs1qBedmmfXSYHgJ4p2t7w81owIDZCzxvjRsSM3UMskepxoXx+
-   ARzE1oUp78yfIgfjgsj7j+Spfo5dk2EHdlQdhU5w9inPUm4TR6GrqsCHQ
-   fuUfh+9gPN07qO1HwEV9EOHbhxtJmmRZXx3WqvgNryFed+XaSTrEM4F/9
-   Q==;
-X-CSE-ConnectionGUID: sSZpCWCWTCG7657bYqzGCA==
-X-CSE-MsgGUID: XpUrq1xlQFOeZUBEQNGPzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="21342658"
-X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="21342658"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 00:32:40 -0700
-X-CSE-ConnectionGUID: iGGGbfr9TgivFepDDT9m2g==
-X-CSE-MsgGUID: Qpj/vZtdSgykoPx5F7TfRw==
+  bh=1ptPh6ol4+J1FNOSRZ8rj3pGAvl+pUeQ9ws5eIGlKVk=;
+  b=HQFSGOUgg6K/aDaAjQgjKD091h4guyH/wFDmEaDJGdtUi8RgclLoyZmi
+   f74L8BY8Rht2B+KgQGCyP0L8p8IVa3IItyHnVu8pgVbL2V3GV/AR2euwY
+   ix7LqYcVQL2SfyvlzYDVYymXc6KluTHKe7vQHJ4fkZJl9das0ebJ+9msS
+   stECYsdLgz5dtGRaNOKW6EkfQ/52HYV23gHe+L5cusdw3nfslvTS74n4Z
+   Q8GfIDm2ABBO8JYAVuQSrxjuboWQoFMGvC+A1mBQvhoAArZ8zVVeKjfyI
+   xSJlhxy9xeBLieo0sAALaR/AfS3SNB/qeIWUQJ6vEPxWo9gvEX9JhbHd7
+   g==;
+X-CSE-ConnectionGUID: bsva463SQiG49E04gRJAqA==
+X-CSE-MsgGUID: fbL9djT6SzycCMjaFKikRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="39000820"
+X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
+   d="scan'208";a="39000820"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 02:24:16 -0700
+X-CSE-ConnectionGUID: ZWfsyi8+QIuh19YaO8nHcw==
+X-CSE-MsgGUID: 6YAXCMOxQh6vl4CIFOj1HQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
-   d="scan'208";a="57858481"
+X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
+   d="scan'208";a="57913937"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 11 Aug 2024 00:32:38 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 Aug 2024 02:24:14 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sd348-000AfX-0y;
-	Sun, 11 Aug 2024 07:32:36 +0000
-Date: Sun, 11 Aug 2024 15:31:56 +0800
+	id 1sd4o8-000AiL-0k;
+	Sun, 11 Aug 2024 09:24:12 +0000
+Date: Sun, 11 Aug 2024 17:23:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grygorii Strashko <grygorii.strashko@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-android-linux-6.6.y-cicd 189/1221]
- drivers/net/ethernet/ti/am65-cpsw-qos.c:984:49: error: expression is not
- assignable
-Message-ID: <202408111535.NxnojIq8-lkp@intel.com>
+To: Joseph Strauss <jstrauss@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lee Jones <lee@kernel.org>
+Subject: [linux-next:master 2040/3984]
+ drivers/leds/leds-blinkm.c:440:undefined reference to
+ `led_mc_calc_color_components'
+Message-ID: <202408111700.OhOvZxD1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,120 +65,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-android-linux-6.6.y-cicd
-head:   2541807a1ef54deb9241788913a930d9558d38fd
-commit: 87825f8638f6b320eea31e9bc68845ea796390df [189/1221] BACKPORT: net: ethernet: ti: am65-cpsw: add mqprio qdisc offload in channel mode
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240811/202408111535.NxnojIq8-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408111535.NxnojIq8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   61c01d2e181adfba02fe09764f9fca1de2be0dbe
+commit: 56e8c56c9af0df8b6de7bc4b6d9a2f4570b055db [2040/3984] leds: Add multicolor support to BlinkM LED driver
+config: m68k-randconfig-r064-20240811 (https://download.01.org/0day-ci/archive/20240811/202408111700.OhOvZxD1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408111700.OhOvZxD1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408111535.NxnojIq8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408111700.OhOvZxD1-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/ti/am65-cpsw-qos.c:11:
-   In file included from include/net/pkt_cls.h:7:
-   In file included from include/net/sch_generic.h:5:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/ti/am65-cpsw-qos.c:984:49: error: expression is not assignable
-     984 | +                               p_mqprio->tc0_q = mqprio->qopt.offset[i];
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:985:45: error: expression is not assignable
-     985 | +                               rx_prio_map &= ~(0x7 << (4 * p_mqprio->tc0_q));
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
->> drivers/net/ethernet/ti/am65-cpsw-qos.c:961:6: warning: no previous prototype for function 'am65_cpsw_qos_mqprio_init' [-Wmissing-prototypes]
-     961 | void am65_cpsw_qos_mqprio_init(struct am65_cpsw_port *port)
-         |      ^
-   drivers/net/ethernet/ti/am65-cpsw-qos.c:961:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     961 | void am65_cpsw_qos_mqprio_init(struct am65_cpsw_port *port)
-         | ^
-         | static 
-   6 warnings and 2 errors generated.
+   m68k-linux-ld: drivers/leds/leds-blinkm.o: in function `blinkm_set_mc_brightness':
+>> drivers/leds/leds-blinkm.c:440:(.text+0x4b2): undefined reference to `led_mc_calc_color_components'
+   m68k-linux-ld: drivers/leds/leds-blinkm.o: in function `blinkm_probe':
+>> include/linux/led-class-multicolor.h:70:(.text+0x740): undefined reference to `led_classdev_multicolor_register_ext'
 
 
-vim +984 drivers/net/ethernet/ti/am65-cpsw-qos.c
+vim +440 drivers/leds/leds-blinkm.c
 
-   960	
- > 961	void am65_cpsw_qos_mqprio_init(struct am65_cpsw_port *port)
-   962	{
-   963	       struct am65_cpsw_host *host = am65_common_get_host(port->common);
-   964	       struct am65_cpsw_mqprio *p_mqprio = &port->qos.mqprio;
-   965	       struct tc_mqprio_qopt_offload *mqprio;
-   966	       u32 tx_prio_map = 0, rx_prio_map;
-   967	       int i, fifo;
-   968	
-   969	       mqprio = &p_mqprio->mqprio_hw;
-   970	       rx_prio_map = readl(host->port_base + AM65_CPSW_PN_REG_RX_PRI_MAP);
-   971	
-   972	       if (p_mqprio->enable) {
-   973	               for (i = 0; i < AM65_CPSW_PN_TC_NUM; i++) {
-   974	                       fifo = mqprio->qopt.prio_tc_map[i];
-   975	                       tx_prio_map |= fifo << (4 * i);
-   976	               }
-   977	
-   978	               netdev_set_num_tc(port->ndev, mqprio->qopt.num_tc);
-   979	               for (i = 0; i < mqprio->qopt.num_tc; i++) {
-   980	                       netdev_set_tc_queue(port->ndev, i,
-   981	                                           mqprio->qopt.count[i],
-   982	                                           mqprio->qopt.offset[i]);
-   983	                       if (!i) {
- > 984	+                               p_mqprio->tc0_q = mqprio->qopt.offset[i];
-   985	+                               rx_prio_map &= ~(0x7 << (4 * p_mqprio->tc0_q));
-   986	                       }
-   987	               }
-   988	       } else {
-   989	               /* restore default configuration */
-   990	               netdev_reset_tc(port->ndev);
-   991	               tx_prio_map = AM65_CPSW_PN_TX_PRI_MAP_DEFAULT;
-   992	               rx_prio_map |= p_mqprio->tc0_q << (4 * p_mqprio->tc0_q);
-   993	               p_mqprio->tc0_q = 0;
-   994	       }
-   995	
-   996	       writel(tx_prio_map,
-   997	              port->port_base + AM65_CPSW_PN_REG_TX_PRI_MAP);
-   998	       writel(rx_prio_map,
-   999	              host->port_base + AM65_CPSW_PN_REG_RX_PRI_MAP);
-  1000	
-  1001	       am65_cpsw_tx_pn_shaper_apply(port);
-  1002	}
-  1003	
+   432	
+   433	static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
+   434					 enum led_brightness value)
+   435	{
+   436		struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+   437		struct blinkm_led *led = mcled_cdev_to_led(mcled_cdev);
+   438		struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
+   439	
+ > 440		led_mc_calc_color_components(mcled_cdev, value);
+   441	
+   442		data->next_red = (u8) mcled_cdev->subled_info[RED].brightness;
+   443		data->next_green = (u8) mcled_cdev->subled_info[GREEN].brightness;
+   444		data->next_blue = (u8) mcled_cdev->subled_info[BLUE].brightness;
+   445	
+   446		blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
+   447	
+   448		return 0;
+   449	}
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
