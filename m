@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1238E17BB03
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 14:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97483184523
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 14:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723474216; cv=fail; b=ljSoBV/kcPh8gSnAvH2xjMpYjsn+ZURVtLkXqWKLZzA6/01Vmxbx3yEQd8ute3aO0YHwTzaJACekCRBUbFsm0IHe9gaiN8YQ427OvBr2OXAnZjWj2M69v/xB3S2Qrdh7sFzyxCgySWCOt2f0rFYUGG5qZruLvDR2uJm3Z96PPkg=
+	t=1723474238; cv=fail; b=olTAT+40vyso7JKRGaXIIixycbmSUn941H/WbGQ/+yA2JOuaGn8k6ScbwhN6dbOGXkizCHifL1a7JxDm6e5rcoOFjI5+I6XgRgkIFjq4EX6ZCx4dnaAgDeK/Bd5uvyvNN6usCje/FVK9IfUOZqXssKnOENzxqJNJMRtjo5gUMZw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723474216; c=relaxed/simple;
-	bh=omt2pc5VbQWhvECgyfJtVK1RPTiIM4d7ev0RGigYF2g=;
+	s=arc-20240116; t=1723474238; c=relaxed/simple;
+	bh=gujOaRjFoLEYo8LSKV/0hgs9yxXQNIqVvSK4fJfpfgo=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=IX3bvq0ObpoPjFO56C0AaH0HGXEpDHCl+/tQUOaLRSKNkDc1oZTfTdfJSueqHc+CH7u4r/LW5H9rlmVZZQyX3aBd8auk1dRvpWuZfULOdBYXEOCSpQvDSsrom0+njdrUW4NlT8uHUybjNdyHdM1EdPA3Zkvi9B/Dn8HJEvDQbrk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=THnJqnJY; arc=fail smtp.client-ip=198.175.65.20
+	 Content-Disposition:MIME-Version; b=D5PhqjqZg3BnF66pMJBSU4zJpCoowPHP+XFeE4fwDHW1LCwhVvp/QTODcLZViJ9Ef7Z1ReuSjVD/TPIcQOxFQpysSVcrTx3pteOApCyKTmURPCiIjAuk1nBAlGqXRLEviSvAA+1JYIyuOnt0LM+05Ybf17Nu2YzY3qdGBK/ZQZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/53izC1; arc=fail smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THnJqnJY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/53izC1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723474215; x=1755010215;
+  t=1723474236; x=1755010236;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=omt2pc5VbQWhvECgyfJtVK1RPTiIM4d7ev0RGigYF2g=;
-  b=THnJqnJYYUztrPeGlB1ySaYgZe2lQsYZE2qlIA0h5n6S5mpzLH62lwf1
-   q956HVRWkYyMi6iqhJyC2rjT1F64GZqExh+8mgPysbNMe7PS82GMFzH8n
-   YWNYNoX1PWFad4pRmuXCGnQgnaszXjRzltHjlGNLTg5TLE5F6M8iyD6C4
-   QixwYXlPLSM99yFSxZogS6bZlz1QQugo6dq043rm9eJ4MwtHHA7kBfwef
-   RJ5FLXcxLhgJEIi4PmRX3cwV4YuzsM7+MW9RNZK/UgYwQPv2jb7M95fWO
-   CqxmqbAG96jrfpIXzU9/ZP6r3rT8rS/eRIvKLBuKoayfddtf5kyHqk33C
-   w==;
-X-CSE-ConnectionGUID: h88kY1c0RdiZmktD8UITyw==
-X-CSE-MsgGUID: HN7HixWIS9e2aBtubO901Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21396012"
+  bh=gujOaRjFoLEYo8LSKV/0hgs9yxXQNIqVvSK4fJfpfgo=;
+  b=H/53izC1lusKTqt/RMYkm4iZrFGr2PATwNS5J33C2CQ3eijufDQ65OYk
+   dqEM5E4w4xiD7ZTP0LZCbHyWhVFLEXvBwp6qf1veHmAhpAewwsvqX5pSL
+   J59GzqE9Bp7MaVrnz30ylY8NN/8qq3lKM35x3G3FZuZd6m8YWdIk51x2X
+   FktFGURX4ZGMsgr06DDxuMhWphgobD0XzvSgYbXjqE0z3IOWBMxkg1dY4
+   y+mO+7Yt78E/fCrMXfDBITkPZVD6/gvNNT+nYnHmx1ctyOA640KypzVAd
+   vpSWwgO/TvTG4r+gCVwTnTE8kvCvb/yf9BRR3uLNZPhPCUZG3VSdCNxJD
+   A==;
+X-CSE-ConnectionGUID: 9u3vUAw8QhG3yjRarwVM4g==
+X-CSE-MsgGUID: lgWhkLgiQQyg0LZ8UXrpMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="12965019"
 X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="21396012"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 07:50:14 -0700
-X-CSE-ConnectionGUID: ZzKClisXRC+rvKudU1uS4w==
-X-CSE-MsgGUID: UbpSuUbwSBGg+YYnwaITpg==
+   d="scan'208";a="12965019"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 07:50:35 -0700
+X-CSE-ConnectionGUID: VUv/NGqdTbiuWlStnJxOdQ==
+X-CSE-MsgGUID: qRogZvPyTzSoNTKR2EfEGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="88922649"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Aug 2024 07:50:14 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+   d="scan'208";a="58235549"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Aug 2024 07:50:34 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 12 Aug 2024 07:50:14 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ 15.1.2507.39; Mon, 12 Aug 2024 07:50:34 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 12 Aug 2024 07:50:14 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Mon, 12 Aug 2024 07:50:34 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 12 Aug 2024 07:50:13 -0700
+ 15.1.2507.39; Mon, 12 Aug 2024 07:50:34 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iycDcIDTVt8ucAkbduZnuy0XypJbzlkv9BSuRHuiR6TtED01L/IHEd+54k20HKMBtmyMtInm7tA6OvFCj4qtiGU/+g/PbnvoEK2OLIwWM2xTKcmUAYQdNKX7YUW0pzGV+mrto85rKNxplVPt3n0OKfoy76GhDt6Y3FL8HJV8a/OLxNhlbm8dKsDCgAJmOoXouKRUCvr8sJVu74ehxFEDJ4txcCt2nonJE2+CReLhbPlQIe5sdfOJ3V/w0CwNNwWMO8HzqTpDVP5fzfGP3N8Z5Rg+d6VcrKhQz0O4MCr2yNfONqEPM45PX/KsvjKjlRX3ufdrT6wCzZ+pRuAbHTEQVw==
+ b=r29eVddN04CSh2LwJ5kzrOBv5ht3gooqOOQin1ng8ajNhJmq+8k1oS1Jj2l/37qG9B43oAWLnIPvgjMoxgXYBMkIxAxvTC3VMSqApYbJyqHjV2rAghcHJiZaxg5YNZx/SdO/A9v8gIGVbYTDWJPdzOlCbeeiWwSYL9+sSTkbfmFWW9LVetvUwXMVwASWfjCzk83kgOHM0QPrxPn+jyKEiNnVhB/blM+xN04EIOlbOa7QXHVTrdak/ocLOtgbhibl+XUZMh/olabBeVPc7viPMkeEISR2NKX2k1LsMPpkIXAmB87hjbak3+IjsK64Lf3ZYj0JvmXOXu+D05rZb2iblw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o06N0rTjoS8Rx9HhwKGCX2EPNdgWMVHZqubJnRLQOFo=;
- b=AW7SXCSVAXYHwzBKfgodJcBzd2pIP12d3sUvNIFQ5LTmgXaqe+G5qcjuN5MuQO2m8FPlW2MVMIc/4fMQvAL/LQ8n3IrrmAgR9GfyUv5gUlQxss102Hb1n1AHuy9Bon+xF5y8l3Z39uZFDq8hGxR0qB4yrngdJNVSeeHmTQZJX1bgCWZpuwXeAKgpsrYr/eLzs1Xf42sqRSs6WN63XbOux8R8uj71HStT/9dC6SQAcuwM0af3M8uqQ70ncsRhWCeEax+JweYc5fll8FGeX+9B7J3/4oQyc2jdsKHraqLwhApix14qOmveD8UcprBFua0BGYEXsT2CTiTdi1RTggY9fA==
+ bh=fZmtI2LE0EmvICurbb3tdxpkXxSbK11VRqDH2Wcvpyo=;
+ b=y048pPcD/uSWQUBJ8PlUOfn6nMxfyGoimy1OcHIwH8bLUEGVgZgVBdj5satsHo0cUdAkop6f0FSOJxCPNBJeyr3pz55YNUBfVUCyAa4SaP8N7EOWoBFmDwjpYHuIEWnsjHK2X3sqjIrAy0W0tj6WdlAjhM43VYlixgxPrd8/kRFoZpNdc5SJf8MGy73IDB/H24pnPHlh3Jar59u20Hi5VJxKZPgZ3tgWuVakW2kAB7S2zGNLKuS1O9CWmCEIghfSSIVjnnRUdGH8QXMXLnawX+mD9u+2L5gwiJQyFmbJJlXaFG3dbRpMtFTRMbVV+qauyfgXIZ3YUJac8KWfqONZsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,21 +70,22 @@ Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
  by CH3PR11MB8381.namprd11.prod.outlook.com (2603:10b6:610:17b::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.32; Mon, 12 Aug
- 2024 14:50:11 +0000
+ 2024 14:50:32 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7828.031; Mon, 12 Aug 2024
- 14:50:11 +0000
-Date: Mon, 12 Aug 2024 22:50:03 +0800
+ 14:50:31 +0000
+Date: Mon, 12 Aug 2024 22:50:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: Dongjin Kim <tobetter@gmail.com>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [hch-xfs:xfs-realtime-rmap-rebase 106/114] fs/xfs/scrub/repair.c:
- xfs_rtbitmap.h is included more than once.
-Message-ID: <ZrohG2eVdDYtAsVF@rli9-mobl>
+Subject: [tobetter:odroid-6.6.y 31/78]
+ arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000:
+ amlogic,tx-delay-ns: [2] is not of type 'integer'
+Message-ID: <ZrohMIaFL11mDRo/@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
+X-ClientProxiedBy: SG2PR04CA0169.apcprd04.prod.outlook.com (2603:1096:4::31)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -95,119 +96,136 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CH3PR11MB8381:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8289fcf4-86bf-4dba-755b-08dcbade1116
+X-MS-Office365-Filtering-Correlation-Id: e9751e96-73aa-4dec-44fc-08dcbade1d40
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?T0p9NJOIisaY1zKDgaxzXGM0tDefyCdL8lO45V0s7glhgOmX90fO3tt/1ezr?=
- =?us-ascii?Q?t0jgy+B1BJfBbQR9N9eCenMCpBBlkwRTIA6aklGAuPmg9HFv0F0/fl05P2jK?=
- =?us-ascii?Q?q9QX0LBx/yM/kWoe3JPkafoG5qdjdmLgN2nNf2ojXWz40CKe5XVznt/L6wpB?=
- =?us-ascii?Q?4HdZ6djhf7OpYsf5LIPieb+WSghgRnVlKvUHNGZMWFGlXtUpBdClbbRyy9+n?=
- =?us-ascii?Q?lC9ssK0VffPfXV7BTIzcLt8P3K3LEWP01Fk74BfCbp4e0BuT7Rsz8lBOF2Bo?=
- =?us-ascii?Q?ux4Cpqj1jrB/iu/yoitCPNMhrurHqMRZAVCp251lReeLZG01rHWU+IxoEsIR?=
- =?us-ascii?Q?Z7MfWtWf3iZpJYWD1F6BtfCQYS+kTwW8t3EENvdAT4pK+bT7Bxu9XU2/YCVQ?=
- =?us-ascii?Q?NGowaR9Zg0SHfbTscWDc7i3GFVgBPz2AoVHeZerBnfxbA402CsssTK4qMm83?=
- =?us-ascii?Q?/7yqNaffpFhpFX8XvANn+TTg1RPCBNmCZlBW7Z7/ACTI6O0kcRtaOLvV4ffk?=
- =?us-ascii?Q?nmlObucVBOfj74voQScYt0o3g9PbZcFtfLIfxnIgVBlx4fhVe2vy9UwxYG1r?=
- =?us-ascii?Q?ZlLxXeLSixlJ9c8qAaPh3Ozj1fK1zajetYOBvxkYdsS6Nes6/2xJvbK3XSwn?=
- =?us-ascii?Q?jGxXPsvKweqhLxZy//NbD3/X468s/SexGX4WM3nDz+Mkp0yvfAvUkyDQwWPq?=
- =?us-ascii?Q?P73nTfz7TnRkLtDXzDQCfJrl/tmZEBO8Oyi9BXohyHJzMajTEPAWlyERt5En?=
- =?us-ascii?Q?KDcwSjuFpvcn/uSvbWLAx2IDzUv/3+h1qXYM3UQUk0ovSt+JeguolcF9ylJ7?=
- =?us-ascii?Q?y6iHBeoiNEd+nyNT5vEufmBLHLgGA4J5TcKXxfucaxhjSpWneVUydufCD1GZ?=
- =?us-ascii?Q?ADI1qXMoqFKoE67zCoEHtFNRfuVtSmhGRyT8sk9TwJN5Oa4Banyn7ZDRXnBi?=
- =?us-ascii?Q?b154Cg6P189R55KmLX2kjzggUeq1wLCrdq0SxfHI+AMmBz8XWpmOttDfk+43?=
- =?us-ascii?Q?yDk5QZ9OyMdGsSZ4Mk3s3a7ok2HyTVhVg78uoWBX/JCamIe+2LjNkepsWZzn?=
- =?us-ascii?Q?3Hkph+gk6OqFJb1kJZN00nzFinwSuQtOyr7kqLSRqN2OK5W+bAzWDLwPq+N3?=
- =?us-ascii?Q?LveDrxhB+Mu3dpJxQW3LD/bZiqy23t0kDg2W9c2YVvBLEt8mO4PkHxkWPsou?=
- =?us-ascii?Q?jDwxWdXCks696OLB0QJwYYc9CPpdVTijFTf5o6c7+AzR+plQlIbtm1StOmns?=
- =?us-ascii?Q?bz2x61fdrAQRQilJ/JI29VjrmcMmBP5Ehc0/NMzmImihLfnuSctoqsggRl2D?=
- =?us-ascii?Q?wYg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9VFrMIM8CKMyEmQ5ONXpRKet+RNsV/3XK197SpTNbY1byfdSglQx0by9s9Fx?=
+ =?us-ascii?Q?drsOuok23FwEAwNIVb2SOHPFNoBQrSc04nnrkUCY8hVATq0X7+WVqeHujkfA?=
+ =?us-ascii?Q?cXLZPaEHkPZuIKN2FUyVRKNDGapw3lTiSGE6ynsRFE8mVuvUOZcsg5UvcFXu?=
+ =?us-ascii?Q?fPK+e4f0BYQBcWKTTj9jyOaivcuILVyFwo/nJNZInpzFLEZrhie4ZWyFbR26?=
+ =?us-ascii?Q?+3oU8LEo/M4KsmwehY/RHdHA9zl8CMgETGFk3TirYIK2mSGp3FSK27JF4niX?=
+ =?us-ascii?Q?LWKokCJ3rKMIZcDzu4/d3zCL9FYWTqWZjW0mqsnU7pYSEcWKAY5v+OlcFj+C?=
+ =?us-ascii?Q?Ye+ZMeR16cVDJB//nVxyhoUqkqcVa/ORuFs/l+dzKEEag2MCoW4d5tKgp1t4?=
+ =?us-ascii?Q?WWF/tqRS/9jV3tODXB8I16FtigLLDma/7oL2o19MrcX7rG0KhjtfdtVsdHq6?=
+ =?us-ascii?Q?+Fnv5UiQ3ADDKalweW6+NuErUAa8U5REBaeYwediDeZxzIvOlyHTpTvjzu7/?=
+ =?us-ascii?Q?AwHtli7oTx0j3jYXJ/Swwyei9G+KHShUx2pex2BbewkGPhnLamrLw7xeMMrN?=
+ =?us-ascii?Q?Gz01B9ydP73LTAVuPCYw1xGg8n2Ti02lQUdQxpBpo2OQoJKRYk6JRJ7sojov?=
+ =?us-ascii?Q?rGWxResFGJ4xOECLpvFagiW6IrgCuLNiLI8zdBt2swvYDh78Ph/+eHO398cB?=
+ =?us-ascii?Q?yNSueqGLP0oN1eYqQyFblAB9bqWg8jiCHlHwFMiWwMf7If4i8k6lvADGy7Lu?=
+ =?us-ascii?Q?qDG4D6XTy+NVbJjBG42Ib4pV6NKQbN4Q4DlqVEiBt3sk0b3n+bHBo8pdt44y?=
+ =?us-ascii?Q?ogOneE3BqX3lG7F9STNmq3CWEgBqh+svRO/k47tB1DjZFe6jXwWXHRnGMRFR?=
+ =?us-ascii?Q?YwIa9recA12XqlKpRcgaHUnZL1Md3dcSZRAZrnSqJ/7qegkd+BQ+RJN2NjHf?=
+ =?us-ascii?Q?cTN38474krMREbcRa1QJv8o9D4pA9xRjWORlqxjElkoydrSq9H7C9AC1spBK?=
+ =?us-ascii?Q?kljleemJ4hG3ZIb8GmC8wKqZmYOZPJVN42mD0OP7+SMSncKFG+XLbRkAsDdQ?=
+ =?us-ascii?Q?bR4tDdi3CTfIh3LUKySGHwieOYyxTYbk08J4u4CovZmWfRHvfVlqDV7Xv31a?=
+ =?us-ascii?Q?8KKtj1BWWzYQ4b7mZ6QHhvKsEQWUviqRR/nD8Kpx/CujGJbNDn/zL1N7bQAf?=
+ =?us-ascii?Q?6RplkD9JrwMNhca0L96whmSk/zj+nMtiiII3Fn+NNAat5pclqyVq9IHMqufo?=
+ =?us-ascii?Q?8NJo5COVHrFx98Ys3Dvwv50dVtXyKaiQ6wBhEe//cOEzfIguMeEDDsfmSnDa?=
+ =?us-ascii?Q?Q/MnYVTT3lgg7pSuO4I0Exltk6ApaJtgLHSNl0IkjJuuUib5Dy9XB3vuLaVG?=
+ =?us-ascii?Q?p7bFXUc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4ORsK5SK321oah+3hYEc20hiyue7QYtFuyud1JEfTtVxn5fe+WlKj7ARwo61?=
- =?us-ascii?Q?0/eHqXjhTx1ZWsA/rh/pFm98Y296mtHYQcuOI44ui1MA7eBvCth3C0cQnurm?=
- =?us-ascii?Q?JEqLIlnSiilTVUe+pCZ/Uj1WUFcwXgKoUA4EOMb2wPkL2ZyFFKE/lLITxNxi?=
- =?us-ascii?Q?D6uKAPKMpGj4N0xx8RzNEiVvW4DAYtRvC6QLH8DxbJ7mjFr1baPnh3KmKuPe?=
- =?us-ascii?Q?0KWjLBB8DO0Daw0Abiph+Mub1q4I+NRu9bongNR7/JD4PfTy9j87CiT5iZKv?=
- =?us-ascii?Q?gW0zjZkzraW07HGsYKLKGZxqUR3pNzuG5TETfFYfrfpRYW5YchkZuni3Fzor?=
- =?us-ascii?Q?46Pg6z+XzXHtq+cHtSCewjZ0go/1hOz4arNYIrK90zZwfxlrBGLshV/Wduw3?=
- =?us-ascii?Q?V9lGhfCHNIyDMWG8fVHIxGQgQndoi2ooTK7QVDtMXB7Us2N4oFodMnFc7lHm?=
- =?us-ascii?Q?2tcVOduaN3PCInDDsMPIumXRvx7WptmTu+U/ifANlg6edCGKqRpvoTrdHVvX?=
- =?us-ascii?Q?4zRkhWWaQL/WGLduIfnh1paMw04jgyhjmf0Rkcj5aoyPPPagkopzPU7h7r/K?=
- =?us-ascii?Q?TFfV4iJGDiyswF8Y7ZHzqG4y5cczJxNdBJx4pv8l8qxyV72UDyY01kW4ezzb?=
- =?us-ascii?Q?2qZ1ChUTnnYlW00bZLQK6qAtXqTOiMDnniDrPvS/3TKVzdIHL/Pp/nduZpTB?=
- =?us-ascii?Q?thAtOcZ7p/5itfcROVNCNef9dMt7auXC/KxD3RMTVCMGOoteRQzqtMQpDP7M?=
- =?us-ascii?Q?OVZ4ndk7MK7bkBw+1pyZvOlGRbXrfNJ3WBhZ+s1kIebNRDvGvkN8kYjMWAVL?=
- =?us-ascii?Q?queTJkfXMcidRITJitFzxkc7zqj+UoFiRhOK2s7Xl7dXxuH4i4zmultxcRCd?=
- =?us-ascii?Q?vTRsLC5G8105ThyHcqp1+lEM8bKthZmv2dhyaQ79XM5z+E3kw19Tv9GESbaT?=
- =?us-ascii?Q?qJkv9l1SLQyHDsgUeFHztkrpO7S1qd4wsfniane7roR8Irk3GHpELYLfKLl7?=
- =?us-ascii?Q?LQFKY/tkWPFRpXpCVfXyGRrXgXiErkOtr7jq1zOGpeLl0r8XSS7s2DvH+bfB?=
- =?us-ascii?Q?pE2tARYewtG4p0listzbnPaAa1EjxG3WZPYavUE2d8ktcgdBkVuifOhl2WMV?=
- =?us-ascii?Q?kaJfXWqupMoAA0rQHHBn/nd2UgWeoPZyxi/jaXXwW0R8GhZLf+tO39AWsfby?=
- =?us-ascii?Q?pB1m2ROkP0e4WV3ZvPBgomwy+OK/jrNNA4Rhm5xM6xuU7zzQxjSkWmCs4jvr?=
- =?us-ascii?Q?KYwM5crAnNxvby4JTi2f1QpEJ8eY1ET92G47CZxyPOEleD6FN4ud2dq5map1?=
- =?us-ascii?Q?DCl2ASuNJgTF94SmO/vmYEpHS70zbtxFqXqFs/2MbDUoVy8CoNDshX4GjZ8M?=
- =?us-ascii?Q?zP6khKS7FZwzEfzFMqs8AjoGVN+oCFZx8El4sO/U6O7e7D+k5t3OjsmEbx8w?=
- =?us-ascii?Q?nDoPP3ekFk77i26mNMLau3mlIqKWsk7OYXwbt0E3Cid0Y32z4tM6p/VXkAUU?=
- =?us-ascii?Q?he17IPiV1yRPotd8u1s7IuLsoWG72TIKt++6YhQBReYxTxmYYwcGNEv0Jpgb?=
- =?us-ascii?Q?RejAGF3eyrf7M1RqQc/eI2BoUjzMfE2z+fHIQoQV?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8289fcf4-86bf-4dba-755b-08dcbade1116
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vP0hLZBqEYuq3dTbqfDK4hZl8FuAdOKc0xp0VvR3saE/dtY6bU7UKs+xqvmW?=
+ =?us-ascii?Q?kkoHl+NydHu6vNhnfVCGrKxcaTBoFcraHOQbboFmPZ+gGereQFRSVm+xNMql?=
+ =?us-ascii?Q?a0yc/HJm63ZPPFmF148D256S8uF6o+/G4nsc8EcX79PZi95RIhlvD1i4z+n6?=
+ =?us-ascii?Q?5gTNXbBThyft6s7SbP4CJ2Kjy4Mh/wSEZWN6fMfqKTvWJjeorOPkyitr7Xvr?=
+ =?us-ascii?Q?wFxhwliIdNOuBB2I9uWNorDD1hfxua80CmtNqrZvvPI3Q02do9ZOLAP46ERZ?=
+ =?us-ascii?Q?coor0VPvTC9IVH9a4++1+rSshIuxbOteTMXaUxZokUzedI4k8+RSbCl0xm3I?=
+ =?us-ascii?Q?39DJ9q1Arw9oVC5OpOPpu7416wqk/YcGZ12UBOr9Aa7Q5S+ySk2yoggXvvRS?=
+ =?us-ascii?Q?nXZgTmyAgWuQAMU1cdi56OQxPM290B90xpmchscU+yByK+gRR7cLzYgnYpZv?=
+ =?us-ascii?Q?4ce2Hjt60DptB7hwQee+ZTKlQkSZInwL1J75eR7dtJcT2Hv94qGT4LwPSLRU?=
+ =?us-ascii?Q?lNvJe4ZROGolGRH9RCWnH7PnO+jugainI6/uVrPyKgeMAWnHoQJKeMWTVF/V?=
+ =?us-ascii?Q?L/TEt8vjGaWoGFXY508OG35dGWuuH3DNIy4kPwWbpE8uyisfT6cYIedLcR7i?=
+ =?us-ascii?Q?/cRbHI49yJGPwoybeJc9wZBTKqApmbzWoYSDvury+DN3yeggCZidb//ZuF92?=
+ =?us-ascii?Q?SuhKN87WAMMa4gcbX18JtdJj1YMZN1B+wHtURr33qfRCAnDfif17ZejrHopw?=
+ =?us-ascii?Q?HZjvtcGitNuW7zdrXcJ9xvMOrqOIZyW7BYwIt4RSR9CGpij8h8DRleBrG5E2?=
+ =?us-ascii?Q?S1AI8rOzCcItL2tcWEhqoDVzumZxbouM1SQrhhE/56Q4LypY1wnkc7tY1R4L?=
+ =?us-ascii?Q?Z7xcHXM26TgTZCV/sfUemv7ffypsyeKYFc3FMQpBeCTgdcS2jek/4EpJl8ed?=
+ =?us-ascii?Q?OWFtg0Rd0uvQBA8ymhIRLzE2KKZLdi4vrpHAq9/pFVPh69Iv7pYq/8Dp/peK?=
+ =?us-ascii?Q?QMBwQ5OMd1ULgWG4AaDkAkNxrVPy4zgwug5I8VMBpyJs6f5tO4mIDP/62A+v?=
+ =?us-ascii?Q?AvXksGdGBH2Ok+jgnGv4Piwa+95HJ2/lSR7Pt10DcD3XPR/zj94SB5c000DP?=
+ =?us-ascii?Q?5p4mUVl8LA7fqw3/X1eIjy6ialNOXOE5a+nGpmgdPzVdyksNzb4jfywpE0+K?=
+ =?us-ascii?Q?Lerl1XiOeyUg3xFLweh2M+e7j0GacHmN+VCUZxpQooaTmhQZ/OY0KVf6erhH?=
+ =?us-ascii?Q?ov5DYCxsJ/q87maNDA6WwkbOR+HitmtBFkCON5B87kxHTpTtnuK9U7+L8hIP?=
+ =?us-ascii?Q?Qhdc3x38sL8W9ztgceJCPVO6Uu6Xgp4BvNKojaqh8IN6h6nvIUj1MpnBEPP/?=
+ =?us-ascii?Q?YenGn0+jdpAkRtE9vbW5Al3vvclUrXx44zXmWREdiWbEOw4TdZIf8/PDH/2R?=
+ =?us-ascii?Q?XXvEebbdgqjz0zw/lJlDQ0m9KadT6XgssUdpTc2EkhJKDR0p/7SFNwQFWOpP?=
+ =?us-ascii?Q?tIIv0ENPXEntCaKsji5GcSAtLoQOCtd+9wX3khuwMVNHSe8CkY5sD7ppwbXD?=
+ =?us-ascii?Q?E30ZQfp+Hs2ZmBq+FGPfWg2uu8ASwxQPEZAKWaZU?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9751e96-73aa-4dec-44fc-08dcbade1d40
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 14:50:11.4940
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 14:50:31.9044
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4CNUunnxrlDfZYr8jEHzfm1Xaa6HJ+cKWJ02Sk3i85TvjsM26Zdyhchue31qF4+ThkR+ci2c00QaRlMPIjbFCg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7t0qmaD5QgKFzwGQxI4N5y/z6XvWtyA0nIrKhoOm/JCVQ7RD1cuqWe8/miP5kjuVfUz4RaRkMlOFnCpfQWHiUA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8381
 X-OriginatorOrg: intel.com
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-realtime-rmap-rebase
-head:   d327a47f8c6326342d07986675e149353d5ea516
-commit: 8e2ba6732c1c12f6876866642a506ee7c3d304d1 [106/114] xfs: online repair of realtime file bmaps
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
+commit: 81becb0ae3e52ea78f9fe3aba30ccef729a4c343 [31/78] ODROID-C4: arm64/dts: add 'meson64_odroidc4.dts' for compability
+:::::: branch date: 5 days ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240812/202408121052.eSvLq00q-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev10+ge5d88ac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121052.eSvLq00q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408121059.u6Rj0r8Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408121052.eSvLq00q-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> fs/xfs/scrub/repair.c: xfs_rtbitmap.h is included more than once.
-
-vim +24 fs/xfs/scrub/repair.c
-
-  > 24	#include "xfs_rtbitmap.h"
-    25	#include "xfs_extent_busy.h"
-    26	#include "xfs_ag.h"
-    27	#include "xfs_ag_resv.h"
-    28	#include "xfs_quota.h"
-    29	#include "xfs_qm.h"
-    30	#include "xfs_defer.h"
-    31	#include "xfs_errortag.h"
-    32	#include "xfs_error.h"
-    33	#include "xfs_reflink.h"
-    34	#include "xfs_health.h"
-    35	#include "xfs_buf_mem.h"
-    36	#include "xfs_da_format.h"
-    37	#include "xfs_da_btree.h"
-    38	#include "xfs_attr.h"
-    39	#include "xfs_dir2.h"
-    40	#include "xfs_rtrmap_btree.h"
-  > 41	#include "xfs_rtbitmap.h"
-    42	#include "xfs_rtgroup.h"
-    43	#include "scrub/scrub.h"
-    44	#include "scrub/common.h"
-    45	#include "scrub/trace.h"
-    46	#include "scrub/repair.h"
-    47	#include "scrub/bitmap.h"
-    48	#include "scrub/stats.h"
-    49	#include "scrub/xfile.h"
-    50	#include "scrub/attr_repair.h"
-    51	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
