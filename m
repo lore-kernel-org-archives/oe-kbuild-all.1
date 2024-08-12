@@ -1,64 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D2616DC3C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 09:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E91C16F0DD;
+	Mon, 12 Aug 2024 10:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723455775; cv=none; b=N9FxpOjmYoofowiKKaY9rN6VIhJ6ziKITd0DgjTmfnzRQDDVlolqwQOP4+9550sI2YFtzmH6q3O4SXbFvBM9b5DFbFVamt9O+CO7lGxwOetl7zRtZPSLDQUb3kgCg4AJ+9DOn3s7cJnjazjFZv/KTyytFHt3yKFVxHLTikLwFvY=
+	t=1723458813; cv=none; b=VF+e3oD48dp9mznS5YvLsvduSzlLnSfMeqn6kR0WtWRTs3mpKsU6mlavgg5d3psBftgvjJhd7TgCjLf+zpYnsEFdTeyy022B0UAnT6e+K6Np9fcbHfddjqhiOw81As9OyerKPbcrzuu5wIgOiejxDmmgzMXvLqIgUI8Xwa+4OFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723455775; c=relaxed/simple;
-	bh=b4WFeXD8terb5bRxofCiOoA6oxd8/i/orRs8lsnEGCs=;
+	s=arc-20240116; t=1723458813; c=relaxed/simple;
+	bh=B8Qbfd2UQVuWQpbmzy8EOiYoqBi8gM63YNxBCXhCd30=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ln3RvhhNuqhN6fgYy8uEopY83mCEFHk+ZjbnSUbMD+UYdFV5zXBieXLvyMkmedWR7WqT1t3mF89v6bHfRLS3NnSZDcKXxnVDcrCmiChUb+Qd0EJZKo9FYRdvEJqiEDFWZlID/jtThqCezlOMnMXfeRvpVoCAp0Iytst3Dknl3BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgH2sTst; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgH2sTst"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723455774; x=1754991774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b4WFeXD8terb5bRxofCiOoA6oxd8/i/orRs8lsnEGCs=;
-  b=hgH2sTsteO5F4ifFsA7oSqvYuUigbJubutJpM1LiR+y94iKkDP64by2z
-   VzG1MWqQWskrffJx8W6Hk9b5stlQtEcNoH9tMlWb99YhVh6JeqWrujgT2
-   xpPvDKH+Kp3/Nc7BN66quO7T17cAGrwJDy1wpTtWg2hEkf0l7jNxfeIx2
-   RCDFkyBsfzh7qz2fVFnLczyP0W5IKgMK5POM2A5VgpQq7RB7i+yc3XMyo
-   LkXFUL2L7I5MY5TBP4L+PSG2QSVNdiIHQldSh2eNnkL504kPrybxZR3oz
-   BpA8chE9OpXxnso+AhyhXoEGV5B8vuUlhVCpUuFgQGcGPracTnybStksg
-   Q==;
-X-CSE-ConnectionGUID: Bi5e5T/iQ/6GIdPrHrmndw==
-X-CSE-MsgGUID: YQ1ECj6ZR+KtpzudMkgz4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32704534"
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="32704534"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 02:42:53 -0700
-X-CSE-ConnectionGUID: 5oxjCGDhTZ2//zwBmBSnJw==
-X-CSE-MsgGUID: KCbpgNZsTXeUppAeJNfHvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="95716165"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Aug 2024 02:42:50 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sdRZf-000BbD-15;
-	Mon, 12 Aug 2024 09:42:47 +0000
-Date: Mon, 12 Aug 2024 17:42:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, linux-pwm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ukleinek@kernel.org,
-	lorenzo.bianconi83@gmail.com, krzk+dt@kernel.org, robh@kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	upstream@airoha.com, angelogioacchino.delregno@collabora.com,
-	benjamin.larsson@genexis.eu, conor+dt@kernel.org,
-	ansuelsmth@gmail.com
-Subject: Re: [PATCH v2 2/2] pwm: airoha: Add support for EN7581 SoC
-Message-ID: <202408121701.zaN0Tsxg-lkp@intel.com>
-References: <d5abef7ee63f2c5df8bf3400c4d8a5ff72c706a9.1723393857.git.lorenzo@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WFirUI5Din4Q2hvQlR7WaRPurjf+py55Zu6czx+flUCHr0lW7JEDPguGfhvxH0sEC6zA23QsR0My+Ov4zGPHTb+wdWG2UN1xAHEc7ylU1/jrsxqA0t1K4BWcqeERhsg4IEl52wqiAynrGZKtxEVK/YnxPVbm+83czVWcuDvgpSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1sdSE0-0044x5-2v;
+	Mon, 12 Aug 2024 18:33:15 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 12 Aug 2024 18:33:13 +0800
+Date: Mon, 12 Aug 2024 18:33:13 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Linus Torvalds <torvalds@linux-foundation.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	"Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 2/3] crypto: api - Do not wait for tests during
+ registration
+Message-ID: <Zrnk6Y8IDxmN99kG@gondor.apana.org.au>
+References: <ZrbTfOViUr3S4V7X@gondor.apana.org.au>
+ <34069b9d-3731-4d0c-b317-bcbc61df7e9d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,57 +41,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d5abef7ee63f2c5df8bf3400c4d8a5ff72c706a9.1723393857.git.lorenzo@kernel.org>
+In-Reply-To: <34069b9d-3731-4d0c-b317-bcbc61df7e9d@stanley.mountain>
 
-Hi Lorenzo,
+On Sun, Aug 11, 2024 at 04:30:10PM +0300, Dan Carpenter wrote:
+>
+> c72358571aaadf Karim Eshapa   2017-05-13  368  	pr_err("alg: Unexpected test result for %s: %d\n", name, err);
+> 73d3864a4823ab Herbert Xu     2008-08-03  369  	goto unlock;
+> 
+> This calling crypto_alg_put() on the last item in the list seems wrong either
+> way.
 
-kernel test robot noticed the following build errors:
+Indeed.  This should just return.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.11-rc3 next-20240812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/dt-bindings-pwm-Document-Airoha-EN7581-PWM/20240812-003542
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/d5abef7ee63f2c5df8bf3400c4d8a5ff72c706a9.1723393857.git.lorenzo%40kernel.org
-patch subject: [PATCH v2 2/2] pwm: airoha: Add support for EN7581 SoC
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240812/202408121701.zaN0Tsxg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121701.zaN0Tsxg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408121701.zaN0Tsxg-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/mm/testmmiotrace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/mxc-clk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imxrt1050.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->> ERROR: modpost: "__ffsdi2" [drivers/pwm/pwm-airoha.ko] undefined!
-
+Thanks,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
