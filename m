@@ -1,236 +1,228 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2071.outbound.protection.outlook.com [40.107.100.71])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2D637B;
-	Mon, 12 Aug 2024 04:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723437048; cv=fail; b=BHmGilb0KvDsT53CbkH8bJJNR7rxq4woGXzyY12HyGy7J/DOZepW+pLAQqzFBWKwQ4M/fW807LBtom8Fvo7PPpL5xzkieuAdoNEyLtdQnwYzhV9Gg0f0o8lfzSUiH3gC0OPzou5+62eAGZ6CNYcvTNXhsEemlX/ld2rjSJP+ZH0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723437048; c=relaxed/simple;
-	bh=QbeQxTKGoz4+c14ojtUqpiOwJuH8SqY1lzB5w818naY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cb1KbYNRSq5Rvu6LG41XWP3MzLQBZ0nVrBsjdY7V1H9uzRod8iOpcWDNEF7cWi7s2G7r9Ubkts1jEUUfQIzo8y7zSXkYV2hkHKA8cgl7bzqzd8o5nc79/gl4InyoWUUsyip9VW+083olo6So8FgdLFNcITPwmiD9TXCfBOtok5w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=s/9Vnumn; arc=fail smtp.client-ip=40.107.100.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968CA14A4E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 07:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723446613; cv=none; b=Hn3BhsipLkcKd6/eAWT2U7PmcvdAQ34mXlWFsZaqbQ0kIaDtj/JsPJq9pGUgjD8L7ojMWXqrtX+4DKbKFUMEZOGa6BCheiHIlJVC8BUEcR/bUwijWrjrSA6jIBGmGgjLG99jVD2qNNWuxIrat3iBJ4AGOmiek5C/Llw9BVBD3e0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723446613; c=relaxed/simple;
+	bh=UZFRD8D4N0lHM4LeVB279uikQiM2J27PBBWBYhoHXUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fp4bdLNHCF0fQ9tQaAUWyKPmXX+lTUqbjI4vl+TdqMZEO05/UzazaRmaQPJirOF/3X5b7hgzIND3aB+SuvZJKNPvEEvKeN3zPiChq0mZhrqD+MVfbzqgbYSKUKnsYFNZyHKaLfcxFdb4VnA/8imwXcOKD0P78+gViTtn2OZQ9DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ku3Fu/yG; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="s/9Vnumn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FKqW5F+EMaXMCjWWDKFIa/yyFkMaTPPxNWSKE7eWZnbpz9VeO43u/Ujr3M+3H7zcYTJaUB741El/INX0WFnLIHD1bt3UVeBlO9acR1cq+i89yN7d9rKCLhAnyLYoX1UEQqF1CezfQF899dBxnD3OVjDZW0/mTYy2AF+9ZU1knlmB/WFICOA8gq59T1thTPGFO2gsgLdxlRPSfZoCWmOQlb1+QADH6oIu2GoNJJT6ZmPfE8LPGKxtgrSUIrGy8v3LG4ODxifKCBisW4G41tn5Pr/L1njQ/CeF1pjFwzyG5Grgm1HDVaUtXxdzP2kvsflhsQ5jifH/SyLTPkLvthK1Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=96APsr0G4PjpW7gVADe/tJ7JQf3JXIS67zStInFbRaQ=;
- b=awXFNSsyUB+aDELgKM9R+plWvVQGgT/Gwf9AFhcinckt+E2SRRyv605MjpZl0pk0APIBz7OOnotwE/aBvyYDY8mKhFjWbzUMKECn9hutUL+MXHoz754Mu4iY2r1FxG1GqfNFN44+ZW/ZsmrQXJdGjcI3B6vUhthTI5g2wZKF2sJMFC1GYfdfYhZh4Jdx/aKg5xHjozECkY9tVzbvYof22Jdii277knBSjYuOJPL9z3r2jqus6uAx6jtGN8IlyWZ7PP/D30tkTRsJukaPS/rCSu2gy+iQ3RC5vD1YLylw3zVuDO08TMXwgk6qtttHlF6iZJwE7bcvBKbrpGWXyo8TbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=96APsr0G4PjpW7gVADe/tJ7JQf3JXIS67zStInFbRaQ=;
- b=s/9Vnumnuq12tOHvVkJRdK6j15jgCVA8Exz3DQbz3xXTPXwj0P5s3eoHujB0mn7l7V1aEchL/22QUBTPG7UZEONYbY2JMLTqBWHHN0hk1WAf+ErVHsyGU/yacc09hhoxEX7qRxMBBIEeATgxSPBvBbzA4Z5lhB5u42S0yILVevo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by CH2PR12MB4248.namprd12.prod.outlook.com (2603:10b6:610:7a::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
- 2024 04:30:43 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%4]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
- 04:30:43 +0000
-Message-ID: <b9a39271-1ec7-45c8-b52e-f3cd675a12cc@amd.com>
-Date: Mon, 12 Aug 2024 10:00:35 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [broonie-ci:filehZ3h8g 26/28] sound/soc/sof/amd/acp.c:407:14:
- error: no member named 'pci_rev' in 'struct acp_dev_data'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-References: <202408100634.3r9TDvav-lkp@intel.com>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <202408100634.3r9TDvav-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PEPF00000183.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c04::49) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku3Fu/yG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723446611; x=1754982611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UZFRD8D4N0lHM4LeVB279uikQiM2J27PBBWBYhoHXUc=;
+  b=ku3Fu/yGNhhzYT3AMRrFzkiLL0RzsYdzcMgqNT6BpLrT+CV6a6Ld0o54
+   hjvNxlWvAjA2n+bl284JI4SK06lUb/AsbPLP+MnmkfrgvQJO1bZXRGrS+
+   8ogncLocxxk+Y8ymNnsVw1OWHrUAYcbVwz826vYMAuo1314mjsVA1ubRQ
+   zOoj4UilmJrMcrbo8BX0okSYgqX/YGDe6Q01msZnFKB+X4Og/RlrrPyLh
+   Lg9mRtvkItedsncNVFAfymERdBlv5HaK9RIegFU5sMawtcsvyGxIoKrid
+   kTlhmh0lcj+aEL99Ke00Y3iK6xCml2HzVQzHbICzOGTacvOW/2OrA/vTX
+   g==;
+X-CSE-ConnectionGUID: Yej9YZx5TaaPFnZB/9aBxA==
+X-CSE-MsgGUID: 6MCHsJacTbOiK/EbNNO3tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21710565"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="21710565"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 00:10:10 -0700
+X-CSE-ConnectionGUID: y4ayYwMtQXmgDvxULXYVTw==
+X-CSE-MsgGUID: DdOnmdFyQ++ma4hzvd5N7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="57822857"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 12 Aug 2024 00:10:07 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdPBt-000BTk-1d;
+	Mon, 12 Aug 2024 07:10:05 +0000
+Date: Mon, 12 Aug 2024 15:09:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abhinav Jain <jain.abhinav177@gmail.com>, idryomov@gmail.com,
+	xiubli@redhat.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, ceph-devel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com,
+	Abhinav Jain <jain.abhinav177@gmail.com>
+Subject: Re: [PATCH net v2] libceph: Make the arguments const as per the TODO
+Message-ID: <202408121452.qS7GNcws-lkp@intel.com>
+References: <20240811205509.1089027-1-jain.abhinav177@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|CH2PR12MB4248:EE_
-X-MS-Office365-Filtering-Correlation-Id: e25fa881-5364-475d-860b-08dcba87870f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ODFMYzJrUUlRNzZKUUVPdU4wUmtLeVVuMW1GeXJldFoza01pc1g5TGlka2sz?=
- =?utf-8?B?Vlo5eWF1dHA5WUthSWI3blh5dEdneEo2SVNWTXF4bVlBQlVXRUFmdy9YdlBK?=
- =?utf-8?B?V3VLUm0xLzAxdDlCMTlYYlBBNVk4K2Vudk9ZQnpHTUNsWE8weXZBbGVyeEhs?=
- =?utf-8?B?SDg3aEVTR1hIbERJM0s2N0xVa0dnTm5rd0hzd1NnNFdMTnNtZHBLeGFQR0ZF?=
- =?utf-8?B?VzZkRXNBdUNXbG5WV3FkUDBoTjhrdlN2U2pSNmhLSVIrWHJtcUVTdEs4Vmpq?=
- =?utf-8?B?SGVWcHMxZUV0K29NZXJob0I0TDhHNXM4VnlRWS9MY0JYZlFsZytnQ3h0cXRN?=
- =?utf-8?B?SUtmTk9aQy9IbmRNVkRqMzk3cGhMSXBSZXJ4cTVhTXEyekRLZEtQekJmMURR?=
- =?utf-8?B?YVBCN3o4clBuMTVmOGcxQjFwcUREVy9LOWhUOWxySFZrdWFGUHdScTd6eGtZ?=
- =?utf-8?B?QlpIdUprZHNJSjB6SGhjWk45bjNnZGlJTlQ2RkZJb3Zqek5MYkxhQ1RKd3FK?=
- =?utf-8?B?SWIvM1JmUTI1U1hreUpzbnZmdzdvQXFoZnIwOXZsbm04bmlKbmxqdmlwNWQz?=
- =?utf-8?B?bHhjWVJYdzdHYUpiVXNkOHphSDRxRjY1Sk9ZRUZpeElDRUs2WVNPNTFUdE1O?=
- =?utf-8?B?RW84UCthdDZkR3lYQjBQY2xDY204amRPdlpEckpOMGZ1VjhkaUMrSm1WMk03?=
- =?utf-8?B?SVpSMzNPZnVKSWZHUktGek9nSzVHczdDWTUxcU9zYU1MQVh1TXlVdWVXa3l0?=
- =?utf-8?B?bkVWTFRXL3N4RlY1UTMxQkZXbk03a2VBd2JDZys2ZkREOTNWSVAzbUV6T2Uw?=
- =?utf-8?B?eXdiQWRoQVJVT1JRV3V3cHZaWFIzK3VOZUZuNStUd2JTQ0NsVDJscjh5OFdz?=
- =?utf-8?B?cjJYRXF1aXBPRng5d1AvaDRjcDQ4VnRQR3hSMjNYcTFkeU1Mb3lRRFZqRDFZ?=
- =?utf-8?B?K1BjTVozQXE5Zmg0VU11cHQ3dFdSdTZaZU82aDBMSkgrSW85OUJsTGNtN1hK?=
- =?utf-8?B?UDROaTJhNHhGMkd5K0NYZGRDNHRHSFIzRlVOQUNPbUo0Rkt2SjgxN3Vhdnl5?=
- =?utf-8?B?OVFvWjVBVVljNVVGQ3lhd0k3d1dJN29BOXRwbjRSeVJZNG9lZW1wdlpyK0px?=
- =?utf-8?B?d0ZPdTZHb2xLZU8wRG0xbUpHU2RkL3hnTGhzYnQwa3FRZ0phZFc1S2pLMDlR?=
- =?utf-8?B?amN1RWQ0V2c4cFQwQitZdWNGc2czc0E4eEFyNzMvU1RSRUNCVlVJcU5mdGZs?=
- =?utf-8?B?Q0YvZ29DalpPSktOd2FUZTFWMkdxMzdlU25Ld0FUb2tQb0ZZSjVkakhjcE55?=
- =?utf-8?B?LzNsVG4xRlNtYVJ1VWhUMlRlKzBrOFFUeTdSdFhLcEpnTWIxZ1Nsd1ZDL09U?=
- =?utf-8?B?dW1CZzg1UDRlYTA1c3JSMlIxRFJ5SmdpMnBHNTdZRHFwU0VGM3lGclNzV3ln?=
- =?utf-8?B?QmNmRkE1R0ZGTkN3NjdmYksyN3drT0s4bHIrekIxSXJtRVdhU3c3WnoxbFJ4?=
- =?utf-8?B?cGtac3gwZW5JS1Nsa2ozUEdJa3lBQlZPUGpLQ3RJS3VBdkRwcFQxS1JQOG4x?=
- =?utf-8?B?QlY3Rnh2Uk5waWNFeEluUUlqOVZGUDRWWHIrZ0thNk1ZM0FydlFPSXpxVEdO?=
- =?utf-8?B?SzhXNHZyQnMvVzVXK0o3cEtoWHZodTE0WkQ0UFN2eGdCd2UzYWk3T0RCdzJl?=
- =?utf-8?B?RUcxbDg0RXRZbG10YlVreFFNSEtia3pIYUZBY2dsQzJJNEVxMjJQeC9pZGZ4?=
- =?utf-8?Q?q5g5EKu7t7Mpmyqp1SLPYVEEtYQi0TYG9rY8qI/?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cDNmL3hjS01LZzlKTWtnNGlqWXdEaUtDdVQ0ZytnaFhtUDZKSFpSQlR5VjB1?=
- =?utf-8?B?WHVnUUwvQjlCZ0NTcnZwOHh0UXo2MWZBeWVaWjlLUFl6NzdRVkVlMHR4UWd2?=
- =?utf-8?B?RSsxNVhwUkFtMk1oekpPYU5JQjhTZUIwRTZ3NDRGWWdUSnVtTFRnRVlrUFda?=
- =?utf-8?B?MzI3clBMSm1xcWNTQ2Q4RG1nYkJVN0xpa0h2cWhzdW9wcld6ams0T2xlTk9S?=
- =?utf-8?B?QzNKTkFSMGhwRU8vdmcyRzd6MWF3emF3N2pyUWpYUHdoZG53bFYyMXBOeDBu?=
- =?utf-8?B?OC9xeThYQ1pQY3ZMc3FPYWRiRlJpYmdaVVRqODhaTDllcWZ5NW1hN1ZvODJi?=
- =?utf-8?B?S0lsN21YTTVTOG0raFpCTmNQbXRTOWlSeUxnQiszcVhEWHFlSC9RWThONkV0?=
- =?utf-8?B?QzlGV3MwVWNJQmMrN084SHpGV3VKNm1IRzYzV1hHT0s1TXZyZmRhc05FbUw1?=
- =?utf-8?B?NlJNaFNXa3JZZGw1OXlZTkRQOVZFUEFUMDN4NFBZdDI4UkM1Z3d2RFhaZE9k?=
- =?utf-8?B?VUZwZ3dCSG0xYlVZWDZMQUZqS2RWVDZMRWtPNEVhbXUweklHWXJGYzdsN0hy?=
- =?utf-8?B?QmR1dU1zVGtNQ1hZdnA2NVdraHViK0prL1RIYjJHNkxYd0duUDlKMGJnV1dz?=
- =?utf-8?B?WnViUjF4NlAxZjM0aWRaQkNEZUg1MUFpQ1ZYQXhFb24rNk1wVnFLQlQ4UFVy?=
- =?utf-8?B?YVpLL216NjRZSDlHVDljUWkyUlVQYVFWbndQSi9ER2FUbk1WbVJjKzBmTHVV?=
- =?utf-8?B?MkNmN2YwaEladHBGcVRzSDdGT2k2bE9lUnZCbVlXS1BiN2ZJdVQxTVBLajNZ?=
- =?utf-8?B?bC81cEVXN3A2MHFsb3EzT25UVUhmcVMreklubkcxUVVxRnNtdEMra1luZkU2?=
- =?utf-8?B?UE1HZURzK3ErcTNDZU1MUEoxSHBvaWZUalNDKyszc3NYSlRieDA2TjhEOHNY?=
- =?utf-8?B?bGNhaXJPV0hkNnhGQktkYWU1eG5ScnZTakFVNFdnNGxtUG1MWG1adi9QOW5U?=
- =?utf-8?B?NHRQVmxhNDlwbzJ0OStNb1pzYVZsOHZSWEdJMEhSZGc3NHRMNXJpRnJHZ2JX?=
- =?utf-8?B?bnM3eXVrZndYWXNQZEhXVXp6QU9hZjgzdlZSeStNSk5Gb3lTcTVmVUVPNXov?=
- =?utf-8?B?NDU0VmsyaWlKRTJuZURPWTFUNXdvYmQvMDJsRld4THBNT2JBYzNuV2xwaVFW?=
- =?utf-8?B?VGVWaFArM1U4amxrRCs1VmVKMzZZckZBNEJMNUdVSTMvT1dtclpWclE1Y2Q5?=
- =?utf-8?B?K3g2Yk9HVm0ycjhOVi9TSGNiQXNncVpxeHEzOU96YUVsajYrWEtqT1J6S0Jq?=
- =?utf-8?B?ME50SWZVZnZ0TmJjczlOUko0eWtWTVRCTE4wL0IydUF6QVFvYVhPVUF4UDFm?=
- =?utf-8?B?cHRrOUVmcUxndEVqQ3E0UVVPalZDdU1zY1UyeTFqL2xwMnNOS1gyei9zbkZt?=
- =?utf-8?B?R2dkbjJGUWNHY3M4eHdZZVpqcmZZSkk5ZzM2bTYxdEkwT201bC8vMCtYaFFE?=
- =?utf-8?B?RWRPUVJmM0VPU0xVYXNtbHdrQmRPcWEzRnE4V043ZkoyTURDNmZlK1VPUEJK?=
- =?utf-8?B?UHEwUnlIaGJMdC9LQ2g1OGxaVUJMS2MxWEVMMnF6SXNLOUsyQ2VzSEI4ZzZB?=
- =?utf-8?B?dWU4OFVDQVlJeUpmcDFvSXJPTTRDK1pEZitYTktyb2xRM2N1ekF2TGNFNHE2?=
- =?utf-8?B?V0FuZHN1MkNiTzE2bUVkZzdwVjMyRHIvMGQ0aGlyWFI4UGwva1A4RGtaRFdM?=
- =?utf-8?B?RlBSVE1EM0tab05CeGtRN0k5NVZyTk9ZYmdBcUlSdXY2N0g4UkdPVFU1NFZz?=
- =?utf-8?B?TmtmU1R4UXN1S3o0K1k1SUhMcTBtODllZ3o3WStBQ0J6cUw5SW96RTVRWkor?=
- =?utf-8?B?TFRzdlQrT29ZTDZLUHEyeHVNRzVCWXBXOFlQRzFKNGhiT0V1WUxIRlFBNTQ0?=
- =?utf-8?B?WEVQNngwZzRIdHozeHpTd0kyMXBrZXJLbkRwUUpjTzVSMis4eW8zeUsxLzFi?=
- =?utf-8?B?T29GdWlkNmtUelY1cGNNY0I0UzBLWWhZbExLYmZVaUI0Qks1TTh6Z1k2OEx5?=
- =?utf-8?B?bk12a2hDWml2M3pVNUI1dWU0U2tURFV1cUFQT3Z4dGFtNEJEWjJZYkF4Y25l?=
- =?utf-8?Q?LKpgslKE223o3sOaiwE33Ihw4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e25fa881-5364-475d-860b-08dcba87870f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 04:30:43.1991
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mF328tQ95WeeTQ4gm80LS5ZbmMvO9zfuojzPhYlDyiyDegHTO5WWzCsTPfD9JYjctGOM7ukIHvWhvbyUzPgM5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4248
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240811205509.1089027-1-jain.abhinav177@gmail.com>
 
-On 10/08/24 04:21, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filehZ3h8g
-> head:   45576eb691a6ad128c577d4b904380458359e3e5
-> commit: a8d93b9b3a43cbb342fb6d37c0f0ad5a1a0e503f [26/28] ASoC: SOF: amd: fix for acp error reason registers wrong offset
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240810/202408100634.3r9TDvav-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408100634.3r9TDvav-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408100634.3r9TDvav-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> sound/soc/sof/amd/acp.c:407:14: error: no member named 'pci_rev' in 'struct acp_dev_data'
->      407 |                 if (adata->pci_rev >= ACP_RMB_PCI_ID)
->          |                     ~~~~~  ^
->    1 error generated.
->
-Dependency patch is missing resulted in build errors.
-Will mention the patch dependency and resend the patch.
-> vim +407 sound/soc/sof/amd/acp.c
->
->    377	
->    378	static irqreturn_t acp_irq_handler(int irq, void *dev_id)
->    379	{
->    380		struct amd_sdw_manager *amd_manager;
->    381		struct snd_sof_dev *sdev = dev_id;
->    382		const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
->    383		struct acp_dev_data *adata = sdev->pdata->hw_pdata;
->    384		unsigned int base = desc->dsp_intr_base;
->    385		unsigned int val;
->    386		int irq_flag = 0;
->    387	
->    388		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET);
->    389		if (val & ACP_DSP_TO_HOST_IRQ) {
->    390			snd_sof_dsp_write(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET,
->    391					  ACP_DSP_TO_HOST_IRQ);
->    392			return IRQ_WAKE_THREAD;
->    393		}
->    394	
->    395		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat);
->    396		if (val & ACP_SDW0_IRQ_MASK) {
->    397			amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
->    398			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_SDW0_IRQ_MASK);
->    399			if (amd_manager)
->    400				schedule_work(&amd_manager->amd_sdw_irq_thread);
->    401			irq_flag = 1;
->    402		}
->    403	
->    404		if (val & ACP_ERROR_IRQ_MASK) {
->    405			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_ERROR_IRQ_MASK);
->    406			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_sw0_i2s_err_reason, 0);
->  > 407			if (adata->pci_rev >= ACP_RMB_PCI_ID)
->    408				snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SW1_I2S_ERROR_REASON, 0);
->    409			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_error_stat, 0);
->    410			irq_flag = 1;
->    411		}
->    412	
->    413		if (desc->ext_intr_stat1) {
->    414			val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat1);
->    415			if (val & ACP_SDW1_IRQ_MASK) {
->    416				amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
->    417				snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat1,
->    418						  ACP_SDW1_IRQ_MASK);
->    419				if (amd_manager)
->    420					schedule_work(&amd_manager->amd_sdw_irq_thread);
->    421				irq_flag = 1;
->    422			}
->    423		}
->    424		if (irq_flag)
->    425			return IRQ_HANDLED;
->    426		else
->    427			return IRQ_NONE;
->    428	}
->    429	
->
+Hi Abhinav,
 
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Jain/libceph-Make-the-arguments-const-as-per-the-TODO/20240812-045647
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240811205509.1089027-1-jain.abhinav177%40gmail.com
+patch subject: [PATCH net v2] libceph: Make the arguments const as per the TODO
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240812/202408121452.qS7GNcws-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121452.qS7GNcws-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408121452.qS7GNcws-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/string.h:6,
+                    from include/linux/ceph/ceph_debug.h:7,
+                    from net/ceph/crypto.c:3:
+   net/ceph/crypto.c: In function 'ceph_crypto_key_decode':
+>> net/ceph/crypto.c:93:26: error: passing argument 1 of 'ceph_has_room' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
+         |                          ^
+         |                          |
+         |                          const void **
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/ceph/crypto.c:93:9: note: in expansion of macro 'ceph_decode_need'
+      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
+         |         ^~~~~~~~~~~~~~~~
+   In file included from net/ceph/crypto.c:16:
+   include/linux/ceph/decode.h:52:41: note: expected 'void **' but argument is of type 'const void **'
+      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
+         |                                  ~~~~~~~^
+   net/ceph/crypto.c:93:29: warning: passing argument 2 of 'ceph_has_room' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
+         |                             ^~~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/ceph/crypto.c:93:9: note: in expansion of macro 'ceph_decode_need'
+      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/ceph/decode.h:52:50: note: expected 'void *' but argument is of type 'const void *'
+      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
+         |                                            ~~~~~~^~~
+>> net/ceph/crypto.c:94:36: error: passing argument 1 of 'ceph_decode_16' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      94 |         key->type = ceph_decode_16(p);
+         |                                    ^
+         |                                    |
+         |                                    const void **
+   include/linux/ceph/decode.h:31:41: note: expected 'void **' but argument is of type 'const void **'
+      31 | static inline u16 ceph_decode_16(void **p)
+         |                                  ~~~~~~~^
+>> net/ceph/crypto.c:95:26: error: passing argument 1 of 'ceph_decode_copy' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      95 |         ceph_decode_copy(p, &key->created, sizeof(key->created));
+         |                          ^
+         |                          |
+         |                          const void **
+   include/linux/ceph/decode.h:43:44: note: expected 'void **' but argument is of type 'const void **'
+      43 | static inline void ceph_decode_copy(void **p, void *pv, size_t n)
+         |                                     ~~~~~~~^
+   net/ceph/crypto.c:96:35: error: passing argument 1 of 'ceph_decode_16' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      96 |         key->len = ceph_decode_16(p);
+         |                                   ^
+         |                                   |
+         |                                   const void **
+   include/linux/ceph/decode.h:31:41: note: expected 'void **' but argument is of type 'const void **'
+      31 | static inline u16 ceph_decode_16(void **p)
+         |                                  ~~~~~~~^
+   net/ceph/crypto.c:97:26: error: passing argument 1 of 'ceph_has_room' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      97 |         ceph_decode_need(p, end, key->len, bad);
+         |                          ^
+         |                          |
+         |                          const void **
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/ceph/crypto.c:97:9: note: in expansion of macro 'ceph_decode_need'
+      97 |         ceph_decode_need(p, end, key->len, bad);
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/ceph/decode.h:52:41: note: expected 'void **' but argument is of type 'const void **'
+      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
+         |                                  ~~~~~~~^
+   net/ceph/crypto.c:97:29: warning: passing argument 2 of 'ceph_has_room' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      97 |         ceph_decode_need(p, end, key->len, bad);
+         |                             ^~~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/ceph/crypto.c:97:9: note: in expansion of macro 'ceph_decode_need'
+      97 |         ceph_decode_need(p, end, key->len, bad);
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/ceph/decode.h:52:50: note: expected 'void *' but argument is of type 'const void *'
+      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
+         |                                            ~~~~~~^~~
+   net/ceph/crypto.c:98:31: warning: passing argument 2 of 'set_secret' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      98 |         ret = set_secret(key, *p);
+         |                               ^~
+   net/ceph/crypto.c:23:58: note: expected 'void *' but argument is of type 'const void *'
+      23 | static int set_secret(struct ceph_crypto_key *key, void *buf)
+         |                                                    ~~~~~~^~~
+   net/ceph/crypto.c:99:26: warning: passing argument 1 of 'memzero_explicit' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      99 |         memzero_explicit(*p, key->len);
+         |                          ^~
+   include/linux/string.h:356:43: note: expected 'void *' but argument is of type 'const void *'
+     356 | static inline void memzero_explicit(void *s, size_t count)
+         |                                     ~~~~~~^
+   during RTL pass: mach
+   net/ceph/crypto.c: In function 'ceph_crypto_key_unarmor':
+   net/ceph/crypto.c:134:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
+     134 | }
+         | ^
+   0x5b78c1 arc_ifcvt
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
+   0xe431b4 arc_reorg
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
+   0xaed299 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+
+
+vim +/ceph_has_room +93 net/ceph/crypto.c
+
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02   88  
+19c7b44529ef1b net/ceph/crypto.c Abhinav Jain 2024-08-12   89  int ceph_crypto_key_decode(struct ceph_crypto_key *key, const void **p, const void *end)
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02   90  {
+7af3ea189a9a13 net/ceph/crypto.c Ilya Dryomov 2016-12-02   91  	int ret;
+7af3ea189a9a13 net/ceph/crypto.c Ilya Dryomov 2016-12-02   92  
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  @93  	ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  @94  	key->type = ceph_decode_16(p);
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  @95  	ceph_decode_copy(p, &key->created, sizeof(key->created));
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02   96  	key->len = ceph_decode_16(p);
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02   97  	ceph_decode_need(p, end, key->len, bad);
+7af3ea189a9a13 net/ceph/crypto.c Ilya Dryomov 2016-12-02   98  	ret = set_secret(key, *p);
+10f42b3e648377 net/ceph/crypto.c Ilya Dryomov 2020-12-22   99  	memzero_explicit(*p, key->len);
+7af3ea189a9a13 net/ceph/crypto.c Ilya Dryomov 2016-12-02  100  	*p += key->len;
+7af3ea189a9a13 net/ceph/crypto.c Ilya Dryomov 2016-12-02  101  	return ret;
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  102  
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  103  bad:
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  104  	dout("failed to decode crypto key\n");
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  105  	return -EINVAL;
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  106  }
+8b6e4f2d8b21c2 fs/ceph/crypto.c  Sage Weil    2010-02-02  107  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
