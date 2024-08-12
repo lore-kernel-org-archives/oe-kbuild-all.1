@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB04C51C5A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 02:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744A13634E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 03:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723429021; cv=none; b=bHuJJ+14cpiyV9GxPQ4e/e9tgR8iv7qlTD6lKVSXgtvCCIj82qn99+7bTLzmFF9CL9P7Efcgo3/kb+kjnGDaS+4Qe06CiBjpOiRT0UH1Fvv4qPFzCs1WLgUbtQ/mfKxpd6g4f+GZqMGzYXIoWqekxlMxCpYbNjwvBr3aAwy5cG8=
+	t=1723431798; cv=none; b=bFqD58Y4iCHz7iE8PcbIEGHN+EXT9CMk9gDinFee2ur4xQNwU/8T3nF/uvxmaIn7y5+Cij6JkoWZq1oEEHV3umy2kKcBnCc3hM4ytzhppoL0Zb8VGRjeib3z+9zoy9twGGGVr1N1cjRJsRrH1+hNolOURFUl0BSrXg5x6t256Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723429021; c=relaxed/simple;
-	bh=1BthmYLXft2vjc2EBdR/kbPBvUittp4y+lMelQZI7aY=;
+	s=arc-20240116; t=1723431798; c=relaxed/simple;
+	bh=i4yPaw+DM1S7Y5y1TYBn/hgITkW+TPEqJBnwJuQUR40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=POeF6dgOwsFZ83q30mmw6irxfVsKKoOpfR/kiKFwB5flcaW+5q7UHuuefTOahU1Li4aNIds1etQe9HKmDfP3IWn08ZpAxScAfGdQL9ylwV92358+9g8BeDg/XuUmqhSOmKJo8wwKa1Q3e/Fz6XHLuWocBAWzPVeGLuGwqkSs0vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aM2O5hxl; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fgk4IGeunvv3WoPXAUQB4HqqoCbUVK5ocFxHDCKPClnZ/ssuepcArPZ7+rc3tSc/gB2vJF6w6c/RrlM6hMK0LrC9/4kvPtAMR40NQD3PZ+3H84qaQO+xBAtGpUDETOWmF31MhwNHsyES4iBEzxupuBnVzabzTItAMrICmcOH3qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HYZjewD2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aM2O5hxl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYZjewD2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723429020; x=1754965020;
+  t=1723431796; x=1754967796;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1BthmYLXft2vjc2EBdR/kbPBvUittp4y+lMelQZI7aY=;
-  b=aM2O5hxlpvBcC/qTMYRKrpTEPlOtx9oICpLUq35q0inEpBPVQyqsli75
-   zk9biPsUQmFS4nfGsV6RzLBuMSGQt9v1VdyEeUKqDTnQTX49YYbEl3LBQ
-   8XPUoV04fM5uWeMK2xW7szyKjNbYF4lp0pdtWWt3W5vvRt8jjus5DUp5Y
-   hSZ4cRcTBF9eAr1CbFsu9xm1xi9DkGsmJGDwxroxqyizzBsnS0ciivV+L
-   mo27X04R2pw2K0tVUu9d7+7u4OwyAz+tSr16xZc54Ih0R16FjCAdNubCU
-   Jwv/1Z15gm63f0S7WhnqlAVJRaoK6Mpr0VjVMl5KW9wR/jPn6THGc2UdI
+  bh=i4yPaw+DM1S7Y5y1TYBn/hgITkW+TPEqJBnwJuQUR40=;
+  b=HYZjewD2gPdGNOUlQSgjPv7Zo01XZejjWuFnscfFuSTpE6MiyL439Ix+
+   O20zWXfq/V+KtLP41TzKRjumX/wSKOF9jW8rxq7Gcqd0tfx5awek8dksM
+   gX6u6NAFaNxQM6UGaHhsIfv70daro0gUOagrSNW63JYKPkYx7b914gqpQ
+   dlYWLdIQKp8jIOdO1nmcZqJHEQdwhYuqTlITf9ZKAZ0E8FYGiAPrQ9m5T
+   QrzM6OIvnUPVqO3pdi3BwkIBRYhNwKOFOHFAv2WUpTiTKKE0o9k35CBOq
+   hlUEDNgk1ksmuw9hbCPzLHft2hqcnavI4YUqK3BBgWN8ujcr63Ii69DZ1
    A==;
-X-CSE-ConnectionGUID: uPOEPaS/SWmM00vutkQS/w==
-X-CSE-MsgGUID: P0svPAElTx2FKoxqCIfmAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="25290354"
+X-CSE-ConnectionGUID: rkw6b2sAQICnLOrDNQDNGw==
+X-CSE-MsgGUID: z0rkb7jYSLattcOr3H4UMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21675104"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="25290354"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 19:16:59 -0700
-X-CSE-ConnectionGUID: VGKqhFh3RbibQBD7I/sU8w==
-X-CSE-MsgGUID: D8S7/TT9QHu2NLXDj1Ieng==
+   d="scan'208";a="21675104"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 20:03:15 -0700
+X-CSE-ConnectionGUID: mPY9YFuqQcuySKU+lcmd5w==
+X-CSE-MsgGUID: mxIAv7KKRAqQi3ixk7Ywtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="58359393"
+   d="scan'208";a="88767694"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 11 Aug 2024 19:16:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Aug 2024 20:03:13 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdKbz-000BJr-3A;
-	Mon, 12 Aug 2024 02:16:48 +0000
-Date: Mon, 12 Aug 2024 10:15:24 +0800
+	id 1sdLKv-000BLe-38;
+	Mon, 12 Aug 2024 03:03:09 +0000
+Date: Mon, 12 Aug 2024 11:02:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abhinav Jain <jain.abhinav177@gmail.com>, idryomov@gmail.com,
-	xiubli@redhat.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, ceph-devel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com,
-	Abhinav Jain <jain.abhinav177@gmail.com>
-Subject: Re: [PATCH net] libceph: Make the input const as per the TODO
-Message-ID: <202408120903.UYNxKoDx-lkp@intel.com>
-References: <20240811193645.1082042-1-jain.abhinav177@gmail.com>
+To: Hanjun Guo <guohanjun@huawei.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH v2 4/4] ARM64: ACPI: Move the NUMA code to
+ drivers/acpi/arm64/
+Message-ID: <202408121026.c3mDLUsP-lkp@intel.com>
+References: <20240811042303.3498761-5-guohanjun@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,266 +68,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240811193645.1082042-1-jain.abhinav177@gmail.com>
+In-Reply-To: <20240811042303.3498761-5-guohanjun@huawei.com>
 
-Hi Abhinav,
+Hi Hanjun,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net/main]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.11-rc3 next-20240809]
+[cannot apply to arm-perf/for-next/perf]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Jain/libceph-Make-the-input-const-as-per-the-TODO/20240812-033900
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240811193645.1082042-1-jain.abhinav177%40gmail.com
-patch subject: [PATCH net] libceph: Make the input const as per the TODO
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240812/202408120903.UYNxKoDx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120903.UYNxKoDx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hanjun-Guo/ARM64-ACPI-Remove-the-leftover-acpi_init_cpus/20240811-122442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20240811042303.3498761-5-guohanjun%40huawei.com
+patch subject: [PATCH v2 4/4] ARM64: ACPI: Move the NUMA code to drivers/acpi/arm64/
+config: arm64-randconfig-001-20240812 (https://download.01.org/0day-ci/archive/20240812/202408121026.c3mDLUsP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121026.c3mDLUsP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408120903.UYNxKoDx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408121026.c3mDLUsP-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/ceph/crypto.c:89:5: error: conflicting types for 'ceph_crypto_key_decode'; have 'int(struct ceph_crypto_key *, const void **, const void *)'
-      89 | int ceph_crypto_key_decode(struct ceph_crypto_key *key, const void **p, const void *end)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/ceph/crypto.c:17:
-   net/ceph/crypto.h:25:5: note: previous declaration of 'ceph_crypto_key_decode' with type 'int(struct ceph_crypto_key *, void **, void *)'
-      25 | int ceph_crypto_key_decode(struct ceph_crypto_key *key, void **p, void *end);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from include/linux/ceph/ceph_debug.h:7,
-                    from net/ceph/crypto.c:3:
-   net/ceph/crypto.c: In function 'ceph_crypto_key_decode':
->> net/ceph/crypto.c:93:26: error: passing argument 1 of 'ceph_has_room' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
-         |                          ^
-         |                          |
-         |                          const void **
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/ceph/crypto.c:93:9: note: in expansion of macro 'ceph_decode_need'
-      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
-         |         ^~~~~~~~~~~~~~~~
-   In file included from net/ceph/crypto.c:16:
-   include/linux/ceph/decode.h:52:41: note: expected 'void **' but argument is of type 'const void **'
-      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
-         |                                  ~~~~~~~^
->> net/ceph/crypto.c:93:29: warning: passing argument 2 of 'ceph_has_room' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
-         |                             ^~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/ceph/crypto.c:93:9: note: in expansion of macro 'ceph_decode_need'
-      93 |         ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/ceph/decode.h:52:50: note: expected 'void *' but argument is of type 'const void *'
-      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
-         |                                            ~~~~~~^~~
->> net/ceph/crypto.c:94:36: error: passing argument 1 of 'ceph_decode_16' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      94 |         key->type = ceph_decode_16(p);
-         |                                    ^
-         |                                    |
-         |                                    const void **
-   include/linux/ceph/decode.h:31:41: note: expected 'void **' but argument is of type 'const void **'
-      31 | static inline u16 ceph_decode_16(void **p)
-         |                                  ~~~~~~~^
->> net/ceph/crypto.c:95:26: error: passing argument 1 of 'ceph_decode_copy' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      95 |         ceph_decode_copy(p, &key->created, sizeof(key->created));
-         |                          ^
-         |                          |
-         |                          const void **
-   include/linux/ceph/decode.h:43:44: note: expected 'void **' but argument is of type 'const void **'
-      43 | static inline void ceph_decode_copy(void **p, void *pv, size_t n)
-         |                                     ~~~~~~~^
-   net/ceph/crypto.c:96:35: error: passing argument 1 of 'ceph_decode_16' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      96 |         key->len = ceph_decode_16(p);
-         |                                   ^
-         |                                   |
-         |                                   const void **
-   include/linux/ceph/decode.h:31:41: note: expected 'void **' but argument is of type 'const void **'
-      31 | static inline u16 ceph_decode_16(void **p)
-         |                                  ~~~~~~~^
-   net/ceph/crypto.c:97:26: error: passing argument 1 of 'ceph_has_room' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      97 |         ceph_decode_need(p, end, key->len, bad);
-         |                          ^
-         |                          |
-         |                          const void **
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/ceph/crypto.c:97:9: note: in expansion of macro 'ceph_decode_need'
-      97 |         ceph_decode_need(p, end, key->len, bad);
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/ceph/decode.h:52:41: note: expected 'void **' but argument is of type 'const void **'
-      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
-         |                                  ~~~~~~~^
-   net/ceph/crypto.c:97:29: warning: passing argument 2 of 'ceph_has_room' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      97 |         ceph_decode_need(p, end, key->len, bad);
-         |                             ^~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/ceph/crypto.c:97:9: note: in expansion of macro 'ceph_decode_need'
-      97 |         ceph_decode_need(p, end, key->len, bad);
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/ceph/decode.h:52:50: note: expected 'void *' but argument is of type 'const void *'
-      52 | static inline bool ceph_has_room(void **p, void *end, size_t n)
-         |                                            ~~~~~~^~~
->> net/ceph/crypto.c:98:31: warning: passing argument 2 of 'set_secret' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      98 |         ret = set_secret(key, *p);
-         |                               ^~
-   net/ceph/crypto.c:23:58: note: expected 'void *' but argument is of type 'const void *'
-      23 | static int set_secret(struct ceph_crypto_key *key, void *buf)
-         |                                                    ~~~~~~^~~
->> net/ceph/crypto.c:99:26: warning: passing argument 1 of 'memzero_explicit' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      99 |         memzero_explicit(*p, key->len);
-         |                          ^~
-   include/linux/string.h:356:43: note: expected 'void *' but argument is of type 'const void *'
-     356 | static inline void memzero_explicit(void *s, size_t count)
-         |                                     ~~~~~~^
-   net/ceph/crypto.c: In function 'ceph_crypto_key_unarmor':
->> net/ceph/crypto.c:126:43: error: passing argument 2 of 'ceph_crypto_key_decode' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     126 |         ret = ceph_crypto_key_decode(key, &p, p + blen);
-         |                                           ^~
-         |                                           |
-         |                                           void **
-   net/ceph/crypto.c:89:70: note: expected 'const void **' but argument is of type 'void **'
-      89 | int ceph_crypto_key_decode(struct ceph_crypto_key *key, const void **p, const void *end)
-         |                                                         ~~~~~~~~~~~~~^
-   cc1: some warnings being treated as errors
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: arch/arm64/kernel/smp.o: in function `smp_init_cpus':
+>> arch/arm64/kernel/smp.c:669:(.init.text+0x424): undefined reference to `acpi_map_cpus_to_nodes'
 
 
-vim +89 net/ceph/crypto.c
+vim +669 arch/arm64/kernel/smp.c
 
-    13	
-    14	#include <keys/ceph-type.h>
-    15	#include <keys/user-type.h>
-    16	#include <linux/ceph/decode.h>
-  > 17	#include "crypto.h"
-    18	
-    19	/*
-    20	 * Set ->key and ->tfm.  The rest of the key should be filled in before
-    21	 * this function is called.
-    22	 */
-    23	static int set_secret(struct ceph_crypto_key *key, void *buf)
-    24	{
-    25		unsigned int noio_flag;
-    26		int ret;
-    27	
-    28		key->key = NULL;
-    29		key->tfm = NULL;
-    30	
-    31		switch (key->type) {
-    32		case CEPH_CRYPTO_NONE:
-    33			return 0; /* nothing to do */
-    34		case CEPH_CRYPTO_AES:
-    35			break;
-    36		default:
-    37			return -ENOTSUPP;
-    38		}
-    39	
-    40		if (!key->len)
-    41			return -EINVAL;
-    42	
-    43		key->key = kmemdup(buf, key->len, GFP_NOIO);
-    44		if (!key->key) {
-    45			ret = -ENOMEM;
-    46			goto fail;
-    47		}
-    48	
-    49		/* crypto_alloc_sync_skcipher() allocates with GFP_KERNEL */
-    50		noio_flag = memalloc_noio_save();
-    51		key->tfm = crypto_alloc_sync_skcipher("cbc(aes)", 0, 0);
-    52		memalloc_noio_restore(noio_flag);
-    53		if (IS_ERR(key->tfm)) {
-    54			ret = PTR_ERR(key->tfm);
-    55			key->tfm = NULL;
-    56			goto fail;
-    57		}
-    58	
-    59		ret = crypto_sync_skcipher_setkey(key->tfm, key->key, key->len);
-    60		if (ret)
-    61			goto fail;
-    62	
-    63		return 0;
-    64	
-    65	fail:
-    66		ceph_crypto_key_destroy(key);
-    67		return ret;
-    68	}
-    69	
-    70	int ceph_crypto_key_clone(struct ceph_crypto_key *dst,
-    71				  const struct ceph_crypto_key *src)
-    72	{
-    73		memcpy(dst, src, sizeof(struct ceph_crypto_key));
-    74		return set_secret(dst, src->key);
-    75	}
-    76	
-    77	int ceph_crypto_key_encode(struct ceph_crypto_key *key, void **p, void *end)
-    78	{
-    79		if (*p + sizeof(u16) + sizeof(key->created) +
-    80		    sizeof(u16) + key->len > end)
-    81			return -ERANGE;
-    82		ceph_encode_16(p, key->type);
-    83		ceph_encode_copy(p, &key->created, sizeof(key->created));
-    84		ceph_encode_16(p, key->len);
-    85		ceph_encode_copy(p, key->key, key->len);
-    86		return 0;
-    87	}
-    88	
-  > 89	int ceph_crypto_key_decode(struct ceph_crypto_key *key, const void **p, const void *end)
-    90	{
-    91		int ret;
-    92	
-  > 93		ceph_decode_need(p, end, 2*sizeof(u16) + sizeof(key->created), bad);
-  > 94		key->type = ceph_decode_16(p);
-  > 95		ceph_decode_copy(p, &key->created, sizeof(key->created));
-    96		key->len = ceph_decode_16(p);
-  > 97		ceph_decode_need(p, end, key->len, bad);
-  > 98		ret = set_secret(key, *p);
-  > 99		memzero_explicit(*p, key->len);
-   100		*p += key->len;
-   101		return ret;
-   102	
-   103	bad:
-   104		dout("failed to decode crypto key\n");
-   105		return -EINVAL;
-   106	}
-   107	
-   108	int ceph_crypto_key_unarmor(struct ceph_crypto_key *key, const char *inkey)
-   109	{
-   110		int inlen = strlen(inkey);
-   111		int blen = inlen * 3 / 4;
-   112		void *buf, *p;
-   113		int ret;
-   114	
-   115		dout("crypto_key_unarmor %s\n", inkey);
-   116		buf = kmalloc(blen, GFP_NOFS);
-   117		if (!buf)
-   118			return -ENOMEM;
-   119		blen = ceph_unarmor(buf, inkey, inkey+inlen);
-   120		if (blen < 0) {
-   121			kfree(buf);
-   122			return blen;
-   123		}
-   124	
-   125		p = buf;
- > 126		ret = ceph_crypto_key_decode(key, &p, p + blen);
-   127		kfree(buf);
-   128		if (ret)
-   129			return ret;
-   130		dout("crypto_key_unarmor key %p type %d len %d\n", key,
-   131		     key->type, key->len);
-   132		return 0;
-   133	}
-   134	
+e189624916961c Lorenzo Pieralisi 2018-06-25  650  
+e189624916961c Lorenzo Pieralisi 2018-06-25  651  static void __init acpi_parse_and_init_cpus(void)
+e189624916961c Lorenzo Pieralisi 2018-06-25  652  {
+e189624916961c Lorenzo Pieralisi 2018-06-25  653  	/*
+e189624916961c Lorenzo Pieralisi 2018-06-25  654  	 * do a walk of MADT to determine how many CPUs
+e189624916961c Lorenzo Pieralisi 2018-06-25  655  	 * we have including disabled CPUs, and get information
+e189624916961c Lorenzo Pieralisi 2018-06-25  656  	 * we need for SMP init.
+e189624916961c Lorenzo Pieralisi 2018-06-25  657  	 */
+e189624916961c Lorenzo Pieralisi 2018-06-25  658  	acpi_table_parse_madt(ACPI_MADT_TYPE_GENERIC_INTERRUPT,
+e189624916961c Lorenzo Pieralisi 2018-06-25  659  				      acpi_parse_gic_cpu_interface, 0);
+e189624916961c Lorenzo Pieralisi 2018-06-25  660  
+e189624916961c Lorenzo Pieralisi 2018-06-25  661  	/*
+e189624916961c Lorenzo Pieralisi 2018-06-25  662  	 * In ACPI, SMP and CPU NUMA information is provided in separate
+e189624916961c Lorenzo Pieralisi 2018-06-25  663  	 * static tables, namely the MADT and the SRAT.
+e189624916961c Lorenzo Pieralisi 2018-06-25  664  	 *
+e189624916961c Lorenzo Pieralisi 2018-06-25  665  	 * Thus, it is simpler to first create the cpu logical map through
+e189624916961c Lorenzo Pieralisi 2018-06-25  666  	 * an MADT walk and then map the logical cpus to their node ids
+e189624916961c Lorenzo Pieralisi 2018-06-25  667  	 * as separate steps.
+e189624916961c Lorenzo Pieralisi 2018-06-25  668  	 */
+e189624916961c Lorenzo Pieralisi 2018-06-25 @669  	acpi_map_cpus_to_nodes();
+e189624916961c Lorenzo Pieralisi 2018-06-25  670  }
+0f0783365cbb7e Lorenzo Pieralisi 2015-05-13  671  #else
+e189624916961c Lorenzo Pieralisi 2018-06-25  672  #define acpi_parse_and_init_cpus(...)	do { } while (0)
+0f0783365cbb7e Lorenzo Pieralisi 2015-05-13  673  #endif
+0f0783365cbb7e Lorenzo Pieralisi 2015-05-13  674  
 
 -- 
 0-DAY CI Kernel Test Service
