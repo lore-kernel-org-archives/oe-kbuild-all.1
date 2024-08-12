@@ -1,90 +1,135 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D184503C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 03:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167F714A60D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 04:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723434382; cv=none; b=NBRfQL3dXNvgf5D1wGqC8j8ZG9FALsur6SS0Km5bLTE3UjFC8jc60EbIdP/+xT+AKqytWNNDzkZjyBJLX6Yv4DL0YnB6dKnnk3LWtMmqPvUts6sqCgz75PtT0EgQPU3tnBHHX6XvPapjPcwRRGMMaSKI/rLP+OhzZd7ogprVzZA=
+	t=1723436631; cv=none; b=UMZ9VXLaOmOO4x8MzLWS8hl8cjQA/GGBEE2BhXnovElJmBNm6x68qfGaC1DI60gHlXP+tlo/atqn3+/e8B+qjXaGlRDPcp+SOci6PhL7EUqWEl6hemAl/W/oXUAGSvmHXRoeMOdLjhWlbsfqfJLwvNOcignri0F7IreK6alPgII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723434382; c=relaxed/simple;
-	bh=foDMjZfjUkrNXPNvJ9Hb/4HgH25XbciWV2tVucuqS4I=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=b3Trqki6yE3c+sBkvnkdpS70FRR8XoO3m31ZLpL+jEybMSRnlUuUMvHqmUOaIP8jEQ1nfDnBiOFS0A6FR91iW6osZGeDx9NhSroXU4Ww34PVIpbYvW+UGwfcI6uGa8FeprTAdphKgr3SdvZRL1snfWpK6+Y5iMB/rT9yaCoSx4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wj0kQ32tzzfb82;
-	Mon, 12 Aug 2024 11:44:14 +0800 (CST)
-Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
-	by mail.maildlp.com (Postfix) with ESMTPS id 89F2F180101;
-	Mon, 12 Aug 2024 11:46:10 +0800 (CST)
-Received: from [10.174.178.247] (10.174.178.247) by
- dggpemf500002.china.huawei.com (7.185.36.57) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 12 Aug 2024 11:46:10 +0800
-Subject: Re: [PATCH v2 4/4] ARM64: ACPI: Move the NUMA code to
- drivers/acpi/arm64/
-To: kernel test robot <lkp@intel.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, "Rafael J . Wysocki"
-	<rafael@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, Will Deacon <will@kernel.org>, Catalin
- Marinas <catalin.marinas@arm.com>, <linux-acpi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-References: <20240811042303.3498761-5-guohanjun@huawei.com>
- <202408121026.c3mDLUsP-lkp@intel.com>
-From: Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <8be9d042-3e57-8458-271f-d213ba519bd4@huawei.com>
-Date: Mon, 12 Aug 2024 11:46:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	s=arc-20240116; t=1723436631; c=relaxed/simple;
+	bh=ToASbl6WYvykfcZHGtIUGtGq6btyZKGTzfSTgNkgSIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXjJg7WxnBBrB/Pp/owml6TyFfJEsXzSyQP0GRglKpfHAx2LgEE43+jMDbKuEzc2qekev4fWW7sTV0YJjcpBvScj89yzxKwTTfJTiDCqb0Vjjkqfnho/3L8jCilDPqrDKkEXCA+QkeGBCnG2KnIeeQu7GRHDKTHElAhge+ErBgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAem5qom; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAem5qom"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723436629; x=1754972629;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ToASbl6WYvykfcZHGtIUGtGq6btyZKGTzfSTgNkgSIE=;
+  b=dAem5qomS8clnvNP+VtqRa0v7uhryeaXIZFQSoSpsxxcmVd9i3sK3dBy
+   3wAmCrhhYCTyXWjfFGba3oNad3M2y/jkqVpcAl1Q2ahc7o8VR/FtMd9/b
+   0pOeJW/P4w+WKUn04zWVxG+lNHZI5sL/Q3FeKbPZHgUtVJlV7Fh5Wh8Nv
+   w+hlGCtYWAmSV3ikXHDsDH+lEDa0dKTDyzsf8LZK+9ttze7JOznstBnkD
+   olbkKqHhIcy5RXTDTotRn31T/DcPfJVmZ00hzxGQvH5QVzfX+1J1YhJtU
+   ouqklmuu9vybI9QYudzQ8QpwPT4K8WfEl+bqnn7aXg0It5mv3hYaoZFv4
+   g==;
+X-CSE-ConnectionGUID: XdB2Wu2yTmGEffZ0c2hZJw==
+X-CSE-MsgGUID: 314ZYB1YR1WSHdJ1XdX5Lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="44047060"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="44047060"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 21:23:49 -0700
+X-CSE-ConnectionGUID: 8SKmKoEjQAeQS/gSImkEAg==
+X-CSE-MsgGUID: 4c6qJc1OTyemFB2BBK65XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="58858682"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 11 Aug 2024 21:23:44 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdMas-000BNm-0m;
+	Mon, 12 Aug 2024 04:23:42 +0000
+Date: Mon, 12 Aug 2024 12:23:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Elad Yifee <eladwf@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, eladwf@gmail.com, daniel@makrotopia.org,
+	Felix Fietkau <nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chen Lin <chen45464546@163.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH net] net: ethernet: mtk_eth_soc: fix memory leak in LRO
+ rings release
+Message-ID: <202408121146.9ulfLUnP-lkp@intel.com>
+References: <20240811184949.2799-1-eladwf@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202408121026.c3mDLUsP-lkp@intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemf500002.china.huawei.com (7.185.36.57)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240811184949.2799-1-eladwf@gmail.com>
 
-On 2024/8/12 11:02, kernel test robot wrote:
-> Hi Hanjun,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on arm64/for-next/core]
-> [also build test ERROR on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.11-rc3 next-20240809]
-> [cannot apply to arm-perf/for-next/perf]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hanjun-Guo/ARM64-ACPI-Remove-the-leftover-acpi_init_cpus/20240811-122442
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20240811042303.3498761-5-guohanjun%40huawei.com
-> patch subject: [PATCH v2 4/4] ARM64: ACPI: Move the NUMA code to drivers/acpi/arm64/
-> config: arm64-randconfig-001-20240812 (https://download.01.org/0day-ci/archive/20240812/202408121026.c3mDLUsP-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121026.c3mDLUsP-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408121026.c3mDLUsP-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->     aarch64-linux-ld: Unexpected run-time procedure linkages detected!
->     aarch64-linux-ld: arch/arm64/kernel/smp.o: in function `smp_init_cpus':
->>> arch/arm64/kernel/smp.c:669:(.init.text+0x424): undefined reference to `acpi_map_cpus_to_nodes'
+Hi Elad,
 
-Good catch, I missed the random config which CONFIG_NUMA is not set.
+kernel test robot noticed the following build warnings:
 
-Thanks
-Hanjun
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Yifee/net-ethernet-mtk_eth_soc-fix-memory-leak-in-LRO-rings-release/20240812-025108
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240811184949.2799-1-eladwf%40gmail.com
+patch subject: [PATCH net] net: ethernet: mtk_eth_soc: fix memory leak in LRO rings release
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240812/202408121146.9ulfLUnP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121146.9ulfLUnP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408121146.9ulfLUnP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_rx_put_buff':
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1768:28: warning: passing argument 1 of 'free_pages' makes integer from pointer without a cast [-Wint-conversion]
+    1768 |                 free_pages(data, get_order(mtk_max_frag_size(ring->frag_size)));
+         |                            ^~~~
+         |                            |
+         |                            void *
+   In file included from include/linux/xarray.h:16,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:18,
+                    from drivers/net/ethernet/mediatek/mtk_eth_soc.c:9:
+   include/linux/gfp.h:372:38: note: expected 'long unsigned int' but argument is of type 'void *'
+     372 | extern void free_pages(unsigned long addr, unsigned int order);
+         |                        ~~~~~~~~~~~~~~^~~~
+
+
+vim +/free_pages +1768 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+  1759	
+  1760	static void mtk_rx_put_buff(struct mtk_rx_ring *ring, void *data, bool napi)
+  1761	{
+  1762		if (ring->page_pool)
+  1763			page_pool_put_full_page(ring->page_pool,
+  1764						virt_to_head_page(data), napi);
+  1765		else if (ring->frag_size <= PAGE_SIZE)
+  1766			skb_free_frag(data);
+  1767		else
+> 1768			free_pages(data, get_order(mtk_max_frag_size(ring->frag_size)));
+  1769	}
+  1770	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
