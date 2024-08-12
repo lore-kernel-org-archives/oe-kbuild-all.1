@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F338A16132B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Aug 2024 23:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E8F6CDBA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 02:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723419765; cv=none; b=Dvlf1t4CrfcHtPGpqR4hTsUd+9EM4GT6bVdUOkbCmkhOYXQx/uPCRTomVhHEFhY2StNXg6oRpfybyAnSK606l6LuGvK2n5uC1/VuBWHKyP56mTBTdJwOSGpfjg0LhOxaWEDz801+H0J8101Uul+/kawIU7NozLG0iX9wgz1npRQ=
+	t=1723428389; cv=none; b=X0KsSvwczg8Hl65HkGRmvvODMf30dXb2EXCKrSCv3nQ1HVPAQZqh4RIQzem807XDa0jI9j/N1zyeSy1832PkJDYNJoyuXLNCt0JIpSow3+UuA5TNje8eSkDd1ipjQ99t4m4GsO3I8ywEIPnz+eHwazXBOGGqMuaxs4HfCHmfvgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723419765; c=relaxed/simple;
-	bh=hG1ou3WZ+E+K41+gejcSwTaX02Z4Ywk4qL7VEAzh/CU=;
+	s=arc-20240116; t=1723428389; c=relaxed/simple;
+	bh=hzfqJyX+8YdMtXDjY84VZGwFGo0CvWecRoJ16YHmS98=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VaiB6YUtYHoDDmD+od+hovgKMejqcsRqoUd3WIBv67Ll97/pJQFUpFoSEIzJrSPA1prenA1o/pSTeJb6XFuwIOPF5nlByxs9kp+9eqpDVuFqhH6EEvJxlCGxaVhY9X3gzc+528ZKnhQRoP6uxSZe4kTDp5xl5uuLxjEGvy++xuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Se6Cpl03; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=WeGo1gOvdwu2t3zT8K00m2kn8RAmUZfRxiOhdsTr94oBPTDjZlNXPgprXXqNs89MmqaR2Ks5cqXKipmmkH28OnyEc1uxAclZhGczcnmpultz35u+zUNz5Nh/24wiBwGyxskZLGCrm1ajzBdaOj4llrFIo5iZJXYE3zxc56hN31g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsXmt5CT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Se6Cpl03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsXmt5CT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723419764; x=1754955764;
+  t=1723428388; x=1754964388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hG1ou3WZ+E+K41+gejcSwTaX02Z4Ywk4qL7VEAzh/CU=;
-  b=Se6Cpl0313YoxCVuIeHgP6h/2GpRMq+NuLMZmz3bIEaeRTaEArSDBJKT
-   2olVxOeN9ovBd4XvkVCL/xsbggCwGWU74nWxzs7xIYS2t5Up+HcCYDttW
-   qS9rdGLvy7Bpy+X5C4malyEcShMkT8tIyP6ZXCMslV0oa48sdCe0eNy1/
-   ugqZHkqA7e9EpfIKEV+gx8yYb4MqAhNyzREhxzO/+mytH6aF7zDUMjDlo
-   n2tJnc7NfThvaQn3Z/XcDDML5+btOx54oY3yG9jJVWXFT4b/OM0/EY8d9
-   5jJAZUR8mI2/YCTKq4tQmoku5Us8vxp9PFCG085my9FG7XGENsbEr9wZp
-   Q==;
-X-CSE-ConnectionGUID: rwbNmoXcQZeoy9f3/Ht44g==
-X-CSE-MsgGUID: APtUbxH+SOCRly/T+2cv7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21171563"
+  bh=hzfqJyX+8YdMtXDjY84VZGwFGo0CvWecRoJ16YHmS98=;
+  b=MsXmt5CTZQNMaORYieskc9QodYP3l7NNR1FnpAyz0SSY8C8t5EE+GwJb
+   EiSdyeNDIT5z3JYzZQndvFJ5R663rZEhuiCwMw/6sq5rrXH5lqtA7iq6P
+   2pd9R/TcuPdWETvyc5s5eN8QTIwhjvDD+KSIl8LEB6FHjsjfqxXTKvfN9
+   KWdSDWe3ii8L7hZ9Up+W0Xv5Hq/qATaqSLSCWAtzseJzg8IPoD8tdn8LY
+   dSx32xa1HfKlnu7jFGpz8KK+uPjUwP7ZfclAMh8WL81k7gaG3lJTF8ccD
+   QDl4BW9W6sU8CZuKBuYk8PjF9+cIMljhjrv40z0w6paw1TMMzOeA6ZKPv
+   w==;
+X-CSE-ConnectionGUID: z//45unMQSyw4Az+iQVrYA==
+X-CSE-MsgGUID: zNEiPyPFRlKxkpTMWa1IMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21495311"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="21171563"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 16:42:43 -0700
-X-CSE-ConnectionGUID: +yy6E/3fTl+pU4AD1qbG2A==
-X-CSE-MsgGUID: h3dO9rr0TaGRiQ0+t7skjQ==
+   d="scan'208";a="21495311"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 19:06:27 -0700
+X-CSE-ConnectionGUID: sMauHdXdRsKLa5F1hdOucg==
+X-CSE-MsgGUID: kLcjXqKtRYiz8mg+t6FR8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="58653284"
+   d="scan'208";a="95623357"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 11 Aug 2024 16:42:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Aug 2024 19:06:25 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdICo-000BED-3A;
-	Sun, 11 Aug 2024 23:42:35 +0000
-Date: Mon, 12 Aug 2024 07:41:59 +0800
+	id 1sdKRq-000BJM-2p;
+	Mon, 12 Aug 2024 02:06:16 +0000
+Date: Mon, 12 Aug 2024 10:05:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>
-Subject: WARNING: modpost: vmlinux (__llvm_covfun): unexpected
- non-allocatable section.
-Message-ID: <202408120748.AOYnYuYz-lkp@intel.com>
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jinyang He <hejinyang@loongson.cn>,
+	Youling Tang <tangyouling@loongson.cn>
+Subject: ERROR: modpost: "kvm_restore_lsx" [arch/loongarch/kvm/kvm.ko]
+ undefined!
+Message-ID: <202408120955.qls5oNQY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,35 +66,122 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5189dafa4cf950e675f02ee04b577dfbbad0d9b1
-commit: 32a84cfc6caf830431375c5182391284986d4066 arch: um: Add Clang coverage support
-date:   7 months ago
-config: um-randconfig-r133-20240809 (https://download.01.org/0day-ci/archive/20240812/202408120748.AOYnYuYz-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120748.AOYnYuYz-lkp@intel.com/reproduce)
+head:   7c626ce4bae1ac14f60076d00eafe71af30450ba
+commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
+date:   5 months ago
+config: loongarch-randconfig-002-20240812 (https://download.01.org/0day-ci/archive/20240812/202408120955.qls5oNQY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120955.qls5oNQY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408120748.AOYnYuYz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408120955.qls5oNQY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
->> WARNING: modpost: vmlinux (__llvm_covfun): unexpected non-allocatable section.
-Did you forget to use "ax"/"aw" in a .S file?
-Note that for example <linux/init.h> contains
-section definitions for use in .S files.
---
->> WARNING: modpost: vmlinux (__llvm_covfun): unexpected non-allocatable section.
-Did you forget to use "ax"/"aw" in a .S file?
-Note that for example <linux/init.h> contains
-section definitions for use in .S files.
---
->> WARNING: modpost: vmlinux (__llvm_covmap): unexpected non-allocatable section.
-Did you forget to use "ax"/"aw" in a .S file?
-Note that for example <linux/init.h> contains
-section definitions for use in .S files.
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-msdc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-scp_adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-vdo1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/omap-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_gem_shmem_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/pcs/pcs_xpcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/pcs/pcs-mtk-lynxi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arcnet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: drivers/memory/emif: section mismatch in reference: emif_driver+0x10 (section: .data) -> emif_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+>> ERROR: modpost: "kvm_restore_lsx" [arch/loongarch/kvm/kvm.ko] undefined!
+>> ERROR: modpost: "kvm_restore_lasx" [arch/loongarch/kvm/kvm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
