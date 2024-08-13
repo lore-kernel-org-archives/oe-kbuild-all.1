@@ -1,111 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887F121345
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 11:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048C6198E74;
+	Tue, 13 Aug 2024 11:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723547065; cv=none; b=e1DJjedE9X73II63BqgiEeKHY7yEm7/LMuFlO75KJ7L0Bb9sWyNCcMY2LtCur0aHipih2HGpe/BlER/LkYXg+MR6I5ua7yoWYaT+l1UpYrZDApuoFE9brQYoDWuWcBt0EgTC4Q5hSP8aWlJEEi4s2YQBsX0vH4u/SOPd3AMf1c8=
+	t=1723547537; cv=none; b=DycfrtAu0bMILYeGB/S7gLTS7JivQd8hcIp/JJrXZDZLmT9akNIM6RIZ28z8UUVfcu9FbOXUJ/Sdz6RPAFdK6Y0pLm9ida9vS2Lh7OSvaBKADOyt6pgSiWe2iUckOb6LbjO7fSXYgcWkSpnIdOt8eHww3YlPlNMT+mcsBd+1aLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723547065; c=relaxed/simple;
-	bh=8TaRiZ2EeMGyY1kCBHmLbin11zdCmEm7XZ+KwckaCF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aFU1bUVtvfuUi74VLK2bghro+MZspJtiGk8/X9QmvdYHNPWgjjKZowjmyEACpuXa1j07mW4Mv8EKEGaGUxd8FCGzRu8a4eQrmWZeUpUg2VQw0dXwAWs2+7aXqTFM2cqRxd/Fk4CSXnO/ei0cZS9wmSO60Ww2wnd95WHXmFI/I4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kypDTB4h; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kypDTB4h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723547063; x=1755083063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8TaRiZ2EeMGyY1kCBHmLbin11zdCmEm7XZ+KwckaCF4=;
-  b=kypDTB4hbP2AWnV6Zfwr9c6+rkCMKibgcVR/g50cVoFys7ON4Ii10aG+
-   C3P8/0deR/NBOcDPz+eZKib48G4KEhLfyCtOtIZlJaCrkxnoZBlu6/KkK
-   jjEL26cB81JRiS95rGsaSCLJH0oZdgJuBXjaktLbQ91fSVNqPfd7tLbh5
-   YXFFigXa1FcnKtZR+aIQvBDRhnS1gpoe+j1O1ksugcRu0r55Ia4bH+ebv
-   Vlvsi1VyiE6cPPy0dLXfTiwFZd0TGD570t1VlpH78TiQ3e4EFQj+NxHgw
-   bCug+ZcQWv4FovPHGEelv6m+H55a84pFwzpCm+slOCFh+wzswKQBvmEkg
-   A==;
-X-CSE-ConnectionGUID: 8TY0ZqhyTheYDvIbCMLIKA==
-X-CSE-MsgGUID: 0QuHZMVyRa226dNL6vQ5/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="12982987"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="12982987"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 04:04:22 -0700
-X-CSE-ConnectionGUID: CayKrEGCRr6KHCkCcao5RQ==
-X-CSE-MsgGUID: N9dxt86OT8CPsiWgPRNpBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="59204435"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Aug 2024 04:04:20 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sdpK5-0000N8-1J;
-	Tue, 13 Aug 2024 11:04:17 +0000
-Date: Tue, 13 Aug 2024 19:03:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] modpost: simplify modpost_log()
-Message-ID: <202408131830.qX4gs2P0-lkp@intel.com>
-References: <20240812144542.2121342-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1723547537; c=relaxed/simple;
+	bh=4zXgQ0sSmMdLqoRN+Pp9KL1vMd+ZRt7Dyf40GUJGDww=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oK3IiA5XS0IFz4aD/UTz1FA0kawcLip1Ze4N8RLlFfvWzX1uxKFydXVjw0ULVkc9D2WTrBopCK2DjsVSgCQZUB29Lk7V+3zgmGNmt5ugA5sLYfpylZgYeiLLigZPq9KZi171vuHNI+r5fYe5216f2IqMPSULZ3gNKtiyVcEplrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
+Received: from localhost (p200300C597374f90000000000000032B.dip0.t-ipconnect.de [IPv6:2003:c5:9737:4f90::32b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.simonwunderlich.de (Postfix) with ESMTPSA id 6D366FA131;
+	Tue, 13 Aug 2024 13:12:12 +0200 (CEST)
+From: Issam Hamdi <ih@simonwunderlich.de>
+To: lkp@intel.com
+Cc: ih@simonwunderlich.de,
+	johannes@sipsolutions.net,
+	linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev,
+	mathias.kretschmer@fit.fraunhofer.de,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] cfg80211: Set the channel definition for the different Wi-Fi modes when starting CAC
+Date: Tue, 13 Aug 2024 13:12:10 +0200
+Message-Id: <20240813111210.2463951-1-ih@simonwunderlich.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <202408130337.tnSP4Qys-lkp@intel.com>
+References: <202408130337.tnSP4Qys-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240812144542.2121342-1-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Masahiro,
+When starting CAC in a mode other than AP mode, it return a
+"WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
+caused by the chandef.chan being null at the end of CAC.
 
-kernel test robot noticed the following build warnings:
+Solution: Ensure the channel definition is set for the different modes
+when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
 
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.11-rc3 next-20240813]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ Call Trace:
+  ? show_regs.part.0+0x14/0x16
+  ? __warn+0x67/0xc0
+  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+  ? report_bug+0xa7/0x130
+  ? exc_overflow+0x30/0x30
+  ? handle_bug+0x27/0x50
+  ? exc_invalid_op+0x18/0x60
+  ? handle_exception+0xf6/0xf6
+  ? exc_overflow+0x30/0x30
+  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+  ? exc_overflow+0x30/0x30
+  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+  ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
+  ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
+  ? process_one_work+0x165/0x280
+  ? worker_thread+0x120/0x3f0
+  ? kthread+0xc2/0xf0
+  ? process_one_work+0x280/0x280
+  ? kthread_complete_and_exit+0x20/0x20
+  ? ret_from_fork+0x19/0x24
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/modpost-simplify-modpost_log/20240813-003654
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20240812144542.2121342-1-masahiroy%40kernel.org
-patch subject: [PATCH] modpost: simplify modpost_log()
-config: loongarch-randconfig-001-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131830.qX4gs2P0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131830.qX4gs2P0-lkp@intel.com/reproduce)
+Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
+Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
+---
+ net/wireless/nl80211.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408131830.qX4gs2P0-lkp@intel.com/
+diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
+index 7397a372c78e..36ae2594753e 100644
+--- a/net/wireless/nl80211.c
++++ b/net/wireless/nl80211.c
+@@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct sk_buff *skb,
+ 
+ 	err = rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
+ 	if (!err) {
+-		wdev->links[0].ap.chandef = chandef;
++		switch (wdev->iftype) {
++		case NL80211_IFTYPE_MESH_POINT:
++			wdev->u.mesh.chandef = chandef;
++			break;
++		case NL80211_IFTYPE_ADHOC:
++			wdev->u.ibss.chandef = chandef;
++			break;
++		case NL80211_IFTYPE_OCB:
++			wdev->u.ocb.chandef = chandef;
++			break;
++		case NL80211_IFTYPE_AP:
++		case NL80211_IFTYPE_P2P_GO:
++			wdev->links[0].ap.chandef = chandef;
++			break;
++		default:
++			break;
++		}
+ 		wdev->cac_started = true;
+ 		wdev->cac_start_time = jiffies;
+ 		wdev->cac_time_ms = cac_time_ms;
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->> WARNING: modpost: "kvm_restore_lsx" [arch/loongarch/kvm/kvm.ko] undefined!
->> WARNING: modpost: "kvm_restore_lasx" [arch/loongarch/kvm/kvm.ko] undefined!
-
+base-commit: cc32e9fb380d8afdbf3486d7063d5520bfb0f071
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
