@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ED014EC59
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Aug 2024 21:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FFE80B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 00:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723498608; cv=none; b=Z2ByGyuJwOWdploBqkKBSt1bxlXaTF8l7QOM9vi9JgF5gP/Sl5DvJbVk3SgYjf9qmQ3HFJkP1oD3x6w1R6S2qx+FCYzS5LG9DgnZ7UmyrSNBwhxsXnlzCyiTzt8vC0b45XnxWy/gTqR2QQox+eWNrP5njk83kaRmmdR22mdoZJ4=
+	t=1723509591; cv=none; b=ALr0jkcg+kevk4H/LaPJ5SMkC1jY540pu3jBeZCwWBmVdbEf4T6LcRDVW13E+rWGzLtf0UMEdQROuy+CgHmZSrSfIB1N+qkUrW0xhk8M/AinbMUhICUj5EWTvID0l084h5JpUVS87WZ9vMX6TqJl9FUEnY7G24HT3SWormlPVgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723498608; c=relaxed/simple;
-	bh=itQfS94FcJh8GxIRHkvD9FFvYgRh1KX7Z451gFHzrsc=;
+	s=arc-20240116; t=1723509591; c=relaxed/simple;
+	bh=kKBDWhHjGWEtOgUPL2LtV+bhsd+NyypdZgjZaBPSHoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ple4B8RFeh5TOlPiyrPbJpO5Okps2K8UnYnHytbpBLbywyasEo1D5W7pKrJ2GjPbhtNmEyhO+e+h2gEO+vhRd2oPrfrJ+Y8T/WiPbvQjkZHZNjrXW9EFFAfUnhDeOzcLQsUqVPe+I628icfGJghyuB9EKb9zq7Pz6/vuKC3+XGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBKwRP6u; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPmeb9UjPONMjvS0fMZgOtTTd7mLeHChhYQACsvbH+PiNEdhPCdpNpmH0OMgPv5O+ajDMlkOWb9tfz/Vn1evXI0d1ooo1rvOv8Tw1wQcGWJgHnU/RdHB/ZH/WsZwuIKL1JjjzyvYCHREFZXUMmtpB44hMSWJvtgrh6R125oc7Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7A5c60M; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBKwRP6u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7A5c60M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723498607; x=1755034607;
+  t=1723509590; x=1755045590;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=itQfS94FcJh8GxIRHkvD9FFvYgRh1KX7Z451gFHzrsc=;
-  b=bBKwRP6ub7TgJQQatilwVV9SB0evk1apMgReuJUsioLfygU4bd7DEg97
-   u8zWz8P/hgskmKSTL8aPcvXhpXmbhgLoKi2n1P4S+/3f7ESPPdKgPkox8
-   tY6tsYihtphrg7Lwm+pH9p6agPqfQttnCnd3q2VulqMc6cgHmhl0oC1zx
-   ai6nYpaidGaDdq6edfeDNwmg9Exv6AHmcB96Gdx2Gv/aj9gd2D+QUiKkM
-   5uaXSgRrmObvc/+k0N+pp5KO1FwTjZ5Bw2HJc5WNKGrkkgMdnJT19owld
-   LvtJ2/oCcxMOF1Dwl3zch7DhVkD0MPxYfJQ3JF151PG4TiQmofJMILXbC
+  bh=kKBDWhHjGWEtOgUPL2LtV+bhsd+NyypdZgjZaBPSHoY=;
+  b=E7A5c60MlybMr1BlqpMGcEpEVK1mPRYpJLgKXTU8cr3fvY2oiCt/3rKc
+   TNWCJQTx40TdVgVpIluL9ek3eJgnoBch8H8CqWLY8FB7XedzTlqzdLKPa
+   bPv5sxX8E47Dxay4mGwSbVMelZOSoDozBUWyTLcHd8I1qFK8JNcSDTaEV
+   xudwBldKAlhrGoyz2lIHBXeJEBHq5viXoVlka9q6GEOG/C+BciSurwc1E
+   7Rk7U3RP1pMvXGnPxM0kYWvbTiTNY84tY6SJoTyEVPLSNknDekZMzRZ8R
+   VYskc+Ezupm6pTVDvyAfeAnKTmnEnzv/u5vsbD6wqRZwod+1xe73pXtJR
    g==;
-X-CSE-ConnectionGUID: QPQ7xsbJQcG5rBFkchjxbg==
-X-CSE-MsgGUID: VPdKHCX/Rxe9o/+b8E1d7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21277882"
+X-CSE-ConnectionGUID: L9odBzKSSBS3B51EEUyZ4w==
+X-CSE-MsgGUID: cZvai9hnRUen3NVmW9qROA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21793824"
 X-IronPort-AV: E=Sophos;i="6.09,284,1716274800"; 
-   d="scan'208";a="21277882"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 14:36:46 -0700
-X-CSE-ConnectionGUID: S46l7mIZTg+OSy0krMwK5A==
-X-CSE-MsgGUID: EJGVc5euStKKX+4vlua2SQ==
+   d="scan'208";a="21793824"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 17:39:49 -0700
+X-CSE-ConnectionGUID: lyaNmWkIRoe32jnzSRTaiQ==
+X-CSE-MsgGUID: 6tKtG5pARo6uQ0whq2Or/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,284,1716274800"; 
-   d="scan'208";a="89263372"
+   d="scan'208";a="58553687"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Aug 2024 14:36:42 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 Aug 2024 17:39:45 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdciV-000CCf-2P;
-	Mon, 12 Aug 2024 21:36:39 +0000
-Date: Tue, 13 Aug 2024 05:36:18 +0800
+	id 1sdfZe-000CGl-19;
+	Tue, 13 Aug 2024 00:39:42 +0000
+Date: Tue, 13 Aug 2024 08:38:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Raag Jadav <raag.jadav@intel.com>, jani.nikula@linux.intel.com,
 	joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
@@ -61,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
 	ashutosh.dixit@intel.com, karthik.poosa@intel.com,
 	Raag Jadav <raag.jadav@intel.com>
 Subject: Re: [PATCH v5] drm/i915/hwmon: expose fan speed
-Message-ID: <202408130500.SgCVoR2D-lkp@intel.com>
+Message-ID: <202408130800.XtY6XxQ5-lkp@intel.com>
 References: <20240812081538.1457396-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -87,75 +87,19 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/drm-i915-hwmon
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
 patch link:    https://lore.kernel.org/r/20240812081538.1457396-1-raag.jadav%40intel.com
 patch subject: [PATCH v5] drm/i915/hwmon: expose fan speed
-config: i386-randconfig-012-20240813 (https://download.01.org/0day-ci/archive/20240813/202408130500.SgCVoR2D-lkp@intel.com/config)
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240813/202408130800.XtY6XxQ5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408130500.SgCVoR2D-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408130800.XtY6XxQ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408130500.SgCVoR2D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408130800.XtY6XxQ5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/i915/i915_hwmon.o: in function `hwm_fan_read':
->> drivers/gpu/drm/i915/i915_hwmon.c:675: undefined reference to `__udivdi3'
-
-
-vim +675 drivers/gpu/drm/i915/i915_hwmon.c
-
-   633	
-   634	static int
-   635	hwm_fan_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-   636	{
-   637		struct i915_hwmon *hwmon = ddat->hwmon;
-   638		struct hwm_fan_info *fi = &ddat->fi;
-   639		u64 rotations, time_now, time;
-   640		intel_wakeref_t wakeref;
-   641		u32 reg_val, pulses;
-   642		int ret = 0;
-   643	
-   644		if (attr != hwmon_fan_input)
-   645			return -EOPNOTSUPP;
-   646	
-   647		wakeref = intel_runtime_pm_get(ddat->uncore->rpm);
-   648		mutex_lock(&hwmon->hwmon_lock);
-   649	
-   650		reg_val = intel_uncore_read(ddat->uncore, hwmon->rg.fan_speed);
-   651		time_now = get_jiffies_64();
-   652	
-   653		/* Handle HW register overflow */
-   654		if (reg_val >= fi->reg_val_prev)
-   655			pulses = reg_val - fi->reg_val_prev;
-   656		else
-   657			pulses = UINT_MAX - fi->reg_val_prev + reg_val;
-   658	
-   659		/*
-   660		 * HW register value is accumulated count of pulses from
-   661		 * PWM fan with the scale of 2 pulses per rotation.
-   662		 */
-   663		rotations = pulses / 2;
-   664	
-   665		time = jiffies_delta_to_msecs(time_now - fi->time_prev);
-   666		if (unlikely(!time)) {
-   667			ret = -EAGAIN;
-   668			goto exit;
-   669		}
-   670	
-   671		/*
-   672		 * Convert to minutes for calculating RPM.
-   673		 * RPM = number of rotations * msecs per minute / time in msecs
-   674		 */
- > 675		*val = DIV_ROUND_UP(rotations * (MSEC_PER_SEC * 60), time);
-   676	
-   677		fi->reg_val_prev = reg_val;
-   678		fi->time_prev = time_now;
-   679	exit:
-   680		mutex_unlock(&hwmon->hwmon_lock);
-   681		intel_runtime_pm_put(ddat->uncore->rpm, wakeref);
-   682		return ret;
-   683	}
-   684	
+   ld: drivers/gpu/drm/i915/i915_hwmon.o: in function `hwm_read':
+>> i915_hwmon.c:(.text+0xe60): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
