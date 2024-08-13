@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E731E4A4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 15:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CBA199245
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 15:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723561834; cv=none; b=ZUj6kttoZGtX+D+bdRaKkGvCut6Rh7nW66Jjv5GtMcaypidE4YXzBjSIIJbeRXYKpUQoIsNnb7bu86BhLLp5hPErhWc+RZXSufvaA5WsSagxLE/rk4cJvJWh2OHeNE6rbri7EK6MWBh6trwBNO0tV8xl4Zeg7XjIlMFL5QFYy9I=
+	t=1723563097; cv=none; b=SIrjmt6UKACqrvO8V+ZPKkB8hHV1gsUQjABTeTlGPi7ayYkayYkY0UYG3sfJ2ZKpG4NBlS5BwMLWs7Zitq0tpWeLZ1c4T6hHGgcpWyzDxPOP6Qu8ZJqO7Kp2OSGqk0qdEeXK9k+FsumwBhXxYsxBBs/bSkETjtSJycYTSqs0We8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723561834; c=relaxed/simple;
-	bh=fcqaIRDAg4BbsPAvKOXAlSxeeCUsvb+LEyUhVO9aSn4=;
+	s=arc-20240116; t=1723563097; c=relaxed/simple;
+	bh=2D5MLlwqy83hI+9CIsIBf24jGbY27cmhAGq9DW9iT/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KOQbf3SZFEGpc5Xmd6hIDbYXNd91MyBNlORrG22nA99AJSPLk6y9kyAM4uQW2WvsMAwW6Xz1/Y1ZGkvEXPq/Ej0mkUIMZzOpWmZTH+bHA5g/pY49c+k1bg0FgTLTWKYKHt1sMydCIlgmrVbrAjmRg0x8sY3oa0OJLZRMfdgsJ14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GP8QolI/; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=cxg6GcBYePeoZJAs/0lv5m0BHG7kOTcFka+kq16OgCn6vhDlVSy921s+Sffbw3111LDxXk2kRt7aZUp94V7UZ3rz4SJ7nfihdmIhpxDSBunbiXKfNwKjj9TSY+jrFWSk1ALGMDrVMD3dmb42EUDMNBdo0NM7Uxh9qB53mc4ZFz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c2HGVjg+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GP8QolI/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c2HGVjg+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723561832; x=1755097832;
+  t=1723563094; x=1755099094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fcqaIRDAg4BbsPAvKOXAlSxeeCUsvb+LEyUhVO9aSn4=;
-  b=GP8QolI/Bi9DoQ4Jn7S/T8niVW+LOzS6v9tDjVPRDh3xet4z1rzdrEZ3
-   ndhu4iQWBwU0UpV0bVD47bPuc4P+cOufxX0eafk1Pn01CxCD7sEP5pWqS
-   Fz1ULhcog64oTnwKzNEp77McHtwGYfSKMnz5Q14RwtwS4LQSYpIOwq+Eq
-   NJC6w4yrR7PXleB/lQC2zsN0ctOlJOu6PR0sUA7GvNyHw3fmfmVPORhIY
-   PhRQCoWaeHt8n/ppPdCrCl9L0+teDg24WqW+BJvkYm+KSt6BbkitTHPKg
-   MucvSnDSvIBrTvkjSoywIwue5utJ9j7m21q4SimaCewMrvaePFOAGdUjn
+  bh=2D5MLlwqy83hI+9CIsIBf24jGbY27cmhAGq9DW9iT/s=;
+  b=c2HGVjg+6JLQwZXv09SIeArMWxUDYn3ZzYcAvk2O2TMUODQ256cnF7zQ
+   Vym1pbkN6b5ViP/m/0WZEPmn/WiKGXXIPQxeQ1HksHebX//ttQytUmI62
+   ORyeTmGLpsxQJGotDjvUCOY8clXAFTXAUBAvBdbUsZnXGje2qIzDnJRpx
+   vYJQb13IB5DbRmenvsN3rFalkDusjwGmcEPQBabiai6UPI9f0/nuhbYRn
+   3ksXaPkEkzqD06Y9gyL92v8N0Pa9TtaXfigMr9iPlID5prEQfWwKZCy+K
+   1bOO+KxuP+hXmd71ZxfcBr08/5gb5ldY0zyuiz1mqsPPQm6tuR0xKkSJA
    Q==;
-X-CSE-ConnectionGUID: sR1S/RbGR5u8Gm/iWWD3aQ==
-X-CSE-MsgGUID: SaRuFAnKQtKiWWuD8FWUhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="39241405"
+X-CSE-ConnectionGUID: tnSe/tBIQHi7B0C0QAz34A==
+X-CSE-MsgGUID: SZiUPIHwSJ2EhN+Gq+xNUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="25599227"
 X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; 
-   d="scan'208";a="39241405"
+   d="scan'208";a="25599227"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 08:10:31 -0700
-X-CSE-ConnectionGUID: SxD5lRBVTl+vG0xhwv9xZA==
-X-CSE-MsgGUID: DFOxSbvTTkq2NV7OzEO0TA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 08:31:34 -0700
+X-CSE-ConnectionGUID: rGcoqeHES+CqKnpPwm8AQQ==
+X-CSE-MsgGUID: s/h0F1SDQKmqnqYbA6jmkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,286,1716274800"; 
-   d="scan'208";a="63637240"
+   d="scan'208";a="63640137"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2024 08:10:30 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2024 08:31:30 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdtAJ-0000XW-0r;
-	Tue, 13 Aug 2024 15:10:27 +0000
-Date: Tue, 13 Aug 2024 23:10:12 +0800
+	id 1sdtUd-0000Y2-2R;
+	Tue, 13 Aug 2024 15:31:27 +0000
+Date: Tue, 13 Aug 2024 23:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 3920/4224]
- arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fsl-mc@80c000000:
- dpmacs:ethernet@7: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202408132356.hUcTJEkI-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 84/99]
+ drivers/thermal/thermal_core.c:1012:13: error: invalid storage class for
+ function 'thermal_zone_cdev_binding'
+Message-ID: <202408132357.AhdAtHMM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,100 +64,362 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   033a4691702cdca3a613256b0623b8eeacb4985e
-commit: c25504a0ba36968f919aa30caff172ef23346299 [3920/4224] dt-bindings: net: fsl,qoriq-mc-dpmac: add missed property phys
-config: arm64-randconfig-051-20240813 (https://download.01.org/0day-ci/archive/20240813/202408132356.hUcTJEkI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev10+ge5d88ac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408132356.hUcTJEkI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   c850ea465e36219149e4abe7f2e30ec8bf674862
+commit: 314fb95573c3ab521dfe3a72e1171ce337db20d6 [84/99] thermal: core: Introduce .should_bind() thermal zone callback
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240813/202408132357.AhdAtHMM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408132357.AhdAtHMM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408132356.hUcTJEkI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408132357.AhdAtHMM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: pcie@3800000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: pcie@3900000: reg-names:0: 'regs' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: pcie@3900000: reg-names:1: 'config' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: pcie@3900000: interrupts: [[0, 103, 4], [0, 103, 4], [0, 103, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: pcie@3900000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fsl-mc@80c000000: dpmacs:ethernet@7: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fsl-mc@80c000000: dpmacs:ethernet@8: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fsl-mc@80c000000: dpmacs:ethernet@9: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: fsl-mc@80c000000: dpmacs:ethernet@a: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: ethernet@7: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: ethernet@8: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: ethernet@9: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dtb: ethernet@a: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: pcie@3800000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: pcie@3900000: reg-names:0: 'regs' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: pcie@3900000: reg-names:1: 'config' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: pcie@3900000: interrupts: [[0, 103, 4], [0, 103, 4], [0, 103, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: pcie@3900000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: fsl-mc@80c000000: dpmacs:ethernet@7: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: fsl-mc@80c000000: dpmacs:ethernet@8: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: fsl-mc@80c000000: dpmacs:ethernet@9: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: fsl-mc@80c000000: dpmacs:ethernet@a: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: ethernet@7: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: ethernet@8: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: ethernet@9: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2160a-honeycomb.dtb: ethernet@a: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
---
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: pcie@3800000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: pcie@3900000: reg-names:0: 'regs' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: pcie@3900000: reg-names:1: 'config' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: pcie@3900000: interrupts: [[0, 103, 4], [0, 103, 4], [0, 103, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: pcie@3900000: interrupt-names: ['aer', 'pme', 'intr'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: fsl-mc@80c000000: dpmacs:ethernet@3: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: fsl-mc@80c000000: dpmacs:ethernet@4: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: fsl-mc@80c000000: dpmacs:ethernet@5: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: fsl-mc@80c000000: dpmacs:ethernet@6: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/misc/fsl,qoriq-mc.yaml#
->> arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: ethernet@3: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: ethernet@4: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: ethernet@5: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
-   arch/arm64/boot/dts/freescale/fsl-lx2162a-clearfog.dtb: ethernet@6: 'sfp' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,qoriq-mc-dpmac.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/thermal/thermal_core.c: In function 'thermal_bind_cdev_to_trip':
+   drivers/thermal/thermal_core.c:862:37: error: 'struct thermal_instance' has no member named 'tz_node'; did you mean 'trip_node'?
+     862 |                 list_add_tail(&dev->tz_node, &tz->thermal_instances);
+         |                                     ^~~~~~~
+         |                                     trip_node
+   drivers/thermal/thermal_core.c:862:49: error: 'struct thermal_zone_device' has no member named 'thermal_instances'
+     862 |                 list_add_tail(&dev->tz_node, &tz->thermal_instances);
+         |                                                 ^~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:906:19: error: non-static declaration of 'thermal_zone_bind_cooling_device' follows static declaration
+     906 | EXPORT_SYMBOL_GPL(thermal_zone_bind_cooling_device);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:906:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     906 | EXPORT_SYMBOL_GPL(thermal_zone_bind_cooling_device);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:886:5: note: previous definition of 'thermal_zone_bind_cooling_device' with type 'int(struct thermal_zone_device *, int,  struct thermal_cooling_device *, long unsigned int,  long unsigned int,  unsigned int)'
+     886 | int thermal_zone_bind_cooling_device(struct thermal_zone_device *tz,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:953:19: error: non-static declaration of 'thermal_unbind_cdev_from_trip' follows static declaration
+     953 | EXPORT_SYMBOL_GPL(thermal_unbind_cdev_from_trip);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:953:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     953 | EXPORT_SYMBOL_GPL(thermal_unbind_cdev_from_trip);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:920:5: note: previous definition of 'thermal_unbind_cdev_from_trip' with type 'int(struct thermal_zone_device *, struct thermal_trip *, struct thermal_cooling_device *)'
+     920 | int thermal_unbind_cdev_from_trip(struct thermal_zone_device *tz,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:972:19: error: non-static declaration of 'thermal_zone_unbind_cooling_device' follows static declaration
+     972 | EXPORT_SYMBOL_GPL(thermal_zone_unbind_cooling_device);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:972:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     972 | EXPORT_SYMBOL_GPL(thermal_zone_unbind_cooling_device);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:955:5: note: previous definition of 'thermal_zone_unbind_cooling_device' with type 'int(struct thermal_zone_device *, int,  struct thermal_cooling_device *)'
+     955 | int thermal_zone_unbind_cooling_device(struct thermal_zone_device *tz,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:974:13: error: invalid storage class for function 'thermal_release'
+     974 | static void thermal_release(struct device *dev)
+         |             ^~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:998:6: error: invalid storage class for function 'print_bind_err_msg'
+     998 | void print_bind_err_msg(struct thermal_zone_device *tz,
+         |      ^~~~~~~~~~~~~~~~~~
+>> drivers/thermal/thermal_core.c:1012:13: error: invalid storage class for function 'thermal_zone_cdev_binding'
+    1012 | static void thermal_zone_cdev_binding(struct thermal_zone_device *tz,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1071:1: error: invalid storage class for function '__thermal_cooling_device_register'
+    1071 | __thermal_cooling_device_register(struct device_node *np,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1191:19: error: non-static declaration of 'thermal_cooling_device_register' follows static declaration
+    1191 | EXPORT_SYMBOL_GPL(thermal_cooling_device_register);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1191:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1191 | EXPORT_SYMBOL_GPL(thermal_cooling_device_register);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1186:1: note: previous definition of 'thermal_cooling_device_register' with type 'struct thermal_cooling_device *(const char *, void *, const struct thermal_cooling_device_ops *)'
+    1186 | thermal_cooling_device_register(const char *type, void *devdata,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1215:19: error: non-static declaration of 'thermal_of_cooling_device_register' follows static declaration
+    1215 | EXPORT_SYMBOL_GPL(thermal_of_cooling_device_register);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1215:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1215 | EXPORT_SYMBOL_GPL(thermal_of_cooling_device_register);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1209:1: note: previous definition of 'thermal_of_cooling_device_register' with type 'struct thermal_cooling_device *(struct device_node *, const char *, void *, const struct thermal_cooling_device_ops *)'
+    1209 | thermal_of_cooling_device_register(struct device_node *np,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1217:13: error: invalid storage class for function 'thermal_cooling_device_release'
+    1217 | static void thermal_cooling_device_release(struct device *dev, void *res)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1264:19: error: non-static declaration of 'devm_thermal_of_cooling_device_register' follows static declaration
+    1264 | EXPORT_SYMBOL_GPL(devm_thermal_of_cooling_device_register);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1264:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1264 | EXPORT_SYMBOL_GPL(devm_thermal_of_cooling_device_register);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1241:1: note: previous definition of 'devm_thermal_of_cooling_device_register' with type 'struct thermal_cooling_device *(struct device *, struct device_node *, const char *, void *, const struct thermal_cooling_device_ops *)'
+    1241 | devm_thermal_of_cooling_device_register(struct device *dev,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1266:13: error: invalid storage class for function 'thermal_cooling_device_present'
+    1266 | static bool thermal_cooling_device_present(struct thermal_cooling_device *cdev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1349:19: error: non-static declaration of 'thermal_cooling_device_update' follows static declaration
+    1349 | EXPORT_SYMBOL_GPL(thermal_cooling_device_update);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1349:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1349 | EXPORT_SYMBOL_GPL(thermal_cooling_device_update);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1288:6: note: previous definition of 'thermal_cooling_device_update' with type 'void(struct thermal_cooling_device *)'
+    1288 | void thermal_cooling_device_update(struct thermal_cooling_device *cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/thermal/thermal_core.c:1351:13: error: invalid storage class for function 'thermal_zone_cdev_unbinding'
+    1351 | static void thermal_zone_cdev_unbinding(struct thermal_zone_device *tz,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1406:19: error: non-static declaration of 'thermal_cooling_device_unregister' follows static declaration
+    1406 | EXPORT_SYMBOL_GPL(thermal_cooling_device_unregister);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1406:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1406 | EXPORT_SYMBOL_GPL(thermal_cooling_device_unregister);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1380:6: note: previous definition of 'thermal_cooling_device_unregister' with type 'void(struct thermal_cooling_device *)'
+    1380 | void thermal_cooling_device_unregister(struct thermal_cooling_device *cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1408:13: error: invalid storage class for function 'thermal_set_delay_jiffies'
+    1408 | static void thermal_set_delay_jiffies(unsigned long *delay_jiffies, int delay_ms)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1439:19: error: non-static declaration of 'thermal_zone_get_crit_temp' follows static declaration
+    1439 | EXPORT_SYMBOL_GPL(thermal_zone_get_crit_temp);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1439:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1439 | EXPORT_SYMBOL_GPL(thermal_zone_get_crit_temp);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1415:5: note: previous definition of 'thermal_zone_get_crit_temp' with type 'int(struct thermal_zone_device *, int *)'
+    1415 | int thermal_zone_get_crit_temp(struct thermal_zone_device *tz, int *temp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1641:19: error: non-static declaration of 'thermal_zone_device_register_with_trips' follows static declaration
+    1641 | EXPORT_SYMBOL_GPL(thermal_zone_device_register_with_trips);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1641:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1641 | EXPORT_SYMBOL_GPL(thermal_zone_device_register_with_trips);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1466:1: note: previous definition of 'thermal_zone_device_register_with_trips' with type 'struct thermal_zone_device *(const char *, const struct thermal_trip *, int,  void *, const struct thermal_zone_device_ops *, const struct thermal_zone_params *, unsigned int,  unsigned int)'
+    1466 | thermal_zone_device_register_with_trips(const char *type,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/thermal/thermal_core.c:12:
+   drivers/thermal/thermal_core.c:1652:19: error: non-static declaration of 'thermal_tripless_zone_device_register' follows static declaration
+    1652 | EXPORT_SYMBOL_GPL(thermal_tripless_zone_device_register);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:69:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      69 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1652:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1652 | EXPORT_SYMBOL_GPL(thermal_tripless_zone_device_register);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_core.c:1643:29: note: previous definition of 'thermal_tripless_zone_device_register' with type 'struct thermal_zone_device *(const char *, void *, const struct thermal_zone_device_ops *, const struct thermal_zone_params *)'
+    1643 | struct thermal_zone_device *thermal_tripless_zone_device_register(
+
+
+vim +/thermal_zone_cdev_binding +1012 drivers/thermal/thermal_core.c
+
+  1011	
+> 1012	static void thermal_zone_cdev_binding(struct thermal_zone_device *tz,
+  1013					      struct thermal_cooling_device *cdev)
+  1014	{
+  1015		struct thermal_trip_desc *td;
+  1016		int ret;
+  1017	
+  1018		/*
+  1019		 * Old-style binding. The .bind() callback is expected to call
+  1020		 * thermal_bind_cdev_to_trip() under the thermal zone lock.
+  1021		 */
+  1022		if (tz->ops.bind) {
+  1023			ret = tz->ops.bind(tz, cdev);
+  1024			if (ret)
+  1025				print_bind_err_msg(tz, NULL, cdev, ret);
+  1026	
+  1027			return;
+  1028		}
+  1029	
+  1030		if (!tz->ops.should_bind)
+  1031			return;
+  1032	
+  1033		mutex_lock(&tz->lock);
+  1034	
+  1035		for_each_trip_desc(tz, td) {
+  1036			struct thermal_trip *trip = &td->trip;
+  1037			struct cooling_spec c = {
+  1038				.upper = THERMAL_NO_LIMIT,
+  1039				.lower = THERMAL_NO_LIMIT,
+  1040				.weight = THERMAL_WEIGHT_DEFAULT
+  1041			};
+  1042	
+  1043			if (tz->ops.should_bind(tz, trip, cdev, &c)) {
+  1044				ret = thermal_bind_cdev_to_trip(tz, trip, cdev, c.upper,
+  1045								c.lower, c.weight);
+  1046				if (ret)
+  1047					print_bind_err_msg(tz, trip, cdev, ret);
+  1048			}
+  1049		}
+  1050	
+  1051		mutex_unlock(&tz->lock);
+  1052	}
+  1053	
 
 -- 
 0-DAY CI Kernel Test Service
