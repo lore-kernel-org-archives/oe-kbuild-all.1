@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4857E1A707F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 21:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BF51AD9C1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 21:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723583264; cv=none; b=WYArDtfafZHMhMKNkRfmqUmeDP/iG+4ou+tmXSCGr7V+dzGIhbZMIKy/w5i+Apn4VCZyJad1o/srfOtk7DtPVjXa1XR3bb+kwjgVyjuaQDEEiluQf1KBwpNrx2zcUwi9G8IkZQArdRKSms04B8H7U3+ZPmWmausbyLWFBUEBn4I=
+	t=1723583864; cv=none; b=GSuNKBEirFEO8Hner9R2b/TN0Fs/KC/5fHdERAw9DaAd317Qh0nB0o+8vehA7HryGdngNClgkiswzW7ENdA860hd5wpg3PScRfeN//sOt4JIcIIy9sKd5+zqVj2OETpHXEU3wdyKQy1oucN8SkfoSbk6M2HtnYVZsTvvCPD/f1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723583264; c=relaxed/simple;
-	bh=wii20uAFwA0Hva9CAlMTdYHq43WPKMRZX481oCB0G/w=;
+	s=arc-20240116; t=1723583864; c=relaxed/simple;
+	bh=vo+Vj5gbAxBwasknG+Sn7eSUsAce8VrqS+Se9zdZn+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PqBAmWEKWBld3xQjCGMjWFCqAbUVNlb1oldoHDBrB/jC0oj77m/GVyrknFwFhaPrX5AzBB0Afg2h0aqU4DCAHFs50IQtxc9htt5eVliIMMPNGwEqPEWUACowOLqK7tvtXUAPxr4d/aCvNC+20YvQ/9+c7UvsqJZr+rL6r/iRI5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJZxAUPu; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=JTLM/Z+ebAgL8b5V/8P4kM+YVmZbDuOB+TiZ734oXAzmU8AABLeTAulzZFOg2azNwal633dkFX21o2gA5JVoszf4CEYuGXezbYt0igYDPwRHJAcPRMKIcHOyjn7HwKIFPYWqoPEa3uZ+73MWRS1HpDVHnS+gKhmSYXUI9Gc49SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h16qXwIO; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJZxAUPu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h16qXwIO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723583263; x=1755119263;
+  t=1723583862; x=1755119862;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wii20uAFwA0Hva9CAlMTdYHq43WPKMRZX481oCB0G/w=;
-  b=UJZxAUPutsKygn81RGLe85Ssu+C/1RAefg+bcPkGcCjHVxg+g4ziTdIz
-   V660inHxZWlFn2rVkTOgJvj2YHWBJ/J4JYohIGLHBp4s8OW3KsV4dtro9
-   u3P+Vvos/F6XUiknVT9WHkdMUCAky3avhXWst2DdAr9nzdwGysbHKlPku
-   Acp22NSIHK+PXFwG8S2rGYn+dJtQj9jrbgdTWjKlU1fY21mK4LaYdWkuo
-   ivA2YmYm4PzgjPUcum6Qptop8RfeAUcZjW3VJkKh+O/vk5eYL4vEyMZx/
-   NU8pgUV70xHauqqhopmPd2EWQVa0XqAymWoegt+dBROrbtALN3JtF9uct
-   Q==;
-X-CSE-ConnectionGUID: Hx+tajA4Qc2metkhHZww1Q==
-X-CSE-MsgGUID: +5zPRicRTU+XnuRKhlKaLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21641003"
+  bh=vo+Vj5gbAxBwasknG+Sn7eSUsAce8VrqS+Se9zdZn+s=;
+  b=h16qXwIO12/NDPhJZPSzwgBQkPqXPdPznMfmeygpIhyAtDRy6XCBYEfe
+   656+tEgIclgm2VxIR0HsnNCNvm/s2gXpjbyDseeySfhFVbkL98c8Nejp+
+   S2NUJ+M/iMN/m4qGWWQapHkarnN2jFWzozl9wobdmQ059Rp3W0TbOapY7
+   43b1Y89zsP9yVb6uV+wbt//ltgQwRv752/71RW493tYBmmWgs5zVAotDR
+   +P1RMuyG2wuTfEKVaJMg5ztGYg8PXMUKg5sONU+1O0JjPAqV4ukMkK1xF
+   wZKNPAXm2hYaA3Fs4hlZtrnQEuQT1Gc2rtqs0I3lx58Ks8bkKl/3ASpD/
+   w==;
+X-CSE-ConnectionGUID: rs0VJKe2RAi6+Gs4DVl++Q==
+X-CSE-MsgGUID: DoLb2StRTwudIMQTd/9btA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="32351349"
 X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="21641003"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 14:07:40 -0700
-X-CSE-ConnectionGUID: TbxdHviIQEytEZK0jFAYHQ==
-X-CSE-MsgGUID: OjllNDUTSPChxyanK95NPQ==
+   d="scan'208";a="32351349"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 14:17:41 -0700
+X-CSE-ConnectionGUID: 3D6XaJOzQk2MHP0N0VvzQA==
+X-CSE-MsgGUID: bZBiaB2mRaSXH5JPM6oDvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="58747990"
+   d="scan'208";a="58678670"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Aug 2024 14:07:39 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Aug 2024 14:17:39 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdyjx-0000jI-02;
-	Tue, 13 Aug 2024 21:07:37 +0000
-Date: Wed, 14 Aug 2024 05:07:13 +0800
+	id 1sdytd-0000jS-0P;
+	Tue, 13 Aug 2024 21:17:37 +0000
+Date: Wed, 14 Aug 2024 05:17:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory CLEMENT <gregory.clement@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: /: failed to match any
- schema with compatible: ['mobileye,eyeq6-epm6', 'mobileye,eyeq6']
-Message-ID: <202408140537.DgUJFGmH-lkp@intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:20240812_cezary_rojewski_asoc_intel_remove_skylake_driver
+ 48/49] sound/soc/intel/common/soc-acpi-intel-skl-match.c:11:10: fatal error:
+ ../skylake/skl.h: No such file or directory
+Message-ID: <202408140512.Rt7qG5Vo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6b4aa469f04999c3f244515fa7491b4d093c5167
-commit: fbe0fae601b780622fcb7034a479fa161645b9f4 MIPS: mobileye: Add EyeQ6H support
-date:   9 weeks ago
-config: mips-randconfig-051-20240814 (https://download.01.org/0day-ci/archive/20240814/202408140537.DgUJFGmH-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2024.6.dev10+ge5d88ac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408140537.DgUJFGmH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20240812_cezary_rojewski_asoc_intel_remove_skylake_driver
+head:   d46748ce77e33d6a219e9e7bca25d53cbf78d518
+commit: a8d5559a180c437332cf1b697776287165fdceca [48/49] ASoC: Intel: Remove skylake driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240814/202408140512.Rt7qG5Vo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408140512.Rt7qG5Vo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408140537.DgUJFGmH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408140512.Rt7qG5Vo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: /: failed to match any schema with compatible: ['mobileye,eyeq6-epm6', 'mobileye,eyeq6']
->> arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: /: failed to match any schema with compatible: ['mobileye,eyeq6-epm6', 'mobileye,eyeq6']
+All errors (new ones prefixed by >>):
+
+>> sound/soc/intel/common/soc-acpi-intel-skl-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> sound/soc/intel/common/soc-acpi-intel-kbl-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> sound/soc/intel/common/soc-acpi-intel-cnl-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> sound/soc/intel/common/soc-acpi-intel-icl-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> sound/soc/intel/common/soc-acpi-intel-ehl-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> sound/soc/intel/common/soc-acpi-intel-hda-match.c:11:10: fatal error: ../skylake/skl.h: No such file or directory
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +11 sound/soc/intel/common/soc-acpi-intel-skl-match.c
+
+cbaa7f0bdbee19 Pierre-Louis Bossart 2018-06-18 @11  #include "../skylake/skl.h"
+cbaa7f0bdbee19 Pierre-Louis Bossart 2018-06-18  12  
+
+:::::: The code at line 11 was first introduced by commit
+:::::: cbaa7f0bdbee1969bb311c641abbd0d2af6ba861 ASoC: Intel: move SKL+ codec ACPI tables to common directory
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
