@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E956E1C68C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 04:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AC243165
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 06:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723523172; cv=none; b=pyjB7q9C5MYqDsFZg+cPqXUETcAlzOgDnDTJiG0Ve2rIQlvfl0Mmpl4pkPzIflHi1AqoK6/whrWWKNjFgk4xtkmIFkjBglwze306M+E97fYWtf+jAAChXxHejZhWswt2aqIy7OyAA0nfdDSAF3hTAMQIQW6q3JxrjokrwjfBuOk=
+	t=1723531096; cv=none; b=mkm1Ii4/wcur1U6uuTJNrNb88bwSn+4KvrCa4D5PwqIrG5oSLKdnuDyZODKnu13sCAjflGPKTbwoAZiBIzL8gNoR4EwSN+J9XvIy3W8AEC1oJ0FDDKL9NKiWb8u9W4LDkIkScUycXiJlOSjtUPgqBFzo3MKlem0qxOzLHS4seic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723523172; c=relaxed/simple;
-	bh=UEdTAqX5zxPROLxAmkftOX+BCXItY+tQT3qzIU35BOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L66tWEZIUUlFtELP3e41FTT3WK5eIXxYTbVZG6Df8X8eZ3rqzP7mGE1735EgrHOaIKh0a1iI/TcSUTPs6QmC6aHPTSrlqU7JJQ66A95GORbTvCZ6ny0tucXQIUQnwxs5JiROv9vmDQA3xzPDrvTEEvj2xdyAdONaV2V1UHLSu1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndhVrRow; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1723531096; c=relaxed/simple;
+	bh=bI3QCyj1ouSefMrJYxldIjc9xOGTvnZw7aaw26QGLm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8M3FfVN/yEj0YxhnDC4duEF10DL0stW8kiJzfzkd4uAhL2vb4xOGBFXTb5xGUH48LsuaUfHJIdfUNT3p4VCMD2oeJYaApm0XFOM2QGhuw5iduKO9nTqY43LWlyqesj6NDnMQU18EyCtspP30HfnRNwQZPJor5kVxPNXOLyio7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNzOnwtJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndhVrRow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNzOnwtJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723523170; x=1755059170;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UEdTAqX5zxPROLxAmkftOX+BCXItY+tQT3qzIU35BOY=;
-  b=ndhVrRowjDmSXwKawLS4waAOxaLSZAhwf2FrNU1Q+3ohF4M015N/dRiq
-   9Vk6EpKUEn0+d9ZU+RA0bWTTmpTykYiHnAfiFm6Zrwohlv8FjTDE+rGit
-   EGLagu2Ko8arGxX8eGYkt4GmN4QN3FYxntkQ/AGlLnsW9ne3cWOJpjzSX
-   rzF6Ve2oenbKR5p6BoACErCrtEwS3HChPyiJAnbyK2Cd69IVXl17hQXtj
-   FHhuFon40McSGx9tHBj9q+JzPzriEuTLKPyPL992C0gIebBo8qN6rWDnm
-   M9Q6rYtYCl0pO6FT+bGhgAWLbh+XHv04HEcIridl6Y+wu89zsgaLdGi8L
-   w==;
-X-CSE-ConnectionGUID: HTmXkip4Qd27HLwZBW7/8Q==
-X-CSE-MsgGUID: hiOHqLkTTpiAI+dnrLszvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="33048370"
+  t=1723531094; x=1755067094;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bI3QCyj1ouSefMrJYxldIjc9xOGTvnZw7aaw26QGLm0=;
+  b=SNzOnwtJFjrxIqgvDIL4Nau3oHUqvcrFSoYQ+r7pfBEBCF2uc3cROI+H
+   tnfBqBV68HB07GH2TQmhVP1k6/jP6C+RoJ38yhoKt6JpBtySbuzznMefP
+   HffNyQZdwLxeTbpTOoGkmqbpLBC+fVmci7AqeNLEuLrhhk7w6xdVex4oP
+   8on5s3NganONucQlnk57QQUT73Qn8iGCrAvyJBCtJ9Cu6Nl9Ttvksfqbg
+   66Zm0roXTaupl43JM+aaZNRcXGXEwb1Lt1flizieyomV+WJvlTTpimLjh
+   c4SC7NoBiqKwMv6GKglfG6fFtrvT+8+AYg+fZGNVw7f93w/PgZm7Moicv
+   A==;
+X-CSE-ConnectionGUID: UBEzz/tBSl+Sx8F+cCKVHQ==
+X-CSE-MsgGUID: E3RtWlsfSXq4qnD8pOO0yg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21816025"
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="33048370"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 21:26:10 -0700
-X-CSE-ConnectionGUID: Df7Wa2e1RhWOwKsESV74fg==
-X-CSE-MsgGUID: AenyfHQqTV+8m7qSrgW+jg==
+   d="scan'208";a="21816025"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 23:38:13 -0700
+X-CSE-ConnectionGUID: 6UhcKNQEQkOFiAUabJw7PA==
+X-CSE-MsgGUID: Q6L2i1QFTLy43wvGSJeQpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58464600"
+   d="scan'208";a="63252911"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Aug 2024 21:26:09 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2024 23:38:11 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdj6j-0000A4-1T;
-	Tue, 13 Aug 2024 04:26:05 +0000
-Date: Tue, 13 Aug 2024 12:25:23 +0800
+	id 1sdlAW-0000Es-2m;
+	Tue, 13 Aug 2024 06:38:08 +0000
+Date: Tue, 13 Aug 2024 14:37:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 7089/23486] drivers/fpga/dfl.o:
- warning: objtool: build_info_commit_dev()+0x238: unreachable instruction
-Message-ID: <202408131241.MUQOf023-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, "Darrick J. Wong" <djwong@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/3] xfs: convert perag lookup to xarray
+Message-ID: <202408131403.L5SrjEa7-lkp@intel.com>
+References: <20240812063143.3806677-3-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +68,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240812063143.3806677-3-hch@lst.de>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   314cc4a8c77c14af0637ae2d7bff746d8002cfab
-commit: 99e28159a079ea6af5a5b789e83b68240d67f9ff [7089/23486] fpga: dfl: Add lockdep classes for pdata->lock
-config: x86_64-buildonly-randconfig-001-20240812 (https://download.01.org/0day-ci/archive/20240813/202408131241.MUQOf023-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131241.MUQOf023-lkp@intel.com/reproduce)
+Hi Christoph,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on akpm-mm/mm-nonmm-unstable linus/master v6.11-rc3 next-20240813]
+[cannot apply to djwong-xfs/djwong-devel]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-convert-perag-lookup-to-xarray/20240812-183447
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20240812063143.3806677-3-hch%40lst.de
+patch subject: [PATCH 2/3] xfs: convert perag lookup to xarray
+config: x86_64-randconfig-122-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131403.L5SrjEa7-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131403.L5SrjEa7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408131241.MUQOf023-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131403.L5SrjEa7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_icache.c:1776:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got unsigned int enum xfs_icwalk_goal goal @@
+   fs/xfs/xfs_icache.c:1776:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1776:9: sparse:     got unsigned int enum xfs_icwalk_goal goal
+>> fs/xfs/xfs_icache.c:1776:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got unsigned int enum xfs_icwalk_goal goal @@
+   fs/xfs/xfs_icache.c:1776:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1776:9: sparse:     got unsigned int enum xfs_icwalk_goal goal
+>> fs/xfs/xfs_icache.c:244:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got unsigned int tag @@
+   fs/xfs/xfs_icache.c:244:51: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:244:51: sparse:     got unsigned int tag
+   fs/xfs/xfs_icache.c:286:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got unsigned int tag @@
+   fs/xfs/xfs_icache.c:286:53: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:286:53: sparse:     got unsigned int tag
+>> fs/xfs/xfs_icache.c:1379:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1379:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1379:9: sparse:     got int
+>> fs/xfs/xfs_icache.c:1379:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1379:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1379:9: sparse:     got int
+   fs/xfs/xfs_icache.c:1509:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1509:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1509:9: sparse:     got int
+   fs/xfs/xfs_icache.c:1509:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1509:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1509:9: sparse:     got int
+   fs/xfs/xfs_icache.c:1515:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1515:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1515:9: sparse:     got int
+   fs/xfs/xfs_icache.c:1515:9: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted xa_mark_t [usertype] @@     got int @@
+   fs/xfs/xfs_icache.c:1515:9: sparse:     expected restricted xa_mark_t [usertype]
+   fs/xfs/xfs_icache.c:1515:9: sparse:     got int
+   fs/xfs/xfs_icache.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'xfs_iget_recycle' - unexpected unlock
+   fs/xfs/xfs_icache.c:580:28: sparse: sparse: context imbalance in 'xfs_iget_cache_hit' - different lock contexts for basic block
 
-   drivers/fpga/dfl.c:57: warning: cannot understand function prototype: 'struct dfl_dev_info '
-   drivers/fpga/dfl.c:77: warning: cannot understand function prototype: 'struct dfl_chardev_info '
->> drivers/fpga/dfl.o: warning: objtool: build_info_commit_dev()+0x238: unreachable instruction
+vim +1776 fs/xfs/xfs_icache.c
+
+  1762	
+  1763	/* Walk all incore inodes to achieve a given goal. */
+  1764	static int
+  1765	xfs_icwalk(
+  1766		struct xfs_mount	*mp,
+  1767		enum xfs_icwalk_goal	goal,
+  1768		struct xfs_icwalk	*icw)
+  1769	{
+  1770		struct xfs_perag	*pag;
+  1771		int			error = 0;
+  1772		int			last_error = 0;
+  1773		unsigned long		index = 0;
+  1774	
+  1775		rcu_read_lock();
+> 1776		xa_for_each_marked(&mp->m_perags, index, pag, goal) {
+  1777			if (!atomic_inc_not_zero(&pag->pag_active_ref))
+  1778				continue;
+  1779			rcu_read_unlock();
+  1780	
+  1781			error = xfs_icwalk_ag(pag, goal, icw);
+  1782			xfs_perag_rele(pag);
+  1783	
+  1784			rcu_read_lock();
+  1785			if (error) {
+  1786				last_error = error;
+  1787				if (error == -EFSCORRUPTED)
+  1788					break;
+  1789			}
+  1790		}
+  1791		rcu_read_unlock();
+  1792	
+  1793		return last_error;
+  1794		BUILD_BUG_ON(XFS_ICWALK_PRIVATE_FLAGS & XFS_ICWALK_FLAGS_VALID);
+  1795	}
+  1796	
 
 -- 
 0-DAY CI Kernel Test Service
