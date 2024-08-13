@@ -1,63 +1,61 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114346BFC0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 08:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6697A15B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 09:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723536012; cv=none; b=k2RrYzUVM2fkIay6wgrqeVrZBWjRodXbmIfKsYdyU2mOHlgA7nNDDZ5hzOsoAYnhNq6CoWxm8Bt9c+tWEgzF6UU9ZtSGwDYBMiSOsGeqi8lzibXAVjXmS4ff1GA8V0CL2J/1u3+AdP3OYmeqc4v4HnTy6IwW/OzphLG9J9wCcCI=
+	t=1723539680; cv=none; b=CPWx+XwOaz+UDN18ZJhtx24D+n7FpCuteBYmKRK1x2BxHtTvTL6/nD1ETcgxgzrCG0RnJEz0Ug1fcx2O1uOMndOwg16ink//E4gzs4k/XFCaprCn0M6PrgrweqvfIrmRhQZsZNOcw4Gc2mW8ZYcz/KnMhqPM8BGozgz6Ce6uU6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723536012; c=relaxed/simple;
-	bh=ZZNMazY+wB0Qt5QH+bRB/+v1cqkYb6cJ6wHaTsf9QZM=;
+	s=arc-20240116; t=1723539680; c=relaxed/simple;
+	bh=9+y8jNGSWlwoOhLp2fjto0m4GNn7H221lGfBR+JuuW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HDUkqndFcoVUAzloOuiq5Oatyuux+ZQre2cg13i5Hj+7K3O/muoCIxqr8apa60GBkXFkVYmpf7kFet4Odh/nOtjFmhMwzP1Zu6cT/XWZfAfzZhqFeQj1VPH6KXxrU4II7onjFvazgMAgl9FZHuQWi3hD7H249cPRDY8d/ZY7gWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SN5lESIB; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=cXTkOVhl15GS5UMB7fEtAqhRF//MVPs77zsVg/IFjF2KfkQUJTVpAhuMIjdk3YJE/i1l0/DT6l4ZK6qe/AWxTrClh5TACOneH/lCJdtwyFV+yBYi5yYmxM7GcSCpVZbN7BotArjYihioaBfgNMo688WUAKFJ6v7oL4tGLUO6ksA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXdhCPmd; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SN5lESIB"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5ba43b433beso5466399a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 01:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723536009; x=1724140809; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8B4aF2RhoJ87Q6+bPsf2aPZNzfoieuHNYR9HqWY5+FU=;
-        b=SN5lESIBuXPYuj0tu3X1hC83Hds0PBeQa9rp0eU+TdlbHn0ci8LwKFtvjuxnZvLYEm
-         Em8xSulWEb04ztiELRdOFtOzKevHOLTGgCB/+TdIkhOC3Y/RNgIvVj2i+aEWNMAGrU0f
-         DkS8XHCiXwHjUlyHXFJmQXFLV+9qmPiQUr4GLyR3GoLeOpD56zVAQRtW0p2XtDtn4jNY
-         Bu/ABJIFKKiR/EjpONtFA8yzdneZl8wSNmCfP0W12c2cq5fmVLq/iM/FnILnHcz6YLtE
-         g1ZRHT0AnvtncC4IkIKXN8zwyk7CkyZOuGJhHj0FYxFLhbxHKBreS+NLemLL6LNokP8I
-         j2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723536009; x=1724140809;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8B4aF2RhoJ87Q6+bPsf2aPZNzfoieuHNYR9HqWY5+FU=;
-        b=srTyF1Sx2NgBymwSmvB7UI+U+it/4Aub2IBVLN3aVKiy+i+eKyU5Y/9SuZJ7/y2xUR
-         X7sPfwFcsXqwL5nqu0MGHE0R5KKIwhMTfcNJkmLGxMhiFoWDN1S1MAuLQgd+l1j9b26E
-         VxNKIRJAkdeO3dg+Rd/haiBzmxAvAgK5vWLwjPB6qAdJZJpj7Id12RfYi58OFmfZ2AQW
-         1o4WdBPTyGCpTXHhXBMQgew3KZ2IXEj98jTwmy+ai7kvoGbv4HCS8OtZA/tp6/IWIKS+
-         4HBa9wSAAwsFCH7kZ9ScxAlW6IVhdKK9CDQ26SNq2fLUJ8/AfB2bmhqQ5nsWZmLpAPQh
-         8C8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXRjllrQTUTCHXHQ4O08cFOKsVwRGtarlo0aAC2RxIEvb3FuP1QE8WsyBFsfW/J7o36RTV0IVuPjvA5e/lkzRLJPwaK9Z1ItbUbZlH11Q==
-X-Gm-Message-State: AOJu0Yw1yp+bqWfrfIUNz90BXbiBRmJhzXQBDTDCoc2wN35Snlrtip9S
-	f/lII38JhXDBf7V7bCuKHxaicxCqALyudLagUq57CDf/c2rnEIqrizDb2LjDij4=
-X-Google-Smtp-Source: AGHT+IGIsBAmGDvIqzFfs21L+bkNCMbqJN/sGhkWBbxSO2GOwb7z5+wSnD75VLe0Bjg2n+z2W30cIA==
-X-Received: by 2002:a05:6402:3587:b0:5bb:9ae0:4a46 with SMTP id 4fb4d7f45d1cf-5bd44c0cff8mr2369154a12.5.1723536009102;
-        Tue, 13 Aug 2024 01:00:09 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd187f29d0sm2733183a12.2.2024.08.13.01.00.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 01:00:08 -0700 (PDT)
-Date: Tue, 13 Aug 2024 11:00:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Al Viro <viro@zeniv.linux.org.uk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXdhCPmd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723539679; x=1755075679;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9+y8jNGSWlwoOhLp2fjto0m4GNn7H221lGfBR+JuuW8=;
+  b=XXdhCPmduDSSTSmj4Jhdm7+uj4/vLLpIZdrCjPnayRS8/QDVq8yPR77m
+   ZhDWyDJ7ldwOjcv8zAGwJJiw9mVbsTvTBEFVsOFZ3rkXpDVe1VoYkgnXA
+   k6bXBcKtktKNUZBMrNNaLrJ4Glx0L0TltK5K0gyBJJqZdTCFEeaPKigO0
+   cdjYioq+2HKreAHSr8G//APx86+nfzwGkGdEzCfdBheZ6oBEFq8NuvTc9
+   Bt8jvhSEZLGJlaxiVuzHpNCqPV/LkFjyvz7gWajRQoyy678GCeB1PL+S5
+   tTn+CTh4AKvPnKPGPbzyQBxsVN9tkcGRJI8r1qLOfipy+wgrtMRDlN7Lv
+   A==;
+X-CSE-ConnectionGUID: VpxRl0bWRq+MRepX3TRc3g==
+X-CSE-MsgGUID: BybC6AmVTyuUXj6mLB5m9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21833547"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="21833547"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 02:01:18 -0700
+X-CSE-ConnectionGUID: sGGudzcETe62gs4cAw9jdg==
+X-CSE-MsgGUID: U7yW6yTgQIW3QVDCLyMEQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="89257691"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2024 02:01:16 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdnOz-0000Is-2X;
+	Tue, 13 Aug 2024 09:01:13 +0000
+Date: Tue, 13 Aug 2024 17:00:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_127'
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(~var)
+Message-ID: <202408131601.Aj9JmK7K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,46 +65,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fdtable
-head:   3f4b0acefd818ec43b68455994ac2bd5166c06ae
-commit: 3f4b0acefd818ec43b68455994ac2bd5166c06ae [13/13] dup_fd(): change calling conventions
-config: x86_64-randconfig-161-20240813 (https://download.01.org/0day-ci/archive/20240813/202408130945.I8wIAYBm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d74da846046aeec9333e802f5918bd3261fb5509
+commit: 7adaf37f7f104a7ee5f150af491674ccbbfc4114 lib/bitmap: add compile-time test for __assign_bit() optimization
+date:   4 months ago
+config: um-randconfig-r132-20240812 (https://download.01.org/0day-ci/archive/20240813/202408131601.Aj9JmK7K-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131601.Aj9JmK7K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408130945.I8wIAYBm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131601.Aj9JmK7K-lkp@intel.com/
 
-smatch warnings:
-kernel/fork.c:3242 unshare_fd() warn: passing a valid pointer to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +3242 kernel/fork.c
+>> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_127' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
+    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:460:2: note: expanded from macro 'compiletime_assert'
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
+     448 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:441:4: note: expanded from macro '__compiletime_assert'
+     441 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:193:1: note: expanded from here
+     193 | __compiletime_assert_127
+         | ^
+   1 error generated.
 
-60997c3d45d9a6 Christian Brauner 2020-06-03  3232  int unshare_fd(unsigned long unshare_flags, unsigned int max_fds,
-60997c3d45d9a6 Christian Brauner 2020-06-03  3233  	       struct files_struct **new_fdp)
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3234  {
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3235  	struct files_struct *fd = current->files;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3236  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3237  	if ((unshare_flags & CLONE_FILES) &&
-a016f3389c0660 JANAK DESAI       2006-02-07  3238  	    (fd && atomic_read(&fd->count) > 1)) {
-3f4b0acefd818e Al Viro           2024-08-06  3239  		*new_fdp = dup_fd(fd, max_fds);
-3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
-3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
-3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
-                                                                               ^^^^^^^^^^^^^^^^
-	err = PTR_ERR(*new_fdp);
-	*new_fdp = NULL;
-	return err;
 
-3f4b0acefd818e Al Viro           2024-08-06  3243  		}
-a016f3389c0660 JANAK DESAI       2006-02-07  3244  	}
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3245  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3246  	return 0;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3247  }
+vim +1278 lib/test_bitmap.c
+
+291f93ca339f5b Barry Song        2021-08-06  1227  
+2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
+2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
+2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
+2356d198d2b4dd Yury Norov        2023-07-17  1231   */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
+dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
+
+:::::: The code at line 1278 was first introduced by commit
+:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
