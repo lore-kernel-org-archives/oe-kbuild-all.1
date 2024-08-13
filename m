@@ -1,232 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6231B19925A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 12:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC91199EAA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 12:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723551987; cv=none; b=u/SPdZ79eWzsVY4aCQb4dC6GIjQWZoyfDyNmbBASkJhLyAAREe5xf/KsDCnvJaH/sGU4M1BI9CGMrBTbC9He8xLjDJNUwE6EGKdVuXX2VWGWZ9ZyxbsyhP27ieeDx50Q7RGVvEChwODCiNwWvJhpgRG+jghd6k2bccNkJeWh4Cc=
+	t=1723552764; cv=none; b=uGGRR0R1AwGA8tqqaDzU+FoG1Zsw7oC6HNexT8P5gVPCqo8xzZcUAwEaSfcxCnh5eRM+aNPcwirt3dv7rQ4dJ5evlskyoq4WmAeSC4z2oFZo42lo6QhO0vXn6Q69LyYx1YWJi+6GjM3sQcVpoXIHgniULq3DGstyvIBYoRQWArQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723551987; c=relaxed/simple;
-	bh=YXHc5SzykAx8a1KtG2hCaleuHDVdHXz2VYjDHlSrEN8=;
+	s=arc-20240116; t=1723552764; c=relaxed/simple;
+	bh=IeU4JlxvwEK1bR3LbZqNxmwBs83N7J65/pXnEfwbV3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d1AF+Q8h9r5klZ5OtMmWTRbQZlTHOJbP3AtKmfEehCnk7l64q2og7HG4AVmM9OpRrPgNoYm11ucWjSIO+RcP+ErU/eo/C83e7wzVN+Qa5Ja4a8ubeV2tjqRgU0mt/vKw+56MIKW0KtQ9sRGjYz7QnBGmKHQdIiBkdxuU1cnzMF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeCcWTm1; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=i7tqZT9P0pzTR6G3g1lVEFydvQIuZ1RelseDO1YBx6Su69ypoPlVTsd7ZABVPZJjZbCDPDyKUBhEaIIgHvH5+NCuRjbe4fqlLlWbC+uTtOjRmAaguINuFgMsfPBRimfNGBt7v7qiUsAiqFt71wmDYpuUA+Btg2D6GqpLWDxdC4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bdmicIKm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeCcWTm1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723551985; x=1755087985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YXHc5SzykAx8a1KtG2hCaleuHDVdHXz2VYjDHlSrEN8=;
-  b=YeCcWTm1N4TU4cbmI3NrlB37ywFLGLJrYaYhxWIY4EBOGJ/fv0aZpf4s
-   iQ4tS3a1Gyy85aX6JyXKTj7fQ7lNrP8ZzahCbvVlj/Z3OepaInDSFZ5P+
-   KJeR2wnLwjn+V6W7aw8cs6vTIthsCLuSqnXtTL7rF3bSbzWuP8y7bvi57
-   jF89bV1s89n0h1lnTaIvVcOLvfeQZwIErM4JIT7WKAwK+Dg32VkbY2o8r
-   53yAxYV19g/4RswNwNHsTEbTuIBdDo2sRfw90TTfRiSgUP5pQima9Y9e5
-   wKqMuxKjHUZoC96rXaE5xBc2vE+aB6SBGSlTVPB7UadoYtn33LfogIXA+
-   w==;
-X-CSE-ConnectionGUID: enNanze1QLS/QZYXYJKh4Q==
-X-CSE-MsgGUID: cLKKXSxESEKqP96cNWV8SA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="12983811"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="12983811"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 05:26:24 -0700
-X-CSE-ConnectionGUID: Wcax+Og4QXq7o3AHRGi8JQ==
-X-CSE-MsgGUID: 14gOFjAMSM+bvmBEuUUe4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58594331"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 05:26:22 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sdqbT-0000P0-1L;
-	Tue, 13 Aug 2024 12:26:19 +0000
-Date: Tue, 13 Aug 2024 20:26:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mary Strodl <mstrodl@csh.rit.edu>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	urezki@gmail.com, hch@infradead.org, linux-mm@kvack.org,
-	lee@kernel.org, andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
-	s.hauer@pengutronix.de, christian.gmeiner@gmail.com,
-	Mary Strodl <mstrodl@csh.rit.edu>
-Subject: Re: [PATCH v3 1/2] x86: Add basic support for the Congatec CGEB BIOS
- interface
-Message-ID: <202408132055.GF2IYZIB-lkp@intel.com>
-References: <20240808183527.3950120-2-mstrodl@csh.rit.edu>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bdmicIKm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723552761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yjZ5sieVBQuEyESqvwBQfyzp0MLWovNJRBagi8Nh5WY=;
+	b=bdmicIKmH4rmxeogiZL7G1VDjV3vZRao+ReAffo6yy9kMhJr9z4z1E7oNJpMb2R/8PKSOq
+	F8GcdWG2R4wGMl/IxJlc8hstUQimc7Kem6EC3/QOfUTkdvg/AOTGjFFEWPFJ+WuiWAiDh7
+	MRAHqb3Gk+WzQC32VtO99puiqBWJD7Q=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-21-1ZksguDaOLiqFDwOzqW_Cw-1; Tue, 13 Aug 2024 08:39:19 -0400
+X-MC-Unique: 1ZksguDaOLiqFDwOzqW_Cw-1
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-44ff25bbfe1so7002711cf.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 05:39:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723552759; x=1724157559;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yjZ5sieVBQuEyESqvwBQfyzp0MLWovNJRBagi8Nh5WY=;
+        b=hELJtnSq7xu8wq2qfPhC3r5ZjD5PJsZD4EwPzlzYYy3H0Xid4sUd0L60srVZT+nveQ
+         vWiwwQRR83GH6scxe+f5Dkk0PgmtcBpMPNGfl5X+hNRfCgZ/H6y3amhbDQPW1SPWJuTd
+         QXBZ3WALnjDPrG6+RhoDCF0dr292grOXig621GYi+jjK3i06BsQhkX1uGrthdaOcaXIk
+         oAaGLbChYakHEuGsQeu6SLZtVpYmDe7MRiwzHxIEFaf9U7zY3/nxi9XkDuB39tMTxwwO
+         kRcPAoZfbsz3kwi2CJPivvJhQrnoCK4PQ+m2eR/4mDhdjUUmzCN9k3fhptKBgMjRhegL
+         T3zw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEDI3KKr4FWcRwkIRgLVrs4uhOeJHu4MjbEX91DPLoF8KMz8AqORxVvcw+xMY3CM9/L3mGYKhXw25LEO5r@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzU06EXm48ajK9TWS/31CJvp1w9GHBQvYj8F96q2EL+MDPxocL
+	h7e/SpTW/1DM9MIAK+fluskk+s5ugiAvVWISGUTvgGu8RjM0pCqVTLJ8GHbuxUflCbb3G9AGIRN
+	ZkKmpIukP7LwbYxkNGBAgwWay7AXme9JP1IKexsls4OFXVR+llui9EZDXA2QmUsU=
+X-Received: by 2002:a05:620a:28cc:b0:7a3:49e2:d5 with SMTP id af79cd13be357-7a4e4edce14mr160478485a.5.1723552759026;
+        Tue, 13 Aug 2024 05:39:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFijS5tIdPnCQxLSINNXt4r0B0wDnse6msfM8zIMVpsdcIiZ1NrJPaY1kjG6rdOKYNXfDN8nA==
+X-Received: by 2002:a05:620a:28cc:b0:7a3:49e2:d5 with SMTP id af79cd13be357-7a4e4edce14mr160477185a.5.1723552758684;
+        Tue, 13 Aug 2024 05:39:18 -0700 (PDT)
+Received: from x1n (pool-99-254-121-117.cpe.net.cable.rogers.com. [99.254.121.117])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7df8c1asm336360985a.90.2024.08.13.05.39.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 05:39:18 -0700 (PDT)
+Date: Tue, 13 Aug 2024 08:39:15 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 206/222]
+ arch/x86/include/asm/pgtable.h:1420:10: error: invalid output size for
+ constraint '+q'
+Message-ID: <ZrtT89dGpvBmC2Ws@x1n>
+References: <202408111850.Y7rbVXOo-lkp@intel.com>
+ <ZrpKtnQqkrbfaUhp@x1n>
+ <20240812192708.9b30a06b3fdc850430bd2a7f@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20240812192708.9b30a06b3fdc850430bd2a7f@linux-foundation.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240808183527.3950120-2-mstrodl@csh.rit.edu>
 
-Hi Mary,
+On Mon, Aug 12, 2024 at 07:27:08PM -0700, Andrew Morton wrote:
+> On Mon, 12 Aug 2024 13:47:34 -0400 Peter Xu <peterx@redhat.com> wrote:
+> 
+> > I'll squash this when I repost the whole 1g pud series soon (with quite a
+> > few commit message enhancements, and English fixes).
+> 
+> I'll drop the series "mm/mprotect: Fix dax puds", v4.  Please work
+> against latest mm-unstable.
 
-kernel test robot noticed the following build warnings:
+Yes, thanks.  I just pulled and it looks like the v4-dropped branch is
+still not pushed.
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes andi-shyti/i2c/i2c-host akpm-mm/mm-everything linus/master v6.11-rc3 next-20240813]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Btw, I posted v5 yesterday:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/x86-Add-basic-support-for-the-Congatec-CGEB-BIOS-interface/20240809-075405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20240808183527.3950120-2-mstrodl%40csh.rit.edu
-patch subject: [PATCH v3 1/2] x86: Add basic support for the Congatec CGEB BIOS interface
-config: i386-randconfig-r111-20240813 (https://download.01.org/0day-ci/archive/20240813/202408132055.GF2IYZIB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408132055.GF2IYZIB-lkp@intel.com/reproduce)
+  https://lore.kernel.org/r/20240812181225.1360970-1-peterx@redhat.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408132055.GF2IYZIB-lkp@intel.com/
+I would hope it could already apply on top of latest mm-unstable after v4
+dropped.  Please let me know otherwise.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/congatec-cgeb.c:906:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/mfd/congatec-cgeb.c:931:27: sparse: sparse: cast removes address space '__iomem' of expression
-
-vim +/__iomem +906 drivers/mfd/congatec-cgeb.c
-
-   888	
-   889	static struct cgeb_board_data *cgeb_open(resource_size_t base, u32 len)
-   890	{
-   891		u32 dw;
-   892		struct cgeb_boardinfo pbi;
-   893		struct cgeb_low_desc *low_desc;
-   894		struct cgeb_high_desc *high_desc = NULL;
-   895		u32 high_desc_phys;
-   896		u32 high_desc_len;
-   897		void *pcur, *high_desc_virt;
-   898		int ret;
-   899	
-   900		struct cgeb_board_data *board;
-   901	
-   902		board = kzalloc(sizeof(*board), GFP_KERNEL);
-   903		if (!board)
-   904			return NULL;
-   905	
- > 906		pcur = (void *) ioremap_cache(base, len);
-   907		if (!pcur)
-   908			goto err_kfree;
-   909	
-   910		/* look for the CGEB descriptor */
-   911		low_desc = cgeb_find_magic(pcur, len, CGEB_LD_MAGIC);
-   912		if (!low_desc)
-   913			goto err_kfree;
-   914	
-   915		pr_debug("CGEB: Found CGEB_LD_MAGIC\n");
-   916	
-   917		if (low_desc->size < sizeof(struct cgeb_low_desc) - sizeof(long))
-   918			goto err_kfree;
-   919	
-   920		if (low_desc->size >= sizeof(struct cgeb_low_desc)
-   921				&& low_desc->hi_desc_phys_addr)
-   922			high_desc_phys = low_desc->hi_desc_phys_addr;
-   923		else
-   924			high_desc_phys = 0xfff00000;
-   925	
-   926		high_desc_len = (unsigned int) -(int)high_desc_phys;
-   927	
-   928		pr_debug("CGEB: Looking for CGEB hi desc between phys 0x%x and 0x%x\n",
-   929			high_desc_phys, -1);
-   930	
-   931		high_desc_virt = (void *) ioremap_cache(high_desc_phys, high_desc_len);
-   932		if (!high_desc_virt)
-   933			goto err_kfree;
-   934	
-   935		pr_debug("CGEB: Looking for CGEB hi desc between virt 0x%p and 0x%p\n",
-   936			high_desc_virt, high_desc_virt + high_desc_len - 1);
-   937	
-   938		high_desc = cgeb_find_magic(high_desc_virt, high_desc_len,
-   939						CGEB_HD_MAGIC);
-   940		if (!high_desc)
-   941			goto err_iounmap;
-   942	
-   943		pr_debug("CGEB: Found CGEB_HD_MAGIC\n");
-   944	
-   945		if (high_desc->size < sizeof(struct cgeb_high_desc))
-   946			goto err_iounmap;
-   947	
-   948		pr_debug("CGEB: data_size %u, code_size %u, entry_rel %u\n",
-   949			high_desc->data_size, high_desc->code_size, high_desc->entry_rel);
-   950	
-   951		ret = cgeb_upload_code(high_desc, board);
-   952		if (ret) {
-   953			pr_err("CGEB: Couldn't upload code to helper: %d\n", ret);
-   954			goto err_munmap;
-   955		}
-   956	
-   957		board->ds = get_data_segment();
-   958	
-   959		ret = cgeb_call_simple(board, CgebGetCgebVersion, 0, NULL, 0, &dw);
-   960		if (ret)
-   961			goto err_munmap;
-   962	
-   963		if (CGEB_GET_VERSION_MAJOR(dw) != CGEB_VERSION_MAJOR)
-   964			goto err_munmap;
-   965	
-   966		pr_debug("CGEB: BIOS interface revision: %d.%d\n",
-   967				dw >> 16, dw & 0xffff);
-   968	
-   969		if (high_desc->data_size)
-   970			dw = high_desc->data_size;
-   971		else
-   972			ret = cgeb_call_simple(board, CgebGetDataSize, 0, NULL, 0, &dw);
-   973	
-   974		if (!ret && dw) {
-   975			board->data = cgeb_user_alloc(high_desc->data_size);
-   976			if (!board->data)
-   977				goto err_munmap;
-   978		}
-   979	
-   980		ret = cgeb_call_simple(board, CgebOpen, 0, NULL, 0, NULL);
-   981		if (ret)
-   982			goto err_free_data;
-   983	
-   984		pr_debug("CGEB: Mapping memory\n");
-   985		ret = cgeb_map_memory(board);
-   986		if (ret)
-   987			goto err_free_map;
-   988		pr_debug("CGEB: Memory is mapped, getting board info\n");
-   989	
-   990		ret = cgeb_call_simple(board, CgebBoardGetInfo, 0, &pbi,
-   991				       sizeof(pbi), NULL);
-   992		if (ret)
-   993			goto err_free_map;
-   994	
-   995		pr_info("CGEB: Board name: %c%c%c%c\n",
-   996				pbi.board[0], pbi.board[1],
-   997				pbi.board[2], pbi.board[3]);
-   998	
-   999		iounmap((void __iomem *) high_desc_virt);
-  1000	
-  1001		return board;
-  1002	
-  1003	err_free_map:
-  1004		cgeb_unmap_memory(board);
-  1005	err_free_data:
-  1006		cgeb_user_free(board->data);
-  1007	err_munmap:
-  1008		cgeb_munmap(board->code, board->code_size);
-  1009	err_iounmap:
-  1010		iounmap((void __iomem *) high_desc_virt);
-  1011	err_kfree:
-  1012		kfree(board);
-  1013		return NULL;
-  1014	}
-  1015	
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Peter Xu
+
