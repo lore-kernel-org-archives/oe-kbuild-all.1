@@ -1,113 +1,152 @@
-Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048C6198E74;
-	Tue, 13 Aug 2024 11:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F0D3D3B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 11:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723547537; cv=none; b=DycfrtAu0bMILYeGB/S7gLTS7JivQd8hcIp/JJrXZDZLmT9akNIM6RIZ28z8UUVfcu9FbOXUJ/Sdz6RPAFdK6Y0pLm9ida9vS2Lh7OSvaBKADOyt6pgSiWe2iUckOb6LbjO7fSXYgcWkSpnIdOt8eHww3YlPlNMT+mcsBd+1aLo=
+	t=1723549526; cv=none; b=tyuGJ2kfBn8fivVXVS9YFCOnq/KrRK9y2/lnzyTptAtncNyJRLwFChGS539UqKJOa/zVC+8Jda2RyWXjhKVPl9EEP/tfWJZHtZ1CDAkCh/pYsh++RkPzs2CyIW1wY16pviBCEHn99mAdkXezFVhoPi0WIynwHHFa+vAuQbK6tNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723547537; c=relaxed/simple;
-	bh=4zXgQ0sSmMdLqoRN+Pp9KL1vMd+ZRt7Dyf40GUJGDww=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oK3IiA5XS0IFz4aD/UTz1FA0kawcLip1Ze4N8RLlFfvWzX1uxKFydXVjw0ULVkc9D2WTrBopCK2DjsVSgCQZUB29Lk7V+3zgmGNmt5ugA5sLYfpylZgYeiLLigZPq9KZi171vuHNI+r5fYe5216f2IqMPSULZ3gNKtiyVcEplrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
-Received: from localhost (p200300C597374f90000000000000032B.dip0.t-ipconnect.de [IPv6:2003:c5:9737:4f90::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.simonwunderlich.de (Postfix) with ESMTPSA id 6D366FA131;
-	Tue, 13 Aug 2024 13:12:12 +0200 (CEST)
-From: Issam Hamdi <ih@simonwunderlich.de>
-To: lkp@intel.com
-Cc: ih@simonwunderlich.de,
-	johannes@sipsolutions.net,
-	linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev,
-	mathias.kretschmer@fit.fraunhofer.de,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH] cfg80211: Set the channel definition for the different Wi-Fi modes when starting CAC
-Date: Tue, 13 Aug 2024 13:12:10 +0200
-Message-Id: <20240813111210.2463951-1-ih@simonwunderlich.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <202408130337.tnSP4Qys-lkp@intel.com>
-References: <202408130337.tnSP4Qys-lkp@intel.com>
+	s=arc-20240116; t=1723549526; c=relaxed/simple;
+	bh=4S7bFWnGTGe5F/hKeyLOIxVvEHDSz1EjGPCsdLTcSe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lzGkb548IDesyc+8INfqTmFjEvswRS/t8bLK8i8Ec631z/bocRSEmp1BgQZWoM/ptLQSiM5bt0JBS3+HXjL/80Is2rPyTEi4qxm+tYmE133U/Mx8HoMYIrE2S5fZ8GxpAFb8QkHVrsFCat+TD6tEs+kpMngp848NhzltEZwVP8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn7MwSWR; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn7MwSWR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723549525; x=1755085525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4S7bFWnGTGe5F/hKeyLOIxVvEHDSz1EjGPCsdLTcSe4=;
+  b=Sn7MwSWRGgUxMrgrIYZ79Mb7IvLaGolV72Pgg2dFDa7uFhYo8QSVrFy2
+   X3yIVmxHQGob8ZWOZlg/J0EG8wXJgeGWX/jRPMAeMarKEzniKYrivxVSM
+   vgTwQTs8DoyEf3CK06USz8QTMhEoRFIVGeR0EdTNF2IyYDKcZN6qV5KFL
+   rZuTd/0eXetaANXsMvGgLoyNtq9gw1nG6AM3lCHxYgAt0jByXZaaPtmxY
+   5Sl8ThDmaki+pdp5nzHWRaumLBwShnr7pe6bKZyYp+xpTLgi2a4hf85wg
+   JWTZHyVmI4LXgyFuFAqBUnk5+VrzpbHhEVdVzPd7T8ihxZ3GXEAsIiZ+R
+   A==;
+X-CSE-ConnectionGUID: 8zGsvPFCR7aEO/nPi4KaaA==
+X-CSE-MsgGUID: z1MvT8kIT66Wsci7ySodUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="47109655"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="47109655"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 04:45:24 -0700
+X-CSE-ConnectionGUID: CIwk+6DETtaD7q/E3IQgAg==
+X-CSE-MsgGUID: MvFldAgNSQeC0+Wgcchl1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="89440581"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2024 04:45:19 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdpxl-0000Nq-2h;
+	Tue, 13 Aug 2024 11:45:17 +0000
+Date: Tue, 13 Aug 2024 19:44:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Paul Moore <paul@paul-moore.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+	Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	"Serge E . Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>
+Subject: Re: [PATCH] fs,security: Fix file_set_fowner LSM hook inconsistencies
+Message-ID: <202408131900.xhbYFHR4-lkp@intel.com>
+References: <20240812144936.1616628-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240812144936.1616628-1-mic@digikod.net>
 
-When starting CAC in a mode other than AP mode, it return a
-"WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
-caused by the chandef.chan being null at the end of CAC.
+Hi Mickaël,
 
-Solution: Ensure the channel definition is set for the different modes
-when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
+kernel test robot noticed the following build warnings:
 
- Call Trace:
-  ? show_regs.part.0+0x14/0x16
-  ? __warn+0x67/0xc0
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? report_bug+0xa7/0x130
-  ? exc_overflow+0x30/0x30
-  ? handle_bug+0x27/0x50
-  ? exc_invalid_op+0x18/0x60
-  ? handle_exception+0xf6/0xf6
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
-  ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
-  ? process_one_work+0x165/0x280
-  ? worker_thread+0x120/0x3f0
-  ? kthread+0xc2/0xf0
-  ? process_one_work+0x280/0x280
-  ? kthread_complete_and_exit+0x20/0x20
-  ? ret_from_fork+0x19/0x24
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v6.11-rc3]
+[cannot apply to brauner-vfs/vfs.all next-20240813]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
-Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
----
- net/wireless/nl80211.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/fs-security-Fix-file_set_fowner-LSM-hook-inconsistencies/20240813-004648
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20240812144936.1616628-1-mic%40digikod.net
+patch subject: [PATCH] fs,security: Fix file_set_fowner LSM hook inconsistencies
+config: x86_64-randconfig-122-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131900.xhbYFHR4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131900.xhbYFHR4-lkp@intel.com/reproduce)
 
-diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
-index 7397a372c78e..36ae2594753e 100644
---- a/net/wireless/nl80211.c
-+++ b/net/wireless/nl80211.c
-@@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct sk_buff *skb,
- 
- 	err = rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
- 	if (!err) {
--		wdev->links[0].ap.chandef = chandef;
-+		switch (wdev->iftype) {
-+		case NL80211_IFTYPE_MESH_POINT:
-+			wdev->u.mesh.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_ADHOC:
-+			wdev->u.ibss.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_OCB:
-+			wdev->u.ocb.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_AP:
-+		case NL80211_IFTYPE_P2P_GO:
-+			wdev->links[0].ap.chandef = chandef;
-+			break;
-+		default:
-+			break;
-+		}
- 		wdev->cac_started = true;
- 		wdev->cac_start_time = jiffies;
- 		wdev->cac_time_ms = cac_time_ms;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131900.xhbYFHR4-lkp@intel.com/
 
-base-commit: cc32e9fb380d8afdbf3486d7063d5520bfb0f071
+sparse warnings: (new ones prefixed by >>)
+>> fs/file_table.c:153:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *cred @@     got struct cred const * @@
+   fs/file_table.c:153:25: sparse:     expected struct cred const [noderef] __rcu *cred
+   fs/file_table.c:153:25: sparse:     got struct cred const *
+>> fs/file_table.c:157:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
+   fs/file_table.c:157:36: sparse:     expected struct cred const *cred
+   fs/file_table.c:157:36: sparse:     got struct cred const [noderef] __rcu *cred
+   fs/file_table.c:69:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
+   fs/file_table.c:69:28: sparse:     expected struct cred const *cred
+   fs/file_table.c:69:28: sparse:     got struct cred const [noderef] __rcu *cred
+   fs/file_table.c:69:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
+   fs/file_table.c:69:28: sparse:     expected struct cred const *cred
+   fs/file_table.c:69:28: sparse:     got struct cred const [noderef] __rcu *cred
+
+vim +153 fs/file_table.c
+
+   147	
+   148	static int init_file(struct file *f, int flags, const struct cred *cred)
+   149	{
+   150		int error;
+   151	
+   152		f->f_cred = get_cred(cred);
+ > 153		f->f_owner.cred = get_cred(cred);
+   154		error = security_file_alloc(f);
+   155		if (unlikely(error)) {
+   156			put_cred(f->f_cred);
+ > 157			put_cred(f->f_owner.cred);
+   158			return error;
+   159		}
+   160	
+   161		rwlock_init(&f->f_owner.lock);
+   162		spin_lock_init(&f->f_lock);
+   163		mutex_init(&f->f_pos_lock);
+   164		f->f_flags = flags;
+   165		f->f_mode = OPEN_FMODE(flags);
+   166		/* f->f_version: 0 */
+   167	
+   168		/*
+   169		 * We're SLAB_TYPESAFE_BY_RCU so initialize f_count last. While
+   170		 * fget-rcu pattern users need to be able to handle spurious
+   171		 * refcount bumps we should reinitialize the reused file first.
+   172		 */
+   173		atomic_long_set(&f->f_count, 1);
+   174		return 0;
+   175	}
+   176	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
