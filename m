@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C7E58222;
-	Tue, 13 Aug 2024 07:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7438282E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 07:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723533557; cv=none; b=IZfOc7SMmghmyB/q/89dn0c0W1/Y/qHkD1ybldvM7+8KpLRfkYoK2XzhDbB3MXgaoJn6gWvGHFHQEZGXnT2G/AaxKMTHvRoj+bu93P5l5g9wuEfEKlPDVFuBrEFIeGhDMNgGrze4+vZXDSUZmCYaEkhEhKyw2u0t45/gToD3kE4=
+	t=1723534217; cv=none; b=hn72k/c6JLtXwCAQ9/5sQLK8kohJzh8qe8Fk6lPQtcBQRMHD2izOIGbfH40DMnsanTAOyU+YxL9S6wK+KqBLjMzOX3gqhVYjO1K2BgpiHFnnfCByErFInh5mOYnYfI4W6liF37skkHg14v9Z5hoeYy2ybl14fvvOVsJ5SGqbX2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723533557; c=relaxed/simple;
-	bh=v7cB3h1RUAKOAX3Vpq/OulAbD/kQe6/mnmYXGAxXI2M=;
+	s=arc-20240116; t=1723534217; c=relaxed/simple;
+	bh=YY9s0IzOzjODQ9cNGnvgp37qD5r3ZCgWEHfWLesMFE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XROTLs1TMpan68wXKhDv+er2BfEjwKGd2h44+6S/rUrVisdYlG/ldafD2h0N5fYkYOYC0ybtQP0yatXJ4zxYj29KCHYCxQm0mCKiilflnAOIi3s+sYGpQcG+j6S/V8uvWL6t2vtlVG3UgaHp+WeJvxc3kLhGzjKFd0G2taTuqrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ArpcfSRy; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKC7jwULekZWkj4Bd7t7s0ujEL+lzEnA8+kwybgtVEt/dBcqaUoddeNKxCh7uWRWOqnDsFeeZCm/Y629Ni04Px9Sfz40aQmxbOfiAzoz5Esr1nFaSqPhMixRZ5BwpFiXJJ9SPMafDo5n9K7zjoIAFOQYhRu4jx54ik2YnhIgZaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bM9Rbp4f; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArpcfSRy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bM9Rbp4f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723533555; x=1755069555;
+  t=1723534215; x=1755070215;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v7cB3h1RUAKOAX3Vpq/OulAbD/kQe6/mnmYXGAxXI2M=;
-  b=ArpcfSRy7Y93gV3p/LOIvh0N4GW2d93MJRwqZnrrtC5FSiXLPtldEpqV
-   xnmS2O8wirze8OpW3Hx6V+MaHS1z7G6MxFJHiUWbkRP7f+NuEm2ED2vGP
-   SZaKdBBkTkVP5lpbEvcMcsxLRhG5lkTArbWyLqxkq2hwAm0Q+KWSGPhvq
-   3/4bVfKcdLP+f+JOYwgpOOis0yH4xUmdqzEewzWuap2kkqeUcmJDueLlv
-   CTUMR2M6GJlXXb//HFYKanE6JvZbNj4tb9DZK7XHiolbMWtFvklsdNNLy
-   naoHPzxeP07xeVQo/LI/9esIRBS7m17vbcjNtILCLdDUvEqars8UPHE0R
-   A==;
-X-CSE-ConnectionGUID: ElI725fQSX+wVxTVz9KZ8g==
-X-CSE-MsgGUID: IjGSxuSLTBaTgp89PIvxag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21846704"
+  bh=YY9s0IzOzjODQ9cNGnvgp37qD5r3ZCgWEHfWLesMFE0=;
+  b=bM9Rbp4fQtNu4vNYXJNQY7sDqI8NueyGuDswBBVluR/nQGbm7E7qHGdq
+   LH2eNyVtW+niU3sBi+1gGpqForDbMDkX3HhNTkaUZ3XzGjs6OYvG/s+yr
+   i3C0wA6nZ7B4YJEacWABAuBxTHnOIgbUIFXQVWVmAp9+NYHDo0VA+p73B
+   U30T3iEV/QqRyjrj7joGarZuRz1bb2suxwPNKS2XVnimvVjUfOsn8OxNm
+   uIOScI8K7aS3UCCaNm54qGfk/GZFN3SMYqfMu7tShTZLkaedjzlAfgDls
+   Ngi7TLmSApBxlorA7/zr91SZJc9T1jW8fflQNeoSWXlY8c80tQfbHrNlt
+   Q==;
+X-CSE-ConnectionGUID: ror9FpfORZWvJchYmIziZw==
+X-CSE-MsgGUID: lvW8O23/SsC7Rn/rSvwZWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21239070"
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="21846704"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 00:19:14 -0700
-X-CSE-ConnectionGUID: lG2aiVkBRnmgcEuH0k/KrQ==
-X-CSE-MsgGUID: QdDiaA8US0C6UCfowrUXqg==
+   d="scan'208";a="21239070"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 00:30:14 -0700
+X-CSE-ConnectionGUID: l67S+55ZQTS389Yy9e4Vvw==
+X-CSE-MsgGUID: gs/ceP0qRY6yqarZJ9rx3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58532038"
+   d="scan'208";a="96119419"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Aug 2024 00:19:12 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2024 00:30:12 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdloD-0000GA-3C;
-	Tue, 13 Aug 2024 07:19:09 +0000
-Date: Tue, 13 Aug 2024 15:19:07 +0800
+	id 1sdlys-0000Gg-0w;
+	Tue, 13 Aug 2024 07:30:10 +0000
+Date: Tue, 13 Aug 2024 15:29:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joe Damato <jdamato@fastly.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC net-next 5/5] eventpoll: Control irq suspension for
  prefer_busy_poll
-Message-ID: <202408131547.4WOQegMQ-lkp@intel.com>
+Message-ID: <202408131513.0GyuANII-lkp@intel.com>
 References: <20240812125717.413108-6-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,356 +76,273 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/net-Add-sysfs-
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20240812125717.413108-6-jdamato%40fastly.com
 patch subject: [RFC net-next 5/5] eventpoll: Control irq suspension for prefer_busy_poll
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240813/202408131547.4WOQegMQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131547.4WOQegMQ-lkp@intel.com/reproduce)
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240813/202408131513.0GyuANII-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131513.0GyuANII-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408131547.4WOQegMQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131513.0GyuANII-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/eventpoll.c:16:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from fs/eventpoll.c:33:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from fs/eventpoll.c:33:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from fs/eventpoll.c:33:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
+   In file included from <command-line>:
+   fs/eventpoll.c: In function 'ep_free':
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
      805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:477:10: note: expanded from macro '__native_word'
-     477 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |                                            ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
-     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:477:39: note: expanded from macro '__native_word'
-     477 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
-     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:478:10: note: expanded from macro '__native_word'
-     478 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
-     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:478:38: note: expanded from macro '__native_word'
-     478 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
-     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                       ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
      805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:466:13: note: expanded from macro '__unqual_scalar_typeof'
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/linux/compiler_types.h:466:27: note: in definition of macro '__unqual_scalar_typeof'
      466 |                 _Generic((x),                                           \
          |                           ^
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
-     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
       50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:473:15: note: expanded from macro '__unqual_scalar_typeof'
-     473 |                          default: (x)))
-         |                                    ^
->> fs/eventpoll.c:805:39: error: no member named 'napi_id' in 'struct eventpoll'
+         |         ^~~~~~~~~~~
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
      805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                                          ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+         |                                ^~~~~~~~~
+   In file included from ./arch/openrisc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:314,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from fs/eventpoll.c:9:
+>> fs/eventpoll.c:805:44: error: 'struct eventpoll' has no member named 'napi_id'
+     805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
+         |                                            ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
       44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
          |                                                                         ^
->> fs/eventpoll.c:805:15: error: initializing 'unsigned int' with an expression of incompatible type 'void'
+   fs/eventpoll.c:805:32: note: in expansion of macro 'READ_ONCE'
      805 |         unsigned int napi_id = READ_ONCE(ep->napi_id);
-         |                      ^         ~~~~~~~~~~~~~~~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
+         |                                ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
      807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:477:10: note: expanded from macro '__native_word'
-     477 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |                                                   ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
-     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:477:39: note: expanded from macro '__native_word'
-     477 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
-     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:478:10: note: expanded from macro '__native_word'
-     478 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
-     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:478:38: note: expanded from macro '__native_word'
-     478 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
-     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                       ^
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
      510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/linux/compiler_types.h:490:23: note: in definition of macro '__compiletime_assert'
      490 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
      807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:466:13: note: expanded from macro '__unqual_scalar_typeof'
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/linux/compiler_types.h:466:27: note: in definition of macro '__unqual_scalar_typeof'
      466 |                 _Generic((x),                                           \
          |                           ^
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
-     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
       50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:473:15: note: expanded from macro '__unqual_scalar_typeof'
-     473 |                          default: (x)))
-         |                                    ^
->> fs/eventpoll.c:807:46: error: no member named 'prefer_busy_poll' in 'struct eventpoll'
+         |         ^~~~~~~~~~~
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
      807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |                                                 ~~  ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:807:51: error: 'struct eventpoll' has no member named 'prefer_busy_poll'
+     807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
+         |                                                   ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
       44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
          |                                                                         ^
->> fs/eventpoll.c:807:29: error: invalid operands to binary expression ('int' and 'void')
+   fs/eventpoll.c:807:39: note: in expansion of macro 'READ_ONCE'
      807 |         if (napi_id >= MIN_NAPI_ID && READ_ONCE(ep->prefer_busy_poll))
-         |             ~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/eventpoll.c:808:3: error: call to undeclared function 'napi_resume_irqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                       ^~~~~~~~~
+>> fs/eventpoll.c:808:17: error: implicit declaration of function 'napi_resume_irqs' [-Wimplicit-function-declaration]
      808 |                 napi_resume_irqs(napi_id);
-         |                 ^
-   13 warnings and 19 errors generated.
+         |                 ^~~~~~~~~~~~~~~~
 
 
 vim +805 fs/eventpoll.c
