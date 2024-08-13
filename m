@@ -1,151 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F0D3D3B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 11:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6231B19925A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 12:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723549526; cv=none; b=tyuGJ2kfBn8fivVXVS9YFCOnq/KrRK9y2/lnzyTptAtncNyJRLwFChGS539UqKJOa/zVC+8Jda2RyWXjhKVPl9EEP/tfWJZHtZ1CDAkCh/pYsh++RkPzs2CyIW1wY16pviBCEHn99mAdkXezFVhoPi0WIynwHHFa+vAuQbK6tNw=
+	t=1723551987; cv=none; b=u/SPdZ79eWzsVY4aCQb4dC6GIjQWZoyfDyNmbBASkJhLyAAREe5xf/KsDCnvJaH/sGU4M1BI9CGMrBTbC9He8xLjDJNUwE6EGKdVuXX2VWGWZ9ZyxbsyhP27ieeDx50Q7RGVvEChwODCiNwWvJhpgRG+jghd6k2bccNkJeWh4Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723549526; c=relaxed/simple;
-	bh=4S7bFWnGTGe5F/hKeyLOIxVvEHDSz1EjGPCsdLTcSe4=;
+	s=arc-20240116; t=1723551987; c=relaxed/simple;
+	bh=YXHc5SzykAx8a1KtG2hCaleuHDVdHXz2VYjDHlSrEN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lzGkb548IDesyc+8INfqTmFjEvswRS/t8bLK8i8Ec631z/bocRSEmp1BgQZWoM/ptLQSiM5bt0JBS3+HXjL/80Is2rPyTEi4qxm+tYmE133U/Mx8HoMYIrE2S5fZ8GxpAFb8QkHVrsFCat+TD6tEs+kpMngp848NhzltEZwVP8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn7MwSWR; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=d1AF+Q8h9r5klZ5OtMmWTRbQZlTHOJbP3AtKmfEehCnk7l64q2og7HG4AVmM9OpRrPgNoYm11ucWjSIO+RcP+ErU/eo/C83e7wzVN+Qa5Ja4a8ubeV2tjqRgU0mt/vKw+56MIKW0KtQ9sRGjYz7QnBGmKHQdIiBkdxuU1cnzMF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeCcWTm1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn7MwSWR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeCcWTm1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723549525; x=1755085525;
+  t=1723551985; x=1755087985;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=4S7bFWnGTGe5F/hKeyLOIxVvEHDSz1EjGPCsdLTcSe4=;
-  b=Sn7MwSWRGgUxMrgrIYZ79Mb7IvLaGolV72Pgg2dFDa7uFhYo8QSVrFy2
-   X3yIVmxHQGob8ZWOZlg/J0EG8wXJgeGWX/jRPMAeMarKEzniKYrivxVSM
-   vgTwQTs8DoyEf3CK06USz8QTMhEoRFIVGeR0EdTNF2IyYDKcZN6qV5KFL
-   rZuTd/0eXetaANXsMvGgLoyNtq9gw1nG6AM3lCHxYgAt0jByXZaaPtmxY
-   5Sl8ThDmaki+pdp5nzHWRaumLBwShnr7pe6bKZyYp+xpTLgi2a4hf85wg
-   JWTZHyVmI4LXgyFuFAqBUnk5+VrzpbHhEVdVzPd7T8ihxZ3GXEAsIiZ+R
-   A==;
-X-CSE-ConnectionGUID: 8zGsvPFCR7aEO/nPi4KaaA==
-X-CSE-MsgGUID: z1MvT8kIT66Wsci7ySodUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="47109655"
+   mime-version:in-reply-to;
+  bh=YXHc5SzykAx8a1KtG2hCaleuHDVdHXz2VYjDHlSrEN8=;
+  b=YeCcWTm1N4TU4cbmI3NrlB37ywFLGLJrYaYhxWIY4EBOGJ/fv0aZpf4s
+   iQ4tS3a1Gyy85aX6JyXKTj7fQ7lNrP8ZzahCbvVlj/Z3OepaInDSFZ5P+
+   KJeR2wnLwjn+V6W7aw8cs6vTIthsCLuSqnXtTL7rF3bSbzWuP8y7bvi57
+   jF89bV1s89n0h1lnTaIvVcOLvfeQZwIErM4JIT7WKAwK+Dg32VkbY2o8r
+   53yAxYV19g/4RswNwNHsTEbTuIBdDo2sRfw90TTfRiSgUP5pQima9Y9e5
+   wKqMuxKjHUZoC96rXaE5xBc2vE+aB6SBGSlTVPB7UadoYtn33LfogIXA+
+   w==;
+X-CSE-ConnectionGUID: enNanze1QLS/QZYXYJKh4Q==
+X-CSE-MsgGUID: cLKKXSxESEKqP96cNWV8SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="12983811"
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="47109655"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 04:45:24 -0700
-X-CSE-ConnectionGUID: CIwk+6DETtaD7q/E3IQgAg==
-X-CSE-MsgGUID: MvFldAgNSQeC0+Wgcchl1A==
+   d="scan'208";a="12983811"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 05:26:24 -0700
+X-CSE-ConnectionGUID: Wcax+Og4QXq7o3AHRGi8JQ==
+X-CSE-MsgGUID: 14gOFjAMSM+bvmBEuUUe4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="89440581"
+   d="scan'208";a="58594331"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2024 04:45:19 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 05:26:22 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdpxl-0000Nq-2h;
-	Tue, 13 Aug 2024 11:45:17 +0000
-Date: Tue, 13 Aug 2024 19:44:55 +0800
+	id 1sdqbT-0000P0-1L;
+	Tue, 13 Aug 2024 12:26:19 +0000
+Date: Tue, 13 Aug 2024 20:26:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Paul Moore <paul@paul-moore.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>
-Subject: Re: [PATCH] fs,security: Fix file_set_fowner LSM hook inconsistencies
-Message-ID: <202408131900.xhbYFHR4-lkp@intel.com>
-References: <20240812144936.1616628-1-mic@digikod.net>
+To: Mary Strodl <mstrodl@csh.rit.edu>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	urezki@gmail.com, hch@infradead.org, linux-mm@kvack.org,
+	lee@kernel.org, andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
+	s.hauer@pengutronix.de, christian.gmeiner@gmail.com,
+	Mary Strodl <mstrodl@csh.rit.edu>
+Subject: Re: [PATCH v3 1/2] x86: Add basic support for the Congatec CGEB BIOS
+ interface
+Message-ID: <202408132055.GF2IYZIB-lkp@intel.com>
+References: <20240808183527.3950120-2-mstrodl@csh.rit.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240812144936.1616628-1-mic@digikod.net>
+In-Reply-To: <20240808183527.3950120-2-mstrodl@csh.rit.edu>
 
-Hi Mickaël,
+Hi Mary,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pcmoore-selinux/next]
-[also build test WARNING on linus/master v6.11-rc3]
-[cannot apply to brauner-vfs/vfs.all next-20240813]
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes andi-shyti/i2c/i2c-host akpm-mm/mm-everything linus/master v6.11-rc3 next-20240813]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/fs-security-Fix-file_set_fowner-LSM-hook-inconsistencies/20240813-004648
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
-patch link:    https://lore.kernel.org/r/20240812144936.1616628-1-mic%40digikod.net
-patch subject: [PATCH] fs,security: Fix file_set_fowner LSM hook inconsistencies
-config: x86_64-randconfig-122-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131900.xhbYFHR4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131900.xhbYFHR4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/x86-Add-basic-support-for-the-Congatec-CGEB-BIOS-interface/20240809-075405
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20240808183527.3950120-2-mstrodl%40csh.rit.edu
+patch subject: [PATCH v3 1/2] x86: Add basic support for the Congatec CGEB BIOS interface
+config: i386-randconfig-r111-20240813 (https://download.01.org/0day-ci/archive/20240813/202408132055.GF2IYZIB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408132055.GF2IYZIB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408131900.xhbYFHR4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408132055.GF2IYZIB-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/file_table.c:153:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *cred @@     got struct cred const * @@
-   fs/file_table.c:153:25: sparse:     expected struct cred const [noderef] __rcu *cred
-   fs/file_table.c:153:25: sparse:     got struct cred const *
->> fs/file_table.c:157:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
-   fs/file_table.c:157:36: sparse:     expected struct cred const *cred
-   fs/file_table.c:157:36: sparse:     got struct cred const [noderef] __rcu *cred
-   fs/file_table.c:69:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
-   fs/file_table.c:69:28: sparse:     expected struct cred const *cred
-   fs/file_table.c:69:28: sparse:     got struct cred const [noderef] __rcu *cred
-   fs/file_table.c:69:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
-   fs/file_table.c:69:28: sparse:     expected struct cred const *cred
-   fs/file_table.c:69:28: sparse:     got struct cred const [noderef] __rcu *cred
+>> drivers/mfd/congatec-cgeb.c:906:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/mfd/congatec-cgeb.c:931:27: sparse: sparse: cast removes address space '__iomem' of expression
 
-vim +153 fs/file_table.c
+vim +/__iomem +906 drivers/mfd/congatec-cgeb.c
 
-   147	
-   148	static int init_file(struct file *f, int flags, const struct cred *cred)
-   149	{
-   150		int error;
-   151	
-   152		f->f_cred = get_cred(cred);
- > 153		f->f_owner.cred = get_cred(cred);
-   154		error = security_file_alloc(f);
-   155		if (unlikely(error)) {
-   156			put_cred(f->f_cred);
- > 157			put_cred(f->f_owner.cred);
-   158			return error;
-   159		}
-   160	
-   161		rwlock_init(&f->f_owner.lock);
-   162		spin_lock_init(&f->f_lock);
-   163		mutex_init(&f->f_pos_lock);
-   164		f->f_flags = flags;
-   165		f->f_mode = OPEN_FMODE(flags);
-   166		/* f->f_version: 0 */
-   167	
-   168		/*
-   169		 * We're SLAB_TYPESAFE_BY_RCU so initialize f_count last. While
-   170		 * fget-rcu pattern users need to be able to handle spurious
-   171		 * refcount bumps we should reinitialize the reused file first.
-   172		 */
-   173		atomic_long_set(&f->f_count, 1);
-   174		return 0;
-   175	}
-   176	
+   888	
+   889	static struct cgeb_board_data *cgeb_open(resource_size_t base, u32 len)
+   890	{
+   891		u32 dw;
+   892		struct cgeb_boardinfo pbi;
+   893		struct cgeb_low_desc *low_desc;
+   894		struct cgeb_high_desc *high_desc = NULL;
+   895		u32 high_desc_phys;
+   896		u32 high_desc_len;
+   897		void *pcur, *high_desc_virt;
+   898		int ret;
+   899	
+   900		struct cgeb_board_data *board;
+   901	
+   902		board = kzalloc(sizeof(*board), GFP_KERNEL);
+   903		if (!board)
+   904			return NULL;
+   905	
+ > 906		pcur = (void *) ioremap_cache(base, len);
+   907		if (!pcur)
+   908			goto err_kfree;
+   909	
+   910		/* look for the CGEB descriptor */
+   911		low_desc = cgeb_find_magic(pcur, len, CGEB_LD_MAGIC);
+   912		if (!low_desc)
+   913			goto err_kfree;
+   914	
+   915		pr_debug("CGEB: Found CGEB_LD_MAGIC\n");
+   916	
+   917		if (low_desc->size < sizeof(struct cgeb_low_desc) - sizeof(long))
+   918			goto err_kfree;
+   919	
+   920		if (low_desc->size >= sizeof(struct cgeb_low_desc)
+   921				&& low_desc->hi_desc_phys_addr)
+   922			high_desc_phys = low_desc->hi_desc_phys_addr;
+   923		else
+   924			high_desc_phys = 0xfff00000;
+   925	
+   926		high_desc_len = (unsigned int) -(int)high_desc_phys;
+   927	
+   928		pr_debug("CGEB: Looking for CGEB hi desc between phys 0x%x and 0x%x\n",
+   929			high_desc_phys, -1);
+   930	
+   931		high_desc_virt = (void *) ioremap_cache(high_desc_phys, high_desc_len);
+   932		if (!high_desc_virt)
+   933			goto err_kfree;
+   934	
+   935		pr_debug("CGEB: Looking for CGEB hi desc between virt 0x%p and 0x%p\n",
+   936			high_desc_virt, high_desc_virt + high_desc_len - 1);
+   937	
+   938		high_desc = cgeb_find_magic(high_desc_virt, high_desc_len,
+   939						CGEB_HD_MAGIC);
+   940		if (!high_desc)
+   941			goto err_iounmap;
+   942	
+   943		pr_debug("CGEB: Found CGEB_HD_MAGIC\n");
+   944	
+   945		if (high_desc->size < sizeof(struct cgeb_high_desc))
+   946			goto err_iounmap;
+   947	
+   948		pr_debug("CGEB: data_size %u, code_size %u, entry_rel %u\n",
+   949			high_desc->data_size, high_desc->code_size, high_desc->entry_rel);
+   950	
+   951		ret = cgeb_upload_code(high_desc, board);
+   952		if (ret) {
+   953			pr_err("CGEB: Couldn't upload code to helper: %d\n", ret);
+   954			goto err_munmap;
+   955		}
+   956	
+   957		board->ds = get_data_segment();
+   958	
+   959		ret = cgeb_call_simple(board, CgebGetCgebVersion, 0, NULL, 0, &dw);
+   960		if (ret)
+   961			goto err_munmap;
+   962	
+   963		if (CGEB_GET_VERSION_MAJOR(dw) != CGEB_VERSION_MAJOR)
+   964			goto err_munmap;
+   965	
+   966		pr_debug("CGEB: BIOS interface revision: %d.%d\n",
+   967				dw >> 16, dw & 0xffff);
+   968	
+   969		if (high_desc->data_size)
+   970			dw = high_desc->data_size;
+   971		else
+   972			ret = cgeb_call_simple(board, CgebGetDataSize, 0, NULL, 0, &dw);
+   973	
+   974		if (!ret && dw) {
+   975			board->data = cgeb_user_alloc(high_desc->data_size);
+   976			if (!board->data)
+   977				goto err_munmap;
+   978		}
+   979	
+   980		ret = cgeb_call_simple(board, CgebOpen, 0, NULL, 0, NULL);
+   981		if (ret)
+   982			goto err_free_data;
+   983	
+   984		pr_debug("CGEB: Mapping memory\n");
+   985		ret = cgeb_map_memory(board);
+   986		if (ret)
+   987			goto err_free_map;
+   988		pr_debug("CGEB: Memory is mapped, getting board info\n");
+   989	
+   990		ret = cgeb_call_simple(board, CgebBoardGetInfo, 0, &pbi,
+   991				       sizeof(pbi), NULL);
+   992		if (ret)
+   993			goto err_free_map;
+   994	
+   995		pr_info("CGEB: Board name: %c%c%c%c\n",
+   996				pbi.board[0], pbi.board[1],
+   997				pbi.board[2], pbi.board[3]);
+   998	
+   999		iounmap((void __iomem *) high_desc_virt);
+  1000	
+  1001		return board;
+  1002	
+  1003	err_free_map:
+  1004		cgeb_unmap_memory(board);
+  1005	err_free_data:
+  1006		cgeb_user_free(board->data);
+  1007	err_munmap:
+  1008		cgeb_munmap(board->code, board->code_size);
+  1009	err_iounmap:
+  1010		iounmap((void __iomem *) high_desc_virt);
+  1011	err_kfree:
+  1012		kfree(board);
+  1013		return NULL;
+  1014	}
+  1015	
 
 -- 
 0-DAY CI Kernel Test Service
