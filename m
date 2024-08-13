@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9801E498
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 21:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055F526AFB;
+	Tue, 13 Aug 2024 22:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723586387; cv=none; b=NajCl/Gcvecj9E1rX5nh+gkCkBfpjBjBhI8j/NThqTM1neLh4c6wO1+9K9IiuNcSRqZqYsmTzXhCZ34ApLwwnGSdLi50KTHj03RVbscC2i6udGZc6SXAPdB3xHBiBmy/mEdeCbl2XxpbR9VfXm6mowQmod+u87pM8yRwIc++dKU=
+	t=1723586985; cv=none; b=Nsn+qLd77WN1HBFVOdY8Dv2TwanBurHLIMrfGcyWth/vf+eQSC4B1i4YAabGvpWDzGiaIFDZzRZ0PyM2zC/oJInoLt7aU0jpasQzch+vkjp772kRUrEWGI4RBN63WIQ++cJAlfJCR/ktk+zHoUrNr9Qpspfxslb+4/EPu6VX4gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723586387; c=relaxed/simple;
-	bh=smDF0r7mvpJmOBP+6nWfU55YrbMwWFuJ1tY+3DSe/84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TTdXC+tLzhtHlyWS3lJ7xdB2LlkAjGVyFA+a2NlSOeX9x9iCPzpxO1mZCoxgM2qonQZqxzhIb5lGQdBh282RgZpyjz3tHPOUCs2v8efk4NPISsSK1SF7T9eGRyNdSoHDQHpunZuwZRAmMrGTvgr1TBn2StKnk9ULXHpng4O36rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTzDV2HV; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1723586985; c=relaxed/simple;
+	bh=28QJopmkZo/a5KnJzroThZlBt+sNEzF4xoTdgoVY1sA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VzvXQYt5wNrRkqEeWapzf3VG5pYph8gpgy0ZwR/ZQ2HuhK2jajjdO6j+MVdanKhyYP7/TXN71mcdqkA5IgOb/zSooY+iio6xlzkv+KBGgv0G4j5rBC5rMvkX7Dizn3ECXklirW7i30mEYGwAaHOHc/TxvmqyA4AMLqEzb0WaaCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPOgB+WD; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTzDV2HV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPOgB+WD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723586385; x=1755122385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=smDF0r7mvpJmOBP+6nWfU55YrbMwWFuJ1tY+3DSe/84=;
-  b=OTzDV2HVSTO2whPte56+giQGwD1h/hgmVgxI/fKJstJiPP6io4HUMW9t
-   OMIozs27suRESi8dQ7kezHKU/XLqR6Pns055+WHQXz2ffNYeMIk4N8coR
-   JxfQ2y2VJIQa+AJd7XSCY43JE+JGGtECcj5bjZpu8vzHTDHt4HvWC5twR
-   BGIssDDgqutuqPI9KS+QdinGrN9XKEJgdyyK3opc+qYS9vyOv5CwBLXnf
-   wI15YRP8gLZyZdGkmvLV35fWImhMAVblQIicRr87Aa4B5USeVEe7RaFga
-   oJRCwIYGbk2hXZeiJhesFcFsDSdyJNTO96pQnj2EjLrMO6V1vh28PzjFs
-   w==;
-X-CSE-ConnectionGUID: SrxB8eoWTHKh5STpYLwTyg==
-X-CSE-MsgGUID: rFDTTuM5RpSVXVaqbouIVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="33185785"
+  t=1723586983; x=1755122983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=28QJopmkZo/a5KnJzroThZlBt+sNEzF4xoTdgoVY1sA=;
+  b=KPOgB+WDVWGhI0xMdy/IGVu2zPd8O3Xqm8eQ+8EihTCJzFmKFDwfiii4
+   ZwmSCq0aD+XE/HVh00KnXO/wMwcHyCr0r+Cz1r3afTJ8vYHeKO991GJVc
+   5AKDD5cb3Q1Ya8sB4hC0Elp0Jpxd7S5cYt2FaOad6B9Ox2WUomlEmzblu
+   C97cLqBonqBqJJfoU585Mp15SPK6OqZoi/F0tI6B5tx6dW770sgtBBjAc
+   O98P7fKDvAM9zDqtouEwqJzEQszkhWza1LaK2gJ0mJGixqWYPUWYW7y5U
+   S6zYlgu1aTa1fpqCQQNrPmkV6vht0gxfzy0VW6eib49OIRIeshBIUcr2V
+   A==;
+X-CSE-ConnectionGUID: aUzHn7tURvGLuQEDDfKI7Q==
+X-CSE-MsgGUID: qX2TpJDWSMSk6nH4fRbEXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="47178587"
 X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="33185785"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 14:59:44 -0700
-X-CSE-ConnectionGUID: czxnPOqVQaaAwqDB554ucw==
-X-CSE-MsgGUID: ho2IFztlTnWPog2fiZlSQw==
+   d="scan'208";a="47178587"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 15:09:42 -0700
+X-CSE-ConnectionGUID: qWsgBQIlTW2TY+oiuQUnQg==
+X-CSE-MsgGUID: htvzsQntRey6XfDrII8CXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="58737265"
+   d="scan'208";a="96327370"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 14:59:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2024 15:09:41 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdzYH-0000kA-2n;
-	Tue, 13 Aug 2024 21:59:37 +0000
-Date: Wed, 14 Aug 2024 05:59:05 +0800
+	id 1sdzhx-0000kI-32;
+	Tue, 13 Aug 2024 22:09:37 +0000
+Date: Wed, 14 Aug 2024 06:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hui-Ping Chen <hpchen0nvt@gmail.com>, miquel.raynal@bootlin.com,
-	richard@nod.at, vigneshr@ti.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
-	christian.koenig@amd.com, esben@geanix.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Hui-Ping Chen <hpchen0nvt@gmail.com>
-Subject: Re: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the
- Nuvoton MA35 SoC
-Message-ID: <202408140515.pbHkvxZD-lkp@intel.com>
-References: <20240812030045.20831-3-hpchen0nvt@gmail.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:20240812_cezary_rojewski_asoc_intel_remove_skylake_driver
+ 48/49] sound/soc/intel/common/soc-acpi-intel-skl-match.c:11:10: fatal error:
+ '../skylake/skl.h' file not found
+Message-ID: <202408140627.19qYBYFa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,70 +63,314 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240812030045.20831-3-hpchen0nvt@gmail.com>
 
-Hi Hui-Ping,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master v6.11-rc3 next-20240813]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hui-Ping-Chen/dt-bindings-mtd-nuvoton-ma35d1-nand-add-new-bindings/20240812-110259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20240812030045.20831-3-hpchen0nvt%40gmail.com
-patch subject: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the Nuvoton MA35 SoC
-config: arc-randconfig-r133-20240813 (https://download.01.org/0day-ci/archive/20240814/202408140515.pbHkvxZD-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240814/202408140515.pbHkvxZD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20240812_cezary_rojewski_asoc_intel_remove_skylake_driver
+head:   d46748ce77e33d6a219e9e7bca25d53cbf78d518
+commit: a8d5559a180c437332cf1b697776287165fdceca [48/49] ASoC: Intel: Remove skylake driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240814/202408140627.19qYBYFa-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408140627.19qYBYFa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408140515.pbHkvxZD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408140627.19qYBYFa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:119:3: sparse: sparse: symbol 'E_BCHALGORITHM' was not declared. Should it be static?
->> drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:333:28: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:348:39: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:746:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *register ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:746:41: sparse:     expected char *register ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:746:41: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:760:18: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:774:32: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:774:32: sparse:     expected char *ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:774:32: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:813:32: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:813:32: sparse:     expected char *ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:813:32: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *register ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     expected char *register ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *register ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     expected char *register ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *register ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     expected char *register ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     got void [noderef] __iomem *
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *register ptr @@     got void [noderef] __iomem * @@
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     expected char *register ptr
-   drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c:516:49: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +/E_BCHALGORITHM +119 drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+   In file included from sound/soc/intel/common/soc-acpi-intel-skl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-skl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-skl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-skl-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from sound/soc/intel/common/soc-acpi-intel-kbl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-kbl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-kbl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-kbl-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from sound/soc/intel/common/soc-acpi-intel-cnl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-cnl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-cnl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-cnl-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from sound/soc/intel/common/soc-acpi-intel-icl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-icl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-icl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-icl-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from sound/soc/intel/common/soc-acpi-intel-ehl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-ehl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-ehl-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-ehl-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
+--
+   In file included from sound/soc/intel/common/soc-acpi-intel-hda-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-hda-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from sound/soc/intel/common/soc-acpi-intel-hda-match.c:9:
+   In file included from include/sound/soc-acpi.h:12:
+   In file included from include/linux/soundwire/sdw.h:9:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> sound/soc/intel/common/soc-acpi-intel-hda-match.c:11:10: fatal error: '../skylake/skl.h' file not found
+      11 | #include "../skylake/skl.h"
+         |          ^~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
 
-   111	
-   112	/* BCH algorithm related constants and variables */
-   113	enum {
-   114		eBCH_NONE = 0,
-   115		eBCH_T8,
-   116		eBCH_T12,
-   117		eBCH_T24,
-   118		eBCH_CNT
- > 119	} E_BCHALGORITHM;
-   120	
+
+vim +11 sound/soc/intel/common/soc-acpi-intel-skl-match.c
+
+cbaa7f0bdbee19 Pierre-Louis Bossart 2018-06-18 @11  #include "../skylake/skl.h"
+cbaa7f0bdbee19 Pierre-Louis Bossart 2018-06-18  12  
+
+:::::: The code at line 11 was first introduced by commit
+:::::: cbaa7f0bdbee1969bb311c641abbd0d2af6ba861 ASoC: Intel: move SKL+ codec ACPI tables to common directory
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
