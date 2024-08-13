@@ -1,63 +1,62 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F98B19D896
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 10:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887F121345
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 11:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723546478; cv=none; b=Vsmq63+J+7tapkjm0/XagSJwJUdO1RiF+xgzUDEvCPqUHpEDp6Jbor0AcxuR828IlmXsnJx3Fq6V0gHu5+f1Se7IuWG9F9ewlFqda3WDBZHRMycpcXxRv6HMI4GeLyhvZ8maf++Kdb4NvDdsCPynlmH08vwSFwIqgN0Z71+2nZk=
+	t=1723547065; cv=none; b=e1DJjedE9X73II63BqgiEeKHY7yEm7/LMuFlO75KJ7L0Bb9sWyNCcMY2LtCur0aHipih2HGpe/BlER/LkYXg+MR6I5ua7yoWYaT+l1UpYrZDApuoFE9brQYoDWuWcBt0EgTC4Q5hSP8aWlJEEi4s2YQBsX0vH4u/SOPd3AMf1c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723546478; c=relaxed/simple;
-	bh=OxSYHQ3k5MjzUQ2Kutwve1hiA3tAnAe3bHK9jhDjvwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TFpji66Fc3+UINaRplkDaoMQmp2njhUuCOANvXlaDZs2E9BLGlh0/63DVR8lRCIr1DDxHXAcWJ1oqFWRdCe2ab0jdB7/VmNNaaT7rWM24IfQZve1VHsrXEpJKf8RGKdbFGGdDD1SCzBkVBEY6pgo1ubbcmlUOhFnAo4zFIvtHtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jxsc/rCZ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723547065; c=relaxed/simple;
+	bh=8TaRiZ2EeMGyY1kCBHmLbin11zdCmEm7XZ+KwckaCF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aFU1bUVtvfuUi74VLK2bghro+MZspJtiGk8/X9QmvdYHNPWgjjKZowjmyEACpuXa1j07mW4Mv8EKEGaGUxd8FCGzRu8a4eQrmWZeUpUg2VQw0dXwAWs2+7aXqTFM2cqRxd/Fk4CSXnO/ei0cZS9wmSO60Ww2wnd95WHXmFI/I4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kypDTB4h; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jxsc/rCZ"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52ed741fe46so5732260e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 03:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723546475; x=1724151275; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2uxcA0AD21mlI5A0b2Azx/D2l1nIHZeC0kbwu7Pcoek=;
-        b=Jxsc/rCZPxAtXnRi5Hra/wcihDNWELLly+0aSqUIMtOO3SLS8O4HmvJeDKnqOK/q5Z
-         wfpDGSNRf5+oXV2QKCraZeVwoN4RfuLFRzAmrYSS56uI1CEbAJ0AfzWNF4a15uN2i86C
-         WpgxMYN2Hsib4X6TI1zPAUjonhWFaexqLbfuMjih7Vgu6rXK8cBbsAQqQSlpW1PJhAcd
-         bfyEPJtdmwUO+YF0OCZmVb5vEhmEVUQAa+wT/6XwKXAWWTLOikoxwEdMThli6i1QQ2qe
-         iZsLPY56c1UN/bPfrHt8tt184rcXmWnInmz7kWE1KvExfGaf4SHKiFfMbEARWlhQka2V
-         qc3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723546475; x=1724151275;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2uxcA0AD21mlI5A0b2Azx/D2l1nIHZeC0kbwu7Pcoek=;
-        b=EUSiR2aqYZdUMieSYx6guDAcorqz2abFwFzLNRB9SmV6LgPnr9eR8OEKd2YY5BAuZ6
-         0gmJ643wi5ltLwf6MybKcwMToJregjkMTEKObJe0UjAV9d+3DEmrJffXoDBVz60EWHCC
-         TYBCR8XXOBrytH8+i/pHSiOIbEiyg1wgGkorLdbEExzW4oMZjR2fe1XaWAoI6z/aN9eK
-         OrsOJsqF5oKI4Y50WZs4HS5/z2vLjkquGvjKdIMBeH/SGAbOGHYufgr89UVJawcvdE15
-         RD8fYYCZq551SJflFJyMKD9H1psSFGCR2tCSGajpVsdUHwXa+Y0e72a7KGZbOFeZPOan
-         2XtA==
-X-Forwarded-Encrypted: i=1; AJvYcCXyM5V08sYYLiQXWzsg59dkI79e4KZUk3jADKDtDSGfbkoUZ0C0Jxspw38qFHNe9x7T24d3qq82dDdrA+vwupluhE/PLqYlSkakbk9rqw==
-X-Gm-Message-State: AOJu0YyXzw3VbAw5G6z1rF2L5Up/ZkxnsF+irBZS0GTR3oB5bNFF5fkj
-	QPMbwPyfh4DwBvSlpYCBrFCxSFxc+aVxO91RKIuZr0EkQONxrutckqQff54YoNU=
-X-Google-Smtp-Source: AGHT+IEt33KE3orqV3uB6caCdjg6Dg49Jsi6CyRKWP1vfnIcMLZXn4bx+hwBYEO9vTlgn+XtJeZWLg==
-X-Received: by 2002:a05:6512:104c:b0:52c:9383:4c16 with SMTP id 2adb3069b0e04-532136560d9mr1930940e87.22.1723546474410;
-        Tue, 13 Aug 2024 03:54:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53200f121fdsm987686e87.179.2024.08.13.03.54.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 03:54:33 -0700 (PDT)
-Date: Tue, 13 Aug 2024 13:54:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chiara Meiohas <cmeiohas@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 26/38] drivers/infiniband/core/nldev.c:2822
- rdma_nl_notify_event() warn: missing error code 'ret'
-Message-ID: <143efb4b-17a6-4ca3-996d-cb558c229cf3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kypDTB4h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723547063; x=1755083063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8TaRiZ2EeMGyY1kCBHmLbin11zdCmEm7XZ+KwckaCF4=;
+  b=kypDTB4hbP2AWnV6Zfwr9c6+rkCMKibgcVR/g50cVoFys7ON4Ii10aG+
+   C3P8/0deR/NBOcDPz+eZKib48G4KEhLfyCtOtIZlJaCrkxnoZBlu6/KkK
+   jjEL26cB81JRiS95rGsaSCLJH0oZdgJuBXjaktLbQ91fSVNqPfd7tLbh5
+   YXFFigXa1FcnKtZR+aIQvBDRhnS1gpoe+j1O1ksugcRu0r55Ia4bH+ebv
+   Vlvsi1VyiE6cPPy0dLXfTiwFZd0TGD570t1VlpH78TiQ3e4EFQj+NxHgw
+   bCug+ZcQWv4FovPHGEelv6m+H55a84pFwzpCm+slOCFh+wzswKQBvmEkg
+   A==;
+X-CSE-ConnectionGUID: 8TY0ZqhyTheYDvIbCMLIKA==
+X-CSE-MsgGUID: 0QuHZMVyRa226dNL6vQ5/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="12982987"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="12982987"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 04:04:22 -0700
+X-CSE-ConnectionGUID: CayKrEGCRr6KHCkCcao5RQ==
+X-CSE-MsgGUID: N9dxt86OT8CPsiWgPRNpBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="59204435"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Aug 2024 04:04:20 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdpK5-0000N8-1J;
+	Tue, 13 Aug 2024 11:04:17 +0000
+Date: Tue, 13 Aug 2024 19:03:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH] modpost: simplify modpost_log()
+Message-ID: <202408131830.qX4gs2P0-lkp@intel.com>
+References: <20240812144542.2121342-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,84 +65,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240812144542.2121342-1-masahiroy@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   2419f9d40091e6e94334b3c8df16d266133ddaea
-commit: a4499d4d93fbda92878d7d2aba9e209e110f7756 [26/38] RDMA/nldev: Add support for RDMA monitoring
-config: i386-randconfig-141-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131838.dAj6f4Cl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Masahiro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.11-rc3 next-20240813]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/modpost-simplify-modpost_log/20240813-003654
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/20240812144542.2121342-1-masahiroy%40kernel.org
+patch subject: [PATCH] modpost: simplify modpost_log()
+config: loongarch-randconfig-001-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131830.qX4gs2P0-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131830.qX4gs2P0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408131838.dAj6f4Cl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131830.qX4gs2P0-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/nldev.c:2822 rdma_nl_notify_event() warn: missing error code 'ret'
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/ret +2822 drivers/infiniband/core/nldev.c
-
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2788  int rdma_nl_notify_event(struct ib_device *device, u32 port_num,
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2789  			  enum rdma_nl_notify_event_type type)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2790  {
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2791  	struct sk_buff *skb;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2792  	struct net *net;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2793  	int ret = 0;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2794  	void *nlh;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2795  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2796  	net = read_pnet(&device->coredev.rdma_net);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2797  	if (!net)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2798  		return -EINVAL;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2799  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2800  	skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2801  	if (!skb)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2802  		return -ENOMEM;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2803  	nlh = nlmsg_put(skb, 0, 0,
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2804  			RDMA_NL_GET_TYPE(RDMA_NL_NLDEV, RDMA_NLDEV_CMD_MONITOR),
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2805  			0, 0);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2806  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2807  	switch (type) {
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2808  	case RDMA_REGISTER_EVENT:
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2809  	case RDMA_UNREGISTER_EVENT:
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2810  		ret = fill_mon_register(skb, device, net);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2811  		if (ret)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2812  			goto err_free;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2813  		break;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2814  	case RDMA_NETDEV_ATTACH_EVENT:
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2815  	case RDMA_NETDEV_DETACH_EVENT:
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2816  		ret = fill_mon_netdev_association(skb, device,
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2817  						  port_num, net);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2818  		if (ret)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2819  			goto err_free;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2820  		break;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2821  	default:
-a4499d4d93fbda Chiara Meiohas 2024-07-25 @2822  		goto err_free;
-
-I don't know what magic Smatch is using to say that this is an error path but it
-feels right.
-
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2823  	}
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2824  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2825  	ret = nla_put_u8(skb, RDMA_NLDEV_ATTR_EVENT_TYPE, type);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2826  	if (ret)
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2827  		goto err_free;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2828  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2829  	nlmsg_end(skb, nlh);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2830  	ret = rdma_nl_multicast(net, skb, RDMA_NL_GROUP_NOTIFY, GFP_KERNEL);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2831  	if (ret && ret != -ESRCH) {
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2832  		skb = NULL; /* skb is freed in the netlink send-op handling */
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2833  		goto err_free;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2834  	}
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2835  	return 0;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2836  
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2837  err_free:
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2838  	rdma_nl_notify_err_msg(device, port_num, type);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2839  	nlmsg_free(skb);
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2840  	return ret;
-a4499d4d93fbda Chiara Meiohas 2024-07-25  2841  }
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> WARNING: modpost: "kvm_restore_lsx" [arch/loongarch/kvm/kvm.ko] undefined!
+>> WARNING: modpost: "kvm_restore_lasx" [arch/loongarch/kvm/kvm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
