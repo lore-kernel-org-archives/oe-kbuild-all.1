@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6697A15B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 09:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950B219AD86
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 10:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723539680; cv=none; b=CPWx+XwOaz+UDN18ZJhtx24D+n7FpCuteBYmKRK1x2BxHtTvTL6/nD1ETcgxgzrCG0RnJEz0Ug1fcx2O1uOMndOwg16ink//E4gzs4k/XFCaprCn0M6PrgrweqvfIrmRhQZsZNOcw4Gc2mW8ZYcz/KnMhqPM8BGozgz6Ce6uU6o=
+	t=1723546464; cv=none; b=OAnCXVx9ljWJvmKaYNr7X5Az4FxUSHLM/azzEqmHSHuaSYQXRVdh8G/v5lF1eOG3oGKyIX/T4djBw+EJgKDk8B8lkYQ6vtJMgIJKnpUkoKlIoVDQpwMYx5fjCABRcPAr0tmBW4zgtf0zcb5UYA5+I0TjtAJJnkWbW8iglVQwIC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723539680; c=relaxed/simple;
-	bh=9+y8jNGSWlwoOhLp2fjto0m4GNn7H221lGfBR+JuuW8=;
+	s=arc-20240116; t=1723546464; c=relaxed/simple;
+	bh=Y0LoVaJcmQ8a+FOvptdTs/fn5d0fBHb607zaGamA3os=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cXTkOVhl15GS5UMB7fEtAqhRF//MVPs77zsVg/IFjF2KfkQUJTVpAhuMIjdk3YJE/i1l0/DT6l4ZK6qe/AWxTrClh5TACOneH/lCJdtwyFV+yBYi5yYmxM7GcSCpVZbN7BotArjYihioaBfgNMo688WUAKFJ6v7oL4tGLUO6ksA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXdhCPmd; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=GJ78QzKiupj7Wx2IifstkkAotdGPnze2ZHbViVXiWnPQvHCz0ZBJ7C6CyA3wNjf8NF8rY8Vu++7ROARIR7vEg7ToROLoDyIZTmOsqAc/doUbFTSK9ByZzHuMpXR5VqBMo5VD5Yrjc6FpnbFcTI8LYGeE0Uhv2k1hXDMrxJmh9Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MViNKDAF; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXdhCPmd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MViNKDAF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723539679; x=1755075679;
+  t=1723546462; x=1755082462;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9+y8jNGSWlwoOhLp2fjto0m4GNn7H221lGfBR+JuuW8=;
-  b=XXdhCPmduDSSTSmj4Jhdm7+uj4/vLLpIZdrCjPnayRS8/QDVq8yPR77m
-   ZhDWyDJ7ldwOjcv8zAGwJJiw9mVbsTvTBEFVsOFZ3rkXpDVe1VoYkgnXA
-   k6bXBcKtktKNUZBMrNNaLrJ4Glx0L0TltK5K0gyBJJqZdTCFEeaPKigO0
-   cdjYioq+2HKreAHSr8G//APx86+nfzwGkGdEzCfdBheZ6oBEFq8NuvTc9
-   Bt8jvhSEZLGJlaxiVuzHpNCqPV/LkFjyvz7gWajRQoyy678GCeB1PL+S5
-   tTn+CTh4AKvPnKPGPbzyQBxsVN9tkcGRJI8r1qLOfipy+wgrtMRDlN7Lv
-   A==;
-X-CSE-ConnectionGUID: VpxRl0bWRq+MRepX3TRc3g==
-X-CSE-MsgGUID: BybC6AmVTyuUXj6mLB5m9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21833547"
+  bh=Y0LoVaJcmQ8a+FOvptdTs/fn5d0fBHb607zaGamA3os=;
+  b=MViNKDAF5//Ju7J/ulDtJfImmwdvBJOtDwQWXDzmAdjsJnLZrgqCKU4F
+   uomgZ1zCaAoaiBLlNlk3+R3vJmSVsDeZkrNj8uWzFQQW9Q5lmcZ52btGh
+   ye9mGRxA8J5VTrgTm9j2hBt/Ia/ze5A7cxXqyIc8vFcjO97DVTuCs4SCR
+   NKaMasziHkrrFa5gv20ksSTq0xNhPNPr6KCBTwql/v2mAHXkWHf1zpeTU
+   DNw7Cyf5RhOy8ayolQ1k3pMAVrjGSJEjOFt3rrmiDRkc05FTA2S+dqFZU
+   cJDyEDBZOhCKkEhx+ONIb9q2D9d+x+koug4pdhHKMtrrXKFJsGpJneHZY
+   g==;
+X-CSE-ConnectionGUID: A8gtUc9ZREmB0bnh/9iRNw==
+X-CSE-MsgGUID: ALqb0MBMTr2v6ZCEeJ6QAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21674455"
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="21833547"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 02:01:18 -0700
-X-CSE-ConnectionGUID: sGGudzcETe62gs4cAw9jdg==
-X-CSE-MsgGUID: U7yW6yTgQIW3QVDCLyMEQQ==
+   d="scan'208";a="21674455"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 03:54:21 -0700
+X-CSE-ConnectionGUID: WskrlzbnS4OXGWpMehT6xw==
+X-CSE-MsgGUID: rey2ZMUOSxCagXUEh9YFOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="89257691"
+   d="scan'208";a="58505512"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2024 02:01:16 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Aug 2024 03:54:20 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdnOz-0000Is-2X;
-	Tue, 13 Aug 2024 09:01:13 +0000
-Date: Tue, 13 Aug 2024 17:00:56 +0800
+	id 1sdpAP-0000Mc-0W;
+	Tue, 13 Aug 2024 10:54:17 +0000
+Date: Tue, 13 Aug 2024 18:53:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Yury Norov <yury.norov@gmail.com>
-Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_127'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- !__builtin_constant_p(~var)
-Message-ID: <202408131601.Aj9JmK7K-lkp@intel.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jens-wiklander-tee:testing/tuxbuild 3/4]
+ drivers/mmc/core/block.c:3225:26: sparse: sparse: cast to restricted __be32
+Message-ID: <202408131857.Ls6Jmf6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,117 +62,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d74da846046aeec9333e802f5918bd3261fb5509
-commit: 7adaf37f7f104a7ee5f150af491674ccbbfc4114 lib/bitmap: add compile-time test for __assign_bit() optimization
-date:   4 months ago
-config: um-randconfig-r132-20240812 (https://download.01.org/0day-ci/archive/20240813/202408131601.Aj9JmK7K-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131601.Aj9JmK7K-lkp@intel.com/reproduce)
+Hi Jens,
+
+First bad commit (maybe != root cause):
+
+tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tuxbuild
+head:   1eeef6f8f4da434303136dbb1f5aee3e7fd20703
+commit: d5fda642a1c63784e90a28fe4c66017bf6ec1994 [3/4] tee: add tee_device_set_dev_groups()
+config: i386-randconfig-061-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131857.Ls6Jmf6o-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131857.Ls6Jmf6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408131601.Aj9JmK7K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408131857.Ls6Jmf6o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/mmc/core/block.c:2558:26: sparse: sparse: invalid assignment: |=
+   drivers/mmc/core/block.c:2558:26: sparse:    left side has type unsigned int
+   drivers/mmc/core/block.c:2558:26: sparse:    right side has type restricted blk_features_t
+   drivers/mmc/core/block.c:2560:26: sparse: sparse: invalid assignment: |=
+   drivers/mmc/core/block.c:2560:26: sparse:    left side has type unsigned int
+   drivers/mmc/core/block.c:2560:26: sparse:    right side has type restricted blk_features_t
+>> drivers/mmc/core/block.c:3225:26: sparse: sparse: cast to restricted __be32
 
->> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_127' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:460:2: note: expanded from macro 'compiletime_assert'
-     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
-     448 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:441:4: note: expanded from macro '__compiletime_assert'
-     441 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:193:1: note: expanded from here
-     193 | __compiletime_assert_127
-         | ^
-   1 error generated.
+vim +3225 drivers/mmc/core/block.c
 
+627c3ccfb46ada Linus Walleij  2017-08-20  3201  
+6f4804800b4e1d Jens Wiklander 2024-01-18  3202  static void mmc_blk_rpmb_add(struct mmc_card *card)
+6f4804800b4e1d Jens Wiklander 2024-01-18  3203  {
+6f4804800b4e1d Jens Wiklander 2024-01-18  3204  	struct mmc_blk_data *md = dev_get_drvdata(&card->dev);
+6f4804800b4e1d Jens Wiklander 2024-01-18  3205  	struct mmc_rpmb_data *rpmb;
+6f4804800b4e1d Jens Wiklander 2024-01-18  3206  	struct rpmb_dev *rdev;
+6f4804800b4e1d Jens Wiklander 2024-01-18  3207  	unsigned int n;
+6f4804800b4e1d Jens Wiklander 2024-01-18  3208  	u32 cid[4];
+6f4804800b4e1d Jens Wiklander 2024-01-18  3209  	struct rpmb_descr descr = {
+6f4804800b4e1d Jens Wiklander 2024-01-18  3210  		.type = RPMB_TYPE_EMMC,
+6f4804800b4e1d Jens Wiklander 2024-01-18  3211  		.route_frames = mmc_route_rpmb_frames,
+6f4804800b4e1d Jens Wiklander 2024-01-18  3212  		.reliable_wr_count = card->ext_csd.enhanced_rpmb_supported ?
+6f4804800b4e1d Jens Wiklander 2024-01-18  3213  				     2 : 32,
+6f4804800b4e1d Jens Wiklander 2024-01-18  3214  		.capacity = card->ext_csd.raw_rpmb_size_mult,
+6f4804800b4e1d Jens Wiklander 2024-01-18  3215  		.dev_id = (void *)cid,
+6f4804800b4e1d Jens Wiklander 2024-01-18  3216  		.dev_id_len = sizeof(cid),
+6f4804800b4e1d Jens Wiklander 2024-01-18  3217  	};
+6f4804800b4e1d Jens Wiklander 2024-01-18  3218  
+6f4804800b4e1d Jens Wiklander 2024-01-18  3219  	/*
+6f4804800b4e1d Jens Wiklander 2024-01-18  3220  	 * Provice CID as an octet array. The CID needs to be interpreted
+6f4804800b4e1d Jens Wiklander 2024-01-18  3221  	 * when used as input to derive the RPMB key since some fields
+6f4804800b4e1d Jens Wiklander 2024-01-18  3222  	 * will change due to firmware updates.
+6f4804800b4e1d Jens Wiklander 2024-01-18  3223  	 */
+6f4804800b4e1d Jens Wiklander 2024-01-18  3224  	for (n = 0; n < 4; n++)
+6f4804800b4e1d Jens Wiklander 2024-01-18 @3225  		cid[n] = be32_to_cpu(card->raw_cid[n]);
+6f4804800b4e1d Jens Wiklander 2024-01-18  3226  
+6f4804800b4e1d Jens Wiklander 2024-01-18  3227  	list_for_each_entry(rpmb, &md->rpmbs, node) {
+6f4804800b4e1d Jens Wiklander 2024-01-18  3228  		rdev = rpmb_dev_register(&rpmb->dev, &descr);
+6f4804800b4e1d Jens Wiklander 2024-01-18  3229  		if (IS_ERR(rdev)) {
+6f4804800b4e1d Jens Wiklander 2024-01-18  3230  			pr_warn("%s: could not register RPMB device\n",
+6f4804800b4e1d Jens Wiklander 2024-01-18  3231  				dev_name(&rpmb->dev));
+6f4804800b4e1d Jens Wiklander 2024-01-18  3232  			continue;
+6f4804800b4e1d Jens Wiklander 2024-01-18  3233  		}
+6f4804800b4e1d Jens Wiklander 2024-01-18  3234  		rpmb->rdev = rdev;
+6f4804800b4e1d Jens Wiklander 2024-01-18  3235  	}
+6f4804800b4e1d Jens Wiklander 2024-01-18  3236  }
+6f4804800b4e1d Jens Wiklander 2024-01-18  3237  
 
-vim +1278 lib/test_bitmap.c
+:::::: The code at line 3225 was first introduced by commit
+:::::: 6f4804800b4e1d1a9651f70de4dd0c1a9b8f0417 mmc: block: register RPMB partition with the RPMB subsystem
 
-291f93ca339f5b Barry Song        2021-08-06  1227  
-2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
-2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd Yury Norov        2023-07-17  1231   */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
-dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
-
-:::::: The code at line 1278 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
