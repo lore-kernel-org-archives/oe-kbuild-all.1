@@ -1,133 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF551B1518
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 14:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0795B1B32A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 14:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723644005; cv=none; b=DZFiRI3bKHX9azHCaUtQIo+UEqNkWfZLONP48QLfuCsvquYBCoXkdi40xPtOMFUrp4xATO8zAxBEQ7jsvDJNYLVBO6eOEclgXYki+6oEeyzn6k1+rcNTeJSTliHoG/FGG4fu2zE14itrJSmfQ4NDKeFTd7uBtxZOuEmD8wPxeA4=
+	t=1723644057; cv=none; b=Ln/bDBC2bKhewgAJE6f+S45vkHjmSuZlrJjtPIsa+9LxIgKoSmk9+OytE3Nn8/Iecm70FNrPq+cP6zOGFokFMh2J/je6y/RpqThM1wXwVjZVX49mDTwmqhzUPj3me2jyv5xcsjLhD+fvtI2tKWSPPON8DUpygoX7aKVZM6Cxtgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723644005; c=relaxed/simple;
-	bh=FLDskojMqLwEFp9yoLa9N9iULKo8fvUrGYWSg0CKgFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lp3BOO5L0h246ZKPwus9HG+omlqvFrcmqORR+mxaYoqf/nzH9Qghexphea8diHmSH6xyHL7iMWhKWTDuJ/UcBfLE815jWMXfxx7/TXy+/JDqyx54zpn8LOo7riXMu7FmCS4l8g6GmgtBinhmXCJFIQv29IIKH1SPvNHx5sEE0B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNNgZnXw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723644057; c=relaxed/simple;
+	bh=dlFeX74aDDB+LwbUMMjMxEz0eFoJYS1jYkWc1fI9uHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o8tyB+O9vnh7k2bvSs9Bgvbf+zRWZQ3nYS7uSWaA4zQznjD5uO8T3XlfekGIVn8h8NiIydvODI8QRvenLO4rGJIT3LWkD+wYzH5T0+i1DuQ5SB+mnp4cIpJJyiKikdspLGsHTaCIOx5eGq+xz6UeDWZ/VUhTV7zbKR2rUjqh36Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv1Pehd6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNNgZnXw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF26C32786;
-	Wed, 14 Aug 2024 14:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723644005;
-	bh=FLDskojMqLwEFp9yoLa9N9iULKo8fvUrGYWSg0CKgFM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sNNgZnXwNyhvl/xf4ybMtNb/EuDzoTmVsY5wTJMWZTLbTiXXz/eRzZShrM40xcZ08
-	 y7FG3Bu2FS1uMtimVG8USqWe8shttFaRl//7h8qazdW5SjPLZHrfU3rgJcJGh4YUT5
-	 gB+PVKBiB1ylDSjhjh42EC0fRXvsZSiQFBnZSbaCnQ781YqCqwrZj3u7DbgsaBl/dy
-	 p+FqexeG6EpXyTlC4xj4K6r4COMYwIyHFUv0N5FQ+hzBZmMwHfP9KaR95QudTjXu8I
-	 MrXODKcDn0oXdRWFL8h+gmR6YU0rSzxcMexdtigovaTBirzSlQUBxMXvTGcBhys3UN
-	 s7uEs8iZi8+tg==
-Message-ID: <82cde353-ca36-4272-a954-e816f551ca64@kernel.org>
-Date: Wed, 14 Aug 2024 16:00:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv1Pehd6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723644055; x=1755180055;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dlFeX74aDDB+LwbUMMjMxEz0eFoJYS1jYkWc1fI9uHI=;
+  b=Fv1Pehd6prd2mV89hO/ycR/SZWOxgCwxEN7ADhl4RUcjSTt09Ny+Dzhw
+   qSt+i0TxNLLESCcy0R5nEj8qHxcuX2E567TpucHPS/uEeybIPKIN12NI0
+   5gCw8gXzbIB6OBNWhMvnWQ73rnxAarRknifKb6474dy21YO5QV8970M1O
+   U2srVaYKeamT5JYymhAH6nFkVw8hqoO8VkThhB2S6mfJROM73UepFY4gK
+   XVPFxNZCE771ItE5mLfGzv9LV0XYlCFaOJ5idWI8AVmC5Baf6VCLaMNCH
+   7Ldu8b5ghPrIFZEaSFsjNr/MyM08XdhAIoMCPuBr+GamDFujd5tzckyvP
+   w==;
+X-CSE-ConnectionGUID: w+CvMGZpSPOVaVkuLd/dag==
+X-CSE-MsgGUID: 9RSnkghyTfi6V8k0Sran/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="22019252"
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="22019252"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 07:00:53 -0700
+X-CSE-ConnectionGUID: /ITLLFDMQzaIAGUHJ9s7jA==
+X-CSE-MsgGUID: U8raj0CwTcuI7mx6abEO3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="59024254"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Aug 2024 07:00:52 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seEYT-0001iM-3C;
+	Wed, 14 Aug 2024 14:00:50 +0000
+Date: Wed, 14 Aug 2024 22:00:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Chris Lew <quic_clew@quicinc.com>
+Subject: [linux-next:master 4042/4667]
+ drivers/rpmsg/qcom_glink_native.c:736:9: sparse: sparse: incorrect type in
+ argument 5 (different base types)
+Message-ID: <202408142123.xFCAwyNh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 3898/4224]
- arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: fuel-gauge@a00:
- 'battery-detect-gpios' is a required property
-To: kernel test robot <lkp@intel.com>,
- Stanislav Jakubek <stano.jakubek@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>
-References: <202408140049.pjQHYO6B-lkp@intel.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202408140049.pjQHYO6B-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 13/08/2024 18:12, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   033a4691702cdca3a613256b0623b8eeacb4985e
-> commit: 0dcc203956537696e6f936eef886fde70e049f54 [3898/4224] arm64: dts: sprd: rename SDHCI and fuel gauge nodes to match bindings
-> config: arm64-randconfig-053-20240813 (https://download.01.org/0day-ci/archive/20240814/202408140049.pjQHYO6B-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> dtschema version: 2024.6.dev10+ge5d88ac
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408140049.pjQHYO6B-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408140049.pjQHYO6B-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: ap-apb@70000000: $nodename:0: 'ap-apb@70000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
->    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: ap-ahb: $nodename:0: 'ap-ahb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
->    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: aon: $nodename:0: 'aon' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
->    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/aon/spi@40030000/pmic@0: failed to match any schema with compatible: ['sprd,sc2731']
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/aon/spi@40030000/pmic@0/led-controller@200: failed to match any schema with compatible: ['sprd,sc2731-bltc']
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/aon/spi@40030000/pmic@0/rtc@280: failed to match any schema with compatible: ['sprd,sc2731-rtc']
->    arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: /soc/aon/spi@40030000/pmic@0/efuse@380: failed to match any schema with compatible: ['sprd,sc2731-efuse']
->>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: fuel-gauge@a00: 'battery-detect-gpios' is a required property
->    	from schema $id: http://devicetree.org/schemas/power/supply/sc27xx-fg.yaml#
->>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: fuel-gauge@a00: 'sprd,calib-resistance-micro-ohms' is a required property
->    	from schema $id: http://devicetree.org/schemas/power/supply/sc27xx-fg.yaml#
->>> arch/arm64/boot/dts/sprd/sp9860g-1h10.dtb: fuel-gauge@a00: 'bat-detect-gpio', 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
->    	from schema $id: http://devicetree.org/schemas/power/supply/sc27xx-fg.yaml#
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   320eb81df4f6c1a1814fd02ebb4ba41eb80a3c7e
+commit: 34f79c11fb2f31ba05f13e42b936b3eae1783d40 [4042/4667] rpmsg: glink: Introduce packet tracepoints
+config: arm64-randconfig-r113-20240814 (https://download.01.org/0day-ci/archive/20240814/202408142123.xFCAwyNh-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240814/202408142123.xFCAwyNh-lkp@intel.com/reproduce)
 
-These look like false positives. The commit only renamed the nodes, so
-all the warnings were there before, I think.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408142123.xFCAwyNh-lkp@intel.com/
 
-Best regards,
-Krzysztof
+sparse warnings: (new ones prefixed by >>)
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int version @@     got restricted __le16 [assigned] [usertype] param1 @@
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse:     expected unsigned int version
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse:     got restricted __le16 [assigned] [usertype] param1
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int features @@     got restricted __le32 [assigned] [usertype] param2 @@
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse:     expected unsigned int features
+   drivers/rpmsg/qcom_glink_native.c:414:9: sparse:     got restricted __le32 [assigned] [usertype] param2
+>> drivers/rpmsg/qcom_glink_native.c:736:9: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned long [usertype] count @@     got restricted __le32 [assigned] [usertype] count @@
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     expected unsigned long [usertype] count
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     got restricted __le32 [assigned] [usertype] count
+>> drivers/rpmsg/qcom_glink_native.c:736:9: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [assigned] [usertype] size @@
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     expected unsigned long [usertype] size
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     got restricted __le32 [assigned] [usertype] size
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected unsigned int [usertype] liid @@     got restricted __le32 [assigned] [usertype] liid @@
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     expected unsigned int [usertype] liid
+   drivers/rpmsg/qcom_glink_native.c:736:9: sparse:     got restricted __le32 [assigned] [usertype] liid
+   drivers/rpmsg/qcom_glink_native.c:930:9: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/rpmsg/qcom_glink_native.c:1063:9: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 @@
+   drivers/rpmsg/qcom_glink_native.c:1063:9: sparse:     expected unsigned long [usertype] size
+   drivers/rpmsg/qcom_glink_native.c:1063:9: sparse:     got restricted __le32
+   drivers/rpmsg/qcom_glink_native.c:1063:9: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected unsigned int [usertype] liid @@     got restricted __le32 @@
+   drivers/rpmsg/qcom_glink_native.c:1063:9: sparse:     expected unsigned int [usertype] liid
+   drivers/rpmsg/qcom_glink_native.c:1063:9: sparse:     got restricted __le32
+   drivers/rpmsg/qcom_glink_native.c: note: in included file (through include/linux/radix-tree.h, include/linux/idr.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
+vim +736 drivers/rpmsg/qcom_glink_native.c
+
+   707	
+   708	/**
+   709	 * qcom_glink_advertise_intent - convert an rx intent cmd to wire format and
+   710	 *			   transmit
+   711	 * @glink:	The transport to transmit on.
+   712	 * @channel:	The local channel
+   713	 * @intent:	The intent to pass on to remote.
+   714	 *
+   715	 * Return: 0 on success or standard Linux error code.
+   716	 */
+   717	static int qcom_glink_advertise_intent(struct qcom_glink *glink,
+   718					       struct glink_channel *channel,
+   719					       struct glink_core_rx_intent *intent)
+   720	{
+   721		struct command {
+   722			__le16 id;
+   723			__le16 lcid;
+   724			__le32 count;
+   725			__le32 size;
+   726			__le32 liid;
+   727		} __packed;
+   728		struct command cmd;
+   729	
+   730		cmd.id = cpu_to_le16(GLINK_CMD_INTENT);
+   731		cmd.lcid = cpu_to_le16(channel->lcid);
+   732		cmd.count = cpu_to_le32(1);
+   733		cmd.size = cpu_to_le32(intent->size);
+   734		cmd.liid = cpu_to_le32(intent->id);
+   735	
+ > 736		trace_qcom_glink_cmd_intent_tx(glink->label, channel->name,
+   737					       channel->lcid, channel->rcid,
+   738					       cmd.count, cmd.size, cmd.liid);
+   739	
+   740		qcom_glink_tx(glink, &cmd, sizeof(cmd), NULL, 0, true);
+   741	
+   742		return 0;
+   743	}
+   744	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
