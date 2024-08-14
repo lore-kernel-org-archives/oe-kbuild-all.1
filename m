@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79D11BC09F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 18:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3968A1BD514
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 19:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723659998; cv=none; b=t6vONJ+F4heaCb3RVRs27y+g07Y3CFh0GkQktO/Ub9+XVLw5kNa1j6xQq1mHQjJ3sA4D8GbjK8oQJl5tticbSVWTJbhnj620vU5kzZNRZoMcc43/JS1OSeatgSTfGfs0HhCpYsJVG21/rJ4qcJR01lyX8BOKMikcb7sFa2Jlbmc=
+	t=1723662399; cv=none; b=uxa8Uc1b5+xr6r5mM0qDU7SN8EZ89tfuC959aB15NfDXdyiL7eQzkYSnBaG0YLkWw13hbBqibEvtt/CYddrjScxlf9pyylx3O3beytpmSV+gLISTCzvGV4z41URBdQx33zfLaOQVnJH/2Xmmh1GCdAC7cAy2fvshsvrDUzv5GUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723659998; c=relaxed/simple;
-	bh=bQK4BVsYjYSM/5qcaEU9yCTYmajiLYWaswUmvO6we0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZowOrrH5MfyKi8gqcK7gAjKPKsCSi13XEZSdrs9z2yFwV/LHcfYdvBwtabjXVgBo19fgWHMlXMWvSaenmsYcOkWHw7hk6jwi0jBdZ6uafiMaQmVOb0HTsznTkYOhyrjucOxdAomiwUA2UevRM2gkwFsJYUlwY5Vyfv8a0e2qGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuDLJfm7; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1723662399; c=relaxed/simple;
+	bh=JEnl+dUe2enpdh2KInhiVsvP1MCCbLZW64ZMa1XzW2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iN0Qc0E7Bg46LyDOO0ykz/4O/cL0cAuzUoJ5FydRUZukC7ygKD7xrBhUV4zew+N1VDC0yQOg9YWkQXcxADzBqgPwuieU3EqcqFUyWbEocxg+/SyaiHLFo8AzwKzHotqedXgtb6N8eEkJIPvBz3nZOUNl85i5sqY51W3f+RndsWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISedkSIL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuDLJfm7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISedkSIL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723659997; x=1755195997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bQK4BVsYjYSM/5qcaEU9yCTYmajiLYWaswUmvO6we0Y=;
-  b=JuDLJfm70e5alZ36ost0522Kfew+Lajj7GD8lH7Olq0yVtMIpwK73tOE
-   ezwsGLrdFEZx31bDxc/9ukN0Uej8i3Vd7lJhRr8sGmdAa000s6195TekC
-   F4cqjgZjry3TjPh3G0YxeesJW19dz5XcmxfZmnQw0tj5wy2W2FDQNhQj8
-   4dShyLNYIXzfbOh6NBbU7J82ntKNeh22ZpY5bDf0JAxPHX4ytOzGpRUBa
-   TCkFNc1OoyFn0wx/8sFPDBrVrUtXo+Dgl5Hkn9kBkoLkEOWr8FyJWxaQD
-   +nfMY1GoGL814dolm849m/zx++QpFnBqmOi9ZhDAcGN1JRhyyDJdrEa9O
-   A==;
-X-CSE-ConnectionGUID: yDGSalLPRQSjA2PzAREkqQ==
-X-CSE-MsgGUID: zgzEHg0ZSteAxtc30oPp4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="39351489"
+  t=1723662397; x=1755198397;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JEnl+dUe2enpdh2KInhiVsvP1MCCbLZW64ZMa1XzW2A=;
+  b=ISedkSIL1aqS0gTtBFts9BkDN1yHZMx76GpGYVtTbRk2hKXB4/uurppD
+   5g21VZCGkHSt+sN1KBUkdU5DpAIarviAA1i9esPHb/6FWOtrzDJNkyLBX
+   qKiqo5U3I2JccznKsgj8Rimy5Na4y7ZHGL0c4I/OtAOhv0VooRw13Arp3
+   lvb2jHZVBMT1Gfhg9deR8wbNMUG/fCmqRFD4C8MjO9JSAAowcrp20FyRr
+   6eJF2r3bWTYrnX+6xJKYFxTfaeR1dhw2/gRbs1P0CgWzHjC7meidThh1d
+   fRdRzqFEXk2CdYsiDwpSKLzuXC0H0jM/cvVLXj5SUDM1xEiCL0EbHZ9PT
+   w==;
+X-CSE-ConnectionGUID: t/Ez0ClWSBSDs7Lqcm27Hg==
+X-CSE-MsgGUID: ExAxc3IVQ2KvWdk3ugajNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21758111"
 X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
-   d="scan'208";a="39351489"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 11:26:33 -0700
-X-CSE-ConnectionGUID: gu/jvppQTImQJHq+7bNkFw==
-X-CSE-MsgGUID: 2wHOZmvrShmlVbDarCTzyQ==
+   d="scan'208";a="21758111"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 12:06:35 -0700
+X-CSE-ConnectionGUID: hfZ/gC7nRMeMyBoIywl9sQ==
+X-CSE-MsgGUID: JB71uN8PRqGQoaH3PIGZXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
-   d="scan'208";a="63938091"
+   d="scan'208";a="58777492"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2024 11:26:32 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Aug 2024 12:06:33 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1seIhZ-0002j2-2Y;
-	Wed, 14 Aug 2024 18:26:29 +0000
-Date: Thu, 15 Aug 2024 02:25:51 +0800
+	id 1seJKJ-0002kg-1z;
+	Wed, 14 Aug 2024 19:06:31 +0000
+Date: Thu, 15 Aug 2024 03:06:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/4] percpu: Assorted fixes found by strict percpu
- address space checks
-Message-ID: <202408150230.beNGDBN1-lkp@intel.com>
-References: <20240812115945.484051-3-ubizjak@gmail.com>
+Subject: [djwong-xfs:hch-wtf 230/253] fs/xfs/xfs_bmap_util.h:89:66: error:
+ expected identifier or '(' before '-' token
+Message-ID: <202408150316.Z8SISv5W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,91 +61,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240812115945.484051-3-ubizjak@gmail.com>
 
-Hi Uros,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on tip/x86/core driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools tj-wq/for-next linus/master v6.11-rc3 next-20240814]
-[cannot apply to tip/locking/core dennis-percpu/for-next acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/percpu-Define-pcpu_typeof/20240812-200316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20240812115945.484051-3-ubizjak%40gmail.com
-patch subject: [RFC PATCH v2 2/4] percpu: Assorted fixes found by strict percpu address space checks
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240815/202408150230.beNGDBN1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150230.beNGDBN1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git hch-wtf
+head:   dabb7872a6f25b04b590e544cc0f5f3ac560194e
+commit: d889f27844ddd965dcfdbfbdab2a41bae07d33bf [230/253] xfs: add an ioctl to map free space into a file
+config: x86_64-randconfig-002-20240814 (https://download.01.org/0day-ci/archive/20240815/202408150316.Z8SISv5W-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150316.Z8SISv5W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408150230.beNGDBN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408150316.Z8SISv5W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/percpu.h:12,
-                    from include/linux/prandom.h:13,
-                    from include/linux/random.h:153,
-                    from arch/arm64/include/asm/pointer_auth.h:7,
-                    from arch/arm64/include/asm/processor.h:43,
-                    from include/asm-generic/qrwlock.h:18,
-                    from ./arch/arm64/include/generated/asm/qrwlock.h:1,
-                    from arch/arm64/include/asm/spinlock.h:9,
-                    from include/linux/spinlock.h:95,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from arch/arm64/kernel/asm-offsets.c:10:
-   include/linux/sched.h:1578:41: error: field 'thread' has incomplete type
-    1578 |         struct thread_struct            thread;
-         |                                         ^~~~~~
->> arch/arm64/include/asm/spinlock.h:21:27: error: redefinition of 'vcpu_is_preempted'
-      21 | #define vcpu_is_preempted vcpu_is_preempted
-         |                           ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/spinlock.h:22:20: note: in expansion of macro 'vcpu_is_preempted'
-      22 | static inline bool vcpu_is_preempted(int cpu)
-         |                    ^~~~~~~~~~~~~~~~~
-   include/linux/sched.h:2127:20: note: previous definition of 'vcpu_is_preempted' with type 'bool(int)' {aka '_Bool(int)'}
-    2127 | static inline bool vcpu_is_preempted(int cpu)
-         |                    ^~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:117: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1193: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from fs/xfs/xfs_bmap_util.c:21:
+>> fs/xfs/xfs_bmap_util.h:89:66: error: expected identifier or '(' before '-' token
+      89 | # define xfs_map_free_rt_space(ip, off, len)                    (-EOPNOTSUPP)
+         |                                                                  ^
+   fs/xfs/xfs_bmap_util.c:2224:1: note: in expansion of macro 'xfs_map_free_rt_space'
+    2224 | xfs_map_free_rt_space(
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/vcpu_is_preempted +21 arch/arm64/include/asm/spinlock.h
+vim +89 fs/xfs/xfs_bmap_util.h
 
-872c63fbf9e153 Will Deacon 2016-09-05  13  
-f5bfdc8e3947a7 Waiman Long 2020-01-13  14  /*
-f5bfdc8e3947a7 Waiman Long 2020-01-13  15   * Changing this will break osq_lock() thanks to the call inside
-f5bfdc8e3947a7 Waiman Long 2020-01-13  16   * smp_cond_load_relaxed().
-f5bfdc8e3947a7 Waiman Long 2020-01-13  17   *
-f5bfdc8e3947a7 Waiman Long 2020-01-13  18   * See:
-f5bfdc8e3947a7 Waiman Long 2020-01-13  19   * https://lore.kernel.org/lkml/20200110100612.GC2827@hirez.programming.kicks-ass.net
-f5bfdc8e3947a7 Waiman Long 2020-01-13  20   */
-345d52c184dc7d Qian Cai    2020-01-23 @21  #define vcpu_is_preempted vcpu_is_preempted
-345d52c184dc7d Qian Cai    2020-01-23  22  static inline bool vcpu_is_preempted(int cpu)
-345d52c184dc7d Qian Cai    2020-01-23  23  {
-345d52c184dc7d Qian Cai    2020-01-23  24  	return false;
-345d52c184dc7d Qian Cai    2020-01-23  25  }
-f5bfdc8e3947a7 Waiman Long 2020-01-13  26  
+    74	
+    75	xfs_extnum_t xfs_bmap_count_leaves(struct xfs_ifork *ifp, xfs_filblks_t *count);
+    76	int xfs_bmap_count_blocks(struct xfs_trans *tp, struct xfs_inode *ip,
+    77				  int whichfork, xfs_extnum_t *nextents,
+    78				  xfs_filblks_t *count);
+    79	
+    80	int	xfs_flush_unmap_range(struct xfs_inode *ip, xfs_off_t offset,
+    81				      xfs_off_t len);
+    82	
+    83	#ifdef CONFIG_XFS_RT
+    84	int xfs_convert_rtbigalloc_file_space(struct xfs_inode *ip, loff_t pos,
+    85			uint64_t len);
+    86	int xfs_map_free_rt_space(struct xfs_inode *ip, xfs_off_t off, xfs_off_t len);
+    87	#else
+    88	# define xfs_convert_rtbigalloc_file_space(ip, pos, len)	(-EOPNOTSUPP)
+  > 89	# define xfs_map_free_rt_space(ip, off, len)			(-EOPNOTSUPP)
+    90	#endif
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
