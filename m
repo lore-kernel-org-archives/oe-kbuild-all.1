@@ -1,58 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDB91A4F22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Aug 2024 23:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECB7A953;
+	Wed, 14 Aug 2024 01:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723591906; cv=none; b=rq46dbs+rQWA1KKGabKOxTXD2b/yjw7TSuDUBizH0JDV95EG/zY1j9QsgaMtscgWBhUsQIztFp2Ktfo5KzrltipAj3Fl249oNHFSDTeHoooCJ6dVN/RJYAEOOFEKRownCOEBEKP2Fvx/kApmdtv+7zGY4UaIXxBq7WYqstO1Nr0=
+	t=1723597408; cv=none; b=CbunFdqZh9w5oBp9C+KTM3pnClc0PPCTL0mSe/xvF7CBIDDX9PrN26sfuFYr1UXIMgpwXnG+TOI/JAul/zwZ1gKHQyBgN6viPxyt+SY5pt/oLbsdAWU0OCAnIFBJQGVIaAcekVqV2A7EBS63Iw63AqK5TEugYg30apQvBT1k7y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723591906; c=relaxed/simple;
-	bh=prTxGrEtta5fFfd/vZff0kay+3jUlevokrdm2ERMT5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rj/MHlqOBX1/21c+OJrofM+QWrkwA85EdH+m4m119Zb8Mg49d5goQedAhNWwaj9BUmaCOhzUXyqAds4X3IZvf1PtWwRohv6dUx3U82aoaHixDA6FwUKSB/G4gkeiWtj17fEYPH0zvgSxwvwHam6Nqynh1XP626dEgCfoNbQ09mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCiPgCaO; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723597408; c=relaxed/simple;
+	bh=X2cjWhK91yZUd8NfItDNnRujO8ZZmUojRLMU3NX+WNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=frbk228vmLv9szyP8Pbon/GtS3mWHMRnFVXQmfckr82GZmxKJPt5MKMzeBKQbkVbbsaEFKKWMjxsoYKIeE8f3SUlq+84Dj+aC4I+nr6xBNKIAYq3gztpEdetLLch0sdERa8Dot7ax5ijHtsDH9Asg7eIdG+zqkzh2aMna7kO4ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=YdLi6oxI; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCiPgCaO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723591905; x=1755127905;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=prTxGrEtta5fFfd/vZff0kay+3jUlevokrdm2ERMT5M=;
-  b=LCiPgCaOVcdSxrkOSxfa3B3gAk5B6tQgTr9g9lmZAJ8XQ5yBlJ9jd0In
-   +1RaCWM0hjeNeEHvASAx5CjeEVMTzGNpLPlo08xjxqjQjuDg9/uO5uLaL
-   ESf0m2TKRb/08bcaBfN7BG6wZfMl4h8K1CHhJuEepyY+4f2bymW2D7ZDp
-   7SPqoOKMAKESTE7RrUpxugEgqmzEMNY33W0z5ZJPwmCQaIuIDpu79/CYu
-   dV8E3+P+91GH6HQHDYwyojNlxGQt8vFgBtCYT3LRBuorIkS8A+2dZyTNq
-   2LE7U8V27Wv096XzNFAbEwb1EN4NwoV+KgSX2DNzwKlW8JrtZhfX0nynW
-   Q==;
-X-CSE-ConnectionGUID: 7z1F4KMHSPmsItrnw+H7Vw==
-X-CSE-MsgGUID: PAO6DCwSQQmX24wDa1hxjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21928475"
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="21928475"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 16:31:43 -0700
-X-CSE-ConnectionGUID: f0QjkXZNQw2pZHKKQcYwaw==
-X-CSE-MsgGUID: HOKf1lSFRry7JpnUX06SNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="89644032"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2024 16:31:42 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1se0zM-0000m0-05;
-	Tue, 13 Aug 2024 23:31:40 +0000
-Date: Wed, 14 Aug 2024 07:30:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18043/23490] mm/page_alloc.o: warning:
- objtool: __putback_isolated_page()+0x3c4: unreachable instruction
-Message-ID: <202408140708.dRZedKqV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="YdLi6oxI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=oN93NLjR7WOWPcVE9mK5Uy/eGRzf8KT3MmZMXRntGOM=; b=YdLi6oxISNoUTQxrG04ftHXe8r
+	NW3tq1v1j8+8IbQ7Hg3ZL2jck1M3shoxFjeNV8WKgPVDzCQFatXPx3rK+a5ZbtKv/28LJd0Ja5PBL
+	/zr7uECMSSgA8yuP0aYxDsr5MZSbJ394ufzre3a78VXreT3tRujtHDihSTZ7C9v8vXAnwgnIJ8t3/
+	xiThBxLmRXmMpmjsGvdKFuqp8FqoXlFsX332Dy0i+DvWj/rnyR0afYvJ054EquCA0DzWgDrSkg0te
+	SATpP/saXzq+j9ZD24AoXTODje0R+whTKh06Expl4I1ZHXKWytaUG5E3jqqqSPGpFKk6OCKeRjLHE
+	5bqlbdkQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1se2Q5-00000001TwP-44X1;
+	Wed, 14 Aug 2024 01:03:22 +0000
+Date: Wed, 14 Aug 2024 02:03:21 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
+Subject: Re: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd()
+ warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <20240814010321.GL13701@ZenIV>
+References: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+ <20240813181600.GK13701@ZenIV>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,36 +47,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240813181600.GK13701@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   ffc1b506e4066379411520003b9c59e509b05252
-commit: 91bac2310ae7eca9d9869222c96fcc3d02851eea [18043/23490] mm: add function __putback_isolated_page
-config: x86_64-buildonly-randconfig-001-20240812 (https://download.01.org/0day-ci/archive/20240814/202408140708.dRZedKqV-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408140708.dRZedKqV-lkp@intel.com/reproduce)
+On Tue, Aug 13, 2024 at 07:16:00PM +0100, Al Viro wrote:
+> On Tue, Aug 13, 2024 at 11:00:04AM +0300, Dan Carpenter wrote:
+> > 3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
+> > 3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
+> > 3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
+> >                                                                                ^^^^^^^^^^^^^^^^
+> > 	err = PTR_ERR(*new_fdp);
+> > 	*new_fdp = NULL;
+> > 	return err;
+> 
+> Argh...  Obvious braino, but what it shows is that failures of that
+> thing are not covered by anything in e.g. LTP.  Or in-kernel
+> self-tests, for that matter...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408140708.dRZedKqV-lkp@intel.com/
+FWIW, this does exercise that codepath, but I would really like to
+have kselftest folks to comment on the damn thing - I'm pretty sure
+that it's _not_ a good style for those.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/page_alloc.c:21:
-   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
-     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:2304:5: warning: no previous prototype for function 'find_suitable_fallback' [-Wmissing-prototypes]
-    2304 | int find_suitable_fallback(struct free_area *area, unsigned int order,
-         |     ^
-   mm/page_alloc.c:2304:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2304 | int find_suitable_fallback(struct free_area *area, unsigned int order,
-         | ^
-         | static 
-   2 warnings generated.
-   mm/page_alloc.c:3005: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
->> mm/page_alloc.o: warning: objtool: __putback_isolated_page()+0x3c4: unreachable instruction
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/tools/testing/selftests/core/Makefile b/tools/testing/selftests/core/Makefile
+index ce262d097269..8e99f87f5d7c 100644
+--- a/tools/testing/selftests/core/Makefile
++++ b/tools/testing/selftests/core/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ CFLAGS += -g $(KHDR_INCLUDES)
+ 
+-TEST_GEN_PROGS := close_range_test
++TEST_GEN_PROGS := close_range_test unshare_test
+ 
+ include ../lib.mk
+ 
+diff --git a/tools/testing/selftests/core/unshare_test.c b/tools/testing/selftests/core/unshare_test.c
+new file mode 100644
+index 000000000000..7fec9dfb1b0e
+--- /dev/null
++++ b/tools/testing/selftests/core/unshare_test.c
+@@ -0,0 +1,94 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/kernel.h>
++#include <limits.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <syscall.h>
++#include <unistd.h>
++#include <sys/resource.h>
++#include <linux/close_range.h>
++
++#include "../kselftest_harness.h"
++#include "../clone3/clone3_selftests.h"
++
++TEST(unshare_EMFILE)
++{
++	pid_t pid;
++	int status;
++	struct __clone_args args = {
++		.flags = CLONE_FILES,
++		.exit_signal = SIGCHLD,
++	};
++	int fd;
++	ssize_t n, n2;
++	static char buf[512], buf2[512];
++	struct rlimit rlimit;
++	int nr_open;
++
++	fd = open("/proc/sys/fs/nr_open", O_RDWR);
++	ASSERT_GE(fd, 0);
++
++	n = read(fd, buf, sizeof(buf));
++	ASSERT_GT(n, 0);
++	ASSERT_EQ(buf[n - 1], '\n');
++
++	ASSERT_EQ(sscanf(buf, "%d", &nr_open), 1);
++
++	ASSERT_EQ(0, getrlimit(RLIMIT_NOFILE, &rlimit));
++
++	/* bump fs.nr_open */
++	n2 = sprintf(buf2, "%d\n", nr_open + 1024);
++	lseek(fd, 0, SEEK_SET);
++	write(fd, buf2, n2);
++
++	/* bump ulimit -n */
++	rlimit.rlim_cur = nr_open + 1024;
++	rlimit.rlim_max = nr_open + 1024;
++	EXPECT_EQ(0, setrlimit(RLIMIT_NOFILE, &rlimit)) {
++		lseek(fd, 0, SEEK_SET);
++		write(fd, buf, n);
++		exit(EXIT_FAILURE);
++	}
++
++	/* get a descriptor past the old fs.nr_open */
++	EXPECT_GE(dup2(2, nr_open + 64), 0) {
++		lseek(fd, 0, SEEK_SET);
++		write(fd, buf, n);
++		exit(EXIT_FAILURE);
++	}
++
++	/* get descriptor table shared */
++	pid = sys_clone3(&args, sizeof(args));
++	EXPECT_GE(pid, 0) {
++		lseek(fd, 0, SEEK_SET);
++		write(fd, buf, n);
++		exit(EXIT_FAILURE);
++	}
++
++	if (pid == 0) {
++		int err;
++
++		/* restore fs.nr_open */
++		lseek(fd, 0, SEEK_SET);
++		write(fd, buf, n);
++		/* ... and now unshare(CLONE_FILES) must fail with EMFILE */
++		err = unshare(CLONE_FILES);
++		EXPECT_EQ(err, -1)
++			exit(EXIT_FAILURE);
++		EXPECT_EQ(errno, EMFILE)
++			exit(EXIT_FAILURE);
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++}
++
++TEST_HARNESS_MAIN
