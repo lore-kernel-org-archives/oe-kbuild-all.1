@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B6D9475
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 02:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FDA63B9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 02:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723687375; cv=none; b=qfG3ENLYHPOs+tYLL61EJ+tct9Ga8q7CdFNp4g/tbJdQPblzz3AHlYkrH7/DKP6Bd8Aeeuxj/3KsnULhbYLX9KHSI6lJ+KZfRIvSZVUfkWTRjVe5qX/S16fQZKC+GzOnaas3Rhz1AP/gbTxntPUJ3ZPHqJ9MSbm0VBc9Bxon4KA=
+	t=1723687376; cv=none; b=GUSSFCn2c6Lcbo79Edyef54P4xpZAqY0LlkN3vqOqZXFqsbUPMRF3WcsnZ77xa327NBNv1YnBJcb1IM/6/UtYdilKa0wT0iDfmPZOSd7z9jVIPtD9s63PiRyNOKkVVKfuSCFpzIMDL09EXZCvtpWnyX2fGbtsh7f0qV4ScUEFoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723687375; c=relaxed/simple;
-	bh=Orver+EnNJ0jSVns/rYMPmvD2o3lszsUFvqDtovVU5Y=;
+	s=arc-20240116; t=1723687376; c=relaxed/simple;
+	bh=K/bGJmxpTIiuJmmI7TOBjEMsEU9kmHsp+pnWJh3kP9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AJlBJ1h1HFd5SIk6glCXsgKYmZCiz+aIQn8Hqzg9+i9B5I4aySF78mO5uEAGDkd7N7H7FxWRUTSRt41V9N6L/h+h7TfP5jjSUtIATmofmmXSlztkhTy6U+tzQN67TcYFphVSq1HrvsaXr9T8wdcASyPfvd5L9HjHN4A5JHPeJos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJ1tIfrt; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=UpmiHQt0yJh21DXsj/GvH4zGu/NobjLUd0cXyKrkKJArLCfQzKq7cnFZkgTjCmvGHRGHbcyTLYzajZIwOMX3SNEzEIldP+4MdVd9aD1f+BK4bjx7azxWQE1XKL6FlNMY+50leGF+npkFVEH9xKdTSFpMswj+tgnpZxPXdOxrgKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkHiE5H3; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJ1tIfrt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkHiE5H3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723687373; x=1755223373;
+  t=1723687375; x=1755223375;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Orver+EnNJ0jSVns/rYMPmvD2o3lszsUFvqDtovVU5Y=;
-  b=QJ1tIfrt5Ox/tmVJdPdpYjKdJLonS+J6J2pSbWBojFYCGxtucs2GlTPP
-   +ECVhLvwYprWXsX5HIQSjE8vPi0II3JS5RE0GOD6ScESp2pzwlFHttjbY
-   UcyWn+nXoBZFNOXI8G48YBCuVpINzxfkGAp0iranLQAj+cSgDv2Yk4syo
-   UiNpkr8F+ksmQsmSd1e+B6NBIwUmJDbRetB+deBzDY7pxJt2F8n9E8zQm
-   bzgWNIqAxqpMGR5cSaciw8Hbp4b3x5Ig97X3+Y/4iXGyFqdnNjqeK9EVu
-   4fxOZ4nfvOZG8Qnvz9SZ2MbS76sqtD6EEEsoUaFGfK3Q/mAfb8j+WtEFm
+  bh=K/bGJmxpTIiuJmmI7TOBjEMsEU9kmHsp+pnWJh3kP9Y=;
+  b=mkHiE5H3rplywOtA+r+DYONzFySQ7XoJjz/x8nFhiMa4MwD/nX2EZoPn
+   DEBfto5hK4/W2e2uvqLn44OjeTpc+lDF8OD0Zkng/ybVMGHz26wziaYsZ
+   l9T6eKeJfUkuiZCtzzSyj+SCoXkUeMeDc4z5e8sZkD3X5S4tp4R+jycmC
+   LQd1k0d+vO0o2X+yR1rx1wMXDK4ln5vuE7m5UkkiP+LuzMH799WzaaVtt
+   nUSl0kr6DGP/1Md4gRhAq6lYSuhiMT6ZouDIzPOJ/Y7RQY1qN1PhZMUcg
+   oHgYc4pEdsFFDyB0seuEKRC6ohwzRPgA/XP1y9aVBf1Ki3IEKFntr2uZm
    w==;
-X-CSE-ConnectionGUID: RvqCONINSf+BkBci+xZyKg==
-X-CSE-MsgGUID: DXGzEuVbQbaJzPJ129h7rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="33347851"
+X-CSE-ConnectionGUID: dE68Br4OSAKntI629Vhp5A==
+X-CSE-MsgGUID: tfTFedrfQ2KKEM49wiAjeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="33347853"
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="33347851"
+   d="scan'208";a="33347853"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 19:02:52 -0700
-X-CSE-ConnectionGUID: k2MUptlCSY+NvQibRH/ijQ==
-X-CSE-MsgGUID: WiVCxeSLRu6uZB0irfPwsQ==
+X-CSE-ConnectionGUID: tYtrasGiTFK3oZTP9/VDwQ==
+X-CSE-MsgGUID: I9VXDLE5SDKcj/iCvwlTeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="59367640"
+   d="scan'208";a="59367639"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 14 Aug 2024 19:02:50 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sePp9-00034o-34;
+	id 1sePp9-00034q-3A;
 	Thu, 15 Aug 2024 02:02:47 +0000
-Date: Thu, 15 Aug 2024 10:02:32 +0800
+Date: Thu, 15 Aug 2024 10:02:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cosmin Ratiu <cratiu@nvidia.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, cjubran@nvidia.com, cratiu@nvidia.com,
-	tariqt@nvidia.com, saeedm@nvidia.com, yossiku@nvidia.com,
-	gal@nvidia.com, jiri@nvidia.com
-Subject: Re: [PATCH] devlink: Extend the devlink rate API to support rate
- management on traffic classes
-Message-ID: <202408150939.GeZ6uR8S-lkp@intel.com>
-References: <20240814085320.134075-2-cratiu@nvidia.com>
+To: Jordan Rome <linux@jordanrome.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	Kernel Team <kernel-team@fb.com>, sinquersw@gmail.com
+Subject: Re: [bpf-next v4 1/2] bpf: Add bpf_copy_from_user_str kfunc
+Message-ID: <202408150928.HuDSmPPF-lkp@intel.com>
+References: <20240814004531.352157-1-linux@jordanrome.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,84 +66,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814085320.134075-2-cratiu@nvidia.com>
+In-Reply-To: <20240814004531.352157-1-linux@jordanrome.com>
 
-Hi Cosmin,
+Hi Jordan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc3 next-20240814]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Ratiu/devlink-Extend-the-devlink-rate-API-to-support-rate-management-on-traffic-classes/20240814-232253
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240814085320.134075-2-cratiu%40nvidia.com
-patch subject: [PATCH] devlink: Extend the devlink rate API to support rate management on traffic classes
-config: arc-randconfig-001-20240815 (https://download.01.org/0day-ci/archive/20240815/202408150939.GeZ6uR8S-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150939.GeZ6uR8S-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rome/bpf-Add-tests-for-bpf_copy_from_user_str-kfunc/20240814-232043
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240814004531.352157-1-linux%40jordanrome.com
+patch subject: [bpf-next v4 1/2] bpf: Add bpf_copy_from_user_str kfunc
+config: x86_64-buildonly-randconfig-002-20240815 (https://download.01.org/0day-ci/archive/20240815/202408150928.HuDSmPPF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150928.HuDSmPPF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408150939.GeZ6uR8S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408150928.HuDSmPPF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/devlink/rate.c:755: warning: Function parameter or struct member 'devlink_port' not described in 'devl_rate_traffic_class_create'
->> net/devlink/rate.c:755: warning: Function parameter or struct member 'parent' not described in 'devl_rate_traffic_class_create'
->> net/devlink/rate.c:755: warning: Excess function parameter 'devlink' description in 'devl_rate_traffic_class_create'
+   kernel/bpf/helpers.c: In function 'bpf_copy_from_user_str':
+>> kernel/bpf/helpers.c:2972:20: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+    2972 |                 if (ret <= count)
+         |                    ^
 
 
-vim +755 net/devlink/rate.c
+vim +/else +2972 kernel/bpf/helpers.c
 
-   744	
-   745	/**
-   746	 * devl_rate_traffic_class_create - create devlink rate queue
-   747	 * @devlink: devlink instance
-   748	 * @priv: driver private data
-   749	 * @tc_id: identifier of the new traffic class
-   750	 *
-   751	 * Create devlink rate object of type node
-   752	 */
-   753	int devl_rate_traffic_class_create(struct devlink_port *devlink_port, void *priv, u16 tc_id,
-   754					   struct devlink_rate *parent)
- > 755	{
-   756		struct devlink *devlink = devlink_port->devlink;
-   757		struct devlink_rate *devlink_rate;
-   758	
-   759		devl_assert_locked(devlink);
-   760	
-   761		devlink_rate = devlink_rate_traffic_class_get_by_id(devlink, tc_id);
-   762		if (!IS_ERR(devlink_rate))
-   763			return -EEXIST;
-   764	
-   765		devlink_rate = kzalloc(sizeof(*devlink_rate), GFP_KERNEL);
-   766		if (!devlink_rate)
-   767			return -ENOMEM;
-   768	
-   769		if (parent) {
-   770			devlink_rate->parent = parent;
-   771			refcount_inc(&devlink_rate->parent->refcnt);
-   772		}
-   773	
-   774		devlink_rate->type = DEVLINK_RATE_TYPE_TRAFFIC_CLASS;
-   775		devlink_rate->devlink = devlink;
-   776		devlink_rate->devlink_port = devlink_port;
-   777		devlink_rate->tc_id = tc_id;
-   778		devlink_rate->priv = priv;
-   779		list_add_tail(&devlink_rate->list, &devlink->rate_list);
-   780		devlink_port->devlink_rate = devlink_rate;
-   781		devlink_rate_notify(devlink_rate, DEVLINK_CMD_RATE_NEW);
-   782	
-   783		return 0;
-   784	}
-   785	EXPORT_SYMBOL_GPL(devl_rate_traffic_class_create);
-   786	
+  2941	
+  2942	/**
+  2943	 * bpf_copy_from_user_str() - Copy a string from an unsafe user address
+  2944	 * @dst:             Destination address, in kernel space.  This buffer must be at
+  2945	 *                   least @dst__szk bytes long.
+  2946	 * @dst__szk:        Maximum number of bytes to copy, including the trailing NUL.
+  2947	 * @unsafe_ptr__ign: Source address, in user space.
+  2948	 * @flags:           The only supported flag is BPF_ZERO_BUFFER
+  2949	 *
+  2950	 * Copies a NUL-terminated string from userspace to BPF space. If user string is
+  2951	 * too long this will still ensure zero termination in the dst buffer unless
+  2952	 * buffer size is 0.
+  2953	 *
+  2954	 * If BPF_ZERO_BUFFER flag is set, memset the tail of @dst to 0 on success.
+  2955	 */
+  2956	__bpf_kfunc int bpf_copy_from_user_str(void *dst, u32 dst__szk, const void __user *unsafe_ptr__ign, u64 flags)
+  2957	{
+  2958		int ret;
+  2959		int count;
+  2960	
+  2961		if (unlikely(!dst__szk))
+  2962			return 0;
+  2963	
+  2964		count = dst__szk - 1;
+  2965		if (unlikely(!count)) {
+  2966			((char *)dst)[0] = '\0';
+  2967			return 1;
+  2968		}
+  2969	
+  2970		ret = strncpy_from_user(dst, unsafe_ptr__ign, count);
+  2971		if (ret >= 0) {
+> 2972			if (ret <= count)
+  2973				if (flags & BPF_ZERO_BUFFER)
+  2974					memset((char *)dst + ret, 0, dst__szk - ret);
+  2975				else
+  2976					((char *)dst)[ret] = '\0';
+  2977			ret++;
+  2978		}
+  2979	
+  2980		return ret;
+  2981	}
+  2982	
 
 -- 
 0-DAY CI Kernel Test Service
