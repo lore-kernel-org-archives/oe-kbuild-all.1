@@ -1,117 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0486139590
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 19:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC3280B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 19:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723749083; cv=none; b=DzcojfAuoxPD4+aIR+xzquAO89/eIkHzt/m0JfEeszDlG2GrQfbWRVapKmKO6zpdSWnaQaL0e0WNpR9154Mi/wc8/9aTiyAcHZHFhSJKODgIxU7LJgDGPUYVUfWod0EkKFFXWU+olF2oaX7nn5j2x05hgRTZXYw//5SW0PROve8=
+	t=1723750285; cv=none; b=uD5DgG6QWbPdd8zIubWeA56StCCtbE1gv+hUXuMJ3Oi7JRBCuC5ZYu6Tv9AAjvB6kx8HlS+luGtc58Weltaw4xS30XwMk2NKZplt7A0P2Og4l/hf10jsWta+nwGKjxojawagS6gzmtm5BAzE9Q66h8xyRlCLAqiN21slRkKP5L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723749083; c=relaxed/simple;
-	bh=5+l74CCnre0v6YW15pfvzIfEU18kr+rS3qvaurrhIBc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UT7WxpzTtkYwoO6WQrRTF2PXhpzTmKH/UR5Jl/+berj3EHXX8DpIFhamumxQfkIHUpQA40+MeTdPkXd8uslC0CibtSHIikGQNcN7QDTfOmB7eb1MT9iLV5KVmNMcukHkSbwtr5UOyLMF1HtybPm3goIaO+RDbAVEgGqem4Up9w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOxhM4rb; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1723750285; c=relaxed/simple;
+	bh=s2dmWoXAd4R8NdGgkMXZgqEGnyTuwiebz23KS/sB2u0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y2NPl+QQcC5owJqRdrR2c7p7XR/R4L+cQlUe/p+btGbeE558mU0fTViT2gCa+bwLtH4e9TR2PV8K6IMI6eIXZ77epM4E+QFebYFY9mvOMDpJsmaBekv7IJAmoWtzizXeMNtoIc/uuq33ohSLqb73mmy78zZHAlewhhVmq2NFgds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6u11+a0; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOxhM4rb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6u11+a0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723749082; x=1755285082;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5+l74CCnre0v6YW15pfvzIfEU18kr+rS3qvaurrhIBc=;
-  b=AOxhM4rb2XJNJLlbiqMoCijkQZcYFeSglAIWKVU02eDM1gVivLxqoNXg
-   onarpECQpnV9REZR9vna/Yje1RYxbfqfXhIrGCcnqVgb2NxCXArrv2G/6
-   JOn6Zkkc2ng0L435ur0Kmpx2yS+CT9yX7PCkKQGEw6FU2yYotbW/10Bmd
-   NQiCMh4BePI1pR49jsoLB64Ib1iJ6Zwr+sV4WH4hO5KOaxczMZvERqHLj
-   THjQgLJNsMF5PVVbP9HWr//4HWb6nF8GuEkqFGR45lp3rPfjU1GYVbBe+
-   1ixtJQ9nPalbhk4300UEegy7Uxc08lAouGcRj3R8apq81LcyuzdfHGQix
-   A==;
-X-CSE-ConnectionGUID: UQCo2go4QoamZoTGplue4w==
-X-CSE-MsgGUID: a5fkao63Tayk81Kbxf8xow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22171067"
+  t=1723750283; x=1755286283;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=s2dmWoXAd4R8NdGgkMXZgqEGnyTuwiebz23KS/sB2u0=;
+  b=f6u11+a09M5MrG4ma7K+G2OLmdtszHtxN5MbTz/StMS/Pu5gjrrhJRZI
+   2KVDJVRtRVv16awpvmyw6ICysAhqHeBTD6d2az7iWu9kxhYLYJS9W/QGa
+   HDNWh7kr2wDxriQToqeAcNULeO58BsSHIUCAC+kiNXpVl+agHZal3XqwA
+   2bMa0970BbqBICA414SLELzff/H6PE6B65kmHmOB1EPiQfCOc30/NAy7P
+   BlyoL4HngUeHIzOsQ8HKMy8CZpQORQlN+aX83jwFx6LnZ8LmdvXvzJnw7
+   WSmcR3HF/cibGUIRQZMHT/KtFXi5LXppAtqmVeTGYIqb6aovyoR25VNRJ
+   g==;
+X-CSE-ConnectionGUID: o+Of7o5MRFCaG7Q//fAHyw==
+X-CSE-MsgGUID: BqoL4zKCSOmhN22/gRj0gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="32701227"
 X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="22171067"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 12:11:21 -0700
-X-CSE-ConnectionGUID: wBSLGg/MTTmtgoy4eBEfdw==
-X-CSE-MsgGUID: 21AHAc8LRIuVS6Ln5Vcn+w==
+   d="scan'208";a="32701227"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 12:31:22 -0700
+X-CSE-ConnectionGUID: SYrY3dvdQuek/7Lk2nwE/Q==
+X-CSE-MsgGUID: F7Gr6bGvQZC2mCY6repVcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="60227086"
+   d="scan'208";a="59473509"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Aug 2024 12:11:21 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 15 Aug 2024 12:31:20 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sefsT-0005W2-2Q;
-	Thu, 15 Aug 2024 19:11:17 +0000
-Date: Fri, 16 Aug 2024 03:10:21 +0800
+	id 1segBq-0005Ws-0s;
+	Thu, 15 Aug 2024 19:31:18 +0000
+Date: Fri, 16 Aug 2024 03:30:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 2/5] x86/kexec: do unconditional WBINVD for bare-metal
- in relocate_kernel()
-Message-ID: <202408160236.7eD455CA-lkp@intel.com>
-References: <47d9f1150a6852c9a403b9e25858f5658c50a51d.1723723470.git.kai.huang@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 72/77]
+ drivers/misc/xilinx_tmr_inject.c:69:43: error: expected ')' before '(' token
+Message-ID: <202408160354.tNccwtd6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <47d9f1150a6852c9a403b9e25858f5658c50a51d.1723723470.git.kai.huang@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Kai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b8c7cbc324dc17b9e42379b42603613580bec2d8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Huang/x86-kexec-do-unconditional-WBINVD-for-bare-metal-in-stop_this_cpu/20240815-205623
-base:   b8c7cbc324dc17b9e42379b42603613580bec2d8
-patch link:    https://lore.kernel.org/r/47d9f1150a6852c9a403b9e25858f5658c50a51d.1723723470.git.kai.huang%40intel.com
-patch subject: [PATCH v5 2/5] x86/kexec: do unconditional WBINVD for bare-metal in relocate_kernel()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240816/202408160236.7eD455CA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160236.7eD455CA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   7f96efa821e5d0d5e7f8bc5321c7b9c4e198f703
+commit: 269f874aa748a88815ee625626a3cc1065b658aa [72/77] fault-inject: improve build for CONFIG_FAULT_INJECTION=n
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240816/202408160354.tNccwtd6-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160354.tNccwtd6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408160236.7eD455CA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408160354.tNccwtd6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/machine_kexec_64.c: In function 'machine_kexec':
->> arch/x86/kernel/machine_kexec_64.c:325:22: warning: variable 'host_mem_enc_active' set but not used [-Wunused-but-set-variable]
-     325 |         unsigned int host_mem_enc_active;
-         |                      ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/xilinx_tmr_inject.c:69:43: error: expected ')' before '(' token
+      69 | DEFINE_DEBUGFS_ATTRIBUTE(xtmr_inject_fops, NULL, xtmr_inject_set, "%llu\n");
+         |                                           ^
+         |                                           )
+   drivers/misc/xilinx_tmr_inject.c: In function 'xtmr_init_debugfs':
+>> drivers/misc/xilinx_tmr_inject.c:75:22: error: implicit declaration of function 'debugfs_create_dir'; did you mean 'kernfs_create_dir'? [-Wimplicit-function-declaration]
+      75 |         dbgfs_root = debugfs_create_dir("xtmr_inject", NULL);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      kernfs_create_dir
+>> drivers/misc/xilinx_tmr_inject.c:75:20: error: assignment to 'struct dentry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      75 |         dbgfs_root = debugfs_create_dir("xtmr_inject", NULL);
+         |                    ^
+>> drivers/misc/xilinx_tmr_inject.c:78:9: error: implicit declaration of function 'debugfs_create_file'; did you mean 'bus_create_file'? [-Wimplicit-function-declaration]
+      78 |         debugfs_create_file("inject_fault", 0200, dir, NULL,
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         bus_create_file
+>> drivers/misc/xilinx_tmr_inject.c:79:30: error: 'xtmr_inject_fops' undeclared (first use in this function); did you mean 'xtmr_inject_set'?
+      79 |                             &xtmr_inject_fops);
+         |                              ^~~~~~~~~~~~~~~~
+         |                              xtmr_inject_set
+   drivers/misc/xilinx_tmr_inject.c:79:30: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/misc/xilinx_tmr_inject.c: In function 'xtmr_inject_remove':
+>> drivers/misc/xilinx_tmr_inject.c:148:9: error: implicit declaration of function 'debugfs_remove_recursive' [-Wimplicit-function-declaration]
+     148 |         debugfs_remove_recursive(dbgfs_root);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/xilinx_tmr_inject.c: At top level:
+   drivers/misc/xilinx_tmr_inject.c:61:12: warning: 'xtmr_inject_set' defined but not used [-Wunused-function]
+      61 | static int xtmr_inject_set(void *data, u64 val)
+         |            ^~~~~~~~~~~~~~~
 
 
-vim +/host_mem_enc_active +325 arch/x86/kernel/machine_kexec_64.c
+vim +69 drivers/misc/xilinx_tmr_inject.c
 
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  317  
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  318  /*
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  319   * Do not allocate memory (or fail in any way) in machine_kexec().
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  320   * We are past the point of no return, committed to rebooting now.
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  321   */
-3ab83521378268 arch/x86/kernel/machine_kexec_64.c Huang Ying        2008-07-25  322  void machine_kexec(struct kimage *image)
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  323  {
-4bfaaef01a1bad arch/x86_64/kernel/machine_kexec.c Magnus Damm       2006-09-26  324  	unsigned long page_list[PAGES_NR];
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02 @325  	unsigned int host_mem_enc_active;
-fee7b0d84cc8c7 arch/x86/kernel/machine_kexec_64.c Huang Ying        2009-03-10  326  	int save_ftrace_enabled;
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  327  	void *control_page;
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  328  
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  329  	/*
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  330  	 * This must be done before load_segments() since if call depth tracking
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  331  	 * is used then GS must be valid to make any function calls.
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  332  	 */
-93c1800b3799f1 arch/x86/kernel/machine_kexec_64.c David Kaplan      2024-06-02  333  	host_mem_enc_active = cc_platform_has(CC_ATTR_HOST_MEM_ENCRYPT);
-5234f5eb04abbb arch/x86_64/kernel/machine_kexec.c Eric W. Biederman 2005-06-25  334  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   60  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   61  static int xtmr_inject_set(void *data, u64 val)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   62  {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   63  	if (val != 1)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   64  		return -EINVAL;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   65  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   66  	xmb_inject_err();
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   67  	return 0;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   68  }
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  @69  DEFINE_DEBUGFS_ATTRIBUTE(xtmr_inject_fops, NULL, xtmr_inject_set, "%llu\n");
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   70  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   71  static void xtmr_init_debugfs(struct xtmr_inject_dev *xtmr_inject)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   72  {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   73  	struct dentry *dir;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   74  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  @75  	dbgfs_root = debugfs_create_dir("xtmr_inject", NULL);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   76  	dir = fault_create_debugfs_attr("inject_fault", dbgfs_root,
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   77  					&inject_fault);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  @78  	debugfs_create_file("inject_fault", 0200, dir, NULL,
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  @79  			    &xtmr_inject_fops);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   80  }
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   81  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   82  static void xtmr_inject_init(struct xtmr_inject_dev *xtmr_inject)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   83  {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   84  	u32 cr_val;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   85  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   86  	if (inject_request)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   87  		setup_fault_attr(&inject_fault, inject_request);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   88  	/* Allow fault injection */
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   89  	cr_val = xtmr_inject->magic |
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   90  		 (1 << XTMR_INJECT_CR_IE_SHIFT) |
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   91  		 (1 << XTMR_INJECT_CR_CPUID_SHIFT);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   92  	xtmr_inject_write(xtmr_inject, XTMR_INJECT_CR_OFFSET,
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   93  			  cr_val);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   94  	/* Initialize the address inject and instruction inject registers */
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   95  	xtmr_inject_write(xtmr_inject, XTMR_INJECT_AIR_OFFSET,
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   96  			  XMB_INJECT_ERR_OFFSET);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   97  	xtmr_inject_write(xtmr_inject, XTMR_INJECT_IIR_OFFSET,
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   98  			  XMB_INJECT_ERR_OFFSET & XTMR_INJECT_IIR_ADDR_MASK);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25   99  }
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  100  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  101  /**
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  102   * xtmr_inject_probe - Driver probe function
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  103   * @pdev: Pointer to the platform_device structure
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  104   *
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  105   * This is the driver probe routine. It does all the memory
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  106   * allocation for the device.
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  107   *
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  108   * Return: 0 on success and failure value on error
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  109   */
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  110  static int xtmr_inject_probe(struct platform_device *pdev)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  111  {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  112  	struct xtmr_inject_dev *xtmr_inject;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  113  	int err;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  114  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  115  	xtmr_inject = devm_kzalloc(&pdev->dev, sizeof(*xtmr_inject),
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  116  				   GFP_KERNEL);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  117  	if (!xtmr_inject)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  118  		return -ENOMEM;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  119  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  120  	xtmr_inject->regs = devm_platform_ioremap_resource(pdev, 0);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  121  	if (IS_ERR(xtmr_inject->regs))
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  122  		return PTR_ERR(xtmr_inject->regs);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  123  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  124  	err = of_property_read_u32(pdev->dev.of_node, "xlnx,magic",
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  125  				   &xtmr_inject->magic);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  126  	if (err < 0) {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  127  		dev_err(&pdev->dev, "unable to read xlnx,magic property");
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  128  		return err;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  129  	}
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  130  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  131  	if (xtmr_inject->magic > XTMR_INJECT_MAGIC_MAX_VAL) {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  132  		dev_err(&pdev->dev, "invalid xlnx,magic property value");
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  133  		return -EINVAL;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  134  	}
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  135  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  136  	/* Initialize TMR Inject */
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  137  	xtmr_inject_init(xtmr_inject);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  138  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  139  	xtmr_init_debugfs(xtmr_inject);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  140  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  141  	platform_set_drvdata(pdev, xtmr_inject);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  142  
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  143  	return 0;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  144  }
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  145  
+37efe116bea197 Uwe Kleine-König             2024-02-21  146  static void xtmr_inject_remove(struct platform_device *pdev)
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  147  {
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25 @148  	debugfs_remove_recursive(dbgfs_root);
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  149  	dbgfs_root = NULL;
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  150  }
+895ae5bee159d1 Appana Durga Kedareswara rao 2022-11-25  151  
+
+:::::: The code at line 69 was first introduced by commit
+:::::: 895ae5bee159d148bac21a82899292c408c1aab1 drivers: misc: Add Support for TMR Inject IP
+
+:::::: TO: Appana Durga Kedareswara rao <appana.durga.kedareswara.rao@amd.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
