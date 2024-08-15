@@ -1,62 +1,67 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5163A8E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 05:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419FF3A1DB;
+	Thu, 15 Aug 2024 05:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723699453; cv=none; b=ZUHRMVtdBZuT3QrNDc1xyXuz/p1OiDqqsRz9vr3n6IhFasg2EFGSMinpvII9dvzI+IChqWcrdaEOd2nzjsQ55DH9QBLF8Fm+QxxI0AzmfTex8udLRxaNlkScblfAKnNl9rzQ+P9h8Ba9TR0RvIcihJjR57zrWKBF5qP5mnu51zU=
+	t=1723701124; cv=none; b=B3Dtwa3V68EpRcsy/HB7+YHbmMDFnWELJvQk5m0U9cKKhGy5EZjqOFPkN00bSNbkg1CHWCO/ukhmdX1jj0BIjMIZJahIOhmJNrhAYTsJoFiEwjDaUYffF+qChqo8+KF4QsKvmTqHVoa4jU/gtVJq/yFFtUoHGHpxt/Ew9mwfY1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723699453; c=relaxed/simple;
-	bh=5cFk+IQeKRFkZgLbXaJvzhDjpUxvC+vkysp+Yw19xYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gGiNO5L4UH2BnFQVThrXVJK/SfK0u9wqEXhaqXNieIEde6XDpvXti7aaKBVRe/PgYZ/Lolbmdn27N26Q5rRN5ZreREjMXaXIp04jY4y8B57HxWxF6Kgq3jr7HNHR0m2nG8D6RnjWXz4uu0b1eqUNOPNbR1tQrPsg0jnWz3K6WHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=we9qE1fc; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723701124; c=relaxed/simple;
+	bh=MQR+GReeIVWHV3GGNyHTT7zvvVhdqZnBBoe0MuH7tOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h35UAfBCCGVkDQ2gBzrSCfcm/DxAoxPxkjygYkwzfIjzWg9e36lumKY1IzwkGzrGRbjGKUgBCB4mKx4f08mDXAvJeR8wO8KlZUQb8opfkSUloXfuIr9rjXW5kF7WolvMjOiZPygcuFk0Jn+xlsajzuz3agrJrZy72w0tfDlEjrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+W9R8F9; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="we9qE1fc"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f025b94e07so6781501fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 22:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723699449; x=1724304249; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EVkeENDC3n0M7WYlixjs2XMWugZmrAJQXbx1umwOZSY=;
-        b=we9qE1fcvfZ5EQRIBZeOozqho6/ToiqtU6TuExxElH768pthodUoKKtfgBoxKH1mJT
-         8MvXtIAWUkt6+NSmfGltx+amnNVvZ4h7ipxqXV7xQtxerwoYrfTy/153zRlwQtMjf9IE
-         0is1LNS866CR6Kn907wO9gsfDDDJwWdDbNGGmjWfBXHCZC2ND50oC+RpIvWTV2VZnRhV
-         7df54jZPQgZsqkLiDjFEKWb6/LNKkXdXA+9hOFOmCDgmB1S3Hm9QtP2ChNdPVMSvl4uy
-         AtNtbdGM6OrpVK1Jh8H2P99lEMrtpc0AWi9Yi4bxD7TSiahkyUf/pabLPBm5+enItDjn
-         i6Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723699449; x=1724304249;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EVkeENDC3n0M7WYlixjs2XMWugZmrAJQXbx1umwOZSY=;
-        b=OfX/ri18UJSoVD72o32TzWaLXiA9xAWU/+VPUHNpiBvr0UJerfPMSLuxWBYhXiBWX7
-         k3AxN+3z/wf67oreSYuq+AvmnDfXRaZKhVE7uqgdGAKEn8PcLsap6RXy9F9B8ehfWcP8
-         Xok/A9PvVh88F32oQFZeFXHSo9FrBQrsgYYiznhLFGtu6/Wz84+34OKWIxN1uEOMJDRa
-         Y78CCmvQgsIzoi42KD7KpugUMZvVze2PtO8mEY+Yq+55ONjm49ZmmNapvL//Bh2DBUjo
-         npo4q7K3bGFkKqqUCMEgzYb5exZawNJjgkROKIimcmDA2D5qVhQ4Io9RmO6Ru1jHlLMq
-         TbOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCmHvj82q64xtKllqg4Ej0P/2HzewbEeQ+x7MKDeSljQDUqZiOBr/cyzXvwCorOs8I7U/a+zKHK40iewM4EyHpf+HHmvBGISZ62GfNqQ==
-X-Gm-Message-State: AOJu0YyMeKp31+m8TTufXqHtKbBtLKAmCrpiTRSbavn/zuzf776eUVfW
-	G5L48RA5NKhKkenQJ1KKsXwGo09lGXAbhLr+VTiI/sO/g2mzdawV6r1zazPp1N8=
-X-Google-Smtp-Source: AGHT+IFK4FuJmocBnEt+LcScehPqpiHguHo37SGY6SPbTiK0jAA26KjitWp89+LSgktWCw8zi9/Gug==
-X-Received: by 2002:a2e:6111:0:b0:2ef:284e:1d07 with SMTP id 38308e7fff4ca-2f3aa1a3b2bmr30451531fa.13.1723699448791;
-        Wed, 14 Aug 2024 22:24:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded36a95sm37415885e9.28.2024.08.14.22.24.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 22:24:08 -0700 (PDT)
-Date: Thu, 15 Aug 2024 08:24:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 22/30] mm/vmscan.c:4259
- try_to_inc_max_seq() error: uninitialized symbol 'walk'.
-Message-ID: <d491502b-0759-43ca-9c74-8f8a285b419c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+W9R8F9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723701123; x=1755237123;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MQR+GReeIVWHV3GGNyHTT7zvvVhdqZnBBoe0MuH7tOc=;
+  b=l+W9R8F9vvhIZM+J9S2swREXG8vW/OouICswbpme8TSER28SlMXdMbX5
+   WShJwaPlo4FN9NbC0i9ZuZCjVlG2aukecXpCySAv4/QsnDnTJCmeQKlY+
+   d41iEGnSFBXGnRfI+dW5Dife5rMXJoklMRKRtjWN+dVW+H9a5yTMhG2gC
+   eM9W/LY59nRZkmCV3U7Ca2u5JKDwP0PB97c4m5a7j/CXj6NsMREowinuw
+   Ip7McylqVu3idlrP3KrkLNjvWVJ3YAaL7pi6D/9TltBHggmCg4zw82nIi
+   M2aO/gsT8dT33VqVNRRXuVT503QnLPjU2k6akf+8ygs8iYGpgd07i2Oin
+   g==;
+X-CSE-ConnectionGUID: mx2RUQJ5SsCNJMMo5WOxhg==
+X-CSE-MsgGUID: DgArrweoQh6naW2goYWjyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="47349326"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="47349326"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 22:52:02 -0700
+X-CSE-ConnectionGUID: W0sE2WX4S1mmpY6va6H1lw==
+X-CSE-MsgGUID: n9Xn6A/pTHqs5l++08/Xyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="96773518"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 14 Aug 2024 22:51:58 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seTOt-0003Ez-2r;
+	Thu, 15 Aug 2024 05:51:55 +0000
+Date: Thu, 15 Aug 2024 13:51:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bao Cheng Su <baocheng.su@siemens.com>,
+	Chao Zeng <chao.zeng@siemens.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] iio: proximity: Add support for everlight pmd16d17
+ sensor
+Message-ID: <202408151352.u8v6HOIQ-lkp@intel.com>
+References: <abb0c1c0724be733138276f638e43e98784bd191.1723527641.git.jan.kiszka@siemens.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,94 +70,211 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <abb0c1c0724be733138276f638e43e98784bd191.1723527641.git.jan.kiszka@siemens.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   ca3d4c5eb0a6ed652cd1a345584483d564a1fd38
-commit: 1feb0f684d7748b40305c514dda26dac13853d7f [22/30] CHROMIUM: mm/mglru: Split scan seqno from gen seqno
-config: i386-randconfig-141-20240815 (https://download.01.org/0day-ci/archive/20240815/202408151126.WX90QAHA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Jan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.11-rc3 next-20240814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Kiszka/dt-bindings-vendor-prefixes-Add-EVERLIGHT/20240814-234801
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/abb0c1c0724be733138276f638e43e98784bd191.1723527641.git.jan.kiszka%40siemens.com
+patch subject: [PATCH 3/3] iio: proximity: Add support for everlight pmd16d17 sensor
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240815/202408151352.u8v6HOIQ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408151352.u8v6HOIQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408151126.WX90QAHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408151352.u8v6HOIQ-lkp@intel.com/
 
-smatch warnings:
-mm/vmscan.c:4259 try_to_inc_max_seq() error: uninitialized symbol 'walk'.
-mm/vmscan.c:4259 try_to_inc_max_seq() error: we previously assumed 'walk' could be null (see line 4238)
+All warnings (new ones prefixed by >>):
 
-vim +/walk +4259 mm/vmscan.c
+>> drivers/iio/proximity/pm16d17.c:142:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     142 |         default:
+         |         ^
+   drivers/iio/proximity/pm16d17.c:142:2: note: insert 'break;' to avoid fall-through
+     142 |         default:
+         |         ^
+         |         break; 
+>> drivers/iio/proximity/pm16d17.c:187:3: warning: variable 'op_mode_setting_val' is uninitialized when used here [-Wuninitialized]
+     187 |                 op_mode_setting_val |= (ilog2(pgain) << 6) & PS_GAIN_MASK;
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/iio/proximity/pm16d17.c:159:29: note: initialize the variable 'op_mode_setting_val' to silence this warning
+     159 |         uint8_t op_mode_setting_val;
+         |                                    ^
+         |                                     = '\0'
+   2 warnings generated.
 
-43d015dfbf4c2e Yu Zhao       2022-09-18  4208  static bool try_to_inc_max_seq(struct lruvec *lruvec, unsigned long max_seq,
-1feb0f684d7748 David Stevens 2024-06-05  4209  			       unsigned long scan_seq, struct scan_control *sc,
-1feb0f684d7748 David Stevens 2024-06-05  4210  			       bool can_swap, bool force_scan)
-43d015dfbf4c2e Yu Zhao       2022-09-18  4211  {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4212  	bool success;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4213  	struct lru_gen_mm_walk *walk;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4214  	struct mm_struct *mm = NULL;
-a2abc441807f51 Yu Zhao       2022-12-21  4215  	struct lru_gen_page *lrugen = &lruvec->lrugen;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4216  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4217  	VM_WARN_ON_ONCE(max_seq > READ_ONCE(lrugen->max_seq));
-43d015dfbf4c2e Yu Zhao       2022-09-18  4218  
-1feb0f684d7748 David Stevens 2024-06-05  4219  	/* see the comment on SCAN_ITER_FINISHING and in iterate_mm_list() */
-1feb0f684d7748 David Stevens 2024-06-05  4220  	if (scan_seq == SCAN_ITER_FINISHING ||
-1feb0f684d7748 David Stevens 2024-06-05  4221  	    scan_seq < READ_ONCE(lruvec->mm_state.scan_seq)) {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4222  		success = false;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4223  		goto done;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4224  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4225  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4226  	/*
-43d015dfbf4c2e Yu Zhao       2022-09-18  4227  	 * If the hardware doesn't automatically set the accessed bit, fallback
-43d015dfbf4c2e Yu Zhao       2022-09-18  4228  	 * to lru_gen_look_around(), which only clears the accessed bit in a
-43d015dfbf4c2e Yu Zhao       2022-09-18  4229  	 * handful of PTEs. Spreading the work out over a period of time usually
-43d015dfbf4c2e Yu Zhao       2022-09-18  4230  	 * is less efficient, but it avoids bursty page faults.
-43d015dfbf4c2e Yu Zhao       2022-09-18  4231  	 */
-6579994789d90e Yu Zhao       2022-09-18  4232  	if (!force_scan && !(arch_has_hw_pte_young() && get_cap(LRU_GEN_MM_WALK))) {
-1feb0f684d7748 David Stevens 2024-06-05  4233  		success = iterate_mm_list_nowalk(lruvec, scan_seq);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4234  		goto done;
 
-success is set, walk is not
+vim +142 drivers/iio/proximity/pm16d17.c
 
-43d015dfbf4c2e Yu Zhao       2022-09-18  4235  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4236  
-784bac21e098dd Yu Zhao       2022-12-21  4237  	walk = set_mm_walk(NULL, true);
-43d015dfbf4c2e Yu Zhao       2022-09-18 @4238  	if (!walk) {
-1feb0f684d7748 David Stevens 2024-06-05  4239  		success = iterate_mm_list_nowalk(lruvec, scan_seq);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4240  		goto done;
-
-success is set, walk is NULL
-
-43d015dfbf4c2e Yu Zhao       2022-09-18  4241  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4242  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4243  	walk->lruvec = lruvec;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4244  	walk->max_seq = max_seq;
-1feb0f684d7748 David Stevens 2024-06-05  4245  	walk->scan_seq = scan_seq;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4246  	walk->can_swap = can_swap;
-6579994789d90e Yu Zhao       2022-09-18  4247  	walk->force_scan = force_scan;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4248  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4249  	do {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4250  		success = iterate_mm_list(lruvec, walk, &mm);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4251  		if (mm)
-43d015dfbf4c2e Yu Zhao       2022-09-18  4252  			walk_mm(lruvec, mm, walk);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4253  	} while (mm);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4254  done:
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4255  	if (success) {
-6579994789d90e Yu Zhao       2022-09-18  4256  		inc_max_seq(lruvec, can_swap, force_scan);
-1feb0f684d7748 David Stevens 2024-06-05  4257  
-1feb0f684d7748 David Stevens 2024-06-05  4258  		VM_WARN_ON_ONCE(lruvec->mm_state.scan_seq != SCAN_ITER_FINISHING);
-1feb0f684d7748 David Stevens 2024-06-05 @4259  		WRITE_ONCE(lruvec->mm_state.scan_seq, walk->scan_seq + 1);
-                                                                                              ^^^^^^^^^^^^^^
-Dereference
-
-1feb0f684d7748 David Stevens 2024-06-05  4260  
-ba7bdcf40461dd Koki Ryu      2022-12-22  4261  		kernfs_notify(lru_gen_admin_node);
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4262  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4263  
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4264  	return success;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4265  }
+   109	
+   110	static int pm16d17_read_raw(struct iio_dev *indio_dev,
+   111				    struct iio_chan_spec const *chan,
+   112				    int *val, int *val2, long mask)
+   113	{
+   114		struct pm16d17_data *data = iio_priv(indio_dev);
+   115		unsigned int ps_data_l;
+   116		unsigned int ps_data_h;
+   117		uint16_t ps_data;
+   118		int ret = -EINVAL;
+   119	
+   120		switch (mask) {
+   121		case IIO_CHAN_INFO_RAW:
+   122			switch (chan->type) {
+   123			case IIO_PROXIMITY:
+   124				ret = pm16d17_read_reg(data, PM16D17_PS_DATA_L, &ps_data_l);
+   125				if (ret < 0)
+   126					return ret;
+   127	
+   128				ret = pm16d17_read_reg(data, PM16D17_PS_DATA_H, &ps_data_h);
+   129				if (ret < 0)
+   130					return ret;
+   131	
+   132				ps_data = (ps_data_h << 8) | ps_data_l;
+   133	
+   134				dev_dbg(&data->client->dev, "PS data: %x\n", ps_data);
+   135	
+   136				*val = ps_data;
+   137				ret = IIO_VAL_INT;
+   138				break;
+   139			default:
+   140				break;
+   141			}
+ > 142		default:
+   143			break;
+   144		}
+   145	
+   146		return ret;
+   147	}
+   148	
+   149	static const struct iio_info pm16d17_info = {
+   150		.read_raw = pm16d17_read_raw,
+   151	};
+   152	
+   153	static int pm16d17_chip_init(struct pm16d17_data *data)
+   154	{
+   155		struct i2c_client *client = data->client;
+   156		struct device_node *np = client->dev.of_node;
+   157		const char *conv_time = NULL;
+   158		const char *wait_time = NULL;
+   159		uint8_t op_mode_setting_val;
+   160		uint32_t ps_offset_cancel;
+   161		uint8_t offset_lsb;
+   162		uint8_t offset_msb;
+   163		uint32_t pulse_count;
+   164		uint32_t pgain;
+   165		unsigned int val;
+   166		int ret;
+   167	
+   168		ret = pm16d17_read_reg(data, PM16D17_DEV_ID, &val);
+   169	
+   170		if (ret < 0 || (val != DEVICE_ID)) {
+   171			dev_err(&client->dev, "Invalid chip id 0x%04x\n", val);
+   172			return -ENODEV;
+   173		}
+   174	
+   175		dev_dbg(&client->dev, "Detected PM16D17 with chip id: 0x%04x\n", val);
+   176	
+   177		ret = pm16d17_write_reg(data, PM16D17_OP_MODE, ENABLE_PS_FUNCTION);
+   178		if (ret < 0)
+   179			return ret;
+   180	
+   181		of_property_read_u32(np, "ps-gain", &pgain);
+   182		switch (pgain) {
+   183		case 1:
+   184		case 2:
+   185		case 4:
+   186		case 8:
+ > 187			op_mode_setting_val |= (ilog2(pgain) << 6) & PS_GAIN_MASK;
+   188			break;
+   189		default:
+   190			break;
+   191		}
+   192	
+   193		of_property_read_string(np, "ps-itime", &conv_time);
+   194		if (strcmp(conv_time, "0.4") == 0)
+   195			op_mode_setting_val |= PITIME_0_POINT_4_MS & PS_ITIME_MASK;
+   196		else if (strcmp(conv_time, "0.8") == 0)
+   197			op_mode_setting_val |= PITIME_0_POINT_8_MS & PS_ITIME_MASK;
+   198		else if (strcmp(conv_time, "1.6") == 0)
+   199			op_mode_setting_val |= PITIME_1_POINT_6_MS & PS_ITIME_MASK;
+   200		else if (strcmp(conv_time, "3.2") == 0)
+   201			op_mode_setting_val |= PITIME_3_POINT_2_MS & PS_ITIME_MASK;
+   202		else if (strcmp(conv_time, "6.3") == 0)
+   203			op_mode_setting_val |= PITIME_6_POINT_3_MS & PS_ITIME_MASK;
+   204		else if (strcmp(conv_time, "12.6") == 0)
+   205			op_mode_setting_val |= PITIME_12_POINT_6_MS & PS_ITIME_MASK;
+   206		else if (strcmp(conv_time, "25.2") == 0)
+   207			op_mode_setting_val |= PITIME_25_POINT_2_MS & PS_ITIME_MASK;
+   208		else {
+   209			dev_info(&client->dev, "Using default ps itime value\n");
+   210			op_mode_setting_val |= PITIME_0_POINT_4_MS & PS_ITIME_MASK;
+   211		}
+   212	
+   213		of_property_read_string(np, "ps-wtime", &wait_time);
+   214		if (strcmp(wait_time, "12.5") == 0)
+   215			op_mode_setting_val |= PWTIME_12_POINT_5_MS & PS_WTIME_MASK;
+   216		else if (strcmp(wait_time, "25") == 0)
+   217			op_mode_setting_val |= PWTIME_25_MS & PS_WTIME_MASK;
+   218		else if (strcmp(wait_time, "50") == 0)
+   219			op_mode_setting_val |= PWTIME_50_MS & PS_WTIME_MASK;
+   220		else if (strcmp(wait_time, "100") == 0)
+   221			op_mode_setting_val |= PWTIME_100_MS & PS_WTIME_MASK;
+   222		else if (strcmp(wait_time, "200") == 0)
+   223			op_mode_setting_val |= PWTIME_200_MS & PS_WTIME_MASK;
+   224		else if (strcmp(wait_time, "400") == 0)
+   225			op_mode_setting_val |= PWTIME_400_MS & PS_WTIME_MASK;
+   226		else if (strcmp(wait_time, "800") == 0)
+   227			op_mode_setting_val |= PWTIME_800_MS & PS_WTIME_MASK;
+   228		else if (strcmp(wait_time, "1600") == 0)
+   229			op_mode_setting_val |= PWTIME_1600_MS & PS_WTIME_MASK;
+   230		else {
+   231			dev_info(&client->dev, "Using default ps wtime value\n");
+   232			op_mode_setting_val |= PWTIME_12_POINT_5_MS & PS_WTIME_MASK;
+   233		}
+   234	
+   235		ret = pm16d17_write_reg(data, PM16D17_PS_SETTING, op_mode_setting_val);
+   236		if (ret < 0)
+   237			return ret;
+   238	
+   239		of_property_read_u32(np, "ps-ir-led-pulse-count", &pulse_count);
+   240		if (pulse_count > 256)
+   241			pulse_count = 256;
+   242		ret = pm16d17_write_reg(data, PM16D17_VCSEL_DRIVE_PULSE, pulse_count - 1);
+   243		if (ret < 0)
+   244			return ret;
+   245	
+   246		of_property_read_u32(np, "ps-offset-cancel", &ps_offset_cancel);
+   247		if (ps_offset_cancel != 0) {
+   248			ret = pm16d17_write_reg(data, PM16D17_PS_SETTING2, OFFSET_CANCEL_ENABLE);
+   249			if (ret < 0)
+   250				return ret;
+   251	
+   252			offset_lsb = ps_offset_cancel & PS_OFFSET_CANCEL_LSB_MASK;
+   253			offset_msb = (ps_offset_cancel & PS_OFFSET_CANCEL_MSB_MASK) >> 8;
+   254	
+   255			ret = pm16d17_write_reg(data, PM16D17_PS_OFFSET_CANCEL_L, offset_lsb);
+   256			if (ret < 0)
+   257				return ret;
+   258	
+   259			ret = pm16d17_write_reg(data, PM16D17_PS_OFFSET_CANCEL_H, offset_msb);
+   260			if (ret < 0)
+   261				return ret;
+   262		}
+   263	
+   264		return 0;
+   265	}
+   266	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
