@@ -1,90 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8241804A;
-	Thu, 15 Aug 2024 06:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB63D17838C;
+	Thu, 15 Aug 2024 06:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723703705; cv=none; b=PeQDNbFg/K8nEgONoaHicRORaR3Rz8cULTCMbMJc5HNUMDq6ylQCkOLWTa4jrWlNGjA/u8vTSu39woAYFMRC5K1ODf0h3UUQe7hz0kCbAW052KHTKqNnkwYqP2W9Uxsvp66o/nTWRvMVaj3+h0uA1IW2qqDCZ1Hqv/WcJlBYouA=
+	t=1723704185; cv=none; b=FM6Wlhiw9TPcBkQI7/asoUA6tHhgN1J8Ndig/xm/bP3+aS7ghjBrrlUBu6zEwFczjkRCPgc9/qwebPnCs3xFVu6g6A05WitA349c9Q0G9r663u9syxXdKwkVhUKuEPbvZfpCfAA76tg9mkmNKvc7AEgqZnYzk6REcyaF7kHKTTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723703705; c=relaxed/simple;
-	bh=clKxpVeKT5MroGVxZ5Gc42ASeLcuZqPArJZmuYBkEgc=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=lYTBULz0HzRsJGuSaumhuAD0xkXRlaTdmRdlIu2SDIYf1WVLZt0DLQOwtW6tS9pGfPVRV1d3UFiaIl413RNZiF/A6cjD2RmjzMnuTGJJoM/vISybb8JBEKP9CpOCoHPaKajF5O1B/lVOdzfj3i9jqgYfyn4HWUOWcTf7UJz6iFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSS0v0sp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723704185; c=relaxed/simple;
+	bh=De6ufLUUbAcupdgUSV2L57kA0XgGwsFzk69O/adjvrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCndmjZBS3/blZjQ4R/5SmmK7GO8mAj9SsQXABHJsjsqWwIWnmtaoBBQVwJK8h0sy2UR/C4MsfOALOl/jDCeX8Mw8Pj+XtovOKspt+xHsP9wRFajn+WlX6lzZ915R90c1TtPoBdta1m8nsHerW45i56Wav+uZot6yvOrpjqBQR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1uHLVhP; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSS0v0sp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29CB4C4AF0A;
-	Thu, 15 Aug 2024 06:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723703704;
-	bh=clKxpVeKT5MroGVxZ5Gc42ASeLcuZqPArJZmuYBkEgc=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=iSS0v0spPJHVkKoqOra1Q1b/5SvGDK8Q2O2cWHmNq14aL67J5MbL1be7CXjS4uQbx
-	 KbYYNYnE7l90C9/ZGN/5BCfS2Oy1N8VrumIh9pSRqTG/KL2K7x0UpnYKDSsYyExH97
-	 DtBvFrFzULNITEeeK/+xM6oxgDcDa37NUo8tTaz9/hi/zuY0rcWaFam/swV3lpx9jF
-	 hdU5shqOX83u0dqkeL/UGKhF8Mhd6QTtv8IK7VO1cFfDhJLcIleWIy0TU36QApGWG4
-	 sannn22rdI1jy3p8C+/221sSZ62XALOqOLcQiZ/SqdljZjZIfm4gT8LEag19cYC7Aa
-	 VAUifvtCoH7+g==
-From: Kalle Valo <kvalo@kernel.org>
-To: Issam Hamdi <ih@simonwunderlich.de>
-Cc: lkp@intel.com,  johannes@sipsolutions.net,
-  linux-wireless@vger.kernel.org,  llvm@lists.linux.dev,
-  mathias.kretschmer@fit.fraunhofer.de,  oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] cfg80211: Set the channel definition for the different
- Wi-Fi modes when starting CAC
-References: <202408130337.tnSP4Qys-lkp@intel.com>
-	<20240813111210.2463951-1-ih@simonwunderlich.de>
-Date: Thu, 15 Aug 2024 09:35:00 +0300
-In-Reply-To: <20240813111210.2463951-1-ih@simonwunderlich.de> (Issam Hamdi's
-	message of "Tue, 13 Aug 2024 13:12:10 +0200")
-Message-ID: <87o75ugup7.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1uHLVhP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723704184; x=1755240184;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=De6ufLUUbAcupdgUSV2L57kA0XgGwsFzk69O/adjvrQ=;
+  b=Q1uHLVhPWn/YBvXLU604c9e+GxnwnL/mRkZJOqCJOaZtQ+V94hbaICCv
+   ZlcHQAWL0j6PVEDDzjJ0yxs5m02oRVSihZjJzNsbnM9iRdIq2LiJa03Sg
+   XO8B2BTWNarN8XtblPRHyeMaJnf7HqyLPBav2zJ6INRJwJvwBcuUUz0Ry
+   7noFGHn2oZMhSZTskQ5paSV8aROP3cVPcn7TVSN4OV3MjnVDHyafddKVh
+   +1cNTKQte21RZQnIWADKR5vGldDC770xAbcG7qY5m+F+XyKXAvSjUsJGF
+   XwtW8m4O1SYPEnG16QfGmCXPX0TrncoLLj05O96g+ugN2vIFUP0w/qqLc
+   w==;
+X-CSE-ConnectionGUID: AnC3Bv6fRQSocJfstKNduQ==
+X-CSE-MsgGUID: nu6UqAdrS4eXQkYy/GXozw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="33101026"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="33101026"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 23:43:03 -0700
+X-CSE-ConnectionGUID: WUsSQfdwTbGQsXf9amGWqA==
+X-CSE-MsgGUID: G9zCeTYJR2S7IrwdMu/TUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="64101664"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2024 23:42:59 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seUCH-0003Hg-1t;
+	Thu, 15 Aug 2024 06:42:57 +0000
+Date: Thu, 15 Aug 2024 14:42:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Marek Vasut <marex@denx.de>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] dt-bindings: input: touchscreen: convert ads7846.txt
+ to yaml
+Message-ID: <202408151407.QolOybOy-lkp@intel.com>
+References: <20240814185140.4033029-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240814185140.4033029-1-Frank.Li@nxp.com>
 
-Issam Hamdi <ih@simonwunderlich.de> writes:
+Hi Frank,
 
-> When starting CAC in a mode other than AP mode, it return a
-> "WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
-> caused by the chandef.chan being null at the end of CAC.
->
-> Solution: Ensure the channel definition is set for the different modes
-> when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
->
->  Call Trace:
->   ? show_regs.part.0+0x14/0x16
->   ? __warn+0x67/0xc0
->   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
->   ? report_bug+0xa7/0x130
->   ? exc_overflow+0x30/0x30
->   ? handle_bug+0x27/0x50
->   ? exc_invalid_op+0x18/0x60
->   ? handle_exception+0xf6/0xf6
->   ? exc_overflow+0x30/0x30
->   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
->   ? exc_overflow+0x30/0x30
->   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
->   ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
->   ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
->   ? process_one_work+0x165/0x280
->   ? worker_thread+0x120/0x3f0
->   ? kthread+0xc2/0xf0
->   ? process_one_work+0x280/0x280
->   ? kthread_complete_and_exit+0x20/0x20
->   ? ret_from_fork+0x19/0x24
->
-> Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
-> Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
+kernel test robot noticed the following build warnings:
 
-'wifi:' missing from the subject.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.11-rc3 next-20240815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-input-touchscreen-convert-ads7846-txt-to-yaml/20240815-025322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240814185140.4033029-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] dt-bindings: input: touchscreen: convert ads7846.txt to yaml
+reproduce: (https://download.01.org/0day-ci/archive/20240815/202408151407.QolOybOy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408151407.QolOybOy-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/touchscreen/ads7846.txt
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
