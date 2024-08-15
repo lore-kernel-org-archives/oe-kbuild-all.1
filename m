@@ -1,116 +1,120 @@
-Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D9E7DA70;
-	Thu, 15 Aug 2024 11:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C127DA70
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 11:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723721541; cv=none; b=rcDyK6z0nMplpOrnuQCglDRE5zmaNpK2wRhEWQcmi1tOqwq2i/lT9Ux4kM9nLITVYvKAYV5msITRCMjEIVwzGMKd4AmcTpxtt8DotaU9frCOwU6DCY7fR48+nytGnETHVYPq56v3wWMjXiEpufAusruYmNRXgH1ay0/BRyglNDs=
+	t=1723721561; cv=none; b=qZDVvsLHw7t6q1I4HmtJ2bSmbmBJ9ihTFZ/lrfjCGP9vDw7flRC5zL/4mNcVW3cz6MhJaMZJ1KXZ83uP2Vmhee5vDVuoSQ6A/rkXcckCaPK4QwKHD+cqPR4tWbEBptea1pCVH1RXL2Q7c9cdZw/+MsStv4UM56mhSRTVFz5D1Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723721541; c=relaxed/simple;
-	bh=uMx55GtCQ/0r4apC4BWuJdoJ3VrEdoLM5jiMAd8HD0g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fc/kc8X/fbh2S43apW/KahwjwuE2TII3MvU3iYn+bGUo8rdtzLLLIErlfNHW6+iANKB4ELdYKoDPfdz++8pyi9qyP17xHjJoEoTehtGHdlKawAW1bTrWiEMRfOM/kVx9r1CSmumYRxhihH99Q4Nhj5kkwq54RqzCywGARw3E/lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
-Received: from localhost (p200300C5970CA890000000000000032B.dip0.t-ipconnect.de [IPv6:2003:c5:970c:a890::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.simonwunderlich.de (Postfix) with ESMTPSA id B04DCFA131;
-	Thu, 15 Aug 2024 13:32:15 +0200 (CEST)
-From: Issam Hamdi <ih@simonwunderlich.de>
-To: kvalo@kernel.org
-Cc: ih@simonwunderlich.de,
-	johannes@sipsolutions.net,
-	linux-wireless@vger.kernel.org,
-	lkp@intel.com,
-	llvm@lists.linux.dev,
-	mathias.kretschmer@fit.fraunhofer.de,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH v2] wifi: cfg80211: Set the channel definition for the different Wi-Fi modes when starting CAC
-Date: Thu, 15 Aug 2024 13:32:13 +0200
-Message-Id: <20240815113213.3237491-1-ih@simonwunderlich.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <87jzgiyxob.fsf@kernel.org>
-References: <87jzgiyxob.fsf@kernel.org>
+	s=arc-20240116; t=1723721561; c=relaxed/simple;
+	bh=qdrCPdY3XBiYUEslb4KEhpqzgaSlUPGZy1LMF2qmkPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kz0zwZyiIHEtfcf8vGv0oRU/q5wN/yrbx38c3zVwJ96sl9Y7VakGvVAmwKt7ZRiTCP6nJOEHnVk/jxZhLRp73GeXQKmIaW/xV+8BE3/hwkMMxH4jHx3we3oO+In7q5qdqjFoiHtyQeyS/rPdSkh+ZxdHP8KhEwr7RRDznKS56mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoNcC9dU; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoNcC9dU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723721560; x=1755257560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qdrCPdY3XBiYUEslb4KEhpqzgaSlUPGZy1LMF2qmkPQ=;
+  b=FoNcC9dUn192Aoiw3J4Ul1+U2m/aP+Ew8dBlPfbuqQrhShARvPVKH0fI
+   7xyFYnasj/++wvEnzEHwbkCxUSOX/lMtH/0zUtzoeiWdsiU3cVOWjufAW
+   1bgieIbC3W41o0/bQSbG5MQttVew8Gva3Sta9SVGiUxC1t3370VkhgPno
+   RHhsMvVjBHzgJlDWvNvUy773SZ8hSiepQ1364N4CROi/TtatCsoKblZbW
+   LfLpyQBZiBX/eUnRO3eqGVrmDeJld4NWg/pzdIiwkgeF4wew37HFrMxmA
+   0UWexMSGg+Yeg7wSP89DFfdnStJc5AZOUb19tnxeV0gqJpU0/d1YM6cnh
+   A==;
+X-CSE-ConnectionGUID: AZ+nBEh7R7e4nNIOe3C4fw==
+X-CSE-MsgGUID: Un00EE1ISa6pj975ggBu9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="47373579"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="47373579"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 04:30:16 -0700
+X-CSE-ConnectionGUID: /O9zFCFMQqifd/D9NwmFJw==
+X-CSE-MsgGUID: 7rEWyuojTLGbGnG8fgtNig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="59480869"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Aug 2024 04:30:14 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seYgG-0003Ve-0U;
+	Thu, 15 Aug 2024 11:30:12 +0000
+Date: Thu, 15 Aug 2024 19:29:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	Krzysztof Piotr Oledzki <ole@ans.pl>
+Subject: Re: [PATCH] i2c: core: Lock address during client device
+ instantiation
+Message-ID: <202408151708.WYTNiDnN-lkp@intel.com>
+References: <3b1964fa-56fd-464f-93d3-98d46c70b872@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b1964fa-56fd-464f-93d3-98d46c70b872@gmail.com>
 
-When starting CAC in a mode other than AP mode, it return a
-"WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
-caused by the chandef.chan being null at the end of CAC.
+Hi Heiner,
 
-Solution: Ensure the channel definition is set for the different modes
-when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
+kernel test robot noticed the following build warnings:
 
- Call Trace:
-  ? show_regs.part.0+0x14/0x16
-  ? __warn+0x67/0xc0
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? report_bug+0xa7/0x130
-  ? exc_overflow+0x30/0x30
-  ? handle_bug+0x27/0x50
-  ? exc_invalid_op+0x18/0x60
-  ? handle_exception+0xf6/0xf6
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
-  ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
-  ? process_one_work+0x165/0x280
-  ? worker_thread+0x120/0x3f0
-  ? kthread+0xc2/0xf0
-  ? process_one_work+0x280/0x280
-  ? kthread_complete_and_exit+0x20/0x20
-  ? ret_from_fork+0x19/0x24
+[auto build test WARNING on wsa/i2c/for-next]
+[also build test WARNING on linus/master v6.11-rc3 next-20240814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
-Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
----
-v2: update the subject
----
- net/wireless/nl80211.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/i2c-core-Lock-address-during-client-device-instantiation/20240814-223311
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/3b1964fa-56fd-464f-93d3-98d46c70b872%40gmail.com
+patch subject: [PATCH] i2c: core: Lock address during client device instantiation
+config: x86_64-buildonly-randconfig-001-20240815 (https://download.01.org/0day-ci/archive/20240815/202408151708.WYTNiDnN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408151708.WYTNiDnN-lkp@intel.com/reproduce)
 
-diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
-index 7397a372c78e..36ae2594753e 100644
---- a/net/wireless/nl80211.c
-+++ b/net/wireless/nl80211.c
-@@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct sk_buff *skb,
- 
- 	err = rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
- 	if (!err) {
--		wdev->links[0].ap.chandef = chandef;
-+		switch (wdev->iftype) {
-+		case NL80211_IFTYPE_MESH_POINT:
-+			wdev->u.mesh.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_ADHOC:
-+			wdev->u.ibss.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_OCB:
-+			wdev->u.ocb.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_AP:
-+		case NL80211_IFTYPE_P2P_GO:
-+			wdev->links[0].ap.chandef = chandef;
-+			break;
-+		default:
-+			break;
-+		}
- 		wdev->cac_started = true;
- 		wdev->cac_start_time = jiffies;
- 		wdev->cac_time_ms = cac_time_ms;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408151708.WYTNiDnN-lkp@intel.com/
 
-base-commit: cc32e9fb380d8afdbf3486d7063d5520bfb0f071
+All warnings (new ones prefixed by >>):
+
+>> drivers/i2c/i2c-core-base.c:919: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Serialize device instantiation in case it can be instantiated explicitly
+
+
+vim +919 drivers/i2c/i2c-core-base.c
+
+   917	
+   918	/**
+ > 919	 * Serialize device instantiation in case it can be instantiated explicitly
+   920	 * and by auto-detection
+   921	 */
+   922	static int i2c_lock_addr(struct i2c_adapter *adap, unsigned short addr,
+   923				 unsigned short flags)
+   924	{
+   925		if (!(flags & I2C_CLIENT_TEN) && !(flags & I2C_CLIENT_SLAVE) &&
+   926		    test_and_set_bit(addr, adap->addrs_in_instantiation))
+   927			return -EBUSY;
+   928	
+   929		return 0;
+   930	}
+   931	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
