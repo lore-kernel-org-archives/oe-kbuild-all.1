@@ -1,68 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963C97DA8F;
-	Thu, 15 Aug 2024 12:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E79617BEAE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 12:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723723223; cv=none; b=jUy8KlsaD0gfjmfzpgHlNtprVaBn/kptAOCXosUVGdgJwwPyNBbUkhp2/GTs2VqiSLXUuFEWda021VyoGUSZSurG169BVPG+lGoEeIfsG9ULQUIcvGCpTdB7cAHiNwS5wNazPgq3cdwQTPJA7bEHeAbu/5EDvAzn1QQhQO+ZzJg=
+	t=1723724484; cv=none; b=Rl/n5Jq1FitUOCpF8ygN8YTmWSDugJ7Xq3ZjNdrQ0fIJXmbo7SBMGtx424eUB/iccGSXnXE9tSV7emYwegpvjKs9sDw6BzoeJq3APDtLo8NSqXRk+hFadyTS8N5UM///NF8r6XI6efv4R93OWvG0z/V5p0cJrfv58xI90rE6J1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723723223; c=relaxed/simple;
-	bh=+fvBVhqwVxnnLELp45LxE5B3Ly84i4Yh9U1qnszQeKk=;
+	s=arc-20240116; t=1723724484; c=relaxed/simple;
+	bh=kLINGGZfiGZJKTJM8m3ioz0N0Jh+G2wChbSE1siUMpY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JKHmhJYSCWkoXQvSrcv0FV6jfmUw4a8HwQIBn9epIluK0Z2KBVYOaEQG9RrdZxG59KOkqeNENlHxD58KtlbaS2mXUban3GfeEiZ+hCRXw2IhUwIgmwQejxVMfe7pyC75PpWpsjkP5ZnSz24fHF5oO82qMOeSp4GqikL1r3KduWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PX5pWGM+; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJk1RY6l8uvSTEwgXdc+KfjGaNwxRIhouWNPoOCSh2znzn1Cq1z1DHCeADpyxQZEzZD+Z43kE513NWj4kEOVIXy1oT7I1oLvCzAuIzMSouOe5g+3OjZjD74DkpbPi0k4AUGWSaQyObe0m1mmrSB02swG+NEoTLSq1K3JBuXKFgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCzo2QrO; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PX5pWGM+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCzo2QrO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723723221; x=1755259221;
+  t=1723724482; x=1755260482;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+fvBVhqwVxnnLELp45LxE5B3Ly84i4Yh9U1qnszQeKk=;
-  b=PX5pWGM+QFn9O/v7OFVKnW+8uyv78fdf71FV1fIM/G9Kh2vNRyiHcvNt
-   LLy0GSuiUwZrKU8VxBnv5hWHqwfLHQhgbc725aA8WoydBNncW3Dep/Imq
-   qDnxjhExJ4kIGGWnEsTY9lVhgECK8r18hSFvzMYFUld19D2R9KS976DgF
-   QvEQx2/v7F1StHJf1xn5OdxUIWi9bVVvzkf+nURt7zISkZdixGaM1BzQt
-   aOaSFvJme2BqItI3b9+83Q9WTnCJWdyttpGFeLbCAvbdP6s9oR5XgyPha
-   xFJzT0MYQaJ5koey/M79UA/FEZ5whXEaJL55TrpcYTAFP6ewh6XRVwDYb
-   A==;
-X-CSE-ConnectionGUID: PZn6DNhRSkmCE9q6ooZADg==
-X-CSE-MsgGUID: 2ky1kezWSaqJXnoFecbvuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="22135677"
+  bh=kLINGGZfiGZJKTJM8m3ioz0N0Jh+G2wChbSE1siUMpY=;
+  b=hCzo2QrOYBoqN5n05uXGQFNuLvt/vc1+rRCTZBph0YlOB3g+w6AoRgf8
+   NyICglxC+BLhzFcpniktMzLK6gib6PlY+hQugP6v7qd5z5H9yi4aKrwAQ
+   304nyNsqS09YNno1V2zkoMfvqYS/RZlAzvigzmcCZgHM4fcHdsN0hXGeH
+   42BdznzXlyd7lUmH3v5qfivHrJ/ZaBInWTcgK9tzEtQpb+SjKGzczuEFa
+   RqXbnZvcbMDONGP96erMyQk/yqtT8LmbbnJ0MfZz9zYNZwT+AbZzYRHqk
+   Vc9BfMJUzAo4zpTgSqZUHOsn8mFjyaowMu2GWHT2RSogogb+oZn6roYL5
+   w==;
+X-CSE-ConnectionGUID: gu+MoWYWTAGCEcHlLHeyjg==
+X-CSE-MsgGUID: CahT7EeOQCeypMQIQlStRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22118291"
 X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="22135677"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 05:00:18 -0700
-X-CSE-ConnectionGUID: 9pGFL3JARHqhgTEDSbWx6Q==
-X-CSE-MsgGUID: FzBAoAyVSieqIx8P4Ogn+A==
+   d="scan'208";a="22118291"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 05:21:21 -0700
+X-CSE-ConnectionGUID: BujiYMx6RLGItZoks5C5pA==
+X-CSE-MsgGUID: aebKlseYQsq4GJ5WUdlVbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="58960860"
+   d="scan'208";a="59362073"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2024 05:00:15 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 15 Aug 2024 05:21:16 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1seZ9J-0003Xg-15;
-	Thu, 15 Aug 2024 12:00:13 +0000
-Date: Thu, 15 Aug 2024 20:00:06 +0800
+	id 1seZTd-0003Z8-3C;
+	Thu, 15 Aug 2024 12:21:14 +0000
+Date: Thu, 15 Aug 2024 20:20:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sebastian Reichel <sre@kernel.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS" <alsa-devel@alsa-project.org>
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] ASoC: dt-bindings: Convert tpa6130a2.txt to yaml
-Message-ID: <202408151906.gY9zpl8b-lkp@intel.com>
-References: <20240814175129.4027097-1-Frank.Li@nxp.com>
+To: Feng zhou <zhoufeng.zf@bytedance.com>, edumazet@google.com,
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+	yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, dsahern@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	yangzhenze@bytedance.com, wangdongdong.6@bytedance.com,
+	zhoufeng.zf@bytedance.com
+Subject: Re: [PATCH] bpf: Fix bpf_get/setsockopt to tos not take effect when
+ TCP over IPv4 via INET6 API
+Message-ID: <202408152034.lw9Ilsj6-lkp@intel.com>
+References: <20240814084504.22172-1-zhoufeng.zf@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,38 +72,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814175129.4027097-1-Frank.Li@nxp.com>
+In-Reply-To: <20240814084504.22172-1-zhoufeng.zf@bytedance.com>
 
-Hi Frank,
+Hi Feng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next linus/master v6.11-rc3 next-20240815]
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master net-next/main net/main linus/master v6.11-rc3 next-20240815]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/ASoC-dt-bindings-Convert-tpa6130a2-txt-to-yaml/20240815-021426
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240814175129.4027097-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] ASoC: dt-bindings: Convert tpa6130a2.txt to yaml
-reproduce: (https://download.01.org/0day-ci/archive/20240815/202408151906.gY9zpl8b-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Feng-zhou/bpf-Fix-bpf_get-setsockopt-to-tos-not-take-effect-when-TCP-over-IPv4-via-INET6-API/20240814-231142
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240814084504.22172-1-zhoufeng.zf%40bytedance.com
+patch subject: [PATCH] bpf: Fix bpf_get/setsockopt to tos not take effect when TCP over IPv4 via INET6 API
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240815/202408152034.lw9Ilsj6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408152034.lw9Ilsj6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408151906.gY9zpl8b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408152034.lw9Ilsj6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/tpa6130a2.txt
-   Using alabaster theme
+   alpha-linux-ld: net/core/filter.o: in function `sol_ip_sockopt':
+>> net/core/filter.c:5402:(.text+0x8acc): undefined reference to `is_tcp_sock_ipv6_mapped'
+>> alpha-linux-ld: net/core/filter.c:5402:(.text+0x8ad4): undefined reference to `is_tcp_sock_ipv6_mapped'
+   alpha-linux-ld: net/core/filter.c:5402:(.text+0xc84c): undefined reference to `is_tcp_sock_ipv6_mapped'
+   alpha-linux-ld: net/core/filter.c:5402:(.text+0xc858): undefined reference to `is_tcp_sock_ipv6_mapped'
+
+
+vim +5402 net/core/filter.c
+
+  5397	
+  5398	static int sol_ip_sockopt(struct sock *sk, int optname,
+  5399				  char *optval, int *optlen,
+  5400				  bool getopt)
+  5401	{
+> 5402		if (sk->sk_family != AF_INET && !is_tcp_sock_ipv6_mapped(sk))
+  5403			return -EINVAL;
+  5404	
+  5405		switch (optname) {
+  5406		case IP_TOS:
+  5407			if (*optlen != sizeof(int))
+  5408				return -EINVAL;
+  5409			break;
+  5410		default:
+  5411			return -EINVAL;
+  5412		}
+  5413	
+  5414		if (getopt)
+  5415			return do_ip_getsockopt(sk, SOL_IP, optname,
+  5416						KERNEL_SOCKPTR(optval),
+  5417						KERNEL_SOCKPTR(optlen));
+  5418	
+  5419		return do_ip_setsockopt(sk, SOL_IP, optname,
+  5420					KERNEL_SOCKPTR(optval), *optlen);
+  5421	}
+  5422	
 
 -- 
 0-DAY CI Kernel Test Service
