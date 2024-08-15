@@ -1,142 +1,120 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5271B3F1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 16:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71E85B1FB;
+	Thu, 15 Aug 2024 17:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723740173; cv=none; b=jCvKCBRKBoENIoXtyvsF7HU4ehOnbQS5I5/7nzGASTBUXnV7YarJUyNpkRM4fKllTjmTtsHysx4GjKSMnIOp2k1CCZci67MzJ2dcumDmPx92SCF5YqnpXXu1DXi7XspIoqY1r9wsO/YQb0YZmFC0SZn48QOA7vJzi9ZG3xu75Y8=
+	t=1723743788; cv=none; b=Fj5e5owiNBAcYyadrNI92Zrzv5S+sajszBMZXG4IDTbMncwfGPXR3LgHtsDQ9wtARbogmo3hSxnoODucgV+rio2oEk+Q5qBi8/iPcWu6s1MY9RHg0tY/ClYMti2pTHp4tLQszq3ySXUzg8Hb5Ud3YGAn7V5VWIJil942ejLqa7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723740173; c=relaxed/simple;
-	bh=1zRUFULarkTq6LPHVNJ0pkCLjhF3gvttZE7Jb/DKsk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=irw3c6A7KwXWaNaAgra3fAIwilU1Pc8VGjma4WwAP64Bi8E12c3sU9vAo0xAZqJx5mdnVAiPftI9Rn8qV66zv5xHacoY+zRBRhZHvlHhcwcrp4qX8NXTig+WfSY2CDrGs6kmql+7cAkP0PRHWCyyRN3ldcz3SeuZgpJwGz+ZUTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aqNFhjXY; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1723743788; c=relaxed/simple;
+	bh=Fw0aVYsUrnbaPkgclFP3+g5LLOu0UpBlKbkPnh9OEK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=F/V8OTVXvjh67W5REBaCIR8H0TjSz9KAfXY8YhBuvu7DBVH5ZyqJZYQvhdpNzv3rknPJl6UNhH6Wlhnf/kIDBV0UuCvBK0d6Pozmx8bgk6TJ75sEK6CsWqsdftpzpC05UA83sUnz9fOc8li602KCzzwb4DAOhoGx9Mb4hohElEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l8pULNb9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aqNFhjXY"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3db14930a1aso724502b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 09:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723740171; x=1724344971; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f9XWOzgA/HPz/G4P1h718yGI+VzmZbkZwfnQInlVNGo=;
-        b=aqNFhjXY6z0WqPPt7Nv8qK5SLQn8LgwBLdtcATSelIdRWYtuYOMwMXCp8U8Vb/ARX8
-         B+DwZ+S1uezuQr0PG317Nf2Pc0NfsG/rkC7MrT/tl35jkfvTJ8baHRb8ckpdc0Dacooj
-         zbzPW5pr76HJAzF40vegzDhTs7gPmBdEwXTNqtY3uVynSuJrhZ2D3IPTAjvoelMd3uor
-         CBZCEmTtjyTifgZFMEkZR+oRXrK3ALDHLLRGRIPbtYYlnz+8dmBI/tS/1R5NCAORWP6U
-         QGJhCjn5xt0TlrTtvity057nf2D4xXcujojMEqJ6149exDgNFI62+26MSy9zty3sxiiS
-         6f2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723740171; x=1724344971;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f9XWOzgA/HPz/G4P1h718yGI+VzmZbkZwfnQInlVNGo=;
-        b=TELA1UJc1FV0th62JVNXkyFnhcSKExVLxL6is0NgrWASrbT7gN82K6Fe4JdbpcrrHQ
-         Ni1kgBF6RZ7O8yzRzxWfHT4kLvokH+dth9iBCkBkJ98xiQpksNCgu3D83fNymFMBSnEC
-         LZlckv1jGxmr2jezgkRDNsUYPGD00ThtBN+7W6oWWop1hooWDJJ0PjjdEl7ys6p5IuJV
-         D37tWKFJwAWcehGGGIHYGDJyG7RG08taictYHfPbC97UE7wblg9au02LMd09GONUWGVX
-         acMmvJwrmHSss0Bc7XLBPm7na7KK3F3VHSK8edvRP+xuEqt/ToaXaNik9cmgn0SKyEyI
-         Y8Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2a2rSNBRJ1WSs3gGW9qNMCs+S5aR9yFvnvntAZ83X4WwAas98TMSwlTJVw0bSKS7dFI7WP1uaUahyxMM5ajpeOh+k++mk97nzJKRyVA==
-X-Gm-Message-State: AOJu0YysLRG98TuteR2Ic5Ck8y1J4WP6vLXR0/tlKe316Uzd/aDb2fMs
-	ySfhCoqpfpijv3h9yrUTC/mYQB2mQ/hPCuDJ3/wBSmianei2ToNPGHlt+Q19ww==
-X-Google-Smtp-Source: AGHT+IGcK7SGE8EjW4QiHlEKJJHDBb8NIW/RbvoYkf19zDjo/HtqxIAEn4/qp/U2DyWRmGixwywMhA==
-X-Received: by 2002:a05:6808:1b13:b0:3da:57b8:22f3 with SMTP id 5614622812f47-3dd29971d90mr8649806b6e.43.1723740170612;
-        Thu, 15 Aug 2024 09:42:50 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b636ca92sm1324086a12.91.2024.08.15.09.42.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 09:42:49 -0700 (PDT)
-Date: Thu, 15 Aug 2024 09:42:44 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: seanjc@google.com, pbonzini@redhat.com, oe-kbuild-all@lists.linux.dev,
-	dmatlack@google.com, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] KVM: x86/mmu: Recover NX Huge pages belonging to TDP
- MMU under MMU read lock
-Message-ID: <20240815164244.GA132028.vipinsh@google.com>
-References: <20240812171341.1763297-3-vipinsh@google.com>
- <202408150646.VV4z8Znl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l8pULNb9"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47FBQWUR016519;
+	Thu, 15 Aug 2024 17:42:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YU6l76peEOp8nvrzVe7v+0EcAYbfKcRMcNVu2KltyXA=; b=l8pULNb9Z3egNXiC
+	FP99yp+9jC6JZfNQ1q/DBmDTMEIpggjfaS3L6FnyuVdqCseBdQ1lTt5RxEJqfsQF
+	caYvM+9DoFl+HW76Dq/RxiLOLurnOhXZandTMGWfJtWnWeNNeV2+U1w6jYJkwSTS
+	xi0z0+WOlheJrecffO3MLttcyK/I6VAeGiDc6rUsdkdoK/TG5618/GYxKdraxUrt
+	qb6BSy2dYw8EJnlSrODqk11RWvRQaAkqSZYKC67tb1qIQk0YsAGuCWGYRufz1Y/3
+	1uy6ZN77BlYTkjUaAhRe/vvcsHV5MwtdAHrl9x4gD4OFtk88v37vjpouna37W9lS
+	0v/xhA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41134ejj2j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Aug 2024 17:42:58 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47FHgvhT013319
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Aug 2024 17:42:58 GMT
+Received: from [10.227.110.203] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 15 Aug
+ 2024 10:42:57 -0700
+Message-ID: <9809b165-8d25-4984-a1dd-6fca28f1dda9@quicinc.com>
+Date: Thu, 15 Aug 2024 10:42:56 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202408150646.VV4z8Znl-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] wifi: cfg80211: Set the channel definition for the
+ different Wi-Fi modes when starting CAC
+To: Issam Hamdi <ih@simonwunderlich.de>, <kvalo@kernel.org>
+CC: <johannes@sipsolutions.net>, <linux-wireless@vger.kernel.org>,
+        <lkp@intel.com>, <llvm@lists.linux.dev>,
+        <mathias.kretschmer@fit.fraunhofer.de>,
+        <oe-kbuild-all@lists.linux.dev>
+References: <87jzgiyxob.fsf@kernel.org>
+ <20240815113213.3237491-1-ih@simonwunderlich.de>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20240815113213.3237491-1-ih@simonwunderlich.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: C34UADG99p0aQXKFmQJscYmpx-yKH_2v
+X-Proofpoint-GUID: C34UADG99p0aQXKFmQJscYmpx-yKH_2v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-15_10,2024-08-15_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=1 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=203 clxscore=1011 mlxscore=1 spamscore=1 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408150129
 
-On 2024-08-15 06:50:04, kernel test robot wrote:
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
->    arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse:    unsigned long long [usertype] *
->    arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse:    unsigned long long [noderef] [usertype] __rcu *
->    arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
->    include/linux/rcupdate.h:812:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
->    arch/x86/kvm/mmu/tdp_mmu.c:1447:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
+On 8/15/2024 4:32 AM, Issam Hamdi wrote:
+> When starting CAC in a mode other than AP mode, it return a
+> "WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
+> caused by the chandef.chan being null at the end of CAC.
 > 
-> vim +847 arch/x86/kvm/mmu/tdp_mmu.c
+> Solution: Ensure the channel definition is set for the different modes
+> when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
 > 
->    819	
->    820	static bool tdp_mmu_zap_sp(struct kvm *kvm, struct kvm_mmu_page *sp)
->    821	{
->    822		struct tdp_iter iter = {};
->    823	
->    824		lockdep_assert_held_read(&kvm->mmu_lock);
->    825	
->    826		/*
->    827		 * This helper intentionally doesn't allow zapping a root shadow page,
->    828		 * which doesn't have a parent page table and thus no associated entry.
->    829		 */
->    830		if (WARN_ON_ONCE(!sp->ptep))
->    831			return false;
->    832	
->    833		iter.old_spte = kvm_tdp_mmu_read_spte(sp->ptep);
->    834		iter.sptep = sp->ptep;
->    835		iter.level = sp->role.level + 1;
->    836		iter.gfn = sp->gfn;
->    837		iter.as_id = kvm_mmu_page_as_id(sp);
->    838	
->    839	retry:
->    840		/*
->    841		 * Since mmu_lock is held in read mode, it's possible to race with
->    842		 * another CPU which can remove sp from the page table hierarchy.
->    843		 *
->    844		 * No need to re-read iter.old_spte as tdp_mmu_set_spte_atomic() will
->    845		 * update it in the case of failure.
->    846		 */
->  > 847		if (sp->spt != spte_to_child_pt(iter.old_spte, iter.level))
+>  Call Trace:
+>   ? show_regs.part.0+0x14/0x16
+>   ? __warn+0x67/0xc0
+>   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+>   ? report_bug+0xa7/0x130
+>   ? exc_overflow+0x30/0x30
+>   ? handle_bug+0x27/0x50
+>   ? exc_invalid_op+0x18/0x60
+>   ? handle_exception+0xf6/0xf6
+>   ? exc_overflow+0x30/0x30
+>   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+>   ? exc_overflow+0x30/0x30
+>   ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
+>   ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
+>   ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
+>   ? process_one_work+0x165/0x280
+>   ? worker_thread+0x120/0x3f0
+>   ? kthread+0xc2/0xf0
+>   ? process_one_work+0x280/0x280
+>   ? kthread_complete_and_exit+0x20/0x20
+>   ? ret_from_fork+0x19/0x24
+> 
+> Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
+> Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
 
-Hmm, I need to wrap spte_to_child_pt() with rcu_access_pointer() before
-comparing it to sp->spt. Following patch makes this Sparse error go
-away.
+who is this and why is their S-O-B here?
+the last S-O-B should be the person who last touched the patch, which is you
 
-diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-index 7c7d207ee590..7d5dbfe48c4b 100644
---- a/arch/x86/kvm/mmu/tdp_mmu.c
-+++ b/arch/x86/kvm/mmu/tdp_mmu.c
-@@ -820,6 +820,7 @@ static void tdp_mmu_zap_root(struct kvm *kvm, struct kvm_mmu_page *root,
- static bool tdp_mmu_zap_sp(struct kvm *kvm, struct kvm_mmu_page *sp)
- {
-        struct tdp_iter iter = {};
-+       tdp_ptep_t pt;
-
-        lockdep_assert_held_read(&kvm->mmu_lock);
-
-@@ -844,7 +845,8 @@ static bool tdp_mmu_zap_sp(struct kvm *kvm, struct kvm_mmu_page *sp)
-         * No need to re-read iter.old_spte as tdp_mmu_set_spte_atomic() will
-         * update it in the case of failure.
-         */
--       if (sp->spt != spte_to_child_pt(iter.old_spte, iter.level))
-+       pt = spte_to_child_pt(iter.old_spte, iter.level);
-+       if (sp->spt != rcu_access_pointer(pt))
-                return false;
-
-        if (tdp_mmu_set_spte_atomic(kvm, &iter, SHADOW_NONPRESENT_VALUE))
-
+please see:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
