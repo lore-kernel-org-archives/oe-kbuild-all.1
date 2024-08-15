@@ -1,69 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DE01A00E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 14:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B111AAE07;
+	Thu, 15 Aug 2024 15:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723733674; cv=none; b=sudSH4qgQYhqXoG5IQuoFDPgxQBVPrz+swxJgOcbqa599+vtNtrrKadNkF463DkibPXlxfoi61L6M92DmHqUv3w/Lo4ruRfGVn6hY3GZNMAQoFqiEQdRLdrSOQwLluy0mlrDDpTLvgmXYRXSIOCYAO0VCodsVwOdpeqUevBqTHI=
+	t=1723736132; cv=none; b=NkhAXDWIakseGIVZ/TsiZMtIslsvHBnpP7bfu0ESBocQI4I58NV8zehlIZIMhQEYhEPrC2QF937qWjEsK4WO8dloMasEy2fpwe4MWpeERgzklS6q5jYBm6/nUOYVvH4hanTok3Q4knnGL1JSQIpQm+8gDo7qdLY8EsNzh/CN6Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723733674; c=relaxed/simple;
-	bh=Y80oca1WAw5Erb23orjNO5DhhZNJNaQybRxhxYwGcRo=;
+	s=arc-20240116; t=1723736132; c=relaxed/simple;
+	bh=tSeyrBGRinttEc/Bl0KMHkbu8ZYMzTjZeV1UyXwP8BM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AtKpnObh4mJvPvCBCIbu9JRbU449MSqItZnd3QNokAbgET8U4g3K3qP0n3MyWeGZT87vfZoP/tLcXZMGY8FtDyRoMmw2ExddgRz4dfUcffyHZZ27WQaE/XqAUpy/DstMrxXSkf+pYKySO/pd6POt76AzX5qU4bgD+hP554oTrwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=keJtk+kj; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=jaGvEASHgK1eD3w0rd9P+OUhpJ5LtBWNl4HXTsvkQwzJIX0i8KSyip8iV9oEacz+bsFGSpgWxSodtWv/R6naNuRhIGgzGkUEC5B5M/WbGwXBi8tEKnSqhXJ5D0GsyAdm4Z0zMtvrcoz9rBU6dqI4geDj8+MBhiFTRhUCP05YLac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1SLqnN7; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="keJtk+kj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1SLqnN7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723733672; x=1755269672;
+  t=1723736131; x=1755272131;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Y80oca1WAw5Erb23orjNO5DhhZNJNaQybRxhxYwGcRo=;
-  b=keJtk+kja8CX7iV6c1X++5Jc9Pu1N4Z1CgW2O+R4jYT+O1Vx3e/Etym2
-   SRArrcK8EoxIBewWZM+zKafrTzAS1lkyuZfO6cNgt7Ota47AQDJnMZYaC
-   e3yP7/G22AFgxFiPbN/ShqKWqRxVMLH+wqgIZsJDutB/T4DUqR7RWbXE6
-   Pc3SZfWFisqR+KyLyHf7sCZ2qVOHl99U5e//pucyfpY8pxjZWyFjq9X2L
-   2aUWQRERBjgpH6Y/mHNDy219Xk8VkI8g1SfKy/wChXq9Fu4bXoX5wOKST
-   imLejtvJGITRJAULcl1q3PPBEfMGZc93sXmZvXqZy4a0K56nop7WuUH6H
-   A==;
-X-CSE-ConnectionGUID: O5qD0oTAR4qHfrhpF93IPA==
-X-CSE-MsgGUID: NrVp8FEJRm+GLRAL1Q5c9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="21964131"
+  bh=tSeyrBGRinttEc/Bl0KMHkbu8ZYMzTjZeV1UyXwP8BM=;
+  b=K1SLqnN7a/xF7bUpsPYvqdlJag9cIsUdYAbX2T7AWsQxG26uwEWYnMTk
+   oPPYcoa8sdSpBt1TmD2d/GN+XqeOwDW5TA/B5YJZCTvDgMf9f8Bi9kmst
+   QOy4YBDxZ+V8cp0LxPF2FeQVjX8c+vawguzg4rJJ1pDKWuXpDQqHDGl66
+   /s/7y2PhE5mUTAGL7vMLPpposWJMjbeyjhsSiiH2U3wb8dXlwqLJmYy9O
+   +0SvF+45krgELhqJUfI3vL9rZ8IzEiobqIiCWy2wu4Tzp+ZAEcHxY93cO
+   GT01/eUpobzsh/7x+ycp7qB87ZtHQL7zrgB5mTgA/namTqT4N48X9h8Z0
+   Q==;
+X-CSE-ConnectionGUID: 0eEmEGKcRamWnPgJ4671pw==
+X-CSE-MsgGUID: t249F8HsTmWnqsSgcO6zCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22170742"
 X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="21964131"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 07:54:32 -0700
-X-CSE-ConnectionGUID: VReWhAggTk2ijNw8Rz8qsQ==
-X-CSE-MsgGUID: 7qaWQcjyQ5GOF/idup3UqA==
+   d="scan'208";a="22170742"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 08:35:30 -0700
+X-CSE-ConnectionGUID: QeVF/QH+QjGKenuqCcgRMQ==
+X-CSE-MsgGUID: ttB0uM89R6+YujKGUAEinA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="59220785"
+   d="scan'208";a="59051723"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Aug 2024 07:54:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2024 08:35:28 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sebrs-0003hy-1A;
-	Thu, 15 Aug 2024 14:54:24 +0000
-Date: Thu, 15 Aug 2024 22:53:47 +0800
+	id 1secVa-0003mW-1c;
+	Thu, 15 Aug 2024 15:35:26 +0000
+Date: Thu, 15 Aug 2024 23:34:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Feng zhou <zhoufeng.zf@bytedance.com>, edumazet@google.com,
-	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
-	yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, dsahern@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	yangzhenze@bytedance.com, wangdongdong.6@bytedance.com,
-	zhoufeng.zf@bytedance.com
-Subject: Re: [PATCH] bpf: Fix bpf_get/setsockopt to tos not take effect when
- TCP over IPv4 via INET6 API
-Message-ID: <202408152058.YXAnhLgZ-lkp@intel.com>
-References: <20240814084504.22172-1-zhoufeng.zf@bytedance.com>
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jianhui.j.dai@intel.com, tfiga@chromium.org, bingbu.cao@intel.com,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: intel/ipu6: optimize the IPU6 MMU mapping and
+ unmapping flow
+Message-ID: <202408152355.Qx4KRzRh-lkp@intel.com>
+References: <20240815030829.1608953-1-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,39 +66,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814084504.22172-1-zhoufeng.zf@bytedance.com>
+In-Reply-To: <20240815030829.1608953-1-bingbu.cao@intel.com>
 
-Hi Feng,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master net-next/main net/main linus/master v6.11-rc3 next-20240815]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/master linuxtv-media-stage/master linus/master v6.11-rc3 next-20240815]
+[cannot apply to sailus-media-tree/streams]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Feng-zhou/bpf-Fix-bpf_get-setsockopt-to-tos-not-take-effect-when-TCP-over-IPv4-via-INET6-API/20240814-231142
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240814084504.22172-1-zhoufeng.zf%40bytedance.com
-patch subject: [PATCH] bpf: Fix bpf_get/setsockopt to tos not take effect when TCP over IPv4 via INET6 API
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240815/202408152058.YXAnhLgZ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408152058.YXAnhLgZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-intel-ipu6-optimize-the-IPU6-MMU-mapping-and-unmapping-flow/20240815-111022
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240815030829.1608953-1-bingbu.cao%40intel.com
+patch subject: [PATCH] media: intel/ipu6: optimize the IPU6 MMU mapping and unmapping flow
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240815/202408152355.Qx4KRzRh-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408152355.Qx4KRzRh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408152058.YXAnhLgZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408152355.Qx4KRzRh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   or1k-linux-ld: net/core/filter.o: in function `__bpf_getsockopt':
->> filter.c:(.text+0xa69c): undefined reference to `is_tcp_sock_ipv6_mapped'
->> filter.c:(.text+0xa69c): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `is_tcp_sock_ipv6_mapped'
-   or1k-linux-ld: net/core/filter.o: in function `__bpf_setsockopt':
-   filter.c:(.text+0xd660): undefined reference to `is_tcp_sock_ipv6_mapped'
-   filter.c:(.text+0xd660): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `is_tcp_sock_ipv6_mapped'
+>> drivers/media/pci/intel/ipu6/ipu6-mmu.c:261:9: warning: variable 'unmapped' set but not used [-Wunused-but-set-variable]
+     261 |         size_t unmapped = 0;
+         |                ^
+   1 warning generated.
+
+
+vim +/unmapped +261 drivers/media/pci/intel/ipu6/ipu6-mmu.c
+
+   254	
+   255	static void l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+   256			     phys_addr_t dummy, size_t size)
+   257	{
+   258		unsigned int l2_entries;
+   259		unsigned int l2_idx;
+   260		unsigned long flags;
+ > 261		size_t unmapped = 0;
+   262		u32 l1_idx;
+   263		u32 *l2_pt;
+   264	
+   265		spin_lock_irqsave(&mmu_info->lock, flags);
+   266		for (l1_idx = iova >> ISP_L1PT_SHIFT;
+   267		     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
+   268			dev_dbg(mmu_info->dev,
+   269				"unmapping l2 pgtable (l1 index %u (iova 0x%8.8lx))\n",
+   270				l1_idx, iova);
+   271	
+   272			if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
+   273				dev_err(mmu_info->dev,
+   274					"unmap not mapped iova 0x%8.8lx l1 index %u\n",
+   275					iova, l1_idx);
+   276				continue;
+   277			}
+   278			l2_pt = mmu_info->l2_pts[l1_idx];
+   279	
+   280			l2_entries = 0;
+   281			for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+   282			     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
+   283				dev_dbg(mmu_info->dev,
+   284					"unmap l2 index %u with pteval 0x%10.10llx\n",
+   285					l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
+   286				l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
+   287	
+   288				iova += ISP_PAGE_SIZE;
+   289				unmapped += ISP_PAGE_SIZE;
+   290				size -= ISP_PAGE_SIZE;
+   291	
+   292				l2_entries++;
+   293			}
+   294	
+   295			WARN_ON_ONCE(!l2_entries);
+   296			clflush_cache_range(&l2_pt[l2_idx - l2_entries],
+   297					    sizeof(l2_pt[0]) * l2_entries);
+   298		}
+   299	
+   300		WARN_ON_ONCE(size);
+   301		spin_unlock_irqrestore(&mmu_info->lock, flags);
+   302	}
+   303	
 
 -- 
 0-DAY CI Kernel Test Service
