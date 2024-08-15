@@ -1,62 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A9C149C6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Aug 2024 22:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA966FC3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 01:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723675851; cv=none; b=cDBONkPmqmAfqfezEGhxKwQMYtfDMGwttjgaQxY96r/jYMAIIfozjyaodDE4Ja2ga87Ipm2q5OmBpK96yu+UKoH+e7PEbacqKMG5HizOfsNpYOCp62eRFNpPRCgeSV7ZEktPJP2F0tVfRK8jaNioto+aZcvqZpk5U+hZykeearA=
+	t=1723686772; cv=none; b=cJ67lbsPQQTooiJ+RHlKoDkDClXfaxcZgUNtmMpnRcJxEXX4f7z6NdB2EplryxpPDxVCM0kxNnmuLYDgbORlCko4kl+6GWhvV4WgrrmuUy47xYiEKsK6eVbh0x/trZAB8JKK+XQjldmKqcEp0ffEFBQ3TRvXkZuVVKGW8RrCMz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723675851; c=relaxed/simple;
-	bh=XACRDTFRCEdt4Ybi1MT/HUspbONa/ZokfleowFT6sVA=;
+	s=arc-20240116; t=1723686772; c=relaxed/simple;
+	bh=LSWMG4ta64KQ4B7CeQ5sUVVOG2+3UlArCs9/+2vo0fo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CY8l+edIbBh+iemtt4mzNtewIyP9MCsiopGYzQ/AVNWqLVxJI2uudgpH/97W+4+QDcpHpOHM2BRz7F5+fI59oR0VcCS9nzOuNWwua7QiurxIHb2iSvFLfxqc1anabfeRmzbxkOfbf0ZhwGFL7O/vQWEJpk8t5iS9Xd5Bv3anKEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1fEymYV; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=eTqJ/ojCPUpQ2ek9pOxDdZg2CQtcSLSF5HRa1DTxaB2ZK17s09XN6+FIqMiUlUXElW/XPEeq4CR80KS/k8zaGSUNGs2TOLCGFytHXQi9BOcLL6ncET8TTSHfX7oJ2h/lnA4mHcZz3ByrMzeirJWwPUwuz/pi5cTL2ikHCTK0d3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JfYCUuVV; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1fEymYV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JfYCUuVV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723675847; x=1755211847;
+  t=1723686771; x=1755222771;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XACRDTFRCEdt4Ybi1MT/HUspbONa/ZokfleowFT6sVA=;
-  b=a1fEymYVtATT83042PXmI/bJVXHong5CHtGk97N78t99THdINuMSveaU
-   i8dZ+TmGdhDWoIftw0xNlwpyTc1tUxrFPGqS0ZfMIcYEPLCZaUbsMgk8x
-   WjRgPVWm6hIQ+ZsdXXDbs/tk5CxCsjjQVGer0sDiKUHhWmfzL1/AAuWsb
-   uryyx7loXDr80rfid6G5bTMC7tn63KIYwYEgTN/37PKJ17unoU2zjTqq8
-   a+JpCSxCjILWNjEllzRdKr4J+5J0qaNnDDE05eP7VeLx7ZnqDkcSgWo7M
-   BCPBc3QIO0U7yUwqUmvIh16ARkvsyyW5aWUtLD9zC891MxT/4fKaCFzZl
-   g==;
-X-CSE-ConnectionGUID: LLQXaaQLSKmsB6tsfp0Qag==
-X-CSE-MsgGUID: bOE/CjTIR6CyRRTf/jXptg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="33330268"
+  bh=LSWMG4ta64KQ4B7CeQ5sUVVOG2+3UlArCs9/+2vo0fo=;
+  b=JfYCUuVV+0otPXy8Z5UUzOAb5XpZzrBE3jhmrIuYx4GcBqj1G56Sd90M
+   nhkiUdYhE9Bx+kxQ5RBWxp62TPQMey7vPRk49tIEif25ZBlFb9RXyiXpB
+   jJsEWlpvWdS/2YOYCYq3Val2mFtyx+f+J8/APVIZjs1tQ99TT1eNYQNJi
+   rRN+oEnPtz+K2vTlPKU5b12lvT3W5YPWNogcDGGB4tLdMRMIQ3A3o69bx
+   xNswh62whTJ11ffPrlM2TY6hhhYCS2u5pvPwlWwepfKeHntt1KN47qOnf
+   oa7w4jQ83P9bKK8nrJdAV027HAb/Ki//n4odnxAsiukxrK8E12oe7n+E0
+   A==;
+X-CSE-ConnectionGUID: gNbndXAHT8ayqz0TulUMcw==
+X-CSE-MsgGUID: az0MP2kgTEumJl6A9gkOjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="21483809"
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="33330268"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 15:50:46 -0700
-X-CSE-ConnectionGUID: NCgkFaq2RLaUvtWr7qMiIQ==
-X-CSE-MsgGUID: qow68/JDQyaVfRBa7KD4qw==
+   d="scan'208";a="21483809"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 18:52:50 -0700
+X-CSE-ConnectionGUID: gm5BNjOlQgWFwMpnX0lX4w==
+X-CSE-MsgGUID: MzlGZMugSvygJbJlnAVC3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,147,1719903600"; 
-   d="scan'208";a="58834085"
+   d="scan'208";a="59059355"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Aug 2024 15:50:44 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Aug 2024 18:52:49 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1seMpF-0002xE-18;
-	Wed, 14 Aug 2024 22:50:41 +0000
-Date: Thu, 15 Aug 2024 06:50:04 +0800
+	id 1sePfS-00033m-0b;
+	Thu, 15 Aug 2024 01:52:46 +0000
+Date: Thu, 15 Aug 2024 09:52:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vipin Sharma <vipinsh@google.com>, seanjc@google.com,
-	pbonzini@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, dmatlack@google.com, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Vipin Sharma <vipinsh@google.com>
-Subject: Re: [PATCH 2/2] KVM: x86/mmu: Recover NX Huge pages belonging to TDP
- MMU under MMU read lock
-Message-ID: <202408150646.VV4z8Znl-lkp@intel.com>
-References: <20240812171341.1763297-3-vipinsh@google.com>
+To: Uros Bizjak <ubizjak@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Uros Bizjak <ubizjak@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH 1/2] err.h: Add ERR_PTR_PCPU(), PTR_ERR_PCPU() and
+ IS_ERR_PCPU() functions
+Message-ID: <202408150948.jjcISdEv-lkp@intel.com>
+References: <20240813172543.38411-1-ubizjak@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,74 +67,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240812171341.1763297-3-vipinsh@google.com>
+In-Reply-To: <20240813172543.38411-1-ubizjak@gmail.com>
 
-Hi Vipin,
+Hi Uros,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 332d2c1d713e232e163386c35a3ba0c1b90df83f]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc3 next-20240814]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vipin-Sharma/KVM-x86-mmu-Split-NX-hugepage-recovery-flow-into-TDP-and-non-TDP-flow/20240814-091542
-base:   332d2c1d713e232e163386c35a3ba0c1b90df83f
-patch link:    https://lore.kernel.org/r/20240812171341.1763297-3-vipinsh%40google.com
-patch subject: [PATCH 2/2] KVM: x86/mmu: Recover NX Huge pages belonging to TDP MMU under MMU read lock
-config: x86_64-randconfig-123-20240814 (https://download.01.org/0day-ci/archive/20240815/202408150646.VV4z8Znl-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150646.VV4z8Znl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/mm-kmemleak-Use-IS_ERR_PCPU-for-pointer-in-the-percpu-address-space/20240814-223016
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240813172543.38411-1-ubizjak%40gmail.com
+patch subject: [PATCH 1/2] err.h: Add ERR_PTR_PCPU(), PTR_ERR_PCPU() and IS_ERR_PCPU() functions
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240815/202408150948.jjcISdEv-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150948.jjcISdEv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408150646.VV4z8Znl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408150948.jjcISdEv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse:    unsigned long long [usertype] *
-   arch/x86/kvm/mmu/tdp_mmu.c:847:21: sparse:    unsigned long long [noderef] [usertype] __rcu *
-   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:812:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:1447:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +847 arch/x86/kvm/mmu/tdp_mmu.c
+   arch/powerpc/include/asm/paca.h: Assembler messages:
+>> arch/powerpc/include/asm/paca.h:293: Error: unrecognized opcode: `static'
+   arch/powerpc/include/asm/paca.h:294: Error: unrecognized opcode: `static'
 
-   819	
-   820	static bool tdp_mmu_zap_sp(struct kvm *kvm, struct kvm_mmu_page *sp)
-   821	{
-   822		struct tdp_iter iter = {};
-   823	
-   824		lockdep_assert_held_read(&kvm->mmu_lock);
-   825	
-   826		/*
-   827		 * This helper intentionally doesn't allow zapping a root shadow page,
-   828		 * which doesn't have a parent page table and thus no associated entry.
-   829		 */
-   830		if (WARN_ON_ONCE(!sp->ptep))
-   831			return false;
-   832	
-   833		iter.old_spte = kvm_tdp_mmu_read_spte(sp->ptep);
-   834		iter.sptep = sp->ptep;
-   835		iter.level = sp->role.level + 1;
-   836		iter.gfn = sp->gfn;
-   837		iter.as_id = kvm_mmu_page_as_id(sp);
-   838	
-   839	retry:
-   840		/*
-   841		 * Since mmu_lock is held in read mode, it's possible to race with
-   842		 * another CPU which can remove sp from the page table hierarchy.
-   843		 *
-   844		 * No need to re-read iter.old_spte as tdp_mmu_set_spte_atomic() will
-   845		 * update it in the case of failure.
-   846		 */
- > 847		if (sp->spt != spte_to_child_pt(iter.old_spte, iter.level))
-   848			return false;
-   849	
-   850		if (tdp_mmu_set_spte_atomic(kvm, &iter, SHADOW_NONPRESENT_VALUE))
-   851			goto retry;
-   852	
-   853		return true;
-   854	}
-   855	
+
+vim +293 arch/powerpc/include/asm/paca.h
+
+1426d5a3bd0758 Michael Ellerman 2010-01-28  292  
+6c6fdbb2b7002a Chengyang Fan    2021-01-25 @293  static inline void allocate_paca(int cpu) { }
+6c6fdbb2b7002a Chengyang Fan    2021-01-25  294  static inline void free_unused_pacas(void) { }
+1426d5a3bd0758 Michael Ellerman 2010-01-28  295  
 
 -- 
 0-DAY CI Kernel Test Service
