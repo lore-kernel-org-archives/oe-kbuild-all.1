@@ -1,214 +1,255 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.61.107])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A404C12C49B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 20:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.61.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBF5149C6F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Aug 2024 20:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723753627; cv=none; b=DhAMoe6L2/h2ylpNSV0R8KFPQt8QPExZ05uVD3FJpcfpihCy504wMPel33ew7UFFLHcBsNElARDbdrLqFTUKY456+kalUgotteuppPtZotoFb4JWBLoJgaJpywBTaSQHeiadHa4uTXEYk05yWJiLi9x+MPDvKx5jbb2alU0L7k8=
+	t=1723754607; cv=none; b=PEHYqN/qmN/TCg4s452x2/JsIOHtrHIwvUop+pMsizeAP/J+JcfCjjcfYwWihbsRVo3RiBaSbQd7W0zxyKGKDItfxM/mi4CeMaG7uVy3PXq7mxE2WBxLPe483NFLITF91RjGozjn1X7zNJfCvnzcvXCyau5JGVx3A49q+dXIra4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723753627; c=relaxed/simple;
-	bh=U+Ubxxosxhos1Nw0ZxMYYX6oDwOaBNCSZ54ABwnaGgQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U+mbDhg7aGOS0jDxqcRzNzgyVZPPk+sRigMxlQ1u5QALlFvwKTPBqP2K138Xo8V9avKILAHyg5U6Qhu66PEkW0zH2bG4mlR9jHLvgRE1AobnyXwlm6YArv91rpAHoeMpbePe1v39QASuWHnZlZK9Cr+cN7BMQi2GySahaTsF2oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matthias-fetzer.de; spf=pass smtp.mailfrom=matthias-fetzer.de; dkim=pass (2048-bit key) header.d=matthias-fetzer.de header.i=@matthias-fetzer.de header.b=aLejQePq; arc=none smtp.client-ip=188.68.61.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matthias-fetzer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matthias-fetzer.de
+	s=arc-20240116; t=1723754607; c=relaxed/simple;
+	bh=qjx/1ZA+EXG+Eon2eVjkrM7LEPGPlgbSZpTVqK8Hj7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EUzlNJpk03rRldOx8j1cyuvNk3yHi5VaLa/ZbToCwue5q0pu5Nz5g9SZKf+ivUnlZwd+hST+S2WuMFNquqFUmC6FVjshxawh2kybS3ThbN2HoHLt8ldet51mnZU+XrmlpH7YtaptZNN7asQ8dJ+6Uw0IxV44n88YTgzm+PJTT78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RouxzQm9; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matthias-fetzer.de header.i=@matthias-fetzer.de header.b="aLejQePq"
-Received: from mors-relay-8405.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4WlGcj580mz6xmD;
-	Thu, 15 Aug 2024 22:17:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matthias-fetzer.de;
-	s=key2; t=1723753029;
-	bh=U+Ubxxosxhos1Nw0ZxMYYX6oDwOaBNCSZ54ABwnaGgQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aLejQePqr8CGCVQ5xxAf1vE4hvlK2sAJqMX3pDvKNm98l3ua/FGEUJeSxH3RE79ea
-	 vvdDS9W23PVgpkj5BKwdusEdXyrbJBDio9tAMgwiTZ0vpj21CiG6kZcrQSPIdVddP+
-	 NLK+3fHND5uxEBMIGElQrE5POgVxzll1LGT2kt8Q0a62U+pBWBj7LTUF6tg3IDGrt7
-	 7/Yg9a+NHZqMchIBhyAGYPvJ8+T53etpF82vz2bvFazye0rk3YH3TPoEx/iGbw5mf5
-	 BEO8ViqwDqY9ccKjKr8ShGRftkFgc2kmjAmwsN4+SZb1JN/fPduss7dNxC6tYS5xCN
-	 5cS/ZNVbmqd4g==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4WlGcj4Qryz6xm9;
-	Thu, 15 Aug 2024 22:17:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.898
-X-Spam-Level: 
-Received: from mxf9a3.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4WlGch2Pnwz8tXc;
-	Thu, 15 Aug 2024 22:17:08 +0200 (CEST)
-Received: from [IPV6:2001:9e8:1a67:f900:bb12:a61:3ff9:ebce] (unknown [IPv6:2001:9e8:1a67:f900:bb12:a61:3ff9:ebce])
-	by mxf9a3.netcup.net (Postfix) with ESMTPSA id 5DF434046B;
-	Thu, 15 Aug 2024 22:17:03 +0200 (CEST)
-Authentication-Results: mxf9a3;
-        spf=pass (sender IP is 2001:9e8:1a67:f900:bb12:a61:3ff9:ebce) smtp.mailfrom=kontakt@matthias-fetzer.de smtp.helo=[IPV6:2001:9e8:1a67:f900:bb12:a61:3ff9:ebce]
-Received-SPF: pass (mxf9a3: connection is authenticated)
-Message-ID: <d2d7b7ec-c7db-4cde-b669-df727b93748f@matthias-fetzer.de>
-Date: Thu, 15 Aug 2024 22:17:01 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RouxzQm9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723754605; x=1755290605;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qjx/1ZA+EXG+Eon2eVjkrM7LEPGPlgbSZpTVqK8Hj7k=;
+  b=RouxzQm9Fh/xOMmBRbEpMnZJQ01/XKOyPeH/DKmymkbX8I2oVQQlN/oV
+   zPf8Ce3RtClq4VLRREQCY22LK63NYZ0jzYUwpmUuDKHXdPguTl51vzGTx
+   /IKwcv+FowUdSpeIW/q1JZFXP1WbFNgZBkX1zJ37+Qh9fbdWhZQXsP20q
+   wj57CXLKnjKbYc9ivnyYKzGB5/zNeUpxOcduLPiFJOSY4BGgjhFOv9P8V
+   6g1UpldG58rGygPP8tdp8i3z3ov+Km0CxK0rBG8iEadCos1UFUBxfjoSq
+   BcgZR9RsCJewIzVBL3PX/gGD5g9T3iCPg6jXpA0raeNS3I7uzcRIb0ysg
+   w==;
+X-CSE-ConnectionGUID: PrGfrtKRRj6yZREZPDbD5Q==
+X-CSE-MsgGUID: pdTB/9CvTZOgUKO7qus2pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="21675207"
+X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
+   d="scan'208";a="21675207"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 13:43:24 -0700
+X-CSE-ConnectionGUID: ujiYXbRzQd+U0OoOVzoueg==
+X-CSE-MsgGUID: 4DLYAvafQuGGJW7YkDIP2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
+   d="scan'208";a="59142456"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2024 13:43:22 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sehJY-0005aB-1D;
+	Thu, 15 Aug 2024 20:43:20 +0000
+Date: Fri, 16 Aug 2024 04:42:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/mmu_follow_pfn 86/86] arch/x86/kvm/mmu/spte.c:243:17:
+ error: expected '}' before 'else'
+Message-ID: <202408160457.AF488m7h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: thinkpad_acpi: Add Thinkpad Edge E531
- fan support
-To: kernel test robot <lkp@intel.com>, hmh@hmh.eng.br, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, ibm-acpi-devel@lists.sourceforge.net,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20240814213927.49075-1-kontakt@matthias-fetzer.de>
- <202408160253.fMJW95oi-lkp@intel.com>
-Content-Language: en-US, de-DE
-From: Matthias Fetzer <kontakt@matthias-fetzer.de>
-In-Reply-To: <202408160253.fMJW95oi-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <172375302389.6135.1622073007362957735@mxf9a3.netcup.net>
-X-Rspamd-Queue-Id: 5DF434046B
-X-Rspamd-Server: rspamd-worker-8404
-X-NC-CID: calp7oG2ZZ/5ZuRXx2ZYYpuvxkhEFbbpfJDeIx1VQOQ9Q4bNMu11f6XF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/sean-jc/linux x86/mmu_follow_pfn
+head:   611850ae46de0bdd0ae46c81ea4050547fd65346
+commit: 611850ae46de0bdd0ae46c81ea4050547fd65346 [86/86] KVM: x86/mmu: Fold all of make_spte()'s writable handling into one if-else
+config: i386-randconfig-004-20240815 (https://download.01.org/0day-ci/archive/20240816/202408160457.AF488m7h-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160457.AF488m7h-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408160457.AF488m7h-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   arch/x86/kvm/mmu/spte.c: In function 'make_spte':
+   arch/x86/kvm/mmu/spte.c:239:19: error: expected expression before '/' token
+     239 |                  */
+         |                   ^
+>> arch/x86/kvm/mmu/spte.c:243:17: error: expected '}' before 'else'
+     243 |                 else
+         |                 ^~~~
+>> arch/x86/kvm/mmu/spte.c:165:14: warning: unused variable 'wrprot' [-Wunused-variable]
+     165 |         bool wrprot = false;
+         |              ^~~~~~
+   arch/x86/kvm/mmu/spte.c: At top level:
+>> arch/x86/kvm/mmu/spte.c:248:9: error: expected identifier or '(' before 'if'
+     248 |         if (prefetch)
+         |         ^~
+   In file included from include/asm-generic/bug.h:7,
+                    from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/mmu/spte.c:12:
+>> include/linux/once_lite.h:27:10: error: expected identifier or '(' before '{' token
+      27 |         ({                                                              \
+         |          ^
+   include/asm-generic/bug.h:152:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     152 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |         ^~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/spte.c:251:9: note: in expansion of macro 'WARN_ONCE'
+     251 |         WARN_ONCE(is_rsvd_spte(&vcpu->arch.mmu->shadow_zero_check, spte, level),
+         |         ^~~~~~~~~
+   arch/x86/kvm/mmu/spte.c:260:9: error: expected identifier or '(' before 'if'
+     260 |         if ((spte & PT_WRITABLE_MASK) && kvm_slot_dirty_track_enabled(slot)) {
+         |         ^~
+>> arch/x86/kvm/mmu/spte.c:266:9: warning: data definition has no type or storage class
+     266 |         *new_spte = spte;
+         |         ^
+>> arch/x86/kvm/mmu/spte.c:266:10: error: type defaults to 'int' in declaration of 'new_spte' [-Werror=implicit-int]
+     266 |         *new_spte = spte;
+         |          ^~~~~~~~
+>> arch/x86/kvm/mmu/spte.c:266:21: error: 'spte' undeclared here (not in a function)
+     266 |         *new_spte = spte;
+         |                     ^~~~
+>> arch/x86/kvm/mmu/spte.c:267:9: error: expected identifier or '(' before 'return'
+     267 |         return wrprot;
+         |         ^~~~~~
+>> arch/x86/kvm/mmu/spte.c:268:1: error: expected identifier or '(' before '}' token
+     268 | }
+         | ^
+   arch/x86/kvm/mmu/spte.c: In function 'make_spte':
+>> arch/x86/kvm/mmu/spte.c:246:9: warning: control reaches end of non-void function [-Wreturn-type]
+     246 |         }
+         |         ^
+   cc1: some warnings being treated as errors
 
 
+vim +243 arch/x86/kvm/mmu/spte.c
 
-Am 15.08.24 um 21:00 schrieb kernel test robot:
-> Hi Matthias,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.11-rc3 next-20240815]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Matthias-Fetzer/platform-x86-thinkpad_acpi-Add-Thinkpad-Edge-E531-fan-support/20240815-054239
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240814213927.49075-1-kontakt%40matthias-fetzer.de
-> patch subject: [PATCH v3] platform/x86: thinkpad_acpi: Add Thinkpad Edge E531 fan support
-> config: i386-randconfig-001-20240815 (https://download.01.org/0day-ci/archive/20240816/202408160253.fMJW95oi-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160253.fMJW95oi-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408160253.fMJW95oi-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/platform/x86/thinkpad_acpi.c: In function 'fan_set_level':
->>> drivers/platform/x86/thinkpad_acpi.c:8214:13: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
->      8214 |         int rc;
->           |             ^~
-> 
+   156	
+   157	bool make_spte(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
+   158		       const struct kvm_memory_slot *slot,
+   159		       unsigned int pte_access, gfn_t gfn, kvm_pfn_t pfn,
+   160		       u64 old_spte, bool prefetch, bool can_unsync,
+   161		       bool host_writable, u64 *new_spte)
+   162	{
+   163		int level = sp->role.level;
+   164		u64 spte = SPTE_MMU_PRESENT_MASK;
+ > 165		bool wrprot = false;
+   166	
+   167		/*
+   168		 * For the EPT case, shadow_present_mask has no RWX bits set if
+   169		 * exec-only page table entries are supported.  In that case,
+   170		 * ACC_USER_MASK and shadow_user_mask are used to represent
+   171		 * read access.  See FNAME(gpte_access) in paging_tmpl.h.
+   172		 */
+   173		WARN_ON_ONCE((pte_access | shadow_present_mask) == SHADOW_NONPRESENT_VALUE);
+   174	
+   175		if (sp->role.ad_disabled)
+   176			spte |= SPTE_TDP_AD_DISABLED;
+   177		else if (kvm_mmu_page_ad_need_write_protect(sp))
+   178			spte |= SPTE_TDP_AD_WRPROT_ONLY;
+   179	
+   180		spte |= shadow_present_mask;
+   181		if (!prefetch)
+   182			spte |= spte_shadow_accessed_mask(spte);
+   183	
+   184		/*
+   185		 * For simplicity, enforce the NX huge page mitigation even if not
+   186		 * strictly necessary.  KVM could ignore the mitigation if paging is
+   187		 * disabled in the guest, as the guest doesn't have any page tables to
+   188		 * abuse.  But to safely ignore the mitigation, KVM would have to
+   189		 * ensure a new MMU is loaded (or all shadow pages zapped) when CR0.PG
+   190		 * is toggled on, and that's a net negative for performance when TDP is
+   191		 * enabled.  When TDP is disabled, KVM will always switch to a new MMU
+   192		 * when CR0.PG is toggled, but leveraging that to ignore the mitigation
+   193		 * would tie make_spte() further to vCPU/MMU state, and add complexity
+   194		 * just to optimize a mode that is anything but performance critical.
+   195		 */
+   196		if (level > PG_LEVEL_4K && (pte_access & ACC_EXEC_MASK) &&
+   197		    is_nx_huge_page_enabled(vcpu->kvm)) {
+   198			pte_access &= ~ACC_EXEC_MASK;
+   199		}
+   200	
+   201		if (pte_access & ACC_EXEC_MASK)
+   202			spte |= shadow_x_mask;
+   203		else
+   204			spte |= shadow_nx_mask;
+   205	
+   206		if (pte_access & ACC_USER_MASK)
+   207			spte |= shadow_user_mask;
+   208	
+   209		if (level > PG_LEVEL_4K)
+   210			spte |= PT_PAGE_SIZE_MASK;
+   211	
+   212		if (shadow_memtype_mask)
+   213			spte |= kvm_x86_call(get_mt_mask)(vcpu, gfn,
+   214							  kvm_is_mmio_pfn(pfn));
+   215		if (host_writable)
+   216			spte |= shadow_host_writable_mask;
+   217		else
+   218			pte_access &= ~ACC_WRITE_MASK;
+   219	
+   220		if (shadow_me_value && !kvm_is_mmio_pfn(pfn))
+   221			spte |= shadow_me_value;
+   222	
+   223		spte |= (u64)pfn << PAGE_SHIFT;
+   224	
+   225		if (pte_access & ACC_WRITE_MASK) {
+   226			/*
+   227			 * Unsync shadow pages that are reachable by the new, writable
+   228			 * SPTE.  Write-protect the SPTE if the page can't be unsync'd,
+   229			 * e.g. it's write-tracked (upper-level SPs) or has one or more
+   230			 * shadow pages and unsync'ing pages is not allowed.
+   231			 *
+   232			 * When overwriting an existing leaf SPTE, and the old SPTE was
+   233			 * writable, skip trying to unsync shadow pages as any relevant
+   234			 * shadow pages must already be unsync, i.e. the hash lookup is
+   235			 * unnecessary (and expensive).  Note, this relies on KVM not
+   236			 * changing PFNs without first zapping the old SPTE, which is
+   237			 * guaranteed by both the shadow MMU and the TDP MMU.
+   238			 */
+   239			 */
+   240			if ((!is_last_spte(old_spte, level) || !is_writable_pte(old_spte)) &&
+   241			    mmu_try_to_unsync_pages(vcpu->kvm, slot, gfn, can_unsync, prefetch))
+   242				wrprot = true;
+ > 243			else
+   244				spte |= PT_WRITABLE_MASK | shadow_mmu_writable_mask |
+   245					spte_shadow_dirty_mask(spte);
+ > 246		}
+   247	
+ > 248		if (prefetch)
+   249			spte = mark_spte_for_access_track(spte);
+   250	
+   251		WARN_ONCE(is_rsvd_spte(&vcpu->arch.mmu->shadow_zero_check, spte, level),
+   252			  "spte = 0x%llx, level = %d, rsvd bits = 0x%llx", spte, level,
+   253			  get_rsvd_bits(&vcpu->arch.mmu->shadow_zero_check, spte, level));
+   254	
+   255		/*
+   256		 * Mark the memslot dirty *after* modifying it for access tracking.
+   257		 * Unlike folios, memslots can be safely marked dirty out of mmu_lock,
+   258		 * i.e. in the fast page fault handler.
+   259		 */
+   260		if ((spte & PT_WRITABLE_MASK) && kvm_slot_dirty_track_enabled(slot)) {
+   261			/* Enforced by kvm_mmu_hugepage_adjust. */
+   262			WARN_ON_ONCE(level > PG_LEVEL_4K);
+   263			mark_page_dirty_in_slot(vcpu->kvm, slot, gfn);
+   264		}
+   265	
+ > 266		*new_spte = spte;
+ > 267		return wrprot;
+ > 268	}
+   269	
 
-I guess just removing the variable and returning -EIO directly should be
-a good approach.
-
-What do you think?
-
-> 
-> vim +/rc +8214 drivers/platform/x86/thinkpad_acpi.c
-> 
->    8211	
->    8212	static int fan_set_level(int level)
->    8213	{
->> 8214		int rc;
->    8215	
->    8216		if (!fan_control_allowed)
->    8217			return -EPERM;
->    8218	
->    8219		switch (fan_control_access_mode) {
->    8220		case TPACPI_FAN_WR_ACPI_SFAN:
->    8221			if ((level < 0) || (level > 7))
->    8222				return -EINVAL;
->    8223	
->    8224			if (tp_features.second_fan_ctl) {
->    8225				if (!fan_select_fan2() ||
->    8226				    !acpi_evalf(sfan_handle, NULL, NULL, "vd", level)) {
->    8227					pr_warn("Couldn't set 2nd fan level, disabling support\n");
->    8228					tp_features.second_fan_ctl = 0;
->    8229				}
->    8230				fan_select_fan1();
->    8231			}
->    8232			if (!acpi_evalf(sfan_handle, NULL, NULL, "vd", level))
->    8233				return -EIO;
->    8234			break;
->    8235	
->    8236		case TPACPI_FAN_WR_ACPI_FANS:
->    8237		case TPACPI_FAN_WR_TPEC:
->    8238			if (!(level & TP_EC_FAN_AUTO) &&
->    8239			    !(level & TP_EC_FAN_FULLSPEED) &&
->    8240			    ((level < 0) || (level > 7)))
->    8241				return -EINVAL;
->    8242	
->    8243			/* safety net should the EC not support AUTO
->    8244			 * or FULLSPEED mode bits and just ignore them */
->    8245			if (level & TP_EC_FAN_FULLSPEED)
->    8246				level |= 7;	/* safety min speed 7 */
->    8247			else if (level & TP_EC_FAN_AUTO)
->    8248				level |= 4;	/* safety min speed 4 */
->    8249	
->    8250			if (tp_features.second_fan_ctl) {
->    8251				if (!fan_select_fan2() ||
->    8252				    !acpi_ec_write(fan_status_offset, level)) {
->    8253					pr_warn("Couldn't set 2nd fan level, disabling support\n");
->    8254					tp_features.second_fan_ctl = 0;
->    8255				}
->    8256				fan_select_fan1();
->    8257	
->    8258			}
->    8259			if (!acpi_ec_write(fan_status_offset, level))
->    8260				return -EIO;
->    8261			else
->    8262				tp_features.fan_ctrl_status_undef = 0;
->    8263			break;
->    8264	
->    8265		case TPACPI_FAN_WR_ACPI_FANW:
->    8266			if (!(level & TP_EC_FAN_AUTO) && (level < 0 || level > 7))
->    8267				return -EINVAL;
->    8268			if (level & TP_EC_FAN_FULLSPEED)
->    8269				return -EINVAL;
->    8270	
->    8271			if (level & TP_EC_FAN_AUTO) {
->    8272				if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8106, 0x05)) {
->    8273					rc = -EIO;
->    8274					break;
->    8275				}
->    8276				if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8100, 0x00)) {
->    8277					rc = -EIO;
->    8278					break;
->    8279				}
->    8280			} else {
->    8281				if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8106, 0x45)) {
->    8282					rc = -EIO;
->    8283					break;
->    8284				}
->    8285				if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8100, 0xff)) {
->    8286					rc = -EIO;
->    8287					break;
->    8288				}
->    8289				if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8102, level * 100 / 7)) {
->    8290					rc = -EIO;
->    8291					break;
->    8292				}
->    8293			}
->    8294			break;
->    8295	
->    8296		default:
->    8297			return -ENXIO;
->    8298		}
->    8299	
->    8300		vdbg_printk(TPACPI_DBG_FAN,
->    8301			"fan control: set fan control register to 0x%02x\n", level);
->    8302		return 0;
->    8303	}
->    8304	
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
