@@ -1,72 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8108F13C8F0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC6C2E859
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723811041; cv=none; b=WGcBuXFrKzzE+oAJTm1l4V2Fi0farfHJmLAGxrNgQWFqVC6KwipygNoVxcs2B659hBxiziyA+Z1fKhC7dTRZoeK/yRcpCowQQS04Wb7B6/jUowG7/qXBXXrAxdY+Wd0TcnQ8gQe2GRq2+88ZbzmhrkrIjtnat95v534lZGA5B9w=
+	t=1723812299; cv=none; b=kY9PI07A7ZJX/9EASHwHoUoBVAmin2hU6HIqpBx9cuayzSiPtsLV7JLt0+nn6Fe3gKEfnZwCCLOJUicLXkun5aqjELsGLN1R91A01V/0G++bf8WFH0ClFPTJxw7dfqXqEusAI8N/fMtqfTXafAfAnkcH9jJO24ws6euimkDpXmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723811041; c=relaxed/simple;
-	bh=0XjBuQ5Ujk4jTqxw19KMbPoC57UVqxNo9JAgL8Zw148=;
+	s=arc-20240116; t=1723812299; c=relaxed/simple;
+	bh=a1wMG3F56AHOEbZ2fzPzZeByW/CEN4zUy3fYWVDPUAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MsoGmeoTZp3zFnnGGDSQnfsMOtSebD8QyTs+9Zoj8Xjn/oqg4jCvYp78xCSmMZTrokN63FwhXxX0EBxW3wv3QzoI7kefxsjGD8ZVX9ezohKASh2TNxnmGFFNVK0PpOvHr8Wvi0PB/DOF7SilCuBEhz0gGUmnZZ+ujkbFfu1x36I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYqtBBdg; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jd6qZWV/yNlo3qN8ku/QCRjt0cDqHIeG5h7pIoTKEYQbWimGA85I74JpxalqSfSNVQmAyUhmTHdQyJeY4Al6W3oFWdbOwWC+kk4jwBh/nz1LqcJpz3Y3efPcV/ZEVwgJazljxoPvS+ET/8AJ+hbvBd7XmpMez898Q+1EFjut50k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c504eUiF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYqtBBdg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c504eUiF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723811038; x=1755347038;
+  t=1723812298; x=1755348298;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0XjBuQ5Ujk4jTqxw19KMbPoC57UVqxNo9JAgL8Zw148=;
-  b=aYqtBBdgNnNTSV5pfAszHc7lgscHK0UzHc01ktKYC3lfFZjo0+opPpN2
-   4CGEVnstYDzgptBz1bTXFXn+I2617VLhkrt6QB42zVIaqyW6vxj3Lv3lX
-   WgO9zFWC1U0GSJdK588geEg4Shrn7ZLN1Q0zd67o8grF964usTZ/nNi8g
-   jNo1YO/ZJc9aH0dNk79EtOKUZXRcc5/n9XQpzYei8uGNUzVeVwbxO9RYm
-   3wkIfTwoDsx8kMjXuM2NEAY/0CtTV3+8Kjn1RNtKAjyprgEKa5/UQ4lyY
-   ++30kDoNYZA8xJ0pyKZtBwBiMBm4kdo44dHULc7xO6oOgzwDWbMuSQboH
-   w==;
-X-CSE-ConnectionGUID: gpatuWJaTIuSCM+BBxM7cQ==
-X-CSE-MsgGUID: bfcFQoVcRVuWyMSWh11ksQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22250469"
+  bh=a1wMG3F56AHOEbZ2fzPzZeByW/CEN4zUy3fYWVDPUAg=;
+  b=c504eUiFQzdxc5wswChLyxLDnD8WNZPRnwr9Ir1hCtr2aIJEHu6CCbtD
+   LQ5uK8PUKoM52ZQD9G6MkDB1/uNVmnCKgH6Y0DPC9DePC9DWLIJwsPM4U
+   YiGSEwFsoZGRPxO1XBwyzNCnK6a0sudHUK/ZP1uVdCgYfCBKOWkMfeRvX
+   3bh6A+ZbITucS65YbtPvaV+yKGrvAtyLHtrC0iIf4IbTY0vQJrJ6f2jxY
+   V4cklF/BJhhB2UwhIZV/a8yV5SIKC/Wljknn4AA8OjGTGYALJOA/efIHa
+   cqa7j3+pFl/ArAz93zrGgX39J7tnkiSyQZDcfmvBXmCBT7Fdsqd72M0nn
+   A==;
+X-CSE-ConnectionGUID: i2Xmxgy2R2SxB4tBWNs03Q==
+X-CSE-MsgGUID: 9ACb/z2lSjC3e6n0S58VGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="44625446"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="22250469"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:23:57 -0700
-X-CSE-ConnectionGUID: jTI0ERjdQYOOOYnshjCUog==
-X-CSE-MsgGUID: S9gzk8e6RFu1PRuXaiBdrQ==
+   d="scan'208";a="44625446"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:44:56 -0700
+X-CSE-ConnectionGUID: l6axIvtVRDGcK1AYbyLEyQ==
+X-CSE-MsgGUID: rEQ8uUvzT3iT08p0wMxdWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="60218489"
+   d="scan'208";a="64333870"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2024 05:23:54 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2024 05:44:54 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sevzj-0006Os-1J;
-	Fri, 16 Aug 2024 12:23:51 +0000
-Date: Fri, 16 Aug 2024 20:23:36 +0800
+	id 1sewK4-0006QG-19;
+	Fri, 16 Aug 2024 12:44:52 +0000
+Date: Fri, 16 Aug 2024 20:44:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antonino Maniscalco <antomani103@gmail.com>,
-	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Antonino Maniscalco <antomani103@gmail.com>,
-	Sharat Masetty <smasetty@codeaurora.org>
-Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
-Message-ID: <202408161951.81zgvcJ5-lkp@intel.com>
-References: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
+To: Miao Wang via B4 Relay <devnull+shankerwangmiao.gmail.com@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-acpi@vger.kernel.org, Miao Wang <shankerwangmiao@gmail.com>
+Subject: Re: [PATCH] ACPI: PCI: check if the io space is page aligned
+Message-ID: <202408162020.SGGpRl7q-lkp@intel.com>
+References: <20240814-check_pci_probe_res-v1-1-122ee07821ab@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,60 +66,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
+In-Reply-To: <20240814-check_pci_probe_res-v1-1-122ee07821ab@gmail.com>
 
-Hi Antonino,
+Hi Miao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
+[auto build test ERROR on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonino-Maniscalco/drm-msm-Fix-bv_fence-being-used-as-bv_rptr/20240816-023442
+url:    https://github.com/intel-lab-lkp/linux/commits/Miao-Wang-via-B4-Relay/ACPI-PCI-check-if-the-io-space-is-page-aligned/20240815-003833
 base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
-patch link:    https://lore.kernel.org/r/20240815-preemption-a750-t-v1-4-7bda26c34037%40gmail.com
-patch subject: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
-config: i386-buildonly-randconfig-001-20240816 (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240814-check_pci_probe_res-v1-1-122ee07821ab%40gmail.com
+patch subject: [PATCH] ACPI: PCI: check if the io space is page aligned
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240816/202408162020.SGGpRl7q-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162020.SGGpRl7q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408161951.81zgvcJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408162020.SGGpRl7q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/adreno/a6xx_preempt.c: In function 'update_wptr':
->> drivers/gpu/drm/msm/adreno/a6xx_preempt.c:49:24: warning: unused variable 'cur_wptr' [-Wunused-variable]
-      49 |         uint32_t wptr, cur_wptr;
-         |                        ^~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/acpi/pci_root.c:17:
+   drivers/acpi/pci_root.c: In function 'acpi_pci_root_remap_iospace':
+>> drivers/acpi/pci_root.c:873:31: error: incompatible type for argument 1 of '_dev_err'
+     873 |                 dev_err(device->dev,
+         |                         ~~~~~~^~~~~
+         |                               |
+         |                               struct device
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/acpi/pci_root.c:873:17: note: in expansion of macro 'dev_err'
+     873 |                 dev_err(device->dev,
+         |                 ^~~~~~~
+   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'struct device'
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |               ~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +/cur_wptr +49 drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+vim +/_dev_err +873 drivers/acpi/pci_root.c
 
-    44	
-    45	/* Write the most recent wptr for the given ring into the hardware */
-    46	static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
-    47	{
-    48		unsigned long flags;
-  > 49		uint32_t wptr, cur_wptr;
-    50	
-    51		if (!ring)
-    52			return;
-    53	
-    54		spin_lock_irqsave(&ring->preempt_lock, flags);
-    55	
-    56		if (ring->skip_inline_wptr) {
-    57			wptr = get_wptr(ring);
-    58	
-    59			gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-    60	
-    61			ring->skip_inline_wptr = false;
-    62		}
-    63	
-    64		spin_unlock_irqrestore(&ring->preempt_lock, flags);
-    65	}
-    66	
+   860	
+   861	static void acpi_pci_root_remap_iospace(struct acpi_device *device,
+   862				struct resource_entry *entry)
+   863	{
+   864	#ifdef PCI_IOBASE
+   865		struct resource *res = entry->res;
+   866		resource_size_t cpu_addr = res->start;
+   867		resource_size_t pci_addr = cpu_addr - entry->offset;
+   868		resource_size_t length = resource_size(res);
+   869		unsigned long port;
+   870	
+   871		if (!PAGE_ALIGNED(cpu_addr) || !PAGE_ALIGNED(length) ||
+   872			!PAGE_ALIGNED(pci_addr)) {
+ > 873			dev_err(device->dev,
+   874				FW_BUG "I/O resource %pR or its offset %pa is not page aligned\n",
+   875				res, &entry->offset);
+   876			goto err;
+   877		}
+   878	
+   879		if (pci_register_io_range(&device->fwnode, cpu_addr, length))
+   880			goto err;
+   881	
+   882		port = pci_address_to_pio(cpu_addr);
+   883		if (port == (unsigned long)-1)
+   884			goto err;
+   885	
+   886		res->start = port;
+   887		res->end = port + length - 1;
+   888		entry->offset = port - pci_addr;
+   889	
+   890		if (pci_remap_iospace(res, cpu_addr) < 0)
+   891			goto err;
+   892	
+   893		pr_info("Remapped I/O %pa to %pR\n", &cpu_addr, res);
+   894		return;
+   895	err:
+   896		res->flags |= IORESOURCE_DISABLED;
+   897	#endif
+   898	}
+   899	
 
 -- 
 0-DAY CI Kernel Test Service
