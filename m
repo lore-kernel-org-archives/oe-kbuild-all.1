@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABE01B32BF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BB6191F84
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723812300; cv=none; b=TijNTIjFh3BrwSgbKZfpE7PG0Xkvp3yodWgnPZx/DiWx4K0Jnj57FLeuW/RFxBcbNVA8eLLg3y1/E32opCDanvvfjDMWG06ItSwGUcO83OcwKOhp3iAGEMMKSai18fa1QsX/KRcIKnD+4H6FoMSmKWjKl1oFFmmsK1rgmUDi1BA=
+	t=1723812300; cv=none; b=Mag9yB3PVDIfnBfPppPDHm11DPpt1UhrEf4rYeMRLNl8CEIGbeMH65/90j0wLYVRYJCT7fS3Sr8zo1ufZ+8fRMy14SDvMdvq24v2AAVxMnhLAj/IrbT9N0YaKh3BZRdRy6tR3nW+qTqJ/IlFfKQD3c+NPmavIFdbFAEz3YqbkPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723812300; c=relaxed/simple;
-	bh=fvGhxIuzPUioSNTTe3EoSTFxz8wI2lhy+hs0qJT16y4=;
+	bh=5hhvYxKh/BWJATt7lMINORYJsEBOxQn25RjDu5y93w0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D0+XZ8ovnROnE28VshQCeIP4bkACdcje+BuZxNJowMDRGlbD3rH26EYVatEgghTS3081b8LN8uHy8vvDOHgbT1q6TbXCP5amAQttktJuhte2ryc2+5FWg0X2cJnwEk0RtHOZPP3rWqgRGsfoTKjzkcGjqgAz8mNXb2Eb5itJNpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GST0JKnU; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=EIBzLablAc7B1L74wRIDjxwbTZyP5BEDP+q3dxHw2jLaFVe8PDyOZiJjFecMc6u5wxDnb4bMVgUwaX23+NDeQftgjs/LVTpPnsUQboLxpZuyvjXKegmZ4wrbZeTgocs7P6MykzkDulh929YwqDdEeNYL0+zaHV8NSmb17oI7KGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXrCV9Fy; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GST0JKnU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXrCV9Fy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723812299; x=1755348299;
+  t=1723812297; x=1755348297;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fvGhxIuzPUioSNTTe3EoSTFxz8wI2lhy+hs0qJT16y4=;
-  b=GST0JKnUhe1K7ZITGKGWQ712/qfA4sZJdqrNCvXgUe5lb40lawIjsDVx
-   XbhZordQKCPOrjCBSpDxFn7II5UYTzCLPp1A5hoscMEQ9Faga7VbJuNxX
-   WeEjU3tLn7aeKBCvrg5iZW2r060dncG+wdJUuN0ZswdhnGEfPgj5a1tjy
-   qO5QwMRwkJOFEQuEkVSrGfJVezIH8/csiovyZn7pGEtOJsmkFl8Ko6RPp
-   2ZkG4sE/q2mTVAATpwWMIIO06lkSVQ8wm2BuOTC4L9jI3wPS8+B97u4Gk
-   TlLCcEiJXAs6herqQWfQvjAKlW72CTj9+wK3yJjdRpECBYdQHHraPc51t
-   Q==;
-X-CSE-ConnectionGUID: 5Ms5xuVGTzus+dN4+PbLOA==
-X-CSE-MsgGUID: okXNSclSS/ut3RAtBTiiMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="44625452"
+  bh=5hhvYxKh/BWJATt7lMINORYJsEBOxQn25RjDu5y93w0=;
+  b=YXrCV9Fy0QlDPr/w3+TWuBVcBCmJr8lFH/Et/eWCMMlsZ3AlQ6oAK36p
+   ij8B3ol/fsalqQMuu63Feh1ePamV9zaeAfyYIqiKzoE2bx8wVipQuNa5q
+   QeailUINJdM4SVSsKS6MZNEpqtR3ss5gfvc8hZ+bczYC2JpDAHXmvfkwi
+   29dovjGqZyd/fmNy1kCPTD6phfXO01vHoeqVg0KVQb9PAc43sDdKulG8z
+   5utJvU4gpd74OgFEN+cIUvgmPi8Lbq3QlJ8kjNb8f+h4wBRQcSIlx4v7Q
+   O30dOPJeEZABjxuLJ+7kwBqB/Axe4FGEwpkg1eYka9faQrgoTPgFaKv69
+   g==;
+X-CSE-ConnectionGUID: VL30nVoKTVCy7BsdCD7Rcw==
+X-CSE-MsgGUID: Ha51nKpJTR2Iuim+a3+zTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="21919028"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="44625452"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:44:57 -0700
-X-CSE-ConnectionGUID: pzvbqMBIQSqcDRf43NMVfw==
-X-CSE-MsgGUID: 8HfQNVKBQTilZOBzibhyrQ==
+   d="scan'208";a="21919028"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:44:56 -0700
+X-CSE-ConnectionGUID: KOV7HugPTwejVBHvqNw6HQ==
+X-CSE-MsgGUID: 8WqK5PkWSZG0r/HuKk10Kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="64333875"
+   d="scan'208";a="60221339"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2024 05:44:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2024 05:44:55 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sewK4-0006QC-15;
+	id 1sewK4-0006QI-1D;
 	Fri, 16 Aug 2024 12:44:52 +0000
-Date: Fri, 16 Aug 2024 20:44:27 +0800
+Date: Fri, 16 Aug 2024 20:44:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
-	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
-	akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, nanhai.zou@intel.com,
-	wajdi.k.feghali@intel.com, vinodh.gopal@intel.com,
-	kanchana.p.sridhar@intel.com
-Subject: Re: [PATCH v2 4/4] mm: swap: Count successful mTHP ZSWAP stores in
- sysfs mTHP stats.
-Message-ID: <202408162056.MQnreTgK-lkp@intel.com>
-References: <20240816054805.5201-5-kanchana.p.sridhar@intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@linux.intel.com
+Subject: Re: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL
+ algorithm for DG2
+Message-ID: <202408162056.qbWTZcLT-lkp@intel.com>
+References: <20240813031941.3553574-2-ankit.k.nautiyal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,54 +64,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240816054805.5201-5-kanchana.p.sridhar@intel.com>
+In-Reply-To: <20240813031941.3553574-2-ankit.k.nautiyal@intel.com>
 
-Hi Kanchana,
+Hi Ankit,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.11-rc3]
-[cannot apply to akpm-mm/mm-everything next-20240816]
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next linus/master v6.11-rc3 next-20240816]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/mm-zswap-zswap_is_folio_same_filled-takes-an-index-in-the-folio/20240816-134948
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240816054805.5201-5-kanchana.p.sridhar%40intel.com
-patch subject: [PATCH v2 4/4] mm: swap: Count successful mTHP ZSWAP stores in sysfs mTHP stats.
-config: i386-buildonly-randconfig-005-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162056.MQnreTgK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162056.MQnreTgK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ankit-Nautiyal/drm-i915-display-Add-support-for-SNPS-PHY-HDMI-PLL-algorithm-for-DG2/20240814-222404
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240813031941.3553574-2-ankit.k.nautiyal%40intel.com
+patch subject: [PATCH 1/5] drm/i915/display: Add support for SNPS PHY HDMI PLL algorithm for DG2
+config: i386-randconfig-061-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162056.qbWTZcLT-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162056.qbWTZcLT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162056.MQnreTgK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408162056.qbWTZcLT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/i915/display/intel_snps_hdmi_pll.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/gpu/drm/i915/display/intel_snps_hdmi_pll.c:103:23: sparse: sparse: cast truncates bits from constant value (e8d4a51000 becomes d4a51000)
 
-   mm/page_io.c: In function 'count_mthp_zswpout_vm_event':
->> mm/page_io.c:178:17: error: implicit declaration of function 'count_mthp_stat' [-Werror=implicit-function-declaration]
-     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
-         |                 ^~~~~~~~~~~~~~~
->> mm/page_io.c:178:53: error: 'MTHP_STAT_ZSWPOUT' undeclared (first use in this function)
-     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
-         |                                                     ^~~~~~~~~~~~~~~~~
-   mm/page_io.c:178:53: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+vim +103 drivers/gpu/drm/i915/display/intel_snps_hdmi_pll.c
 
-
-vim +/count_mthp_stat +178 mm/page_io.c
-
-   174	
-   175	static inline void count_mthp_zswpout_vm_event(struct folio *folio)
-   176	{
-   177		if (IS_ENABLED(CONFIG_THP_SWAP))
- > 178			count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
-   179	}
-   180	
+    47	
+    48	static void get_ana_cp_int_prop(u32 vco_clk,
+    49					u32 refclk_postscalar,
+    50					int mpll_ana_v2i,
+    51					int c, int a,
+    52					const u64 curve_freq_hz[2][8],
+    53					const u64 curve_0[2][8],
+    54					const u64 curve_1[2][8],
+    55					const u64 curve_2[2][8],
+    56					u32 *ana_cp_int,
+    57					u32 *ana_cp_prop)
+    58	{
+    59		u64 vco_div_refclk_float;
+    60		u64 curve_0_interpolated;
+    61		u64 curve_2_interpolated;
+    62		u64 curve_1_interpolated;
+    63		u64 curve_2_scaled1;
+    64		u64 curve_2_scaled2;
+    65		u64 adjusted_vco_clk1;
+    66		u64 adjusted_vco_clk2;
+    67		u64 curve_2_scaled_int;
+    68		u64 interpolated_product;
+    69		u64 scaled_interpolated_sqrt;
+    70		u64 scaled_vco_div_refclk1;
+    71		u64 scaled_vco_div_refclk2;
+    72		u64 temp;
+    73	
+    74		vco_div_refclk_float = vco_clk * DIV_ROUND_DOWN_ULL(1000000000000ULL, refclk_postscalar);
+    75	
+    76		/* Interpolate curve values at the target vco_clk frequency */
+    77		curve_0_interpolated = interp(vco_clk, curve_freq_hz[c][a], curve_freq_hz[c][a + 1],
+    78					      curve_0[c][a], curve_0[c][a + 1]);
+    79	
+    80		curve_2_interpolated = interp(vco_clk, curve_freq_hz[c][a], curve_freq_hz[c][a + 1],
+    81					      curve_2[c][a], curve_2[c][a + 1]);
+    82	
+    83		curve_1_interpolated = interp(vco_clk, curve_freq_hz[c][a], curve_freq_hz[c][a + 1],
+    84					      curve_1[c][a], curve_1[c][a + 1]);
+    85	
+    86		curve_1_interpolated = DIV_ROUND_DOWN_ULL(curve_1_interpolated, CURVE1_MULTIPLIER);
+    87	
+    88		/*
+    89		 * Scale curve_2_interpolated based on mpll_ana_v2i, for integer part
+    90		 * ana_cp_int and for the proportional part ana_cp_prop
+    91		 */
+    92		temp = curve_2_interpolated * (4 - mpll_ana_v2i);
+    93		curve_2_scaled1 = DIV_ROUND_DOWN_ULL(temp, 16000);
+    94		curve_2_scaled2 = DIV_ROUND_DOWN_ULL(temp, 160);
+    95	
+    96		/* Scale vco_div_refclk for ana_cp_int */
+    97		scaled_vco_div_refclk1 = 112008301 * DIV_ROUND_DOWN_ULL(vco_div_refclk_float, 100000);
+    98	
+    99		adjusted_vco_clk1 = CURVE2_MULTIPLIER *
+   100				    DIV_ROUND_DOWN_ULL(scaled_vco_div_refclk1, (curve_0_interpolated *
+   101				    DIV_ROUND_DOWN_ULL(curve_1_interpolated, CURVE0_MULTIPLIER)));
+   102	
+ > 103		*ana_cp_int = DIV_ROUND_CLOSEST_ULL(DIV_ROUND_DOWN_ULL(adjusted_vco_clk1, curve_2_scaled1),
+   104						    CURVE2_MULTIPLIER);
+   105		*ana_cp_int = max(1, min(*ana_cp_int, 127));
+   106	
+   107		curve_2_scaled_int = curve_2_scaled1 * (*ana_cp_int);
+   108	
+   109		interpolated_product = curve_1_interpolated *
+   110				       (curve_2_scaled_int * DIV_ROUND_DOWN_ULL(curve_0_interpolated,
+   111									      CURVE0_MULTIPLIER));
+   112	
+   113		scaled_interpolated_sqrt =
+   114				int_sqrt(DIV_ROUND_UP_ULL(interpolated_product, vco_div_refclk_float) *
+   115				DIV_ROUND_DOWN_ULL(1000000000000ULL, 55));
+   116	
+   117		/* Scale vco_div_refclk for ana_cp_int */
+   118		scaled_vco_div_refclk2 = DIV_ROUND_UP_ULL(vco_div_refclk_float, 1000000);
+   119		adjusted_vco_clk2 = 1460281 * DIV_ROUND_UP_ULL(scaled_interpolated_sqrt *
+   120							       scaled_vco_div_refclk2,
+   121							       curve_1_interpolated);
+   122	
+   123		*ana_cp_prop = DIV_ROUND_UP_ULL(adjusted_vco_clk2, curve_2_scaled2);
+   124		*ana_cp_prop = max(1, min(*ana_cp_prop, 127));
+   125	}
+   126	
 
 -- 
 0-DAY CI Kernel Test Service
