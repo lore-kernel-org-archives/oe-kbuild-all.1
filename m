@@ -1,65 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6998A156F44
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8108F13C8F0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723809837; cv=none; b=lsN/AEcVFy0Js3XRK/kc0yRY2iSvpufsM4EVoHCX2OUvTzRF9XY2t1YGTcflrqtFyiBro7/Htu7Zvt7GDMnMF9Byl4bDCoO4LazVEcYyfTTR3W/2kuD5KupYbznBKWWRycQVt+6jEvw3dBqrMvEsTZ4bkSJdzrVIwh9453NZWng=
+	t=1723811041; cv=none; b=WGcBuXFrKzzE+oAJTm1l4V2Fi0farfHJmLAGxrNgQWFqVC6KwipygNoVxcs2B659hBxiziyA+Z1fKhC7dTRZoeK/yRcpCowQQS04Wb7B6/jUowG7/qXBXXrAxdY+Wd0TcnQ8gQe2GRq2+88ZbzmhrkrIjtnat95v534lZGA5B9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723809837; c=relaxed/simple;
-	bh=5e5kiXkjoBx2z6g63nwbvFkiN9+y7THshxeuizhe6n8=;
+	s=arc-20240116; t=1723811041; c=relaxed/simple;
+	bh=0XjBuQ5Ujk4jTqxw19KMbPoC57UVqxNo9JAgL8Zw148=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rov/hvQu11gGViwlhorI3//MAiY4Yo4k5jxR/lDPV+QSnP/LwN0cKJhaRT4FFSLFHRmLyHen516Q83QlC1pzgH3Hi98kVlgfk5+cfpxSayQoYZVe79aw3Siq/1qP/GbzxG7wVr/ZhMw9tj0TptZ0H+OZhLR4pAbN5F2IkXQZ3/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9zoeyok; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=MsoGmeoTZp3zFnnGGDSQnfsMOtSebD8QyTs+9Zoj8Xjn/oqg4jCvYp78xCSmMZTrokN63FwhXxX0EBxW3wv3QzoI7kefxsjGD8ZVX9ezohKASh2TNxnmGFFNVK0PpOvHr8Wvi0PB/DOF7SilCuBEhz0gGUmnZZ+ujkbFfu1x36I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYqtBBdg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9zoeyok"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYqtBBdg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723809835; x=1755345835;
+  t=1723811038; x=1755347038;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5e5kiXkjoBx2z6g63nwbvFkiN9+y7THshxeuizhe6n8=;
-  b=Z9zoeyokmNr3PNkK5QsqVxFL9EWCGYO2VdTsQf5gkRkh9L5ZBZwgVlUi
-   Pk5vEdNn+zfHkBz7RM1GWGS2ecu9rs2a+GGZ9ADUbB+Bh4LXmFuFQeNWG
-   I8w1vtVnVHNXYU6CMRTXFEetcEsV3jNak7SyfIidEpgsjZV7Vrpxgl2H+
-   kmRkHunUABDEdo56CHol79r1LHnoVTwzVscp2ll445TzqgCEFxjiLYvGJ
-   tsgkPMKWg7f8RyM4NzXILgHJG/qxAr94mSla1eBb471+BDGDIGp3l66tk
-   RxNwwIlzNJGDB2/xqJZCJQlaheWviT+xGwes2kGMoXF7w8SrTeExFyUMg
+  bh=0XjBuQ5Ujk4jTqxw19KMbPoC57UVqxNo9JAgL8Zw148=;
+  b=aYqtBBdgNnNTSV5pfAszHc7lgscHK0UzHc01ktKYC3lfFZjo0+opPpN2
+   4CGEVnstYDzgptBz1bTXFXn+I2617VLhkrt6QB42zVIaqyW6vxj3Lv3lX
+   WgO9zFWC1U0GSJdK588geEg4Shrn7ZLN1Q0zd67o8grF964usTZ/nNi8g
+   jNo1YO/ZJc9aH0dNk79EtOKUZXRcc5/n9XQpzYei8uGNUzVeVwbxO9RYm
+   3wkIfTwoDsx8kMjXuM2NEAY/0CtTV3+8Kjn1RNtKAjyprgEKa5/UQ4lyY
+   ++30kDoNYZA8xJ0pyKZtBwBiMBm4kdo44dHULc7xO6oOgzwDWbMuSQboH
    w==;
-X-CSE-ConnectionGUID: xU4GxR0xQVOfAG3jEKX9tw==
-X-CSE-MsgGUID: qA/DBP0QRF+FAczIeeEnnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="25969141"
+X-CSE-ConnectionGUID: gpatuWJaTIuSCM+BBxM7cQ==
+X-CSE-MsgGUID: bfcFQoVcRVuWyMSWh11ksQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22250469"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="25969141"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:03:54 -0700
-X-CSE-ConnectionGUID: 09Y/9+qKTr2WRxmoGKci3g==
-X-CSE-MsgGUID: 0PJ3fA3+TQeMGc85mc1v/A==
+   d="scan'208";a="22250469"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:23:57 -0700
+X-CSE-ConnectionGUID: jTI0ERjdQYOOOYnshjCUog==
+X-CSE-MsgGUID: S9gzk8e6RFu1PRuXaiBdrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="82860137"
+   d="scan'208";a="60218489"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Aug 2024 05:03:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Aug 2024 05:23:54 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sevgM-0006OI-2z;
-	Fri, 16 Aug 2024 12:03:50 +0000
-Date: Fri, 16 Aug 2024 20:03:06 +0800
+	id 1sevzj-0006Os-1J;
+	Fri, 16 Aug 2024 12:23:51 +0000
+Date: Fri, 16 Aug 2024 20:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net v3 1/2] ptp: ocp: adjust sysfs entries to expose tty
- information
-Message-ID: <202408161934.aQsUDy88-lkp@intel.com>
-References: <20240815125905.1667148-1-vadfed@meta.com>
+To: Antonino Maniscalco <antomani103@gmail.com>,
+	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Antonino Maniscalco <antomani103@gmail.com>,
+	Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+Message-ID: <202408161951.81zgvcJ5-lkp@intel.com>
+References: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,48 +75,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240815125905.1667148-1-vadfed@meta.com>
+In-Reply-To: <20240815-preemption-a750-t-v1-4-7bda26c34037@gmail.com>
 
-Hi Vadim,
+Hi Antonino,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
+[auto build test WARNING on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/docs-ABI-update-OCP-TimeCard-sysfs-entries/20240815-210131
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240815125905.1667148-1-vadfed%40meta.com
-patch subject: [PATCH net v3 1/2] ptp: ocp: adjust sysfs entries to expose tty information
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240816/202408161934.aQsUDy88-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161934.aQsUDy88-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonino-Maniscalco/drm-msm-Fix-bv_fence-being-used-as-bv_rptr/20240816-023442
+base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
+patch link:    https://lore.kernel.org/r/20240815-preemption-a750-t-v1-4-7bda26c34037%40gmail.com
+patch subject: [PATCH 4/7] drm/msm/A6xx: Implement preemption for A7XX targets
+config: i386-buildonly-randconfig-001-20240816 (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161951.81zgvcJ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408161934.aQsUDy88-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408161951.81zgvcJ5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_tty_show':
->> drivers/ptp/ptp_ocp.c:3360:37: warning: unused variable 'port' [-Wunused-variable]
-    3360 |         struct ptp_ocp_serial_port *port;
-         |                                     ^~~~
+   drivers/gpu/drm/msm/adreno/a6xx_preempt.c: In function 'update_wptr':
+>> drivers/gpu/drm/msm/adreno/a6xx_preempt.c:49:24: warning: unused variable 'cur_wptr' [-Wunused-variable]
+      49 |         uint32_t wptr, cur_wptr;
+         |                        ^~~~~~~~
 
 
-vim +/port +3360 drivers/ptp/ptp_ocp.c
+vim +/cur_wptr +49 drivers/gpu/drm/msm/adreno/a6xx_preempt.c
 
-  3354	
-  3355	static ssize_t
-  3356	ptp_ocp_tty_show(struct device *dev, struct device_attribute *attr, char *buf)
-  3357	{
-  3358		struct dev_ext_attribute *ea = to_ext_attr(attr);
-  3359		struct ptp_ocp *bp = dev_get_drvdata(dev);
-> 3360		struct ptp_ocp_serial_port *port;
-  3361	
-  3362		return sysfs_emit(buf, "ttyS%d", bp->port[(uintptr_t)ea->var].line);
-  3363	}
-  3364	
+    44	
+    45	/* Write the most recent wptr for the given ring into the hardware */
+    46	static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+    47	{
+    48		unsigned long flags;
+  > 49		uint32_t wptr, cur_wptr;
+    50	
+    51		if (!ring)
+    52			return;
+    53	
+    54		spin_lock_irqsave(&ring->preempt_lock, flags);
+    55	
+    56		if (ring->skip_inline_wptr) {
+    57			wptr = get_wptr(ring);
+    58	
+    59			gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
+    60	
+    61			ring->skip_inline_wptr = false;
+    62		}
+    63	
+    64		spin_unlock_irqrestore(&ring->preempt_lock, flags);
+    65	}
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
