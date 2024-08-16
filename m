@@ -1,79 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111C61B0108;
-	Fri, 16 Aug 2024 11:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6998A156F44
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723806779; cv=none; b=fCxYCjMw3tJWY+UjcqH1aDWuJ+2qt/RTcUo6CrSMy5Jc7yI+WQD++OHDR70AkF7deiocrWcrqogkZ2ADgAAWdu0ruauo1dCc+BLeNX+X7YBCZvZbRJBwZuMv74wB8Ew8Ekbdp70Vn6Zx9c7pK83D3NOpp/2n8DtXFnjwQH1pskY=
+	t=1723809837; cv=none; b=lsN/AEcVFy0Js3XRK/kc0yRY2iSvpufsM4EVoHCX2OUvTzRF9XY2t1YGTcflrqtFyiBro7/Htu7Zvt7GDMnMF9Byl4bDCoO4LazVEcYyfTTR3W/2kuD5KupYbznBKWWRycQVt+6jEvw3dBqrMvEsTZ4bkSJdzrVIwh9453NZWng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723806779; c=relaxed/simple;
-	bh=D3wfA7SQItWr4+Uh0GYXu1SzL5q3oh6L5Pk0a4zzf5c=;
+	s=arc-20240116; t=1723809837; c=relaxed/simple;
+	bh=5e5kiXkjoBx2z6g63nwbvFkiN9+y7THshxeuizhe6n8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ug6LtFtSjY+ioE22RmGBu+Z2O7+FwjXhnCA6eFVZbQFYTpWPZETt9mhI86v16YL5DoFOpWMbO48o17w2BEKTRbQ0edbDE0XiZ9yn45BOXG88Fzgf9f0THCyh+a0X9txFKBf4hLKvOZJ4QJmCcwhYtlEmUrEsQ+2OuA5Ktyj4Vbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3tOl45U; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=rov/hvQu11gGViwlhorI3//MAiY4Yo4k5jxR/lDPV+QSnP/LwN0cKJhaRT4FFSLFHRmLyHen516Q83QlC1pzgH3Hi98kVlgfk5+cfpxSayQoYZVe79aw3Siq/1qP/GbzxG7wVr/ZhMw9tj0TptZ0H+OZhLR4pAbN5F2IkXQZ3/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9zoeyok; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3tOl45U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9zoeyok"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723806777; x=1755342777;
+  t=1723809835; x=1755345835;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=D3wfA7SQItWr4+Uh0GYXu1SzL5q3oh6L5Pk0a4zzf5c=;
-  b=W3tOl45U/l8EEe2Xa5NvlREA1znmE0LrlZIPeLVPneOIh1bIurL8MWfU
-   GDbHKah1wNadhOu0tE8LbUuCYH7hNHocyncZWMzqYJxA+3HEt89xG9eAm
-   DXNClsUptcUawQBRpkST4B1p19FkeZE9OWVTri/4OJXKEcyTYZQY3rpdX
-   bZtbk8ErWFR6iatE7xCu1aZXaDs0DsESB6C4ZQpkLDFHTSgmy4QN6VrWK
-   QE1ogDYdg91xFCVG0sLgG46gPmpJygWxtsdMrb1/CGQV2I27oN5K/9HJw
-   9U23vxoWWCual+2NMOoDtMYpiAL4vgiDjb1RSa2ZE2HdhmQMClqfZDon6
+  bh=5e5kiXkjoBx2z6g63nwbvFkiN9+y7THshxeuizhe6n8=;
+  b=Z9zoeyokmNr3PNkK5QsqVxFL9EWCGYO2VdTsQf5gkRkh9L5ZBZwgVlUi
+   Pk5vEdNn+zfHkBz7RM1GWGS2ecu9rs2a+GGZ9ADUbB+Bh4LXmFuFQeNWG
+   I8w1vtVnVHNXYU6CMRTXFEetcEsV3jNak7SyfIidEpgsjZV7Vrpxgl2H+
+   kmRkHunUABDEdo56CHol79r1LHnoVTwzVscp2ll445TzqgCEFxjiLYvGJ
+   tsgkPMKWg7f8RyM4NzXILgHJG/qxAr94mSla1eBb471+BDGDIGp3l66tk
+   RxNwwIlzNJGDB2/xqJZCJQlaheWviT+xGwes2kGMoXF7w8SrTeExFyUMg
    w==;
-X-CSE-ConnectionGUID: GlXP1gXmSq+ljH3M9B1Hbw==
-X-CSE-MsgGUID: +vkLPSd+SFG8Se8ICSug+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22068948"
+X-CSE-ConnectionGUID: xU4GxR0xQVOfAG3jEKX9tw==
+X-CSE-MsgGUID: qA/DBP0QRF+FAczIeeEnnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="25969141"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="22068948"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 04:12:56 -0700
-X-CSE-ConnectionGUID: te6maNNRTm+v0c2KtFzTvg==
-X-CSE-MsgGUID: vIs1qiDeT3a7SKyZKdlbxQ==
+   d="scan'208";a="25969141"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:03:54 -0700
+X-CSE-ConnectionGUID: 09Y/9+qKTr2WRxmoGKci3g==
+X-CSE-MsgGUID: 0PJ3fA3+TQeMGc85mc1v/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="90420797"
+   d="scan'208";a="82860137"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Aug 2024 04:12:50 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 16 Aug 2024 05:03:53 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1seusy-0006Lu-32;
-	Fri, 16 Aug 2024 11:12:48 +0000
-Date: Fri, 16 Aug 2024 19:12:09 +0800
+	id 1sevgM-0006OI-2z;
+	Fri, 16 Aug 2024 12:03:50 +0000
+Date: Fri, 16 Aug 2024 20:03:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Rommel <mail@florommel.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Daniel Thompson <daniel.thompson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Lorena Kretzschmar <qy15sije@cip.cs.fau.de>,
-	Stefan Saecherl <stefan.saecherl@fau.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	kgdb-bugreport@lists.sourceforge.net, x86@kernel.org,
-	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>,
-	Florian Rommel <mail@florommel.de>
-Subject: Re: [PATCH WIP] x86/kgdb: trampolines for shadowed instructions
-Message-ID: <202408162013.3Nz53QCv-lkp@intel.com>
-References: <20240814085141.171564-1-mail@florommel.de>
+To: Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH net v3 1/2] ptp: ocp: adjust sysfs entries to expose tty
+ information
+Message-ID: <202408161934.aQsUDy88-lkp@intel.com>
+References: <20240815125905.1667148-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,36 +68,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814085141.171564-1-mail@florommel.de>
+In-Reply-To: <20240815125905.1667148-1-vadfed@meta.com>
 
-Hi Florian,
+Hi Vadim,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/master]
-[also build test ERROR on tip/x86/core linus/master v6.11-rc3 next-20240816]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Rommel/x86-kgdb-trampolines-for-shadowed-instructions/20240814-230936
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20240814085141.171564-1-mail%40florommel.de
-patch subject: [PATCH WIP] x86/kgdb: trampolines for shadowed instructions
-config: x86_64-buildonly-randconfig-004-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162013.3Nz53QCv-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162013.3Nz53QCv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/docs-ABI-update-OCP-TimeCard-sysfs-entries/20240815-210131
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240815125905.1667148-1-vadfed%40meta.com
+patch subject: [PATCH net v3 1/2] ptp: ocp: adjust sysfs entries to expose tty information
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240816/202408161934.aQsUDy88-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161934.aQsUDy88-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162013.3Nz53QCv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408161934.aQsUDy88-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: execmem_alloc
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(kgdb_arch_init)
+   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_tty_show':
+>> drivers/ptp/ptp_ocp.c:3360:37: warning: unused variable 'port' [-Wunused-variable]
+    3360 |         struct ptp_ocp_serial_port *port;
+         |                                     ^~~~
+
+
+vim +/port +3360 drivers/ptp/ptp_ocp.c
+
+  3354	
+  3355	static ssize_t
+  3356	ptp_ocp_tty_show(struct device *dev, struct device_attribute *attr, char *buf)
+  3357	{
+  3358		struct dev_ext_attribute *ea = to_ext_attr(attr);
+  3359		struct ptp_ocp *bp = dev_get_drvdata(dev);
+> 3360		struct ptp_ocp_serial_port *port;
+  3361	
+  3362		return sysfs_emit(buf, "ttyS%d", bp->port[(uintptr_t)ea->var].line);
+  3363	}
+  3364	
 
 -- 
 0-DAY CI Kernel Test Service
