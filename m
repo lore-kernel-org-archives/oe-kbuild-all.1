@@ -1,184 +1,157 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C516613A899
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 20:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7228755893
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 21:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723841843; cv=none; b=eDbgq3hR1VoQd216HO17uKqwfIAH7m76q1e8kDW5VkqTzYQZOtloh7KmSS4L+XlIC0vpfZZybf+NpiJ7vIziH+g58plN3MPzPo2itH2vjh+5WaqG8+wR6ZmVPIusCRZUSfL64fOw9PAgoYyAxonq/Ho0nfxQWAmXECvD8oyEJ5w=
+	t=1723842079; cv=none; b=IsLBEiHLmTsOKB5qEJlztRqbSqxEK49eF5iN1jzdOe2k0uLw1M2SrcmlaJjV459QqnPA07U5o1ne5g/6JudsPvf8xNOwHP7nSiKSZbHPgqDD4uCIYLr4DzKOGmnMAhYWukfYZd4gTWW/B2/49uaEDD7tYF1mz1Skh45vG+2p6Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723841843; c=relaxed/simple;
-	bh=7SP1HbzL5K+OW0ebiyszmUvqttXFUziKG8Wk8fW1/xc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=By3HJwttxXtxiilx+PoFYHjdzl5CIYMa2OW+6jCnPlfq0IT4MiPP6lW0Hj4P8WWYcLP/afAMGPyjynO9n9kKkIkMAjN57WCKRrkhS5WZKHUd4mbjkZX2ScoL8gB2X5nw4PkjWwnPISPKEujuSBRHr0Z+NpiD1zIibntqYrZKRMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBJSV8YH; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723842079; c=relaxed/simple;
+	bh=6sm8WFCC7gRCzQVAMWvxL1pqGqapZPRKnh3Ar2jeCAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ChsvdiLqAacsBn3l00pOmu1Nrv5RGsBjGLgEcpMD8K949G/1LuujgCKgJN+iMfgpMtAvzA01PAES23rMZ3FqeohhQfu24RMLlRBGpn8tqgQSi/0ye67XBJoOvsB4tXdFJj+l9C8KGFJL7m+UyZKNIZRBOa9P5iybyDAB4MS+hpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCeNaDiO; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBJSV8YH"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-713dc00cf67so16743b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 13:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723841841; x=1724446641; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OsIivMm/44noRoy/gkZcdnVTe5dyE8L520DECYextvY=;
-        b=gBJSV8YHBMkQQzZVPAT1mxj1ixtzRFuLJ+v5opDHf+MxJ1PBmrRVrENlFxvIrtZpeo
-         KhYmaSrgimNWG/ZI/2URQMVmFEJmMiltpEAE4LVrPrlMrhIvSiGJBP38sgQ4OpKbxLaf
-         WkMOZQOStec6pqZZ2Tm3DRwjldsA0LG0WqcDtz6fzgZrWy0HlsfesBeQoiSN3NNeWmUz
-         P3j+ld1J3gmpbloXjokMgbOGdaYbhosqfeONY2i0KZVUUR+w+Df9aStbCik6a26tlk2q
-         rKGC35t/TJuWBQhacx91anCRkg74JBTVjLNNLvlF6BZIm/hU5CZuZyQEoqDejoYfEroh
-         RdRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723841841; x=1724446641;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OsIivMm/44noRoy/gkZcdnVTe5dyE8L520DECYextvY=;
-        b=HTubr/J+oa4//JN5t1G8NrQeZW+HHYzF/XmYjfH6H5zK72oDIuzSsVFBgNUfEee2ND
-         Uo1NvrVXScJKRyYLb/JYCjqyroUdp6AuSau8GYm9oP1+lBf6MPblQGkOHAA4jUR0ZtRc
-         twyMT8X+53d0+CIklBzB0IADfOc1lfYI4lhAV1AxCfUE3orM3uX6NsLUNlHuNScqfnLR
-         POuor+Tx6GiBSr5i+d8/8h7V/DJbrrzrvw45+4nX1QXEAI8X9t6NSOQGzA+83sc2NLdM
-         Yz+Z7wG94cni8mFZHC8auepZPpEtDUT6fKVqCZ1DgxpLYDFEmPq7jyFvCFc3LOGz27lw
-         7Mfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUL+g3EtrRRbo7HlK9x4m44tot0t2XFc7E8rrVJZWIohCF5kTcaqemnEnLrv5fQMVBNHZIDAayq06zTNelReqzb2RQajbt02HzhJ6Je3g==
-X-Gm-Message-State: AOJu0YwJPSLM4XQjed/gy1bifLwJiaymN3d1qkauopQiFVy1LarKHtK5
-	Zv0J17hlpZGIUUW2gczcaB0is3Klzi/DOewfDHqz/DPReTKVfAYT65GtvW1znmPYskXk3br+GzS
-	eGzB6RdPXxWNHY/ERAYHYeIE5yxU=
-X-Google-Smtp-Source: AGHT+IHoJOQTzqfb2dX42ndnbhiCwYWlaSqh3MOp7ckz4PAyV7UzPO/MMniS0UAlRLhYKkyGF87KLMkSXx3UN7HFtik=
-X-Received: by 2002:a05:6a20:bd1d:b0:1c8:a0c4:2286 with SMTP id
- adf61e73a8af0-1c90507506bmr3555008637.51.1723841840710; Fri, 16 Aug 2024
- 13:57:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCeNaDiO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723842077; x=1755378077;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6sm8WFCC7gRCzQVAMWvxL1pqGqapZPRKnh3Ar2jeCAM=;
+  b=XCeNaDiOqCxS7xNN6DV1c9v/F6VWqEBsfN35GyBhRfRJbGs5jk0c2iq2
+   QK6nmd70O42bt6TS23LKYwpXIb2yQeak+o3mOoW7FVrokPDryeHk1gN2T
+   c5akzEKmWkDutg79Pn6TjOHmjoO/KMkA6Bk+rHDwyWbzgomskcH518yFW
+   FDWTRkKvBS58CopTjR+HEfU1zLlfTNJNOI7D85F2WAIAffOD+UMzC3cxO
+   CR5nJZP0qt/epLK4bvah80cI5dlrlKILQm4b9V7qD/9950y02y5GaRGL9
+   LPwvcC744iYPVhy8pxBLVIHCjzkeGyH8R9KekF7UG2ZIBI9Z6fungao3H
+   Q==;
+X-CSE-ConnectionGUID: pkmLGD9gTeaScQvVdHeKRA==
+X-CSE-MsgGUID: SMWtcyiqQPK+/gmmr+Hjmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="33562005"
+X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
+   d="scan'208";a="33562005"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 14:01:17 -0700
+X-CSE-ConnectionGUID: zDNi91QhRyCN7wfTKSWyMQ==
+X-CSE-MsgGUID: qrWFqmDmQ7CgIwzkvoRiEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
+   d="scan'208";a="64614382"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 16 Aug 2024 14:01:15 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sf44O-0006vK-35;
+	Fri, 16 Aug 2024 21:01:12 +0000
+Date: Sat, 17 Aug 2024 05:00:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [linux-next:master 3822/5190]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3301:17: error: implicit
+ declaration of function 'pci_prepare_ats'; did you mean 'pci_enable_ats'?
+Message-ID: <202408170408.2bq7qYA8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240809150327.2485848-1-alexander.deucher@amd.com>
- <202408101951.tXyqYOzv-lkp@intel.com> <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
-In-Reply-To: <1c77f913-4707-4300-b84a-36fcf99942f4@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 Aug 2024 16:57:09 -0400
-Message-ID: <CADnq5_NjCFyy+bQY+uyijcZwvwXYkvVLLUQdtzN_ODvHAj193Q@mail.gmail.com>
-Subject: Re: [PATCH] video/aperture: match the pci device when calling sysfb_disable()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: kernel test robot <lkp@intel.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
-	Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Aug 12, 2024 at 8:10=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Hi
->
-> Am 10.08.24 um 13:44 schrieb kernel test robot:
-> > Hi Alex,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on drm-misc/drm-misc-next]
-> > [also build test ERROR on linus/master v6.11-rc2 next-20240809]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Deucher/vid=
-eo-aperture-match-the-pci-device-when-calling-sysfb_disable/20240810-021357
-> > base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> > patch link:    https://lore.kernel.org/r/20240809150327.2485848-1-alexa=
-nder.deucher%40amd.com
-> > patch subject: [PATCH] video/aperture: match the pci device when callin=
-g sysfb_disable()
-> > config: csky-randconfig-001-20240810 (https://download.01.org/0day-ci/a=
-rchive/20240810/202408101951.tXyqYOzv-lkp@intel.com/config)
-> > compiler: csky-linux-gcc (GCC) 14.1.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240810/202408101951.tXyqYOzv-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408101951.tXyqYOzv-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >     csky-linux-ld: drivers/video/aperture.o: in function `aperture_remo=
-ve_conflicting_pci_devices':
-> >>> aperture.c:(.text+0x222): undefined reference to `screen_info_pci_dev=
-'
->
-> Strange. There's a already placeholder [1] for architectures without
-> PCI. Otherwise the source file is listed at [2].
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   367b5c3d53e57d51a5878816804652963da90950
+commit: 2665d975db35f124d47e9584d448a3fb4d54f225 [3822/5190] iommu: Allow ATS to work on VFs when the PF uses IDENTITY
+config: arm64-randconfig-004-20240817 (https://download.01.org/0day-ci/archive/20240817/202408170408.2bq7qYA8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408170408.2bq7qYA8-lkp@intel.com/reproduce)
 
-So I dug into this, and the problem seems to be that
-CONFIG_SCREEN_INFO is not defined in that config.  I can't figure out
-how this should work in that case or why this is not a problem in
-drivers/firmware/sysfb.c.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408170408.2bq7qYA8-lkp@intel.com/
 
-Something like this works:
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index 56a5a0bc2b1af..50e98210c9fe5 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -347,7 +347,9 @@ EXPORT_SYMBOL(__aperture_remove_legacy_vga_devices);
-  */
- int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
-const char *name)
- {
-+#if defined(CONFIG_SCREEN_INFO)
-        struct screen_info *si =3D &screen_info;
-+#endif
-        bool primary =3D false;
-        resource_size_t base, size;
-        int bar, ret =3D 0;
-@@ -355,8 +357,10 @@ int
-aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
-char *na
-        if (pdev =3D=3D vga_default_device())
-                primary =3D true;
+All errors (new ones prefixed by >>):
 
-+#if defined(CONFIG_SCREEN_INFO)
-        if (pdev =3D=3D screen_info_pci_dev(si))
-                sysfb_disable();
-+#endif
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_probe_device':
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3301:17: error: implicit declaration of function 'pci_prepare_ats'; did you mean 'pci_enable_ats'? [-Wimplicit-function-declaration]
+    3301 |                 pci_prepare_ats(to_pci_dev(dev), stu);
+         |                 ^~~~~~~~~~~~~~~
+         |                 pci_enable_ats
 
-        for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
-                if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
 
-But that can't be the right fix...  Any ideas?
+vim +3301 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-Alex
+  3249	
+  3250	static struct iommu_device *arm_smmu_probe_device(struct device *dev)
+  3251	{
+  3252		int ret;
+  3253		struct arm_smmu_device *smmu;
+  3254		struct arm_smmu_master *master;
+  3255		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+  3256	
+  3257		if (WARN_ON_ONCE(dev_iommu_priv_get(dev)))
+  3258			return ERR_PTR(-EBUSY);
+  3259	
+  3260		smmu = arm_smmu_get_by_fwnode(fwspec->iommu_fwnode);
+  3261		if (!smmu)
+  3262			return ERR_PTR(-ENODEV);
+  3263	
+  3264		master = kzalloc(sizeof(*master), GFP_KERNEL);
+  3265		if (!master)
+  3266			return ERR_PTR(-ENOMEM);
+  3267	
+  3268		master->dev = dev;
+  3269		master->smmu = smmu;
+  3270		dev_iommu_priv_set(dev, master);
+  3271	
+  3272		ret = arm_smmu_insert_master(smmu, master);
+  3273		if (ret)
+  3274			goto err_free_master;
+  3275	
+  3276		device_property_read_u32(dev, "pasid-num-bits", &master->ssid_bits);
+  3277		master->ssid_bits = min(smmu->ssid_bits, master->ssid_bits);
+  3278	
+  3279		/*
+  3280		 * Note that PASID must be enabled before, and disabled after ATS:
+  3281		 * PCI Express Base 4.0r1.0 - 10.5.1.3 ATS Control Register
+  3282		 *
+  3283		 *   Behavior is undefined if this bit is Set and the value of the PASID
+  3284		 *   Enable, Execute Requested Enable, or Privileged Mode Requested bits
+  3285		 *   are changed.
+  3286		 */
+  3287		arm_smmu_enable_pasid(master);
+  3288	
+  3289		if (!(smmu->features & ARM_SMMU_FEAT_2_LVL_CDTAB))
+  3290			master->ssid_bits = min_t(u8, master->ssid_bits,
+  3291						  CTXDESC_LINEAR_CDMAX);
+  3292	
+  3293		if ((smmu->features & ARM_SMMU_FEAT_STALLS &&
+  3294		     device_property_read_bool(dev, "dma-can-stall")) ||
+  3295		    smmu->features & ARM_SMMU_FEAT_STALL_FORCE)
+  3296			master->stall_enabled = true;
+  3297	
+  3298		if (dev_is_pci(dev)) {
+  3299			unsigned int stu = __ffs(smmu->pgsize_bitmap);
+  3300	
+> 3301			pci_prepare_ats(to_pci_dev(dev), stu);
+  3302		}
+  3303	
+  3304		return &smmu->iommu;
+  3305	
+  3306	err_free_master:
+  3307		kfree(master);
+  3308		return ERR_PTR(ret);
+  3309	}
+  3310	
 
->
-> [1]
-> https://elixir.bootlin.com/linux/v6.10/source/include/linux/screen_info.h=
-#L127
-> [2] https://elixir.bootlin.com/linux/v6.10/source/drivers/video/Makefile#=
-L11
->
-> Best regards
-> Thomas
->
-> >     csky-linux-ld: drivers/video/aperture.o: in function `devm_aperture=
-_acquire_release':
-> >>> aperture.c:(.text+0x2c0): undefined reference to `screen_info'
-> >>> csky-linux-ld: aperture.c:(.text+0x2c4): undefined reference to `scre=
-en_info_pci_dev'
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
