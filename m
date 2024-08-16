@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED6219E4;
-	Fri, 16 Aug 2024 02:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AC540855
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 02:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723774299; cv=none; b=oYhlKW4ZfqUcReaQmYNnGQbAqRJFeJx0XNr3dUVkKDxS1fmizffxgAk3V+1JE5tTAA3mwl0sUXeGYJv+xkybY84nELchwU0cOy+D3Q/N33PH0X1/eM8/yMZTQpLobPDYhW+kM6UNby/bXc/xWMToIJ/XCKsfJg15Kf+Df8E5i1Q=
+	t=1723774302; cv=none; b=QhGMQ2pqNgS3a4hNPkkvhXCx5aZZMcysy/gaxRZj9knqyUIVV2rPm1IBLPe5Vo+LsRJnk5wl9RCBebQFulR7wFpQkZGAK2uilieuO2zgOfaFE+WuLOmxfl4CnE+3Z2EegeggaBMG8y4ywGsuvkuyTlDKGAiJB2InqYZBMPCUgAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723774299; c=relaxed/simple;
-	bh=97DcGFerCZEKJUukiMYNhR9zeP/HeFPpqU8SZnKiHzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PhZzu3gB4DfcfKa33tw0bZgSWNs4xDfQUWAhx+U64cTSLUagVHelsDkIYq8k/mq5bXPWU29mYyo59yxaifO+cjT1cU15a6YoXva1vtd6Bz1uYASaZ7MXte1vnjagNTOSPG9uTReEgB98n/ifp+/9iUOKZshLyoqiQmZTKvDQ2a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMKNNktD; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1723774302; c=relaxed/simple;
+	bh=OOX2cGxCVM34YKQyi56frg88mnAg+Wq/NAETYLvmLkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TBnJYj7Uy8wJj63N36CuKjK8kSSWZtXbWjyTEcVDVeoa+7CzhjPtRcfJ66x1oAx8whP4cQNoWwRy2vGxkoM1HXEqZBNDN3/FfqTqtfOUCrOh0HDxm0/h5yy2COvqMdJWCezPf0SRRSihFyfYYPx0ZBtPZT3eLgjY2j/mONn4g24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKhehXGI; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMKNNktD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKhehXGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723774297; x=1755310297;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=97DcGFerCZEKJUukiMYNhR9zeP/HeFPpqU8SZnKiHzc=;
-  b=VMKNNktDDyM0k09mP4/2eWsgpxA1EuqKZ/h9iYT79LsMECxlLZnAVJl7
-   42/oOg4VkPu+b8D18M+fjGm3zGTGUg/UbHj5vIXge+aXEsi516epI21tM
-   CvRI+prxmmvlBsgV8lSvml1JA8dGijLJaBStZ+uFxMgMfs2pPoiVb6C3Y
-   AYF9XY7eWQbcT9VzR7X1xiSceQTe1sKRba7Zo8SFG/f8DyOH4ckiYlDTB
-   b7Q+SFZKQohSqltdl0qJuIY/+ET1ZvOUQZ//P89x2JwLhZMcCbcqih0bt
-   WXMGMHF+usdfztwH12nfJs1xrGJ7vN61yfnpYZJBZGDmCECSkj2vWv4IY
+  t=1723774301; x=1755310301;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OOX2cGxCVM34YKQyi56frg88mnAg+Wq/NAETYLvmLkY=;
+  b=NKhehXGI7RHr50k2eqWhzhqYv8/pMzQ0EMPHS7Is/Ohni78c0F33lR6/
+   qDVcX+9YRBwCmOEyU2I7lf8w1gZ/EkEU5LuCKoJPust82bcsryK+DS30y
+   7sfUSKImqfp6hcrJMVV0rCCiJPzKAcsCm9OojgDevsQG08A4VKkZ6CxXz
+   dlZTXMrCFF/jgQ2+G9maWnPLXqJ0bKNi4xd4e/w+ocQ5aAb3AuqSh6A+t
+   gH2lSgzDXsSHyowjuTC9pRtzq6uPebtBMQhirxdHmbdC6U6kijQHfvCa3
+   ZqXFH2rtUi9WSJ51rDAxkYNFYY9Tgu3kfYzaE5ZSKwwk0+8RrYL+rD52k
    w==;
-X-CSE-ConnectionGUID: NT4Ca5FYSwS3n02SwYrAyQ==
-X-CSE-MsgGUID: +hlJiqHFSoy5lQfN194yuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="21938473"
+X-CSE-ConnectionGUID: kyj931f/RVGcct0J7f0AEQ==
+X-CSE-MsgGUID: Z16ESTMCQdW483eJzwU40g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="32636687"
 X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
-   d="scan'208";a="21938473"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 19:11:36 -0700
-X-CSE-ConnectionGUID: 8X/+XEEMRTyvGH+tWbJBRA==
-X-CSE-MsgGUID: j0FUQkPhQu232+t+wrMfVw==
+   d="scan'208";a="32636687"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 19:11:40 -0700
+X-CSE-ConnectionGUID: WwZsS+P0TomZpW046Balqg==
+X-CSE-MsgGUID: axJ7B6N6Skal0/Hc4Tm5rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
-   d="scan'208";a="82737227"
+   d="scan'208";a="59821404"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Aug 2024 19:11:36 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Aug 2024 19:11:36 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1semRB-0005rC-1o;
+	id 1semRB-0005rE-1y;
 	Fri, 16 Aug 2024 02:11:33 +0000
-Date: Fri, 16 Aug 2024 10:10:58 +0800
+Date: Fri, 16 Aug 2024 10:10:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 29/32] fs/namei.c:3265:31: error: use of
- undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-Message-ID: <202408161001.kPZw71qp-lkp@intel.com>
+To: Jason Andryuk <jason.andryuk@amd.com>, Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, xen-devel@lists.xenproject.org,
+	linux-kernel@vger.kernel.org, Jason Andryuk <jason.andryuk@amd.com>
+Subject: Re: [PATCH v2 5/5] x86/pvh: Add 64bit relocation page tables
+Message-ID: <202408160915.PcKFvj8w-lkp@intel.com>
+References: <20240814195053.5564-6-jason.andryuk@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,131 +72,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240814195053.5564-6-jason.andryuk@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   da853062185ac54cb004d8ca64c0e1267fc2630b
-commit: 34826b13bd039382f5cd5b6a9155121ddb65fe08 [29/32] fs: add a "reason" parameter to try_break_deleg
-config: arm-randconfig-003-20240816 (https://download.01.org/0day-ci/archive/20240816/202408161001.kPZw71qp-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408161001.kPZw71qp-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on xen-tip/linux-next tip/master linus/master v6.11-rc3 next-20240815]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Andryuk/xen-sync-elfnote-h-from-xen-tree/20240815-035238
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20240814195053.5564-6-jason.andryuk%40amd.com
+patch subject: [PATCH v2 5/5] x86/pvh: Add 64bit relocation page tables
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240816/202408160915.PcKFvj8w-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160915.PcKFvj8w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408161001.kPZw71qp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408160915.PcKFvj8w-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from fs/namei.c:25:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/namei.c:3265:31: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    3265 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                      ^
-   fs/namei.c:3582:38: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    3582 |                 error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                                    ^
-   fs/namei.c:3613:25: error: variable has incomplete type 'struct delegated_inode'
-    3613 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
-   fs/namei.c:4097:31: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    4097 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                      ^
-   fs/namei.c:4155:25: error: variable has incomplete type 'struct delegated_inode'
-    4155 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
-   fs/namei.c:4240:31: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    4240 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                      ^
-   fs/namei.c:4278:25: error: variable has incomplete type 'struct delegated_inode'
-    4278 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
->> fs/namei.c:4339:31: error: use of undeclared identifier 'LEASE_BREAK_DIR_DELETE'
-    4339 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
-         |                                      ^
-   fs/namei.c:4389:25: error: variable has incomplete type 'struct delegated_inode'
-    4389 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
-   fs/namei.c:4496:33: error: use of undeclared identifier 'LEASE_BREAK_DIR_DELETE'
-    4496 |                         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
-         |                                                      ^
-   fs/namei.c:4538:25: error: variable has incomplete type 'struct delegated_inode'
-    4538 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
-   fs/namei.c:4770:32: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    4770 |                 error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                              ^
-   fs/namei.c:4804:25: error: variable has incomplete type 'struct delegated_inode'
-    4804 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
->> fs/namei.c:5039:26: error: use of undeclared identifier 'LEASE_BREAK_DIR_RENAME'
-    5039 |                                 old_dir == new_dir ? LEASE_BREAK_DIR_RENAME :
-         |                                                      ^
-   fs/namei.c:5040:12: error: use of undeclared identifier 'LEASE_BREAK_DIR_DELETE'
-    5040 |                                                      LEASE_BREAK_DIR_DELETE,
-         |                                                      ^
-   fs/namei.c:5045:36: error: use of undeclared identifier 'LEASE_BREAK_DIR_CREATE'
-    5045 |                 error = try_break_deleg(new_dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-         |                                                  ^
-   fs/namei.c:5107:25: error: variable has incomplete type 'struct delegated_inode'
-    5107 |         struct delegated_inode delegated_inode = { };
-         |                                ^
-   include/linux/fs.h:82:8: note: forward declaration of 'struct delegated_inode'
-      82 | struct delegated_inode;
-         |        ^
-   1 warning and 17 errors generated.
+   In file included from arch/x86/include/asm/pgtable_64.h:6,
+                    from arch/x86/platform/pvh/head.S:19:
+>> arch/x86/include/asm/pgtable_64_types.h:49: warning: "SHARED_KERNEL_PMD" redefined
+      49 | #define SHARED_KERNEL_PMD       0
+         | 
+   In file included from arch/x86/include/asm/pgtable_32_types.h:11,
+                    from arch/x86/include/asm/pgtable_types.h:275,
+                    from arch/x86/include/asm/boot.h:6,
+                    from arch/x86/platform/pvh/head.S:18:
+   arch/x86/include/asm/pgtable-3level_types.h:30: note: this is the location of the previous definition
+      30 | #define SHARED_KERNEL_PMD       (!static_cpu_has(X86_FEATURE_PTI))
+         | 
+   arch/x86/include/asm/pgtable_64_types.h:75: warning: "PGDIR_SHIFT" redefined
+      75 | #define PGDIR_SHIFT             39
+         | 
+   arch/x86/include/asm/pgtable-3level_types.h:37: note: this is the location of the previous definition
+      37 | #define PGDIR_SHIFT     30
+         | 
+>> arch/x86/include/asm/pgtable_64_types.h:76: warning: "PTRS_PER_PGD" redefined
+      76 | #define PTRS_PER_PGD            512
+         | 
+   arch/x86/include/asm/pgtable-3level_types.h:38: note: this is the location of the previous definition
+      38 | #define PTRS_PER_PGD    4
+         | 
+   arch/x86/include/asm/pgtable_64_types.h:99: warning: "PMD_SIZE" redefined
+      99 | #define PMD_SIZE        (_AC(1, UL) << PMD_SHIFT)
+         | 
+   arch/x86/include/asm/pgtable_32_types.h:12: note: this is the location of the previous definition
+      12 | # define PMD_SIZE       (1UL << PMD_SHIFT)
+         | 
+   arch/x86/include/asm/pgtable_64_types.h:103: warning: "PGDIR_SIZE" redefined
+     103 | #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+         | 
+   arch/x86/include/asm/pgtable_32_types.h:20: note: this is the location of the previous definition
+      20 | #define PGDIR_SIZE      (1UL << PGDIR_SHIFT)
+         | 
+>> arch/x86/include/asm/pgtable_64_types.h:210: warning: "PGD_KERNEL_START" redefined
+     210 | #define PGD_KERNEL_START        ((PAGE_SIZE / 2) / sizeof(pgd_t))
+         | 
+   arch/x86/include/asm/pgtable-3level_types.h:53: note: this is the location of the previous definition
+      53 | #define PGD_KERNEL_START        (CONFIG_PAGE_OFFSET >> PGDIR_SHIFT)
+         | 
+   arch/x86/include/asm/pgtable_64.h: Assembler messages:
+>> arch/x86/include/asm/pgtable_64.h:279: Error: invalid operands (*UND* and *ABS* sections) for `>>'
 
 
-vim +/LEASE_BREAK_DIR_CREATE +3265 fs/namei.c
+vim +279 arch/x86/include/asm/pgtable_64.h
 
-  3247	
-  3248	static int __vfs_create(struct mnt_idmap *idmap, struct inode *dir,
-  3249				struct dentry *dentry, umode_t mode, bool want_excl,
-  3250				struct delegated_inode *delegated_inode)
-  3251	{
-  3252		int error;
-  3253	
-  3254		error = may_create(idmap, dir, dentry);
-  3255		if (error)
-  3256			return error;
-  3257	
-  3258		if (!dir->i_op->create)
-  3259			return -EACCES;	/* shouldn't it be ENOSYS? */
-  3260	
-  3261		mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
-  3262		error = security_inode_create(dir, dentry, mode);
-  3263		if (error)
-  3264			return error;
-> 3265		error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
-  3266		if (error)
-  3267			return error;
-  3268		error = dir->i_op->create(idmap, dir, dentry, mode, want_excl);
-  3269		if (!error)
-  3270			fsnotify_create(dir, dentry);
-  3271		return error;
-  3272	}
-  3273	
+09ef8f8e864fcb Jason Andryuk 2024-08-14  278  
+09ef8f8e864fcb Jason Andryuk 2024-08-14 @279  L4_PAGE_OFFSET = l4_index(__PAGE_OFFSET_BASE_L4)
+09ef8f8e864fcb Jason Andryuk 2024-08-14  280  L4_START_KERNEL = l4_index(__START_KERNEL_map)
+09ef8f8e864fcb Jason Andryuk 2024-08-14  281  
 
 -- 
 0-DAY CI Kernel Test Service
