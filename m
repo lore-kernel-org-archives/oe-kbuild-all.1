@@ -1,201 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6D61991D2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 13:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3701AE058
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 13:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723815365; cv=none; b=hFcM6LYCG75DruTOaN/BAZGu64xp4FuixF4UCzzyJWWeIUtGBGEWj4e5FCWXBHSvyzXD4On/ayF2G2SR4hZ6PCbbFDfJ9KogupG53g20ccihElb9nZPlZqsMExE3d0DgiZ3FjM/04+GUWuaQQ5zkmDbryv/WxgIqOZLvNw/yx9w=
+	t=1723815550; cv=none; b=ndipp+FUE7GKtHKU4JmHg9uoILyw/vzeJcJIt7YE9GgPI/eHzYjrOS/qNNtplKMXxQpxyi86C4qXVkahG9LIqCL+DYPkZ4fP477SpUkrArRGDJpZCEMewdUOgMiy5Jt0BiSaoOKDoaj0MzYAGvPbi36AQphJQ0FOF7KshCMLvoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723815365; c=relaxed/simple;
-	bh=UdpgyUFrZAf8j3dkewoxOErRAvBtqhfOMgKE6Oyyyxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m/RBuID+Z51lXRranj4EByDhby3cW/C02YHYdebtzERhjyNciIZ/2zfQ4kSxLFHU0oew3lB9nc1wqqyudHKlA+H1z1+U1e2Z+ke5xHw8UgsvFftBbU6s3QERMnGgM9b+QYsxVtxD2oMZg5SyxDaboOZM1Hx7f6do9Iy/0NGASog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJJoqmY6; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723815550; c=relaxed/simple;
+	bh=ZS4qHhJRPwMvQ+YJZ6cMAM1yFVN+1KL+5yD9XcWw/bo=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=l/iukfcxIZ0eK+gh9TJHzO5QvCO94PpLLzqqhIJOGWMEGCR869PIWmeJ6Q7tuKtJ+spUEWt34uH7OSqmeYIJnjcFwFTbCY89GN87VjDba985oOTxx1b2UZfP7+qZ7cPoDcA+wQ3liFiH6z3tOBqtIHuBpl5A3wx5lgHGUqlEMHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DqjCkjjo; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJJoqmY6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqjCkjjo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723815363; x=1755351363;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UdpgyUFrZAf8j3dkewoxOErRAvBtqhfOMgKE6Oyyyxw=;
-  b=QJJoqmY6wIFR5k3fxwyRqdwICcNOxxYhOQcTKXioFIL3+jX3a2TXoHU9
-   gdZwSSD6YUQ9EuPg0DhfIm2BDKL5+RaIhzy4gKxrRV0Xpn7k/oKqK0Rki
-   sA8lFAZxXI3TXIYKmk34U6w7zPNwMBsUBWWTxf+lsQPtWtj88ks2q+0NW
-   YSziI3dDgS16Unf/BYrSSgzLwf3oOxSnOQQFA/V3311OfJTeriNe69EjU
-   BSGJNLRtidm6jAGyivwJXGH+DhxMuVntZicovcqTP+Y+kKzKmpPWApdas
-   K3V5qkqOrASlR81xE0ZTbu48Arqicmg+HsfF0+0fzRTqZISaRXuwpIAhS
-   A==;
-X-CSE-ConnectionGUID: EJnNM82ESMG+QywG3i+0DA==
-X-CSE-MsgGUID: TDKgdZoyRseID7g8xpVZ9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22270472"
+  t=1723815549; x=1755351549;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ZS4qHhJRPwMvQ+YJZ6cMAM1yFVN+1KL+5yD9XcWw/bo=;
+  b=DqjCkjjovxpPF/46jpXKDp+h5gBJtzylkg1cfzhK491PkhGNI2sVwKN6
+   4Pz/UyVxRa55QjMCcC22dfwOZ8xEZZw2hWNNW0u7oCWCXAky8PdwWkKfY
+   w2Uil1602vXukg5XFg8q3UY6K8DWPdxygvX15AgY39aPKMy2x/mtuzEnE
+   RU0xnqeoHbBX0j4Y+CHuPUhOTEtj5KIOV4XhCCeVCMEJLi1jkdEgmBN+p
+   aoe53VlntjLEdhlUMplY5sVTD3BWKefHHcDRg3EivGVJ8ogVOHoXQNoaq
+   rfoPmURLGVGuhPweJqe4vOaHRXbLqj44OO76D4NtXIQyyldMnt8QHMSPX
+   w==;
+X-CSE-ConnectionGUID: lCklPNuEQymyg9CzrR8fQw==
+X-CSE-MsgGUID: NiuWhaw8RT2LtbvpRQCUlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="25868747"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="22270472"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:36:03 -0700
-X-CSE-ConnectionGUID: 1xOv6KyARO2RyfklF3Cr2A==
-X-CSE-MsgGUID: 0cQkTY5FT/OOy8Hc6ngyFQ==
+   d="scan'208";a="25868747"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:39:08 -0700
+X-CSE-ConnectionGUID: rqVYJoWJTkWH1xOlxVQ1HQ==
+X-CSE-MsgGUID: dZ2aTJ1tTL29xNVjqXAPCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="90404751"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Aug 2024 06:35:56 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sex7R-0006Sg-37;
-	Fri, 16 Aug 2024 13:35:53 +0000
-Date: Fri, 16 Aug 2024 21:35:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
-	daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux@armlinux.org.uk,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, arnd@arndb.de, geert+renesas@glider.be,
-	mpe@ellerman.id.au, rdunlap@infradead.org, dharma.b@microchip.com,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, manikandan.m@microchip.com
-Subject: Re: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support
- for sam9x7 SoC series
-Message-ID: <202408162158.TlOqyoUA-lkp@intel.com>
-References: <20240814105256.177319-3-manikandan.m@microchip.com>
+   d="scan'208";a="59698605"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.28])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:39:04 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 16 Aug 2024 16:38:53 +0300 (EEST)
+To: Matthias Fetzer <kontakt@matthias-fetzer.de>
+cc: kernel test robot <lkp@intel.com>, hmh@hmh.eng.br, 
+    Hans de Goede <hdegoede@redhat.com>, ibm-acpi-devel@lists.sourceforge.net, 
+    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] platform/x86: thinkpad_acpi: Add Thinkpad Edge E531
+ fan support
+In-Reply-To: <d2d7b7ec-c7db-4cde-b669-df727b93748f@matthias-fetzer.de>
+Message-ID: <e1fe661c-281d-9d59-be53-968f7a0bc18a@linux.intel.com>
+References: <20240814213927.49075-1-kontakt@matthias-fetzer.de> <202408160253.fMJW95oi-lkp@intel.com> <d2d7b7ec-c7db-4cde-b669-df727b93748f@matthias-fetzer.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240814105256.177319-3-manikandan.m@microchip.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Manikandan,
+On Thu, 15 Aug 2024, Matthias Fetzer wrote:
 
-kernel test robot noticed the following build warnings:
+> 
+> 
+> Am 15.08.24 um 21:00 schrieb kernel test robot:
+> > Hi Matthias,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on linus/master]
+> > [also build test WARNING on v6.11-rc3 next-20240815]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:
+> > https://github.com/intel-lab-lkp/linux/commits/Matthias-Fetzer/platform-x86-thinkpad_acpi-Add-Thinkpad-Edge-E531-fan-support/20240815-054239
+> > base:   linus/master
+> > patch link:
+> > https://lore.kernel.org/r/20240814213927.49075-1-kontakt%40matthias-fetzer.de
+> > patch subject: [PATCH v3] platform/x86: thinkpad_acpi: Add Thinkpad Edge
+> > E531 fan support
+> > config: i386-randconfig-001-20240815
+> > (https://download.01.org/0day-ci/archive/20240816/202408160253.fMJW95oi-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=1 build):
+> > (https://download.01.org/0day-ci/archive/20240816/202408160253.fMJW95oi-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version
+> > of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202408160253.fMJW95oi-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >     drivers/platform/x86/thinkpad_acpi.c: In function 'fan_set_level':
+> > > > drivers/platform/x86/thinkpad_acpi.c:8214:13: warning: variable 'rc' set
+> > > > but not used [-Wunused-but-set-variable]
+> >      8214 |         int rc;
+> >           |             ^~
+> > 
+> 
+> I guess just removing the variable and returning -EIO directly should be
+> a good approach.
+> 
+> What do you think?
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.11-rc3 next-20240816]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/dt-bindings-display-bridge-add-sam9x75-mipi-dsi-binding/20240814-234923
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240814105256.177319-3-manikandan.m%40microchip.com
-patch subject: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
-config: arm-randconfig-r071-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162158.TlOqyoUA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162158.TlOqyoUA-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: unsigned 'bpp' is never less than zero.
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: error code type promoted to positive: 'bpp'
-drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:314 dw_mipi_dsi_mchp_get_lane_mbps() error: uninitialized symbol 'target_mbps'.
-
-vim +/bpp +293 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
-
-   276	
-   277	static int dw_mipi_dsi_mchp_get_lane_mbps(void *priv_data,
-   278						  const struct drm_display_mode *mode,
-   279						  unsigned long mode_flags, u32 lanes,
-   280						  u32 format, unsigned int *lane_mbps)
-   281	{
-   282		struct dw_mipi_dsi_mchp *dsi = priv_data;
-   283		unsigned long best_freq, fvco_min, fvco_max, fin, fout;
-   284		unsigned long min_delta = ULONG_MAX, delta;
-   285		unsigned int mpclk, target_mbps, desired_mbps;
-   286		unsigned int max_mbps = dppa_map[ARRAY_SIZE(dppa_map) - 1].max_mbps;
-   287		unsigned int bpp, min_prediv, max_prediv;
-   288		unsigned int _fbdiv, best_fbdiv, _prediv, best_prediv;
-   289		u64 freq_factor;
-   290	
-   291		dsi->format = format;
-   292		bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
- > 293		if (bpp < 0) {
-   294			dev_err(dsi->dev,
-   295				"failed to get bpp for pixel format %d\n",
-   296				dsi->format);
-   297			return bpp;
-   298		}
-   299	
-   300		mpclk = DIV_ROUND_UP(mode->clock, MSEC_PER_SEC);
-   301		if (mpclk) {
-   302			/* take 1/0.8, since mbps must be bigger than bandwidth of RGB */
-   303			desired_mbps = mpclk * (bpp / lanes) * 10 / 8;
-   304			if (desired_mbps < max_mbps) {
-   305				target_mbps = desired_mbps;
-   306			} else {
-   307				dev_err(dsi->dev,
-   308					"DPHY clock frequency is out of range\n");
-   309				return -ERANGE;
-   310			}
-   311		}
-   312	
-   313		fin = clk_get_rate(dsi->pllref_clk);
- > 314		fout = target_mbps * USEC_PER_SEC;
-   315	
-   316		/* constraint: 5Mhz <= Fref / N <= 40MHz */
-   317		min_prediv = DIV_ROUND_UP(fin, 40 * USEC_PER_SEC);
-   318		max_prediv = fin / (5 * USEC_PER_SEC);
-   319	
-   320		/* constraint: 80MHz <= Fvco <= 1000Mhz */
-   321		fvco_min = 80 * USEC_PER_SEC;
-   322		fvco_max = 1000 * USEC_PER_SEC;
-   323	
-   324		for (best_freq = 0, _prediv = min_prediv; _prediv <= max_prediv; _prediv++) {
-   325			/* Fvco = Fref * M / N */
-   326			freq_factor = fout * _prediv;
-   327			do_div(freq_factor, fin);
-   328			_fbdiv = freq_factor;
-   329			/*
-   330			 * Due to the use of a "by 2 pre-scaler," the range of the
-   331			 * feedback multiplication value M is limited to even division
-   332			 * numbers, and m must be greater than 6, not bigger than 512.
-   333			 */
-   334			if (_fbdiv < 6 || _fbdiv > 512)
-   335				continue;
-   336	
-   337			_fbdiv += _fbdiv % 2;
-   338	
-   339			freq_factor = _fbdiv * fin;
-   340			do_div(freq_factor, _prediv);
-   341			if (freq_factor < fvco_min || freq_factor > fvco_max)
-   342				continue;
-   343	
-   344			delta = abs(fout - freq_factor);
-   345			if (delta < min_delta) {
-   346				best_prediv = _prediv;
-   347				best_fbdiv = _fbdiv;
-   348				min_delta = delta;
-   349				best_freq = freq_factor;
-   350			}
-   351		}
-   352	
-   353		if (best_freq) {
-   354			dsi->lane_mbps = DIV_ROUND_UP(best_freq, USEC_PER_SEC);
-   355			*lane_mbps = dsi->lane_mbps;
-   356			dsi->input_div = best_prediv;
-   357			dsi->feedback_div = best_fbdiv;
-   358		} else {
-   359			dev_err(dsi->dev, "Can not find best_freq for DPHY\n");
-   360			return -EINVAL;
-   361		}
-   362	
-   363		return 0;
-   364	}
-   365	
+Yes, it seems that's what the existing code does. That avoids printing
+the debug message errornously (as the operation ended up failing, not 
+succeeding).
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ i.
+
+
+> > vim +/rc +8214 drivers/platform/x86/thinkpad_acpi.c
+> > 
+> >    8211	
+> >    8212	static int fan_set_level(int level)
+> >    8213	{
+> > > 8214		int rc;
+> >    8215	
+> >    8216		if (!fan_control_allowed)
+> >    8217			return -EPERM;
+> >    8218	
+> >    8219		switch (fan_control_access_mode) {
+> >    8220		case TPACPI_FAN_WR_ACPI_SFAN:
+> >    8221			if ((level < 0) || (level > 7))
+> >    8222				return -EINVAL;
+> >    8223	
+> >    8224			if (tp_features.second_fan_ctl) {
+> >    8225				if (!fan_select_fan2() ||
+> >    8226				    !acpi_evalf(sfan_handle, NULL,
+> > NULL, "vd", level)) {
+> >    8227					pr_warn("Couldn't set 2nd fan
+> > level, disabling support\n");
+> >    8228					tp_features.second_fan_ctl =
+> > 0;
+> >    8229				}
+> >    8230				fan_select_fan1();
+> >    8231			}
+> >    8232			if (!acpi_evalf(sfan_handle, NULL, NULL, "vd",
+> > level))
+> >    8233				return -EIO;
+> >    8234			break;
+> >    8235	
+> >    8236		case TPACPI_FAN_WR_ACPI_FANS:
+> >    8237		case TPACPI_FAN_WR_TPEC:
+> >    8238			if (!(level & TP_EC_FAN_AUTO) &&
+> >    8239			    !(level & TP_EC_FAN_FULLSPEED) &&
+> >    8240			    ((level < 0) || (level > 7)))
+> >    8241				return -EINVAL;
+> >    8242	
+> >    8243			/* safety net should the EC not support AUTO
+> >    8244			 * or FULLSPEED mode bits and just ignore them
+> > */
+> >    8245			if (level & TP_EC_FAN_FULLSPEED)
+> >    8246				level |= 7;	/* safety min speed 7
+> > */
+> >    8247			else if (level & TP_EC_FAN_AUTO)
+> >    8248				level |= 4;	/* safety min speed 4
+> > */
+> >    8249	
+> >    8250			if (tp_features.second_fan_ctl) {
+> >    8251				if (!fan_select_fan2() ||
+> >    8252				    !acpi_ec_write(fan_status_offset,
+> > level)) {
+> >    8253					pr_warn("Couldn't set 2nd fan
+> > level, disabling support\n");
+> >    8254					tp_features.second_fan_ctl =
+> > 0;
+> >    8255				}
+> >    8256				fan_select_fan1();
+> >    8257	
+> >    8258			}
+> >    8259			if (!acpi_ec_write(fan_status_offset, level))
+> >    8260				return -EIO;
+> >    8261			else
+> >    8262				tp_features.fan_ctrl_status_undef = 0;
+> >    8263			break;
+> >    8264	
+> >    8265		case TPACPI_FAN_WR_ACPI_FANW:
+> >    8266			if (!(level & TP_EC_FAN_AUTO) && (level < 0 ||
+> > level > 7))
+> >    8267				return -EINVAL;
+> >    8268			if (level & TP_EC_FAN_FULLSPEED)
+> >    8269				return -EINVAL;
+> >    8270	
+> >    8271			if (level & TP_EC_FAN_AUTO) {
+> >    8272				if (!acpi_evalf(fanw_handle, NULL,
+> > NULL, "vdd", 0x8106, 0x05)) {
+> >    8273					rc = -EIO;
+> >    8274					break;
+> >    8275				}
+> >    8276				if (!acpi_evalf(fanw_handle, NULL,
+> > NULL, "vdd", 0x8100, 0x00)) {
+> >    8277					rc = -EIO;
+> >    8278					break;
+> >    8279				}
+> >    8280			} else {
+> >    8281				if (!acpi_evalf(fanw_handle, NULL,
+> > NULL, "vdd", 0x8106, 0x45)) {
+> >    8282					rc = -EIO;
+> >    8283					break;
+> >    8284				}
+> >    8285				if (!acpi_evalf(fanw_handle, NULL,
+> > NULL, "vdd", 0x8100, 0xff)) {
+> >    8286					rc = -EIO;
+> >    8287					break;
+> >    8288				}
+> >    8289				if (!acpi_evalf(fanw_handle, NULL,
+> > NULL, "vdd", 0x8102, level * 100 / 7)) {
+> >    8290					rc = -EIO;
+> >    8291					break;
+> >    8292				}
+> >    8293			}
+> >    8294			break;
+> >    8295	
+> >    8296		default:
+> >    8297			return -ENXIO;
+> >    8298		}
+> >    8299	
+> >    8300		vdbg_printk(TPACPI_DBG_FAN,
+> >    8301			"fan control: set fan control register to
+> > 0x%02x\n", level);
+> >    8302		return 0;
+> >    8303	}
+> >    8304	
+> > 
+> 
