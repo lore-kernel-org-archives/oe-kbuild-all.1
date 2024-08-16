@@ -1,64 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4845A156F2B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6D61991D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 13:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723812900; cv=none; b=U7WJvy1LXQyQ4BtUPncIq+pfOZazQmsO65QIvEwvemA3JQkSBqD3AAwSaOLodQNml6BMMUKhaaMM44YTyUCtTc0+BFyaSIepjfUetvDPpAlAb4JIB0ML/hFcvuxTV939xIpYB6LEB/lsUFK89YQ+hW7DURKNR9qPeDQafbhrMTg=
+	t=1723815365; cv=none; b=hFcM6LYCG75DruTOaN/BAZGu64xp4FuixF4UCzzyJWWeIUtGBGEWj4e5FCWXBHSvyzXD4On/ayF2G2SR4hZ6PCbbFDfJ9KogupG53g20ccihElb9nZPlZqsMExE3d0DgiZ3FjM/04+GUWuaQQ5zkmDbryv/WxgIqOZLvNw/yx9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723812900; c=relaxed/simple;
-	bh=OSCzB+p00nSVW/dHRk7hsNkN+RR7Pek+A4z85VZMYuU=;
+	s=arc-20240116; t=1723815365; c=relaxed/simple;
+	bh=UdpgyUFrZAf8j3dkewoxOErRAvBtqhfOMgKE6Oyyyxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZ1TZHZKxopv8g4/yOvYUpMS7jRHCrUDkM7oqp+WwWSAmuAOcmNO4adf/AnjaqF9qevdQXBtvrF3tQclRqB1yjWT2LFVOx5wkW/3Ky1gVkhHXSnG/3bLEu27iMhnfawpGDgDxuOsWDRiJHTbrAWpXOcMLuENrs18mj0Q2A4Ixu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccqst9i5; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=m/RBuID+Z51lXRranj4EByDhby3cW/C02YHYdebtzERhjyNciIZ/2zfQ4kSxLFHU0oew3lB9nc1wqqyudHKlA+H1z1+U1e2Z+ke5xHw8UgsvFftBbU6s3QERMnGgM9b+QYsxVtxD2oMZg5SyxDaboOZM1Hx7f6do9Iy/0NGASog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJJoqmY6; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccqst9i5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJJoqmY6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723812899; x=1755348899;
+  t=1723815363; x=1755351363;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OSCzB+p00nSVW/dHRk7hsNkN+RR7Pek+A4z85VZMYuU=;
-  b=ccqst9i548UGMuEgqqoGlKB6DJ1xnfGu6cc2xDgTaZ5dFCb73wVoGCJj
-   RbazYnVEZ15B2oCqSDJFMKAYfRVW0AhzvDbSb9bteZtcsmxuGQuVbx/Un
-   tYKEcxyUBdp+yHJFbeVyBKdlcNAptzl1ndKi+3Mgic8uCG9Qpz12BD9LC
-   yhk/L83BXqPbboA3/mRdRlPJKyKo4tr6FLME8scAwWfHbkGq8M0dvWF4x
-   z6ioI3u53ED50KFoYG0Slqk7/MIzh6k5ZptuEXAzx6+BLWDL0vevKXnFz
-   RQcfoDBR61ed2XFzh+V76k+XlYnE1Q/acQsa7pB+8YgzBznc8AdW7bw1s
-   Q==;
-X-CSE-ConnectionGUID: OTTeNG9QStGn580x9yvLhQ==
-X-CSE-MsgGUID: jlElGIXkThaQtEu2AAzaxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="33259273"
+  bh=UdpgyUFrZAf8j3dkewoxOErRAvBtqhfOMgKE6Oyyyxw=;
+  b=QJJoqmY6wIFR5k3fxwyRqdwICcNOxxYhOQcTKXioFIL3+jX3a2TXoHU9
+   gdZwSSD6YUQ9EuPg0DhfIm2BDKL5+RaIhzy4gKxrRV0Xpn7k/oKqK0Rki
+   sA8lFAZxXI3TXIYKmk34U6w7zPNwMBsUBWWTxf+lsQPtWtj88ks2q+0NW
+   YSziI3dDgS16Unf/BYrSSgzLwf3oOxSnOQQFA/V3311OfJTeriNe69EjU
+   BSGJNLRtidm6jAGyivwJXGH+DhxMuVntZicovcqTP+Y+kKzKmpPWApdas
+   K3V5qkqOrASlR81xE0ZTbu48Arqicmg+HsfF0+0fzRTqZISaRXuwpIAhS
+   A==;
+X-CSE-ConnectionGUID: EJnNM82ESMG+QywG3i+0DA==
+X-CSE-MsgGUID: TDKgdZoyRseID7g8xpVZ9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22270472"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="33259273"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:54:58 -0700
-X-CSE-ConnectionGUID: QDVynEIoRQ270siWOnAKdw==
-X-CSE-MsgGUID: m3JGk3tFT6SARvoiCDI1VA==
+   d="scan'208";a="22270472"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:36:03 -0700
+X-CSE-ConnectionGUID: 1xOv6KyARO2RyfklF3Cr2A==
+X-CSE-MsgGUID: 0cQkTY5FT/OOy8Hc6ngyFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="90440914"
+   d="scan'208";a="90404751"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Aug 2024 05:54:54 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Aug 2024 06:35:56 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sewTk-0006Qs-2B;
-	Fri, 16 Aug 2024 12:54:52 +0000
-Date: Fri, 16 Aug 2024 20:54:51 +0800
+	id 1sex7R-0006Sg-37;
+	Fri, 16 Aug 2024 13:35:53 +0000
+Date: Fri, 16 Aug 2024 21:35:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huan Yang <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
-	Huan Yang <link@vivo.com>
-Subject: Re: [PATCH v3 5/5] udmabuf: remove udmabuf_folio
-Message-ID: <202408162012.cL9pnFSm-lkp@intel.com>
-References: <20240813090518.3252469-6-link@vivo.com>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>,
+	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
+	daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux@armlinux.org.uk,
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev, arnd@arndb.de, geert+renesas@glider.be,
+	mpe@ellerman.id.au, rdunlap@infradead.org, dharma.b@microchip.com,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, manikandan.m@microchip.com
+Subject: Re: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support
+ for sam9x7 SoC series
+Message-ID: <202408162158.TlOqyoUA-lkp@intel.com>
+References: <20240814105256.177319-3-manikandan.m@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,59 +74,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240813090518.3252469-6-link@vivo.com>
+In-Reply-To: <20240814105256.177319-3-manikandan.m@microchip.com>
 
-Hi Huan,
+Hi Manikandan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 033a4691702cdca3a613256b0623b8eeacb4985e]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.11-rc3 next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/udmabuf-cancel-mmap-page-fault-direct-map-it/20240814-231504
-base:   033a4691702cdca3a613256b0623b8eeacb4985e
-patch link:    https://lore.kernel.org/r/20240813090518.3252469-6-link%40vivo.com
-patch subject: [PATCH v3 5/5] udmabuf: remove udmabuf_folio
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240816/202408162012.cL9pnFSm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162012.cL9pnFSm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/dt-bindings-display-bridge-add-sam9x75-mipi-dsi-binding/20240814-234923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240814105256.177319-3-manikandan.m%40microchip.com
+patch subject: [PATCH v3 2/4] drm/bridge: add Microchip DSI controller support for sam9x7 SoC series
+config: arm-randconfig-r071-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162158.TlOqyoUA-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162012.cL9pnFSm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408162158.TlOqyoUA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: unsigned 'bpp' is never less than zero.
+drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:293 dw_mipi_dsi_mchp_get_lane_mbps() warn: error code type promoted to positive: 'bpp'
+drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c:314 dw_mipi_dsi_mchp_get_lane_mbps() error: uninitialized symbol 'target_mbps'.
 
->> drivers/dma-buf/udmabuf.c:175: warning: Function parameter or struct member 'ubuf' not described in 'unpin_all_folios'
+vim +/bpp +293 drivers/gpu/drm/bridge/dw-mipi-dsi-mchp.c
 
-
-vim +175 drivers/dma-buf/udmabuf.c
-
-17a7ce20349045 Gurchetan Singh 2019-12-02  165  
-d934739404652b Huan Yang       2024-08-13  166  /**
-d934739404652b Huan Yang       2024-08-13  167   * unpin_all_folios:		unpin each folio we pinned in create
-d934739404652b Huan Yang       2024-08-13  168   * The udmabuf set all folio in folios and pinned it, but for large folio,
-d934739404652b Huan Yang       2024-08-13  169   * We may have only used a small portion of the physical in the folio.
-d934739404652b Huan Yang       2024-08-13  170   * we will repeatedly, sequentially set the folio into the array to ensure
-d934739404652b Huan Yang       2024-08-13  171   * that the offset can index the correct folio at the corresponding index.
-d934739404652b Huan Yang       2024-08-13  172   * Hence, we only need to unpin the first iterred folio.
-d934739404652b Huan Yang       2024-08-13  173   */
-d934739404652b Huan Yang       2024-08-13  174  static void unpin_all_folios(struct udmabuf *ubuf)
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23 @175  {
-d934739404652b Huan Yang       2024-08-13  176  	pgoff_t pg;
-d934739404652b Huan Yang       2024-08-13  177  	struct folio *last = NULL;
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  178  
-d934739404652b Huan Yang       2024-08-13  179  	for (pg = 0; pg < ubuf->pagecount; pg++) {
-d934739404652b Huan Yang       2024-08-13  180  		struct folio *tmp = ubuf->folios[pg];
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  181  
-d934739404652b Huan Yang       2024-08-13  182  		if (tmp == last)
-d934739404652b Huan Yang       2024-08-13  183  			continue;
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  184  
-d934739404652b Huan Yang       2024-08-13  185  		last = tmp;
-d934739404652b Huan Yang       2024-08-13  186  		unpin_folio(tmp);
-d934739404652b Huan Yang       2024-08-13  187  	}
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  188  }
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  189  
+   276	
+   277	static int dw_mipi_dsi_mchp_get_lane_mbps(void *priv_data,
+   278						  const struct drm_display_mode *mode,
+   279						  unsigned long mode_flags, u32 lanes,
+   280						  u32 format, unsigned int *lane_mbps)
+   281	{
+   282		struct dw_mipi_dsi_mchp *dsi = priv_data;
+   283		unsigned long best_freq, fvco_min, fvco_max, fin, fout;
+   284		unsigned long min_delta = ULONG_MAX, delta;
+   285		unsigned int mpclk, target_mbps, desired_mbps;
+   286		unsigned int max_mbps = dppa_map[ARRAY_SIZE(dppa_map) - 1].max_mbps;
+   287		unsigned int bpp, min_prediv, max_prediv;
+   288		unsigned int _fbdiv, best_fbdiv, _prediv, best_prediv;
+   289		u64 freq_factor;
+   290	
+   291		dsi->format = format;
+   292		bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+ > 293		if (bpp < 0) {
+   294			dev_err(dsi->dev,
+   295				"failed to get bpp for pixel format %d\n",
+   296				dsi->format);
+   297			return bpp;
+   298		}
+   299	
+   300		mpclk = DIV_ROUND_UP(mode->clock, MSEC_PER_SEC);
+   301		if (mpclk) {
+   302			/* take 1/0.8, since mbps must be bigger than bandwidth of RGB */
+   303			desired_mbps = mpclk * (bpp / lanes) * 10 / 8;
+   304			if (desired_mbps < max_mbps) {
+   305				target_mbps = desired_mbps;
+   306			} else {
+   307				dev_err(dsi->dev,
+   308					"DPHY clock frequency is out of range\n");
+   309				return -ERANGE;
+   310			}
+   311		}
+   312	
+   313		fin = clk_get_rate(dsi->pllref_clk);
+ > 314		fout = target_mbps * USEC_PER_SEC;
+   315	
+   316		/* constraint: 5Mhz <= Fref / N <= 40MHz */
+   317		min_prediv = DIV_ROUND_UP(fin, 40 * USEC_PER_SEC);
+   318		max_prediv = fin / (5 * USEC_PER_SEC);
+   319	
+   320		/* constraint: 80MHz <= Fvco <= 1000Mhz */
+   321		fvco_min = 80 * USEC_PER_SEC;
+   322		fvco_max = 1000 * USEC_PER_SEC;
+   323	
+   324		for (best_freq = 0, _prediv = min_prediv; _prediv <= max_prediv; _prediv++) {
+   325			/* Fvco = Fref * M / N */
+   326			freq_factor = fout * _prediv;
+   327			do_div(freq_factor, fin);
+   328			_fbdiv = freq_factor;
+   329			/*
+   330			 * Due to the use of a "by 2 pre-scaler," the range of the
+   331			 * feedback multiplication value M is limited to even division
+   332			 * numbers, and m must be greater than 6, not bigger than 512.
+   333			 */
+   334			if (_fbdiv < 6 || _fbdiv > 512)
+   335				continue;
+   336	
+   337			_fbdiv += _fbdiv % 2;
+   338	
+   339			freq_factor = _fbdiv * fin;
+   340			do_div(freq_factor, _prediv);
+   341			if (freq_factor < fvco_min || freq_factor > fvco_max)
+   342				continue;
+   343	
+   344			delta = abs(fout - freq_factor);
+   345			if (delta < min_delta) {
+   346				best_prediv = _prediv;
+   347				best_fbdiv = _fbdiv;
+   348				min_delta = delta;
+   349				best_freq = freq_factor;
+   350			}
+   351		}
+   352	
+   353		if (best_freq) {
+   354			dsi->lane_mbps = DIV_ROUND_UP(best_freq, USEC_PER_SEC);
+   355			*lane_mbps = dsi->lane_mbps;
+   356			dsi->input_div = best_prediv;
+   357			dsi->feedback_div = best_fbdiv;
+   358		} else {
+   359			dev_err(dsi->dev, "Can not find best_freq for DPHY\n");
+   360			return -EINVAL;
+   361		}
+   362	
+   363		return 0;
+   364	}
+   365	
 
 -- 
 0-DAY CI Kernel Test Service
