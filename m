@@ -1,63 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC6C2E859
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABE01B32BF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 12:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723812299; cv=none; b=kY9PI07A7ZJX/9EASHwHoUoBVAmin2hU6HIqpBx9cuayzSiPtsLV7JLt0+nn6Fe3gKEfnZwCCLOJUicLXkun5aqjELsGLN1R91A01V/0G++bf8WFH0ClFPTJxw7dfqXqEusAI8N/fMtqfTXafAfAnkcH9jJO24ws6euimkDpXmA=
+	t=1723812300; cv=none; b=TijNTIjFh3BrwSgbKZfpE7PG0Xkvp3yodWgnPZx/DiWx4K0Jnj57FLeuW/RFxBcbNVA8eLLg3y1/E32opCDanvvfjDMWG06ItSwGUcO83OcwKOhp3iAGEMMKSai18fa1QsX/KRcIKnD+4H6FoMSmKWjKl1oFFmmsK1rgmUDi1BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723812299; c=relaxed/simple;
-	bh=a1wMG3F56AHOEbZ2fzPzZeByW/CEN4zUy3fYWVDPUAg=;
+	s=arc-20240116; t=1723812300; c=relaxed/simple;
+	bh=fvGhxIuzPUioSNTTe3EoSTFxz8wI2lhy+hs0qJT16y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jd6qZWV/yNlo3qN8ku/QCRjt0cDqHIeG5h7pIoTKEYQbWimGA85I74JpxalqSfSNVQmAyUhmTHdQyJeY4Al6W3oFWdbOwWC+kk4jwBh/nz1LqcJpz3Y3efPcV/ZEVwgJazljxoPvS+ET/8AJ+hbvBd7XmpMez898Q+1EFjut50k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c504eUiF; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=D0+XZ8ovnROnE28VshQCeIP4bkACdcje+BuZxNJowMDRGlbD3rH26EYVatEgghTS3081b8LN8uHy8vvDOHgbT1q6TbXCP5amAQttktJuhte2ryc2+5FWg0X2cJnwEk0RtHOZPP3rWqgRGsfoTKjzkcGjqgAz8mNXb2Eb5itJNpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GST0JKnU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c504eUiF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GST0JKnU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723812298; x=1755348298;
+  t=1723812299; x=1755348299;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a1wMG3F56AHOEbZ2fzPzZeByW/CEN4zUy3fYWVDPUAg=;
-  b=c504eUiFQzdxc5wswChLyxLDnD8WNZPRnwr9Ir1hCtr2aIJEHu6CCbtD
-   LQ5uK8PUKoM52ZQD9G6MkDB1/uNVmnCKgH6Y0DPC9DePC9DWLIJwsPM4U
-   YiGSEwFsoZGRPxO1XBwyzNCnK6a0sudHUK/ZP1uVdCgYfCBKOWkMfeRvX
-   3bh6A+ZbITucS65YbtPvaV+yKGrvAtyLHtrC0iIf4IbTY0vQJrJ6f2jxY
-   V4cklF/BJhhB2UwhIZV/a8yV5SIKC/Wljknn4AA8OjGTGYALJOA/efIHa
-   cqa7j3+pFl/ArAz93zrGgX39J7tnkiSyQZDcfmvBXmCBT7Fdsqd72M0nn
-   A==;
-X-CSE-ConnectionGUID: i2Xmxgy2R2SxB4tBWNs03Q==
-X-CSE-MsgGUID: 9ACb/z2lSjC3e6n0S58VGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="44625446"
+  bh=fvGhxIuzPUioSNTTe3EoSTFxz8wI2lhy+hs0qJT16y4=;
+  b=GST0JKnUhe1K7ZITGKGWQ712/qfA4sZJdqrNCvXgUe5lb40lawIjsDVx
+   XbhZordQKCPOrjCBSpDxFn7II5UYTzCLPp1A5hoscMEQ9Faga7VbJuNxX
+   WeEjU3tLn7aeKBCvrg5iZW2r060dncG+wdJUuN0ZswdhnGEfPgj5a1tjy
+   qO5QwMRwkJOFEQuEkVSrGfJVezIH8/csiovyZn7pGEtOJsmkFl8Ko6RPp
+   2ZkG4sE/q2mTVAATpwWMIIO06lkSVQ8wm2BuOTC4L9jI3wPS8+B97u4Gk
+   TlLCcEiJXAs6herqQWfQvjAKlW72CTj9+wK3yJjdRpECBYdQHHraPc51t
+   Q==;
+X-CSE-ConnectionGUID: 5Ms5xuVGTzus+dN4+PbLOA==
+X-CSE-MsgGUID: okXNSclSS/ut3RAtBTiiMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="44625452"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="44625446"
+   d="scan'208";a="44625452"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:44:56 -0700
-X-CSE-ConnectionGUID: l6axIvtVRDGcK1AYbyLEyQ==
-X-CSE-MsgGUID: rEQ8uUvzT3iT08p0wMxdWw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 05:44:57 -0700
+X-CSE-ConnectionGUID: pzvbqMBIQSqcDRf43NMVfw==
+X-CSE-MsgGUID: 8HfQNVKBQTilZOBzibhyrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="64333870"
+   d="scan'208";a="64333875"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 16 Aug 2024 05:44:54 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sewK4-0006QG-19;
+	id 1sewK4-0006QC-15;
 	Fri, 16 Aug 2024 12:44:52 +0000
-Date: Fri, 16 Aug 2024 20:44:28 +0800
+Date: Fri, 16 Aug 2024 20:44:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miao Wang via B4 Relay <devnull+shankerwangmiao.gmail.com@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-acpi@vger.kernel.org, Miao Wang <shankerwangmiao@gmail.com>
-Subject: Re: [PATCH] ACPI: PCI: check if the io space is page aligned
-Message-ID: <202408162020.SGGpRl7q-lkp@intel.com>
-References: <20240814-check_pci_probe_res-v1-1-122ee07821ab@gmail.com>
+To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
+	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, nanhai.zou@intel.com,
+	wajdi.k.feghali@intel.com, vinodh.gopal@intel.com,
+	kanchana.p.sridhar@intel.com
+Subject: Re: [PATCH v2 4/4] mm: swap: Count successful mTHP ZSWAP stores in
+ sysfs mTHP stats.
+Message-ID: <202408162056.MQnreTgK-lkp@intel.com>
+References: <20240816054805.5201-5-kanchana.p.sridhar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,91 +69,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814-check_pci_probe_res-v1-1-122ee07821ab@gmail.com>
+In-Reply-To: <20240816054805.5201-5-kanchana.p.sridhar@intel.com>
 
-Hi Miao,
+Hi Kanchana,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc3]
+[cannot apply to akpm-mm/mm-everything next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miao-Wang-via-B4-Relay/ACPI-PCI-check-if-the-io-space-is-page-aligned/20240815-003833
-base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
-patch link:    https://lore.kernel.org/r/20240814-check_pci_probe_res-v1-1-122ee07821ab%40gmail.com
-patch subject: [PATCH] ACPI: PCI: check if the io space is page aligned
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240816/202408162020.SGGpRl7q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162020.SGGpRl7q-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/mm-zswap-zswap_is_folio_same_filled-takes-an-index-in-the-folio/20240816-134948
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240816054805.5201-5-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v2 4/4] mm: swap: Count successful mTHP ZSWAP stores in sysfs mTHP stats.
+config: i386-buildonly-randconfig-005-20240816 (https://download.01.org/0day-ci/archive/20240816/202408162056.MQnreTgK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408162056.MQnreTgK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408162020.SGGpRl7q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408162056.MQnreTgK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/pm_runtime.h:11,
-                    from drivers/acpi/pci_root.c:17:
-   drivers/acpi/pci_root.c: In function 'acpi_pci_root_remap_iospace':
->> drivers/acpi/pci_root.c:873:31: error: incompatible type for argument 1 of '_dev_err'
-     873 |                 dev_err(device->dev,
-         |                         ~~~~~~^~~~~
-         |                               |
-         |                               struct device
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/acpi/pci_root.c:873:17: note: in expansion of macro 'dev_err'
-     873 |                 dev_err(device->dev,
-         |                 ^~~~~~~
-   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'struct device'
-      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
-         |               ~~~~~~~~~~~~~~~~~~~~~^~~
+   mm/page_io.c: In function 'count_mthp_zswpout_vm_event':
+>> mm/page_io.c:178:17: error: implicit declaration of function 'count_mthp_stat' [-Werror=implicit-function-declaration]
+     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+         |                 ^~~~~~~~~~~~~~~
+>> mm/page_io.c:178:53: error: 'MTHP_STAT_ZSWPOUT' undeclared (first use in this function)
+     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+         |                                                     ^~~~~~~~~~~~~~~~~
+   mm/page_io.c:178:53: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
 
-vim +/_dev_err +873 drivers/acpi/pci_root.c
+vim +/count_mthp_stat +178 mm/page_io.c
 
-   860	
-   861	static void acpi_pci_root_remap_iospace(struct acpi_device *device,
-   862				struct resource_entry *entry)
-   863	{
-   864	#ifdef PCI_IOBASE
-   865		struct resource *res = entry->res;
-   866		resource_size_t cpu_addr = res->start;
-   867		resource_size_t pci_addr = cpu_addr - entry->offset;
-   868		resource_size_t length = resource_size(res);
-   869		unsigned long port;
-   870	
-   871		if (!PAGE_ALIGNED(cpu_addr) || !PAGE_ALIGNED(length) ||
-   872			!PAGE_ALIGNED(pci_addr)) {
- > 873			dev_err(device->dev,
-   874				FW_BUG "I/O resource %pR or its offset %pa is not page aligned\n",
-   875				res, &entry->offset);
-   876			goto err;
-   877		}
-   878	
-   879		if (pci_register_io_range(&device->fwnode, cpu_addr, length))
-   880			goto err;
-   881	
-   882		port = pci_address_to_pio(cpu_addr);
-   883		if (port == (unsigned long)-1)
-   884			goto err;
-   885	
-   886		res->start = port;
-   887		res->end = port + length - 1;
-   888		entry->offset = port - pci_addr;
-   889	
-   890		if (pci_remap_iospace(res, cpu_addr) < 0)
-   891			goto err;
-   892	
-   893		pr_info("Remapped I/O %pa to %pR\n", &cpu_addr, res);
-   894		return;
-   895	err:
-   896		res->flags |= IORESOURCE_DISABLED;
-   897	#endif
-   898	}
-   899	
+   174	
+   175	static inline void count_mthp_zswpout_vm_event(struct folio *folio)
+   176	{
+   177		if (IS_ENABLED(CONFIG_THP_SWAP))
+ > 178			count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+   179	}
+   180	
 
 -- 
 0-DAY CI Kernel Test Service
