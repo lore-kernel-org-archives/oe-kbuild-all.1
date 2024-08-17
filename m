@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9B6CA6B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 17:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06CF14E2CC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 18:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723915611; cv=none; b=G9/IT06RaWHqlVdcoPWsPjE8osRRyCIZIoGtJj5mo4G5HAH/mR8gDR3wsT4hq0pN5JuahOjgbnM5HLYj7uNJjc4xqo4oVZoilsnk2NVM1YDRFYAhbazGnoWIJjDBZthKPjiVpEcRzsZ6iiWqMUIVw+sIiB+MOKvA8kcGPqLOXNY=
+	t=1723918076; cv=none; b=PADJH5CoWSwpfYFvDYO5SlwjWIat8MF4Ki324zI7CEebaJSIZENWGFpPb7j1J04Ro97o1vMFePNdNy3fTuvDeNFtVwvT/tCUn3GZuf+H6s5tDSScK7yNaFglLcLR+woxyEZ5voNolKllYSfMykaHRCQ1qPsDY7m9K1enUdRcpdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723915611; c=relaxed/simple;
-	bh=aOKD4hcYsbSDhtHarUzlkl/9X1snlmfFXE5gev0CHJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ORu6+37XNlJES0OrrA2xmGLvpC04+gh6NU59bPSnsUVzGN3ethxt3lwAXZjQ5D/0ctQQaJUu3x9bfPtL7QUyLZ/04eVFf0ygBmekJlwmeNsnT1TOHGkhcEE6zVzNKGxOGl9iyUW5doz11hMpataSIKIEQ6nNrhkzJK2z30eOplw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KR/8urb1; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1723918076; c=relaxed/simple;
+	bh=Zh55/aHTFzFdC9YDeM4w2rjg1Nsri0R2Wv/Y3M/FWQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3ISODonP9ECxMh+VDl3+vSgKOTZFeB6mf7YQGLW1ojAhjvIpX2Vf/0NzX90qg8Ayv4/MPwggX5iDihOa6oCTr+ix5Vqm+anZ2V0hjacMoaPO69t351Qbpm2S+lphPDVz5+U4b12wcn1Ws2XvqCfWsaO933tr+bAuNp1TqCR+m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R10uPqLS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KR/8urb1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R10uPqLS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723915610; x=1755451610;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aOKD4hcYsbSDhtHarUzlkl/9X1snlmfFXE5gev0CHJY=;
-  b=KR/8urb1w0ty6nKd359nZ77hC0zg5bAKCsXPMr+UEeprs9zSIE+K8L0x
-   cbPOVoyV5ja41F6QNhx7rQJESKTbKC7jcNJCddk9pTZCMWvDZk3uT0Aog
-   CzSV7E6tgT25+Rhyb60UkpJ4Pdx9WtC8bh3L5zoFQRuNTubZlBJKfKxAI
-   K64tMscsiL8ZfK6u+xVAWqCwVx6V725llBeEr+AiNbZCGblny05IDYw1I
-   8ugJ0E4D1MWbWcjf9+ocqaKMbBRnmSAGZazpUNTIrP1cD+ePr8uz0PFRt
-   RSam4UWBF8GpT7z3Cwc6xwk6741uoMayLTf1mzu6U+rTnCKpJnRyeLRJa
-   Q==;
-X-CSE-ConnectionGUID: ssgXD3M1RE+cZPKo+bUbTA==
-X-CSE-MsgGUID: ehYqEnHUQvGV4SM/FCGexQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="32767333"
+  t=1723918074; x=1755454074;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zh55/aHTFzFdC9YDeM4w2rjg1Nsri0R2Wv/Y3M/FWQ4=;
+  b=R10uPqLSel9mV4anmbWLA6fs9CiH4FyyuceysrofhLVi7wT29SBXgYEt
+   TwvpJcCTAC2t4gKBz+GNJJl494gwVyyEFQYE2vzLis5K9VikcyPS3CD32
+   bkZ1X7mYBOknWX2U636F83htmShvk8A4ewmBtHSg6w0M1gebU9aRlOZcJ
+   OoI+Hrh96KVKdJYZXxpfNvu+b6/qgJYz8x1ZNzy3XAlS6k22gTRuV7Cfw
+   C3d/42liUSj4y7pqXzKc6lcHie0/ZHJKP9ICRofgcbdzouhNJmRDcQjVq
+   u/gRJ4NnNCqN/NAtz6SWPrWNMqmlLgwWamZuIAQbBS4D/Vo+HxyNk8crr
+   g==;
+X-CSE-ConnectionGUID: yRsekgIVR3OWCtWy4NN4MQ==
+X-CSE-MsgGUID: fgrLlmQfRUisS4Mx1PQwDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="44717720"
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="32767333"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 10:26:49 -0700
-X-CSE-ConnectionGUID: 2+sSEWxlRfOtUi1RpP7NNQ==
-X-CSE-MsgGUID: RMt27BLiQrm62kUmpAFyjg==
+   d="scan'208";a="44717720"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 11:07:53 -0700
+X-CSE-ConnectionGUID: oJQxy6IfT9GuFe5nH9Mf+Q==
+X-CSE-MsgGUID: 6Q5k/NVOQ4i19saRocygOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="97462041"
+   d="scan'208";a="83176055"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Aug 2024 10:26:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Aug 2024 11:07:49 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfNCP-0007h0-1N;
-	Sat, 17 Aug 2024 17:26:45 +0000
-Date: Sun, 18 Aug 2024 01:26:00 +0800
+	id 1sfNq6-0007iU-2F;
+	Sat, 17 Aug 2024 18:07:46 +0000
+Date: Sun, 18 Aug 2024 02:07:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:mm_id 12/12] mm/rmap.c:1185:20: error: void value
- not ignored as it ought to be
-Message-ID: <202408180127.dZhqzQFg-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH 9/9] selftests: [NOT TO BE MERGED] Modifications for
+ testing VDSO getrandom implementation on PPC32
+Message-ID: <202408180121.HB9iN2PQ-lkp@intel.com>
+References: <376843e024ffa73793e8ed99b72d299c6b239799.1723817900.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +77,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <376843e024ffa73793e8ed99b72d299c6b239799.1723817900.git.christophe.leroy@csgroup.eu>
 
-tree:   https://github.com/davidhildenbrand/linux mm_id
-head:   3d79f5b8dd7c22fa4d00ea6de3e5d3517482dee4
-commit: 3d79f5b8dd7c22fa4d00ea6de3e5d3517482dee4 [12/12] page_mapcount
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240818/202408180127.dZhqzQFg-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180127.dZhqzQFg-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes shuah-kselftest/next shuah-kselftest/fixes linus/master v6.11-rc3]
+[cannot apply to crng-random/master next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-vdso-Don-t-discard-rela-sections/20240816-223917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/376843e024ffa73793e8ed99b72d299c6b239799.1723817900.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH 9/9] selftests: [NOT TO BE MERGED] Modifications for testing VDSO getrandom implementation on PPC32
+config: x86_64-randconfig-161-20240817 (https://download.01.org/0day-ci/archive/20240818/202408180121.HB9iN2PQ-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408180127.dZhqzQFg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408180121.HB9iN2PQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/time/time.c:622 timespec64_to_jiffies() warn: always true condition '(sec >= ((((((((2147483647 >> 1) - 1) >> (32 - 10)) * ((1000000000 + 1000 / 2) / 1000)) / (1000000000)) << (1)) + (((((((2147483647 >> 1) - 1) >> (32 - 10)) * ((1000000000 + 1000 / 2) / 1000)) % (1000000000)) << (1)) + (1000000000) / 2) / (1000000000)) - 1)) => (0-u64max >= 0)'
 
-   mm/rmap.c: In function '__folio_add_rmap':
->> mm/rmap.c:1185:20: error: void value not ignored as it ought to be
-    1185 |                 nr = folio_add_large_mapcount(folio, orig_nr_pages, false, vma);
-         |                    ^
-   mm/rmap.c:1213:20: error: void value not ignored as it ought to be
-    1213 |                 nr = folio_inc_large_mapcount(folio, false, vma);
-         |                    ^
-   mm/rmap.c: In function '__folio_remove_rmap':
-   mm/rmap.c:1589:20: error: void value not ignored as it ought to be
-    1589 |                 nr = folio_sub_large_mapcount(folio, nr_pages, vma);
-         |                    ^
-   mm/rmap.c:1623:20: error: void value not ignored as it ought to be
-    1623 |                 nr = folio_dec_large_mapcount(folio, vma);
-         |                    ^
+vim +622 kernel/time/time.c
 
-
-vim +1185 mm/rmap.c
-
-  1154	
-  1155	static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
-  1156			struct page *page, int nr_pages, struct vm_area_struct *vma,
-  1157			enum rmap_level level, int *nr_pmdmapped)
-  1158	{
-  1159	#ifdef CONFIG_PAGE_MAPCOUNT
-  1160		atomic_t *mapped = &folio->_nr_pages_mapped;
-  1161	#endif
-  1162		const int orig_nr_pages = nr_pages;
-  1163		int first = 0, nr = 0;
-  1164	
-  1165		__folio_rmap_sanity_checks(folio, page, nr_pages, level);
-  1166	
-  1167		switch (level) {
-  1168		case RMAP_LEVEL_PTE:
-  1169			if (!folio_test_large(folio)) {
-  1170				nr = atomic_inc_and_test(&folio->_mapcount);
-  1171				break;
-  1172			}
-  1173	
-  1174	#ifdef CONFIG_PAGE_MAPCOUNT
-  1175			do {
-  1176				first += atomic_inc_and_test(&page->_mapcount);
-  1177			} while (page++, --nr_pages > 0);
-  1178	
-  1179			if (first &&
-  1180			    atomic_add_return_relaxed(first, mapped) < ENTIRELY_MAPPED)
-  1181				nr = first;
-  1182	
-  1183			folio_add_large_mapcount(folio, orig_nr_pages, false, vma);
-  1184	#else /* !CONFIG_PAGE_MAPCOUNT */
-> 1185			nr = folio_add_large_mapcount(folio, orig_nr_pages, false, vma);
-  1186			if (nr == orig_nr_pages)
-  1187				/* Was completely unmapped. */
-  1188				nr = folio_large_nr_pages(folio);
-  1189			else
-  1190				nr = 0;
-  1191	#endif /* CONFIG_PAGE_MAPCOUNT */
-  1192			break;
-  1193		case RMAP_LEVEL_PMD:
-  1194			first = atomic_inc_and_test(&folio->_entire_mapcount);
-  1195	#ifdef CONFIG_PAGE_MAPCOUNT
-  1196			if (first) {
-  1197				nr = atomic_add_return_relaxed(ENTIRELY_MAPPED, mapped);
-  1198				if (likely(nr < ENTIRELY_MAPPED + ENTIRELY_MAPPED)) {
-  1199					*nr_pmdmapped = folio_large_nr_pages(folio);
-  1200					nr = *nr_pmdmapped - (nr & FOLIO_PAGES_MAPPED);
-  1201					/* Raced ahead of a remove and another add? */
-  1202					if (unlikely(nr < 0))
-  1203						nr = 0;
-  1204				} else {
-  1205					/* Raced ahead of a remove of ENTIRELY_MAPPED */
-  1206					nr = 0;
-  1207				}
-  1208			}
-  1209			folio_inc_large_mapcount(folio, false, vma);
-  1210	#else /* !CONFIG_PAGE_MAPCOUNT */
-  1211			if (first)
-  1212				*nr_pmdmapped = folio_large_nr_pages(folio);
-  1213			nr = folio_inc_large_mapcount(folio, false, vma);
-  1214			if (nr == 1)
-  1215				/* Was completely unmapped. */
-  1216				nr = folio_large_nr_pages(folio);
-  1217			else
-  1218				nr = 0;
-  1219	#endif /* CONFIG_PAGE_MAPCOUNT */
-  1220			break;
-  1221		}
-  1222		return nr;
-  1223	}
-  1224	
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  595  
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  596  /**
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  597   * timespec64_to_jiffies - convert a timespec64 value to jiffies
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  598   * @value: pointer to &struct timespec64
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  599   *
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  600   * The TICK_NSEC - 1 rounds up the value to the next resolution.  Note
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  601   * that a remainder subtract here would not do the right thing as the
+4bf07f6562a01a4 kernel/time/time.c Ingo Molnar   2021-03-22  602   * resolution values don't fall on second boundaries.  I.e. the line:
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  603   * nsec -= nsec % TICK_NSEC; is NOT a correct resolution rounding.
+d78c9300c51d6ce kernel/time/time.c Andrew Hunter 2014-09-04  604   * Note that due to the small error in the multiplier here, this
+d78c9300c51d6ce kernel/time/time.c Andrew Hunter 2014-09-04  605   * rounding is incorrect for sufficiently large values of tv_nsec, but
+d78c9300c51d6ce kernel/time/time.c Andrew Hunter 2014-09-04  606   * well formed timespecs should have tv_nsec < NSEC_PER_SEC, so we're
+d78c9300c51d6ce kernel/time/time.c Andrew Hunter 2014-09-04  607   * OK.
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  608   *
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  609   * Rather, we just shift the bits off the right.
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  610   *
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  611   * The >> (NSEC_JIFFIE_SC - SEC_JIFFIE_SC) converts the scaled nsec
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  612   * value to a scaled second value.
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  613   *
+67b3f564cb1e769 kernel/time/time.c Randy Dunlap  2023-07-03  614   * Return: jiffies value
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  615   */
+751addac78b6f20 kernel/time/time.c Arnd Bergmann 2019-10-24  616  unsigned long
+751addac78b6f20 kernel/time/time.c Arnd Bergmann 2019-10-24  617  timespec64_to_jiffies(const struct timespec64 *value)
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  618  {
+751addac78b6f20 kernel/time/time.c Arnd Bergmann 2019-10-24  619  	u64 sec = value->tv_sec;
+751addac78b6f20 kernel/time/time.c Arnd Bergmann 2019-10-24  620  	long nsec = value->tv_nsec + TICK_NSEC - 1;
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  621  
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16 @622  	if (sec >= MAX_SEC_IN_JIFFIES){
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  623  		sec = MAX_SEC_IN_JIFFIES;
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  624  		nsec = 0;
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  625  	}
+9ca308506062fc4 kernel/time/time.c Baolin Wang   2015-07-29  626  	return ((sec * SEC_CONVERSION) +
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  627  		(((u64)nsec * NSEC_CONVERSION) >>
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  628  		 (NSEC_JIFFIE_SC - SEC_JIFFIE_SC))) >> SEC_JIFFIE_SC;
+8b9365d753d9870 kernel/time.c      Ingo Molnar   2007-02-16  629  
 
 -- 
 0-DAY CI Kernel Test Service
