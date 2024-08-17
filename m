@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368587D3F1;
-	Sat, 17 Aug 2024 03:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C7A6FD3;
+	Sat, 17 Aug 2024 03:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723865313; cv=none; b=baylQP0xyiqh5Ns4eRdNSdmQfqlaRlLyWUD1LcpXK9Fd4zuBUwCzK4HE0GaFtlDEgERH4I//6QQW3tHXgUyqlvsCPwxQmaJ5zQ9ZYlhBFE5BSVHB/uwra+i7tW081z2jSeJBJNQTFnu2NE3mqAUd6kVTTQyPtfs7XWAH53nw+HQ=
+	t=1723865908; cv=none; b=XxTpbs/hrlCRQMFMMm7p61QEYhR4bii74mDgVoD8N/ykkNvFBJ77Oyg880/5cykeMMPrxh8DakmXQl4KRkGQcZ5yTi/6MgMzpmy9cPnG02J2tRU4GmUwyH4jeUCwCXqvv1I1wwqcAMdgFQeIOSyUVTf48TqjRNmSHtveXqy+jAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723865313; c=relaxed/simple;
-	bh=JN9j8wh/xJ0TPyJMAzENOzMg/xpSR944Q4eFSDKDmhc=;
+	s=arc-20240116; t=1723865908; c=relaxed/simple;
+	bh=/S0fVhjL8e2047b9QgJCX6dfg8ItmW4KtR/sH1WyGIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fgwzxuAVO4Dsv9/YeOajOVGw/pF0lN/wMogFjsKnIculpZKQfxMEOGrc3zAe+4vKY/cr5m9GV69OhDfUlF/0E2tOeuzGB6wXnQ7ZTjFGXUZge2H+OHFs8nXdNTfGi8h1hXdSY4zbmyjL+WFIyC6qNEcht/Ie/P/SK8AcnGEfKvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VRIBoxfH; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=VXxfc06qQe1UFAHYwZT028uIZxz+mA3iHoGNUS5ebHIT2ET1veaB4HG2RXmx2Ce+C1FjgHNu5MKhFfssRJm0Sik7M9sp6jaOgmj03BXjKTJ13lJNXdxPujwxwl8+xFBOhohmoUM/xCfW2WTDPsHLpWjM4O0BTJIHe2qFZqTQXq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8d1Txq6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VRIBoxfH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8d1Txq6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723865311; x=1755401311;
+  t=1723865907; x=1755401907;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JN9j8wh/xJ0TPyJMAzENOzMg/xpSR944Q4eFSDKDmhc=;
-  b=VRIBoxfHZDtfCBUGiMBLMQUToTF8u2t/1AuPLhUBA41mIWYBAzRW4d/6
-   z69BBKlcvTl6+LVHY3UIMAh1aPM4TT9Xj+oONhY16Q308HGw3m2b2NTBq
-   2bNaAIwU9ABawWrm3BQM1rzb33tLn4p5Pg2su3KBNSggONYhXfe3mH2a1
-   FnHGWuV0NUkR3bR3uJUabIXZdbRts/VSIPkgZTRrfIYGj9igyc2xw8Nbu
-   GsgpCrNRC7YIFVr+2z4NU9D3qUiQA/WFIItweJw3rRNoJHB+GJ7i7Zd9o
-   MErmAeaAbh08rkbzWxm5Z4Tq3JTLID+vnYKHeCdllylIOM0BM6XXu+lrG
-   A==;
-X-CSE-ConnectionGUID: V1pXdf2xTN6FvrEnOldwtw==
-X-CSE-MsgGUID: 42e4MtlIR2Snft4x74taTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="21981303"
+  bh=/S0fVhjL8e2047b9QgJCX6dfg8ItmW4KtR/sH1WyGIU=;
+  b=I8d1Txq6qanmL9U0hKQHX5j3c4llR6jBsC2ip4rI5FyYO94GrTXtoKPk
+   y7Ai0UvPX4kAZyrmCENAHNfAdRinMUL+uUWK3YO5caTs04EKqr8Hodnrq
+   oCT1SNESeAxBzzaiz97H/kgkkDd+PkVoYasvKuQHxQlzHHMRX2WDXe8UY
+   lkS5yIDHN6C2kg5ShCI/5Pu6E6Fx+1wjQ/XLZNn0HyMgU6GCikUIaUlR0
+   JUgRfdbu7yc1VShQzbDCpLJ29QkzxXqlJqzRhSffz9Fzvh8xO3JroD+vl
+   UcIkhD6wccniwzL0bmzY+Tz+17+wNWQR8OwfYhmN/4RAzfTZKeNGusBLi
+   w==;
+X-CSE-ConnectionGUID: xtVh/KR+TBaC5rwcgVAoyA==
+X-CSE-MsgGUID: V3JAYkPsT/2zXc+uhFLpmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22314093"
 X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
-   d="scan'208";a="21981303"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 20:28:30 -0700
-X-CSE-ConnectionGUID: 2n+tifZ0T2qcHMDmRYT1Pg==
-X-CSE-MsgGUID: CTgirSt5Q/qqY1TIUh4iwA==
+   d="scan'208";a="22314093"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 20:38:27 -0700
+X-CSE-ConnectionGUID: f1GGdFW3TbqrHyAJCFoE1w==
+X-CSE-MsgGUID: 0bgWTKGjSWOOpYQjRM2ZOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
-   d="scan'208";a="59881996"
+   d="scan'208";a="90588614"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2024 20:28:25 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Aug 2024 20:38:25 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfA74-00079K-2z;
-	Sat, 17 Aug 2024 03:28:22 +0000
-Date: Sat, 17 Aug 2024 11:28:05 +0800
+	id 1sfAGl-00079W-01;
+	Sat, 17 Aug 2024 03:38:23 +0000
+Date: Sat, 17 Aug 2024 11:38:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Gladkov <legion@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-coco@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Alexey Gladkov (Intel)" <legion@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Yuan Yao <yuan.yao@intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Yuntao Wang <ytcoode@gmail.com>, Kai Huang <kai.huang@intel.com>,
-	Baoquan He <bhe@redhat.com>, Oleg Nesterov <oleg@redhat.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Kevin Loughlin <kevinloughlin@google.com>,
-	Nikunj A Dadhania <nikunj@amd.com>, cho@microsoft.com,
-	decui@microsoft.com, John.Starks@microsoft.com
-Subject: Re: [PATCH v3 04/10] x86/insn: Read and decode insn without crossing
- the page boundary
-Message-ID: <202408171001.feB1A8FN-lkp@intel.com>
-References: <9704da6a35d62932d464d33b39953fc5b2fd74ea.1723807851.git.legion@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 5/7] i2c: designware: Always provide device ID tables
+Message-ID: <202408171121.ZQyCK3P1-lkp@intel.com>
+References: <20240816171225.3506844-6-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,61 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9704da6a35d62932d464d33b39953fc5b2fd74ea.1723807851.git.legion@kernel.org>
+In-Reply-To: <20240816171225.3506844-6-andriy.shevchenko@linux.intel.com>
 
-Hi Alexey,
+Hi Andy,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/master linus/master v6.11-rc3 next-20240816]
-[cannot apply to tip/x86/tdx tip/auto-latest]
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.11-rc3 next-20240816]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Gladkov/x86-tdx-Split-MMIO-read-and-write-operations/20240816-222615
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/9704da6a35d62932d464d33b39953fc5b2fd74ea.1723807851.git.legion%40kernel.org
-patch subject: [PATCH v3 04/10] x86/insn: Read and decode insn without crossing the page boundary
-config: i386-buildonly-randconfig-001-20240817 (https://download.01.org/0day-ci/archive/20240817/202408171001.feB1A8FN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408171001.feB1A8FN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Replace-a-while-loop-by-for-loop/20240817-011616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240816171225.3506844-6-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 5/7] i2c: designware: Always provide device ID tables
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240817/202408171121.ZQyCK3P1-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408171121.ZQyCK3P1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408171001.feB1A8FN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408171121.ZQyCK3P1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/lib/insn-eval.c:1690: warning: Function parameter or struct member 'insn' not described in 'insn_fetch_decode_from_user_common'
->> arch/x86/lib/insn-eval.c:1690: warning: Function parameter or struct member 'inatomic' not described in 'insn_fetch_decode_from_user_common'
->> arch/x86/lib/insn-eval.c:1690: warning: Excess function parameter 'buf' description in 'insn_fetch_decode_from_user_common'
+>> drivers/i2c/busses/i2c-designware-platdrv.c:480:36: error: redefinition of 'dw_i2c_acpi_match'
+     480 | static const struct acpi_device_id dw_i2c_acpi_match[] = {
+         |                                    ^
+   drivers/i2c/busses/i2c-designware-platdrv.c:44:36: note: previous definition is here
+      44 | static const struct acpi_device_id dw_i2c_acpi_match[] = {
+         |                                    ^
+   1 error generated.
 
 
-vim +1690 arch/x86/lib/insn-eval.c
+vim +/dw_i2c_acpi_match +480 drivers/i2c/busses/i2c-designware-platdrv.c
 
-  1671	
-  1672	/**
-  1673	 * insn_fetch_decode_from_user_common() - Copy and decode instruction bytes
-  1674	 *                                        from user-space memory
-  1675	 * @buf:	Array to store the fetched instruction
-  1676	 * @regs:	Structure with register values as seen when entering kernel mode
-  1677	 * @inatomic	boolean flag whether function is used in atomic context
-  1678	 *
-  1679	 * Gets the linear address of the instruction and copies the instruction bytes
-  1680	 * and decodes the instruction.
-  1681	 *
-  1682	 * Returns:
-  1683	 *
-  1684	 * - 0 on success.
-  1685	 * - -EFAULT if the copy from userspace fails.
-  1686	 * - -EINVAL if the linear address of the instruction could not be calculated.
-  1687	 */
-  1688	int insn_fetch_decode_from_user_common(struct insn *insn, struct pt_regs *regs,
-  1689					bool inatomic)
-> 1690	{
+   479	
+ > 480	static const struct acpi_device_id dw_i2c_acpi_match[] = {
+   481		{ "80860F41", ACCESS_NO_IRQ_SUSPEND },
+   482		{ "808622C1", ACCESS_NO_IRQ_SUSPEND },
+   483		{ "AMD0010", ACCESS_INTR_MASK },
+   484		{ "AMDI0010", ACCESS_INTR_MASK },
+   485		{ "AMDI0019", ACCESS_INTR_MASK | ARBITRATION_SEMAPHORE },
+   486		{ "AMDI0510", 0 },
+   487		{ "APMC0D0F", 0 },
+   488		{ "HISI02A1", 0 },
+   489		{ "HISI02A2", 0 },
+   490		{ "HISI02A3", 0 },
+   491		{ "HYGO0010", ACCESS_INTR_MASK },
+   492		{ "INT33C2", 0 },
+   493		{ "INT33C3", 0 },
+   494		{ "INT3432", 0 },
+   495		{ "INT3433", 0 },
+   496		{}
+   497	};
+   498	MODULE_DEVICE_TABLE(acpi, dw_i2c_acpi_match);
+   499	
 
 -- 
 0-DAY CI Kernel Test Service
