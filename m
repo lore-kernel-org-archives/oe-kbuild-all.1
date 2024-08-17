@@ -1,211 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048B238DC7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 14:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF2914EC50
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 14:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723903305; cv=none; b=r9WvrX0d96nbzjVyEqZCi7tzSkaKYFD+dKQzi5YjCkXY6B3H1JA/VfRF3POIkbRXPC+YiIziqIXziP8ahtxb5Lg4I/AAjfFngZuV+ST6cCmaKIKJDqXUI1ERgY7I2+uTuMasFuFAnJyQpFTk6TvYhW70xFciGRMTCSmNv2F9PTs=
+	t=1723904504; cv=none; b=RgQV0qkxxMQ0fapgZMIubuV8inO8an6rDv6/wJcCc7SZBjB+a2QulyfEtn4pJalCU0mFSdu9h/G3IqpP/c08cxywPe/v5k2FiXFbi4hrc086ICuwyjesfOEJ2xcwvHXgfr/zvTdYK3yzHilUj+fUxSNDPhTQW+QJBt0oVMYgMdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723903305; c=relaxed/simple;
-	bh=e2jyO1dfFXPZobWT1qKv98x5G7gttacbMq+Wez3b4gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dChlrEbs0dYF9Jii7PLA6hp9RDVB+EGHyBauK9lCrZVTIEkcOlBQ7JhwYDRz96gpg2nT6bJyby6RY3aLTY1VurTiw+8n4h6uyno/uoXfGDsmzNDUhADN7vpNypLotyGCIOa7u2PbYYRRbnnNxgCbnHXW7QqlMpidzeBwUV2U9cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHon+3Yk; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1723904504; c=relaxed/simple;
+	bh=Y17/xrUztOomoSskCwGO5F1eOes8mK6fYV+yumVB8QM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vBDEXBW8d79JpYNXgdEDX0GKH9xyKXjM0NAiDzAq7Nd+m1qZNidonQ1WoX+aY27XsRxzihhNh5Zwz70nKYzimOFifNRe9vXArSazZ2UZOcEt9nuCBCZwWmVZQkDk0hG0ZHvpEJk3x07uZtmaNIyhpD5w1QygOHNPFZLLb62tYKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIqI3iFt; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHon+3Yk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIqI3iFt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723903303; x=1755439303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e2jyO1dfFXPZobWT1qKv98x5G7gttacbMq+Wez3b4gk=;
-  b=CHon+3Yk2y/E8u9T5JWxdAuNx00SZyRppEhKxBa9+qkF6NSZaz8/MiMW
-   qdk/j2vL6oKKtG3OKDeP+zsG5i4ro5itrZdype9Hu8gWchsifPas/XCb1
-   TgUZtNlFiaMQ4gdmAW1g19zqJj06MRdYXCgnZ9FRWVoR5ecG09jaa87oh
-   4VfzY/j+nTwLy6JFAnQVmMhJ0OLOpt6Cfxl8HPA7hENjezTdGZTrN+s0D
-   FQyG/jnzNXZ+/MMgXboKqcte/GUKDgx4U7v5jqMkGUeWvDHqsbIgaqsj8
-   0ce3eNLp21sqcDKzE8bX9mkCeKvt/Mz1BHM8FZ1MGagcx/AkOpD9UcsXm
-   w==;
-X-CSE-ConnectionGUID: 2sR2zON/Q/2x7bwLmaSWig==
-X-CSE-MsgGUID: AHgdcSD3RPyEdwdmKZzNHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="21999662"
+  t=1723904503; x=1755440503;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Y17/xrUztOomoSskCwGO5F1eOes8mK6fYV+yumVB8QM=;
+  b=oIqI3iFtxqLF5qqo7cGACyzwXSzM5WNehOOkNKDEyUrvjydXfwuq2Vhc
+   c5vqoO8TEe/Qvh9mEu6m9HF3DJpzJ+OYucUpZ+U+LMyoz6ifA+NBefLXc
+   +9oVuvZecglnLxLpn2Z+h7f3tNoamkJTZ/g22FpzzL+m85HUw11vXybM2
+   I8fMU1r6IyjpgkjJsiXUCqH8pUPoJ+/wH12dC+/RMZr+maJ+snUNiGTVB
+   YIox5NUa3Iz8Xgs3DoFeafnZzjXpr1MNUSSqCwcKIGt7lNIt3XtkrtXSz
+   bLcaQxbjC06xQcZtlAGjdBzpENdpwoh3bBBq4u2pcKenvsOm7YAR0MB5v
+   A==;
+X-CSE-ConnectionGUID: RS7wQ083SKWHzU9ppzvt+g==
+X-CSE-MsgGUID: BQZZV8gkTxC61lRDW86oNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="44708746"
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="21999662"
+   d="scan'208";a="44708746"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 07:01:43 -0700
-X-CSE-ConnectionGUID: IUuuM50cSgGYOIlVy/M2+A==
-X-CSE-MsgGUID: WQO8NA1YRDSDWIkfb7JDDg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 07:21:43 -0700
+X-CSE-ConnectionGUID: WgO8WI7/SBO/BZ0zdI6Xxw==
+X-CSE-MsgGUID: qBrbyueoSI2x3C20i53Y/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="59944268"
+   d="scan'208";a="59946515"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Aug 2024 07:01:40 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Aug 2024 07:21:41 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfJzu-0007X2-0z;
-	Sat, 17 Aug 2024 14:01:38 +0000
-Date: Sat, 17 Aug 2024 22:01:04 +0800
+	id 1sfKJG-0007Xi-2H;
+	Sat, 17 Aug 2024 14:21:38 +0000
+Date: Sat, 17 Aug 2024 22:21:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tom Herbert <tom@herbertland.com>, davem@davemloft.net, kuba@kernel.org,
-	edumazet@google.com, netdev@vger.kernel.org, felipe@sipanda.io,
-	willemdebruijn.kernel@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, Tom Herbert <tom@herbertland.com>
-Subject: Re: [PATCH net-next v2 04/12] flow_dissector: UDP encap
- infrastructure
-Message-ID: <202408172101.UDWfVPns-lkp@intel.com>
-References: <20240815214527.2100137-5-tom@herbertland.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: [amd-pstate:superm1/runtime-pm-screen-on-off 5/5]
+ drivers/platform/x86/asus-wmi.c:4915:25: error: 'asus_hotk_resume_early'
+ undeclared here (not in a function); did you mean 'asus_hotk_resume'?
+Message-ID: <202408172243.JTi2DN1W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240815214527.2100137-5-tom@herbertland.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Tom,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Herbert/flow_dissector-Parse-ETH_P_TEB-and-move-out-of-GRE/20240816-102659
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240815214527.2100137-5-tom%40herbertland.com
-patch subject: [PATCH net-next v2 04/12] flow_dissector: UDP encap infrastructure
-config: loongarch-randconfig-002-20240817 (https://download.01.org/0day-ci/archive/20240817/202408172101.UDWfVPns-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172101.UDWfVPns-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/runtime-pm-screen-on-off
+head:   09020cb8f4063731baa98c5f0fd9f1785597c989
+commit: 09020cb8f4063731baa98c5f0fd9f1785597c989 [5/5] platform/x86: asus-wmi: Drop CSEE quirks
+config: x86_64-buildonly-randconfig-003-20240817 (https://download.01.org/0day-ci/archive/20240817/202408172243.JTi2DN1W-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172243.JTi2DN1W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408172101.UDWfVPns-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408172243.JTi2DN1W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: net/core/flow_dissector.o: in function `__skb_flow_dissect_udp':
->> net/core/flow_dissector.c:844:(.text+0x13e8): undefined reference to `__udp4_lib_lookup'
+>> drivers/platform/x86/asus-wmi.c:4915:25: error: 'asus_hotk_resume_early' undeclared here (not in a function); did you mean 'asus_hotk_resume'?
+    4915 |         .resume_early = asus_hotk_resume_early,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+         |                         asus_hotk_resume
+>> drivers/platform/x86/asus-wmi.c:4916:20: error: 'asus_hotk_prepare' undeclared here (not in a function); did you mean 'asus_hotk_restore'?
+    4916 |         .prepare = asus_hotk_prepare,
+         |                    ^~~~~~~~~~~~~~~~~
+         |                    asus_hotk_restore
 
 
-vim +844 net/core/flow_dissector.c
+vim +4915 drivers/platform/x86/asus-wmi.c
 
-   809	
-   810	static enum flow_dissect_ret
-   811	__skb_flow_dissect_udp(const struct sk_buff *skb, const struct net *net,
-   812			       struct flow_dissector *flow_dissector,
-   813			       void *target_container, const void *data,
-   814			       int *p_nhoff, int hlen, __be16 *p_proto,
-   815			       u8 *p_ip_proto, int base_nhoff, unsigned int flags)
-   816	{
-   817		enum flow_dissect_ret ret;
-   818		const struct udphdr *udph;
-   819		struct udphdr _udph;
-   820		struct sock *sk;
-   821		__u8 encap_type;
-   822		int nhoff;
-   823	
-   824		if (!(flags & FLOW_DISSECTOR_F_PARSE_UDP_ENCAPS))
-   825			return FLOW_DISSECT_RET_OUT_GOOD;
-   826	
-   827		switch (*p_proto) {
-   828		case htons(ETH_P_IP): {
-   829			const struct iphdr *iph;
-   830			struct iphdr _iph;
-   831	
-   832			iph = __skb_header_pointer(skb, base_nhoff, sizeof(_iph), data,
-   833						   hlen, &_iph);
-   834			if (!iph)
-   835				return FLOW_DISSECT_RET_OUT_BAD;
-   836	
-   837			udph = __skb_header_pointer(skb, *p_nhoff, sizeof(_udph), data,
-   838						    hlen, &_udph);
-   839			if (!udph)
-   840				return FLOW_DISSECT_RET_OUT_BAD;
-   841	
-   842			rcu_read_lock();
-   843			/* Look up the UDPv4 socket and get the encap_type */
- > 844			sk = __udp4_lib_lookup(net, iph->saddr, udph->source,
-   845					       iph->daddr, udph->dest,
-   846					       inet_iif(skb), inet_sdif(skb),
-   847					       net->ipv4.udp_table, NULL);
-   848			if (!sk || !udp_sk(sk)->encap_type) {
-   849				rcu_read_unlock();
-   850				return FLOW_DISSECT_RET_OUT_GOOD;
-   851			}
-   852	
-   853			encap_type = udp_sk(sk)->encap_type;
-   854			rcu_read_unlock();
-   855	
-   856			break;
-   857		}
-   858	#if IS_ENABLED(CONFIG_IPV6)
-   859		case htons(ETH_P_IPV6): {
-   860			const struct ipv6hdr *iph;
-   861			struct ipv6hdr _iph;
-   862	
-   863			if (!likely(ipv6_bpf_stub))
-   864				return FLOW_DISSECT_RET_OUT_GOOD;
-   865	
-   866			iph = __skb_header_pointer(skb, base_nhoff, sizeof(_iph), data,
-   867						   hlen, &_iph);
-   868			if (!iph)
-   869				return FLOW_DISSECT_RET_OUT_BAD;
-   870	
-   871			udph = __skb_header_pointer(skb, *p_nhoff, sizeof(_udph), data,
-   872						    hlen, &_udph);
-   873			if (!udph)
-   874				return FLOW_DISSECT_RET_OUT_BAD;
-   875	
-   876			rcu_read_lock();
-   877			/* Look up the UDPv6 socket and get the encap_type */
-   878			sk = ipv6_bpf_stub->udp6_lib_lookup(net,
-   879					&iph->saddr, udph->source,
-   880					&iph->daddr, udph->dest,
-   881					inet_iif(skb), inet_sdif(skb),
-   882					net->ipv4.udp_table, NULL);
-   883	
-   884			if (!sk || !udp_sk(sk)->encap_type) {
-   885				rcu_read_unlock();
-   886				return FLOW_DISSECT_RET_OUT_GOOD;
-   887			}
-   888	
-   889			encap_type = udp_sk(sk)->encap_type;
-   890			rcu_read_unlock();
-   891	
-   892			break;
-   893		}
-   894	#endif /* CONFIG_IPV6 */
-   895		default:
-   896			return FLOW_DISSECT_RET_OUT_GOOD;
-   897		}
-   898	
-   899		nhoff = *p_nhoff + sizeof(struct udphdr);
-   900		ret = FLOW_DISSECT_RET_OUT_GOOD;
-   901	
-   902		switch (encap_type) {
-   903		default:
-   904			break;
-   905		}
-   906	
-   907		switch (ret) {
-   908		case FLOW_DISSECT_RET_PROTO_AGAIN:
-   909			*p_ip_proto = 0;
-   910			fallthrough;
-   911		case FLOW_DISSECT_RET_IPPROTO_AGAIN:
-   912			*p_nhoff = nhoff;
-   913			break;
-   914		default:
-   915			break;
-   916		}
-   917	
-   918		return ret;
-   919	}
-   920	
+0773d7f9f1c0ad drivers/platform/x86/eeepc-wmi.c Corentin Chary 2011-02-06  4910  
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  4911  static const struct dev_pm_ops asus_pm_ops = {
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  4912  	.thaw = asus_hotk_thaw,
+e12e6d94db24e9 drivers/platform/x86/asus-wmi.c  Corentin Chary 2011-02-26  4913  	.restore = asus_hotk_restore,
+307340493f3d62 drivers/platform/x86/asus-wmi.c  Oleksij Rempel 2015-09-14  4914  	.resume = asus_hotk_resume,
+e0894ff038d86f drivers/platform/x86/asus-wmi.c  Luke D. Jones  2023-11-27 @4915  	.resume_early = asus_hotk_resume_early,
+e0894ff038d86f drivers/platform/x86/asus-wmi.c  Luke D. Jones  2023-11-27 @4916  	.prepare = asus_hotk_prepare,
+45f2c6937ed606 drivers/platform/x86/eeepc-wmi.c Yong Wang      2010-04-11  4917  };
+45f2c6937ed606 drivers/platform/x86/eeepc-wmi.c Yong Wang      2010-04-11  4918  
+
+:::::: The code at line 4915 was first introduced by commit
+:::::: e0894ff038d86f30614ec16ec26dacb88c8d2bd4 platform/x86: asus-wmi: disable USB0 hub on ROG Ally before suspend
+
+:::::: TO: Luke D. Jones <luke@ljones.dev>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
