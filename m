@@ -1,60 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576553B782
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 12:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0BB149DFA;
+	Sat, 17 Aug 2024 12:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723897059; cv=none; b=rL8wsXmIL+vnNQOdrH79E55yHBBfOIFu2QWyfjAmF/ci3W9Ibi6d+9zy1C0dX9Ro+eB9rdaTW5ChDme88hjuknT2qJDs5Xz1ej4zQAD9NgmiKtgyT2fTQETu5L7hZRMlkaHRQ6A3909Z6PQGc59tMTKv9tgsvDMN+/fvmZT0R/Q=
+	t=1723897722; cv=none; b=lbAHNTAkv7L2ErKYtiIz07HZRNycWRUKdM1eI55PBXa9FnSxPxyPWicoohBxKQUDu5EA+Zsw1ttLCBQ7KzPZfoVj5k+p8o9VugEEHNAC7j+Dii94MA0xF/WBJyk44Use29g+Zt1fnkvVQEgxDr6FyWEKfG0sGRgfMZniu8kqv3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723897059; c=relaxed/simple;
-	bh=jWPsO7asF7oCWfquoQV6E8yoWhM1qIqzR9La6hr4YUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hufXJhKxeltKZmgEpwa7P3V+HPtcs0rWUKsBo2LhD9JI1wXl9/f1LzqBjMUK0e4nTBa/KKu0GS/c8rhOVFJ8f2UOha6UUzLhEDIvruHnr1Ao4Mn6iDoCM0DBgumQOa45rqcADf38XhUtDgLJzyuwXuZRBpNlFmxh7Q2yqX9Xt/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVym3j50; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1723897722; c=relaxed/simple;
+	bh=FIjVq1ScLLmQqE7XzW4+B1p/wF6C75tENXoxNp9BRUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hxl3ofxwkXjHY5UTz70J4s2mGV8x5ux5GEmGNAEctwttOzPsyufCEmiqQ5mdANn0FzWw5YGGovG4fipYr8xabGcK/OYK93TRRZyU4ilvP02Sky5tXTyL2+YXCF93wgHfykbz1YXGmN2ovO/+JrL53LS+PhNBWC6QYReFo8x5l4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CS6yR8bD; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVym3j50"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CS6yR8bD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723897058; x=1755433058;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jWPsO7asF7oCWfquoQV6E8yoWhM1qIqzR9La6hr4YUo=;
-  b=HVym3j50zT4Bgm8ZVtoaKl/OnvKris9mOJMRlw3wADD56xCDShunszI1
-   BG1fOQrv0zjYSwznSHrBLzT8C3DBqCiItRCUNR+CnVbxOG2jS/YHFHSQm
-   ZNv9C4mWt5ibrY5g7GeuLxpVyuvKFUPsh1vHpFuUTKiy2RBqdZvJ0YghH
-   gZZAAJysd92MjjdWTWUE+nnVii7/hVzfZeqLWgO1F+rrSNY8tAZROUhU+
-   OYuMzLDX1SX3i7tPY/cTzQHCpc9wstuAbJqZo2czUn+QLhTDOcECAgj6z
-   qOnabqFAgli/tvXmpbYW3GATXowx2ftjwagzwRXkwAXoGaaI0Z/KYdvlq
-   A==;
-X-CSE-ConnectionGUID: Pt2LW25/RBGXcTAlAwTIHA==
-X-CSE-MsgGUID: /j17g7LdRXSdfpdQBx05IQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22038357"
+  t=1723897720; x=1755433720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FIjVq1ScLLmQqE7XzW4+B1p/wF6C75tENXoxNp9BRUc=;
+  b=CS6yR8bDT7An8dn5WNugE7H/tBw0oigZJAoXAZHapGEAq77h54lOQUQB
+   Mnpl04skYhfgVcLihZedIIXCxJWFVMmnF4MSC4xObfsA2eRkXZlbEGi97
+   KbvEed0rujioSvC9ySlf3mNJCo935LhK4tRDvAjEKyDsEQflLRZIULJ31
+   OqJYOEPDZdddrhtn003CAQQvOrbc3b0vKXl7hFwXyw+kG5WfArcCPEgCT
+   spQpyLW1UtegT/ePE7HJrf4zo+EdjeneY8ayTsX00MgPk0QHwAUtmTyFi
+   RDqc0SNmNn/24Tf2rnttd8ccxifw2ARvFtlpTh6+8hzJEyxbvsL5/s7DD
+   g==;
+X-CSE-ConnectionGUID: JXoNd0RRQr+SarU51qguxw==
+X-CSE-MsgGUID: EnSPxUJiTXqxgWeT6y4lWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="13069500"
 X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
-   d="scan'208";a="22038357"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 05:17:37 -0700
-X-CSE-ConnectionGUID: 4lHPDqB5RAuRSqxwd+Q47A==
-X-CSE-MsgGUID: VtRBs+MeQ/2iPN3OJV0B9A==
+   d="scan'208";a="13069500"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 05:28:40 -0700
+X-CSE-ConnectionGUID: 205WendRR0W6DBDj73iV3A==
+X-CSE-MsgGUID: qGF2dQe3S1ehuyU05UqviQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
-   d="scan'208";a="59564895"
+   d="scan'208";a="59770643"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Aug 2024 05:17:36 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 Aug 2024 05:28:36 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfINB-0007QU-0X;
-	Sat, 17 Aug 2024 12:17:33 +0000
-Date: Sat, 17 Aug 2024 20:17:28 +0800
+	id 1sfIXp-0007Ri-2D;
+	Sat, 17 Aug 2024 12:28:33 +0000
+Date: Sat, 17 Aug 2024 20:27:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [dhowells-fs:pgplib 6/14]
- crypto/asymmetric_keys/pgp_public_key.c:8:21: warning: format '%lu' expects
- argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka
- 'unsigned int'}
-Message-ID: <202408172032.H0wiSd09-lkp@intel.com>
+To: Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Ajit Pandey <quic_ajipan@quicinc.com>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>,
+	Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
+	kernel test robot <lkp@intel.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH V2] clk: qcom: clk-alpha-pll: Simplify the
+ zonda_pll_adjust_l_val()
+Message-ID: <202408172049.Mc8dSq0c-lkp@intel.com>
+References: <20240814102005.33493-1-quic_skakitap@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +75,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240814102005.33493-1-quic_skakitap@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git pgplib
-head:   f5bc37208146cc7ce38c4ad5a403e00904c0b6d2
-commit: c1830c5e36f2b94bba3653adf9771c9dcab75dd3 [6/14] KEYS: PGP data parser
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240817/202408172032.H0wiSd09-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172032.H0wiSd09-lkp@intel.com/reproduce)
+Hi Satya,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240814]
+[cannot apply to clk/clk-next v6.11-rc3 v6.11-rc2 v6.11-rc1 linus/master v6.11-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Satya-Priya-Kakitapalli/clk-qcom-clk-alpha-pll-Simplify-the-zonda_pll_adjust_l_val/20240815-001519
+base:   next-20240814
+patch link:    https://lore.kernel.org/r/20240814102005.33493-1-quic_skakitap%40quicinc.com
+patch subject: [PATCH V2] clk: qcom: clk-alpha-pll: Simplify the zonda_pll_adjust_l_val()
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240817/202408172049.Mc8dSq0c-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172049.Mc8dSq0c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408172032.H0wiSd09-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408172049.Mc8dSq0c-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_generate_fingerprint':
->> crypto/asymmetric_keys/pgp_public_key.c:8:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       8 | #define pr_fmt(fmt) "PGP: "fmt
-         |                     ^~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:589:9: note: in expansion of macro 'dynamic_pr_debug'
-     589 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:179:9: note: in expansion of macro 'pr_debug'
-     179 |         pr_debug("offset %lu/%lu\n", offset, ctx->raw_fingerprint_len);
-         |         ^~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:8:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       8 | #define pr_fmt(fmt) "PGP: "fmt
-         |                     ^~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:589:9: note: in expansion of macro 'dynamic_pr_debug'
-     589 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:179:9: note: in expansion of macro 'pr_debug'
-     179 |         pr_debug("offset %lu/%lu\n", offset, ctx->raw_fingerprint_len);
-         |         ^~~~~~~~
+   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/clk/qcom/clk-alpha-pll.c:2125:14: warning: comparison of distinct pointer types ('typeof ((rate)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+    2125 |         remainder = do_div(rate, prate);
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   drivers/clk/qcom/clk-alpha-pll.c:2125:14: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+    2125 |         remainder = do_div(rate, prate);
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+>> drivers/clk/qcom/clk-alpha-pll.c:2125:14: warning: shift count >= width of type [-Wshift-count-overflow]
+    2125 |         remainder = do_div(rate, prate);
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   8 warnings and 1 error generated.
 
 
-vim +8 crypto/asymmetric_keys/pgp_public_key.c
+vim +2125 drivers/clk/qcom/clk-alpha-pll.c
 
-   > 8	#define pr_fmt(fmt) "PGP: "fmt
-     9	#include <linux/module.h>
-    10	#include <linux/kernel.h>
-    11	#include <linux/slab.h>
-    12	#include <linux/mpi.h>
-    13	#include <keys/asymmetric-subtype.h>
-    14	#include <keys/asymmetric-parser.h>
-    15	#include <crypto/hash.h>
-    16	#include <crypto/public_key.h>
-    17	
+  2120	
+  2121	static void zonda_pll_adjust_l_val(unsigned long rate, unsigned long prate, u32 *l)
+  2122	{
+  2123		u64 remainder;
+  2124	
+> 2125		remainder = do_div(rate, prate);
+  2126	
+  2127		*l = rate + (u32)(remainder * 2 >= prate);
+  2128	}
+  2129	
 
 -- 
 0-DAY CI Kernel Test Service
