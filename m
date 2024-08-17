@@ -1,72 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0BB149DFA;
-	Sat, 17 Aug 2024 12:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1161E871
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 12:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723897722; cv=none; b=lbAHNTAkv7L2ErKYtiIz07HZRNycWRUKdM1eI55PBXa9FnSxPxyPWicoohBxKQUDu5EA+Zsw1ttLCBQ7KzPZfoVj5k+p8o9VugEEHNAC7j+Dii94MA0xF/WBJyk44Use29g+Zt1fnkvVQEgxDr6FyWEKfG0sGRgfMZniu8kqv3A=
+	t=1723898924; cv=none; b=rGVIBTWMx3d2Dr0YHzgNURMvvYYZaDDpcyERHBKCHq5B48HM47jJDrUDrcnf4z+zgQ0QmSJDhR6Y8Qe29b+c/SfvKTyqZSp8QTXzWa2h9tVqmodhPjg8pdyS41Ra/TumqrtxKDrPY7cZz21QR/G1Pr4XCc1iPDcwjgin/rztOCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723897722; c=relaxed/simple;
-	bh=FIjVq1ScLLmQqE7XzW4+B1p/wF6C75tENXoxNp9BRUc=;
+	s=arc-20240116; t=1723898924; c=relaxed/simple;
+	bh=3AlbDRi86u9EhNaNflWrcwKVKeWeCwuXaFv/Oj7Z604=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hxl3ofxwkXjHY5UTz70J4s2mGV8x5ux5GEmGNAEctwttOzPsyufCEmiqQ5mdANn0FzWw5YGGovG4fipYr8xabGcK/OYK93TRRZyU4ilvP02Sky5tXTyL2+YXCF93wgHfykbz1YXGmN2ovO/+JrL53LS+PhNBWC6QYReFo8x5l4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CS6yR8bD; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xd30bYfmsa4qvLwu5MCho270GtG1DaVlvDOVODtnX1wfjZos4WNPTD4EAOF8uTh2XQ+PfT5WeLlxUAkCMJ4Feo8R7sXl+GboJ+kdIAU013s9tqr1sPQWuvhOTBPglphwZ6fgBQ5ziIojOV74I1yLNjSTwkwI+GwxaQeK+XdyWAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3RTQsh+; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CS6yR8bD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3RTQsh+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723897720; x=1755433720;
+  t=1723898922; x=1755434922;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FIjVq1ScLLmQqE7XzW4+B1p/wF6C75tENXoxNp9BRUc=;
-  b=CS6yR8bDT7An8dn5WNugE7H/tBw0oigZJAoXAZHapGEAq77h54lOQUQB
-   Mnpl04skYhfgVcLihZedIIXCxJWFVMmnF4MSC4xObfsA2eRkXZlbEGi97
-   KbvEed0rujioSvC9ySlf3mNJCo935LhK4tRDvAjEKyDsEQflLRZIULJ31
-   OqJYOEPDZdddrhtn003CAQQvOrbc3b0vKXl7hFwXyw+kG5WfArcCPEgCT
-   spQpyLW1UtegT/ePE7HJrf4zo+EdjeneY8ayTsX00MgPk0QHwAUtmTyFi
-   RDqc0SNmNn/24Tf2rnttd8ccxifw2ARvFtlpTh6+8hzJEyxbvsL5/s7DD
-   g==;
-X-CSE-ConnectionGUID: JXoNd0RRQr+SarU51qguxw==
-X-CSE-MsgGUID: EnSPxUJiTXqxgWeT6y4lWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="13069500"
+  bh=3AlbDRi86u9EhNaNflWrcwKVKeWeCwuXaFv/Oj7Z604=;
+  b=A3RTQsh+0WHvwtFA18DoIk3eeeX1/9mkTOFbCqpQO6PwownezlDDIf9E
+   rJpNvKVWa0a1xLk42O1fsVWnLsyrVj3GkN0UaGMuzRGTU64PcrxM+DSrE
+   FAkUaz+PdFMfJU/S/CFe/bu58T+ZNoTFZeGg0lDAcM9HJzrsf6cbYGUOK
+   VxI8PI+sTVd+BWogzDsbduYrQb0WEDyusCC2hJFQorYZm0E+p8LocLgHT
+   +9KO5eq9K8u3n52vlw0KXOtSd1biJh778pd4oPbj8EBM52Hn+RYAL/z2l
+   8W+3UgNBGiPfUBOslj0EKcAfC10H+rn8rK9stEZUaNY+U6CH4b7DAxZOd
+   w==;
+X-CSE-ConnectionGUID: jCwWvFj8SPikIqTsWTZN9w==
+X-CSE-MsgGUID: 1uASHcPPSM2AA1OK9ASSDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="33568590"
 X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
-   d="scan'208";a="13069500"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 05:28:40 -0700
-X-CSE-ConnectionGUID: 205WendRR0W6DBDj73iV3A==
-X-CSE-MsgGUID: qGF2dQe3S1ehuyU05UqviQ==
+   d="scan'208";a="33568590"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 05:48:42 -0700
+X-CSE-ConnectionGUID: M2214yHERHSVfojmdFc6jw==
+X-CSE-MsgGUID: ra6VrFjoQ+6mTaOAaVmbEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
-   d="scan'208";a="59770643"
+   d="scan'208";a="90672395"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Aug 2024 05:28:36 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Aug 2024 05:48:37 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfIXp-0007Ri-2D;
-	Sat, 17 Aug 2024 12:28:33 +0000
-Date: Sat, 17 Aug 2024 20:27:48 +0800
+	id 1sfIrC-0007Sg-1D;
+	Sat, 17 Aug 2024 12:48:34 +0000
+Date: Sat, 17 Aug 2024 20:48:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ajit Pandey <quic_ajipan@quicinc.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
-	kernel test robot <lkp@intel.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH V2] clk: qcom: clk-alpha-pll: Simplify the
- zonda_pll_adjust_l_val()
-Message-ID: <202408172049.Mc8dSq0c-lkp@intel.com>
-References: <20240814102005.33493-1-quic_skakitap@quicinc.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH 3/9] vdso: Add __arch_get_k_vdso_rng_data()
+Message-ID: <202408172056.OAokF1z5-lkp@intel.com>
+References: <a7bdbbb14d8635c1e33ada7982cf2cd1a8321e5c.1723817900.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,111 +76,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814102005.33493-1-quic_skakitap@quicinc.com>
+In-Reply-To: <a7bdbbb14d8635c1e33ada7982cf2cd1a8321e5c.1723817900.git.christophe.leroy@csgroup.eu>
 
-Hi Satya,
+Hi Christophe,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20240814]
-[cannot apply to clk/clk-next v6.11-rc3 v6.11-rc2 v6.11-rc1 linus/master v6.11-rc3]
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes crng-random/master shuah-kselftest/next shuah-kselftest/fixes linus/master v6.11-rc3 next-20240816]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Satya-Priya-Kakitapalli/clk-qcom-clk-alpha-pll-Simplify-the-zonda_pll_adjust_l_val/20240815-001519
-base:   next-20240814
-patch link:    https://lore.kernel.org/r/20240814102005.33493-1-quic_skakitap%40quicinc.com
-patch subject: [PATCH V2] clk: qcom: clk-alpha-pll: Simplify the zonda_pll_adjust_l_val()
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240817/202408172049.Mc8dSq0c-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172049.Mc8dSq0c-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-vdso-Don-t-discard-rela-sections/20240816-223917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/a7bdbbb14d8635c1e33ada7982cf2cd1a8321e5c.1723817900.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH 3/9] vdso: Add __arch_get_k_vdso_rng_data()
+config: x86_64-randconfig-003-20240817 (https://download.01.org/0day-ci/archive/20240817/202408172056.OAokF1z5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172056.OAokF1z5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408172049.Mc8dSq0c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408172056.OAokF1z5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/clk/qcom/clk-alpha-pll.c:10:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/clk/qcom/clk-alpha-pll.c:2125:14: warning: comparison of distinct pointer types ('typeof ((rate)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-    2125 |         remainder = do_div(rate, prate);
-         |                     ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
-   drivers/clk/qcom/clk-alpha-pll.c:2125:14: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-    2125 |         remainder = do_div(rate, prate);
-         |                     ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
->> drivers/clk/qcom/clk-alpha-pll.c:2125:14: warning: shift count >= width of type [-Wshift-count-overflow]
-    2125 |         remainder = do_div(rate, prate);
-         |                     ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   8 warnings and 1 error generated.
-
-
-vim +2125 drivers/clk/qcom/clk-alpha-pll.c
-
-  2120	
-  2121	static void zonda_pll_adjust_l_val(unsigned long rate, unsigned long prate, u32 *l)
-  2122	{
-  2123		u64 remainder;
-  2124	
-> 2125		remainder = do_div(rate, prate);
-  2126	
-  2127		*l = rate + (u32)(remainder * 2 >= prate);
-  2128	}
-  2129	
+>> ld: drivers/char/random.o:arch/x86/include/asm/vdso/vsyscall.h:13: multiple definition of `_vdso_rng_data'; kernel/time/vsyscall.o:arch/x86/include/asm/vdso/vsyscall.h:13: first defined here
+>> ld: drivers/char/random.o:arch/x86/include/asm/vdso/vsyscall.h:12: multiple definition of `_vdso_data'; kernel/time/vsyscall.o:arch/x86/include/asm/vdso/vsyscall.h:12: first defined here
 
 -- 
 0-DAY CI Kernel Test Service
