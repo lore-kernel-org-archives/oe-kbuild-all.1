@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21904CA6B;
-	Sat, 17 Aug 2024 17:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9B6CA6B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 17:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723915011; cv=none; b=Xtuilcpqm0CUg4OCwtfBTfNxwmUbSqg6z9p0LixRsftfYWAD2kBcQ4piMcM3vLkcBAgQt0tAEh3yfs4DDDZglPmejGBgUwo95wR8zSsDC7OvgR3wbO86Ra+l77tiPdG9cCLE0jaxpw9bGpIFsN50+vBfLJiFya6x5dr4ZIzEu/4=
+	t=1723915611; cv=none; b=G9/IT06RaWHqlVdcoPWsPjE8osRRyCIZIoGtJj5mo4G5HAH/mR8gDR3wsT4hq0pN5JuahOjgbnM5HLYj7uNJjc4xqo4oVZoilsnk2NVM1YDRFYAhbazGnoWIJjDBZthKPjiVpEcRzsZ6iiWqMUIVw+sIiB+MOKvA8kcGPqLOXNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723915011; c=relaxed/simple;
-	bh=iYMjBPhJsoioVV9CJROaNsxxcROM/y3sjF55ial3TCM=;
+	s=arc-20240116; t=1723915611; c=relaxed/simple;
+	bh=aOKD4hcYsbSDhtHarUzlkl/9X1snlmfFXE5gev0CHJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CqQDvOWi0QG+8bsJxxObWGJIvL1Is6fo10IMpwWZo9WTDa1PnYiqzuyscG/UAV0dHSuuFAH/LyZWtXSOFClM600LeD6jgR2Or2bYPKSA37uB3lVT0tK2bhsK4tXmWhEhTR9TA37u8PtG65gC4WM3YpyWqym8kCjD6nZqsFoEsM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWiIgZ/c; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ORu6+37XNlJES0OrrA2xmGLvpC04+gh6NU59bPSnsUVzGN3ethxt3lwAXZjQ5D/0ctQQaJUu3x9bfPtL7QUyLZ/04eVFf0ygBmekJlwmeNsnT1TOHGkhcEE6zVzNKGxOGl9iyUW5doz11hMpataSIKIEQ6nNrhkzJK2z30eOplw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KR/8urb1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWiIgZ/c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KR/8urb1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723915009; x=1755451009;
+  t=1723915610; x=1755451610;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iYMjBPhJsoioVV9CJROaNsxxcROM/y3sjF55ial3TCM=;
-  b=KWiIgZ/cfQy9tKHgDG2wTXVbeuYzY+OlaKoSf15G4zMD/ezhq9q2ZSZ4
-   FN/t3CgIJBhnZ9biKmq+ndsEDBNtB8PrJzF37JUklL5LHCNmFmu/o4rFO
-   ip8RH74Efw/YDoPMbAwHkhnPR3CS++c3cVimPmeXez5ffcGkA1FSbFvqW
-   VuigXcUDp9MKUGGCrwhqZUqpmqypJWI5IDdN/7W/VfApjU2Ree3O/9XKw
-   zPWgTPTnjU1D5dpw+9hWQsArkicLnvQV4YK/cy3i80wV/Ul+6cAlFdlF9
-   HTn1Wor9IHAP5japRFuG10ZBs3l9UUEua+6fNtERmhFIhm57PR5hQObeq
-   w==;
-X-CSE-ConnectionGUID: 3MqLL6JhTq69BCQ+3rTuxw==
-X-CSE-MsgGUID: x3PabJUFTGe2bRjxM66yfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="39647173"
+  bh=aOKD4hcYsbSDhtHarUzlkl/9X1snlmfFXE5gev0CHJY=;
+  b=KR/8urb1w0ty6nKd359nZ77hC0zg5bAKCsXPMr+UEeprs9zSIE+K8L0x
+   cbPOVoyV5ja41F6QNhx7rQJESKTbKC7jcNJCddk9pTZCMWvDZk3uT0Aog
+   CzSV7E6tgT25+Rhyb60UkpJ4Pdx9WtC8bh3L5zoFQRuNTubZlBJKfKxAI
+   K64tMscsiL8ZfK6u+xVAWqCwVx6V725llBeEr+AiNbZCGblny05IDYw1I
+   8ugJ0E4D1MWbWcjf9+ocqaKMbBRnmSAGZazpUNTIrP1cD+ePr8uz0PFRt
+   RSam4UWBF8GpT7z3Cwc6xwk6741uoMayLTf1mzu6U+rTnCKpJnRyeLRJa
+   Q==;
+X-CSE-ConnectionGUID: ssgXD3M1RE+cZPKo+bUbTA==
+X-CSE-MsgGUID: ehYqEnHUQvGV4SM/FCGexQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="32767333"
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="39647173"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 10:16:49 -0700
-X-CSE-ConnectionGUID: iiU5ApLKQ9yL32/0QfX/6w==
-X-CSE-MsgGUID: KEU2hyaxR2e+wLh+EKdIkQ==
+   d="scan'208";a="32767333"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 10:26:49 -0700
+X-CSE-ConnectionGUID: 2+sSEWxlRfOtUi1RpP7NNQ==
+X-CSE-MsgGUID: RMt27BLiQrm62kUmpAFyjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="59971624"
+   d="scan'208";a="97462041"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Aug 2024 10:16:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 17 Aug 2024 10:26:47 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfN2j-0007go-0z;
-	Sat, 17 Aug 2024 17:16:45 +0000
-Date: Sun, 18 Aug 2024 01:15:45 +0800
+	id 1sfNCP-0007h0-1N;
+	Sat, 17 Aug 2024 17:26:45 +0000
+Date: Sun, 18 Aug 2024 01:26:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:mm_id 12/12] mm/rmap.c:1185:6: error: assigning to
- 'int' from incompatible type 'void'
-Message-ID: <202408180147.mIGuGF3L-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:mm_id 12/12] mm/rmap.c:1185:20: error: void value
+ not ignored as it ought to be
+Message-ID: <202408180127.dZhqzQFg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,93 +65,31 @@ Content-Disposition: inline
 tree:   https://github.com/davidhildenbrand/linux mm_id
 head:   3d79f5b8dd7c22fa4d00ea6de3e5d3517482dee4
 commit: 3d79f5b8dd7c22fa4d00ea6de3e5d3517482dee4 [12/12] page_mapcount
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240818/202408180147.mIGuGF3L-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180147.mIGuGF3L-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240818/202408180127.dZhqzQFg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180127.dZhqzQFg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408180147.mIGuGF3L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408180127.dZhqzQFg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/rmap.c:56:
-   In file included from include/linux/mm.h:2216:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from mm/rmap.c:77:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/rmap.c:1185:6: error: assigning to 'int' from incompatible type 'void'
+   mm/rmap.c: In function '__folio_add_rmap':
+>> mm/rmap.c:1185:20: error: void value not ignored as it ought to be
     1185 |                 nr = folio_add_large_mapcount(folio, orig_nr_pages, false, vma);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/rmap.c:1213:6: error: assigning to 'int' from incompatible type 'void'
+         |                    ^
+   mm/rmap.c:1213:20: error: void value not ignored as it ought to be
     1213 |                 nr = folio_inc_large_mapcount(folio, false, vma);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/rmap.c:1589:6: error: assigning to 'int' from incompatible type 'void'
+         |                    ^
+   mm/rmap.c: In function '__folio_remove_rmap':
+   mm/rmap.c:1589:20: error: void value not ignored as it ought to be
     1589 |                 nr = folio_sub_large_mapcount(folio, nr_pages, vma);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/rmap.c:1623:6: error: assigning to 'int' from incompatible type 'void'
+         |                    ^
+   mm/rmap.c:1623:20: error: void value not ignored as it ought to be
     1623 |                 nr = folio_dec_large_mapcount(folio, vma);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   9 warnings and 4 errors generated.
+         |                    ^
 
 
 vim +1185 mm/rmap.c
