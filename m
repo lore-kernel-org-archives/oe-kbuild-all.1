@@ -1,68 +1,59 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C9D12C475
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 06:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB20620E6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 07:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723877344; cv=none; b=tFCeRJzBzYQV2k6kQmE8xk8ax+lSa7Ofn/hgzRJJ6Dqs1uAlxUvL1nh+cEnhqRsrzmiuE4Scwr8VoKPL2+2W0iH80o8s26wdgV9mIZ4i8h0PzsyVA7h5E7Qd+3Uw/2zX2ciVLKqak7zZLjmSMqsjFluBE/RLcmvoXLnqvdezIws=
+	t=1723878153; cv=none; b=fBOydQ7lk5OpvK4sdkYGx4fG9xiniR/Bimmcv9p9APyoBLJ0CgmG+zS13FfeTkZO9EvUBWe+/IgxDFv7hnAbDHilz7jfyZ2hU4rRzx2yXG4M0RuRblZqFRbGOEP2OIst11eJD0XCO11YCnyor05kZdq8BtKfVsZLJbqGjUPFTZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723877344; c=relaxed/simple;
-	bh=hWSGpJAv/skPgGCMYqqiRP+FpocSYVUDsqrHFTlkYPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jO3bbu16p5iUDKSqwUKQk7wvBgP9IMRTqxhazLyKFSLMZ1ARgNQWd7LiH8GiAguBb8QboaEEAqJcWUn0Cb7lvItY5GyT3Rt8w/uubP1P1grP0NhCQqAVTjJkGXArU5M2nnfUyxHT8x7/7adY/gRAIPjFtmD6nFNwN3m9BmwEqQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ugzkNjvP; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723878153; c=relaxed/simple;
+	bh=iSpF/mCKwP2kMA9RX5SgHuK0KCEdF67H78OBVY1U0B4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cN4IA6UaRwLQh3t0z0k07oBNvCN9Vn2WxsQPql/Uy5MJBJ0b43z5AMVqtY48uL1MNyGHNamE7Fu3UEH5y4ZVLGtSvq40XeusXGsyNsjZ2ZwqbOJBvYn7PCDLxYFfzGeWD4febJnWH2Bf28sLW68+7isIcXZ97/3kKpZf6Qe9yvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+FEuZJv; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ugzkNjvP"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-368440b073bso1419564f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Aug 2024 23:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723877341; x=1724482141; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LezB4JO96rACQj2bn6ciLEu/+Vy/sz/OKWd1BnMwKEw=;
-        b=ugzkNjvPlyLzaU9aWQQzgOOi7W3P3hKT0Tq6AAZCWoXYEwEvWtiAGlgjTCVEFKVoPM
-         T9ideNbORW7TUL6vsdGC5QZ8xzEtp+XgZYv+1v54kOXzTb/b0W5gMOj2Z5FEpKxS7s/h
-         PhFUZz4nCJOvr6+dikdltdtp/+T1rKzZxH0hpa4TImFgrOAJCP4nA+T1A+z6XuWQmnOH
-         88s+DVWcBRBHcjhk3XYinVhI9jp5a4Ut29qEhvlAlMXiU00V0IXmtnFKP2i3JVKS5occ
-         qvx0KJ1iTS9vYzr69HERPnWTWm948dFvaaWJWiP75+hXi5bGy8etwWQEn/s/JbKpO2yv
-         N8QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723877341; x=1724482141;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LezB4JO96rACQj2bn6ciLEu/+Vy/sz/OKWd1BnMwKEw=;
-        b=T7HVS+dNYAsNPAb4cdSYLdbDyPHCQK51ECFMi8uyT0v8L4r0k9HZfmpQNsHnCR3Od9
-         V8geWOXhH5EV9xOhfaKYzVbN6hP3iZSWoMywzKk6/4tTS8aRXLjqq7dE1gh5k3VwJFva
-         vxefVQ5v8q6agXUoBEyWebxYLKY5RpZLd7o/3+kcgnZMa4M5+LqgPt4rEfaGDGdz4Cee
-         vMSeLoFrBwr6YUY/mxMxTuiqIW5382oDmjcrn5EDrecc45XTYfhl2eo4Q8TERgTkpAL7
-         IvyO0rUZK/B0JxOYYKBsFMVwvYGCp9fpYHi72aA0gRoHXYGGqkiKsEdevc0hfdIwlRs8
-         hung==
-X-Forwarded-Encrypted: i=1; AJvYcCU2bzcfTQkJWL8Ktc8m7DSkf+jmAoVkQ2nEf3SlQiTQb7zGY/dNkDkwk7Sb/ApwB0q6wyz4hcBGLU9VKzZSupqPalfCcLHtY0i+jTExEQ==
-X-Gm-Message-State: AOJu0YwB53Bs240jWJf47SNQERzhA5oYIoVVEN2kijfrhG/VWTz7D/e6
-	KWgWdhcDKuev4G2BV38kKX0Yc05l6/E6Zv2XoF5ez0iTDJP3HJQ0rP8DczA0asM=
-X-Google-Smtp-Source: AGHT+IHSUk0zf93SllYpmmKYZmbbR4SLRBYWgZthWH0FI2AYrZ1JEVkIfQTVqijMGw8lMIl5HUkGDg==
-X-Received: by 2002:adf:e6c3:0:b0:365:aec0:e191 with SMTP id ffacd0b85a97d-37186d740a7mr6107286f8f.21.1723877340971;
-        Fri, 16 Aug 2024 23:49:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed79da99sm40748795e9.46.2024.08.16.23.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 23:49:00 -0700 (PDT)
-Date: Sat, 17 Aug 2024 09:48:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, crwulff@gmail.com, linux-usb@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Konstantin Aladyshev <aladyshev22@gmail.com>,
-	David Sands <david.sands@biamp.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-kernel@vger.kernel.org, Chris Wulff <Chris.Wulff@biamp.com>
-Subject: Re: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL
-Message-ID: <294f091e-aa0c-4f1d-b827-db3339a0a8af@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+FEuZJv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723878151; x=1755414151;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iSpF/mCKwP2kMA9RX5SgHuK0KCEdF67H78OBVY1U0B4=;
+  b=M+FEuZJvMNJkhmbVQlNFfsWcDcmP8oEAld6Dh4oRDdZUu/NR5/0EmSUD
+   K6oC5VPP/cR8Q6G4kcAfp+APuzR3se2piWAViCBHXMYa0luPNiY+YanYI
+   o3Wncn/MWHQgrmtEtn3b2eMY20ZzQz5IEG8eyu/1s7O1RWQgulJA5LBXe
+   xk7Y/i60s41iOBVOlgKhANiU8zhvOhsXEAgaF8Cje1dNg8mpJoFo7jTyT
+   tCqmRN1T3RUAUQz6xR7hyrFKQkxWjAgu1WkXCRqxHQ2d+2/pWbLgVIlLT
+   gSRw5WF4X4T0F3IuHrXbNlbeYVlxCrvWOOL6EHiokjbNLZhRW57lG91qc
+   g==;
+X-CSE-ConnectionGUID: I5MekLBSRIqWHbGjmgRwzw==
+X-CSE-MsgGUID: ZyGpglXUQficAiUaJgQCyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="32750522"
+X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
+   d="scan'208";a="32750522"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 00:02:30 -0700
+X-CSE-ConnectionGUID: 6ksG3WbkSVqTxgCLADCezA==
+X-CSE-MsgGUID: /meEtEMXTleQY+hJQGGknw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,154,1719903600"; 
+   d="scan'208";a="59888404"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Aug 2024 00:02:29 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sfDSF-0007Fs-0H;
+	Sat, 17 Aug 2024 07:02:27 +0000
+Date: Sat, 17 Aug 2024 15:02:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 5/7] i2c: designware: Always provide device ID tables
+Message-ID: <202408171404.nikI07eq-lkp@intel.com>
+References: <20240816171225.3506844-6-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,92 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240814125525.3917130-2-crwulff@gmail.com>
+In-Reply-To: <20240816171225.3506844-6-andriy.shevchenko@linux.intel.com>
 
-Hi,
+Hi Andy,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on linus/master v6.11-rc3 next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/crwulff-gmail-com/USB-gadget-f_hid-Add-GET_REPORT-via-userspace-IOCTL/20240814-225520
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240814125525.3917130-2-crwulff%40gmail.com
-patch subject: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL
-config: x86_64-randconfig-161-20240817 (https://download.01.org/0day-ci/archive/20240817/202408171146.0RjWnTq8-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Replace-a-while-loop-by-for-loop/20240817-011616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240816171225.3506844-6-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 5/7] i2c: designware: Always provide device ID tables
+config: i386-buildonly-randconfig-001-20240817 (https://download.01.org/0day-ci/archive/20240817/202408171404.nikI07eq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408171404.nikI07eq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408171146.0RjWnTq8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408171404.nikI07eq-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsistent returns '&hidg->get_report_spinlock'.
-drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsistent returns 'flags'.
+All warnings (new ones prefixed by >>):
 
-vim +705 drivers/usb/gadget/function/f_hid.c
+   drivers/i2c/busses/i2c-designware-platdrv.c:480:36: warning: 'dw_i2c_acpi_match' defined but not used [-Wunused-const-variable=]
+     480 | static const struct acpi_device_id dw_i2c_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-designware-platdrv.c:472:34: warning: 'dw_i2c_of_match' defined but not used [-Wunused-const-variable=]
+     472 | static const struct of_device_id dw_i2c_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
 
-fce51fb916013b Chris Wulff 2024-08-14  653  static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *buffer)
-fce51fb916013b Chris Wulff 2024-08-14  654  {
-fce51fb916013b Chris Wulff 2024-08-14  655  	struct f_hidg			*hidg = file->private_data;
-fce51fb916013b Chris Wulff 2024-08-14  656  	struct usb_composite_dev	*cdev = hidg->func.config->cdev;
-fce51fb916013b Chris Wulff 2024-08-14  657  	unsigned long	flags;
-fce51fb916013b Chris Wulff 2024-08-14  658  	struct report_entry *entry;
-fce51fb916013b Chris Wulff 2024-08-14  659  	struct report_entry *ptr;
-fce51fb916013b Chris Wulff 2024-08-14  660  	__u8 report_id;
-fce51fb916013b Chris Wulff 2024-08-14  661  
-fce51fb916013b Chris Wulff 2024-08-14  662  	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-fce51fb916013b Chris Wulff 2024-08-14  663  	if (!entry)
-fce51fb916013b Chris Wulff 2024-08-14  664  		return -ENOMEM;
-fce51fb916013b Chris Wulff 2024-08-14  665  
-fce51fb916013b Chris Wulff 2024-08-14  666  	if (copy_from_user(&entry->report_data, buffer,
-fce51fb916013b Chris Wulff 2024-08-14  667  				sizeof(struct usb_hidg_report))) {
-fce51fb916013b Chris Wulff 2024-08-14  668  		ERROR(cdev, "copy_from_user error\n");
-fce51fb916013b Chris Wulff 2024-08-14  669  		kfree(entry);
-fce51fb916013b Chris Wulff 2024-08-14  670  		return -EINVAL;
-fce51fb916013b Chris Wulff 2024-08-14  671  	}
-fce51fb916013b Chris Wulff 2024-08-14  672  
-fce51fb916013b Chris Wulff 2024-08-14  673  	report_id = entry->report_data.report_id;
-fce51fb916013b Chris Wulff 2024-08-14  674  
-fce51fb916013b Chris Wulff 2024-08-14  675  	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
-fce51fb916013b Chris Wulff 2024-08-14  676  	ptr = f_hidg_search_for_report(hidg, report_id);
-fce51fb916013b Chris Wulff 2024-08-14  677  
-fce51fb916013b Chris Wulff 2024-08-14  678  	if (ptr) {
-fce51fb916013b Chris Wulff 2024-08-14  679  		/* Report already exists in list - update it */
-fce51fb916013b Chris Wulff 2024-08-14  680  		if (copy_from_user(&ptr->report_data, buffer,
-fce51fb916013b Chris Wulff 2024-08-14  681  				sizeof(struct usb_hidg_report))) {
-fce51fb916013b Chris Wulff 2024-08-14  682  			ERROR(cdev, "copy_from_user error\n");
-fce51fb916013b Chris Wulff 2024-08-14  683  			kfree(entry);
-fce51fb916013b Chris Wulff 2024-08-14  684  			return -EINVAL;
 
-spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+vim +/dw_i2c_of_match +472 drivers/i2c/busses/i2c-designware-platdrv.c
 
-fce51fb916013b Chris Wulff 2024-08-14  685  		}
-fce51fb916013b Chris Wulff 2024-08-14  686  		kfree(entry);
-fce51fb916013b Chris Wulff 2024-08-14  687  	} else {
-fce51fb916013b Chris Wulff 2024-08-14  688  		/* Report does not exist in list - add it */
-fce51fb916013b Chris Wulff 2024-08-14  689  		list_add_tail(&entry->node, &hidg->report_list);
-fce51fb916013b Chris Wulff 2024-08-14  690  	}
-fce51fb916013b Chris Wulff 2024-08-14  691  
-fce51fb916013b Chris Wulff 2024-08-14  692  	/* If there is no response pending then do nothing further */
-fce51fb916013b Chris Wulff 2024-08-14  693  	if (hidg->get_report_returned) {
-fce51fb916013b Chris Wulff 2024-08-14  694  		spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-fce51fb916013b Chris Wulff 2024-08-14  695  		return 0;
-fce51fb916013b Chris Wulff 2024-08-14  696  	}
-fce51fb916013b Chris Wulff 2024-08-14  697  
-fce51fb916013b Chris Wulff 2024-08-14  698  	/* If this userspace response serves the current pending report */
-fce51fb916013b Chris Wulff 2024-08-14  699  	if (hidg->get_report_req_report_id == report_id) {
-fce51fb916013b Chris Wulff 2024-08-14  700  		hidg->get_report_returned = true;
-fce51fb916013b Chris Wulff 2024-08-14  701  		wake_up(&hidg->get_queue);
-fce51fb916013b Chris Wulff 2024-08-14  702  	}
-fce51fb916013b Chris Wulff 2024-08-14  703  
-fce51fb916013b Chris Wulff 2024-08-14  704  	spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
-fce51fb916013b Chris Wulff 2024-08-14 @705  	return 0;
-fce51fb916013b Chris Wulff 2024-08-14  706  }
+   471	
+ > 472	static const struct of_device_id dw_i2c_of_match[] = {
+   473		{ .compatible = "snps,designware-i2c", },
+   474		{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
+   475		{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
+   476		{}
+   477	};
+   478	MODULE_DEVICE_TABLE(of, dw_i2c_of_match);
+   479	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
