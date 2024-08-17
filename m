@@ -1,94 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539E61E481;
-	Sat, 17 Aug 2024 14:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D115C1E481;
+	Sat, 17 Aug 2024 14:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723904505; cv=none; b=WkZPVYh9RoIbQMWL3U8dULB4KK201pnHjGK81ZXGRwFh2p9ovOfvE2naSPUIQ4NBso18OfslzEbFwn8prNX+PQImf51EOTcSFB/Z2tisyyu1DGR81o5z5MOZmbGj1VAl93Tu1kQiCOifPUHmTpJCcbVDc6iMn3eBqO9NeHLmUrw=
+	t=1723904676; cv=none; b=rFNoFAP4BQY5gCpXhrd2To6Yblohcff0qaa2i7l5ffop2W0SDXMB/14NXLvhLDd2eSTSl8CjYgTmHf8qjTCZ0VOzmcgrrSP3Ec8MJOhAScQJtbELTlZQpPiZHkMpxXuY+hSvKsianXcRbNHporWCl9nypFtxtCsFyBoZTFkcr9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723904505; c=relaxed/simple;
-	bh=htRSgoh4HeAnINgrPfrRqDXF/tbWN8laKhf4x5ETh14=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tyLYDPS+BscgpoW2RZj8lZMQPLysjURI/oeqCcr37QS3w/JBIA1JCFGRoXfIRLxpWzkFctOowdFoWmaAL0sHFPZyTBRXUeRk/zT1uZ225MgGL7SEgcOF+ZwRAO8gmAqWMsK1vR9LP5hp58oHXSTGhlVtv+WkfjwdOyfJKqzhgmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6ve/loF; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723904676; c=relaxed/simple;
+	bh=V36+5U+Rf6AlMUR5aRKGPesWGPSbPaMZ5KL23zwiIKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CpMYuOqv14SGiRpgQ/wfG4aJEn0Lazk7EIxyPuUtg2tFgcCKuswFSBLIK/7BM/p4zYJOTWOR8rSmiviHwjqkuRNA/UId8EIw/bEixlUYNdEBym02P7Z+mQHlA/wAAqAJ1qOqdvTYl8VdI62BpfMEXix2vOjPDQPQdOOnNyvuEIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UOkKzbML; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6ve/loF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723904503; x=1755440503;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htRSgoh4HeAnINgrPfrRqDXF/tbWN8laKhf4x5ETh14=;
-  b=U6ve/loFALXdUg4VYgZZT6Yo9YkPrMeVj8Eo7c8/NkZljJAX94wvnnKn
-   0ttftRQTiWzp+fYlGMMp+eEt0MqBdN7Swt4PAYvSjhtlECHyw95DI2Sv6
-   YiW93KOvPzugjigEnGQZgchPlMvJPytP3g3Czi+g/GFh8usjdTqWHDSKs
-   ZaleM28HKbJ4P3Ad3OcDooKicYSSQGe1QG9B2iEIA61eRe5vcYPG+G+Z3
-   LA4Y1DR1mxeNL2MkYz+YYgOO2eWXZcHVnyMJEPSR2XUV1jmjx4/VnOQCZ
-   AKN51i0w1QWYvF/iqLMEVWWMJ13m24Fh5nqE8NLzJhh32wS8M97SIMty2
-   g==;
-X-CSE-ConnectionGUID: MZ2fkDIzQvSTuvI4Bxk5zA==
-X-CSE-MsgGUID: GiICgGQJSwm0gciVyx1wJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="26055015"
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="26055015"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 07:21:43 -0700
-X-CSE-ConnectionGUID: NQDKtBghSU2WdzZWqgGrrA==
-X-CSE-MsgGUID: DP/XN7snQpCAvd3zsZf+wA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="59918083"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Aug 2024 07:21:42 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sfKJG-0007Xk-2O;
-	Sat, 17 Aug 2024 14:21:38 +0000
-Date: Sat, 17 Aug 2024 22:21:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>
-Subject: ld.lld: warning:
- src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:6544:0:
- stack frame size (3416) exceeds limit (3072) in function
- 'dml_core_mode_support'
-Message-ID: <202408172241.anNeqaHq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UOkKzbML"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-367990aaef3so1673960f8f.0;
+        Sat, 17 Aug 2024 07:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723904673; x=1724509473; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N2ylZGda1UbKFev/Hg4IvXMUgiJFczD/6TSHLJ0QRZU=;
+        b=UOkKzbML5EUmGSmAio1dBdpd7u+bTHYstLAeVQ/SqQqdEk8NBQv1L+MmifmKWSmTwS
+         16C0JVjjKZv5us9rUG7TN9UeFjfj3bJGNmG6H/8KyE3r0APFOyU/426+zbn1sAM9mXbU
+         xXxF1bEfw7eXW5iMTmGfWTatGuW8/LwKDy3izVG3+b/Tb72jCpsfh5lBASLhg5bnQ5mp
+         F2VFVIzwjiWjOPd34LVs4R9QWGQiSzZ2k+zknS8JIH6zordgA+9G59g61TrR4mQA9+Ry
+         vKPzsIgQroXQAgWEfYJ2GfvJTzdzsptym1ZO5Bd04cft515PoNfVTifM3LKUvQ6C9kIP
+         okOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723904673; x=1724509473;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N2ylZGda1UbKFev/Hg4IvXMUgiJFczD/6TSHLJ0QRZU=;
+        b=MnHLy0iEmIJMOcEYOJ4GJ4wO6ldLznvzoIx3/88goHctkp9EH5oa/8bMNzo/wD+rsZ
+         ict4x7tOKjW4JjZ2usKMkJaz71vSa16DaniM6K2aR1hlNi1d0mEDREfsD59+ilDPdSbV
+         jfIy2qoxtWC0A+n24UyKX8+zMEYa7hVy8YjtcUVkbpL2ApzoAeMhcy055jep+abai4P1
+         vwxbbaSBSb/Ej+J810ns1STcVirmZBr+i7jqjxwtY5OIewseEkJ0kRaYpfrAkNXzMJv9
+         D4O1S1mY8YSoM8dLaURl9G+on0jYlyGp/GtUtVIYd+0BcfJLleulr7cgFxx9IQDKW3YM
+         eavg==
+X-Forwarded-Encrypted: i=1; AJvYcCXsj3TnLJbvEHg6EdvtiYXf/8C6US6uzZ0hkDfE+1FvDX4RIGPPcmlADEXQhKF6m5nINM8UUznVv6RO76Z2m1RYFmiGv6mREutvyp2hFQ==
+X-Gm-Message-State: AOJu0Yx17bl19Ik/92MScHXL2E6gVMaY7BdCzXi/FsTdKg0vK491LPdy
+	uBqzBBZ7QmzVE4VHs8jZLD65t8mCHpzqYSllrBx4eu2hK5JpL255ym2uu2kILR9OW2oY/1rsP4q
+	uikO9Ii3/MXlqJ/kWDHt7vMgYW48=
+X-Google-Smtp-Source: AGHT+IF7RwnVwpW0z165xK7DTXOlfNsz1aeKMZU3huOOoqNGMVoAt+/OBTyKpWWj89IGnwJkhUhihXY3NCtj49gxpvA=
+X-Received: by 2002:adf:e907:0:b0:371:8ae3:2941 with SMTP id
+ ffacd0b85a97d-371946a44d3mr3306154f8f.58.1723904672745; Sat, 17 Aug 2024
+ 07:24:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240814125525.3917130-2-crwulff@gmail.com> <294f091e-aa0c-4f1d-b827-db3339a0a8af@stanley.mountain>
+In-Reply-To: <294f091e-aa0c-4f1d-b827-db3339a0a8af@stanley.mountain>
+From: Chris Wulff <crwulff@gmail.com>
+Date: Sat, 17 Aug 2024 10:24:21 -0400
+Message-ID: <CAB0kiBKeBwHNm1B7RCYTK1KTUrWS4=NzTdLRV6sdDH1wqCFJHQ@mail.gmail.com>
+Subject: Re: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, linux-usb@vger.kernel.org, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Konstantin Aladyshev <aladyshev22@gmail.com>, 
+	David Sands <david.sands@biamp.com>, Jeff Johnson <quic_jjohnson@quicinc.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-kernel@vger.kernel.org, 
+	Chris Wulff <Chris.Wulff@biamp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e5fa841af679cb830da6c609c740a37bdc0b8b35
-commit: aa463cc850c464091cb749317372b70415d3e7d9 drm/amd/display: Fix CFLAGS for dml2_core_dcn4_calcs.o
-date:   4 months ago
-config: x86_64-randconfig-102-20240817 (https://download.01.org/0day-ci/archive/20240817/202408172241.anNeqaHq-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240817/202408172241.anNeqaHq-lkp@intel.com/reproduce)
+On Sat, Aug 17, 2024 at 2:49=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/crwulff-gmail-com/=
+USB-gadget-f_hid-Add-GET_REPORT-via-userspace-IOCTL/20240814-225520
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git us=
+b-testing
+> patch link:    https://lore.kernel.org/r/20240814125525.3917130-2-crwulff=
+%40gmail.com
+> patch subject: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspac=
+e IOCTL
+> config: x86_64-randconfig-161-20240817 (https://download.01.org/0day-ci/a=
+rchive/20240817/202408171146.0RjWnTq8-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a=
+15a9eac96088ae5e9134248d8236e34b91b1)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202408171146.0RjWnTq8-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsi=
+stent returns '&hidg->get_report_spinlock'.
+> drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsi=
+stent returns 'flags'.
+>
+> vim +705 drivers/usb/gadget/function/f_hid.c
+>
+> fce51fb916013b Chris Wulff 2024-08-14  653  static int f_hidg_get_report(=
+struct file *file, struct usb_hidg_report __user *buffer)
+> fce51fb916013b Chris Wulff 2024-08-14  654  {
+> fce51fb916013b Chris Wulff 2024-08-14  655      struct f_hidg            =
+       *hidg =3D file->private_data;
+> fce51fb916013b Chris Wulff 2024-08-14  656      struct usb_composite_dev =
+       *cdev =3D hidg->func.config->cdev;
+> fce51fb916013b Chris Wulff 2024-08-14  657      unsigned long   flags;
+> fce51fb916013b Chris Wulff 2024-08-14  658      struct report_entry *entr=
+y;
+> fce51fb916013b Chris Wulff 2024-08-14  659      struct report_entry *ptr;
+> fce51fb916013b Chris Wulff 2024-08-14  660      __u8 report_id;
+> fce51fb916013b Chris Wulff 2024-08-14  661
+> fce51fb916013b Chris Wulff 2024-08-14  662      entry =3D kmalloc(sizeof(=
+*entry), GFP_KERNEL);
+> fce51fb916013b Chris Wulff 2024-08-14  663      if (!entry)
+> fce51fb916013b Chris Wulff 2024-08-14  664              return -ENOMEM;
+> fce51fb916013b Chris Wulff 2024-08-14  665
+> fce51fb916013b Chris Wulff 2024-08-14  666      if (copy_from_user(&entry=
+->report_data, buffer,
+> fce51fb916013b Chris Wulff 2024-08-14  667                              s=
+izeof(struct usb_hidg_report))) {
+> fce51fb916013b Chris Wulff 2024-08-14  668              ERROR(cdev, "copy=
+_from_user error\n");
+> fce51fb916013b Chris Wulff 2024-08-14  669              kfree(entry);
+> fce51fb916013b Chris Wulff 2024-08-14  670              return -EINVAL;
+> fce51fb916013b Chris Wulff 2024-08-14  671      }
+> fce51fb916013b Chris Wulff 2024-08-14  672
+> fce51fb916013b Chris Wulff 2024-08-14  673      report_id =3D entry->repo=
+rt_data.report_id;
+> fce51fb916013b Chris Wulff 2024-08-14  674
+> fce51fb916013b Chris Wulff 2024-08-14  675      spin_lock_irqsave(&hidg->=
+get_report_spinlock, flags);
+> fce51fb916013b Chris Wulff 2024-08-14  676      ptr =3D f_hidg_search_for=
+_report(hidg, report_id);
+> fce51fb916013b Chris Wulff 2024-08-14  677
+> fce51fb916013b Chris Wulff 2024-08-14  678      if (ptr) {
+> fce51fb916013b Chris Wulff 2024-08-14  679              /* Report already=
+ exists in list - update it */
+> fce51fb916013b Chris Wulff 2024-08-14  680              if (copy_from_use=
+r(&ptr->report_data, buffer,
+> fce51fb916013b Chris Wulff 2024-08-14  681                              s=
+izeof(struct usb_hidg_report))) {
+> fce51fb916013b Chris Wulff 2024-08-14  682                      ERROR(cde=
+v, "copy_from_user error\n");
+> fce51fb916013b Chris Wulff 2024-08-14  683                      kfree(ent=
+ry);
+> fce51fb916013b Chris Wulff 2024-08-14  684                      return -E=
+INVAL;
+>
+> spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408172241.anNeqaHq-lkp@intel.com/
+This does appear to be legitimate. I will make sure the spinlock is
+released on that error path and post a new version.
 
-All warnings (new ones prefixed by >>):
-
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6711:0: stack frame size (4912) exceeds limit (3072) in function 'dml_core_mode_support'
->> ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:6544:0: stack frame size (3416) exceeds limit (3072) in function 'dml_core_mode_support'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_shared.c:755:0: stack frame size (3384) exceeds limit (3072) in function 'dml2_core_shared_mode_support'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8280:0: stack frame size (3120) exceeds limit (3072) in function 'dml_core_mode_programming'
-   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
-   vmlinux.o: warning: objtool: bad call to elf_init_reloc_text_sym() for data symbol .rodata
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> fce51fb916013b Chris Wulff 2024-08-14  685              }
+> fce51fb916013b Chris Wulff 2024-08-14  686              kfree(entry);
+> fce51fb916013b Chris Wulff 2024-08-14  687      } else {
+> fce51fb916013b Chris Wulff 2024-08-14  688              /* Report does no=
+t exist in list - add it */
+> fce51fb916013b Chris Wulff 2024-08-14  689              list_add_tail(&en=
+try->node, &hidg->report_list);
+> fce51fb916013b Chris Wulff 2024-08-14  690      }
+> fce51fb916013b Chris Wulff 2024-08-14  691
+> fce51fb916013b Chris Wulff 2024-08-14  692      /* If there is no respons=
+e pending then do nothing further */
+> fce51fb916013b Chris Wulff 2024-08-14  693      if (hidg->get_report_retu=
+rned) {
+> fce51fb916013b Chris Wulff 2024-08-14  694              spin_unlock_irqre=
+store(&hidg->get_report_spinlock, flags);
+> fce51fb916013b Chris Wulff 2024-08-14  695              return 0;
+> fce51fb916013b Chris Wulff 2024-08-14  696      }
+> fce51fb916013b Chris Wulff 2024-08-14  697
+> fce51fb916013b Chris Wulff 2024-08-14  698      /* If this userspace resp=
+onse serves the current pending report */
+> fce51fb916013b Chris Wulff 2024-08-14  699      if (hidg->get_report_req_=
+report_id =3D=3D report_id) {
+> fce51fb916013b Chris Wulff 2024-08-14  700              hidg->get_report_=
+returned =3D true;
+> fce51fb916013b Chris Wulff 2024-08-14  701              wake_up(&hidg->ge=
+t_queue);
+> fce51fb916013b Chris Wulff 2024-08-14  702      }
+> fce51fb916013b Chris Wulff 2024-08-14  703
+> fce51fb916013b Chris Wulff 2024-08-14  704      spin_unlock_irqrestore(&h=
+idg->get_report_spinlock, flags);
+> fce51fb916013b Chris Wulff 2024-08-14 @705      return 0;
+> fce51fb916013b Chris Wulff 2024-08-14  706  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
