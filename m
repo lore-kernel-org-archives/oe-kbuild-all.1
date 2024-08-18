@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FC584D34
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 22:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4606D2F22
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 00:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723934578; cv=none; b=aGU2HEmuB5339WveetOC43WRcrHEJ7UG+LlM7XXC/OOQ+gx1+DKz5sjUBvxdfbBMzXisQXRgisOjSKE3pmVonWKMo5hf+xwg7bgKct8jOk7KL+8OH33itqpQcvwCVOoaJx6NSXz34NjcWiaKti3QdS2l5cnou5Sy/s+3UufpCuQ=
+	t=1723939440; cv=none; b=P+oBDwnVrKwA+FowNsqMBlqX+GnBf7Hc2oQw3sT82SAdtt9/GKOkQ5k5M9fyEdzDQUMAa8EsrpRB4/x3N48W6mPu8O+uB+tIfOos7Eb0XnrDBOxCyTXkyhcl3Lrgw6BTkWJBFl0gQf60J+un0P+ikyylB59x7McNo+mlaJea9Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723934578; c=relaxed/simple;
-	bh=C2DXFZ2ExMCea4YTAJOOEe3HdjJLJkKqqxX3e/u3pyk=;
+	s=arc-20240116; t=1723939440; c=relaxed/simple;
+	bh=b9TbM37n64j7uqWEV7uozI5JsG/INa2prBcQ0GrUlfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SwxoSZ2rlwPBpaWIDzlxiSSqG9M0XQf+bKw7BIx9zj3J1nxPOAc3oOXScBQbdDwe+Re5xkIM3Z7wB4zKV0JAKcQ0zdyf7fferDae73Em99+vvV2Z4twZconvy7bkJWhYJ0wHshuw/f3DTHi0X/SSkEdmqTdREYFCqK3QhF3stOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDryxbQG; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZbdTUqXw8XCbk874m2bL25qIdy/+V0Jw+C1j7nfvxQBFd0CQ0bcmE3QQlQrUmFzDzKW7gGn1a1de3Ghv04wDWVeTmQ/wIwslO9z7yjOrZVf8jkUEhBCz+jDiTdxVakCoDutSGP7AFCQX4XY1YRiLwwjIYr7xuYjXQMo6IzasaJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI2mUbFF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDryxbQG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI2mUbFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723934576; x=1755470576;
+  t=1723939437; x=1755475437;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=C2DXFZ2ExMCea4YTAJOOEe3HdjJLJkKqqxX3e/u3pyk=;
-  b=TDryxbQGPDS6HMAS5RrO2uCVa/XskwAQqFBSRPyx6zPkhcTR088n1R20
-   TMiK1R0tUMTxPoE5FH0mqnCue6QQ/cZEG5sVxw64mt2iMYuIOjD7Js6tS
-   Jn8BENWpHhBP+wv3NGEHe7MkbQYaZn5F57z2+XGGuZhEFu8VnyPlRBHaC
-   xEG7fOaw3V9tbYsiffN2HMzzvdU7hn/X4431uBIgqyz91JhUQ054Z3tyF
-   LYp7g94tn0baMnperge8FGhnqqH5Z4A/c1CY323fJr2Je/AEx5Mng1ojg
-   4jbY8eoltWm2VINIBsBobhstzZ7VGN15vnMxRUoknzHyHevkFLRkyIoHR
-   A==;
-X-CSE-ConnectionGUID: zuVwlmduQD2hyksZj2RxqQ==
-X-CSE-MsgGUID: M6srsjfmTje513rmvIXa2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22171591"
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="22171591"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 15:42:55 -0700
-X-CSE-ConnectionGUID: NGSCVnz0TECKR7g4IDbf8A==
-X-CSE-MsgGUID: ED7D8kDLT+SV7FfRKgKs+A==
+  bh=b9TbM37n64j7uqWEV7uozI5JsG/INa2prBcQ0GrUlfs=;
+  b=iI2mUbFFEyiAuos103pZCG/He4lus3UlaXcWB0HPuQN9fKHykaX5mmI7
+   +Fx1QJ5JK2YDiQPrubrXkqiTHolX6EwGCKWviJyi0E6WxdJc8pptym5Hq
+   rkm7uRhwVkuDGJs8kOdMFvcEhMwg2sW39R0M/CSZb1EKhnG113X6SLs2k
+   I/KOReUDgACl3F7M7qzrCCsN53TLCbFUdZaBTVpSXNC4iui/caRzZ7lKW
+   91RWgB65VEYgm8dKrIk7ZO2Z11KJvJJkR0oteGIwlwTkV6Zl2//rIGKta
+   QXgyE4zAELWvmtLQEEw+iVe7AXDPlFai9APya7bC1e/bcUxKkBr69oQoM
+   w==;
+X-CSE-ConnectionGUID: bCf5JHRPRBen24wR9Xgrzw==
+X-CSE-MsgGUID: TkUI56w9RMelDCbPD40UkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="39661488"
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="39661488"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 17:03:57 -0700
+X-CSE-ConnectionGUID: Cox8gUSSQ4aFdGViBc8fAA==
+X-CSE-MsgGUID: uWu1RPlRRXGo5cY2lI2kPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; 
-   d="scan'208";a="60042063"
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="59856739"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Aug 2024 15:42:54 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 Aug 2024 17:03:56 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfS8J-0007r9-2x;
-	Sat, 17 Aug 2024 22:42:51 +0000
-Date: Sun, 18 Aug 2024 06:42:13 +0800
+	id 1sfTOj-0007tC-1K;
+	Sun, 18 Aug 2024 00:03:53 +0000
+Date: Sun, 18 Aug 2024 08:03:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.cz>
-Subject: Re: [PATCH] btrfs: fix a use-after-free bug when hitting errors
- inside btrfs_submit_chunk()
-Message-ID: <202408180546.vnwFs9i3-lkp@intel.com>
-References: <25987ba63d6e11a6983bf2c57eb2ac8efe059d8e.1723897285.git.wqu@suse.com>
+To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/4] mm: zswap: zswap_store() extended to handle mTHP
+ folios.
+Message-ID: <202408180718.9SP0GlZ8-lkp@intel.com>
+References: <20240817050921.18462-3-kanchana.p.sridhar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,146 +63,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25987ba63d6e11a6983bf2c57eb2ac8efe059d8e.1723897285.git.wqu@suse.com>
+In-Reply-To: <20240817050921.18462-3-kanchana.p.sridhar@intel.com>
 
-Hi Qu,
+Hi Kanchana,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.11-rc3 next-20240816]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-fix-a-use-after-free-bug-when-hitting-errors-inside-btrfs_submit_chunk/20240817-202316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/25987ba63d6e11a6983bf2c57eb2ac8efe059d8e.1723897285.git.wqu%40suse.com
-patch subject: [PATCH] btrfs: fix a use-after-free bug when hitting errors inside btrfs_submit_chunk()
-config: arc-randconfig-002-20240818 (https://download.01.org/0day-ci/archive/20240818/202408180546.vnwFs9i3-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/mm-zswap-zswap_is_folio_same_filled-takes-an-index-in-the-folio/20240817-131053
+base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
+patch link:    https://lore.kernel.org/r/20240817050921.18462-3-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v3 2/4] mm: zswap: zswap_store() extended to handle mTHP folios.
+config: arc-randconfig-001-20240818 (https://download.01.org/0day-ci/archive/20240818/202408180718.9SP0GlZ8-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180546.vnwFs9i3-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180718.9SP0GlZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408180546.vnwFs9i3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408180718.9SP0GlZ8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/btrfs/bio.c: In function 'btrfs_submit_chunk':
->> fs/btrfs/bio.c:671:27: warning: unused variable 'orig_bbio' [-Wunused-variable]
-     671 |         struct btrfs_bio *orig_bbio = bbio;
-         |                           ^~~~~~~~~
+   mm/zswap.c: In function 'zswap_store_page':
+>> mm/zswap.c:1473:17: error: implicit declaration of function 'obj_cgroup_get'; did you mean 'obj_cgroup_put'? [-Werror=implicit-function-declaration]
+    1473 |                 obj_cgroup_get(objcg);
+         |                 ^~~~~~~~~~~~~~
+         |                 obj_cgroup_put
+   cc1: some warnings being treated as errors
 
 
-vim +/orig_bbio +671 fs/btrfs/bio.c
+vim +1473 mm/zswap.c
 
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  666  
-ae42a154ca89727 Christoph Hellwig  2023-03-07  667  static bool btrfs_submit_chunk(struct btrfs_bio *bbio, int mirror_num)
-103c19723c80bf7 Christoph Hellwig  2022-11-15  668  {
-d5e4377d505189c Christoph Hellwig  2023-01-21  669  	struct btrfs_inode *inode = bbio->inode;
-4317ff0056bedfc Qu Wenruo          2023-03-23  670  	struct btrfs_fs_info *fs_info = bbio->fs_info;
-852eee62d31abd6 Christoph Hellwig  2023-01-21 @671  	struct btrfs_bio *orig_bbio = bbio;
-ae42a154ca89727 Christoph Hellwig  2023-03-07  672  	struct bio *bio = &bbio->bio;
-adbe7e388e4239d Anand Jain         2023-04-15  673  	u64 logical = bio->bi_iter.bi_sector << SECTOR_SHIFT;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  674  	u64 length = bio->bi_iter.bi_size;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  675  	u64 map_length = length;
-921603c76246a7f Christoph Hellwig  2022-12-12  676  	bool use_append = btrfs_use_zone_append(bbio);
-103c19723c80bf7 Christoph Hellwig  2022-11-15  677  	struct btrfs_io_context *bioc = NULL;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  678  	struct btrfs_io_stripe smap;
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  679  	blk_status_t ret;
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  680  	int error;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  681  
-31ae7881f9cd502 Johannes Thumshirn 2024-07-31  682  	if (!bbio->inode || btrfs_is_data_reloc_root(inode->root))
-31ae7881f9cd502 Johannes Thumshirn 2024-07-31  683  		smap.rst_search_commit_root = true;
-31ae7881f9cd502 Johannes Thumshirn 2024-07-31  684  	else
-31ae7881f9cd502 Johannes Thumshirn 2024-07-31  685  		smap.rst_search_commit_root = false;
-9acaa64187f9b4c Johannes Thumshirn 2023-09-14  686  
-103c19723c80bf7 Christoph Hellwig  2022-11-15  687  	btrfs_bio_counter_inc_blocked(fs_info);
-cd4efd210edfb34 Christoph Hellwig  2023-05-31  688  	error = btrfs_map_block(fs_info, btrfs_op(bio), logical, &map_length,
-9fb2acc2fe07f15 Qu Wenruo          2023-09-17  689  				&bioc, &smap, &mirror_num);
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  690  	if (error) {
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  691  		ret = errno_to_blk_status(error);
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  692  		goto fail;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  693  	}
-103c19723c80bf7 Christoph Hellwig  2022-11-15  694  
-852eee62d31abd6 Christoph Hellwig  2023-01-21  695  	map_length = min(map_length, length);
-d5e4377d505189c Christoph Hellwig  2023-01-21  696  	if (use_append)
-d5e4377d505189c Christoph Hellwig  2023-01-21  697  		map_length = min(map_length, fs_info->max_zone_append_size);
-d5e4377d505189c Christoph Hellwig  2023-01-21  698  
-103c19723c80bf7 Christoph Hellwig  2022-11-15  699  	if (map_length < length) {
-2cef0c79bb81d8b Christoph Hellwig  2023-03-07  700  		bbio = btrfs_split_bio(fs_info, bbio, map_length, use_append);
-2cef0c79bb81d8b Christoph Hellwig  2023-03-07  701  		bio = &bbio->bio;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  702  	}
-103c19723c80bf7 Christoph Hellwig  2022-11-15  703  
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  704  	/*
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  705  	 * Save the iter for the end_io handler and preload the checksums for
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  706  	 * data reads.
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  707  	 */
-fbe960877b6f434 Christoph Hellwig  2023-05-31  708  	if (bio_op(bio) == REQ_OP_READ && is_data_bbio(bbio)) {
-0d3acb25e70d5f5 Christoph Hellwig  2023-01-21  709  		bbio->saved_iter = bio->bi_iter;
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  710  		ret = btrfs_lookup_bio_sums(bbio);
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  711  		if (ret)
-852eee62d31abd6 Christoph Hellwig  2023-01-21  712  			goto fail_put_bio;
-1c2b3ee3b0ec4bc Christoph Hellwig  2023-01-21  713  	}
-7276aa7d38255b4 Christoph Hellwig  2023-01-21  714  
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  715  	if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
-d5e4377d505189c Christoph Hellwig  2023-01-21  716  		if (use_append) {
-d5e4377d505189c Christoph Hellwig  2023-01-21  717  			bio->bi_opf &= ~REQ_OP_WRITE;
-d5e4377d505189c Christoph Hellwig  2023-01-21  718  			bio->bi_opf |= REQ_OP_ZONE_APPEND;
-69ccf3f4244abc5 Christoph Hellwig  2023-01-21  719  		}
-69ccf3f4244abc5 Christoph Hellwig  2023-01-21  720  
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  721  		if (is_data_bbio(bbio) && bioc &&
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  722  		    btrfs_need_stripe_tree_update(bioc->fs_info, bioc->map_type)) {
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  723  			/*
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  724  			 * No locking for the list update, as we only add to
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  725  			 * the list in the I/O submission path, and list
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  726  			 * iteration only happens in the completion path, which
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  727  			 * can't happen until after the last submission.
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  728  			 */
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  729  			btrfs_get_bioc(bioc);
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  730  			list_add_tail(&bioc->rst_ordered_entry, &bbio->ordered->bioc_list);
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  731  		}
-02c372e1f016e51 Johannes Thumshirn 2023-09-14  732  
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  733  		/*
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  734  		 * Csum items for reloc roots have already been cloned at this
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  735  		 * point, so they are handled as part of the no-checksum case.
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  736  		 */
-4317ff0056bedfc Qu Wenruo          2023-03-23  737  		if (inode && !(inode->flags & BTRFS_INODE_NODATASUM) &&
-169aaaf2e0be615 Qu Wenruo          2024-06-14  738  		    !test_bit(BTRFS_FS_STATE_NO_DATA_CSUMS, &fs_info->fs_state) &&
-d5e4377d505189c Christoph Hellwig  2023-01-21  739  		    !btrfs_is_data_reloc_root(inode->root)) {
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  740  			if (should_async_write(bbio) &&
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  741  			    btrfs_wq_submit_bio(bbio, bioc, &smap, mirror_num))
-852eee62d31abd6 Christoph Hellwig  2023-01-21  742  				goto done;
-103c19723c80bf7 Christoph Hellwig  2022-11-15  743  
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  744  			ret = btrfs_bio_csum(bbio);
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  745  			if (ret)
-852eee62d31abd6 Christoph Hellwig  2023-01-21  746  				goto fail_put_bio;
-cebae292e0c32a2 Johannes Thumshirn 2024-06-07  747  		} else if (use_append ||
-cebae292e0c32a2 Johannes Thumshirn 2024-06-07  748  			   (btrfs_is_zoned(fs_info) && inode &&
-cebae292e0c32a2 Johannes Thumshirn 2024-06-07  749  			    inode->flags & BTRFS_INODE_NODATASUM)) {
-cbfce4c7fbde23c Christoph Hellwig  2023-05-24  750  			ret = btrfs_alloc_dummy_sum(bbio);
-cbfce4c7fbde23c Christoph Hellwig  2023-05-24  751  			if (ret)
-cbfce4c7fbde23c Christoph Hellwig  2023-05-24  752  				goto fail_put_bio;
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  753  		}
-103c19723c80bf7 Christoph Hellwig  2022-11-15  754  	}
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  755  
-f8a53bb58ec7e21 Christoph Hellwig  2023-01-21  756  	__btrfs_submit_bio(bio, bioc, &smap, mirror_num);
-852eee62d31abd6 Christoph Hellwig  2023-01-21  757  done:
-852eee62d31abd6 Christoph Hellwig  2023-01-21  758  	return map_length == length;
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  759  
-852eee62d31abd6 Christoph Hellwig  2023-01-21  760  fail_put_bio:
-852eee62d31abd6 Christoph Hellwig  2023-01-21  761  	if (map_length < length)
-ec63b84d4611b2f Christoph Hellwig  2023-05-31  762  		btrfs_cleanup_bio(bbio);
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  763  fail:
-9ba0004bd95e059 Christoph Hellwig  2023-01-21  764  	btrfs_bio_counter_dec(fs_info);
-75f0d5c40c2c2f5 Qu Wenruo          2024-08-17  765  	bbio->bio.bi_status = ret;
-75f0d5c40c2c2f5 Qu Wenruo          2024-08-17  766  	btrfs_orig_bbio_end_io(bbio);
-852eee62d31abd6 Christoph Hellwig  2023-01-21  767  	/* Do not submit another chunk */
-852eee62d31abd6 Christoph Hellwig  2023-01-21  768  	return true;
-852eee62d31abd6 Christoph Hellwig  2023-01-21  769  }
-852eee62d31abd6 Christoph Hellwig  2023-01-21  770  
+  1456	
+  1457	/*
+  1458	 * Stores the page at specified "index" in a folio.
+  1459	 */
+  1460	static bool zswap_store_page(struct folio *folio, long index,
+  1461				     struct obj_cgroup *objcg,
+  1462				     struct zswap_pool *pool)
+  1463	{
+  1464		swp_entry_t swp = folio->swap;
+  1465		int type = swp_type(swp);
+  1466		pgoff_t offset = swp_offset(swp) + index;
+  1467		struct page *page = folio_page(folio, index);
+  1468		struct xarray *tree = swap_zswap_tree(swp);
+  1469		struct zswap_entry *entry;
+  1470		unsigned long value;
+  1471	
+  1472		if (objcg)
+> 1473			obj_cgroup_get(objcg);
+  1474	
+  1475		if (zswap_check_limits())
+  1476			goto reject;
+  1477	
+  1478		/* allocate entry */
+  1479		entry = zswap_entry_cache_alloc(GFP_KERNEL, folio_nid(folio));
+  1480		if (!entry) {
+  1481			zswap_reject_kmemcache_fail++;
+  1482			goto reject;
+  1483		}
+  1484	
+  1485		if (zswap_is_folio_same_filled(folio, index, &value)) {
+  1486			entry->length = 0;
+  1487			entry->value = value;
+  1488			atomic_inc(&zswap_same_filled_pages);
+  1489			goto store_entry;
+  1490		}
+  1491	
+  1492		/* if entry is successfully added, it keeps the reference */
+  1493		if (!zswap_pool_get(pool))
+  1494			goto freepage;
+  1495	
+  1496		entry->pool = pool;
+  1497	
+  1498		if (!zswap_compress(page, entry))
+  1499			goto put_pool;
+  1500	
+  1501	store_entry:
+  1502		entry->swpentry = swp_entry(type, offset);
+  1503		entry->objcg = objcg;
+  1504	
+  1505		if (!zswap_store_entry(tree, entry))
+  1506			goto store_failed;
+  1507	
+  1508		if (objcg) {
+  1509			obj_cgroup_charge_zswap(objcg, entry->length);
+  1510			count_objcg_event(objcg, ZSWPOUT);
+  1511		}
+  1512	
+  1513		/*
+  1514		 * We finish initializing the entry while it's already in xarray.
+  1515		 * This is safe because:
+  1516		 *
+  1517		 * 1. Concurrent stores and invalidations are excluded by folio lock.
+  1518		 *
+  1519		 * 2. Writeback is excluded by the entry not being on the LRU yet.
+  1520		 *    The publishing order matters to prevent writeback from seeing
+  1521		 *    an incoherent entry.
+  1522		 */
+  1523		if (entry->length) {
+  1524			INIT_LIST_HEAD(&entry->lru);
+  1525			zswap_lru_add(&zswap_list_lru, entry);
+  1526		}
+  1527	
+  1528		/* update stats */
+  1529		atomic_inc(&zswap_stored_pages);
+  1530		count_vm_event(ZSWPOUT);
+  1531	
+  1532		return true;
+  1533	
+  1534	store_failed:
+  1535		if (!entry->length)
+  1536			atomic_dec(&zswap_same_filled_pages);
+  1537		else {
+  1538			zpool_free(entry->pool->zpool, entry->handle);
+  1539	put_pool:
+  1540			zswap_pool_put(pool);
+  1541		}
+  1542	freepage:
+  1543		zswap_entry_cache_free(entry);
+  1544	reject:
+  1545		obj_cgroup_put(objcg);
+  1546		if (zswap_pool_reached_full)
+  1547			queue_work(shrink_wq, &zswap_shrink_work);
+  1548	
+  1549		return false;
+  1550	}
+  1551	
 
 -- 
 0-DAY CI Kernel Test Service
