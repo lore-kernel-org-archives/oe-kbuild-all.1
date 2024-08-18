@@ -1,60 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4606D2F22
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 00:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3702F37
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 00:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723939440; cv=none; b=P+oBDwnVrKwA+FowNsqMBlqX+GnBf7Hc2oQw3sT82SAdtt9/GKOkQ5k5M9fyEdzDQUMAa8EsrpRB4/x3N48W6mPu8O+uB+tIfOos7Eb0XnrDBOxCyTXkyhcl3Lrgw6BTkWJBFl0gQf60J+un0P+ikyylB59x7McNo+mlaJea9Fc=
+	t=1723939441; cv=none; b=sWjOXGw+8S3/h2huUKhVA/+e+qkdeMIeXvMv97k3q9h2kYHZLVApyAzgyYJk1iH3TuYiBzV358s2fv2BWH25vz1EfFtiQshKj7gvzgVIfaNwVz0BMvvyz69ZLzT4ZMlKsQit2Xcd5XiuLEwLiy2nfSDa31uO08mx8oHg5Or+uyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723939440; c=relaxed/simple;
-	bh=b9TbM37n64j7uqWEV7uozI5JsG/INa2prBcQ0GrUlfs=;
+	s=arc-20240116; t=1723939441; c=relaxed/simple;
+	bh=dIBabbHnvUrU2LDn0J+PSLmzE5bL2UFcy1hlsHznb3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZbdTUqXw8XCbk874m2bL25qIdy/+V0Jw+C1j7nfvxQBFd0CQ0bcmE3QQlQrUmFzDzKW7gGn1a1de3Ghv04wDWVeTmQ/wIwslO9z7yjOrZVf8jkUEhBCz+jDiTdxVakCoDutSGP7AFCQX4XY1YRiLwwjIYr7xuYjXQMo6IzasaJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI2mUbFF; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=fq1EagvmTBx3UryIOMhce7YdfxFwN7d0PR4nCv+lAvRfYaOjumSc3kt5DciavZA+3fXOvjHyOY49JyZJQBI8YOgCGfuA+/veaLXony9BmZNFR8nXPdnBoclJcLTbUT/hvG5024UIa6dbFx8iukE60zg/77AWSf5Du+x5yOW3TlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GkiPKCnI; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI2mUbFF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GkiPKCnI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723939437; x=1755475437;
+  t=1723939439; x=1755475439;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=b9TbM37n64j7uqWEV7uozI5JsG/INa2prBcQ0GrUlfs=;
-  b=iI2mUbFFEyiAuos103pZCG/He4lus3UlaXcWB0HPuQN9fKHykaX5mmI7
-   +Fx1QJ5JK2YDiQPrubrXkqiTHolX6EwGCKWviJyi0E6WxdJc8pptym5Hq
-   rkm7uRhwVkuDGJs8kOdMFvcEhMwg2sW39R0M/CSZb1EKhnG113X6SLs2k
-   I/KOReUDgACl3F7M7qzrCCsN53TLCbFUdZaBTVpSXNC4iui/caRzZ7lKW
-   91RWgB65VEYgm8dKrIk7ZO2Z11KJvJJkR0oteGIwlwTkV6Zl2//rIGKta
-   QXgyE4zAELWvmtLQEEw+iVe7AXDPlFai9APya7bC1e/bcUxKkBr69oQoM
+  bh=dIBabbHnvUrU2LDn0J+PSLmzE5bL2UFcy1hlsHznb3A=;
+  b=GkiPKCnID1Uq0LliGxh2GV3vAmTWb6wTZQ0ul3lfozHZ4xkgJRiEPV57
+   9etKtXsp+hIcvz8COwGan4kqzqRc1dd4MBAOvBCqdSy1NsQ5mZU+C3Dmw
+   +El9JvvEy/MMLbIO7OreVoQqefCEFgqJ7ZzQI2ZHYOamhCDDExE8i3Xsz
+   vuGyvAmK8LmitmVgiPOV/L0WtRACCzroLVEK50uJjGP/fsLyj3+Pyvlbh
+   9lRIHUjPfZzetU+naSnBEsHFC/1mjuw0FVe1h1TlLu6SZBkirLlCFLmGd
+   R6KS9nr7KHQew2uWPw2ZrTwJ1w4nWPyRbWzLxn1fI7XOW5YfNgXxfj6Uv
    w==;
-X-CSE-ConnectionGUID: bCf5JHRPRBen24wR9Xgrzw==
-X-CSE-MsgGUID: TkUI56w9RMelDCbPD40UkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="39661488"
+X-CSE-ConnectionGUID: 51cjiyjdQ7m3jWpDtIxjTQ==
+X-CSE-MsgGUID: cdWZI512T1ubwkRLe0MoMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="39661494"
 X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="39661488"
+   d="scan'208";a="39661494"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 17:03:57 -0700
-X-CSE-ConnectionGUID: Cox8gUSSQ4aFdGViBc8fAA==
-X-CSE-MsgGUID: uWu1RPlRRXGo5cY2lI2kPw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 17:03:59 -0700
+X-CSE-ConnectionGUID: xEOYpzM8T+a6vAV7gO/U3A==
+X-CSE-MsgGUID: HB2/fAYRTTuLgoqcBpvJNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="59856739"
+   d="scan'208";a="59856746"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 17 Aug 2024 17:03:56 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfTOj-0007tC-1K;
+	id 1sfTOj-0007tH-1U;
 	Sun, 18 Aug 2024 00:03:53 +0000
-Date: Sun, 18 Aug 2024 08:03:38 +0800
+Date: Sun, 18 Aug 2024 08:03:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] mm: zswap: zswap_store() extended to handle mTHP
- folios.
-Message-ID: <202408180718.9SP0GlZ8-lkp@intel.com>
-References: <20240817050921.18462-3-kanchana.p.sridhar@intel.com>
+To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
+	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, nanhai.zou@intel.com,
+	wajdi.k.feghali@intel.com, vinodh.gopal@intel.com,
+	kanchana.p.sridhar@intel.com
+Subject: Re: [PATCH v3 4/4] mm: swap: Count successful mTHP ZSWAP stores in
+ sysfs mTHP stats.
+Message-ID: <202408180729.M6uZh634-lkp@intel.com>
+References: <20240817050921.18462-5-kanchana.p.sridhar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,7 +69,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240817050921.18462-3-kanchana.p.sridhar@intel.com>
+In-Reply-To: <20240817050921.18462-5-kanchana.p.sridhar@intel.com>
 
 Hi Kanchana,
 
@@ -73,125 +79,39 @@ kernel test robot noticed the following build errors:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/mm-zswap-zswap_is_folio_same_filled-takes-an-index-in-the-folio/20240817-131053
 base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
-patch link:    https://lore.kernel.org/r/20240817050921.18462-3-kanchana.p.sridhar%40intel.com
-patch subject: [PATCH v3 2/4] mm: zswap: zswap_store() extended to handle mTHP folios.
-config: arc-randconfig-001-20240818 (https://download.01.org/0day-ci/archive/20240818/202408180718.9SP0GlZ8-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180718.9SP0GlZ8-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240817050921.18462-5-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v3 4/4] mm: swap: Count successful mTHP ZSWAP stores in sysfs mTHP stats.
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240818/202408180729.M6uZh634-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180729.M6uZh634-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408180718.9SP0GlZ8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408180729.M6uZh634-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/zswap.c: In function 'zswap_store_page':
->> mm/zswap.c:1473:17: error: implicit declaration of function 'obj_cgroup_get'; did you mean 'obj_cgroup_put'? [-Werror=implicit-function-declaration]
-    1473 |                 obj_cgroup_get(objcg);
-         |                 ^~~~~~~~~~~~~~
-         |                 obj_cgroup_put
+   mm/page_io.c: In function 'count_mthp_zswpout_vm_event':
+>> mm/page_io.c:178:17: error: implicit declaration of function 'count_mthp_stat' [-Werror=implicit-function-declaration]
+     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+         |                 ^~~~~~~~~~~~~~~
+>> mm/page_io.c:178:53: error: 'MTHP_STAT_ZSWPOUT' undeclared (first use in this function)
+     178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+         |                                                     ^~~~~~~~~~~~~~~~~
+   mm/page_io.c:178:53: note: each undeclared identifier is reported only once for each function it appears in
    cc1: some warnings being treated as errors
 
 
-vim +1473 mm/zswap.c
+vim +/count_mthp_stat +178 mm/page_io.c
 
-  1456	
-  1457	/*
-  1458	 * Stores the page at specified "index" in a folio.
-  1459	 */
-  1460	static bool zswap_store_page(struct folio *folio, long index,
-  1461				     struct obj_cgroup *objcg,
-  1462				     struct zswap_pool *pool)
-  1463	{
-  1464		swp_entry_t swp = folio->swap;
-  1465		int type = swp_type(swp);
-  1466		pgoff_t offset = swp_offset(swp) + index;
-  1467		struct page *page = folio_page(folio, index);
-  1468		struct xarray *tree = swap_zswap_tree(swp);
-  1469		struct zswap_entry *entry;
-  1470		unsigned long value;
-  1471	
-  1472		if (objcg)
-> 1473			obj_cgroup_get(objcg);
-  1474	
-  1475		if (zswap_check_limits())
-  1476			goto reject;
-  1477	
-  1478		/* allocate entry */
-  1479		entry = zswap_entry_cache_alloc(GFP_KERNEL, folio_nid(folio));
-  1480		if (!entry) {
-  1481			zswap_reject_kmemcache_fail++;
-  1482			goto reject;
-  1483		}
-  1484	
-  1485		if (zswap_is_folio_same_filled(folio, index, &value)) {
-  1486			entry->length = 0;
-  1487			entry->value = value;
-  1488			atomic_inc(&zswap_same_filled_pages);
-  1489			goto store_entry;
-  1490		}
-  1491	
-  1492		/* if entry is successfully added, it keeps the reference */
-  1493		if (!zswap_pool_get(pool))
-  1494			goto freepage;
-  1495	
-  1496		entry->pool = pool;
-  1497	
-  1498		if (!zswap_compress(page, entry))
-  1499			goto put_pool;
-  1500	
-  1501	store_entry:
-  1502		entry->swpentry = swp_entry(type, offset);
-  1503		entry->objcg = objcg;
-  1504	
-  1505		if (!zswap_store_entry(tree, entry))
-  1506			goto store_failed;
-  1507	
-  1508		if (objcg) {
-  1509			obj_cgroup_charge_zswap(objcg, entry->length);
-  1510			count_objcg_event(objcg, ZSWPOUT);
-  1511		}
-  1512	
-  1513		/*
-  1514		 * We finish initializing the entry while it's already in xarray.
-  1515		 * This is safe because:
-  1516		 *
-  1517		 * 1. Concurrent stores and invalidations are excluded by folio lock.
-  1518		 *
-  1519		 * 2. Writeback is excluded by the entry not being on the LRU yet.
-  1520		 *    The publishing order matters to prevent writeback from seeing
-  1521		 *    an incoherent entry.
-  1522		 */
-  1523		if (entry->length) {
-  1524			INIT_LIST_HEAD(&entry->lru);
-  1525			zswap_lru_add(&zswap_list_lru, entry);
-  1526		}
-  1527	
-  1528		/* update stats */
-  1529		atomic_inc(&zswap_stored_pages);
-  1530		count_vm_event(ZSWPOUT);
-  1531	
-  1532		return true;
-  1533	
-  1534	store_failed:
-  1535		if (!entry->length)
-  1536			atomic_dec(&zswap_same_filled_pages);
-  1537		else {
-  1538			zpool_free(entry->pool->zpool, entry->handle);
-  1539	put_pool:
-  1540			zswap_pool_put(pool);
-  1541		}
-  1542	freepage:
-  1543		zswap_entry_cache_free(entry);
-  1544	reject:
-  1545		obj_cgroup_put(objcg);
-  1546		if (zswap_pool_reached_full)
-  1547			queue_work(shrink_wq, &zswap_shrink_work);
-  1548	
-  1549		return false;
-  1550	}
-  1551	
+   174	
+   175	static inline void count_mthp_zswpout_vm_event(struct folio *folio)
+   176	{
+   177		if (IS_ENABLED(CONFIG_THP_SWAP))
+ > 178			count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+   179	}
+   180	
 
 -- 
 0-DAY CI Kernel Test Service
