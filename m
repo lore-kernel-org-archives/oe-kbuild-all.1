@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BD21803D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 12:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EDA17BA9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 14:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723984032; cv=none; b=dnC3BhgYuk8OOLHFkW9XSaJTBCCOemnrmgaXL0MIiGJxh7/ULCK/IOAQHJJ50GwgKzZ4CfENgr66AwuRXDZLsZsAgm1+jJHLSgxNBE4dQbB1LpWgQbptr55G3PamdjmjtRM3Gf4SFJTr7lHRWsN/YGBuYOS8sIDaLzGw5b/Qgs8=
+	t=1723990094; cv=none; b=fv5tF0R3+d93WqJysn0BV7OF8sdz6aN4/VJy2J77+29+sTRTCnKpFoPBeiPwzSxIFdayB9UULQjs3uLZcRCSjBXi/VlP5N3p7EGhAFjTSSP2FOcGqV3y+sgB6wp5leVPPuWXumFFXxWG5YMeCMB7heWQjrVXQIQiWAQFPD2SiAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723984032; c=relaxed/simple;
-	bh=vuTn9I8VI9M2T/7djjzuWv0Z3S0bU9RsStRKN/m/RXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oDvKCQKRUKdEIV7R1TxRDoLIC5oD3/ujA9Pq0nb/ZdAX+WXGfm+SD04JUf+yEF6KOgm2XK+8NHB0ByZ9Tp3Dmyh4VHCJwf/OHm/eZKO0B7MZ1NV/et/Es0QfsSl4StGvu9WtTnLfcj5bVWldjqkYFtCCz39eFVdp+oS7jxqzKNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCATIv7O; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1723990094; c=relaxed/simple;
+	bh=XQgKvYsQDQwsQThUWqv3MmYRC08pwP07DKTfyg89Dlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pB6ToZkLbDgB7tWMenW/I0NKbsDpFzkBZdkKFgChVFVEZMHYW8gQ6T837TB0T6Bj21MRRDXkWzquIavCmYNJuYp/lfBGPXzzh6qi8Dglr3ZjRVJW4woW9LtvKtUHvqgff89E8YumkClTbN9YF6daBVHDXonaxWd6wKK4IQx332o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FuoVRIRA; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCATIv7O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FuoVRIRA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723984030; x=1755520030;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vuTn9I8VI9M2T/7djjzuWv0Z3S0bU9RsStRKN/m/RXg=;
-  b=SCATIv7OK7xvMR8XLZMaz9zUYKlggm7YWWg/bhrj7DS/9Y0DERWwK1y7
-   MHBVXNAiPaHUggY/jx195jR5SIVRTjUHpzhuRs8G0lEFPRVXanPOEEdgJ
-   uSfCE4q2dDH50HIaa6lgEa794yL7naD/06RCPBcdBP+dJNPDwCvCqDY5N
-   srV76Toa2T687/pQzpbnFFFuBAi4IUXWl4AGFyoVFifIgQiEaQk/7tRLV
-   Gln0x7XW0OVhesgq++LmJr9YDl262lQ4Fhzhc2K1ujn/VGR+WlhCsaWPo
-   LGWPrhO41L8O1uukoBmcd81cPRAJ6L81toQNYqnYPMuEB3NbeUndrU8td
-   g==;
-X-CSE-ConnectionGUID: Y1zBY10PSN6IMHMgvPOAuA==
-X-CSE-MsgGUID: gY87lLYbRYyQ5uyBkx7Ebg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="44753111"
-X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="44753111"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 05:27:09 -0700
-X-CSE-ConnectionGUID: DIk8VhKGR/i+hhJB4ZAEzQ==
-X-CSE-MsgGUID: 9fOoMiY7QiS0cMhYMgLCdQ==
+  t=1723990092; x=1755526092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XQgKvYsQDQwsQThUWqv3MmYRC08pwP07DKTfyg89Dlw=;
+  b=FuoVRIRAK9DNUFm0eg3rAd0tdWUx5/4xoZdsJndGdCX/ipM7oi/UpeS3
+   vujoUBEyL9Oh+b3NcVlmKcjv6swkJk4QVko1PENVdEEFzLS+1m39WqC4O
+   s6u0cGE+3jeO0rMmH6ty4gK2vJa6QVR2nLj93IUIkDjY6oMuIGTm7Gx9j
+   Jzj+S+qAHKhom+1qWlssYSY1CH55U3d8ji1rs90XmBc1QzJvTPpROVkU3
+   jOjaiXjPzDMXjftcwmPXtlNXnW+eNpAaHvI0T4Gh8w9ByxwsoStAGe0Da
+   PzrkNaZKxIOLLYM6hKoYvbwqTEkUzAIdXBqXCqOIf/4mckPy1XhMITdMR
+   A==;
+X-CSE-ConnectionGUID: 9+rrs9jpR4W7G+YQmTROQA==
+X-CSE-MsgGUID: ROTHJSpgTiGBEtbIUjDiIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="13077667"
+X-IronPort-AV: E=Sophos;i="6.10,157,1719903600"; 
+   d="scan'208";a="13077667"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 07:08:12 -0700
+X-CSE-ConnectionGUID: /y6BS3weS/aV3YHLwFiaBw==
+X-CSE-MsgGUID: RFEarJ0QTPmZuaWbmg+2XQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="64935370"
+X-IronPort-AV: E=Sophos;i="6.10,157,1719903600"; 
+   d="scan'208";a="83345426"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Aug 2024 05:27:08 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Aug 2024 07:08:09 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfezx-0008EM-2F;
-	Sun, 18 Aug 2024 12:27:05 +0000
-Date: Sun, 18 Aug 2024 20:26:16 +0800
+	id 1sfgZi-0008Ga-3C;
+	Sun, 18 Aug 2024 14:08:06 +0000
+Date: Sun, 18 Aug 2024 22:07:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.headers.unaligned 2/2]
- arch/x86/../../../arch/x86/lib/insn.c:16:10: fatal error:
- ../include/linux/unaligned.h: No such file or directory
-Message-ID: <202408182032.bPmVfkhF-lkp@intel.com>
+To: Haren Myneni <haren@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
+	tyreld@linux.ibm.com, brking@linux.ibm.com, hbabu@us.ibm.com,
+	haren@linux.ibm.com
+Subject: Re: [PATCH v2 1/2] powerpc/pseries/dlpar: Remove device tree node
+ for DLPAR IO remove
+Message-ID: <202408182142.wuIKqYae-lkp@intel.com>
+References: <20240817035401.125833-1-haren@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +65,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240817035401.125833-1-haren@linux.ibm.com>
 
-Hi Al,
+Hi Haren,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.headers.unaligned
-head:   5adcdf60b29da8386cab7bb157927fec96a46c42
-commit: 5adcdf60b29da8386cab7bb157927fec96a46c42 [2/2] move asm/unaligned.h to linux/unaligned.h
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240818/202408182032.bPmVfkhF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408182032.bPmVfkhF-lkp@intel.com/reproduce)
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes linus/master v6.11-rc3 next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-dlpar-Add-device-tree-nodes-for-DLPAR-IO-add/20240817-115833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20240817035401.125833-1-haren%40linux.ibm.com
+patch subject: [PATCH v2 1/2] powerpc/pseries/dlpar: Remove device tree node for DLPAR IO remove
+config: powerpc64-randconfig-r121-20240818 (https://download.01.org/0day-ci/archive/20240818/202408182142.wuIKqYae-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
+reproduce: (https://download.01.org/0day-ci/archive/20240818/202408182142.wuIKqYae-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408182032.bPmVfkhF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408182142.wuIKqYae-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/pseries/dlpar.c:398:53: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] drc_index @@     got restricted __be32 [usertype] drc_index @@
+   arch/powerpc/platforms/pseries/dlpar.c:398:53: sparse:     expected unsigned int [usertype] drc_index
+   arch/powerpc/platforms/pseries/dlpar.c:398:53: sparse:     got restricted __be32 [usertype] drc_index
+   arch/powerpc/platforms/pseries/dlpar.c:418:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] drc_count @@     got unsigned int [usertype] @@
+   arch/powerpc/platforms/pseries/dlpar.c:418:43: sparse:     expected restricted __be32 [usertype] drc_count
+   arch/powerpc/platforms/pseries/dlpar.c:418:43: sparse:     got unsigned int [usertype]
+   arch/powerpc/platforms/pseries/dlpar.c:422:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] drc_index @@     got unsigned int [usertype] @@
+   arch/powerpc/platforms/pseries/dlpar.c:422:43: sparse:     expected restricted __be32 [usertype] drc_index
+   arch/powerpc/platforms/pseries/dlpar.c:422:43: sparse:     got unsigned int [usertype]
+   arch/powerpc/platforms/pseries/dlpar.c:426:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] count @@     got unsigned int [usertype] @@
+   arch/powerpc/platforms/pseries/dlpar.c:426:42: sparse:     expected restricted __be32 [usertype] count
+   arch/powerpc/platforms/pseries/dlpar.c:426:42: sparse:     got unsigned int [usertype]
+   arch/powerpc/platforms/pseries/dlpar.c:428:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] index @@     got unsigned int [usertype] @@
+   arch/powerpc/platforms/pseries/dlpar.c:428:42: sparse:     expected restricted __be32 [usertype] index
+   arch/powerpc/platforms/pseries/dlpar.c:428:42: sparse:     got unsigned int [usertype]
 
-   In file included from arch/x86/decode.c:12:
->> arch/x86/../../../arch/x86/lib/insn.c:16:10: fatal error: ../include/linux/unaligned.h: No such file or directory
-      16 | #include "../include/linux/unaligned.h" /* __ignore_sync_check__ */
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[6]: *** [tools/build/Makefile.build:105: tools/objtool/arch/x86/decode.o] Error 1
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [tools/build/Makefile.build:158: arch/x86] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile:70: tools/objtool/objtool-in.o] Error 2
-   make[3]: *** [Makefile:72: objtool] Error 2
-   make[2]: *** [Makefile:1360: tools/objtool] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +398 arch/powerpc/platforms/pseries/dlpar.c
+
+   386	
+   387	static int dlpar_hp_dt(struct pseries_hp_errorlog *phpe)
+   388	{
+   389		int rc;
+   390	
+   391		if (phpe->id_type != PSERIES_HP_ELOG_ID_DRC_INDEX)
+   392			return -EINVAL;
+   393	
+   394		lock_device_hotplug();
+   395	
+   396		switch (phpe->action) {
+   397		case PSERIES_HP_ELOG_ACTION_REMOVE:
+ > 398			rc = dlpar_hp_dt_remove(phpe->_drc_u.drc_index);
+   399			break;
+   400		default:
+   401			pr_err("Invalid action (%d) specified\n", phpe->action);
+   402			rc = -EINVAL;
+   403			break;
+   404		}
+   405	
+   406		unlock_device_hotplug();
+   407	
+   408		return rc;
+   409	}
+   410	
 
 -- 
 0-DAY CI Kernel Test Service
