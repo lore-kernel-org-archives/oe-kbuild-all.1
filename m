@@ -1,125 +1,221 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C5817C60;
-	Sun, 18 Aug 2024 10:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADF6C8D7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 11:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723975651; cv=none; b=vC91d1PwWPU/nil28GWpF8MH/uThlHL9PZnG3VxASsIcfXgT4Bn+cKq6rNBuq29ByT9AJWzjUpMru+UK612n3bo4Tq7mpVf0M8cXrYavN9PK1dZq04ZmilaqUVnOVzXbr8XEQWBg4rCo5RaIc03KoU08YKq19PnWI3GJeicVCa0=
+	t=1723979112; cv=none; b=b2sMw7Pxt3oPGeCXKn2zbxDCHrafbvHJYUJvJEew1sE5z2AHjPsk+g20PNsl9riMQOeS/7J9vGjvP3Qcj8qv+5Kxs6die2zmJlxmGRgq1uzZuemCVwSXDhSsTe6lR395kYxYy0wdMICZ36oeHzeZOFdiOl7rM9iEdymZDTo2SfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723975651; c=relaxed/simple;
-	bh=RQ0T3ucmyl3SMTk7sFNGK2rgHNQUl85vksfrOniaezo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CNk07ch6wWfWTe4WotETvJiZADRX1Y3bjlLi/fmq/o4fZLn4+Ho6fJPbUWXeLldor1bGFsDatKSwFo38UT0IHph1I63aa3Qy3n7LydcXJeeePpemW9MzXmp0hZVM7iJQ37/OFmucgIaYgUrSWk5cFhSwekYD4izGyfQUtarZ0Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wmrt774Vwz6L779;
-	Sun, 18 Aug 2024 18:04:15 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 58C06140680;
-	Sun, 18 Aug 2024 18:07:17 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (7.182.85.13) by
- frapeml500008.china.huawei.com (7.182.85.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sun, 18 Aug 2024 12:07:17 +0200
-Received: from frapeml500005.china.huawei.com ([7.182.85.13]) by
- frapeml500005.china.huawei.com ([7.182.85.13]) with mapi id 15.01.2507.039;
- Sun, 18 Aug 2024 12:07:16 +0200
-From: Roberto Sassu <roberto.sassu@huawei.com>
-To: kernel test robot <lkp@intel.com>, David Howells <dhowells@redhat.com>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: RE: [dhowells-fs:pgplib 8/14]
- crypto/asymmetric_keys/pgp_signature.c:26:3: warning: unused variable
- 'pgp_pubkey_hash'
-Thread-Topic: [dhowells-fs:pgplib 8/14]
- crypto/asymmetric_keys/pgp_signature.c:26:3: warning: unused variable
- 'pgp_pubkey_hash'
-Thread-Index: AQHa8JV109ngZZFO5UiHJLxvSazIcrIsyUvQ
-Date: Sun, 18 Aug 2024 10:07:16 +0000
-Message-ID: <a1ac74bdeb0c4675aa801ba566a72c7e@huawei.com>
-References: <202408171901.P92A9eD1-lkp@intel.com>
-In-Reply-To: <202408171901.P92A9eD1-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1723979112; c=relaxed/simple;
+	bh=MHjdPHpr7cXcUSHEna3tL7Dl0u3iD4j9Pne1UYTNsGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzGqoEhOkG1nBMKQC9SRMLy+2gDpGpixbmih1uSMo9cVh/Kle/yo5Fp9/10OyyRgTzHe906RbRPc8c9p4aGrkxO6lmMgwJ4iUhx78kkfl3b5BzwfyzyMNIWtv81B5LWK+PVwjfYXmbK1ERRloNniFwa8ShK3y/br/R6AHwBDbgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eT2hsDj5; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eT2hsDj5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723979111; x=1755515111;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MHjdPHpr7cXcUSHEna3tL7Dl0u3iD4j9Pne1UYTNsGU=;
+  b=eT2hsDj5Ff75Sc4RVbq4PbcskJVXeQkX3zfktL5BOq/t5vEG3VrkBRNJ
+   nB8MBvC+WG4RIkcIqr9K78qKSkTAseI0EzEoGFL1m6yOsfZH+z0Q1jxIE
+   7+ybEZffeZyPSSUxmcpYxFv5MsI7DbMpEfjBNpaDHQ7fDRsxTyJTLl27L
+   X2nfwRJ73sCyBDNx9Lek4xQtTIT+L1XZlUakZjb5mylXIj4YKb9R+9jm3
+   UM1sZe16EWj4GWBdOFAr0ZYlUJ8Cyg5t2mjw5hhP71yOsTFydnA6aeAJX
+   YjhfHDfL+3xABA2uQ/0q9KKL8XHPITP96eNrZLobQp6uMaE2dBMNZzUXM
+   g==;
+X-CSE-ConnectionGUID: 8uT0yupXRM+u/xK3N7GaoQ==
+X-CSE-MsgGUID: 4g8dNTUhTXSPO3k4SrFQTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22372750"
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="22372750"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 04:05:09 -0700
+X-CSE-ConnectionGUID: 0YsMYXRWS3SjvUdmFIaTmA==
+X-CSE-MsgGUID: c2EoetvURQS9o8ra4a6MkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="59813644"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2024 04:05:06 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sfdia-0008CI-1s;
+	Sun, 18 Aug 2024 11:05:04 +0000
+Date: Sun, 18 Aug 2024 19:04:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Selvin Xavier <selvin.xavier@broadcom.com>, leon@kernel.org,
+	jgg@ziepe.ca
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	andrew.gospodarek@broadcom.com,
+	Selvin Xavier <selvin.xavier@broadcom.com>,
+	Hongguang Gao <hongguang.gao@broadcom.com>
+Subject: Re: [PATCH for-next v2 2/4] RDMA/bnxt_re: Get the WQE index from
+ slot index while completing the WQEs
+Message-ID: <202408181809.Sed4EJbs-lkp@intel.com>
+References: <1723621322-6920-3-git-send-email-selvin.xavier@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1723621322-6920-3-git-send-email-selvin.xavier@broadcom.com>
 
-> From: kernel test robot <lkp@intel.com>
-> Sent: Saturday, August 17, 2024 1:06 PM
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs=
-.git
-> pgplib
-> head:   f5bc37208146cc7ce38c4ad5a403e00904c0b6d2
-> commit: 4687723ce751ddc2429ed0cbfb2bf1e56658ace5 [8/14] KEYS: PGP-
-> based public key signature verification
-> config: x86_64-allyesconfig (https://download.01.org/0day-
-> ci/archive/20240817/202408171901.P92A9eD1-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project
-> 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> ci/archive/20240817/202408171901.P92A9eD1-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore.kernel.org/oe-kbuild-all/202408171901.P92A9eD1-lkp@intel.
-> | com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> >> crypto/asymmetric_keys/pgp_signature.c:26:3: warning: unused variable
-> >> 'pgp_pubkey_hash' [-Wunused-const-variable]
->       26 | } pgp_pubkey_hash[PGP_HASH__LAST] =3D {
->          |   ^~~~~~~~~~~~~~~
->    1 warning generated.
+Hi Selvin,
 
-Ok, this is due to the fact that struct public_key_signature
-changed, and hash_algo is now a string instead of an enum.
+kernel test robot noticed the following build warnings:
 
-Thus, I went for directly using the pgp_hash_algorithms
-array in pgp_sig_parse(), and pgp_pubhash got unused.
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on linus/master v6.11-rc3 next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-pgp_pubhash can be safely removed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/RDMA-bnxt_re-Add-support-for-Variable-WQE-in-Genp7-adapters/20240814-223609
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/1723621322-6920-3-git-send-email-selvin.xavier%40broadcom.com
+patch subject: [PATCH for-next v2 2/4] RDMA/bnxt_re: Get the WQE index from slot index while completing the WQEs
+config: sparc64-randconfig-r112-20240818 (https://download.01.org/0day-ci/archive/20240818/202408181809.Sed4EJbs-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240818/202408181809.Sed4EJbs-lkp@intel.com/reproduce)
 
-Thanks
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408181809.Sed4EJbs-lkp@intel.com/
 
-Roberto
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/hw/bnxt_re/qplib_fp.c:2530:64: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] cqe_slot @@     got restricted __le16 [usertype] sq_cons_idx @@
+   drivers/infiniband/hw/bnxt_re/qplib_fp.c:2530:64: sparse:     expected unsigned int [usertype] cqe_slot
+   drivers/infiniband/hw/bnxt_re/qplib_fp.c:2530:64: sparse:     got restricted __le16 [usertype] sq_cons_idx
+   drivers/infiniband/hw/bnxt_re/qplib_fp.c: note: in included file (through include/linux/smp.h, include/linux/alloc_tag.h, include/linux/percpu.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-> vim +/pgp_pubkey_hash +26 crypto/asymmetric_keys/pgp_signature.c
->=20
->     23
->     24	static const struct {
->     25		enum hash_algo algo : 8;
->   > 26	} pgp_pubkey_hash[PGP_HASH__LAST] =3D {
->     27		[PGP_HASH_MD5].algo		=3D HASH_ALGO_MD5,
->     28		[PGP_HASH_SHA1].algo		=3D HASH_ALGO_SHA1,
->     29		[PGP_HASH_RIPE_MD_160].algo	=3D
-> HASH_ALGO_RIPE_MD_160,
->     30		[PGP_HASH_SHA256].algo		=3D
-> HASH_ALGO_SHA256,
->     31		[PGP_HASH_SHA384].algo		=3D
-> HASH_ALGO_SHA384,
->     32		[PGP_HASH_SHA512].algo		=3D
-> HASH_ALGO_SHA512,
->     33		[PGP_HASH_SHA224].algo		=3D
-> HASH_ALGO_SHA224,
->     34	};
->     35
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +2530 drivers/infiniband/hw/bnxt_re/qplib_fp.c
 
+  2499	
+  2500	static int bnxt_qplib_cq_process_req(struct bnxt_qplib_cq *cq,
+  2501					     struct cq_req *hwcqe,
+  2502					     struct bnxt_qplib_cqe **pcqe, int *budget,
+  2503					     u32 cq_cons, struct bnxt_qplib_qp **lib_qp)
+  2504	{
+  2505		struct bnxt_qplib_swq *swq;
+  2506		struct bnxt_qplib_cqe *cqe;
+  2507		struct bnxt_qplib_qp *qp;
+  2508		struct bnxt_qplib_q *sq;
+  2509		u32 cqe_sq_cons;
+  2510		int cqe_cons;
+  2511		int rc = 0;
+  2512	
+  2513		qp = (struct bnxt_qplib_qp *)((unsigned long)
+  2514					      le64_to_cpu(hwcqe->qp_handle));
+  2515		if (!qp) {
+  2516			dev_err(&cq->hwq.pdev->dev,
+  2517				"FP: Process Req qp is NULL\n");
+  2518			return -EINVAL;
+  2519		}
+  2520		sq = &qp->sq;
+  2521	
+  2522		cqe_sq_cons = le16_to_cpu(hwcqe->sq_cons_idx) % sq->max_sw_wqe;
+  2523		if (qp->sq.flushed) {
+  2524			dev_dbg(&cq->hwq.pdev->dev,
+  2525				"%s: QP in Flush QP = %p\n", __func__, qp);
+  2526			goto done;
+  2527		}
+  2528	
+  2529		if (__is_err_cqe_for_var_wqe(qp, hwcqe->status)) {
+> 2530			cqe_cons = bnxt_qplib_get_cqe_sq_cons(sq, hwcqe->sq_cons_idx);
+  2531			if (cqe_cons < 0) {
+  2532				dev_err(&cq->hwq.pdev->dev, "%s: Wrong SQ cons cqe_slot_indx = %d\n",
+  2533					__func__, hwcqe->sq_cons_idx);
+  2534				goto done;
+  2535			}
+  2536			cqe_sq_cons = cqe_cons;
+  2537			dev_err(&cq->hwq.pdev->dev, "%s: cqe_sq_cons = %d swq_last = %d swq_start = %d\n",
+  2538				__func__, cqe_sq_cons, sq->swq_last, sq->swq_start);
+  2539		}
+  2540	
+  2541		/* Require to walk the sq's swq to fabricate CQEs for all previously
+  2542		 * signaled SWQEs due to CQE aggregation from the current sq cons
+  2543		 * to the cqe_sq_cons
+  2544		 */
+  2545		cqe = *pcqe;
+  2546		while (*budget) {
+  2547			if (sq->swq_last == cqe_sq_cons)
+  2548				/* Done */
+  2549				break;
+  2550	
+  2551			swq = &sq->swq[sq->swq_last];
+  2552			memset(cqe, 0, sizeof(*cqe));
+  2553			cqe->opcode = CQ_BASE_CQE_TYPE_REQ;
+  2554			cqe->qp_handle = (u64)(unsigned long)qp;
+  2555			cqe->src_qp = qp->id;
+  2556			cqe->wr_id = swq->wr_id;
+  2557			if (cqe->wr_id == BNXT_QPLIB_FENCE_WRID)
+  2558				goto skip;
+  2559			cqe->type = swq->type;
+  2560	
+  2561			/* For the last CQE, check for status.  For errors, regardless
+  2562			 * of the request being signaled or not, it must complete with
+  2563			 * the hwcqe error status
+  2564			 */
+  2565			if (swq->next_idx == cqe_sq_cons &&
+  2566			    hwcqe->status != CQ_REQ_STATUS_OK) {
+  2567				cqe->status = hwcqe->status;
+  2568				dev_err(&cq->hwq.pdev->dev,
+  2569					"FP: CQ Processed Req wr_id[%d] = 0x%llx with status 0x%x\n",
+  2570					sq->swq_last, cqe->wr_id, cqe->status);
+  2571				cqe++;
+  2572				(*budget)--;
+  2573				bnxt_qplib_mark_qp_error(qp);
+  2574				/* Add qp to flush list of the CQ */
+  2575				bnxt_qplib_add_flush_qp(qp);
+  2576			} else {
+  2577				/* Before we complete, do WA 9060 */
+  2578				if (do_wa9060(qp, cq, cq_cons, sq->swq_last,
+  2579					      cqe_sq_cons)) {
+  2580					*lib_qp = qp;
+  2581					goto out;
+  2582				}
+  2583				if (swq->flags & SQ_SEND_FLAGS_SIGNAL_COMP) {
+  2584					cqe->status = CQ_REQ_STATUS_OK;
+  2585					cqe++;
+  2586					(*budget)--;
+  2587				}
+  2588			}
+  2589	skip:
+  2590			bnxt_qplib_hwq_incr_cons(sq->hwq.max_elements, &sq->hwq.cons,
+  2591						 swq->slots, &sq->dbinfo.flags);
+  2592			sq->swq_last = swq->next_idx;
+  2593			if (sq->single)
+  2594				break;
+  2595		}
+  2596	out:
+  2597		*pcqe = cqe;
+  2598		if (sq->swq_last != cqe_sq_cons) {
+  2599			/* Out of budget */
+  2600			rc = -EAGAIN;
+  2601			goto done;
+  2602		}
+  2603		/*
+  2604		 * Back to normal completion mode only after it has completed all of
+  2605		 * the WC for this CQE
+  2606		 */
+  2607		sq->single = false;
+  2608	done:
+  2609		return rc;
+  2610	}
+  2611	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
