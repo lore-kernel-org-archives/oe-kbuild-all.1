@@ -1,109 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302F1103
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 01:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F44539A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 02:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723945023; cv=none; b=igaDHiWziL0MryXzqhKDHaFU8zEtRRHSe/torrbdIoHHRYKXubmCe/q+8tOGN6tpzFGpEupyi8lPB/VMME9yq8DJH3eecbFS+6l6x8ppZfAD7GCjxCDlr1pRMz36yomP5D1sJv0HYjjn8O0LXNEcBbnIXS10ydoJTAcTgGkBNkc=
+	t=1723949458; cv=none; b=ZktWBN+oXOMKtBxEzbJrXh8HXsUrQw4MtX3rdXRE90lK8BSECuwLRg5Qt0PlQ//zNc1bfAZ5HchL4midX1HC0WaTtEaKNHU5QPhjod6honRzEFvk4IopRpVJ8aUpYYmw3O8gPlusDXBvhI61SFU2e08Pwt9EvP/zOGrcBGmnuOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723945023; c=relaxed/simple;
-	bh=pKTc9YBaShJeDIbOxekvUzBsbWwjuqG4vB3IhdsLsEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZxlJCpppYP0DN6FDR0ugB/s/0yNR6odBXkxXiouajobpLClA8UFCclyvtRcSq+5EGiowuIk9a9se37pMG0u6wmUsgdIAfmnuXdGl2kcdw6xoEjBiCqBbzZaXRfVM4U6+T0YN8J53Zx6zwtk3JHqciBKGR9nOA1E4ABghKic3YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5Mu4yvI; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723949458; c=relaxed/simple;
+	bh=PruKMWplCDU0/BtRmK6SNIHKLCfRBU1Sopys8hpz448=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=M9gN/35meF2ywF05JDAMrEFQ/040/ytPVzSxyBfieUaxeWF4rZBQOyY39qhWIr1K7UUK7+BoRw06YW8zmf0OzUKiGErrrFY2LToX1VVXDEip2+KeZGnsq2VQ54GJzhh7ZfyZcfBac8mPSWML1pXqmNz3E+WxPJ19Sn63mbcV5sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dMP6Rtab; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5Mu4yvI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723945021; x=1755481021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pKTc9YBaShJeDIbOxekvUzBsbWwjuqG4vB3IhdsLsEs=;
-  b=I5Mu4yvI2yKuJfIphcbmlKYxSLSo9w02lAyoox1C72MPZWr21EIkC7mi
-   kVb2ff8HQ6rkZyE/ydnEbXGshYldV0fXf+aWAa4i1WV53JlDg0YZaQDkx
-   FEbxMuQykzkP/qX72ox5GIosgdA9BtmQIz5m1JkocK6pciLbr6QIqYzhd
-   Cy3kV3AswugzJLMdz3RVsYbwJmkLSS2XWhZIicS5FN91K6ZkhZBurU/ux
-   kB3bGWSiPhQkiurYHt0UONWVvALZgtPNcEYi4Q0Du0xaswBIS8UdCL2sj
-   /JH27Ux/x8uhHAF9sd7YBbf0+Dy48nJ4NssWN2+JXpSS53fhV0uo34Vzu
-   w==;
-X-CSE-ConnectionGUID: mxoMr/v0Sx2d7UhSHjRt7Q==
-X-CSE-MsgGUID: oZhJrwBoTO6mW4kR+rMqTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="21754469"
-X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="21754469"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 18:37:00 -0700
-X-CSE-ConnectionGUID: +7VW4Hd4T2mufiOu+8yBmg==
-X-CSE-MsgGUID: q3lqzevdR8qCf+uhtviW3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="90793410"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Aug 2024 18:36:57 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sfUql-0007wY-1L;
-	Sun, 18 Aug 2024 01:36:55 +0000
-Date: Sun, 18 Aug 2024 09:36:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andres Salomon <dilinger@queued.net>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	platform-driver-x86@vger.kernel.org,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-pm@vger.kernel.org, Dell.Client.Kernel@dell.com
-Subject: Re: [PATCH v3 1/2] platform/x86:dell-laptop: Add knobs to change
-  battery charge settings
-Message-ID: <202408180954.hBMWkKuU-lkp@intel.com>
-References: <20240815192848.3489d3e1@5400>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMP6Rtab"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3db145c8010so2140256b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 19:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723949456; x=1724554256; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QIic2+KKM+9RtdzGAQ9AwJF09w5aYhOH1xvxCtztzbg=;
+        b=dMP6RtabiXXpelcKWuPWhpDXEuiWK5LT0WqN1Iun825kvsprdQK21l1m2ml8DplqIy
+         yFXvjYc+FY7PUx3Pl14jJ+Mjn8vF0C9Wd/ACE4Pbdtd6ZpmQVQ7o7wg6UD9Z8M10Vx23
+         tWtJx97GX4qY8Bd8rTelLG+4nSGMg3U7fr9vfltmX7pi59fhoAHBP7mfAOSG0RakYaqF
+         baCZXfnd5eMiKLG+mao2o7Q6fZuUWDtTreHUjPam8t/VgnrRNQSlxzm+y156fXPZKpiv
+         sta/d+WG159oMMOlx2l+iEIAG83MnUO1HUPfjFtVMpwzsdsKI4BI6y0DXgWhjdVWporU
+         tfJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723949456; x=1724554256;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QIic2+KKM+9RtdzGAQ9AwJF09w5aYhOH1xvxCtztzbg=;
+        b=JjzLElg4f8hGgp82PtxuoszoB2bMg2UQfqImFv/gOVBwj0VXC3XGlO1dqHgYuLo1ap
+         Oq6I1gOLJ5N3mp0KHM1X+PyzTQ4mopVncRr2NGaIpdUHFsp6+w7m0cGrYxxOQF7m2Oeg
+         W2N+8MjLhn8PlIdvs0gRwGK3D8GARWwlzrnAfYBP4XNhdZQJfKhCAzoYcoujjCm6ohGo
+         PRXNgG5kJsDJOq5LtGkk5K+LMg/mlPtOcWTTNl7oGHxdDufnZSUynCqdAnPDhYPwDc7D
+         ccL3iVNRVggYxTiQpSMkl1LKguDEGb/0I9BvdskUhCo3wb3vH/RtdS5MCy0Bgu9cPmyy
+         Yv4Q==
+X-Gm-Message-State: AOJu0YwYFyw+RN6OLpEqRFZAvRUikzQ1Rb8wGgLGzYIMXksQ+yF4Bpzg
+	iNnFMNc/M8SqvRBj9TSivD5P3zXPU3ALNJkYJLaB24Otq2NvekYs
+X-Google-Smtp-Source: AGHT+IFHK9QEK0DrdzdcrFlWDoE3iPgdZuauRFD4RT/ojdbUyAZvKo6Ok/2gBWkwvyExQrL72hUNJA==
+X-Received: by 2002:a05:6808:2195:b0:3d9:e1d1:157e with SMTP id 5614622812f47-3dd3ade9f88mr8522315b6e.35.1723949456296;
+        Sat, 17 Aug 2024 19:50:56 -0700 (PDT)
+Received: from [192.168.0.235] ([38.34.87.7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f02fab02sm44730715ad.48.2024.08.17.19.50.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Aug 2024 19:50:55 -0700 (PDT)
+Message-ID: <b79b8935e9157d878740d22301606f4b38eae0f8.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v2 3/5] bpf: support bpf_fastcall patterns for
+ kfuncs
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: bpf@vger.kernel.org, ast@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net, 
+	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev, 
+	jose.marchesi@oracle.com
+Date: Sat, 17 Aug 2024 19:50:50 -0700
+In-Reply-To: <202408180356.YZnBVEv3-lkp@intel.com>
+References: <20240817015140.1039351-4-eddyz87@gmail.com>
+	 <202408180356.YZnBVEv3-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 (3.52.3-1.fc40) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240815192848.3489d3e1@5400>
 
-Hi Andres,
+On Sun, 2024-08-18 at 04:09 +0800, kernel test robot wrote:
+> Hi Eduard,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on bpf-next/master]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
+pf-rename-nocsr-bpf_fastcall-in-verifier/20240817-095340
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20240817015140.1039351-4-eddyz87=
+%40gmail.com
+> patch subject: [PATCH bpf-next v2 3/5] bpf: support bpf_fastcall patterns=
+ for kfuncs
+> config: arc-randconfig-002-20240817 (https://download.01.org/0day-ci/arch=
+ive/20240818/202408180356.YZnBVEv3-lkp@intel.com/config)
+> compiler: arceb-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240818/202408180356.YZnBVEv3-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202408180356.YZnBVEv3-lkp=
+@intel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+>    kernel/bpf/verifier.c: In function 'kfunc_fastcall_clobber_mask':
+> > > kernel/bpf/verifier.c:16146:33: warning: variable 'params' set but no=
+t used [-Wunused-but-set-variable]
+>    16146 |         const struct btf_param *params;
+>          |                                 ^~~~~~
+>=20
 
-kernel test robot noticed the following build warnings:
+Missed this warning.
+The params variable is not needed indeed.
+Will wait for comments before resubmitting.
 
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on linus/master v6.11-rc3 next-20240816]
-[cannot apply to amd-pstate/linux-next amd-pstate/bleeding-edge]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andres-Salomon/platform-x86-dell-laptop-remove-duplicate-code-w-battery-function/20240816-102156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20240815192848.3489d3e1%405400
-patch subject: [PATCH v3 1/2] platform/x86:dell-laptop: Add knobs to change  battery charge settings
-config: x86_64-randconfig-122-20240817 (https://download.01.org/0day-ci/archive/20240818/202408180954.hBMWkKuU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408180954.hBMWkKuU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408180954.hBMWkKuU-lkp@intel.com/
-
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/mm/testmmiotrace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
->> WARNING: modpost: drivers/platform/x86/dell/dell-laptop: section mismatch in reference: dell_init+0x637 (section: .init.text) -> dell_battery_exit (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
