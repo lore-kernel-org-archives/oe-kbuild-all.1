@@ -1,144 +1,125 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D87414F70
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 07:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B89317543
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 07:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723967173; cv=none; b=SuN6JGEb9QA+ywOtYAofxnNo42/+Qc9Q0VyxyhE/hkU9kD/TBy2ElZiKtKaFC21G2VWDSduCRj8ryw9dl8JY8yqUCvFsv1tuKPd/W8tveRAXIrMOatO1Dk34+GZkzQMbFZlhn7g4FsmNshlm5XLjoXV+lYNiEQGW800jqy/Rn7o=
+	t=1723967592; cv=none; b=Ijc1LVhK7gqkD39czzlPPtPUQyas+O5auovf7y4wE0lE59LzvIm87v5t9vi/ouE0SojfeZLN+xURrZgJmrLZ+X0VlytUful1O8PbZ4cKVrXhS8GvVfBG4dOzkn8g8wQm35kHl6oAJ0femQ3ADQBG60Qzx+pGAdeI3fav1B32g1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723967173; c=relaxed/simple;
-	bh=W/Lm7KrDHEh0rrSBSpmWLY0Vn7+mnzELkdlqyf2K8Ag=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QlqX+tbCU5h9J5Ua6kYbBXBqkeEvPRBJ8vpwg++7UaqDcZPBq4J0M9r+3RMdWSX1EuEgtVL4BAcVQ9+QJ6Jxy3IdwAHNJ4lLwNQ0ilUxhQEAa6gd0wFbqAIb0R7Ixmh9O4zCezdgh6yKB77ezCqpXKkhsaj4lBkXJOpKpSctJ6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtvhHhSL; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723967592; c=relaxed/simple;
+	bh=JYl0nnbGctAnVjtJkBWj5fgYH+THsGUlIZRbI9paeoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kh+SOBtsm8vGtpBJgRIjTubDmJ2PT8FTsVGJ7eQBgfcucq8DWuGO9XZ/GBeDdxSbMUa7XuM+Uh2+uAp6zRRXoq4PBaTCY42Z21wm3Qv59KQk9Ni+jOlGwc0d1PA0eNit3Coqxo4FiIVU0BUkHRwY7rVXUotdLONlofy2B5QsD9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLSJmjFa; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtvhHhSL"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-492a09d4c42so1216427137.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 00:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723967171; x=1724571971; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AAvjJXjZn/M1UFHTVDjEXTa7UKeEb5l9wox/vLEuT9k=;
-        b=jtvhHhSLcb6MFPwgbmXPwNk5D2VR0XtWM94Fx0m4FjP+34uw1KyjEkESW5GLzvzLsC
-         2jp6945cntIkbnITxQgQh7Yt7A4yaXPAh6fyKvqMMNnqtwQr2tM3tgRM6I6dRSzBZZEn
-         aKqOI8jsjb22SedDNWOtfjvgudvl7gE8ZHq3aKA/yaRahDJewk2EkW//aoHipM83PSR1
-         rcUHIgrfnCN97c30AzCW38L6ICxH/EC1AKifWaQMwwv3SUJjTbzJSGnsC4naP9W4Cu1P
-         5qPpLE/nSuBY+LQk2f8UmC3vLV3G/trt5qVoRdrj0mviqCEkT3owoNmGAsxML1YwxiBZ
-         tAOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723967171; x=1724571971;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AAvjJXjZn/M1UFHTVDjEXTa7UKeEb5l9wox/vLEuT9k=;
-        b=AHKbeQTybVWIuh+sbkPHTTPNaM9ZiUqB1VjFR00JUdc4Gkx02H4v/MtV5Db8tedpuZ
-         xEVt3bBob0X9mse2R9Yhv/5YEEjcBmoXbas+7PH5xDSeC6GOuXtVsp78VM7BCmAJlhZn
-         btPea1tyYV7bkIY4gTW3vKzLJJT3kdvlg83X6M4y5xEwSV94h0l6bf4Sc0JnFv3DL2Gf
-         Zvs4/SpcmipqYw+hdmya5wuDvRdgdjDA9tB7E+bIQHslyqRqv7VhQZ6hN4FvSUzYI9st
-         afgW9Vy1dJHbJ+CWb6ZpGmepptPS08UX7vok5kE6KBw/h9oCLn43ikorgBx5sHt3KhWe
-         2XHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWe5t35BGX82vjyoHmUjMO+IXO+nAXfumCYwPOn2NkW9lvwhFelSAyQ56JkmlqNz9X2mAnA9sPk3xzQ1nYZakrvBLiyXTAZj/se+PHhlA==
-X-Gm-Message-State: AOJu0Yybtfdtjuii9TPAoKzYIDvCnETE0mn7Z170PFy1i32RkahZhg+U
-	ghv+G8h/VTUNtZZbK9SY0kSnFXTy1K01qRmP/3/FVYpB0wcTbIqX8M2XtigsJMSQO7Q7wx6jAmf
-	cZHXPcC90jvxSDJiw5jvzkM404Q0=
-X-Google-Smtp-Source: AGHT+IEKL4gMV3p0eKY4nYvTpM8TFYfkrNVFvtZvOsrm4kDB/YSfYSjZJMAPikLTM43m8TmeDSsf7cL+f5RZDwa2ZCc=
-X-Received: by 2002:a05:6102:370d:b0:494:560b:6c07 with SMTP id
- ada2fe7eead31-497798fa046mr9382717137.16.1723967171177; Sun, 18 Aug 2024
- 00:46:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLSJmjFa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723967591; x=1755503591;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JYl0nnbGctAnVjtJkBWj5fgYH+THsGUlIZRbI9paeoc=;
+  b=CLSJmjFaQ4c/hlQEiy6DPsAkHVNDTOV+DpNe0LfS/ZcOg+CLFELs5VEz
+   zc4apphVoKO7NLYsQolDcec6Pcx/+tlr6pDmm4fdSQ9wKkVmE/TQlHKmz
+   VzwbOAHT4MvfXfhanHl2tZZcQFMSERSJH5sRqlcsa/ZCJHjtYJxfkgfRd
+   WwRnMTMyj81scXAEbEg6leh1rXE3gk0l3ZbDed45NygBYThMzRWYzYOWF
+   7B6j8HsId5hwL1im8aaatUMwl9gL3M70lW6TNIRZK2JhDf4wEhs0zM7Ci
+   O7xmyLyNnNAFzBakjVTaKffXd3lH/emMuvKYUi0rbIrHcziTciAkDJzT4
+   A==;
+X-CSE-ConnectionGUID: ZiI+2BsZSz6cGO4IO4ZKkA==
+X-CSE-MsgGUID: 9Sy+U/qaRXCvwI07Fa4Fcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22366266"
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="22366266"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 00:53:10 -0700
+X-CSE-ConnectionGUID: KkicVjpFRPeRloMYCal/mA==
+X-CSE-MsgGUID: aZr/EikoTjyPjZYU2cGo3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="60070010"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2024 00:53:03 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sfaij-00086W-1K;
+	Sun, 18 Aug 2024 07:53:01 +0000
+Date: Sun, 18 Aug 2024 15:52:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: shiju.jose@huawei.com, linux-edac@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, tony.luck@intel.com,
+	rafael@kernel.org, lenb@kernel.org, mchehab@kernel.org,
+	dan.j.williams@intel.com, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, david@redhat.com, Vilas.Sridharan@amd.com,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, rientjes@google.com,
+	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com
+Subject: Re: [PATCH v11 14/14] cxl/memfeature: Add CXL memory device PPR
+ control feature
+Message-ID: <202408181550.8ttlDbQA-lkp@intel.com>
+References: <20240816164238.1902-15-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240817050921.18462-5-kanchana.p.sridhar@intel.com> <202408180729.M6uZh634-lkp@intel.com>
-In-Reply-To: <202408180729.M6uZh634-lkp@intel.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Sun, 18 Aug 2024 19:46:00 +1200
-Message-ID: <CAGsJ_4ye5f9Jecr4tH0hNwQAbCytDM99S9t=DCNK1G3-aa22-w@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] mm: swap: Count successful mTHP ZSWAP stores in
- sysfs mTHP stats.
-To: kernel test robot <lkp@intel.com>
-Cc: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, hannes@cmpxchg.org, yosryahmed@google.com, 
-	nphamcs@gmail.com, ryan.roberts@arm.com, ying.huang@intel.com, 
-	akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
-	nanhai.zou@intel.com, wajdi.k.feghali@intel.com, vinodh.gopal@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816164238.1902-15-shiju.jose@huawei.com>
 
-On Sun, Aug 18, 2024 at 12:04=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Kanchana,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 7c626ce4bae1ac14f60076d00eafe71af30450ba]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar=
-/mm-zswap-zswap_is_folio_same_filled-takes-an-index-in-the-folio/20240817-1=
-31053
-> base:   7c626ce4bae1ac14f60076d00eafe71af30450ba
-> patch link:    https://lore.kernel.org/r/20240817050921.18462-5-kanchana.=
-p.sridhar%40intel.com
-> patch subject: [PATCH v3 4/4] mm: swap: Count successful mTHP ZSWAP store=
-s in sysfs mTHP stats.
-> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/2024081=
-8/202408180729.M6uZh634-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240818/202408180729.M6uZh634-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408180729.M6uZh634-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    mm/page_io.c: In function 'count_mthp_zswpout_vm_event':
-> >> mm/page_io.c:178:17: error: implicit declaration of function 'count_mt=
-hp_stat' [-Werror=3Dimplicit-function-declaration]
->      178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_=
-ZSWPOUT);
->          |                 ^~~~~~~~~~~~~~~
-> >> mm/page_io.c:178:53: error: 'MTHP_STAT_ZSWPOUT' undeclared (first use =
-in this function)
->      178 |                 count_mthp_stat(folio_order(folio), MTHP_STAT_=
-ZSWPOUT);
->          |                                                     ^~~~~~~~~~=
-~~~~~~~
->    mm/page_io.c:178:53: note: each undeclared identifier is reported only=
- once for each function it appears in
->    cc1: some warnings being treated as errors
+Hi,
 
-i believe this has been fixed by Ryan's latest cleanup
-https://lore.kernel.org/all/20240808111849.651867-2-ryan.roberts@arm.com/
+kernel test robot noticed the following build warnings:
 
-Kanchana, is your code on top of mm-unstable?
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge cxl/next linus/master v6.11-rc3 next-20240816]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
->
-> vim +/count_mthp_stat +178 mm/page_io.c
->
->    174
->    175  static inline void count_mthp_zswpout_vm_event(struct folio *foli=
-o)
->    176  {
->    177          if (IS_ENABLED(CONFIG_THP_SWAP))
->  > 178                  count_mthp_stat(folio_order(folio), MTHP_STAT_ZSW=
-POUT);
->    179  }
->    180
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/EDAC-Add-support-for-EDAC-device-feature-s-control/20240817-004442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20240816164238.1902-15-shiju.jose%40huawei.com
+patch subject: [PATCH v11 14/14] cxl/memfeature: Add CXL memory device PPR control feature
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240818/202408181550.8ttlDbQA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408181550.8ttlDbQA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408181550.8ttlDbQA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/cxl/core/memfeature.c:717:21: warning: 'cxl_hppr_uuid' defined but not used [-Wunused-const-variable=]
+     717 | static const uuid_t cxl_hppr_uuid =
+         |                     ^~~~~~~~~~~~~
+
+
+vim +/cxl_hppr_uuid +717 drivers/cxl/core/memfeature.c
+
+   711	
+   712	/* CXL memory soft PPR & hard PPR control definitions */
+   713	static const uuid_t cxl_sppr_uuid =
+   714		UUID_INIT(0x892ba475, 0xfad8, 0x474e, 0x9d, 0x3e, 0x69, 0x2c, 0x91,     \
+   715			  0x75, 0x68, 0xbb);
+   716	
+ > 717	static const uuid_t cxl_hppr_uuid =
+   718		UUID_INIT(0x80ea4521, 0x786f, 0x4127, 0xaf, 0xb1, 0xec, 0x74, 0x59,     \
+   719			  0xfb, 0x0e, 0x24);
+   720	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
