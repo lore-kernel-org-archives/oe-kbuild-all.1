@@ -1,117 +1,109 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F44539A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 02:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B25B2900
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 03:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723949458; cv=none; b=ZktWBN+oXOMKtBxEzbJrXh8HXsUrQw4MtX3rdXRE90lK8BSECuwLRg5Qt0PlQ//zNc1bfAZ5HchL4midX1HC0WaTtEaKNHU5QPhjod6honRzEFvk4IopRpVJ8aUpYYmw3O8gPlusDXBvhI61SFU2e08Pwt9EvP/zOGrcBGmnuOc=
+	t=1723951682; cv=none; b=l2aPT9KPF8VM/JGgoq867H1sBaYwPScKOS7b2TnRiJfXEcDFOYxVZSe0Nj2dREF8IcHffKaEPJPCHCeay1s+Yr1ULSH9WnxFoQW/Ovswfhs1PvE08ZRsURv5kRCKI6kJ8X6h1oo2CKBu9fWCpxfimPYC7sxF58C/B5v2tKV0/r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723949458; c=relaxed/simple;
-	bh=PruKMWplCDU0/BtRmK6SNIHKLCfRBU1Sopys8hpz448=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M9gN/35meF2ywF05JDAMrEFQ/040/ytPVzSxyBfieUaxeWF4rZBQOyY39qhWIr1K7UUK7+BoRw06YW8zmf0OzUKiGErrrFY2LToX1VVXDEip2+KeZGnsq2VQ54GJzhh7ZfyZcfBac8mPSWML1pXqmNz3E+WxPJ19Sn63mbcV5sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dMP6Rtab; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723951682; c=relaxed/simple;
+	bh=dFso1dDDy6ouhErClVMtTz8AGyv7l7S9ybkjUJGLDJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJvBHH9VRnJlUfdxzdeQRiJ9nj+kw2cGAkVLjMBq55RpHYBw8vKIGVEnxhZM2j5UUmWCKS4LlZaTYqL0pccmS36QCATXKMz6qTpiC1SLJsv9MGPGo/a0ZwFP81H82WWq+D/t1dF9VY7uHFOmCRb8Fegi7WnNl7IKdWw4pjYJdDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxbYb4vf; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMP6Rtab"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3db145c8010so2140256b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Aug 2024 19:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723949456; x=1724554256; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QIic2+KKM+9RtdzGAQ9AwJF09w5aYhOH1xvxCtztzbg=;
-        b=dMP6RtabiXXpelcKWuPWhpDXEuiWK5LT0WqN1Iun825kvsprdQK21l1m2ml8DplqIy
-         yFXvjYc+FY7PUx3Pl14jJ+Mjn8vF0C9Wd/ACE4Pbdtd6ZpmQVQ7o7wg6UD9Z8M10Vx23
-         tWtJx97GX4qY8Bd8rTelLG+4nSGMg3U7fr9vfltmX7pi59fhoAHBP7mfAOSG0RakYaqF
-         baCZXfnd5eMiKLG+mao2o7Q6fZuUWDtTreHUjPam8t/VgnrRNQSlxzm+y156fXPZKpiv
-         sta/d+WG159oMMOlx2l+iEIAG83MnUO1HUPfjFtVMpwzsdsKI4BI6y0DXgWhjdVWporU
-         tfJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723949456; x=1724554256;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QIic2+KKM+9RtdzGAQ9AwJF09w5aYhOH1xvxCtztzbg=;
-        b=JjzLElg4f8hGgp82PtxuoszoB2bMg2UQfqImFv/gOVBwj0VXC3XGlO1dqHgYuLo1ap
-         Oq6I1gOLJ5N3mp0KHM1X+PyzTQ4mopVncRr2NGaIpdUHFsp6+w7m0cGrYxxOQF7m2Oeg
-         W2N+8MjLhn8PlIdvs0gRwGK3D8GARWwlzrnAfYBP4XNhdZQJfKhCAzoYcoujjCm6ohGo
-         PRXNgG5kJsDJOq5LtGkk5K+LMg/mlPtOcWTTNl7oGHxdDufnZSUynCqdAnPDhYPwDc7D
-         ccL3iVNRVggYxTiQpSMkl1LKguDEGb/0I9BvdskUhCo3wb3vH/RtdS5MCy0Bgu9cPmyy
-         Yv4Q==
-X-Gm-Message-State: AOJu0YwYFyw+RN6OLpEqRFZAvRUikzQ1Rb8wGgLGzYIMXksQ+yF4Bpzg
-	iNnFMNc/M8SqvRBj9TSivD5P3zXPU3ALNJkYJLaB24Otq2NvekYs
-X-Google-Smtp-Source: AGHT+IFHK9QEK0DrdzdcrFlWDoE3iPgdZuauRFD4RT/ojdbUyAZvKo6Ok/2gBWkwvyExQrL72hUNJA==
-X-Received: by 2002:a05:6808:2195:b0:3d9:e1d1:157e with SMTP id 5614622812f47-3dd3ade9f88mr8522315b6e.35.1723949456296;
-        Sat, 17 Aug 2024 19:50:56 -0700 (PDT)
-Received: from [192.168.0.235] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f02fab02sm44730715ad.48.2024.08.17.19.50.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Aug 2024 19:50:55 -0700 (PDT)
-Message-ID: <b79b8935e9157d878740d22301606f4b38eae0f8.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 3/5] bpf: support bpf_fastcall patterns for
- kfuncs
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: bpf@vger.kernel.org, ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net, 
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev, 
-	jose.marchesi@oracle.com
-Date: Sat, 17 Aug 2024 19:50:50 -0700
-In-Reply-To: <202408180356.YZnBVEv3-lkp@intel.com>
-References: <20240817015140.1039351-4-eddyz87@gmail.com>
-	 <202408180356.YZnBVEv3-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3 (3.52.3-1.fc40) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxbYb4vf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723951680; x=1755487680;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dFso1dDDy6ouhErClVMtTz8AGyv7l7S9ybkjUJGLDJw=;
+  b=dxbYb4vf5q3fV+wC7foHsDdM+f8wLKyB0aelC7UEUCk0smH0eLPf6XSa
+   0j3huaSk1IA8cFqLTFTmNl2K3XD7qdKM99XiIGVo0JbJ/VHpPTh3FX9XL
+   IMz+ITc8YEY7efP7pquwyMWnEWxKuaLRnMMnvFy43eA5jrF1Fn2NSSGCu
+   c5g/KSu2XtIo6dlQoSjUi7WdbThsNlL+YcufUlyR4QspxLGIcLaJtCh+a
+   1xGPU0frEsJdaAULiTupi3dNWE/2O29GM4qEtOEwMAN5P8L+kb3sRAMbJ
+   4DXJO5qzkfN9Y1XKbXwV+nS6NRoFCIwdi1HG6Vp25QQoAgbAQuovarQm8
+   g==;
+X-CSE-ConnectionGUID: Sq9jxEgUSDqSOz/yh4+7IA==
+X-CSE-MsgGUID: xvzViEJZSdaYHNHAGwN+1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="33364955"
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="33364955"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 20:28:00 -0700
+X-CSE-ConnectionGUID: OIp6vdf1T86iT5M19xPcrg==
+X-CSE-MsgGUID: blWFVuMhQjq/27ElDqXKFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
+   d="scan'208";a="83253598"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Aug 2024 20:27:58 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sfWaC-0007yg-2G;
+	Sun, 18 Aug 2024 03:27:56 +0000
+Date: Sun, 18 Aug 2024 11:27:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xi Pardee <xi.pardee@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6/7] platform/x86:intel/pmc: Add support to Retrieve LPM
+ information
+Message-ID: <202408181156.VDhT4cAF-lkp@intel.com>
+References: <20240809204648.1124545-7-xi.pardee@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809204648.1124545-7-xi.pardee@linux.intel.com>
 
-On Sun, 2024-08-18 at 04:09 +0800, kernel test robot wrote:
-> Hi Eduard,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on bpf-next/master]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
-pf-rename-nocsr-bpf_fastcall-in-verifier/20240817-095340
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20240817015140.1039351-4-eddyz87=
-%40gmail.com
-> patch subject: [PATCH bpf-next v2 3/5] bpf: support bpf_fastcall patterns=
- for kfuncs
-> config: arc-randconfig-002-20240817 (https://download.01.org/0day-ci/arch=
-ive/20240818/202408180356.YZnBVEv3-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240818/202408180356.YZnBVEv3-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202408180356.YZnBVEv3-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
->    kernel/bpf/verifier.c: In function 'kfunc_fastcall_clobber_mask':
-> > > kernel/bpf/verifier.c:16146:33: warning: variable 'params' set but no=
-t used [-Wunused-but-set-variable]
->    16146 |         const struct btf_param *params;
->          |                                 ^~~~~~
->=20
+Hi Xi,
 
-Missed this warning.
-The params variable is not needed indeed.
-Will wait for comments before resubmitting.
+kernel test robot noticed the following build errors:
 
-[...]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc3 next-20240816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xi-Pardee/platform-x86-intel-pmc-Remove-SSRAM-support-from-PMC-Core/20240810-114100
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240809204648.1124545-7-xi.pardee%40linux.intel.com
+patch subject: [PATCH 6/7] platform/x86:intel/pmc: Add support to Retrieve LPM information
+config: x86_64-randconfig-104-20240817 (https://download.01.org/0day-ci/archive/20240818/202408181156.VDhT4cAF-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408181156.VDhT4cAF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408181156.VDhT4cAF-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+>> ERROR: modpost: "pmc_ssram_telemetry_get_pmc_info" [drivers/platform/x86/intel/pmc/intel_pmc_core.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
