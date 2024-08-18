@@ -1,71 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B89317543
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 07:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B157F17BA2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 08:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723967592; cv=none; b=Ijc1LVhK7gqkD39czzlPPtPUQyas+O5auovf7y4wE0lE59LzvIm87v5t9vi/ouE0SojfeZLN+xURrZgJmrLZ+X0VlytUful1O8PbZ4cKVrXhS8GvVfBG4dOzkn8g8wQm35kHl6oAJ0femQ3ADQBG60Qzx+pGAdeI3fav1B32g1I=
+	t=1723970050; cv=none; b=Ek/8q6z2OiydqdMlF3DAiVHixVpgqf0gfLxYUIkz+5y94sAtLdcFCbWu3C+aYhq+sLkUF+iMex9Ttl586I4ZkSbS8TXYQcKB634ckY8xnEw+1y22Hs8t++gW6n3eIQlnh4s9ZSqRzATnO41zh5Sd/WJjTzx581aNRpCLKGDDTaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723967592; c=relaxed/simple;
-	bh=JYl0nnbGctAnVjtJkBWj5fgYH+THsGUlIZRbI9paeoc=;
+	s=arc-20240116; t=1723970050; c=relaxed/simple;
+	bh=25yu9p37vsAbdqZRphRP+Y2t3rTyzWYj9NBH5ai5GQU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kh+SOBtsm8vGtpBJgRIjTubDmJ2PT8FTsVGJ7eQBgfcucq8DWuGO9XZ/GBeDdxSbMUa7XuM+Uh2+uAp6zRRXoq4PBaTCY42Z21wm3Qv59KQk9Ni+jOlGwc0d1PA0eNit3Coqxo4FiIVU0BUkHRwY7rVXUotdLONlofy2B5QsD9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLSJmjFa; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPIqfMVtCU9N9Miv6Qi9sC0FxFAOSn/Wjp7rjxK4S4mRZpuXMWq7lKils7RG6c7eWJt5PqvaNBsX3VRfWzshvVByOyael0JbnFXi9emjTq3FVS35ceGI1vNMn7GqU3aP+Xp1q5Ry3wyBLgweSjpdXTBCgoMweRUqVliS0UvqMXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ft3ik8jk; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLSJmjFa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ft3ik8jk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723967591; x=1755503591;
+  t=1723970047; x=1755506047;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JYl0nnbGctAnVjtJkBWj5fgYH+THsGUlIZRbI9paeoc=;
-  b=CLSJmjFaQ4c/hlQEiy6DPsAkHVNDTOV+DpNe0LfS/ZcOg+CLFELs5VEz
-   zc4apphVoKO7NLYsQolDcec6Pcx/+tlr6pDmm4fdSQ9wKkVmE/TQlHKmz
-   VzwbOAHT4MvfXfhanHl2tZZcQFMSERSJH5sRqlcsa/ZCJHjtYJxfkgfRd
-   WwRnMTMyj81scXAEbEg6leh1rXE3gk0l3ZbDed45NygBYThMzRWYzYOWF
-   7B6j8HsId5hwL1im8aaatUMwl9gL3M70lW6TNIRZK2JhDf4wEhs0zM7Ci
-   O7xmyLyNnNAFzBakjVTaKffXd3lH/emMuvKYUi0rbIrHcziTciAkDJzT4
+  bh=25yu9p37vsAbdqZRphRP+Y2t3rTyzWYj9NBH5ai5GQU=;
+  b=ft3ik8jkvIN0aUAxMrEW6DNQQokWlEDN5cELgp+fJjt+A3NgIbLMB0nS
+   D0vf3OJztUj4UYzk6E68vHzRIkSLOtU8fWWxS7ZDEoy76Byvw+niiGQS1
+   vBRQ7DkLSD7VA/zSyA7eHsDJipeStlx3gtM0NNiywQDYXiVaZF3WC6Cxk
+   TGIPJLG2wbtulWUjg4rt6W4a144LBwefWb8T/Qef8fxxT6PQLipA5uyHB
+   xAO8eWOoQZDzvW8Bz9J8/cJHhdtDRhgASjkbOAe/fJBoDmmmYMJ+R1j38
+   SZsGpmbyylWB29KflKOe2v3VywymkGnJYcri2ExuHqWNa3Em+oIPOVmZn
    A==;
-X-CSE-ConnectionGUID: ZiI+2BsZSz6cGO4IO4ZKkA==
-X-CSE-MsgGUID: 9Sy+U/qaRXCvwI07Fa4Fcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22366266"
+X-CSE-ConnectionGUID: YnHQAhp4RQeuv2ELGJW5jQ==
+X-CSE-MsgGUID: mVvJ3sQISp251ZxliKZ6lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11167"; a="22038443"
 X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="22366266"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 00:53:10 -0700
-X-CSE-ConnectionGUID: KkicVjpFRPeRloMYCal/mA==
-X-CSE-MsgGUID: aZr/EikoTjyPjZYU2cGo3Q==
+   d="scan'208";a="22038443"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 01:34:07 -0700
+X-CSE-ConnectionGUID: iJOolUfjRQ+dRXYPgLXGiw==
+X-CSE-MsgGUID: R4V0vhG9TGWmbRjYobBZjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,156,1719903600"; 
-   d="scan'208";a="60070010"
+   d="scan'208";a="59790703"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2024 00:53:03 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2024 01:34:04 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfaij-00086W-1K;
-	Sun, 18 Aug 2024 07:53:01 +0000
-Date: Sun, 18 Aug 2024 15:52:09 +0800
+	id 1sfbMQ-00087u-0V;
+	Sun, 18 Aug 2024 08:34:02 +0000
+Date: Sun, 18 Aug 2024 16:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-edac@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, tony.luck@intel.com,
-	rafael@kernel.org, lenb@kernel.org, mchehab@kernel.org,
-	dan.j.williams@intel.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, david@redhat.com, Vilas.Sridharan@amd.com,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com
-Subject: Re: [PATCH v11 14/14] cxl/memfeature: Add CXL memory device PPR
- control feature
-Message-ID: <202408181550.8ttlDbQA-lkp@intel.com>
-References: <20240816164238.1902-15-shiju.jose@huawei.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	John Ogness <john.ogness@linutronix.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+	bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v2 3/5] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202408181614.AAr0qM24-lkp@intel.com>
+References: <20240816125612.1003295-4-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,51 +72,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240816164238.1902-15-shiju.jose@huawei.com>
+In-Reply-To: <20240816125612.1003295-4-jfalempe@redhat.com>
 
-Hi,
+Hi Jocelyn,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge cxl/next linus/master v6.11-rc3 next-20240816]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/EDAC-Add-support-for-EDAC-device-feature-s-control/20240817-004442
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20240816164238.1902-15-shiju.jose%40huawei.com
-patch subject: [PATCH v11 14/14] cxl/memfeature: Add CXL memory device PPR control feature
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240818/202408181550.8ttlDbQA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240818/202408181550.8ttlDbQA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Squash-of-pending-series/20240816-205859
+base:   8befe8fa5a4e4b30787b17e078d9d7b5cb92ea19
+patch link:    https://lore.kernel.org/r/20240816125612.1003295-4-jfalempe%40redhat.com
+patch subject: [PATCH v2 3/5] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: arm-randconfig-r121-20240818 (https://download.01.org/0day-ci/archive/20240818/202408181614.AAr0qM24-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240818/202408181614.AAr0qM24-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408181550.8ttlDbQA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408181614.AAr0qM24-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_log.c:66:17: sparse: sparse: symbol 'drm_log_buf' was not declared. Should it be static?
+>> drivers/gpu/drm/drm_log.c:384:1: sparse: sparse: symbol 'drm_log_work' was not declared. Should it be static?
+   drivers/gpu/drm/drm_log.c: note: in included file (through include/linux/rculist.h, include/linux/console.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
->> drivers/cxl/core/memfeature.c:717:21: warning: 'cxl_hppr_uuid' defined but not used [-Wunused-const-variable=]
-     717 | static const uuid_t cxl_hppr_uuid =
-         |                     ^~~~~~~~~~~~~
+vim +/drm_log_buf +66 drivers/gpu/drm/drm_log.c
 
-
-vim +/cxl_hppr_uuid +717 drivers/cxl/core/memfeature.c
-
-   711	
-   712	/* CXL memory soft PPR & hard PPR control definitions */
-   713	static const uuid_t cxl_sppr_uuid =
-   714		UUID_INIT(0x892ba475, 0xfad8, 0x474e, 0x9d, 0x3e, 0x69, 0x2c, 0x91,     \
-   715			  0x75, 0x68, 0xbb);
-   716	
- > 717	static const uuid_t cxl_hppr_uuid =
-   718		UUID_INIT(0x80ea4521, 0x786f, 0x4127, 0xaf, 0xb1, 0xec, 0x74, 0x59,     \
-   719			  0xfb, 0x0e, 0x24);
-   720	
+    59	
+    60	/*
+    61	 * A circular buffer, with the last kmsg logs to print.
+    62	 * 8K is more than what can be drawn on most monitors.
+    63	 */
+    64	#define CIRC_BUF_SIZE	(1 << 13)
+    65	#define CIRC_BUF_MASK	(CIRC_BUF_SIZE - 1)
+  > 66	struct circ_buf drm_log_buf;
+    67	static DEFINE_SPINLOCK(drm_log_writer_lock);
+    68	static DEFINE_SPINLOCK(drm_log_reader_lock);
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
