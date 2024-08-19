@@ -1,67 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5C77FBC2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 20:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEB52C18C;
+	Mon, 19 Aug 2024 21:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724098627; cv=none; b=e1WNQRDggvmJZnYOBP3mTs5iQpEe7rQGjHUZZZixXSToDkb6z7JoUG8uKKfT66o0+JxmlrGwp8n81oTFLOhBwo1+IIRn4vTlssRN1Lf1s7FaiJ11H/jEvGW5luZm1dZQOFj1xoK1wyiyah8PI7yyq4xaMLPcsv67kKjwwwp6EDk=
+	t=1724101699; cv=none; b=qG/WD8bNA2oVOu/cdQrS7GtdjJ0f9X2mN1RcIFprJvL1y9jUbz7hmcGP/i0sNJMWGz2syedHDyaKxRwZTlNtX1oSBRVcPTSxHozckt9SEynT9lIhN3CH0Hr6/COOOuhDNVOARkAF5rEJwSOwjaGrTuji0oLZvoeH6SyAtaIKEBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724098627; c=relaxed/simple;
-	bh=vx21SrjktdsbtSbDIQ40rp5dy3lmYsFI0PrEODgHFiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULP+qPhGPsbf+GEM4eJOAspxpQRCzuTLzW92+EyvUCNh1B+F3ga008S+03MkA4lvKeYXIsG5sJxNY8+Hlsm90xP06R11TElMZBz8LCxidx13DUxYReWIhOuJf0W8/k3D9B39edlmqI0xoEZHQSle2UsDdQzpt9JTDCE+dZPRjkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=agmrdRYZ; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1724101699; c=relaxed/simple;
+	bh=lytjRLon1XJb0B1D07mDRFN+cn66eCpzKUqIoHJ1pGE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DMsDJ3TURyUGAvrE//f32JhIwz7xEi2SpCrbXbxE6tG1o0kcw7bFtG727P7dk+zuS76N01dNEl73/t7AV5/rO9X38CjvM98/4d6MfAOtkWyMB/QK1tBLcTKuWqdgogUYLDb8fnFJN7kAEsb1MwVQLVgquClBIFU3w2IOjIUO1M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWk+7tzv; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agmrdRYZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWk+7tzv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724098625; x=1755634625;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vx21SrjktdsbtSbDIQ40rp5dy3lmYsFI0PrEODgHFiM=;
-  b=agmrdRYZ/LrB3mByA6B8kXB8DHIfZyvGIkHqMn7ZurzBkeRc8oayH78f
-   FvUWGaZxQQ72at6NsaSLcj6BHVwzziGXKFsDoUJU3QT74j6Tm7fGo8Q0a
-   bMlqMH2wYVNYSQEgpPOga/tl/qB5Nzg5lTxeWICBeI952GYvyo8baXk0+
-   dzKTvEpU7gsPgur0jQztk+9eVcgYuvDVAEeMoTf7GnvGbckVqsM8UPNUB
-   B0SuB5jZL0dfQyyjI+zKq2jOLe+WZDtl21+Jw1OBC/AxJzOuYZdohrFbl
-   01gNxi/EiILUDV+80mS6Ugg5m6bGCZIYKtnnmwS6ZVVVmLZdfN48JIeUx
-   g==;
-X-CSE-ConnectionGUID: LEy0bVyyTvG0V8ND09sXfg==
-X-CSE-MsgGUID: 9DL+YMr5QXKnZYIK19jwzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22545679"
+  t=1724101697; x=1755637697;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=lytjRLon1XJb0B1D07mDRFN+cn66eCpzKUqIoHJ1pGE=;
+  b=KWk+7tzvm84sjD027y6wfSK986Rgyl+WbqmugSIzUI81wUnQHf2uPLWJ
+   SPmLh3YE4BX0Gw0QtkkAUwfyGOwWuhLc5yPQ8j/Zm+8yt7eDdzVYV/0Lg
+   gKZyxt9etczshAyiH6zQyybhvt8Yp/qVnPgmqk93FfMvczlkSMF4Ghi5c
+   aLHZHmS+PBRtBfJLfqDszyJR2/Y7464Gq9rNRfQ+4TIy4mSU3KmICT1RH
+   8TboCFNA03tWH3Qj0uIEL7fMxy9jMoOku/oFVAjJVBb8PlGs95Pq1VuKt
+   fkM9HDVZW7/wmopnsJshEPJ3HjF0esABQxyMF7s5rADcKEdfBnlaiFR48
+   A==;
+X-CSE-ConnectionGUID: 8g3TQlWySj2TAYkljrfIAQ==
+X-CSE-MsgGUID: KJ03YUFFTOu/BbkgSKltcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="32947371"
 X-IronPort-AV: E=Sophos;i="6.10,160,1719903600"; 
-   d="scan'208";a="22545679"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 13:17:05 -0700
-X-CSE-ConnectionGUID: UgnlM4QSR5ikTJm33iWR3Q==
-X-CSE-MsgGUID: 6pE7TPDrTfm5TlXm6RDu0A==
+   d="scan'208";a="32947371"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 14:08:04 -0700
+X-CSE-ConnectionGUID: 6Mt2gHGtRASBX4A6XWU7ag==
+X-CSE-MsgGUID: EV+eOtqtR6ifso5aNRZMRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,160,1719903600"; 
-   d="scan'208";a="60454383"
+   d="scan'208";a="60478346"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 19 Aug 2024 13:17:02 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 Aug 2024 14:08:03 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg8oF-0009Ou-1t;
-	Mon, 19 Aug 2024 20:16:59 +0000
-Date: Tue, 20 Aug 2024 04:16:24 +0800
+	id 1sg9bd-0009Qd-0d;
+	Mon, 19 Aug 2024 21:08:01 +0000
+Date: Tue, 20 Aug 2024 05:07:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hangbin Liu <liuhangbin@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jay Vosburgh <j.vosburgh@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Tariq Toukan <tariqt@nvidia.com>, Jianbo Liu <jianbol@nvidia.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Hangbin Liu <liuhangbin@gmail.com>
-Subject: Re: [PATCHv2 net-next 1/3] bonding: add common function to check
- ipsec device
-Message-ID: <202408200345.a4DQ8ecT-lkp@intel.com>
-References: <20240819075334.236334-2-liuhangbin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: arch/x86/kernel/alternative.o: warning: objtool: BUG_func+0x3:
+ unreachable instruction
+Message-ID: <202408200555.Q0svMs2r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,67 +60,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819075334.236334-2-liuhangbin@gmail.com>
 
-Hi Hangbin,
+CC: linux-kernel@vger.kernel.org
+TO: Juergen Gross <jgross@suse.com>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/bonding-add-common-function-to-check-ipsec-device/20240819-195504
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240819075334.236334-2-liuhangbin%40gmail.com
-patch subject: [PATCHv2 net-next 1/3] bonding: add common function to check ipsec device
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240820/202408200345.a4DQ8ecT-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200345.a4DQ8ecT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6e4436539ae182dc86d57d13849862bcafaa4709
+commit: 9824b00c2b58f9e1072ef3ece571a2cfc71089d4 x86/paravirt: Move some functions and defines to alternative.c
+date:   8 months ago
+config: x86_64-buildonly-randconfig-001-20240820 (https://download.01.org/0day-ci/archive/20240820/202408200555.Q0svMs2r-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200555.Q0svMs2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408200345.a4DQ8ecT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408200555.Q0svMs2r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:314,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from drivers/net/bonding/bond_main.c:35:
-   drivers/net/bonding/bond_main.c: In function 'bond_ipsec_dev':
->> include/linux/stddef.h:8:14: error: incompatible types when returning type 'void *' but 'struct net_device' was expected
-       8 | #define NULL ((void *)0)
-         |              ^
-   drivers/net/bonding/bond_main.c:434:24: note: in expansion of macro 'NULL'
-     434 |                 return NULL;
-         |                        ^~~~
->> include/linux/stddef.h:8:14: error: incompatible types when returning type 'void *' but 'struct net_device' was expected
-       8 | #define NULL ((void *)0)
-         |              ^
-   drivers/net/bonding/bond_main.c:442:24: note: in expansion of macro 'NULL'
-     442 |                 return NULL;
-         |                        ^~~~
->> drivers/net/bonding/bond_main.c:446:16: error: incompatible types when returning type 'struct net_device *' but 'struct net_device' was expected
-     446 |         return real_dev;
-         |                ^~~~~~~~
-   drivers/net/bonding/bond_main.c: In function 'bond_ipsec_offload_ok':
->> drivers/net/bonding/bond_main.c:630:20: error: incompatible types when assigning to type 'struct net_device *' from type 'struct net_device'
-     630 |         real_dev = bond_ipsec_dev(xs);
-         |                    ^~~~~~~~~~~~~~
-
-
-vim +8 include/linux/stddef.h
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
+>> arch/x86/kernel/alternative.o: warning: objtool: BUG_func+0x3: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
