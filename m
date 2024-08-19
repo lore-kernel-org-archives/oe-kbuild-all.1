@@ -1,62 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFECD4E1CA;
-	Mon, 19 Aug 2024 15:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA54826AD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 15:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724080673; cv=none; b=lUWlQ24eTUym2SnUsm1n+j+KEbJRugaSRhqC59EeZSLmeKxx7KCopzYBcShsbU0tziLL7BlH6a9hR73UGbcC04ub56g7Gra19g84FaW6tsk/K6IJFQviqKjR97zl9rCPuaAANCmRA5OsIBdL5ykcZlZ45YMg7cTO5qEmLi+gOdc=
+	t=1724081273; cv=none; b=Rshx076R9tEgq818VYJcpba+KyomEB/sWYwDviXjiLixdHMcWIi//xVnXGshjiJo3Z5rS557loJRmv2bb0C3OWSLbcaLlqpF7x8vyf0pbpKlO8I2nsiPvvoR/eIufuqFIkl3xc/10H5cOxq6lrLTf1O2T4rBCHkXJeN/z2TwLKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724080673; c=relaxed/simple;
-	bh=mkTCGq2+1aSfwLXdPG5/078ftqbnfz5IVxvOhv3syUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nsbjJuG0h19sXHvjQKK9bpjL2r/0iLy7rxbhS62Fvq9yEseB1jYLeQoHB/9Ln4lsxoOYy9GcNxvPk1Js6NLB7PoZ0RRGocsPJVT9bg69+mY3yE9g3inM4RnrAl+Bd/Hpi7z4qerv6xBFG4hVepqrsDawR6wy7oa3qTWzypYBPsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNi4VT/0; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1724081273; c=relaxed/simple;
+	bh=kH1afBbb1+woJl5gOCcjAhsXXauiHEE/LLBPatDcxdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=hcvVk9Y6xjNmM9BT8IhbB8dK6g27bSBSzTSlJEA7+idgDzxFdyUHDbwipKPdqT7e7/vYL00LZs006vjvdQmmiWLxs0xVVdYYukvKOMLfb/d8+7xkzslgN3OHHEuWixeSL/M5wlMcghACOMnhQcJJnWupADi3B/vwG5gZY+WxqVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kC6DFfsJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNi4VT/0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kC6DFfsJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724080671; x=1755616671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mkTCGq2+1aSfwLXdPG5/078ftqbnfz5IVxvOhv3syUU=;
-  b=RNi4VT/0pK7iiYZvsLQLbdE+0v64yma1gzPj59k768cXfARb2aXpFHuq
-   13FSNQE7/F4/X1+4pWUJLTbrIRIPNFIY3fsaiXNnMvOGMgYvWcnHo2H1A
-   U5cOfnC30R3ymYxbDfuQK0cUwy8pADdnXg7rjv208oyA158Xn0RdCJJpC
-   5TdEON+UF+KxoXpfKBUAIam5G8eIztLM/JxSIy1S09z1Mvp3vDmFJBhIx
-   Izzx/yO5PSAh/ljsC63fNzgmzEKFDyXxG5zfY097sqnwuQYd471njovOV
-   QO7UsKsh4JF7L3MYPgchBltXcGyxTnguu9ldqBuyH6Wcls84IHDG0W52r
-   A==;
-X-CSE-ConnectionGUID: xXtmnYi8QKiqhdt/MOMCjg==
-X-CSE-MsgGUID: m27WGfG4RBqb6jeILx9VCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26201818"
+  t=1724081270; x=1755617270;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=kH1afBbb1+woJl5gOCcjAhsXXauiHEE/LLBPatDcxdg=;
+  b=kC6DFfsJXPcYX9XRY5WZBluZx34zlBGUvPnBVYcru2jqW/UlUhAI+mxB
+   zLLtd9aMS5YgZETrkFelxkeSERPTJ9pN+UeuK6jq9xRd3ySDUIVUIVChP
+   r2sNbYKkHaPw1d4zMTo+bYErfjUvqIza3YKiWKkDzU1hVmmshxgK5cyl4
+   mwqadl9+7v5F4aEpD4RqBQgJlBHy9Y6fdu5G4Z1PLVz7yia8SU3RIzwMn
+   WDXfaJn3SvB/1iJ6eFHtkqN0hfzc/FrHrRXjkL8z3u2iYQ92NfPgACG9n
+   Bzh3pqDELI627EexAlniVIJZ4gPdfjW71hLUfM6xdH355kxitA0QPLaHG
+   Q==;
+X-CSE-ConnectionGUID: 0O5HM0gkR9G9ukWJeLItUw==
+X-CSE-MsgGUID: sRGmAMrZTfWvbSBoR43kwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26202598"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="26201818"
+   d="scan'208";a="26202598"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 08:17:50 -0700
-X-CSE-ConnectionGUID: qg6M0GTMS7S3LueENvsLmw==
-X-CSE-MsgGUID: bwKcB7YoSYOagBFtT56AkQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 08:27:49 -0700
+X-CSE-ConnectionGUID: 29NX9xPcTzaBnfpLrMt1Lw==
+X-CSE-MsgGUID: QzZCDVEMTdqNm59Ad3kQjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="64803975"
+   d="scan'208";a="64806714"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Aug 2024 08:17:48 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 19 Aug 2024 08:27:48 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg48f-000976-39;
-	Mon, 19 Aug 2024 15:17:45 +0000
-Date: Mon, 19 Aug 2024 23:17:35 +0800
+	id 1sg4IM-00097U-0p;
+	Mon, 19 Aug 2024 15:27:46 +0000
+Date: Mon, 19 Aug 2024 23:27:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Xu <lizhi.xu@windriver.com>,
-	syzbot+47ecc948aadfb2ab3efc@syzkaller.appspotmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kent.overstreet@linux.dev, linux-bcachefs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] bcachefs: Fix oob in bch2_dev_journal_init
-Message-ID: <202408192244.CGhqCzQ3-lkp@intel.com>
-References: <20240819064754.35606-1-lizhi.xu@windriver.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] remoteproc: k3-r5: Fix error handling when power-up
+ failed
+Message-ID: <ZsNkUG0zQcD5iukH@19332f7c2499>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,121 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819064754.35606-1-lizhi.xu@windriver.com>
+In-Reply-To: <9f481156-f220-4adf-b3d9-670871351e26@siemens.com>
 
-Hi Lizhi,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc4 next-20240819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Xu/bcachefs-Fix-oob-in-bch2_dev_journal_init/20240819-145031
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240819064754.35606-1-lizhi.xu%40windriver.com
-patch subject: [PATCH] bcachefs: Fix oob in bch2_dev_journal_init
-config: arm-randconfig-003-20240819 (https://download.01.org/0day-ci/archive/20240819/202408192244.CGhqCzQ3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240819/202408192244.CGhqCzQ3-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408192244.CGhqCzQ3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/bcachefs/journal.c:1317:6: warning: format specifies type 'unsigned long' but the argument has type '__u64' (aka 'unsigned long long') [-Wformat]
-    1316 |                                 prt_printf(&buf, "journal v2 entry d[%u].nr %lu overflow!\n", i,
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                                             %llu
-    1317 |                                         le64_to_cpu(journal_buckets_v2->d[i].nr));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
-      87 | #define le64_to_cpu __le64_to_cpu
-         |                     ^
-   include/uapi/linux/byteorder/little_endian.h:33:26: note: expanded from macro '__le64_to_cpu'
-      33 | #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
-         |                          ^
-   fs/bcachefs/util.h:78:54: note: expanded from macro 'prt_printf'
-      78 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                               ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +1317 fs/bcachefs/journal.c
-
-  1297	
-  1298	int bch2_dev_journal_init(struct bch_dev *ca, struct bch_sb *sb)
-  1299	{
-  1300		struct journal_device *ja = &ca->journal;
-  1301		struct bch_sb_field_journal *journal_buckets =
-  1302			bch2_sb_field_get(sb, journal);
-  1303		struct bch_sb_field_journal_v2 *journal_buckets_v2 =
-  1304			bch2_sb_field_get(sb, journal_v2);
-  1305	
-  1306		ja->nr = 0;
-  1307	
-  1308		if (journal_buckets_v2) {
-  1309			unsigned nr = bch2_sb_field_journal_v2_nr_entries(journal_buckets_v2);
-  1310	
-  1311			for (unsigned i = 0; i < nr; i++) {
-  1312				ja->nr += le64_to_cpu(journal_buckets_v2->d[i].nr);
-  1313				if (le64_to_cpu(journal_buckets_v2->d[i].nr) > UINT_MAX) {
-  1314					struct bch_fs *c = ca->fs;
-  1315					struct printbuf buf = PRINTBUF;
-  1316					prt_printf(&buf, "journal v2 entry d[%u].nr %lu overflow!\n", i,
-> 1317						le64_to_cpu(journal_buckets_v2->d[i].nr));
-  1318					bch_info(c, "%s", buf.buf);
-  1319					printbuf_exit(&buf);
-  1320					return -BCH_ERR_ENOMEM_dev_journal_init;
-  1321				}
-  1322			}
-  1323		} else if (journal_buckets) {
-  1324			ja->nr = bch2_nr_journal_buckets(journal_buckets);
-  1325		}
-  1326	
-  1327		ja->bucket_seq = kcalloc(ja->nr, sizeof(u64), GFP_KERNEL);
-  1328		if (!ja->bucket_seq)
-  1329			return -BCH_ERR_ENOMEM_dev_journal_init;
-  1330	
-  1331		unsigned nr_bvecs = DIV_ROUND_UP(JOURNAL_ENTRY_SIZE_MAX, PAGE_SIZE);
-  1332	
-  1333		for (unsigned i = 0; i < ARRAY_SIZE(ja->bio); i++) {
-  1334			ja->bio[i] = kmalloc(struct_size(ja->bio[i], bio.bi_inline_vecs,
-  1335					     nr_bvecs), GFP_KERNEL);
-  1336			if (!ja->bio[i])
-  1337				return -BCH_ERR_ENOMEM_dev_journal_init;
-  1338	
-  1339			ja->bio[i]->ca = ca;
-  1340			ja->bio[i]->buf_idx = i;
-  1341			bio_init(&ja->bio[i]->bio, NULL, ja->bio[i]->bio.bi_inline_vecs, nr_bvecs, 0);
-  1342		}
-  1343	
-  1344		ja->buckets = kcalloc(ja->nr, sizeof(u64), GFP_KERNEL);
-  1345		if (!ja->buckets)
-  1346			return -BCH_ERR_ENOMEM_dev_journal_init;
-  1347	
-  1348		if (journal_buckets_v2) {
-  1349			unsigned nr = bch2_sb_field_journal_v2_nr_entries(journal_buckets_v2);
-  1350			unsigned dst = 0;
-  1351	
-  1352			for (unsigned i = 0; i < nr; i++)
-  1353				for (unsigned j = 0; j < le64_to_cpu(journal_buckets_v2->d[i].nr); j++)
-  1354					ja->buckets[dst++] =
-  1355						le64_to_cpu(journal_buckets_v2->d[i].start) + j;
-  1356		} else if (journal_buckets) {
-  1357			for (unsigned i = 0; i < ja->nr; i++)
-  1358				ja->buckets[i] = le64_to_cpu(journal_buckets->buckets[i]);
-  1359		}
-  1360	
-  1361		return 0;
-  1362	}
-  1363	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] remoteproc: k3-r5: Fix error handling when power-up failed
+Link: https://lore.kernel.org/stable/9f481156-f220-4adf-b3d9-670871351e26%40siemens.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
