@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7D916CD0C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 17:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CDF17557E;
+	Mon, 19 Aug 2024 17:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724088718; cv=none; b=lEUTrpncTaut0HHnvKewfNR3oXuInhPFl4LWGk45IZcZtqw2IEtxNReFSy3+SlJy6XNQJFwTDbUknn7mqu5aNOPfRhJdEoX4imRcRwfO8/T7G7zqKRKakpqAhe9f/rahoDCdxfrViMQ7cR5uB9+BSfUVu/8n0F4gZh9i77G7qPU=
+	t=1724089318; cv=none; b=E4zuw1ccgkHS+WnhyrAEYeMVmiw1z2fYjbCvNVveMFgyuMDQK3XZG44aIjULxCBn7J/rlIWJxYY6D6gH692c8cqGSWAEsnZWNHCAACm+O3wXpoV2ZFDN7gyAS72kYEezYxv4LYbfQxrHfSv332Nmqp7rSfUTg3HSfRcG/YEbSDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724088718; c=relaxed/simple;
-	bh=EbeaxMLLp1LV4pAwhhk/NowOaGBQR7uoQkA3cRqOGQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tUW0XJ3e5WAuNT0i0TjqFMSc1LkPydzDQ6S0tNm+QEdNZXfHUuLkM+G1xhXwH5tuoaFNDrRF2dlwnf2Vqv8AqfAIhfdZe7aN0dgh6A/XhS74NKZfP7gl9S4ksQSwqmoxgdOD7O0AEo/YeFSZmV7VOr+icRl00UDvx8UU7xMFXGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Axz+WSJx; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1724089318; c=relaxed/simple;
+	bh=hBI7nZIviTAwOdkkNaw+gLK9uH/3uptX0DGWQejrOrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EMv5HMUnI4KsDeQ+Sp3onCjCIFNPe45Eph/XIJyhXtSvj9MQLYC98VwMO0I2O0jmvpHAhM/+txngDt3z68KJb77v6KibVVXBlH/Wct++XzaTbnIAkjG8miTaWUFpzeUf6XKtz4Hf2TbHTrA2whnfN7sPGz73sQDbQjKHD6yuEhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLuv32+m; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Axz+WSJx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLuv32+m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724088716; x=1755624716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EbeaxMLLp1LV4pAwhhk/NowOaGBQR7uoQkA3cRqOGQk=;
-  b=Axz+WSJx0+x8iHgxb31Po2Ej7s7+O/oiqUAFWVGIqbBS/h//lYQFM9WY
-   g9/nWQpmDt6R5IUoyBAsIJa9qCiAhHkhADlWBPa1EaQfgkKTt1D7H/KVI
-   tt2cKOBSVwE5+e4/4bB0QxiYpITgCKITKs0HcjD6JSPDBeXuqKzu7gnDp
-   E+FnUNgMMGocwl4o1GTSCmGqHPH1d+iKobJpO1R+7qg4aEESfYqM9UYZt
-   5LrptonlXBQ2MFUZeZzgpTrXm2mj+dgurHPUsglfRp9lhGttk0PKRxY4e
-   ve1rLC4BFiAlwd9vVMs++J8ysuWPfLES6vjQSnOFZyYRLTiZIunDfNvLJ
-   w==;
-X-CSE-ConnectionGUID: iN/Xt1YxRkq4Hh20Ba6V8g==
-X-CSE-MsgGUID: y+OD6X/KSR2Jd3GIL5WsjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="32925237"
+  t=1724089316; x=1755625316;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hBI7nZIviTAwOdkkNaw+gLK9uH/3uptX0DGWQejrOrc=;
+  b=JLuv32+mWXWifoD1y/IMnlBUunTL9L3B7u58J9a8Z7qocdmkPk+JXb2c
+   g4IAjeU6NboJaEMaPaEfI7vEE4Z1P9aiCoSrc/o1TYCYnkg4Q2wGPTw9/
+   cKXLf3I6KNQoV/mQFtAYdJik2DCvU7tvKU/6hgUxClyBFc/i04BJb/zXl
+   kQU0q4YIFpJXhXm5SCKsdfwPkuhQ8C+q1PNOPYra1+nNRqmo6BMhrKRun
+   Y+CORWDI4DBieajchqljBG9jj5NdZQFieTUb1L8TjGyCFcnImPBpObLed
+   w0sMcX+l+FbUWaiINchW8Pbef3BWvKMPfNqPeyDuRE6bAo6Td3RmBAwEc
+   g==;
+X-CSE-ConnectionGUID: dq0erbKdRZKBPVmR8azCJQ==
+X-CSE-MsgGUID: V39BYCbIREWzux5RFtC5uQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21974671"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="32925237"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 10:31:56 -0700
-X-CSE-ConnectionGUID: 2xvQjFTuRweYGRAxpDvoug==
-X-CSE-MsgGUID: lzcPqEX7SimkTEqpVnm3RA==
+   d="scan'208";a="21974671"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 10:41:56 -0700
+X-CSE-ConnectionGUID: ruNezrxeRPWGC5DX3kbOJw==
+X-CSE-MsgGUID: OT59su+iSbGKBJOohgifRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="97921468"
+   d="scan'208";a="65134246"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Aug 2024 10:31:53 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 19 Aug 2024 10:41:54 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg6ES-0009FO-0N;
-	Mon, 19 Aug 2024 17:31:52 +0000
-Date: Tue, 20 Aug 2024 01:31:15 +0800
+	id 1sg6O8-0009Fi-1A;
+	Mon, 19 Aug 2024 17:41:52 +0000
+Date: Tue, 20 Aug 2024 01:41:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, chench00 <chench@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13310/13455]
- drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined
- type 'struct module'
-Message-ID: <202408200124.eAjYI7Na-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 5/7] i2c: designware: Always provide device ID tables
+Message-ID: <202408200343.2LbkR6Jx-lkp@intel.com>
+References: <20240819084007.3700433-6-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,101 +62,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240819084007.3700433-6-andriy.shevchenko@linux.intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   063fb5b67877d27a0adebef0dd88bab842d8de07
-commit: a1dd4972da4e66d9a9d1a89b3dfd8f742c20193b [13310/13455] crypto: tdm: Add Hygon TDM driver
-config: x86_64-buildonly-randconfig-006-20240819 (https://download.01.org/0day-ci/archive/20240820/202408200124.eAjYI7Na-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200124.eAjYI7Na-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on linus/master v6.11-rc4 next-20240819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Replace-a-while-loop-by-for-loop/20240819-164231
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240819084007.3700433-6-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 5/7] i2c: designware: Always provide device ID tables
+config: hexagon-randconfig-002-20240819 (https://download.01.org/0day-ci/archive/20240820/202408200343.2LbkR6Jx-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200343.2LbkR6Jx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408200124.eAjYI7Na-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408200343.2LbkR6Jx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'list_enqueue':
-   drivers/crypto/ccp/hygon/tdm-dev.c:94:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      94 |         int ret = 0;
-         |             ^~~
-   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'tdm_get_cmd_context_hash':
->> drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                             ^~
-   drivers/crypto/ccp/hygon/tdm-dev.c:340:84: error: invalid use of undefined type 'struct module'
-     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-         |                                                                                    ^~
-   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'psp_create_measure_task':
-   drivers/crypto/ccp/hygon/tdm-dev.c:606:27: warning: variable 'head' set but not used [-Wunused-but-set-variable]
-     606 |         struct list_head *head = NULL;
-         |                           ^~~~
+   In file included from drivers/i2c/busses/i2c-designware-platdrv.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/i2c/busses/i2c-designware-platdrv.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/i2c/busses/i2c-designware-platdrv.c:18:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:25:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/i2c/busses/i2c-designware-platdrv.c:449:34: warning: unused variable 'dw_i2c_of_match' [-Wunused-const-variable]
+   static const struct of_device_id dw_i2c_of_match[] = {
+                                    ^
+   drivers/i2c/busses/i2c-designware-platdrv.c:457:36: warning: unused variable 'dw_i2c_acpi_match' [-Wunused-const-variable]
+   static const struct acpi_device_id dw_i2c_acpi_match[] = {
+                                      ^
+   8 warnings generated.
 
 
-vim +340 drivers/crypto/ccp/hygon/tdm-dev.c
+vim +/dw_i2c_of_match +449 drivers/i2c/busses/i2c-designware-platdrv.c
 
-   323	
-   324		if (!hash) {
-   325			ret = -DYN_NULL_POINTER;
-   326			pr_err("Null pointer\n");
-   327			goto end;
-   328		}
-   329	
-   330		ctx_msg.flag = flag;
-   331		ctx_msg.pid = current->pid;
-   332		memcpy(ctx_msg.comm, current->comm, sizeof(current->comm));
-   333	
-   334		return_address = CALLER_ADDR1;
-   335		if (return_address) {
-   336	#if IS_BUILTIN(CONFIG_CRYPTO_DEV_CCP_DD)
-   337			p_module = __module_address(return_address);
-   338			// caller is module
-   339			if (p_module)
- > 340				memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
-   341			// caller is build-in
-   342			else
-   343				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   344	#elif IS_ENABLED(CONFIG_KALLSYMS)
-   345			symbol_len = sprint_symbol((char *)symbol_buf, return_address);
-   346			if (!symbol_len) {
-   347				ret = -DYN_ERR_API;
-   348				pr_err("sprint_symbol failed\n");
-   349				goto end;
-   350			}
-   351			symbol_begin = strchr((char *)symbol_buf, '[');
-   352			if (!symbol_begin) {
-   353				ret = -DYN_NULL_POINTER;
-   354				pr_err("module name is not exist\n");
-   355				goto end;
-   356			}
-   357			symbol_end = strchr((char *)symbol_buf, ']');
-   358			if (!symbol_end) {
-   359				ret = -DYN_NULL_POINTER;
-   360				pr_err("module name is not exist\n");
-   361				goto end;
-   362			}
-   363			symbol_begin++;
-   364			if (symbol_end - symbol_begin)
-   365				memcpy(ctx_msg.module_name, symbol_begin, symbol_end - symbol_begin);
-   366			else
-   367				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   368	#else
-   369			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   370	#endif
-   371		} else
-   372			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
-   373	
-   374		ret = calc_task_context_hash(ctx_msg, hash);
-   375		if (ret) {
-   376			pr_err("calc_task_context_hash failed\n");
-   377			goto end;
-   378		}
-   379	
-   380	end:
-   381		return ret;
-   382	}
-   383	
+   448	
+ > 449	static const struct of_device_id dw_i2c_of_match[] = {
+   450		{ .compatible = "snps,designware-i2c", },
+   451		{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
+   452		{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
+   453		{}
+   454	};
+   455	MODULE_DEVICE_TABLE(of, dw_i2c_of_match);
+   456	
 
 -- 
 0-DAY CI Kernel Test Service
