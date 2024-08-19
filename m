@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82EE186E21;
-	Mon, 19 Aug 2024 17:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7D916CD0C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 17:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724087522; cv=none; b=jD8ev7KOQG0jvjArKidgHK/0PADbWF2WgIkeD1b0s0zxOh7K0DRFHREH8lZ6GzJdBZbfLvwH5zex2CbS+obaGRdNVRVtPRgVOFYT1//HzKc4xvox9MeiWRczs992yvh/LFm6NenhIevVvxIH+flVCkSSTUA2hWamqdyXwXZ5n20=
+	t=1724088718; cv=none; b=lEUTrpncTaut0HHnvKewfNR3oXuInhPFl4LWGk45IZcZtqw2IEtxNReFSy3+SlJy6XNQJFwTDbUknn7mqu5aNOPfRhJdEoX4imRcRwfO8/T7G7zqKRKakpqAhe9f/rahoDCdxfrViMQ7cR5uB9+BSfUVu/8n0F4gZh9i77G7qPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724087522; c=relaxed/simple;
-	bh=5be6NANqCnSQWVCurB1rO+7usnFCSgQLbnPB2Fvl3Vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EWKqDlRPhci5OT3BntljYbEUgNbvBuGap0sx7SelTbazZ5KX3Nl6LehPNGClqapZ4IC4VzjRp0e9keLR1alr8O2RDHWpBbxH0jygvW22ADApPDp9H1QscrQnDdU84cQ19+igfAmmte/DpxDms9Oi9hMOjPrzr9uyCp/BERWP68o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtrL3r8I; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1724088718; c=relaxed/simple;
+	bh=EbeaxMLLp1LV4pAwhhk/NowOaGBQR7uoQkA3cRqOGQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tUW0XJ3e5WAuNT0i0TjqFMSc1LkPydzDQ6S0tNm+QEdNZXfHUuLkM+G1xhXwH5tuoaFNDrRF2dlwnf2Vqv8AqfAIhfdZe7aN0dgh6A/XhS74NKZfP7gl9S4ksQSwqmoxgdOD7O0AEo/YeFSZmV7VOr+icRl00UDvx8UU7xMFXGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Axz+WSJx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtrL3r8I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Axz+WSJx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724087519; x=1755623519;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5be6NANqCnSQWVCurB1rO+7usnFCSgQLbnPB2Fvl3Vo=;
-  b=ZtrL3r8ITuHiT0kpxyHm6DB3QyM5r/BGBAoDDnXX+RF1qahEHzKi6NNy
-   3rEHR+tpjihm2MemlKG1A4nMk/h5WKFza1Dlgl90otvjzv6I9IIPGwdn2
-   UkJSVISvuKBLAjwbEIR4WunPzGNiXWpelbIgQ7GVwi3aHNNJdRFErn9US
-   Ivs5Oged5tC6mRpxGJPO9jPr5BBhNl+twHuh3N1n8H0jQZfgg7lSWTEP/
-   UTSUmU5cWqi8ROpvXaqBQNWAj4gcO/xuxWmIVMXcv8WsL4X0h7qLZ7DCx
-   ivsgOHW4YAPDEkg22E7NWUQ3Tt+7fGv9a0C+jQF2kGhk/U8xjWfl1lnVr
-   g==;
-X-CSE-ConnectionGUID: 0VEjHj7JTzSIumZiNYn2Tw==
-X-CSE-MsgGUID: BR6aGXyBTSujgomWlK1RdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="33733100"
+  t=1724088716; x=1755624716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EbeaxMLLp1LV4pAwhhk/NowOaGBQR7uoQkA3cRqOGQk=;
+  b=Axz+WSJx0+x8iHgxb31Po2Ej7s7+O/oiqUAFWVGIqbBS/h//lYQFM9WY
+   g9/nWQpmDt6R5IUoyBAsIJa9qCiAhHkhADlWBPa1EaQfgkKTt1D7H/KVI
+   tt2cKOBSVwE5+e4/4bB0QxiYpITgCKITKs0HcjD6JSPDBeXuqKzu7gnDp
+   E+FnUNgMMGocwl4o1GTSCmGqHPH1d+iKobJpO1R+7qg4aEESfYqM9UYZt
+   5LrptonlXBQ2MFUZeZzgpTrXm2mj+dgurHPUsglfRp9lhGttk0PKRxY4e
+   ve1rLC4BFiAlwd9vVMs++J8ysuWPfLES6vjQSnOFZyYRLTiZIunDfNvLJ
+   w==;
+X-CSE-ConnectionGUID: iN/Xt1YxRkq4Hh20Ba6V8g==
+X-CSE-MsgGUID: y+OD6X/KSR2Jd3GIL5WsjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="32925237"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="33733100"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 10:11:58 -0700
-X-CSE-ConnectionGUID: jpoYwQRwRh+GoDazyZ6fKA==
-X-CSE-MsgGUID: zhkdrZHCRhCQlnPNMvsjjg==
+   d="scan'208";a="32925237"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 10:31:56 -0700
+X-CSE-ConnectionGUID: 2xvQjFTuRweYGRAxpDvoug==
+X-CSE-MsgGUID: lzcPqEX7SimkTEqpVnm3RA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="65393019"
+   d="scan'208";a="97921468"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Aug 2024 10:11:54 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Aug 2024 10:31:53 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg5v5-0009EA-1H;
-	Mon, 19 Aug 2024 17:11:51 +0000
-Date: Tue, 20 Aug 2024 01:10:52 +0800
+	id 1sg6ES-0009FO-0N;
+	Mon, 19 Aug 2024 17:31:52 +0000
+Date: Tue, 20 Aug 2024 01:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, brendan.higgins@linux.dev,
-	benh@kernel.crashing.org, joel@jms.id.au, andi.shyti@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
-	andriy.shevchenko@linux.intel.com, linux-i2c@vger.kernel.org,
-	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
- mode driver
-Message-ID: <202408200236.8yWq6lLk-lkp@intel.com>
-References: <20240819092850.1590758-3-ryan_chen@aspeedtech.com>
+To: kernel@openeuler.org, chench00 <chench@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13310/13455]
+ drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined
+ type 'struct module'
+Message-ID: <202408200124.eAjYI7Na-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,286 +62,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819092850.1590758-3-ryan_chen@aspeedtech.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on linus/master v6.11-rc4 next-20240819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-i2c-aspeed-support-for-AST2600-i2cv2/20240819-173106
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240819092850.1590758-3-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register mode driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240820/202408200236.8yWq6lLk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200236.8yWq6lLk-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   063fb5b67877d27a0adebef0dd88bab842d8de07
+commit: a1dd4972da4e66d9a9d1a89b3dfd8f742c20193b [13310/13455] crypto: tdm: Add Hygon TDM driver
+config: x86_64-buildonly-randconfig-006-20240819 (https://download.01.org/0day-ci/archive/20240820/202408200124.eAjYI7Na-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200124.eAjYI7Na-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408200236.8yWq6lLk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408200124.eAjYI7Na-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/i2c/busses/i2c-ast2600.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/i2c/busses/i2c-ast2600.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-ast2600.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-ast2600.c:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/i2c/busses/i2c-ast2600.c:295:20: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
-     295 |                 else if ((i > 0) || (i < 5))
-         |                          ~~~~~~~~^~~~~~~~~~
-   drivers/i2c/busses/i2c-ast2600.c:292:18: warning: variable 'baseclk_idx' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-     292 |         for (int i = 0; i < 16; i++) {
-         |                         ^~~~~~
-   drivers/i2c/busses/i2c-ast2600.c:307:20: note: uninitialized use occurs here
-     307 |         baseclk_idx = min(baseclk_idx, 15);
-         |                           ^~~~~~~~~~~
-   include/linux/minmax.h:129:38: note: expanded from macro 'min'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                            ^
-   include/linux/minmax.h:105:25: note: expanded from macro '__careful_cmp'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                ^
-   include/linux/minmax.h:99:20: note: expanded from macro '__careful_cmp_once'
-      99 |         __auto_type ux = (x); __auto_type uy = (y);     \
-         |                           ^
-   drivers/i2c/busses/i2c-ast2600.c:292:18: note: remove the condition if it is always true
-     292 |         for (int i = 0; i < 16; i++) {
-         |                         ^~~~~~
-   drivers/i2c/busses/i2c-ast2600.c:283:17: note: initialize the variable 'baseclk_idx' to silence this warning
-     283 |         int baseclk_idx;
-         |                        ^
-         |                         = 0
->> drivers/i2c/busses/i2c-ast2600.c:442:18: error: call to undeclared function 'get_unaligned_le32'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     442 |                                 wbuf_dword = get_unaligned_le32(wbuf);
-         |                                              ^
-   9 warnings and 1 error generated.
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'list_enqueue':
+   drivers/crypto/ccp/hygon/tdm-dev.c:94:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      94 |         int ret = 0;
+         |             ^~~
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'tdm_get_cmd_context_hash':
+>> drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                             ^~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:84: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                                                    ^~
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'psp_create_measure_task':
+   drivers/crypto/ccp/hygon/tdm-dev.c:606:27: warning: variable 'head' set but not used [-Wunused-but-set-variable]
+     606 |         struct list_head *head = NULL;
+         |                           ^~~~
 
 
-vim +/get_unaligned_le32 +442 drivers/i2c/busses/i2c-ast2600.c
+vim +340 drivers/crypto/ccp/hygon/tdm-dev.c
 
-   279	
-   280	static u32 ast2600_select_i2c_clock(struct ast2600_i2c_bus *i2c_bus)
-   281	{
-   282		unsigned long base_clk[16];
-   283		int baseclk_idx;
-   284		u32 clk_div_reg;
-   285		u32 scl_low;
-   286		u32 scl_high;
-   287		int divisor;
-   288		u32 data;
-   289	
-   290		regmap_read(i2c_bus->global_regs, AST2600_I2CG_CLK_DIV_CTRL, &clk_div_reg);
-   291	
-   292		for (int i = 0; i < 16; i++) {
-   293			if (i == 0)
-   294				base_clk[i] = i2c_bus->apb_clk;
- > 295			else if ((i > 0) || (i < 5))
-   296				base_clk[i] = (i2c_bus->apb_clk * 2) /
-   297					(((clk_div_reg >> ((i - 1) * 8)) & GENMASK(7, 0)) + 2);
-   298			else
-   299				base_clk[i] = base_clk[4] / (1 << (i - 5));
-   300	
-   301			if ((base_clk[i] / i2c_bus->timing_info.bus_freq_hz) <= 32) {
-   302				baseclk_idx = i;
-   303				divisor = DIV_ROUND_UP(base_clk[i], i2c_bus->timing_info.bus_freq_hz);
-   304				break;
-   305			}
-   306		}
-   307		baseclk_idx = min(baseclk_idx, 15);
-   308		divisor = min(divisor, 32);
-   309		scl_low = min(divisor * 9 / 16 - 1, 15);
-   310		scl_high = (divisor - scl_low - 2) & GENMASK(3, 0);
-   311		data = (scl_high - 1) << 20 | scl_high << 16 | scl_low << 12 | baseclk_idx;
-   312		if (i2c_bus->timeout) {
-   313			data |= AST2600_I2CC_TOUTBASECLK(AST_I2C_TIMEOUT_CLK);
-   314			data |= AST2600_I2CC_TTIMEOUT(i2c_bus->timeout);
-   315		}
-   316	
-   317		return data;
-   318	}
-   319	
-   320	static u8 ast2600_i2c_recover_bus(struct ast2600_i2c_bus *i2c_bus)
-   321	{
-   322		u32 state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-   323		int ret = 0;
-   324		u32 ctrl;
-   325		int r;
-   326	
-   327		dev_dbg(i2c_bus->dev, "%d-bus recovery bus [%x]\n", i2c_bus->adap.nr, state);
-   328	
-   329		ctrl = readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-   330	
-   331		/* Disable master/slave mode */
-   332		writel(ctrl & ~(AST2600_I2CC_MASTER_EN | AST2600_I2CC_SLAVE_EN),
-   333		       i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-   334	
-   335		/* Enable master mode only */
-   336		writel(readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL) | AST2600_I2CC_MASTER_EN,
-   337		       i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-   338	
-   339		reinit_completion(&i2c_bus->cmd_complete);
-   340		i2c_bus->cmd_err = 0;
-   341	
-   342		/* Check 0x14's SDA and SCL status */
-   343		state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-   344		if (!(state & AST2600_I2CC_SDA_LINE_STS) && (state & AST2600_I2CC_SCL_LINE_STS)) {
-   345			writel(AST2600_I2CM_RECOVER_CMD_EN, i2c_bus->reg_base + AST2600_I2CM_CMD_STS);
-   346			r = wait_for_completion_timeout(&i2c_bus->cmd_complete, i2c_bus->adap.timeout);
-   347			if (r == 0) {
-   348				dev_dbg(i2c_bus->dev, "recovery timed out\n");
-   349				ret = -ETIMEDOUT;
-   350			} else {
-   351				if (i2c_bus->cmd_err) {
-   352					dev_dbg(i2c_bus->dev, "recovery error\n");
-   353					ret = -EPROTO;
-   354				}
-   355			}
-   356		}
-   357	
-   358		/* Recovery done */
-   359		state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-   360		if (state & AST2600_I2CC_BUS_BUSY_STS) {
-   361			dev_dbg(i2c_bus->dev, "Can't recover bus [%x]\n", state);
-   362			ret = -EPROTO;
-   363		}
-   364	
-   365		/* restore original master/slave setting */
-   366		writel(ctrl, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-   367		return ret;
-   368	}
-   369	
-   370	static int ast2600_i2c_setup_dma_tx(u32 cmd, struct ast2600_i2c_bus *i2c_bus)
-   371	{
-   372		struct i2c_msg *msg = &i2c_bus->msgs[i2c_bus->msgs_index];
-   373		int xfer_len;
-   374	
-   375		cmd |= AST2600_I2CM_PKT_EN;
-   376		xfer_len = msg->len - i2c_bus->master_xfer_cnt;
-   377		if (xfer_len > AST2600_I2C_DMA_SIZE) {
-   378			xfer_len = AST2600_I2C_DMA_SIZE;
-   379		} else {
-   380			if (i2c_bus->msgs_index + 1 == i2c_bus->msgs_count)
-   381				cmd |= AST2600_I2CM_STOP_CMD;
-   382		}
+   323	
+   324		if (!hash) {
+   325			ret = -DYN_NULL_POINTER;
+   326			pr_err("Null pointer\n");
+   327			goto end;
+   328		}
+   329	
+   330		ctx_msg.flag = flag;
+   331		ctx_msg.pid = current->pid;
+   332		memcpy(ctx_msg.comm, current->comm, sizeof(current->comm));
+   333	
+   334		return_address = CALLER_ADDR1;
+   335		if (return_address) {
+   336	#if IS_BUILTIN(CONFIG_CRYPTO_DEV_CCP_DD)
+   337			p_module = __module_address(return_address);
+   338			// caller is module
+   339			if (p_module)
+ > 340				memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+   341			// caller is build-in
+   342			else
+   343				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   344	#elif IS_ENABLED(CONFIG_KALLSYMS)
+   345			symbol_len = sprint_symbol((char *)symbol_buf, return_address);
+   346			if (!symbol_len) {
+   347				ret = -DYN_ERR_API;
+   348				pr_err("sprint_symbol failed\n");
+   349				goto end;
+   350			}
+   351			symbol_begin = strchr((char *)symbol_buf, '[');
+   352			if (!symbol_begin) {
+   353				ret = -DYN_NULL_POINTER;
+   354				pr_err("module name is not exist\n");
+   355				goto end;
+   356			}
+   357			symbol_end = strchr((char *)symbol_buf, ']');
+   358			if (!symbol_end) {
+   359				ret = -DYN_NULL_POINTER;
+   360				pr_err("module name is not exist\n");
+   361				goto end;
+   362			}
+   363			symbol_begin++;
+   364			if (symbol_end - symbol_begin)
+   365				memcpy(ctx_msg.module_name, symbol_begin, symbol_end - symbol_begin);
+   366			else
+   367				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   368	#else
+   369			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   370	#endif
+   371		} else
+   372			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   373	
+   374		ret = calc_task_context_hash(ctx_msg, hash);
+   375		if (ret) {
+   376			pr_err("calc_task_context_hash failed\n");
+   377			goto end;
+   378		}
+   379	
+   380	end:
+   381		return ret;
+   382	}
    383	
-   384		if (cmd & AST2600_I2CM_START_CMD) {
-   385			cmd |= AST2600_I2CM_PKT_ADDR(msg->addr);
-   386			i2c_bus->master_safe_buf = i2c_get_dma_safe_msg_buf(msg, 1);
-   387			if (!i2c_bus->master_safe_buf)
-   388				return -ENOMEM;
-   389			i2c_bus->master_dma_addr =
-   390				dma_map_single(i2c_bus->dev, i2c_bus->master_safe_buf,
-   391					       msg->len, DMA_TO_DEVICE);
-   392			if (dma_mapping_error(i2c_bus->dev, i2c_bus->master_dma_addr)) {
-   393				i2c_put_dma_safe_msg_buf(i2c_bus->master_safe_buf, msg, false);
-   394				i2c_bus->master_safe_buf = NULL;
-   395				return -ENOMEM;
-   396			}
-   397		}
-   398	
-   399		if (xfer_len) {
-   400			cmd |= AST2600_I2CM_TX_DMA_EN | AST2600_I2CM_TX_CMD;
-   401			writel(AST2600_I2CM_SET_TX_DMA_LEN(xfer_len - 1),
-   402			       i2c_bus->reg_base + AST2600_I2CM_DMA_LEN);
-   403			writel(i2c_bus->master_dma_addr + i2c_bus->master_xfer_cnt,
-   404			       i2c_bus->reg_base + AST2600_I2CM_TX_DMA);
-   405		}
-   406	
-   407		writel(cmd, i2c_bus->reg_base + AST2600_I2CM_CMD_STS);
-   408	
-   409		return 0;
-   410	}
-   411	
-   412	static int ast2600_i2c_setup_buff_tx(u32 cmd, struct ast2600_i2c_bus *i2c_bus)
-   413	{
-   414		struct i2c_msg *msg = &i2c_bus->msgs[i2c_bus->msgs_index];
-   415		u32 wbuf_dword;
-   416		int xfer_len;
-   417		u8 wbuf[4];
-   418		int i;
-   419	
-   420		cmd |= AST2600_I2CM_PKT_EN;
-   421		xfer_len = msg->len - i2c_bus->master_xfer_cnt;
-   422		if (xfer_len > i2c_bus->buf_size) {
-   423			xfer_len = i2c_bus->buf_size;
-   424		} else {
-   425			if (i2c_bus->msgs_index + 1 == i2c_bus->msgs_count)
-   426				cmd |= AST2600_I2CM_STOP_CMD;
-   427		}
-   428	
-   429		if (cmd & AST2600_I2CM_START_CMD)
-   430			cmd |= AST2600_I2CM_PKT_ADDR(msg->addr);
-   431	
-   432		if (xfer_len) {
-   433			cmd |= AST2600_I2CM_TX_BUFF_EN | AST2600_I2CM_TX_CMD;
-   434			/*
-   435			 * The controller's buffer register supports dword writes only.
-   436			 * Therefore, write dwords to the buffer register in a 4-byte aligned,
-   437			 * and write the remaining unaligned data at the end.
-   438			 */
-   439			for (i = 0; i < xfer_len; i++) {
-   440				wbuf[i % 4] = msg->buf[i2c_bus->master_xfer_cnt + i];
-   441				if ((i % 4) == 3 || i == xfer_len - 1) {
- > 442					wbuf_dword = get_unaligned_le32(wbuf);
-   443					writel(wbuf_dword, i2c_bus->buf_base + i - (i % 4));
-   444				}
-   445			}
-   446	
-   447			writel(AST2600_I2CC_SET_TX_BUF_LEN(xfer_len),
-   448			       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-   449		}
-   450	
-   451		writel(cmd, i2c_bus->reg_base + AST2600_I2CM_CMD_STS);
-   452	
-   453		return 0;
-   454	}
-   455	
 
 -- 
 0-DAY CI Kernel Test Service
