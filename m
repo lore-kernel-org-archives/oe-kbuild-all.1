@@ -1,57 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27A01DB449
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 22:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BEF159565;
+	Mon, 19 Aug 2024 23:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724105949; cv=none; b=KCrt3RgUqwnJ1yOGcRwpFYw/lxUvBpM02QClG43HRxUO6iE/DEoFMZ4HZoQnYOjTySztrBxWx/usWaFdnX2KRu74CsCfaFS9gmEZNj6KFMJKwq1dwn9YiUjEvoypqRVmFk/9OA2YqJ8DqnTA3eKSg/RrU66V+MQoGGGEkYKvxco=
+	t=1724108522; cv=none; b=nhjlEBik3XMbr7MPSkFT0kiXilKoX5DFrkT+c9hKHy3/gzzcfxm8qkk8tz60/6nH0zBfE+ogXZqgjtzeiTXYyJv98b1mv826aAlwC/cb6So/GSIE3ZCv6qXGI497SOpULhqC0X1pcmELZacPacF2LGds26PKjUsNiSqaqbWL2V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724105949; c=relaxed/simple;
-	bh=Z+tskT3uy5KR6/GeJqDdUC9AMjp73PmYsp8BD98iEC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gSrmDOQu3c9IrRFxZSPGZbvUBvna9P1nMVXe7N6iQXs4GiUL+iWiOeVJVBXBIKzTLHKrD2XKgzW4OERlRe7SVJuuUHYCEORTp08uBfkS5vRpWFR03TIHlWS3wwdc4HN8wBkgWaVtBe04Vr8BngTC2sVxLksNETOELUUJAjb6L7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hg/fM5N6; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724108522; c=relaxed/simple;
+	bh=aOQ/AvfwIXKWVE9u2nssUAmSoql78J0GzbDbsxKCxiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MxCeqyk7M5z+7CrS+xlpjxmR28ukisxCeW91RZ80t4c/3w3T4RrT7pqOO6C13CrGYQmyPXXbojFoim0F8YNPu6C+DuoKRiDwZCdCqC5MFakRqmw9mKGgaMdoWZ9PUihIYqBaMN+lFY4GkiCo5/N4sezbp6KYrjHf+VlKC5zFSUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=beJ5alPc; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hg/fM5N6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724105946; x=1755641946;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z+tskT3uy5KR6/GeJqDdUC9AMjp73PmYsp8BD98iEC4=;
-  b=hg/fM5N6UtC8Rl8Uzt+URvXMceBwNEFdATjMq9ixuDRb2W6YnBVen9LB
-   z6h5fBhzcn5XnEcmub/gWLwtzwztfoU/QUL/he80k3oLsn0zrQGSsIx31
-   c+RW32w3nVW2qbtNRc1vL8L/v06b29tiFGjOswqCT9dE3Ws8VD4C5ItC9
-   9lG8cCx5vLZHXMxomSLxFZbevf9iK/uvdC9WrbWDbVfEBEbsMznAUUOV0
-   gWUtPOkjfNHYGHlCmO0TYg3aCt3NQqZ8jbt12tHyqLhL0tex/SROu6Gp9
-   cD9eN6O04pDxJgW+dkKUdEaKWTNjM5GUzREUloN3q+xcRvC9Q/PWwJGER
-   g==;
-X-CSE-ConnectionGUID: Qz6iAoIEQ6eFW/0XpP5VYg==
-X-CSE-MsgGUID: 9UwyoLueRgKQk99zZa8kUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22001649"
-X-IronPort-AV: E=Sophos;i="6.10,160,1719903600"; 
-   d="scan'208";a="22001649"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 15:19:06 -0700
-X-CSE-ConnectionGUID: usG+uN5nR3a+M9HsRiV4zw==
-X-CSE-MsgGUID: PB1tFKewTDGfKGvVMo/4ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,160,1719903600"; 
-   d="scan'208";a="91283108"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Aug 2024 15:19:05 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgAiN-0009UE-0M;
-	Mon, 19 Aug 2024 22:19:03 +0000
-Date: Tue, 20 Aug 2024 06:18:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/fs.h:3645:15: error: unexpected token, expected comma
-Message-ID: <202408200611.zhKlMvry-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="beJ5alPc"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-713e460f920so1517399b3a.1;
+        Mon, 19 Aug 2024 16:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724108520; x=1724713320; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PRthf3/5zB/bDozkCUHPPkJX2b7Asaxsbf+UdOFSa5w=;
+        b=beJ5alPcWlGDpLmYI/Q0rs7EsQBSv2F8yr04cYIsZLT9VhLBHafZCsmShm05OJqCGL
+         zfqB9vlHg2qPWBq2iwhJK/qJJ5wW32+oamTo2xU7PCxGHhNVCktjefFPe2ionDAB/xHi
+         6Ne4zV/nvuBhJRt0T+jGJuHyUH+2+XX41WNsIX/Y5s1hP2TZkkglnLy4q3cRRB2Qsusv
+         ygZGQKmr8l0PfBt1l8Nz73TIG2mbT3zcYd2on4M8Cfn0Hwua9GGN2vR539aQ5zz8kZGo
+         ln7GPqcJ5L5A5R41GX/t10YbWQywK+Yk6C0iH7RXLZt1kyuZiA+4ygOdrHZEmS7Ef5m9
+         cvEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724108520; x=1724713320;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PRthf3/5zB/bDozkCUHPPkJX2b7Asaxsbf+UdOFSa5w=;
+        b=aFlXMqMXbF8jUmU+WvMsOJ8aggmuOfL494p12qqLFtV35b1/PM8BLVyggML/Or64NZ
+         u7/Fq9WkikahjbPYtwqU2BXkLRR4dmIRXKDKy5INhyU8rBz8cztwsYnYTBllFlubUwsG
+         UI5Sy456LmYA3gxwnTWP/m5QzRBboYUucgzYlpxj7cFKhVtJoe6tw//mfGz5E1hvtj3f
+         vLtnLIDO7uB06y6cjJicP91yBeZQucYU9ebtizLRf8ErPoU5zuK3bCqW2tKhasmu1+1j
+         ECVogiMV/33arFi45KO4Sj/Wf1toqpfPndednisdR4+xOaPVlPbvrQBfRSioAR2T7M7A
+         FuoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUV2REhrzz6b4TkpMLYi5BEfV+hbOl1HGNEMHfwmkrAJi7xea/PiWzVoyuAArMNKeapvlq6@lists.linux.dev, AJvYcCVVOAv+dzEtiQEuwnusOXcVE5z0WFlEocBG8Ci4VJpVn3R1EZjfo1oU2wFSiRE3cXLZi9ITW3wNsMVWAJpWTg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCObx9KJ3BvzRY1geAUTaXSgB7bTExABD8SXYYfY1aS+YKH8YR
+	l6Drx2qn7vtjClEAUpTTvhStDT8dXuzcCN7rALvcjA6UZYOMr5sR
+X-Google-Smtp-Source: AGHT+IF5pDD59PObLd1+d0FpzEGL2rUuQ8YOBhWOfSRzQSN31gavhpsQRaKLr+k2w5mGg2FPQ/xeYQ==
+X-Received: by 2002:a05:6a21:3984:b0:1c3:a411:dc49 with SMTP id adf61e73a8af0-1c90505aa0bmr12293118637.51.1724108519776;
+        Mon, 19 Aug 2024 16:01:59 -0700 (PDT)
+Received: from Laptop-X1 ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127ae07443sm7080128b3a.48.2024.08.19.16.01.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 16:01:59 -0700 (PDT)
+Date: Tue, 20 Aug 2024 07:01:53 +0800
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: netdev@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Jay Vosburgh <j.vosburgh@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Tariq Toukan <tariqt@nvidia.com>, Jianbo Liu <jianbol@nvidia.com>,
+	Sabrina Dubroca <sd@queasysnail.net>
+Subject: Re: [PATCHv2 net-next 2/3] bonding: Add ESN support to IPSec HW
+ offload
+Message-ID: <ZsPO4SKb7MIh_wQC@Laptop-X1>
+References: <20240819075334.236334-3-liuhangbin@gmail.com>
+ <202408200431.wjjkEZ2m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,103 +75,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202408200431.wjjkEZ2m-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6e4436539ae182dc86d57d13849862bcafaa4709
-commit: 27a2d0cb2f38c67b58285e6124b14f7fff3fd1a8 stat: use vfs_empty_path() helper
-date:   8 weeks ago
-config: mips-randconfig-r111-20240819 (https://download.01.org/0day-ci/archive/20240820/202408200611.zhKlMvry-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce: (https://download.01.org/0day-ci/archive/20240820/202408200611.zhKlMvry-lkp@intel.com/reproduce)
+On Tue, Aug 20, 2024 at 05:17:52AM +0800, kernel test robot wrote:
+> Hi Hangbin,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hangbin-Liu/bonding-add-common-function-to-check-ipsec-device/20240819-195504
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20240819075334.236334-3-liuhangbin%40gmail.com
+> patch subject: [PATCHv2 net-next 2/3] bonding: Add ESN support to IPSec HW offload
+> config: x86_64-buildonly-randconfig-001-20240820 (https://download.01.org/0day-ci/archive/20240820/202408200431.wjjkEZ2m-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200431.wjjkEZ2m-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408200431.wjjkEZ2m-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/net/bonding/bond_main.c:434:10: error: returning 'void *' from a function with incompatible result type 'struct net_device'
+>      434 |                 return NULL;
+>          |                        ^~~~
+>    include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+>        8 | #define NULL ((void *)0)
+>          |              ^~~~~~~~~~~
+>    drivers/net/bonding/bond_main.c:442:10: error: returning 'void *' from a function with incompatible result type 'struct net_device'
+>      442 |                 return NULL;
+>          |                        ^~~~
+>    include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+>        8 | #define NULL ((void *)0)
+>          |              ^~~~~~~~~~~
+>    drivers/net/bonding/bond_main.c:446:9: error: returning 'struct net_device *' from a function with incompatible result type 'struct net_device'; dereference with *
+>      446 |         return real_dev;
+>          |                ^~~~~~~~
+>          |                *
+>    drivers/net/bonding/bond_main.c:630:11: error: assigning to 'struct net_device *' from incompatible type 'struct net_device'
+>      630 |         real_dev = bond_ipsec_dev(xs);
+>          |                  ^ ~~~~~~~~~~~~~~~~~~
+>    drivers/net/bonding/bond_main.c:658:11: error: assigning to 'struct net_device *' from incompatible type 'struct net_device'
+>      658 |         real_dev = bond_ipsec_dev(xs);
+>          |                  ^ ~~~~~~~~~~~~~~~~~~
+> >> drivers/net/bonding/bond_main.c:668:2: error: use of undeclared identifier 'rhel_dev'; did you mean 'real_dev'?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408200611.zhKlMvry-lkp@intel.com/
+Hmm, weird... I tried to build the patch via `vng` before post, with
+CONFIG_XFRM_OFFLOAD=y in tools/testing/selftests/drivers/net/bonding/config.
+But looks it's not build in. Next time I need to double check..
 
-All errors (new ones prefixed by >>):
-
-   In file included from fs/stat.c:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/mips/include/asm/cacheflush.h:13:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from fs/stat.c:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:5:
->> include/linux/fs.h:3645:15: error: unexpected token, expected comma
-    3645 |         if (unlikely(get_user(c, path)))
-         |                      ^
-   arch/mips/include/asm/uaccess.h:97:33: note: expanded from macro 'get_user'
-      97 |         access_ok(__p, sizeof(*__p)) ? __get_user((x), __p) :           \
-         |                                        ^
-   arch/mips/include/asm/uaccess.h:177:23: note: expanded from macro '__get_user'
-     177 |                 __get_data_asm((x), user_lb, __gu_ptr);                 \
-         |                                     ^
-   <inline asm>:3:10: note: instantiated into assembly here
-       3 |         .set    eva
-         |                    ^
-   In file included from fs/stat.c:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:5:
->> include/linux/fs.h:3645:15: error: invalid operand for instruction
-    3645 |         if (unlikely(get_user(c, path)))
-         |                      ^
-   arch/mips/include/asm/uaccess.h:97:33: note: expanded from macro 'get_user'
-      97 |         access_ok(__p, sizeof(*__p)) ? __get_user((x), __p) :           \
-         |                                        ^
-   arch/mips/include/asm/uaccess.h:177:23: note: expanded from macro '__get_user'
-     177 |                 __get_data_asm((x), user_lb, __gu_ptr);                 \
-         |                                     ^
-   <inline asm>:4:11: note: instantiated into assembly here
-       4 |         lbe $21, 0($18)
-         |                  ^
-   1 warning and 2 errors generated.
-
-
-vim +3645 include/linux/fs.h
-
-90f8572b0f021f Eric W. Biederman 2015-06-29  3627  
-45cd0faae3715e Amir Goldstein    2018-08-27  3628  /* mm/fadvise.c */
-45cd0faae3715e Amir Goldstein    2018-08-27  3629  extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
-45cd0faae3715e Amir Goldstein    2018-08-27  3630  		       int advice);
-cf1ea0592dbf10 Jan Kara          2019-08-29  3631  extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
-cf1ea0592dbf10 Jan Kara          2019-08-29  3632  			   int advice);
-45cd0faae3715e Amir Goldstein    2018-08-27  3633  
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3634  static inline bool vfs_empty_path(int dfd, const char __user *path)
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3635  {
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3636  	char c;
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3637  
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3638  	if (dfd < 0)
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3639  		return false;
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3640  
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3641  	/* We now allow NULL to be used for empty path. */
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3642  	if (!path)
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3643  		return true;
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3644  
-1bc6d4452d5c91 Christian Brauner 2024-04-30 @3645  	if (unlikely(get_user(c, path)))
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3646  		return false;
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3647  
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3648  	return !c;
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3649  }
-1bc6d4452d5c91 Christian Brauner 2024-04-30  3650  
-
-:::::: The code at line 3645 was first introduced by commit
-:::::: 1bc6d4452d5c91beb09e37a98a590808e1997b79 fs: new helper vfs_empty_path()
-
-:::::: TO: Christian Brauner <brauner@kernel.org>
-:::::: CC: Christian Brauner <brauner@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Hangbin
