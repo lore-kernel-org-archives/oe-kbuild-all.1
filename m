@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342491CAAF;
-	Mon, 19 Aug 2024 18:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50840175D46;
+	Mon, 19 Aug 2024 19:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724090582; cv=none; b=om51ihyJN5t/eITMhJWQvLxv66pHXN8g8b/eMN5q2iS3TtZjgtwiy+F5QLAk7bZb2PIoVJ4HOwWPrxTyl9uxfSLNDcmBdOi+BXAA/V9nrktKwqjRVIwYilSKqsc1dQHK1J9ui6pD0SfL8YU7lBTHtNr8vTzyTYz2JIPZTI3S/Kw=
+	t=1724094902; cv=none; b=SIjx51+JmQBoqKn2Iq1W77BH98xxT/QNvG0EYWurxK0UJxjftKRkDYwnapqPTm4vnYWucKIm+kYd3lkQmI62vmbcHXCV/1vEEHYOCnKqPMgEjDrIxx5yukyw6IZAQ/ZRUrp4HdnjLGpD6Z/tfH4EqGmRr0x94tIQLjue/XMsrII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724090582; c=relaxed/simple;
-	bh=4TcV0z44ktrkpfTieRGhBfAkngjvlSrTcQdmML5TFII=;
+	s=arc-20240116; t=1724094902; c=relaxed/simple;
+	bh=lZXYtOdOmZ6ORLbI1KAZypHMsgBhnkWs7livrES3pP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HVI4k6Cs62m1O90pi423L3798cfLx8s+0Bqn01epOmsPz2XiZP6mKjuPzK1yQ/58a9ZHYfiGCG6WS0fya3CrtmWQqQUP6werHoHtLX0bvaELMWzwyPAEB4ckVIvnkBTcu6DRwQfuokUeNw73lNFxPsUPjfBVxklgVG04J9+QCxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGRylYov; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Yo8HslcPrK0HYprLNhH8u0K5+3GgWK9W1u1nEYphAgO6jqhFLAKwt3DVChjfJ8YM/OXvfhlJE1BMUmQFwOSS7IPQ1IGEHzTfWdrbB7JCNAG1ziqfIk8BsDbm2hVaSqR2uyc0LyojISeTMX3UNpZXUwZKxI86+6V0PWxGzQYhEFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PmHaHzKf; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGRylYov"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PmHaHzKf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724090580; x=1755626580;
+  t=1724094900; x=1755630900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4TcV0z44ktrkpfTieRGhBfAkngjvlSrTcQdmML5TFII=;
-  b=DGRylYovoA/BAIHNYtHuDpktIJPr5Feo1lRFsqyIbVYYGafWbiB5aidM
-   N0Wql6sJ63XqL2+8pIpO/i7Ppeyvp2MF34CbDb1EpspCEScothmyYRj0e
-   DJWVKNbf78Qd+lfEhCxmZRJjWeMF/OI5ZebyFVceV2f8aEY4OJ5RTgeTK
-   QTtr/X+0qIZXbe0xc6s7/Z+iNa3doxFYbEaRK1bt80LtJDsLzJpyoHhb0
-   PdjxsMw7XdR48W3r6NC/JhGolwpSuXP7LFDCpOsuHXp5OhhtDhwb4gz83
-   +0zMBg7qLtuQVw6EnWBBrufNUy+eV0xWayhGuWtbkim9McylqIhaLBfSP
-   g==;
-X-CSE-ConnectionGUID: frwPefyxRg6vsSpS/Og7KA==
-X-CSE-MsgGUID: CU5FRyWLTtG2nZJ7hAxFvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26218940"
+  bh=lZXYtOdOmZ6ORLbI1KAZypHMsgBhnkWs7livrES3pP4=;
+  b=PmHaHzKfXYFLdz/xDj1i1wzKLTLRp33XRNrXZgnTch2SpM3dolJuIXpA
+   GnCVLJtuM4JQo8mUwopQr+jZgexjlxwCdcOsy/6YSX0FK6DYIsfAoBmN5
+   iXs/cRk4vzdzW33JHyCmGD8P550IUE4gmiLWqo11CpZBK7iRb5HQH3qoh
+   kfAU0LQxLDcR7PXEKxdeio1cR7DrR57ugEQgMafpmj+WRxZJZ/4dKrgXB
+   KKizNNM7Ldg4P5L8mwO0qxFN9/9b+G9NkLULsWceV0aX6p7DUjX6KcxDq
+   pcoFwVpfH72n5LxFeb4/um4LNOlmh7xb7ir0DKtb6VKCZ6pwGB91MeTfk
+   w==;
+X-CSE-ConnectionGUID: 0P6nEY4WQYuYOQ7716VWAA==
+X-CSE-MsgGUID: hMPs/vNdTMKiUFk8fQ1NYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26120618"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="26218940"
+   d="scan'208";a="26120618"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 11:02:57 -0700
-X-CSE-ConnectionGUID: 3nQiPRZTT0eNSxYbotS0Jw==
-X-CSE-MsgGUID: LUY6kTN5SAKNrFDKet4oBQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 12:14:59 -0700
+X-CSE-ConnectionGUID: cTZjV0feTze9FJIz5ZjQhw==
+X-CSE-MsgGUID: fMGqNo7jRjqhbKNuLAy5YQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="60507985"
+   d="scan'208";a="60526817"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Aug 2024 11:02:56 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Aug 2024 12:14:58 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg6iU-0009Hv-0t;
-	Mon, 19 Aug 2024 18:02:54 +0000
-Date: Tue, 20 Aug 2024 02:02:03 +0800
+	id 1sg7qC-0009LW-0g;
+	Mon, 19 Aug 2024 19:14:56 +0000
+Date: Tue, 20 Aug 2024 03:14:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
+To: Hannes Reinecke <hare@kernel.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:kvm-arm64/vgic-sre-traps 10/13]
- arch/arm64/kvm/hyp/vhe/../vgic-v3-sr.c:1107:10: warning: converting the
- result of '<<' to a boolean always evaluates to true
-Message-ID: <202408200109.tJ2BFUyY-lkp@intel.com>
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [hare-nvme:secure-concat.v9 3/10] include/crypto/hkdf.h:25:10:
+ error: use of undeclared identifier 'ENOTSUP'
+Message-ID: <202408200307.yPvUJ1sm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,155 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/vgic-sre-traps
-head:   41d85ddf2bde3a7a3cc8c7d6276146f14d1bff94
-commit: 1c3174082fe5623b4c0d48968bbce04509c8f563 [10/13] KVM: arm64: Honor guest requested traps in GICv3 emulation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240820/202408200109.tJ2BFUyY-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200109.tJ2BFUyY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v9
+head:   24817e66fba53d9e2722aec6abd8a00b29bf108a
+commit: 07a5113f110b146bff44efafd623d3c0e87d9118 [3/10] nvme: add nvme_auth_generate_psk()
+config: powerpc64-randconfig-001-20240819 (https://download.01.org/0day-ci/archive/20240820/202408200307.yPvUJ1sm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408200307.yPvUJ1sm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408200109.tJ2BFUyY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408200307.yPvUJ1sm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/vhe/../vgic-v3-sr.c:7:
-   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:15:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/vhe/../vgic-v3-sr.c:1107:10: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-    1107 |                 return ICH_HCR_TC;
-         |                        ^
-   arch/arm64/include/asm/sysreg.h:1009:24: note: expanded from macro 'ICH_HCR_TC'
-    1009 | #define ICH_HCR_TC              (1 << 10)
-         |                                    ^
-   5 warnings generated.
---
-   In file included from arch/arm64/kvm/hyp/nvhe/../vgic-v3-sr.c:7:
-   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:15:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../vgic-v3-sr.c:1107:10: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-    1107 |                 return ICH_HCR_TC;
-         |                        ^
-   arch/arm64/include/asm/sysreg.h:1009:24: note: expanded from macro 'ICH_HCR_TC'
-    1009 | #define ICH_HCR_TC              (1 << 10)
-         |                                    ^
-   5 warnings generated.
+   In file included from drivers/nvme/common/auth.c:14:
+>> include/crypto/hkdf.h:25:10: error: use of undeclared identifier 'ENOTSUP'
+           return -ENOTSUP;
+                   ^
+   include/crypto/hkdf.h:31:10: error: use of undeclared identifier 'ENOTSUP'
+           return -ENOTSUP;
+                   ^
+   2 errors generated.
 
 
-vim +1107 arch/arm64/kvm/hyp/vhe/../vgic-v3-sr.c
+vim +/ENOTSUP +25 include/crypto/hkdf.h
 
-  1044	
-  1045	static bool __vgic_v3_check_trap_forwarding(struct kvm_vcpu *vcpu,
-  1046						    u32 sysreg, bool is_read)
-  1047	{
-  1048		u64 ich_hcr;
-  1049	
-  1050		if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
-  1051			return false;
-  1052	
-  1053		ich_hcr = __vcpu_sys_reg(vcpu, ICH_HCR_EL2);
-  1054	
-  1055		switch (sysreg) {
-  1056		case SYS_ICC_IGRPEN0_EL1:
-  1057			if (is_read &&
-  1058			    (__vcpu_sys_reg(vcpu, HFGRTR_EL2) & HFGxTR_EL2_ICC_IGRPENn_EL1))
-  1059				return true;
-  1060	
-  1061			if (!is_read &&
-  1062			    (__vcpu_sys_reg(vcpu, HFGWTR_EL2) & HFGxTR_EL2_ICC_IGRPENn_EL1))
-  1063				return true;
-  1064	
-  1065			fallthrough;
-  1066	
-  1067		case SYS_ICC_AP0Rn_EL1(0):
-  1068		case SYS_ICC_AP0Rn_EL1(1):
-  1069		case SYS_ICC_AP0Rn_EL1(2):
-  1070		case SYS_ICC_AP0Rn_EL1(3):
-  1071		case SYS_ICC_BPR0_EL1:
-  1072		case SYS_ICC_EOIR0_EL1:
-  1073		case SYS_ICC_HPPIR0_EL1:
-  1074		case SYS_ICC_IAR0_EL1:
-  1075			return ich_hcr & ICH_HCR_TALL0;
-  1076	
-  1077		case SYS_ICC_IGRPEN1_EL1:
-  1078			if (is_read &&
-  1079			    (__vcpu_sys_reg(vcpu, HFGRTR_EL2) & HFGxTR_EL2_ICC_IGRPENn_EL1))
-  1080				return true;
-  1081	
-  1082			if (!is_read &&
-  1083			    (__vcpu_sys_reg(vcpu, HFGWTR_EL2) & HFGxTR_EL2_ICC_IGRPENn_EL1))
-  1084				return true;
-  1085	
-  1086			fallthrough;
-  1087	
-  1088		case SYS_ICC_AP1Rn_EL1(0):
-  1089		case SYS_ICC_AP1Rn_EL1(1):
-  1090		case SYS_ICC_AP1Rn_EL1(2):
-  1091		case SYS_ICC_AP1Rn_EL1(3):
-  1092		case SYS_ICC_BPR1_EL1:
-  1093		case SYS_ICC_EOIR1_EL1:
-  1094		case SYS_ICC_HPPIR1_EL1:
-  1095		case SYS_ICC_IAR1_EL1:
-  1096			return ich_hcr & ICH_HCR_TALL1;
-  1097	
-  1098		case SYS_ICC_DIR_EL1:
-  1099			if (ich_hcr & ICH_HCR_TDIR)
-  1100				return true;
-  1101	
-  1102			fallthrough;
-  1103	
-  1104		case SYS_ICC_RPR_EL1:
-  1105		case SYS_ICC_CTLR_EL1:
-  1106		case SYS_ICC_PMR_EL1:
-> 1107			return ICH_HCR_TC;
-  1108	
-  1109		default:
-  1110			return false;
-  1111		}
-  1112	}
-  1113	
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  11  
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  12  #ifdef CONFIG_CRYPTO_HKDF
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  13  int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  14  		 unsigned int ikmlen, const u8 *salt, unsigned int saltlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  15  		 u8 *prk);
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  16  int hkdf_expand(struct crypto_shash *hmac_tfm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  17  		const u8 *info, unsigned int infolen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  18  		u8 *okm, unsigned int okmlen);
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  19  #else
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  20  static inline int hkdf_extract(struct crypto_shash *hmac_tfm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  21  			       const u8 *ikm, unsigned int ikmlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  22  			       const u8 *salt, unsigned int saltlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  23  			       u8 *prk)
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  24  {
+7cdb18431a4b69 Hannes Reinecke 2024-07-18 @25  	return -ENOTSUP;
+
+:::::: The code at line 25 was first introduced by commit
+:::::: 7cdb18431a4b69e4912fa880449c256e92f3a30d crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+
+:::::: TO: Hannes Reinecke <hare@kernel.org>
+:::::: CC: Hannes Reinecke <hare@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
