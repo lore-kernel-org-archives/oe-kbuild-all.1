@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8ED142621
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 06:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC6613D243
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 06:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724047588; cv=none; b=nGi0l0QqzCnsZ3vwAxmSEQuZyK1r4WzSa+EM49SNsVTqBWpMS8WO3207cqBQwCc/RD2ogkzK3w59y6XnoOjh9C7+sgC+HzSDvIVW89thPmUYxmAcX/mmo+V2QuRaU0C0ieIlKlHw3isWDloNLtfW6opUsxLt+o356zmOaxHGMEo=
+	t=1724049388; cv=none; b=qe5Av3Er43+PdbReTN0nMhV4pKi9QzXh6LVFNH7B0v85JyQePjGTbvNXW73TbuHzy9dp6obWD4C+igiYMxXEEbgIKQD5fTjA2ZUdJcZobvzUfy0cdeajdJyc+H0we97PHoza3yK82vtowuqBAdPA9ucAa6Pl99ubDMfbTzHbpZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724047588; c=relaxed/simple;
-	bh=VrjPuFPLOwZnJsMu2h879gS3p56Zw4shdBSAlHO2DK0=;
+	s=arc-20240116; t=1724049388; c=relaxed/simple;
+	bh=fjekVTmvf28YXmdIWRb2N1fO0rPxzWEZLmEOLyGfOkk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uqs9IAKJyWUO2Y3h/HK46O/JPUMBfmEvhsm1c7rihFlf001ABLF+SsEUeXmn5gZmROIDFLkEGqhkhIi836wT71+XM43a6ypeC5jJ1Qr6SX1a6qryV7bf4EFfsFzzngQvA9FlTeZI0R3JHc0+56ng77RCeiRDwNWvnukhXDSUaw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8hGZc3z; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=gs9uXCxg054yG+3z5c8cwjao/JGf6+AUN/CQQJ8Ubb3WbvcorSRpe+MCEwhf8KJEmcno/W6iPUWXpMuWnBLfmgzN5BFGYZLJItrAzQ1XlflI5thdI4w5P1597kBWVD5g6G4HlkG0MZ+TvD6lWkthHp5hQXsaz+jTgDP9tPY/Jxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxWl8EkC; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8hGZc3z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxWl8EkC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724047587; x=1755583587;
+  t=1724049386; x=1755585386;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VrjPuFPLOwZnJsMu2h879gS3p56Zw4shdBSAlHO2DK0=;
-  b=H8hGZc3zMeBDCHKXDivYng69FJ8DCTsm+RdebF8NTVRApGA49EDeVedW
-   nSMNLDte2GO1yf5jq2znl7NlWYU20mwDcEVygCV6Dngj5D8KnrACoAh7i
-   72ny3jO6dMhWWoc3x1XX5LLZJ6110RNe9I8egQ4E64DyKvhmEcKdTYdcK
-   ih6YwwB+TQaEP4QqwXHirc2gZHPW+MYtZ6Du+/cmpzzyuVahL5ExcB5pI
-   EVkAB0l5IvGUwWakamyRgdroxcSaZu0Z9n5L3OS0LYqOcs1bRYXmdG1pb
-   aUzWOvpSivVu9Kw+Gmvvo66BxSadmDGSl3tvAWZlsVN7hZpLrmhvz8OsR
+  bh=fjekVTmvf28YXmdIWRb2N1fO0rPxzWEZLmEOLyGfOkk=;
+  b=OxWl8EkCuuGqv6i/r5I0wmqPMeMYFgngFFMQr4mk4xoi1BqkeEo2QlS9
+   tc3AGAnxFe869zQdoBDgZS9ShRhxrNJFNM5KAJRwcIuFyEq7Z+y2VJluJ
+   vjIgUwRXMHnUebirlwAlTE5yLxD1a9/jSQ8cJA8RFS5lajfuMPkof0KMz
+   jE/WIAAJ6QJ21TEjcK42jXH3LY1jFvIp33oKmdmLmksXt5NvYrKtXBhfx
+   xkT2IQhPOlU4FRWS7e+wyIh1o+HKZhyvvFanFocLK5MWUSrN5raG4dVdk
+   fQKMeadOoN+LCWvFmxLoN8nknwUFkB6Su1oG7RMbuQteappjMAXoBtwge
    A==;
-X-CSE-ConnectionGUID: JHksP9m1SzWR2FXETPewTQ==
-X-CSE-MsgGUID: diLaSo16TlSPDgltBRF8nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22417989"
+X-CSE-ConnectionGUID: Ym2NGJu8RiiAJAe93pzSaQ==
+X-CSE-MsgGUID: L0E/jL7FT6CUrp5Z4Slg1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22093715"
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="22417989"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 23:06:26 -0700
-X-CSE-ConnectionGUID: gVKhT4nqRDO9jLXVn31Urg==
-X-CSE-MsgGUID: zksnIPp6RISeHWFi93cPzQ==
+   d="scan'208";a="22093715"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 23:36:26 -0700
+X-CSE-ConnectionGUID: aFbGXjuYQB+EOR05sbfVfA==
+X-CSE-MsgGUID: oUQzT+yVQp2g7V0tgEnGtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="60563806"
+   d="scan'208";a="60263951"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Aug 2024 23:06:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2024 23:36:24 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sfvX4-0008gC-0K;
-	Mon, 19 Aug 2024 06:06:22 +0000
-Date: Mon, 19 Aug 2024 14:05:36 +0800
+	id 1sfw06-0008hG-2B;
+	Mon, 19 Aug 2024 06:36:22 +0000
+Date: Mon, 19 Aug 2024 14:36:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-next-nfsd_file 25/25]
- fs/nfs/flexfilelayout/flexfilelayout.c:202:21: error: assignment to 'struct
- nfsd_file *' from incompatible pointer type 'struct file *'
-Message-ID: <202408191345.iuoOwk3V-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 24/34] mm/vmscan.c:3414:67: warning:
+ iteration 3 invokes undefined behavior
+Message-ID: <202408191456.zk9Rs3I8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,106 +62,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next-nfsd_file
-head:   60f26fd3eccfac7de2bab5613745670132e08ae7
-commit: 60f26fd3eccfac7de2bab5613745670132e08ae7 [25/25] nfs: switch client to use nfsd_file for localio
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240819/202408191345.iuoOwk3V-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240819/202408191345.iuoOwk3V-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   6a133dc6e8e68425c1cece567147608d8ba2e606
+commit: c5999e6682517877977a01466899e96eeff62f61 [24/34] CHROMIUM: mm/mglru: age at different rates
+config: i386-buildonly-randconfig-003-20240819 (https://download.01.org/0day-ci/archive/20240819/202408191456.zk9Rs3I8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240819/202408191456.zk9Rs3I8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408191345.iuoOwk3V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408191456.zk9Rs3I8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_local_open_fh':
->> fs/nfs/flexfilelayout/flexfilelayout.c:202:21: error: assignment to 'struct nfsd_file *' from incompatible pointer type 'struct file *' [-Werror=incompatible-pointer-types]
-     202 |                 new = nfs_local_open_fh(clp, cred, fh, mode);
-         |                     ^
->> fs/nfs/flexfilelayout/flexfilelayout.c:219:20: error: 'struct nfs_client' has no member named 'nfsd_file_put'
-     219 |                 clp->nfsd_file_put(new);
-         |                    ^~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_free_mirror':
-   fs/nfs/flexfilelayout/flexfilelayout.c:304:20: error: 'struct nfs_client' has no member named 'nfsd_file_put'
-     304 |                 clp->nfsd_file_put(nf);
-         |                    ^~
-   fs/nfs/flexfilelayout/flexfilelayout.c:307:20: error: 'struct nfs_client' has no member named 'nfsd_file_put'
-     307 |                 clp->nfsd_file_put(nf);
-         |                    ^~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_alloc_lseg':
-   fs/nfs/flexfilelayout/flexfilelayout.c:593:78: error: 'struct nfs_client' has no member named 'nfsd_file_put'
-     593 |                                                 mirror->mirror_ds->ds->ds_clp->nfsd_file_put(nf);
-         |                                                                              ^~
-   fs/nfs/flexfilelayout/flexfilelayout.c:601:78: error: 'struct nfs_client' has no member named 'nfsd_file_put'
-     601 |                                                 mirror->mirror_ds->ds->ds_clp->nfsd_file_put(nf);
-         |                                                                              ^~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_io_track_ds_error':
-   fs/nfs/flexfilelayout/flexfilelayout.c:1302:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1302 |         int err;
+   mm/vmscan.c: In function 'demote_page_list':
+   mm/vmscan.c:1379:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    1379 |         int err;
          |             ^~~
-   cc1: some warnings being treated as errors
+   mm/vmscan.c: In function 'reset_ctrl_pos':
+>> mm/vmscan.c:3414:67: warning: iteration 3 invokes undefined behavior [-Waggressive-loop-optimizations]
+    3414 |                 total_nr_pages += lrugen->nr_pages[next_gen][type][tier];
+         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   mm/vmscan.c:3401:29: note: within this loop
+    3401 |         for (tier = 0; tier < MAX_NR_TIERS; tier++) {
 
 
-vim +202 fs/nfs/flexfilelayout/flexfilelayout.c
+vim +3414 mm/vmscan.c
 
-60f26fd3eccfac Mike Snitzer    2024-08-14  173  
-60f26fd3eccfac Mike Snitzer    2024-08-14  174  static struct nfsd_file *
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  175  ff_local_open_fh(struct pnfs_layout_segment *lseg,
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  176  		 u32 ds_idx,
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  177  		 struct nfs_client *clp,
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  178  		 const struct cred *cred,
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  179  		 struct nfs_fh *fh,
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  180  		 fmode_t mode)
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  181  {
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  182  	struct nfs4_ff_layout_mirror *mirror = FF_LAYOUT_COMP(lseg, ds_idx);
-60f26fd3eccfac Mike Snitzer    2024-08-14  183  	struct nfsd_file *nf, *new, __rcu **pnf;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  184  
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  185  	if (!nfs_server_is_local(clp))
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  186  		return NULL;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  187  	if (mode & FMODE_WRITE) {
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  188  		/*
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  189  		 * Always request read and write access since this corresponds
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  190  		 * to a rw layout.
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  191  		 */
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  192  		mode |= FMODE_READ;
-60f26fd3eccfac Mike Snitzer    2024-08-14  193  		pnf = &mirror->rw_file;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  194  	} else
-60f26fd3eccfac Mike Snitzer    2024-08-14  195  		pnf = &mirror->ro_file;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  196  
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  197  	new = NULL;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  198  	rcu_read_lock();
-60f26fd3eccfac Mike Snitzer    2024-08-14  199  	nf = rcu_dereference(*pnf);
-60f26fd3eccfac Mike Snitzer    2024-08-14  200  	if (!nf) {
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  201  		rcu_read_unlock();
-d93f7d110bf0b5 Trond Myklebust 2019-11-03 @202  		new = nfs_local_open_fh(clp, cred, fh, mode);
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  203  		if (IS_ERR(new))
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  204  			return NULL;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  205  		rcu_read_lock();
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  206  		/* try to swap in the pointer */
-60f26fd3eccfac Mike Snitzer    2024-08-14  207  		nf = cmpxchg(pnf, NULL, new);
-60f26fd3eccfac Mike Snitzer    2024-08-14  208  		if (!nf) {
-60f26fd3eccfac Mike Snitzer    2024-08-14  209  			nf = new;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  210  			new = NULL;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  211  		}
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  212  	}
-60f26fd3eccfac Mike Snitzer    2024-08-14  213  	/*
-60f26fd3eccfac Mike Snitzer    2024-08-14  214  	 * nfs_local_open_fh() uses nfsd_file caching, which uses nfsd_file
-60f26fd3eccfac Mike Snitzer    2024-08-14  215  	 * refcount'ing, so no need for extra reference on backing nf->nf_file
-60f26fd3eccfac Mike Snitzer    2024-08-14  216  	 */
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  217  	rcu_read_unlock();
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  218  	if (new)
-60f26fd3eccfac Mike Snitzer    2024-08-14 @219  		clp->nfsd_file_put(new);
-60f26fd3eccfac Mike Snitzer    2024-08-14  220  	return nf;
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  221  }
-d93f7d110bf0b5 Trond Myklebust 2019-11-03  222  
-
-:::::: The code at line 202 was first introduced by commit
-:::::: d93f7d110bf0b55b484fa6f55ef2d3b89f7cd7e2 pnfs/flexfiles: enable localio support
-
-:::::: TO: Trond Myklebust <trond.myklebust@hammerspace.com>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
+  3387	
+  3388	static void reset_ctrl_pos(struct lruvec *lruvec, int type)
+  3389	{
+  3390		int hist, tier;
+  3391		struct lru_gen_page *lrugen = &lruvec->lrugen;
+  3392		unsigned long carry_from_seq = lrugen->min_seq[type];
+  3393		unsigned long next_seq = carry_from_seq + 1;
+  3394		unsigned long next_gen = lru_gen_from_seq(next_seq);
+  3395		long total_nr_pages = 0;
+  3396	
+  3397		lockdep_assert_held(&lruvec->lru_lock);
+  3398	
+  3399		hist = lru_hist_from_seq(carry_from_seq);
+  3400	
+  3401		for (tier = 0; tier < MAX_NR_TIERS; tier++) {
+  3402			unsigned long sum;
+  3403	
+  3404			sum = lrugen->avg_refaulted[type][tier] +
+  3405			      atomic_long_read(&lrugen->refaulted[hist][type][tier]);
+  3406			WRITE_ONCE(lrugen->avg_refaulted[type][tier], sum / 2);
+  3407	
+  3408			sum = lrugen->avg_total[type][tier] +
+  3409			      atomic_long_read(&lrugen->evicted[hist][type][tier]);
+  3410			if (tier)
+  3411				sum += lrugen->protected[hist][type][tier - 1];
+  3412			WRITE_ONCE(lrugen->avg_total[type][tier], sum / 2);
+  3413	
+> 3414			total_nr_pages += lrugen->nr_pages[next_gen][type][tier];
+  3415		}
+  3416		/* nr_pages is eventually consistent, so fix up the estimate if it's negative. */
+  3417		total_nr_pages = max(total_nr_pages, 0);
+  3418	
+  3419		if (NR_HIST_GENS == 1)
+  3420			reset_histograms(lruvec, type, carry_from_seq);
+  3421	
+  3422		hist = lru_hist_from_seq(next_seq);
+  3423		WRITE_ONCE(lrugen->victim_seq[hist][type], READ_ONCE(lrugen->min_seq[!type]));
+  3424		WRITE_ONCE(lrugen->oldest_gen_size[hist][type], total_nr_pages);
+  3425	}
+  3426	
 
 -- 
 0-DAY CI Kernel Test Service
