@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6516314AD0D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 05:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692A213D243
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 05:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724043867; cv=none; b=HGv/17mXJM89ADYAp/Lsdaryj/jyZ+Tcuz+fU63WOkQ84HhHbkztkQvUHQ8eSA/q6J/guO8Z52AMPkp9LAw47vO66Ws1Yr1VzkvS6DNypcLo8UcfN4ggD6jdvWTAj12foVD6G3vyt0M0VpdhQ/tBTOVTpN5a+I7Cz9cbQCFZpzY=
+	t=1724044527; cv=none; b=eYvM8yX4HOeZMXd8FqQ2Re7jqiYcejFuC3dx/hSaDBxSwDpaPowP40VUCihBy0A+tbQrmPsRPCuxKmsUI9FPaI2N2v2q1c1C93i1pac6oIo1IwB4hhGuMDRmX50SliWF+DyTj62yFf5nIWuGMSJtyUIvjEVYqhYDTo3jZ0u7psU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724043867; c=relaxed/simple;
-	bh=2Od4TgqwQxJBfikVt7UqnsrmfMwczr+ZaNHCzCe163s=;
+	s=arc-20240116; t=1724044527; c=relaxed/simple;
+	bh=FzZ4qlTaecWigV2DrkStJcoD+p2S6ozkt6fRhnLY/NY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sxqZK4WvFVJXdI68izKvslUz7C4oHLk2EZmPcSA+yPte7RpZp+xTYjJTbnhXtTAPmTKxj35GdJTQJV74wtnBxOeRCrzGFYU0Eu8kbqqy3Vbe5VnhlXclfhu60qb0ugVzbWDSsTDuqdUv6YgKQU5dUFnkxpGUK9cAT4FcMWkvfJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxgEXCby; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=j0q2+LTG8h+tggnWs6HWHZg4iI81q1QYCvaDtRZjwtt+4iNPQGUz/KkWxJWcfAddYrEJeroU7MlUgmE2kbJYcJlI3Taig/dHQzSjsMAL5wq8NRxdDdzHHfIwdDfioPjWptCkYz62s9xtaaf2od7fQt2ILudzEH4j7GCDhW+pkwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mbCJIVGr; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxgEXCby"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724043865; x=1755579865;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Od4TgqwQxJBfikVt7UqnsrmfMwczr+ZaNHCzCe163s=;
-  b=PxgEXCby/+3aHMNcjanER1tMDw/dQhFA+/uWW0BXUpK0YMyB1Edu93dJ
-   mo75Rd9eMh1WY6tjwbde01QpTT57tWn2YOFC4J09f5vSrTsHgfLd0Nx/Y
-   Rhf/V8iJAe2UD23dZN6ATKGPya833OCXqnXWnejJMxKBDGFds6AutbZnj
-   lB0fV57twsxCXXaTOBB4SsRf12ayvenMVmgxkrTLUS4okgso5HAdgL2IG
-   ICJMzoZhLUTXIX60mHqaw1UM1Axxm19BbYI1SJfDWmlF4I5kQxIQXjIgj
-   o0rw6kRmtoqrZc06wHggB7SQEg1/Fi+I9Sfu8k2dnCSeOgb1StxPmAgs2
-   Q==;
-X-CSE-ConnectionGUID: EePxhBOQTQGDytMBrlIvqw==
-X-CSE-MsgGUID: UC8BT5VwQ/OVmF5SqZKrdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="32837027"
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="32837027"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 22:04:24 -0700
-X-CSE-ConnectionGUID: qvu2kUPUSyOVC2B5CHp+AA==
-X-CSE-MsgGUID: 6FZrfzVzQ7erqaEDWN0Z4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="97737234"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Aug 2024 22:04:23 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sfuZ2-0008eE-1d;
-	Mon, 19 Aug 2024 05:04:20 +0000
-Date: Mon, 19 Aug 2024 13:04:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:lukas-41c 66/93] drivers/gpu/drm/omapdrm/dss/dsi.c:762:9:
- sparse: sparse: Initializer entry defined twice
-Message-ID: <202408191329.dQyagUlJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mbCJIVGr"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a8374e6a6fbso477144466b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Aug 2024 22:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724044523; x=1724649323; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tr+CkCtT9RBXFTknHXbuRcbqHxZSSmq0kp0BMXuDtKM=;
+        b=mbCJIVGrSxSjXJmt/CF3J2RbFw9u5X44FJwCq/Zgob3IeCeqcnX0kTGHfonG0QaZMf
+         SCeKyUWszwBuLh4bVzBUGYYk3JhtT9Ckw24VpRTRzjPLt3t7L3Ef+9ScnOEVJ0uqZDxM
+         mwpzFyVmLN3pSpvA9pfNva3TKUIl8fwYGudU+9ta9880pApiKlZsM/m6OwLTgdgPZ7IP
+         m4eZ4p/aiWkHjW+MlylQ6PHWbfgSu4WUj+7znW00AzCo1bY5MsOnqeLNrFANjd2zir8u
+         VUX+zIjWTj+V7d6iwhl9HUpvQuO9oeMmjENdB/K+wUvYj+xlh5qieeFQ+FEjEjCryDry
+         y4vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724044523; x=1724649323;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tr+CkCtT9RBXFTknHXbuRcbqHxZSSmq0kp0BMXuDtKM=;
+        b=RdA8Py+39gZqdX3smUySvIr2bq0CNN7fpgmNya8uNPrrkMFEDKyYXtYiiqVO7baqe/
+         RdHgliPYm+3BgaWfNOGJyttmQQwkrzAfb9AxqqRc4Vsx+1Z8pXbwIBK2OV2GEgsi924G
+         AwTDzH8rBmx0aByI8Y2VM+AMONUklAj6hqtUOEuCCMqUVbYlyhj1Fag0K0oFPWvB0bxl
+         q/qF7WJEjfv+O4eknY+wtDo1HeRWaov7WdnWiCYTDt9Qn2Wzo4MUctlJ6HgWwFDp7D72
+         AH85gAsFDFMwU+unKL7AJDCpSNnAyxLV2GpLWnmxh9I9g9N/BcTjjsk3e1KToOEdtGr5
+         YrrA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwUSPzsnDj1CUkSUojj+qMuSq7h6I9HHKf64z/89LJRAUiZrjIqqnxCszvOn/sIc681OG3Vqw9gyNb/WfXPPuxpZFA2k2o+8MWrqjwtg==
+X-Gm-Message-State: AOJu0YwXT+1XQjXLiy0W0BiHInatZ4lwc5Qj88vXAlkYXpZ9CTFUubD4
+	LiUkh5rF4Hz6wASUVskPNSQm2Mjk29b+HGQRilB55ns5Vflvhi8FvhXRFniykZo=
+X-Google-Smtp-Source: AGHT+IFpne2BuJmP7Itk6Z3q4Ea3k+P1Zu52GLijC8YDFNurZocTQQ6/oQutMR0qvEwq2dKko+7VxQ==
+X-Received: by 2002:a17:907:e2dd:b0:a7a:aa35:408d with SMTP id a640c23a62f3a-a839292f832mr612481366b.20.1724044522456;
+        Sun, 18 Aug 2024 22:15:22 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfa18sm591512366b.73.2024.08.18.22.15.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Aug 2024 22:15:21 -0700 (PDT)
+Date: Mon, 19 Aug 2024 08:15:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Frank Li <Frank.Li@nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Parshuram Thombare <pthombar@cadence.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Conor Culhane <conor.culhane@silvaco.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v2 10/11] i3c: master: svc: wait for Manual ACK/NACK Done
+ before next step
+Message-ID: <fb18343b-9941-4acc-b0bb-f7cd58d3fde3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +75,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240813-i3c_fix-v2-10-68fe4a050188@nxp.com>
 
-tree:   https://github.com/jimc/linux.git lukas-41c
-head:   0002c11a78f7c2b3adb014d0034e9e525257fed7
-commit: b782d087702043ab6ec6d1b0e61626f8b79b8ca9 [66/93] dyndbg: move flags field to a new structure
-config: powerpc64-randconfig-r121-20240818 (https://download.01.org/0day-ci/archive/20240819/202408191329.dQyagUlJ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce: (https://download.01.org/0day-ci/archive/20240819/202408191329.dQyagUlJ-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-master-Remove-i3c_dev_disable_ibi_locked-olddev-on-device-hotjoin/20240814-234209
+base:   41c196e567fb1ea97f68a2ffb7faab451cd90854
+patch link:    https://lore.kernel.org/r/20240813-i3c_fix-v2-10-68fe4a050188%40nxp.com
+patch subject: [PATCH v2 10/11] i3c: master: svc: wait for Manual ACK/NACK Done before next step
+config: x86_64-randconfig-161-20240817 (https://download.01.org/0day-ci/archive/20240818/202408180012.ifcIOjgX-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408191329.dQyagUlJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408180012.ifcIOjgX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
->> drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/omapdrm/dss/dsi.c:762:9: sparse:   also defined here
+New smatch warnings:
+drivers/i3c/master/svc-i3c-master.c:1165 svc_i3c_master_xfer() warn: missing error code 'ret'
 
-vim +762 drivers/gpu/drm/omapdrm/dss/dsi.c
+vim +/ret +1165 drivers/i3c/master/svc-i3c-master.c
 
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  759  
-7093d6cd1fb39e drivers/gpu/drm/omapdrm/dss/dsi.c Laurent Pinchart 2018-02-13  760  static inline int dsi_if_enable(struct dsi_data *dsi, bool enable)
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  761  {
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28 @762  	DSSDBG("dsi_if_enable(%d)\n", enable);
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  763  
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  764  	enable = enable ? 1 : 0;
-7093d6cd1fb39e drivers/gpu/drm/omapdrm/dss/dsi.c Laurent Pinchart 2018-02-13  765  	REG_FLD_MOD(dsi, DSI_CTRL, enable, 0, 0); /* IF_EN */
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  766  
-7093d6cd1fb39e drivers/gpu/drm/omapdrm/dss/dsi.c Laurent Pinchart 2018-02-13  767  	if (!wait_for_bit_change(dsi, DSI_CTRL, 0, enable)) {
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  768  		DSSERR("Failed to set dsi_if_enable to %d\n", enable);
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  769  		return -EIO;
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  770  	}
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  771  
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  772  	return 0;
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  773  }
-3de7a1dc0c9d29 drivers/video/omap2/dss/dsi.c     Tomi Valkeinen   2009-10-28  774  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1123  static int svc_i3c_master_xfer(struct svc_i3c_master *master,
+dd3c52846d5954a Miquel Raynal 2021-01-21  1124  			       bool rnw, unsigned int xfer_type, u8 addr,
+dd3c52846d5954a Miquel Raynal 2021-01-21  1125  			       u8 *in, const u8 *out, unsigned int xfer_len,
+6fb61734a74eaa3 Frank Li      2023-12-01  1126  			       unsigned int *actual_len, bool continued)
+dd3c52846d5954a Miquel Raynal 2021-01-21  1127  {
+2d15862dfba6bf1 Frank Li      2024-06-03  1128  	int retry = 2;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1129  	u32 reg;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1130  	int ret;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1131  
+5e5e3c92e748a6d Frank Li      2023-10-23  1132  	/* clean SVC_I3C_MINT_IBIWON w1c bits */
+5e5e3c92e748a6d Frank Li      2023-10-23  1133  	writel(SVC_I3C_MINT_IBIWON, master->regs + SVC_I3C_MSTATUS);
+5e5e3c92e748a6d Frank Li      2023-10-23  1134  
+2d15862dfba6bf1 Frank Li      2024-06-03  1135  
+2d15862dfba6bf1 Frank Li      2024-06-03  1136  	while (retry--) {
+dd3c52846d5954a Miquel Raynal 2021-01-21  1137  		writel(SVC_I3C_MCTRL_REQUEST_START_ADDR |
+dd3c52846d5954a Miquel Raynal 2021-01-21  1138  		       xfer_type |
+dd3c52846d5954a Miquel Raynal 2021-01-21  1139  		       SVC_I3C_MCTRL_IBIRESP_NACK |
+dd3c52846d5954a Miquel Raynal 2021-01-21  1140  		       SVC_I3C_MCTRL_DIR(rnw) |
+dd3c52846d5954a Miquel Raynal 2021-01-21  1141  		       SVC_I3C_MCTRL_ADDR(addr) |
+6fb61734a74eaa3 Frank Li      2023-12-01  1142  		       SVC_I3C_MCTRL_RDTERM(*actual_len),
+dd3c52846d5954a Miquel Raynal 2021-01-21  1143  		       master->regs + SVC_I3C_MCTRL);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1144  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1145  		ret = readl_poll_timeout(master->regs + SVC_I3C_MSTATUS, reg,
+dd3c52846d5954a Miquel Raynal 2021-01-21  1146  				 SVC_I3C_MSTATUS_MCTRLDONE(reg), 0, 1000);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1147  		if (ret)
+dd3c52846d5954a Miquel Raynal 2021-01-21  1148  			goto emit_stop;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1149  
+28a9dc69921b36a Frank Li      2024-08-13  1150  		/*
+28a9dc69921b36a Frank Li      2024-08-13  1151  		 * According to I3C spec ver 1.1.1, 5.1.2.2.3 Consequence of Controller Starting a
+28a9dc69921b36a Frank Li      2024-08-13  1152  		 * Frame with I3C Target Address.
+28a9dc69921b36a Frank Li      2024-08-13  1153  		 *
+28a9dc69921b36a Frank Li      2024-08-13  1154  		 * The I3C Controller normally should start a Frame, the Address may be arbitrated,
+28a9dc69921b36a Frank Li      2024-08-13  1155  		 * and so the Controller shall monitor to see whether an In-Band Interrupt request,
+28a9dc69921b36a Frank Li      2024-08-13  1156  		 * a Controller Role Request (i.e., Secondary Controller requests to become the
+28a9dc69921b36a Frank Li      2024-08-13  1157  		 * Active Controller), or a Hot-Join Request has been made.
+28a9dc69921b36a Frank Li      2024-08-13  1158  		 *
+28a9dc69921b36a Frank Li      2024-08-13  1159  		 * If missed IBIWON check, the wrong data will be return. When IBIWON happen, issue
+28a9dc69921b36a Frank Li      2024-08-13  1160  		 * repeat start. Address arbitrate only happen at START, never happen at REPEAT
+28a9dc69921b36a Frank Li      2024-08-13  1161  		 * start.
+28a9dc69921b36a Frank Li      2024-08-13  1162  		 */
+28a9dc69921b36a Frank Li      2024-08-13  1163  		if (SVC_I3C_MSTATUS_IBIWON(reg)) {
+4809f19e89760fb Frank Li      2024-08-13  1164  			if (svc_i3c_master_handle_ibi_won(master, reg))
+4809f19e89760fb Frank Li      2024-08-13 @1165  				goto emit_stop;
 
-:::::: The code at line 762 was first introduced by commit
-:::::: 3de7a1dc0c9d29b138713ecb85df4b6ca3af2ef3 OMAP: DSS2: DSI driver
+Does this need an error code?
 
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@nokia.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@nokia.com>
+28a9dc69921b36a Frank Li      2024-08-13  1166  			continue;
+28a9dc69921b36a Frank Li      2024-08-13  1167  		}
+28a9dc69921b36a Frank Li      2024-08-13  1168  
+49b472ebc61de3d Clark Wang    2023-05-17  1169  		if (readl(master->regs + SVC_I3C_MERRWARN) & SVC_I3C_MERRWARN_NACK) {
+2d15862dfba6bf1 Frank Li      2024-06-03  1170  			/*
+2d15862dfba6bf1 Frank Li      2024-06-03  1171  			 * According to I3C Spec 1.1.1, 11-Jun-2021, section: 5.1.2.2.3.
+2d15862dfba6bf1 Frank Li      2024-06-03  1172  			 * If the Controller chooses to start an I3C Message with an I3C Dynamic
+2d15862dfba6bf1 Frank Li      2024-06-03  1173  			 * Address, then special provisions shall be made because that same I3C
+2d15862dfba6bf1 Frank Li      2024-06-03  1174  			 * Target may be initiating an IBI or a Controller Role Request. So, one of
+2d15862dfba6bf1 Frank Li      2024-06-03  1175  			 * three things may happen: (skip 1, 2)
+2d15862dfba6bf1 Frank Li      2024-06-03  1176  			 *
+2d15862dfba6bf1 Frank Li      2024-06-03  1177  			 * 3. The Addresses match and the RnW bits also match, and so neither
+2d15862dfba6bf1 Frank Li      2024-06-03  1178  			 * Controller nor Target will ACK since both are expecting the other side to
+2d15862dfba6bf1 Frank Li      2024-06-03  1179  			 * provide ACK. As a result, each side might think it had "won" arbitration,
+2d15862dfba6bf1 Frank Li      2024-06-03  1180  			 * but neither side would continue, as each would subsequently see that the
+2d15862dfba6bf1 Frank Li      2024-06-03  1181  			 * other did not provide ACK.
+2d15862dfba6bf1 Frank Li      2024-06-03  1182  			 * ...
+2d15862dfba6bf1 Frank Li      2024-06-03  1183  			 * For either value of RnW: Due to the NACK, the Controller shall defer the
+2d15862dfba6bf1 Frank Li      2024-06-03  1184  			 * Private Write or Private Read, and should typically transmit the Target
+2d15862dfba6bf1 Frank Li      2024-06-03  1185  			 * Address again after a Repeated START (i.e., the next one or any one prior
+2d15862dfba6bf1 Frank Li      2024-06-03  1186  			 * to a STOP in the Frame). Since the Address Header following a Repeated
+2d15862dfba6bf1 Frank Li      2024-06-03  1187  			 * START is not arbitrated, the Controller will always win (see Section
+2d15862dfba6bf1 Frank Li      2024-06-03  1188  			 * 5.1.2.2.4).
+2d15862dfba6bf1 Frank Li      2024-06-03  1189  			 */
+2d15862dfba6bf1 Frank Li      2024-06-03  1190  			if (retry && addr != 0x7e) {
+2d15862dfba6bf1 Frank Li      2024-06-03  1191  				writel(SVC_I3C_MERRWARN_NACK, master->regs + SVC_I3C_MERRWARN);
+2d15862dfba6bf1 Frank Li      2024-06-03  1192  			} else {
+49b472ebc61de3d Clark Wang    2023-05-17  1193  				ret = -ENXIO;
+6d1a19d34e2cc07 Frank Li      2023-12-01  1194  				*actual_len = 0;
+49b472ebc61de3d Clark Wang    2023-05-17  1195  				goto emit_stop;
+49b472ebc61de3d Clark Wang    2023-05-17  1196  			}
+2d15862dfba6bf1 Frank Li      2024-06-03  1197  		} else {
+2d15862dfba6bf1 Frank Li      2024-06-03  1198  			break;
+2d15862dfba6bf1 Frank Li      2024-06-03  1199  		}
+2d15862dfba6bf1 Frank Li      2024-06-03  1200  	}
+49b472ebc61de3d Clark Wang    2023-05-17  1201  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1202  	if (rnw)
+dd3c52846d5954a Miquel Raynal 2021-01-21  1203  		ret = svc_i3c_master_read(master, in, xfer_len);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1204  	else
+dd3c52846d5954a Miquel Raynal 2021-01-21  1205  		ret = svc_i3c_master_write(master, out, xfer_len);
+d5e512574dd2eb0 Clark Wang    2021-12-27  1206  	if (ret < 0)
+dd3c52846d5954a Miquel Raynal 2021-01-21  1207  		goto emit_stop;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1208  
+d5e512574dd2eb0 Clark Wang    2021-12-27  1209  	if (rnw)
+6fb61734a74eaa3 Frank Li      2023-12-01  1210  		*actual_len = ret;
+d5e512574dd2eb0 Clark Wang    2021-12-27  1211  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1212  	ret = readl_poll_timeout(master->regs + SVC_I3C_MSTATUS, reg,
+dd3c52846d5954a Miquel Raynal 2021-01-21  1213  				 SVC_I3C_MSTATUS_COMPLETE(reg), 0, 1000);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1214  	if (ret)
+dd3c52846d5954a Miquel Raynal 2021-01-21  1215  		goto emit_stop;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1216  
+d5e512574dd2eb0 Clark Wang    2021-12-27  1217  	writel(SVC_I3C_MINT_COMPLETE, master->regs + SVC_I3C_MSTATUS);
+d5e512574dd2eb0 Clark Wang    2021-12-27  1218  
+d5e512574dd2eb0 Clark Wang    2021-12-27  1219  	if (!continued) {
+dd3c52846d5954a Miquel Raynal 2021-01-21  1220  		svc_i3c_master_emit_stop(master);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1221  
+d5e512574dd2eb0 Clark Wang    2021-12-27  1222  		/* Wait idle if stop is sent. */
+d5e512574dd2eb0 Clark Wang    2021-12-27  1223  		readl_poll_timeout(master->regs + SVC_I3C_MSTATUS, reg,
+d5e512574dd2eb0 Clark Wang    2021-12-27  1224  				   SVC_I3C_MSTATUS_STATE_IDLE(reg), 0, 1000);
+d5e512574dd2eb0 Clark Wang    2021-12-27  1225  	}
+d5e512574dd2eb0 Clark Wang    2021-12-27  1226  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1227  	return 0;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1228  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1229  emit_stop:
+dd3c52846d5954a Miquel Raynal 2021-01-21  1230  	svc_i3c_master_emit_stop(master);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1231  	svc_i3c_master_clear_merrwarn(master);
+dd3c52846d5954a Miquel Raynal 2021-01-21  1232  
+dd3c52846d5954a Miquel Raynal 2021-01-21  1233  	return ret;
+dd3c52846d5954a Miquel Raynal 2021-01-21  1234  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
