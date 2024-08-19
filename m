@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA54826AD3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9B445BE3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Aug 2024 15:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724081273; cv=none; b=Rshx076R9tEgq818VYJcpba+KyomEB/sWYwDviXjiLixdHMcWIi//xVnXGshjiJo3Z5rS557loJRmv2bb0C3OWSLbcaLlqpF7x8vyf0pbpKlO8I2nsiPvvoR/eIufuqFIkl3xc/10H5cOxq6lrLTf1O2T4rBCHkXJeN/z2TwLKo=
+	t=1724081332; cv=none; b=AyKnXAuG6YX1HSbYn5E9/9g37KVNWAPZ4N4/eEyVBhh+6bZcrIOWoCbGaXTBgdPNlAybhbh/8wUtGk4bWBdwGRijSN471oPQefksFutgce/0vsk60ymwaC4xrBS+uUEfOcBlieLGZXMAjf8Ou7ocgvTaVGDneVsGd7gBCF5vP3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724081273; c=relaxed/simple;
-	bh=kH1afBbb1+woJl5gOCcjAhsXXauiHEE/LLBPatDcxdg=;
+	s=arc-20240116; t=1724081332; c=relaxed/simple;
+	bh=LU9bSSpXh0CphCHr3GT2GKucWLeRl8bC1ms0sLI1vBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=hcvVk9Y6xjNmM9BT8IhbB8dK6g27bSBSzTSlJEA7+idgDzxFdyUHDbwipKPdqT7e7/vYL00LZs006vjvdQmmiWLxs0xVVdYYukvKOMLfb/d8+7xkzslgN3OHHEuWixeSL/M5wlMcghACOMnhQcJJnWupADi3B/vwG5gZY+WxqVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kC6DFfsJ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=IMnlg2kmEyWBfY51sCG5vecLfVoSaueZygRmYkVAZE/sbcCn/cHuC3KW2tJCXDsa6UqUwwQ9hNijE6WbYCml1kYjgP9p6kT/ph6P4lCh8gY4bNVjbIXRUcBaJSqSAx68pyLqJj3bLqW/K3Kc9Z+SS7PxfOGlnuua1DGKd8SnZgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnPuqm+7; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kC6DFfsJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnPuqm+7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724081270; x=1755617270;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=kH1afBbb1+woJl5gOCcjAhsXXauiHEE/LLBPatDcxdg=;
-  b=kC6DFfsJXPcYX9XRY5WZBluZx34zlBGUvPnBVYcru2jqW/UlUhAI+mxB
-   zLLtd9aMS5YgZETrkFelxkeSERPTJ9pN+UeuK6jq9xRd3ySDUIVUIVChP
-   r2sNbYKkHaPw1d4zMTo+bYErfjUvqIza3YKiWKkDzU1hVmmshxgK5cyl4
-   mwqadl9+7v5F4aEpD4RqBQgJlBHy9Y6fdu5G4Z1PLVz7yia8SU3RIzwMn
-   WDXfaJn3SvB/1iJ6eFHtkqN0hfzc/FrHrRXjkL8z3u2iYQ92NfPgACG9n
-   Bzh3pqDELI627EexAlniVIJZ4gPdfjW71hLUfM6xdH355kxitA0QPLaHG
-   Q==;
-X-CSE-ConnectionGUID: 0O5HM0gkR9G9ukWJeLItUw==
-X-CSE-MsgGUID: sRGmAMrZTfWvbSBoR43kwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26202598"
+  t=1724081330; x=1755617330;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LU9bSSpXh0CphCHr3GT2GKucWLeRl8bC1ms0sLI1vBE=;
+  b=FnPuqm+7MbJHRaWteOG/wXbJ7MvUkwwMSdUeQFJ5qphjbmaCcautTpLy
+   uZC0cfsp+NM3pi1a+uSHrm/hk34+FERX3sRjjtKl/f7/cfZYegyM32xR5
+   PZciFPr9oafTg2x3YOiWWvppI9oInnMPw99nIlqIVSe+Udog15ozEIAAT
+   qSuvkmnqbmVPK3T5hTHoCfmhy04bHaUfXyLiNREPC6tJOG1AuMcGcnw6/
+   nXsqN83p43YRQDEZp35LVSLGuLxTBqIQ20NGG275knyivP4/PYlJhbGuq
+   yjIOXqq/sGJy0XWesKslGasqMJj7xuFQnE+qtciW8WadaKKw0rbHk/lKl
+   g==;
+X-CSE-ConnectionGUID: Cfjb2YPVQLOKPdeecQWcVA==
+X-CSE-MsgGUID: jRKmlslzRNmibINF37FS6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22510692"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="26202598"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 08:27:49 -0700
-X-CSE-ConnectionGUID: 29NX9xPcTzaBnfpLrMt1Lw==
-X-CSE-MsgGUID: QzZCDVEMTdqNm59Ad3kQjw==
+   d="scan'208";a="22510692"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 08:28:50 -0700
+X-CSE-ConnectionGUID: 8dgZRvsOQ92s5FcIRi0X/g==
+X-CSE-MsgGUID: /lt4qnXzTECVF+8UlJyfuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="64806714"
+   d="scan'208";a="60069312"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Aug 2024 08:27:48 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2024 08:28:49 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg4IM-00097U-0p;
-	Mon, 19 Aug 2024 15:27:46 +0000
-Date: Mon, 19 Aug 2024 23:27:12 +0800
+	id 1sg4JK-00097q-1O;
+	Mon, 19 Aug 2024 15:28:46 +0000
+Date: Mon, 19 Aug 2024 23:28:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] remoteproc: k3-r5: Fix error handling when power-up
- failed
-Message-ID: <ZsNkUG0zQcD5iukH@19332f7c2499>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Sagi Grimberg <sagi@grimberg.me>
+Subject: [hare-nvme:secure-concat.v9 3/10] include/crypto/hkdf.h:25:17:
+ error: 'ENOTSUP' undeclared; did you mean 'ENOTSUPP'?
+Message-ID: <202408192312.PjQK9unz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f481156-f220-4adf-b3d9-670871351e26@siemens.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v9
+head:   24817e66fba53d9e2722aec6abd8a00b29bf108a
+commit: 07a5113f110b146bff44efafd623d3c0e87d9118 [3/10] nvme: add nvme_auth_generate_psk()
+config: arm64-randconfig-001-20240819 (https://download.01.org/0day-ci/archive/20240819/202408192312.PjQK9unz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240819/202408192312.PjQK9unz-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408192312.PjQK9unz-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+   In file included from drivers/nvme/common/auth.c:14:
+   include/crypto/hkdf.h: In function 'hkdf_extract':
+>> include/crypto/hkdf.h:25:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+      25 |         return -ENOTSUP;
+         |                 ^~~~~~~
+         |                 ENOTSUPP
+   include/crypto/hkdf.h:25:17: note: each undeclared identifier is reported only once for each function it appears in
+   include/crypto/hkdf.h: In function 'hkdf_expand':
+   include/crypto/hkdf.h:31:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+      31 |         return -ENOTSUP;
+         |                 ^~~~~~~
+         |                 ENOTSUPP
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] remoteproc: k3-r5: Fix error handling when power-up failed
-Link: https://lore.kernel.org/stable/9f481156-f220-4adf-b3d9-670871351e26%40siemens.com
+
+vim +25 include/crypto/hkdf.h
+
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  11  
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  12  #ifdef CONFIG_CRYPTO_HKDF
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  13  int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  14  		 unsigned int ikmlen, const u8 *salt, unsigned int saltlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  15  		 u8 *prk);
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  16  int hkdf_expand(struct crypto_shash *hmac_tfm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  17  		const u8 *info, unsigned int infolen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  18  		u8 *okm, unsigned int okmlen);
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  19  #else
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  20  static inline int hkdf_extract(struct crypto_shash *hmac_tfm,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  21  			       const u8 *ikm, unsigned int ikmlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  22  			       const u8 *salt, unsigned int saltlen,
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  23  			       u8 *prk)
+7cdb18431a4b69 Hannes Reinecke 2024-07-18  24  {
+7cdb18431a4b69 Hannes Reinecke 2024-07-18 @25  	return -ENOTSUP;
+
+:::::: The code at line 25 was first introduced by commit
+:::::: 7cdb18431a4b69e4912fa880449c256e92f3a30d crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+
+:::::: TO: Hannes Reinecke <hare@kernel.org>
+:::::: CC: Hannes Reinecke <hare@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
