@@ -1,129 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E59166F3D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 20:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D6F1C3F3C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 21:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724187056; cv=none; b=b306Oy8C6Y2cVCrgG36jIxkqUHEjKkKvIdhNZPa3iDcW0UOkrSHlrdYrMBLg2+xsN8Yytof1JDCNCaCgJyctsXiyZ8W31RMq88f3Y9biz9bUEDyt++eN5bHYottt1Td0aCIJ8PcHNu+zJx8rmKsrENQ9UyhLncBGcoOwZCAz1qU=
+	t=1724188053; cv=none; b=reYoilQxfQ8F5aMwQ31mSsF+4HoqVBi5u9pQxfbf/Xzy0HVn9zGBg5gFOJXubGH9j6COVW20rcx+TmpBXv0QUGUSHN96kvmARHCW9UJ9BwXhnbh5DOioWCvs5GmUkP9vfRGEfUzb2n5rbq5yA0vuG4KEuAYXxoqA4CTLbLWla3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724187056; c=relaxed/simple;
-	bh=zwq8CQuLYUtZaWmNJNGM4GT8Zhg+MJesPnv+vNUT2yw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZWYmEn4k5swKNO+UWaI+WIPxm97bZjOpw9ouOllmjtCYgXWvscO2nRnuVbYSgw1/aFOT8TUXN8CzskQUun8+NfHrPQcFmuF56RZPdL5Xiqbh81lQ3bVLQtCmFDhSDwiDzlW9AB6efIb16TNcTjiNyMyPwBr7/8CZFVWIS32FwhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baMd/PeX; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724188053; c=relaxed/simple;
+	bh=XNFvctVhIwp6wrUS5NtnVVcSlfcNFqnWQa6xosRIEHo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ldtVsaF177CywIrc3OOhcnRf2aD1O9bYQ2UT6v1qiuWVtZJ9CNxltzKl1R5DSL96UojMSraaUUlGRdHounC+T6OCyNmBQoNIiqtwf89RMO9UdM7q7fKffMYdVOmotpXxld0qFVSoPAfnhY3vqKQrHTajV9Swza22bT2Zga8nY5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lWfRm6Zt; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baMd/PeX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724187055; x=1755723055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zwq8CQuLYUtZaWmNJNGM4GT8Zhg+MJesPnv+vNUT2yw=;
-  b=baMd/PeXh4YWTnMBn+lfwac5G2wKAqPJe/f0W22ARQqpWrQrr8uPs6K4
-   NVhYVzb981mh5wYaJh3LILKxjL6ev0qy5NTWpGBKko+nb14UHFS6PuVZz
-   7htwo/DUeFWI+xbKXaqelr9ZnZahaVk9qROgT4BMCqdzFDJeB5pYVPN0q
-   WqiXqVIX6bZhpfbDEA20pm7CB96+NksucnUkdcD020dKkBDf+QehzVIno
-   TWlz8AYBDPkvTu7YfN3IqkFEETOu93Yo6qzzbXkEiWnKqdxBFLqh5KoUV
-   srs2F7URCh/zP1WAwn8r4p19k+2+MxFkWB1ll7xLjaBkiskdYCfbRBH++
-   A==;
-X-CSE-ConnectionGUID: GOxuusTzQT2qlS7fsdpX5Q==
-X-CSE-MsgGUID: dYg8rt3uRUqbTX3swSmO3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26384675"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="26384675"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 13:50:55 -0700
-X-CSE-ConnectionGUID: mzgJoD+6QZ6X8B55Oge1pQ==
-X-CSE-MsgGUID: 8CpjVA2cSwSfXOpp3ceN/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="60824690"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Aug 2024 13:50:54 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgVoZ-000Abm-17;
-	Tue, 20 Aug 2024 20:50:51 +0000
-Date: Wed, 21 Aug 2024 04:50:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, chench00 <chench@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13309/13457] ld.lld: error: duplicate symbol:
- psp_register_cmd_notifier
-Message-ID: <202408210406.xQBoe5bW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lWfRm6Zt"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-685cc5415e8so59545767b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 14:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724188049; x=1724792849; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aebfEap/ASBe5Gb+mw0cMwkvvA5FCkHO5rzJr5kiaeg=;
+        b=lWfRm6ZtVnS1Mw6S1xowEGWUg1loCNrDIyD6+bF4mEicuNClOJWxBZFOyS3f53kie3
+         YwREj7YrCoxRWPVGgu7HiwuaVbx7buTq5++hqY92GeqF0emus+jKdWhwzsrDp61E3gtU
+         tbQbsRNwoDiAdfOanHrXC+TxOwZL1o73TthbBdJtgfkX+6OIFt8gmOeedw6USek2PTc0
+         AdNBhjIgWVmo5v2UPxhL4ZdlzOg7puzWEh2tOmAqPgUjFXT9DPKY5kD6JZ/yD82DPj5Q
+         lnvJCQcbspFhXbRhfVOEfCJiZ+2eJ3Apx2qEX7osHGNQoLGuxRaHVZaIdSx68ZF9wsbv
+         N12g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724188049; x=1724792849;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aebfEap/ASBe5Gb+mw0cMwkvvA5FCkHO5rzJr5kiaeg=;
+        b=ucQHMpQi+Y3iLMmNJD43R3dePmcFlUU2DsGXS/Eh61TrnKtrTE9GXGW+wtpRPmSPch
+         qarttw4iv/nBJj+uY/7XyLRET31q/juzLwoT5A1fkpYmSv155ll3n4yIKSGC8cmLS/EP
+         nLOoIjBu4VjRf/Rkx6V0Bs7CNvp5IEdndTmtj0lGSqdDalzxJJ1YAhcvG4d6gz7/4mik
+         GRzTm2vR7OePNJWzr1TRmPzb6mGE4HepVbqlavmlad8MqEjlMA9VUZSO0Re0csBIZZn+
+         6vZBUMKAbirJkF5nRtJbUKH3jk5anPveL0rgfM+21CRYutCmEe2eRkc/FvMH/xn2q4GE
+         UmZQ==
+X-Gm-Message-State: AOJu0YzSddrWI/WWuzN1oVqlcBkJ6iUJIrSGiNuH2qGIJdZGJ4PKuDeo
+	ST1EYiI7C4nwnd+aLNNrXxc4/G1m8TGkrfS49nDu0UMLJaeHJkkprmyglYOXCEE=
+X-Google-Smtp-Source: AGHT+IEbwKid8lGpSqZEjokGZLtdiVUpmCFV7bwar2w8v4lWx6MWt47SpOfAEtmAV7/wUbEyz60atQ==
+X-Received: by 2002:a05:690c:2e8d:b0:6b0:2031:6414 with SMTP id 00721157ae682-6c09d4ff4fcmr6360937b3.24.1724188049085;
+        Tue, 20 Aug 2024 14:07:29 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fdd8bfdsm55935356d6.19.2024.08.20.14.07.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 14:07:28 -0700 (PDT)
+Message-ID: <7658aca4-a408-480c-98b6-4637bb86b5ad@baylibre.com>
+Date: Tue, 20 Aug 2024 17:07:27 -0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] iio: adc: ad7625: add driver
+To: kernel test robot <lkp@intel.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
+ <202408201520.lFtco3eF-lkp@intel.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <202408201520.lFtco3eF-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a768b922343d9cab29e2e0aaef1d4bdee47cfbb5
-commit: d0b3a770d8e20d953fe2a74ea8c4b5f4767c4add [13309/13457] crypto: command co-processor: Add another mailbox interrupt support for PSP sending command to X86
-config: x86_64-buildonly-randconfig-002-20240821 (https://download.01.org/0day-ci/archive/20240821/202408210406.xQBoe5bW-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408210406.xQBoe5bW-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408210406.xQBoe5bW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: duplicate symbol: psp_register_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_register_cmd_notifier) in archive vmlinux.a
-   >>> defined at csv-dev.c
-   >>>            drivers/crypto/ccp/hygon/csv-dev.o:(.text+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_unregister_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_unregister_cmd_notifier) in archive vmlinux.a
-   >>> defined at csv-dev.c
-   >>>            drivers/crypto/ccp/hygon/csv-dev.o:(.text+0x20) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_register_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_register_cmd_notifier) in archive vmlinux.a
-   >>> defined at ring-buffer.c
-   >>>            drivers/crypto/ccp/hygon/ring-buffer.o:(.text+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_register_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_register_cmd_notifier) in archive vmlinux.a
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/hygon/psp-dev.o:(.text+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_unregister_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_unregister_cmd_notifier) in archive vmlinux.a
-   >>> defined at ring-buffer.c
-   >>>            drivers/crypto/ccp/hygon/ring-buffer.o:(.text+0x20) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_unregister_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_unregister_cmd_notifier) in archive vmlinux.a
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/hygon/psp-dev.o:(.text+0x20) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_register_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_register_cmd_notifier) in archive vmlinux.a
-   >>> defined at sev-dev.c
-   >>>            drivers/crypto/ccp/sev-dev.o:(.text+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: psp_unregister_cmd_notifier
-   >>> defined at psp-dev.c
-   >>>            drivers/crypto/ccp/psp-dev.o:(psp_unregister_cmd_notifier) in archive vmlinux.a
-   >>> defined at sev-dev.c
-   >>>            drivers/crypto/ccp/sev-dev.o:(.text+0x20) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 2024-08-20 3:19 a.m., kernel test robot wrote:
+> Hi Trevor,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on ac6a258892793f0a255fe7084ec2b612131c67fc]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Gamblin/dt-bindings-iio-adc-add-AD762x-AD796x-ADCs/20240819-221425
+> base:   ac6a258892793f0a255fe7084ec2b612131c67fc
+> patch link:    https://lore.kernel.org/r/20240819-ad7625_r1-v3-2-75d5217c76b5%40baylibre.com
+> patch subject: [PATCH v3 2/3] iio: adc: ad7625: add driver
+> config: alpha-randconfig-r132-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/reproduce)
+Seems to be a problem with missing static inline definitions in pwm.h if 
+CONFIG_PWM isn't set. I've replied to the relevant series on the PWM 
+mailing list and will add "select PWM" to Kconfig for this driver.
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408201520.lFtco3eF-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/iio/adc/ad7625.c: In function 'ad7625_set_sampling_freq':
+>>> drivers/iio/adc/ad7625.c:191:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Werror=implicit-function-declaration]
+>       191 |         ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+>           |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/iio/adc/ad7625.c: In function 'ad7625_buffer_preenable':
+>>> drivers/iio/adc/ad7625.c:420:15: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Werror=implicit-function-declaration]
+>       420 |         ret = pwm_set_waveform_might_sleep(st->cnv_pwm, &st->cnv_wf, false);
+>           |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     cc1: some warnings being treated as errors
+>
+>
+> vim +/pwm_round_waveform_might_sleep +191 drivers/iio/adc/ad7625.c
+>
+>     175	
+>     176	static int ad7625_set_sampling_freq(struct ad7625_state *st, int freq)
+>     177	{
+>     178		u64 target;
+>     179		struct pwm_waveform clk_gate_wf = { }, cnv_wf = { };
+>     180		int ret;
+>     181	
+>     182		target = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+>     183		cnv_wf.period_length_ns = clamp(target, 100, 10 * KILO);
+>     184	
+>     185		/*
+>     186		 * Use the maximum conversion time t_CNVH from the datasheet as
+>     187		 * the duty_cycle for ref_clk, cnv, and clk_gate
+>     188		 */
+>     189		cnv_wf.duty_length_ns = st->info->timing_spec->conv_high_ns;
+>     190	
+>   > 191		ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+>     192		if (ret)
+>     193			return ret;
+>     194	
+>     195		/*
+>     196		 * Set up the burst signal for transferring data. period and
+>     197		 * offset should mirror the CNV signal
+>     198		 */
+>     199		clk_gate_wf.period_length_ns = cnv_wf.period_length_ns;
+>     200	
+>     201		clk_gate_wf.duty_length_ns = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
+>     202			st->info->chan_spec.scan_type.realbits,
+>     203			st->ref_clk_rate_hz);
+>     204	
+>     205		/* max t_MSB from datasheet */
+>     206		clk_gate_wf.duty_offset_ns = st->info->timing_spec->conv_msb_ns;
+>     207	
+>     208		ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
+>     209		if (ret)
+>     210			return ret;
+>     211	
+>     212		st->cnv_wf = cnv_wf;
+>     213		st->clk_gate_wf = clk_gate_wf;
+>     214	
+>     215		/* TODO: Add a rounding API for PWMs that can simplify this */
+>     216		target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz, freq);
+>     217		st->sampling_freq_hz = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz,
+>     218							     target);
+>     219	
+>     220		return 0;
+>     221	}
+>     222	
+>
