@@ -1,63 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0355158A25;
-	Tue, 20 Aug 2024 19:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B67158A25
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 19:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724181598; cv=none; b=iwZZ5fbf8EvLmECPI5weNWP6ixOJ+AwY8hu45zavFxcAqqGsB24/aiQ31uZJG5yGvVaLP1e5UPk138fHE6DbCHHqHjWIvk+M9Wk7SPkUjyJNCo6ZuzVLH05kNvZLyelsx/N6jMN6aYhYiCkluBe3Cg3eC1xaSFqa2+yJRJ/cjQI=
+	t=1724181734; cv=none; b=K7zFwZ59Nyrnz0NeWsfaD2FPm810oDNsbz3Oh04M4wQI17edjUMggObG0aJbyXBMvDis0ELKEhr8DTpBrzgigSwIgpkwzZCcEXGRG90nZYBn0EzRgcoGTXv4cTGAqSF+nRWf0SED49sIv4HvaBU4xWzOyqt/KbIKw/5Jv/+C3yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724181598; c=relaxed/simple;
-	bh=zVp1b2SV9/XwCusLw9O/RD/Zq0qsylTYg378u0oHrRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/XtoS1dPyoGjSCV2WFRtnM82yHfgJwah1JslUotpnvncUtWQVRd98TdiShxgDIj8CmzzkRVkrcdbH4TpI9RaR6hmjtbafUhPDE/VHlQAa51ZH/p4I6xtfsEI71W/B1UFAJITQRL3RKTY2imo1K5HpUtpR+z4iHmsAEuZTpE2hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OasUbxU/; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724181734; c=relaxed/simple;
+	bh=BpPOfDmirINhx2FeN9v389nMMWzGfbW4wtOzqy53by0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=l8AhNdHjVJr6N3mcLDfvR/4hnXgpnHvtP1hqprcNvpHXjcISM4a8PB43jVsbufMcggIluwWUzD9XfPamARiMrqpf05FwecGhxXyqx4WHnsMXODKDTiEfxo8Q0p2TYadLvMf0ySjHqN1NrSPl7u0sUea3PpWYyYxoImDL2z1+yFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CXQ4C9ac; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OasUbxU/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724181596; x=1755717596;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zVp1b2SV9/XwCusLw9O/RD/Zq0qsylTYg378u0oHrRU=;
-  b=OasUbxU/SdSXIMNSEQMchHzN1y0B637MjcIu1vkm+NpG2bUKWJe1Lula
-   4rblfjtaZfqxExxuJDJiIztQpNBOxoQF9luoGLLmwYQ7ZdnJIjzl2NtbJ
-   3nDjY7AHbf9iwhu1Efv+I8//3fCOZ3Jz0KMUv447q51cMAO6/T9InjxBx
-   apGkCJ5O4aawZSac5sjdJDzx3vpwCfHhdfjFLU3oNB0Q5G95yMBsZei6q
-   4u7CmLv8QffGdFLtqdLXqj0Hof5A5JrzSlGUxAuvWvhN6ZZHy4Y6sge41
-   nCECmf+C3MdnOtgDtsc1qn2V49HWoO+30DtwiPmV0NzO52i/Z76P2TVqm
-   w==;
-X-CSE-ConnectionGUID: BIbOVGr9QM+L0IHxqllf1g==
-X-CSE-MsgGUID: a7jWslcYTJeL6DmkKXJCGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22316790"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="22316790"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 12:19:53 -0700
-X-CSE-ConnectionGUID: GrewprGpSvyP6kEpNJkVlA==
-X-CSE-MsgGUID: eCJHkhbQSrCAftN/UdLbHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="84026664"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Aug 2024 12:19:50 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgUOS-000AWy-2T;
-	Tue, 20 Aug 2024 19:19:48 +0000
-Date: Wed, 21 Aug 2024 03:18:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xi Huang <xuiagnh@gmail.com>, jeremy@system76.com,
-	productdev@system76.com, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] platform/x86: system76: Reducing redundant conditional
- judgments in system76_add()
-Message-ID: <202408210506.TtQpGzMk-lkp@intel.com>
-References: <20240820090239.17771-1-xuiagnh@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CXQ4C9ac"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53310adb4c3so6584355e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 12:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724181731; x=1724786531; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=s5Vgh7cIhAR8EzOC5rIRmEerU1CHjbVHuOqeMf4SYoY=;
+        b=CXQ4C9ack/zOJ0aDMA7s7UlvLpOTGdo8ljYywC22Iv8yubp3gedE9yPEph9Bwjb8VZ
+         CO9VimynjZkeM5258+feN8bevwEj4T3XYp51CF0eZhAvwgV2vPJ+J+SWl9Tul2ZUzGEJ
+         v6hNdpUfaHveSfUkqf89RVcAa0XU1x9zrpZsbiX4iODuEhCajN/1QSlERSLm4trGKeF3
+         oUYPewPs9A5kPnoJjpbTUgCqsyQifGEsx9lw8jIu2YkUiVrd/bDuW7O9l+SkRGlOvibX
+         DQnEHHgLO04LUFKyjR+fNmiNpdtY//oFa2PeEIk4GZyo7qS5j001yd/DPPTyAeow0DOx
+         Vg+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724181731; x=1724786531;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s5Vgh7cIhAR8EzOC5rIRmEerU1CHjbVHuOqeMf4SYoY=;
+        b=MpGTXk5yQH+Kt2q+bmMPFYywKkFvsbZja1WdnP1GdA5b3hI46wRLlu05gEgMt1PWM3
+         RsFIX5XVNZ70ba+I9CEerbIGRaF1ITxK8WyXwMwVOiS6YUDAFsUU9vI4yb5eTVEEq/B9
+         eQTz/dB+BjNb5C6qvj+vuPWruyaoyvod/+5Z4R+K0zvhiNrLlS63DHNBYVbLijze++H9
+         t2V5pLWa+LSLHTCmTknk55ZnTBcchAdIE44QqjSf0c6Gdf4yq1ae417jvrwEo7zMbLrj
+         SJS6E77L6IBO+DCKGEHzTQedzvGDVOfEAcq3O1Llvfh6DGZxSxiaijxqLMTVf6km9wPf
+         0B5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVwBlSnDxyNtzbuDuls3LCxE/Al3RhyhqEP8tkkDak9JmMTIFshE04FbtmizvJ03+uBlLrE9FRGC8x/36bR@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUTaN3oSi1iQI05UC8xLnzNPFFEmJqqoAxoPGUL9555NtP5YLV
+	h73VHoVOD34qJACBrLSCTwE/264n/gw4ttUq/ubb5lTaBKe7Qm3TYdoTMrUda/Y=
+X-Google-Smtp-Source: AGHT+IHf7Tbewe2gDUqpiwgN6v47D7zLV+pEDL7AQ0VkyE9qIIIroi+fCDpfoFTJLhwZIOCQ0RIEIA==
+X-Received: by 2002:a05:6512:230a:b0:52c:8aa6:4e9d with SMTP id 2adb3069b0e04-5331c6b010bmr11047307e87.29.1724181730489;
+        Tue, 20 Aug 2024 12:22:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a838396d0cdsm799992266b.219.2024.08.20.12.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 12:22:09 -0700 (PDT)
+Date: Tue, 20 Aug 2024 22:22:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Alexander Aring <aahringo@redhat.com>,
+	teigland@redhat.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev,
+	song@kernel.org, yukuai3@huawei.com, agruenba@redhat.com,
+	mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+	netdev@vger.kernel.org, vvidic@valentin-vidic.from.hr,
+	heming.zhao@suse.com, lucien.xin@gmail.com, aahringo@redhat.com
+Subject: Re: [PATCH dlm/next 10/12] dlm: separate dlm lockspaces per
+ net-namespace
+Message-ID: <2a99ef8c-9475-4843-87e7-c8f03c756e2b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,160 +74,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820090239.17771-1-xuiagnh@gmail.com>
+In-Reply-To: <20240819183742.2263895-11-aahringo@redhat.com>
 
-Hi Xi,
+Hi Alexander,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc4 next-20240820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xi-Huang/platform-x86-system76-Reducing-redundant-conditional-judgments-in-system76_add/20240820-170328
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240820090239.17771-1-xuiagnh%40gmail.com
-patch subject: [PATCH] platform/x86: system76: Reducing redundant conditional judgments in system76_add()
-config: x86_64-buildonly-randconfig-001-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210506.TtQpGzMk-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408210506.TtQpGzMk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Aring/dlm-introduce-dlm_find_lockspace_name/20240820-024440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/teigland/linux-dlm.git next
+patch link:    https://lore.kernel.org/r/20240819183742.2263895-11-aahringo%40redhat.com
+patch subject: [PATCH dlm/next 10/12] dlm: separate dlm lockspaces per net-namespace
+config: x86_64-randconfig-161-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210031.QCBHr27k-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408210506.TtQpGzMk-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408210031.QCBHr27k-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/x86/system76_acpi.c:762:3: warning: add explicit braces to avoid dangling else [-Wdangling-else]
-     762 |                 else
-         |                 ^
-   1 warning generated.
+New smatch warnings:
+fs/dlm/lock.c:4989 dlm_receive_buffer() error: we previously assumed 'ls' could be null (see line 4988)
 
 
-vim +762 drivers/platform/x86/system76_acpi.c
+vim +/ls +4989 fs/dlm/lock.c
 
-   673	
-   674	// Add a System76 ACPI device
-   675	static int system76_add(struct acpi_device *acpi_dev)
-   676	{
-   677		struct system76_data *data;
-   678		int err;
-   679	
-   680		data = devm_kzalloc(&acpi_dev->dev, sizeof(*data), GFP_KERNEL);
-   681		if (!data)
-   682			return -ENOMEM;
-   683		acpi_dev->driver_data = data;
-   684		data->acpi_dev = acpi_dev;
-   685	
-   686		// Some models do not run open EC firmware. Check for an ACPI method
-   687		// that only exists on open EC to guard functionality specific to it.
-   688		data->has_open_ec = acpi_has_method(acpi_device_handle(data->acpi_dev), "NFAN");
-   689	
-   690		err = system76_get(data, "INIT");
-   691		if (err)
-   692			return err;
-   693		data->ap_led.name = "system76_acpi::airplane";
-   694		data->ap_led.flags = LED_CORE_SUSPENDRESUME;
-   695		data->ap_led.brightness_get = ap_led_get;
-   696		data->ap_led.brightness_set_blocking = ap_led_set;
-   697		data->ap_led.max_brightness = 1;
-   698		data->ap_led.default_trigger = "rfkill-none";
-   699		err = devm_led_classdev_register(&acpi_dev->dev, &data->ap_led);
-   700		if (err)
-   701			return err;
-   702	
-   703		data->kb_led.name = "system76_acpi::kbd_backlight";
-   704		data->kb_led.flags = LED_BRIGHT_HW_CHANGED | LED_CORE_SUSPENDRESUME;
-   705		data->kb_led.brightness_get = kb_led_get;
-   706		data->kb_led.brightness_set_blocking = kb_led_set;
-   707		if (acpi_has_method(acpi_device_handle(data->acpi_dev), "GKBK")) {
-   708			// Use the new ACPI methods
-   709			data->kbled_type = system76_get(data, "GKBK");
-   710	
-   711			switch (data->kbled_type) {
-   712			case KBLED_NONE:
-   713				// Nothing to do: Device will not be registered.
-   714				break;
-   715			case KBLED_WHITE:
-   716				data->kb_led.max_brightness = 255;
-   717				data->kb_toggle_brightness = 72;
-   718				break;
-   719			case KBLED_RGB:
-   720				data->kb_led.max_brightness = 255;
-   721				data->kb_led.groups = system76_kb_led_color_groups;
-   722				data->kb_toggle_brightness = 72;
-   723				data->kb_color = 0xffffff;
-   724				system76_set(data, "SKBC", data->kb_color);
-   725				break;
-   726			}
-   727		} else {
-   728			// Use the old ACPI methods
-   729			if (acpi_has_method(acpi_device_handle(data->acpi_dev), "SKBC")) {
-   730				data->kbled_type = KBLED_RGB;
-   731				data->kb_led.max_brightness = 255;
-   732				data->kb_led.groups = system76_kb_led_color_groups;
-   733				data->kb_toggle_brightness = 72;
-   734				data->kb_color = 0xffffff;
-   735				system76_set(data, "SKBC", data->kb_color);
-   736			} else {
-   737				data->kbled_type = KBLED_WHITE;
-   738				data->kb_led.max_brightness = 5;
-   739			}
-   740		}
-   741	
-   742		if (data->kbled_type != KBLED_NONE) {
-   743			err = devm_led_classdev_register(&acpi_dev->dev, &data->kb_led);
-   744			if (err)
-   745				return err;
-   746		}
-   747	
-   748		data->input = devm_input_allocate_device(&acpi_dev->dev);
-   749		if (!data->input)
-   750			return -ENOMEM;
-   751	
-   752		data->input->name = "System76 ACPI Hotkeys";
-   753		data->input->phys = "system76_acpi/input0";
-   754		data->input->id.bustype = BUS_HOST;
-   755		data->input->dev.parent = &acpi_dev->dev;
-   756		input_set_capability(data->input, EV_KEY, KEY_SCREENLOCK);
-   757	
-   758		err = input_register_device(data->input);
-   759		if (err)
-   760			if (data->has_open_ec)
-   761				goto free_error;
- > 762			else
-   763				return err;
-   764	
-   765		if (data->has_open_ec) {
-   766			err = system76_get_object(data, "NFAN", &data->nfan);
-   767			if (err)
-   768				goto free_error;
-   769	
-   770			err = system76_get_object(data, "NTMP", &data->ntmp);
-   771			if (err)
-   772				goto free_error;
-   773	
-   774			data->therm = devm_hwmon_device_register_with_info(&acpi_dev->dev,
-   775				"system76_acpi", data, &thermal_chip_info, NULL);
-   776			err = PTR_ERR_OR_ZERO(data->therm);
-   777			if (err)
-   778				goto free_error;
-   779	
-   780			system76_battery_init();
-   781		}
-   782	
-   783		return 0;
-   784	
-   785	free_error:
-   786		kfree(data->ntmp);
-   787		kfree(data->nfan);
-   788		return err;
-   789	}
-   790	
+bde0f4dba584ae Alexander Aring 2024-08-19  4961  void dlm_receive_buffer(struct dlm_net *dn, const union dlm_packet *p,
+bde0f4dba584ae Alexander Aring 2024-08-19  4962  			int nodeid)
+c36258b5925e6c David Teigland  2007-09-27  4963  {
+1151935182b40b Alexander Aring 2023-08-01  4964  	const struct dlm_header *hd = &p->header;
+c36258b5925e6c David Teigland  2007-09-27  4965  	struct dlm_ls *ls;
+c36258b5925e6c David Teigland  2007-09-27  4966  	int type = 0;
+c36258b5925e6c David Teigland  2007-09-27  4967  
+c36258b5925e6c David Teigland  2007-09-27  4968  	switch (hd->h_cmd) {
+c36258b5925e6c David Teigland  2007-09-27  4969  	case DLM_MSG:
+00e99ccde75722 Alexander Aring 2022-04-04  4970  		type = le32_to_cpu(p->message.m_type);
+c36258b5925e6c David Teigland  2007-09-27  4971  		break;
+c36258b5925e6c David Teigland  2007-09-27  4972  	case DLM_RCOM:
+2f9dbeda8dc04b Alexander Aring 2022-04-04  4973  		type = le32_to_cpu(p->rcom.rc_type);
+c36258b5925e6c David Teigland  2007-09-27  4974  		break;
+c36258b5925e6c David Teigland  2007-09-27  4975  	default:
+c36258b5925e6c David Teigland  2007-09-27  4976  		log_print("invalid h_cmd %d from %u", hd->h_cmd, nodeid);
+c36258b5925e6c David Teigland  2007-09-27  4977  		return;
+c36258b5925e6c David Teigland  2007-09-27  4978  	}
+c36258b5925e6c David Teigland  2007-09-27  4979  
+3428785a65dabf Alexander Aring 2022-04-04  4980  	if (le32_to_cpu(hd->h_nodeid) != nodeid) {
+c36258b5925e6c David Teigland  2007-09-27  4981  		log_print("invalid h_nodeid %d from %d lockspace %x",
+3428785a65dabf Alexander Aring 2022-04-04  4982  			  le32_to_cpu(hd->h_nodeid), nodeid,
+3428785a65dabf Alexander Aring 2022-04-04  4983  			  le32_to_cpu(hd->u.h_lockspace));
+c36258b5925e6c David Teigland  2007-09-27  4984  		return;
+c36258b5925e6c David Teigland  2007-09-27  4985  	}
+c36258b5925e6c David Teigland  2007-09-27  4986  
+bde0f4dba584ae Alexander Aring 2024-08-19  4987  	ls = dlm_find_lockspace_global(dn, le32_to_cpu(hd->u.h_lockspace));
+c36258b5925e6c David Teigland  2007-09-27 @4988  	if (!ls) {
+bde0f4dba584ae Alexander Aring 2024-08-19 @4989  		log_limit(ls, "dlm: invalid lockspace %u from %d cmd %d type %d\n",
+                                                                          ^^
+ls is NULL here so this doesn't work.
+
+3428785a65dabf Alexander Aring 2022-04-04  4990  			  le32_to_cpu(hd->u.h_lockspace), nodeid,
+3428785a65dabf Alexander Aring 2022-04-04  4991  			  hd->h_cmd, type);
+c36258b5925e6c David Teigland  2007-09-27  4992  
+c36258b5925e6c David Teigland  2007-09-27  4993  		if (hd->h_cmd == DLM_RCOM && type == DLM_RCOM_STATUS)
+bde0f4dba584ae Alexander Aring 2024-08-19  4994  			dlm_send_ls_not_ready(dn, nodeid, &p->rcom);
+c36258b5925e6c David Teigland  2007-09-27  4995  		return;
+c36258b5925e6c David Teigland  2007-09-27  4996  	}
+c36258b5925e6c David Teigland  2007-09-27  4997  
+c36258b5925e6c David Teigland  2007-09-27  4998  	/* this rwsem allows dlm_ls_stop() to wait for all dlm_recv threads to
+c36258b5925e6c David Teigland  2007-09-27  4999  	   be inactive (in this ls) before transitioning to recovery mode */
+c36258b5925e6c David Teigland  2007-09-27  5000  
+578acf9a87a875 Alexander Aring 2024-04-02  5001  	read_lock_bh(&ls->ls_recv_active);
+c36258b5925e6c David Teigland  2007-09-27  5002  	if (hd->h_cmd == DLM_MSG)
+eef7d739c218cb Al Viro         2008-01-25  5003  		dlm_receive_message(ls, &p->message, nodeid);
+f45307d395da7a Alexander Aring 2022-08-15  5004  	else if (hd->h_cmd == DLM_RCOM)
+eef7d739c218cb Al Viro         2008-01-25  5005  		dlm_receive_rcom(ls, &p->rcom, nodeid);
+f45307d395da7a Alexander Aring 2022-08-15  5006  	else
+f45307d395da7a Alexander Aring 2022-08-15  5007  		log_error(ls, "invalid h_cmd %d from %d lockspace %x",
+f45307d395da7a Alexander Aring 2022-08-15  5008  			  hd->h_cmd, nodeid, le32_to_cpu(hd->u.h_lockspace));
+578acf9a87a875 Alexander Aring 2024-04-02  5009  	read_unlock_bh(&ls->ls_recv_active);
+c36258b5925e6c David Teigland  2007-09-27  5010  
+c36258b5925e6c David Teigland  2007-09-27  5011  	dlm_put_lockspace(ls);
+c36258b5925e6c David Teigland  2007-09-27  5012  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
