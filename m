@@ -1,58 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B3A947A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Aug 2024 09:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCF618C932;
+	Tue, 20 Aug 2024 10:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724146593; cv=none; b=TylpE1mIOPM0LUkI4EQwMgKVtk2OHWDOa87f8OnWnQ1/xtoIXwOZA8o/zLYMxAHUdMdfuiazUhXqWXepqTA9MnSSQ9ReZMK+XxlxrV3GbrocF0JjvJqCq9wjIwWhTEAFDLgJCJQtWedopDHdreEzgmBok6WyBTJ2ffDr4frrpaY=
+	t=1724148457; cv=none; b=PzT9JC1f2Sw9J0s1xGCtT/r2ZqmuZnAl0hV4/oHcXcvbuie3pcHoLfA4xLFCmvCWBWsYaPWORivTx+oy/iKQaziHk1z0FmCNP7DykY6XjHMdXKkar2fL7aUjOWgf6GQY1SNbh+PrS10ZiPvZAAWbgkqs5ScWm2fdEHeb2VeMOsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724146593; c=relaxed/simple;
-	bh=RFfQjLyBZ346VswZC7hJZyreSBOlBSvIf1UsGsCLYqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UDoRS27QUS+axpe/ZPSAI1KJMeGavlY8dp2+j+xEDaHnB/AkTt7TdjsmwR+bKTjQhqxHQYSivQnw3oLq4idrONzXpb3o3p8b9sxPPqeBFJWSxd3EKYEAfGQIz28sB9zyZIo4mTIWzJtx4xUtxq8V5wHD8nFiNHTagA3hU3jkQ64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KvYsE4U7; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1724148457; c=relaxed/simple;
+	bh=bf8kz5/zs+nVRfuhgFLeuqKgKIYboF3ngFXVlrv2Df8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G+5qq99aO9e59HNs8r44kgtDt9UERCIX/HlU9D7+OZFBeb/VidzsS3ZWS9IO/feVB3utED0MzEEQCVj2QygUbxDORPGLvWRm7cH0A3v1l44MdfkT2oyT8C6ycHvJXfundp/69QRRLR6xvobHzaxPn22dZ+LtCu+6TmJbyG3LO2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJxfOzmF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvYsE4U7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJxfOzmF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724146592; x=1755682592;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RFfQjLyBZ346VswZC7hJZyreSBOlBSvIf1UsGsCLYqs=;
-  b=KvYsE4U7cSgZ3EaMMvILI2web20YBx8anOQucvQ9OF+qqYFiJ+vTBQz4
-   zFEhzRFp5rEcB7YCeU0Ot/SaQvr4YrIhTWFV+YoURfIwFGjc9gFL/LN69
-   hu1weE3Mpp8rprQMW1JypAjyZCI/Z7TlziE9it/ZnccVBft9FCeZwLtDn
-   Z99iyxcRxhAxPaGc9pD8/2YCB/T+A5tIvn17NfKITkjucfdZlMfYhHCDt
-   YWI1Nc+GxaB+4Tmjhs3Wkod/XHd+GZK48gy0H1dXgBvuGRJBG3GITDPaV
-   JuSc0OMUBARXRqWvuO5nL/d64A3Bh7A3QGyaP7N2UzQ780Grntnx1iiO7
+  t=1724148455; x=1755684455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bf8kz5/zs+nVRfuhgFLeuqKgKIYboF3ngFXVlrv2Df8=;
+  b=CJxfOzmFZQNNFoKCwI/T5IOQhNEX5nA6wn6+3aR//sdwtFBR2rReFBa6
+   X5GufE6KJnppSbgeS4s3M61XOCCpp8ee2X7A7gTcAnjwcwWIZSqqbz+ko
+   qnPklIwr+YXdtSjkCwo7svYS1KnJpKwJCljgfFGwPkTrcUg0Y7w7CFeu2
+   tQE9Sw/Is4rDjyjU3JPSPYuNudKQBJUiBIFRXcQtTXlnypf36bzmGxF/A
+   DUn3Wh5Xk07cqNVbYWqULXFSWVSWg71PxeISw7E8pXYCgIuakmxU5KSgv
+   dooAQrOqrmUzOCzXp7mx+qDONNAARk+k8csEfe0nqltgNSN0kNXEjZ442
    A==;
-X-CSE-ConnectionGUID: pUHvAtcbTxKdPSBZ3+noyw==
-X-CSE-MsgGUID: sVlKK3OZQXq//ythDZuzRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22563728"
+X-CSE-ConnectionGUID: CZELdVG8RHK35mvSLguBxg==
+X-CSE-MsgGUID: V0HjYY+/T0CIxA7KQ3yVfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22573983"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="22563728"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 02:36:31 -0700
-X-CSE-ConnectionGUID: YBO1ugnASV+f034OQCB9aw==
-X-CSE-MsgGUID: yQ87jKA9RDK0C0ydDcXUMQ==
+   d="scan'208";a="22573983"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 03:07:34 -0700
+X-CSE-ConnectionGUID: 8GozAOEARt6+rmkkO6VlTg==
+X-CSE-MsgGUID: ZD0Ym3zqSZunJLBRXJd9aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="91441455"
+   d="scan'208";a="60659356"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Aug 2024 02:36:28 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2024 03:07:28 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgLHt-0009z0-0B;
-	Tue, 20 Aug 2024 09:36:25 +0000
-Date: Tue, 20 Aug 2024 17:35:38 +0800
+	id 1sgLlu-000A1A-05;
+	Tue, 20 Aug 2024 10:07:26 +0000
+Date: Tue, 20 Aug 2024 18:06:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: ld.lld: error: undefined symbol: devm_hwrng_register
-Message-ID: <202408201716.knXsXPX7-lkp@intel.com>
+	patches@lists.linux.dev, devicetree@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Pin-yen Lin <treapking@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v3 09/17] drm/bridge: dp_typec: Allow users to hook hpd
+ notify path
+Message-ID: <202408201747.NMpzuToG-lkp@intel.com>
+References: <20240819223834.2049862-10-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,27 +88,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240819223834.2049862-10-swboyd@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6e4436539ae182dc86d57d13849862bcafaa4709
-commit: 74a22fced5a012c57f56d1cf7ea926cc366a2a3a platform: cznic: turris-omnia-mcu: Make poweroff and wakeup code optional
-date:   13 days ago
-config: hexagon-randconfig-r054-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201716.knXsXPX7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201716.knXsXPX7-lkp@intel.com/reproduce)
+Hi Stephen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stephen-Boyd/drm-atomic-helper-Introduce-lane-remapping-support-to-bridges/20240820-064107
+base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+patch link:    https://lore.kernel.org/r/20240819223834.2049862-10-swboyd%40chromium.org
+patch subject: [PATCH v3 09/17] drm/bridge: dp_typec: Allow users to hook hpd notify path
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240820/202408201747.NMpzuToG-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201747.NMpzuToG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408201716.knXsXPX7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408201747.NMpzuToG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: devm_hwrng_register
-   >>> referenced by turris-omnia-mcu-trng.c:95 (drivers/platform/cznic/turris-omnia-mcu-trng.c:95)
-   >>>               drivers/platform/cznic/turris-omnia-mcu-trng.o:(omnia_mcu_register_trng) in archive vmlinux.a
-   >>> referenced by turris-omnia-mcu-trng.c:95 (drivers/platform/cznic/turris-omnia-mcu-trng.c:95)
-   >>>               drivers/platform/cznic/turris-omnia-mcu-trng.o:(omnia_mcu_register_trng) in archive vmlinux.a
+   drivers/gpu/drm/bridge/aux-hpd-bridge.c:61: warning: Function parameter or struct member 'orientation_switch' not described in 'drm_dp_typec_bridge_typec_port'
+>> drivers/gpu/drm/bridge/aux-hpd-bridge.c:336: warning: Function parameter or struct member 'typec_bridge_dev' not described in 'drm_dp_typec_bridge_add_hpd_notify'
+
+
+vim +336 drivers/gpu/drm/bridge/aux-hpd-bridge.c
+
+   327	
+   328	/**
+   329	 * drm_dp_typec_bridge_add_hpd_notify: Register a callback called when the
+   330	 * bridge chain hpd state changes
+   331	 * @hpd_notify: callback for bridge hot plug detect events
+   332	 * @hpd_data: data passed to @hpd_notify callback
+   333	 */
+   334	void drm_dp_typec_bridge_add_hpd_notify(struct drm_dp_typec_bridge_dev *typec_bridge_dev,
+   335						hpd_notify_fn_t hpd_notify, void *hpd_data)
+ > 336	{
+   337		typec_bridge_dev->hpd_notify = hpd_notify;
+   338		typec_bridge_dev->hpd_data = hpd_data;
+   339	}
+   340	EXPORT_SYMBOL_GPL(drm_dp_typec_bridge_add_hpd_notify);
+   341	
 
 -- 
 0-DAY CI Kernel Test Service
