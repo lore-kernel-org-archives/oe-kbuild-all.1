@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D98200961
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 09:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB9020096E;
+	Wed, 21 Aug 2024 09:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724233407; cv=none; b=liPCqyHTH2LU7gtFRZoK1Ebuj0VWlEysIt0PMrVdfbnrASPfZYi/N5gH5hcy47POWauv5Fd5WyudLPTEfrHE8BtNZd0FurDvu30EcE38ESmxaDh54l+wyUb7+F/BCnIHZhwsXcr73n0tNs+inoc/gsyRwVymW7mXUC356BJJovM=
+	t=1724233409; cv=none; b=vDf2jbolsIyY+FK56LYZRyAAoWO3DWS9kfRIQuPXA9uTvQ4RTKCL9ABrXVCpaiLOtozFEvcCE08x6R3q3jkAdxh2HS5IgTtqrsechhHAYQuKj+BQLdzcbusLjx+4wlMq34K1tc7y7yklMgidOihZRwUFuNTVLmWbyJ7MSkG7lqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724233407; c=relaxed/simple;
-	bh=XZEuaqULdmrhmUlGTAOSBSFIRe9hIMuCKG4XgB/UVFE=;
+	s=arc-20240116; t=1724233409; c=relaxed/simple;
+	bh=VtLhwjfdoBt6Izefq6nC7rSkdwaapeADWgGxeh/MnKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmcwRgntXIvhqsx6stTe5eUY7Ssf+gRjT6WP6WeDdhdIhhPkfgYAjbZyKXrwN+cyi9iC0rFQoiAbjWa4GrmDWaqbVlXFmO7ChLuzPGwLuD/xzEy5+tEDofTe7Z+HJqowWIV9Oreg/ED8nKlTqqsMgW2cXGb3Pmh7wQvt/c6Bzzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dp/Mzy9s; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fpSjVAMCezdl0ijV5ge+SOM6eQ4QY7+iVlYLS14sCa7PJJwvwcYU8LdKgxksrK/4q06dFoC9+Z6+FDlDID5hn6tStpWAapt9CibzsmzwAWRTfScqrZKYD4ph7cU8jrXZW21UKeJ/GiAvQkEg17RtUX2EboyGZW9Ruj7Qxx7mowY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLX9V2jl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dp/Mzy9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLX9V2jl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724233405; x=1755769405;
+  t=1724233407; x=1755769407;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XZEuaqULdmrhmUlGTAOSBSFIRe9hIMuCKG4XgB/UVFE=;
-  b=Dp/Mzy9sXC2oDiU0oYpdgxcIv2QvtW8+IYZit/QwxokJCl2ypdn68feX
-   H6U+YqlA5nEk8mwRfodNQihMpcOXGWQ/NMncxwDY8ur/WvVhH7On2NaqP
-   2l3L7JK2gmIwIqUt3r/of0u4JOcSrIIiAGHE8B6Vh0eEKpYHcoFL7tfZV
-   OCUDnxRwvroskg+B4sLPMPCBVMWjqhgbmwyFFVqDoI3J/GuWbFdAqCb92
-   0xyF6ceSb7l67zGaqMjji4W9hq9uTTsBDCwuip0EdIdC/MzoGSYlJTVfU
-   vyRKQFkiTwuw89f+QzhmueHH3TbhG9oI6+gkbwVL/EoQapBcKNf2E3Ref
-   w==;
-X-CSE-ConnectionGUID: +VRVWWEYTJGhac5x+Nl4TQ==
-X-CSE-MsgGUID: kmao+SjCTA206O4vhLWIFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22115413"
+  bh=VtLhwjfdoBt6Izefq6nC7rSkdwaapeADWgGxeh/MnKE=;
+  b=iLX9V2jl5wrpQZHW465yRNDXLHcarlLvyp5bSUhMqhKj2jFpCRBuQ+EI
+   j3u6TLwDUMxNAXd7yK6Tz76XSrSamigmpkdOPczKvRxGNy2TBFw2lFAA/
+   3Wh0fFCkWHjJpEKVIte/DSTHy1GLUfg16ZzfDDc5pTXGJyCzH+9fbHdUj
+   R30nrmmHhCRbnFHDYdvY43k2S2+28XpYGuFxmVcNmGSydmDp8cz7GRffe
+   +ayBZK78dSg9SrDhoBARUQQ23uLb9dn8si0It/qOvUL5JLK5HdGLoXgjH
+   3FKX7Qjr/fKq+K3t1rPD3JoeXitUlvpxCj0Aom+Xx+fDVlovHvgiXAeLh
+   A==;
+X-CSE-ConnectionGUID: 4/C8ZJz4TFK1aGf1MBq6bA==
+X-CSE-MsgGUID: vq46FXZxS1mP28dEVLx8kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22195863"
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22115413"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 02:43:25 -0700
-X-CSE-ConnectionGUID: IB1aAqMVSPyasNNpvCfuDg==
-X-CSE-MsgGUID: WV7zwc0zQOOtGs7v6z7aSg==
+   d="scan'208";a="22195863"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 02:43:26 -0700
+X-CSE-ConnectionGUID: SCQfpT+4ReKeYb+B1BYMYg==
+X-CSE-MsgGUID: kCUYSb9tRkipB9Te8HIPQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="65919298"
+   d="scan'208";a="65388153"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2024 02:43:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2024 02:43:23 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sghs9-000BAg-16;
+	id 1sghs9-000BAc-0x;
 	Wed, 21 Aug 2024 09:43:21 +0000
 Date: Wed, 21 Aug 2024 17:43:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] mm, slub: avoid zeroing kmalloc redzone
-Message-ID: <202408211729.djaqly5N-lkp@intel.com>
-References: <20240819064115.385086-1-peng.fan@oss.nxp.com>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tdavies@darkphysics.net, philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org, linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in
+ rtl819x_translate_scan
+Message-ID: <202408211709.E9iGxQa8-lkp@intel.com>
+References: <20240820184216.45390-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +69,195 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819064115.385086-1-peng.fan@oss.nxp.com>
+In-Reply-To: <20240820184216.45390-1-abhishektamboli9@gmail.com>
 
-Hi Peng,
+Hi Abhishek,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20240819]
-[also build test ERROR on v6.11-rc4]
-[cannot apply to akpm-mm/mm-everything linus/master vbabka-slab/for-next v6.11-rc4 v6.11-rc3 v6.11-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/mm-slub-avoid-zeroing-kmalloc-redzone/20240819-143423
-base:   next-20240819
-patch link:    https://lore.kernel.org/r/20240819064115.385086-1-peng.fan%40oss.nxp.com
-patch subject: [RFC] mm, slub: avoid zeroing kmalloc redzone
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240821/202408211729.djaqly5N-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211729.djaqly5N-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Tamboli/staging-rtl8192e-Replace-strcpy-with-strscpy-in-rtl819x_translate_scan/20240821-024358
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240820184216.45390-1-abhishektamboli9%40gmail.com
+patch subject: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in rtl819x_translate_scan
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240821/202408211709.E9iGxQa8-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211709.E9iGxQa8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211729.djaqly5N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211709.E9iGxQa8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/slub.c: In function 'slab_free_hook':
->> mm/slub.c:2292:29: error: implicit declaration of function 'get_orig_size' [-Wimplicit-function-declaration]
-    2292 |                 orig_size = get_orig_size(s, x);
-         |                             ^~~~~~~~~~~~~
->> mm/slub.c:2303:17: error: implicit declaration of function 'set_orig_size'; did you mean 'set_orig_insn'? [-Wimplicit-function-declaration]
-    2303 |                 set_orig_size(s, x, orig_size);
-         |                 ^~~~~~~~~~~~~
-         |                 set_orig_insn
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/um/include/asm/cacheflush.h:4:
+   In file included from arch/um/include/asm/tlbflush.h:9:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:15:
+   In file included from include/linux/wireless.h:13:
+   In file included from include/uapi/linux/wireless.h:74:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:8:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:63:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:13:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:13:
+   In file included from include/linux/string.h:374:
+>> include/linux/fortify-string.h:293:3: error: call to '__write_overflow' declared with 'error' attribute: detected write beyond size of object (1st parameter)
+     293 |                 __write_overflow();
+         |                 ^
+   13 warnings and 1 error generated.
 
 
-vim +/get_orig_size +2292 mm/slub.c
+vim +293 include/linux/fortify-string.h
 
-  2275	
-  2276		/*
-  2277		 * As memory initialization might be integrated into KASAN,
-  2278		 * kasan_slab_free and initialization memset's must be
-  2279		 * kept together to avoid discrepancies in behavior.
-  2280		 *
-  2281		 * The initialization memset's clear the object and the metadata,
-  2282		 * but don't touch the SLAB redzone.
-  2283		 *
-  2284		 * The object's freepointer is also avoided if stored outside the
-  2285		 * object.
-  2286		 */
-  2287		if (unlikely(init)) {
-  2288			int rsize;
-  2289			unsigned int inuse, orig_size;
-  2290	
-  2291			inuse = get_info_end(s);
-> 2292			orig_size = get_orig_size(s, x);
-  2293			if (!kasan_has_integrated_init())
-  2294				memset(kasan_reset_tag(x), 0,
-  2295				       s->object_size > orig_size ? orig_size : s->object_size);
-  2296			rsize = (s->flags & SLAB_RED_ZONE) ? s->red_left_pad : 0;
-  2297			memset((char *)kasan_reset_tag(x) + inuse, 0,
-  2298			       s->size - inuse - rsize);
-  2299			/*
-  2300			 * Restore orig_size, otherwize kmalloc redzone overwritten
-  2301			 * would be reported
-  2302			 */
-> 2303			set_orig_size(s, x, orig_size);
-  2304	
-  2305		}
-  2306		/* KASAN might put x into memory quarantine, delaying its reuse. */
-  2307		return !kasan_slab_free(s, x, init, still_accessible);
-  2308	}
-  2309	
+a28a6e860c6cf23 Francis Laniel 2021-02-25  274  
+03699f271de1f4d Kees Cook      2022-09-02  275  /* Defined after fortified strnlen() to reuse it. */
+e6584c3964f2ff7 Kees Cook      2023-09-20  276  extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(sized_strscpy);
+e6584c3964f2ff7 Kees Cook      2023-09-20  277  __FORTIFY_INLINE ssize_t sized_strscpy(char * const POS p, const char * const POS q, size_t size)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  278  {
+a28a6e860c6cf23 Francis Laniel 2021-02-25  279  	/* Use string size rather than possible enclosing struct size. */
+21a2c74b0a2a784 Kees Cook      2023-04-07  280  	const size_t p_size = __member_size(p);
+21a2c74b0a2a784 Kees Cook      2023-04-07  281  	const size_t q_size = __member_size(q);
+21a2c74b0a2a784 Kees Cook      2023-04-07  282  	size_t len;
+a28a6e860c6cf23 Francis Laniel 2021-02-25  283  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  284  	/* If we cannot get size of p and q default to call strscpy. */
+311fb40aa0569ab Kees Cook      2022-09-02  285  	if (p_size == SIZE_MAX && q_size == SIZE_MAX)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  286  		return __real_strscpy(p, q, size);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  287  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  288  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  289  	 * If size can be known at compile time and is greater than
+a28a6e860c6cf23 Francis Laniel 2021-02-25  290  	 * p_size, generate a compile time write overflow error.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  291  	 */
+fa35198f39571bb Kees Cook      2022-09-19  292  	if (__compiletime_lessthan(p_size, size))
+a28a6e860c6cf23 Francis Laniel 2021-02-25 @293  		__write_overflow();
+a28a6e860c6cf23 Francis Laniel 2021-02-25  294  
+62e1cbfc5d79538 Kees Cook      2022-10-02  295  	/* Short-circuit for compile-time known-safe lengths. */
+62e1cbfc5d79538 Kees Cook      2022-10-02  296  	if (__compiletime_lessthan(p_size, SIZE_MAX)) {
+62e1cbfc5d79538 Kees Cook      2022-10-02  297  		len = __compiletime_strlen(q);
+62e1cbfc5d79538 Kees Cook      2022-10-02  298  
+62e1cbfc5d79538 Kees Cook      2022-10-02  299  		if (len < SIZE_MAX && __compiletime_lessthan(len, size)) {
+62e1cbfc5d79538 Kees Cook      2022-10-02  300  			__underlying_memcpy(p, q, len + 1);
+62e1cbfc5d79538 Kees Cook      2022-10-02  301  			return len;
+62e1cbfc5d79538 Kees Cook      2022-10-02  302  		}
+62e1cbfc5d79538 Kees Cook      2022-10-02  303  	}
+62e1cbfc5d79538 Kees Cook      2022-10-02  304  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  305  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  306  	 * This call protects from read overflow, because len will default to q
+a28a6e860c6cf23 Francis Laniel 2021-02-25  307  	 * length if it smaller than size.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  308  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  309  	len = strnlen(q, size);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  310  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  311  	 * If len equals size, we will copy only size bytes which leads to
+a28a6e860c6cf23 Francis Laniel 2021-02-25  312  	 * -E2BIG being returned.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  313  	 * Otherwise we will copy len + 1 because of the final '\O'.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  314  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  315  	len = len == size ? size : len + 1;
+a28a6e860c6cf23 Francis Laniel 2021-02-25  316  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  317  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  318  	 * Generate a runtime write overflow error if len is greater than
+a28a6e860c6cf23 Francis Laniel 2021-02-25  319  	 * p_size.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  320  	 */
+3d965b33e40d973 Kees Cook      2023-04-07  321  	if (p_size < len)
+3d965b33e40d973 Kees Cook      2023-04-07  322  		fortify_panic(FORTIFY_FUNC_strscpy, FORTIFY_WRITE, p_size, len, -E2BIG);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  323  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  324  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  325  	 * We can now safely call vanilla strscpy because we are protected from:
+a28a6e860c6cf23 Francis Laniel 2021-02-25  326  	 * 1. Read overflow thanks to call to strnlen().
+a28a6e860c6cf23 Francis Laniel 2021-02-25  327  	 * 2. Write overflow thanks to above ifs.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  328  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  329  	return __real_strscpy(p, q, len);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  330  }
+a28a6e860c6cf23 Francis Laniel 2021-02-25  331  
 
 -- 
 0-DAY CI Kernel Test Service
