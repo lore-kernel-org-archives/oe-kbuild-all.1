@@ -1,83 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9FE1D1304
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 12:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315811D12E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 12:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724241998; cv=none; b=aoBHy5RtttrBQpTzuZTl/9K2B4WvCqATuhZaZGTT8Hv9z1PUK8nfcZ7HIt3IhMIPpwdzk6RqFfbt+kquz//Ahjd2XscESU39dbbM3iPLHn1jvJ7S6kgtqq7Gk2LVRNLPkpI9hUcfMmX0VWDfHASBDU26wSI21iTmbb7y4T/jQxM=
+	t=1724243253; cv=none; b=jysMYuy9CQicumpKlzj3B3auqHzOPQP5ljq4vwN001U21Du9+LScSQfniQfLjhTmX5ma5qjXW9930G/fjwKpRp85KpDNhsj5/Db5kBZm1yLjpaUuwFL+FvF+vmiPVI8B7tmCFDdedX3XsinwA71IPnViArDXMszAxzY7OhHG/ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724241998; c=relaxed/simple;
-	bh=Kj8uuOcm4JlYZ678mI6tf+JnYFcP0xeBPYn2L2P0sNk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5FtYlahQQQOgTqOX+ONFE/8kQRw1ZowtqithWpACkIIwiAb73efmbiGS6WTYwcVW29G9gect7kYdRQTQoRytxP2piJAwJCRk8VuJK9vAbWx+pxPAQbP2UPaKmuctDhLWXYtY9/WBmJScUCXaaKImPJ+87Vd5fklMbJTa/zKPNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjMZn57m; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1724243253; c=relaxed/simple;
+	bh=V/gGyfEATnWzMideh8LgCO5TCVklq7XSs1kaCITmh8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lmqvg6EewUr/YkjTYEJY+0B7B7c/cDPu4C+Ioqhyn9PPBauOGRwcNXzgkRC6zUZbYLPs2z0xewoEW4ALaCX+mJKEVGByl0UIoXTeqaCfoxeKt/yfN5isbwvIhUWgbxS5gPa+08uJ7ZWj7nmpvGfXEA1SPCKA7sJCZB9JjTcIA50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZO43iFiU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjMZn57m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZO43iFiU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724241997; x=1755777997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kj8uuOcm4JlYZ678mI6tf+JnYFcP0xeBPYn2L2P0sNk=;
-  b=EjMZn57mqDXy0ANe3z82TFgsNtNb79VTYk+M61Qtg84eD2eO8nfXhyHu
-   Ir8JTKJBGbxFw2eSEYxkp4JG0aed/FbOPM6xe9m1SMcyxXXpwMcuxpPAW
-   YpF1/qSBhTevCi0IkOyCYOFSDg+f4sj1WhfNDO5cgyiNLiAkLtYpdjtrL
-   S08ArQ4zPeeUtO0d476zSsJ+VUlMA27HPdV2JCQord8te8p3vI2uMSwYF
-   JyWvBeQwzzTyuA3/tZAbm2d22jw0FPPPE4buwUb8HD+rgh0BklNbj+sBy
-   D4Wk8rlnL8QPrKog8mUzjLNOhowtK6mvVyohy5WzR/tdUYsCxbD/L72vb
+  t=1724243252; x=1755779252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V/gGyfEATnWzMideh8LgCO5TCVklq7XSs1kaCITmh8Q=;
+  b=ZO43iFiU6PqvtJxmvYYfTOM6Rn86thE6rb1ESZmXDyHv13VMoutel6xg
+   TNoojldimTG4qg/xdAEGvXCYYih6QhdtLXUDngDDfUyP8G5kU5vVZePe1
+   BfMrjY4jzQsGPz+gOQvXotXxatWLU+FpmLgz28D4tq40j0pI607+J+bG7
+   mSBQ99VuguLP0pBV95J4TQpr80l7VhZ1N/v7oAPtwxrzkRHoLbNEFMl5x
+   eLatkMEU+caW4QamBV2oPYFPy5xgltbBUbc+bs2HHGFPs+qIXcCjyRIHU
+   jgI+OTotBUVTPfZgiHXEp6gXWfKbimg+L+7vQGKb49eJhZs+fXu+6vbfl
    g==;
-X-CSE-ConnectionGUID: uxLJWS94RTekckK87whYDw==
-X-CSE-MsgGUID: na5iun3KQj2wZSFhGYWhSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22759902"
+X-CSE-ConnectionGUID: /cOm011wRCCYGIl6excRGQ==
+X-CSE-MsgGUID: e/r0woC1R9OIDw4RnRQIGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="34018366"
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22759902"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 05:06:36 -0700
-X-CSE-ConnectionGUID: 4EbM2F/MQ76zX1yOg/4iXg==
-X-CSE-MsgGUID: xKFjc2FlQsOqtXBuL8aw5A==
+   d="scan'208";a="34018366"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 05:27:32 -0700
+X-CSE-ConnectionGUID: 2iDcYbTTQ564htikU011Lg==
+X-CSE-MsgGUID: 5LpZ3QuJSKqMPn257errbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="61825276"
+   d="scan'208";a="60791984"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Aug 2024 05:06:30 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2024 05:27:30 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgk6d-000BKM-08;
-	Wed, 21 Aug 2024 12:06:27 +0000
-Date: Wed, 21 Aug 2024 20:06:23 +0800
+	id 1sgkQy-000BLC-19;
+	Wed, 21 Aug 2024 12:27:28 +0000
+Date: Wed, 21 Aug 2024 20:26:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea della Porta <andrea.porta@suse.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH 07/11] pinctrl: rp1: Implement RaspberryPi RP1 gpio
- support
-Message-ID: <202408211907.cUrf3RpN-lkp@intel.com>
-References: <eb39a5f3cefff2a1240a18a255dac090af16f223.1724159867.git.andrea.porta@suse.com>
+To: Duy Nguyen <duy.nguyen.rh@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [linux-next:master 5282/5728]
+ arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: can@e6660000:
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202408212006.6zuTG538-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,160 +64,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eb39a5f3cefff2a1240a18a255dac090af16f223.1724159867.git.andrea.porta@suse.com>
 
-Hi Andrea,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.11-rc4 next-20240821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-della-Porta/dt-bindings-clock-Add-RaspberryPi-RP1-clock-bindings/20240821-023901
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/eb39a5f3cefff2a1240a18a255dac090af16f223.1724159867.git.andrea.porta%40suse.com
-patch subject: [PATCH 07/11] pinctrl: rp1: Implement RaspberryPi RP1 gpio support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240821/202408211907.cUrf3RpN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211907.cUrf3RpN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   eb8c5ca373cbb018a84eb4db25c863302c9b6314
+commit: b3749d434ea48cca473afd440771f048d0860a2e [5282/5728] arm64: dts: renesas: r8a779h0: Add CAN-FD node
+config: arm64-randconfig-052-20240821 (https://download.01.org/0day-ci/archive/20240821/202408212006.6zuTG538-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev10+ge5d88ac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408212006.6zuTG538-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211907.cUrf3RpN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408212006.6zuTG538-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/pinctrl/pinctrl-rp1.c: In function 'rp1_get_fsel':
->> drivers/pinctrl/pinctrl-rp1.c:237:22: error: implicit declaration of function 'FIELD_GET'; did you mean 'FIELD_SET'? [-Werror=implicit-function-declaration]
-     237 |         u32 oeover = FIELD_GET(RP1_GPIO_CTRL_OEOVER_MASK, ctrl);
-         |                      ^~~~~~~~~
-         |                      FIELD_SET
-   drivers/pinctrl/pinctrl-rp1.c: In function 'rp1_set_fsel':
->> drivers/pinctrl/pinctrl-rp1.c:146:25: error: implicit declaration of function 'FIELD_PREP'; did you mean 'FIELD_SET'? [-Werror=implicit-function-declaration]
-     146 |                 _reg |= FIELD_PREP((_mask), (_val));    \
-         |                         ^~~~~~~~~~
-   drivers/pinctrl/pinctrl-rp1.c:257:17: note: in expansion of macro 'FIELD_SET'
-     257 |                 FIELD_SET(ctrl, RP1_GPIO_CTRL_OEOVER_MASK, RP1_OEOVER_DISABLE);
-         |                 ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +237 drivers/pinctrl/pinctrl-rp1.c
-
-   136	
-   137	#define RP1_PAD_DRIVE_2MA		0x00000000
-   138	#define RP1_PAD_DRIVE_4MA		BIT(4)
-   139	#define RP1_PAD_DRIVE_8MA		BIT(5)
-   140	#define RP1_PAD_DRIVE_12MA		(RP1_PAD_DRIVE_4MA | \
-   141						RP1_PAD_DRIVE_8MA)
-   142	
-   143	#define FIELD_SET(_reg, _mask, _val)			\
-   144		({						\
-   145			_reg &= ~(_mask);				\
- > 146			_reg |= FIELD_PREP((_mask), (_val));	\
-   147		})
-   148	
-   149	#define FUNC(f) \
-   150		[func_##f] = #f
-   151	
-   152	struct rp1_iobank_desc {
-   153		int min_gpio;
-   154		int num_gpios;
-   155		int gpio_offset;
-   156		int inte_offset;
-   157		int ints_offset;
-   158		int rio_offset;
-   159		int pads_offset;
-   160	};
-   161	
-   162	struct rp1_pin_info {
-   163		u8 num;
-   164		u8 bank;
-   165		u8 offset;
-   166		u8 fsel;
-   167		u8 irq_type;
-   168	
-   169		void __iomem *gpio;
-   170		void __iomem *rio;
-   171		void __iomem *inte;
-   172		void __iomem *ints;
-   173		void __iomem *pad;
-   174	};
-   175	
-   176	struct rp1_pinctrl {
-   177		struct device *dev;
-   178		void __iomem *gpio_base;
-   179		void __iomem *rio_base;
-   180		void __iomem *pads_base;
-   181		int irq[RP1_NUM_BANKS];
-   182		struct rp1_pin_info pins[RP1_NUM_GPIOS];
-   183	
-   184		struct pinctrl_dev *pctl_dev;
-   185		struct gpio_chip gpio_chip;
-   186		struct pinctrl_gpio_range gpio_range;
-   187	
-   188		raw_spinlock_t irq_lock[RP1_NUM_BANKS];
-   189	};
-   190	
-   191	const struct rp1_iobank_desc rp1_iobanks[RP1_NUM_BANKS] = {
-   192		/*         gpio   inte    ints     rio    pads */
-   193		{  0, 28, 0x0000, 0x011c, 0x0124, 0x0000, 0x0004 },
-   194		{ 28,  6, 0x4000, 0x411c, 0x4124, 0x4000, 0x4004 },
-   195		{ 34, 20, 0x8000, 0x811c, 0x8124, 0x8000, 0x8004 },
-   196	};
-   197	
-   198	static int rp1_pinconf_set(struct rp1_pin_info *pin,
-   199				   unsigned int offset, unsigned long *configs,
-   200				   unsigned int num_configs);
-   201	
-   202	static struct rp1_pin_info *rp1_get_pin(struct gpio_chip *chip,
-   203						unsigned int offset)
-   204	{
-   205		struct rp1_pinctrl *pc = gpiochip_get_data(chip);
-   206	
-   207		if (pc && offset < RP1_NUM_GPIOS)
-   208			return &pc->pins[offset];
-   209		return NULL;
-   210	}
-   211	
-   212	static void rp1_pad_update(struct rp1_pin_info *pin, u32 clr, u32 set)
-   213	{
-   214		u32 padctrl = readl(pin->pad);
-   215	
-   216		padctrl &= ~clr;
-   217		padctrl |= set;
-   218	
-   219		writel(padctrl, pin->pad);
-   220	}
-   221	
-   222	static void rp1_input_enable(struct rp1_pin_info *pin, int value)
-   223	{
-   224		rp1_pad_update(pin, RP1_PAD_IN_ENABLE_MASK,
-   225			       value ? RP1_PAD_IN_ENABLE_MASK : 0);
-   226	}
-   227	
-   228	static void rp1_output_enable(struct rp1_pin_info *pin, int value)
-   229	{
-   230		rp1_pad_update(pin, RP1_PAD_OUT_DISABLE_MASK,
-   231			       value ? 0 : RP1_PAD_OUT_DISABLE_MASK);
-   232	}
-   233	
-   234	static u32 rp1_get_fsel(struct rp1_pin_info *pin)
-   235	{
-   236		u32 ctrl = readl(pin->gpio + RP1_GPIO_CTRL);
- > 237		u32 oeover = FIELD_GET(RP1_GPIO_CTRL_OEOVER_MASK, ctrl);
-   238		u32 fsel = FIELD_GET(RP1_GPIO_CTRL_FUNCSEL_MASK, ctrl);
-   239	
-   240		if (oeover != RP1_OEOVER_PERI || fsel >= RP1_FSEL_COUNT)
-   241			fsel = RP1_FSEL_NONE;
-   242	
-   243		return fsel;
-   244	}
-   245	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1055.12-1065.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1083.12-1093.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1111.12-1121.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1139.12-1149.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1167.12-1177.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1195.12-1205.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1223.12-1233.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1251.12-1261.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1828.12-1838.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: can@e6660000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'renesas,r8a779h0-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
+   	'renesas,r8a779h0-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd']
+   	'renesas,r8a779h0-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
+   	'renesas,rcar-gen3-canfd' was expected
+   	'renesas,rzg2l-canfd' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
+   arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e30000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+   	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
+   arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: pwm@e6e31000: compatible:0: 'renesas,pwm-r8a779h0' is not one of ['renesas,pwm-r8a7742', 'renesas,pwm-r8a7743', 'renesas,pwm-r8a7744', 'renesas,pwm-r8a7745', 'renesas,pwm-r8a77470', 'renesas,pwm-r8a774a1', 'renesas,pwm-r8a774b1', 'renesas,pwm-r8a774c0', 'renesas,pwm-r8a774e1', 'renesas,pwm-r8a7778', 'renesas,pwm-r8a7779', 'renesas,pwm-r8a7790', 'renesas,pwm-r8a7791', 'renesas,pwm-r8a7794', 'renesas,pwm-r8a7795', 'renesas,pwm-r8a7796', 'renesas,pwm-r8a77961', 'renesas,pwm-r8a77965', 'renesas,pwm-r8a77970', 'renesas,pwm-r8a77980', 'renesas,pwm-r8a77990', 'renesas,pwm-r8a77995', 'renesas,pwm-r8a779a0', 'renesas,pwm-r8a779g0']
+   	from schema $id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
