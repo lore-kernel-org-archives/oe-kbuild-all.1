@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526914206B;
-	Wed, 21 Aug 2024 04:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EFE2595
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 04:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724214131; cv=none; b=j2ILLQyIZopo8PzlBJedCObCurwwywzFxamcL9Tq60LmT/Nfq3sVb8x3+0CQXo4z8W0shMo3acH6mq58BEgO6ieP0HTzOUjn5zDt6mbtzjtJ6NBTpnT9R6jDOAXmeXQ1iBVC5DsfSMZtcpCPnXJJr/8LOYbQGsMuy6w+/L+Y3eg=
+	t=1724214730; cv=none; b=H7MA9K0h6pHF++fuwsLcqbqf70QQmpY6t2hAwSXthDeWZnDLLXvcJ4rpxDmPJ/jfg5Rz7DRYNgJOrEnp3oXPYZrkrLbhD9BHfMo4/52IM39r6ip5kXm0AlwDykeI3Wt0S44gzXy1dsecZbPkJ0dlQFgzVx9aouRkoNeAx8HZYEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724214131; c=relaxed/simple;
-	bh=RLteaZvx78Nb1TJ71MHu/HAeSd6WAnVBBwl8ZzlxdTc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u01zM6qwxzxyIHDNDnvTabiXVb/6sPhJPSSNsq7hoVZbTwwq0M1q+7kmKl7goWhQrripAihPHQjHKdpecOH9bDi4nMTFp/Qyj7YXCPHbkNdjcymrdhF9oDuDt3oT+apSUrzhi4OzcX1Nf3aLcRbBAdmf8RuLqii7+eP+NQAmeb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIUbpKmE; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1724214730; c=relaxed/simple;
+	bh=gpHeaFwRv7C1OtQFV72ECw3XVm9P6jfW3KZkejiyl3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X1JKHvmpws1r/YMKuUwpL8zoa+mbuJgFBpg0VTedm6z+h+h3s2hmK0FCtr/M2ZvZo/niie/Okeb02D1+23nSJO/gMm84QqDa5aV7Zl2V8UbTa7fvroZdtxCQKGXBuAft/Du5O0mKKLYmywAHsGrxDjIcncu/XK/CNCNmqG0k+Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNFJ/SxZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIUbpKmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNFJ/SxZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724214129; x=1755750129;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RLteaZvx78Nb1TJ71MHu/HAeSd6WAnVBBwl8ZzlxdTc=;
-  b=nIUbpKmEpf5QaT8YWfg9/FrEWmyPQIacY+ThdDyceXaQdvCDpwsW98i9
-   8CgvXMvL5hoe8cSE90KCZKQ+LhadavbeEhVCI41kQCbOg1l8V6dPMBlSd
-   Yr6MP030GFwfDwv6x1JAfpfKvccnlXt3NlYSXi7uS1qoAkOT5q0svHbtO
-   k4mffrHymCoV2dHWn0e5D0ABMZiuobKoi4F+FSAsCuP1lxoT9Gx1OPt09
-   Sx2IkIhNq2JL1Xg3ZQ7ZlA9ywA/yR9W3BS1gHcdIxHPtVto1T5B9j8+l1
-   uu2w7y5cNFB2A0D5pbcqaeGD0MFzEPXd8hjrqZ/sDEVSLL6Q9mPV1+/Ki
-   g==;
-X-CSE-ConnectionGUID: 9lxgGda9TiGEoG7O+dyCOQ==
-X-CSE-MsgGUID: LUHd+JY8SdeP+nM/5M2MNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26307853"
+  t=1724214728; x=1755750728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gpHeaFwRv7C1OtQFV72ECw3XVm9P6jfW3KZkejiyl3Q=;
+  b=UNFJ/SxZKKTcsm0PN+7qkqtGo2x8ClRqpmOfL5Ja1hOfw5h+yNF1v+fL
+   g1V8Sv9qzD9aqEHMieaPYVToIkiu2bkJbqshTuFOKINvlnaXP5wgQmVMK
+   zXSpCBtqP1ep94Dw00vHWUx2d1eXGWeJALuegy89CRq8ekvnwk6biBI4X
+   FypwiN1stwjH0oJk2cC5XeY5o4m7ZbBi5VYrzvA7vh0+UjLW9agYsZOXe
+   J4smQpc/E9HE8enmsiqOzpUCMCzOoCttIy/VUFwME3SJ0BW15Kg+5c8UZ
+   +UTjIdYqTHt56T53P1KZlvns0FYCSVEXra1ndgxyb2wKHnsR3ayW1Oo4z
+   Q==;
+X-CSE-ConnectionGUID: 3IGpxZPWSkqfIM75+rXKnA==
+X-CSE-MsgGUID: Jxp3vw7STHGlRxllv229uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="25449605"
 X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="26307853"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 21:22:09 -0700
-X-CSE-ConnectionGUID: 2ZMCorPEQJKUtvK2cp51Kw==
-X-CSE-MsgGUID: ERd4brl8QOqPqedHfLL83Q==
+   d="scan'208";a="25449605"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 21:32:08 -0700
+X-CSE-ConnectionGUID: ijsXaz9CRX+mi1QoILcQ7g==
+X-CSE-MsgGUID: dwW27/gYTEyWX9mgkzxy7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="65164031"
+   d="scan'208";a="60927941"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Aug 2024 21:22:06 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2024 21:32:06 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgcrE-000At4-1F;
-	Wed, 21 Aug 2024 04:22:04 +0000
-Date: Wed, 21 Aug 2024 12:21:09 +0800
+	id 1sgd0u-000AtQ-1w;
+	Wed, 21 Aug 2024 04:32:04 +0000
+Date: Wed, 21 Aug 2024 12:31:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	David Lechner <dlechner@baylibre.com>
-Subject: Re: [PATCH 2/4] iio: adc: ad4695: implement calibration support
-Message-ID: <202408211207.fmYTjQDK-lkp@intel.com>
-References: <20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 13841/14250] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/sound/starfive,jh7110-pwmdac.yaml
+Message-ID: <202408211258.N75PUM9l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,99 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0f718e10da81446df0909c9939dff2b77e3b4e95]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad4695-add-2nd-regmap-for-16-bit-registers/20240821-000102
-base:   0f718e10da81446df0909c9939dff2b77e3b4e95
-patch link:    https://lore.kernel.org/r/20240820-ad4695-gain-offset-v1-2-c8f6e3b47551%40baylibre.com
-patch subject: [PATCH 2/4] iio: adc: ad4695: implement calibration support
-config: i386-buildonly-randconfig-002-20240821 (https://download.01.org/0day-ci/archive/20240821/202408211207.fmYTjQDK-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211207.fmYTjQDK-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   064a48f955e1d6177d42b7643b70779916c6197b
+commit: 9170c596a361a8d254985050d344793b88694622 [13841/14250] UPSTREAM: ASoC: starfive: Add JH7110 PWM-DAC driver
+reproduce: (https://download.01.org/0day-ci/archive/20240821/202408211258.N75PUM9l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211207.fmYTjQDK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211258.N75PUM9l-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/adc/ad4695.c:735:6: warning: unused variable 'ret' [-Wunused-variable]
-     735 |         int ret;
-         |             ^~~
-   1 warning generated.
-
-
-vim +/ret +735 drivers/iio/adc/ad4695.c
-
-   728	
-   729	static int ad4695_write_raw(struct iio_dev *indio_dev,
-   730				    struct iio_chan_spec const *chan,
-   731				    int val, int val2, long mask)
-   732	{
-   733		struct ad4695_state *st = iio_priv(indio_dev);
-   734		unsigned int reg_val;
- > 735		int ret;
-   736	
-   737		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
-   738			switch (mask) {
-   739			case IIO_CHAN_INFO_CALIBSCALE:
-   740				switch (chan->type) {
-   741				case IIO_VOLTAGE:
-   742					if (val < 0 || val2 < 0)
-   743						reg_val = 0;
-   744					else if (val > 1)
-   745						reg_val = U16_MAX;
-   746					else
-   747						reg_val = (val * (1 << 16) +
-   748							   mul_u64_u32_div(val2, 1 << 16,
-   749									   MICRO)) / 2;
-   750	
-   751					return regmap_write(st->regmap16,
-   752						AD4695_REG_GAIN_IN(chan->scan_index),
-   753						reg_val);
-   754				default:
-   755					return -EINVAL;
-   756				}
-   757			case IIO_CHAN_INFO_CALIBBIAS:
-   758				switch (chan->type) {
-   759				case IIO_VOLTAGE:
-   760					if (val2 >= 0 && val > S16_MAX / 4)
-   761						reg_val = S16_MAX;
-   762					else if ((val2 < 0 ? -val : val) < S16_MIN / 4)
-   763						reg_val = S16_MIN;
-   764					else if (val2 < 0)
-   765						reg_val = clamp_t(int,
-   766							-(val * 4 + -val2 * 4 / MICRO),
-   767							S16_MIN, S16_MAX);
-   768					else if (val < 0)
-   769						reg_val = clamp_t(int,
-   770							val * 4 - val2 * 4 / MICRO,
-   771							S16_MIN, S16_MAX);
-   772					else
-   773						reg_val = clamp_t(int,
-   774							val * 4 + val2 * 4 / MICRO,
-   775							S16_MIN, S16_MAX);
-   776	
-   777					return regmap_write(st->regmap16,
-   778						AD4695_REG_OFFSET_IN(chan->scan_index),
-   779						reg_val);
-   780				default:
-   781					return -EINVAL;
-   782				}
-   783			default:
-   784				return -EINVAL;
-   785			}
-   786		}
-   787		unreachable();
-   788	}
-   789	
+   Warning: Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/starfive,jh7110-pwmdac.yaml
+   Warning: drivers/gpu/arm/mali/debug/mali_kbase_debug_ktrace.c references a file that doesn't exist: Documentation/filesystems/seq_file.txt
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
