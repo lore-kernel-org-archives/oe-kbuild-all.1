@@ -1,66 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052A37482
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 00:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FAD33C5;
+	Wed, 21 Aug 2024 00:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724199972; cv=none; b=DAOYNQyAFiIQEZiadUD4khr49CaDLwPLM/Kb4WG/4oJ4WYdI1mfDbIDYzsBJy33+WLEYSUU2wVvOUx31SooEDxODtTMs0QLI6021wrirOHYeT4V8HDUgQCJHHxeAXrBSWvEdlIfqVg6Kys8kFUPJaIQ9cUSV+ObOQ2nfrTkmX78=
+	t=1724199973; cv=none; b=dL5pHyyYqLKmt1hS26Sq2A4wBjou9C56VTFEbrf1df60qgEJEG1qDMLUdtx2dn9vHQUBp3hzWymFPl7der3EVF3uWX13G3CbIZjqjRvMoPECH05R6PaJGtuZPjWH1U8oY9zeGGInufUsDOsBRoLWqVPiwB5mtYcKNfp9unzKNBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724199972; c=relaxed/simple;
-	bh=yiOrsKpKHnfpWAPkH1T1M3NIWSoBOmf55VQx29FXUfI=;
+	s=arc-20240116; t=1724199973; c=relaxed/simple;
+	bh=CJIRiNwm7uwI5y07ByutZfo3/ptSFwLJ4eprJVUi6t4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f0YacLsIdeFK/Hl2GKetvzDd7KCQuJvejMTHtKcYR8O66hUVMPosYmdekm3L3XN2zZfZ2I1Dt4Tbun9qSs7QSqZ6C0BziOiGfrJNGOw2XAiCPK7T65gtyyQM0r6WIGX9xynbVox012bZbPm4RNsBc6j1+9Qs5ezEV7tkk1O7AJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQ0e0aME; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=e8/AMxdLQzzkqfHX6U8LaIrqPQdwSaSIPAOhfVW07Z3w3TjtZnelFfJp9/mjD5kyu0u9r1/INh/kGUklv2dLu9p1gZVMiaLQzuiEoyuc0LCCVaRwD8OfAMKcKMh8f7GUIE1SUZRbORQfSxNQOsSZsWPr11r4egUZmbjL2mKC4Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFqY1k5J; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQ0e0aME"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFqY1k5J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724199970; x=1755735970;
+  t=1724199973; x=1755735973;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yiOrsKpKHnfpWAPkH1T1M3NIWSoBOmf55VQx29FXUfI=;
-  b=hQ0e0aMEBraCZTbGUEWB2o5joGLhQRrKX4Wrw6xTxZKnG85BdqAdpy13
-   1Bz2zvW8+uo2Tev65VMtgYKHghd/GJDKmuWZZZh4NbCa5Kee5mORLF4M8
-   F8tDMUh+H8/V6UIZCJ6YzArjN6twQA+Kdux8Z3XAgSAaQmDKWbstIWQqd
-   IZjBl4y5UCtcoF/YuwUoUHeONoS0j0hNUYDbdcl800ULuUwQzm5v+IhiN
-   xdG37LredtPRXkaEoYyNYV284L/LYEgx+kl17FG9u92ZoLNuaPbLpKeDF
-   IG56SIp20FlduPq1OzK9pBzUSnK2Mejv720QeMzuZUZNsb74tZ+c1KAZ6
+  bh=CJIRiNwm7uwI5y07ByutZfo3/ptSFwLJ4eprJVUi6t4=;
+  b=aFqY1k5JDpyAv/GFDKAFmvj2T9NrmBzYdsYL6KZl09C3sglkQmBk/AD4
+   /7c5e4MbYKLKLqTCnrMEheNOxTjEeiQn9E5oBMdzivNNkvaLiQ/Uf5Ntl
+   dBUYAb3cZPRWXgAS0RMp/kvqS+yh+2GCsqIKJxaTPXirQiZZnorufeQns
+   EBHpz+GhPyXgzda+vyPcf1ewJesq2o4qf/HDHfu37Y8Ejiow0RGweD8sH
+   eNwW04YBB2J2KakdaJdGVdExf8chAFrLykIK/iaxGZFTYDyDofx8jVWRE
+   cqYEvaTm4ARBRCS6N9JHK2RIy+YBNq4glhWjXPbC2yqHCSwXeQW1w3rUu
    w==;
-X-CSE-ConnectionGUID: bCSmCs30SlGL5W4uon2Gfg==
-X-CSE-MsgGUID: BN7u10JbQnOqbwPTuy8pRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33102269"
+X-CSE-ConnectionGUID: 0whGXhY0ROW0J+UgFDPtgg==
+X-CSE-MsgGUID: FDTyri7tQ4uuC72nc3DK7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33102252"
 X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="33102269"
+   d="scan'208";a="33102252"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 17:26:10 -0700
-X-CSE-ConnectionGUID: nubAASboTKCuHX2AnKUcoQ==
-X-CSE-MsgGUID: uwh7sdDLT5GzWAY+UF2bFg==
+X-CSE-ConnectionGUID: QYpm+HL7Rt+vlbg+hWK2Tw==
+X-CSE-MsgGUID: e/41dBwxQO+o7TlyHWjfxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="61679439"
+   d="scan'208";a="61679440"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 20 Aug 2024 17:25:58 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgZAi-000Aio-0M;
+	id 1sgZAi-000Aiq-0Q;
 	Wed, 21 Aug 2024 00:25:56 +0000
-Date: Wed, 21 Aug 2024 08:25:15 +0800
+Date: Wed, 21 Aug 2024 08:25:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeongjun Park <aha310510@gmail.com>, wenjia@linux.ibm.com,
 	jaka@linux.ibm.com, alibuda@linux.alibaba.com,
 	tonylu@linux.alibaba.com, guwen@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, utz.bacher@de.ibm.com,
-	dust.li@linux.alibaba.com, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, utz.bacher@de.ibm.com, dust.li@linux.alibaba.com,
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	syzkaller <syzkaller@googlegroups.com>,
 	Jeongjun Park <aha310510@gmail.com>
 Subject: Re: [PATCH net,v6,2/2] net/smc: initialize ipv6_pinfo_offset in
  smc_inet6_prot and add smc6_sock structure
-Message-ID: <202408210816.Z0iGhrhb-lkp@intel.com>
+Message-ID: <202408210856.G9xvGcdD-lkp@intel.com>
 References: <20240820121548.380342-1-aha310510@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,23 +87,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jeongjun-Park/net-smc-mod
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20240820121548.380342-1-aha310510%40gmail.com
 patch subject: [PATCH net,v6,2/2] net/smc: initialize ipv6_pinfo_offset in smc_inet6_prot and add smc6_sock structure
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240821/202408210816.Z0iGhrhb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408210816.Z0iGhrhb-lkp@intel.com/reproduce)
+config: i386-randconfig-003-20240821 (https://download.01.org/0day-ci/archive/20240821/202408210856.G9xvGcdD-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408210856.G9xvGcdD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408210816.Z0iGhrhb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408210856.G9xvGcdD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/smc/smc_inet.c:78:68: error: expected '}' before ';' token
+>> net/smc/smc_inet.c:78:56: error: unexpected ';' before '}'
       78 |         .ipv6_pinfo_offset      = offsetof(struct smc6_sock, inet6);
          |                                                                    ^
-   net/smc/smc_inet.c:68:38: note: to match this '{'
-      68 | static struct proto smc_inet6_prot = {
-         |                                      ^
+   1 error generated.
 
 
 vim +78 net/smc/smc_inet.c
