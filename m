@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC46C188A38
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 16:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE6614F9E1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 17:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724259175; cv=none; b=oY3XK/vQOGRnlsqrHCnzD5v4hBLTb8yYpZstZwWKn0SDx3G2ruX/JPm+Z54m/2cfx+FOyU8BsSbl6w/jyyXvjTh5Dqxpg2Vi2gygQYITaOiihVaZa4Co/MMWGt++6rMKidctTo5iSX76lPb0vLRSm0Tg+8vK/QFkzDbQSJ3Yu1s=
+	t=1724259837; cv=none; b=OJiL70USpV96zdDVHVflPKdpSnlgvVHP1NDJhMNQyg6IJVBVRZHJhYe/Jj92fU2vzdZ7PhZ3dN/HrNDmoMDW0/O326XSWVOzhOHfSJLsO9B1ZZ2iMBVHeN+e8j8ptSimHwWlNInUd2tz8CnqRGpuqf8cdt49NGU3zISgR0hLqc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724259175; c=relaxed/simple;
-	bh=Y/TI49HrIoqduIXBi9wKMVRCJUI6A0xpIOJpE8a7hpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8iXAbq8BrXEHuXidh2N5FcZQPGfgbckDg3Lrj3xOZvzRYzR3IQxExlikDIFPGuc2cSMMwELTIOGQwOXUn/zzQVquhK/GKk0LDz56nvsQKwrtr/lPnjnqPkyxkCGlrXO9LuZhEgKTnkQ9TZwLJSHtXA+zrCcLZWNNZu4qtne9Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFGP+2ov; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1724259837; c=relaxed/simple;
+	bh=zVb7N7teN50UCGvp9J4epP4tHglFDwbmszo0DeKaocY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DJPZojlIoKgvp6e9lfTXPtu5RvAsm4RCXxtpbiBSgbcVzhSW/tBARYitGJN5gcUCAxcYUpL90+Fzjch+YtY8mpyGHX2RMEfC47FIfERC9y3AGwjNokjoqKXHSTcMIytaNzuaruSsyyG6fP7FICbVoeE+bybtj0jeKkmK1P27jIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=espkxAvK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFGP+2ov"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="espkxAvK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724259174; x=1755795174;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y/TI49HrIoqduIXBi9wKMVRCJUI6A0xpIOJpE8a7hpg=;
-  b=lFGP+2ovAyG9AmutVs5Wef2CKrvv50zmXOgWfPfeyyCPr3as2i0d4pZt
-   vQzRz8pyNjHs/qQK6KP/q/ESO1To1+5bcN/heqwBrscpRObpWWz9sgwB8
-   d4mlir4bbT+JdZsW/6GDHoTNF3BxpP2lfYyMdQVsqwMzlKOlkStsdR/7i
-   EzCyRGscs5iHanMcm3PKmWYf15hTQeMyVS/s4OA4Bs/EOjfnFeuH03Xul
-   tNo7fDHyMaTA5n/AFWhr4wIk/4KzvJ8nKzSPelgLAYZ4H1fDVQVfb1YpA
-   UIGWWZBgrvXTx5magHYrs4UiKWtk5NiCi2wgESSTCX/BOq0GjSGKmUMrS
-   A==;
-X-CSE-ConnectionGUID: yIzykvBMTEupH7cJnSGXPQ==
-X-CSE-MsgGUID: EARMv2aPS/KbuTYEKdP8eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="45157837"
+  t=1724259835; x=1755795835;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zVb7N7teN50UCGvp9J4epP4tHglFDwbmszo0DeKaocY=;
+  b=espkxAvKf09uZQXBkYr04ZSDMU9CJJkKUOgy0aDqZ78R43tPxYOhk21K
+   IT1a/K5rOXTmmJmckovE/YYHImxHV4bGa+kdF1CpbPvygxpTTDQBG5PYR
+   JKLcjvz7SxnG1D/fZJMGXG0DHTSE9ByJ8GVJhfOIx8VNjo7IbZCSI587G
+   0O5BFfAmB13aKkmDsADFeFmGGNNdMA2dnRmPxsB7UfIlURMSBOwUGKHfJ
+   lecigU4L+s2pErxI07UetYLCFmnKlfRpp4FfH3YdDXSNEmh0od2Wz4loD
+   e+JkwNdpS2c7N9BMCEDadaPnDhRNjV3u/3+gd803rKhYGxB3Pk+9NMSpj
+   w==;
+X-CSE-ConnectionGUID: 7oHJ8GWFTCqX/oera+Q9hw==
+X-CSE-MsgGUID: ELM5AqnrTKuPXhX1DymXZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22801601"
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="45157837"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 09:52:53 -0700
-X-CSE-ConnectionGUID: +8lGa9ZyTDK1AhFAGgDOeA==
-X-CSE-MsgGUID: LtjGAxhITau560W6TWbwIQ==
+   d="scan'208";a="22801601"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 10:03:52 -0700
+X-CSE-ConnectionGUID: BItUzTpYSCy0e4ZRFuhUaw==
+X-CSE-MsgGUID: 9CDopL3pSCeqLuECMbQeTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="66036904"
+   d="scan'208";a="91938471"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2024 09:52:51 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2024 10:03:51 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgoZj-000BiK-31;
-	Wed, 21 Aug 2024 16:52:47 +0000
-Date: Thu, 22 Aug 2024 00:52:44 +0800
+	id 1sgokO-000BjM-2G;
+	Wed, 21 Aug 2024 17:03:48 +0000
+Date: Thu, 22 Aug 2024 01:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Simon Horman <horms@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Sunil Kovvuri Goutham <sgoutham@marvell.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: Re: [PATCH v4 net-next 09/12] testing: net-drv: add basic shaper test
-Message-ID: <202408220027.kA3pRF6J-lkp@intel.com>
-References: <4cf74f285fa5f07be546cb83ef96775f86aa0dbf.1724165948.git.pabeni@redhat.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [jgunthorpe:fwctl 17/20] ./usr/include/fwctl/cxl.h:22:9: error:
+ unknown type name '__u32'
+Message-ID: <202408220152.b4IxxRxr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,60 +61,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4cf74f285fa5f07be546cb83ef96775f86aa0dbf.1724165948.git.pabeni@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/tools-ynl-lift-an-assumption-about-spec-file-name/20240820-231626
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/4cf74f285fa5f07be546cb83ef96775f86aa0dbf.1724165948.git.pabeni%40redhat.com
-patch subject: [PATCH v4 net-next 09/12] testing: net-drv: add basic shaper test
-config: hexagon-randconfig-r112-20240821 (https://download.01.org/0day-ci/archive/20240822/202408220027.kA3pRF6J-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20240822/202408220027.kA3pRF6J-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux fwctl
+head:   49296e2e608f31151e3b5644cf88a65b7f7b56e5
+commit: e6537a248fe6241de233cf02c499dfd48ce73fce [17/20] fwctl/cxl: Add driver for CXL mailbox for handling CXL features commands (RFC)
+config: x86_64-buildonly-randconfig-003-20240821 (https://download.01.org/0day-ci/archive/20240822/202408220152.b4IxxRxr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408220152.b4IxxRxr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408220027.kA3pRF6J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408220152.b4IxxRxr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/shaper/shaper.c:227:24: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +227 net/shaper/shaper.c
-
-d8a22f9bfdaade Paolo Abeni 2024-08-20  208  
-d8a22f9bfdaade Paolo Abeni 2024-08-20  209  /* Allocate on demand the per device shaper's cache. */
-d8a22f9bfdaade Paolo Abeni 2024-08-20  210  static struct mutex *net_shaper_cache_init(struct net_device *dev,
-d8a22f9bfdaade Paolo Abeni 2024-08-20  211  					   struct netlink_ext_ack *extack)
-d8a22f9bfdaade Paolo Abeni 2024-08-20  212  {
-d8a22f9bfdaade Paolo Abeni 2024-08-20  213  	struct net_shaper_data *new, *data = READ_ONCE(dev->net_shaper_data);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  214  
-d8a22f9bfdaade Paolo Abeni 2024-08-20  215  	if (!data) {
-d8a22f9bfdaade Paolo Abeni 2024-08-20  216  		new = kmalloc(sizeof(*dev->net_shaper_data), GFP_KERNEL);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  217  		if (!new) {
-d8a22f9bfdaade Paolo Abeni 2024-08-20  218  			NL_SET_ERR_MSG(extack, "Can't allocate memory for shaper data");
-d8a22f9bfdaade Paolo Abeni 2024-08-20  219  			return NULL;
-d8a22f9bfdaade Paolo Abeni 2024-08-20  220  		}
-d8a22f9bfdaade Paolo Abeni 2024-08-20  221  
-d8a22f9bfdaade Paolo Abeni 2024-08-20  222  		mutex_init(&new->lock);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  223  		xa_init(&new->shapers);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  224  		idr_init(&new->node_ids);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  225  
-d8a22f9bfdaade Paolo Abeni 2024-08-20  226  		/* No lock acquired yet, we can race with other operations. */
-d8a22f9bfdaade Paolo Abeni 2024-08-20 @227  		data = cmpxchg(&dev->net_shaper_data, NULL, new);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  228  		if (!data)
-d8a22f9bfdaade Paolo Abeni 2024-08-20  229  			data = new;
-d8a22f9bfdaade Paolo Abeni 2024-08-20  230  		else
-d8a22f9bfdaade Paolo Abeni 2024-08-20  231  			kfree(new);
-d8a22f9bfdaade Paolo Abeni 2024-08-20  232  	}
-d8a22f9bfdaade Paolo Abeni 2024-08-20  233  	return &data->lock;
-d8a22f9bfdaade Paolo Abeni 2024-08-20  234  }
-d8a22f9bfdaade Paolo Abeni 2024-08-20  235  
+   In file included from <command-line>:
+>> ./usr/include/fwctl/cxl.h:22:9: error: unknown type name '__u32'
+      22 |         __u32 uctx_caps;
+         |         ^~~~~
+>> ./usr/include/fwctl/cxl.h:29:9: error: unknown type name 'uuid_t'
+      29 |         uuid_t uuid;
+         |         ^~~~~~
+   ./usr/include/fwctl/cxl.h:30:9: error: unknown type name '__u32'
+      30 |         __u32 flags;
+         |         ^~~~~
+>> ./usr/include/fwctl/cxl.h:31:9: error: unknown type name '__u16'
+      31 |         __u16 offset;
+         |         ^~~~~
+>> ./usr/include/fwctl/cxl.h:32:9: error: unknown type name '__u8'
+      32 |         __u8 version;
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:33:9: error: unknown type name '__u8'
+      33 |         __u8 reserved[9];
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:34:9: error: unknown type name '__u8'
+      34 |         __u8 data[];
+         |         ^~~~
+   ./usr/include/fwctl/cxl.h:55:9: error: unknown type name '__u32'
+      55 |         __u32 id;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:56:9: error: unknown type name '__u32'
+      56 |         __u32 flags;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:59:25: error: unknown type name '__u16'
+      59 |                         __u16 opcode;
+         |                         ^~~~~
+   ./usr/include/fwctl/cxl.h:60:25: error: unknown type name '__u16'
+      60 |                         __u16 rsvd;
+         |                         ^~~~~
+   ./usr/include/fwctl/cxl.h:62:17: error: unknown type name '__u32'
+      62 |                 __u32 rsvd;
+         |                 ^~~~~
+   ./usr/include/fwctl/cxl.h:66:17: error: unknown type name '__u32'
+      66 |                 __u32 size;
+         |                 ^~~~~
+   ./usr/include/fwctl/cxl.h:67:17: error: unknown type name '__u32'
+      67 |                 __u32 rsvd;
+         |                 ^~~~~
+>> ./usr/include/fwctl/cxl.h:68:17: error: unknown type name '__u64'
+      68 |                 __u64 payload;
+         |                 ^~~~~
+   ./usr/include/fwctl/cxl.h:76:9: error: unknown type name '__u32'
+      76 |         __u32 rpc_cmd;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:77:9: error: unknown type name '__u32'
+      77 |         __u32 payload_size;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:78:9: error: unknown type name '__u32'
+      78 |         __u32 version;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:79:9: error: unknown type name '__u32'
+      79 |         __u32 rsvd;
+         |         ^~~~~
+>> ./usr/include/fwctl/cxl.h:81:47: error: field 'query' has incomplete type
+      81 |                 struct cxl_mem_query_commands query;
+         |                                               ^~~~~
+   ./usr/include/fwctl/cxl.h:87:9: error: unknown type name '__u32'
+      87 |         __u32 retval;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:88:9: error: unknown type name '__u32'
+      88 |         __u32 rsvd;
+         |         ^~~~~
+   ./usr/include/fwctl/cxl.h:89:9: error: unknown type name '__u8'
+      89 |         __u8 payload[];
+         |         ^~~~
 
 -- 
 0-DAY CI Kernel Test Service
