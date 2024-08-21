@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4F1B81CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 07:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4711531DE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 08:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724224821; cv=none; b=sIkImfZD2ThRfB8yNu/lbEx4nLAdozxkWTtExuSL/9yPeZqdbgjOZQ7UTfXVNmf45axHyKjudWP4ClvlM+gO5wMUlXSwxeFhm5a3kHcObSRWX5yrTSK+reKOKMtZS9U6zNhqBFCXcxewLP43mmWaSIJI7ZpdfRX8a+Ie91rH2Gc=
+	t=1724227885; cv=none; b=MkdDE8B1DdEvB9xNUs8HjoZUl1LGzsMMfsk08x+9QtoyoWZutoDF+9v7ImFqX8dHz7aYKgVS2gNB3AgDfbD8K8WYGeGLNsnBBSV5dwIfjjZ6OOOHKFVfj8gEap1Mnt6uWMJHc09216Vk2Xij+PecS046XtFeLQI4OaeEnPPfl1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724224821; c=relaxed/simple;
-	bh=t7wqAUxlCcmyGYPIfxQMh5lT7/IwbeQnQzScdlKC6/0=;
+	s=arc-20240116; t=1724227885; c=relaxed/simple;
+	bh=qoLGdoS5M7ATU96Zd/fw21/xYsbRMAnurL3lzR4hvs0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FOR2YFT511xwADgb5utHFWNxyEIv+xWGRGbSgNtZW7NJiHKPFRjo2OPXJrTg8cCBE5pU/ltcINGsrqqyiHeeDCQZzRlsckUrEZ1jr3x7KOxAmAGzaAN/e0owjOoL1tPmKtAL9rjvIe/NhaQaha6wB3cRy4rk0TUc5hIN0v7xk0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWhBhjPy; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=EV2XZ0+A0A2zIyppo6mNsH3AP7fikBL27Af+rUERRkwTnHwPHwMY9XKgGNoQFMNW41nOKW/UV/svog5fFJmIjsORbXOTlacD9jLsPMkUCnwDtVrYG3uMdVqpaFStpef3h5ufw55kxE9UuD7TWWDy/qR+qAzl3eONu5kIQ/BQK64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0z0iXW1; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWhBhjPy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0z0iXW1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724224819; x=1755760819;
+  t=1724227883; x=1755763883;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t7wqAUxlCcmyGYPIfxQMh5lT7/IwbeQnQzScdlKC6/0=;
-  b=GWhBhjPyWC4NCKdIu+i0PcxnrBfLC1TbTQrXel9/uUcGy6eMI4S8PFgA
-   RAONbTZr5T/K2Sy/uU34Z3jIkhquJc1hK5Q4uavP5b/w9477MyKHEHTmj
-   w/x1hmMQHSiKbawcGODMvOsP9mCUSisrCwclqT7ABkuqAFpEYeqanaH+E
-   oRqwAzpndMz194Wqc9RWXdJTx7iUR75H2iE8f0oCM/MdXFiOzBWudhPZw
-   KQg7Kr7YR5jo2rfX+BU6f6FDINEC7211OCzPfWwd5+eWCO6EoEemmS7oT
-   Gbc2GZ+myF+r5vp5XSa1LkXCXMnJwkIuLPP/wo1T26gSSQz1Jip2njSvb
-   w==;
-X-CSE-ConnectionGUID: Vrn4kcjqS2Kc6ygIOCFTnw==
-X-CSE-MsgGUID: 8rRC7DURQICVCPTF/rUTqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="33228833"
+  bh=qoLGdoS5M7ATU96Zd/fw21/xYsbRMAnurL3lzR4hvs0=;
+  b=O0z0iXW1ZWQIjC2ZdLDr1S+8vs2Gg/jem9UCTihoYfUmcPz26QysxpH0
+   ofIEsWb0dqtpmcVtYZuVc5kwzhPtUUc3Dn/wI8xb4s/DW2w3C5CDi//0V
+   7wZ5Fl0vETUVLFFMMtZVuEJm6WkSkkiRrS1gMOVN1iZWAk0fGdPY8ZkE1
+   mMCKxU5ijXyRmtmtl8+U/as8py2+STUDeQEb6AmhRA6AeJbdi0TWjJZhd
+   K62Vh22zrJE+F8Ii3mtt0wPN6+2cTR7zGvIYDZMZjwnQ/PczBNyk7GBzq
+   yIt8xBnKqhqmQfNPN7bd6XB9/+smjN6Qt4L3D0FOOtYmTRwUzpS34VI/o
+   g==;
+X-CSE-ConnectionGUID: JgtdFianQBu8CKQQ1scPPw==
+X-CSE-MsgGUID: Qkrmemw8RHqhXMsGAiV5TA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22103520"
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="33228833"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:20:19 -0700
-X-CSE-ConnectionGUID: JP+SJ7c4Sg6PmUIi0lugsQ==
-X-CSE-MsgGUID: k0OOmCZPTYKdDFp470cC5g==
+   d="scan'208";a="22103520"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 01:11:22 -0700
+X-CSE-ConnectionGUID: p4u7woYdSaay7gHZXKvVNQ==
+X-CSE-MsgGUID: Xwfp9M09SOWmBdJ73x0DdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="65843227"
+   d="scan'208";a="60660039"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 Aug 2024 00:20:16 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 Aug 2024 01:11:21 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgfdd-000B27-1d;
-	Wed, 21 Aug 2024 07:20:13 +0000
-Date: Wed, 21 Aug 2024 15:19:30 +0800
+	id 1sggR4-000B6I-2o;
+	Wed, 21 Aug 2024 08:11:18 +0000
+Date: Wed, 21 Aug 2024 16:10:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 9924/9936] arch/x86/kernel/cpu/mce/apei.c:69:6:
- warning: variable 'apei_error' set but not used
-Message-ID: <202408211548.ikO0BsE7-lkp@intel.com>
+Subject: [hch-xfs:xfs-zoned-rebase 47/49] fs/xfs/libxfs/xfs_bmap.c:3803:11:
+ error: use of undeclared identifier 'xfs_bmap_exact_minlen_extent_alloc'
+Message-ID: <202408211603.2ncpevfM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,101 +62,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   304e0163925d5bb281ad9846c091c122b6cc42a9
-commit: 1e425ba9127d344998738688c024490d496c0771 [9924/9936] x86/mce/zhaoxin: Enable mcelog to decode PCIE, ZDI/ZPI, and DRAM errors
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240821/202408211548.ikO0BsE7-lkp@intel.com/config)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
+head:   91ad8bea9f4ce121c5595f449ffb7c5a232a289f
+commit: ed83c0944468937f5e3c710a414aa83bd6d53cff [47/49] xfs: call xfs_bmap_exact_minlen_extent_alloc from xfs_bmap_btalloc
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240821/202408211603.2ncpevfM-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211548.ikO0BsE7-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211603.2ncpevfM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211548.ikO0BsE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211603.2ncpevfM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/cpu/mce/apei.c:69:6: warning: variable 'apei_error' set but not used [-Wunused-but-set-variable]
-      69 |         int apei_error = 0;
-         |             ^
-   arch/x86/kernel/cpu/mce/apei.c:135:6: warning: variable 'apei_error' set but not used [-Wunused-but-set-variable]
-     135 |         int apei_error = 0;
-         |             ^
-   arch/x86/kernel/cpu/mce/apei.c:171:6: warning: variable 'apei_error' set but not used [-Wunused-but-set-variable]
-     171 |         int apei_error = 0;
-         |             ^
-   3 warnings generated.
+   fs/xfs/libxfs/xfs_bmap.c:3803:50: error: too many arguments provided to function-like macro invocation
+    3803 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
+         |                                                                ^
+   fs/xfs/libxfs/xfs_bmap.c:3541:9: note: macro 'xfs_bmap_exact_minlen_extent_alloc' defined here
+    3541 | #define xfs_bmap_exact_minlen_extent_alloc(bma) (-EFSCORRUPTED)
+         |         ^
+>> fs/xfs/libxfs/xfs_bmap.c:3803:11: error: use of undeclared identifier 'xfs_bmap_exact_minlen_extent_alloc'
+    3803 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
+         |                         ^
+   2 errors generated.
 
 
-vim +/apei_error +69 arch/x86/kernel/cpu/mce/apei.c
+vim +/xfs_bmap_exact_minlen_extent_alloc +3803 fs/xfs/libxfs/xfs_bmap.c
 
-    65	
-    66	void zx_apei_mce_report_mem_error(struct cper_sec_mem_err *mem_err)
-    67	{
-    68		struct mce m;
-  > 69		int apei_error = 0;
-    70	
-    71		if (boot_cpu_data.x86 != 7 || boot_cpu_data.x86_model != 91)
-    72			return;
-    73	
-    74		if (!(mem_err->validation_bits & CPER_MEM_VALID_PA))
-    75			return;
-    76	
-    77		mce_setup(&m);
-    78		m.misc = 0;
-    79		m.misc = mem_err->module;
-    80		m.addr = mem_err->physical_addr;
-    81		if (mem_err->card == 0)
-    82			m.bank = 9;
-    83		else
-    84			m.bank = 10;
-    85	
-    86		switch (mem_err->error_type) {
-    87		case 2:
-    88			m.status = 0x9c20004000010080;
-    89			break;
-    90		case 3:
-    91			m.status = 0xbe40000000020090;
-    92			apei_error = apei_write_mce(&m);
-    93			break;
-    94		case 8:
-    95			if (mem_err->requestor_id == 2) {
-    96				m.status = 0x98200040000400b0;
-    97			} else if (mem_err->requestor_id == 3) {
-    98				m.status = 0xba400000000600a0;
-    99				apei_error = apei_write_mce(&m);
-   100			} else if (mem_err->requestor_id == 4) {
-   101				m.status = 0x98200100000300b0;
-   102			} else if (mem_err->requestor_id == 5) {
-   103				m.status = 0xba000000000500b0;
-   104				apei_error = apei_write_mce(&m);
-   105			} else {
-   106				pr_info("Undefined Parity error\n");
-   107			}
-   108			break;
-   109		case 10:
-   110			if (mem_err->requestor_id == 6) {
-   111				m.status = 0xba400000000700a0;
-   112				apei_error = apei_write_mce(&m);
-   113			} else if (mem_err->requestor_id == 7) {
-   114				m.status = 0xba000000000800b0;
-   115				apei_error = apei_write_mce(&m);
-   116			} else {
-   117				pr_info("Undefined dvad error\n");
-   118			}
-   119			break;
-   120		case 13:
-   121			m.status = 0x9c200040000100c0;
-   122			break;
-   123		case 14:
-   124			m.status = 0xbd000000000200c0;
-   125			apei_error = apei_write_mce(&m);
-   126			break;
-   127		}
-   128		mce_log(&m);
-   129	}
-   130	EXPORT_SYMBOL_GPL(zx_apei_mce_report_mem_error);
-   131	
+  3769	
+  3770	static int
+  3771	xfs_bmap_btalloc(
+  3772		struct xfs_bmalloca	*ap)
+  3773	{
+  3774		struct xfs_mount	*mp = ap->ip->i_mount;
+  3775		struct xfs_alloc_arg	args = {
+  3776			.tp		= ap->tp,
+  3777			.mp		= mp,
+  3778			.fsbno		= NULLFSBLOCK,
+  3779			.oinfo		= XFS_RMAP_OINFO_SKIP_UPDATE,
+  3780			.minleft	= ap->minleft,
+  3781			.wasdel		= ap->wasdel,
+  3782			.resv		= XFS_AG_RESV_NONE,
+  3783			.datatype	= ap->datatype,
+  3784			.alignment	= 1,
+  3785			.minalignslop	= 0,
+  3786		};
+  3787		xfs_fileoff_t		orig_offset;
+  3788		xfs_extlen_t		orig_length;
+  3789		int			error;
+  3790		int			stripe_align;
+  3791	
+  3792		ASSERT(ap->length);
+  3793		orig_offset = ap->offset;
+  3794		orig_length = ap->length;
+  3795	
+  3796		stripe_align = xfs_bmap_compute_alignments(ap, &args);
+  3797	
+  3798		/* Trim the allocation back to the maximum an AG can fit. */
+  3799		args.maxlen = min(ap->length, mp->m_ag_max_usable);
+  3800	
+  3801		if (unlikely(XFS_TEST_ERROR(false, mp,
+  3802				XFS_ERRTAG_BMAP_ALLOC_MINLEN_EXTENT)))
+> 3803			error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
+  3804		else if ((ap->datatype & XFS_ALLOC_USERDATA) &&
+  3805				xfs_inode_is_filestream(ap->ip))
+  3806			error = xfs_bmap_btalloc_filestreams(ap, &args, stripe_align);
+  3807		else
+  3808			error = xfs_bmap_btalloc_best_length(ap, &args, stripe_align);
+  3809		if (error)
+  3810			return error;
+  3811	
+  3812		if (args.fsbno != NULLFSBLOCK) {
+  3813			xfs_bmap_process_allocated_extent(ap, &args, orig_offset,
+  3814				orig_length);
+  3815		} else {
+  3816			ap->blkno = NULLFSBLOCK;
+  3817			ap->length = 0;
+  3818		}
+  3819		return 0;
+  3820	}
+  3821	
 
 -- 
 0-DAY CI Kernel Test Service
