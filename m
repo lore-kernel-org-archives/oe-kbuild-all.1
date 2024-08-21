@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7A31CBEAB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 08:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F22A19ABA6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 08:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724228484; cv=none; b=aZOcBaB9Ba+LfEwoiVFteg3923cBUcvyMWBhssNe2dAZjOi7ty6LRKryAO8uF8JL3BsaH/xB32JvrOZvbWvWgI5bTZc76Ao8VD9xv2Zyx+OJm2LpL6hMIMw+19FjAxl0TRC8aHp5W2OzZy5gFW1r7XNhRl7SN2fzFYQzYUI7jwY=
+	t=1724230458; cv=none; b=LBiz4A2merq0VFtJIgv2T7qqyCfLkGO4wAsrSXawoYKJRosmh0oLE6QG7UL+ErWruyL1Aa8H8OIqfOFJxlImem4odfS6N0GnE5dxhrYaPqd5eU4L83NipAZ8wJoUByF5RFQVl03do7VzrRJNT0rNHadHgUPQ6Gn4mPySljrc1rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724228484; c=relaxed/simple;
-	bh=CXFMloPJPmF4A+I6ZMGw9j+kDgcoC5SUKS1p5W1KxHI=;
+	s=arc-20240116; t=1724230458; c=relaxed/simple;
+	bh=hKk9/fgwcayiGikuEfw16S2ri1DV4q31K69raq8ttZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cgfXi6/qCVQxUNVlVdDf8bmKJ5zzUAN/5xUyxC+Tmmo2iN9ccRqZzDq7QSBFLojvTNfsJMqmh/vxOZnhVnI4blq3ZEC6+yVxMJ8KD2s+16aKIIN2ITZ+Mtr39ZIwFmFd+xB4Jfim6qY+7iYnPm0I1eRjBLq7q88Xxp/vCs7caq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XekEFIDB; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=LvUwyJfb91+EhNzVkC7M50FpWcCvXJfV+OposgIrAIrdYRNQqEWVX8IJaG6ilVAc1TOMGewjQQ3bvbD0mVy2uUiNfKVzYgMGJLsv/rqmrA6gkwJUxAQ+uviXZzYLg5V/ra4RMkp82y6jLnhhSfi3w37vVGylywGG6gGlcwrSEsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mHrUffLZ; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XekEFIDB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724228483; x=1755764483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CXFMloPJPmF4A+I6ZMGw9j+kDgcoC5SUKS1p5W1KxHI=;
-  b=XekEFIDBABlvbFiyrNuiqWj9e3uHpk8Yi4rj4iFEOb5r8bb8WBo57e5r
-   8XauK1YHHBPapFStLxWr8J/VvBdEUXC/yqP4Ngow2U+Ff46+jd0PyxnTd
-   31OMprcAVQEP8TkxWNRpjI+hTI+tCrqGn4qczBQHToefbE2vw0Dpm2BgB
-   ySgs3DtVdBqmSFATGKE/wZFyLQXDedOXn1XaABCN8JnB2k83v6v3rQOr2
-   v9byH2jBfV9SeFRx2IEBNnyIV4VLV3mPsz46YvRtr5q0hYEmOaczHObal
-   KJfT+cr4jAr2kZHMgrPnTRu3zcZqnt99UaQkyc0q/m2Fw+UQHgfKYuiAx
-   A==;
-X-CSE-ConnectionGUID: uViYyts8T26mWvdFDx7D9Q==
-X-CSE-MsgGUID: PUO93rdfTr2QwnrF72XXFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22759169"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22759169"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 01:21:22 -0700
-X-CSE-ConnectionGUID: JGg+flICQYGoqwSalZwnxQ==
-X-CSE-MsgGUID: nqgUYwYhRDq5N1juqdrV2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="61045730"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Aug 2024 01:21:21 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sggal-000B6q-0f;
-	Wed, 21 Aug 2024 08:21:19 +0000
-Date: Wed, 21 Aug 2024 16:21:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned-rebase 47/49] fs/xfs/libxfs/xfs_bmap.c:3803:69:
- error: macro "xfs_bmap_exact_minlen_extent_alloc" passed 2 arguments, but
- takes just 1
-Message-ID: <202408211616.oCSlhre1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mHrUffLZ"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5bebd3b7c22so858001a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 01:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724230454; x=1724835254; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5PwpfWJBg4VL77bHtinD2D9Ddh+cX6mslBqHqUnUGpE=;
+        b=mHrUffLZAuEHqBobHhVPWCELACgYHBV1xy/mEwvpIdBJFnvPeEydCRBcmzsqSo9eKj
+         bHebrYBfBfLfwjXuQwO/rSidEti+r1Tftt7VxIYBU5KNrshYa0C+IzKemRThnh8yXTYn
+         qHrFG+e6xbCqigy66vsXBUXcORuVF+mXaPccx3JTy1dt1Hpr9fbh3wyG+jQO8vsm6psD
+         /jf3YHUfpNb9aEPb8MWW5kMnKCp1JxbfZT8TwczwD+4z8T+b7wovDSzcFqk7NuPHf6Kk
+         M+b37leWmMiUkwqjgdMJcmh+2ri+DkJXMwlX++j44e7bq3Lbx1M/aGkyR7CrSyBUJb7M
+         XOyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724230454; x=1724835254;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5PwpfWJBg4VL77bHtinD2D9Ddh+cX6mslBqHqUnUGpE=;
+        b=FlGtrVWDGs9LQoIRWK5cKBX2rTI87L8KVKXZySekwov02rPx2iNj/Wzt7rlBW5U/R3
+         TRnMVD0yZuSjW4Vj1czdDwbxy4suIdL9lCspkBo6QO0fsR3bYZ9RF3RNtJ8OmWf4ZbIg
+         mhQQNyvMBk984EG8pNhBujLCQpwVIfYUXy4ww9dN7S7UFCZO66lIm7AyTK3ZM/82nx85
+         I3rob4zsqVXdY4oONUUiWxHJLZwYPa0ghUzODur+YrX5tux2nh+ZDBH2yYM1dcyPbYj0
+         00LvfVeq3ZhtoiWJW13+XpbUYAApYpxRDxCBLqGfQ03wQaA4ycUyuBBUOS6polXkrx4B
+         wNiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmhmLG4/QI5Rlhs3B8TQwRmUGR2IvDIbeL0OEQH4e8W7ijvQqE33sp0duvFaNrewGOJCYzYFuTTa8HeMbb@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNaEOxmEtBpfSQ9pKA/M7p7h3kISFlupw8ppUyfU0AsRY65OM2
+	9xhmjhfaoJNoSRXSo51ECZ4QcvmL5sfN0RPvONWcK0QGiTk2wPfAAuIxfJptoLk=
+X-Google-Smtp-Source: AGHT+IHqniaD95wWus1dUs8I0Ds16yyLnF/G5gMUwehcGxhDJjRsnQPQLN+BSei0nmBBpkxAspsBIA==
+X-Received: by 2002:a05:6402:d0d:b0:5be:fadc:8710 with SMTP id 4fb4d7f45d1cf-5bf1e6d6c6cmr1425459a12.7.1724230453674;
+        Wed, 21 Aug 2024 01:54:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bf0110009bsm2845518a12.37.2024.08.21.01.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 01:54:12 -0700 (PDT)
+Date: Wed, 21 Aug 2024 11:54:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	virtualization@lists.linux.dev, bpf@vger.kernel.org
+Subject: Re: [PATCH net-next 03/13] virtio_ring: packed: harden dma unmap for
+ indirect
+Message-ID: <8c34ab7c-6063-4686-8623-7dfd31b5ff0d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,90 +78,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240820073330.9161-4-xuanzhuo@linux.alibaba.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
-head:   91ad8bea9f4ce121c5595f449ffb7c5a232a289f
-commit: ed83c0944468937f5e3c710a414aa83bd6d53cff [47/49] xfs: call xfs_bmap_exact_minlen_extent_alloc from xfs_bmap_btalloc
-config: arc-randconfig-001-20240821 (https://download.01.org/0day-ci/archive/20240821/202408211616.oCSlhre1-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211616.oCSlhre1-lkp@intel.com/reproduce)
+Hi Xuan,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-introduce-vring_need_unmap_buffer/20240820-153644
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240820073330.9161-4-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH net-next 03/13] virtio_ring: packed: harden dma unmap for indirect
+config: x86_64-randconfig-161-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210655.dx8v5uRW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408211616.oCSlhre1-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408210655.dx8v5uRW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/virtio/virtio_ring.c:1634 detach_buf_packed() error: uninitialized symbol 'desc'.
 
-   fs/xfs/libxfs/xfs_bmap.c: In function 'xfs_bmap_btalloc':
->> fs/xfs/libxfs/xfs_bmap.c:3803:69: error: macro "xfs_bmap_exact_minlen_extent_alloc" passed 2 arguments, but takes just 1
-    3803 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-         |                                                                     ^
-   fs/xfs/libxfs/xfs_bmap.c:3541: note: macro "xfs_bmap_exact_minlen_extent_alloc" defined here
-    3541 | #define xfs_bmap_exact_minlen_extent_alloc(bma) (-EFSCORRUPTED)
-         | 
->> fs/xfs/libxfs/xfs_bmap.c:3803:25: error: 'xfs_bmap_exact_minlen_extent_alloc' undeclared (first use in this function)
-    3803 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_bmap.c:3803:25: note: each undeclared identifier is reported only once for each function it appears in
+vim +/desc +1634 drivers/virtio/virtio_ring.c
 
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1594  static void detach_buf_packed(struct vring_virtqueue *vq,
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1595  			      unsigned int id, void **ctx)
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1596  {
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1597  	struct vring_desc_state_packed *state = NULL;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1598  	struct vring_packed_desc *desc;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1599  	unsigned int i, curr;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1600  
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1601  	state = &vq->packed.desc_state[id];
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1602  
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1603  	/* Clear data ptr. */
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1604  	state->data = NULL;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1605  
+aeef9b4733c5c2 Jason Wang 2021-06-04  1606  	vq->packed.desc_extra[state->last].next = vq->free_head;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1607  	vq->free_head = id;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1608  	vq->vq.num_free += state->num;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1609  
+d5c0ed17fea60c Xuan Zhuo  2024-02-23  1610  	if (unlikely(vq->use_dma_api)) {
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1611  		curr = id;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1612  		for (i = 0; i < state->num; i++) {
+d80dc15bb6e76a Xuan Zhuo  2022-02-24  1613  			vring_unmap_extra_packed(vq,
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1614  						 &vq->packed.desc_extra[curr]);
+aeef9b4733c5c2 Jason Wang 2021-06-04  1615  			curr = vq->packed.desc_extra[curr].next;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1616  		}
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1617  	}
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1618  
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1619  	if (vq->indirect) {
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1620  		struct vring_desc_extra *extra;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1621  		u32 len;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1622  
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1623  		/* Free the indirect table, if any, now that it's unmapped. */
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1624  		extra = state->indir;
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1625  		if (!extra)
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1626  			return;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1627  
+de6a29c4b4c442 Xuan Zhuo  2024-08-20  1628  		if (vring_need_unmap_buffer(vq)) {
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1629  			len = vq->packed.desc_extra[id].len;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1630  			for (i = 0; i < len / sizeof(struct vring_packed_desc);
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1631  					i++)
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1632  				vring_unmap_extra_packed(vq, &extra[i]);
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1633  		}
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21 @1634  		kfree(desc);
+                                                              ^^^^
+desc is never initialized/used.
 
-vim +/xfs_bmap_exact_minlen_extent_alloc +3803 fs/xfs/libxfs/xfs_bmap.c
-
-  3769	
-  3770	static int
-  3771	xfs_bmap_btalloc(
-  3772		struct xfs_bmalloca	*ap)
-  3773	{
-  3774		struct xfs_mount	*mp = ap->ip->i_mount;
-  3775		struct xfs_alloc_arg	args = {
-  3776			.tp		= ap->tp,
-  3777			.mp		= mp,
-  3778			.fsbno		= NULLFSBLOCK,
-  3779			.oinfo		= XFS_RMAP_OINFO_SKIP_UPDATE,
-  3780			.minleft	= ap->minleft,
-  3781			.wasdel		= ap->wasdel,
-  3782			.resv		= XFS_AG_RESV_NONE,
-  3783			.datatype	= ap->datatype,
-  3784			.alignment	= 1,
-  3785			.minalignslop	= 0,
-  3786		};
-  3787		xfs_fileoff_t		orig_offset;
-  3788		xfs_extlen_t		orig_length;
-  3789		int			error;
-  3790		int			stripe_align;
-  3791	
-  3792		ASSERT(ap->length);
-  3793		orig_offset = ap->offset;
-  3794		orig_length = ap->length;
-  3795	
-  3796		stripe_align = xfs_bmap_compute_alignments(ap, &args);
-  3797	
-  3798		/* Trim the allocation back to the maximum an AG can fit. */
-  3799		args.maxlen = min(ap->length, mp->m_ag_max_usable);
-  3800	
-  3801		if (unlikely(XFS_TEST_ERROR(false, mp,
-  3802				XFS_ERRTAG_BMAP_ALLOC_MINLEN_EXTENT)))
-> 3803			error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-  3804		else if ((ap->datatype & XFS_ALLOC_USERDATA) &&
-  3805				xfs_inode_is_filestream(ap->ip))
-  3806			error = xfs_bmap_btalloc_filestreams(ap, &args, stripe_align);
-  3807		else
-  3808			error = xfs_bmap_btalloc_best_length(ap, &args, stripe_align);
-  3809		if (error)
-  3810			return error;
-  3811	
-  3812		if (args.fsbno != NULLFSBLOCK) {
-  3813			xfs_bmap_process_allocated_extent(ap, &args, orig_offset,
-  3814				orig_length);
-  3815		} else {
-  3816			ap->blkno = NULLFSBLOCK;
-  3817			ap->length = 0;
-  3818		}
-  3819		return 0;
-  3820	}
-  3821	
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1635  		state->indir = NULL;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1636  	} else if (ctx) {
+dfcc54f92ab71c Xuan Zhuo  2024-08-20  1637  		*ctx = state->indir;
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1638  	}
+1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1639  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
