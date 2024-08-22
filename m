@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D3A16EBFC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Aug 2024 23:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B410EC5;
+	Thu, 22 Aug 2024 00:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724282708; cv=none; b=Ga2lwsaD1dNG4RLBjTu+7sppRLLJljTpM+L8UOtbQhiEm5Gxs9k/BwjDMtaTCak56CafHQXTbYqoVaFDxXuAA7AXnZTcmO/LXtWpOCvmYFNn6/zbk/pv4BMhWJFCmE047mvEmZFaI0Ap2Wg8tsNx0n+lS+4udtJMqBavb190AeY=
+	t=1724285292; cv=none; b=kW+PQnOeCJUGm3b0kBUo5mz6kftpGcgH5Q0trAqRbLg6Peq0nMxYAFK6aZy/SRaMuXZOMEiJXo9NQHcMrKhCB1zVm7URPkV+1S0QSRFbuG71pah+bWG/ZLtX8DF1ehPxCXi9dAFS5yN7IjGbgrmnTWodwqI6TDMQJTJ0KEGVARg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724282708; c=relaxed/simple;
-	bh=2raBv8nu1Lb3plRPHtPzM8gQRb7u60QiDwXZTGO85fg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oA4S9kE0IKBrhK+hgTPBCNNpwdE0xOYOZCK5ucIAPZhL8g16L1ClbM4md/VpkcQakzVCxpTXue6okNh1DSePVmlcCiKWNoYiusgzWg2v/M1yyBHySpQaEP37MONhab7ldkxJ6MZAKWawP/7FfBgF9GZWGeABwNUXw2Czpeb+tpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lm6SfiSe; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1724285292; c=relaxed/simple;
+	bh=vgfOndwrjlpq8T9jckd7c4m1f+9iW2L/9WwWjTdusj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uJJnP48ZueSFOTfb4s/HkNuy7xpDXMBXpn2+K6R+K43HSeCrVnTQZY5w8vZqQzDOvp+XWXUIcgCMSDvjaRMfdwSV4YsgO1KNVWyS1BH9+0g971gBojg/1zeQZkqn+tNHf88sJLg4Lvg5E9sD2gkJArAq3tbSOhb55CcO8mD9plQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6CjJRkX; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lm6SfiSe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6CjJRkX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724282707; x=1755818707;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2raBv8nu1Lb3plRPHtPzM8gQRb7u60QiDwXZTGO85fg=;
-  b=Lm6SfiSes43FYxO0Z8scvrucQMtVsxnrFBoD9QXc2cNhT0ozM/J7mDR5
-   /WgCByKEYSKAnwhL7UAdoAAZlblr+GfFdWVNJhL2H64vbZ/if4EiajaL7
-   K98s03sdW2F50JAzZ1N5EBcDT0VLjyPNp+HHpBcAbt4/nF1HOCZ3+GU8a
-   3C4ptQMBJlIGVPWiGiCueCycuab+vB45M2IX/1WJFJodb/JADvfrJrDR0
-   qxlxs/UCv5nQKPzwfiFcqibihRO5eW/OvWSsoifxu0B9hD2zKsampSCJ1
-   lYSyxy+I7Zq9DU6sRt2oX8prNv45MtutbZ6WFpQyo1VRdI+cxMbPuvCHt
-   g==;
-X-CSE-ConnectionGUID: o6ouGnNQRnujIXCU3B7seQ==
-X-CSE-MsgGUID: G9EZksmEROCJr9cEcooP3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="48067165"
+  t=1724285289; x=1755821289;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vgfOndwrjlpq8T9jckd7c4m1f+9iW2L/9WwWjTdusj0=;
+  b=S6CjJRkXw4AwC4v3aAg+4H/FVac3iNs9XSkUa2rAy0F1eUS100+tnG0G
+   NsHlVHSW4/Y7jgriFYPitwz8fPHRz6uFuaslpARo9xTCcIAYX760WVbqI
+   NgWAH0PKf0Kce9r3kCnQ4MwI4Z5PEASwHjimxu6raYqVB/1JyoS+w2RXf
+   aL15N8Ow3sP2oWcyc+JXjZYEQxzuIUCGr/e3+Z7qRuSF9f0yzpuXQ4DLT
+   PafrFGvDILPaEK1t+dDxVmn/fRmbHPzeSU6NlmBwFlD/MsSUHKgyn8umJ
+   RSue/7yloLWehmSIT8RLwsAM3umu+lB+ce3OI+zFC7ztqvRCn5P01FLAj
+   w==;
+X-CSE-ConnectionGUID: O/wXXOZgSt63D72N9gJKpQ==
+X-CSE-MsgGUID: BsMBQjObTi+h1U9fWFgQUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22842929"
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="48067165"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 16:25:06 -0700
-X-CSE-ConnectionGUID: bWxU4KWrQI+x0EccHeUwVQ==
-X-CSE-MsgGUID: eD+l1axjRzayP5hh/PXonw==
+   d="scan'208";a="22842929"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 17:08:08 -0700
+X-CSE-ConnectionGUID: LZBuqbL4RZiT/6eseKCY6A==
+X-CSE-MsgGUID: 6EjppWBSQliFO65ITpIXsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="66129107"
+   d="scan'208";a="84433107"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2024 16:25:04 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Aug 2024 17:08:05 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sguhK-000C2q-0G;
-	Wed, 21 Aug 2024 23:25:02 +0000
-Date: Thu, 22 Aug 2024 07:24:59 +0800
+	id 1sgvMx-000C4S-0O;
+	Thu, 22 Aug 2024 00:08:03 +0000
+Date: Thu, 22 Aug 2024 08:07:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Chmielewski <pawel.chmielewski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Simon Horman <horms@kernel.org>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- ice_adv_lnk_speed_maps+0x14 (section: .data) ->
- __setup_str_initcall_blacklist (section: .init.rodata)
-Message-ID: <202408220755.LlaA10C6-lkp@intel.com>
+To: Zhao Qunqin <zhaoqunqin@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, bp@alien8.de, tony.luck@intel.com,
+	james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org, zhaoqunqin <zhaoqunqin@loongson.cn>
+Subject: Re: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory
+ controller
+Message-ID: <202408220634.Irq2TUcL-lkp@intel.com>
+References: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +68,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
 
-Hi Pawel,
+Hi Zhao,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b311c1b497e51a628aa89e7cb954481e5f9dced2
-commit: 982b0192db455d288fc1deb06632f529c35daa15 ice: Refactor finding advertised link speed
-date:   10 months ago
-config: xtensa-randconfig-r123-20240821 (https://download.01.org/0day-ci/archive/20240822/202408220755.LlaA10C6-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240822/202408220755.LlaA10C6-lkp@intel.com/reproduce)
+[auto build test ERROR on ras/edac-for-next]
+[also build test ERROR on robh/for-next linus/master v6.11-rc4 next-20240821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/Loongarch-EDAC-driver-for-loongson-memory-controller/20240821-145127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20240821064728.8642-2-zhaoqunqin%40loongson.cn
+patch subject: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory controller
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408220634.Irq2TUcL-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408220634.Irq2TUcL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408220755.LlaA10C6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408220634.Irq2TUcL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: put_page+0x78 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
->> WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0x14 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0x30 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0x4c (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0x68 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0x84 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0xa0 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0xbc (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0xd8 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
-WARNING: modpost: vmlinux: section mismatch in reference: ice_adv_lnk_speed_maps+0xf4 (section: .data) -> __setup_str_initcall_blacklist (section: .init.rodata)
+   drivers/edac/loongson_edac.c: In function 'get_dimm_config':
+>> drivers/edac/loongson_edac.c:90:16: error: implicit declaration of function 'EDAC_DIMM_PTR' [-Wimplicit-function-declaration]
+      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+         |                ^~~~~~~~~~~~~
+>> drivers/edac/loongson_edac.c:90:14: error: assignment to 'struct dimm_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+         |              ^
+   drivers/edac/loongson_edac.c: At top level:
+>> drivers/edac/loongson_edac.c:181:27: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+     181 |         .remove         = loongson_edac_remove,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/edac/loongson_edac.c:181:27: note: (near initialization for 'loongson_edac_driver.<anonymous>.remove')
+
+
+vim +/EDAC_DIMM_PTR +90 drivers/edac/loongson_edac.c
+
+    80	
+    81	static int get_dimm_config(struct mem_ctl_info *mci)
+    82	{
+    83		u32 size, npages;
+    84		struct dimm_info *dimm;
+    85	
+    86		/* size not used */
+    87		size = -1;
+    88		npages = MiB_TO_PAGES(size);
+    89	
+  > 90		dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+    91				0, 0, 0);
+    92		dimm->nr_pages = npages;
+    93		snprintf(dimm->label, sizeof(dimm->label),
+    94				"MC#%uChannel#%u_DIMM#%u",
+    95				mci->mc_idx, 0, 0);
+    96		dimm->grain = 8;
+    97	
+    98		return 0;
+    99	}
+   100	
+   101	static void loongson_pvt_init(struct mem_ctl_info *mci, u64 *vbase)
+   102	{
+   103		struct loongson_edac_pvt *pvt = mci->pvt_info;
+   104	
+   105		pvt->ecc_base = vbase;
+   106		pvt->last_ce_count = loongson_read_ecc(mci);
+   107	}
+   108	
+   109	static int loongson_edac_probe(struct platform_device *pdev)
+   110	{
+   111		struct resource *rs;
+   112		struct mem_ctl_info *mci;
+   113		struct edac_mc_layer layers[2];
+   114		struct loongson_edac_pvt *pvt;
+   115		u64 *vbase = NULL;
+   116	
+   117		rs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   118		if (!rs)
+   119			return -EINVAL;
+   120		if (rs->start) {
+   121			vbase = devm_ioremap(&pdev->dev, rs->start, resource_size(rs));
+   122			if (!vbase)
+   123				return -ENOMEM;
+   124		}
+   125	
+   126		/* allocate a new MC control structure */
+   127		layers[0].type = EDAC_MC_LAYER_CHANNEL;
+   128		layers[0].size = 1;
+   129		layers[0].is_virt_csrow = false;
+   130		layers[1].type = EDAC_MC_LAYER_SLOT;
+   131		layers[1].size = 1;
+   132		layers[1].is_virt_csrow = true;
+   133		mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers, sizeof(*pvt));
+   134		if (mci == NULL)
+   135			return -ENOMEM;
+   136	
+   137		edac_dbg(0, "MC: mci = %p\n", mci);
+   138	
+   139		mci->mc_idx = idx++;
+   140		mci->mtype_cap = MEM_FLAG_RDDR4;
+   141		mci->edac_ctl_cap = EDAC_FLAG_NONE;
+   142		mci->edac_cap = EDAC_FLAG_NONE;
+   143		mci->mod_name = "loongson_edac.c";
+   144		mci->ctl_name = "loongson_edac_ctl";
+   145		mci->dev_name = "loongson_edac_dev";
+   146		mci->ctl_page_to_phys = NULL;
+   147		mci->pdev = &pdev->dev;
+   148		mci->error_desc.grain = 8;
+   149		/* Set the function pointer to an actual operation function */
+   150		mci->edac_check = loongson_edac_check;
+   151	
+   152		loongson_pvt_init(mci, vbase);
+   153		get_dimm_config(mci);
+   154	
+   155		if (edac_mc_add_mc(mci)) {
+   156			edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
+   157			edac_mc_free(mci);
+   158		}
+   159		return 0;
+   160	}
+   161	
+   162	static int loongson_edac_remove(struct platform_device *pdev)
+   163	{
+   164		struct mem_ctl_info *mci = edac_mc_del_mc(&pdev->dev);
+   165	
+   166		if (mci) {
+   167			edac_mc_free(mci);
+   168			return 0;
+   169		}
+   170		return -ENODEV;
+   171	}
+   172	
+   173	static const struct of_device_id loongson_edac_of_match[] = {
+   174		{ .compatible = "loongson,ls-mc-edac", },
+   175		{}
+   176	};
+   177	MODULE_DEVICE_TABLE(of, loongson_edac_of_match);
+   178	
+   179	static struct platform_driver loongson_edac_driver = {
+   180		.probe		= loongson_edac_probe,
+ > 181		.remove		= loongson_edac_remove,
+   182		.driver		= {
+   183			.name	= "ls-mc-edac",
+   184			.owner = THIS_MODULE,
+   185			.of_match_table = loongson_edac_of_match,
+   186		},
+   187	};
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
