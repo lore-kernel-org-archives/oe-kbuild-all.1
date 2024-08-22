@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B05D17C224
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 09:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE2118308E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 10:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724318885; cv=none; b=n+sELuJS/Xb2ZT00OiIoUNOKKxZ0aLKUcLBSqXKT5VdyWTghGeMB7TYeJKRVxuQdiq7J/RTkdZ0UtpPNqtoBP31XrzEVznxgAxT7t9cCFPEDxAmiu8cuOmRsIvWDhd0dpv69C2a7F/5sJEbPjvypJTsrfHzYzMM2HQlNEDEnyZk=
+	t=1724323146; cv=none; b=FjcGjFaZROVjof5vyBUCru899xneDp/4kZ8/D1kwAzWfQYFa4wkcTPZKJAoFP0kIZ0QGlX8EO57fBioB80lu5hWOXNsmQkRS6pekpQFtWFYEYWpOWXFAAI4LVlXYtuWsqgqkTdxSb6oT2O/7eby0CDGaZZvyw2mAX/DtM9z2k3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724318885; c=relaxed/simple;
-	bh=nlZScaTrGwKship0z+lXTgDsPGh1Ywve0c6RRdSRLZg=;
+	s=arc-20240116; t=1724323146; c=relaxed/simple;
+	bh=By0fQxIG06ZLRfs6G47zO6X9vuZE55gXLRUegu6W+hU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3MxxW1wpP0A/iGAbTjfPHFrzplnVOCVijabu8Jxez1R13qQ6lYxnhuRBV6pgQsj9E/xlJzNowQvJ1nIXrLtDrVH/JrnHjEBJkrtcYyp6KgA69BVbWywrXgQ8PxsOr/txMEOCk0sxtAdQM1m7yPufA+pUm2x05PdCpFsHHS5vkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPM9uK14; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=QXpJkSu5qFCfZzQs+X+jMC5MIsLMwYs9DjBp+9E/XE4Wy9tKVs7vlVz9Ru0ju3ZQ4YNqkIm5n9DQWZDTtKvs/8xhEJZVMdVdGm/k9/vXXtuPsNQZP0aBnrJSUynRyTHqYem8PFod1I9XyENlh5iITDPQi4z+yuYepZvWKBtkYkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmL/90il; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPM9uK14"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmL/90il"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724318884; x=1755854884;
+  t=1724323145; x=1755859145;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nlZScaTrGwKship0z+lXTgDsPGh1Ywve0c6RRdSRLZg=;
-  b=CPM9uK14m8hhnfcbJ6T61VXxUId+9FXzphVyNPk0QYyDbjL2YTp5ptwR
-   fc2nFLRVXk57Nrbmm9JDMlHZuv2rnUsI7VcYTJAqPHWHExLZehWT9F9NE
-   0Ibr9dRj9nkPdTLsUXrscufE0RwB9QdrVO/L5zAyznN/Q9WNZxUFHoyRl
-   kfbHD1hmYwlpyJUpLoNhDd82rXPlbxAPXsJKISLrV8UTEPDYS2D4+EyZW
-   D1u9qnYaoSe0t/H584UU9RIL0WXWG53tSGmxTAfGnnuRKPZt+0ZBH6NnQ
-   vnDYrjTpIxIidA3rOMN6R2AiwBgfzRWWbZvRk6azi9Fkhsp34tK1JJIG2
-   Q==;
-X-CSE-ConnectionGUID: UgcbW49yScG8+9u4vqVzjA==
-X-CSE-MsgGUID: SZSYrJouSqydUG4idZktqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22892093"
+  bh=By0fQxIG06ZLRfs6G47zO6X9vuZE55gXLRUegu6W+hU=;
+  b=mmL/90ilROgg7Lt1RqYtKhLjySRlVcBzJNFlBJaUzGIneRfkhXf/xu8k
+   ZFSLvmo+8ooU6xHb8tNKDqC3K0IzJriVAszkmToQgTBBwHyYBt7OJ+6W/
+   RA8oAJ7jdqavnMj/CkVfTN9+vOsfjdSkeERdHB8wkMsd7lvFZdUFTkA9Q
+   c2oSUoONKn6NWMrrjH29ngdfLti5x+kw2eP2sOTa4WWSJX0a3hIJmKnWO
+   6+Wyth37wpjrmaIwiNAXFE1nPAnTD8YnZ7b3Y97GTgwTd66TEh4pSHsRk
+   afAXgHR4rjypSzsGfsUHdFfK+7ygA3nmG+9q/pFsrWe8p2Or9MERa1V9y
+   w==;
+X-CSE-ConnectionGUID: VevGI3WhS0q1wdgMmQMWLw==
+X-CSE-MsgGUID: YVnFW6blSqKdtI3Il7yEfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22250198"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="22892093"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 02:28:04 -0700
-X-CSE-ConnectionGUID: UT1P0CR8QaKnNEUkDDv+4w==
-X-CSE-MsgGUID: cZ9XR265RGKO6NCTGgFwvw==
+   d="scan'208";a="22250198"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 03:39:04 -0700
+X-CSE-ConnectionGUID: eXF1aIU1Rfq3si9eK6Bgfg==
+X-CSE-MsgGUID: dN4jdnZgQbG92KZZiP9kEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="98882337"
+   d="scan'208";a="62123434"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Aug 2024 02:28:00 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2024 03:39:02 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh46n-000CdC-28;
-	Thu, 22 Aug 2024 09:27:57 +0000
-Date: Thu, 22 Aug 2024 17:26:58 +0800
+	id 1sh5DX-000Cfs-1Q;
+	Thu, 22 Aug 2024 10:38:59 +0000
+Date: Thu, 22 Aug 2024 18:38:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, david@redhat.com,
-	hughd@google.com, willy@infradead.org, muchun.song@linux.dev,
-	vbabka@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	vishal.moola@gmail.com, peterx@redhat.com, ryan.roberts@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH 08/14] mm: copy_pte_range() use
- pte_offset_map_maywrite_nolock()
-Message-ID: <202408221703.ioeASthY-lkp@intel.com>
-References: <05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch@bytedance.com>
+To: "hongchi.peng" <hongchi.peng@siengine.com>, liviu.dudau@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+	hongchi.peng@siengine.com
+Subject: Re: [PATCH] drm: komeda: Fix an issue related to normalized zpos
+Message-ID: <202408222005.Pr9Vj8sj-lkp@intel.com>
+References: <20240821085613.5408-1-hongchi.peng@siengine.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,189 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch@bytedance.com>
+In-Reply-To: <20240821085613.5408-1-hongchi.peng@siengine.com>
 
-Hi Qi,
+Hi hongchi.peng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.11-rc4 next-20240822]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.11-rc4 next-20240822]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-introduce-pte_offset_map_-readonly-maywrite-_nolock/20240821-162312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch%40bytedance.com
-patch subject: [PATCH 08/14] mm: copy_pte_range() use pte_offset_map_maywrite_nolock()
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240822/202408221703.ioeASthY-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221703.ioeASthY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/hongchi-peng/drm-komeda-Fix-an-issue-related-to-normalized-zpos/20240822-045334
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240821085613.5408-1-hongchi.peng%40siengine.com
+patch subject: [PATCH] drm: komeda: Fix an issue related to normalized zpos
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408222005.Pr9Vj8sj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222005.Pr9Vj8sj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221703.ioeASthY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408222005.Pr9Vj8sj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'copy_pte_range':
->> mm/memory.c:1086:15: warning: unused variable 'pmdval' [-Wunused-variable]
-    1086 |         pmd_t pmdval;
-         |               ^~~~~~
+   In file included from <command-line>:
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function 'komeda_crtc_normalize_zpos':
+>> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_301' declared with attribute error: max(slave_zpos, kcrtc_st->max_slave_zorder) signedness error
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
+     491 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
+     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+     136 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:207:33: note: in expansion of macro 'max'
+     207 |                                 max(slave_zpos, kcrtc_st->max_slave_zorder);
+         |                                 ^~~
 
 
-vim +/pmdval +1086 mm/memory.c
+vim +/__compiletime_assert_301 +510 include/linux/compiler_types.h
 
-  1076	
-  1077	static int
-  1078	copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
-  1079		       pmd_t *dst_pmd, pmd_t *src_pmd, unsigned long addr,
-  1080		       unsigned long end)
-  1081	{
-  1082		struct mm_struct *dst_mm = dst_vma->vm_mm;
-  1083		struct mm_struct *src_mm = src_vma->vm_mm;
-  1084		pte_t *orig_src_pte, *orig_dst_pte;
-  1085		pte_t *src_pte, *dst_pte;
-> 1086		pmd_t pmdval;
-  1087		pte_t ptent;
-  1088		spinlock_t *src_ptl, *dst_ptl;
-  1089		int progress, max_nr, ret = 0;
-  1090		int rss[NR_MM_COUNTERS];
-  1091		swp_entry_t entry = (swp_entry_t){0};
-  1092		struct folio *prealloc = NULL;
-  1093		int nr;
-  1094	
-  1095	again:
-  1096		progress = 0;
-  1097		init_rss_vec(rss);
-  1098	
-  1099		/*
-  1100		 * copy_pmd_range()'s prior pmd_none_or_clear_bad(src_pmd), and the
-  1101		 * error handling here, assume that exclusive mmap_lock on dst and src
-  1102		 * protects anon from unexpected THP transitions; with shmem and file
-  1103		 * protected by mmap_lock-less collapse skipping areas with anon_vma
-  1104		 * (whereas vma_needs_copy() skips areas without anon_vma).  A rework
-  1105		 * can remove such assumptions later, but this is good enough for now.
-  1106		 */
-  1107		dst_pte = pte_alloc_map_lock(dst_mm, dst_pmd, addr, &dst_ptl);
-  1108		if (!dst_pte) {
-  1109			ret = -ENOMEM;
-  1110			goto out;
-  1111		}
-  1112		src_pte = pte_offset_map_maywrite_nolock(src_mm, src_pmd, addr, NULL,
-  1113							 &src_ptl);
-  1114		if (!src_pte) {
-  1115			pte_unmap_unlock(dst_pte, dst_ptl);
-  1116			/* ret == 0 */
-  1117			goto out;
-  1118		}
-  1119		spin_lock_nested(src_ptl, SINGLE_DEPTH_NESTING);
-  1120		orig_src_pte = src_pte;
-  1121		orig_dst_pte = dst_pte;
-  1122		arch_enter_lazy_mmu_mode();
-  1123	
-  1124		do {
-  1125			nr = 1;
-  1126	
-  1127			/*
-  1128			 * We are holding two locks at this point - either of them
-  1129			 * could generate latencies in another task on another CPU.
-  1130			 */
-  1131			if (progress >= 32) {
-  1132				progress = 0;
-  1133				if (need_resched() ||
-  1134				    spin_needbreak(src_ptl) || spin_needbreak(dst_ptl))
-  1135					break;
-  1136			}
-  1137			ptent = ptep_get(src_pte);
-  1138			if (pte_none(ptent)) {
-  1139				progress++;
-  1140				continue;
-  1141			}
-  1142			if (unlikely(!pte_present(ptent))) {
-  1143				ret = copy_nonpresent_pte(dst_mm, src_mm,
-  1144							  dst_pte, src_pte,
-  1145							  dst_vma, src_vma,
-  1146							  addr, rss);
-  1147				if (ret == -EIO) {
-  1148					entry = pte_to_swp_entry(ptep_get(src_pte));
-  1149					break;
-  1150				} else if (ret == -EBUSY) {
-  1151					break;
-  1152				} else if (!ret) {
-  1153					progress += 8;
-  1154					continue;
-  1155				}
-  1156				ptent = ptep_get(src_pte);
-  1157				VM_WARN_ON_ONCE(!pte_present(ptent));
-  1158	
-  1159				/*
-  1160				 * Device exclusive entry restored, continue by copying
-  1161				 * the now present pte.
-  1162				 */
-  1163				WARN_ON_ONCE(ret != -ENOENT);
-  1164			}
-  1165			/* copy_present_ptes() will clear `*prealloc' if consumed */
-  1166			max_nr = (end - addr) / PAGE_SIZE;
-  1167			ret = copy_present_ptes(dst_vma, src_vma, dst_pte, src_pte,
-  1168						ptent, addr, max_nr, rss, &prealloc);
-  1169			/*
-  1170			 * If we need a pre-allocated page for this pte, drop the
-  1171			 * locks, allocate, and try again.
-  1172			 */
-  1173			if (unlikely(ret == -EAGAIN))
-  1174				break;
-  1175			if (unlikely(prealloc)) {
-  1176				/*
-  1177				 * pre-alloc page cannot be reused by next time so as
-  1178				 * to strictly follow mempolicy (e.g., alloc_page_vma()
-  1179				 * will allocate page according to address).  This
-  1180				 * could only happen if one pinned pte changed.
-  1181				 */
-  1182				folio_put(prealloc);
-  1183				prealloc = NULL;
-  1184			}
-  1185			nr = ret;
-  1186			progress += 8 * nr;
-  1187		} while (dst_pte += nr, src_pte += nr, addr += PAGE_SIZE * nr,
-  1188			 addr != end);
-  1189	
-  1190		arch_leave_lazy_mmu_mode();
-  1191		pte_unmap_unlock(orig_src_pte, src_ptl);
-  1192		add_mm_rss_vec(dst_mm, rss);
-  1193		pte_unmap_unlock(orig_dst_pte, dst_ptl);
-  1194		cond_resched();
-  1195	
-  1196		if (ret == -EIO) {
-  1197			VM_WARN_ON_ONCE(!entry.val);
-  1198			if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
-  1199				ret = -ENOMEM;
-  1200				goto out;
-  1201			}
-  1202			entry.val = 0;
-  1203		} else if (ret == -EBUSY) {
-  1204			goto out;
-  1205		} else if (ret ==  -EAGAIN) {
-  1206			prealloc = folio_prealloc(src_mm, src_vma, addr, false);
-  1207			if (!prealloc)
-  1208				return -ENOMEM;
-  1209		} else if (ret < 0) {
-  1210			VM_WARN_ON_ONCE(1);
-  1211		}
-  1212	
-  1213		/* We've captured and resolved the error. Reset, try again. */
-  1214		ret = 0;
-  1215	
-  1216		if (addr != end)
-  1217			goto again;
-  1218	out:
-  1219		if (unlikely(prealloc))
-  1220			folio_put(prealloc);
-  1221		return ret;
-  1222	}
-  1223	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
 
 -- 
 0-DAY CI Kernel Test Service
