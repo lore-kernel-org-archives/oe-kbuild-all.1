@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3E8320F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF9423776
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 04:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724302051; cv=none; b=TtTr7NJFqVrV20wo1mJ8+VTb5wTbOXpyYAlH0HuEZXdPXG6TnphfOvlvW485eKhlKpD0s1AjjcpqWN5NNwPr6gxNy8HwUU/32U6HOM0nRApUCCyXdyWUFk2c2BW1UJEiaiCmjKXd8ILQ0tlY+m99soPSNqD0VKjF9Uyw7sKYZek=
+	t=1724302051; cv=none; b=HCJvwKb3RyJrsh3anL4gpyOEFVNuA23ymt4NmIGtQLYLPcFZ+WyowjKRpch0Zqaioyt3OQPyg5etIvr2EhpMbH6/HhXd4eUD7757XlSVlUwzP/pCXk2Sc90SeucpR2yeC+Oa26ZHAxWbMDk03tXXGVMUJTerGEWEqbyDtOeAjdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724302051; c=relaxed/simple;
-	bh=0AGj/12JTKl3YiTjXIz2PpQRJcKXUTM2lzJMLTiKoIE=;
+	bh=mQRHcbAlOTespLAeoDlX6YSBAejonbjdaXeoof1VdhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XDRr0UPnH+0fZh2lwRRHRmOF237g/hY2iqPmbFwYdq4/MU+tXfhERunvX1YAjwn9o8TWjH2nwUST6wWldxelgaT2JVNHHmBlthjDUx0pl/UIP3T4Thpqtk+v6cZ9lXtU754VOzQ9C1lABvKBzBcGQaGw+NpnBN929RfVUs8xvQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNMMrYM4; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=nuWkkofANimtyMiHcdB5UqvATBI8ryAe0wQXGjXBwXcaVm9/kk195n5FXyxljfy/zB/gGe5utsvKb7cVWWyQAmjCdM/rSFbwCjhY9aUq6ntybDps+SoUdFAtP4QY4CRSM2m78TZWnIDXdDSxO5H/YBUMH8J5dW3wBLfynBXpqLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHWCYOhz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNMMrYM4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHWCYOhz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1724302049; x=1755838049;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0AGj/12JTKl3YiTjXIz2PpQRJcKXUTM2lzJMLTiKoIE=;
-  b=kNMMrYM4/bDMssnZEekz5VWmnP5QFgTTfdqSmgWbBXqDyfdaiZhhxciT
-   wU36jKoNrJl0cSCvkci5L5NhWGov6BQxWHG3hekm+2D+Qf+Xz7l9JoUUc
-   BdO/z4mh5mbOyIG9rj+qfIkj9600fcCOpP6BazT7vdHsTnJFK0BBUgKkp
-   sC1gClPFrZv1lTdABKtMrKKUkYlLETyou90S8k12b+8Q/JEYKH7fHcoe6
-   CwvkrGdqwqdC3GLuyUxaARrIgLppn1t/lAZmvtO2qvsBfjjf9f3Z9E1ew
-   hVF/+lT3oBRR0iL6hxgloQlt6NaCcCYI7z6p+C/vUFWr4cyCKoAX7jqw0
-   A==;
-X-CSE-ConnectionGUID: 95tLXkjERZmhZV5UvQNZyw==
-X-CSE-MsgGUID: q0M3KYyPRv+eGpQqoXaV7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22865124"
+  bh=mQRHcbAlOTespLAeoDlX6YSBAejonbjdaXeoof1VdhA=;
+  b=IHWCYOhzAwnJvhZa+OqEvw/qEop4gRCQNZBTHNxg/pcUkmt1WTRacsMr
+   0IF0DTohijRp928Iq2yfGVYmc9ing331B2PWlnoDaLxZAKQzTyQo2cJmr
+   ToVoZYozM2JvpcYQuGR/HXp+ubi2Ywo1TTFStOsWrhZv6g/CH37xt+QB3
+   MRZLZAK0X7D0XC3xLSGWenkGKvaf9TN3O9D5l8pyNYyZlaZVQ7X7RO7VJ
+   0KNSl7inDFoL4YKxWF5kmoe5Lianl3GLHItONVIB28m2SqcDi36Z0zwL+
+   A/b9NmxgcTNOTqMH1lF35+KkgaQ6zET5ab+SXWz91mVcUJkmIsoVnu5IG
+   Q==;
+X-CSE-ConnectionGUID: Et1yhRuMQf+UXfENF9cMtg==
+X-CSE-MsgGUID: vuzonPghSWyqumXtR+unLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="26490475"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="22865124"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:47:28 -0700
-X-CSE-ConnectionGUID: glZAlUXsRT6vZPSDJFryyQ==
-X-CSE-MsgGUID: zn9GCwTaSva2JMhQosWXlg==
+   d="scan'208";a="26490475"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:47:29 -0700
+X-CSE-ConnectionGUID: vTmC6LVkQhiitb4wsccIgQ==
+X-CSE-MsgGUID: PvJBkQTXTMCUedWFGhSopw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="65668669"
+   d="scan'208";a="92109828"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2024 21:47:27 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Aug 2024 21:47:27 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgzjJ-000COM-1Q;
+	id 1sgzjJ-000COK-1M;
 	Thu, 22 Aug 2024 04:47:25 +0000
 Date: Thu, 22 Aug 2024 12:47:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-next 7/7] security/keys/gc.c:337:82: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202408221250.k9J2bXYv-lkp@intel.com>
+Subject: [l1k:spdm-future 11/31]
+ drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:26: error: 'struct
+ akcipher_alg' has no member named 'sign'
+Message-ID: <202408221212.12kQou3Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,174 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-next
-head:   46a9e7da56ee22c6fdc73a8b77c0c050cb85dfb3
-commit: 46a9e7da56ee22c6fdc73a8b77c0c050cb85dfb3 [7/7] keys: Add tracepoints for the keyrings facility
-config: x86_64-randconfig-123-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221250.k9J2bXYv-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221250.k9J2bXYv-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux spdm-future
+head:   96139555c6962cebb237d22905327ac2859ddd07
+commit: a6808b5394f4aae6f3a87a14e65588ec8cd1cd65 [11/31] crypto: akcipher - Drop sign/verify operations
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408221212.12kQou3Z-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221212.12kQou3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221250.k9J2bXYv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221212.12kQou3Z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/keys/gc.c:337:82: sparse: sparse: Using plain integer as NULL pointer
-   security/keys/gc.c:168:51: sparse: sparse: Using plain integer as NULL pointer
-   security/keys/gc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +337 security/keys/gc.c
+>> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:26: error: 'struct akcipher_alg' has no member named 'sign'
+     527 |                         .sign = virtio_crypto_rsa_sign,
+         |                          ^~~~
+>> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:33: error: initialization of 'int (*)(struct crypto_akcipher *, const void *, unsigned int)' from incompatible pointer type 'int (*)(struct akcipher_request *)' [-Wincompatible-pointer-types]
+     527 |                         .sign = virtio_crypto_rsa_sign,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:33: note: (near initialization for 'virtio_crypto_akcipher_algs[1].algo.base.set_pub_key')
+>> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:528:26: error: 'struct akcipher_alg' has no member named 'verify'
+     528 |                         .verify = virtio_crypto_rsa_verify,
+         |                          ^~~~~~
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:528:35: error: initialization of 'int (*)(struct crypto_akcipher *, const void *, unsigned int)' from incompatible pointer type 'int (*)(struct akcipher_request *)' [-Wincompatible-pointer-types]
+     528 |                         .verify = virtio_crypto_rsa_verify,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:528:35: note: (near initialization for 'virtio_crypto_akcipher_algs[1].algo.base.set_priv_key')
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:529:40: warning: initialized field overwritten [-Woverride-init]
+     529 |                         .set_pub_key = virtio_crypto_p1pad_rsa_sha1_set_pub_key,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:529:40: note: (near initialization for 'virtio_crypto_akcipher_algs[1].algo.base.set_pub_key')
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:530:41: warning: initialized field overwritten [-Woverride-init]
+     530 |                         .set_priv_key = virtio_crypto_p1pad_rsa_sha1_set_priv_key,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:530:41: note: (near initialization for 'virtio_crypto_akcipher_algs[1].algo.base.set_priv_key')
 
-   191	
-   192		struct rb_node *cursor;
-   193		struct key *key;
-   194		time64_t new_timer, limit, expiry;
-   195	
-   196		kenter("[%lx,%x]", key_gc_flags, gc_state);
-   197	
-   198		limit = ktime_get_real_seconds();
-   199	
-   200		/* Work out what we're going to be doing in this pass */
-   201		gc_state &= KEY_GC_REAPING_DEAD_1 | KEY_GC_REAPING_DEAD_2;
-   202		gc_state <<= 1;
-   203		if (test_and_clear_bit(KEY_GC_KEY_EXPIRED, &key_gc_flags))
-   204			gc_state |= KEY_GC_REAPING_LINKS;
-   205	
-   206		if (test_and_clear_bit(KEY_GC_REAP_KEYTYPE, &key_gc_flags))
-   207			gc_state |= KEY_GC_REAPING_DEAD_1;
-   208		kdebug("new pass %x", gc_state);
-   209	
-   210		new_timer = TIME64_MAX;
-   211	
-   212		/* As only this function is permitted to remove things from the key
-   213		 * serial tree, if cursor is non-NULL then it will always point to a
-   214		 * valid node in the tree - even if lock got dropped.
-   215		 */
-   216		spin_lock(&key_serial_lock);
-   217		cursor = rb_first(&key_serial_tree);
-   218	
-   219	continue_scanning:
-   220		while (cursor) {
-   221			key = rb_entry(cursor, struct key, serial_node);
-   222			cursor = rb_next(cursor);
-   223	
-   224			if (refcount_read(&key->usage) == 0)
-   225				goto found_unreferenced_key;
-   226	
-   227			if (unlikely(gc_state & KEY_GC_REAPING_DEAD_1)) {
-   228				if (key->type == key_gc_dead_keytype) {
-   229					gc_state |= KEY_GC_FOUND_DEAD_KEY;
-   230					set_bit(KEY_FLAG_DEAD, &key->flags);
-   231					key->perm = 0;
-   232					goto skip_dead_key;
-   233				} else if (key->type == &key_type_keyring &&
-   234					   key->restrict_link) {
-   235					goto found_restricted_keyring;
-   236				}
-   237			}
-   238	
-   239			expiry = key->expiry;
-   240			if (expiry != TIME64_MAX) {
-   241				if (!(key->type->flags & KEY_TYPE_INSTANT_REAP))
-   242					expiry += key_gc_delay;
-   243				if (expiry > limit && expiry < new_timer) {
-   244					kdebug("will expire %x in %lld",
-   245					       key_serial(key), key->expiry - limit);
-   246					new_timer = key->expiry;
-   247				}
-   248			}
-   249	
-   250			if (unlikely(gc_state & KEY_GC_REAPING_DEAD_2))
-   251				if (key->type == key_gc_dead_keytype)
-   252					gc_state |= KEY_GC_FOUND_DEAD_KEY;
-   253	
-   254			if ((gc_state & KEY_GC_REAPING_LINKS) ||
-   255			    unlikely(gc_state & KEY_GC_REAPING_DEAD_2)) {
-   256				if (key->type == &key_type_keyring)
-   257					goto found_keyring;
-   258			}
-   259	
-   260			if (unlikely(gc_state & KEY_GC_REAPING_DEAD_3))
-   261				if (key->type == key_gc_dead_keytype)
-   262					goto destroy_dead_key;
-   263	
-   264		skip_dead_key:
-   265			if (spin_is_contended(&key_serial_lock) || need_resched())
-   266				goto contended;
-   267		}
-   268	
-   269	contended:
-   270		spin_unlock(&key_serial_lock);
-   271	
-   272	maybe_resched:
-   273		if (cursor) {
-   274			cond_resched();
-   275			spin_lock(&key_serial_lock);
-   276			goto continue_scanning;
-   277		}
-   278	
-   279		/* We've completed the pass.  Set the timer if we need to and queue a
-   280		 * new cycle if necessary.  We keep executing cycles until we find one
-   281		 * where we didn't reap any keys.
-   282		 */
-   283		kdebug("pass complete");
-   284	
-   285		if (new_timer != TIME64_MAX) {
-   286			new_timer += key_gc_delay;
-   287			key_schedule_gc(new_timer);
-   288		}
-   289	
-   290		if (unlikely(gc_state & KEY_GC_REAPING_DEAD_2) ||
-   291		    !list_empty(&graveyard)) {
-   292			/* Make sure that all pending keyring payload destructions are
-   293			 * fulfilled and that people aren't now looking at dead or
-   294			 * dying keys that they don't have a reference upon or a link
-   295			 * to.
-   296			 */
-   297			kdebug("gc sync");
-   298			synchronize_rcu();
-   299		}
-   300	
-   301		if (!list_empty(&graveyard)) {
-   302			kdebug("gc keys");
-   303			key_gc_unused_keys(&graveyard);
-   304		}
-   305	
-   306		if (unlikely(gc_state & (KEY_GC_REAPING_DEAD_1 |
-   307					 KEY_GC_REAPING_DEAD_2))) {
-   308			if (!(gc_state & KEY_GC_FOUND_DEAD_KEY)) {
-   309				/* No remaining dead keys: short circuit the remaining
-   310				 * keytype reap cycles.
-   311				 */
-   312				kdebug("dead short");
-   313				gc_state &= ~(KEY_GC_REAPING_DEAD_1 | KEY_GC_REAPING_DEAD_2);
-   314				gc_state |= KEY_GC_REAPING_DEAD_3;
-   315			} else {
-   316				gc_state |= KEY_GC_REAP_AGAIN;
-   317			}
-   318		}
-   319	
-   320		if (unlikely(gc_state & KEY_GC_REAPING_DEAD_3)) {
-   321			kdebug("dead wake");
-   322			smp_mb();
-   323			clear_bit(KEY_GC_REAPING_KEYTYPE, &key_gc_flags);
-   324			wake_up_bit(&key_gc_flags, KEY_GC_REAPING_KEYTYPE);
-   325		}
-   326	
-   327		if (gc_state & KEY_GC_REAP_AGAIN)
-   328			schedule_work(&key_gc_work);
-   329		kleave(" [end %x]", gc_state);
-   330		return;
-   331	
-   332		/* We found an unreferenced key - once we've removed it from the tree,
-   333		 * we can safely drop the lock.
-   334		 */
-   335	found_unreferenced_key:
-   336		kdebug("unrefd key %d", key->serial);
- > 337		trace_key_ref(key->serial, refcount_read(&key->usage), key_trace_ref_gc, 0);
+
+vim +527 drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
+
+59ca6c93387d325 zhenwei pi 2022-03-02  496  
+59ca6c93387d325 zhenwei pi 2022-03-02  497  static struct virtio_crypto_akcipher_algo virtio_crypto_akcipher_algs[] = {
+59ca6c93387d325 zhenwei pi 2022-03-02  498  	{
+59ca6c93387d325 zhenwei pi 2022-03-02  499  		.algonum = VIRTIO_CRYPTO_AKCIPHER_RSA,
+59ca6c93387d325 zhenwei pi 2022-03-02  500  		.service = VIRTIO_CRYPTO_SERVICE_AKCIPHER,
+7a2673d70ca69bb Herbert Xu 2023-08-13  501  		.algo.base = {
+59ca6c93387d325 zhenwei pi 2022-03-02  502  			.encrypt = virtio_crypto_rsa_encrypt,
+59ca6c93387d325 zhenwei pi 2022-03-02  503  			.decrypt = virtio_crypto_rsa_decrypt,
+59ca6c93387d325 zhenwei pi 2022-03-02  504  			.set_pub_key = virtio_crypto_rsa_raw_set_pub_key,
+59ca6c93387d325 zhenwei pi 2022-03-02  505  			.set_priv_key = virtio_crypto_rsa_raw_set_priv_key,
+59ca6c93387d325 zhenwei pi 2022-03-02  506  			.max_size = virtio_crypto_rsa_max_size,
+59ca6c93387d325 zhenwei pi 2022-03-02  507  			.init = virtio_crypto_rsa_init_tfm,
+59ca6c93387d325 zhenwei pi 2022-03-02  508  			.exit = virtio_crypto_rsa_exit_tfm,
+59ca6c93387d325 zhenwei pi 2022-03-02  509  			.base = {
+59ca6c93387d325 zhenwei pi 2022-03-02  510  				.cra_name = "rsa",
+59ca6c93387d325 zhenwei pi 2022-03-02  511  				.cra_driver_name = "virtio-crypto-rsa",
+59ca6c93387d325 zhenwei pi 2022-03-02  512  				.cra_priority = 150,
+59ca6c93387d325 zhenwei pi 2022-03-02  513  				.cra_module = THIS_MODULE,
+59ca6c93387d325 zhenwei pi 2022-03-02  514  				.cra_ctxsize = sizeof(struct virtio_crypto_akcipher_ctx),
+59ca6c93387d325 zhenwei pi 2022-03-02  515  			},
+59ca6c93387d325 zhenwei pi 2022-03-02  516  		},
+7a2673d70ca69bb Herbert Xu 2023-08-13  517  		.algo.op = {
+7a2673d70ca69bb Herbert Xu 2023-08-13  518  			.do_one_request = virtio_crypto_rsa_do_req,
+7a2673d70ca69bb Herbert Xu 2023-08-13  519  		},
+59ca6c93387d325 zhenwei pi 2022-03-02  520  	},
+59ca6c93387d325 zhenwei pi 2022-03-02  521  	{
+59ca6c93387d325 zhenwei pi 2022-03-02  522  		.algonum = VIRTIO_CRYPTO_AKCIPHER_RSA,
+59ca6c93387d325 zhenwei pi 2022-03-02  523  		.service = VIRTIO_CRYPTO_SERVICE_AKCIPHER,
+7a2673d70ca69bb Herbert Xu 2023-08-13  524  		.algo.base = {
+59ca6c93387d325 zhenwei pi 2022-03-02  525  			.encrypt = virtio_crypto_rsa_encrypt,
+59ca6c93387d325 zhenwei pi 2022-03-02  526  			.decrypt = virtio_crypto_rsa_decrypt,
+59ca6c93387d325 zhenwei pi 2022-03-02 @527  			.sign = virtio_crypto_rsa_sign,
+59ca6c93387d325 zhenwei pi 2022-03-02 @528  			.verify = virtio_crypto_rsa_verify,
+59ca6c93387d325 zhenwei pi 2022-03-02  529  			.set_pub_key = virtio_crypto_p1pad_rsa_sha1_set_pub_key,
+59ca6c93387d325 zhenwei pi 2022-03-02  530  			.set_priv_key = virtio_crypto_p1pad_rsa_sha1_set_priv_key,
+59ca6c93387d325 zhenwei pi 2022-03-02  531  			.max_size = virtio_crypto_rsa_max_size,
+59ca6c93387d325 zhenwei pi 2022-03-02  532  			.init = virtio_crypto_rsa_init_tfm,
+59ca6c93387d325 zhenwei pi 2022-03-02  533  			.exit = virtio_crypto_rsa_exit_tfm,
+59ca6c93387d325 zhenwei pi 2022-03-02  534  			.base = {
+59ca6c93387d325 zhenwei pi 2022-03-02  535  				.cra_name = "pkcs1pad(rsa,sha1)",
+59ca6c93387d325 zhenwei pi 2022-03-02  536  				.cra_driver_name = "virtio-pkcs1-rsa-with-sha1",
+59ca6c93387d325 zhenwei pi 2022-03-02  537  				.cra_priority = 150,
+59ca6c93387d325 zhenwei pi 2022-03-02  538  				.cra_module = THIS_MODULE,
+59ca6c93387d325 zhenwei pi 2022-03-02  539  				.cra_ctxsize = sizeof(struct virtio_crypto_akcipher_ctx),
+59ca6c93387d325 zhenwei pi 2022-03-02  540  			},
+59ca6c93387d325 zhenwei pi 2022-03-02  541  		},
+7a2673d70ca69bb Herbert Xu 2023-08-13  542  		.algo.op = {
+7a2673d70ca69bb Herbert Xu 2023-08-13  543  			.do_one_request = virtio_crypto_rsa_do_req,
+7a2673d70ca69bb Herbert Xu 2023-08-13  544  		},
+59ca6c93387d325 zhenwei pi 2022-03-02  545  	},
+59ca6c93387d325 zhenwei pi 2022-03-02  546  };
+59ca6c93387d325 zhenwei pi 2022-03-02  547  
+
+:::::: The code at line 527 was first introduced by commit
+:::::: 59ca6c93387d325e96577d8bd4c23c78c1491c11 virtio-crypto: implement RSA algorithm
+
+:::::: TO: zhenwei pi <pizhenwei@bytedance.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
