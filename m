@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951EC1B815
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 18:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982371B815
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 18:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724349749; cv=none; b=cZRDndr/epldnepbtvdbEaXXYJNYzsMw7/zQFeV/BzqvkhsW0SfRAZxsAHOYAa8gXMhNO4GU9/MUcFJkGGxhK10J79mGWS/lNqKvxXxMhUN5wovMwqPiZMWH4bLeODDB1agG7Pfx+d2YyrFe1VF0b02BGU7ltgHqxzfmOwM5QY0=
+	t=1724349754; cv=none; b=gnXJfQH/CbSx7KmasJ/kpNccuOI+HrS0RF3Ne6EkzfjLGYaeLXLkTNqgij/Yavmzjulxp9ViqbKwtAMEMblcs2oVNEMkE7Y2yyPS/yYXkFkXQLC1yLoW3dq57sA7H/bctkhbWEodjdvMrcQGA4DmX48AY8yUfJVSGoM0eShfPA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724349749; c=relaxed/simple;
-	bh=OH11sqoJhXWl7i7YRjO+TDJAFB/n34Svh8UiKpysxzA=;
+	s=arc-20240116; t=1724349754; c=relaxed/simple;
+	bh=VFbMT9NzuJbFWeBxVkiyPagBOagtzxduVQh+jEfLeWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S4Ulv+UL32alsOVSVMVuPYBbG0dxr6Ag5OwGM28U/5ZLm32Sxkpre2v6wn/1agKTtol+f88MRc9U3X2hexXMk+5B6AxoocqZV7THCS2ej4/8QBb0aCcyxJp6wFnZvBTXY3F99zGun967dmc1HnwuBHtQ4lWAOGa0Riij3QUpn50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z6LLSghL; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=TW0QMHvh5eExKz9q46/QdLad9ZE7sewosPqrb66rC1z9rags+WDCbLJ42GojiiKkrLJqPBjpl+MpxX0qMSpILraloIozjBhOCgZh0lA/VEoFsFEv8b3YKG+u9Lnz6CxRS7rmCz0/mXAv3+HJALaOwUj/tZU2VKkoDzbtD2dGhNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vNVosm14; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z6LLSghL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724349747; x=1755885747;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OH11sqoJhXWl7i7YRjO+TDJAFB/n34Svh8UiKpysxzA=;
-  b=Z6LLSghLoMG7syntMkDS90dRKKQZvT+zPUciNprgz3+gqDBzrtC226WQ
-   NgNAZruJB6WWtJp5JBz7/EP0fukHZCVyKm3AvjipUxu3XG0MbvOZJIg6A
-   5EtI97n+P7X6sDnyEAIqTvg7AGRMDuSzHrHonkKLzP9TvtmNprWXjwRfR
-   ULFZV7HIIU18NOpFNSRfPXGE05Ln/ovN205E1argtsvMWUqAx1iS2EFxZ
-   gqTG3K9pbZ63/s2wxAEs9ngdGRf5SYaBgN9YboZTMkziWewD6TIEOjL8D
-   s8b4KvhUL1oy2m9A5ToCwp9H2JVTtjwicZuyXk/990L59FXkbn9LdQpYa
-   g==;
-X-CSE-ConnectionGUID: D3+8xRNBS+aRWuDmCgP8Jg==
-X-CSE-MsgGUID: zDMPhqBSSZWDNbJOL1v7Ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22388558"
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="22388558"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 11:02:26 -0700
-X-CSE-ConnectionGUID: kCmxHQctTyOKBCdDhnpJqA==
-X-CSE-MsgGUID: ngvhHOPeRoimAj/4wrAjVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="61518088"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 Aug 2024 11:02:25 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1shC8c-000D44-22;
-	Thu, 22 Aug 2024 18:02:22 +0000
-Date: Fri, 23 Aug 2024 02:02:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:hch-wtf1 110/116] fs/xfs/xfs_discard.c:731:56: error:
- too few arguments provided to function-like macro invocation
-Message-ID: <202408230224.StZCmBkV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vNVosm14"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-534366c1aa2so396806e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 11:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724349750; x=1724954550; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jMkH2vVnDhFw+cxVn6jmcv0ytI6q2hqv9f9ccu3UJPU=;
+        b=vNVosm14Kq1d5c6ibMJsuZpZk52qTtibq19pnB2m7nBGFb4LuMYW5HPfqCVXgydmb4
+         ltN0dzuZPoPM2uaO7qMz75ex5LZvHtWap30XH6AcVCoiZFOXz3map7oDEja8D7dIAx9c
+         bTrNDjlIZ3VMc7EVSu3f3ifVDfOjeNHID53DJ+bWW9gwsNDtAmu02CZdvFRF0o5qWQuM
+         w9ob41fU+/U41yhrxPqHcBTdtjmB/sQXLjf7MM5FZhwVa/a2RYGHy4Mt7MQW6d6UqI76
+         EGAnrZfCndThU7osOrUCtdgqGmsXKblLdIolKh4faHCrx9a/SvdPq7dw8K1D18tYV9mZ
+         P9kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724349750; x=1724954550;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jMkH2vVnDhFw+cxVn6jmcv0ytI6q2hqv9f9ccu3UJPU=;
+        b=cqXk1XTmH0wiCqpNS8/2+sEEkshD4bknVpB4CbTZ1Ozugtq8iiAHVRlBQkxwbBGHHy
+         RotYnRMY744qVR9lZEUzKhWhcFDfNDRxjBRJF5G55HU3w3jjopGq74rNzZwvdiyikOgh
+         Tm3SFf0DT8s0qcpDokUeSwz9tU1fN49swpDOYimQVIPFY9Bn6SfZoeWKEM0I0MVvvPxC
+         pvVSyJrtO5yb3kg3iVSVM07+EmzpM82CGxtbdROtPTMqIxfluSaIHoodqhav4UXowhax
+         IE3PPP8sGHcpTlF4SDgnzRh/j+KKSFKBQyeZ3asN6HV3eNCjPaWzYzmMA64srlv3luJg
+         NMWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUM2Z7Vp2D/kwYaqyb+MnSbCPJPlcRDUi3lpBdH9wmZTuXzzOw/8kFiLWYc5U3INH8t+DMCIwLBmTqUsoP8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1qqbMw4pV36mDNYi2ReoFXvP6kkb9WI5jML/L/AFt32ckAsHZ
+	pz7PG9l6/sYeCSp6QOvY2qgz3hjms4FQO7WDbdVF741ERHV4nKWj9LNYzlx8Ytw=
+X-Google-Smtp-Source: AGHT+IHlbVhsoCnCtmNAbSbtiVt4wqhlkrGCdTzE9ud4rwdfGO4d9LxDCFoQQSHmZqF7ub5rklI+bg==
+X-Received: by 2002:a05:6512:b16:b0:52c:e28f:4da6 with SMTP id 2adb3069b0e04-5334fd6b81cmr1885750e87.51.1724349749437;
+        Thu, 22 Aug 2024 11:02:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3e89ebsm1151643a12.43.2024.08.22.11.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 11:02:28 -0700 (PDT)
+Date: Thu, 22 Aug 2024 21:02:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Phillip Lougher <phillip@squashfs.org.uk>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <brauner@kernel.org>
+Subject: [linux-next:master 5650/6069] fs/squashfs/page_actor.h:41
+ squashfs_page_actor_free() error: dereferencing freed memory 'actor'
+Message-ID: <f7a4b364-ecff-46dc-989b-43dba1145052@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,115 +67,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git hch-wtf1
-head:   9ef983fcb0d0eed158f11dada81cb6b9b4bdb9fc
-commit: 1a774c40ad792e07f8264d6e9edc804c7dd6c566 [110/116] xfs: don't bother reporting blocks trimmed via FITRIM
-config: i386-buildonly-randconfig-001-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230224.StZCmBkV-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6a7917c89f219f09b1d88d09f376000914a52763
+commit: 5d85f9c952d85a26e1a8c7c985b67963b483cabc [5650/6069] Squashfs: Ensure all readahead pages have been used
+config: i386-randconfig-141-20240822 (https://download.01.org/0day-ci/archive/20240822/202408222328.AeiNlEPx-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230224.StZCmBkV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230224.StZCmBkV-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408222328.AeiNlEPx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/squashfs/page_actor.h:41 squashfs_page_actor_free() error: dereferencing freed memory 'actor'
 
->> fs/xfs/xfs_discard.c:731:56: error: too few arguments provided to function-like macro invocation
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                                                                      ^
-   fs/xfs/xfs_discard.c:654:10: note: macro 'xfs_trim_rtdev_extents' defined here
-     654 | # define xfs_trim_rtdev_extents(m,s,e,n,b)      (-EOPNOTSUPP)
-         |          ^
->> fs/xfs/xfs_discard.c:731:11: error: use of undeclared identifier 'xfs_trim_rtdev_extents'; did you mean 'xfs_trim_datadev_extents'?
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         xfs_trim_datadev_extents
-   fs/xfs/xfs_discard.c:385:1: note: 'xfs_trim_datadev_extents' declared here
-     385 | xfs_trim_datadev_extents(
-         | ^
-   2 errors generated.
+vim +/actor +41 fs/squashfs/page_actor.h
 
+f268eedddf3595 Phillip Lougher 2022-06-11  28  extern struct squashfs_page_actor *squashfs_page_actor_init(void **buffer,
+f268eedddf3595 Phillip Lougher 2022-06-11  29  				int pages, int length);
+f268eedddf3595 Phillip Lougher 2022-06-11  30  extern struct squashfs_page_actor *squashfs_page_actor_init_special(
+f268eedddf3595 Phillip Lougher 2022-06-11  31  				struct squashfs_sb_info *msblk,
+2258e22f05aff5 Phillip Lougher 2024-08-19  32  				struct page **page, int pages, int length,
+2258e22f05aff5 Phillip Lougher 2024-08-19  33  				loff_t start_index);
+9ef8eb6104527b Phillip Lougher 2022-10-20  34  static inline struct page *squashfs_page_actor_free(struct squashfs_page_actor *actor)
+1f13dff09ffc8b Phillip Lougher 2022-08-22  35  {
+9ef8eb6104527b Phillip Lougher 2022-10-20  36  	struct page *last_page = actor->last_page;
+9ef8eb6104527b Phillip Lougher 2022-10-20  37  
+1f13dff09ffc8b Phillip Lougher 2022-08-22  38  	kfree(actor->tmp_buffer);
+1f13dff09ffc8b Phillip Lougher 2022-08-22  39  	kfree(actor);
+                                                ^^^^^^^^^^^^
 
-vim +731 fs/xfs/xfs_discard.c
-
-   656	
-   657	/*
-   658	 * trim a range of the filesystem.
-   659	 *
-   660	 * Note: the parameters passed from userspace are byte ranges into the
-   661	 * filesystem which does not match to the format we use for filesystem block
-   662	 * addressing. FSB addressing is sparse (AGNO|AGBNO), while the incoming format
-   663	 * is a linear address range. Hence we need to use DADDR based conversions and
-   664	 * comparisons for determining the correct offset and regions to trim.
-   665	 *
-   666	 * The realtime device is mapped into the FITRIM "address space" immediately
-   667	 * after the data device.
-   668	 */
-   669	int
-   670	xfs_ioc_trim(
-   671		struct xfs_mount		*mp,
-   672		struct fstrim_range __user	*urange)
-   673	{
-   674		unsigned int		granularity =
-   675			bdev_discard_granularity(mp->m_ddev_targp->bt_bdev);
-   676		struct block_device	*rt_bdev = NULL;
-   677		struct fstrim_range	range;
-   678		xfs_daddr_t		start, end;
-   679		xfs_extlen_t		minlen;
-   680		xfs_rfsblock_t		max_blocks;
-   681		int			error, last_error = 0;
-   682	
-   683		if (!capable(CAP_SYS_ADMIN))
-   684			return -EPERM;
-   685		if (mp->m_rtdev_targp &&
-   686		    bdev_max_discard_sectors(mp->m_rtdev_targp->bt_bdev))
-   687			rt_bdev = mp->m_rtdev_targp->bt_bdev;
-   688		if (!bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev) && !rt_bdev)
-   689			return -EOPNOTSUPP;
-   690	
-   691		if (rt_bdev)
-   692			granularity = max(granularity,
-   693					  bdev_discard_granularity(rt_bdev));
-   694	
-   695		/*
-   696		 * We haven't recovered the log, so we cannot use our bnobt-guided
-   697		 * storage zapping commands.
-   698		 */
-   699		if (xfs_has_norecovery(mp))
-   700			return -EROFS;
-   701	
-   702		if (copy_from_user(&range, urange, sizeof(range)))
-   703			return -EFAULT;
-   704	
-   705		range.minlen = max_t(u64, granularity, range.minlen);
-   706		minlen = XFS_B_TO_FSB(mp, range.minlen);
-   707	
-   708		/*
-   709		 * Truncating down the len isn't actually quite correct, but using
-   710		 * BBTOB would mean we trivially get overflows for values
-   711		 * of ULLONG_MAX or slightly lower.  And ULLONG_MAX is the default
-   712		 * used by the fstrim application.  In the end it really doesn't
-   713		 * matter as trimming blocks is an advisory interface.
-   714		 */
-   715		max_blocks = mp->m_sb.sb_dblocks + mp->m_sb.sb_rblocks;
-   716		if (range.start >= XFS_FSB_TO_B(mp, max_blocks) ||
-   717		    range.minlen > XFS_FSB_TO_B(mp, mp->m_ag_max_usable) ||
-   718		    range.len < mp->m_sb.sb_blocksize)
-   719			return -EINVAL;
-   720	
-   721		start = BTOBB(range.start);
-   722		end = start + BTOBBT(range.len) - 1;
-   723	
-   724		if (bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev)) {
-   725			error = xfs_trim_datadev_extents(mp, start, end, minlen);
-   726			if (error)
-   727				last_error = error;
-   728		}
-   729	
-   730		if (rt_bdev && !xfs_trim_should_stop()) {
- > 731			error = xfs_trim_rtdev_extents(mp, start, end, minlen);
+5d85f9c952d85a Phillip Lougher 2024-08-21  40  
+5d85f9c952d85a Phillip Lougher 2024-08-21 @41  	if (actor->next_page == actor->pages)
+                                                    ^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^
+Use after free.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
