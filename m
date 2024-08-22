@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC3B13B2B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 07:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A735B1CAA6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 07:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724310117; cv=none; b=IVGpUI7KNRC+5lXlzcogIExXYDiZ/plV0Pbccq/x/vn0Ei1VpCAn/lAEuNYV2IXsQa99CXNou3nZ9meJ4XVP8q5DwMj/vEDlgyVNoZ6JQ7qNo0kQ6hR6ZNa7iv88k+8Qiw2z4EiWCwtuCT33737y6S0DBUKtC4nBtuQae+dWENA=
+	t=1724310778; cv=none; b=WPs4WxnLBR5ys0p0n32gXa2jQZvGeasLCe9ftIkdiOoefi1nlgoJm96C66UfqV3r4Z5zMqQEWtCEKX7iP8KsyVRipx+J61dHDEVR+JFp1Daki8/RkVrSSofwmbqzCX4ZE9br9nwGXcDNZITil6gAuE87l6auy+56stpBs/DxooE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724310117; c=relaxed/simple;
-	bh=vIOYiABN4EuW9ReBbFJ4ciIZf7MplctCYSyCk7WDaaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XdA3c1LWjZaTDP+yAbVVmljxTXwlafchOIH6CnAJwke92HlQDztd3XEyGxAUg6wIZ1GotRzq/RQMojQYbQ0VPw8TGxv7Th4fekl44RYZRy1nNFNKNg2fpW0ODQ9gBdyPxSfUSGSpuX3JfLcveK9S/a8OrnYbALYLneAhII94ojQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2ZsLbkQ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1724310778; c=relaxed/simple;
+	bh=cXKkfVg5x/qVhIrVLFOzvlCLydqEAc0iTQbro2Dmxuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pikm7j0wNkSeTlZsMvSj3EMBUASI08OVTnF3Vx+RWW3/tsN/3n74H8VPHW5y2tkeDY3frU2wXZCQ6Pk/+5y9zp6mGdqoJfGXEwPJFRnVrli+2tNn1ZUw6ELgJC90U92+QFXm1S1SkBomkaTg4X9vZtpViurSqh++P4Y9r+gpkWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlbNDrTW; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2ZsLbkQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlbNDrTW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724310116; x=1755846116;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vIOYiABN4EuW9ReBbFJ4ciIZf7MplctCYSyCk7WDaaQ=;
-  b=d2ZsLbkQiuubs2k6fkqKZkWltbYGPGaaZoE3cOJ5rVNq76/x3g45GPaZ
-   ugJr0z9Ft17ot97g73XSSMV3offWkvb7QbthY25mLgWSlpy1vP4IyJ2QM
-   fEiLKn/keYEj4ENHrUQam1wzGafR8mBZC5SDXp2hmZffdh/Fq6SZ4SvZ6
-   kmoSoE6onZbjdvBtBhlpLvK4cuLwWTI4TYryY2+HAEFwavRtf71TVshu2
-   SW23D3Wlh6QRf7fE1cAwtxyZojZdWq/QDbOJQceQMyP8h4mBL492Yyctw
-   wMQ0wvCw0aZQDQH++hPJiGsUp3S6pbjp6ucvpYHOQ4XhheIHSEuWRTSTL
-   Q==;
-X-CSE-ConnectionGUID: 8x6HycRSRtihkanO5mmG0A==
-X-CSE-MsgGUID: sx34fEuXSWepr/oI7LqoJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33857953"
+  t=1724310777; x=1755846777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cXKkfVg5x/qVhIrVLFOzvlCLydqEAc0iTQbro2Dmxuo=;
+  b=SlbNDrTW6PI7YMHRaRoiG9jPBSpq2CGTS2zLkOa0oejWedW4KTMQbNjY
+   OnYWXsliAeG/Wp4Xz1sdf2PzFDnUivgxo9I1xsaXOcexlRRXt9DGxemnk
+   3FfjX5cjMzGDoMe2Ke5e62HZH2CiQa3KsKYNapt+x7oLFR3jiYtYHhvTO
+   6x67Bp7t5Wfab0n1Cy3JoeSGJGWh1YXA9MWAKUV+qKKNcSy+rBG89Y3vs
+   cV4uGjJFiBngulQr9ux+tNxqNg9obdUROvHdfvlgwH+InoNFhd1bjMOfL
+   Gt6xhiUDku1TjtLKTS9KVYPMrUZZNWl4AbU3Zt5IGyv2RlB7bCG2qbYKQ
+   w==;
+X-CSE-ConnectionGUID: FQvMjBE6Tl2eZZqADUDtuw==
+X-CSE-MsgGUID: gfVQimcBTK65tsTOK28aNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22860442"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="33857953"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 00:01:55 -0700
-X-CSE-ConnectionGUID: Crk/b32zQIqPI5PpAlKNrQ==
-X-CSE-MsgGUID: IEGp8QQgRXa7ORMUXL/YTg==
+   d="scan'208";a="22860442"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 00:12:57 -0700
+X-CSE-ConnectionGUID: u73+OdXBTkCzPEnjPhK/Dw==
+X-CSE-MsgGUID: z/0xb2/eT0OYs11eRz18IA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="66029603"
+   d="scan'208";a="66291821"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Aug 2024 00:01:55 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Aug 2024 00:12:56 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh1pQ-000CVY-2A;
-	Thu, 22 Aug 2024 07:01:52 +0000
-Date: Thu, 22 Aug 2024 15:01:51 +0800
+	id 1sh205-000CWY-12;
+	Thu, 22 Aug 2024 07:12:53 +0000
+Date: Thu, 22 Aug 2024 15:12:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:fs-next 337/433] fs/bcachefs/btree_key_cache.c:758:9:
- sparse: sparse: dereference of noderef expression
-Message-ID: <202408221407.KnZ1VF8O-lkp@intel.com>
+To: Wojciech Drewek <wojciech.drewek@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v10 13/14] iavf: handle set
+ and get timestamps ops
+Message-ID: <202408221439.JAkhKOoS-lkp@intel.com>
+References: <20240821121539.374343-14-wojciech.drewek@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +63,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821121539.374343-14-wojciech.drewek@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git fs-next
-head:   7ba615b05fbe745265e898c3bf8db40453c59b8a
-commit: f316d2e88651ba94dff468e038621a5385002b2d [337/433] bcachefs: Rip out freelists from btree key cache
-config: csky-randconfig-r132-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221407.KnZ1VF8O-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240822/202408221407.KnZ1VF8O-lkp@intel.com/reproduce)
+Hi Wojciech,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wojciech-Drewek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20240821-202156
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20240821121539.374343-14-wojciech.drewek%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next v10 13/14] iavf: handle set and get timestamps ops
+config: i386-buildonly-randconfig-002-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221439.JAkhKOoS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221439.JAkhKOoS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221407.KnZ1VF8O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221439.JAkhKOoS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/btree_key_cache.c: note: in included file:
-   fs/bcachefs/bcachefs.h:996:9: sparse: sparse: array of flexible structures
-   fs/bcachefs/btree_key_cache.c:687:32: sparse: sparse: context imbalance in 'bch2_fs_btree_key_cache_exit' - different lock contexts for basic block
->> fs/bcachefs/btree_key_cache.c:758:9: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +758 fs/bcachefs/btree_key_cache.c
+   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_hwstamp_set':
+>> drivers/net/ethernet/intel/iavf/iavf_main.c:5086: undefined reference to `iavf_ptp_set_ts_config'
+   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_remove':
+   drivers/net/ethernet/intel/iavf/iavf_main.c:5508: undefined reference to `iavf_ptp_release'
+   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_init_config_adapter':
+   drivers/net/ethernet/intel/iavf/iavf_main.c:2842: undefined reference to `iavf_ptp_init'
+   ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_configure_queues':
+   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:409: undefined reference to `iavf_ptp_cap_supported'
+   ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_virtchnl_completion':
+   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:2595: undefined reference to `iavf_ptp_process_caps'
+   ld: net/core/net-sysfs.o: in function `netdev_queue_update_kobjects':
+   net/core/net-sysfs.c:1852: undefined reference to `dql_group'
+   ld: net/core/net-sysfs.o: in function `netdev_queue_add_kobject':
+   net/core/net-sysfs.c:1792: undefined reference to `dql_group'
 
-   750	
-   751	void bch2_btree_key_cache_to_text(struct printbuf *out, struct btree_key_cache *bc)
-   752	{
-   753		printbuf_tabstop_push(out, 24);
-   754		printbuf_tabstop_push(out, 12);
-   755	
-   756		prt_printf(out, "keys:\t%lu\r\n",		atomic_long_read(&bc->nr_keys));
-   757		prt_printf(out, "dirty:\t%lu\r\n",		atomic_long_read(&bc->nr_dirty));
- > 758		prt_printf(out, "table size:\t%u\r\n",		bc->table.tbl->size);
-   759	
-   760		prt_printf(out, "\nshrinker:\n");
-   761		prt_printf(out, "requested_to_free:\t%lu\r\n",	bc->requested_to_free);
-   762		prt_printf(out, "freed:\t%lu\r\n",		bc->freed);
-   763		prt_printf(out, "skipped_dirty:\t%lu\r\n",	bc->skipped_dirty);
-   764		prt_printf(out, "skipped_accessed:\t%lu\r\n",	bc->skipped_accessed);
-   765		prt_printf(out, "skipped_lock_fail:\t%lu\r\n",	bc->skipped_lock_fail);
-   766	}
-   767	
+
+vim +5086 drivers/net/ethernet/intel/iavf/iavf_main.c
+
+  5079	
+  5080	static int iavf_hwstamp_set(struct net_device *netdev,
+  5081				    struct kernel_hwtstamp_config *config,
+  5082				    struct netlink_ext_ack *extack)
+  5083	{
+  5084		struct iavf_adapter *adapter = netdev_priv(netdev);
+  5085	
+> 5086		return iavf_ptp_set_ts_config(adapter, config, extack);
+  5087	}
+  5088	
 
 -- 
 0-DAY CI Kernel Test Service
