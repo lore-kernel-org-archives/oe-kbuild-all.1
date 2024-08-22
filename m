@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736A96E611
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 20:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F7E2AE77
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 20:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724357167; cv=none; b=QV8w+qNW2+jerVK0BmEzRGxk+jhKGoD8X6K+hCkHqcU63tDTbxTDYvZC+/Are06Y9sFTjftDbszU5G6VslMsS22ds0SOcP7mBbc2A+GSGF/w3HZaC1HR9lJ/ZNfJheIRq2ALzXl7GXQhLG/EcPWF/tA6B5Hed8fMOsoUvpq72oA=
+	t=1724358966; cv=none; b=qavIVP6BZ0gTWMnlMAaPfZ7zY0WwHeLbvU0xdkoLGWitXgujZePUAvlWbFdPZ1XWA01rr5qzU+NJ1M11OJtMEUJpQMyhobdtYJ5NNE32lIvqmTs6XbwdHF5FbLbrg0YXT/O/hAH1B300CokyAZG9MjdaUzpB5ewXun/L6ICweHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724357167; c=relaxed/simple;
-	bh=U13I53TlM2aCeJFGilAUnrE7sQ2p1kTqE7jw5+pJOSY=;
+	s=arc-20240116; t=1724358966; c=relaxed/simple;
+	bh=p/IHefUo+dIgGf88dRGUuF7b9583HsFzcb6l6OXJzTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nWfdiNl3HTWIQmsERbOgLW6VG2arErt5aaee0gSWbKnEwKnxUFp5K8HqhvJ7ca/UWce48Ps+NCmU4hQNfAznzSilUZd18PXesw2IhPRawWDpLN3i8g3epfSPCpzp7VhJ6qZUcrKINGKOmq77zN2DUE+xwZGWTe5zuXeHi8SuWrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEr6z+Kk; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=rnD+cutz5BEG9p+va0BlFTdd1gCBM+5Qoi/QPkJc77MtXqqtByLPhRQUsFgcqJiLMJZv8arkyAoK3Ea/wn0Rn5REZ/3E+fX8kWJYz+r5VJMh/bNuXsakI9IJsinLu1l6KU14HlGurU3WvrQ0wTbWLEp86gXLg5h3wPXR1JsVgiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wy2FOSgY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEr6z+Kk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wy2FOSgY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724357164; x=1755893164;
+  t=1724358964; x=1755894964;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U13I53TlM2aCeJFGilAUnrE7sQ2p1kTqE7jw5+pJOSY=;
-  b=KEr6z+KkA2dXNnurO44bZVVMnJO0OdU5PbEHLOvHCKJhm324NGQW1IbV
-   fdxaxecIqx4rFe9RTkwuQw5ETE8KyxwOy5vg7Wv5qf/pBj61AC/Yb/7vH
-   W+butsnnnsOfvfYYRThEo6y2UoSs8t74EqrI0Brrr6ckGAK4t0IFrpilM
-   TyymCVmaqrtC7+kvMY0sa0F4Jb1hMbtxvF7cewCJ1uc/XkT7nqxlvYUnj
-   LGoazkv98g/gk/X2DIFcqOcitmO4MbvVVrWdTDrwcebL0vaEkmmIRvhUN
-   4JmoSALMlqCSNPvHtvrkG0O72t03YB8zoyjG7CpPP1uouj/YetaAyXAyd
-   g==;
-X-CSE-ConnectionGUID: 4avFb21zQma9SmRyXxX6lA==
-X-CSE-MsgGUID: buDkC24dSBCa4PKVkL+8kA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="34180830"
+  bh=p/IHefUo+dIgGf88dRGUuF7b9583HsFzcb6l6OXJzTw=;
+  b=Wy2FOSgYNkm9v8bHTUwfZUxyIqmWBj3ysUFc7O2LODYyFHsslmuJgw/L
+   3bEYnB6rm1UksJebdQXUXzDHYBKAGnudBZYr34tyex7f67/paPu6+Y8yF
+   rTnBjAZYgsbkpc+3Yjrpy6rJ4c/MRu9vhNfVNR5jbLOJzEs3KnQn+V0Iq
+   tCPMsaoCAciXagtLKIT04pW+slA/G09aw1jwIgf7Z4bSQTQ3Qqd2JMIB2
+   RYTN+l1h3yYWqXaTT+daMNZQxM0ukgohnICsDg0PfwWy4FAsti/xIJ/9Y
+   dtyK3urTSc3TSrZY/3nqBSzezbz0H+Cdnp37FMNT3Fu2k6ah218CyI3MU
+   Q==;
+X-CSE-ConnectionGUID: 5jQ32IiuQ5W6aNld0bJ8fg==
+X-CSE-MsgGUID: 2W7xdSLZRkyk3IB3odGwUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="13157155"
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="34180830"
+   d="scan'208";a="13157155"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 13:06:03 -0700
-X-CSE-ConnectionGUID: emJ1Z6WfRp+f06LbUJtVVw==
-X-CSE-MsgGUID: FKpOC1Y0TEiD9xPmeYZUrw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 13:36:03 -0700
+X-CSE-ConnectionGUID: nWYH/nsiRqKxb/IAJyNKVQ==
+X-CSE-MsgGUID: uFVwSiVYTV+ak0nsgyrJCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="61701494"
+   d="scan'208";a="61711295"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Aug 2024 13:06:01 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Aug 2024 13:36:02 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shE4F-000DAK-1e;
-	Thu, 22 Aug 2024 20:05:59 +0000
-Date: Fri, 23 Aug 2024 04:05:00 +0800
+	id 1shEXI-000DBI-1W;
+	Thu, 22 Aug 2024 20:36:00 +0000
+Date: Fri, 23 Aug 2024 04:35:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 46/47] fs/btrfs/file.c:2407:13: error:
- 'skip_ilock' undeclared; did you mean 'spin_lock'?
-Message-ID: <202408230447.yzRGPEUQ-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 46/47] fs/btrfs/file.c:2407:6: error: use
+ of undeclared identifier 'skip_ilock'; did you mean 'spin_lock'?
+Message-ID: <202408230435.vABlkoXP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +65,31 @@ Content-Disposition: inline
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
 head:   ae30386317f21239fb5c3828122ffd6cec6c9b21
 commit: 29349f0a02fdd1b1d14abb4b4dc53bed974b7d55 [46/47] UPSTREAM: btrfs: fix double inode unlock for direct IO sync writes
-config: arm-randconfig-001-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230447.yzRGPEUQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230447.yzRGPEUQ-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240823/202408230435.vABlkoXP-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230435.vABlkoXP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230447.yzRGPEUQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230435.vABlkoXP-lkp@intel.com/
 
 Note: the chrome-os/chromeos-5.15 HEAD ae30386317f21239fb5c3828122ffd6cec6c9b21 builds fine.
       It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   fs/btrfs/file.c: In function 'btrfs_sync_file':
->> fs/btrfs/file.c:2407:13: error: 'skip_ilock' undeclared (first use in this function); did you mean 'spin_lock'?
+>> fs/btrfs/file.c:2407:6: error: use of undeclared identifier 'skip_ilock'; did you mean 'spin_lock'?
     2407 |         if (skip_ilock)
          |             ^~~~~~~~~~
          |             spin_lock
-   fs/btrfs/file.c:2407:13: note: each undeclared identifier is reported only once for each function it appears in
->> fs/btrfs/file.c:2408:32: error: 'struct inode' has no member named 'i_mmap_lock'
+   include/linux/spinlock.h:361:29: note: 'spin_lock' declared here
+     361 | static __always_inline void spin_lock(spinlock_t *lock)
+         |                             ^
+>> fs/btrfs/file.c:2408:20: error: no member named 'i_mmap_lock' in 'struct inode'
     2408 |                 up_write(&inode->i_mmap_lock);
-         |                                ^~
+         |                           ~~~~~  ^
+   2 errors generated.
 
 
 vim +2407 fs/btrfs/file.c
