@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FC21D12E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 17:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4561CE70F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 17:32:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724347946; cv=none; b=egiKZSxrQUZM2xQPjMvmeHEVs88QAcN8908zs2yW2ZftZgIfiFiTC/tbgrjQT6QS5wFUEvGTU3ANNb6gNFsCcUFeXaNcBkVLLAw3jt0oomsKNWKs9wTD/3rF0beYqjFtqXW2SCW1sVsF9vtsQuArEhcjs8urXWuGk+SwOn3AidQ=
+	t=1724347948; cv=none; b=lEG1rYwVvd32KJZa0OBsV3eZBPQ6xL1/5LOGBE881OHCGQFCAMF4BtstPBnZxY1qH1Ktu3umEvBJDCWZsCEiGI19Trmi1U1EreLKNW4lDDZbJU/77IeNZ7VDlV/1RTd1rbgzzCqqpJn2JAnJFlAY3aBWbSkUAd5lSftjTnD0rDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724347946; c=relaxed/simple;
-	bh=L50mzvZieSsGn0k1rLClybdikF1el3vKdsWIGiOzOYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pvl4m8vce82RMwgp2vSrTyTu8SWeo9udpLJkiSAlOFw7tfT7/7FW0kvSSOeVOnplMdgPVoMGUHFuUXqvI+pPp47ZSyq1OjzdClRqhz0SXGKA3Ng8LbTGHPY0ArhPqJ9VCkedasHeKg2jj1OSjeRvEXg53Y7CCbyziuRCliAXBgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6FNZGI/; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1724347948; c=relaxed/simple;
+	bh=OhUEH9zgrRVPg958wpMBNnOtHPbqOuVwH3ye3OCamBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qljr5n+++Ogd++mXy/72Cmrh03cdWeYDDrIgr1WzCU7aEvcBMLGLgGeFfOxVUSZC7g8HzbH12QZJWTMiqmbClklDG0EEzmW4ngaKojlQiWQRKyN1fHPV8x+RD42TZx36fsXWfqGDqsAQmI9vdFSB+CG6bnKGVQwh7mHb+uXvOr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbYdjf+6; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6FNZGI/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbYdjf+6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724347944; x=1755883944;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L50mzvZieSsGn0k1rLClybdikF1el3vKdsWIGiOzOYk=;
-  b=Y6FNZGI/9shSk39mysIuk/fmGjCTdxTCJRAfRfjJgTn2dHywuDWQH04A
-   bwjTE85b8a7YIaFQs1Ose3edF7flDnPn11AbmqtInO6dmaEv64eju78Vm
-   3e5RQ8jwxu+/WmeixOSRrpIN4LUnqOoBkV8Ck9ShmCYUg13G3OQCZ+aEa
-   8sQgKgFwBRGXerqn4p9Bcm3P2j8NTu629GZr7KkEvVZV9FOCAVPr3O2hK
-   LqwEQp4sgrAqk7Eosm/46ykOgALbBUq+kqbjnd9Qllni23QqxvYLyC6A+
-   tnWoSinMNl0kc9OaAmsbTgtUELM051ZhTX1lFMX5mTruFdI49P4NeQ/GN
-   A==;
-X-CSE-ConnectionGUID: Imvk+eOGTuS4ZVhYRELhiw==
-X-CSE-MsgGUID: Hr3tdx/YTb+PZbP/hXr0Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22595764"
+  t=1724347946; x=1755883946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OhUEH9zgrRVPg958wpMBNnOtHPbqOuVwH3ye3OCamBM=;
+  b=HbYdjf+6/JVS4BHqu/rf2wL5ehvKqacASzhJPJb0wzcsxyGOn4+qwqiv
+   SERxYezRGKOQP86EeIVVK/Cb9jLeMfvteuAR0ftT9kFcrZtIFRF39UKnb
+   /o6V2P11Aa6KtxPiNmJM5Ip9syOHpFfDyqcoznGaQ9vJWqjxLF6CMNhNV
+   7SyfYO2gWh6+Yzj2u6hCDRIb1a/hnMlhpOif/XgH5rVn3D2xprUHF1o9j
+   RQ2gwGHL9cT4ZlXshC75MJWtnCMOybi+UKtbbQA1cZ2ZW/DTF1OFyfKh9
+   iLSw+BgACTw8A33XJMS8JWvAkbjEsgr//VBTm2WTzzSlZTo1j/voaVTMb
+   Q==;
+X-CSE-ConnectionGUID: wqZkKwz5TWeZwdR3YgJy2g==
+X-CSE-MsgGUID: MHxE0pH0TO2+I3PDoJ2xsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22595766"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="22595764"
+   d="scan'208";a="22595766"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 10:32:24 -0700
-X-CSE-ConnectionGUID: fRZ0sDDAQuis0I8BX33+mg==
-X-CSE-MsgGUID: y98ckreKQ3Cid6rHkPYfYw==
+X-CSE-ConnectionGUID: WkfekJqyTHmDB80ZVVu+VQ==
+X-CSE-MsgGUID: aBGWHaQ2QceKzE+ddpza8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="61552881"
+   d="scan'208";a="61552882"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 22 Aug 2024 10:32:23 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shBfZ-000D2R-0k;
+	id 1shBfZ-000D2N-0b;
 	Thu, 22 Aug 2024 17:32:21 +0000
-Date: Fri, 23 Aug 2024 01:31:26 +0800
+Date: Fri, 23 Aug 2024 01:31:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:hch-wtf 256/262] fs/xfs/xfs_discard.c:731:70: error:
- macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
-Message-ID: <202408230145.HPMwvdz7-lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH 3/3] i2c: Remove obsolete members of i2c_adapter and
+ i2c_client
+Message-ID: <202408230156.SZSDmCCc-lkp@intel.com>
+References: <01cef629-5650-4ef2-93db-9a16893ff5a0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,113 +65,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <01cef629-5650-4ef2-93db-9a16893ff5a0@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git hch-wtf
-head:   b465ef695ec134c0e73be7eb771a50ac9df25dd6
-commit: 3d64521d183c25ed63ae122087ec6919b3b2b609 [256/262] xfs: don't bother reporting blocks trimmed via FITRIM
-config: i386-buildonly-randconfig-006-20240822 (https://download.01.org/0day-ci/archive/20240823/202408230145.HPMwvdz7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230145.HPMwvdz7-lkp@intel.com/reproduce)
+Hi Heiner,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/i2c-Replace-list-based-mechanism-for-handling-auto-detected-clients/20240822-044950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/01cef629-5650-4ef2-93db-9a16893ff5a0%40gmail.com
+patch subject: [PATCH 3/3] i2c: Remove obsolete members of i2c_adapter and i2c_client
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240823/202408230156.SZSDmCCc-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230156.SZSDmCCc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230145.HPMwvdz7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230156.SZSDmCCc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/xfs_discard.c: In function 'xfs_ioc_trim':
->> fs/xfs/xfs_discard.c:731:70: error: macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                                                                      ^
-   fs/xfs/xfs_discard.c:654: note: macro "xfs_trim_rtdev_extents" defined here
-     654 | # define xfs_trim_rtdev_extents(m,s,e,n,b)      (-EOPNOTSUPP)
-         | 
->> fs/xfs/xfs_discard.c:731:25: error: 'xfs_trim_rtdev_extents' undeclared (first use in this function); did you mean 'xfs_trim_datadev_extents'?
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         xfs_trim_datadev_extents
-   fs/xfs/xfs_discard.c:731:25: note: each undeclared identifier is reported only once for each function it appears in
+   sound/ppc/keywest.c: In function 'keywest_attach_adapter':
+>> sound/ppc/keywest.c:68:43: error: 'struct i2c_client' has no member named 'detected'
+      68 |         list_add_tail(&keywest_ctx->client->detected,
+         |                                           ^~
+   sound/ppc/keywest.c:69:70: error: 'struct i2c_driver' has no member named 'clients'
+      69 |                       &to_i2c_driver(keywest_ctx->client->dev.driver)->clients);
+         |                                                                      ^~
 
 
-vim +/xfs_trim_rtdev_extents +731 fs/xfs/xfs_discard.c
+vim +68 sound/ppc/keywest.c
 
-   656	
-   657	/*
-   658	 * trim a range of the filesystem.
-   659	 *
-   660	 * Note: the parameters passed from userspace are byte ranges into the
-   661	 * filesystem which does not match to the format we use for filesystem block
-   662	 * addressing. FSB addressing is sparse (AGNO|AGBNO), while the incoming format
-   663	 * is a linear address range. Hence we need to use DADDR based conversions and
-   664	 * comparisons for determining the correct offset and regions to trim.
-   665	 *
-   666	 * The realtime device is mapped into the FITRIM "address space" immediately
-   667	 * after the data device.
-   668	 */
-   669	int
-   670	xfs_ioc_trim(
-   671		struct xfs_mount		*mp,
-   672		struct fstrim_range __user	*urange)
-   673	{
-   674		unsigned int		granularity =
-   675			bdev_discard_granularity(mp->m_ddev_targp->bt_bdev);
-   676		struct block_device	*rt_bdev = NULL;
-   677		struct fstrim_range	range;
-   678		xfs_daddr_t		start, end;
-   679		xfs_extlen_t		minlen;
-   680		xfs_rfsblock_t		max_blocks;
-   681		int			error, last_error = 0;
-   682	
-   683		if (!capable(CAP_SYS_ADMIN))
-   684			return -EPERM;
-   685		if (mp->m_rtdev_targp &&
-   686		    bdev_max_discard_sectors(mp->m_rtdev_targp->bt_bdev))
-   687			rt_bdev = mp->m_rtdev_targp->bt_bdev;
-   688		if (!bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev) && !rt_bdev)
-   689			return -EOPNOTSUPP;
-   690	
-   691		if (rt_bdev)
-   692			granularity = max(granularity,
-   693					  bdev_discard_granularity(rt_bdev));
-   694	
-   695		/*
-   696		 * We haven't recovered the log, so we cannot use our bnobt-guided
-   697		 * storage zapping commands.
-   698		 */
-   699		if (xfs_has_norecovery(mp))
-   700			return -EROFS;
-   701	
-   702		if (copy_from_user(&range, urange, sizeof(range)))
-   703			return -EFAULT;
-   704	
-   705		range.minlen = max_t(u64, granularity, range.minlen);
-   706		minlen = XFS_B_TO_FSB(mp, range.minlen);
-   707	
-   708		/*
-   709		 * Truncating down the len isn't actually quite correct, but using
-   710		 * BBTOB would mean we trivially get overflows for values
-   711		 * of ULLONG_MAX or slightly lower.  And ULLONG_MAX is the default
-   712		 * used by the fstrim application.  In the end it really doesn't
-   713		 * matter as trimming blocks is an advisory interface.
-   714		 */
-   715		max_blocks = mp->m_sb.sb_dblocks + mp->m_sb.sb_rblocks;
-   716		if (range.start >= XFS_FSB_TO_B(mp, max_blocks) ||
-   717		    range.minlen > XFS_FSB_TO_B(mp, mp->m_ag_max_usable) ||
-   718		    range.len < mp->m_sb.sb_blocksize)
-   719			return -EINVAL;
-   720	
-   721		start = BTOBB(range.start);
-   722		end = start + BTOBBT(range.len) - 1;
-   723	
-   724		if (bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev)) {
-   725			error = xfs_trim_datadev_extents(mp, start, end, minlen);
-   726			if (error)
-   727				last_error = error;
-   728		}
-   729	
-   730		if (rt_bdev && !xfs_trim_should_stop()) {
- > 731			error = xfs_trim_rtdev_extents(mp, start, end, minlen);
+5de4155bb3760fc Jean Delvare       2009-04-20  28  
+5de4155bb3760fc Jean Delvare       2009-04-20  29  /*
+5de4155bb3760fc Jean Delvare       2009-04-20  30   * This is kind of a hack, best would be to turn powermac to fixed i2c
+5de4155bb3760fc Jean Delvare       2009-04-20  31   * bus numbers and declare the sound device as part of platform
+5de4155bb3760fc Jean Delvare       2009-04-20  32   * initialization
+5de4155bb3760fc Jean Delvare       2009-04-20  33   */
+^1da177e4c3f415 Linus Torvalds     2005-04-16  34  static int keywest_attach_adapter(struct i2c_adapter *adapter)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  35  {
+5de4155bb3760fc Jean Delvare       2009-04-20  36  	struct i2c_board_info info;
+04a9af2e0384234 Wolfram Sang       2020-03-26  37  	struct i2c_client *client;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  38  
+^1da177e4c3f415 Linus Torvalds     2005-04-16  39  	if (! keywest_ctx)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  40  		return -EINVAL;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  41  
+903dba1eae49270 Jean Delvare       2009-05-14  42  	if (strncmp(adapter->name, "mac-io", 6))
+ac397c80de89509 Wolfram Sang       2015-05-09  43  		return -EINVAL; /* ignored */
+^1da177e4c3f415 Linus Torvalds     2005-04-16  44  
+5de4155bb3760fc Jean Delvare       2009-04-20  45  	memset(&info, 0, sizeof(struct i2c_board_info));
+75b1a8f9d62e50f Joe Perches        2021-01-04  46  	strscpy(info.type, "keywest", I2C_NAME_SIZE);
+5de4155bb3760fc Jean Delvare       2009-04-20  47  	info.addr = keywest_ctx->addr;
+04a9af2e0384234 Wolfram Sang       2020-03-26  48  	client = i2c_new_client_device(adapter, &info);
+04a9af2e0384234 Wolfram Sang       2020-03-26  49  	if (IS_ERR(client))
+04a9af2e0384234 Wolfram Sang       2020-03-26  50  		return PTR_ERR(client);
+04a9af2e0384234 Wolfram Sang       2020-03-26  51  	keywest_ctx->client = client;
+04a9af2e0384234 Wolfram Sang       2020-03-26  52  
+18c4078489fe064 Takashi Iwai       2009-10-01  53  	/*
+18c4078489fe064 Takashi Iwai       2009-10-01  54  	 * We know the driver is already loaded, so the device should be
+18c4078489fe064 Takashi Iwai       2009-10-01  55  	 * already bound. If not it means binding failed, and then there
+18c4078489fe064 Takashi Iwai       2009-10-01  56  	 * is no point in keeping the device instantiated.
+18c4078489fe064 Takashi Iwai       2009-10-01  57  	 */
+a7cde6d25c494e1 Lars-Peter Clausen 2013-09-29  58  	if (!keywest_ctx->client->dev.driver) {
+18c4078489fe064 Takashi Iwai       2009-10-01  59  		i2c_unregister_device(keywest_ctx->client);
+18c4078489fe064 Takashi Iwai       2009-10-01  60  		keywest_ctx->client = NULL;
+18c4078489fe064 Takashi Iwai       2009-10-01  61  		return -ENODEV;
+18c4078489fe064 Takashi Iwai       2009-10-01  62  	}
+^1da177e4c3f415 Linus Torvalds     2005-04-16  63  	
+5de4155bb3760fc Jean Delvare       2009-04-20  64  	/*
+5de4155bb3760fc Jean Delvare       2009-04-20  65  	 * Let i2c-core delete that device on driver removal.
+5de4155bb3760fc Jean Delvare       2009-04-20  66  	 * This is safe because i2c-core holds the core_lock mutex for us.
+5de4155bb3760fc Jean Delvare       2009-04-20  67  	 */
+5de4155bb3760fc Jean Delvare       2009-04-20 @68  	list_add_tail(&keywest_ctx->client->detected,
+a7cde6d25c494e1 Lars-Peter Clausen 2013-09-29  69  		      &to_i2c_driver(keywest_ctx->client->dev.driver)->clients);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  70  	return 0;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  71  }
+^1da177e4c3f415 Linus Torvalds     2005-04-16  72  
 
 -- 
 0-DAY CI Kernel Test Service
