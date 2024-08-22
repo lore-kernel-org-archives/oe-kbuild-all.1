@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1226B208B8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 03:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00FA12B64
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 03:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724297722; cv=none; b=MCV38PfoB2LIlurz9voIOQrCJMEty1h/IizlGJ0Gb3HxqoJ6It1pDafcaGtQOb3f+JU5m8634ZowEKMS6wX2NL62ZemOwCQYsJ0VJ7M2xq4YQuMGOsJ/hbS1Wy61O8kEivtTt8orw8I69ocO9e0TsSKZHIMoi8tMcVUq2RpRx64=
+	t=1724298988; cv=none; b=gZZsjXa5sH6QtmQbKj5gwsSbJNUOn1tFY74LTq25qFlxQXz3JVxXURIzv6T4btDdwVKDFvljmlpHQhdxWwWnRkG+AW/LUCc/TOfIMYwsUWTvqUbgZB9G3GscTwIv2Dw+pT1aFQViW4tI6UjcsJIh7ERZ0ajohUQq3OBnwbXxlQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724297722; c=relaxed/simple;
-	bh=8AML+pq1cg7WS+QpCZqiyh1gJ5QpKuhBMWzC2Lh/m+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DkXB9jo8XNf5FDTScYaKhkNyg8ixAeeniLOGN3WaR+aPyi9VWtIHmx9bG8SiISg6R5zSO0ILJkI78a+zOd9hds4AZalrijUVHbc10r0xJPrYl2kfKUUv87vOOnC/e3K3SDoZOhSnY2bnci2ALBLzllQCmswHXfWQc2xrPaUFq7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfgqsixG; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1724298988; c=relaxed/simple;
+	bh=67Bel21jv6hBWlgoQQSJs1O2C0veB/Hwe5bH9yClc8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eoirn3kfE2uAfjBUm7MQvrRNTnojps3wfo5oSH6OdIo99Z81abF/LA7oF65M5T1bMmY5ueDzKgDHdpj5prvMa4Rh5F8Kl/w8nZzH2SmvphMI/aseNajjjVeM7cxFxvPLBaTqWMV5RVmqpYaSlbwpK4uagOCpPNIYYKCdFWKzDE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJyCvNd7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfgqsixG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJyCvNd7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724297720; x=1755833720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8AML+pq1cg7WS+QpCZqiyh1gJ5QpKuhBMWzC2Lh/m+Y=;
-  b=DfgqsixGuS/Y1H7sKWFhEdcithJL/i9RYY54V1JJMoFDL+RCAxs8mVx1
-   2MGIwP+fYu07EKqthRZ6CWqLtWZCC5l4xWwVvN8ARAF3fzf3g6dCxWHy6
-   bxJc1BrxH3diWazad9LnUUQiYLRkdK0uoTZDZkx7aVqUJDIOr2flP0Lnb
-   LDotKb3J8G2H6gWWSNxPTc9zff6JwfhEMI26PkPX6Ja0YTGQHXSO/LGdv
-   cyRCKf7RR6rWfzWWePitdoZGC9Y0NlQU6N5NvQkvPc/M5qsP9SJ5YmKMN
-   HMAQQesE5o7ZrMg+nx5I7fkC/aCOkHH5xoiSLB+bDW5RIr1R5NM8KaDdW
-   w==;
-X-CSE-ConnectionGUID: UDHxusfVTQiKe5f2uMSgYw==
-X-CSE-MsgGUID: oAw7lsPqQ9OfL0q7irDUtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="13146331"
+  t=1724298986; x=1755834986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=67Bel21jv6hBWlgoQQSJs1O2C0veB/Hwe5bH9yClc8k=;
+  b=kJyCvNd7DORtD8BgHaGnnMgHd6mo1Bv9VAAOTcw9iIV0q92TasndHTLA
+   h53vwZLof3Av1Ys4eifln+1AifUgk7dWCTWxRcYhC4h77Aftpdqe5Nkzx
+   mjS0Siq3y50jmhA4UUWR8V5LnWQGkoO3A4Dov11syAHePNMCA88d/jIHk
+   4ZZOe+WM/3aaaqs+FtFuBmCCY2qa4rQVG4QB/xJKcVimWRGJs1A/z+/0C
+   KmY8XYM0Gu5U2SGFadhP0bZZWB3fiMva9Tuokxhyu1kGBontJkC4UEQif
+   pLebltSkHj1J5SusE4w8GSDgHOltkGnKz7y1pFrq02lRLkhRkrElY4Qsr
+   Q==;
+X-CSE-ConnectionGUID: 0bcSgz7IQe2fUJuZdVgHQw==
+X-CSE-MsgGUID: nTwCnGtXQ3OzpfKoUqLSYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="25586262"
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="13146331"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 20:35:19 -0700
-X-CSE-ConnectionGUID: rCGcGLHrTBOla/dx/KnxUg==
-X-CSE-MsgGUID: hS89KaJsSwOj1e5m5jf7RA==
+   d="scan'208";a="25586262"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 20:56:25 -0700
+X-CSE-ConnectionGUID: 953bsQieS0uirvWSphoJ2w==
+X-CSE-MsgGUID: W5kDMKzfRiixYZMrvLsMHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="61290684"
+   d="scan'208";a="60971752"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Aug 2024 20:35:18 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 Aug 2024 20:56:21 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgybT-000CFA-2v;
-	Thu, 22 Aug 2024 03:35:15 +0000
-Date: Thu, 22 Aug 2024 11:35:11 +0800
+	id 1sgyvr-000CGW-0t;
+	Thu, 22 Aug 2024 03:56:19 +0000
+Date: Thu, 22 Aug 2024 11:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:spdm-future 11/31]
- drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:5: error: field
- designator 'sign' does not refer to any field in type 'struct akcipher_alg'
-Message-ID: <202408221119.3rIYKAjD-lkp@intel.com>
+To: Lei Liu <liulei.rjpt@vivo.com>, Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bin Liu <b-liu@ti.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com
+Subject: Re: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
+Message-ID: <202408221155.UveHbLu0-lkp@intel.com>
+References: <20240821121048.31566-3-liulei.rjpt@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,132 +75,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821121048.31566-3-liulei.rjpt@vivo.com>
 
-tree:   https://github.com/l1k/linux spdm-future
-head:   96139555c6962cebb237d22905327ac2859ddd07
-commit: a6808b5394f4aae6f3a87a14e65588ec8cd1cd65 [11/31] crypto: akcipher - Drop sign/verify operations
-config: i386-buildonly-randconfig-003-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221119.3rIYKAjD-lkp@intel.com/config)
+Hi Lei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.11-rc4 next-20240821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Liu/usb-aspeed_udc-Use-devm_clk_get_enabled-helpers/20240821-201358
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240821121048.31566-3-liulei.rjpt%40vivo.com
+patch subject: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
+config: x86_64-randconfig-161-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221155.UveHbLu0-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221119.3rIYKAjD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221155.UveHbLu0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221119.3rIYKAjD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221155.UveHbLu0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:527:5: error: field designator 'sign' does not refer to any field in type 'struct akcipher_alg'
-     527 |                         .sign = virtio_crypto_rsa_sign,
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:528:5: error: field designator 'verify' does not refer to any field in type 'struct akcipher_alg'
-     528 |                         .verify = virtio_crypto_rsa_verify,
-         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:555:18: error: invalid application of 'sizeof' to an incomplete type 'struct virtio_crypto_akcipher_algo[]'
-     555 |         for (i = 0; i < ARRAY_SIZE(virtio_crypto_akcipher_algs); i++) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:584:18: error: invalid application of 'sizeof' to an incomplete type 'struct virtio_crypto_akcipher_algo[]'
-     584 |         for (i = 0; i < ARRAY_SIZE(virtio_crypto_akcipher_algs); i++) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   4 errors generated.
+>> drivers/usb/gadget/udc/pxa27x_udc.c:2401:44: error: too many arguments to function call, expected single argument 'clk', have 2 arguments
+    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
+         |                    ~~~~~~~~~~~~~~~~~~             ^~~~
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+   include/linux/clk.h:1107:19: note: 'clk_prepare_enable' declared here
+    1107 | static inline int clk_prepare_enable(struct clk *clk)
+         |                   ^                  ~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +527 drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
+vim +/clk +2401 drivers/usb/gadget/udc/pxa27x_udc.c
 
-59ca6c93387d32 zhenwei pi 2022-03-02  496  
-59ca6c93387d32 zhenwei pi 2022-03-02  497  static struct virtio_crypto_akcipher_algo virtio_crypto_akcipher_algs[] = {
-59ca6c93387d32 zhenwei pi 2022-03-02  498  	{
-59ca6c93387d32 zhenwei pi 2022-03-02  499  		.algonum = VIRTIO_CRYPTO_AKCIPHER_RSA,
-59ca6c93387d32 zhenwei pi 2022-03-02  500  		.service = VIRTIO_CRYPTO_SERVICE_AKCIPHER,
-7a2673d70ca69b Herbert Xu 2023-08-13  501  		.algo.base = {
-59ca6c93387d32 zhenwei pi 2022-03-02  502  			.encrypt = virtio_crypto_rsa_encrypt,
-59ca6c93387d32 zhenwei pi 2022-03-02  503  			.decrypt = virtio_crypto_rsa_decrypt,
-59ca6c93387d32 zhenwei pi 2022-03-02  504  			.set_pub_key = virtio_crypto_rsa_raw_set_pub_key,
-59ca6c93387d32 zhenwei pi 2022-03-02  505  			.set_priv_key = virtio_crypto_rsa_raw_set_priv_key,
-59ca6c93387d32 zhenwei pi 2022-03-02  506  			.max_size = virtio_crypto_rsa_max_size,
-59ca6c93387d32 zhenwei pi 2022-03-02  507  			.init = virtio_crypto_rsa_init_tfm,
-59ca6c93387d32 zhenwei pi 2022-03-02  508  			.exit = virtio_crypto_rsa_exit_tfm,
-59ca6c93387d32 zhenwei pi 2022-03-02  509  			.base = {
-59ca6c93387d32 zhenwei pi 2022-03-02  510  				.cra_name = "rsa",
-59ca6c93387d32 zhenwei pi 2022-03-02  511  				.cra_driver_name = "virtio-crypto-rsa",
-59ca6c93387d32 zhenwei pi 2022-03-02  512  				.cra_priority = 150,
-59ca6c93387d32 zhenwei pi 2022-03-02  513  				.cra_module = THIS_MODULE,
-59ca6c93387d32 zhenwei pi 2022-03-02  514  				.cra_ctxsize = sizeof(struct virtio_crypto_akcipher_ctx),
-59ca6c93387d32 zhenwei pi 2022-03-02  515  			},
-59ca6c93387d32 zhenwei pi 2022-03-02  516  		},
-7a2673d70ca69b Herbert Xu 2023-08-13  517  		.algo.op = {
-7a2673d70ca69b Herbert Xu 2023-08-13  518  			.do_one_request = virtio_crypto_rsa_do_req,
-7a2673d70ca69b Herbert Xu 2023-08-13  519  		},
-59ca6c93387d32 zhenwei pi 2022-03-02  520  	},
-59ca6c93387d32 zhenwei pi 2022-03-02  521  	{
-59ca6c93387d32 zhenwei pi 2022-03-02  522  		.algonum = VIRTIO_CRYPTO_AKCIPHER_RSA,
-59ca6c93387d32 zhenwei pi 2022-03-02  523  		.service = VIRTIO_CRYPTO_SERVICE_AKCIPHER,
-7a2673d70ca69b Herbert Xu 2023-08-13  524  		.algo.base = {
-59ca6c93387d32 zhenwei pi 2022-03-02  525  			.encrypt = virtio_crypto_rsa_encrypt,
-59ca6c93387d32 zhenwei pi 2022-03-02  526  			.decrypt = virtio_crypto_rsa_decrypt,
-59ca6c93387d32 zhenwei pi 2022-03-02 @527  			.sign = virtio_crypto_rsa_sign,
-59ca6c93387d32 zhenwei pi 2022-03-02 @528  			.verify = virtio_crypto_rsa_verify,
-59ca6c93387d32 zhenwei pi 2022-03-02  529  			.set_pub_key = virtio_crypto_p1pad_rsa_sha1_set_pub_key,
-59ca6c93387d32 zhenwei pi 2022-03-02  530  			.set_priv_key = virtio_crypto_p1pad_rsa_sha1_set_priv_key,
-59ca6c93387d32 zhenwei pi 2022-03-02  531  			.max_size = virtio_crypto_rsa_max_size,
-59ca6c93387d32 zhenwei pi 2022-03-02  532  			.init = virtio_crypto_rsa_init_tfm,
-59ca6c93387d32 zhenwei pi 2022-03-02  533  			.exit = virtio_crypto_rsa_exit_tfm,
-59ca6c93387d32 zhenwei pi 2022-03-02  534  			.base = {
-59ca6c93387d32 zhenwei pi 2022-03-02  535  				.cra_name = "pkcs1pad(rsa,sha1)",
-59ca6c93387d32 zhenwei pi 2022-03-02  536  				.cra_driver_name = "virtio-pkcs1-rsa-with-sha1",
-59ca6c93387d32 zhenwei pi 2022-03-02  537  				.cra_priority = 150,
-59ca6c93387d32 zhenwei pi 2022-03-02  538  				.cra_module = THIS_MODULE,
-59ca6c93387d32 zhenwei pi 2022-03-02  539  				.cra_ctxsize = sizeof(struct virtio_crypto_akcipher_ctx),
-59ca6c93387d32 zhenwei pi 2022-03-02  540  			},
-59ca6c93387d32 zhenwei pi 2022-03-02  541  		},
-7a2673d70ca69b Herbert Xu 2023-08-13  542  		.algo.op = {
-7a2673d70ca69b Herbert Xu 2023-08-13  543  			.do_one_request = virtio_crypto_rsa_do_req,
-7a2673d70ca69b Herbert Xu 2023-08-13  544  		},
-59ca6c93387d32 zhenwei pi 2022-03-02  545  	},
-59ca6c93387d32 zhenwei pi 2022-03-02  546  };
-59ca6c93387d32 zhenwei pi 2022-03-02  547  
-59ca6c93387d32 zhenwei pi 2022-03-02  548  int virtio_crypto_akcipher_algs_register(struct virtio_crypto *vcrypto)
-59ca6c93387d32 zhenwei pi 2022-03-02  549  {
-59ca6c93387d32 zhenwei pi 2022-03-02  550  	int ret = 0;
-59ca6c93387d32 zhenwei pi 2022-03-02  551  	int i = 0;
-59ca6c93387d32 zhenwei pi 2022-03-02  552  
-59ca6c93387d32 zhenwei pi 2022-03-02  553  	mutex_lock(&algs_lock);
-59ca6c93387d32 zhenwei pi 2022-03-02  554  
-59ca6c93387d32 zhenwei pi 2022-03-02 @555  	for (i = 0; i < ARRAY_SIZE(virtio_crypto_akcipher_algs); i++) {
-59ca6c93387d32 zhenwei pi 2022-03-02  556  		uint32_t service = virtio_crypto_akcipher_algs[i].service;
-59ca6c93387d32 zhenwei pi 2022-03-02  557  		uint32_t algonum = virtio_crypto_akcipher_algs[i].algonum;
-59ca6c93387d32 zhenwei pi 2022-03-02  558  
-59ca6c93387d32 zhenwei pi 2022-03-02  559  		if (!virtcrypto_algo_is_supported(vcrypto, service, algonum))
-59ca6c93387d32 zhenwei pi 2022-03-02  560  			continue;
-59ca6c93387d32 zhenwei pi 2022-03-02  561  
-59ca6c93387d32 zhenwei pi 2022-03-02  562  		if (virtio_crypto_akcipher_algs[i].active_devs == 0) {
-7a2673d70ca69b Herbert Xu 2023-08-13  563  			ret = crypto_engine_register_akcipher(&virtio_crypto_akcipher_algs[i].algo);
-59ca6c93387d32 zhenwei pi 2022-03-02  564  			if (ret)
-59ca6c93387d32 zhenwei pi 2022-03-02  565  				goto unlock;
-59ca6c93387d32 zhenwei pi 2022-03-02  566  		}
-59ca6c93387d32 zhenwei pi 2022-03-02  567  
-59ca6c93387d32 zhenwei pi 2022-03-02  568  		virtio_crypto_akcipher_algs[i].active_devs++;
-59ca6c93387d32 zhenwei pi 2022-03-02  569  		dev_info(&vcrypto->vdev->dev, "Registered akcipher algo %s\n",
-7a2673d70ca69b Herbert Xu 2023-08-13  570  			 virtio_crypto_akcipher_algs[i].algo.base.base.cra_name);
-59ca6c93387d32 zhenwei pi 2022-03-02  571  	}
-59ca6c93387d32 zhenwei pi 2022-03-02  572  
-59ca6c93387d32 zhenwei pi 2022-03-02  573  unlock:
-59ca6c93387d32 zhenwei pi 2022-03-02  574  	mutex_unlock(&algs_lock);
-59ca6c93387d32 zhenwei pi 2022-03-02  575  	return ret;
-59ca6c93387d32 zhenwei pi 2022-03-02  576  }
-59ca6c93387d32 zhenwei pi 2022-03-02  577  
-
-:::::: The code at line 527 was first introduced by commit
-:::::: 59ca6c93387d325e96577d8bd4c23c78c1491c11 virtio-crypto: implement RSA algorithm
-
-:::::: TO: zhenwei pi <pizhenwei@bytedance.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+  2345	
+  2346	/**
+  2347	 * pxa_udc_probe - probes the udc device
+  2348	 * @pdev: platform device
+  2349	 *
+  2350	 * Perform basic init : allocates udc clock, creates sysfs files, requests
+  2351	 * irq.
+  2352	 */
+  2353	static int pxa_udc_probe(struct platform_device *pdev)
+  2354	{
+  2355		struct pxa_udc *udc = &memory;
+  2356		int retval = 0, gpio;
+  2357		struct pxa2xx_udc_mach_info *mach = dev_get_platdata(&pdev->dev);
+  2358		unsigned long gpio_flags;
+  2359	
+  2360		if (mach) {
+  2361			gpio_flags = mach->gpio_pullup_inverted ? GPIOF_ACTIVE_LOW : 0;
+  2362			gpio = mach->gpio_pullup;
+  2363			if (gpio_is_valid(gpio)) {
+  2364				retval = devm_gpio_request_one(&pdev->dev, gpio,
+  2365							       gpio_flags,
+  2366							       "USB D+ pullup");
+  2367				if (retval)
+  2368					return retval;
+  2369				udc->gpiod = gpio_to_desc(mach->gpio_pullup);
+  2370			}
+  2371			udc->udc_command = mach->udc_command;
+  2372		} else {
+  2373			udc->gpiod = devm_gpiod_get(&pdev->dev, NULL, GPIOD_ASIS);
+  2374		}
+  2375	
+  2376		udc->regs = devm_platform_ioremap_resource(pdev, 0);
+  2377		if (IS_ERR(udc->regs))
+  2378			return PTR_ERR(udc->regs);
+  2379		udc->irq = platform_get_irq(pdev, 0);
+  2380		if (udc->irq < 0)
+  2381			return udc->irq;
+  2382	
+  2383		udc->dev = &pdev->dev;
+  2384		if (of_have_populated_dt()) {
+  2385			udc->transceiver =
+  2386				devm_usb_get_phy_by_phandle(udc->dev, "phys", 0);
+  2387			if (IS_ERR(udc->transceiver))
+  2388				return PTR_ERR(udc->transceiver);
+  2389		} else {
+  2390			udc->transceiver = usb_get_phy(USB_PHY_TYPE_USB2);
+  2391		}
+  2392	
+  2393		if (IS_ERR(udc->gpiod)) {
+  2394			dev_err(&pdev->dev, "Couldn't find or request D+ gpio : %ld\n",
+  2395				PTR_ERR(udc->gpiod));
+  2396			return PTR_ERR(udc->gpiod);
+  2397		}
+  2398		if (udc->gpiod)
+  2399			gpiod_direction_output(udc->gpiod, 0);
+  2400	
+> 2401		udc->clk = clk_prepare_enable(&pdev->dev, NULL);
+  2402		if (IS_ERR(udc->clk))
+  2403			return PTR_ERR(udc->clk);
+  2404	
+  2405		udc->vbus_sensed = 0;
+  2406	
+  2407		the_controller = udc;
+  2408		platform_set_drvdata(pdev, udc);
+  2409		udc_init_data(udc);
+  2410	
+  2411		/* irq setup after old hardware state is cleaned up */
+  2412		retval = devm_request_irq(&pdev->dev, udc->irq, pxa_udc_irq,
+  2413					  IRQF_SHARED, driver_name, udc);
+  2414		if (retval != 0) {
+  2415			dev_err(udc->dev, "%s: can't get irq %i, err %d\n",
+  2416				driver_name, udc->irq, retval);
+  2417			goto err;
+  2418		}
+  2419	
+  2420		if (!IS_ERR_OR_NULL(udc->transceiver))
+  2421			usb_register_notifier(udc->transceiver, &pxa27x_udc_phy);
+  2422		retval = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
+  2423		if (retval)
+  2424			goto err_add_gadget;
+  2425	
+  2426		pxa_init_debugfs(udc);
+  2427		if (should_enable_udc(udc))
+  2428			udc_enable(udc);
+  2429		return 0;
+  2430	
+  2431	err_add_gadget:
+  2432		if (!IS_ERR_OR_NULL(udc->transceiver))
+  2433			usb_unregister_notifier(udc->transceiver, &pxa27x_udc_phy);
+  2434	err:
+  2435		clk_unprepare(udc->clk);
+  2436		return retval;
+  2437	}
+  2438	
 
 -- 
 0-DAY CI Kernel Test Service
