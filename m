@@ -1,60 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CF417C224
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 09:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B05D17C224
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 09:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724318884; cv=none; b=GCrknNh5heVpiN5CrV8whcwdmh3QZVIucerinBbZM8OzDHhummWlW3sqql5B6aHK9l2HZUuTtR8Cu+rVxB+RXc6ogufC+/AdCclpNe6FF5mgL1wDvCF2NF/1O5ZY2PV1uRNWp7pL7V9Kqia8d3GTiLPX9BWm04uGeS4BsfL4UOw=
+	t=1724318885; cv=none; b=n+sELuJS/Xb2ZT00OiIoUNOKKxZ0aLKUcLBSqXKT5VdyWTghGeMB7TYeJKRVxuQdiq7J/RTkdZ0UtpPNqtoBP31XrzEVznxgAxT7t9cCFPEDxAmiu8cuOmRsIvWDhd0dpv69C2a7F/5sJEbPjvypJTsrfHzYzMM2HQlNEDEnyZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724318884; c=relaxed/simple;
-	bh=NSz8hBhBJ2yxNATGmFhxFxKtg77gsINJS+lRKEoQwaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kls9uGiWkrxDDrxXU3Ce62RpDUxK0Hq+xL+Ii6II6AnXsg1gbTDy+fdmLGZRnqnQPGPJG/R8KkUXc5J6x50Mj/Oj0dgEgxeLsNTKr26dLgWMQoSIYD0URJoBUh+HgL5rqoB6BrTL510VZqms05zvh3Vv4mfNSs8KHE6o3brOVy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAQinJE4; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1724318885; c=relaxed/simple;
+	bh=nlZScaTrGwKship0z+lXTgDsPGh1Ywve0c6RRdSRLZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3MxxW1wpP0A/iGAbTjfPHFrzplnVOCVijabu8Jxez1R13qQ6lYxnhuRBV6pgQsj9E/xlJzNowQvJ1nIXrLtDrVH/JrnHjEBJkrtcYyp6KgA69BVbWywrXgQ8PxsOr/txMEOCk0sxtAdQM1m7yPufA+pUm2x05PdCpFsHHS5vkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPM9uK14; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAQinJE4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPM9uK14"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724318882; x=1755854882;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NSz8hBhBJ2yxNATGmFhxFxKtg77gsINJS+lRKEoQwaA=;
-  b=eAQinJE4TxZbdnQUbdkCA0zvN4GFWAiOOfcrFn0BP/PVdep2Vdnr/RFg
-   byMF0jeN++smoOLk8JQv3LAA6y9apOXue4Vaj11xbyZt7TZ3dvlFCrd1t
-   GSTcSgKgdEXChwtGjHSDK+38XJjsfO3+j1iH1zqVjD2poLy5EebSsnWh+
-   jO8KP1cVHOG77oKJYTiSOWj9+T1UobZKLpzpvB6w6bY0qdtp7x59/NVpy
-   XJ2XSW8shpim/2uwpB7I/Jrs5uCGtw0P0Q/ak15Vqk+4/F3sLFqhWExvr
-   +HI70b27Tf5oGXBsX/1MfYqCU8Kpbi+TYN1CmEG+4w70LPX0qSSavyTQr
-   w==;
-X-CSE-ConnectionGUID: oNPo3AllQEig0+QLhbFBZg==
-X-CSE-MsgGUID: wEKwRBdyR1y3IvWP4P0/vw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22892086"
+  t=1724318884; x=1755854884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nlZScaTrGwKship0z+lXTgDsPGh1Ywve0c6RRdSRLZg=;
+  b=CPM9uK14m8hhnfcbJ6T61VXxUId+9FXzphVyNPk0QYyDbjL2YTp5ptwR
+   fc2nFLRVXk57Nrbmm9JDMlHZuv2rnUsI7VcYTJAqPHWHExLZehWT9F9NE
+   0Ibr9dRj9nkPdTLsUXrscufE0RwB9QdrVO/L5zAyznN/Q9WNZxUFHoyRl
+   kfbHD1hmYwlpyJUpLoNhDd82rXPlbxAPXsJKISLrV8UTEPDYS2D4+EyZW
+   D1u9qnYaoSe0t/H584UU9RIL0WXWG53tSGmxTAfGnnuRKPZt+0ZBH6NnQ
+   vnDYrjTpIxIidA3rOMN6R2AiwBgfzRWWbZvRk6azi9Fkhsp34tK1JJIG2
+   Q==;
+X-CSE-ConnectionGUID: UgcbW49yScG8+9u4vqVzjA==
+X-CSE-MsgGUID: SZSYrJouSqydUG4idZktqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22892093"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="22892086"
+   d="scan'208";a="22892093"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 02:28:01 -0700
-X-CSE-ConnectionGUID: tlfHk2PyRSC1guS/u5gI9A==
-X-CSE-MsgGUID: riZfrtqFS+O9AJy01NqYdQ==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 02:28:04 -0700
+X-CSE-ConnectionGUID: UT1P0CR8QaKnNEUkDDv+4w==
+X-CSE-MsgGUID: cZ9XR265RGKO6NCTGgFwvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="98882336"
+   d="scan'208";a="98882337"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 22 Aug 2024 02:28:00 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh46n-000CdA-21;
+	id 1sh46n-000CdC-28;
 	Thu, 22 Aug 2024 09:27:57 +0000
-Date: Thu, 22 Aug 2024 17:26:59 +0800
+Date: Thu, 22 Aug 2024 17:26:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: AlvinZhou <alvinzhou@mxic.com.tw>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [miquelraynal:macronix/nand-next/spi-nand-cont-read 3/20]
- drivers/spi/spi-mxic-uefc.c:983:25: error: 'mxic_uefc_of_ids' undeclared
- here (not in a function); did you mean 'mxic_uefc_spi_of_ids'?
-Message-ID: <202408221714.bCSxM2Rc-lkp@intel.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>, david@redhat.com,
+	hughd@google.com, willy@infradead.org, muchun.song@linux.dev,
+	vbabka@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	vishal.moola@gmail.com, peterx@redhat.com, ryan.roberts@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 08/14] mm: copy_pte_range() use
+ pte_offset_map_maywrite_nolock()
+Message-ID: <202408221703.ioeASthY-lkp@intel.com>
+References: <05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +69,189 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch@bytedance.com>
 
-tree:   https://github.com/miquelraynal/linux-0day.git macronix/nand-next/spi-nand-cont-read
-head:   a84bb95001ed7e4eaed415147f3ed18063df8ff7
-commit: 3a117622bcdd9cc7e4747224858f669a5209a35d [3/20] spi: Add support for MXIC UEFC SPI controller
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408221714.bCSxM2Rc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221714.bCSxM2Rc-lkp@intel.com/reproduce)
+Hi Qi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-pgtable-introduce-pte_offset_map_-readonly-maywrite-_nolock/20240821-162312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/05c311498fc8e7e9b2143c7b5fef6dc624cfc49f.1724226076.git.zhengqi.arch%40bytedance.com
+patch subject: [PATCH 08/14] mm: copy_pte_range() use pte_offset_map_maywrite_nolock()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240822/202408221703.ioeASthY-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221703.ioeASthY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221714.bCSxM2Rc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221703.ioeASthY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/spi/spi-mxic-uefc.c:8:
->> drivers/spi/spi-mxic-uefc.c:983:25: error: 'mxic_uefc_of_ids' undeclared here (not in a function); did you mean 'mxic_uefc_spi_of_ids'?
-     983 | MODULE_DEVICE_TABLE(of, mxic_uefc_of_ids);
-         |                         ^~~~~~~~~~~~~~~~
-   include/linux/module.h:250:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     250 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:250:21: error: '__mod_of__mxic_uefc_of_ids_device_table' aliased to undefined symbol 'mxic_uefc_of_ids'
-     250 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/spi/spi-mxic-uefc.c:983:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     983 | MODULE_DEVICE_TABLE(of, mxic_uefc_of_ids);
-         | ^~~~~~~~~~~~~~~~~~~
+   mm/memory.c: In function 'copy_pte_range':
+>> mm/memory.c:1086:15: warning: unused variable 'pmdval' [-Wunused-variable]
+    1086 |         pmd_t pmdval;
+         |               ^~~~~~
 
 
-vim +983 drivers/spi/spi-mxic-uefc.c
+vim +/pmdval +1086 mm/memory.c
 
-   978	
-   979	static const struct of_device_id mxic_uefc_spi_of_ids[] = {
-   980	    { .compatible = "mxic-uefc,uefc-spi", },
-   981	    { /* sentinel */ }
-   982	};
- > 983	MODULE_DEVICE_TABLE(of, mxic_uefc_of_ids);
-   984	
+  1076	
+  1077	static int
+  1078	copy_pte_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
+  1079		       pmd_t *dst_pmd, pmd_t *src_pmd, unsigned long addr,
+  1080		       unsigned long end)
+  1081	{
+  1082		struct mm_struct *dst_mm = dst_vma->vm_mm;
+  1083		struct mm_struct *src_mm = src_vma->vm_mm;
+  1084		pte_t *orig_src_pte, *orig_dst_pte;
+  1085		pte_t *src_pte, *dst_pte;
+> 1086		pmd_t pmdval;
+  1087		pte_t ptent;
+  1088		spinlock_t *src_ptl, *dst_ptl;
+  1089		int progress, max_nr, ret = 0;
+  1090		int rss[NR_MM_COUNTERS];
+  1091		swp_entry_t entry = (swp_entry_t){0};
+  1092		struct folio *prealloc = NULL;
+  1093		int nr;
+  1094	
+  1095	again:
+  1096		progress = 0;
+  1097		init_rss_vec(rss);
+  1098	
+  1099		/*
+  1100		 * copy_pmd_range()'s prior pmd_none_or_clear_bad(src_pmd), and the
+  1101		 * error handling here, assume that exclusive mmap_lock on dst and src
+  1102		 * protects anon from unexpected THP transitions; with shmem and file
+  1103		 * protected by mmap_lock-less collapse skipping areas with anon_vma
+  1104		 * (whereas vma_needs_copy() skips areas without anon_vma).  A rework
+  1105		 * can remove such assumptions later, but this is good enough for now.
+  1106		 */
+  1107		dst_pte = pte_alloc_map_lock(dst_mm, dst_pmd, addr, &dst_ptl);
+  1108		if (!dst_pte) {
+  1109			ret = -ENOMEM;
+  1110			goto out;
+  1111		}
+  1112		src_pte = pte_offset_map_maywrite_nolock(src_mm, src_pmd, addr, NULL,
+  1113							 &src_ptl);
+  1114		if (!src_pte) {
+  1115			pte_unmap_unlock(dst_pte, dst_ptl);
+  1116			/* ret == 0 */
+  1117			goto out;
+  1118		}
+  1119		spin_lock_nested(src_ptl, SINGLE_DEPTH_NESTING);
+  1120		orig_src_pte = src_pte;
+  1121		orig_dst_pte = dst_pte;
+  1122		arch_enter_lazy_mmu_mode();
+  1123	
+  1124		do {
+  1125			nr = 1;
+  1126	
+  1127			/*
+  1128			 * We are holding two locks at this point - either of them
+  1129			 * could generate latencies in another task on another CPU.
+  1130			 */
+  1131			if (progress >= 32) {
+  1132				progress = 0;
+  1133				if (need_resched() ||
+  1134				    spin_needbreak(src_ptl) || spin_needbreak(dst_ptl))
+  1135					break;
+  1136			}
+  1137			ptent = ptep_get(src_pte);
+  1138			if (pte_none(ptent)) {
+  1139				progress++;
+  1140				continue;
+  1141			}
+  1142			if (unlikely(!pte_present(ptent))) {
+  1143				ret = copy_nonpresent_pte(dst_mm, src_mm,
+  1144							  dst_pte, src_pte,
+  1145							  dst_vma, src_vma,
+  1146							  addr, rss);
+  1147				if (ret == -EIO) {
+  1148					entry = pte_to_swp_entry(ptep_get(src_pte));
+  1149					break;
+  1150				} else if (ret == -EBUSY) {
+  1151					break;
+  1152				} else if (!ret) {
+  1153					progress += 8;
+  1154					continue;
+  1155				}
+  1156				ptent = ptep_get(src_pte);
+  1157				VM_WARN_ON_ONCE(!pte_present(ptent));
+  1158	
+  1159				/*
+  1160				 * Device exclusive entry restored, continue by copying
+  1161				 * the now present pte.
+  1162				 */
+  1163				WARN_ON_ONCE(ret != -ENOENT);
+  1164			}
+  1165			/* copy_present_ptes() will clear `*prealloc' if consumed */
+  1166			max_nr = (end - addr) / PAGE_SIZE;
+  1167			ret = copy_present_ptes(dst_vma, src_vma, dst_pte, src_pte,
+  1168						ptent, addr, max_nr, rss, &prealloc);
+  1169			/*
+  1170			 * If we need a pre-allocated page for this pte, drop the
+  1171			 * locks, allocate, and try again.
+  1172			 */
+  1173			if (unlikely(ret == -EAGAIN))
+  1174				break;
+  1175			if (unlikely(prealloc)) {
+  1176				/*
+  1177				 * pre-alloc page cannot be reused by next time so as
+  1178				 * to strictly follow mempolicy (e.g., alloc_page_vma()
+  1179				 * will allocate page according to address).  This
+  1180				 * could only happen if one pinned pte changed.
+  1181				 */
+  1182				folio_put(prealloc);
+  1183				prealloc = NULL;
+  1184			}
+  1185			nr = ret;
+  1186			progress += 8 * nr;
+  1187		} while (dst_pte += nr, src_pte += nr, addr += PAGE_SIZE * nr,
+  1188			 addr != end);
+  1189	
+  1190		arch_leave_lazy_mmu_mode();
+  1191		pte_unmap_unlock(orig_src_pte, src_ptl);
+  1192		add_mm_rss_vec(dst_mm, rss);
+  1193		pte_unmap_unlock(orig_dst_pte, dst_ptl);
+  1194		cond_resched();
+  1195	
+  1196		if (ret == -EIO) {
+  1197			VM_WARN_ON_ONCE(!entry.val);
+  1198			if (add_swap_count_continuation(entry, GFP_KERNEL) < 0) {
+  1199				ret = -ENOMEM;
+  1200				goto out;
+  1201			}
+  1202			entry.val = 0;
+  1203		} else if (ret == -EBUSY) {
+  1204			goto out;
+  1205		} else if (ret ==  -EAGAIN) {
+  1206			prealloc = folio_prealloc(src_mm, src_vma, addr, false);
+  1207			if (!prealloc)
+  1208				return -ENOMEM;
+  1209		} else if (ret < 0) {
+  1210			VM_WARN_ON_ONCE(1);
+  1211		}
+  1212	
+  1213		/* We've captured and resolved the error. Reset, try again. */
+  1214		ret = 0;
+  1215	
+  1216		if (addr != end)
+  1217			goto again;
+  1218	out:
+  1219		if (unlikely(prealloc))
+  1220			folio_put(prealloc);
+  1221		return ret;
+  1222	}
+  1223	
 
 -- 
 0-DAY CI Kernel Test Service
