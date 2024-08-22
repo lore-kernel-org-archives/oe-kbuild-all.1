@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5AA1D173E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 22:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558FF1CB326;
+	Thu, 22 Aug 2024 22:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724364490; cv=none; b=hrmG2ECU9PyumQU9CswYdZsXE2KUVWCut6RGjctZZ22icX0pJBlL8Oqz/wY8u9dBG/oBj2vEL4gQfpZbzPU6l/5brrwtSpBvDxFuhfUrS0EChI2nBTuW6i4/W34Rean8Ig/tGO5p06R2u4dSQkST/3u+Z6Uugl8UHG9MIB/RUoI=
+	t=1724366291; cv=none; b=am50gGGmm4Ascbm+LtDylKuLQhS3kvk8OKYltPlBcY1qDi7MjIvm3IcynOicJL5s/6QXYxc1JYiHj1fYInwyy0a61KN1+8IrAs9EwxWGl9WqyvWy6iQEN65pr8mzOvqm15e4bg4gRXiY3Su8ZmRz1NuHDSrZU6onZLnAthPHHi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724364490; c=relaxed/simple;
-	bh=SKeCR3aepMCJp8PsMCBEO9vQI7iqOgVY8Vselt1nZaM=;
+	s=arc-20240116; t=1724366291; c=relaxed/simple;
+	bh=R5+tyKdhLqm7bUYRqH8VIN30gUI0eUJDNaHQgyQlJwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gQMQ2x3CWikPPgdWsxVrnN5Vt2ZMS9+RbkbjHTDitoVCxNY3eJIkktGKGJ5B93G2HlSzORcGhykr4uE/e/6l4Z4pLOQZAbf8NVCLOm0kIl67BnY1p/Ai8bVOXux22kzA6eAKzHtf2c0jREP1rpMhpH6UfxK5NAaOOU/8LENTuxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pd4JAvhA; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=imQsVsZQbAvvmRDrte+/5yYs1Ox6kh9Q9u5no+RLKIItkgvKBu6iTIuC55rXbhwY8Uo5KgHsdPpgpnIF2eJNUJouCbOIbT4Wdy9k58ibpnyC2NZgKcIKrlB8kZKIGlI7gtiNbWyzqVPvfgEC3ZS+ShMix8qGyX7peUGGiGDdY0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ano/wpe2; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pd4JAvhA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ano/wpe2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724364489; x=1755900489;
+  t=1724366290; x=1755902290;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SKeCR3aepMCJp8PsMCBEO9vQI7iqOgVY8Vselt1nZaM=;
-  b=Pd4JAvhALUwnEIRGDRfj81BbfwSgQIRVJDFtigdnMHhM3shCKxhS0W9m
-   G39gWLrvYO0gFEqHkTarDuTAv/qpLzFY01hvPMVPINw18P8ukwyHpoZFj
-   lqgAAQpd5f0lKKhobU7Ut9ENGOXWxArGMHWCYTGagccd40JVg89rokwJ7
-   bOWxp3H3NyfDCwecP9/WH3k0YJmRYsvhhnfNfVTsPqbXP9Q7/tQ1n8N5K
-   JF8oCHYxOa4pa4oSFN/J2h7mP0CyykVLceevTfrY2nKTj6SAYlpmBADF7
-   lMWuGuiW3CtY3cOU259mgJPLohkunbAcAAaYlnE88cJiWQ5U7drOIZtaa
+  bh=R5+tyKdhLqm7bUYRqH8VIN30gUI0eUJDNaHQgyQlJwk=;
+  b=ano/wpe2qrTwxbHj1kCsyQ1nn3VX8Flc6QHggtOetoOZufBF5kj7sq2b
+   IRxSR0/veLn4ue76xHOGqJ0qzV6FETtMKbmIWz9C7ocKxzDIi8TjDV3Js
+   Qi3IjG3Q0h1SycnN2qpU9nqKPphD6SaFUytDpfVn/CpZ4eXbDEcGzJqzI
+   skvapmwwIvUw3GkjLXjfS57ER4wk75001Uf2yypgBmcOmwUXbN/aSlcWE
+   JREkNCT9LxKXhs/YFCeTvvsi+o1P3R0zUrcU4f2dAYZgBOZZdltxXbFTa
+   vGRMIdo938ieB/HBneYqaocs2AQkuHQYl4QO6Yp/9IrhelPPtGCXEwLTu
    w==;
-X-CSE-ConnectionGUID: twA5LM0QRJ61vRnl8g5g2g==
-X-CSE-MsgGUID: fT411/YUT2uFoQfwN41MFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22677750"
+X-CSE-ConnectionGUID: LjpY6fhdRXWr49aaN7cMgw==
+X-CSE-MsgGUID: gxYxo6JiQHalY9WdOLGIVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="40277856"
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="22677750"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 15:08:08 -0700
-X-CSE-ConnectionGUID: 1qR69IqqTg+OhZmK7uK4kA==
-X-CSE-MsgGUID: fWT2TuyQSWmTiFyCfi1fgw==
+   d="scan'208";a="40277856"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 15:38:09 -0700
+X-CSE-ConnectionGUID: 3UGFgZGARuWZkTU3DA5QOA==
+X-CSE-MsgGUID: 3CP1Z0QwRmeZPHvmWHc21w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="92384742"
+   d="scan'208";a="66430604"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Aug 2024 15:08:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 15:38:05 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shFyN-000DEc-0S;
-	Thu, 22 Aug 2024 22:08:03 +0000
-Date: Fri, 23 Aug 2024 06:07:06 +0800
+	id 1shGRP-000DFY-2a;
+	Thu, 22 Aug 2024 22:38:03 +0000
+Date: Fri, 23 Aug 2024 06:37:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai1@huaweicloud.com>, song@kernel.org,
-	mariusz.tkaczyk@linux.intel.com, l@damenly.org, xni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-raid@vger.kernel.org, yukuai3@huawei.com,
-	yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: Re: [PATCH md-6.12 05/41] md/md-bitmap: add 'sync_size' into struct
- md_bitmap_stats
-Message-ID: <202408230544.w18wb47U-lkp@intel.com>
-References: <20240822024718.2158259-6-yukuai1@huaweicloud.com>
+To: Bibek Kumar Patro <quic_bibekkum@quicinc.com>, robdclark@gmail.com,
+	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+	jgg@ziepe.ca, jsnitsel@redhat.com, robh@kernel.org,
+	krzysztof.kozlowski@linaro.org, quic_c_gdjako@quicinc.com,
+	dmitry.baryshkov@linaro.org, konrad.dybcio@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Bibek Kumar Patro <quic_bibekkum@quicinc.com>
+Subject: Re: [PATCH v14 6/6] iommu/arm-smmu: add support for PRR bit setup
+Message-ID: <202408230612.1DU9cuSx-lkp@intel.com>
+References: <20240816174259.2056829-7-quic_bibekkum@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,66 +69,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822024718.2158259-6-yukuai1@huaweicloud.com>
+In-Reply-To: <20240816174259.2056829-7-quic_bibekkum@quicinc.com>
 
-Hi Yu,
+Hi Bibek,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on device-mapper-dm/for-next]
+[auto build test WARNING on joro-iommu/next]
 [also build test WARNING on linus/master v6.11-rc4 next-20240822]
-[cannot apply to song-md/md-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-raid1-use-md_bitmap_wait_behind_writes-in-raid1_read_request/20240822-110233
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/20240822024718.2158259-6-yukuai1%40huaweicloud.com
-patch subject: [PATCH md-6.12 05/41] md/md-bitmap: add 'sync_size' into struct md_bitmap_stats
-config: x86_64-randconfig-121-20240822 (https://download.01.org/0day-ci/archive/20240823/202408230544.w18wb47U-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230544.w18wb47U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibek-Kumar-Patro/iommu-arm-smmu-re-enable-context-caching-in-smmu-reset-operation/20240817-014609
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
+patch link:    https://lore.kernel.org/r/20240816174259.2056829-7-quic_bibekkum%40quicinc.com
+patch subject: [PATCH v14 6/6] iommu/arm-smmu: add support for PRR bit setup
+config: arm-randconfig-r071-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230612.1DU9cuSx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230612.1DU9cuSx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230544.w18wb47U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230612.1DU9cuSx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/md-bitmap.c:2106:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long sync_size @@     got restricted __le64 [usertype] sync_size @@
-   drivers/md/md-bitmap.c:2106:26: sparse:     expected unsigned long sync_size
-   drivers/md/md-bitmap.c:2106:26: sparse:     got restricted __le64 [usertype] sync_size
-   drivers/md/md-bitmap.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +2106 drivers/md/md-bitmap.c
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/iommu.h:10,
+                    from include/linux/io-pgtable.h:6,
+                    from include/linux/adreno-smmu-priv.h:9,
+                    from drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:7:
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: In function 'qcom_adreno_smmu_set_prr_addr':
+>> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:266:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     266 |                                         (void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_LADDR);
+         |                                         ^
+   arch/arm/include/asm/io.h:282:75: note: in definition of macro 'writel_relaxed'
+     282 | #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v),c)
+         |                                                                           ^
+   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:269:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     269 |                                         (void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_UADDR);
+         |                                         ^
+   arch/arm/include/asm/io.h:282:75: note: in definition of macro 'writel_relaxed'
+     282 | #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v),c)
+         |                                                                           ^
 
-  2096	
-  2097	int md_bitmap_get_stats(struct bitmap *bitmap, struct md_bitmap_stats *stats)
-  2098	{
-  2099		struct bitmap_counts *counts;
-  2100		bitmap_super_t *sb;
-  2101	
-  2102		if (!bitmap)
-  2103			return -ENOENT;
-  2104	
-  2105		sb = kmap_local_page(bitmap->storage.sb_page);
-> 2106		stats->sync_size = sb->sync_size;
-  2107		kunmap_local(sb);
-  2108	
-  2109		counts = &bitmap->counts;
-  2110		stats->missing_pages = counts->missing_pages;
-  2111		stats->pages = counts->pages;
-  2112	
-  2113		stats->events_cleared = bitmap->events_cleared;
-  2114		stats->file = bitmap->storage.file;
-  2115	
-  2116		return 0;
-  2117	}
-  2118	EXPORT_SYMBOL_GPL(md_bitmap_get_stats);
-  2119	
+
+vim +266 drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+
+   256	
+   257	static void qcom_adreno_smmu_set_prr_addr(const void *cookie, phys_addr_t page_addr)
+   258	{
+   259		struct arm_smmu_domain *smmu_domain = (void *)cookie;
+   260		struct arm_smmu_device *smmu = smmu_domain->smmu;
+   261		const struct device_node *np = smmu->dev->of_node;
+   262	
+   263		if (of_device_is_compatible(np, "qcom,smmu-500") &&
+   264				of_device_is_compatible(np, "qcom,adreno-smmu")) {
+   265			writel_relaxed(lower_32_bits(page_addr),
+ > 266						(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_LADDR);
+   267	
+   268			writel_relaxed(upper_32_bits(page_addr),
+   269						(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_UADDR);
+   270		}
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
