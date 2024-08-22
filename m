@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4F11D12F6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 04:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB15249E5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 04:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724300193; cv=none; b=iiOijqftVR7TVMg4GtcGg0OPcAbIeBBBDWwI26tXuUo417wqg3eFphZVkP/N+V+ktWbmKFiRxyKQDKbfOdFa8bAFEcaVQwjTPMn065BkZonY3uxPSQx6iUlXRQwUiFxPosrG/eKb/sLfPj1/j8jA/wxIvJ282lrYzSAoPt86xic=
+	t=1724300850; cv=none; b=PaEr6u8Nuh7xPgSreEPnCGqXSkWQcgAbuAMZ1DxjlwGiYRDNC1vGWCATxX14HBYQ1Xpv/4Ex+bbLcjyAoxsd+j+WwmLYeV+lZIBpVIxfxKTYpXPQ/90glbON5H4QXotrUOj1HMAHEOAzOdnh+2Pz1kyjGRIE5mzGCmN+T8plo90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724300193; c=relaxed/simple;
-	bh=LcAYJElrUmw8cakNhbZlmrL27yzOntaJO0b9hxovysA=;
+	s=arc-20240116; t=1724300850; c=relaxed/simple;
+	bh=bS2UZsLXIeT5kCKffWMfllSFYTRAv5kB5LviESOUm0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ypj5BN+infl82ea529ny+oY7jDeDjJTVTabthxe30wVhl3l2YMTbGWCN3pzLjmEWpbVD0ww5zIUXlCtS5KmMRDVyY3K0xXy9ALDT0/5mREVRyv2NnojS37qylZJWx/9VESTtU8Pc76PCW+phh3GJTprn1XoZEX7968/+Ct9mSuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dj5eWp8e; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=RozRjry/6ilrSta5rgH0k9IERvMTJERXMGOq9rfTBSVM1rXAsgdo1+dBTMCk14n/1qICnGMi4Ti7K6p6n1KstceYaLOLhfaQruncWMxjaHNQYjXm7FvOA9luxdhjBuGuT6rsmiwckhFsiSsDQorWRclzgPEsvav0Tyt3ntgQySU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTX9yf4I; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dj5eWp8e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTX9yf4I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724300192; x=1755836192;
+  t=1724300848; x=1755836848;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LcAYJElrUmw8cakNhbZlmrL27yzOntaJO0b9hxovysA=;
-  b=Dj5eWp8ebyaRHq9xL5KvEBNJDI//OiT/3BOIg7l05LDcrEoDiVSY8fRD
-   xyHQ2xAcafaNbJT4+xWz1mU530D37/0E1/W1XSmN1n/OP0FoIL9ez0g7Q
-   ub8A5mAtlPi8f+7szqs1e4v3MJA/m7Ogdb/gilW15cB679sQR/wgwOjUS
-   MktInTkRsGLkqWVwPL3T6f99LPM5Mt25eSgtHU+sXymkwaM3HPAUMSlL6
-   MQl3Ui77/+9S0Aj3jMbHuEKxU5ezg+ZhZ4wp1nX1Xouq1Ssf2TM+d8P4B
-   XOQS4YflptquYvT8SEBsA5fLlxFOezOZ0SDsSZofy0rkWlkSSHDH6Ur2R
-   g==;
-X-CSE-ConnectionGUID: I5tgAeRvRMeC6HaufXb6tg==
-X-CSE-MsgGUID: /xgGhNR4S2OZ/xKlYyu1mQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33846728"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="33846728"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:16:31 -0700
-X-CSE-ConnectionGUID: CDxB2P9ARQ219xXZDtNGng==
-X-CSE-MsgGUID: G9OIF0lNQJqeSRsSmg9Wnw==
+  bh=bS2UZsLXIeT5kCKffWMfllSFYTRAv5kB5LviESOUm0g=;
+  b=UTX9yf4I/64EQpJxrJ0op6neBLUwohH8uJ144m0kLHqfUYjLk/acc3YK
+   S9x82qT59iOePemdSvFQSvJNxSUr7n+M5SP7tBIn5vJGTx22FDKvDcPN/
+   Qb9x0lZKc5fypo9Vzz38ZZlisRM9JlHZer93XOkPhem6k5+qq4XR1sX9H
+   O4xk3AHYDccpEu2vOeX0/9IQbQX2d5j6t0nVOk+TXLkPkpBpDp2JyGfDO
+   8l6fc34IINTTYbjcdCQDdkq/qU+d0usgF0Fe/kU3x72W391e1FtBIldNB
+   dC+krN1mYJIhOan5ILeFmNLPwj1tYC5cYyLrVX3TQ8qDvPH6BAEqIhlkV
+   Q==;
+X-CSE-ConnectionGUID: Kc6rUGbDQOCHCEcPy5fa9Q==
+X-CSE-MsgGUID: PT2bh/iMQ0uG2PTp3XOFhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22302291"
+X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
+   d="scan'208";a="22302291"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:27:28 -0700
+X-CSE-ConnectionGUID: h1zaeWdGQFa5atBTj94sfQ==
+X-CSE-MsgGUID: Rt9fl1LmRgOfSCtglcAPYw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="92049605"
+X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
+   d="scan'208";a="65505721"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Aug 2024 21:16:26 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 21 Aug 2024 21:27:26 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgzFH-000CLg-2i;
-	Thu, 22 Aug 2024 04:16:23 +0000
-Date: Thu, 22 Aug 2024 12:16:23 +0800
+	id 1sgzPw-000CN6-1s;
+	Thu, 22 Aug 2024 04:27:24 +0000
+Date: Thu, 22 Aug 2024 12:26:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lei Liu <liulei.rjpt@vivo.com>, Neal Liu <neal_liu@aspeedtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bin Liu <b-liu@ti.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com
-Subject: Re: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
-Message-ID: <202408221126.F1eulsSr-lkp@intel.com>
-References: <20240821121048.31566-3-liulei.rjpt@vivo.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ASoC: cs-amp-lib: Ignore empty UEFI calibration entries
+Message-ID: <202408221128.PXFexliw-lkp@intel.com>
+References: <20240821100221.99699-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,150 +62,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821121048.31566-3-liulei.rjpt@vivo.com>
+In-Reply-To: <20240821100221.99699-1-rf@opensource.cirrus.com>
 
-Hi Lei,
+Hi Richard,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.11-rc4 next-20240821]
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.11-rc4 next-20240821]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Liu/usb-aspeed_udc-Use-devm_clk_get_enabled-helpers/20240821-201358
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240821121048.31566-3-liulei.rjpt%40vivo.com
-patch subject: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408221126.F1eulsSr-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221126.F1eulsSr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ASoC-cs-amp-lib-Ignore-empty-UEFI-calibration-entries/20240821-192545
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240821100221.99699-1-rf%40opensource.cirrus.com
+patch subject: [PATCH] ASoC: cs-amp-lib: Ignore empty UEFI calibration entries
+config: x86_64-buildonly-randconfig-003-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221128.PXFexliw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221128.PXFexliw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221126.F1eulsSr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221128.PXFexliw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/usb/gadget/udc/pxa27x_udc.c: In function 'pxa_udc_probe':
-   drivers/usb/gadget/udc/pxa27x_udc.c:2401:39: error: passing argument 1 of 'clk_prepare_enable' from incompatible pointer type [-Wincompatible-pointer-types]
-    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
-         |                                       ^~~~~~~~~~
-         |                                       |
-         |                                       struct device *
-   In file included from drivers/usb/gadget/udc/pxa27x_udc.c:18:
-   include/linux/clk.h:1107:50: note: expected 'struct clk *' but argument is of type 'struct device *'
-    1107 | static inline int clk_prepare_enable(struct clk *clk)
-         |                                      ~~~~~~~~~~~~^~~
-   drivers/usb/gadget/udc/pxa27x_udc.c:2401:20: error: too many arguments to function 'clk_prepare_enable'
-    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
-         |                    ^~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:1107:19: note: declared here
-    1107 | static inline int clk_prepare_enable(struct clk *clk)
-         |                   ^~~~~~~~~~~~~~~~~~
->> drivers/usb/gadget/udc/pxa27x_udc.c:2401:18: error: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
-         |                  ^
+   In file included from sound/soc/codecs/cs-amp-lib-test.c:8:
+   sound/soc/codecs/cs-amp-lib-test.c: In function 'cs_amp_lib_test_get_efi_cal_by_uid_test':
+>> sound/soc/codecs/cs-amp-lib-test.c:224:50: error: subscripted value is neither array nor pointer nor vector
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |                                                  ^
+   include/kunit/test.h:724:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     724 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:224:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |         ^~~~~~~~~~~~~~~
+>> sound/soc/codecs/cs-amp-lib-test.c:224:50: error: subscripted value is neither array nor pointer nor vector
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |                                                  ^
+   include/kunit/test.h:724:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     724 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:224:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:225:77: error: subscripted value is neither array nor pointer nor vector
+     225 |                               priv->cal_blob->data[param->amp_index].calTime[0]);
+         |                                                                             ^
+   include/kunit/test.h:725:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     725 |         const typeof(right) __right = (right);                                 \
+         |                      ^~~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:224:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:225:77: error: subscripted value is neither array nor pointer nor vector
+     225 |                               priv->cal_blob->data[param->amp_index].calTime[0]);
+         |                                                                             ^
+   include/kunit/test.h:725:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     725 |         const typeof(right) __right = (right);                                 \
+         |                                        ^~~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:224:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:226:50: error: subscripted value is neither array nor pointer nor vector
+     226 |         KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+         |                                                  ^
+   include/kunit/test.h:724:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     724 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:226:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     226 |         KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:226:50: error: subscripted value is neither array nor pointer nor vector
+     226 |         KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+         |                                                  ^
+   include/kunit/test.h:724:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     724 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:226:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     226 |         KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:227:77: error: subscripted value is neither array nor pointer nor vector
+     227 |                               priv->cal_blob->data[param->amp_index].calTime[1]);
+         |                                                                             ^
+   include/kunit/test.h:725:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     725 |         const typeof(right) __right = (right);                                 \
+         |                      ^~~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:226:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     226 |         KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/cs-amp-lib-test.c:227:77: error: subscripted value is neither array nor pointer nor vector
+     227 |                               priv->cal_blob->data[param->amp_index].calTime[1]);
+         |                                                                             ^
+   include/kunit/test.h:725:40: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     725 |         const typeof(right) __right = (right);                                 \
+         |                                        ^~~~~
+   include/kunit/test.h:920:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+     920 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:917:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
 
 
-vim +2401 drivers/usb/gadget/udc/pxa27x_udc.c
+vim +224 sound/soc/codecs/cs-amp-lib-test.c
 
-  2345	
-  2346	/**
-  2347	 * pxa_udc_probe - probes the udc device
-  2348	 * @pdev: platform device
-  2349	 *
-  2350	 * Perform basic init : allocates udc clock, creates sysfs files, requests
-  2351	 * irq.
-  2352	 */
-  2353	static int pxa_udc_probe(struct platform_device *pdev)
-  2354	{
-  2355		struct pxa_udc *udc = &memory;
-  2356		int retval = 0, gpio;
-  2357		struct pxa2xx_udc_mach_info *mach = dev_get_platdata(&pdev->dev);
-  2358		unsigned long gpio_flags;
-  2359	
-  2360		if (mach) {
-  2361			gpio_flags = mach->gpio_pullup_inverted ? GPIOF_ACTIVE_LOW : 0;
-  2362			gpio = mach->gpio_pullup;
-  2363			if (gpio_is_valid(gpio)) {
-  2364				retval = devm_gpio_request_one(&pdev->dev, gpio,
-  2365							       gpio_flags,
-  2366							       "USB D+ pullup");
-  2367				if (retval)
-  2368					return retval;
-  2369				udc->gpiod = gpio_to_desc(mach->gpio_pullup);
-  2370			}
-  2371			udc->udc_command = mach->udc_command;
-  2372		} else {
-  2373			udc->gpiod = devm_gpiod_get(&pdev->dev, NULL, GPIOD_ASIS);
-  2374		}
-  2375	
-  2376		udc->regs = devm_platform_ioremap_resource(pdev, 0);
-  2377		if (IS_ERR(udc->regs))
-  2378			return PTR_ERR(udc->regs);
-  2379		udc->irq = platform_get_irq(pdev, 0);
-  2380		if (udc->irq < 0)
-  2381			return udc->irq;
-  2382	
-  2383		udc->dev = &pdev->dev;
-  2384		if (of_have_populated_dt()) {
-  2385			udc->transceiver =
-  2386				devm_usb_get_phy_by_phandle(udc->dev, "phys", 0);
-  2387			if (IS_ERR(udc->transceiver))
-  2388				return PTR_ERR(udc->transceiver);
-  2389		} else {
-  2390			udc->transceiver = usb_get_phy(USB_PHY_TYPE_USB2);
-  2391		}
-  2392	
-  2393		if (IS_ERR(udc->gpiod)) {
-  2394			dev_err(&pdev->dev, "Couldn't find or request D+ gpio : %ld\n",
-  2395				PTR_ERR(udc->gpiod));
-  2396			return PTR_ERR(udc->gpiod);
-  2397		}
-  2398		if (udc->gpiod)
-  2399			gpiod_direction_output(udc->gpiod, 0);
-  2400	
-> 2401		udc->clk = clk_prepare_enable(&pdev->dev, NULL);
-  2402		if (IS_ERR(udc->clk))
-  2403			return PTR_ERR(udc->clk);
-  2404	
-  2405		udc->vbus_sensed = 0;
-  2406	
-  2407		the_controller = udc;
-  2408		platform_set_drvdata(pdev, udc);
-  2409		udc_init_data(udc);
-  2410	
-  2411		/* irq setup after old hardware state is cleaned up */
-  2412		retval = devm_request_irq(&pdev->dev, udc->irq, pxa_udc_irq,
-  2413					  IRQF_SHARED, driver_name, udc);
-  2414		if (retval != 0) {
-  2415			dev_err(udc->dev, "%s: can't get irq %i, err %d\n",
-  2416				driver_name, udc->irq, retval);
-  2417			goto err;
-  2418		}
-  2419	
-  2420		if (!IS_ERR_OR_NULL(udc->transceiver))
-  2421			usb_register_notifier(udc->transceiver, &pxa27x_udc_phy);
-  2422		retval = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
-  2423		if (retval)
-  2424			goto err_add_gadget;
-  2425	
-  2426		pxa_init_debugfs(udc);
-  2427		if (should_enable_udc(udc))
-  2428			udc_enable(udc);
-  2429		return 0;
-  2430	
-  2431	err_add_gadget:
-  2432		if (!IS_ERR_OR_NULL(udc->transceiver))
-  2433			usb_unregister_notifier(udc->transceiver, &pxa27x_udc_phy);
-  2434	err:
-  2435		clk_unprepare(udc->clk);
-  2436		return retval;
-  2437	}
-  2438	
+177862317a98ad Richard Fitzgerald 2024-03-04  199  
+177862317a98ad Richard Fitzgerald 2024-03-04  200  /* Get cal data block for a given amp, matched by target UID. */
+177862317a98ad Richard Fitzgerald 2024-03-04  201  static void cs_amp_lib_test_get_efi_cal_by_uid_test(struct kunit *test)
+177862317a98ad Richard Fitzgerald 2024-03-04  202  {
+177862317a98ad Richard Fitzgerald 2024-03-04  203  	struct cs_amp_lib_test_priv *priv = test->priv;
+177862317a98ad Richard Fitzgerald 2024-03-04  204  	const struct cs_amp_lib_test_param *param = test->param_value;
+177862317a98ad Richard Fitzgerald 2024-03-04  205  	struct cirrus_amp_cal_data result_data;
+177862317a98ad Richard Fitzgerald 2024-03-04  206  	u64 target_uid;
+177862317a98ad Richard Fitzgerald 2024-03-04  207  	int ret;
+177862317a98ad Richard Fitzgerald 2024-03-04  208  
+177862317a98ad Richard Fitzgerald 2024-03-04  209  	cs_amp_lib_test_init_dummy_cal_blob(test, param->num_amps);
+177862317a98ad Richard Fitzgerald 2024-03-04  210  
+177862317a98ad Richard Fitzgerald 2024-03-04  211  	/* Redirect calls to get EFI data */
+177862317a98ad Richard Fitzgerald 2024-03-04  212  	kunit_activate_static_stub(test,
+177862317a98ad Richard Fitzgerald 2024-03-04  213  				   cs_amp_test_hooks->get_efi_variable,
+177862317a98ad Richard Fitzgerald 2024-03-04  214  				   cs_amp_lib_test_get_efi_variable);
+177862317a98ad Richard Fitzgerald 2024-03-04  215  
+177862317a98ad Richard Fitzgerald 2024-03-04  216  	target_uid = cs_amp_lib_test_get_target_uid(test);
+177862317a98ad Richard Fitzgerald 2024-03-04  217  	ret = cs_amp_get_efi_calibration_data(&priv->amp_pdev.dev, target_uid, -1, &result_data);
+177862317a98ad Richard Fitzgerald 2024-03-04  218  	KUNIT_EXPECT_EQ(test, ret, 0);
+177862317a98ad Richard Fitzgerald 2024-03-04  219  
+177862317a98ad Richard Fitzgerald 2024-03-04  220  	kunit_deactivate_static_stub(test, cs_amp_test_hooks->get_efi_variable);
+177862317a98ad Richard Fitzgerald 2024-03-04  221  
+177862317a98ad Richard Fitzgerald 2024-03-04  222  	KUNIT_EXPECT_EQ(test, result_data.calTarget[0], target_uid & 0xFFFFFFFFULL);
+177862317a98ad Richard Fitzgerald 2024-03-04  223  	KUNIT_EXPECT_EQ(test, result_data.calTarget[1], target_uid >> 32);
+177862317a98ad Richard Fitzgerald 2024-03-04 @224  	KUNIT_EXPECT_EQ(test, result_data.calTime[0],
+177862317a98ad Richard Fitzgerald 2024-03-04  225  			      priv->cal_blob->data[param->amp_index].calTime[0]);
+177862317a98ad Richard Fitzgerald 2024-03-04  226  	KUNIT_EXPECT_EQ(test, result_data.calTime[1],
+177862317a98ad Richard Fitzgerald 2024-03-04  227  			      priv->cal_blob->data[param->amp_index].calTime[1]);
+177862317a98ad Richard Fitzgerald 2024-03-04  228  	KUNIT_EXPECT_EQ(test, result_data.calAmbient,
+177862317a98ad Richard Fitzgerald 2024-03-04  229  			      priv->cal_blob->data[param->amp_index].calAmbient);
+177862317a98ad Richard Fitzgerald 2024-03-04  230  	KUNIT_EXPECT_EQ(test, result_data.calStatus,
+177862317a98ad Richard Fitzgerald 2024-03-04  231  			      priv->cal_blob->data[param->amp_index].calStatus);
+177862317a98ad Richard Fitzgerald 2024-03-04  232  	KUNIT_EXPECT_EQ(test, result_data.calR,
+177862317a98ad Richard Fitzgerald 2024-03-04  233  			      priv->cal_blob->data[param->amp_index].calR);
+177862317a98ad Richard Fitzgerald 2024-03-04  234  }
+177862317a98ad Richard Fitzgerald 2024-03-04  235  
 
 -- 
 0-DAY CI Kernel Test Service
