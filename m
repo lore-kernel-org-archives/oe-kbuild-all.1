@@ -1,64 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE51139D1A;
-	Thu, 22 Aug 2024 09:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F30513C9CB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 09:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724318226; cv=none; b=qkPJdQ8+BaPR9Tb0Ap+5gMKY21cH8Xx43vR8ex0V7bYQ4FIVw2+bxriYCFlSNgjZf6ZjUsg853OD3gB1Axzd6Rk5+EYkScU4BN9SzI6GPdia968Rp6ITbAp2Wb0H6d44EeUZ+j1GqsbThoLaulrD69npwKAvNx/TZVT5UsNNs+8=
+	t=1724318228; cv=none; b=o5h38ZMCi8C2Dr14namld2lgIZvmzXJ54PiZDiYQCHToSH+SeifgPqPk8GghvELBSv2fGGRLxs2seTfdvcDPYnvNFVWHleX7MC4bHWCzJ99AoS1fMxlAH9v8f5BGvJiz4Y/Cg1Yi5KKG3olfxvc90BoVGx7xgPGbblWzMkyzhdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724318226; c=relaxed/simple;
-	bh=a5PNgAbycCCuxa0C4C7BKpl2tPEQguQMGeFz4yS4IDY=;
+	s=arc-20240116; t=1724318228; c=relaxed/simple;
+	bh=a5Snna/TCExFOBfUIFiYvqGHUQEeHIaNkMpIs4WHu8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GlCuktJ39+TUWn81LwxDu5W/OsgaUYSwtw2C6tABb7CU2L1kitMmvw6CkArVh/pwsi1FrK6cM5AVAkOQdUypStcqiiJheadqFyiJt2jdE4ajM0ULrC0O56gnVMl7vuSrKdfLB47Vso3sPGzY9XGhxQlsMGEUnFnM5w7olOmkJOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRQOSWwA; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=MU0FTeJlU2UDG8JrKg058jZOMg67CP5xhz66g2YignllWhjUIby0vRnJNMq/lU3LTbRgi23UAMCiKFadfErcAoZmllzOn1Km0sdEe3IoXV+VDqRbJtTEMPv8U0rKq6XEuuDBI27Ot7ckBc8FUgK7f6VD5rz54VB2I8imYvw7f08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EfIJUEwz; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRQOSWwA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfIJUEwz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724318224; x=1755854224;
+  t=1724318227; x=1755854227;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a5PNgAbycCCuxa0C4C7BKpl2tPEQguQMGeFz4yS4IDY=;
-  b=ZRQOSWwAP70nOk1RlD53e4s2ZE5nyxXgB+2ePOgdMlGnEt3Mh2OYXA4E
-   tR+nb+xyXIJA9Ix8QCxCFkaN5pQhE2+NFYIJolsM3xLcArrf0EmTvCYHR
-   bovgo+wZPgN1atR0IsLnGFCvieF/dgThk43IV0fGlwo+XWCgsRJLoGNKP
-   KkXxVUkeKd/lys5IodEkiEA2HEEtV+JwC5IFvO5wp464pz6KAd2HhWI/w
-   TXacwd1IH/PIkoZXHZYhTlDHRefu2CfsYVSGBIbTD4YAWfzIx+ISoW+oA
-   84lzGOhtnb7mFn4yzttvQt1AZRfnHepbL6iTbNIYg3dw+bg0ArEp3jGVN
+  bh=a5Snna/TCExFOBfUIFiYvqGHUQEeHIaNkMpIs4WHu8A=;
+  b=EfIJUEwzlkMAinuQCWyEPjS1gMj2GTY2jbtjwi8VYqImC0I7p/1gtD2a
+   hbMlav1lteFVfH0fegdjf4ZcaiMFMUyfgZMizIicFWqeMHEMGrOn1nLWN
+   ABSlSk6g8KYILtm37UCJG6mNlzjJcAZdl0EmAy+A+yZIMR6eyGHrWT3fG
+   p/yjc2i75jXRcQ2d1bQSwOd6OCpmuWvuma3EK59dgn2eimDJy4pAfTvP+
+   Yh8Y4+dBp0mwJJ6BYijjJQbaK3Oo/Gdud1nMoIxph7I1njNjxrg9JndPR
+   cDc4t1EQzge6uBQ1ij5QCx1hatO8KuJhBljabAZr69ZDswUwhcZNWECyc
    g==;
-X-CSE-ConnectionGUID: gQwG5f0FRN+rvNM4h+UWpQ==
-X-CSE-MsgGUID: pEUE7Tr1ReqQn2xTWWtfmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33873636"
+X-CSE-ConnectionGUID: FB+4a1ztSgepgXKWySERyA==
+X-CSE-MsgGUID: 5iaPROjXQXGKobN6AmJwVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22873211"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="33873636"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 02:17:03 -0700
-X-CSE-ConnectionGUID: eN96XfaFTkanRcr91cANTg==
-X-CSE-MsgGUID: RfBXsT0JSoaL6GquC24RHA==
+   d="scan'208";a="22873211"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 02:17:06 -0700
+X-CSE-ConnectionGUID: zS7NKeLJSZSG3G3mv54SEQ==
+X-CSE-MsgGUID: 07cnPwn5Q6OwHFPvUiRG7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="61702781"
+   d="scan'208";a="66267241"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Aug 2024 02:16:59 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 Aug 2024 02:17:00 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh3w9-000Ccy-1e;
+	id 1sh3w9-000Cd0-1m;
 	Thu, 22 Aug 2024 09:16:57 +0000
-Date: Thu, 22 Aug 2024 17:16:41 +0800
+Date: Thu, 22 Aug 2024 17:16:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
-	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 2/2] gpio: Add G7 Aspeed gpio controller driver
-Message-ID: <202408221624.UtsHD8HQ-lkp@intel.com>
-References: <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
+	Doug Anderson <dianders@chromium.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Minas Harutyunyan <hminas@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH V3 7/9] usb: dwc2: Refactor backup/restore of registers
+Message-ID: <202408221629.jv9AgCrF-lkp@intel.com>
+References: <20240821214052.6800-8-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,167 +81,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240821214052.6800-8-wahrenst@gmx.net>
 
-Hi Billy,
+Hi Stefan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.11-rc4 next-20240821]
+[auto build test WARNING on linus/master]
+[also build test WARNING on arm/for-next arm/fixes v6.11-rc4 next-20240822]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240821-150951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240821070740.2378602-3-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v1 2/2] gpio: Add G7 Aspeed gpio controller driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408221624.UtsHD8HQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221624.UtsHD8HQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/mailbox-bcm2835-Fix-timeout-during-suspend-mode/20240822-063725
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240821214052.6800-8-wahrenst%40gmx.net
+patch subject: [PATCH V3 7/9] usb: dwc2: Refactor backup/restore of registers
+config: x86_64-randconfig-161-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221629.jv9AgCrF-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221629.jv9AgCrF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221624.UtsHD8HQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221629.jv9AgCrF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/gpio/gpio-aspeed-g7.c:10:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/gpio/gpio-aspeed-g7.c:10:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/gpio/gpio-aspeed-g7.c:10:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:591:
-   In file included from arch/s390/include/asm/hw_irq.h:6:
-   In file included from include/linux/pci.h:37:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-aspeed-g7.c:474:49: error: too few arguments to function call, expected 2, have 1
-     474 |         return pinctrl_gpio_request(chip->base + offset);
-         |                ~~~~~~~~~~~~~~~~~~~~                    ^
-   include/linux/pinctrl/consumer.h:30:5: note: 'pinctrl_gpio_request' declared here
-      30 | int pinctrl_gpio_request(struct gpio_chip *gc, unsigned int offset);
-         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aspeed-g7.c:479:39: error: too few arguments to function call, expected 2, have 1
-     479 |         pinctrl_gpio_free(chip->base + offset);
-         |         ~~~~~~~~~~~~~~~~~                    ^
-   include/linux/pinctrl/consumer.h:31:6: note: 'pinctrl_gpio_free' declared here
-      31 | void pinctrl_gpio_free(struct gpio_chip *gc, unsigned int offset);
-         |      ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aspeed-g7.c:676:48: error: too few arguments to function call, expected 3, have 2
-     676 |                 return pinctrl_gpio_set_config(offset, config);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~               ^
-   include/linux/pinctrl/consumer.h:36:5: note: 'pinctrl_gpio_set_config' declared here
-      36 | int pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
-         |     ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      37 |                                 unsigned long config);
-         |                                 ~~~~~~~~~~~~~~~~~~~~
-   17 warnings and 3 errors generated.
+>> drivers/usb/dwc2/gadget.c:5605:28: warning: variable 'dr' set but not used [-Wunused-but-set-variable]
+    5605 |         struct dwc2_dregs_backup *dr;
+         |                                   ^
+   1 warning generated.
 
 
-vim +474 drivers/gpio/gpio-aspeed-g7.c
+vim +/dr +5605 drivers/usb/dwc2/gadget.c
 
-   468	
-   469	static int aspeed_gpio_g7_request(struct gpio_chip *chip, unsigned int offset)
-   470	{
-   471		if (!have_gpio(gpiochip_get_data(chip), offset))
-   472			return -ENODEV;
-   473	
- > 474		return pinctrl_gpio_request(chip->base + offset);
-   475	}
-   476	
+be2b960e57154a Artur Petrosyan 2021-04-08  5588  
+be2b960e57154a Artur Petrosyan 2021-04-08  5589  /*
+be2b960e57154a Artur Petrosyan 2021-04-08  5590   * dwc2_gadget_exit_partial_power_down() - Exit controller from device partial
+be2b960e57154a Artur Petrosyan 2021-04-08  5591   * power down.
+be2b960e57154a Artur Petrosyan 2021-04-08  5592   *
+be2b960e57154a Artur Petrosyan 2021-04-08  5593   * @hsotg: Programming view of the DWC_otg controller
+be2b960e57154a Artur Petrosyan 2021-04-08  5594   * @restore: indicates whether need to restore the registers or not.
+be2b960e57154a Artur Petrosyan 2021-04-08  5595   *
+be2b960e57154a Artur Petrosyan 2021-04-08  5596   * Return: non-zero if failed to exit device partial power down.
+be2b960e57154a Artur Petrosyan 2021-04-08  5597   *
+be2b960e57154a Artur Petrosyan 2021-04-08  5598   * This function is for exiting from device mode partial power down.
+be2b960e57154a Artur Petrosyan 2021-04-08  5599   */
+be2b960e57154a Artur Petrosyan 2021-04-08  5600  int dwc2_gadget_exit_partial_power_down(struct dwc2_hsotg *hsotg,
+be2b960e57154a Artur Petrosyan 2021-04-08  5601  					bool restore)
+be2b960e57154a Artur Petrosyan 2021-04-08  5602  {
+be2b960e57154a Artur Petrosyan 2021-04-08  5603  	u32 pcgcctl;
+be2b960e57154a Artur Petrosyan 2021-04-08  5604  	u32 dctl;
+be2b960e57154a Artur Petrosyan 2021-04-08 @5605  	struct dwc2_dregs_backup *dr;
+be2b960e57154a Artur Petrosyan 2021-04-08  5606  	int ret = 0;
+be2b960e57154a Artur Petrosyan 2021-04-08  5607  
+be2b960e57154a Artur Petrosyan 2021-04-08  5608  	dr = &hsotg->dr_backup;
+be2b960e57154a Artur Petrosyan 2021-04-08  5609  
+be2b960e57154a Artur Petrosyan 2021-04-08  5610  	dev_dbg(hsotg->dev, "Exiting device partial Power Down started.\n");
+be2b960e57154a Artur Petrosyan 2021-04-08  5611  
+be2b960e57154a Artur Petrosyan 2021-04-08  5612  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5613  	pcgcctl &= ~PCGCTL_STOPPCLK;
+be2b960e57154a Artur Petrosyan 2021-04-08  5614  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5615  
+be2b960e57154a Artur Petrosyan 2021-04-08  5616  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5617  	pcgcctl &= ~PCGCTL_PWRCLMP;
+be2b960e57154a Artur Petrosyan 2021-04-08  5618  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5619  
+be2b960e57154a Artur Petrosyan 2021-04-08  5620  	pcgcctl = dwc2_readl(hsotg, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5621  	pcgcctl &= ~PCGCTL_RSTPDWNMODULE;
+be2b960e57154a Artur Petrosyan 2021-04-08  5622  	dwc2_writel(hsotg, pcgcctl, PCGCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5623  
+be2b960e57154a Artur Petrosyan 2021-04-08  5624  	udelay(100);
+be2b960e57154a Artur Petrosyan 2021-04-08  5625  	if (restore) {
+78c09c66698a77 Stefan Wahren   2024-08-21  5626  		ret = dwc2_gadget_restore_critical_registers(hsotg);
+78c09c66698a77 Stefan Wahren   2024-08-21  5627  		if (ret)
+be2b960e57154a Artur Petrosyan 2021-04-08  5628  			return ret;
+be2b960e57154a Artur Petrosyan 2021-04-08  5629  	}
+be2b960e57154a Artur Petrosyan 2021-04-08  5630  
+be2b960e57154a Artur Petrosyan 2021-04-08  5631  	/* Set the Power-On Programming done bit */
+be2b960e57154a Artur Petrosyan 2021-04-08  5632  	dctl = dwc2_readl(hsotg, DCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5633  	dctl |= DCTL_PWRONPRGDONE;
+be2b960e57154a Artur Petrosyan 2021-04-08  5634  	dwc2_writel(hsotg, dctl, DCTL);
+be2b960e57154a Artur Petrosyan 2021-04-08  5635  
+be2b960e57154a Artur Petrosyan 2021-04-08  5636  	/* Set in_ppd flag to 0 as here core exits from suspend. */
+be2b960e57154a Artur Petrosyan 2021-04-08  5637  	hsotg->in_ppd = 0;
+be2b960e57154a Artur Petrosyan 2021-04-08  5638  	hsotg->lx_state = DWC2_L0;
+be2b960e57154a Artur Petrosyan 2021-04-08  5639  
+be2b960e57154a Artur Petrosyan 2021-04-08  5640  	dev_dbg(hsotg->dev, "Exiting device partial Power Down completed.\n");
+be2b960e57154a Artur Petrosyan 2021-04-08  5641  	return ret;
+be2b960e57154a Artur Petrosyan 2021-04-08  5642  }
+012466fc8ccc01 Artur Petrosyan 2021-04-13  5643  
 
 -- 
 0-DAY CI Kernel Test Service
