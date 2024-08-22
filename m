@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160C217DFFC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 22:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFC3183CBC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 23:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724366890; cv=none; b=PEd+MpvVP23Mg7t4FZSCyzHcoRRnh5kEZNWVAGLstkh+7ITlmerIT0cVHULxt2N0WSjJSUtFYhRpiFdYjETRCoyxwlKKPMCP5I3mDFImM2ZyQLXTkJDj9MykXwikVyskW7JIYjL/ojK2N9K54vXay6MuBYGO5QscqpTGx7OQ3hU=
+	t=1724369952; cv=none; b=oDshj+9mMT8AFco6B8UdMZVR3xVPe9wmoTrlaeqmA0Vzl8oMz+56NwCnEyiz/+ukODbTLUbekJaiFBnFAiUBViVjf5DMJO6DLRkJNJgaFJoRF6MyJe/cZ2P1fc79Ubz+dqVfbz+BB2xrsikfggeozHRLEnFlDku/8N16swN0Q6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724366890; c=relaxed/simple;
-	bh=OwBwJNN4o1cIb4ORhiHzcRFYUm1Qs4bGEPHVOK1qfb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SkBniI7jkRnodxL27EtF1SNCyJQTCyECFNGin1AUkPyCgcH42kZjPtkVR4AoiCaevnS5VZuNHi+wRBzge+gMOvKX/BIMSX9dordmebd2w4V8mzXb4kDIWoUIQM2oz3h2YKvJUq633zEnl3yh6pnSBsP83tZbMlCYpQJMGFr5bVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo8QpJJ+; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1724369952; c=relaxed/simple;
+	bh=sIxFb7phyP103k8jvVNt3nWalzWNNxGUURuGx6otySo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bfET+94fTFQ4RJSfTvZyxTI3APvbpHA8XTdg5b27VjyncuHDScGRLtK0k7ykEIvalX32V9ypV6CrnTXcr9RguxZ5lJXbjECwD/TdQesAFnyJTeQxDWQ6V7QHpnhdKsQ0pBwup+QhjPJaV+yvpeOzUvEsNTQAGBXyuWp0KiK6DwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTr6QtTJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo8QpJJ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTr6QtTJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724366887; x=1755902887;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OwBwJNN4o1cIb4ORhiHzcRFYUm1Qs4bGEPHVOK1qfb8=;
-  b=Eo8QpJJ+t8LMH6yGLForme18mfJKTA4163Hgbvkltm65CT6Ez7sBdTXr
-   ub0RPpkft6koa10frXlmnzrOWVF02H7i7tBOHbT9eqqy9OzKsr1P1G9+X
-   VgTyImi2VavNY1giU/6CHxfFmsQI89D9KA70tcRLpIhr587E3UiRfgHAv
-   VgC2ZAi2YGLg4QuQFJ5elmJkbCJwCsrWc3p1gvSOL4DS/KlfxJV1Px/4a
-   u6HRCHCY+iiXwwiK17nCHaIBAHlIE9OD/5dZTeRgTeT7V1U/PyPLn687Z
-   nKlZ/l7KA8yPjo2Wb+XRRmh7g6xZkAgMfPPxCZ4CufJJYajzBYg4R4XkJ
-   A==;
-X-CSE-ConnectionGUID: eY+iI1mkSmGg6Htw96lzVQ==
-X-CSE-MsgGUID: wg5J+RQkQX+1vHmRXI4hmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22626328"
+  t=1724369951; x=1755905951;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sIxFb7phyP103k8jvVNt3nWalzWNNxGUURuGx6otySo=;
+  b=dTr6QtTJpvbvY8aCjhUrS+twfXjAOV4yNQosPtteq5cmGyBk6OFUGw5N
+   igDIZ3Nj/59dj/RgHR8+vc1J1m2eeqNs+IFp3pK1RYdTWQO29kgsJxH4D
+   hRAzxAsvghKtL4I05X/1RflW3MzYFfs3/M7dPbKzyA9X3530KXL+Fklnc
+   Dl2TeurGS8PNPBPmOYEXxitYkq7SPVdityIbpkupm0whL1+6Cd7jHhEKo
+   TEZMngz76V3CxoOF3Za+ODLux8jAGdwFzykDMtoOdT0jcrQ2EVbrzy8A/
+   GqfWqNtuBz9Nvj/yT9E4kLEWzgvZM7hDrLKlhaA5PHOxFwhNmT/MHjDae
+   w==;
+X-CSE-ConnectionGUID: ZU2pgb5xQuqVcW7ET7OZQw==
+X-CSE-MsgGUID: g+/dGgfMQH2yL+1J/i2g1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="26614762"
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="22626328"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 15:48:07 -0700
-X-CSE-ConnectionGUID: nA4G34HURrexR8DrRrPvbg==
-X-CSE-MsgGUID: oPQGf6IUQNWe7mIfDf51zQ==
+   d="scan'208";a="26614762"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 16:39:10 -0700
+X-CSE-ConnectionGUID: JHK45ctpRkmr+OFgl6kk8Q==
+X-CSE-MsgGUID: YUquk5AoR1SIs2CQNrtZhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="62136468"
+   d="scan'208";a="61757259"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Aug 2024 15:48:06 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Aug 2024 16:39:07 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shGb5-000DFq-3A;
-	Thu, 22 Aug 2024 22:48:03 +0000
-Date: Fri, 23 Aug 2024 06:47:47 +0800
+	id 1shHOT-000DI0-0b;
+	Thu, 22 Aug 2024 23:39:05 +0000
+Date: Fri, 23 Aug 2024 07:38:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:hch-wtf1 110/116] fs/xfs/xfs_discard.c:731:70: error:
- macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
-Message-ID: <202408230628.OmSSsSgx-lkp@intel.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+	Brian Norris <briannorris@chromium.org>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	Kalle Valo <kvalo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+	Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 11/31] wifi: mwifiex: use priv index as bss_num
+Message-ID: <202408230753.OZVsdQpL-lkp@intel.com>
+References: <20240820-mwifiex-cleanup-v1-11-320d8de4a4b7@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,113 +67,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240820-mwifiex-cleanup-v1-11-320d8de4a4b7@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git hch-wtf1
-head:   9ef983fcb0d0eed158f11dada81cb6b9b4bdb9fc
-commit: 1a774c40ad792e07f8264d6e9edc804c7dd6c566 [110/116] xfs: don't bother reporting blocks trimmed via FITRIM
-config: arc-randconfig-002-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230628.OmSSsSgx-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230628.OmSSsSgx-lkp@intel.com/reproduce)
+Hi Sascha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on daaf0dd0398d5e93b7304f35184ca182ed583681]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/wifi-mwifiex-remove-unnecessary-checks-for-valid-priv/20240820-200559
+base:   daaf0dd0398d5e93b7304f35184ca182ed583681
+patch link:    https://lore.kernel.org/r/20240820-mwifiex-cleanup-v1-11-320d8de4a4b7%40pengutronix.de
+patch subject: [PATCH 11/31] wifi: mwifiex: use priv index as bss_num
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240823/202408230753.OZVsdQpL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230753.OZVsdQpL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230628.OmSSsSgx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230753.OZVsdQpL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_discard.c: In function 'xfs_ioc_trim':
->> fs/xfs/xfs_discard.c:731:70: error: macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                                                                      ^
-   fs/xfs/xfs_discard.c:654: note: macro "xfs_trim_rtdev_extents" defined here
-     654 | # define xfs_trim_rtdev_extents(m,s,e,n,b)      (-EOPNOTSUPP)
-         | 
->> fs/xfs/xfs_discard.c:731:25: error: 'xfs_trim_rtdev_extents' undeclared (first use in this function); did you mean 'xfs_trim_datadev_extents'?
-     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-         |                         xfs_trim_datadev_extents
-   fs/xfs/xfs_discard.c:731:25: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/wireless/marvell/mwifiex/sta_event.c: In function 'mwifiex_process_multi_chan_event':
+>> drivers/net/wireless/marvell/mwifiex/sta_event.c:419:23: warning: variable 'bss_type' set but not used [-Wunused-but-set-variable]
+     419 |         int intf_num, bss_type, bss_num, i;
+         |                       ^~~~~~~~
 
 
-vim +/xfs_trim_rtdev_extents +731 fs/xfs/xfs_discard.c
+vim +/bss_type +419 drivers/net/wireless/marvell/mwifiex/sta_event.c
 
-   656	
-   657	/*
-   658	 * trim a range of the filesystem.
-   659	 *
-   660	 * Note: the parameters passed from userspace are byte ranges into the
-   661	 * filesystem which does not match to the format we use for filesystem block
-   662	 * addressing. FSB addressing is sparse (AGNO|AGBNO), while the incoming format
-   663	 * is a linear address range. Hence we need to use DADDR based conversions and
-   664	 * comparisons for determining the correct offset and regions to trim.
-   665	 *
-   666	 * The realtime device is mapped into the FITRIM "address space" immediately
-   667	 * after the data device.
-   668	 */
-   669	int
-   670	xfs_ioc_trim(
-   671		struct xfs_mount		*mp,
-   672		struct fstrim_range __user	*urange)
-   673	{
-   674		unsigned int		granularity =
-   675			bdev_discard_granularity(mp->m_ddev_targp->bt_bdev);
-   676		struct block_device	*rt_bdev = NULL;
-   677		struct fstrim_range	range;
-   678		xfs_daddr_t		start, end;
-   679		xfs_extlen_t		minlen;
-   680		xfs_rfsblock_t		max_blocks;
-   681		int			error, last_error = 0;
-   682	
-   683		if (!capable(CAP_SYS_ADMIN))
-   684			return -EPERM;
-   685		if (mp->m_rtdev_targp &&
-   686		    bdev_max_discard_sectors(mp->m_rtdev_targp->bt_bdev))
-   687			rt_bdev = mp->m_rtdev_targp->bt_bdev;
-   688		if (!bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev) && !rt_bdev)
-   689			return -EOPNOTSUPP;
-   690	
-   691		if (rt_bdev)
-   692			granularity = max(granularity,
-   693					  bdev_discard_granularity(rt_bdev));
-   694	
-   695		/*
-   696		 * We haven't recovered the log, so we cannot use our bnobt-guided
-   697		 * storage zapping commands.
-   698		 */
-   699		if (xfs_has_norecovery(mp))
-   700			return -EROFS;
-   701	
-   702		if (copy_from_user(&range, urange, sizeof(range)))
-   703			return -EFAULT;
-   704	
-   705		range.minlen = max_t(u64, granularity, range.minlen);
-   706		minlen = XFS_B_TO_FSB(mp, range.minlen);
-   707	
-   708		/*
-   709		 * Truncating down the len isn't actually quite correct, but using
-   710		 * BBTOB would mean we trivially get overflows for values
-   711		 * of ULLONG_MAX or slightly lower.  And ULLONG_MAX is the default
-   712		 * used by the fstrim application.  In the end it really doesn't
-   713		 * matter as trimming blocks is an advisory interface.
-   714		 */
-   715		max_blocks = mp->m_sb.sb_dblocks + mp->m_sb.sb_rblocks;
-   716		if (range.start >= XFS_FSB_TO_B(mp, max_blocks) ||
-   717		    range.minlen > XFS_FSB_TO_B(mp, mp->m_ag_max_usable) ||
-   718		    range.len < mp->m_sb.sb_blocksize)
-   719			return -EINVAL;
-   720	
-   721		start = BTOBB(range.start);
-   722		end = start + BTOBBT(range.len) - 1;
-   723	
-   724		if (bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev)) {
-   725			error = xfs_trim_datadev_extents(mp, start, end, minlen);
-   726			if (error)
-   727				last_error = error;
-   728		}
-   729	
-   730		if (rt_bdev && !xfs_trim_should_stop()) {
- > 731			error = xfs_trim_rtdev_extents(mp, start, end, minlen);
+ddd7ceb3f6dd90 drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  410  
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  411  void mwifiex_process_multi_chan_event(struct mwifiex_private *priv,
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  412  				      struct sk_buff *event_skb)
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  413  {
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  414  	struct mwifiex_ie_types_multi_chan_info *chan_info;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  415  	struct mwifiex_ie_types_mc_group_info *grp_info;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  416  	struct mwifiex_adapter *adapter = priv->adapter;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  417  	struct mwifiex_ie_types_header *tlv;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  418  	u16 tlv_buf_left, tlv_type, tlv_len;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18 @419  	int intf_num, bss_type, bss_num, i;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  420  	struct mwifiex_private *intf_priv;
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  421  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  422  	tlv_buf_left = event_skb->len - sizeof(u32);
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  423  	chan_info = (void *)event_skb->data + sizeof(u32);
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  424  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  425  	if (le16_to_cpu(chan_info->header.type) != TLV_TYPE_MULTI_CHAN_INFO ||
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  426  	    tlv_buf_left < sizeof(struct mwifiex_ie_types_multi_chan_info)) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  427  		mwifiex_dbg(adapter, ERROR,
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  428  			    "unknown TLV in chan_info event\n");
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  429  		return;
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  430  	}
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  431  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  432  	adapter->usb_mc_status = le16_to_cpu(chan_info->status);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  433  	mwifiex_dbg(adapter, EVENT, "multi chan operation %s\n",
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  434  		    adapter->usb_mc_status ? "started" : "over");
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  435  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  436  	tlv_buf_left -= sizeof(struct mwifiex_ie_types_multi_chan_info);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  437  	tlv = (struct mwifiex_ie_types_header *)chan_info->tlv_buffer;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  438  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  439  	while (tlv_buf_left >= (int)sizeof(struct mwifiex_ie_types_header)) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  440  		tlv_type = le16_to_cpu(tlv->type);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  441  		tlv_len  = le16_to_cpu(tlv->len);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  442  		if ((sizeof(struct mwifiex_ie_types_header) + tlv_len) >
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  443  		    tlv_buf_left) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  444  			mwifiex_dbg(adapter, ERROR, "wrong tlv: tlvLen=%d,\t"
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  445  				    "tlvBufLeft=%d\n", tlv_len, tlv_buf_left);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  446  			break;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  447  		}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  448  		if (tlv_type != TLV_TYPE_MC_GROUP_INFO) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  449  			mwifiex_dbg(adapter, ERROR, "wrong tlv type: 0x%x\n",
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  450  				    tlv_type);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  451  			break;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  452  		}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  453  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  454  		grp_info = (struct mwifiex_ie_types_mc_group_info *)tlv;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  455  		intf_num = grp_info->intf_num;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  456  		for (i = 0; i < intf_num; i++) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  457  			bss_type = grp_info->bss_type_numlist[i] >> 4;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  458  			bss_num = grp_info->bss_type_numlist[i] & BSS_NUM_MASK;
+92ace9c7fa9726 drivers/net/wireless/marvell/mwifiex/sta_event.c Sascha Hauer  2024-08-20  459  			intf_priv = mwifiex_get_priv_by_id(adapter, bss_num);
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  460  			if (!intf_priv) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  461  				mwifiex_dbg(adapter, ERROR,
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  462  					    "Invalid bss_type bss_num\t"
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  463  					    "in multi channel event\n");
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  464  				continue;
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  465  			}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  466  			if (adapter->iface_type == MWIFIEX_USB) {
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  467  				u8 ep;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  468  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  469  				ep = grp_info->hid_num.usb_ep_num;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  470  				if (ep == MWIFIEX_USB_EP_DATA ||
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  471  				    ep == MWIFIEX_USB_EP_DATA_CH2)
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  472  					intf_priv->usb_port = ep;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  473  			}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  474  		}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  475  
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  476  		tlv_buf_left -= sizeof(struct mwifiex_ie_types_header) +
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  477  				tlv_len;
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  478  		tlv = (void *)((u8 *)tlv + tlv_len +
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  479  			       sizeof(struct mwifiex_ie_types_header));
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  480  	}
+2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  481  
+7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  482  	if (adapter->iface_type == MWIFIEX_USB) {
+7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  483  		adapter->tx_lock_flag = true;
+7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  484  		adapter->usb_mc_setup = true;
+7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  485  		mwifiex_multi_chan_resync(adapter);
+7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  486  	}
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  487  }
+8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  488  
 
 -- 
 0-DAY CI Kernel Test Service
