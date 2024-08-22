@@ -1,76 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D262745D;
-	Thu, 22 Aug 2024 14:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB101CC16C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 14:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724336120; cv=none; b=Wwst54UiBhJXAV4+2byb554n6T5js0Wlyd8HBpslnKMTxN6YhyRrELkgHs9g3tEMIGs3+68zDEZg+OtGRVby/yDyvikEL6V4sRU1QY6eG4T1WvAO+KbPKzoIuqg/fhfdzOmn54NUkrdxw9RC4FFOuhBwctyZJB04QoT08YXredE=
+	t=1724338578; cv=none; b=SFIwN+of2pCYGLXxLM2M7DzqOGwuRT4kaiW2A2uG+LCIeZnKLr4FBxUagOARYb36uAexo2P/0wX4P/QGLBy0JjwXckntPt4vEVdjiaFp+wd31rPgP5AgDbHNFNjQzTY1TwFL7AVWFZOxnQrJv9+oO8E4IKfoTngRK+PsbJTsAIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724336120; c=relaxed/simple;
-	bh=N0UsVQc1quPucMHanRFreY+o7eT0pQqsYArCHU/T7LU=;
+	s=arc-20240116; t=1724338578; c=relaxed/simple;
+	bh=aQAsWU9NxMQHRs2YdiTiuQj5Kzr1wzJycOtT8kSih84=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hdfIXA9r7E3xV02oq2OU/DLhl0nqlpsFnT6wNApxa1L2MfiZFUEEqmuZenAHLEl7En8ga1qr5Kz8i4NEpiEuOjp7/z0dqSS2tq5eCIoZ7HpbGnNk7CkI9vXi/slkMBctKQjwDH2tjITKKkhHO0H/JCh48rhBH0xc0I2JANcmPVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TevxDDKJ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/zbLT/op/X0/Tz9/tTq+aaRSaFp+GEeE2XX8Qmz40a7t1xX8j+zOPvIoAvFiYuEDvVHGbYO97os+s0nPjZXMkctofxJIb7gJr/MdIWHcAtPmGQH+qxF20ws7hdHLJo7PF9tL4uqb4pF/hd/WnpHq8Xrk8+O2eVII6btF4k4mx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6ia/pqO; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TevxDDKJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6ia/pqO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724336118; x=1755872118;
+  t=1724338577; x=1755874577;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N0UsVQc1quPucMHanRFreY+o7eT0pQqsYArCHU/T7LU=;
-  b=TevxDDKJd6IOdjGt+nvwWMTw5a0I7ZHqvMxGMy/bOD7udeATqLBrWqab
-   aROaz4vk/pS0xKSosBkdjFrlhjX5Xys973j+8j30TQN9BAwnLrdXX1jqG
-   dlwc6EVM2meNStFS++Pri0br/4E4mFkrWQkmQMhStPZNJ1qyQ9guaa8wi
-   wrS09Jp04BLdVITiyO/+1cdyV+2drsREReeCukCwKuT077pQalJWaaWIa
-   kl0Am8yiel4yjbwAQbDkbfEz4HqILspXmBTJpDWfstpMpAvoiOedUOGUi
-   7yGCL8Q3khz15uc7MJsJNWY2veFfsgboxQg5tPErP3YlDS5KrNy8MhfuM
-   Q==;
-X-CSE-ConnectionGUID: C259jthBTuK7YtHRC3SeDw==
-X-CSE-MsgGUID: RgW1IP5hSU6MPuG8xuSYSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="48146851"
+  bh=aQAsWU9NxMQHRs2YdiTiuQj5Kzr1wzJycOtT8kSih84=;
+  b=L6ia/pqOZfsCG79PR5T+2tIrKBPw5T33mTw5AAXyFCBx4dzUsUm5Z7bp
+   zpZHPa6dDfK9zIMt1lmc4HqBQvrd3H0ybfZ3WfC2yiL3QBaNsaHmY6tFt
+   ePGbdkQ8M2Bhxu/0Xn8jKbQBz967ou0UDotAnZ5c7Dg6FrZA8LWOGim3R
+   Zz5QAUX+zoR/XmdLhcC4Vhz2mVkS/m5VD8+y8bGk8SYDYQ9MPX1paqI+J
+   nAoh8idivzX9bdAXkg+SbFyuSFbX5Rf1AYsJVnFGdytMQWCficwYmL+mh
+   kEID/X5DEfKRi/r8FmZKjk3TPpgfYCYYvQw+c+EYI4IizfJ9gRhoRSdvE
+   w==;
+X-CSE-ConnectionGUID: rVxkggAlTEGu+x6xwmO/Kg==
+X-CSE-MsgGUID: w+tpVoIRSeiL2/7eju+5fA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22913561"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="48146851"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 07:15:17 -0700
-X-CSE-ConnectionGUID: dT51fZTvSqWFhZRqkA8Wdw==
-X-CSE-MsgGUID: gLBrdYJoT2KS1cHWkU+wpQ==
+   d="scan'208";a="22913561"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 07:56:16 -0700
+X-CSE-ConnectionGUID: EtCmNJcOQOW3X9AMbWZ34w==
+X-CSE-MsgGUID: OgIXeNpATfqEZw1zPgEwOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="62175288"
+   d="scan'208";a="65668774"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2024 07:15:12 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 22 Aug 2024 07:56:14 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh8aj-000Cqv-2a;
-	Thu, 22 Aug 2024 14:15:09 +0000
-Date: Thu, 22 Aug 2024 22:14:25 +0800
+	id 1sh9ES-000Csq-10;
+	Thu, 22 Aug 2024 14:56:12 +0000
+Date: Thu, 22 Aug 2024 22:55:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Price <steven.price@arm.com>, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steven Price <steven.price@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Joey Gouly <joey.gouly@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Christoffer Dall <christoffer.dall@arm.com>,
-	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	Gavin Shan <gshan@redhat.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Alper Gun <alpergun@google.com>
-Subject: Re: [PATCH v4 18/43] arm64: RME: Handle realm enter/exit
-Message-ID: <202408222119.6YF3UR6O-lkp@intel.com>
-References: <20240821153844.60084-19-steven.price@arm.com>
+To: Harry Wentland <harry.wentland@amd.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
+	Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v5 20/44] drm/tests: Add a few tests around drm_fixed.h
+Message-ID: <202408222209.vpdzQng3-lkp@intel.com>
+References: <20240819205714.316380-21-harry.wentland@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,165 +64,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821153844.60084-19-steven.price@arm.com>
+In-Reply-To: <20240819205714.316380-21-harry.wentland@amd.com>
 
-Hi Steven,
+Hi Harry,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kvmarm/next]
-[also build test WARNING on kvm/queue arm64/for-next/core linus/master v6.11-rc4 next-20240822]
-[cannot apply to kvm/linux-next]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11-rc4 next-20240822]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Price/KVM-Prepare-for-handling-only-shared-mappings-in-mmu_notifier-events/20240821-235327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvmarm/kvmarm.git next
-patch link:    https://lore.kernel.org/r/20240821153844.60084-19-steven.price%40arm.com
-patch subject: [PATCH v4 18/43] arm64: RME: Handle realm enter/exit
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408222119.6YF3UR6O-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-Add-helper-for-conversion-from-signed-magnitude/20240820-050138
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240819205714.316380-21-harry.wentland%40amd.com
+patch subject: [PATCH v5 20/44] drm/tests: Add a few tests around drm_fixed.h
+config: um-randconfig-r123-20240821 (https://download.01.org/0day-ci/archive/20240822/202408222209.vpdzQng3-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222119.6YF3UR6O-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222209.vpdzQng3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408222119.6YF3UR6O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408222209.vpdzQng3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/rme-exit.c:6:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:61:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-      61 |         [ESR_ELx_EC_SYS64]      = rec_exit_sys_reg,
-         |                                   ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:60:27: note: previous initialization is here
-      60 |         [0 ... ESR_ELx_EC_MAX]  = rec_exit_reason_notimpl,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:62:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-      62 |         [ESR_ELx_EC_DABT_LOW]   = rec_exit_sync_dabt,
-         |                                   ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:60:27: note: previous initialization is here
-      60 |         [0 ... ESR_ELx_EC_MAX]  = rec_exit_reason_notimpl,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:63:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-      63 |         [ESR_ELx_EC_IABT_LOW]   = rec_exit_sync_iabt
-         |                                   ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:60:27: note: previous initialization is here
-      60 |         [0 ... ESR_ELx_EC_MAX]  = rec_exit_reason_notimpl,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/rme-exit.c:94:6: warning: variable 'top_ipa' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      94 |         if (realm_is_addr_protected(realm, base) &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      95 |             realm_is_addr_protected(realm, top - 1)) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:108:44: note: uninitialized use occurs here
-     108 |         kvm_prepare_memory_fault_exit(vcpu, base, top_ipa - base, false, false,
-         |                                                   ^~~~~~~
-   arch/arm64/kvm/rme-exit.c:94:2: note: remove the 'if' if its condition is always true
-      94 |         if (realm_is_addr_protected(realm, base) &&
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      95 |             realm_is_addr_protected(realm, top - 1)) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/rme-exit.c:94:6: warning: variable 'top_ipa' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-      94 |         if (realm_is_addr_protected(realm, base) &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:108:44: note: uninitialized use occurs here
-     108 |         kvm_prepare_memory_fault_exit(vcpu, base, top_ipa - base, false, false,
-         |                                                   ^~~~~~~
-   arch/arm64/kvm/rme-exit.c:94:6: note: remove the '&&' if its condition is always true
-      94 |         if (realm_is_addr_protected(realm, base) &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/rme-exit.c:91:23: note: initialize the variable 'top_ipa' to silence this warning
-      91 |         unsigned long top_ipa;
-         |                              ^
-         |                               = 0
-   10 warnings generated.
+>> drivers/gpu/drm/tests/drm_fixp_test.c:11:59: error: overflow in expression; result is 9'223'372'036'854'775'807 with type 'long long' [-Werror,-Winteger-overflow]
+      11 |         KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1LL << 63) - 1));
+         |                                                      ~~~~~~~~~~~~^~~
+   include/kunit/test.h:917:34: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     917 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                         ^~~~~
+   include/kunit/test.h:922:18: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     922 |                                    left, ==, right,                            \
+         |                                              ^~~~~
+   include/kunit/test.h:758:19: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     758 |                                     left, op, right,                           \
+         |                                               ^~~~~
+   include/kunit/test.h:725:33: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     725 |         const typeof(right) __right = (right);                                 \
+         |                                        ^~~~~
+   1 error generated.
 
 
-vim +94 arch/arm64/kvm/rme-exit.c
+vim +11 drivers/gpu/drm/tests/drm_fixp_test.c
 
-    58	
-    59	static exit_handler_fn rec_exit_handlers[] = {
-  > 60		[0 ... ESR_ELx_EC_MAX]	= rec_exit_reason_notimpl,
-    61		[ESR_ELx_EC_SYS64]	= rec_exit_sys_reg,
-    62		[ESR_ELx_EC_DABT_LOW]	= rec_exit_sync_dabt,
-    63		[ESR_ELx_EC_IABT_LOW]	= rec_exit_sync_iabt
-    64	};
-    65	
-    66	static int rec_exit_psci(struct kvm_vcpu *vcpu)
-    67	{
-    68		struct realm_rec *rec = &vcpu->arch.rec;
-    69		int i;
-    70		int ret;
-    71	
-    72		for (i = 0; i < REC_RUN_GPRS; i++)
-    73			vcpu_set_reg(vcpu, i, rec->run->exit.gprs[i]);
-    74	
-    75		ret = kvm_smccc_call_handler(vcpu);
-    76	
-    77		for (i = 0; i < REC_RUN_GPRS; i++)
-    78			rec->run->enter.gprs[i] = vcpu_get_reg(vcpu, i);
-    79	
-    80		return ret;
-    81	}
-    82	
-    83	static int rec_exit_ripas_change(struct kvm_vcpu *vcpu)
-    84	{
-    85		struct kvm *kvm = vcpu->kvm;
-    86		struct realm *realm = &kvm->arch.realm;
-    87		struct realm_rec *rec = &vcpu->arch.rec;
-    88		unsigned long base = rec->run->exit.ripas_base;
-    89		unsigned long top = rec->run->exit.ripas_top;
-    90		unsigned long ripas = rec->run->exit.ripas_value & 1;
-    91		unsigned long top_ipa;
-    92		int ret = -EINVAL;
-    93	
-  > 94		if (realm_is_addr_protected(realm, base) &&
-    95		    realm_is_addr_protected(realm, top - 1)) {
-    96			kvm_mmu_topup_memory_cache(&vcpu->arch.mmu_page_cache,
-    97						   kvm_mmu_cache_min_pages(vcpu->arch.hw_mmu));
-    98			write_lock(&kvm->mmu_lock);
-    99			ret = realm_set_ipa_state(vcpu, base, top, ripas, &top_ipa);
-   100			write_unlock(&kvm->mmu_lock);
-   101		}
-   102	
-   103		WARN(ret && ret != -ENOMEM,
-   104		     "Unable to satisfy SET_IPAS for %#lx - %#lx, ripas: %#lx\n",
-   105		     base, top, ripas);
-   106	
-   107		/* Exit to VMM to complete the change */
- > 108		kvm_prepare_memory_fault_exit(vcpu, base, top_ipa - base, false, false,
-   109					      ripas == 1);
-   110	
-   111		return 0;
-   112	}
-   113	
+     8	
+     9	static void drm_test_sm2fixp(struct kunit *test)
+    10	{
+  > 11		KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1LL << 63) - 1));
+    12	
+    13		/* 1 */
+    14		KUNIT_EXPECT_EQ(test, drm_int2fixp(1), drm_sm2fixp(1ull << DRM_FIXED_POINT));
+    15	
+    16		/* -1 */
+    17		KUNIT_EXPECT_EQ(test, drm_int2fixp(-1), drm_sm2fixp((1ull << 63) | (1ull << DRM_FIXED_POINT)));
+    18	
+    19		/* 0.5 */
+    20		KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(1, 2), drm_sm2fixp(1ull << (DRM_FIXED_POINT - 1)));
+    21	
+    22		/* -0.5 */
+    23		KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(-1, 2), drm_sm2fixp((1ull << 63) | (1ull << (DRM_FIXED_POINT - 1))));
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
