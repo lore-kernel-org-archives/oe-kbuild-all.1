@@ -1,65 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B410EC5;
-	Thu, 22 Aug 2024 00:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB515A8;
+	Thu, 22 Aug 2024 00:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724285292; cv=none; b=kW+PQnOeCJUGm3b0kBUo5mz6kftpGcgH5Q0trAqRbLg6Peq0nMxYAFK6aZy/SRaMuXZOMEiJXo9NQHcMrKhCB1zVm7URPkV+1S0QSRFbuG71pah+bWG/ZLtX8DF1ehPxCXi9dAFS5yN7IjGbgrmnTWodwqI6TDMQJTJ0KEGVARg=
+	t=1724285741; cv=none; b=pq2hZz4aTOikUJxKeZmF5Re1YWlt22LsMGHKtu+UW7KRhngIBKBsmybh0NE9UJmsKScZLGXNe7oua/36AAFmPS3h9CqAuyWRRevQFvrmLHOlrr0Pm5wQ6Txy30HDXHD74cf0Mao9XBJD1v3Q0/yz9y3pPHpAwI4AfECVnK+lYr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724285292; c=relaxed/simple;
-	bh=vgfOndwrjlpq8T9jckd7c4m1f+9iW2L/9WwWjTdusj0=;
+	s=arc-20240116; t=1724285741; c=relaxed/simple;
+	bh=OdM38FkNTcBPHl7pFSwql2F4vrUHZrxewqYWJilfLzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uJJnP48ZueSFOTfb4s/HkNuy7xpDXMBXpn2+K6R+K43HSeCrVnTQZY5w8vZqQzDOvp+XWXUIcgCMSDvjaRMfdwSV4YsgO1KNVWyS1BH9+0g971gBojg/1zeQZkqn+tNHf88sJLg4Lvg5E9sD2gkJArAq3tbSOhb55CcO8mD9plQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6CjJRkX; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iX1MXYbQt0Uaah2cqZF0VhrVjNDEos30+7ZrCX6Yt4e52FFm7MPHFZktgMP7Zn488Yvyu7n0CNflLyOwEnyPPv6kOHyYzfjGUoVzCYF0gC78sYuFxBsP7P4wett90lV6gFuvpNCGejb9eUgjFoDbKGsbiV+croekbvXjjJDNLAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=VYFkP06w; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6CjJRkX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724285289; x=1755821289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vgfOndwrjlpq8T9jckd7c4m1f+9iW2L/9WwWjTdusj0=;
-  b=S6CjJRkXw4AwC4v3aAg+4H/FVac3iNs9XSkUa2rAy0F1eUS100+tnG0G
-   NsHlVHSW4/Y7jgriFYPitwz8fPHRz6uFuaslpARo9xTCcIAYX760WVbqI
-   NgWAH0PKf0Kce9r3kCnQ4MwI4Z5PEASwHjimxu6raYqVB/1JyoS+w2RXf
-   aL15N8Ow3sP2oWcyc+JXjZYEQxzuIUCGr/e3+Z7qRuSF9f0yzpuXQ4DLT
-   PafrFGvDILPaEK1t+dDxVmn/fRmbHPzeSU6NlmBwFlD/MsSUHKgyn8umJ
-   RSue/7yloLWehmSIT8RLwsAM3umu+lB+ce3OI+zFC7ztqvRCn5P01FLAj
-   w==;
-X-CSE-ConnectionGUID: O/wXXOZgSt63D72N9gJKpQ==
-X-CSE-MsgGUID: BsMBQjObTi+h1U9fWFgQUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22842929"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="22842929"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 17:08:08 -0700
-X-CSE-ConnectionGUID: LZBuqbL4RZiT/6eseKCY6A==
-X-CSE-MsgGUID: 6EjppWBSQliFO65ITpIXsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="84433107"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Aug 2024 17:08:05 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgvMx-000C4S-0O;
-	Thu, 22 Aug 2024 00:08:03 +0000
-Date: Thu, 22 Aug 2024 08:07:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhao Qunqin <zhaoqunqin@loongson.cn>, chenhuacai@kernel.org,
-	kernel@xen0n.name, bp@alien8.de, tony.luck@intel.com,
-	james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	devicetree@vger.kernel.org, zhaoqunqin <zhaoqunqin@loongson.cn>
-Subject: Re: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory
- controller
-Message-ID: <202408220634.Irq2TUcL-lkp@intel.com>
-References: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="VYFkP06w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=4a0JEl55wyrWU4+T/Db8ieIP2AEXOZlCwxjkTfa2lPI=; b=VYFkP06wHX6YzgSWCOvmB/AEac
+	+4MDovWSQi/7RqC3QRLEcV26+KM4ZcMtZdiNS1Acc8VPIJkH92dI61BkiGhaXSHZ63hGR0CIzPSNr
+	g7Jo2zdCdORw2pO2poqc//4LbofkNPZOzJJ9lu/rm1fveMOniacJNv21e3lsWezB0FElHikfh2GdO
+	c9KcbbHnIkpg2sKLXeeFM1barlPKNICecvYKoCxj0MtD9GvWPaKCP6W/Hxzldit+eccois7WQlzky
+	xL7Z+LiJZo2XvIJo5+pyxo7zs8k4uOC1mHXGDZM4IWFV29FVjCA5nLZFA2LFMIo8s+DjythTyGG8g
+	YmJe6w3A==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1sgvUG-00000003w2k-1Yec;
+	Thu, 22 Aug 2024 00:15:36 +0000
+Date: Thu, 22 Aug 2024 01:15:36 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
+Subject: Re: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd()
+ warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <20240822001536.GL504335@ZenIV>
+References: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+ <20240813181600.GK13701@ZenIV>
+ <20240814010321.GL13701@ZenIV>
+ <7bf93dfd-1536-438c-9ffd-f7dcfce0b3f5@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,159 +50,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
+In-Reply-To: <7bf93dfd-1536-438c-9ffd-f7dcfce0b3f5@linuxfoundation.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Zhao,
+On Wed, Aug 21, 2024 at 12:38:48AM -0600, Shuah Khan wrote:
+> On 8/13/24 19:03, Al Viro wrote:
+> > On Tue, Aug 13, 2024 at 07:16:00PM +0100, Al Viro wrote:
+> > > On Tue, Aug 13, 2024 at 11:00:04AM +0300, Dan Carpenter wrote:
+> > > > 3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
+> > > > 3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
+> > > > 3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
+> > > >                                                                                 ^^^^^^^^^^^^^^^^
+> > > > 	err = PTR_ERR(*new_fdp);
+> > > > 	*new_fdp = NULL;
+> > > > 	return err;
+> > > 
+> > > Argh...  Obvious braino, but what it shows is that failures of that
+> > > thing are not covered by anything in e.g. LTP.  Or in-kernel
+> > > self-tests, for that matter...
+> > 
+> > FWIW, this does exercise that codepath, but I would really like to
+> > have kselftest folks to comment on the damn thing - I'm pretty sure
+> > that it's _not_ a good style for those.
+> 
+> Looks good to me. Would you be able to send a patch for this new test?
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ras/edac-for-next]
-[also build test ERROR on robh/for-next linus/master v6.11-rc4 next-20240821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/Loongarch-EDAC-driver-for-loongson-memory-controller/20240821-145127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20240821064728.8642-2-zhaoqunqin%40loongson.cn
-patch subject: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory controller
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408220634.Irq2TUcL-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408220634.Irq2TUcL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408220634.Irq2TUcL-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/edac/loongson_edac.c: In function 'get_dimm_config':
->> drivers/edac/loongson_edac.c:90:16: error: implicit declaration of function 'EDAC_DIMM_PTR' [-Wimplicit-function-declaration]
-      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-         |                ^~~~~~~~~~~~~
->> drivers/edac/loongson_edac.c:90:14: error: assignment to 'struct dimm_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-         |              ^
-   drivers/edac/loongson_edac.c: At top level:
->> drivers/edac/loongson_edac.c:181:27: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
-     181 |         .remove         = loongson_edac_remove,
-         |                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/edac/loongson_edac.c:181:27: note: (near initialization for 'loongson_edac_driver.<anonymous>.remove')
-
-
-vim +/EDAC_DIMM_PTR +90 drivers/edac/loongson_edac.c
-
-    80	
-    81	static int get_dimm_config(struct mem_ctl_info *mci)
-    82	{
-    83		u32 size, npages;
-    84		struct dimm_info *dimm;
-    85	
-    86		/* size not used */
-    87		size = -1;
-    88		npages = MiB_TO_PAGES(size);
-    89	
-  > 90		dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-    91				0, 0, 0);
-    92		dimm->nr_pages = npages;
-    93		snprintf(dimm->label, sizeof(dimm->label),
-    94				"MC#%uChannel#%u_DIMM#%u",
-    95				mci->mc_idx, 0, 0);
-    96		dimm->grain = 8;
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	static void loongson_pvt_init(struct mem_ctl_info *mci, u64 *vbase)
-   102	{
-   103		struct loongson_edac_pvt *pvt = mci->pvt_info;
-   104	
-   105		pvt->ecc_base = vbase;
-   106		pvt->last_ce_count = loongson_read_ecc(mci);
-   107	}
-   108	
-   109	static int loongson_edac_probe(struct platform_device *pdev)
-   110	{
-   111		struct resource *rs;
-   112		struct mem_ctl_info *mci;
-   113		struct edac_mc_layer layers[2];
-   114		struct loongson_edac_pvt *pvt;
-   115		u64 *vbase = NULL;
-   116	
-   117		rs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   118		if (!rs)
-   119			return -EINVAL;
-   120		if (rs->start) {
-   121			vbase = devm_ioremap(&pdev->dev, rs->start, resource_size(rs));
-   122			if (!vbase)
-   123				return -ENOMEM;
-   124		}
-   125	
-   126		/* allocate a new MC control structure */
-   127		layers[0].type = EDAC_MC_LAYER_CHANNEL;
-   128		layers[0].size = 1;
-   129		layers[0].is_virt_csrow = false;
-   130		layers[1].type = EDAC_MC_LAYER_SLOT;
-   131		layers[1].size = 1;
-   132		layers[1].is_virt_csrow = true;
-   133		mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers, sizeof(*pvt));
-   134		if (mci == NULL)
-   135			return -ENOMEM;
-   136	
-   137		edac_dbg(0, "MC: mci = %p\n", mci);
-   138	
-   139		mci->mc_idx = idx++;
-   140		mci->mtype_cap = MEM_FLAG_RDDR4;
-   141		mci->edac_ctl_cap = EDAC_FLAG_NONE;
-   142		mci->edac_cap = EDAC_FLAG_NONE;
-   143		mci->mod_name = "loongson_edac.c";
-   144		mci->ctl_name = "loongson_edac_ctl";
-   145		mci->dev_name = "loongson_edac_dev";
-   146		mci->ctl_page_to_phys = NULL;
-   147		mci->pdev = &pdev->dev;
-   148		mci->error_desc.grain = 8;
-   149		/* Set the function pointer to an actual operation function */
-   150		mci->edac_check = loongson_edac_check;
-   151	
-   152		loongson_pvt_init(mci, vbase);
-   153		get_dimm_config(mci);
-   154	
-   155		if (edac_mc_add_mc(mci)) {
-   156			edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
-   157			edac_mc_free(mci);
-   158		}
-   159		return 0;
-   160	}
-   161	
-   162	static int loongson_edac_remove(struct platform_device *pdev)
-   163	{
-   164		struct mem_ctl_info *mci = edac_mc_del_mc(&pdev->dev);
-   165	
-   166		if (mci) {
-   167			edac_mc_free(mci);
-   168			return 0;
-   169		}
-   170		return -ENODEV;
-   171	}
-   172	
-   173	static const struct of_device_id loongson_edac_of_match[] = {
-   174		{ .compatible = "loongson,ls-mc-edac", },
-   175		{}
-   176	};
-   177	MODULE_DEVICE_TABLE(of, loongson_edac_of_match);
-   178	
-   179	static struct platform_driver loongson_edac_driver = {
-   180		.probe		= loongson_edac_probe,
- > 181		.remove		= loongson_edac_remove,
-   182		.driver		= {
-   183			.name	= "ls-mc-edac",
-   184			.owner = THIS_MODULE,
-   185			.of_match_table = loongson_edac_of_match,
-   186		},
-   187	};
-   188	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Umm...  Send as in "mail somewhere specific", or as "push into vfs.git",
+or...?
