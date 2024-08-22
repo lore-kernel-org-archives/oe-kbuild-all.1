@@ -1,348 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F7E2AE77
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 20:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D495B1CDFD5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 20:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724358966; cv=none; b=qavIVP6BZ0gTWMnlMAaPfZ7zY0WwHeLbvU0xdkoLGWitXgujZePUAvlWbFdPZ1XWA01rr5qzU+NJ1M11OJtMEUJpQMyhobdtYJ5NNE32lIvqmTs6XbwdHF5FbLbrg0YXT/O/hAH1B300CokyAZG9MjdaUzpB5ewXun/L6ICweHM=
+	t=1724359092; cv=none; b=GPLMWPEQxrAp1OcBAQgdJrUM/Gyi7upbjjiT7rE4P+ChSYaoYdiCxBUb8Kr5XueuFHzUYdKs2APZ1eG9LFpwLoCm/5jpG3s7efuiVApVN61Dk8Eml/ux8VnRtotl2IUyzMY7s/+xaZR8ic4ZuGOvs5JjDhVCZdgNh+7/S2F1xQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724358966; c=relaxed/simple;
-	bh=p/IHefUo+dIgGf88dRGUuF7b9583HsFzcb6l6OXJzTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rnD+cutz5BEG9p+va0BlFTdd1gCBM+5Qoi/QPkJc77MtXqqtByLPhRQUsFgcqJiLMJZv8arkyAoK3Ea/wn0Rn5REZ/3E+fX8kWJYz+r5VJMh/bNuXsakI9IJsinLu1l6KU14HlGurU3WvrQ0wTbWLEp86gXLg5h3wPXR1JsVgiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wy2FOSgY; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724359092; c=relaxed/simple;
+	bh=Evri7naCroR9lahxFwcbrHStBQ6wov+kTkYnj+luTWY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VYBdeSUaNbURAGEXqyNDuxKsGeBUryKLTkbgRKM6w9I1k+4wDZ1HarBaYGIeRP96viSqmRshrv0s9TCcKRjlBqZDfg2urKJzC11E0iGmRdhXrqOjUd2QbrtJ8TpIWjqkKOD9rS194mcZfvjRSAJtQgLJAzBN5j7yfqs9oeF0ZkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L91BXaGt; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wy2FOSgY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724358964; x=1755894964;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p/IHefUo+dIgGf88dRGUuF7b9583HsFzcb6l6OXJzTw=;
-  b=Wy2FOSgYNkm9v8bHTUwfZUxyIqmWBj3ysUFc7O2LODYyFHsslmuJgw/L
-   3bEYnB6rm1UksJebdQXUXzDHYBKAGnudBZYr34tyex7f67/paPu6+Y8yF
-   rTnBjAZYgsbkpc+3Yjrpy6rJ4c/MRu9vhNfVNR5jbLOJzEs3KnQn+V0Iq
-   tCPMsaoCAciXagtLKIT04pW+slA/G09aw1jwIgf7Z4bSQTQ3Qqd2JMIB2
-   RYTN+l1h3yYWqXaTT+daMNZQxM0ukgohnICsDg0PfwWy4FAsti/xIJ/9Y
-   dtyK3urTSc3TSrZY/3nqBSzezbz0H+Cdnp37FMNT3Fu2k6ah218CyI3MU
-   Q==;
-X-CSE-ConnectionGUID: 5jQ32IiuQ5W6aNld0bJ8fg==
-X-CSE-MsgGUID: 2W7xdSLZRkyk3IB3odGwUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="13157155"
-X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="13157155"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 13:36:03 -0700
-X-CSE-ConnectionGUID: nWYH/nsiRqKxb/IAJyNKVQ==
-X-CSE-MsgGUID: uFVwSiVYTV+ak0nsgyrJCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="61711295"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Aug 2024 13:36:02 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1shEXI-000DBI-1W;
-	Thu, 22 Aug 2024 20:36:00 +0000
-Date: Fri, 23 Aug 2024 04:35:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 46/47] fs/btrfs/file.c:2407:6: error: use
- of undeclared identifier 'skip_ilock'; did you mean 'spin_lock'?
-Message-ID: <202408230435.vABlkoXP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L91BXaGt"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4518d9fa2f4so93841cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 13:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724359089; x=1724963889; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+qNu1bWRM+IYLjLL4EurjiUj14o65t8ZK24RLE6bujU=;
+        b=L91BXaGtIDQghEnZV3rt46NYMEY0SOv7XHoWo+yLmSLoInqFp7Yoo59LtINFk9Dd/4
+         mB7CaI0pFmzBhityQDZzSHIFrp1C7pS+oiJsjGEhNCDBzCctJwPH1JSkRYC20hTCpEXe
+         K6x5v68KYDue7jAhHrK9LF7P0PsXkdLoelDAVBuFWBeuXi9LIY+heyJUPTk7LG002bZe
+         rQ1n4IJ2/7oyPydVfdTR1HV0DwIHalqIVn9ulooG6FHI6NDe2U7JhLfT2IHELAqAmAGN
+         OqMXwiPx2zOCbFIFraRPagCPUUMnb4mJxxYNzmX3Z1sVMNdOGzfC4/eQ8NQKaXuO6eiy
+         escg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724359089; x=1724963889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+qNu1bWRM+IYLjLL4EurjiUj14o65t8ZK24RLE6bujU=;
+        b=oO3wuDNFxB9C4SOR5r9qhtcw9PgcT8m69ea3gGGPlxE42yyDMM0Ixv3QvfJ4fezvH3
+         CkYgyx1LTCWcRsehhvvk2IgqOta3bXOijnYwUuMlcYNPJeP3WDwWZvVzerNFTpqJq+40
+         BCHrQrlHl1MYJJZ3/3Tq7jGk8c31MMlDu+pMn8HxhHwiScL1ykoyyjx5ME+8Kao9XPIM
+         XsO6pCi8VAFMEXm58bQAtepALIsjkVlD+p9mj5HAj1yYn5BROf+NjIj4G/yUlO5QCE4f
+         ROoYSzbf3qsUNSlnx7bKweNFjfsxpjnJCnnqH1581XPE+YyDEbuJ7+31tQu8htg12L5U
+         zySg==
+X-Forwarded-Encrypted: i=1; AJvYcCXVmHGTGddEFbBs5F2LcSBhG65xXr1hm8jr+GhNVdKn4ODX3TDoYJSRooKF22rbMylq0HMNFbc67ElQ7yhO@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzbamfr93o3v7LgI+DdD5Vv1cZtD9W5bRFrXUbGEVITg03KWVPW
+	V+vdnu3an2mXT7Mry05H4xYItg+Wl38yjTb/bVO9OZA1jdyFWetIWi8QcxksSsbNJNy7jeHyGXL
+	8KB0F7ry7nVrH5Z3EN3XJsPwihaUlD6xtcHls
+X-Google-Smtp-Source: AGHT+IEaBarxroFXMGcX1lFxS9XBFBWzNav8ZNR1PfKAf4ThZZ7AlAAHwET6L8F83xkVQcUJZbqjIrDIEulx8dlMH8M=
+X-Received: by 2002:a05:622a:24d:b0:441:5e6c:426c with SMTP id
+ d75a77b69052e-45509e77c44mr29041cf.17.1724359088361; Thu, 22 Aug 2024
+ 13:38:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240819151512.2363698-2-surenb@google.com> <202408230151.2tDiQgTC-lkp@intel.com>
+In-Reply-To: <202408230151.2tDiQgTC-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 22 Aug 2024 13:37:53 -0700
+Message-ID: <CAJuCfpHrb_LAojAFZS0qR=+qnMhswxSewJz7abLQuOceUDNwZA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] alloc_tag: load module tags into separate continuous memory
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
+	kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, 
+	rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, 
+	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
+	dennis@kernel.org, jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   ae30386317f21239fb5c3828122ffd6cec6c9b21
-commit: 29349f0a02fdd1b1d14abb4b4dc53bed974b7d55 [46/47] UPSTREAM: btrfs: fix double inode unlock for direct IO sync writes
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240823/202408230435.vABlkoXP-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230435.vABlkoXP-lkp@intel.com/reproduce)
+On Thu, Aug 22, 2024 at 11:44=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Suren,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 651c8c1d735983040bec4f71d0e2e690f3c0fc2d]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
+/alloc_tag-load-module-tags-into-separate-continuous-memory/20240819-231747
+> base:   651c8c1d735983040bec4f71d0e2e690f3c0fc2d
+> patch link:    https://lore.kernel.org/r/20240819151512.2363698-2-surenb%=
+40google.com
+> patch subject: [PATCH 1/5] alloc_tag: load module tags into separate cont=
+inuous memory
+> config: sparc-randconfig-002-20240822 (https://download.01.org/0day-ci/ar=
+chive/20240823/202408230151.2tDiQgTC-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240823/202408230151.2tDiQgTC-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408230151.2tDiQgTC-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> lib/alloc_tag.c:16:22: error: storage size of 'unloaded_mod' isn't kno=
+wn
+>       16 | static struct module unloaded_mod;
+>          |                      ^~~~~~~~~~~~
+> >> lib/alloc_tag.c:18:22: error: storage size of 'prepend_mod' isn't know=
+n
+>       18 | static struct module prepend_mod;
+>          |                      ^~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230435.vABlkoXP-lkp@intel.com/
+Ok, this issue happens when CONFIG_MODULES=3Dn. I'll fix this config in
+the next revision. Thanks!
 
-Note: the chrome-os/chromeos-5.15 HEAD ae30386317f21239fb5c3828122ffd6cec6c9b21 builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
->> fs/btrfs/file.c:2407:6: error: use of undeclared identifier 'skip_ilock'; did you mean 'spin_lock'?
-    2407 |         if (skip_ilock)
-         |             ^~~~~~~~~~
-         |             spin_lock
-   include/linux/spinlock.h:361:29: note: 'spin_lock' declared here
-     361 | static __always_inline void spin_lock(spinlock_t *lock)
-         |                             ^
->> fs/btrfs/file.c:2408:20: error: no member named 'i_mmap_lock' in 'struct inode'
-    2408 |                 up_write(&inode->i_mmap_lock);
-         |                           ~~~~~  ^
-   2 errors generated.
-
-
-vim +2407 fs/btrfs/file.c
-
-  2166	
-  2167	/*
-  2168	 * fsync call for both files and directories.  This logs the inode into
-  2169	 * the tree log instead of forcing full commits whenever possible.
-  2170	 *
-  2171	 * It needs to call filemap_fdatawait so that all ordered extent updates are
-  2172	 * in the metadata btree are up to date for copying to the log.
-  2173	 *
-  2174	 * It drops the inode mutex before doing the tree log commit.  This is an
-  2175	 * important optimization for directories because holding the mutex prevents
-  2176	 * new operations on the dir while we write to disk.
-  2177	 */
-  2178	int btrfs_sync_file(struct file *file, loff_t start, loff_t end, int datasync)
-  2179	{
-  2180		struct dentry *dentry = file_dentry(file);
-  2181		struct inode *inode = d_inode(dentry);
-  2182		struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
-  2183		struct btrfs_root *root = BTRFS_I(inode)->root;
-  2184		struct btrfs_trans_handle *trans;
-  2185		struct btrfs_log_ctx ctx;
-  2186		int ret = 0, err;
-  2187		u64 len;
-  2188		bool full_sync;
-  2189	
-  2190		trace_btrfs_sync_file(file, datasync);
-  2191	
-  2192		btrfs_init_log_ctx(&ctx, inode);
-  2193	
-  2194		/*
-  2195		 * Always set the range to a full range, otherwise we can get into
-  2196		 * several problems, from missing file extent items to represent holes
-  2197		 * when not using the NO_HOLES feature, to log tree corruption due to
-  2198		 * races between hole detection during logging and completion of ordered
-  2199		 * extents outside the range, to missing checksums due to ordered extents
-  2200		 * for which we flushed only a subset of their pages.
-  2201		 */
-  2202		start = 0;
-  2203		end = LLONG_MAX;
-  2204		len = (u64)LLONG_MAX + 1;
-  2205	
-  2206		/*
-  2207		 * We write the dirty pages in the range and wait until they complete
-  2208		 * out of the ->i_mutex. If so, we can flush the dirty pages by
-  2209		 * multi-task, and make the performance up.  See
-  2210		 * btrfs_wait_ordered_range for an explanation of the ASYNC check.
-  2211		 */
-  2212		ret = start_ordered_ops(inode, start, end);
-  2213		if (ret)
-  2214			goto out;
-  2215	
-  2216		btrfs_inode_lock(inode, BTRFS_ILOCK_MMAP);
-  2217	
-  2218		atomic_inc(&root->log_batch);
-  2219	
-  2220		/*
-  2221		 * Always check for the full sync flag while holding the inode's lock,
-  2222		 * to avoid races with other tasks. The flag must be either set all the
-  2223		 * time during logging or always off all the time while logging.
-  2224		 */
-  2225		full_sync = test_bit(BTRFS_INODE_NEEDS_FULL_SYNC,
-  2226				     &BTRFS_I(inode)->runtime_flags);
-  2227	
-  2228		/*
-  2229		 * Before we acquired the inode's lock and the mmap lock, someone may
-  2230		 * have dirtied more pages in the target range. We need to make sure
-  2231		 * that writeback for any such pages does not start while we are logging
-  2232		 * the inode, because if it does, any of the following might happen when
-  2233		 * we are not doing a full inode sync:
-  2234		 *
-  2235		 * 1) We log an extent after its writeback finishes but before its
-  2236		 *    checksums are added to the csum tree, leading to -EIO errors
-  2237		 *    when attempting to read the extent after a log replay.
-  2238		 *
-  2239		 * 2) We can end up logging an extent before its writeback finishes.
-  2240		 *    Therefore after the log replay we will have a file extent item
-  2241		 *    pointing to an unwritten extent (and no data checksums as well).
-  2242		 *
-  2243		 * So trigger writeback for any eventual new dirty pages and then we
-  2244		 * wait for all ordered extents to complete below.
-  2245		 */
-  2246		ret = start_ordered_ops(inode, start, end);
-  2247		if (ret) {
-  2248			btrfs_inode_unlock(inode, BTRFS_ILOCK_MMAP);
-  2249			goto out;
-  2250		}
-  2251	
-  2252		/*
-  2253		 * We have to do this here to avoid the priority inversion of waiting on
-  2254		 * IO of a lower priority task while holding a transaction open.
-  2255		 *
-  2256		 * For a full fsync we wait for the ordered extents to complete while
-  2257		 * for a fast fsync we wait just for writeback to complete, and then
-  2258		 * attach the ordered extents to the transaction so that a transaction
-  2259		 * commit waits for their completion, to avoid data loss if we fsync,
-  2260		 * the current transaction commits before the ordered extents complete
-  2261		 * and a power failure happens right after that.
-  2262		 *
-  2263		 * For zoned filesystem, if a write IO uses a ZONE_APPEND command, the
-  2264		 * logical address recorded in the ordered extent may change. We need
-  2265		 * to wait for the IO to stabilize the logical address.
-  2266		 */
-  2267		if (full_sync || btrfs_is_zoned(fs_info)) {
-  2268			ret = btrfs_wait_ordered_range(inode, start, len);
-  2269		} else {
-  2270			/*
-  2271			 * Get our ordered extents as soon as possible to avoid doing
-  2272			 * checksum lookups in the csum tree, and use instead the
-  2273			 * checksums attached to the ordered extents.
-  2274			 */
-  2275			btrfs_get_ordered_extents_for_logging(BTRFS_I(inode),
-  2276							      &ctx.ordered_extents);
-  2277			ret = filemap_fdatawait_range(inode->i_mapping, start, end);
-  2278		}
-  2279	
-  2280		if (ret)
-  2281			goto out_release_extents;
-  2282	
-  2283		atomic_inc(&root->log_batch);
-  2284	
-  2285		smp_mb();
-  2286		if (skip_inode_logging(&ctx)) {
-  2287			/*
-  2288			 * We've had everything committed since the last time we were
-  2289			 * modified so clear this flag in case it was set for whatever
-  2290			 * reason, it's no longer relevant.
-  2291			 */
-  2292			clear_bit(BTRFS_INODE_NEEDS_FULL_SYNC,
-  2293				  &BTRFS_I(inode)->runtime_flags);
-  2294			/*
-  2295			 * An ordered extent might have started before and completed
-  2296			 * already with io errors, in which case the inode was not
-  2297			 * updated and we end up here. So check the inode's mapping
-  2298			 * for any errors that might have happened since we last
-  2299			 * checked called fsync.
-  2300			 */
-  2301			ret = filemap_check_wb_err(inode->i_mapping, file->f_wb_err);
-  2302			goto out_release_extents;
-  2303		}
-  2304	
-  2305		/*
-  2306		 * We use start here because we will need to wait on the IO to complete
-  2307		 * in btrfs_sync_log, which could require joining a transaction (for
-  2308		 * example checking cross references in the nocow path).  If we use join
-  2309		 * here we could get into a situation where we're waiting on IO to
-  2310		 * happen that is blocked on a transaction trying to commit.  With start
-  2311		 * we inc the extwriter counter, so we wait for all extwriters to exit
-  2312		 * before we start blocking joiners.  This comment is to keep somebody
-  2313		 * from thinking they are super smart and changing this to
-  2314		 * btrfs_join_transaction *cough*Josef*cough*.
-  2315		 */
-  2316		trans = btrfs_start_transaction(root, 0);
-  2317		if (IS_ERR(trans)) {
-  2318			ret = PTR_ERR(trans);
-  2319			goto out_release_extents;
-  2320		}
-  2321		trans->in_fsync = true;
-  2322	
-  2323		ret = btrfs_log_dentry_safe(trans, dentry, &ctx);
-  2324		btrfs_release_log_ctx_extents(&ctx);
-  2325		if (ret < 0) {
-  2326			/* Fallthrough and commit/free transaction. */
-  2327			ret = 1;
-  2328		}
-  2329	
-  2330		/* we've logged all the items and now have a consistent
-  2331		 * version of the file in the log.  It is possible that
-  2332		 * someone will come in and modify the file, but that's
-  2333		 * fine because the log is consistent on disk, and we
-  2334		 * have references to all of the file's extents
-  2335		 *
-  2336		 * It is possible that someone will come in and log the
-  2337		 * file again, but that will end up using the synchronization
-  2338		 * inside btrfs_sync_log to keep things safe.
-  2339		 */
-  2340		btrfs_inode_unlock(inode, BTRFS_ILOCK_MMAP);
-  2341	
-  2342		if (ret == BTRFS_NO_LOG_SYNC) {
-  2343			ret = btrfs_end_transaction(trans);
-  2344			goto out;
-  2345		}
-  2346	
-  2347		/* We successfully logged the inode, attempt to sync the log. */
-  2348		if (!ret) {
-  2349			ret = btrfs_sync_log(trans, root, &ctx);
-  2350			if (!ret) {
-  2351				ret = btrfs_end_transaction(trans);
-  2352				goto out;
-  2353			}
-  2354		}
-  2355	
-  2356		/*
-  2357		 * At this point we need to commit the transaction because we had
-  2358		 * btrfs_need_log_full_commit() or some other error.
-  2359		 *
-  2360		 * If we didn't do a full sync we have to stop the trans handle, wait on
-  2361		 * the ordered extents, start it again and commit the transaction.  If
-  2362		 * we attempt to wait on the ordered extents here we could deadlock with
-  2363		 * something like fallocate() that is holding the extent lock trying to
-  2364		 * start a transaction while some other thread is trying to commit the
-  2365		 * transaction while we (fsync) are currently holding the transaction
-  2366		 * open.
-  2367		 */
-  2368		if (!full_sync) {
-  2369			ret = btrfs_end_transaction(trans);
-  2370			if (ret)
-  2371				goto out;
-  2372			ret = btrfs_wait_ordered_range(inode, start, len);
-  2373			if (ret)
-  2374				goto out;
-  2375	
-  2376			/*
-  2377			 * This is safe to use here because we're only interested in
-  2378			 * making sure the transaction that had the ordered extents is
-  2379			 * committed.  We aren't waiting on anything past this point,
-  2380			 * we're purely getting the transaction and committing it.
-  2381			 */
-  2382			trans = btrfs_attach_transaction_barrier(root);
-  2383			if (IS_ERR(trans)) {
-  2384				ret = PTR_ERR(trans);
-  2385	
-  2386				/*
-  2387				 * We committed the transaction and there's no currently
-  2388				 * running transaction, this means everything we care
-  2389				 * about made it to disk and we are done.
-  2390				 */
-  2391				if (ret == -ENOENT)
-  2392					ret = 0;
-  2393				goto out;
-  2394			}
-  2395		}
-  2396	
-  2397		ret = btrfs_commit_transaction(trans);
-  2398	out:
-  2399		ASSERT(list_empty(&ctx.list));
-  2400		err = file_check_and_advance_wb_err(file);
-  2401		if (!ret)
-  2402			ret = err;
-  2403		return ret > 0 ? -EIO : ret;
-  2404	
-  2405	out_release_extents:
-  2406		btrfs_release_log_ctx_extents(&ctx);
-> 2407		if (skip_ilock)
-> 2408			up_write(&inode->i_mmap_lock);
-  2409		else
-  2410			btrfs_inode_unlock(inode, BTRFS_ILOCK_MMAP);
-  2411		goto out;
-  2412	}
-  2413	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +16 lib/alloc_tag.c
+>
+>     11
+>     12  static struct codetag_type *alloc_tag_cttype;
+>     13  static struct alloc_tag_module_section module_tags;
+>     14  static struct maple_tree mod_area_mt =3D MTREE_INIT(mod_area_mt, =
+MT_FLAGS_ALLOC_RANGE);
+>     15  /* A dummy object used to indicate an unloaded module */
+>   > 16  static struct module unloaded_mod;
+>     17  /* A dummy object used to indicate a module prepended area */
+>   > 18  static struct module prepend_mod;
+>     19
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
