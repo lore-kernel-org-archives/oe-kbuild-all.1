@@ -1,109 +1,73 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982371B815
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 18:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC0F1CDFC7;
+	Thu, 22 Aug 2024 18:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724349754; cv=none; b=gnXJfQH/CbSx7KmasJ/kpNccuOI+HrS0RF3Ne6EkzfjLGYaeLXLkTNqgij/Yavmzjulxp9ViqbKwtAMEMblcs2oVNEMkE7Y2yyPS/yYXkFkXQLC1yLoW3dq57sA7H/bctkhbWEodjdvMrcQGA4DmX48AY8yUfJVSGoM0eShfPA4=
+	t=1724351066; cv=none; b=fienu2XN3P+ecr10eMSmBRPaJWSFvlJ86MxtfEB/TJ+5oJhk6f47KysGzbXZtR1PEwiCSCl0vMuJJWsyRapf5AJDOx7evmMM1KPts/YcuZwqlNMUHK0q8n3zRca1Bg9Bv1TXkym0uEv4xDZzayQsd2dUw20CX546pY/MERr5r5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724349754; c=relaxed/simple;
-	bh=VFbMT9NzuJbFWeBxVkiyPagBOagtzxduVQh+jEfLeWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TW0QMHvh5eExKz9q46/QdLad9ZE7sewosPqrb66rC1z9rags+WDCbLJ42GojiiKkrLJqPBjpl+MpxX0qMSpILraloIozjBhOCgZh0lA/VEoFsFEv8b3YKG+u9Lnz6CxRS7rmCz0/mXAv3+HJALaOwUj/tZU2VKkoDzbtD2dGhNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vNVosm14; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724351066; c=relaxed/simple;
+	bh=fJM8piWVycxfuxwymCBX3W2I6CarLyDPpGzo3FoWl5E=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ncVHCN85zm7vsRdSfpXu0b5KJq37R2dI3ZsxdA447Z+PB7qSC2VHDwjhMHB1v7yThL1sAzvTkhVOlCa9AOZimZiFh/CKyJCzWZGArrYBQes7ZoB+3KVFQCwGXu1nUtyfNx/7qZi4Wo8SDwSBE6zos6s43crr30uXZ94aqCHRO5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qI4ufQf9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vNVosm14"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-534366c1aa2so396806e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 11:02:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724349750; x=1724954550; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jMkH2vVnDhFw+cxVn6jmcv0ytI6q2hqv9f9ccu3UJPU=;
-        b=vNVosm14Kq1d5c6ibMJsuZpZk52qTtibq19pnB2m7nBGFb4LuMYW5HPfqCVXgydmb4
-         ltN0dzuZPoPM2uaO7qMz75ex5LZvHtWap30XH6AcVCoiZFOXz3map7oDEja8D7dIAx9c
-         bTrNDjlIZ3VMc7EVSu3f3ifVDfOjeNHID53DJ+bWW9gwsNDtAmu02CZdvFRF0o5qWQuM
-         w9ob41fU+/U41yhrxPqHcBTdtjmB/sQXLjf7MM5FZhwVa/a2RYGHy4Mt7MQW6d6UqI76
-         EGAnrZfCndThU7osOrUCtdgqGmsXKblLdIolKh4faHCrx9a/SvdPq7dw8K1D18tYV9mZ
-         P9kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724349750; x=1724954550;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jMkH2vVnDhFw+cxVn6jmcv0ytI6q2hqv9f9ccu3UJPU=;
-        b=cqXk1XTmH0wiCqpNS8/2+sEEkshD4bknVpB4CbTZ1Ozugtq8iiAHVRlBQkxwbBGHHy
-         RotYnRMY744qVR9lZEUzKhWhcFDfNDRxjBRJF5G55HU3w3jjopGq74rNzZwvdiyikOgh
-         Tm3SFf0DT8s0qcpDokUeSwz9tU1fN49swpDOYimQVIPFY9Bn6SfZoeWKEM0I0MVvvPxC
-         pvVSyJrtO5yb3kg3iVSVM07+EmzpM82CGxtbdROtPTMqIxfluSaIHoodqhav4UXowhax
-         IE3PPP8sGHcpTlF4SDgnzRh/j+KKSFKBQyeZ3asN6HV3eNCjPaWzYzmMA64srlv3luJg
-         NMWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUM2Z7Vp2D/kwYaqyb+MnSbCPJPlcRDUi3lpBdH9wmZTuXzzOw/8kFiLWYc5U3INH8t+DMCIwLBmTqUsoP8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1qqbMw4pV36mDNYi2ReoFXvP6kkb9WI5jML/L/AFt32ckAsHZ
-	pz7PG9l6/sYeCSp6QOvY2qgz3hjms4FQO7WDbdVF741ERHV4nKWj9LNYzlx8Ytw=
-X-Google-Smtp-Source: AGHT+IHlbVhsoCnCtmNAbSbtiVt4wqhlkrGCdTzE9ud4rwdfGO4d9LxDCFoQQSHmZqF7ub5rklI+bg==
-X-Received: by 2002:a05:6512:b16:b0:52c:e28f:4da6 with SMTP id 2adb3069b0e04-5334fd6b81cmr1885750e87.51.1724349749437;
-        Thu, 22 Aug 2024 11:02:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3e89ebsm1151643a12.43.2024.08.22.11.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 11:02:28 -0700 (PDT)
-Date: Thu, 22 Aug 2024 21:02:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Phillip Lougher <phillip@squashfs.org.uk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 5650/6069] fs/squashfs/page_actor.h:41
- squashfs_page_actor_free() error: dereferencing freed memory 'actor'
-Message-ID: <f7a4b364-ecff-46dc-989b-43dba1145052@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qI4ufQf9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C33FC32782;
+	Thu, 22 Aug 2024 18:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1724351065;
+	bh=fJM8piWVycxfuxwymCBX3W2I6CarLyDPpGzo3FoWl5E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qI4ufQf90WzhlhOoY7xd4/swuBjwWHbLwaIH4u6Z8aU7NmKZM5cOKHELyDntV77y8
+	 LhZkkk5akTG2PErYY2S1M+Eh+qQfvSAJUSj9KBcx7dx0zcoNqMmjvETYiPJwNYPnks
+	 kB1MQ3ScRh5274nvr7eZRcOf2ootyAcKi5wbcsWo=
+Date: Thu, 22 Aug 2024 11:24:24 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, linux-fsdevel@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 01/10] mm: Remove PageActive
+Message-Id: <20240822112424.281245ba8874b4b39ce25c37@linux-foundation.org>
+In-Reply-To: <202408222044.zZMToCKk-lkp@intel.com>
+References: <20240821193445.2294269-2-willy@infradead.org>
+	<202408222044.zZMToCKk-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6a7917c89f219f09b1d88d09f376000914a52763
-commit: 5d85f9c952d85a26e1a8c7c985b67963b483cabc [5650/6069] Squashfs: Ensure all readahead pages have been used
-config: i386-randconfig-141-20240822 (https://download.01.org/0day-ci/archive/20240822/202408222328.AeiNlEPx-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+On Thu, 22 Aug 2024 21:22:43 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408222328.AeiNlEPx-lkp@intel.com/
+>    arch/powerpc/mm/pgtable-frag.c: In function 'pte_free_defer':
+> >> arch/powerpc/mm/pgtable-frag.c:142:9: error: implicit declaration of function 'SetPageActive' [-Wimplicit-function-declaration]
+>      142 |         SetPageActive(page);
+>          |         ^~~~~~~~~~~~~
 
-smatch warnings:
-fs/squashfs/page_actor.h:41 squashfs_page_actor_free() error: dereferencing freed memory 'actor'
+this, I assume?
 
-vim +/actor +41 fs/squashfs/page_actor.h
-
-f268eedddf3595 Phillip Lougher 2022-06-11  28  extern struct squashfs_page_actor *squashfs_page_actor_init(void **buffer,
-f268eedddf3595 Phillip Lougher 2022-06-11  29  				int pages, int length);
-f268eedddf3595 Phillip Lougher 2022-06-11  30  extern struct squashfs_page_actor *squashfs_page_actor_init_special(
-f268eedddf3595 Phillip Lougher 2022-06-11  31  				struct squashfs_sb_info *msblk,
-2258e22f05aff5 Phillip Lougher 2024-08-19  32  				struct page **page, int pages, int length,
-2258e22f05aff5 Phillip Lougher 2024-08-19  33  				loff_t start_index);
-9ef8eb6104527b Phillip Lougher 2022-10-20  34  static inline struct page *squashfs_page_actor_free(struct squashfs_page_actor *actor)
-1f13dff09ffc8b Phillip Lougher 2022-08-22  35  {
-9ef8eb6104527b Phillip Lougher 2022-10-20  36  	struct page *last_page = actor->last_page;
-9ef8eb6104527b Phillip Lougher 2022-10-20  37  
-1f13dff09ffc8b Phillip Lougher 2022-08-22  38  	kfree(actor->tmp_buffer);
-1f13dff09ffc8b Phillip Lougher 2022-08-22  39  	kfree(actor);
-                                                ^^^^^^^^^^^^
-
-5d85f9c952d85a Phillip Lougher 2024-08-21  40  
-5d85f9c952d85a Phillip Lougher 2024-08-21 @41  	if (actor->next_page == actor->pages)
-                                                    ^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^
-Use after free.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/arch/powerpc/mm/pgtable-frag.c~mm-remove-pageactive-fix
++++ a/arch/powerpc/mm/pgtable-frag.c
+@@ -136,10 +136,10 @@ void pte_fragment_free(unsigned long *ta
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ void pte_free_defer(struct mm_struct *mm, pgtable_t pgtable)
+ {
+-	struct page *page;
++	struct folio *folio;
+ 
+-	page = virt_to_page(pgtable);
+-	SetPageActive(page);
++	folio = virt_to_folio(pgtable);
++	folio_set_active(folio);
+ 	pte_fragment_free((unsigned long *)pgtable, 0);
+ }
+ #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+_
 
