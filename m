@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558FF1CB326;
-	Thu, 22 Aug 2024 22:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160C217DFFC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 22:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724366291; cv=none; b=am50gGGmm4Ascbm+LtDylKuLQhS3kvk8OKYltPlBcY1qDi7MjIvm3IcynOicJL5s/6QXYxc1JYiHj1fYInwyy0a61KN1+8IrAs9EwxWGl9WqyvWy6iQEN65pr8mzOvqm15e4bg4gRXiY3Su8ZmRz1NuHDSrZU6onZLnAthPHHi8=
+	t=1724366890; cv=none; b=PEd+MpvVP23Mg7t4FZSCyzHcoRRnh5kEZNWVAGLstkh+7ITlmerIT0cVHULxt2N0WSjJSUtFYhRpiFdYjETRCoyxwlKKPMCP5I3mDFImM2ZyQLXTkJDj9MykXwikVyskW7JIYjL/ojK2N9K54vXay6MuBYGO5QscqpTGx7OQ3hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724366291; c=relaxed/simple;
-	bh=R5+tyKdhLqm7bUYRqH8VIN30gUI0eUJDNaHQgyQlJwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imQsVsZQbAvvmRDrte+/5yYs1Ox6kh9Q9u5no+RLKIItkgvKBu6iTIuC55rXbhwY8Uo5KgHsdPpgpnIF2eJNUJouCbOIbT4Wdy9k58ibpnyC2NZgKcIKrlB8kZKIGlI7gtiNbWyzqVPvfgEC3ZS+ShMix8qGyX7peUGGiGDdY0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ano/wpe2; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1724366890; c=relaxed/simple;
+	bh=OwBwJNN4o1cIb4ORhiHzcRFYUm1Qs4bGEPHVOK1qfb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SkBniI7jkRnodxL27EtF1SNCyJQTCyECFNGin1AUkPyCgcH42kZjPtkVR4AoiCaevnS5VZuNHi+wRBzge+gMOvKX/BIMSX9dordmebd2w4V8mzXb4kDIWoUIQM2oz3h2YKvJUq633zEnl3yh6pnSBsP83tZbMlCYpQJMGFr5bVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo8QpJJ+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ano/wpe2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo8QpJJ+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724366290; x=1755902290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R5+tyKdhLqm7bUYRqH8VIN30gUI0eUJDNaHQgyQlJwk=;
-  b=ano/wpe2qrTwxbHj1kCsyQ1nn3VX8Flc6QHggtOetoOZufBF5kj7sq2b
-   IRxSR0/veLn4ue76xHOGqJ0qzV6FETtMKbmIWz9C7ocKxzDIi8TjDV3Js
-   Qi3IjG3Q0h1SycnN2qpU9nqKPphD6SaFUytDpfVn/CpZ4eXbDEcGzJqzI
-   skvapmwwIvUw3GkjLXjfS57ER4wk75001Uf2yypgBmcOmwUXbN/aSlcWE
-   JREkNCT9LxKXhs/YFCeTvvsi+o1P3R0zUrcU4f2dAYZgBOZZdltxXbFTa
-   vGRMIdo938ieB/HBneYqaocs2AQkuHQYl4QO6Yp/9IrhelPPtGCXEwLTu
-   w==;
-X-CSE-ConnectionGUID: LjpY6fhdRXWr49aaN7cMgw==
-X-CSE-MsgGUID: gxYxo6JiQHalY9WdOLGIVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="40277856"
+  t=1724366887; x=1755902887;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OwBwJNN4o1cIb4ORhiHzcRFYUm1Qs4bGEPHVOK1qfb8=;
+  b=Eo8QpJJ+t8LMH6yGLForme18mfJKTA4163Hgbvkltm65CT6Ez7sBdTXr
+   ub0RPpkft6koa10frXlmnzrOWVF02H7i7tBOHbT9eqqy9OzKsr1P1G9+X
+   VgTyImi2VavNY1giU/6CHxfFmsQI89D9KA70tcRLpIhr587E3UiRfgHAv
+   VgC2ZAi2YGLg4QuQFJ5elmJkbCJwCsrWc3p1gvSOL4DS/KlfxJV1Px/4a
+   u6HRCHCY+iiXwwiK17nCHaIBAHlIE9OD/5dZTeRgTeT7V1U/PyPLn687Z
+   nKlZ/l7KA8yPjo2Wb+XRRmh7g6xZkAgMfPPxCZ4CufJJYajzBYg4R4XkJ
+   A==;
+X-CSE-ConnectionGUID: eY+iI1mkSmGg6Htw96lzVQ==
+X-CSE-MsgGUID: wg5J+RQkQX+1vHmRXI4hmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22626328"
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="40277856"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 15:38:09 -0700
-X-CSE-ConnectionGUID: 3UGFgZGARuWZkTU3DA5QOA==
-X-CSE-MsgGUID: 3CP1Z0QwRmeZPHvmWHc21w==
+   d="scan'208";a="22626328"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 15:48:07 -0700
+X-CSE-ConnectionGUID: nA4G34HURrexR8DrRrPvbg==
+X-CSE-MsgGUID: oPQGf6IUQNWe7mIfDf51zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="66430604"
+   d="scan'208";a="62136468"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 15:38:05 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Aug 2024 15:48:06 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shGRP-000DFY-2a;
-	Thu, 22 Aug 2024 22:38:03 +0000
-Date: Fri, 23 Aug 2024 06:37:32 +0800
+	id 1shGb5-000DFq-3A;
+	Thu, 22 Aug 2024 22:48:03 +0000
+Date: Fri, 23 Aug 2024 06:47:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibek Kumar Patro <quic_bibekkum@quicinc.com>, robdclark@gmail.com,
-	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
-	jgg@ziepe.ca, jsnitsel@redhat.com, robh@kernel.org,
-	krzysztof.kozlowski@linaro.org, quic_c_gdjako@quicinc.com,
-	dmitry.baryshkov@linaro.org, konrad.dybcio@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Bibek Kumar Patro <quic_bibekkum@quicinc.com>
-Subject: Re: [PATCH v14 6/6] iommu/arm-smmu: add support for PRR bit setup
-Message-ID: <202408230612.1DU9cuSx-lkp@intel.com>
-References: <20240816174259.2056829-7-quic_bibekkum@quicinc.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:hch-wtf1 110/116] fs/xfs/xfs_discard.c:731:70: error:
+ macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
+Message-ID: <202408230628.OmSSsSgx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,72 +61,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240816174259.2056829-7-quic_bibekkum@quicinc.com>
 
-Hi Bibek,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on joro-iommu/next]
-[also build test WARNING on linus/master v6.11-rc4 next-20240822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibek-Kumar-Patro/iommu-arm-smmu-re-enable-context-caching-in-smmu-reset-operation/20240817-014609
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-patch link:    https://lore.kernel.org/r/20240816174259.2056829-7-quic_bibekkum%40quicinc.com
-patch subject: [PATCH v14 6/6] iommu/arm-smmu: add support for PRR bit setup
-config: arm-randconfig-r071-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230612.1DU9cuSx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230612.1DU9cuSx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git hch-wtf1
+head:   9ef983fcb0d0eed158f11dada81cb6b9b4bdb9fc
+commit: 1a774c40ad792e07f8264d6e9edc804c7dd6c566 [110/116] xfs: don't bother reporting blocks trimmed via FITRIM
+config: arc-randconfig-002-20240823 (https://download.01.org/0day-ci/archive/20240823/202408230628.OmSSsSgx-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230628.OmSSsSgx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230612.1DU9cuSx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230628.OmSSsSgx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/iommu.h:10,
-                    from include/linux/io-pgtable.h:6,
-                    from include/linux/adreno-smmu-priv.h:9,
-                    from drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:7:
-   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: In function 'qcom_adreno_smmu_set_prr_addr':
->> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:266:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     266 |                                         (void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_LADDR);
-         |                                         ^
-   arch/arm/include/asm/io.h:282:75: note: in definition of macro 'writel_relaxed'
-     282 | #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v),c)
-         |                                                                           ^
-   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:269:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     269 |                                         (void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_UADDR);
-         |                                         ^
-   arch/arm/include/asm/io.h:282:75: note: in definition of macro 'writel_relaxed'
-     282 | #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v),c)
-         |                                                                           ^
+   fs/xfs/xfs_discard.c: In function 'xfs_ioc_trim':
+>> fs/xfs/xfs_discard.c:731:70: error: macro "xfs_trim_rtdev_extents" requires 5 arguments, but only 4 given
+     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
+         |                                                                      ^
+   fs/xfs/xfs_discard.c:654: note: macro "xfs_trim_rtdev_extents" defined here
+     654 | # define xfs_trim_rtdev_extents(m,s,e,n,b)      (-EOPNOTSUPP)
+         | 
+>> fs/xfs/xfs_discard.c:731:25: error: 'xfs_trim_rtdev_extents' undeclared (first use in this function); did you mean 'xfs_trim_datadev_extents'?
+     731 |                 error = xfs_trim_rtdev_extents(mp, start, end, minlen);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+         |                         xfs_trim_datadev_extents
+   fs/xfs/xfs_discard.c:731:25: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +266 drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+vim +/xfs_trim_rtdev_extents +731 fs/xfs/xfs_discard.c
 
-   256	
-   257	static void qcom_adreno_smmu_set_prr_addr(const void *cookie, phys_addr_t page_addr)
-   258	{
-   259		struct arm_smmu_domain *smmu_domain = (void *)cookie;
-   260		struct arm_smmu_device *smmu = smmu_domain->smmu;
-   261		const struct device_node *np = smmu->dev->of_node;
-   262	
-   263		if (of_device_is_compatible(np, "qcom,smmu-500") &&
-   264				of_device_is_compatible(np, "qcom,adreno-smmu")) {
-   265			writel_relaxed(lower_32_bits(page_addr),
- > 266						(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_LADDR);
-   267	
-   268			writel_relaxed(upper_32_bits(page_addr),
-   269						(void *)smmu->ioaddr + ARM_SMMU_GFX_PRR_CFG_UADDR);
-   270		}
-   271	}
-   272	
+   656	
+   657	/*
+   658	 * trim a range of the filesystem.
+   659	 *
+   660	 * Note: the parameters passed from userspace are byte ranges into the
+   661	 * filesystem which does not match to the format we use for filesystem block
+   662	 * addressing. FSB addressing is sparse (AGNO|AGBNO), while the incoming format
+   663	 * is a linear address range. Hence we need to use DADDR based conversions and
+   664	 * comparisons for determining the correct offset and regions to trim.
+   665	 *
+   666	 * The realtime device is mapped into the FITRIM "address space" immediately
+   667	 * after the data device.
+   668	 */
+   669	int
+   670	xfs_ioc_trim(
+   671		struct xfs_mount		*mp,
+   672		struct fstrim_range __user	*urange)
+   673	{
+   674		unsigned int		granularity =
+   675			bdev_discard_granularity(mp->m_ddev_targp->bt_bdev);
+   676		struct block_device	*rt_bdev = NULL;
+   677		struct fstrim_range	range;
+   678		xfs_daddr_t		start, end;
+   679		xfs_extlen_t		minlen;
+   680		xfs_rfsblock_t		max_blocks;
+   681		int			error, last_error = 0;
+   682	
+   683		if (!capable(CAP_SYS_ADMIN))
+   684			return -EPERM;
+   685		if (mp->m_rtdev_targp &&
+   686		    bdev_max_discard_sectors(mp->m_rtdev_targp->bt_bdev))
+   687			rt_bdev = mp->m_rtdev_targp->bt_bdev;
+   688		if (!bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev) && !rt_bdev)
+   689			return -EOPNOTSUPP;
+   690	
+   691		if (rt_bdev)
+   692			granularity = max(granularity,
+   693					  bdev_discard_granularity(rt_bdev));
+   694	
+   695		/*
+   696		 * We haven't recovered the log, so we cannot use our bnobt-guided
+   697		 * storage zapping commands.
+   698		 */
+   699		if (xfs_has_norecovery(mp))
+   700			return -EROFS;
+   701	
+   702		if (copy_from_user(&range, urange, sizeof(range)))
+   703			return -EFAULT;
+   704	
+   705		range.minlen = max_t(u64, granularity, range.minlen);
+   706		minlen = XFS_B_TO_FSB(mp, range.minlen);
+   707	
+   708		/*
+   709		 * Truncating down the len isn't actually quite correct, but using
+   710		 * BBTOB would mean we trivially get overflows for values
+   711		 * of ULLONG_MAX or slightly lower.  And ULLONG_MAX is the default
+   712		 * used by the fstrim application.  In the end it really doesn't
+   713		 * matter as trimming blocks is an advisory interface.
+   714		 */
+   715		max_blocks = mp->m_sb.sb_dblocks + mp->m_sb.sb_rblocks;
+   716		if (range.start >= XFS_FSB_TO_B(mp, max_blocks) ||
+   717		    range.minlen > XFS_FSB_TO_B(mp, mp->m_ag_max_usable) ||
+   718		    range.len < mp->m_sb.sb_blocksize)
+   719			return -EINVAL;
+   720	
+   721		start = BTOBB(range.start);
+   722		end = start + BTOBBT(range.len) - 1;
+   723	
+   724		if (bdev_max_discard_sectors(mp->m_ddev_targp->bt_bdev)) {
+   725			error = xfs_trim_datadev_extents(mp, start, end, minlen);
+   726			if (error)
+   727				last_error = error;
+   728		}
+   729	
+   730		if (rt_bdev && !xfs_trim_should_stop()) {
+ > 731			error = xfs_trim_rtdev_extents(mp, start, end, minlen);
 
 -- 
 0-DAY CI Kernel Test Service
