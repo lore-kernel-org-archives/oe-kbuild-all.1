@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D2F13C90A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 13:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BBB1C9EC4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 13:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724332991; cv=none; b=ku7iRSWU4OXqw7xfol0H/8ORWrLr6J7t3zsOZsnR0WPnJbHCOPGx6g+yxEH7vhtGh9FmrwRDnTSCBwxg8Vm93zAoHMg2CKc6oi2ttmJNv9/rStqqF+aZYtQs/e+XJhDKZ8V7MKWZYfqaSNvAr8cAU4Yhxq6tFYAPXfaY5dBsZJM=
+	t=1724332991; cv=none; b=ZnKV5X6s8eoVlH9JoqqaK/1sr8GEhslALKBbku5oVxSHP2ExyjL1A44XUd5+IgkFASF05rgZaFUQrAX5W01+uEUiFeLrcM/Jv3h53NeG1ZvLyMecbqZAzg0wFDLbcsQWwvVX1rKPLMpvYdptZHvp6lNPMAcj6d8xHWlN8LK0Kw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724332991; c=relaxed/simple;
-	bh=yIypRD1k6XYRabvVE3iB8FacqDj+VebCibjvHbTL5n0=;
+	bh=ihfoIIwBY7vjnM53NdhthRQd9G4rdan23hMoqFFnwRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BzXY1qULLDvmYJVWrpgcjezqRJq293k4FFDnuVB0rOT+OIPCuU7V+X0U8IQPjBxmNAbQpNFZlub+4m2t73beRBFlvixy8QK2ylCapFuUFJkU2rBV995di+/uvCVSGPGojIfNImMbeWbDmDNS8B4TgqNUVH8Ny5kaigkPLNLedtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dM6dqHWi; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEaLB5dDB9F+xc4mCa+/XRLKKkY1I7pzpQtPYQjpuwGZAgcxG3cw2C1rYull+EI221LnnKvO6XaF6KiXqGfleIrydhhUAuG1h2qraQf+vqH6kQ8tUpOidCmr0Wj4YLTdYHxn0YQHK+C1tH4DYHlnH/tehsA38EN8uthBN+FrUMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd9E+dne; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dM6dqHWi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd9E+dne"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724332989; x=1755868989;
+  t=1724332990; x=1755868990;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yIypRD1k6XYRabvVE3iB8FacqDj+VebCibjvHbTL5n0=;
-  b=dM6dqHWih/hBOal/lpZTRXjN6dmz1mHtAA7k1Ws2T0yQIOERWYgNzv4g
-   +goJ19fm0aUik7b9o1frmy5wFsTmJw9gIX1m8+hzxY3vI4RNKIsohcmFa
-   /wHxHJuCyOqksKkZFyfl2TPJt49awXtb4KInpmhLMUX9j+7cx9iD08X+/
-   uogIXQSns4Bqj9ulYPuJiZ1OZY7JRZyz3+7b6UVwy0ACzxrR1tB4ZRNE/
-   0so6JOsH/vHKV+pGkHxfh18fkOaQ9nZU7ptv4JkAWwK2TmYCF3+XRn6qj
-   /Owp25FeqXjU7rDQG5erBsEUDmJy3kXBzCF9QcZmeMN7OY9qdBXDKZwKH
+  bh=ihfoIIwBY7vjnM53NdhthRQd9G4rdan23hMoqFFnwRU=;
+  b=Jd9E+dneNRI2bU/rDxl6XkKCUhL0Gz4oIrLGunotQOdQDqe0jd4ajLJE
+   MdXK6yJVSbjKDSRJ+NGvVnnP95EBf0lvzlEhXaVv4drB6pXP0od8eHy4L
+   mj/A+jenO15Ow6q/gFNRDshhA1Wo1o6ylOzXq+JF/HIsk8ofQxWogdKpL
+   qHWMq2M+r6FEdEIQoB2h4KetT6adOB0liwIqg10C6yFQMAjbaTTUwnZAs
+   G+9xtH+/LRT1g7N5FaTXy8q1UTvbqR3HEbtsQ3nUnIqvqmj9681o4qcf5
+   wkBuriBOIMVoHMCGRQLZEKqc4x8Ufm6uzdXr8M2xSJ7SSfYfhiv9YS1I6
    w==;
-X-CSE-ConnectionGUID: EfU6BWnrRwuQmvS7ESfCqw==
-X-CSE-MsgGUID: x7McbkzYQjSBWIWJSxje2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="34127241"
+X-CSE-ConnectionGUID: p5XOXq0LSVeWKnGNStRWTg==
+X-CSE-MsgGUID: 8SfVfGxhQEm4sOKwWyu70w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33898393"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="34127241"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:23:09 -0700
-X-CSE-ConnectionGUID: CVXLEPCkSP+q6m079s7p0Q==
-X-CSE-MsgGUID: sUiTGApnS9yq75oR+nw3UQ==
+   d="scan'208";a="33898393"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 06:23:09 -0700
+X-CSE-ConnectionGUID: 2ZdZ/EYTT7aGUaUazgxAXw==
+X-CSE-MsgGUID: vZp1On1BRwebNdaaRu+52A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="61465126"
+   d="scan'208";a="92186233"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Aug 2024 06:23:07 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Aug 2024 06:23:07 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh7mL-000CmT-1S;
+	id 1sh7mL-000CmR-1O;
 	Thu, 22 Aug 2024 13:23:05 +0000
-Date: Thu, 22 Aug 2024 21:22:44 +0800
+Date: Thu, 22 Aug 2024 21:22:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wojciech Drewek <wojciech.drewek@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v10 14/14] iavf: add support
- for Rx timestamps to hotpath
-Message-ID: <202408222123.LEHTAhtq-lkp@intel.com>
-References: <20240821121539.374343-15-wojciech.drewek@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 01/10] mm: Remove PageActive
+Message-ID: <202408222044.zZMToCKk-lkp@intel.com>
+References: <20240821193445.2294269-2-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +66,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821121539.374343-15-wojciech.drewek@intel.com>
+In-Reply-To: <20240821193445.2294269-2-willy@infradead.org>
 
-Hi Wojciech,
+Hi Matthew,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tnguy-next-queue/dev-queue]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on arm64/for-next/core tip/x86/core tip/x86/mm linus/master v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wojciech-Drewek/virtchnl-add-support-for-enabling-PTP-on-iAVF/20240821-202156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20240821121539.374343-15-wojciech.drewek%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v10 14/14] iavf: add support for Rx timestamps to hotpath
-config: i386-buildonly-randconfig-002-20240822 (https://download.01.org/0day-ci/archive/20240822/202408222123.LEHTAhtq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222123.LEHTAhtq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/mm-Remove-PageActive/20240822-033717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240821193445.2294269-2-willy%40infradead.org
+patch subject: [PATCH 01/10] mm: Remove PageActive
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408222044.zZMToCKk-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222044.zZMToCKk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408222123.LEHTAhtq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408222044.zZMToCKk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_hwstamp_set':
-   drivers/net/ethernet/intel/iavf/iavf_main.c:5095: undefined reference to `iavf_ptp_set_ts_config'
-   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_select_rx_desc_format':
->> drivers/net/ethernet/intel/iavf/iavf_main.c:734: undefined reference to `iavf_ptp_cap_supported'
-   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_remove':
-   drivers/net/ethernet/intel/iavf/iavf_main.c:5517: undefined reference to `iavf_ptp_release'
-   ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_init_config_adapter':
-   drivers/net/ethernet/intel/iavf/iavf_main.c:2851: undefined reference to `iavf_ptp_init'
-   ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_configure_queues':
-   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:409: undefined reference to `iavf_ptp_cap_supported'
-   ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_virtchnl_completion':
-   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:2595: undefined reference to `iavf_ptp_process_caps'
-   ld: drivers/net/ethernet/intel/iavf/iavf_txrx.o: in function `iavf_flex_rx_tstamp':
->> drivers/net/ethernet/intel/iavf/iavf_txrx.c:1124: undefined reference to `iavf_ptp_extend_32b_timestamp'
-   ld: net/core/net-sysfs.o: in function `netdev_queue_update_kobjects':
-   net/core/net-sysfs.c:1852: undefined reference to `dql_group'
-   ld: net/core/net-sysfs.o: in function `netdev_queue_add_kobject':
-   net/core/net-sysfs.c:1792: undefined reference to `dql_group'
+   arch/powerpc/mm/pgtable-frag.c: In function 'pte_free_defer':
+>> arch/powerpc/mm/pgtable-frag.c:142:9: error: implicit declaration of function 'SetPageActive' [-Wimplicit-function-declaration]
+     142 |         SetPageActive(page);
+         |         ^~~~~~~~~~~~~
 
 
-vim +734 drivers/net/ethernet/intel/iavf/iavf_main.c
+vim +/SetPageActive +142 arch/powerpc/mm/pgtable-frag.c
 
-   712	
-   713	/**
-   714	 * iavf_select_rx_desc_format - Select Rx descriptor format
-   715	 * @adapter: adapter private structure
-   716	 *
-   717	 * Select what Rx descriptor format based on availability and enabled
-   718	 * features.
-   719	 *
-   720	 * Return: the desired RXDID to select for a given Rx queue, as defined by
-   721	 *         enum virtchnl_rxdid_format.
-   722	 */
-   723	static u8 iavf_select_rx_desc_format(const struct iavf_adapter *adapter)
-   724	{
-   725		u64 rxdids = adapter->supp_rxdids;
-   726	
-   727		/* If we did not negotiate VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC, we must
-   728		 * stick with the default value of the legacy 32 byte format.
-   729		 */
-   730		if (!IAVF_RXDID_ALLOWED(adapter))
-   731			return VIRTCHNL_RXDID_1_32B_BASE;
-   732	
-   733		/* Rx timestamping requires the use of flexible NIC descriptors */
- > 734		if (iavf_ptp_cap_supported(adapter, VIRTCHNL_1588_PTP_CAP_RX_TSTAMP)) {
-   735			if (rxdids & BIT(VIRTCHNL_RXDID_2_FLEX_SQ_NIC))
-   736				return VIRTCHNL_RXDID_2_FLEX_SQ_NIC;
-   737	
-   738			pci_warn(adapter->pdev,
-   739				 "Unable to negotiate flexible descriptor format\n");
-   740		}
-   741	
-   742		/* Warn if the PF does not list support for the default legacy
-   743		 * descriptor format. This shouldn't happen, as this is the format
-   744		 * used if VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC is not supported. It is
-   745		 * likely caused by a bug in the PF implementation failing to indicate
-   746		 * support for the format.
-   747		 */
-   748		if (!(rxdids & VIRTCHNL_RXDID_1_32B_BASE_M))
-   749			pci_warn(adapter->pdev, "PF does not list support for default Rx descriptor format\n");
-   750	
-   751		return VIRTCHNL_RXDID_1_32B_BASE;
-   752	}
-   753	
+32cc0b7c9d508e Hugh Dickins 2023-07-11  135  
+32cc0b7c9d508e Hugh Dickins 2023-07-11  136  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+32cc0b7c9d508e Hugh Dickins 2023-07-11  137  void pte_free_defer(struct mm_struct *mm, pgtable_t pgtable)
+32cc0b7c9d508e Hugh Dickins 2023-07-11  138  {
+32cc0b7c9d508e Hugh Dickins 2023-07-11  139  	struct page *page;
+32cc0b7c9d508e Hugh Dickins 2023-07-11  140  
+32cc0b7c9d508e Hugh Dickins 2023-07-11  141  	page = virt_to_page(pgtable);
+32cc0b7c9d508e Hugh Dickins 2023-07-11 @142  	SetPageActive(page);
 
 -- 
 0-DAY CI Kernel Test Service
