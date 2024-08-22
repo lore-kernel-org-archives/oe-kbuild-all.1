@@ -1,61 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE6939FF2;
-	Thu, 22 Aug 2024 05:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FE943AC4;
+	Thu, 22 Aug 2024 05:08:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724303312; cv=none; b=pBjz44MEr1+bf7sYROE/xBo7zuP5jyxYw4qJWrWTTQYXsLjctVPfwExuYywfxx2QdWwzH7p8SbCvNhHY6ao2FayBMrvuNlgAQ3dvY8iB7ztpMlEpjv6k0qjy0Z2CqSzqKD+mMFxFSMkWHEvYURPM570t8itR+P8E3MQIspQv06s=
+	t=1724303313; cv=none; b=Jt/HkhnNtvLnMAWFH6Aw+uKv/ZiwVuFQDi8VV7b3EFRZXQEnmCY0MnY5Zv4XIj+LipJJprDZUOMyYQCGcSywES033DlGnh/V1NRP/9Cr5cpdCY7cR5Tch2tJMfwykLMw4gfpMMjrSzWFZ8QJ9Tw6yQQ1y4BN+hjY6odkQB1lNUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724303312; c=relaxed/simple;
-	bh=DuP6gWL2QzEDfOfhHXfJnyaOtP1/xRSOjL/ac5t2XtM=;
+	s=arc-20240116; t=1724303313; c=relaxed/simple;
+	bh=9s8j/0U1Jhir7fV9eKqMzHlUJDO/aJdbFozQaf90hPI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjY+Hp43fvvsDelyMyViEbTtVmTLTlnGWMO5/8t0GpVRhBERK8V0OrIp+/mTJPODZftXmbdSlXvkM0BW/W5O0g6jIOrwtucCoAWJqXWgrtKLoslvD/7l5iTOGa8FpMoxNj4i486340sXpARhOmFXU5NvLGlDAKVn4fK7f0G4WPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXdLtclW; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcaBXfaIRLDEqm2mpnPbxMvkZsEZrPmiJ2pIaV+EEteo8lseyo7wXuEDlzx0BBCOdXNVszFnFTEnm2fo7yjbSGBxdA8AZT10d7hKvEXNDL9HUjyE0iO9dgZcEifxO9RT/1lSo3Yi2U+4Adph0Dcrr7SDEE3Pzi/DPm/bf3HmCJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLduqfUa; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXdLtclW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLduqfUa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724303311; x=1755839311;
+  t=1724303312; x=1755839312;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DuP6gWL2QzEDfOfhHXfJnyaOtP1/xRSOjL/ac5t2XtM=;
-  b=eXdLtclWDNdkpew6bSQyW2NGwmyb1J8Jq2SRJ++EOuBU91hC92/9V1dH
-   3hoguHdcDGD34k26+IBYS0QVeY0DHtJcD5mQ5lL+uM7yxSUPYDw8EBP3S
-   m4lCst3GASQ4sfo3Ond/8cfEqVQwJQcCT766wzacg41CC0xEWn792LLsh
-   +jc4DoHMasE9WWWi+F9Xtqlwym8znQxxL1pA3DXtCmN5kRL7oUIx4oI/y
-   ealrDbbOG9zn03PwBFwdePdiZJbdXQ5n7z/AeX9RolMPKt0STPmQ6ETav
-   h+MHdGjO2xeZFBG/vtlj8jTNZdvK2A4ghNeyWs1PwWnWIbUwBO0tamXus
+  bh=9s8j/0U1Jhir7fV9eKqMzHlUJDO/aJdbFozQaf90hPI=;
+  b=lLduqfUaUU37U3BCRjKZp4H5QQWkBuMPw3yf7wdDRXoMXyKTJowegEq9
+   3Z1JnYKLYlHQMXUyuAcLubZthYGqTnKfJtXUmZ6iM6KWLXzxYwsoWCEGo
+   29f6Tgf+HVLBYVsKMjc0BPE3/4xuqgBoy3AfzXdOVtl1eiLJPk5MTYveg
+   xyS3hw6WT938jjJvOGIdUZpbNXTMfM+5zg0fXSGm3f+UWL50cxb40+kDj
+   LqGSi+YiImjX9V8sZk2TzsQVwjV912/WuXqMh4DIV5GC9jbQrSO0ZHZpJ
+   Pd+ewKLmsJsKhBTOarB5BMG+xt9bNyR3RYLlq3tb4t0WX7alGV7oCxEZJ
    A==;
-X-CSE-ConnectionGUID: hv5oTvzDSZCwlDpH5uMAWg==
-X-CSE-MsgGUID: 48/AfsrBRte4m9oJwMKtYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22220592"
+X-CSE-ConnectionGUID: 53oYOAs3QmmdP9byByLHTg==
+X-CSE-MsgGUID: fHTnwZQ8S6a9BelZb4FYXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="22220598"
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="22220592"
+   d="scan'208";a="22220598"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 22:08:30 -0700
-X-CSE-ConnectionGUID: 42vMd2vTT3a18T7oVQpO1w==
-X-CSE-MsgGUID: gn6y762xQ7+jR7G4GkpQDg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 22:08:31 -0700
+X-CSE-ConnectionGUID: Ll+V9ESJSYa5NnhmDzMx+g==
+X-CSE-MsgGUID: jJlpNQm4SfmByS0djTzCYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="66135184"
+   d="scan'208";a="66135195"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 21 Aug 2024 22:08:29 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh03e-000CP2-0d;
+	id 1sh03e-000CP8-0r;
 	Thu, 22 Aug 2024 05:08:26 +0000
-Date: Thu, 22 Aug 2024 13:07:50 +0800
+Date: Thu, 22 Aug 2024 13:07:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liao Yuanhong <liaoyuanhong@vivo.com>, alexandre.belloni@bootlin.com,
-	linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Liao Yuanhong <liaoyuanhong@vivo.com>
-Subject: Re: [PATCH 4/7] rtc:rtc-s3c:Use devm_clk_get_enabled() helpers
-Message-ID: <202408221253.CO0v47kj-lkp@intel.com>
-References: <20240821092846.20138-5-liaoyuanhong@vivo.com>
+To: Vasant Hegde <vasant.hegde@amd.com>, iommu@lists.linux.dev,
+	joro@8bytes.org
+Cc: oe-kbuild-all@lists.linux.dev, will@kernel.org, robin.murphy@arm.com,
+	suravee.suthikulpanit@amd.com, jgg@ziepe.ca, yi.l.liu@intel.com,
+	baolu.lu@linux.intel.com, kevin.tian@intel.com,
+	Vasant Hegde <vasant.hegde@amd.com>
+Subject: Re: [PATCH 1/5] iommu: Enhance domain allocation code to take
+ additional flags
+Message-ID: <202408221237.HWmdmfvc-lkp@intel.com>
+References: <20240821133554.7405-2-vasant.hegde@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,129 +67,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821092846.20138-5-liaoyuanhong@vivo.com>
+In-Reply-To: <20240821133554.7405-2-vasant.hegde@amd.com>
 
-Hi Liao,
+Hi Vasant,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on tegra/for-next linus/master v6.11-rc4 next-20240821]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc4 next-20240821]
+[cannot apply to joro-iommu/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Liao-Yuanhong/rtc-rtc-at91rm9200-Use-devm_clk_get_enabled-helpers/20240821-190257
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20240821092846.20138-5-liaoyuanhong%40vivo.com
-patch subject: [PATCH 4/7] rtc:rtc-s3c:Use devm_clk_get_enabled() helpers
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240822/202408221253.CO0v47kj-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221253.CO0v47kj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vasant-Hegde/iommu-Enhance-domain-allocation-code-to-take-additional-flags/20240821-214124
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240821133554.7405-2-vasant.hegde%40amd.com
+patch subject: [PATCH 1/5] iommu: Enhance domain allocation code to take additional flags
+config: x86_64-randconfig-075-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221237.HWmdmfvc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221237.HWmdmfvc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221253.CO0v47kj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221237.HWmdmfvc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rtc/rtc-s3c.c:483:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
-   }
-   ^
-   1 warning generated.
+   In file included from <command-line>:
+   include/linux/compiler_types.h:236:16: error: expected '{' before 'inline'
+     236 | #define inline inline __gnu_inline __inline_maybe_unused notrace
+         |                ^~~~~~
+   include/linux/iommu.h:1103:8: note: in expansion of macro 'inline'
+    1103 | struct inline iommu_domain *iommu_paging_domain_alloc_flags(struct device *dev,
+         |        ^~~~~~
+>> include/linux/compiler_types.h:236:16: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+     236 | #define inline inline __gnu_inline __inline_maybe_unused notrace
+         |                ^~~~~~
+   include/linux/iommu.h:1103:8: note: in expansion of macro 'inline'
+    1103 | struct inline iommu_domain *iommu_paging_domain_alloc_flags(struct device *dev,
+         |        ^~~~~~
 
 
-vim +483 drivers/rtc/rtc-s3c.c
+vim +/inline +236 include/linux/compiler_types.h
 
-1add6781c85d7e Ben Dooks           2006-07-01  397  
-5a167f4543e45d Greg Kroah-Hartman  2012-12-21  398  static int s3c_rtc_probe(struct platform_device *pdev)
-1add6781c85d7e Ben Dooks           2006-07-01  399  {
-19be09f51d3610 Chanwoo Choi        2014-10-13  400  	struct s3c_rtc *info = NULL;
-1add6781c85d7e Ben Dooks           2006-07-01  401  	int ret;
-1add6781c85d7e Ben Dooks           2006-07-01  402  
-19be09f51d3610 Chanwoo Choi        2014-10-13  403  	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
-19be09f51d3610 Chanwoo Choi        2014-10-13  404  	if (!info)
-19be09f51d3610 Chanwoo Choi        2014-10-13  405  		return -ENOMEM;
-1add6781c85d7e Ben Dooks           2006-07-01  406  
-19be09f51d3610 Chanwoo Choi        2014-10-13  407  	info->dev = &pdev->dev;
-64704c92fd19c5 Marek Szyprowski    2019-01-18  408  	info->data = of_device_get_match_data(&pdev->dev);
-ae05c95074e0ea Chanwoo Choi        2014-10-13  409  	if (!info->data) {
-ae05c95074e0ea Chanwoo Choi        2014-10-13  410  		dev_err(&pdev->dev, "failed getting s3c_rtc_data\n");
-ae05c95074e0ea Chanwoo Choi        2014-10-13  411  		return -EINVAL;
-ae05c95074e0ea Chanwoo Choi        2014-10-13  412  	}
-5a5b614ba61cc2 Marek Szyprowski    2019-01-21  413  	spin_lock_init(&info->alarm_lock);
-19be09f51d3610 Chanwoo Choi        2014-10-13  414  
-19be09f51d3610 Chanwoo Choi        2014-10-13  415  	platform_set_drvdata(pdev, info);
-19be09f51d3610 Chanwoo Choi        2014-10-13  416  
-19be09f51d3610 Chanwoo Choi        2014-10-13  417  	info->irq_alarm = platform_get_irq(pdev, 0);
-faac910201e9be Stephen Boyd        2019-07-30  418  	if (info->irq_alarm < 0)
-19be09f51d3610 Chanwoo Choi        2014-10-13  419  		return info->irq_alarm;
-1add6781c85d7e Ben Dooks           2006-07-01  420  
-ce9af89392024f Marek Szyprowski    2020-12-02  421  	dev_dbg(&pdev->dev, "s3c2410_rtc: alarm irq %d\n", info->irq_alarm);
-1add6781c85d7e Ben Dooks           2006-07-01  422  
-1add6781c85d7e Ben Dooks           2006-07-01  423  	/* get the memory region */
-09ef18bcd5ac6c YueHaibing          2019-10-06  424  	info->base = devm_platform_ioremap_resource(pdev, 0);
-19be09f51d3610 Chanwoo Choi        2014-10-13  425  	if (IS_ERR(info->base))
-19be09f51d3610 Chanwoo Choi        2014-10-13  426  		return PTR_ERR(info->base);
-1add6781c85d7e Ben Dooks           2006-07-01  427  
-ab10bbbb4bf910 Liao Yuanhong       2024-08-21  428  	info->rtc_clk = devm_clk_get_enabled(&pdev->dev, "rtc");
-eb633de6abcb30 Yang Yingliang      2022-09-19  429  	if (IS_ERR(info->rtc_clk))
-eb633de6abcb30 Yang Yingliang      2022-09-19  430  		return dev_err_probe(&pdev->dev, PTR_ERR(info->rtc_clk),
-eb633de6abcb30 Yang Yingliang      2022-09-19  431  				     "failed to find rtc clock\n");
-e48add8c1c462f Atul Dahiya         2010-07-20  432  
-eaf3a659086e1d Marek Szyprowski    2014-10-29  433  	if (info->data->needs_src_clk) {
-ab10bbbb4bf910 Liao Yuanhong       2024-08-21  434  		info->rtc_src_clk = devm_clk_get_enabled(&pdev->dev, "rtc_src");
-df9e26d093d33a Chanwoo Choi        2014-10-13  435  		if (IS_ERR(info->rtc_src_clk)) {
-c52d270c68a02f Krzysztof Kozlowski 2020-08-30  436  			ret = dev_err_probe(&pdev->dev, PTR_ERR(info->rtc_src_clk),
-eaf3a659086e1d Marek Szyprowski    2014-10-29  437  					    "failed to find rtc source clock\n");
-ab10bbbb4bf910 Liao Yuanhong       2024-08-21  438  			return ret;
-df9e26d093d33a Chanwoo Choi        2014-10-13  439  		}
-eaf3a659086e1d Marek Szyprowski    2014-10-29  440  	}
-df9e26d093d33a Chanwoo Choi        2014-10-13  441  
-31b16d978f902b Marek Szyprowski    2020-12-02  442  	/* disable RTC enable bits potentially set by the bootloader */
-31b16d978f902b Marek Szyprowski    2020-12-02  443  	if (info->data->disable)
-31b16d978f902b Marek Szyprowski    2020-12-02  444  		info->data->disable(info);
-31b16d978f902b Marek Szyprowski    2020-12-02  445  
-1add6781c85d7e Ben Dooks           2006-07-01  446  	/* check to see if everything is setup correctly */
-ae05c95074e0ea Chanwoo Choi        2014-10-13  447  	if (info->data->enable)
-ae05c95074e0ea Chanwoo Choi        2014-10-13  448  		info->data->enable(info);
-1add6781c85d7e Ben Dooks           2006-07-01  449  
-d4a48c2ad75b06 Jingoo Han          2013-02-21  450  	dev_dbg(&pdev->dev, "s3c2410_rtc: RTCCON=%02x\n",
-19be09f51d3610 Chanwoo Choi        2014-10-13  451  		readw(info->base + S3C2410_RTCCON));
-1add6781c85d7e Ben Dooks           2006-07-01  452  
-51b7616e36fbad Yauhen Kharuzhy     2008-10-29  453  	device_init_wakeup(&pdev->dev, 1);
-51b7616e36fbad Yauhen Kharuzhy     2008-10-29  454  
-dba28c37f23a09 Sam Protsenko       2021-10-21  455  	info->rtc = devm_rtc_allocate_device(&pdev->dev);
-19be09f51d3610 Chanwoo Choi        2014-10-13  456  	if (IS_ERR(info->rtc)) {
-19be09f51d3610 Chanwoo Choi        2014-10-13  457  		ret = PTR_ERR(info->rtc);
-1add6781c85d7e Ben Dooks           2006-07-01  458  		goto err_nortc;
-1add6781c85d7e Ben Dooks           2006-07-01  459  	}
-1add6781c85d7e Ben Dooks           2006-07-01  460  
-dba28c37f23a09 Sam Protsenko       2021-10-21  461  	info->rtc->ops = &s3c_rtcops;
-a5feda3b361e11 Sam Protsenko       2021-10-21  462  	info->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
-a5feda3b361e11 Sam Protsenko       2021-10-21  463  	info->rtc->range_max = RTC_TIMESTAMP_END_2099;
-dba28c37f23a09 Sam Protsenko       2021-10-21  464  
-dba28c37f23a09 Sam Protsenko       2021-10-21  465  	ret = devm_rtc_register_device(info->rtc);
-dba28c37f23a09 Sam Protsenko       2021-10-21  466  	if (ret)
-dba28c37f23a09 Sam Protsenko       2021-10-21  467  		goto err_nortc;
-dba28c37f23a09 Sam Protsenko       2021-10-21  468  
-19be09f51d3610 Chanwoo Choi        2014-10-13  469  	ret = devm_request_irq(&pdev->dev, info->irq_alarm, s3c_rtc_alarmirq,
-19be09f51d3610 Chanwoo Choi        2014-10-13  470  			       0, "s3c2410-rtc alarm", info);
-19be09f51d3610 Chanwoo Choi        2014-10-13  471  	if (ret) {
-19be09f51d3610 Chanwoo Choi        2014-10-13  472  		dev_err(&pdev->dev, "IRQ%d error %d\n", info->irq_alarm, ret);
-19be09f51d3610 Chanwoo Choi        2014-10-13  473  		goto err_nortc;
-19be09f51d3610 Chanwoo Choi        2014-10-13  474  	}
-eaa6e4dd4bf243 Maurus Cuelenaere   2010-06-04  475  
-5a5b614ba61cc2 Marek Szyprowski    2019-01-21  476  	s3c_rtc_disable_clk(info);
-5a5b614ba61cc2 Marek Szyprowski    2019-01-21  477  
-1add6781c85d7e Ben Dooks           2006-07-01  478  	return 0;
-1add6781c85d7e Ben Dooks           2006-07-01  479  
-1add6781c85d7e Ben Dooks           2006-07-01  480  err_nortc:
-ae05c95074e0ea Chanwoo Choi        2014-10-13  481  	if (info->data->disable)
-ae05c95074e0ea Chanwoo Choi        2014-10-13  482  		info->data->disable(info);
-1add6781c85d7e Ben Dooks           2006-07-01 @483  }
-1add6781c85d7e Ben Dooks           2006-07-01  484  
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  228  
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  229  /*
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  230   * Prefer gnu_inline, so that extern inline functions do not emit an
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  231   * externally visible function. This makes extern inline behave as per gnu89
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  232   * semantics rather than c99. This prevents multiple symbol definition errors
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  233   * of extern inline functions at link time.
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  234   * A lot of inline functions can cause havoc with function tracing.
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  235   */
+889b3c1245de48 Masahiro Yamada 2020-04-06 @236  #define inline inline __gnu_inline __inline_maybe_unused notrace
+71391bdd2e9aab Xiaozhou Liu    2018-12-14  237  
 
 -- 
 0-DAY CI Kernel Test Service
