@@ -1,78 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9381B2EE2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 12:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA6026AF6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 12:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724328673; cv=none; b=uRY9W0qJagZGy36X3nepI2ATnxMgzPcyXjHI++H70RQFRaaRmpMscMChbgtJjb0boPiUeDHN6G5sEzyDxFDdJJeI1JAl4U9p2pq21ZMAr8arsKw1Rber5zNLQZ8VxFnU1RYpzP2tg0bYFeY8WkiXy/q5v+LBCjcZ1Gay17fZwVs=
+	t=1724329271; cv=none; b=tybKOBwcjiC53vnxllay9F0J9bT8eF2JM0IU0hbNC2okLQKTUUSBzrmGnC/9bM7k/+A/Rpmcn0lrlDKfnUCYeee11TZZMqDdhyAZRQ7WannUcII0riLzRjDOsQ/0nHcjs9kFFhBtrjDkM5EapCKYUDL0mxJ8Q1UilOXGIwND71E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724328673; c=relaxed/simple;
-	bh=wBl1r1iyvYDMVZtv8y/QM6cGPiMA+r+kJ9USad8vmoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KGws761xNlyy1Ux+CFUJclyxDmDgcES4NPE/NoH5dhs4+6WDlnzxoMHe+vyRkJ0SQwLcM4pdUhiE6v2gOXLyAHyCnX1ComqWTCmSVD85gPamCZwIo7hmFD6lhFCChOUwQFu+wN45sbsm99L0pVxKHKboKj98iarYHgoS/OJIRl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioZcH+WU; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1724329271; c=relaxed/simple;
+	bh=a+3Vq7QELTrwkjhr8n5itJCmvmmGkawKyaerwmsT/ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=an2cjLdmJmnGDW75hGeom1nedrDVvFdlqGn+ubwJvNgabnkFRGlQScaMFnCk0yZAU64GX/xk3DQCIsZ9/VtH+mYZuoHAN681l2XdfljtoJJvhnzKQuHL8FpA3yOVA/B9UVWhbeZmLsbPytbAdUdOfKUvy/RTsvlitK5AB/fRzwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgSGpF+T; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioZcH+WU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgSGpF+T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724328672; x=1755864672;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wBl1r1iyvYDMVZtv8y/QM6cGPiMA+r+kJ9USad8vmoA=;
-  b=ioZcH+WUR+NDHscS7T2iCzRPkYvGnDvFZqwZhGs32/QJBGGvNPf/2oVM
-   eNjzw/pJv5/Jf2S5gjSelv190PpFQoyL7KqapAO+ppWuyfQ7h6ix2qNRl
-   7/W58/P3tjZZpD2VDVxMNT7lu9lgeIZg0UkIQMRIZP9oZGjrmLDCywsNx
-   0xS6I/sjsPrb3OaPRGxvgr90spgabTk5PxWDbwNKkT4e0AkJ86A2hmV+H
-   dE1wkwz/8lAljboET8Vz7/lxxGpzgIMHgmipENTHELfZ2JKsCGUsUTQSC
-   JRPMPCWzqF11E8cY0gfkhkL/v1ZK+ksa7IKCuEcURLUAjQ/wiXmVLLaqT
-   A==;
-X-CSE-ConnectionGUID: P18i9OBSTk+savR4z9jAig==
-X-CSE-MsgGUID: ZTUt+/1TSYG7gbWXw6jpzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="45260376"
+  t=1724329271; x=1755865271;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a+3Vq7QELTrwkjhr8n5itJCmvmmGkawKyaerwmsT/ps=;
+  b=jgSGpF+TtaIbVNJvRwdKHN9hl1gfIidCrsinFwwYuKZB5QC0Iv7D3OaO
+   5Gp2PBuMWFNImY8QwkZy17fhhZHUFW3D8ylcTr2OoCSPQKW4oDmawPHb0
+   qSzNcKOLYy5MLtPZ3sXihgnI8TlBJo6uAdSogymuMMmm2BgX+BPzvtSCL
+   PI0WhnC5Ahs9poJTe+MRvWCA16NjfgKUkuFzC050EKuWLfKZTDYKNzSGv
+   Qj3oJ3KfHfqETgCpFFD7Sta3w2DL2MiQs66SvHEhEy3Is9sPWXCzk4cSo
+   un5UvRbBew/2t7ZpN4rj47mpAsMcyX0bvIjZMirmBFhhn8uKlywVdSXtG
+   w==;
+X-CSE-ConnectionGUID: ZAqXEcupThGrTrCuyW/hnA==
+X-CSE-MsgGUID: cQXwIxs1RMaEHIQS6Fg7og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22893297"
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="45260376"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 05:11:11 -0700
-X-CSE-ConnectionGUID: /PjncfjhS2K+vMx1/qUUeg==
-X-CSE-MsgGUID: Fv/q/DKJQ4WtGUg+Dfv/uA==
+   d="scan'208";a="22893297"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 05:21:10 -0700
+X-CSE-ConnectionGUID: X9JDUCKpRtOpT5Q9tBRwlg==
+X-CSE-MsgGUID: St2cCOFZRAi8LMioZQg8Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,167,1719903600"; 
-   d="scan'208";a="61089547"
+   d="scan'208";a="61133651"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2024 05:11:05 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Aug 2024 05:21:05 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sh6ed-000Cjg-0x;
-	Thu, 22 Aug 2024 12:11:03 +0000
-Date: Thu, 22 Aug 2024 20:10:31 +0800
+	id 1sh6oJ-000Cjk-13;
+	Thu, 22 Aug 2024 12:21:03 +0000
+Date: Thu, 22 Aug 2024 20:20:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Wahren <wahrenst@gmx.net>, Russell King <linux@armlinux.org.uk>,
-	Doug Anderson <dianders@chromium.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Minas Harutyunyan <hminas@synopsys.com>
+To: AlvinZhou <alvinzhou.tw@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-	Peter Robinson <pbrobinson@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
-Subject: Re: [PATCH V3 4/9] drm/vc4: hdmi: add PM suspend/resume support
-Message-ID: <202408221940.t4pWjzvz-lkp@intel.com>
-References: <20240821214052.6800-5-wahrenst@gmx.net>
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [miquelraynal:macronix/nand-next/spi-nand-cont-read 1/19]
+ drivers/clk/zynq/clk-wizard.c:399:19: error: initialization of 'void
+ (*)(struct platform_device *)' from incompatible pointer type 'int
+ (*)(struct platform_device *)'
+Message-ID: <202408222031.BIka9uUo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,69 +64,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821214052.6800-5-wahrenst@gmx.net>
 
-Hi Stefan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on arm/for-next arm/fixes v6.11-rc4 next-20240822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/mailbox-bcm2835-Fix-timeout-during-suspend-mode/20240822-063725
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240821214052.6800-5-wahrenst%40gmx.net
-patch subject: [PATCH V3 4/9] drm/vc4: hdmi: add PM suspend/resume support
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408221940.t4pWjzvz-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221940.t4pWjzvz-lkp@intel.com/reproduce)
+tree:   https://github.com/miquelraynal/linux-0day.git macronix/nand-next/spi-nand-cont-read
+head:   fadbfba401d2b839e573b267e4380bedc055da2c
+commit: 39a43abeef4a9648bf37adb2b0e87f076bf43f62 [1/19] ARM: macronix: Add support for picozed
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240822/202408222031.BIka9uUo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408222031.BIka9uUo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221940.t4pWjzvz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408222031.BIka9uUo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/vc4/vc4_hdmi.c:3118:12: warning: 'vc4_hdmi_resume' defined but not used [-Wunused-function]
-    3118 | static int vc4_hdmi_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/vc4/vc4_hdmi.c:3107:12: warning: 'vc4_hdmi_suspend' defined but not used [-Wunused-function]
-    3107 | static int vc4_hdmi_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~
+>> drivers/clk/zynq/clk-wizard.c:399:19: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+     399 |         .remove = zynq_clkwzd_remove,
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/clk/zynq/clk-wizard.c:399:19: note: (near initialization for 'zynq_clkwzd_driver.<anonymous>.remove')
 
 
-vim +/vc4_hdmi_resume +3118 drivers/gpu/drm/vc4/vc4_hdmi.c
+vim +399 drivers/clk/zynq/clk-wizard.c
 
-  3106	
-> 3107	static int vc4_hdmi_suspend(struct device *dev)
-  3108	{
-  3109		struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
-  3110		struct drm_device *drm = vc4_hdmi->connector.dev;
-  3111	
-  3112		if (drm && drm->mode_config.poll_enabled)
-  3113			drm_kms_helper_poll_disable(drm);
-  3114	
-  3115		return pm_runtime_force_suspend(dev);
-  3116	}
-  3117	
-> 3118	static int vc4_hdmi_resume(struct device *dev)
-  3119	{
-  3120		struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
-  3121		struct drm_device *drm = vc4_hdmi->connector.dev;
-  3122		int ret;
-  3123	
-  3124		ret = pm_runtime_force_resume(dev);
-  3125	
-  3126		if (drm && drm->mode_config.poll_enabled)
-  3127			drm_kms_helper_poll_enable(drm);
-  3128	
-  3129		return ret;
-  3130	}
-  3131	
+   396	
+   397	static struct platform_driver zynq_clkwzd_driver = {
+   398		.probe = zynq_clkwzd_probe,
+ > 399		.remove = zynq_clkwzd_remove,
+   400		.driver = {
+   401			.name = "zynq-clk-wizard",
+   402			.of_match_table = zynq_clkwzd_of_ids,
+   403		},
+   404	};
+   405	module_platform_driver(zynq_clkwzd_driver);
+   406	
 
 -- 
 0-DAY CI Kernel Test Service
