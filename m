@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE144142E9D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 21:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AF1142E9D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 21:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724448885; cv=none; b=D1QDA0EqJ6ODkM+BPM+jE01MVGInkXHwJkvm5shkzvKHhTdK4DZB+Omj/Rl03Qkcy4hFSz/sObGf9T5ATGxeLZUzNWNp2CzLpBLhHyEMu3L1lmOUho0S089hFp659Qtd1knpQjg7L8DlFavdbQ6P9r5Eqy9kJMdZ6NLcpeSwZsQ=
+	t=1724448901; cv=none; b=ASEep/c3451J/9zuezSl263eSLBgCQ3YxgjHKDn2bRfQhCY/C9O23J8TX0h6w5cvTOjbrPC8sHKgbbLZxvXsSY3Q4WwGtK7w3Q3fCD4bTfiDSIaIgyGMFnR/OI+7HvyzD8nESa/OnXDZLTyQ0lmmBxWGnMqKD3UfGNSvOQ1v+cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724448885; c=relaxed/simple;
-	bh=rm0lCGLh9U6fxQoPBm/ieDPykqnE69uHZWE7FTTjO1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rc8X8nYZ5i15GUoMBmEJvzpE7wbNi7y8xLFst6RyRLQMlWjaKu3x0EKYWbadLUfqJgUxWHjgoe/7G9jhYCi5UFkwKtDuie/yeGduwid4BBujO5XQYaKrwG+TyeU2rfa7pMkgALf0GH6ZVRRpGrQu2T2MAaYgebgruh3RcwyMTW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVeWM1MZ; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1724448901; c=relaxed/simple;
+	bh=j69+vpFJiquPfKH5AGbxdOeI9DarReUi5xP1MqiAcOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SB2gmT8oXCWOBLp9jhq7xxCS+7KOKlkNnSMUfUsjvgAuca3BKHbEpoE0eMGJNg+TXJ3GUdnWa+So2uo9DLSmLFldU8r/viPHsdAJARHIwtSeqxZrEWMqAlQkYz3FiD2z8XLj8uv1Kno9y0y8LWzGGwWMyGqyNyKr2phFap8TOGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFo0hJ7k; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVeWM1MZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFo0hJ7k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724448885; x=1755984885;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rm0lCGLh9U6fxQoPBm/ieDPykqnE69uHZWE7FTTjO1Y=;
-  b=XVeWM1MZguIPvI1UPugA6lNXy50uFgOxxugesdKPZYnXBBGY4ihBJgie
-   bYjPdkCR/X/+V5EkI/e+gVUF3hq9aPt85KOmiBibPi8HC4rs5MHs4rYeO
-   bqPVy+r8KbeZghvXtjW+rbolKaM7va+XQQtCO7k1zX47aRclioADyW8S0
-   AQHr4t/Vcfl8TDOcCI9/CWY/pIIz16ojUXnmMV4oJwyrpMcprUKGXUvXr
-   NPpYVy6wwPHR2JHYaWUuP0J/dmzuR2gus11DNR44BLtbJA7uR3QnQpHIY
-   UiSv6iKT3Vxi9V2PsMYVmNAuaSiU9ij9TSPHiAWNWg987iZh08C87bFcw
-   Q==;
-X-CSE-ConnectionGUID: 2bn+3R0bSiq/DdlMpv7aMg==
-X-CSE-MsgGUID: 2DTwA/FZQMyD6v3MwMMvLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34314150"
+  t=1724448900; x=1755984900;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j69+vpFJiquPfKH5AGbxdOeI9DarReUi5xP1MqiAcOo=;
+  b=jFo0hJ7kem9QuVUIC6Ub67cREy9VqluWCb4mtAuCDeL05snRaMXYPPST
+   2bTAWMR0SX4FdBmP8zJzj4NHIEppMqLNk5d6K9jkqzFKonX3nsO93+01I
+   RHbp5PP34WwQGdcNO8m35+r1x2+gUl/TwklhXpKV2N7ik38ByUPb2zT6n
+   FCbPdRTMx/omirUlWpudtqVeegOSXDfjKXdmA1XC+w9C2QRudyHIBp6AS
+   s/S1saZllO5mkEqF87TkbJTAlznfLIZcIUbyWizmsuu5VRAG91ZpKZ7A9
+   LvbusK+62ynbot+M13F21aJzehVgjW39ltNHA0bvUmQHtzHw0IxsZkbj0
+   w==;
+X-CSE-ConnectionGUID: BpkRNJSIT6CPgeLnMnZdag==
+X-CSE-MsgGUID: QyAZw7LKT2ucllpX2x/pyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="25833603"
 X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; 
-   d="scan'208";a="34314150"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 14:34:44 -0700
-X-CSE-ConnectionGUID: mqTuBsVITPCNMKTR/KwxEA==
-X-CSE-MsgGUID: nwKyyuLRQKewTmfgJJu0Vw==
+   d="scan'208";a="25833603"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 14:34:52 -0700
+X-CSE-ConnectionGUID: mYAN3GUOTKitqYUiXvTUXw==
+X-CSE-MsgGUID: k5AA0QfRT+2w7weFO9O7Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,171,1719903600"; 
-   d="scan'208";a="62215166"
+   d="scan'208";a="99425181"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Aug 2024 14:34:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2024 14:34:41 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shbvb-000E2i-1i;
+	id 1shbvb-000E2a-1Q;
 	Fri, 23 Aug 2024 21:34:39 +0000
 Date: Sat, 24 Aug 2024 05:33:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, chench00 <chench@hygon.cn>
+To: Arun R Murthy <arun.r.murthy@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13311/13487]
- drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:23: error: use of undeclared
- identifier 'NR_syscalls'
-Message-ID: <202408240549.2pI9X9cN-lkp@intel.com>
+Subject: Re: [PATCHv2 1/5] drm/i915/display: Add support for histogram
+Message-ID: <202408240526.YSkfPeiV-lkp@intel.com>
+References: <20240821102349.3961986-2-arun.r.murthy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821102349.3961986-2-arun.r.murthy@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   0ab269ed98945656b9c1c01a856b7eeea6a95257
-commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [13311/13487] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
-config: x86_64-buildonly-randconfig-004-20240824 (https://download.01.org/0day-ci/archive/20240824/202408240549.2pI9X9cN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408240549.2pI9X9cN-lkp@intel.com/reproduce)
+Hi Arun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-xe/drm-xe-next linus/master v6.11-rc4 next-20240823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arun-R-Murthy/drm-i915-display-Add-support-for-histogram/20240821-183453
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240821102349.3961986-2-arun.r.murthy%40intel.com
+patch subject: [PATCHv2 1/5] drm/i915/display: Add support for histogram
+config: i386-randconfig-051-20240823 (https://download.01.org/0day-ci/archive/20240824/202408240526.YSkfPeiV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408240526.YSkfPeiV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408240549.2pI9X9cN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408240526.YSkfPeiV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for function 'tdm_service_run' [-Wmissing-prototypes]
-     151 | int tdm_service_run(struct tdm_security_enhance *data)
-         |     ^
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     151 | int tdm_service_run(struct tdm_security_enhance *data)
-         | ^
-         | static 
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for function 'tdm_service_exit' [-Wmissing-prototypes]
-     212 | int tdm_service_exit(struct tdm_security_enhance *data)
-         |     ^
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     212 | int tdm_service_exit(struct tdm_security_enhance *data)
-         | ^
-         | static 
->> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:23: error: use of undeclared identifier 'NR_syscalls'
-     308 |                 eh_objs[SCT].size = NR_syscalls * sizeof(char *);
-         |                                     ^
-   2 warnings and 1 error generated.
+   ld: drivers/gpu/drm/i915/display/intel_histogram.o: in function `intel_histogram_enable':
+>> drivers/gpu/drm/i915/display/intel_histogram.c:83: undefined reference to `__udivdi3'
 
 
-vim +/NR_syscalls +308 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
+vim +83 drivers/gpu/drm/i915/display/intel_histogram.c
 
-   286	
-   287		sct_addr = (unsigned long *)kallsyms_lookup_name("sys_call_table");
-   288	#endif
-   289		if (!sct_addr) {
-   290			ret = -DYN_ERR_API;
-   291			pr_err("kallsyms_lookup_name for sys_call_table failed!");
-   292			goto end;
-   293		}
-   294	
-   295		asm("sidt %0":"=m"(idtr));
-   296	
-   297		if (!psp_check_tdm_support())
-   298			return 0;
-   299	
-   300		for (i = 0; i < MAX_OBJ; i++) {
-   301			memset(&eh_objs[i], 0, sizeof(eh_objs[i]));
-   302			eh_objs[i].context = CONTEXT_CHECK_MODNAME;
-   303			eh_objs[i].obj_name = obj_names[i];
-   304		}
-   305	
-   306		if ((eh_obj == -1) || (eh_obj & (1 << SCT))) {
-   307			eh_objs[SCT].vaddr = (uint64_t)sct_addr;
- > 308			eh_objs[SCT].size = NR_syscalls * sizeof(char *);
-   309		}
-   310		if ((eh_obj == -1) || (eh_obj & (1 << IDT))) {
-   311			eh_objs[IDT].vaddr = idtr.address;
-   312			eh_objs[IDT].size = idtr.size;
-   313		}
-   314	
-   315		for (i = 0; i < MAX_OBJ; i++) {
-   316			if (eh_objs[i].vaddr)
-   317				tdm_service_run(&eh_objs[i]);
-   318		}
-   319	
-   320		pr_info("Hygon TDM guard load successfully!\n");
-   321	
-   322	end:
-   323		return ret;
-   324	}
-   325	
+    44	
+    45	static int intel_histogram_enable(struct intel_crtc *intel_crtc)
+    46	{
+    47		struct drm_i915_private *i915 = to_i915(intel_crtc->base.dev);
+    48		struct intel_histogram *histogram = intel_crtc->histogram;
+    49		int pipe = intel_crtc->pipe;
+    50		u64 res;
+    51		u32 gbandthreshold;
+    52	
+    53		if (!histogram)
+    54			return -EINVAL;
+    55	
+    56		if (!histogram->can_enable) {
+    57			return -EINVAL;
+    58		}
+    59	
+    60		if (histogram->enable)
+    61			return 0;
+    62	
+    63		/* Pipe Dithering should be enabled with GLOBAL_HIST */
+    64		intel_histogram_enable_dithering(i915, pipe);
+    65	
+    66		/*
+    67		 * enable DPST_CTL Histogram mode
+    68		 * Clear DPST_CTL Bin Reg function select to TC
+    69		 */
+    70		intel_de_rmw(i915, DPST_CTL(pipe),
+    71			     DPST_CTL_BIN_REG_FUNC_SEL | DPST_CTL_IE_HIST_EN |
+    72			     DPST_CTL_HIST_MODE | DPST_CTL_IE_TABLE_VALUE_FORMAT,
+    73			     DPST_CTL_BIN_REG_FUNC_TC | DPST_CTL_IE_HIST_EN |
+    74			     DPST_CTL_HIST_MODE_HSV |
+    75			     DPST_CTL_IE_TABLE_VALUE_FORMAT_1INT_9FRAC);
+    76	
+    77		/* Re-Visit: check if wait for one vblank is required */
+    78		drm_crtc_wait_one_vblank(&intel_crtc->base);
+    79	
+    80		/* TODO: one time programming: Program GuardBand Threshold */
+    81		res = (intel_crtc->config->hw.adjusted_mode.vtotal *
+    82					intel_crtc->config->hw.adjusted_mode.htotal);
+  > 83		gbandthreshold = (res *	HISTOGRAM_GUARDBAND_THRESHOLD_DEFAULT) /
+    84					HISTOGRAM_GUARDBAND_PRECISION_FACTOR;
+    85	
+    86		/* Enable histogram interrupt mode */
+    87		intel_de_rmw(i915, DPST_GUARD(pipe),
+    88			     DPST_GUARD_THRESHOLD_GB_MASK |
+    89			     DPST_GUARD_INTERRUPT_DELAY_MASK | DPST_GUARD_HIST_INT_EN,
+    90			     DPST_GUARD_THRESHOLD_GB(gbandthreshold) |
+    91			     DPST_GUARD_INTERRUPT_DELAY(HISTOGRAM_DEFAULT_GUARDBAND_DELAY) |
+    92			     DPST_GUARD_HIST_INT_EN);
+    93	
+    94		/* Clear pending interrupts has to be done on separate write */
+    95		intel_de_rmw(i915, DPST_GUARD(pipe),
+    96			     DPST_GUARD_HIST_EVENT_STATUS, 1);
+    97	
+    98		histogram->enable = true;
+    99	
+   100		return 0;
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
