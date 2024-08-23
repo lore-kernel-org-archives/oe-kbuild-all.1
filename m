@@ -1,138 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A9B20DE8;
-	Fri, 23 Aug 2024 02:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C7517C66
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 02:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724380997; cv=none; b=FM3TrUCzpbGYPuEx/QPq5Bc824SbegXEXt8E2+vRgMllT75ZHkOWuaGJv4dVdHpp60OKKo5g1qx5LsEO362rzbjozMzJzFyvlSNI9KGlQuqR4a0Bo71q1xg/LeAsZQXilFfMf/MOizY3nk0A40AET+vSHWTG2LXtUcIrxrPh3Ns=
+	t=1724381596; cv=none; b=GKONbfi1hi7qEAWeyMGe/Yl2H+vCtsnUKrKBg+o02wUBS1uRa3WzbdiOIp4FEqHjES0MyLkKBrJx9qdCpYMsJtIxIrcgx+ShQgBqJNpGuHTbkSWmfoB3SQrlAD6j6PVk8RPkU8EhtqTdaJQKFhZyOpw5agJMPUpgRR1nmQYNYiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724380997; c=relaxed/simple;
-	bh=uP5IakzORudRLADCNa/D+ltxEuEvKGniLh27EekWsU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IE75T8lkTcAdE2VWn6E5pAFQtYCUsiExLTI7+UzHWd4StPPO+xbCWTwIEfgQHVDaFquB8jOI9/+SiAZVt+Xp19xNGm4rrLBDiN3O2sxg03zemnmm7LexAPgQ4Rw+iuQb4tGbpH4bUf3H5OsoufxutghFbR9PsfZVGGLqIOVRHyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBTLKsmj; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1724381596; c=relaxed/simple;
+	bh=lyEc//LPcGnyZ4G+KRSavFpwkpgUoFm0W1Dwu4SQajo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R7tUkj2PlDoq4TwA7KJf+zj43lR6rchboCduYQrDgfxMrI+CyrTtD/vVIiWwPuzJ5vaOfEjHweDQe90xN+crWlOsvJlG7FdVDypUdvaDyppyEE1EjjT6BtULnxhpcQ+PtAq+Cbf5l2mBgUUgfg5I9HApmtcrGpFO1VcaHKU20CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/8kw3QC; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBTLKsmj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/8kw3QC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724380996; x=1755916996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uP5IakzORudRLADCNa/D+ltxEuEvKGniLh27EekWsU8=;
-  b=gBTLKsmj8PjPD+xNS+t9/TDT+DJkn79hkagrqINomjakX30QmSlNTKe6
-   NMWRXsAWs/jAdlZX2O5GiH+n8U2mLQMXfFitP83HbPFi+6/SG5voERs+i
-   c2RtG3o7dLgVG7ZnehTE1QqhQC0Ml5lmxV924PwoaDV7RJRdceANRjAUo
-   EeEjrbImOxb4Z2tfmUuvuNNbLjF+Vk5DboA6clnGxQdnSmAUQKCEe88iy
-   liUoCjRWU2cL+Y/Dbmffnoj8Oxw+AEcaT12kNdFk2e2N+qfk4zgNafPXJ
-   +QZdO3Afh0TMSGzES/ezJGPW3OE/mmFI8LIyz/l8/wMu9cgDE2LwdfSje
-   g==;
-X-CSE-ConnectionGUID: BZWFwleCRv2gQJ+GffNb3Q==
-X-CSE-MsgGUID: x+e9MVWYQ0y7Y1n/0ndBmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33399131"
+  t=1724381594; x=1755917594;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lyEc//LPcGnyZ4G+KRSavFpwkpgUoFm0W1Dwu4SQajo=;
+  b=V/8kw3QCtodAOiaSgAcHt09uKxSwDU48+F4PKFpxNSYAd4AiGTWVz1HH
+   lQWOzRwKpPy+NbMouHCpZOOKa4+Zu6zb9E9bML5+KSnzPtIukYpJwa5hB
+   zJw4iX0ydYGZmK+3QBEywMRWCA82FAz9Lq6DFpOeO+4zF3UvzAaq5BI04
+   d5oi2cAQHSQhinXaCQrg5TH6KsdUjNa7Nxv1sErGr26Z+ResAZVXlU0wK
+   BXifTTPlVTTs9M0KJ+WzTRfuv/Cwe5UqZHtCRyeHlcB7YB58JBCqg1sWy
+   OsGA6RewJmFS1IPHzSc7B+09gOGYAf7565c0T9hASnFDit6Z2GBA/ZgOf
+   w==;
+X-CSE-ConnectionGUID: o9CWMEi/QqOBg71h7SB77A==
+X-CSE-MsgGUID: IsOJ06k7T9imzzer7HXC5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22358342"
 X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="33399131"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 19:43:15 -0700
-X-CSE-ConnectionGUID: FZJsR5w5QVOE1ZQoxQVNlA==
-X-CSE-MsgGUID: puxOFJv1Sqmw0BHB3GROnA==
+   d="scan'208";a="22358342"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 19:53:13 -0700
+X-CSE-ConnectionGUID: sgMn78c2RiOjOwjqrU41wQ==
+X-CSE-MsgGUID: kWCXCMuIThuEOdjGK61EIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="61509548"
+   d="scan'208";a="66586735"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Aug 2024 19:43:12 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Aug 2024 19:53:12 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shKGb-000DOy-1P;
-	Fri, 23 Aug 2024 02:43:09 +0000
-Date: Fri, 23 Aug 2024 10:42:22 +0800
+	id 1shKQH-000DPK-2U;
+	Fri, 23 Aug 2024 02:53:09 +0000
+Date: Fri, 23 Aug 2024 10:52:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhao Qunqin <zhaoqunqin@loongson.cn>, chenhuacai@kernel.org,
-	kernel@xen0n.name, bp@alien8.de, tony.luck@intel.com,
-	james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	devicetree@vger.kernel.org, zhaoqunqin <zhaoqunqin@loongson.cn>
-Subject: Re: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory
- controller
-Message-ID: <202408231055.okLH0uuC-lkp@intel.com>
-References: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 11/120]
+ sound/soc/codecs/cs42l83-i2c.c:235:1: error: type defaults to 'int' in
+ declaration of 'module_i2c_driver'
+Message-ID: <202408231041.WjVEvDcJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi Zhao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on robh/for-next linus/master v6.11-rc4 next-20240822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/Loongarch-EDAC-driver-for-loongson-memory-controller/20240821-145127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20240821064728.8642-2-zhaoqunqin%40loongson.cn
-patch subject: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory controller
-config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240823/202408231055.okLH0uuC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231055.okLH0uuC-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   8bb0ee8e8fd75aa60a4bb4efe074711f2c35ca5c
+commit: 4505843a945e1d46e759f01c0822a855eec41cea [11/120] ASoC: apple: Add macaudio machine driver
+config: sh-randconfig-r062-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231041.WjVEvDcJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231041.WjVEvDcJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408231055.okLH0uuC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408231041.WjVEvDcJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/edac/loongson_edac.c: In function 'get_dimm_config':
-   drivers/edac/loongson_edac.c:90:16: error: implicit declaration of function 'EDAC_DIMM_PTR' [-Werror=implicit-function-declaration]
-      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-         |                ^~~~~~~~~~~~~
->> drivers/edac/loongson_edac.c:90:14: warning: assignment to 'struct dimm_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-         |              ^
-   drivers/edac/loongson_edac.c: At top level:
-   drivers/edac/loongson_edac.c:181:27: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
-     181 |         .remove         = loongson_edac_remove,
-         |                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/edac/loongson_edac.c:181:27: note: (near initialization for 'loongson_edac_driver.<anonymous>.remove')
-   cc1: some warnings being treated as errors
+   sound/soc/codecs/cs42l83-i2c.c:235:1: warning: data definition has no type or storage class
+     235 | module_i2c_driver(cs42l83_i2c_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/cs42l83-i2c.c:235:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Wimplicit-int]
+>> sound/soc/codecs/cs42l83-i2c.c:235:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   sound/soc/codecs/cs42l83-i2c.c:225:26: warning: 'cs42l83_i2c_driver' defined but not used [-Wunused-variable]
+     225 | static struct i2c_driver cs42l83_i2c_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~
+--
+   sound/soc/codecs/tas2764.c:811:1: warning: data definition has no type or storage class
+     811 | module_i2c_driver(tas2764_i2c_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/tas2764.c:811:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Wimplicit-int]
+>> sound/soc/codecs/tas2764.c:811:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   sound/soc/codecs/tas2764.c:803:26: warning: 'tas2764_i2c_driver' defined but not used [-Wunused-variable]
+     803 | static struct i2c_driver tas2764_i2c_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~
+--
+   sound/soc/codecs/tas2770.c:726:1: warning: data definition has no type or storage class
+     726 | module_i2c_driver(tas2770_i2c_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/tas2770.c:726:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Wimplicit-int]
+>> sound/soc/codecs/tas2770.c:726:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   sound/soc/codecs/tas2770.c:718:26: warning: 'tas2770_i2c_driver' defined but not used [-Wunused-variable]
+     718 | static struct i2c_driver tas2770_i2c_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for APPLE_ADMAC
+   Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for COMMON_CLK_APPLE_NCO
+   Depends on [n]: COMMON_CLK [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
+   Selected by [y]:
+   - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
 
 
-vim +90 drivers/edac/loongson_edac.c
+vim +235 sound/soc/codecs/cs42l83-i2c.c
 
-    80	
-    81	static int get_dimm_config(struct mem_ctl_info *mci)
-    82	{
-    83		u32 size, npages;
-    84		struct dimm_info *dimm;
-    85	
-    86		/* size not used */
-    87		size = -1;
-    88		npages = MiB_TO_PAGES(size);
-    89	
-  > 90		dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-    91				0, 0, 0);
-    92		dimm->nr_pages = npages;
-    93		snprintf(dimm->label, sizeof(dimm->label),
-    94				"MC#%uChannel#%u_DIMM#%u",
-    95				mci->mc_idx, 0, 0);
-    96		dimm->grain = 8;
-    97	
-    98		return 0;
-    99	}
-   100	
+94d5f62a91aab6 Martin Povišer 2022-09-15  234  
+94d5f62a91aab6 Martin Povišer 2022-09-15 @235  module_i2c_driver(cs42l83_i2c_driver);
+94d5f62a91aab6 Martin Povišer 2022-09-15  236  
+
+:::::: The code at line 235 was first introduced by commit
+:::::: 94d5f62a91aab6ac9c3f4abfd048cbe5f77153ac ASoC: cs42l83: Extend CS42L42 support to new part
+
+:::::: TO: Martin Povišer <povik+lin@cutebit.org>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
