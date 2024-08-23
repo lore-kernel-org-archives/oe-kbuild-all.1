@@ -1,59 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8E98493;
-	Fri, 23 Aug 2024 06:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4F28493
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 06:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724393303; cv=none; b=fgqifrQBGesr9I8uJuhJR55KMlXon+DgWUnojCZQee/UY6eibC4SpQF5szm5MwcyZdFKE+YfWUbCk6kJx7kXls6atx1CSP9s8IJctvz/JgaTyHbwNehRv/zXj7KukTSLh/7MX0R83nbSLBIxWor7v4y4sXsr0yobkjzzHxml4+0=
+	t=1724393306; cv=none; b=u1rCmjABxWQk7UU4Niu40Ots0+RSpe2RO85xu2j0zd2enUGpulAYyBbKCbO0t8Pc1SzUDEVKMvQu4DihelOy6QJljCVbZHz9lYnldsxFGXNqmAXV3yFY2NlkN7A9t9+sz4gY2FhOMpR2zkVBdSD1a62NInaEY5Og2vDwks0eJYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724393303; c=relaxed/simple;
-	bh=nuW7tx4/IjV89ImKwJ1avhhAsAKVlzWLrgNRGKrLFSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xw3Z3uNiqT+sHkp1PlQanhr1X+LZU5IWEqXJuSnD3yasWzwe2M3PW53Mmv5oLU/gjS0joDXynUL8TaXH62tSYqUvzVa7OwgdMd53XMtstM+0cNYpPkWG03HIpRImvYZow74NnCZvdGhgJsh6UxJASfBTT4trdFSkY7Rx0A4VAnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGDfojq3; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1724393306; c=relaxed/simple;
+	bh=dPhXr+hD6ZN29T/5TkYTIUWMPmZrAWv6QTFR9OkTgys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BFVbJ+PRmWf+UruM34aFYt/3Pgd+Oqr9VNtM3nW4JxMg0VMQRjkSXr/017xLivENfbWN/fSoD/3j70s1Y9vXHDQaCz07AfAKc2vt29WwCeMtsNCLac/85Qc1TS9cLALDqOhZpIpiRxO+o2M2Ti1W03Pq0JB62Fo7MO+jvh3xIDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHFURTGY; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGDfojq3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHFURTGY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724393301; x=1755929301;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nuW7tx4/IjV89ImKwJ1avhhAsAKVlzWLrgNRGKrLFSw=;
-  b=OGDfojq36xrOnRqKM/2pxZL+uLWCS1YfLzefTJNbIBJEStKpX9KLrykQ
-   F40IhUs8Jog/MoYSP9+3zaXW1wi/wULdzYmgy12zPtT3SXWPDzHoc3D9i
-   nsRpqfQ2rX//vHsEmbnUsXn0Qcr/Gr2XSroCl0z9Pp8jBBb35V8JSRaiA
-   8oUqaYn4rL/bV4P3xqvF9AhinjevzY3iA3vU/pbgGUJAMQGOlM8JCu0aU
-   gDuWJJGpkB2P1ljAbfaI+DbZ43bTCVMTYWpcVyTYzspiJDXsy2xs8AR+c
-   lORrjtnJqpawKdxpHUsYQfsbTtYXqVWavrKSgmRNCj5gOOA/Jy8Fbo9nP
-   Q==;
-X-CSE-ConnectionGUID: wcZJn5NLQOeapXqi383pGg==
-X-CSE-MsgGUID: V5PnXyQaSPKEmyvlYXd3OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23026894"
+  t=1724393305; x=1755929305;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dPhXr+hD6ZN29T/5TkYTIUWMPmZrAWv6QTFR9OkTgys=;
+  b=VHFURTGYV/GCR3zvw5/LPQN5YFZ8uabKUhWoF7i6xvfT9JmO80Co7LWV
+   8y/dLJ8pCJYuxaxTKIV6GxOBrHJ7/rEn3M+vmClxT/3PjPcCe+Yw9ffS9
+   2Q6KEoKK4iIj4hYpx7KM+9I7GFo0xif1wqDRFYPb/PDfG2bPSVFPEbeQb
+   ZNLJ1HGb/9TgoD/G2pSGjlWiRrTPfLiHAvt5dSjCQ4xTAPf+fCSWDqyPZ
+   1m86E8CaSKTWg98OCdCrSeGnRT/jdC494ePGsAWzXpcE5VGTs0PADmJPs
+   Uu4t6ZknyFE9NChuzZI4QYP8joA+NZHvtuU81HhlXzoupLKzHoygJBnsz
+   g==;
+X-CSE-ConnectionGUID: rqkef3zWSSaI9WcW5kKpiQ==
+X-CSE-MsgGUID: 6mUhonS7TeOPtdyMuna4Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23026896"
 X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="23026894"
+   d="scan'208";a="23026896"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 23:08:21 -0700
-X-CSE-ConnectionGUID: X20f1s04R+eY2+169eaa9A==
-X-CSE-MsgGUID: Q0gprOw5S3i07VzErslJ8w==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 23:08:24 -0700
+X-CSE-ConnectionGUID: Xn7VaqTCRMyvOPOkPH4kjA==
+X-CSE-MsgGUID: ZxI+t+V6TJONCXA7lriBJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="66521739"
+   d="scan'208";a="66521740"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 23:08:20 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shNT7-000DXM-0j;
+	id 1shNT7-000DXO-0o;
 	Fri, 23 Aug 2024 06:08:17 +0000
-Date: Fri, 23 Aug 2024 14:08:00 +0800
+Date: Fri, 23 Aug 2024 14:08:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:file5cJeP2 19/22] drivers/spi/spi-stm32-qspi.c:787:20:
- warning: variable 'res' is uninitialized when used here
-Message-ID: <202408231418.RS9DeHRU-lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, harry.wentland@amd.com,
+	sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+	nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com,
+	chiahsuan.chung@amd.com, hamza.mahfooz@amd.com,
+	sungjoon.kim@amd.com, syed.hassan@amd.com, roman.li@amd.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
+Subject: Re: [PATCH -next v2 RESEND] drm/amd/display: Remove unused
+ dcn35_fpga_funcs
+Message-ID: <202408231338.Egp42Fkn-lkp@intel.com>
+References: <20240822015819.3356282-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,159 +71,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240822015819.3356282-1-ruanjinjie@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git file5cJeP2
-head:   bbdb9913983a8e0f5aa5b95b75fac9ad17c1e2b7
-commit: 3415f0c34c0121dc2bb1fda6d79d5506fa055863 [19/22] spi: stm32-qspi: Simpify resource lookup
-config: x86_64-buildonly-randconfig-004-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231418.RS9DeHRU-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231418.RS9DeHRU-lkp@intel.com/reproduce)
+Hi Jinjie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240821]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-amd-display-Remove-unused-dcn35_fpga_funcs/20240822-095139
+base:   next-20240821
+patch link:    https://lore.kernel.org/r/20240822015819.3356282-1-ruanjinjie%40huawei.com
+patch subject: [PATCH -next v2 RESEND] drm/amd/display: Remove unused dcn35_fpga_funcs
+config: i386-randconfig-006-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231338.Egp42Fkn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231338.Egp42Fkn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408231418.RS9DeHRU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408231338.Egp42Fkn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-stm32-qspi.c:787:20: warning: variable 'res' is uninitialized when used here [-Wuninitialized]
-     787 |         qspi->phys_base = res->start;
-         |                           ^~~
-   drivers/spi/spi-stm32-qspi.c:773:22: note: initialize the variable 'res' to silence this warning
-     773 |         struct resource *res;
-         |                             ^
-         |                              = NULL
-   1 warning generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:989:13: error: 'dcn35_update_clocks_fpga' defined but not used [-Werror=unused-function]
+     989 | static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:982:13: error: 'dcn35_init_clocks_fpga' defined but not used [-Werror=unused-function]
+     982 | static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/res +787 drivers/spi/spi-stm32-qspi.c
+vim +/dcn35_update_clocks_fpga +989 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
 
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  766  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  767  static int stm32_qspi_probe(struct platform_device *pdev)
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  768  {
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  769  	struct device *dev = &pdev->dev;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  770  	struct spi_controller *ctrl;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  771  	struct reset_control *rstc;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  772  	struct stm32_qspi *qspi;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  773  	struct resource *res;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  774  	int ret, irq;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  775  
-d9ea4bcf244d93 Yang Yingliang   2023-11-28  776  	ctrl = devm_spi_alloc_host(dev, sizeof(*qspi));
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  777  	if (!ctrl)
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  778  		return -ENOMEM;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  779  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  780  	qspi = spi_controller_get_devdata(ctrl);
-a88eceb17ac7e8 Ludovic Barre    2019-03-25  781  	qspi->ctrl = ctrl;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  782  
-3415f0c34c0121 Jinjie Ruan      2024-08-20  783  	qspi->io_base = devm_platform_ioremap_resource_byname(pdev, "qspi");
-e4d63473d3110a Patrice Chotard  2022-01-17  784  	if (IS_ERR(qspi->io_base))
-e4d63473d3110a Patrice Chotard  2022-01-17  785  		return PTR_ERR(qspi->io_base);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  786  
-245308c6217027 Ludovic Barre    2019-03-25 @787  	qspi->phys_base = res->start;
-245308c6217027 Ludovic Barre    2019-03-25  788  
-3415f0c34c0121 Jinjie Ruan      2024-08-20  789  	qspi->mm_base = devm_platform_ioremap_resource_byname(pdev, "qspi_mm");
-e4d63473d3110a Patrice Chotard  2022-01-17  790  	if (IS_ERR(qspi->mm_base))
-e4d63473d3110a Patrice Chotard  2022-01-17  791  		return PTR_ERR(qspi->mm_base);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  792  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  793  	qspi->mm_size = resource_size(res);
-e4d63473d3110a Patrice Chotard  2022-01-17  794  	if (qspi->mm_size > STM32_QSPI_MAX_MMAP_SZ)
-e4d63473d3110a Patrice Chotard  2022-01-17  795  		return -EINVAL;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  796  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  797  	irq = platform_get_irq(pdev, 0);
-e4d63473d3110a Patrice Chotard  2022-01-17  798  	if (irq < 0)
-e4d63473d3110a Patrice Chotard  2022-01-17  799  		return irq;
-4b562de4e227db Fabien Dessenne  2019-04-24  800  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  801  	ret = devm_request_irq(dev, irq, stm32_qspi_irq, 0,
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  802  			       dev_name(dev), qspi);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  803  	if (ret) {
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  804  		dev_err(dev, "failed to request irq\n");
-e4d63473d3110a Patrice Chotard  2022-01-17  805  		return ret;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  806  	}
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  807  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  808  	init_completion(&qspi->data_completion);
-86d1c6bbae3212 Patrice Chotard  2021-05-18  809  	init_completion(&qspi->match_completion);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  810  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  811  	qspi->clk = devm_clk_get(dev, NULL);
-e4d63473d3110a Patrice Chotard  2022-01-17  812  	if (IS_ERR(qspi->clk))
-e4d63473d3110a Patrice Chotard  2022-01-17  813  		return PTR_ERR(qspi->clk);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  814  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  815  	qspi->clk_rate = clk_get_rate(qspi->clk);
-e4d63473d3110a Patrice Chotard  2022-01-17  816  	if (!qspi->clk_rate)
-e4d63473d3110a Patrice Chotard  2022-01-17  817  		return -EINVAL;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  818  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  819  	ret = clk_prepare_enable(qspi->clk);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  820  	if (ret) {
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  821  		dev_err(dev, "can not enable the clock\n");
-e4d63473d3110a Patrice Chotard  2022-01-17  822  		return ret;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  823  	}
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  824  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  825  	rstc = devm_reset_control_get_exclusive(dev, NULL);
-8196f7bcc2adf2 Etienne Carriere 2020-02-03  826  	if (IS_ERR(rstc)) {
-8196f7bcc2adf2 Etienne Carriere 2020-02-03  827  		ret = PTR_ERR(rstc);
-8196f7bcc2adf2 Etienne Carriere 2020-02-03  828  		if (ret == -EPROBE_DEFER)
-35700e221b18fa Patrice Chotard  2020-06-16  829  			goto err_clk_disable;
-8196f7bcc2adf2 Etienne Carriere 2020-02-03  830  	} else {
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  831  		reset_control_assert(rstc);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  832  		udelay(2);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  833  		reset_control_deassert(rstc);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  834  	}
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  835  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  836  	qspi->dev = dev;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  837  	platform_set_drvdata(pdev, qspi);
-658606ff4cf680 Peter Ujfalusi   2019-12-12  838  	ret = stm32_qspi_dma_setup(qspi);
-658606ff4cf680 Peter Ujfalusi   2019-12-12  839  	if (ret)
-35700e221b18fa Patrice Chotard  2020-06-16  840  		goto err_dma_free;
-658606ff4cf680 Peter Ujfalusi   2019-12-12  841  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  842  	mutex_init(&qspi->lock);
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  843  
-a557fca630cc6d Patrice Chotard  2022-08-23  844  	ctrl->mode_bits = SPI_RX_DUAL | SPI_RX_QUAD | SPI_TX_OCTAL
-a557fca630cc6d Patrice Chotard  2022-08-23  845  		| SPI_TX_DUAL | SPI_TX_QUAD | SPI_RX_OCTAL;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  846  	ctrl->setup = stm32_qspi_setup;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  847  	ctrl->bus_num = -1;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  848  	ctrl->mem_ops = &stm32_qspi_mem_ops;
-a557fca630cc6d Patrice Chotard  2022-08-23  849  	ctrl->use_gpio_descriptors = true;
-a557fca630cc6d Patrice Chotard  2022-08-23  850  	ctrl->transfer_one_message = stm32_qspi_transfer_one_message;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  851  	ctrl->num_chipselect = STM32_QSPI_MAX_NORCHIP;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  852  	ctrl->dev.of_node = dev->of_node;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  853  
-9d282c17b023a9 Patrice Chotard  2020-04-17  854  	pm_runtime_set_autosuspend_delay(dev, STM32_AUTOSUSPEND_DELAY);
-9d282c17b023a9 Patrice Chotard  2020-04-17  855  	pm_runtime_use_autosuspend(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  856  	pm_runtime_set_active(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  857  	pm_runtime_enable(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  858  	pm_runtime_get_noresume(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  859  
-d9ea4bcf244d93 Yang Yingliang   2023-11-28  860  	ret = spi_register_controller(ctrl);
-9d282c17b023a9 Patrice Chotard  2020-04-17  861  	if (ret)
-35700e221b18fa Patrice Chotard  2020-06-16  862  		goto err_pm_runtime_free;
-9d282c17b023a9 Patrice Chotard  2020-04-17  863  
-9d282c17b023a9 Patrice Chotard  2020-04-17  864  	pm_runtime_mark_last_busy(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  865  	pm_runtime_put_autosuspend(dev);
-9d282c17b023a9 Patrice Chotard  2020-04-17  866  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  867  	return 0;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  868  
-35700e221b18fa Patrice Chotard  2020-06-16  869  err_pm_runtime_free:
-35700e221b18fa Patrice Chotard  2020-06-16  870  	pm_runtime_get_sync(qspi->dev);
-35700e221b18fa Patrice Chotard  2020-06-16  871  	/* disable qspi */
-35700e221b18fa Patrice Chotard  2020-06-16  872  	writel_relaxed(0, qspi->io_base + QSPI_CR);
-35700e221b18fa Patrice Chotard  2020-06-16  873  	mutex_destroy(&qspi->lock);
-35700e221b18fa Patrice Chotard  2020-06-16  874  	pm_runtime_put_noidle(qspi->dev);
-35700e221b18fa Patrice Chotard  2020-06-16  875  	pm_runtime_disable(qspi->dev);
-35700e221b18fa Patrice Chotard  2020-06-16  876  	pm_runtime_set_suspended(qspi->dev);
-35700e221b18fa Patrice Chotard  2020-06-16  877  	pm_runtime_dont_use_autosuspend(qspi->dev);
-35700e221b18fa Patrice Chotard  2020-06-16  878  err_dma_free:
-35700e221b18fa Patrice Chotard  2020-06-16  879  	stm32_qspi_dma_free(qspi);
-35700e221b18fa Patrice Chotard  2020-06-16  880  err_clk_disable:
-35700e221b18fa Patrice Chotard  2020-06-16  881  	clk_disable_unprepare(qspi->clk);
-3c0af1dd2fe78a Patrice Chotard  2019-10-04  882  
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  883  	return ret;
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  884  }
-c530cd1d9d5e77 Ludovic Barre    2018-10-05  885  
-
-:::::: The code at line 787 was first introduced by commit
-:::::: 245308c6217027c0d7fc8c3cf2bf95858c704d7b spi: stm32-qspi: add dma support
-
-:::::: TO: Ludovic Barre <ludovic.barre@st.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+93a66cef607cfe Sung Joon Kim 2023-08-18   981  
+8774029f76b980 Qingqing Zhuo 2023-08-02  @982  static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
+8774029f76b980 Qingqing Zhuo 2023-08-02   983  {
+f2a905b01c6dcc Eric Yang     2024-01-16   984  	init_clk_states(clk_mgr);
+8774029f76b980 Qingqing Zhuo 2023-08-02   985  
+8774029f76b980 Qingqing Zhuo 2023-08-02   986  /* TODO: Implement the functions and remove the ifndef guard */
+8774029f76b980 Qingqing Zhuo 2023-08-02   987  }
+8774029f76b980 Qingqing Zhuo 2023-08-02   988  
+8774029f76b980 Qingqing Zhuo 2023-08-02  @989  static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
+8774029f76b980 Qingqing Zhuo 2023-08-02   990  		struct dc_state *context,
+8774029f76b980 Qingqing Zhuo 2023-08-02   991  		bool safe_to_lower)
+8774029f76b980 Qingqing Zhuo 2023-08-02   992  {
+8774029f76b980 Qingqing Zhuo 2023-08-02   993  	struct clk_mgr_internal *clk_mgr_int = TO_CLK_MGR_INTERNAL(clk_mgr);
+8774029f76b980 Qingqing Zhuo 2023-08-02   994  	struct dc_clocks *new_clocks = &context->bw_ctx.bw.dcn.clk;
+8774029f76b980 Qingqing Zhuo 2023-08-02   995  	int fclk_adj = new_clocks->fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02   996  
+8774029f76b980 Qingqing Zhuo 2023-08-02   997  	/* TODO: remove this after correctly set by DML */
+8774029f76b980 Qingqing Zhuo 2023-08-02   998  	new_clocks->dcfclk_khz = 400000;
+8774029f76b980 Qingqing Zhuo 2023-08-02   999  	new_clocks->socclk_khz = 400000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1000  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1001  	/* Min fclk = 1.2GHz since all the extra scemi logic seems to run off of it */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1002  	//int fclk_adj = new_clocks->fclk_khz > 1200000 ? new_clocks->fclk_khz : 1200000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1003  	new_clocks->fclk_khz = 4320000;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1004  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1005  	if (should_set_clock(safe_to_lower, new_clocks->phyclk_khz, clk_mgr->clks.phyclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1006  		clk_mgr->clks.phyclk_khz = new_clocks->phyclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1007  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1008  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1009  	if (should_set_clock(safe_to_lower, new_clocks->dcfclk_khz, clk_mgr->clks.dcfclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1010  		clk_mgr->clks.dcfclk_khz = new_clocks->dcfclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1011  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1012  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1013  	if (should_set_clock(safe_to_lower,
+8774029f76b980 Qingqing Zhuo 2023-08-02  1014  			new_clocks->dcfclk_deep_sleep_khz, clk_mgr->clks.dcfclk_deep_sleep_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1015  		clk_mgr->clks.dcfclk_deep_sleep_khz = new_clocks->dcfclk_deep_sleep_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1016  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1017  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1018  	if (should_set_clock(safe_to_lower, new_clocks->socclk_khz, clk_mgr->clks.socclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1019  		clk_mgr->clks.socclk_khz = new_clocks->socclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1020  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1021  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1022  	if (should_set_clock(safe_to_lower, new_clocks->dramclk_khz, clk_mgr->clks.dramclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1023  		clk_mgr->clks.dramclk_khz = new_clocks->dramclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1024  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1025  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1026  	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->clks.dppclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1027  		clk_mgr->clks.dppclk_khz = new_clocks->dppclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1028  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1029  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1030  	if (should_set_clock(safe_to_lower, fclk_adj, clk_mgr->clks.fclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1031  		clk_mgr->clks.fclk_khz = fclk_adj;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1032  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1033  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1034  	if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr->clks.dispclk_khz)) {
+8774029f76b980 Qingqing Zhuo 2023-08-02  1035  		clk_mgr->clks.dispclk_khz = new_clocks->dispclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1036  	}
+8774029f76b980 Qingqing Zhuo 2023-08-02  1037  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1038  	/* Both fclk and ref_dppclk run on the same scemi clock.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1039  	 * So take the higher value since the DPP DTO is typically programmed
+8774029f76b980 Qingqing Zhuo 2023-08-02  1040  	 * such that max dppclk is 1:1 with ref_dppclk.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1041  	 */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1042  	if (clk_mgr->clks.fclk_khz > clk_mgr->clks.dppclk_khz)
+8774029f76b980 Qingqing Zhuo 2023-08-02  1043  		clk_mgr->clks.dppclk_khz = clk_mgr->clks.fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1044  	if (clk_mgr->clks.dppclk_khz > clk_mgr->clks.fclk_khz)
+8774029f76b980 Qingqing Zhuo 2023-08-02  1045  		clk_mgr->clks.fclk_khz = clk_mgr->clks.dppclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1046  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1047  	// Both fclk and ref_dppclk run on the same scemi clock.
+8774029f76b980 Qingqing Zhuo 2023-08-02  1048  	clk_mgr_int->dccg->ref_dppclk = clk_mgr->clks.fclk_khz;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1049  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1050  	/* TODO: set dtbclk in correct place */
+8774029f76b980 Qingqing Zhuo 2023-08-02  1051  	clk_mgr->clks.dtbclk_en = true;
+8774029f76b980 Qingqing Zhuo 2023-08-02  1052  	dm_set_dcn_clocks(clk_mgr->ctx, &clk_mgr->clks);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1053  	dcn35_update_clocks_update_dpp_dto(clk_mgr_int, context, safe_to_lower);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1054  
+8774029f76b980 Qingqing Zhuo 2023-08-02  1055  	dcn35_update_clocks_update_dtb_dto(clk_mgr_int, context, clk_mgr->clks.ref_dtbclk_khz);
+8774029f76b980 Qingqing Zhuo 2023-08-02  1056  }
+8774029f76b980 Qingqing Zhuo 2023-08-02  1057  
 
 -- 
 0-DAY CI Kernel Test Service
