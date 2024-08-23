@@ -1,68 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4F28493
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 06:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB6F12D20D;
+	Fri, 23 Aug 2024 06:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724393306; cv=none; b=u1rCmjABxWQk7UU4Niu40Ots0+RSpe2RO85xu2j0zd2enUGpulAYyBbKCbO0t8Pc1SzUDEVKMvQu4DihelOy6QJljCVbZHz9lYnldsxFGXNqmAXV3yFY2NlkN7A9t9+sz4gY2FhOMpR2zkVBdSD1a62NInaEY5Og2vDwks0eJYw=
+	t=1724394606; cv=none; b=qQZyjTYBZPmpKoD00VUjJNPTGU2mxjzv8sspbwxxsvz1v1b31COlks3nAoUfvRXGvPo+EX8m7C8f27gBU2LcDZaeRFZdUHgivkjCrzUoa/+JPb2IHCk4HYYGfutGRkeue3DDpkvip9A7tLhvRQ9IzFVgDngWhhA+ECw9v4siffg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724393306; c=relaxed/simple;
-	bh=dPhXr+hD6ZN29T/5TkYTIUWMPmZrAWv6QTFR9OkTgys=;
+	s=arc-20240116; t=1724394606; c=relaxed/simple;
+	bh=xyGfCPbineUy+UuU7cIwJ4fjQy+W9cArrH0n3Zackko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFVbJ+PRmWf+UruM34aFYt/3Pgd+Oqr9VNtM3nW4JxMg0VMQRjkSXr/017xLivENfbWN/fSoD/3j70s1Y9vXHDQaCz07AfAKc2vt29WwCeMtsNCLac/85Qc1TS9cLALDqOhZpIpiRxO+o2M2Ti1W03Pq0JB62Fo7MO+jvh3xIDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHFURTGY; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YaBJDH7IWZdoB6r2Ka0lQXKSMGOwMdswH8FBjBnUf9hvU/dJls39/WybKqTAvM0Sl83Xuy+CcDZXs/eATZDxQESWUP6xJDTDtVkrsL0VytLcYeXNx4Inh5Xu0bUD6a0hLbW66NgtNMKZkHkgUd0vUeJlel8+YTATABHrfaiRg7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=scAYF6wc; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHFURTGY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724393305; x=1755929305;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dPhXr+hD6ZN29T/5TkYTIUWMPmZrAWv6QTFR9OkTgys=;
-  b=VHFURTGYV/GCR3zvw5/LPQN5YFZ8uabKUhWoF7i6xvfT9JmO80Co7LWV
-   8y/dLJ8pCJYuxaxTKIV6GxOBrHJ7/rEn3M+vmClxT/3PjPcCe+Yw9ffS9
-   2Q6KEoKK4iIj4hYpx7KM+9I7GFo0xif1wqDRFYPb/PDfG2bPSVFPEbeQb
-   ZNLJ1HGb/9TgoD/G2pSGjlWiRrTPfLiHAvt5dSjCQ4xTAPf+fCSWDqyPZ
-   1m86E8CaSKTWg98OCdCrSeGnRT/jdC494ePGsAWzXpcE5VGTs0PADmJPs
-   Uu4t6ZknyFE9NChuzZI4QYP8joA+NZHvtuU81HhlXzoupLKzHoygJBnsz
-   g==;
-X-CSE-ConnectionGUID: rqkef3zWSSaI9WcW5kKpiQ==
-X-CSE-MsgGUID: 6mUhonS7TeOPtdyMuna4Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23026896"
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="23026896"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 23:08:24 -0700
-X-CSE-ConnectionGUID: Xn7VaqTCRMyvOPOkPH4kjA==
-X-CSE-MsgGUID: ZxI+t+V6TJONCXA7lriBJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="66521740"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 23:08:20 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1shNT7-000DXO-0o;
-	Fri, 23 Aug 2024 06:08:17 +0000
-Date: Fri, 23 Aug 2024 14:08:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, harry.wentland@amd.com,
-	sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-	nicholas.kazlauskas@amd.com, Charlene.Liu@amd.com,
-	chiahsuan.chung@amd.com, hamza.mahfooz@amd.com,
-	sungjoon.kim@amd.com, syed.hassan@amd.com, roman.li@amd.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
-Subject: Re: [PATCH -next v2 RESEND] drm/amd/display: Remove unused
- dcn35_fpga_funcs
-Message-ID: <202408231338.Egp42Fkn-lkp@intel.com>
-References: <20240822015819.3356282-1-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="scAYF6wc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=dDRJTumGqGgK5uukfw51tG1Riug8zodCJhx3CwG4cTA=; b=scAYF6wcHCuMN0eK66OrKdQGc+
+	ax6zVSAjzesBlcYVcPQPrUyw6A3v0g33MYGA5idrhoAhGd3lUaI80loeVBUPe13dDehNEanPzsfiK
+	ShQhtC3fQ1mZUZqecrWaX+BXfMmPFSUe6VC9O4trkSej/sO5ELZ8cpC1WtyfY5jpWhuOI88Sx6jVq
+	Vcx/qvIzWUBIboJi0+NY3bZp+6mheDsy75rJM2Oiaypau1z7JqwSwXaoF3rhb4fWOqblEBoGrnH/i
+	8wEONSMgxsAuelJZc1DZucbziJd4B6IVqmLGy4+eze0fdXzrDj69r6NJsV3YAPds67SncHJ7Fk3yx
+	CpkQzP5g==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1shNo9-00000004QgH-2D0U;
+	Fri, 23 Aug 2024 06:30:01 +0000
+Date: Fri, 23 Aug 2024 07:30:01 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [viro-vfs:work.headers.unaligned 2/2]
+ util/arm-spe-decoder/arm-spe-pkt-decoder.c:14:10: fatal error:
+ 'linux/unaligned.h' file not found
+Message-ID: <20240823063001.GA1049718@ZenIV>
+References: <ZsgKudBxLxfMvlCU@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,118 +46,15 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822015819.3356282-1-ruanjinjie@huawei.com>
+In-Reply-To: <ZsgKudBxLxfMvlCU@rli9-mobl>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Jinjie,
+On Fri, Aug 23, 2024 at 12:06:17PM +0800, kernel test robot wrote:
+> Hi Al,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.headers.unaligned
+> head:   5adcdf60b29da8386cab7bb157927fec96a46c42
+> commit: 5adcdf60b29da8386cab7bb157927fec96a46c42 [2/2] move asm/unaligned.h to linux/unaligned.h
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240821]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-amd-display-Remove-unused-dcn35_fpga_funcs/20240822-095139
-base:   next-20240821
-patch link:    https://lore.kernel.org/r/20240822015819.3356282-1-ruanjinjie%40huawei.com
-patch subject: [PATCH -next v2 RESEND] drm/amd/display: Remove unused dcn35_fpga_funcs
-config: i386-randconfig-006-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231338.Egp42Fkn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231338.Egp42Fkn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408231338.Egp42Fkn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:989:13: error: 'dcn35_update_clocks_fpga' defined but not used [-Werror=unused-function]
-     989 | static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:982:13: error: 'dcn35_init_clocks_fpga' defined but not used [-Werror=unused-function]
-     982 | static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/dcn35_update_clocks_fpga +989 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
-
-93a66cef607cfe Sung Joon Kim 2023-08-18   981  
-8774029f76b980 Qingqing Zhuo 2023-08-02  @982  static void dcn35_init_clocks_fpga(struct clk_mgr *clk_mgr)
-8774029f76b980 Qingqing Zhuo 2023-08-02   983  {
-f2a905b01c6dcc Eric Yang     2024-01-16   984  	init_clk_states(clk_mgr);
-8774029f76b980 Qingqing Zhuo 2023-08-02   985  
-8774029f76b980 Qingqing Zhuo 2023-08-02   986  /* TODO: Implement the functions and remove the ifndef guard */
-8774029f76b980 Qingqing Zhuo 2023-08-02   987  }
-8774029f76b980 Qingqing Zhuo 2023-08-02   988  
-8774029f76b980 Qingqing Zhuo 2023-08-02  @989  static void dcn35_update_clocks_fpga(struct clk_mgr *clk_mgr,
-8774029f76b980 Qingqing Zhuo 2023-08-02   990  		struct dc_state *context,
-8774029f76b980 Qingqing Zhuo 2023-08-02   991  		bool safe_to_lower)
-8774029f76b980 Qingqing Zhuo 2023-08-02   992  {
-8774029f76b980 Qingqing Zhuo 2023-08-02   993  	struct clk_mgr_internal *clk_mgr_int = TO_CLK_MGR_INTERNAL(clk_mgr);
-8774029f76b980 Qingqing Zhuo 2023-08-02   994  	struct dc_clocks *new_clocks = &context->bw_ctx.bw.dcn.clk;
-8774029f76b980 Qingqing Zhuo 2023-08-02   995  	int fclk_adj = new_clocks->fclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02   996  
-8774029f76b980 Qingqing Zhuo 2023-08-02   997  	/* TODO: remove this after correctly set by DML */
-8774029f76b980 Qingqing Zhuo 2023-08-02   998  	new_clocks->dcfclk_khz = 400000;
-8774029f76b980 Qingqing Zhuo 2023-08-02   999  	new_clocks->socclk_khz = 400000;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1000  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1001  	/* Min fclk = 1.2GHz since all the extra scemi logic seems to run off of it */
-8774029f76b980 Qingqing Zhuo 2023-08-02  1002  	//int fclk_adj = new_clocks->fclk_khz > 1200000 ? new_clocks->fclk_khz : 1200000;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1003  	new_clocks->fclk_khz = 4320000;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1004  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1005  	if (should_set_clock(safe_to_lower, new_clocks->phyclk_khz, clk_mgr->clks.phyclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1006  		clk_mgr->clks.phyclk_khz = new_clocks->phyclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1007  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1008  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1009  	if (should_set_clock(safe_to_lower, new_clocks->dcfclk_khz, clk_mgr->clks.dcfclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1010  		clk_mgr->clks.dcfclk_khz = new_clocks->dcfclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1011  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1012  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1013  	if (should_set_clock(safe_to_lower,
-8774029f76b980 Qingqing Zhuo 2023-08-02  1014  			new_clocks->dcfclk_deep_sleep_khz, clk_mgr->clks.dcfclk_deep_sleep_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1015  		clk_mgr->clks.dcfclk_deep_sleep_khz = new_clocks->dcfclk_deep_sleep_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1016  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1017  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1018  	if (should_set_clock(safe_to_lower, new_clocks->socclk_khz, clk_mgr->clks.socclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1019  		clk_mgr->clks.socclk_khz = new_clocks->socclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1020  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1021  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1022  	if (should_set_clock(safe_to_lower, new_clocks->dramclk_khz, clk_mgr->clks.dramclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1023  		clk_mgr->clks.dramclk_khz = new_clocks->dramclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1024  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1025  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1026  	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->clks.dppclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1027  		clk_mgr->clks.dppclk_khz = new_clocks->dppclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1028  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1029  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1030  	if (should_set_clock(safe_to_lower, fclk_adj, clk_mgr->clks.fclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1031  		clk_mgr->clks.fclk_khz = fclk_adj;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1032  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1033  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1034  	if (should_set_clock(safe_to_lower, new_clocks->dispclk_khz, clk_mgr->clks.dispclk_khz)) {
-8774029f76b980 Qingqing Zhuo 2023-08-02  1035  		clk_mgr->clks.dispclk_khz = new_clocks->dispclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1036  	}
-8774029f76b980 Qingqing Zhuo 2023-08-02  1037  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1038  	/* Both fclk and ref_dppclk run on the same scemi clock.
-8774029f76b980 Qingqing Zhuo 2023-08-02  1039  	 * So take the higher value since the DPP DTO is typically programmed
-8774029f76b980 Qingqing Zhuo 2023-08-02  1040  	 * such that max dppclk is 1:1 with ref_dppclk.
-8774029f76b980 Qingqing Zhuo 2023-08-02  1041  	 */
-8774029f76b980 Qingqing Zhuo 2023-08-02  1042  	if (clk_mgr->clks.fclk_khz > clk_mgr->clks.dppclk_khz)
-8774029f76b980 Qingqing Zhuo 2023-08-02  1043  		clk_mgr->clks.dppclk_khz = clk_mgr->clks.fclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1044  	if (clk_mgr->clks.dppclk_khz > clk_mgr->clks.fclk_khz)
-8774029f76b980 Qingqing Zhuo 2023-08-02  1045  		clk_mgr->clks.fclk_khz = clk_mgr->clks.dppclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1046  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1047  	// Both fclk and ref_dppclk run on the same scemi clock.
-8774029f76b980 Qingqing Zhuo 2023-08-02  1048  	clk_mgr_int->dccg->ref_dppclk = clk_mgr->clks.fclk_khz;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1049  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1050  	/* TODO: set dtbclk in correct place */
-8774029f76b980 Qingqing Zhuo 2023-08-02  1051  	clk_mgr->clks.dtbclk_en = true;
-8774029f76b980 Qingqing Zhuo 2023-08-02  1052  	dm_set_dcn_clocks(clk_mgr->ctx, &clk_mgr->clks);
-8774029f76b980 Qingqing Zhuo 2023-08-02  1053  	dcn35_update_clocks_update_dpp_dto(clk_mgr_int, context, safe_to_lower);
-8774029f76b980 Qingqing Zhuo 2023-08-02  1054  
-8774029f76b980 Qingqing Zhuo 2023-08-02  1055  	dcn35_update_clocks_update_dtb_dto(clk_mgr_int, context, clk_mgr->clks.ref_dtbclk_khz);
-8774029f76b980 Qingqing Zhuo 2023-08-02  1056  }
-8774029f76b980 Qingqing Zhuo 2023-08-02  1057  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Try 6f0416d97dba.
