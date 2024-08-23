@@ -1,86 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7FE14AD3B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 09:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C035028EA;
+	Fri, 23 Aug 2024 10:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724404353; cv=none; b=HopPKuXYqc/cdONf8O78ZrIXZTz4IWMG1rYDqdErD3pIZIvlgnm8JVj88RcCBqZQLp98AG/xtKlAgZU90LkvgIr7lhP2BRAj1mrbh+7wGqx7YS36cuUw2CRwI0c6NldJzvSANtJIm1IsQOR1ubjUxKb5yEoEYNzH9x839KvfM3M=
+	t=1724409729; cv=none; b=VIylkKzDeijdQH4tHHYLWL7ARsJC1pgNofgbhryHbmcSeV3sJe50OsrkpjcxIBMrIrT+vlXponLQRUsJYMLpY5dyCkeu43raTMn2LZ6icR0GQVYd819ATlYQi+RTLPScd0Yb3CZgf1U3KUvgOLl1a6wwzjekv0Q1K1GA9scrgnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724404353; c=relaxed/simple;
-	bh=2nSkBndRISGUsaBKCv8dHU5ZRLd8S22U22MxvIWyRQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VUWORSg68lhbY+6XG1bdQpaM+bVlVDi7aVug5yrUG6f2t4//Cx2BdtFIy1HYVpQFKBFuEuAyK6vy8am8rVOBXcuy3wyL5iFAnKck4Le1OmfCWw1wkZZ8ztX3QotPlVI/b9FfDsjFf0JmlHctEc7rZb4QD89nip1BwWQ+NMR2kpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXKsyjNw; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724409729; c=relaxed/simple;
+	bh=5KK2RJQAtkePrpJ0BcZucFZ37M/1X8amjjqPRfU7Umw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Fy/TCbbiYVyORt+csGDbS340gKAV8f9s8+4jI8hFwITYwyKnhNRrfcOOLt8jAEsMy51RT0mqOjOpRUrHy5c1jXamorRwTu8zpeXOxq+5vnTFF5TLvQEkOLXZR0FxAPLtmZ1NsP85Q4/E2RBwquRQY/oysLiPSGURLu/b/gCX5hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=lNyoYqLj; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXKsyjNw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724404352; x=1755940352;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2nSkBndRISGUsaBKCv8dHU5ZRLd8S22U22MxvIWyRQM=;
-  b=HXKsyjNw0H4oKiP35AHPKikRYOCABD/vf/qF6YC3xoHigXOGU3GYRCvR
-   CHFJTdapjE4VKQTpXyIOLIQshfODKRiuux2sc71ommxnxfAve2dKsHq4M
-   iuCFqIzEvLl3OmFPnQiOHdRSZRgYU6d1buHLd5L94ZbwhIFvukAdzjCaz
-   hiQ6pm0aGxc+SCdTbm8+M1ycPz7IbDWN2EjaTrNoxSyZsiMbB1/iv9gw7
-   0bYTw+zd2gBXvF5jb3ZseA23zKqz8nBFAB+EU6w9wrelZ64fFBr+bNhQT
-   KuMCVYEIkenRlEwpv4mX+8Td7RvBT5FhSQnxfXtbVcGuVNEdpQ7r+39OZ
-   w==;
-X-CSE-ConnectionGUID: 7brZZO21QESXmkqjt4J59w==
-X-CSE-MsgGUID: rSjGk6SuTzeRy6slu7rx2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33429073"
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="33429073"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 02:12:24 -0700
-X-CSE-ConnectionGUID: way3lBdJQ4OidQn6iZ1omg==
-X-CSE-MsgGUID: NGWeXoyCTPm9DvOp1/GRNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
-   d="scan'208";a="61756703"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Aug 2024 02:12:22 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1shQLD-000Dbi-2h;
-	Fri, 23 Aug 2024 09:12:19 +0000
-Date: Fri, 23 Aug 2024 17:11:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 10131/23540] kernel/sched/.tmp_debug.o:
- warning: objtool: missing symbol for section .text.unlikely
-Message-ID: <202408231741.udIkhb2c-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="lNyoYqLj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=ySAq5GhCFf2JrQxerjYMWjlswlOjNEg+iTM1YZdGN5M=;
+	t=1724409727; x=1725619327; b=lNyoYqLjQeDAHQk+UswukTWKJB/UbQhwKUR2oCULwDRg3iy
+	Q3/opl9NoV0k+yHrOa0IYC9GAIr/sAECL5kitBnDwlJFdP++fj9mzrYRhQrMM6FSVJRFPQjrY63Hh
+	UkrObAOLXeevlzmgdVQlKbDjGtl3PzcsJspgd4773+w8jzYE8y/LFt7Dh/vO7KiR7tQ4fHhgfcsjL
+	+q00hpU+KZZ/VcKuZbUURQHrTrHmCDac9YJxOOJcqV0e60uTRRXdATulJt2I/DyHLRtQfvabZEiXU
+	r/qHZK6ae2Jxpu0uvrnkCZBqcOyVVR9pKNI4lnun+2HKv7dzmpKiAoe6i08JBdLg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1shRk3-0000000FS9z-2l39;
+	Fri, 23 Aug 2024 12:42:03 +0200
+Message-ID: <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
+Subject: Re: [PATCH v3] wifi: cfg80211: Set the channel definition for the
+ different Wi-Fi modes when starting CAC
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Issam Hamdi <ih@simonwunderlich.de>, quic_jjohnson@quicinc.com
+Cc: kvalo@kernel.org, linux-wireless@vger.kernel.org, lkp@intel.com, 
+	llvm@lists.linux.dev, mathias.kretschmer@fit.fraunhofer.de, 
+	oe-kbuild-all@lists.linux.dev
+Date: Fri, 23 Aug 2024 12:42:02 +0200
+In-Reply-To: <20240816142418.3381951-1-ih@simonwunderlich.de>
+References: <9809b165-8d25-4984-a1dd-6fca28f1dda9@quicinc.com>
+	 <20240816142418.3381951-1-ih@simonwunderlich.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-malware-bazaar: not-scanned
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7b8c61ed410ceffed92d95d0c85ee62e6ff8391d
-commit: acfa0f545c7dd43f959c28e8ab4b139c927ba387 [10131/23540] svm: reduce log of run queue and atomic->atomic64
-config: x86_64-buildonly-randconfig-005-20240823 (https://download.01.org/0day-ci/archive/20240823/202408231741.udIkhb2c-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231741.udIkhb2c-lkp@intel.com/reproduce)
+On Fri, 2024-08-16 at 16:24 +0200, Issam Hamdi wrote:
+>=20
+> @@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct =
+sk_buff *skb,
+> =20
+>  	err =3D rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
+>  	if (!err) {
+> -		wdev->links[0].ap.chandef =3D chandef;
+> +		switch (wdev->iftype) {
+> +		case NL80211_IFTYPE_MESH_POINT:
+> +			wdev->u.mesh.chandef =3D chandef;
+> +			break;
+> +		case NL80211_IFTYPE_ADHOC:
+> +			wdev->u.ibss.chandef =3D chandef;
+> +			break;
+> +		case NL80211_IFTYPE_OCB:
+> +			wdev->u.ocb.chandef =3D chandef;
+> +			break;
+>=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408231741.udIkhb2c-lkp@intel.com/
+OCB cannot even get to this code given earlier conditions, why are you
+adding it here?
 
-All warnings (new ones prefixed by >>):
 
-   kernel/sched/debug.c:797:6: warning: no previous prototype for 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
-     797 | void sysrq_sched_debug_tidy(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/.tmp_debug.o: warning: objtool: missing symbol for section .text.unlikely
+I guess this should conflict:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://lore.kernel.org/linux-wireless/20240711035147.1896538-1-quic_adisi@=
+quicinc.com/
+
+but it's probably not too hard to resolve that.
+
+johannes
