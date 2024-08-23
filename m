@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10779125AC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A9B20DE8;
+	Fri, 23 Aug 2024 02:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724376075; cv=none; b=cVLENVTy2OZg/ppGA7Qak4lSzfhlIuDlTl90e4vW0QyT1EU/FousMClXpYmXLlBSCk2PEf+qQ03LvU8qEnapNR2zvKHTHw5B9RR7T5uhuvyexhbUokLeBVI3LEiDSP0zhfz/j8abZxWszKAmu4IftnABy3qaYpHQSxQm6j7fUrE=
+	t=1724380997; cv=none; b=FM3TrUCzpbGYPuEx/QPq5Bc824SbegXEXt8E2+vRgMllT75ZHkOWuaGJv4dVdHpp60OKKo5g1qx5LsEO362rzbjozMzJzFyvlSNI9KGlQuqR4a0Bo71q1xg/LeAsZQXilFfMf/MOizY3nk0A40AET+vSHWTG2LXtUcIrxrPh3Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724376075; c=relaxed/simple;
-	bh=Iq41BZo/g5hWwXEeFH3qEVC1SMsoNlpC3JhRFMpv1j0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kdkKd2Lr2jN1/ktBguDQheqCyBY7zAisSUDZyQWGZbE5E0TA++/hZJonEaaaNJXC0Jhmm1iWFyal1SC0E4QT9UBjzdAloFlOuE3iOYuC/1f96LQDUR0o6sYu5TSaxB6U9610XASq27gA+CuEsQ4cLGwxaHBsGK650sU9Cg8o160=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYz7qOwM; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1724380997; c=relaxed/simple;
+	bh=uP5IakzORudRLADCNa/D+ltxEuEvKGniLh27EekWsU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IE75T8lkTcAdE2VWn6E5pAFQtYCUsiExLTI7+UzHWd4StPPO+xbCWTwIEfgQHVDaFquB8jOI9/+SiAZVt+Xp19xNGm4rrLBDiN3O2sxg03zemnmm7LexAPgQ4Rw+iuQb4tGbpH4bUf3H5OsoufxutghFbR9PsfZVGGLqIOVRHyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBTLKsmj; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYz7qOwM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBTLKsmj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724376074; x=1755912074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Iq41BZo/g5hWwXEeFH3qEVC1SMsoNlpC3JhRFMpv1j0=;
-  b=eYz7qOwMUOw3vTvP1Q/PZCK1IhCoLCYZw4mt4CupZUEVncYvpPDMB55f
-   VrXkw2AOQ84hYlVacqRu2kTudv7hOxrPK2VcmB+RZaGWtp8xJ1DlTElIa
-   CkaikD4UwAlGU/HDU7wQPdAOPfcAXLk5ooI8zMNkD+RucPZhTikCSFiv4
-   RrfHIiaCNtX6gxx9eHD6XhfGWZ/MImTHEYorCnnT4PXoFQjEj66XBzYa6
-   xOQuEUPhmrY5k9tiHPXyEIMcrMyUEAxlpl+13aiYsduX2I695XqlxpTVm
-   bpsdil4BX2O+/gYPMkSAwNre+LIBD87UDlxJ/SaZk0gYAhZaYQQkEkC0/
-   w==;
-X-CSE-ConnectionGUID: WkX6oSYrRtKVb29MvSTIzw==
-X-CSE-MsgGUID: 4WO4jUjeSqW3WQK2mYXPrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="22993367"
-X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="22993367"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 18:21:12 -0700
-X-CSE-ConnectionGUID: FPaVg6JXT62EXhGFQan5Aw==
-X-CSE-MsgGUID: 2jloW2qNTnGZYW3ujodS9g==
+  t=1724380996; x=1755916996;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uP5IakzORudRLADCNa/D+ltxEuEvKGniLh27EekWsU8=;
+  b=gBTLKsmj8PjPD+xNS+t9/TDT+DJkn79hkagrqINomjakX30QmSlNTKe6
+   NMWRXsAWs/jAdlZX2O5GiH+n8U2mLQMXfFitP83HbPFi+6/SG5voERs+i
+   c2RtG3o7dLgVG7ZnehTE1QqhQC0Ml5lmxV924PwoaDV7RJRdceANRjAUo
+   EeEjrbImOxb4Z2tfmUuvuNNbLjF+Vk5DboA6clnGxQdnSmAUQKCEe88iy
+   liUoCjRWU2cL+Y/Dbmffnoj8Oxw+AEcaT12kNdFk2e2N+qfk4zgNafPXJ
+   +QZdO3Afh0TMSGzES/ezJGPW3OE/mmFI8LIyz/l8/wMu9cgDE2LwdfSje
+   g==;
+X-CSE-ConnectionGUID: BZWFwleCRv2gQJ+GffNb3Q==
+X-CSE-MsgGUID: x+e9MVWYQ0y7Y1n/0ndBmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33399131"
+X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
+   d="scan'208";a="33399131"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 19:43:15 -0700
+X-CSE-ConnectionGUID: FZJsR5w5QVOE1ZQoxQVNlA==
+X-CSE-MsgGUID: puxOFJv1Sqmw0BHB3GROnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="65848155"
+X-IronPort-AV: E=Sophos;i="6.10,169,1719903600"; 
+   d="scan'208";a="61509548"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Aug 2024 18:21:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 22 Aug 2024 19:43:12 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shIzE-000DMm-0E;
-	Fri, 23 Aug 2024 01:21:08 +0000
-Date: Fri, 23 Aug 2024 09:20:11 +0800
+	id 1shKGb-000DOy-1P;
+	Fri, 23 Aug 2024 02:43:09 +0000
+Date: Fri, 23 Aug 2024 10:42:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:intel-lkp 24/35]
- arch/x86/kvm/vmx/vmx.c:6459:10: warning: format specifies type 'unsigned
- long' but the argument has type 'unsigned long long'
-Message-ID: <202408230928.XYJgXPDB-lkp@intel.com>
+To: Zhao Qunqin <zhaoqunqin@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, bp@alien8.de, tony.luck@intel.com,
+	james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org, zhaoqunqin <zhaoqunqin@loongson.cn>
+Subject: Re: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory
+ controller
+Message-ID: <202408231055.okLH0uuC-lkp@intel.com>
+References: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,264 +68,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821064728.8642-2-zhaoqunqin@loongson.cn>
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
-head:   3162d9822c0cb7cb2a3392416d2d5c471a31f276
-commit: 4f81e73aba7d4bee2056d028281ba67ae9fdc8b9 [24/35] KVM: VMX: Dump FRED context in dump_vmcs()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240823/202408230928.XYJgXPDB-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230928.XYJgXPDB-lkp@intel.com/reproduce)
+Hi Zhao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on robh/for-next linus/master v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/Loongarch-EDAC-driver-for-loongson-memory-controller/20240821-145127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20240821064728.8642-2-zhaoqunqin%40loongson.cn
+patch subject: [PATCH v1 1/2] Loongarch: EDAC driver for loongson memory controller
+config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240823/202408231055.okLH0uuC-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231055.okLH0uuC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230928.XYJgXPDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408231055.okLH0uuC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/vmx/vmx.c:6459:10: warning: format specifies type 'unsigned long' but the argument has type 'unsigned long long' [-Wformat]
-    6455 |                        "RSP0=0x%016lx, RSP1=0x%016llx\n"
-         |                                ~~~~~~
-         |                                %016llx
-    6456 |                        "RSP2=0x%016llx, RSP3=0x%016llx\n",
-    6457 |                        vmcs_read64(GUEST_IA32_FRED_CONFIG),
-    6458 |                        vmcs_read64(GUEST_IA32_FRED_STKLVLS),
-    6459 |                        __rdmsr(MSR_IA32_FRED_RSP0),
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:508:33: note: expanded from macro 'pr_err'
-     508 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+   drivers/edac/loongson_edac.c: In function 'get_dimm_config':
+   drivers/edac/loongson_edac.c:90:16: error: implicit declaration of function 'EDAC_DIMM_PTR' [-Werror=implicit-function-declaration]
+      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+         |                ^~~~~~~~~~~~~
+>> drivers/edac/loongson_edac.c:90:14: warning: assignment to 'struct dimm_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      90 |         dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+         |              ^
+   drivers/edac/loongson_edac.c: At top level:
+   drivers/edac/loongson_edac.c:181:27: error: initialization of 'void (*)(struct platform_device *)' from incompatible pointer type 'int (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
+     181 |         .remove         = loongson_edac_remove,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/edac/loongson_edac.c:181:27: note: (near initialization for 'loongson_edac_driver.<anonymous>.remove')
+   cc1: some warnings being treated as errors
 
 
-vim +6459 arch/x86/kvm/vmx/vmx.c
+vim +90 drivers/edac/loongson_edac.c
 
-  6388	
-  6389	void dump_vmcs(struct kvm_vcpu *vcpu)
-  6390	{
-  6391		struct vcpu_vmx *vmx = to_vmx(vcpu);
-  6392		u32 vmentry_ctl, vmexit_ctl;
-  6393		u32 cpu_based_exec_ctrl, pin_based_exec_ctrl, secondary_exec_control;
-  6394		u64 tertiary_exec_control, secondary_vmexit_ctl;
-  6395		unsigned long cr4;
-  6396		int efer_slot;
-  6397	
-  6398		if (!dump_invalid_vmcs) {
-  6399			pr_warn_ratelimited("set kvm_intel.dump_invalid_vmcs=1 to dump internal KVM state.\n");
-  6400			return;
-  6401		}
-  6402	
-  6403		vmentry_ctl = vmcs_read32(VM_ENTRY_CONTROLS);
-  6404		vmexit_ctl = vmcs_read32(VM_EXIT_CONTROLS);
-  6405		secondary_vmexit_ctl = cpu_has_secondary_vmexit_ctrls() ?
-  6406				       vmcs_read64(SECONDARY_VM_EXIT_CONTROLS) : 0;
-  6407		cpu_based_exec_ctrl = vmcs_read32(CPU_BASED_VM_EXEC_CONTROL);
-  6408		pin_based_exec_ctrl = vmcs_read32(PIN_BASED_VM_EXEC_CONTROL);
-  6409		cr4 = vmcs_readl(GUEST_CR4);
-  6410	
-  6411		if (cpu_has_secondary_exec_ctrls())
-  6412			secondary_exec_control = vmcs_read32(SECONDARY_VM_EXEC_CONTROL);
-  6413		else
-  6414			secondary_exec_control = 0;
-  6415	
-  6416		if (cpu_has_tertiary_exec_ctrls())
-  6417			tertiary_exec_control = vmcs_read64(TERTIARY_VM_EXEC_CONTROL);
-  6418		else
-  6419			tertiary_exec_control = 0;
-  6420	
-  6421		pr_err("VMCS %p, last attempted VM-entry on CPU %d\n",
-  6422		       vmx->loaded_vmcs->vmcs, vcpu->arch.last_vmentry_cpu);
-  6423		pr_err("*** Guest State ***\n");
-  6424		pr_err("CR0: actual=0x%016lx, shadow=0x%016lx, gh_mask=%016lx\n",
-  6425		       vmcs_readl(GUEST_CR0), vmcs_readl(CR0_READ_SHADOW),
-  6426		       vmcs_readl(CR0_GUEST_HOST_MASK));
-  6427		pr_err("CR4: actual=0x%016lx, shadow=0x%016lx, gh_mask=%016lx\n",
-  6428		       cr4, vmcs_readl(CR4_READ_SHADOW), vmcs_readl(CR4_GUEST_HOST_MASK));
-  6429		pr_err("CR3 = 0x%016lx\n", vmcs_readl(GUEST_CR3));
-  6430		if (cpu_has_vmx_ept()) {
-  6431			pr_err("PDPTR0 = 0x%016llx  PDPTR1 = 0x%016llx\n",
-  6432			       vmcs_read64(GUEST_PDPTR0), vmcs_read64(GUEST_PDPTR1));
-  6433			pr_err("PDPTR2 = 0x%016llx  PDPTR3 = 0x%016llx\n",
-  6434			       vmcs_read64(GUEST_PDPTR2), vmcs_read64(GUEST_PDPTR3));
-  6435		}
-  6436		pr_err("RSP = 0x%016lx  RIP = 0x%016lx\n",
-  6437		       vmcs_readl(GUEST_RSP), vmcs_readl(GUEST_RIP));
-  6438		pr_err("RFLAGS=0x%08lx         DR7 = 0x%016lx\n",
-  6439		       vmcs_readl(GUEST_RFLAGS), vmcs_readl(GUEST_DR7));
-  6440		pr_err("Sysenter RSP=%016lx CS:RIP=%04x:%016lx\n",
-  6441		       vmcs_readl(GUEST_SYSENTER_ESP),
-  6442		       vmcs_read32(GUEST_SYSENTER_CS), vmcs_readl(GUEST_SYSENTER_EIP));
-  6443		vmx_dump_sel("CS:  ", GUEST_CS_SELECTOR);
-  6444		vmx_dump_sel("DS:  ", GUEST_DS_SELECTOR);
-  6445		vmx_dump_sel("SS:  ", GUEST_SS_SELECTOR);
-  6446		vmx_dump_sel("ES:  ", GUEST_ES_SELECTOR);
-  6447		vmx_dump_sel("FS:  ", GUEST_FS_SELECTOR);
-  6448		vmx_dump_sel("GS:  ", GUEST_GS_SELECTOR);
-  6449		vmx_dump_dtsel("GDTR:", GUEST_GDTR_LIMIT);
-  6450		vmx_dump_sel("LDTR:", GUEST_LDTR_SELECTOR);
-  6451		vmx_dump_dtsel("IDTR:", GUEST_IDTR_LIMIT);
-  6452		vmx_dump_sel("TR:  ", GUEST_TR_SELECTOR);
-  6453		if (vmentry_ctl & VM_ENTRY_LOAD_IA32_FRED)
-  6454			pr_err("FRED guest: config=0x%016llx, stack_levels=0x%016llx\n"
-  6455			       "RSP0=0x%016lx, RSP1=0x%016llx\n"
-  6456			       "RSP2=0x%016llx, RSP3=0x%016llx\n",
-  6457			       vmcs_read64(GUEST_IA32_FRED_CONFIG),
-  6458			       vmcs_read64(GUEST_IA32_FRED_STKLVLS),
-> 6459			       __rdmsr(MSR_IA32_FRED_RSP0),
-  6460			       vmcs_read64(GUEST_IA32_FRED_RSP1),
-  6461			       vmcs_read64(GUEST_IA32_FRED_RSP2),
-  6462			       vmcs_read64(GUEST_IA32_FRED_RSP3));
-  6463		efer_slot = vmx_find_loadstore_msr_slot(&vmx->msr_autoload.guest, MSR_EFER);
-  6464		if (vmentry_ctl & VM_ENTRY_LOAD_IA32_EFER)
-  6465			pr_err("EFER= 0x%016llx\n", vmcs_read64(GUEST_IA32_EFER));
-  6466		else if (efer_slot >= 0)
-  6467			pr_err("EFER= 0x%016llx (autoload)\n",
-  6468			       vmx->msr_autoload.guest.val[efer_slot].value);
-  6469		else if (vmentry_ctl & VM_ENTRY_IA32E_MODE)
-  6470			pr_err("EFER= 0x%016llx (effective)\n",
-  6471			       vcpu->arch.efer | (EFER_LMA | EFER_LME));
-  6472		else
-  6473			pr_err("EFER= 0x%016llx (effective)\n",
-  6474			       vcpu->arch.efer & ~(EFER_LMA | EFER_LME));
-  6475		if (vmentry_ctl & VM_ENTRY_LOAD_IA32_PAT)
-  6476			pr_err("PAT = 0x%016llx\n", vmcs_read64(GUEST_IA32_PAT));
-  6477		pr_err("DebugCtl = 0x%016llx  DebugExceptions = 0x%016lx\n",
-  6478		       vmcs_read64(GUEST_IA32_DEBUGCTL),
-  6479		       vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS));
-  6480		if (cpu_has_load_perf_global_ctrl() &&
-  6481		    vmentry_ctl & VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL)
-  6482			pr_err("PerfGlobCtl = 0x%016llx\n",
-  6483			       vmcs_read64(GUEST_IA32_PERF_GLOBAL_CTRL));
-  6484		if (vmentry_ctl & VM_ENTRY_LOAD_BNDCFGS)
-  6485			pr_err("BndCfgS = 0x%016llx\n", vmcs_read64(GUEST_BNDCFGS));
-  6486		pr_err("Interruptibility = %08x  ActivityState = %08x\n",
-  6487		       vmcs_read32(GUEST_INTERRUPTIBILITY_INFO),
-  6488		       vmcs_read32(GUEST_ACTIVITY_STATE));
-  6489		if (secondary_exec_control & SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY)
-  6490			pr_err("InterruptStatus = %04x\n",
-  6491			       vmcs_read16(GUEST_INTR_STATUS));
-  6492		if (vmcs_read32(VM_ENTRY_MSR_LOAD_COUNT) > 0)
-  6493			vmx_dump_msrs("guest autoload", &vmx->msr_autoload.guest);
-  6494		if (vmcs_read32(VM_EXIT_MSR_STORE_COUNT) > 0)
-  6495			vmx_dump_msrs("guest autostore", &vmx->msr_autostore.guest);
-  6496	
-  6497		pr_err("*** Host State ***\n");
-  6498		pr_err("RIP = 0x%016lx  RSP = 0x%016lx\n",
-  6499		       vmcs_readl(HOST_RIP), vmcs_readl(HOST_RSP));
-  6500		pr_err("CS=%04x SS=%04x DS=%04x ES=%04x FS=%04x GS=%04x TR=%04x\n",
-  6501		       vmcs_read16(HOST_CS_SELECTOR), vmcs_read16(HOST_SS_SELECTOR),
-  6502		       vmcs_read16(HOST_DS_SELECTOR), vmcs_read16(HOST_ES_SELECTOR),
-  6503		       vmcs_read16(HOST_FS_SELECTOR), vmcs_read16(HOST_GS_SELECTOR),
-  6504		       vmcs_read16(HOST_TR_SELECTOR));
-  6505		pr_err("FSBase=%016lx GSBase=%016lx TRBase=%016lx\n",
-  6506		       vmcs_readl(HOST_FS_BASE), vmcs_readl(HOST_GS_BASE),
-  6507		       vmcs_readl(HOST_TR_BASE));
-  6508		pr_err("GDTBase=%016lx IDTBase=%016lx\n",
-  6509		       vmcs_readl(HOST_GDTR_BASE), vmcs_readl(HOST_IDTR_BASE));
-  6510		if (vmexit_ctl & SECONDARY_VM_EXIT_LOAD_IA32_FRED)
-  6511			pr_err("FRED host: config=0x%016llx, stack_levels=0x%016llx\n"
-  6512			       "RSP0=0x%016lx, RSP1=0x%016llx\n"
-  6513			       "RSP2=0x%016llx, RSP3=0x%016llx\n",
-  6514			       vmcs_read64(HOST_IA32_FRED_CONFIG),
-  6515			       vmcs_read64(HOST_IA32_FRED_STKLVLS),
-  6516			       (unsigned long)task_stack_page(current) + THREAD_SIZE,
-  6517			       vmcs_read64(HOST_IA32_FRED_RSP1),
-  6518			       vmcs_read64(HOST_IA32_FRED_RSP2),
-  6519			       vmcs_read64(HOST_IA32_FRED_RSP3));
-  6520		pr_err("CR0=%016lx CR3=%016lx CR4=%016lx\n",
-  6521		       vmcs_readl(HOST_CR0), vmcs_readl(HOST_CR3),
-  6522		       vmcs_readl(HOST_CR4));
-  6523		pr_err("Sysenter RSP=%016lx CS:RIP=%04x:%016lx\n",
-  6524		       vmcs_readl(HOST_IA32_SYSENTER_ESP),
-  6525		       vmcs_read32(HOST_IA32_SYSENTER_CS),
-  6526		       vmcs_readl(HOST_IA32_SYSENTER_EIP));
-  6527		if (vmexit_ctl & VM_EXIT_LOAD_IA32_EFER)
-  6528			pr_err("EFER= 0x%016llx\n", vmcs_read64(HOST_IA32_EFER));
-  6529		if (vmexit_ctl & VM_EXIT_LOAD_IA32_PAT)
-  6530			pr_err("PAT = 0x%016llx\n", vmcs_read64(HOST_IA32_PAT));
-  6531		if (cpu_has_load_perf_global_ctrl() &&
-  6532		    vmexit_ctl & VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL)
-  6533			pr_err("PerfGlobCtl = 0x%016llx\n",
-  6534			       vmcs_read64(HOST_IA32_PERF_GLOBAL_CTRL));
-  6535		if (vmcs_read32(VM_EXIT_MSR_LOAD_COUNT) > 0)
-  6536			vmx_dump_msrs("host autoload", &vmx->msr_autoload.host);
-  6537	
-  6538		pr_err("*** Control State ***\n");
-  6539		pr_err("CPUBased=0x%08x SecondaryExec=0x%08x TertiaryExec=0x%016llx\n",
-  6540		       cpu_based_exec_ctrl, secondary_exec_control, tertiary_exec_control);
-  6541		pr_err("PinBased=0x%08x EntryControls=0x%08x\n",
-  6542		       pin_based_exec_ctrl, vmentry_ctl);
-  6543		pr_err("ExitControls=0x%08x SecondaryExitControls=0x%016llx\n",
-  6544		       vmexit_ctl, secondary_vmexit_ctl);
-  6545		pr_err("ExceptionBitmap=%08x PFECmask=%08x PFECmatch=%08x\n",
-  6546		       vmcs_read32(EXCEPTION_BITMAP),
-  6547		       vmcs_read32(PAGE_FAULT_ERROR_CODE_MASK),
-  6548		       vmcs_read32(PAGE_FAULT_ERROR_CODE_MATCH));
-  6549		pr_err("VMEntry: intr_info=%08x errcode=%08x ilen=%08x event_data=%016llx\n",
-  6550		       vmcs_read32(VM_ENTRY_INTR_INFO_FIELD),
-  6551		       vmcs_read32(VM_ENTRY_EXCEPTION_ERROR_CODE),
-  6552		       vmcs_read32(VM_ENTRY_INSTRUCTION_LEN),
-  6553		       kvm_cpu_cap_has(X86_FEATURE_FRED) ? vmcs_read64(INJECTED_EVENT_DATA) : 0);
-  6554		pr_err("VMExit: intr_info=%08x errcode=%08x ilen=%08x\n",
-  6555		       vmcs_read32(VM_EXIT_INTR_INFO),
-  6556		       vmcs_read32(VM_EXIT_INTR_ERROR_CODE),
-  6557		       vmcs_read32(VM_EXIT_INSTRUCTION_LEN));
-  6558		pr_err("        reason=%08x qualification=%016lx\n",
-  6559		       vmcs_read32(VM_EXIT_REASON), vmcs_readl(EXIT_QUALIFICATION));
-  6560		pr_err("IDTVectoring: info=%08x errcode=%08x event_data=%016llx\n",
-  6561		       vmcs_read32(IDT_VECTORING_INFO_FIELD),
-  6562		       vmcs_read32(IDT_VECTORING_ERROR_CODE),
-  6563		       kvm_cpu_cap_has(X86_FEATURE_FRED) ? vmcs_read64(ORIGINAL_EVENT_DATA) : 0);
-  6564		pr_err("TSC Offset = 0x%016llx\n", vmcs_read64(TSC_OFFSET));
-  6565		if (secondary_exec_control & SECONDARY_EXEC_TSC_SCALING)
-  6566			pr_err("TSC Multiplier = 0x%016llx\n",
-  6567			       vmcs_read64(TSC_MULTIPLIER));
-  6568		if (cpu_based_exec_ctrl & CPU_BASED_TPR_SHADOW) {
-  6569			if (secondary_exec_control & SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY) {
-  6570				u16 status = vmcs_read16(GUEST_INTR_STATUS);
-  6571				pr_err("SVI|RVI = %02x|%02x ", status >> 8, status & 0xff);
-  6572			}
-  6573			pr_cont("TPR Threshold = 0x%02x\n", vmcs_read32(TPR_THRESHOLD));
-  6574			if (secondary_exec_control & SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES)
-  6575				pr_err("APIC-access addr = 0x%016llx ", vmcs_read64(APIC_ACCESS_ADDR));
-  6576			pr_cont("virt-APIC addr = 0x%016llx\n", vmcs_read64(VIRTUAL_APIC_PAGE_ADDR));
-  6577		}
-  6578		if (pin_based_exec_ctrl & PIN_BASED_POSTED_INTR)
-  6579			pr_err("PostedIntrVec = 0x%02x\n", vmcs_read16(POSTED_INTR_NV));
-  6580		if ((secondary_exec_control & SECONDARY_EXEC_ENABLE_EPT))
-  6581			pr_err("EPT pointer = 0x%016llx\n", vmcs_read64(EPT_POINTER));
-  6582		if (secondary_exec_control & SECONDARY_EXEC_PAUSE_LOOP_EXITING)
-  6583			pr_err("PLE Gap=%08x Window=%08x\n",
-  6584			       vmcs_read32(PLE_GAP), vmcs_read32(PLE_WINDOW));
-  6585		if (secondary_exec_control & SECONDARY_EXEC_ENABLE_VPID)
-  6586			pr_err("Virtual processor ID = 0x%04x\n",
-  6587			       vmcs_read16(VIRTUAL_PROCESSOR_ID));
-  6588		if (secondary_exec_control & SECONDARY_EXEC_EPT_VIOLATION_VE) {
-  6589			struct vmx_ve_information *ve_info = vmx->ve_info;
-  6590			u64 ve_info_pa = vmcs_read64(VE_INFORMATION_ADDRESS);
-  6591	
-  6592			/*
-  6593			 * If KVM is dumping the VMCS, then something has gone wrong
-  6594			 * already.  Derefencing an address from the VMCS, which could
-  6595			 * very well be corrupted, is a terrible idea.  The virtual
-  6596			 * address is known so use it.
-  6597			 */
-  6598			pr_err("VE info address = 0x%016llx%s\n", ve_info_pa,
-  6599			       ve_info_pa == __pa(ve_info) ? "" : "(corrupted!)");
-  6600			pr_err("ve_info: 0x%08x 0x%08x 0x%016llx 0x%016llx 0x%016llx 0x%04x\n",
-  6601			       ve_info->exit_reason, ve_info->delivery,
-  6602			       ve_info->exit_qualification,
-  6603			       ve_info->guest_linear_address,
-  6604			       ve_info->guest_physical_address, ve_info->eptp_index);
-  6605		}
-  6606	}
-  6607	
+    80	
+    81	static int get_dimm_config(struct mem_ctl_info *mci)
+    82	{
+    83		u32 size, npages;
+    84		struct dimm_info *dimm;
+    85	
+    86		/* size not used */
+    87		size = -1;
+    88		npages = MiB_TO_PAGES(size);
+    89	
+  > 90		dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
+    91				0, 0, 0);
+    92		dimm->nr_pages = npages;
+    93		snprintf(dimm->label, sizeof(dimm->label),
+    94				"MC#%uChannel#%u_DIMM#%u",
+    95				mci->mc_idx, 0, 0);
+    96		dimm->grain = 8;
+    97	
+    98		return 0;
+    99	}
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
