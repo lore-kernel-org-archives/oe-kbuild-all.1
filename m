@@ -1,88 +1,127 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C035028EA;
-	Fri, 23 Aug 2024 10:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C8E1850AF;
+	Fri, 23 Aug 2024 12:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724409729; cv=none; b=VIylkKzDeijdQH4tHHYLWL7ARsJC1pgNofgbhryHbmcSeV3sJe50OsrkpjcxIBMrIrT+vlXponLQRUsJYMLpY5dyCkeu43raTMn2LZ6icR0GQVYd819ATlYQi+RTLPScd0Yb3CZgf1U3KUvgOLl1a6wwzjekv0Q1K1GA9scrgnY=
+	t=1724416530; cv=none; b=ak+RlMaUOlqFQEd8m2SghuLtpvGaE6dQ2f8S8WLdaqdGWNZOPhm0VBR0jkUqhNvqVsUFjucj33q/15TfMvebsGcmlvksTsSbMWj88zRns4cjLkk743GTkm0TUVZ0BM1/+PWhQ3wmpSFyjuYN7SigDH23lj1PD9DKK6yR8gzZPnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724409729; c=relaxed/simple;
-	bh=5KK2RJQAtkePrpJ0BcZucFZ37M/1X8amjjqPRfU7Umw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fy/TCbbiYVyORt+csGDbS340gKAV8f9s8+4jI8hFwITYwyKnhNRrfcOOLt8jAEsMy51RT0mqOjOpRUrHy5c1jXamorRwTu8zpeXOxq+5vnTFF5TLvQEkOLXZR0FxAPLtmZ1NsP85Q4/E2RBwquRQY/oysLiPSGURLu/b/gCX5hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=lNyoYqLj; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1724416530; c=relaxed/simple;
+	bh=ix6vXKCUbnKnqPEkpF9Bih2vIgrDcu1Z3BK9hyeomeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ed23Xp008mRS2qcsw4j8LAvLCcyMm+yQjAIhuUQYxUjFXhP6x40ogvOjU3vqHXKY+Urtyb/Fseq2QduJF/PW0PLcPluwkptIgwcc6svQ/qKvHjW2TjW6QyGFnfnt9ZlJDo1c9gh7cswSJG479G2Zub3ziwSvUAZxJYtLNks4OBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGUtSxEf; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="lNyoYqLj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=ySAq5GhCFf2JrQxerjYMWjlswlOjNEg+iTM1YZdGN5M=;
-	t=1724409727; x=1725619327; b=lNyoYqLjQeDAHQk+UswukTWKJB/UbQhwKUR2oCULwDRg3iy
-	Q3/opl9NoV0k+yHrOa0IYC9GAIr/sAECL5kitBnDwlJFdP++fj9mzrYRhQrMM6FSVJRFPQjrY63Hh
-	UkrObAOLXeevlzmgdVQlKbDjGtl3PzcsJspgd4773+w8jzYE8y/LFt7Dh/vO7KiR7tQ4fHhgfcsjL
-	+q00hpU+KZZ/VcKuZbUURQHrTrHmCDac9YJxOOJcqV0e60uTRRXdATulJt2I/DyHLRtQfvabZEiXU
-	r/qHZK6ae2Jxpu0uvrnkCZBqcOyVVR9pKNI4lnun+2HKv7dzmpKiAoe6i08JBdLg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1shRk3-0000000FS9z-2l39;
-	Fri, 23 Aug 2024 12:42:03 +0200
-Message-ID: <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
-Subject: Re: [PATCH v3] wifi: cfg80211: Set the channel definition for the
- different Wi-Fi modes when starting CAC
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Issam Hamdi <ih@simonwunderlich.de>, quic_jjohnson@quicinc.com
-Cc: kvalo@kernel.org, linux-wireless@vger.kernel.org, lkp@intel.com, 
-	llvm@lists.linux.dev, mathias.kretschmer@fit.fraunhofer.de, 
-	oe-kbuild-all@lists.linux.dev
-Date: Fri, 23 Aug 2024 12:42:02 +0200
-In-Reply-To: <20240816142418.3381951-1-ih@simonwunderlich.de>
-References: <9809b165-8d25-4984-a1dd-6fca28f1dda9@quicinc.com>
-	 <20240816142418.3381951-1-ih@simonwunderlich.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGUtSxEf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724416528; x=1755952528;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ix6vXKCUbnKnqPEkpF9Bih2vIgrDcu1Z3BK9hyeomeA=;
+  b=RGUtSxEfQefIMagxyWMNPksCy4QFU4ysqaFqbdpcCkPcLPw2OcFBLIow
+   qKKcYetKRdHomhwuUegXhLJKlg5ocRfrWVsu1sBgY7D1RQySlbyR2hkUc
+   ALES57VTwFlXbJwJTA8O2nipThdxsi4Ivg5vjTRVZczvYLvoM9+ZsdIma
+   wPhvYgCx300O6IZrsf5ebrx0Qr/dCiUws8fmhMOPF/atFCezIkAZKeN1G
+   XoL0tGMGlooSkQwQG7NLj2St5PC6wfNwiBXmyyCs82ZGrHra3Sb8ARtwx
+   VcJCCF03lGR1Bxvq8nCWTziFcauxLH2m8/UVRmYQSalbAkj59E8r7Lnmc
+   w==;
+X-CSE-ConnectionGUID: /EX4kYU7SlS9wwHcXo9DeQ==
+X-CSE-MsgGUID: t6Y3BuBySuyKLL7HleJtbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33505131"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="33505131"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 05:35:28 -0700
+X-CSE-ConnectionGUID: SHAeHeDoSGWSMIRPnDqBMA==
+X-CSE-MsgGUID: 99cntAGlTJWmRrCGIMPVgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="62303847"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 23 Aug 2024 05:35:26 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1shTVj-000Dhc-2t;
+	Fri, 23 Aug 2024 12:35:23 +0000
+Date: Fri, 23 Aug 2024 20:35:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Simon Horman <horms@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [staging:staging-testing 36/53]
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c:640:7: warning: variable 'iv16'
+ set but not used
+Message-ID: <202408232049.UJef268y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2024-08-16 at 16:24 +0200, Issam Hamdi wrote:
->=20
-> @@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct =
-sk_buff *skb,
-> =20
->  	err =3D rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
->  	if (!err) {
-> -		wdev->links[0].ap.chandef =3D chandef;
-> +		switch (wdev->iftype) {
-> +		case NL80211_IFTYPE_MESH_POINT:
-> +			wdev->u.mesh.chandef =3D chandef;
-> +			break;
-> +		case NL80211_IFTYPE_ADHOC:
-> +			wdev->u.ibss.chandef =3D chandef;
-> +			break;
-> +		case NL80211_IFTYPE_OCB:
-> +			wdev->u.ocb.chandef =3D chandef;
-> +			break;
->=20
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   5315266844ea3b0b8b6be9842d5901e439fa838a
+commit: 5f1a6826ea4900f8540d5eeb29f97796860f2d08 [36/53] staging: rtl8192e: remove set but otherwise unused local variable iv32
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240823/202408232049.UJef268y-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408232049.UJef268y-lkp@intel.com/reproduce)
 
-OCB cannot even get to this code given earlier conditions, why are you
-adding it here?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408232049.UJef268y-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/rtl8192e/rtllib_crypt_tkip.c:640:7: warning: variable 'iv16' set but not used [-Wunused-but-set-variable]
+     640 |                 u16 iv16 = tkey->tx_iv16;
+         |                     ^
+   1 warning generated.
 
 
-I guess this should conflict:
+vim +/iv16 +640 drivers/staging/rtl8192e/rtllib_crypt_tkip.c
 
-https://lore.kernel.org/linux-wireless/20240711035147.1896538-1-quic_adisi@=
-quicinc.com/
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  626  
+94a799425eee82 drivers/staging/rtl8192e/rtllib_crypt_tkip.c              Larry Finger       2011-08-23  627  static int rtllib_tkip_get_key(void *key, int len, u8 *seq, void *priv)
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  628  {
+94a799425eee82 drivers/staging/rtl8192e/rtllib_crypt_tkip.c              Larry Finger       2011-08-23  629  	struct rtllib_tkip_data *tkey = priv;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  630  
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  631  	if (len < TKIP_KEY_LEN)
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  632  		return -1;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  633  
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  634  	if (!tkey->key_set)
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  635  		return 0;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  636  	memcpy(key, tkey->key, TKIP_KEY_LEN);
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  637  
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  638  	if (seq) {
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  639  		/* Return the sequence number of the last transmitted frame. */
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04 @640  		u16 iv16 = tkey->tx_iv16;
+3a6b70c3f3558a drivers/staging/rtl8192e/rtllib_crypt_tkip.c              Matthew Casey      2014-08-22  641  
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  642  		iv16--;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  643  		seq[0] = tkey->tx_iv16;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  644  		seq[1] = tkey->tx_iv16 >> 8;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  645  		seq[2] = tkey->tx_iv32;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  646  		seq[3] = tkey->tx_iv32 >> 8;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  647  		seq[4] = tkey->tx_iv32 >> 16;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  648  		seq[5] = tkey->tx_iv32 >> 24;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  649  	}
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  650  
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  651  	return TKIP_KEY_LEN;
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  652  }
+ecdfa44610fa18 drivers/staging/rtl8192e/ieee80211/ieee80211_crypt_tkip.c Greg Kroah-Hartman 2009-08-04  653  
 
-but it's probably not too hard to resolve that.
+:::::: The code at line 640 was first introduced by commit
+:::::: ecdfa44610fa18678c3dd481af75368b9800c6c7 Staging: add Realtek 8192 PCI wireless driver
 
-johannes
+:::::: TO: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
