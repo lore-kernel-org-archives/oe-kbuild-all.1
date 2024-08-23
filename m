@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFC3183CBC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Aug 2024 23:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF807B679
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Aug 2024 00:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724369952; cv=none; b=oDshj+9mMT8AFco6B8UdMZVR3xVPe9wmoTrlaeqmA0Vzl8oMz+56NwCnEyiz/+ukODbTLUbekJaiFBnFAiUBViVjf5DMJO6DLRkJNJgaFJoRF6MyJe/cZ2P1fc79Ubz+dqVfbz+BB2xrsikfggeozHRLEnFlDku/8N16swN0Q6I=
+	t=1724373013; cv=none; b=u40TEaz1XpJqyppMH6VSvx8yp2SA4L45YyYxsMVZsBEotC/tAIYaQtlpGk9GtczCvLCjNtDEJydX7vWOFH2WcSCUzLMHTv5sfJy2qs2BJCc6fcIj74pwf9eWf1IQr8vRSl42SUTx6g23VDhi+esMxLpTpVD7w7jGRHAEO95SKKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724369952; c=relaxed/simple;
-	bh=sIxFb7phyP103k8jvVNt3nWalzWNNxGUURuGx6otySo=;
+	s=arc-20240116; t=1724373013; c=relaxed/simple;
+	bh=gRdnYETvgXt1loE1snfb9njk07/X04JcDWFEaDCoO0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bfET+94fTFQ4RJSfTvZyxTI3APvbpHA8XTdg5b27VjyncuHDScGRLtK0k7ykEIvalX32V9ypV6CrnTXcr9RguxZ5lJXbjECwD/TdQesAFnyJTeQxDWQ6V7QHpnhdKsQ0pBwup+QhjPJaV+yvpeOzUvEsNTQAGBXyuWp0KiK6DwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTr6QtTJ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=WqY6B5LkiLXF4bL+VoG01ygCMkhk046Ekawd0UJJWGQb21Dcm8Le1lSXjcqPrZAbWSOx1nNk9fho0hPRDM8Wysj++50qeU08zPlouvsnIQZdEWUouHJpgCkXvdwGn/Vq0kucBmY7lfxdxd4LWYpMzhOj51Wk56QqcoiRIpdKQEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WfPjy/R8; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTr6QtTJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfPjy/R8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724369951; x=1755905951;
+  t=1724373011; x=1755909011;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sIxFb7phyP103k8jvVNt3nWalzWNNxGUURuGx6otySo=;
-  b=dTr6QtTJpvbvY8aCjhUrS+twfXjAOV4yNQosPtteq5cmGyBk6OFUGw5N
-   igDIZ3Nj/59dj/RgHR8+vc1J1m2eeqNs+IFp3pK1RYdTWQO29kgsJxH4D
-   hRAzxAsvghKtL4I05X/1RflW3MzYFfs3/M7dPbKzyA9X3530KXL+Fklnc
-   Dl2TeurGS8PNPBPmOYEXxitYkq7SPVdityIbpkupm0whL1+6Cd7jHhEKo
-   TEZMngz76V3CxoOF3Za+ODLux8jAGdwFzykDMtoOdT0jcrQ2EVbrzy8A/
-   GqfWqNtuBz9Nvj/yT9E4kLEWzgvZM7hDrLKlhaA5PHOxFwhNmT/MHjDae
-   w==;
-X-CSE-ConnectionGUID: ZU2pgb5xQuqVcW7ET7OZQw==
-X-CSE-MsgGUID: g+/dGgfMQH2yL+1J/i2g1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="26614762"
+  bh=gRdnYETvgXt1loE1snfb9njk07/X04JcDWFEaDCoO0Q=;
+  b=WfPjy/R8OMCo5royLw8hxkvG8A1FxbE2q4Y73XHuANnqVFMAPRFtEn1W
+   4yHJQLc37wLQ3mZFFk1TNkt05hbEV3u6cRGQzVrDD6JpFtsQY/37m/4cS
+   kqWm/C6yZanjJwhjakL0EQWNmnlnvLeyKL4bwFx7JkJ4fWYONsXxkWeG+
+   pw0DL0gNB2hN/nxRNaIq6jh1KQtQJjce14Xw6Iny7KRkn54TnEzGvUH5q
+   Uflh2Oo+5lnu9TdLOYFi1+1bmAeAlCeuljDkiUUqL9o3lZJvdzbEQJll9
+   MlE2CL0BHew5jtA7R3ClG7z/Anhebds1ZPt2i+pBQ0KGh7oVfLcqzIrab
+   g==;
+X-CSE-ConnectionGUID: 3Y6a/xbOSv2xpGw0oJJ2vg==
+X-CSE-MsgGUID: OruwIxlPSHOHLQkYJItNjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33486884"
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="26614762"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 16:39:10 -0700
-X-CSE-ConnectionGUID: JHK45ctpRkmr+OFgl6kk8Q==
-X-CSE-MsgGUID: YUquk5AoR1SIs2CQNrtZhw==
+   d="scan'208";a="33486884"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2024 17:30:10 -0700
+X-CSE-ConnectionGUID: 0FD2cAf6QZiuhA1laY/fgw==
+X-CSE-MsgGUID: 1C63xuUSRj2gC1FC054Xpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,168,1719903600"; 
-   d="scan'208";a="61757259"
+   d="scan'208";a="66456183"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Aug 2024 16:39:07 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Aug 2024 17:30:09 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shHOT-000DI0-0b;
-	Thu, 22 Aug 2024 23:39:05 +0000
-Date: Fri, 23 Aug 2024 07:38:28 +0800
+	id 1shIBq-000DJo-1C;
+	Fri, 23 Aug 2024 00:30:06 +0000
+Date: Fri, 23 Aug 2024 08:29:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>,
-	Brian Norris <briannorris@chromium.org>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Kalle Valo <kvalo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 11/31] wifi: mwifiex: use priv index as bss_num
-Message-ID: <202408230753.OZVsdQpL-lkp@intel.com>
-References: <20240820-mwifiex-cleanup-v1-11-320d8de4a4b7@pengutronix.de>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] ptp: Add vDSO-style vmclock support
+Message-ID: <202408230722.KxiF5aM0-lkp@intel.com>
+References: <410bbef9771ef8aa51704994a70d5965e367e2ce.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,116 +62,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820-mwifiex-cleanup-v1-11-320d8de4a4b7@pengutronix.de>
+In-Reply-To: <410bbef9771ef8aa51704994a70d5965e367e2ce.camel@infradead.org>
 
-Hi Sascha,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on daaf0dd0398d5e93b7304f35184ca182ed583681]
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.11-rc4 next-20240822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/wifi-mwifiex-remove-unnecessary-checks-for-valid-priv/20240820-200559
-base:   daaf0dd0398d5e93b7304f35184ca182ed583681
-patch link:    https://lore.kernel.org/r/20240820-mwifiex-cleanup-v1-11-320d8de4a4b7%40pengutronix.de
-patch subject: [PATCH 11/31] wifi: mwifiex: use priv index as bss_num
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240823/202408230753.OZVsdQpL-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230753.OZVsdQpL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/ptp-Add-vDSO-style-vmclock-support/20240822-055147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/410bbef9771ef8aa51704994a70d5965e367e2ce.camel%40infradead.org
+patch subject: [PATCH v4] ptp: Add vDSO-style vmclock support
+config: x86_64-randconfig-r133-20240822 (https://download.01.org/0day-ci/archive/20240823/202408230722.KxiF5aM0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230722.KxiF5aM0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408230753.OZVsdQpL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408230722.KxiF5aM0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/ptp/ptp_vmclock.c:562:13: sparse: sparse: restricted __le32 degrades to integer
 
-   drivers/net/wireless/marvell/mwifiex/sta_event.c: In function 'mwifiex_process_multi_chan_event':
->> drivers/net/wireless/marvell/mwifiex/sta_event.c:419:23: warning: variable 'bss_type' set but not used [-Wunused-but-set-variable]
-     419 |         int intf_num, bss_type, bss_num, i;
-         |                       ^~~~~~~~
+vim +562 drivers/ptp/ptp_vmclock.c
 
-
-vim +/bss_type +419 drivers/net/wireless/marvell/mwifiex/sta_event.c
-
-ddd7ceb3f6dd90 drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  410  
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  411  void mwifiex_process_multi_chan_event(struct mwifiex_private *priv,
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  412  				      struct sk_buff *event_skb)
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  413  {
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  414  	struct mwifiex_ie_types_multi_chan_info *chan_info;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  415  	struct mwifiex_ie_types_mc_group_info *grp_info;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  416  	struct mwifiex_adapter *adapter = priv->adapter;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  417  	struct mwifiex_ie_types_header *tlv;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  418  	u16 tlv_buf_left, tlv_type, tlv_len;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18 @419  	int intf_num, bss_type, bss_num, i;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  420  	struct mwifiex_private *intf_priv;
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  421  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  422  	tlv_buf_left = event_skb->len - sizeof(u32);
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  423  	chan_info = (void *)event_skb->data + sizeof(u32);
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  424  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  425  	if (le16_to_cpu(chan_info->header.type) != TLV_TYPE_MULTI_CHAN_INFO ||
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  426  	    tlv_buf_left < sizeof(struct mwifiex_ie_types_multi_chan_info)) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  427  		mwifiex_dbg(adapter, ERROR,
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  428  			    "unknown TLV in chan_info event\n");
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  429  		return;
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  430  	}
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  431  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  432  	adapter->usb_mc_status = le16_to_cpu(chan_info->status);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  433  	mwifiex_dbg(adapter, EVENT, "multi chan operation %s\n",
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  434  		    adapter->usb_mc_status ? "started" : "over");
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  435  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  436  	tlv_buf_left -= sizeof(struct mwifiex_ie_types_multi_chan_info);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  437  	tlv = (struct mwifiex_ie_types_header *)chan_info->tlv_buffer;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  438  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  439  	while (tlv_buf_left >= (int)sizeof(struct mwifiex_ie_types_header)) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  440  		tlv_type = le16_to_cpu(tlv->type);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  441  		tlv_len  = le16_to_cpu(tlv->len);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  442  		if ((sizeof(struct mwifiex_ie_types_header) + tlv_len) >
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  443  		    tlv_buf_left) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  444  			mwifiex_dbg(adapter, ERROR, "wrong tlv: tlvLen=%d,\t"
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  445  				    "tlvBufLeft=%d\n", tlv_len, tlv_buf_left);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  446  			break;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  447  		}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  448  		if (tlv_type != TLV_TYPE_MC_GROUP_INFO) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  449  			mwifiex_dbg(adapter, ERROR, "wrong tlv type: 0x%x\n",
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  450  				    tlv_type);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  451  			break;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  452  		}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  453  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  454  		grp_info = (struct mwifiex_ie_types_mc_group_info *)tlv;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  455  		intf_num = grp_info->intf_num;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  456  		for (i = 0; i < intf_num; i++) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  457  			bss_type = grp_info->bss_type_numlist[i] >> 4;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  458  			bss_num = grp_info->bss_type_numlist[i] & BSS_NUM_MASK;
-92ace9c7fa9726 drivers/net/wireless/marvell/mwifiex/sta_event.c Sascha Hauer  2024-08-20  459  			intf_priv = mwifiex_get_priv_by_id(adapter, bss_num);
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  460  			if (!intf_priv) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  461  				mwifiex_dbg(adapter, ERROR,
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  462  					    "Invalid bss_type bss_num\t"
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  463  					    "in multi channel event\n");
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  464  				continue;
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  465  			}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  466  			if (adapter->iface_type == MWIFIEX_USB) {
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  467  				u8 ep;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  468  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  469  				ep = grp_info->hid_num.usb_ep_num;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  470  				if (ep == MWIFIEX_USB_EP_DATA ||
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  471  				    ep == MWIFIEX_USB_EP_DATA_CH2)
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  472  					intf_priv->usb_port = ep;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  473  			}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  474  		}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  475  
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  476  		tlv_buf_left -= sizeof(struct mwifiex_ie_types_header) +
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  477  				tlv_len;
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  478  		tlv = (void *)((u8 *)tlv + tlv_len +
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  479  			       sizeof(struct mwifiex_ie_types_header));
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  480  	}
-2b0f997db43f01 drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  481  
-7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  482  	if (adapter->iface_type == MWIFIEX_USB) {
-7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  483  		adapter->tx_lock_flag = true;
-7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  484  		adapter->usb_mc_setup = true;
-7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  485  		mwifiex_multi_chan_resync(adapter);
-7e4e5d2cd0817b drivers/net/wireless/mwifiex/sta_event.c         Zhaoyang Liu  2015-09-18  486  	}
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  487  }
-8d6b538a5eac1f drivers/net/wireless/mwifiex/sta_event.c         Avinash Patil 2015-06-22  488  
+   486	
+   487	static int vmclock_probe(struct platform_device *pdev)
+   488	{
+   489		struct device *dev = &pdev->dev;
+   490		struct vmclock_state *st;
+   491		int ret;
+   492	
+   493		st = devm_kzalloc(dev, sizeof (*st), GFP_KERNEL);
+   494		if (!st)
+   495			return -ENOMEM;
+   496	
+   497		if (has_acpi_companion(dev))
+   498			ret = vmclock_probe_acpi(dev, st);
+   499		else
+   500			ret = -EINVAL; /* Only ACPI for now */
+   501	
+   502		if (ret) {
+   503			dev_info(dev, "Failed to obtain physical address: %d\n", ret);
+   504			goto out;
+   505		}
+   506	
+   507		if (resource_size(&st->res) < VMCLOCK_MIN_SIZE) {
+   508			dev_info(dev, "Region too small (0x%llx)\n",
+   509				 resource_size(&st->res));
+   510			ret = -EINVAL;
+   511			goto out;
+   512		}
+   513		st->clk = devm_memremap(dev, st->res.start, resource_size(&st->res),
+   514					MEMREMAP_WB | MEMREMAP_DEC);
+   515		if (IS_ERR(st->clk)) {
+   516			ret = PTR_ERR(st->clk);
+   517			dev_info(dev, "failed to map shared memory\n");
+   518			st->clk = NULL;
+   519			goto out;
+   520		}
+   521	
+   522		if (le32_to_cpu(st->clk->magic) != VMCLOCK_MAGIC ||
+   523		    le32_to_cpu(st->clk->size) > resource_size(&st->res) ||
+   524		    le16_to_cpu(st->clk->version) != 1) {
+   525			dev_info(dev, "vmclock magic fields invalid\n");
+   526			ret = -EINVAL;
+   527			goto out;
+   528		}
+   529	
+   530		ret = ida_alloc(&vmclock_ida, GFP_KERNEL);
+   531		if (ret < 0)
+   532			goto out;
+   533	
+   534		st->index = ret;
+   535		ret = devm_add_action_or_reset(&pdev->dev, vmclock_put_idx, st);
+   536		if (ret)
+   537			goto out;
+   538	
+   539		st->name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "vmclock%d", st->index);
+   540		if (!st->name) {
+   541			ret = -ENOMEM;
+   542			goto out;
+   543		}
+   544	
+   545		/*
+   546		 * If the structure is big enough, it can be mapped to userspace.
+   547		 * Theoretically a guest OS even using larger pages could still
+   548		 * use 4KiB PTEs to map smaller MMIO regions like this, but let's
+   549		 * cross that bridge if/when we come to it.
+   550		 */
+   551		if (le32_to_cpu(st->clk->size) >= PAGE_SIZE) {
+   552			st->miscdev.minor = MISC_DYNAMIC_MINOR;
+   553			st->miscdev.fops = &vmclock_miscdev_fops;
+   554			st->miscdev.name = st->name;
+   555	
+   556			ret = misc_register(&st->miscdev);
+   557			if (ret)
+   558				goto out;
+   559		}
+   560	
+   561		/* If there is valid clock information, register a PTP clock */
+ > 562		if (VMCLOCK_FIELD_PRESENT(st->clk, time_frac_sec)) {
+   563			/* Can return a silent NULL, or an error. */
+   564			st->ptp_clock = vmclock_ptp_register(dev, st);
+   565			if (IS_ERR(st->ptp_clock)) {
+   566				ret = PTR_ERR(st->ptp_clock);
+   567				st->ptp_clock = NULL;
+   568				vmclock_remove(pdev);
+   569				goto out;
+   570			}
+   571		}
+   572	
+   573		if (!st->miscdev.minor && !st->ptp_clock) {
+   574			/* Neither miscdev nor PTP registered */
+   575			dev_info(dev, "vmclock: Neither miscdev nor PTP available; not registering\n");
+   576			ret = -ENODEV;
+   577			goto out;
+   578		}
+   579	
+   580		dev_info(dev, "%s: registered %s%s%s\n", st->name,
+   581			 st->miscdev.minor ? "miscdev" : "",
+   582			 (st->miscdev.minor && st->ptp_clock) ? ", " : "",
+   583			 st->ptp_clock ? "PTP" : "");
+   584	
+   585		dev_set_drvdata(dev, st);
+   586	
+   587	 out:
+   588		return ret;
+   589	}
+   590	
 
 -- 
 0-DAY CI Kernel Test Service
