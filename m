@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC1E1F94D;
-	Sat, 24 Aug 2024 08:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ACF48CCC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Aug 2024 08:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724486702; cv=none; b=VzI0eVVXm/Q0L2tSMFibC/+yvvPABXMmEGZtqIxwjoV3ahO5SMeRCn/PMsAe8uEcngzppti1/n1e0uHN3ku6E/enTHnZTsvU19/ewHG+acjiEmeA3BHcUMzWsvC/1hd8k+VOQFoWR3tVNLewO8DtKUlTdokN32rwMvpUEcFODng=
+	t=1724488561; cv=none; b=OIbdVoXIqKDszScoEzIW1uq7Cnau6iIY1dwOaL0t1hVyTS8iqWeds6RKcFzYMii8SA3hFOWw0QLAqbUa3h7oCBgVdT4P/GY4jwGYZs41pl0hVT2KIQjmqxXfGvEYPFfQNT+6Hzu1H3xAKMGbKYUHfbmzeMRNqWQft7DZHlpex4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724486702; c=relaxed/simple;
-	bh=foS8KQkUxVxkulvd5nUBkVF0PXcyoL+M3U6ZzApzLw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Krj4sEKG0Mu0QysOC8jviAPGaX4Q/9gQGLJllyGAzTHugHiWS01XRmPJrc9hle3N9drENf9uGBbUBpV91CPKWxBx7XaptdnNCTm2Ju7piXdcU4Q9bE8svJtoArs96h7BPF5vHoeav1tiaJHfVM9sB16fSpSjH1m71qhY/N1LthE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HI5TDGrd; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1724488561; c=relaxed/simple;
+	bh=bhJmyHeid1xwT9U9+ZbuzIWyuJgKAB9K+QDYyvTh3DU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TAksq1mLP58FPHYlBcYXo2uaXCght1dD7khtv0fitoh8E8knQ7l5b2whh7GEcUmTAphwB7u/vM8+9X81TAUCezj1+jTobX+8Z5uUAZbst6TSigDoVBcksehkWjhJk6D9lSVFmG83yCZPuBGKQ316x8Wb6CypOCulfNAV9wNL7nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDL+qoH5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HI5TDGrd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDL+qoH5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724486700; x=1756022700;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=foS8KQkUxVxkulvd5nUBkVF0PXcyoL+M3U6ZzApzLw8=;
-  b=HI5TDGrdGKPYD5z3vdNmzEcTvbmRxhWAPdV/62jxNz/QA9Q+SD0mbtXq
-   jtS38QVkVvzgoN5+1bMK1jBnarPhXmF8rYAv7XuExQBgU47Rcf/Ei+ad1
-   w/OtsybBLhAXs3eAg6znzCiTTDYB2nmei2FsvTYQei3zWL/IcRQoZ+Ek9
-   qr9RadIk2bQ6zBdktgV9KG9BFras9fSE0FbsOEw7L1uGHmrp2pQMINeu6
-   86WVr93SKybCjH6db26fzq8MsuNwMQ6BJwdQ51K6ZYyGukXe6OM58fMg2
-   HFRE8r6v/KTpnB9/EUlVblnk8HSulpJ3mJw1/noMJkYi5RwD1VbuDeCDa
+  t=1724488560; x=1756024560;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bhJmyHeid1xwT9U9+ZbuzIWyuJgKAB9K+QDYyvTh3DU=;
+  b=MDL+qoH5jxapnDFjiPkh7a5a/ywnI7VyKggX3rCrVqABMAS1zKeZRYIl
+   JrQv3jJHpQW4+BabU0yk6JHGNbR4X2pwEIIhYXWpNu5LXC3yTGYkrmxzI
+   o42ThHJfdZA1UQ6Z+18kF9R5UFQyA/AVf71AylbsRf+fidmW62N5q37Cs
+   5atjZRTL4nFQgK82eToNjC3mzVPMvHcnGQRrNJectjnwYL7CdoW/3+auU
+   VvVWAWsmdTwD484QmKUWi/EPuERkIeDiHLk+3TBjjfod0eHn8NkxyKM4D
+   FjzGUn7+HXZs1TScUXvnF7naDa94rEKYuRmTAfmBnkGDAxnyjeWuJoihL
    Q==;
-X-CSE-ConnectionGUID: GcMXU5r1RNKQ8Ia12x5QXg==
-X-CSE-MsgGUID: xg4RDX3MQLOWWLc6REn03w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22489982"
+X-CSE-ConnectionGUID: OZbxWUk1Sb2eqekN4vR45Q==
+X-CSE-MsgGUID: hNqfiNfBTIak6YjPrJXhiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="26843991"
 X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
-   d="scan'208";a="22489982"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 01:05:00 -0700
-X-CSE-ConnectionGUID: tj1nqfCfRZaaoIrsX3mpdw==
-X-CSE-MsgGUID: ZmcisiiRSQeizrFvnZT1zA==
+   d="scan'208";a="26843991"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 01:36:00 -0700
+X-CSE-ConnectionGUID: EvjD95eqRuiPT5QpduHiMA==
+X-CSE-MsgGUID: Uzk6zRA9REuyP+AiSZUqzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
-   d="scan'208";a="61717198"
+   d="scan'208";a="62334069"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Aug 2024 01:04:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Aug 2024 01:35:59 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shllX-000ELb-0a;
-	Sat, 24 Aug 2024 08:04:55 +0000
-Date: Sat, 24 Aug 2024 16:04:21 +0800
+	id 1shmFY-000EN1-0q;
+	Sat, 24 Aug 2024 08:35:56 +0000
+Date: Sat, 24 Aug 2024 16:35:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, chenhuacai@kernel.org,
-	Kevin Wheatfox <enkerewpo@hotmail.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH] of_reserved_mem: Save region name string into struct
- reserved_mem
-Message-ID: <202408241510.Rk14q8Rg-lkp@intel.com>
-References: <20240821-save_resv_name-v1-1-b9c17f103ffb@flygoat.com>
+To: kernel@openeuler.org, leoliuoc <leoliu-oc@zhaoxin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 20578/23548]
+ drivers/crypto/.tmp_zhaoxin-sha.o: warning: objtool: missing symbol for
+ section .exit.text
+Message-ID: <202408241654.npDnHEKI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,93 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821-save_resv_name-v1-1-b9c17f103ffb@flygoat.com>
 
-Hi Jiaxun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bb1b0acdcd66e0d8eedee3570d249e076b89ab32]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/of_reserved_mem-Save-region-name-string-into-struct-reserved_mem/20240821-215235
-base:   bb1b0acdcd66e0d8eedee3570d249e076b89ab32
-patch link:    https://lore.kernel.org/r/20240821-save_resv_name-v1-1-b9c17f103ffb%40flygoat.com
-patch subject: [PATCH] of_reserved_mem: Save region name string into struct reserved_mem
-config: i386-buildonly-randconfig-002-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241510.Rk14q8Rg-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241510.Rk14q8Rg-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   212ca308cc9fa1267c1d7934ac416660f41c549f
+commit: 0f74c26725b8cd5e9b968081850c0303a9fc9137 [20578/23548] crypto: Add Zhaoxin ACE driver
+config: x86_64-buildonly-randconfig-001-20240821 (https://download.01.org/0day-ci/archive/20240824/202408241654.npDnHEKI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241654.npDnHEKI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408241510.Rk14q8Rg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408241654.npDnHEKI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/of/of_reserved_mem.c:467:12: warning: address of array 'rmem->name' will always evaluate to 'true' [-Wpointer-bool-conversion]
-     467 |                                         rmem->name ? rmem->name : "unknown");
-         |                                         ~~~~~~^~~~ ~
-   include/linux/printk.h:538:34: note: expanded from macro 'pr_info'
-     538 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                         ^~~~~~~~~~~
-   include/linux/printk.h:465:60: note: expanded from macro 'printk'
-     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                            ^~~~~~~~~~~
-   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
-     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +467 drivers/of/of_reserved_mem.c
-
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  426  
-3f0c8206644836 Marek Szyprowski   2014-02-28  427  /**
-c8813f7ec01c67 chenqiwu           2020-05-11  428   * fdt_init_reserved_mem() - allocate and init all saved reserved memory regions
-3f0c8206644836 Marek Szyprowski   2014-02-28  429   */
-3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
-3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
-3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
-3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
-3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
-3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
-3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
-6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
-3f0c8206644836 Marek Szyprowski   2014-02-28  442  
-d0b8ed47e83a22 pierre Kuo         2019-02-19  443  		nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
-9dcfee01930e6c Marek Szyprowski   2014-07-14  444  
-3f0c8206644836 Marek Szyprowski   2014-02-28  445  		if (rmem->size == 0)
-3f0c8206644836 Marek Szyprowski   2014-02-28  446  			err = __reserved_mem_alloc_size(node, rmem->name,
-3f0c8206644836 Marek Szyprowski   2014-02-28  447  						 &rmem->base, &rmem->size);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  448  		if (err == 0) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  449  			err = __reserved_mem_init_node(rmem);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  450  			if (err != 0 && err != -ENOENT) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  451  				pr_info("node %s compatible matching fail\n",
-d0b8ed47e83a22 pierre Kuo         2019-02-19  452  					rmem->name);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
-7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
-3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
-3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
-3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
-aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
-aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
-aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
-aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
-aeb9267eb6b1df Martin Liu         2023-02-10  462  
-6ee7afbabcee4d Geert Uytterhoeven 2023-02-16  463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
-aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
-aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
-aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
-aeb9267eb6b1df Martin Liu         2023-02-10 @467  					rmem->name ? rmem->name : "unknown");
-d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
-d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
-3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
-3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
-9dcfee01930e6c Marek Szyprowski   2014-07-14  472  
+>> drivers/crypto/.tmp_zhaoxin-sha.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
