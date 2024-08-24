@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868043BB22
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Aug 2024 09:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8153BB22;
+	Sat, 24 Aug 2024 09:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724491683; cv=none; b=t7XAy2rMh3biYTxSWE/+TdLU1enKW8kulb+s51cl7mLgEad6B4uFmNvj4o6ZkxGx33kuoZGdM0ZhGYzWsuJImiDQsjSolDGGL5YdBU4mf6oJxjtn4R4+ZCo1umqAclwsT2hwFAU6ZsjoczeRUbf6mkGGGJQbuwevzLxyYAtoJUw=
+	t=1724491686; cv=none; b=hFARxzpnnSCkLic6cMx0Dc4J6ikFhBfnKqu4Lftbp8Qcfi6fnO8vfPUZluihakRJu5QPdWtx1R2UZ8HONdbr1kChkqtxe7tqAf5dLTYx7CtxDFVD1mG6kkaHh33S/Y9Zqt+6wuaKceZ0ldXCDNOcgJH/3nEGk+X0okRln81Z15U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724491683; c=relaxed/simple;
-	bh=bmOu0E9yHNUfHmY2m0ne3V33jz2L+zvyMop3bLVvTzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YiLhlmgRLUlP3IRtPjyxSD0k1yiZYEPpRr8OY0SgTulxg9N0AGqyIMeMIk6Ga5jQ4NeRavU/huN6TMCmPn0OPFKXGley9InHSHIBmhv2mY47rWJIpGw3R0lDncN555Cyb2jNpPp6O2VDF9bwZ4FSOkQqH8uQyrVqteT2w7o2XHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GM85zUz0; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1724491686; c=relaxed/simple;
+	bh=81/t5idYrQZJgPisckKvJ1/FCeEOtftpD4K7FG5JXfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBZKGvLAt4jpAqygOnJLEGv6daRucMVb5eO38kjlQU6NfJyryP0mCvfuPtUlsntpO75vj06qR5B83pQtUhr8brRg2W65dBzgKPPuT+b0rM4rTma5L4EKE7GgDU00x+Qipd4CC+t3lm6cTJMPduu/BBbIHsqvvwmY9baTmeVcu+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhMBL1fn; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GM85zUz0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhMBL1fn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724491682; x=1756027682;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bmOu0E9yHNUfHmY2m0ne3V33jz2L+zvyMop3bLVvTzU=;
-  b=GM85zUz0h3kwqsUOsrCWpfAAW1qlyHUSSCBb40pDubowWiO011tkD21F
-   xvgMpSS7X0DwKACSv4nVs3Xd8vIlpUdWzGmZXQ3Yq3QPQs/GsE6Ns0Jgj
-   A8EBuZAIdVSA5yN5sZeK1YsGbzxMCvMSBEk2gX5WfqWvb1H2gyQjOw7Ky
-   jTxjNPaJfbJkm1TjUGgnetgnB4MgcHwu9Te6kWpvEwnH0Glct9WsF2UPg
-   9OLsJ4iLXsMIM8UB2gg4DmPyC2VlC26z5PMEJJyeCxzy49BHd53dFEXlT
-   TTYCsiYLNi1BTZuU1OZTj6CzmCYRybfKXslS5U+NiWfR6glQG01hpCK0J
-   w==;
-X-CSE-ConnectionGUID: OL5P+4/DRdGqrjzsc1NBEQ==
-X-CSE-MsgGUID: 1gCbg5gMSCKNbYVkX7OrZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34133944"
+  t=1724491684; x=1756027684;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=81/t5idYrQZJgPisckKvJ1/FCeEOtftpD4K7FG5JXfo=;
+  b=fhMBL1fntsReqhkJ8udJaLF9Y8mN1UelUiZvHA7qJHQfJeFzeLB6fIpC
+   wkmOT1JGVn24/3Mdhn1HsvdGBtJCdL9e+9LCcd+6JaprRAUxNQV/VzJIm
+   7lV2ccslGn5JNuoI1lGDDASAJK6+9dOm+vHsVfwE5DPNx/sX2v2gc/eKu
+   pIx12cxJIltwoBL49H4C26md2ttOgDi2lMdT/yWy8Cv2qluuP4bLecc6F
+   kzRI60CkNkq8oq54dPtuJ2Xv73e8RvOlCKraDlAe/zIs6r4pon5i8wAo0
+   kqcdSFuItZqYfyVqL8wt7yKZ5zPyXHII/FWKFh7NaEW/eddiH7fgkN/z2
+   g==;
+X-CSE-ConnectionGUID: bWg4jRrURy6fPQ8L1sTHew==
+X-CSE-MsgGUID: mdcRymgXT/qeY6O4i6pakA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34133949"
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="34133944"
+   d="scan'208";a="34133949"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 02:28:01 -0700
-X-CSE-ConnectionGUID: S4igBBT1Sl+0O2Zr7Ap3Ww==
-X-CSE-MsgGUID: dIFP9WmPRG6PGwxkQl7hYg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 02:28:04 -0700
+X-CSE-ConnectionGUID: wTuGyv2bQUakDP6NuFOOUg==
+X-CSE-MsgGUID: +exo54fyS9qR/X/0MjvR1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="85236531"
+   d="scan'208";a="85236532"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2024 02:27:59 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shn3t-000ENz-0H;
+	id 1shn3t-000EO1-0L;
 	Sat, 24 Aug 2024 09:27:57 +0000
 Date: Sat, 24 Aug 2024 17:27:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Trond Myklebust <trond.myklebust@hammerspace.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neilb@suse.de>
-Subject: [cel:nfsd-6.1.y 7/7] fs/nfsd/vfs.c:536:13: error: void value not
- ignored as it ought to be
-Message-ID: <202408241727.6i0CNdWO-lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, chaitanya.dhere@amd.com,
+	jun.lei@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+	Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+	daniel@ffwll.ch, alex.hung@amd.com, aurabindo.pillai@amd.com,
+	colin.i.king@gmail.com, dillon.varone@amd.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ruanjinjie@huawei.com
+Subject: Re: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
+Message-ID: <202408241600.uHrTIx7j-lkp@intel.com>
+References: <20240821064040.2292969-6-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,155 +70,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821064040.2292969-6-ruanjinjie@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-6.1.y
-head:   a5860f87bf2b5c77071640da909e49584284ec73
-commit: a5860f87bf2b5c77071640da909e49584284ec73 [7/7] nfsd: Fix a regression in nfsd_setattr()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240824/202408241727.6i0CNdWO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241727.6i0CNdWO-lkp@intel.com/reproduce)
+Hi Jinjie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240821]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-amd-display-Make-core_dcn4_g6_temp_read_blackout_table-static/20240821-143421
+base:   next-20240821
+patch link:    https://lore.kernel.org/r/20240821064040.2292969-6-ruanjinjie%40huawei.com
+patch subject: [PATCH -next 5/5] drm/amd/display: Make dcn35_fpga_funcs static
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240824/202408241600.uHrTIx7j-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241600.uHrTIx7j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408241727.6i0CNdWO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408241600.uHrTIx7j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfsd/vfs.c: In function 'nfsd_setattr':
->> fs/nfsd/vfs.c:536:13: error: void value not ignored as it ought to be
-     536 |         err = fh_fill_pre_attrs(fhp);
-         |             ^
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c:1071:29: warning: unused variable 'dcn35_fpga_funcs' [-Wunused-variable]
+    1071 | static struct clk_mgr_funcs dcn35_fpga_funcs = {
+         |                             ^~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +536 fs/nfsd/vfs.c
+vim +/dcn35_fpga_funcs +1071 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
 
-   451	
-   452	/**
-   453	 * nfsd_setattr - Set various file attributes.
-   454	 * @rqstp: controlling RPC transaction
-   455	 * @fhp: filehandle of target
-   456	 * @attr: attributes to set
-   457	 * @check_guard: set to 1 if guardtime is a valid timestamp
-   458	 * @guardtime: do not act if ctime.tv_sec does not match this timestamp
-   459	 *
-   460	 * This call may adjust the contents of @attr (in particular, this
-   461	 * call may change the bits in the na_iattr.ia_valid field).
-   462	 *
-   463	 * Returns nfs_ok on success, otherwise an NFS status code is
-   464	 * returned. Caller must release @fhp by calling fh_put in either
-   465	 * case.
-   466	 */
-   467	__be32
-   468	nfsd_setattr(struct svc_rqst *rqstp, struct svc_fh *fhp,
-   469		     struct nfsd_attrs *attr,
-   470		     int check_guard, time64_t guardtime)
-   471	{
-   472		struct dentry	*dentry;
-   473		struct inode	*inode;
-   474		struct iattr	*iap = attr->na_iattr;
-   475		int		accmode = NFSD_MAY_SATTR;
-   476		umode_t		ftype = 0;
-   477		__be32		err;
-   478		int		host_err = 0;
-   479		bool		get_write_count;
-   480		bool		size_change = (iap->ia_valid & ATTR_SIZE);
-   481		int		retries;
-   482	
-   483		if (iap->ia_valid & ATTR_SIZE) {
-   484			accmode |= NFSD_MAY_WRITE|NFSD_MAY_OWNER_OVERRIDE;
-   485			ftype = S_IFREG;
-   486		}
-   487	
-   488		/*
-   489		 * If utimes(2) and friends are called with times not NULL, we should
-   490		 * not set NFSD_MAY_WRITE bit. Otherwise fh_verify->nfsd_permission
-   491		 * will return EACCES, when the caller's effective UID does not match
-   492		 * the owner of the file, and the caller is not privileged. In this
-   493		 * situation, we should return EPERM(notify_change will return this).
-   494		 */
-   495		if (iap->ia_valid & (ATTR_ATIME | ATTR_MTIME)) {
-   496			accmode |= NFSD_MAY_OWNER_OVERRIDE;
-   497			if (!(iap->ia_valid & (ATTR_ATIME_SET | ATTR_MTIME_SET)))
-   498				accmode |= NFSD_MAY_WRITE;
-   499		}
-   500	
-   501		/* Callers that do fh_verify should do the fh_want_write: */
-   502		get_write_count = !fhp->fh_dentry;
-   503	
-   504		/* Get inode */
-   505		err = fh_verify(rqstp, fhp, ftype, accmode);
-   506		if (err)
-   507			return err;
-   508		if (get_write_count) {
-   509			host_err = fh_want_write(fhp);
-   510			if (host_err)
-   511				goto out;
-   512		}
-   513	
-   514		dentry = fhp->fh_dentry;
-   515		inode = d_inode(dentry);
-   516	
-   517		nfsd_sanitize_attrs(inode, iap);
-   518	
-   519		if (check_guard && guardtime != inode->i_ctime.tv_sec)
-   520			return nfserr_notsync;
-   521	
-   522		/*
-   523		 * The size case is special, it changes the file in addition to the
-   524		 * attributes, and file systems don't expect it to be mixed with
-   525		 * "random" attribute changes.  We thus split out the size change
-   526		 * into a separate call to ->setattr, and do the rest as a separate
-   527		 * setattr call.
-   528		 */
-   529		if (size_change) {
-   530			err = nfsd_get_write_access(rqstp, fhp, iap);
-   531			if (err)
-   532				return err;
-   533		}
-   534	
-   535		inode_lock(inode);
- > 536		err = fh_fill_pre_attrs(fhp);
-   537		if (err)
-   538			goto out_unlock;
-   539		for (retries = 1;;) {
-   540			struct iattr attrs;
-   541	
-   542			/*
-   543			 * notify_change() can alter its iattr argument, making
-   544			 * @iap unsuitable for submission multiple times. Make a
-   545			 * copy for every loop iteration.
-   546			 */
-   547			attrs = *iap;
-   548			host_err = __nfsd_setattr(dentry, &attrs);
-   549			if (host_err != -EAGAIN || !retries--)
-   550				break;
-   551			if (!nfsd_wait_for_delegreturn(rqstp, inode))
-   552				break;
-   553		}
-   554		if (attr->na_seclabel && attr->na_seclabel->len)
-   555			attr->na_labelerr = security_inode_setsecctx(dentry,
-   556				attr->na_seclabel->data, attr->na_seclabel->len);
-   557		if (IS_ENABLED(CONFIG_FS_POSIX_ACL) && attr->na_pacl)
-   558			attr->na_aclerr = set_posix_acl(&init_user_ns,
-   559							inode, ACL_TYPE_ACCESS,
-   560							attr->na_pacl);
-   561		if (IS_ENABLED(CONFIG_FS_POSIX_ACL) &&
-   562		    !attr->na_aclerr && attr->na_dpacl && S_ISDIR(inode->i_mode))
-   563			attr->na_aclerr = set_posix_acl(&init_user_ns,
-   564							inode, ACL_TYPE_DEFAULT,
-   565							attr->na_dpacl);
-   566		fh_fill_post_attrs(fhp);
-   567	out_unlock:
-   568		inode_unlock(inode);
-   569		if (size_change)
-   570			put_write_access(inode);
-   571	out:
-   572		if (!host_err)
-   573			host_err = commit_metadata(fhp);
-   574		return err != 0 ? err : nfserrno(host_err);
-   575	}
-   576	
+  1070	
+> 1071	static struct clk_mgr_funcs dcn35_fpga_funcs = {
+  1072		.get_dp_ref_clk_frequency = dce12_get_dp_ref_freq_khz,
+  1073		.update_clocks = dcn35_update_clocks_fpga,
+  1074		.init_clocks = dcn35_init_clocks_fpga,
+  1075		.get_dtb_ref_clk_frequency = dcn31_get_dtb_ref_freq_khz,
+  1076	};
+  1077	
 
 -- 
 0-DAY CI Kernel Test Service
