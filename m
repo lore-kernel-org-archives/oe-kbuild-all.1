@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA2A1714DC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Aug 2024 14:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E817B4FA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Aug 2024 15:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724511250; cv=none; b=exh3EBBbcaFUsg+dXe27N0dXnahV9zlsYhhxoQ6rjDii/BXDkoVcZeVjqeEOZpV49gbJsLugCL10EAnD8LIRQWARa5rv2MJ7AnRtMNCLZiW1PdB5H0pVnOsH2zJiNSxDpro0X9V9ip1DXnUN5oKUd0STpUtvp+NZd/ALZRWZniU=
+	t=1724512511; cv=none; b=P4KnR4QK7cBsMbsznWXpS09nzaQxfy+8a4ugoYhuKaN0HC6bch4CtHrEOXk5otzkwuhFvssJRsIBuoMCGbuxZSNPLzYKNFGyKBcv5JbmqPwHN8nTAJVODKJKLcCgYwLivIP7noOaxoojDggv5On+zSq/tonPHNtM8qLl07RXyao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724511250; c=relaxed/simple;
-	bh=/+GNvKbTNYnRq2xzSrKYptz7eI8kWjKW+KeyDQbaRYM=;
+	s=arc-20240116; t=1724512511; c=relaxed/simple;
+	bh=CeZa9vSR5SwJYVUZMzInWjMp5f//bjkpQ8YBSIzGI5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pRAe8lTO7GO9SyObz1KSuGYghaCgG9XdwidpBxhW68T2q5pqgPmXsY7Cy+DnUbPjd4qupTR7UxvwThtJ4X/j8TUVWuxSnP3M8bMlBE/TCBJR1CBgVBtMQ0Wfat7DauJ23dfnBKlhzk+avlLK4EQ5M+OoLJq2dQbPdEDAYH4umps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0YbsUR+; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=l1ZrWcekQKNd4TQpBz3IB8/7ZWNrlFn7Ugv41i8Zbx9RKvIS6p/Wyji1rH4PKO0EQzKHNz8jKg3M9/yj1EjvnuncIY+oWh5eMj9NyBraerjOq+nJzeOsYBXXmKz9XLjUK/1+uWVzzKy1J3LODei9rPuHTF621aeqEfML1REQtCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvm79B5h; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0YbsUR+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvm79B5h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724511248; x=1756047248;
+  t=1724512509; x=1756048509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/+GNvKbTNYnRq2xzSrKYptz7eI8kWjKW+KeyDQbaRYM=;
-  b=Q0YbsUR+C0s56XACLK9IjhOzaClZXZdLh+41OU8lAv8EP2tmd28/ebmM
-   aKL+Q0rtVNpxpN3jAye2nibQoqcsae8HoKiPsheNcTAvYLZUUdlqamOtq
-   2rZwbpeEq4d/kdhGQp+2OeWuxgIa63QSd9oK1SR4ANx9Z6erIs1KPpVA8
-   2BTHuflUSy2GnLU1hjb878M9O18pz6d/jN+s6+61IxqcQ9NAsCq/Xg5xy
-   wN4KL+XQu/yNmATquohhaSvFiUy6Nv8Chx5892dc5/Gb6pacYcZuIZJ+O
-   LEsegXyEsFYTQBbAWT2wtBveqzEAns/q8yVgAmAeaUS7jVqQ+jLE0jkP4
-   Q==;
-X-CSE-ConnectionGUID: 8/gaJU7dQ0SATw5pO/CiEA==
-X-CSE-MsgGUID: 9Pcjfn+YTaycXLwNj77mTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22573000"
+  bh=CeZa9vSR5SwJYVUZMzInWjMp5f//bjkpQ8YBSIzGI5o=;
+  b=cvm79B5hE9uZvJ4mT5bXExVO3Lm2prL1pcHkcgKFLrUfFkcSTahOUF6j
+   CgFHfQlX/bT3Yyj18kdxFEo3cYn1oy4xOvn74X3JhsjWbQkunIIYxt1b4
+   7eLihhtKeLG3XbMS5XFBAUXTswlsg1MiyzWIGsXNGrHysd3FlwecDYW9q
+   ibqVC2fspqJBQ61qEmm7I+lx70KEJjvaOLBDMsrsKpGcH9zFB3YMvx1gh
+   mnybHTcQHDnAXCupck8tyZzHTpIP2gHJw8FEbXadFvG6NeklWGfh3Czw4
+   /vGhKh7f5OsCy9MPOUI4bzL5KosKBEL1lbIO1xlf1FWo8mHiMyXS+poC+
+   g==;
+X-CSE-ConnectionGUID: qNUV5Z9TSmyNLghd+PDevA==
+X-CSE-MsgGUID: 3tpg+FMsTKm7aj1Y6xDjzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="34395858"
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="22573000"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 07:54:08 -0700
-X-CSE-ConnectionGUID: bLTchCxbQyewZqKK2BJNWQ==
-X-CSE-MsgGUID: hrAx67lNRhCh1nUZ+zMh8g==
+   d="scan'208";a="34395858"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 08:15:08 -0700
+X-CSE-ConnectionGUID: ZM/+bhfpR8WbTnzX6WTW2A==
+X-CSE-MsgGUID: 8+5rnZfjQzepHVKjRAWO8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="99581811"
+   d="scan'208";a="67022625"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Aug 2024 07:54:07 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Aug 2024 08:15:07 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shs9T-000EY3-37;
-	Sat, 24 Aug 2024 14:54:03 +0000
-Date: Sat, 24 Aug 2024 22:53:53 +0800
+	id 1shsTo-000EYV-0m;
+	Sat, 24 Aug 2024 15:15:04 +0000
+Date: Sat, 24 Aug 2024 23:14:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [usb:usb-testing 20/25] drivers/usb/misc/onboard_usb_dev.c:329:15:
- error: implicit declaration of function 'i2c_smbus_write_block_data'
-Message-ID: <202408242231.WOLALxi9-lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: [akpm-mm:mm-unstable 357/379] mm/vma.h:113:28: error:
+ 'FIRST_USER_ADDRESS' undeclared
+Message-ID: <202408242304.1A1fXTgE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +65,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   9a03b9a88e4a44e358e3638736286442ae262497
-commit: 7b5e970ff0e58f9239226fe81c77d5b98d744986 [20/25] usb: misc: onboard_usb_dev: add Microchip usb5744 SMBus programming support
-config: arc-randconfig-001-20240824 (https://download.01.org/0day-ci/archive/20240824/202408242231.WOLALxi9-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408242231.WOLALxi9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   b659edec079c90012cf8d05624e312d1062b8b87
+commit: ca39aca8db2d78ff82356defba75d14ce78a67b9 [357/379] mm/vma: track start and end for munmap in vma_munmap_struct
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20240824/202408242304.1A1fXTgE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408242304.1A1fXTgE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408242231.WOLALxi9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408242304.1A1fXTgE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/usb/misc/onboard_usb_dev.c: In function 'onboard_dev_5744_i2c_init':
->> drivers/usb/misc/onboard_usb_dev.c:329:15: error: implicit declaration of function 'i2c_smbus_write_block_data' [-Werror=implicit-function-declaration]
-     329 |         ret = i2c_smbus_write_block_data(client, 0, sizeof(wr_buf), wr_buf);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/misc/onboard_usb_dev.c:333:15: error: implicit declaration of function 'i2c_smbus_write_word_data' [-Werror=implicit-function-declaration]
-     333 |         ret = i2c_smbus_write_word_data(client, USB5744_CMD_CREG_ACCESS,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from mm/internal.h:22,
+                    from mm/filemap.c:52:
+   mm/vma.h: In function 'init_vma_munmap':
+>> mm/vma.h:113:28: error: 'FIRST_USER_ADDRESS' undeclared (first use in this function)
+     113 |         vms->unmap_start = FIRST_USER_ADDRESS;
+         |                            ^~~~~~~~~~~~~~~~~~
+   mm/vma.h:113:28: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/vma.h:114:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+     114 |         vms->unmap_end = USER_PGTABLES_CEILING;
+         |                          ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/i2c_smbus_write_block_data +329 drivers/usb/misc/onboard_usb_dev.c
+vim +/FIRST_USER_ADDRESS +113 mm/vma.h
 
-   311	
-   312	static int onboard_dev_5744_i2c_init(struct i2c_client *client)
-   313	{
-   314		struct device *dev = &client->dev;
-   315		int ret;
-   316	
-   317		/*
-   318		 * Set BYPASS_UDC_SUSPEND bit to ensure MCU is always enabled
-   319		 * and ready to respond to SMBus runtime commands.
-   320		 * The command writes 5 bytes to memory and single data byte in
-   321		 * configuration register.
-   322		 */
-   323		char wr_buf[7] = {USB5744_CREG_MEM_ADDR, 5,
-   324				  USB5744_CREG_WRITE, 1,
-   325				  USB5744_CREG_RUNTIMEFLAGS2,
-   326				  USB5744_CREG_RUNTIMEFLAGS2_LSB,
-   327				  USB5744_CREG_BYPASS_UDC_SUSPEND};
-   328	
- > 329		ret = i2c_smbus_write_block_data(client, 0, sizeof(wr_buf), wr_buf);
-   330		if (ret)
-   331			return dev_err_probe(dev, ret, "BYPASS_UDC_SUSPEND bit configuration failed\n");
-   332	
- > 333		ret = i2c_smbus_write_word_data(client, USB5744_CMD_CREG_ACCESS,
-   334						USB5744_CMD_CREG_ACCESS_LSB);
-   335		if (ret)
-   336			return dev_err_probe(dev, ret, "Configuration Register Access Command failed\n");
-   337	
-   338		/* Send SMBus command to boot hub. */
-   339		ret = i2c_smbus_write_word_data(client, USB5744_CMD_ATTACH,
-   340						USB5744_CMD_ATTACH_LSB);
-   341		if (ret < 0)
-   342			return dev_err_probe(dev, ret, "USB Attach with SMBus command failed\n");
-   343	
-   344		return ret;
-   345	}
-   346	
+    67	
+    68	/* Required for do_brk_flags(). */
+    69	void init_vma_prep(struct vma_prepare *vp,
+    70			   struct vm_area_struct *vma);
+    71	
+    72	/* Required for do_brk_flags(). */
+    73	void vma_complete(struct vma_prepare *vp,
+    74			  struct vma_iterator *vmi, struct mm_struct *mm);
+    75	
+    76	int vma_expand(struct vma_iterator *vmi, struct vm_area_struct *vma,
+    77		       unsigned long start, unsigned long end, pgoff_t pgoff,
+    78		       struct vm_area_struct *next);
+    79	
+    80	int vma_shrink(struct vma_iterator *vmi, struct vm_area_struct *vma,
+    81		       unsigned long start, unsigned long end, pgoff_t pgoff);
+    82	
+    83	/*
+    84	 * init_vma_munmap() - Initializer wrapper for vma_munmap_struct
+    85	 * @vms: The vma munmap struct
+    86	 * @vmi: The vma iterator
+    87	 * @vma: The first vm_area_struct to munmap
+    88	 * @start: The aligned start address to munmap
+    89	 * @end: The aligned end address to munmap
+    90	 * @uf: The userfaultfd list_head
+    91	 * @unlock: Unlock after the operation.  Only unlocked on success
+    92	 */
+    93	static inline void init_vma_munmap(struct vma_munmap_struct *vms,
+    94			struct vma_iterator *vmi, struct vm_area_struct *vma,
+    95			unsigned long start, unsigned long end, struct list_head *uf,
+    96			bool unlock)
+    97	{
+    98		vms->vmi = vmi;
+    99		vms->vma = vma;
+   100		if (vma) {
+   101			vms->mm = vma->vm_mm;
+   102			vms->start = start;
+   103			vms->end = end;
+   104		} else {
+   105			vms->mm = NULL;
+   106			vms->start = vms->end = 0;
+   107		}
+   108		vms->unlock = unlock;
+   109		vms->uf = uf;
+   110		vms->vma_count = 0;
+   111		vms->nr_pages = vms->locked_vm = vms->nr_accounted = 0;
+   112		vms->exec_vm = vms->stack_vm = vms->data_vm = 0;
+ > 113		vms->unmap_start = FIRST_USER_ADDRESS;
+ > 114		vms->unmap_end = USER_PGTABLES_CEILING;
+   115	}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
