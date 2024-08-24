@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F01228E0F;
-	Sat, 24 Aug 2024 16:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5779433A2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Aug 2024 18:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724516175; cv=none; b=NPpFYzLgGYIsisI2dLk315zu7RHhf8iRwUnuPuWbabybo4YfUJvkXBB4OQVTu50cDdcerXBhe4PBjdPPj95Wf08Umu0QyIe0qXmgrzJ4PKUd+3mRNvla/JX+FojGDqQd0XCqMV4TZTGM4v8QfY6BzoxGwZdL37CDJexj2MvwzVs=
+	t=1724522838; cv=none; b=coHJt4Vv+DqWd/nheTNo6sXRdz0D+useaAv8fkXVRPvvGsZDBCEu+7qciwH6D//azbZS+glOXg+7Eei1xWN8VnYtldKEukE/QQV2fEuBIrfoYX3t0RIQc+YolX2GwovTOC2mxoE9frVU2CpcYPz6zQ64M1+qLRY2GdEPwUZ3Fgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724516175; c=relaxed/simple;
-	bh=5npEBL0N5rPhX3B2EfF8IFc285nRsHadiz1RjjaWL/U=;
+	s=arc-20240116; t=1724522838; c=relaxed/simple;
+	bh=R0OLMJUVdM4TQ8DHQAOzmYCPJfMohLxpBesvfQ/mu0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dLCCRDQC759nrjP9o6b8isJgsO58rlqhyvW4nOnVFu3McHUDJ+vklUvtVXegk5EU+a+7JdGwiYWPrYh8/bsupymCvBjCOGAK69Obj+HWh7PkRUwU3jZhzh0Hbc0vZFRgQPC243vFhBTgDVV+fH63maAFGPmagAOd0d/oEtq0Chw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hu1GeOvK; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=aEVjlJHUc/gRYBZfBizIGRRRng1UHjNJOO8LfwGiDdEFSCkYVjKCNmDWe5VcZAPDPRUJgR0esrJE9oIPiRXrLiVFGfqMG54iIm1ZFYKS2mrIzPOJj0FkxvSSeYkn0Kw4xjMH+JtuP8gsSWqu4Bx05RyToSFSdle84n8oSbZy9EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLOlvG8D; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hu1GeOvK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLOlvG8D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724516173; x=1756052173;
+  t=1724522837; x=1756058837;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5npEBL0N5rPhX3B2EfF8IFc285nRsHadiz1RjjaWL/U=;
-  b=hu1GeOvKjeyW3kNoef0xrmtdRcL5/1AVu2BQwLGgjKHSaU+n51RCCLt3
-   qLqFGkollv5nhcb9Dj8+ycrY1uM37BKBE6Om1vukUVr81Dv9wfXJjSk8M
-   9chO5/CuM04+M8q7+tswCdObgFrtZ4E9y73Bg987odyIHI0X7f/5kJ2CC
-   ZAYg1gHYhxy3I9qN6gRDP5SW2/rJGdLn++7kbjGt6euzDoD897qj7m+CV
-   FPilAtebjMei6u8u8nx1zZB+b0Emy7ChyYhWAoi9MZ9o2U8HXQ9gii+pF
-   PlO5Ap4UOQmGJIYka2cm/DAKBnEFvw0YMH0fsBY/2wsypFT/qJ75AMOA7
-   w==;
-X-CSE-ConnectionGUID: wxQYwTNpR9KpDrHQMTwHKQ==
-X-CSE-MsgGUID: Triii5uFRJ+Ldq4TooQopw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="26746295"
+  bh=R0OLMJUVdM4TQ8DHQAOzmYCPJfMohLxpBesvfQ/mu0Y=;
+  b=fLOlvG8DE2vHXG/KvLNj8la3E1BIf5C9AVKPMaJ4ZrbT2bwzSzDBz7IS
+   LrtiEhGs9vV5Oq7H/ogZQA29YLsY39m4voQMlPkGJorv9z+fMzYloUd6b
+   ySXLj1Z2nOkS4956v9zAGGQgA0Dc933L3ijY8m1DEH43WxW1aMYV114lR
+   WcVIe0CGg/UrSlfxCLAHM3AFhkM3L7axgh6POqnqnzdXymu6Xx6VVsraY
+   SJAOMO5YuPo9thic+LHCgVfbl+t595VUzZcN55dWfB/3EWi12VT49sg8g
+   jLG3RKONSmm81yhcpVpmgNtpxlzQ+VkGm+GRW8tQj2tG6K8/B8Y1ER88S
+   g==;
+X-CSE-ConnectionGUID: oomBKNA1RCC0a5a+rNgOCw==
+X-CSE-MsgGUID: xbnDzPK/TbyqZ5+hqAUJXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22953095"
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="26746295"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 09:16:13 -0700
-X-CSE-ConnectionGUID: J0vPG9XxRUKOTBqkmAGLcw==
-X-CSE-MsgGUID: FBFCYa8eTWWkXBpfMNzgWg==
+   d="scan'208";a="22953095"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 11:07:17 -0700
+X-CSE-ConnectionGUID: 4gfmJLFwSCmbYJA1ATfaXg==
+X-CSE-MsgGUID: +j9lB1OzTdigwV2EAOQ2zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="66418332"
+   d="scan'208";a="66813144"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Aug 2024 09:16:08 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2024 11:07:11 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shtQr-000Eb5-2p;
-	Sat, 24 Aug 2024 16:16:05 +0000
-Date: Sun, 25 Aug 2024 00:15:25 +0800
+	id 1shvAK-000Eff-3D;
+	Sat, 24 Aug 2024 18:07:08 +0000
+Date: Sun, 25 Aug 2024 02:06:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Shashank Babu Chinta Venkata <quic_schintav@quicinc.com>,
 	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
 	mani@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_msarkar@quicinc.com, quic_kraravin@quicinc.com,
+Cc: oe-kbuild-all@lists.linux.dev, quic_msarkar@quicinc.com,
+	quic_kraravin@quicinc.com,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
@@ -66,7 +66,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
 Subject: Re: [PATCH v5 1/3] PCI: qcom: Refactor common code
-Message-ID: <202408242300.2ECtncwN-lkp@intel.com>
+Message-ID: <202408242341.lywV11DL-lkp@intel.com>
 References: <20240821170917.21018-2-quic_schintav@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -93,27 +93,28 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Shashank-Babu-Chinta-Venk
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
 patch link:    https://lore.kernel.org/r/20240821170917.21018-2-quic_schintav%40quicinc.com
 patch subject: [PATCH v5 1/3] PCI: qcom: Refactor common code
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240824/202408242300.2ECtncwN-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408242300.2ECtncwN-lkp@intel.com/reproduce)
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240824/202408242341.lywV11DL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408242341.lywV11DL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408242300.2ECtncwN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408242341.lywV11DL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-qcom-ep.c:321:55: error: too few arguments to function call, expected 3, have 2
+   drivers/pci/controller/dwc/pcie-qcom-ep.c: In function 'qcom_pcie_enable_resources':
+>> drivers/pci/controller/dwc/pcie-qcom-ep.c:321:15: error: too few arguments to function 'qcom_pcie_common_icc_init'
      321 |         ret = qcom_pcie_common_icc_init(pci, pcie_ep->icc_mem);
-         |               ~~~~~~~~~~~~~~~~~~~~~~~~~                      ^
-   drivers/pci/controller/dwc/pcie-qcom-common.h:14:5: note: 'qcom_pcie_common_icc_init' declared here
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pci/controller/dwc/pcie-qcom-ep.c:28:
+   drivers/pci/controller/dwc/pcie-qcom-common.h:14:5: note: declared here
       14 | int qcom_pcie_common_icc_init(struct dw_pcie *pci, struct icc_path *icc_mem, u32 bandwidth);
-         |     ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +321 drivers/pci/controller/dwc/pcie-qcom-ep.c
+vim +/qcom_pcie_common_icc_init +321 drivers/pci/controller/dwc/pcie-qcom-ep.c
 
    295	
    296	static int qcom_pcie_enable_resources(struct qcom_pcie_ep *pcie_ep)
