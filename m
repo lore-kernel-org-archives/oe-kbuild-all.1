@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BADC148;
-	Sat, 24 Aug 2024 06:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC1E1F94D;
+	Sat, 24 Aug 2024 08:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724482381; cv=none; b=stPS6OAYaqidR2feoRxzFFJRSQxCKFyRxqyBo0LOxJPJ12bLo5e0r9xlTwyGlXarzZmIc7hWGJ2A1YjyaloAeFQWHUxn0gswCL/gB3rBdoJ+8JnBeUTbJyiiod7qQl/oLDdb+SdOB1/L7KrXWDzzxXemuEqBbD9zFS+T17leh4M=
+	t=1724486702; cv=none; b=VzI0eVVXm/Q0L2tSMFibC/+yvvPABXMmEGZtqIxwjoV3ahO5SMeRCn/PMsAe8uEcngzppti1/n1e0uHN3ku6E/enTHnZTsvU19/ewHG+acjiEmeA3BHcUMzWsvC/1hd8k+VOQFoWR3tVNLewO8DtKUlTdokN32rwMvpUEcFODng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724482381; c=relaxed/simple;
-	bh=HakomvbS1IACJZChzBCWGNivmnnK0hCIXl7X87T5u34=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZQXP6E4bS4YKJwHAG9DucSuJBs/QW1ii1OyTEOD8Gop5VkoEYTeTYItH9PeO/3SeyRapMyDvIFO3UObxp+i+AdBcpVnyMUXn5bsfCmO+fIOgvZTPoQ5iQPtqnkmRDBinWGsAtdtlQ4yV0IodeKQ0jJ0PyOzhYYyGzzEoRuyxkX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPPflHzJ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1724486702; c=relaxed/simple;
+	bh=foS8KQkUxVxkulvd5nUBkVF0PXcyoL+M3U6ZzApzLw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Krj4sEKG0Mu0QysOC8jviAPGaX4Q/9gQGLJllyGAzTHugHiWS01XRmPJrc9hle3N9drENf9uGBbUBpV91CPKWxBx7XaptdnNCTm2Ju7piXdcU4Q9bE8svJtoArs96h7BPF5vHoeav1tiaJHfVM9sB16fSpSjH1m71qhY/N1LthE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HI5TDGrd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPPflHzJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HI5TDGrd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724482379; x=1756018379;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HakomvbS1IACJZChzBCWGNivmnnK0hCIXl7X87T5u34=;
-  b=fPPflHzJhBlU0TwLB+yoS+b8HVkhkhOnaOdo5+33c37V6Wyt3yz1L/uv
-   LGZ7yGmQdXODhSly4EbmBEpKXOjT3H+43J0JuRidzqEfri2DQY+SbpBX6
-   kMUCPnlFA15Z1XxUtiOedF72HBli5aQ6kcFILhuRM2BpMwBtgyYGbuSN7
-   4p6876xH2T8nULjSwtBe7tLwHyO/XrqjJcLLPWqs3dum1nK1UnW2FZnkp
-   yMjRTIImIYeiMHwSldUficPDO9P9kAcT//NaCwphIhIvp8VdMR40rH8Th
-   +yMrMHSpoTq81effxJId6ap93CIxpPLODVJUj77cnYbGiF0fMsK/jyIN9
-   A==;
-X-CSE-ConnectionGUID: Y1CqmyD0TSGOa43cuzsKsg==
-X-CSE-MsgGUID: 0CfCxFDZRk6InfKQutl7MQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22776585"
+  t=1724486700; x=1756022700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=foS8KQkUxVxkulvd5nUBkVF0PXcyoL+M3U6ZzApzLw8=;
+  b=HI5TDGrdGKPYD5z3vdNmzEcTvbmRxhWAPdV/62jxNz/QA9Q+SD0mbtXq
+   jtS38QVkVvzgoN5+1bMK1jBnarPhXmF8rYAv7XuExQBgU47Rcf/Ei+ad1
+   w/OtsybBLhAXs3eAg6znzCiTTDYB2nmei2FsvTYQei3zWL/IcRQoZ+Ek9
+   qr9RadIk2bQ6zBdktgV9KG9BFras9fSE0FbsOEw7L1uGHmrp2pQMINeu6
+   86WVr93SKybCjH6db26fzq8MsuNwMQ6BJwdQ51K6ZYyGukXe6OM58fMg2
+   HFRE8r6v/KTpnB9/EUlVblnk8HSulpJ3mJw1/noMJkYi5RwD1VbuDeCDa
+   Q==;
+X-CSE-ConnectionGUID: GcMXU5r1RNKQ8Ia12x5QXg==
+X-CSE-MsgGUID: xg4RDX3MQLOWWLc6REn03w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="22489982"
 X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
-   d="scan'208";a="22776585"
+   d="scan'208";a="22489982"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 23:52:58 -0700
-X-CSE-ConnectionGUID: DmYGUg6DTLOG1fENOsL3Fg==
-X-CSE-MsgGUID: 6I5bOpjJQjKyjroa8tb27w==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 01:05:00 -0700
+X-CSE-ConnectionGUID: tj1nqfCfRZaaoIrsX3mpdw==
+X-CSE-MsgGUID: ZmcisiiRSQeizrFvnZT1zA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
-   d="scan'208";a="61707193"
+   d="scan'208";a="61717198"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Aug 2024 23:52:56 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 24 Aug 2024 01:04:57 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shkdq-000EJr-0R;
-	Sat, 24 Aug 2024 06:52:54 +0000
-Date: Sat, 24 Aug 2024 14:52:31 +0800
+	id 1shllX-000ELb-0a;
+	Sat, 24 Aug 2024 08:04:55 +0000
+Date: Sat, 24 Aug 2024 16:04:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Trond Myklebust <trond.myklebust@hammerspace.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neilb@suse.de>
-Subject: [cel:nfsd-6.1.y 7/7] fs/nfsd/vfs.c:536:6: error: assigning to
- '__be32' (aka 'unsigned int') from incompatible type 'void'
-Message-ID: <202408241407.mX8q2lQw-lkp@intel.com>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, chenhuacai@kernel.org,
+	Kevin Wheatfox <enkerewpo@hotmail.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH] of_reserved_mem: Save region name string into struct
+ reserved_mem
+Message-ID: <202408241510.Rk14q8Rg-lkp@intel.com>
+References: <20240821-save_resv_name-v1-1-b9c17f103ffb@flygoat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,155 +68,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240821-save_resv_name-v1-1-b9c17f103ffb@flygoat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-6.1.y
-head:   a5860f87bf2b5c77071640da909e49584284ec73
-commit: a5860f87bf2b5c77071640da909e49584284ec73 [7/7] nfsd: Fix a regression in nfsd_setattr()
-config: i386-buildonly-randconfig-001-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241407.mX8q2lQw-lkp@intel.com/config)
+Hi Jiaxun,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bb1b0acdcd66e0d8eedee3570d249e076b89ab32]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/of_reserved_mem-Save-region-name-string-into-struct-reserved_mem/20240821-215235
+base:   bb1b0acdcd66e0d8eedee3570d249e076b89ab32
+patch link:    https://lore.kernel.org/r/20240821-save_resv_name-v1-1-b9c17f103ffb%40flygoat.com
+patch subject: [PATCH] of_reserved_mem: Save region name string into struct reserved_mem
+config: i386-buildonly-randconfig-002-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241510.Rk14q8Rg-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241407.mX8q2lQw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408241510.Rk14q8Rg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408241407.mX8q2lQw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408241510.Rk14q8Rg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/nfsd/vfs.c:536:6: error: assigning to '__be32' (aka 'unsigned int') from incompatible type 'void'
-     536 |         err = fh_fill_pre_attrs(fhp);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/of/of_reserved_mem.c:467:12: warning: address of array 'rmem->name' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     467 |                                         rmem->name ? rmem->name : "unknown");
+         |                                         ~~~~~~^~~~ ~
+   include/linux/printk.h:538:34: note: expanded from macro 'pr_info'
+     538 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                         ^~~~~~~~~~~
+   include/linux/printk.h:465:60: note: expanded from macro 'printk'
+     465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
+     437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +536 fs/nfsd/vfs.c
+vim +467 drivers/of/of_reserved_mem.c
 
-   451	
-   452	/**
-   453	 * nfsd_setattr - Set various file attributes.
-   454	 * @rqstp: controlling RPC transaction
-   455	 * @fhp: filehandle of target
-   456	 * @attr: attributes to set
-   457	 * @check_guard: set to 1 if guardtime is a valid timestamp
-   458	 * @guardtime: do not act if ctime.tv_sec does not match this timestamp
-   459	 *
-   460	 * This call may adjust the contents of @attr (in particular, this
-   461	 * call may change the bits in the na_iattr.ia_valid field).
-   462	 *
-   463	 * Returns nfs_ok on success, otherwise an NFS status code is
-   464	 * returned. Caller must release @fhp by calling fh_put in either
-   465	 * case.
-   466	 */
-   467	__be32
-   468	nfsd_setattr(struct svc_rqst *rqstp, struct svc_fh *fhp,
-   469		     struct nfsd_attrs *attr,
-   470		     int check_guard, time64_t guardtime)
-   471	{
-   472		struct dentry	*dentry;
-   473		struct inode	*inode;
-   474		struct iattr	*iap = attr->na_iattr;
-   475		int		accmode = NFSD_MAY_SATTR;
-   476		umode_t		ftype = 0;
-   477		__be32		err;
-   478		int		host_err = 0;
-   479		bool		get_write_count;
-   480		bool		size_change = (iap->ia_valid & ATTR_SIZE);
-   481		int		retries;
-   482	
-   483		if (iap->ia_valid & ATTR_SIZE) {
-   484			accmode |= NFSD_MAY_WRITE|NFSD_MAY_OWNER_OVERRIDE;
-   485			ftype = S_IFREG;
-   486		}
-   487	
-   488		/*
-   489		 * If utimes(2) and friends are called with times not NULL, we should
-   490		 * not set NFSD_MAY_WRITE bit. Otherwise fh_verify->nfsd_permission
-   491		 * will return EACCES, when the caller's effective UID does not match
-   492		 * the owner of the file, and the caller is not privileged. In this
-   493		 * situation, we should return EPERM(notify_change will return this).
-   494		 */
-   495		if (iap->ia_valid & (ATTR_ATIME | ATTR_MTIME)) {
-   496			accmode |= NFSD_MAY_OWNER_OVERRIDE;
-   497			if (!(iap->ia_valid & (ATTR_ATIME_SET | ATTR_MTIME_SET)))
-   498				accmode |= NFSD_MAY_WRITE;
-   499		}
-   500	
-   501		/* Callers that do fh_verify should do the fh_want_write: */
-   502		get_write_count = !fhp->fh_dentry;
-   503	
-   504		/* Get inode */
-   505		err = fh_verify(rqstp, fhp, ftype, accmode);
-   506		if (err)
-   507			return err;
-   508		if (get_write_count) {
-   509			host_err = fh_want_write(fhp);
-   510			if (host_err)
-   511				goto out;
-   512		}
-   513	
-   514		dentry = fhp->fh_dentry;
-   515		inode = d_inode(dentry);
-   516	
-   517		nfsd_sanitize_attrs(inode, iap);
-   518	
-   519		if (check_guard && guardtime != inode->i_ctime.tv_sec)
-   520			return nfserr_notsync;
-   521	
-   522		/*
-   523		 * The size case is special, it changes the file in addition to the
-   524		 * attributes, and file systems don't expect it to be mixed with
-   525		 * "random" attribute changes.  We thus split out the size change
-   526		 * into a separate call to ->setattr, and do the rest as a separate
-   527		 * setattr call.
-   528		 */
-   529		if (size_change) {
-   530			err = nfsd_get_write_access(rqstp, fhp, iap);
-   531			if (err)
-   532				return err;
-   533		}
-   534	
-   535		inode_lock(inode);
- > 536		err = fh_fill_pre_attrs(fhp);
-   537		if (err)
-   538			goto out_unlock;
-   539		for (retries = 1;;) {
-   540			struct iattr attrs;
-   541	
-   542			/*
-   543			 * notify_change() can alter its iattr argument, making
-   544			 * @iap unsuitable for submission multiple times. Make a
-   545			 * copy for every loop iteration.
-   546			 */
-   547			attrs = *iap;
-   548			host_err = __nfsd_setattr(dentry, &attrs);
-   549			if (host_err != -EAGAIN || !retries--)
-   550				break;
-   551			if (!nfsd_wait_for_delegreturn(rqstp, inode))
-   552				break;
-   553		}
-   554		if (attr->na_seclabel && attr->na_seclabel->len)
-   555			attr->na_labelerr = security_inode_setsecctx(dentry,
-   556				attr->na_seclabel->data, attr->na_seclabel->len);
-   557		if (IS_ENABLED(CONFIG_FS_POSIX_ACL) && attr->na_pacl)
-   558			attr->na_aclerr = set_posix_acl(&init_user_ns,
-   559							inode, ACL_TYPE_ACCESS,
-   560							attr->na_pacl);
-   561		if (IS_ENABLED(CONFIG_FS_POSIX_ACL) &&
-   562		    !attr->na_aclerr && attr->na_dpacl && S_ISDIR(inode->i_mode))
-   563			attr->na_aclerr = set_posix_acl(&init_user_ns,
-   564							inode, ACL_TYPE_DEFAULT,
-   565							attr->na_dpacl);
-   566		fh_fill_post_attrs(fhp);
-   567	out_unlock:
-   568		inode_unlock(inode);
-   569		if (size_change)
-   570			put_write_access(inode);
-   571	out:
-   572		if (!host_err)
-   573			host_err = commit_metadata(fhp);
-   574		return err != 0 ? err : nfserrno(host_err);
-   575	}
-   576	
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  426  
+3f0c8206644836 Marek Szyprowski   2014-02-28  427  /**
+c8813f7ec01c67 chenqiwu           2020-05-11  428   * fdt_init_reserved_mem() - allocate and init all saved reserved memory regions
+3f0c8206644836 Marek Szyprowski   2014-02-28  429   */
+3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
+3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
+3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
+3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
+3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
+3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
+3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
+6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
+3f0c8206644836 Marek Szyprowski   2014-02-28  442  
+d0b8ed47e83a22 pierre Kuo         2019-02-19  443  		nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
+9dcfee01930e6c Marek Szyprowski   2014-07-14  444  
+3f0c8206644836 Marek Szyprowski   2014-02-28  445  		if (rmem->size == 0)
+3f0c8206644836 Marek Szyprowski   2014-02-28  446  			err = __reserved_mem_alloc_size(node, rmem->name,
+3f0c8206644836 Marek Szyprowski   2014-02-28  447  						 &rmem->base, &rmem->size);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  448  		if (err == 0) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  449  			err = __reserved_mem_init_node(rmem);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  450  			if (err != 0 && err != -ENOENT) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  451  				pr_info("node %s compatible matching fail\n",
+d0b8ed47e83a22 pierre Kuo         2019-02-19  452  					rmem->name);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
+7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
+3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
+3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
+3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
+aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
+aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
+aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
+aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
+aeb9267eb6b1df Martin Liu         2023-02-10  462  
+6ee7afbabcee4d Geert Uytterhoeven 2023-02-16  463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
+aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
+aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
+aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
+aeb9267eb6b1df Martin Liu         2023-02-10 @467  					rmem->name ? rmem->name : "unknown");
+d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
+d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
+3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
+3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
+9dcfee01930e6c Marek Szyprowski   2014-07-14  472  
 
 -- 
 0-DAY CI Kernel Test Service
