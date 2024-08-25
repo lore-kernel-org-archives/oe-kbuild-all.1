@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF91DFEB;
-	Sun, 25 Aug 2024 11:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1D829408
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Aug 2024 12:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724586820; cv=none; b=nQhwubMm7l9PZf0Bl+lp6A60mG04mPHt+MHop6Hr4TYlk5eyK5Gn8XdpnXmzIWNqKX5pFqd5lXfhuB8wkHVfF75ydOyE3YbaeqpDaTUygoQ7c+yv+9QXNtSrt4P2yVOdvlxWwQLIkqAW4taRm/PXTj1hHz8OUduKm/HVltan2j8=
+	t=1724587480; cv=none; b=kPFvEdQ7565dInC4j5oQvirW4btaAG/yPsUOSg7ZMLcP3ipvQX3V2HFnGNnLOupAhwiKWvLJeizMmY2KI6mQaZMP8DiHiJ6RqSk63ILRBk3qdBCnZP561/OtJTV8HrdD16pVh0dnafapOUmPSzU44Q9nDmaxPTZ0Vvv/ExkQeyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724586820; c=relaxed/simple;
-	bh=DL5woH7X/DvXU3TbyJsZ519GzpH6qR7sVLryG+gxeug=;
+	s=arc-20240116; t=1724587480; c=relaxed/simple;
+	bh=ljX6O1LISngyuR9z2dqNfXgoDDPn+ngs1dIKuglOj3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gjf9BFjiP4w1Uv+dzYHCmWPZUVZAto785p8mS83Z5PE/9mcrXluf3zwFi0NWOKgDJZVMminMroGXsO2km5w7xfO9DlKwg1/ThIuK1UIuARHumzZ4DAHzt/8MT+4pQJzC02kgrTDGjeg6did+7ygAbnEelmL7fwUDsg3Tx6cGiw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpR+1CXk; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=mfDafb43lKGLXngw/FN/6KpvhFSTMka3C7nE6btvZ1Bpnz5Toe2fJoA6RvqbmWV7OnPjzRp8+qvJrLaNGdIExfYkKukcmJWZvSYS7YNDofo/4qYvU3Em9WcMYKaS07fFMuSsIGl9msNQmB13u3oCRXpy+xPBaMgqk0XaLD5iRi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jprSr6oA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpR+1CXk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jprSr6oA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724586818; x=1756122818;
+  t=1724587479; x=1756123479;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DL5woH7X/DvXU3TbyJsZ519GzpH6qR7sVLryG+gxeug=;
-  b=OpR+1CXke8z0c0xw5kQY6+/3YuGztq8VzMoR6ZQ16Med673vbC908IGj
-   gXSL/M2+CQRxKJNwqK9RLLipkbyOYAmigq2cxJIFmBVjIgkRdkJHWhEl9
-   XU+x/eAdOc74a3IZmLYqGKjucLIOYzaiDe7KMO1AZ7AKa3g0q6JPJsZdc
-   yt4Kv41gCfliLLYboXqArc+gnKjDnZB58HyBCvsjWHsCSgYNh3GulmPy7
-   M8vVTC0d6MtBts6y1iYZ8Oa38uMAyBXzSE14PBEbMQyI/E0CR/dVAsiE2
-   GOApPoTh5xyrlD37JuASFX4PRHo/fOGXmGa/KHNOFkhTWwGcWBXMmu6Y1
-   g==;
-X-CSE-ConnectionGUID: Hv6e2OEzTuOgSWFIKoiSzg==
-X-CSE-MsgGUID: DnXmnxRRRj23pl1LNkgovQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="48401684"
+  bh=ljX6O1LISngyuR9z2dqNfXgoDDPn+ngs1dIKuglOj3c=;
+  b=jprSr6oA0JgyEe4olHBHkGUELplWojyiEG6s3Xwol/0eIqYS+8iLPXdc
+   QKd11xJdykCpSuP5QloJdxEQSviDNVoo5Tz0t06e0inY2Q40UsYA/9vZ1
+   +mn5NRtZXP5vkfxabpeuyF1uh8qYmLLeIsGMJqcJUa5YpM636uXBjfrq9
+   5lQ9s2WS+xGyhHb3bM5Jj44g3D2mbQrnYqEgf0Mx4REOSZkIEQacrpQQK
+   CKA/NrlfDgo8GjlYbY9NyIlw/GU9RxF1Zk9RWS9hpQDWY5pkdd9GS5y94
+   Bt+QiiuCkvJZC3crSQE3P3bklu3urFfx/jxwtI0V/pTwOIWSlP/NiuNn5
+   Q==;
+X-CSE-ConnectionGUID: 5G4n+sg1QACQUVtc/dx/KQ==
+X-CSE-MsgGUID: 1WJgBDMtSPiA1gry3TirKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="23189061"
 X-IronPort-AV: E=Sophos;i="6.10,175,1719903600"; 
-   d="scan'208";a="48401684"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2024 04:53:38 -0700
-X-CSE-ConnectionGUID: AJ8rFAAbSG6GFeLwaKcBog==
-X-CSE-MsgGUID: nxSRUmnfQH+TcayZmtvILg==
+   d="scan'208";a="23189061"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2024 05:04:38 -0700
+X-CSE-ConnectionGUID: WYcM/Q8nSe6+VnlYS/Piog==
+X-CSE-MsgGUID: hJkO+QIDThygwoFHOmq42w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,175,1719903600"; 
-   d="scan'208";a="85439709"
+   d="scan'208";a="99742964"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Aug 2024 04:53:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Aug 2024 05:04:36 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siBoM-000F9T-0v;
-	Sun, 25 Aug 2024 11:53:34 +0000
-Date: Sun, 25 Aug 2024 19:53:20 +0800
+	id 1siBz0-000F9b-1D;
+	Sun, 25 Aug 2024 12:04:34 +0000
+Date: Sun, 25 Aug 2024 20:03:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fabien Parent <fabien.parent@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:pr/1040 22/23] error[E0277]: the trait bound
- `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device:
- AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>` is
- not satisfied
-Message-ID: <202408251945.uQADGa9Q-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [krzk-mem-ctrl:mem-ctrl-next 25/25]
+ drivers/memory/ti-aemif.c:382:54: error: 'child_np' undeclared
+Message-ID: <202408251935.ZJuB2dWz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,51 +63,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1040
-head:   53444cbc3fd2c22b56d4e9ab8b8c0f2b643cb9a7
-commit: e1082f6340c60e6fe9e9e8730f63bbc6515c5020 [22/23] rust: regulator: add Regulator Driver abstraction
-config: x86_64-buildonly-randconfig-006-20240825 (https://download.01.org/0day-ci/archive/20240825/202408251945.uQADGa9Q-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240825/202408251945.uQADGa9Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git mem-ctrl-next
+head:   5a5ac96f9bcaaa5f04a0ab70252ea708fb9eb8b4
+commit: 5a5ac96f9bcaaa5f04a0ab70252ea708fb9eb8b4 [25/25] memory: ti-aemif: simplify with scoped for each OF child loop
+config: arc-randconfig-001-20240825 (https://download.01.org/0day-ci/archive/20240825/202408251935.ZJuB2dWz-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240825/202408251935.ZJuB2dWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408251945.uQADGa9Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408251935.ZJuB2dWz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0277]: the trait bound `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device: AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>` is not satisfied
-   --> rust/doctests_kernel_generated.rs:3726:46
-   |
-   3726 | let config = Config::<Arc<DriverData>>::new(&dev, Arc::try_new(DriverData(128))?);
-   |              ------------------------------  ^^^ the trait `AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>` is not implemented for `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device`, which is required by `&&rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device: AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>`
-   |              |
-   |              required by a bound introduced by this call
-   |
-   = note: required for `&rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device` to implement `AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>`
-   = note: 1 redundant requirement hidden
-   = note: required for `&&rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device` to implement `AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>`
-   note: required by a bound in `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::regulator::driver::Config::<T>::new`
-   --> rust/kernel/regulator/driver.rs:346:19
-   |
-   346  |     pub fn new<U: AsRef<Device>>(dev: U, data: T) -> Self {
-   |                   ^^^^^^^^^^^^^ required by this bound in `Config::<T>::new`
---
->> error[E0277]: the trait bound `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device: AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>` is not satisfied
-   --> rust/doctests_kernel_generated.rs:3727:34
-   |
-   3727 | let reg = Registration::register(dev, desc, config)?;
-   |           ---------------------- ^^^ the trait `AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>` is not implemented for `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device`, which is required by `&rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device: AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>`
-   |           |
-   |           required by a bound introduced by this call
-   |
-   = note: required for `&rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device` to implement `AsRef<rust_doctest_kernel_alloc_box_ext_rs_0::kernel::device::Device>`
-   note: required by a bound in `rust_doctest_kernel_alloc_box_ext_rs_0::kernel::regulator::driver::Registration::register`
-   --> rust/kernel/regulator/driver.rs:362:57
-   |
-   362  |     pub fn register<T: ForeignOwnable + Send + Sync, U: AsRef<Device>>(
-   |                                                         ^^^^^^^^^^^^^ required by this bound in `Registration::register`
+   In file included from drivers/memory/ti-aemif.c:17:
+   drivers/memory/ti-aemif.c: In function 'aemif_probe':
+>> drivers/memory/ti-aemif.c:382:54: error: 'child_np' undeclared (first use in this function)
+     382 |                 for_each_available_child_of_node(np, child_np) {
+         |                                                      ^~~~~~~~
+   include/linux/of.h:1472:14: note: in definition of macro 'for_each_available_child_of_node'
+    1472 |         for (child = of_get_next_available_child(parent, NULL); child != NULL; \
+         |              ^~~~~
+   drivers/memory/ti-aemif.c:382:54: note: each undeclared identifier is reported only once for each function it appears in
+     382 |                 for_each_available_child_of_node(np, child_np) {
+         |                                                      ^~~~~~~~
+   include/linux/of.h:1472:14: note: in definition of macro 'for_each_available_child_of_node'
+    1472 |         for (child = of_get_next_available_child(parent, NULL); child != NULL; \
+         |              ^~~~~
+
+
+vim +/child_np +382 drivers/memory/ti-aemif.c
+
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  325  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  326  static int aemif_probe(struct platform_device *pdev)
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  327  {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  328  	int i;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  329  	int ret = -ENODEV;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  330  	struct device *dev = &pdev->dev;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  331  	struct device_node *np = dev->of_node;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  332  	struct aemif_device *aemif;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  333  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  334  	aemif = devm_kzalloc(dev, sizeof(*aemif), GFP_KERNEL);
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  335  	if (!aemif)
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  336  		return -ENOMEM;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  337  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  338  	platform_set_drvdata(pdev, aemif);
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  339  
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  340  	aemif->clk = devm_clk_get_enabled(dev, NULL);
+6d9eebfdfe2431 Krzysztof Kozlowski 2024-08-16  341  	if (IS_ERR(aemif->clk))
+6d9eebfdfe2431 Krzysztof Kozlowski 2024-08-16  342  		return dev_err_probe(dev, PTR_ERR(aemif->clk),
+6d9eebfdfe2431 Krzysztof Kozlowski 2024-08-16  343  				     "cannot get clock 'aemif'\n");
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  344  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  345  	aemif->clk_rate = clk_get_rate(aemif->clk) / MSEC_PER_SEC;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  346  
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  347  	if (np && of_device_is_compatible(np, "ti,da850-aemif"))
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  348  		aemif->cs_offset = 2;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  349  
+083008defd83cb Krzysztof Kozlowski 2022-04-19  350  	aemif->base = devm_platform_ioremap_resource(pdev, 0);
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  351  	if (IS_ERR(aemif->base))
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  352  		return PTR_ERR(aemif->base);
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  353  
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  354  	if (np) {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  355  		/*
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  356  		 * For every controller device node, there is a cs device node
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  357  		 * that describe the bus configuration parameters. This
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  358  		 * functions iterate over these nodes and update the cs data
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  359  		 * array.
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  360  		 */
+5a5ac96f9bcaaa Krzysztof Kozlowski 2024-08-16  361  		for_each_available_child_of_node_scoped(np, child_np) {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  362  			ret = of_aemif_parse_abus_config(pdev, child_np);
+5a5ac96f9bcaaa Krzysztof Kozlowski 2024-08-16  363  			if (ret < 0)
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  364  				return ret;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  365  		}
+94e9dd43cf3273 Pan Bian            2021-01-21  366  	}
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  367  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  368  	for (i = 0; i < aemif->num_cs; i++) {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  369  		ret = aemif_config_abus(pdev, i);
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  370  		if (ret < 0) {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  371  			dev_err(dev, "Error configuring chip select %d\n",
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  372  				aemif->cs_data[i].cs);
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  373  			return ret;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  374  		}
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  375  	}
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  376  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  377  	/*
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  378  	 * Create a child devices explicitly from here to guarantee that the
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  379  	 * child will be probed after the AEMIF timing parameters are set.
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  380  	 */
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  381  	if (np) {
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24 @382  		for_each_available_child_of_node(np, child_np) {
+8c38617722bdf5 Bartosz Golaszewski 2024-08-09  383  			ret = of_platform_populate(child_np, NULL, NULL, dev);
+94e9dd43cf3273 Pan Bian            2021-01-21  384  			if (ret < 0) {
+94e9dd43cf3273 Pan Bian            2021-01-21  385  				of_node_put(child_np);
+f6ae541cc3355f Bartosz Golaszewski 2024-08-09  386  				return ret;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  387  			}
+94e9dd43cf3273 Pan Bian            2021-01-21  388  		}
+8af70cd2ca5080 Bartosz Golaszewski 2018-04-20  389  	}
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  390  
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  391  	return 0;
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  392  }
+5a7c81547c1db7 Ivan Khoronzhuk     2014-02-24  393  
+
+:::::: The code at line 382 was first introduced by commit
+:::::: 5a7c81547c1db7563afc005a509d1ac38d9e0884 memory: ti-aemif: introduce AEMIF driver
+
+:::::: TO: Ivan Khoronzhuk <ivan.khoronzhuk@ti.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
