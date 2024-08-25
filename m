@@ -1,152 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B175E370;
-	Sun, 25 Aug 2024 00:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFAE1C3D;
+	Sun, 25 Aug 2024 02:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724544398; cv=none; b=Jlwlj2grPCaFelk+MEoL7N22CGKhQ4pG6ttET/xgaJ25tl6tHLKqu4RhN70gEo3NPQcWRmSRWSG1jM8Q6IPX3jnV0rjQqsKgkq/Tcj3ogF7Oxiv0W2YWsrq6HRQw77HipQ0ERpQJufKHHPsVPZoAnX96qxWkIepiyVK2VUv7Kbo=
+	t=1724553323; cv=none; b=aVHBDcs34/8hL7bmWB1H+4KWkyfh5GnSeKINi/5uqe0HqkGqA2r9Xd6/qWSL+9bLW7CZsQ/RADGverkWH5Gna+LB82ug9r0X/kDJD7YRQY3BpdTEyyX0eQXnpswYZT3Q0H6+0Q/6zyRRKLzFkfJD+nvC1Z41F2uBQDFFdY1rqAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724544398; c=relaxed/simple;
-	bh=s9ZUymRC5N50hCwelOFwDegTY8GnrkT1qUjyrttceIA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=guAaVSYkP5Ff/IX2uoLjn4F3iJ/ysgKeE9xqCdAeGnOVTJmHLXjaPUzy+GINO7fZYD0g9YPOgJxu2zKr8AZGIeDmszbeEz0FxYtl+FqsGK5RIUn9DmLF+C2m73bLHhCp+xiseyyLf+t04JRd5FdIqr2CZbq8kyAzPSKPBJBLtCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qw+/s5HW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724553323; c=relaxed/simple;
+	bh=TiTZ37gh8BuCevxe9GOpbW8zYGrfcTugzKsODcqgI8c=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UhaLgb57ZPPP36KdtIwhxD+tlbpASJjdzFY91+982cC5BZi5pL73fId3rzhdAwUv5DN3AxYOqvX8HINiVMmdWCJMerD4ByChE5GG8FlzOwxa03DcO7fsRZn2rFIOUJqnHJDnr8XJIx05C2mjCzY4EneweyAvzIzPPQqAb/+pJdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDdfa5No; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qw+/s5HW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B39C32781;
-	Sun, 25 Aug 2024 00:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724544398;
-	bh=s9ZUymRC5N50hCwelOFwDegTY8GnrkT1qUjyrttceIA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qw+/s5HWsZk5eRGie+x3BFqiFk/iZXsmlDUMOd7YFj5cCVLMfNKHFW4Go+GZg/+ni
-	 XlWk5yJ0AdkiGpR3bD6wazE/bY916z9mJS88G4JSSJGZl8xvCJ9BGpjj/Kgcu8V746
-	 N3eVxc6FHwaa9PtB7k2r6Tvfdb/mIq04ppnZfmzjjdvvCxZTUk0IRncg+MeVgghyaL
-	 89PNUJ7rDxW+0fgHXVLkYa0pqSROjyYsFkj4VVcq92lvabgZFm8Tz0aDBcIPE06hn+
-	 Ns27HYjmpKUpb7a2/Yhl1T0zpZiI1Xe1tKdMojloGlLtaRe50w1FyywWA6d+2X9aDt
-	 9ahxbRyfkLr8w==
-From: SeongJae Park <sj@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 357/379] mm/vma.h:114:19: error: use of undeclared identifier 'USER_PGTABLES_CEILING'
-Date: Sat, 24 Aug 2024 17:05:10 -0700
-Message-Id: <20240825000510.136384-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <da1a6b2c-f792-432f-b99f-51717dcc8d83@lucifer.local>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDdfa5No"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724553322; x=1756089322;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=TiTZ37gh8BuCevxe9GOpbW8zYGrfcTugzKsODcqgI8c=;
+  b=KDdfa5NouivJxA+HNxYFMs2W5S8e0DgDJuyJnIgjc7fhnhC5yfoKYYdI
+   724CG3toD/13qrfaFXRb17ZpBd7/I8Mxn285s4F9BauU4BspI2RHOqStd
+   uF7P9zzr2G+S6gysxfmpp8czNMJBIKt2DMalf9PdEWYFTuzwKkRH7Mf4a
+   CWZUHqesUTem2CW6yVywJHwQM0lhnXKMFFXMnpgu6KgKybEcFRhEYCtNI
+   X8WsV+H5CfFUKVCdRVTz4LVKDDebPmOQjGYwZYQVgR/cpo4zi8/FvdQ23
+   ffNnzAzji32N21zjnqv5V/JMFe5IMhKdswnrPtai5kfVpEROkSjeC1eC/
+   g==;
+X-CSE-ConnectionGUID: syugElZlQ7enB9SHdaX2jA==
+X-CSE-MsgGUID: NNrgoLyrTFqtIhqrI1jTPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="48388743"
+X-IronPort-AV: E=Sophos;i="6.10,174,1719903600"; 
+   d="scan'208";a="48388743"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 19:35:21 -0700
+X-CSE-ConnectionGUID: IjayFyK2SI+xnEFfj7wn8g==
+X-CSE-MsgGUID: zKdPu92VQEykbWyikRbqRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,174,1719903600"; 
+   d="scan'208";a="62222890"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Aug 2024 19:35:20 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1si366-000Etv-1v;
+	Sun, 25 Aug 2024 02:35:18 +0000
+Date: Sun, 25 Aug 2024 10:34:55 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [broonie-misc:spi-6.12 19/21] vmlinux.o: warning: objtool:
+ .text.wpcm_fiu_probe: unexpected end of section
+Message-ID: <202408251028.hjY7PYx8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
+TO: Jinjie Ruan <ruanjinjie@huawei.com>
+CC: Mark Brown <broonie@kernel.org>
 
-On Sat, 24 Aug 2024 20:43:25 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git spi-6.12
+head:   91232b00b1a5d2486770c72c51a752a77c7601b2
+commit: 3bf2a5359b0bde22418705ec862ac5077312e4c2 [19/21] spi: wpcm-fiu: Use devm_platform_ioremap_resource_byname()
+config: x86_64-buildonly-randconfig-004-20240825 (https://download.01.org/0day-ci/archive/20240825/202408251028.hjY7PYx8-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240825/202408251028.hjY7PYx8-lkp@intel.com/reproduce)
 
-> On Sat, Aug 24, 2024 at 11:14:17PM GMT, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   b659edec079c90012cf8d05624e312d1062b8b87
-> > commit: ca39aca8db2d78ff82356defba75d14ce78a67b9 [357/379] mm/vma: track start and end for munmap in vma_munmap_struct
-> > config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240824/202408242348.uGvgH9tt-lkp@intel.com/config)
-> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240824/202408242348.uGvgH9tt-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408242348.uGvgH9tt-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from mm/filemap.c:15:
-> >    In file included from include/linux/dax.h:6:
-> >    In file included from include/linux/mm.h:2198:
-> >    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-> >      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-> >          |                               ~~~~~~~~~~~ ^ ~~~
-> >    In file included from mm/filemap.c:52:
-> >    In file included from mm/internal.h:13:
-> >    include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-> >       47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-> >          |                                    ~~~~~~~~~~~ ^ ~~~
-> >    include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-> >       49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-> >          |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-> >    In file included from mm/filemap.c:52:
-> >    In file included from mm/internal.h:22:
-> > >> mm/vma.h:114:19: error: use of undeclared identifier 'USER_PGTABLES_CEILING'
-> >      114 |         vms->unmap_end = USER_PGTABLES_CEILING;
-> >          |                          ^
-> >    3 warnings and 1 error generated.
-> 
-> [snip]
-> 
-> Thanks for the report!
-> 
-> This is a trivial issue, and can be fixed with the attached fix-patch. This also
-> resolves the issue reported in
-> https://lore.kernel.org/oe-kbuild-all/202408242304.1A1fXTgE-lkp@intel.com/
-> 
-> ----8<----
-> From 565ad376b0a3aa5822ef479faadff271e90ba51c Mon Sep 17 00:00:00 2001
-> From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Date: Sat, 24 Aug 2024 20:20:17 +0100
-> Subject: [PATCH] mm: include linux/pgtable.h in vma_internal.h
-> 
-> For some arches this is required in order to have access to
-> USER_PGTABLES_CEILING and FIRST_USER_ADDRESS.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202408242348.uGvgH9tt-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202408242304.1A1fXTgE-lkp@intel.com/
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
->  mm/vma_internal.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/mm/vma_internal.h b/mm/vma_internal.h
-> index b930ab12a587..971b13e880c9 100644
-> --- a/mm/vma_internal.h
-> +++ b/mm/vma_internal.h
-> @@ -33,6 +33,7 @@
->  #include <linux/mutex.h>
->  #include <linux/pagemap.h>
->  #include <linux/pfn.h>
-> +#include <linux/pgtable.h>
->  #include <linux/rcupdate.h>
->  #include <linux/rmap.h>
->  #include <linux/rwsem.h>
-> --
-> 2.46.0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408251028.hjY7PYx8-lkp@intel.com/
 
-Even after applying the above patch, I get similar errors when CONFIG_MMU is
-unset[1], as below.  Maybe the case should also be handled?
+All warnings (new ones prefixed by >>):
 
-    In file included from /lib/../mm/internal.h:22:0,
-                     from /lib/vsprintf.c:50:
-    /lib/../mm/vma.h: In function 'init_vma_munmap':
-    /lib/../mm/vma.h:113:21: error: 'FIRST_USER_ADDRESS' undeclared (first use in this function); did you mean 'IFLA_PERM_ADDRESS'?
-      vms->unmap_start = FIRST_USER_ADDRESS;
-                         ^~~~~~~~~~~~~~~~~~
-                         IFLA_PERM_ADDRESS
-    /lib/../mm/vma.h:113:21: note: each undeclared identifier is reported only once for each function it appears in
-    /lib/../mm/vma.h:114:19: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
-      vms->unmap_end = USER_PGTABLES_CEILING;
-                       ^~~~~~~~~~~~~~~~~~~~~
+   vmlinux.o: warning: objtool: .text.exynos_sysmmu_irq: unexpected end of section
+>> vmlinux.o: warning: objtool: .text.wpcm_fiu_probe: unexpected end of section
 
-
-[1] https://github.com/damonitor/damon-tests/blob/master/corr/tests/build_m68k.sh
-
-
-Thanks,
-SJ
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
