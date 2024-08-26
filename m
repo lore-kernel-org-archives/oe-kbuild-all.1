@@ -1,71 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0281155C81;
-	Mon, 26 Aug 2024 11:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019D816F0D2;
+	Mon, 26 Aug 2024 12:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724672828; cv=none; b=YoUPPTQ0x0U0R26dVZpEaH7JE4lHJ5/bDp+bir7FDWdx+PljCyk773ZN1Jc33iVNIJPp6fVU/1DknA+LY0qkVXNr8iEJyFcjIadP1hEXVXzMkpon3fAOZgvkdGLdyFj1c6kAsq1WqIeMpwcZcTKKRB/twCIUrBzEuFsx36NxcGM=
+	t=1724674043; cv=none; b=CnVGzdcRTA9fJUXgl/1LkiXmpDgZUz0CdgW1fX4a8tSev+OS8Z4tR0FEpobnvqen35w5x9oq34d4ZSMZEjRkMq2a7vZIfd8ESGgen+9K2rzn6rgMcUUHbyfnbiMjdiF5NcougtXeAFWxqgf4aZ/as4tjwE00yPST3NVYhyo8GGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724672828; c=relaxed/simple;
-	bh=FIp0iRgd7S3IbgZ7/Eu/tmSZWUh2umZ9WKVSWgKLxko=;
+	s=arc-20240116; t=1724674043; c=relaxed/simple;
+	bh=mwEtZJB0/hwPWU7zAWoSj7zbloELyiZsdOdbKj+WPu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuEeRgxJ8RcYsT5DodVR9znrsYHyypYqf6qZEuMlkw3ydYiHjnt9TjOU8b2Ly8dAUaP0ngFFgukbriFAyLrC2ANWdSRDk9a43g2a8NJjQgZxMIWwlEfOUkV9vD+CM+YP5cBm1g1+eXiYnRnC8OLHpXIiBQykKNVUjby5jtJEntQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/UmmYQo; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ParQDJg49YxpPnmQfgxP9p8bvJmqj4tycqdyj5GyThMdS05lNkAgqgGrJJ/wZ7Za5OhHG258/eLvhKMY+UsOdoKbkVFVOsHKQ9LzfuXYorvy/TqYX+jKHpRE+ATx93G0aDIjHRFjc9KxVKvvpDJngwvjU9Yo7lyOhL0uZKNLzrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEgxzM4X; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/UmmYQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEgxzM4X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724672827; x=1756208827;
+  t=1724674042; x=1756210042;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FIp0iRgd7S3IbgZ7/Eu/tmSZWUh2umZ9WKVSWgKLxko=;
-  b=E/UmmYQoqbVgT31qUeyHMzLt/YiSyBWy4eq6E9KY7yz1oTYrtFIG4k4a
-   iN/b3wtGVtwe+k6LYifyvHlycZ3r5FoZoA5hl1XspGcSvt+W/XDtYbBUC
-   nu5vW5Uv4LQQ65wkBEe7LLvRT3+aNUaxz2yHgrDi3eV2YHmV85n2jNAEs
-   x+Ye4/zd5g4db6iOLouDdUc7hQfyFMCW2Fj7eTW+eSc5iWxKkcGaNoldX
-   hKDZQnefdXUnropvh9i/NV8plXDJkz6Rwpq1CE1REeJhJXOlCOhMJ6Z/h
-   Ov+zuACgShuUiRYu/M1QWI/ha4GJOjrFNpqt4jc4+dw5mkRYrF4RUP+ou
-   w==;
-X-CSE-ConnectionGUID: 0bFmVBhdTLaIpAMNkHPwcA==
-X-CSE-MsgGUID: GpomXStbSiyo7rtrbnp/tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="23243767"
+  bh=mwEtZJB0/hwPWU7zAWoSj7zbloELyiZsdOdbKj+WPu4=;
+  b=jEgxzM4Xxo4VTtG/e+yfJdrSPT44BqprNhMmPgcAXJ2VY+FQT2VEoyCX
+   107e4avRV1qCADfeHvsGDML4ZsxuDWHmtXQGJZZ98gWi7PsQPH4g2igrA
+   6D/21nZ+Ie6XNTFKUKPEJZJqV+iXoqTyg6qA9Y4IFnVIwriu5Ro5NCu4L
+   27nUEG7rF3oIcJNps5yk8hMUMgyCY31P+XTPdmldOTY0Uxtg3XBMBR22a
+   2Y5uP41OdTs8/HWOgjWRch3riqivY9k02WyFvsN4WzC9/lYfH+zDYzlHR
+   qbLEQGwb3NQ2EuZOoLPq+5tGbK2U6KPMBMQGiobnJmjoKl2iEm3y/C1G+
+   A==;
+X-CSE-ConnectionGUID: mEUVYLCdSEWd3D7/IBi5UA==
+X-CSE-MsgGUID: 3DtZWee0Q5qjMZ6xqS4ohA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33754866"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="23243767"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 04:47:06 -0700
-X-CSE-ConnectionGUID: NriRihhNQvW0cnXETzoSfw==
-X-CSE-MsgGUID: vO4WWXUwRQuZOP57+w9XPQ==
+   d="scan'208";a="33754866"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 05:07:05 -0700
+X-CSE-ConnectionGUID: ckZdX9P5RgCXpckOG7uxZg==
+X-CSE-MsgGUID: O99tV9lITNWVQNIBeo6yJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62183218"
+   d="scan'208";a="63010403"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Aug 2024 04:47:00 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 Aug 2024 05:07:01 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siYBV-000H0F-2x;
-	Mon, 26 Aug 2024 11:46:57 +0000
-Date: Mon, 26 Aug 2024 19:46:22 +0800
+	id 1siYUs-000H11-0v;
+	Mon, 26 Aug 2024 12:06:58 +0000
+Date: Mon, 26 Aug 2024 20:06:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	wei.huang2@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
-	bagasdotme@gmail.com, bhelgaas@google.com, lukas@wunner.de,
-	paul.e.luse@intel.com, jing2.liu@intel.com
-Subject: Re: [PATCH V4 07/12] PCI/TPH: Add pcie_tph_set_st_entry() to set ST
- tag
-Message-ID: <202408261902.hGVx0hL8-lkp@intel.com>
-References: <20240822204120.3634-8-wei.huang2@amd.com>
+To: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup
+ code to of_regulator.c
+Message-ID: <202408261940.R6VmGtGO-lkp@intel.com>
+References: <20240822092006.3134096-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,103 +77,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822204120.3634-8-wei.huang2@amd.com>
+In-Reply-To: <20240822092006.3134096-3-wenst@chromium.org>
 
-Hi Wei,
+Hi Chen-Yu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.11-rc5 next-20240826]
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on robh/for-next wsa/i2c/for-next linus/master v6.11-rc5 next-20240823]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Huang/PCI-Introduce-PCIe-TPH-support-framework/20240826-121149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240822204120.3634-8-wei.huang2%40amd.com
-patch subject: [PATCH V4 07/12] PCI/TPH: Add pcie_tph_set_st_entry() to set ST tag
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240826/202408261902.hGVx0hL8-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261902.hGVx0hL8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/of-dynamic-Add-of_changeset_update_prop_string/20240826-105737
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20240822092006.3134096-3-wenst%40chromium.org
+patch subject: [PATCH v5 02/10] regulator: Move OF-specific regulator lookup code to of_regulator.c
+config: i386-randconfig-005-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261940.R6VmGtGO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261940.R6VmGtGO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261902.hGVx0hL8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261940.R6VmGtGO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/pcie/tph.c:116:9: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-     116 |         val |= FIELD_PREP(mask, tag);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
-      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      74 |                                  _pfx "type of reg too small for mask"); \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/linux/compiler_types.h:510:22: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:498:23: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:490:9: note: expanded from macro '__compiletime_assert'
-     490 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning generated.
+   In file included from drivers/regulator/helpers.c:17:
+   drivers/regulator/internal.h: In function 'of_regulator_dev_lookup':
+>> drivers/regulator/internal.h:87:16: warning: returning 'int' from a function with return type 'struct regulator_dev *' makes pointer from integer without a cast [-Wint-conversion]
+      87 |         return -ENODEV;
+         |                ^
 
 
-vim +116 drivers/pci/pcie/tph.c
+vim +87 drivers/regulator/internal.h
 
-    87	
-    88	/* Write ST to MSI-X vector control reg - Return 0 if OK, otherwise -errno */
-    89	static int write_tag_to_msix(struct pci_dev *pdev, int msix_idx, u16 tag)
-    90	{
-    91		struct msi_desc *msi_desc = NULL;
-    92		void __iomem *vec_ctrl;
-    93		u32 val, mask;
-    94		int err = 0;
-    95	
-    96		msi_lock_descs(&pdev->dev);
-    97	
-    98		/* Find the msi_desc entry with matching msix_idx */
-    99		msi_for_each_desc(msi_desc, &pdev->dev, MSI_DESC_ASSOCIATED) {
-   100			if (msi_desc->msi_index == msix_idx)
-   101				break;
-   102		}
-   103	
-   104		if (!msi_desc) {
-   105			err = -ENXIO;
-   106			goto err_out;
-   107		}
-   108	
-   109		/* Get the vector control register (offset 0xc) pointed by msix_idx */
-   110		vec_ctrl = pdev->msix_base + msix_idx * PCI_MSIX_ENTRY_SIZE;
-   111		vec_ctrl += PCI_MSIX_ENTRY_VECTOR_CTRL;
-   112	
-   113		val = readl(vec_ctrl);
-   114		mask = PCI_MSIX_ENTRY_CTRL_ST_LOWER | PCI_MSIX_ENTRY_CTRL_ST_UPPER;
-   115		val &= ~mask;
- > 116		val |= FIELD_PREP(mask, tag);
-   117		writel(val, vec_ctrl);
-   118	
-   119		/* Read back to flush the update */
-   120		val = readl(vec_ctrl);
-   121	
-   122	err_out:
-   123		msi_unlock_descs(&pdev->dev);
-   124		return err;
-   125	}
-   126	
+    82	
+    83	#else
+    84	static inline struct regulator_dev *of_regulator_dev_lookup(struct device *dev,
+    85								    const char *supply)
+    86	{
+  > 87		return -ENODEV;
+    88	}
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
