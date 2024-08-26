@@ -1,106 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453F2801
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Aug 2024 20:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DCC4A07
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 01:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724617258; cv=none; b=uXwuOWjLf1E+M0UJtAGJ4TCUm1bdOXGJNzV1ktoD7xOBBBV7nnnpir1J0d98ZAx5KZaxE4Prm8co+9kxyOie+dHi1T61jETWRdX/JPVUib8s9mvweLKBEtNSyq01Xd5dR60X2z08wm512MUxcL3jPe8fhqJ42mhkdE+0imKD+Ew=
+	t=1724636337; cv=none; b=R6MeEAg5LlE07VoM//6CoLD10LVHlk+oXrOi55b4wk7w1HJI6ry7lKXsoA53tTccFQ6M0u1qaH4DsHZrHlnoERU8OpmjdbGUvRizbHoWfXakE7axgbTrwL6Kpu0BaUvHSMHL1YqhwGPVGCP0b+/JuvQemCZBNsQCcxmPYop9FO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724617258; c=relaxed/simple;
-	bh=VToyjT4OoFC4dS60qEQQiqadSDnhMkvbENO3UZI0d18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OlxwOWSDhbnFmjEyRx0l+d9zBXHmJ8qt96H9ryoKfcP1UgKdWBi1F9KbG050146jdLpPqrIAtpsAPp9nah1AKKGLvwdsK6K+G9+JYeZjpOu/tNh3E1yvfAEujs2TodGdIGBip20xIQSqhsB8uLNeGKiOP//+E8Zsv2Pw112JC2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibM11TMN; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibM11TMN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724617256; x=1756153256;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VToyjT4OoFC4dS60qEQQiqadSDnhMkvbENO3UZI0d18=;
-  b=ibM11TMNJTssxXZ011MY+gsFQ3fcvRUp3iC7IeDDs+1Up7wjOY0SypIE
-   VCkuqw3oZiYzJ/iIOZgeW7a8aJIsCx+pViw3fP1EhIjA2KAJv7MPDboh5
-   W5zZ7I3LFifMLF1I6G3R/2V9no0fSizbUfUKay7bfgZH4tVKvBkdJ/7d6
-   RPs7Q9RbDQvPcBqJxxfAU8ds0b0Pe2gq5+IfaTKikMmlIc4b0hIof19bj
-   wVna1muuMYafVNr4cE03CbAF9N+BKL7XgR5BPogOu9twBRcnKuKGDp8Gv
-   DYockoMP/vl22RuR5EuiByRm1TtLW+mE7H8p8bcQNoUGJajaGd8Umnn0K
-   g==;
-X-CSE-ConnectionGUID: JX7pkzulRhaNeceQk1RGwg==
-X-CSE-MsgGUID: TI0Aktx7RdCyimLhu8lF0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="25921309"
-X-IronPort-AV: E=Sophos;i="6.10,175,1719903600"; 
-   d="scan'208";a="25921309"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2024 13:20:55 -0700
-X-CSE-ConnectionGUID: pB7ASK6XQKKftgRlJOisnA==
-X-CSE-MsgGUID: xm7w5AE9QZaMP5KcNAaBwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,175,1719903600"; 
-   d="scan'208";a="67124979"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 25 Aug 2024 13:20:52 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1siJjE-000FQZ-2g;
-	Sun, 25 Aug 2024 20:20:48 +0000
-Date: Mon, 26 Aug 2024 04:20:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-	tursulin@ursulin.net, airlied@gmail.com, daniel@ffwll.ch,
-	linux@roeck-us.net, andi.shyti@linux.intel.com,
-	andriy.shevchenko@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, anshuman.gupta@intel.com,
-	badal.nilawar@intel.com, riana.tauro@intel.com,
-	ashutosh.dixit@intel.com, karthik.poosa@intel.com,
-	Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v6] drm/i915/hwmon: expose fan speed
-Message-ID: <202408260446.0EeOPMO6-lkp@intel.com>
-References: <20240820062010.2000873-1-raag.jadav@intel.com>
+	s=arc-20240116; t=1724636337; c=relaxed/simple;
+	bh=6hyBKcdC0UIiBRttpghAfcsV1qVoomodcFUI8mNFo68=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=NirRT/tNoGI5UDWLSUFmkdmSV7Z54LU/addVDhujD9ELkomYCECOISGxjzY95KhsKXY0EL9FaDag+7RVfehL5YRP4wVcnSfYZQecFKJm1foirV/qDfl60NxWxliRTw5pt08tG+PAFBy/H6Tz3RaN/eGs/qu0V2fWqTjBVpQYa7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4WsYH56Mxsz4f3jM1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 09:38:41 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id BA3601A1333
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 09:38:51 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+	by APP4 (Coremail) with SMTP id gCh0CgCHr4Wn3MtmIfXrCg--.7030S3;
+	Mon, 26 Aug 2024 09:38:48 +0800 (CST)
+Subject: Re: [PATCH md-6.12 05/41] md/md-bitmap: add 'sync_size' into struct
+ md_bitmap_stats
+To: kernel test robot <lkp@intel.com>, Yu Kuai <yukuai1@huaweicloud.com>,
+ song@kernel.org, mariusz.tkaczyk@linux.intel.com, l@damenly.org,
+ xni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <20240822024718.2158259-6-yukuai1@huaweicloud.com>
+ <202408230544.w18wb47U-lkp@intel.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <fc5f783f-2d2b-4066-2a46-c4ed761e661b@huaweicloud.com>
+Date: Mon, 26 Aug 2024 09:38:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240820062010.2000873-1-raag.jadav@intel.com>
+In-Reply-To: <202408230544.w18wb47U-lkp@intel.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgCHr4Wn3MtmIfXrCg--.7030S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFWDtry5AFy7Jw15Zr1DZFb_yoW5urWrpF
+	1UCw1Ykr1rJ3y0va12g39rZa4rtws8XFy3GF18Gw1Y9F9FvF9xJr4xKF43Ar9I9r9xGFWr
+	Xr9xXr98uw1UXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-Hi Raag,
+Hi,
 
-kernel test robot noticed the following build errors:
+ÔÚ 2024/08/23 6:07, kernel test robot Ð´µÀ:
+> Hi Yu,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on device-mapper-dm/for-next]
+> [also build test WARNING on linus/master v6.11-rc4 next-20240822]
+> [cannot apply to song-md/md-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-raid1-use-md_bitmap_wait_behind_writes-in-raid1_read_request/20240822-110233
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+> patch link:    https://lore.kernel.org/r/20240822024718.2158259-6-yukuai1%40huaweicloud.com
+> patch subject: [PATCH md-6.12 05/41] md/md-bitmap: add 'sync_size' into struct md_bitmap_stats
+> config: x86_64-randconfig-121-20240822 (https://download.01.org/0day-ci/archive/20240823/202408230544.w18wb47U-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408230544.w18wb47U-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408230544.w18wb47U-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/md/md-bitmap.c:2106:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long sync_size @@     got restricted __le64 [usertype] sync_size @@
+>     drivers/md/md-bitmap.c:2106:26: sparse:     expected unsigned long sync_size
+>     drivers/md/md-bitmap.c:2106:26: sparse:     got restricted __le64 [usertype] sync_size
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.11-rc5 next-20240823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So this is actually the old code behavior. I'll fix this. :)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/drm-i915-hwmon-expose-fan-speed/20240820-135849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240820062010.2000873-1-raag.jadav%40intel.com
-patch subject: [PATCH v6] drm/i915/hwmon: expose fan speed
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20240826/202408260446.0EeOPMO6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408260446.0EeOPMO6-lkp@intel.com/reproduce)
+Thanks,
+Kuai
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408260446.0EeOPMO6-lkp@intel.com/
+>     drivers/md/md-bitmap.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+>     include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+>     include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+> 
+> vim +2106 drivers/md/md-bitmap.c
+> 
+>    2096	
+>    2097	int md_bitmap_get_stats(struct bitmap *bitmap, struct md_bitmap_stats *stats)
+>    2098	{
+>    2099		struct bitmap_counts *counts;
+>    2100		bitmap_super_t *sb;
+>    2101	
+>    2102		if (!bitmap)
+>    2103			return -ENOENT;
+>    2104	
+>    2105		sb = kmap_local_page(bitmap->storage.sb_page);
+>> 2106		stats->sync_size = sb->sync_size;
+>    2107		kunmap_local(sb);
+>    2108	
+>    2109		counts = &bitmap->counts;
+>    2110		stats->missing_pages = counts->missing_pages;
+>    2111		stats->pages = counts->pages;
+>    2112	
+>    2113		stats->events_cleared = bitmap->events_cleared;
+>    2114		stats->file = bitmap->storage.file;
+>    2115	
+>    2116		return 0;
+>    2117	}
+>    2118	EXPORT_SYMBOL_GPL(md_bitmap_get_stats);
+>    2119	
+> 
 
-All errors (new ones prefixed by >>):
-
-   ld: drivers/gpu/drm/i915/i915_hwmon.o: in function `hwm_read':
->> i915_hwmon.c:(.text+0xe36): undefined reference to `__udivdi3'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
