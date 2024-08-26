@@ -1,67 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8065F804;
-	Mon, 26 Aug 2024 12:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFA214A617
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 13:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724677088; cv=none; b=CVvPWob7oiAqVbIc0GFveDrs+fZBBrHBf/jg7qw+AXMh6slUj91wKvSnZKydY5OpoQTzN4XEThGrl4SswOqHrnQ01ZhLnsKMOYxIGOENYBNZAHVgqWTU2pekFpfSeycdFucf0Zhx295Ka2FSMa3J/FYHlUEhOkHZ2P1tiE1VtfI=
+	t=1724677750; cv=none; b=eLt3avh6uYCQG+TVI9+lkEhhD1dHX5Unlv9T10v9dT7PbRf4rhT9/odjzmyekXJ1q10+yM5qktO2mt7YPlxkJmJG0S06p8JCviwnHMx7PY110U3aBZO2ey+mnhglC2qN8hLFJnf40kE6FvD4TfIUQL2Gv88+St5VnEZVFvJVhD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724677088; c=relaxed/simple;
-	bh=+PbHs8l+qbavMVlAXLwDj8SfpLxFMgAxuZhwJr8ymE0=;
+	s=arc-20240116; t=1724677750; c=relaxed/simple;
+	bh=/WCjiJBIK6wPuwAFTmjz+n++wdH29E6bztgRbxuVOWA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DQvdgJKSpiz8Luf5CbNxssK3fthpR46DjqtMnrPYO+V/+adRqXqL5ySi7ADBT07No1RxnXspH8bWYL+ChWNFBgViU+AttJH5GrBimFxsH/xBhGXCRxCL78DR1qXSWPJLTsVBWTo9ebDzUlQ98YlWLwRYgcLcG4hRB7bIU8Ul9GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cmrgba63; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=WK3IYCLUUmXm3WvyJbA4N1HARMHc7EgtoHJPk3itGVsLzDONg7C3gbGozr1SF8kjuyuumxKTXelnWKbijX/y/CdH+R1Sj5Edb3XxywcCiVeNgVecaY0j14+rGm6rEYxvEJ7uizymUJkNKFebxhOTGZO9rNZTZfdqQbCOL42ODkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6FRSbxw; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cmrgba63"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6FRSbxw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724677086; x=1756213086;
+  t=1724677748; x=1756213748;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+PbHs8l+qbavMVlAXLwDj8SfpLxFMgAxuZhwJr8ymE0=;
-  b=Cmrgba63VVfwicke1bKBrGlBsxCxcrfieC9jp3bmISLVt2uS4t4XxD2b
-   qL5fQNXXQTZ//Psg2XH+dNJANHwfvjBJhIUShqrGBnb0sDsgpgFBkoqJL
-   XlFiR+R5lHskaT9MaPz93kRjShIWjjStC49a7LinsOO/fC7HFuqy8IhJ+
-   vfV8O8R8wsjhprBQ4fh647GHyM2Cy/NCDGnH80wXBzD8Cacp9ImNfHTHZ
-   VlHqWygLRu99aZ2zh4hxv8JX7iLZbVKgJMtBCIfkBlLW+waqRaKYwIErc
-   5fsWvLy/bFTi1snOSesqFDjjBsFPChpKRgjxrU29RkFXKgeHR25QNfcnB
+  bh=/WCjiJBIK6wPuwAFTmjz+n++wdH29E6bztgRbxuVOWA=;
+  b=C6FRSbxwAsJ1GZx2iBJvpQA+8WJ4tWtH9F1ILJ+oyV2YJv3erkhP5oaS
+   ocY+rsHAjXSEwG0xsPwheLoFCk5P3EJKdFdt77bOzDPwYSJdHXoxA0v7/
+   WWwqbUJG2PA92j7afYOAId2+IeS24ttdWK9KHcf2CaSzMJ1ZGgJY6PzYa
+   x9pnZiQHViho368MMcGW/hSR4taOHZrX4/kJBkrB58/Jc9j5lqVbVUt4K
+   Voi5JeM17Vlkt79un2GZ/5cbqNK3tUgSAZhEddG/hgNuzItx/IOMkMX+z
+   5JOl8bjOo9K2H/gQwNkKuRN719d+kN84aDcxu4XGV+WTtXqKWT9SWN25i
    g==;
-X-CSE-ConnectionGUID: WFfuxSRGTDqCzOtfryNT/A==
-X-CSE-MsgGUID: etz/ib6GSA6ZE7G0kdhaag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="45614094"
+X-CSE-ConnectionGUID: S4kPYxyGQHWBrq4e1supQg==
+X-CSE-MsgGUID: gbr4mCoyRH2bFPpA/vyx7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26893618"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="45614094"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 05:58:06 -0700
-X-CSE-ConnectionGUID: v8gTvY0mSQOLgpDYqNeKHw==
-X-CSE-MsgGUID: leVOLblET+yax54yva8Ong==
+   d="scan'208";a="26893618"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 06:09:08 -0700
+X-CSE-ConnectionGUID: d/Gt1GFERQ6WkSjykXKe0Q==
+X-CSE-MsgGUID: P/3ppt2LQhqjrLVsKm0KKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="67200477"
+   d="scan'208";a="62180489"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Aug 2024 05:58:03 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Aug 2024 06:09:04 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siZIH-000H63-0F;
-	Mon, 26 Aug 2024 12:58:01 +0000
-Date: Mon, 26 Aug 2024 20:57:58 +0800
+	id 1siZSw-000H6V-0G;
+	Mon, 26 Aug 2024 13:09:02 +0000
+Date: Mon, 26 Aug 2024 21:08:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
-	Yiting Deng <yiting.deng@amlogic.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-amlogic@lists.infradead.org, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>
-Subject: Re: [PATCH 2/3] rtc: support for the Amlogic on-chip RTC
-Message-ID: <202408262035.4BysJ5CK-lkp@intel.com>
-References: <20240823-rtc-v1-2-6f70381da283@amlogic.com>
+To: Kiwoong Kim <kwmad.kim@samsung.com>, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
+	avri.altman@wdc.com, bvanassche@acm.org, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, beanhuo@micron.com,
+	adrian.hunter@intel.com, h10.kim@samsung.com, hy50.seo@samsung.com,
+	sh425.lee@samsung.com, kwangwon.min@samsung.com,
+	junwoo80.lee@samsung.com, wkon.kim@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, Kiwoong Kim <kwmad.kim@samsung.com>
+Subject: Re: [PATCH v2 1/2] scsi: ufs: core: introduce override_cqe_ocs
+Message-ID: <202408262058.4pPayDSg-lkp@intel.com>
+References: <6aaeaa5fd70f76a1ac751ae3c5a3f0e37bc697b1.1724325280.git.kwmad.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,81 +68,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823-rtc-v1-2-6f70381da283@amlogic.com>
+In-Reply-To: <6aaeaa5fd70f76a1ac751ae3c5a3f0e37bc697b1.1724325280.git.kwmad.kim@samsung.com>
 
-Hi Xianwei,
+Hi Kiwoong,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on dff71e5c6076314f3eefe700abd6af834c57bd64]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next krzk/for-next linus/master v6.11-rc5 next-20240826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-rtc-Add-Amlogic-A311L2-and-A113X2-rtc/20240826-125504
-base:   dff71e5c6076314f3eefe700abd6af834c57bd64
-patch link:    https://lore.kernel.org/r/20240823-rtc-v1-2-6f70381da283%40amlogic.com
-patch subject: [PATCH 2/3] rtc: support for the Amlogic on-chip RTC
-config: i386-buildonly-randconfig-003-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262035.4BysJ5CK-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262035.4BysJ5CK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiwoong-Kim/scsi-ufs-ufs-exynos-implement-override_cqe_ocs/20240826-111954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/6aaeaa5fd70f76a1ac751ae3c5a3f0e37bc697b1.1724325280.git.kwmad.kim%40samsung.com
+patch subject: [PATCH v2 1/2] scsi: ufs: core: introduce override_cqe_ocs
+config: i386-buildonly-randconfig-002-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262058.4pPayDSg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262058.4pPayDSg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262035.4BysJ5CK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408262058.4pPayDSg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rtc/rtc-amlogic.c:159:6: warning: variable 'alarm_sec' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     159 |         if (alarm->enabled) {
-         |             ^~~~~~~~~~~~~~
-   drivers/rtc/rtc-amlogic.c:173:19: note: uninitialized use occurs here
-     173 |                 alarm->enabled, alarm_sec);
-         |                                 ^~~~~~~~~
-   include/linux/dev_printk.h:168:46: note: expanded from macro 'dev_dbg'
-     168 |         dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                                ^~~~~~~~~~~
-   drivers/rtc/rtc-amlogic.c:159:2: note: remove the 'if' if its condition is always true
-     159 |         if (alarm->enabled) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/rtc/rtc-amlogic.c:157:20: note: initialize the variable 'alarm_sec' to silence this warning
-     157 |         time64_t alarm_sec;
-         |                           ^
-         |                            = 0
->> drivers/rtc/rtc-amlogic.c:565:34: warning: unused variable 'aml_rtc_device_id' [-Wunused-const-variable]
-     565 | static const struct of_device_id aml_rtc_device_id[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> drivers/ufs/core/ufshcd.c:827: warning: Function parameter or struct member 'hba' not described in 'ufshcd_get_tr_ocs'
 
 
-vim +159 drivers/rtc/rtc-amlogic.c
+vim +827 drivers/ufs/core/ufshcd.c
 
-   153	
-   154	static int aml_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alarm)
-   155	{
-   156		struct aml_rtc_data *rtc = dev_get_drvdata(dev);
-   157		time64_t alarm_sec;
-   158	
- > 159		if (alarm->enabled) {
-   160			regmap_update_bits(rtc->map, RTC_CTRL,
-   161					   RTC_ALRM0_EN, RTC_ALRM0_EN);
-   162			regmap_update_bits(rtc->map, RTC_INT_MASK,
-   163					   RTC_ALRM0_IRQ_MSK, 0);
-   164	
-   165			alarm_sec = rtc_tm_to_time64(&alarm->time);
-   166			if (alarm_sec > U32_MAX) {
-   167				dev_err(dev, "alarm value invalid!\n");
-   168				return -EINVAL;
-   169			}
-   170			aml_set_alarm(rtc, alarm_sec);
-   171		}
-   172		dev_dbg(dev, "%s: alarm->enabled=%d alarm_set=%llds\n", __func__,
-   173			alarm->enabled, alarm_sec);
-   174	
-   175		return 0;
-   176	}
-   177	
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  814  
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  815  /**
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  816   * ufshcd_get_tr_ocs - Get the UTRD Overall Command Status
+8aa29f192ca675 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2018-03-01  817   * @lrbp: pointer to local command reference block
+c30d8d010b5efd drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  818   * @cqe: pointer to the completion queue entry
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  819   *
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  820   * This function is used to get the OCS field from UTRD
+3a17fefe0f1960 drivers/ufs/core/ufshcd.c Bart Van Assche    2023-07-27  821   *
+3a17fefe0f1960 drivers/ufs/core/ufshcd.c Bart Van Assche    2023-07-27  822   * Return: the OCS field in the UTRD.
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  823   */
+f214402c84a246 drivers/ufs/core/ufshcd.c Kiwoong Kim        2024-08-22  824  static enum utp_ocs ufshcd_get_tr_ocs(struct ufs_hba *hba,
+f214402c84a246 drivers/ufs/core/ufshcd.c Kiwoong Kim        2024-08-22  825  				      struct ufshcd_lrb *lrbp,
+c30d8d010b5efd drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  826  				      struct cq_entry *cqe)
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29 @827  {
+c30d8d010b5efd drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  828  	if (cqe)
+f214402c84a246 drivers/ufs/core/ufshcd.c Kiwoong Kim        2024-08-22  829  		return ufshcd_vops_override_cqe_ocs(hba,
+f214402c84a246 drivers/ufs/core/ufshcd.c Kiwoong Kim        2024-08-22  830  						    le32_to_cpu(cqe->status) &
+f214402c84a246 drivers/ufs/core/ufshcd.c Kiwoong Kim        2024-08-22  831  						    MASK_OCS);
+c30d8d010b5efd drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  832  
+67a2a8973832cb drivers/ufs/core/ufshcd.c Bart Van Assche    2023-07-27  833  	return lrbp->utr_descriptor_ptr->header.ocs & MASK_OCS;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  834  }
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  835  
 
 -- 
 0-DAY CI Kernel Test Service
