@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AF619412A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 16:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF0C5F873
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 16:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724688329; cv=none; b=oVu2SZ2xOkoBAzjJj2tkO7OX72ooo3fM7Azg0MTZMh4gB0K+2MLq9MbHntWuy0Y1cSCwoenzjIzu29j/hP8AgZE2j7Xc4z5z33GRVs+8toV8m+Sah800yXPTxRVQtoKn+10EHJLu2+ioVhMzMawVh87Sc4JcwGL4e9GVmGkck9c=
+	t=1724690841; cv=none; b=toZJems7Wg9LHxOVaCaB2TAuZo4OuW7HbOgA8TSnUIMPHE+vl7Djm7ScWZKajySFdAkRwHww30/OrOdHcDBgbZf7g+hhKI9qlWOMxzwV+6Dy1pLqdH+NfREboqFRDiWKprqqMWS0voKHKmhuv6ZikOKN5l5vUlVavWCST+p1avc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724688329; c=relaxed/simple;
-	bh=cjE5B/SZVIFmO1112HhPXpzbCl/E5vIJc416GqAbodc=;
+	s=arc-20240116; t=1724690841; c=relaxed/simple;
+	bh=LZ7q7pyQoiWYUS7iWGjaAiScjjop2VZjk4ASSdGKcKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FRN5KPY2AZptS10q11sCVedG89/zOR2AVmbYSw4EMJyKADatSo8oh1IpV22GILfmhDvO0ZFW9I3VkZ2FQGTZtTNy7vHiRgiPQBr8yu787qoEXlqIjsTIrA0+sNtLpR/YlBAncv4H5Bs9/OayTasRdvbjLhEdS9iEOdQNLpuT6fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZ+k1ZgX; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pl14ECxMsaxcYtZJyo3+Jle3RpsPP09oU/xZ0UKKSb/sX1DSCpXDPWYOf0/9kqHOBDZMWyPoUGgBqpDroCpiTkaw9d2FEe0DM47+EgF1Loj9s/a8201iH293dROLVaf0rK6kDxjG2xk2uCNxT7qi1YCJ0R8sZXh5XJUqfSEOCMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eG074/rT; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZ+k1ZgX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eG074/rT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724688327; x=1756224327;
+  t=1724690840; x=1756226840;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cjE5B/SZVIFmO1112HhPXpzbCl/E5vIJc416GqAbodc=;
-  b=gZ+k1ZgX5uayo8p5i9QJgvHt1ss9wG9zS/pt0Mu+Pj/eZIpbpoG5kP3f
-   DUn3Cg0Y/gKFbl1/skXzsHkhVx1+bsZbKy+Z5LRq7W1OH0Vkh6OzGGe+R
-   jIb8owI3hKFC0DhLJeLfw3RymI1zHt/IXUKAp4BHsxsvbxrPA+k9fjQ2R
-   uUhqvJNzI8SwGddS5E95OjzpKIapXvVVUkOS4/pDRq/5gZoqSxu/kilT/
-   YX+p5Uo2snkNh0BcZdR95lE+b7FD6LPjwKVwg/3662oH4uNYt87jvYtHM
-   Vn3RpGXY+qp0w23QLThQAubuO0bQgaKpsRFomQEM8LxjlsTmi1kfGbZZ5
-   Q==;
-X-CSE-ConnectionGUID: YiP6kAqyRESsF/QLEH+CuA==
-X-CSE-MsgGUID: ek2FALdKRe+7ENOO5zV1Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23277585"
+  bh=LZ7q7pyQoiWYUS7iWGjaAiScjjop2VZjk4ASSdGKcKw=;
+  b=eG074/rTzBKTQ2dcAhOkJJqbvbPBEl0ItSRMb4ak2HLUUqTTkMXs9RpE
+   /vYWo8BPNNOoqXxgAZg194pNaCzkQWUjXv7NykX5UJxRfhgKg5q8Oyjho
+   mqq4sM96s3dUzULXOP6E+2wYjxQIRoMfLOlIODrYvglzAxl1pxSrhGqQS
+   Zp3VmXPHncjbmnYrI7W0Jy1tZKbBVKxKk/NfGebKqLA/XnzYo2wsBUE7k
+   W+WGI/7JQdu8zk9cXsuyVb6eyVI4Vs78g54Uv3SqZL8KR8rbfThr4+Ach
+   V6hv+G2YijdIM0Lil8o61i3y8Srkh2JSCnCydpWQUdQdM1iCGHc3xQvj/
+   A==;
+X-CSE-ConnectionGUID: TrOOnX7FQoaQ7Yo1u4oXgQ==
+X-CSE-MsgGUID: fSDkx9bWQI67WZXeLXtlHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22993965"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="23277585"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 09:05:20 -0700
-X-CSE-ConnectionGUID: amHjYY4AS/mN3Akd2TuMHg==
-X-CSE-MsgGUID: oIO6nL4HSdOnjw6hAYQ+KQ==
+   d="scan'208";a="22993965"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 09:47:19 -0700
+X-CSE-ConnectionGUID: UAIBIfMdT7SWl1IDLOJtyA==
+X-CSE-MsgGUID: 1guBxUyYQx2c0TZiAwv4bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="67248333"
+   d="scan'208";a="66903943"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Aug 2024 09:05:13 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Aug 2024 09:47:19 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sicDP-000HGS-1M;
-	Mon, 26 Aug 2024 16:05:11 +0000
-Date: Tue, 27 Aug 2024 00:05:06 +0800
+	id 1sics7-000HMG-1r;
+	Mon, 26 Aug 2024 16:47:15 +0000
+Date: Tue, 27 Aug 2024 00:46:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	jani.nikula@intel.com, Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 2/2] drm: ensure drm headers are self-contained and pass
- kernel-doc
-Message-ID: <202408262328.MknfI1MV-lkp@intel.com>
-References: <20240823141110.3431423-2-jani.nikula@intel.com>
+To: Wenliang <wenliang202407@163.com>, linux@roeck-us.net
+Cc: oe-kbuild-all@lists.linux.dev, jdelvare@suse.com,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Wenliang <wenliang202407@163.com>
+Subject: Re: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
+Message-ID: <202408270025.5A0Q5KZO-lkp@intel.com>
+References: <20240822074426.7241-1-wenliang202407@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,185 +64,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823141110.3431423-2-jani.nikula@intel.com>
+In-Reply-To: <20240822074426.7241-1-wenliang202407@163.com>
 
-Hi Jani,
+Hi Wenliang,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-misc/drm-misc-next next-20240826]
-[cannot apply to linus/master v6.11-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on linux/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-ensure-drm-headers-are-self-contained-and-pass-kernel-doc/20240826-134953
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20240823141110.3431423-2-jani.nikula%40intel.com
-patch subject: [PATCH 2/2] drm: ensure drm headers are self-contained and pass kernel-doc
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240826/202408262328.MknfI1MV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262328.MknfI1MV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenliang/hwmon-add-new-hwmon-driver-sq52205/20240826-103932
+base:   linux/master
+patch link:    https://lore.kernel.org/r/20240822074426.7241-1-wenliang202407%40163.com
+patch subject: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408270025.5A0Q5KZO-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270025.5A0Q5KZO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262328.MknfI1MV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270025.5A0Q5KZO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/pgtable_64.h:16,
-                    from arch/sparc/include/asm/pgtable.h:5,
-                    from include/linux/pgtable.h:6,
-                    from include/drm/ttm/ttm_caching.h:28,
-                    from <command-line>:
-   include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'; did you mean 'pid_t'?
-       9 | typedef struct { pgd_t pgd; } p4d_t;
-         |                  ^~~~~
-         |                  pid_t
-   include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
-         |                            ^~~~~
-         |                            p4d_t
-   include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
-         |                           ^~~~~
-         |                           p4d_t
-   include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
-         |                               ^~~~~
-         |                               p4d_t
-   include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      24 | static inline void pgd_clear(pgd_t *pgd)        { }
-         |                              ^~~~~
-         |                              p4d_t
-   include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
-      35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
-         |                                 ^~~~~
-         |                                 p4d_t
-   In file included from arch/sparc/include/asm/page.h:8,
-                    from arch/sparc/include/asm/pgtable_64.h:23:
-   include/linux/pgtable.h: In function 'pud_offset':
-   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
-      79 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   arch/sparc/include/asm/page_64.h:147:60: note: in definition of macro '__va'
-     147 | #define __va(x)                 ((void *)((unsigned long) (x) + PAGE_OFFSET))
-         |                                                            ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:863:25: note: in expansion of macro 'p4d_val'
-     863 |         ((pud_t *) __va(p4d_val(p4d)))
-         |                         ^~~~~~~
-   include/linux/pgtable.h:133:16: note: in expansion of macro 'p4d_pgtable'
-     133 |         return p4d_pgtable(*p4d) + pud_index(address);
-         |                ^~~~~~~~~~~
-   include/linux/pgtable.h: In function 'pmd_off':
-   include/linux/pgtable.h:165:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pud_offset'? [-Wimplicit-function-declaration]
-     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-         |                                      ^~~~~~~~~~
-         |                                      pud_offset
->> include/linux/pgtable.h:165:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
-     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      |
-         |                                      int
-   include/linux/pgtable.h:131:40: note: expected 'p4d_t *' but argument is of type 'int'
-     131 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-         |                                 ~~~~~~~^~~
-   include/linux/pgtable.h: In function 'pmd_off_k':
-   include/linux/pgtable.h:170:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
-     170 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      |
-         |                                      int
-   include/linux/pgtable.h:131:40: note: expected 'p4d_t *' but argument is of type 'int'
-     131 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-         |                                 ~~~~~~~^~~
-   include/linux/pgtable.h: In function 'p4d_same':
-   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
-      79 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1042:16: note: in expansion of macro 'p4d_val'
-    1042 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
-         |                ^~~~~~~
-   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
-      79 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   include/linux/pgtable.h:1042:34: note: in expansion of macro 'p4d_val'
-    1042 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
-         |                                  ^~~~~~~
-   include/linux/pgtable.h:1040:34: warning: parameter 'p4d_a' set but not used [-Wunused-but-set-parameter]
-    1040 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
-         |                            ~~~~~~^~~~~
-   include/linux/pgtable.h:1040:47: warning: parameter 'p4d_b' set but not used [-Wunused-but-set-parameter]
-    1040 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
-         |                                         ~~~~~~^~~~~
-   include/linux/pgtable.h: In function 'pgd_none_or_clear_bad':
-   include/linux/pgtable.h:1240:13: error: implicit declaration of function 'pgd_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
-    1240 |         if (pgd_none(*pgd))
-         |             ^~~~~~~~
-         |             p4d_none
-   In file included from arch/sparc/include/asm/pgtable_64.h:17:
-   include/linux/pgtable.h:1242:22: error: implicit declaration of function 'pgd_bad'; did you mean 'pmd_bad'? [-Wimplicit-function-declaration]
-    1242 |         if (unlikely(pgd_bad(*pgd))) {
-         |                      ^~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/pgtable.h: In function 'p4d_none_or_clear_bad':
-   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
-      79 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:813:43: note: in expansion of macro 'p4d_val'
-     813 | #define p4d_none(p4d)                   (!p4d_val(p4d))
-         |                                           ^~~~~~~
-   include/linux/pgtable.h:1251:13: note: in expansion of macro 'p4d_none'
-    1251 |         if (p4d_none(*p4d))
-         |             ^~~~~~~~
-   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
-      79 | #define pgd_val(x)      ((x).pgd)
-         |                             ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
-      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
-         |                                                  ^~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:815:42: note: in expansion of macro 'p4d_val'
-     815 | #define p4d_bad(p4d)                    (p4d_val(p4d) & ~PAGE_MASK)
-         |                                          ^~~~~~~
-   include/linux/pgtable.h:1253:22: note: in expansion of macro 'p4d_bad'
-    1253 |         if (unlikely(p4d_bad(*p4d))) {
-         |                      ^~~~~~~
+   drivers/hwmon/sq52205.c: In function 'sq522xx_probe':
+>> drivers/hwmon/sq52205.c:493:44: error: assignment of member 'max_register' in read-only object
+     493 |         sq522xx_regmap_config.max_register = data->config->registers;
+         |                                            ^
 
 
-vim +/pud_offset +165 include/linux/pgtable.h
+vim +/max_register +493 drivers/hwmon/sq52205.c
 
-974b9b2c68f3d3 Mike Rapoport 2020-06-08  155  
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  156  /*
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  157   * In many cases it is known that a virtual address is mapped at PMD or PTE
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  158   * level, so instead of traversing all the page table levels, we can get a
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  159   * pointer to the PMD entry in user or kernel page table or translate a virtual
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  160   * address to the pointer in the PTE in the kernel page tables with simple
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  161   * helpers.
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  162   */
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  163  static inline pmd_t *pmd_off(struct mm_struct *mm, unsigned long va)
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  164  {
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08 @165  	return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  166  }
-e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  167  
+   460	
+   461	static int sq522xx_probe(struct i2c_client *client)
+   462	{
+   463		struct device *dev = &client->dev;
+   464		struct sq522xx_data *data;
+   465		struct device *hwmon_dev;
+   466		u32 val;
+   467		int ret, group = 0;
+   468		enum sq522xx_ids chip;
+   469	
+   470		if (client->dev.of_node)
+   471			chip = (uintptr_t)of_device_get_match_data(&client->dev);
+   472		else
+   473			chip = i2c_match_id(sq522xx_id, client)->driver_data;
+   474	
+   475		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+   476		if (!data)
+   477			return -ENOMEM;
+   478	
+   479		/* set the device type */
+   480		data->client = client;
+   481		data->config = &sq522xx_config[chip];
+   482		mutex_init(&data->config_lock);
+   483	
+   484		if (of_property_read_u32(dev->of_node, "shunt-resistor", &val) < 0)
+   485			val = SQ522XX_RSHUNT_DEFAULT;
+   486	
+   487	
+   488		if (val <= 0 || val > data->config->calibration_factor)
+   489			return -ENODEV;
+   490	
+   491		data->rshunt = val;
+   492	
+ > 493		sq522xx_regmap_config.max_register = data->config->registers;
+   494	
+   495		data->regmap = devm_regmap_init_i2c(client, &sq522xx_regmap_config);
+   496		if (IS_ERR(data->regmap)) {
+   497			dev_err(dev, "failed to allocate register map\n");
+   498			return PTR_ERR(data->regmap);
+   499		}
+   500	
+   501	
+   502		ret = sq522xx_init(data);
+   503		if (ret < 0) {
+   504			dev_err(dev, "error configuring the device: %d\n", ret);
+   505			return -ENODEV;
+   506		}
+   507		if (chip == sq52205) {
+   508			ret = sq52205_init(data);
+   509			if (ret < 0) {
+   510				dev_err(dev, "error configuring the device cal: %d\n", ret);
+   511				return -ENODEV;
+   512			}
+   513		}
+   514	
+   515		data->groups[group++] = &sq522xx_group;
+   516		if (chip == sq52205)
+   517			data->groups[group++] = &sq52205_group;
+   518	
+   519		hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
+   520									data, data->groups);
+   521		if (IS_ERR(hwmon_dev))
+   522			return PTR_ERR(hwmon_dev);
+   523	
+   524		dev_info(dev, "power monitor %s (Rshunt = %li uOhm)\n",
+   525			 client->name, data->rshunt);
+   526	
+   527		return 0;
+   528	}
+   529	
 
 -- 
 0-DAY CI Kernel Test Service
