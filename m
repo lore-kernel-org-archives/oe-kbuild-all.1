@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D045314F121;
-	Mon, 26 Aug 2024 11:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D4C1514E1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 11:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724670966; cv=none; b=f0dVpKqN4orewhZFmqljP8CTXQDsPjM2i00oF5gaErCzi5dc38hKtkYXhLVT9g52a5oExwF7kgVutyv8J+SW6NFS6RRwbF2n7OtOClYiNub1U13oH/9K5E7lQ5lYNT0gWvtepGLtqpFsFfLKNc9zrigFENibbCxN/dieU9Vzlz8=
+	t=1724672165; cv=none; b=mVPaPmxxW5f3Yc5W9D5Nv8+q+9mvcF1BWDVUJPRtwnRizZeyycDM3uHEYVK8Ggqpg2DARot5N7F/+u4cYCQbmcNbwOM8tjJCBqiqFENeTWfUBCJKmdV3bKIMuhMrkHv/rTo+AvTj/+8ZlfaNhrsSjhjBByacrAPEftl8DkkE890=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724670966; c=relaxed/simple;
-	bh=dY/UkIT2LbNOBy0yj4Ag2aqU4ZqG86+1Xq26ONob2HA=;
+	s=arc-20240116; t=1724672165; c=relaxed/simple;
+	bh=5sAkNko9+nQJZifSZ42etJ+PTBpZ7HtaPHbIKOOPcRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMLp0am7qYeX4DIBgpI8oSV0GvuHPWNyPGI2kN/87mGbyT3Oc+9OonBoEa45RMWZjOyoGfnYTVHaYJYCG7PkXdEdJnhFmxdWfDTf4EQuLvqROVlRRUNC22OAcedwa3kR5nCnDf2JwCaVImvSpVFSpNRwxPM3nadSdefVl1MuSgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aioZg5L3; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfGZPazQAUo/S48SllT5tHY3XdbmGR+x+lnkeN9mvYK05h1VH7pdrbcP60MM16OEjs0lqoOPa423eHiB4pf+t4GdIOJv8pp2u48Zfkulxi6eMcmcX9R0hNrAWYJKg2ks0kZHsQQDpmTgUqiCY56DCSD92Gpe1eMZDZ4t5ojERRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSDmglr9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aioZg5L3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSDmglr9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724670963; x=1756206963;
+  t=1724672164; x=1756208164;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dY/UkIT2LbNOBy0yj4Ag2aqU4ZqG86+1Xq26ONob2HA=;
-  b=aioZg5L30SxECDUF+SjxZ5UrkGMIoVmZnWDeZyA5GL4aDxCEHDNE0IRf
-   Bbdw5PursouOqJNw0Chn0ymS+48Nl/zxtfH/38MEYvpFg3bDlR/hXPsWx
-   wMXp94jOs6ayRwyKYIz1wBt8Ycd2MycvSHXl+l1Y7cVPj3fcfTnrgu+L4
-   dxYoVIEBlPsuWZz0QqR9nFC0YG5mPCxFN5WOL7PEXsK8VTOJMSvpJQcSo
-   g40D/rdcR+TvEi1nfGEFMQfyE+WW3COeL+03D4F7EtKtSvbKxsaLHyx8f
-   Rt1AeR8+rMOIgITc2rC661qgmm4klYtj6JkQ6yrqe/IbY9bl3dF2Rknys
-   A==;
-X-CSE-ConnectionGUID: LXbB0PZ5RnKv1WSeDB0spw==
-X-CSE-MsgGUID: rtD8YpjuT+KTELZkFiYCIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="22952954"
+  bh=5sAkNko9+nQJZifSZ42etJ+PTBpZ7HtaPHbIKOOPcRM=;
+  b=RSDmglr9DHoGRMnuzdet9mQsUZVSbhPzsqGgbW1PqPjoCnQnk5vuS2EB
+   2GXPL9wtgUdn4HGI7N2eDvBSqah6WbI2by1SFeB9RcwsUYvPYOPYJXlRm
+   lOehfUQPExSOK15OtlI5uG0sXPDY11h04qmudkQR2TajQpn1nwLgjV1D5
+   Rl+vmvm9FJT3KRZYEezqhmvxF8ktH26H8eMu2CWaDGo01uYurANpdwClY
+   IwzC+sfowVEI+elwZwqPwuobOuvJi4R7Sq0dCpdoL/zZABKXo0Ft8MVoR
+   FPANBm7uOE1BrUSrbvPJqvij7+Xs/sYKJG7LU5vzg1htI5ari1Ju0YhsV
+   w==;
+X-CSE-ConnectionGUID: nxOGYx7ZQsiIx29QnsgirQ==
+X-CSE-MsgGUID: /+KLz3iyT16hOxmRIw8oUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="22675391"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="22952954"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 04:16:02 -0700
-X-CSE-ConnectionGUID: 4Nhy9yS5QFGDC+jWlNW1Cg==
-X-CSE-MsgGUID: n1ypxNL4RuSSzygtSORjmQ==
+   d="scan'208";a="22675391"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 04:36:03 -0700
+X-CSE-ConnectionGUID: Q6C1UERGSW2Car//bibTDw==
+X-CSE-MsgGUID: qzzorrm7ROqJiPtdBxyfsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62174248"
+   d="scan'208";a="67297721"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Aug 2024 04:16:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Aug 2024 04:36:00 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siXhV-000Gyj-01;
-	Mon, 26 Aug 2024 11:15:57 +0000
-Date: Mon, 26 Aug 2024 19:15:18 +0800
+	id 1siY0r-000Gzp-28;
+	Mon, 26 Aug 2024 11:35:57 +0000
+Date: Mon, 26 Aug 2024 19:35:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Shi <yang@os.amperecomputing.com>, catalin.marinas@arm.com,
-	will@kernel.org, muchun.song@linux.dev, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yang@os.amperecomputing.com, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [v2 PATCH 1/2] hugetlb: arm64: add mte support
-Message-ID: <202408261816.ACEJvgZw-lkp@intel.com>
-References: <20240821184752.3535276-1-yang@os.amperecomputing.com>
+To: Seunghwan Baek <sh8267.baek@samsung.com>, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, ulf.hansson@linaro.org,
+	ritesh.list@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, grant.jung@samsung.com,
+	jt77.jang@samsung.com, junwoo80.lee@samsung.com,
+	dh0421.hwang@samsung.com, jangsub.yi@samsung.com,
+	sh043.lee@samsung.com, cw9316.lee@samsung.com,
+	sh8267.baek@samsung.com, wkon.kim@samsung.com
+Subject: Re: [PATCH] mmc : fix for check cqe halt.
+Message-ID: <202408261932.pcT0dqsD-lkp@intel.com>
+References: <20240823071025.15410-1-sh8267.baek@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,399 +68,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821184752.3535276-1-yang@os.amperecomputing.com>
+In-Reply-To: <20240823071025.15410-1-sh8267.baek@samsung.com>
 
-Hi Yang,
+Hi Seunghwan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on kvmarm/next akpm-mm/mm-everything linus/master v6.11-rc5 next-20240823]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc5 next-20240823]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Shi/selftests-arm64-add-hugetlb-mte-tests/20240822-024935
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20240821184752.3535276-1-yang%40os.amperecomputing.com
-patch subject: [v2 PATCH 1/2] hugetlb: arm64: add mte support
-config: arm64-randconfig-004-20240824 (https://download.01.org/0day-ci/archive/20240826/202408261816.ACEJvgZw-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261816.ACEJvgZw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Seunghwan-Baek/mmc-fix-for-check-cqe-halt/20240826-130042
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240823071025.15410-1-sh8267.baek%40samsung.com
+patch subject: [PATCH] mmc : fix for check cqe halt.
+config: arc-randconfig-001-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261932.pcT0dqsD-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261932.pcT0dqsD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261816.ACEJvgZw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261932.pcT0dqsD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/gup.c:7:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/gup.c:18:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   In file included from mm/gup.c:20:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   6 warnings and 1 error generated.
---
-   In file included from mm/swap.c:17:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/swap.c:26:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/swap.c:36:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   6 warnings and 1 error generated.
---
-   In file included from mm/shmem.c:28:
-   In file included from include/linux/ramfs.h:5:
-   In file included from include/linux/fs_parser.h:11:
-   In file included from include/linux/fs_context.h:14:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/shmem.c:39:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   In file included from mm/shmem.c:58:
-   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
---
-   In file included from mm/mprotect.c:12:
-   In file included from include/linux/pagewalk.h:5:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/mprotect.c:13:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   In file included from mm/mprotect.c:15:
-   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   In file included from mm/mprotect.c:30:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   8 warnings and 1 error generated.
---
-   In file included from mm/show_mem.c:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/show_mem.c:12:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   4 warnings and 1 error generated.
---
-   In file included from mm/mremap.c:11:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/mremap.c:12:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/mremap.c:13:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   In file included from mm/mremap.c:16:
-   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   8 warnings and 1 error generated.
---
-   In file included from mm/huge_memory.c:8:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/huge_memory.c:14:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   In file included from mm/huge_memory.c:19:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/huge_memory.c:27:
-   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
-     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   8 warnings and 1 error generated.
---
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/vmscan.c:42:
-   In file included from include/linux/migrate.h:8:
-   In file included from include/linux/hugetlb.h:798:
->> arch/arm64/include/asm/hugetlb.h:25:28: error: use of undeclared identifier 'PG_mte_lock'
-      25 |                 BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-         |                                          ^
-   mm/vmscan.c:401:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     401 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1729:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    1729 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2232:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2232 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2233:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2233 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:6247:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    6247 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   11 warnings and 1 error generated.
-..
+   In file included from include/asm-generic/div64.h:27,
+                    from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:22,
+                    from drivers/mmc/host/cqhci-core.c:5:
+   drivers/mmc/host/cqhci-core.c: In function '__cqhci_enable':
+>> drivers/mmc/host/cqhci-core.c:285:13: error: implicit declaration of function 'cqhci_halted'; did you mean 'cqhci_writel'? [-Werror=implicit-function-declaration]
+     285 |         if (cqhci_halted(cq_host))
+         |             ^~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/mmc/host/cqhci-core.c:285:9: note: in expansion of macro 'if'
+     285 |         if (cqhci_halted(cq_host))
+         |         ^~
+   drivers/mmc/host/cqhci-core.c: At top level:
+>> drivers/mmc/host/cqhci-core.c:956:13: error: conflicting types for 'cqhci_halted'; have 'bool(struct cqhci_host *)' {aka '_Bool(struct cqhci_host *)'}
+     956 | static bool cqhci_halted(struct cqhci_host *cq_host)
+         |             ^~~~~~~~~~~~
+   drivers/mmc/host/cqhci-core.c:285:13: note: previous implicit declaration of 'cqhci_halted' with type 'int()'
+     285 |         if (cqhci_halted(cq_host))
+         |             ^~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/mmc/host/cqhci-core.c:285:9: note: in expansion of macro 'if'
+     285 |         if (cqhci_halted(cq_host))
+         |         ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/PG_mte_lock +25 arch/arm64/include/asm/hugetlb.h
+vim +285 drivers/mmc/host/cqhci-core.c
 
-    21	
-    22	static inline void arch_clear_hugetlb_flags(struct folio *folio)
-    23	{
-    24		const unsigned long clear_flags = BIT(PG_dcache_clean) |
-  > 25			BIT(PG_mte_tagged) | BIT(PG_mte_lock);
-    26	
-    27		if (!system_supports_mte()) {
-    28			clear_bit(PG_dcache_clean, &folio->flags);
-    29			return;
-    30		}
-    31	
-    32		folio->flags &= ~clear_flags;
-    33	}
-    34	#define arch_clear_hugetlb_flags arch_clear_hugetlb_flags
-    35	
+   245	
+   246	static void __cqhci_enable(struct cqhci_host *cq_host)
+   247	{
+   248		struct mmc_host *mmc = cq_host->mmc;
+   249		u32 cqcfg;
+   250	
+   251		cqcfg = cqhci_readl(cq_host, CQHCI_CFG);
+   252	
+   253		/* Configuration must not be changed while enabled */
+   254		if (cqcfg & CQHCI_ENABLE) {
+   255			cqcfg &= ~CQHCI_ENABLE;
+   256			cqhci_writel(cq_host, cqcfg, CQHCI_CFG);
+   257		}
+   258	
+   259		cqcfg &= ~(CQHCI_DCMD | CQHCI_TASK_DESC_SZ);
+   260	
+   261		if (mmc->caps2 & MMC_CAP2_CQE_DCMD)
+   262			cqcfg |= CQHCI_DCMD;
+   263	
+   264		if (cq_host->caps & CQHCI_TASK_DESC_SZ_128)
+   265			cqcfg |= CQHCI_TASK_DESC_SZ;
+   266	
+   267		if (mmc->caps2 & MMC_CAP2_CRYPTO)
+   268			cqcfg |= CQHCI_CRYPTO_GENERAL_ENABLE;
+   269	
+   270		cqhci_writel(cq_host, cqcfg, CQHCI_CFG);
+   271	
+   272		cqhci_writel(cq_host, lower_32_bits(cq_host->desc_dma_base),
+   273			     CQHCI_TDLBA);
+   274		cqhci_writel(cq_host, upper_32_bits(cq_host->desc_dma_base),
+   275			     CQHCI_TDLBAU);
+   276	
+   277		cqhci_writel(cq_host, cq_host->rca, CQHCI_SSC2);
+   278	
+   279		cqhci_set_irqs(cq_host, 0);
+   280	
+   281		cqcfg |= CQHCI_ENABLE;
+   282	
+   283		cqhci_writel(cq_host, cqcfg, CQHCI_CFG);
+   284	
+ > 285		if (cqhci_halted(cq_host))
+   286			cqhci_writel(cq_host, 0, CQHCI_CTL);
+   287	
+   288		mmc->cqe_on = true;
+   289	
+   290		if (cq_host->ops->enable)
+   291			cq_host->ops->enable(mmc);
+   292	
+   293		/* Ensure all writes are done before interrupts are enabled */
+   294		wmb();
+   295	
+   296		cqhci_set_irqs(cq_host, CQHCI_IS_MASK);
+   297	
+   298		cq_host->activated = true;
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
