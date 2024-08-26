@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AEE53362
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 13:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259517C9AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 13:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724679673; cv=none; b=U/1m5NCVzM3OEpsWyJRQ+JhIj27VFAcaJ5aqmwfcLWFGw/ozFuufjMsdx4QWg9eDe/FJXmsFDkzBrJDGgoIG1/2iFrVeKZ16/dr5XjXBDwX3amNRtNwWQTg5Yo79/D1mFvGz2z7e0TmoyAqKBUP1OM+cuS7+j38bGFzPV5n/CwA=
+	t=1724680332; cv=none; b=hlnds8TQjKFyFX4307rrYPYZbDpX6ZMn5WC3UsNx2/h0MpK8K93IQXhtYLWtpkGNhgizhERuO8LEgC0c7cxTB9R0QfdzifFjlbwmIMP0YT0VXXmKxvPjDv9OQFODgWthK0H2AXrSbUwPNax09j0HN/zCAq8hwGLLFEYgbBRt6I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724679673; c=relaxed/simple;
-	bh=QjiuMEY23AtkS1V1uCfTFZCcmenzK+Ss7tEr0SEksHQ=;
+	s=arc-20240116; t=1724680332; c=relaxed/simple;
+	bh=O4IyW9m3dy5GTdD4Hs9UvuTX4SG+N/BRy3edsMu8tZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H0PN4FFPnuwNfXV/qG43LUhj8rFhvC4WiB6iaFP8ieDBezNERS08R+ggNRZHp/yoCZlkMj6Sm3PjIYA/iDBYg7T9RbWrg+9p/xue6ddFxpbmKbddK6JQ5pOralgUQawD9+JS7/MrJI7SjQEbZwMgqTtHyIzg+WFfFvmwVMGqE5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HjQzWRDq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=RtrCUmOW9eLjsIk1blzJRoowP7xfpg85xCGcZO66VPvfU32YDCedf3KeHaKienCo5CuIAKNkZOUoTb1dHeTtIGx9DMaC1cxsL0GfDUN8xn/PxGLOWPFJzLNPK25iNTflAEXY6u5cWI9dcHG7SR3v0RWSXNQIw7UZl851YFVJ3ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fL7Moibg; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HjQzWRDq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fL7Moibg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724679670; x=1756215670;
+  t=1724680330; x=1756216330;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QjiuMEY23AtkS1V1uCfTFZCcmenzK+Ss7tEr0SEksHQ=;
-  b=HjQzWRDqYfZpG+9B4fcxlOWl/jVNTB0KqMiI3TYqBHSastHxOizvjCSt
-   o1/rZNPLCCf22i0nBgqQjQfF7ElZW3zvEzVIAVVSLdakdnq5kRdvKtNDm
-   LKN7Czs5DGn0Wq7Q8MU8mW+2KbNTu6gKvCfUg5y9GaC25BqXin8Vd96Ix
-   fiOcZ+RsX6G8hEGv5Dt5vDSrbJpuXnS1GiLKq5flbONB17Q0fGJQWPc75
-   c4PMpbh1QtxHz8HZtMzIFV5bMYH0WAWDLsS8xeWWhM3CUIXULX6t9MiSo
-   WfiWoM6NG3514G+UvqhXwWvHznncJfIwHnOPLeR6jHSBVpTh9xiCj+zEm
-   A==;
-X-CSE-ConnectionGUID: 3pc4aU3rQBm9PUQDsnueKg==
-X-CSE-MsgGUID: MurcOtY3QcqEKu8ZSW4nmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="34512877"
+  bh=O4IyW9m3dy5GTdD4Hs9UvuTX4SG+N/BRy3edsMu8tZU=;
+  b=fL7Moibg1B9EwyqDOmzaTZjydMEZPU9ZQsWvDlWog6MfH+U/rkDB55m9
+   K9FI+b7DwCxGiJgfp8PapQb9oW/ZfQpqRumQGC3qQJGk4h2ORoPs/2kub
+   Y0AAQDGWCSuyiE55a5U0uQ8QbW49qNvlLK0LnHWq2FfJ6V3XyIvJCZ5YU
+   HdEqbw50B8O0TkbE7mKDfFR7OjiEFBzFftKMMy7i4I39cwgEwo1qm96EU
+   /s7O+4oW1HtvzjCARNRddjmdkuqVC98YvmKTeEqAOC0bd7QPuhmC5gwLG
+   KnGdEmthTNAQc+48xcvLcEjM06emXGYtjMNmy76RslJN2J7L538srvoh/
+   w==;
+X-CSE-ConnectionGUID: 58WIaS/jS2Kt1/Lypx6Ijg==
+X-CSE-MsgGUID: Gn3Oo5vZQ0ma6OrdRG+w2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33673335"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="34512877"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 06:41:09 -0700
-X-CSE-ConnectionGUID: 8YJN0S8uTc6HOF/BW4FTeQ==
-X-CSE-MsgGUID: kNYjS9Z3R36eZNkt/t7TGg==
+   d="scan'208";a="33673335"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 06:52:08 -0700
+X-CSE-ConnectionGUID: mybZbMz1R1WpzAjNJPMFIQ==
+X-CSE-MsgGUID: /a7JtitpSYe93ckCyfHfWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62483237"
+   d="scan'208";a="93246372"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Aug 2024 06:41:07 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 06:52:08 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siZxw-000H9C-2C;
-	Mon, 26 Aug 2024 13:41:04 +0000
-Date: Mon, 26 Aug 2024 21:41:01 +0800
+	id 1sia8b-000HA2-18;
+	Mon, 26 Aug 2024 13:52:05 +0000
+Date: Mon, 26 Aug 2024 21:51:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kunwu Chan <kunwu.chan@linux.dev>, nipun.gupta@amd.com,
-	nikhil.agarwal@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kunwu Chan <chentao@kylinos.cn>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] cdx: make cdx_bus_type constant
-Message-ID: <202408262114.VRSL0Knh-lkp@intel.com>
-References: <20240823071412.130246-1-kunwu.chan@linux.dev>
+To: Kinga Stefaniuk <kinga.stefaniuk@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v11 1/1] md: generate CHANGE uevents for md device
+Message-ID: <202408262105.6VV4gSqy-lkp@intel.com>
+References: <20240823145438.23432-2-kinga.stefaniuk@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,87 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823071412.130246-1-kunwu.chan@linux.dev>
+In-Reply-To: <20240823145438.23432-2-kinga.stefaniuk@intel.com>
 
-Hi Kunwu,
+Hi Kinga,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.11-rc5 next-20240826]
+[auto build test WARNING on v6.11-rc5]
+[also build test WARNING on linus/master]
+[cannot apply to song-md/md-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kunwu-Chan/cdx-make-cdx_bus_type-constant/20240826-123621
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240823071412.130246-1-kunwu.chan%40linux.dev
-patch subject: [PATCH] cdx: make cdx_bus_type constant
-config: arm64-randconfig-002-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262114.VRSL0Knh-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262114.VRSL0Knh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kinga-Stefaniuk/md-generate-CHANGE-uevents-for-md-device/20240826-145852
+base:   v6.11-rc5
+patch link:    https://lore.kernel.org/r/20240823145438.23432-2-kinga.stefaniuk%40intel.com
+patch subject: [PATCH v11 1/1] md: generate CHANGE uevents for md device
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240826/202408262105.6VV4gSqy-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262105.6VV4gSqy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262114.VRSL0Knh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408262105.6VV4gSqy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/cdx/cdx.c: In function 'rescan_store':
->> drivers/cdx/cdx.c:615:32: warning: passing argument 1 of 'cdx_unregister_devices' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     615 |         cdx_unregister_devices(&cdx_bus_type);
-         |                                ^~~~~~~~~~~~~
-   drivers/cdx/cdx.c:173:53: note: expected 'struct bus_type *' but argument is of type 'const struct bus_type *'
-     173 | static void cdx_unregister_devices(struct bus_type *bus)
-         |                                    ~~~~~~~~~~~~~~~~~^~~
+   drivers/md/md.c: In function 'md_new_event':
+>> drivers/md/md.c:367:31: warning: unused variable 'flags' [-Wunused-variable]
+     367 |                 unsigned long flags;
+         |                               ^~~~~
 
 
-vim +615 drivers/cdx/cdx.c
+vim +/flags +367 drivers/md/md.c
 
-cf60af04edfe51f Abhijit Gangurde 2023-12-22  597  
-d06f5a3f7140921 Linus Torvalds   2023-04-27  598  static ssize_t rescan_store(const struct bus_type *bus,
-2959ab247061e67 Nipun Gupta      2023-03-13  599  			    const char *buf, size_t count)
-2959ab247061e67 Nipun Gupta      2023-03-13  600  {
-2959ab247061e67 Nipun Gupta      2023-03-13  601  	struct cdx_controller *cdx;
-54b406e10f0334e Abhijit Gangurde 2023-10-17  602  	struct platform_device *pd;
-54b406e10f0334e Abhijit Gangurde 2023-10-17  603  	struct device_node *np;
-2959ab247061e67 Nipun Gupta      2023-03-13  604  	bool val;
-2959ab247061e67 Nipun Gupta      2023-03-13  605  
-2959ab247061e67 Nipun Gupta      2023-03-13  606  	if (kstrtobool(buf, &val) < 0)
-2959ab247061e67 Nipun Gupta      2023-03-13  607  		return -EINVAL;
-2959ab247061e67 Nipun Gupta      2023-03-13  608  
-2959ab247061e67 Nipun Gupta      2023-03-13  609  	if (!val)
-2959ab247061e67 Nipun Gupta      2023-03-13  610  		return -EINVAL;
-2959ab247061e67 Nipun Gupta      2023-03-13  611  
-f0af816834667b6 Abhijit Gangurde 2023-10-17  612  	mutex_lock(&cdx_controller_lock);
-f0af816834667b6 Abhijit Gangurde 2023-10-17  613  
-2959ab247061e67 Nipun Gupta      2023-03-13  614  	/* Unregister all the devices on the bus */
-2959ab247061e67 Nipun Gupta      2023-03-13 @615  	cdx_unregister_devices(&cdx_bus_type);
-2959ab247061e67 Nipun Gupta      2023-03-13  616  
-2959ab247061e67 Nipun Gupta      2023-03-13  617  	/* Rescan all the devices */
-54b406e10f0334e Abhijit Gangurde 2023-10-17  618  	for_each_compatible_node(np, NULL, compat_node_name) {
-54b406e10f0334e Abhijit Gangurde 2023-10-17  619  		pd = of_find_device_by_node(np);
-87736ae12e1427b Dan Carpenter    2024-01-02  620  		if (!pd) {
-87736ae12e1427b Dan Carpenter    2024-01-02  621  			of_node_put(np);
-1960932eef9183e Dan Carpenter    2024-01-02  622  			count = -EINVAL;
-1960932eef9183e Dan Carpenter    2024-01-02  623  			goto unlock;
-87736ae12e1427b Dan Carpenter    2024-01-02  624  		}
-54b406e10f0334e Abhijit Gangurde 2023-10-17  625  
-54b406e10f0334e Abhijit Gangurde 2023-10-17  626  		cdx = platform_get_drvdata(pd);
-54b406e10f0334e Abhijit Gangurde 2023-10-17  627  		if (cdx && cdx->controller_registered && cdx->ops->scan)
-54b406e10f0334e Abhijit Gangurde 2023-10-17  628  			cdx->ops->scan(cdx);
-54b406e10f0334e Abhijit Gangurde 2023-10-17  629  
-54b406e10f0334e Abhijit Gangurde 2023-10-17  630  		put_device(&pd->dev);
-2959ab247061e67 Nipun Gupta      2023-03-13  631  	}
-2959ab247061e67 Nipun Gupta      2023-03-13  632  
-1960932eef9183e Dan Carpenter    2024-01-02  633  unlock:
-f0af816834667b6 Abhijit Gangurde 2023-10-17  634  	mutex_unlock(&cdx_controller_lock);
-f0af816834667b6 Abhijit Gangurde 2023-10-17  635  
-2959ab247061e67 Nipun Gupta      2023-03-13  636  	return count;
-2959ab247061e67 Nipun Gupta      2023-03-13  637  }
-2959ab247061e67 Nipun Gupta      2023-03-13  638  static BUS_ATTR_WO(rescan);
-2959ab247061e67 Nipun Gupta      2023-03-13  639  
+   357	
+   358	void md_new_event(struct mddev *mddev, bool sync)
+   359	{
+   360		atomic_inc(&md_event_count);
+   361		wake_up(&md_event_waiters);
+   362	
+   363		if (mddev_is_dm(mddev))
+   364			return;
+   365	
+   366		if (!sync) {
+ > 367			unsigned long flags;
+   368	
+   369			spin_lock_irq(&all_mddevs_lock);
+   370			mddev = mddev_get(mddev);
+   371			spin_unlock_irq(&all_mddevs_lock);
+   372			if (mddev == NULL)
+   373				return;
+   374			queue_work(md_wq, &mddev->uevent_work);
+   375		}
+   376		kobject_uevent(&disk_to_dev(mddev->gendisk)->kobj, KOBJ_CHANGE);
+   377	}
+   378	EXPORT_SYMBOL_GPL(md_new_event);
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
