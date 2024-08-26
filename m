@@ -1,151 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5D8145B35
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 09:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C0E146593;
+	Mon, 26 Aug 2024 10:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724666041; cv=none; b=O/bRnZ66I5mE0rvYJIFhwIs0rmeSIkoXd61GHrGq0GGZOjYanUlvB21TKtSLjVfwCtqJOf18+EHowh90orUpJrZCkx0DKHlnuopO7yFPBswLMk+d96PuS4+O2WrVmpFZdnRimdMZ4wZdOl51gDEsey2+gvc9FDrrYq7Td6fTpCw=
+	t=1724666430; cv=none; b=D7b05n/Goja59KxaSl89XVPT6IitbiC7bZmD3A5xglQbMWCBtrRQ6S+ZAz/97lKpQ05bx/W8CS18OtXhbj1JllXywbdilgUH6X2jSPWXS9u7vUNFEm8pSDfI4DxvVBckWbK20w4aOzJ++ToMzxmfmT3/IEU4NheJEbY3eS8OT2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724666041; c=relaxed/simple;
-	bh=vcYdnQgyCRay33ToVuzJbo8c+h90tN2Lwg3BJDUr05I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pesAM5fMPZIO/d+QqiqOfscjJKsjE06/N+jCNQnT0AyPTo50lfoCRunJblUzoidnzlpwZqMFpO/P2nc1CWtS3PhET75ISZssNM4oiItFnoDjF9VZkU00jZo6DWQHroX4TLio8HuSG6h1Wwysu/SP+yHXu3OskAT5m2GdxUWZqDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrDhllmh; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrDhllmh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724666040; x=1756202040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vcYdnQgyCRay33ToVuzJbo8c+h90tN2Lwg3BJDUr05I=;
-  b=HrDhllmhAcd+BMObqsqqZn/tzxz97/yzvr7f8uD3PFZh04KOXuGVHwEW
-   fSV3okNtubrh9GhO64UkWGLnVtXKFeT+NC4wwR6tSzGWcAc0UT7OuQ09A
-   qs31MI96+w1c1BzvCFzngY/UHlaMB4TPBE/AWLc3weoay1OozbqsEw6aY
-   khDcN4G3NkKcf1UF+ZYTy2uwgiXfr5Z78jgqrByY4RsqiwlqAa6PnaDDA
-   iBiUdIwLoZoc3R5X+95ZXB6hEKznvFsDG79a00J4Ks4lYKg/MS3T3hq3x
-   /s7chvY60SRvYObNWANmS6PdAZXhyHQwU8qQtNXjrJdyAoLCA0WnS6HlG
-   w==;
-X-CSE-ConnectionGUID: noLFSNBxSH+aFjBSXkb6cQ==
-X-CSE-MsgGUID: c/p2lu3CSvO/wL2LstT3KQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="48467944"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="48467944"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:53:59 -0700
-X-CSE-ConnectionGUID: UmlrG8MtTlybU7QDnnFdgA==
-X-CSE-MsgGUID: uey+g6LCQp2NzzOVcPT78w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="93193023"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 02:53:53 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1siWQ2-000Gql-0l;
-	Mon, 26 Aug 2024 09:53:50 +0000
-Date: Mon, 26 Aug 2024 17:53:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Theodore Ts'o <tytso@mit.edu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
-Message-ID: <202408261757.D4gOewE9-lkp@intel.com>
-References: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
+	s=arc-20240116; t=1724666430; c=relaxed/simple;
+	bh=09jhWOnkxDVfb8Yz6zOonjn5P+Qcq8OhpPg6YtP1234=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=psssEWtn8wqrMqF3i8lA52lDJ9SqNqRjSaCQvEgEouHaPb437GDtTBm2EzS0tRserczDFUqi+mwP/IQ966Se78lPYkb8Dxm3S8qYhTGECGahvdP6pHRUeNzL8A2frgIvXIFBfN5VjxXjewyDzUYkAKde4JCnWP9Wq4fcys5vs0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
+Received: from [IPV6:2003:c5:9714:6a90::32b] (p200300C597146a90000000000000032B.dip0.t-ipconnect.de [IPv6:2003:c5:9714:6a90::32b])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.simonwunderlich.de (Postfix) with ESMTPSA id 05C07FA131;
+	Mon, 26 Aug 2024 11:51:04 +0200 (CEST)
+Message-ID: <a2a5e90a-4a24-4c83-9bfe-43b4e32cf73c@simonwunderlich.de>
+Date: Mon, 26 Aug 2024 11:51:03 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] wifi: cfg80211: Set the channel definition for the
+ different Wi-Fi modes when starting CAC
+Content-Language: en-US
+To: Johannes Berg <johannes@sipsolutions.net>, quic_jjohnson@quicinc.com
+Cc: kvalo@kernel.org, linux-wireless@vger.kernel.org, lkp@intel.com,
+ llvm@lists.linux.dev, mathias.kretschmer@fit.fraunhofer.de,
+ oe-kbuild-all@lists.linux.dev
+References: <9809b165-8d25-4984-a1dd-6fca28f1dda9@quicinc.com>
+ <20240816142418.3381951-1-ih@simonwunderlich.de>
+ <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
+From: Hamdi Issam <ih@simonwunderlich.de>
+In-Reply-To: <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Christophe,
+Hello,
 
-kernel test robot noticed the following build warnings:
+On 8/23/24 12:42, Johannes Berg wrote:
+> On Fri, 2024-08-16 at 16:24 +0200, Issam Hamdi wrote:
+>> @@ -10143,7 +10143,23 @@ static int nl80211_start_radar_detection(struct sk_buff *skb,
+>>   
+>>   	err = rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
+>>   	if (!err) {
+>> -		wdev->links[0].ap.chandef = chandef;
+>> +		switch (wdev->iftype) {
+>> +		case NL80211_IFTYPE_MESH_POINT:
+>> +			wdev->u.mesh.chandef = chandef;
+>> +			break;
+>> +		case NL80211_IFTYPE_ADHOC:
+>> +			wdev->u.ibss.chandef = chandef;
+>> +			break;
+>> +		case NL80211_IFTYPE_OCB:
+>> +			wdev->u.ocb.chandef = chandef;
+>> +			break;
+>>
+> OCB cannot even get to this code given earlier conditions, why are you
+> adding it here?
 
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes shuah-kselftest/next shuah-kselftest/fixes crng-random/master linus/master v6.11-rc5 next-20240823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Actually I didn't test it with OCB mode, I added the check on the 
+different modes to make sure that the function "wdev_chandef" return a 
+no NULL chandef for the different modes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/asm-generic-unaligned-h-Extract-common-header-for-vDSO/20240826-103525
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
-config: x86_64-buildonly-randconfig-002-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261757.D4gOewE9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261757.D4gOewE9-lkp@intel.com/reproduce)
+I will remove the check on the OCB mode, if it will impact other 
+implementation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261757.D4gOewE9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/events/page_ref.h:11,
-                    from mm/debug_page_ref.c:6:
->> include/trace/events/mmflags.h:168:5: warning: "VM_DROPPABLE" is not defined, evaluates to 0 [-Wundef]
-     168 | #if VM_DROPPABLE != VM_NONE
-         |     ^~~~~~~~~~~~
->> include/trace/events/mmflags.h:168:21: warning: "VM_NONE" is not defined, evaluates to 0 [-Wundef]
-     168 | #if VM_DROPPABLE != VM_NONE
-         |                     ^~~~~~~
-   In file included from include/trace/events/page_ref.h:11,
-                    from include/trace/define_trace.h:95,
-                    from include/trace/events/page_ref.h:135:
->> include/trace/events/mmflags.h:168:5: warning: "VM_DROPPABLE" is not defined, evaluates to 0 [-Wundef]
-     168 | #if VM_DROPPABLE != VM_NONE
-         |     ^~~~~~~~~~~~
->> include/trace/events/mmflags.h:168:21: warning: "VM_NONE" is not defined, evaluates to 0 [-Wundef]
-     168 | #if VM_DROPPABLE != VM_NONE
-         |                     ^~~~~~~
-   In file included from include/trace/events/page_ref.h:11,
-                    from include/trace/trace_events.h:94,
-                    from include/trace/define_trace.h:102:
->> include/trace/events/mmflags.h:169: warning: "IF_HAVE_VM_DROPPABLE" redefined
-     169 | # define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
-         | 
-   include/trace/events/mmflags.h:171: note: this is the location of the previous definition
-     171 | # define IF_HAVE_VM_DROPPABLE(flag, name)
-         | 
-
-
-vim +/VM_DROPPABLE +168 include/trace/events/mmflags.h
-
-   167	
- > 168	#if VM_DROPPABLE != VM_NONE
- > 169	# define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
-   170	#else
-   171	# define IF_HAVE_VM_DROPPABLE(flag, name)
-   172	#endif
-   173	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> I guess this should conflict:
+>
+> https://lore.kernel.org/linux-wireless/20240711035147.1896538-1-quic_adisi@quicinc.com/
+>
+> but it's probably not too hard to resolve that.
+>
+> johannes
+Issam
