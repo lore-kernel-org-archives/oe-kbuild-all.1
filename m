@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F21823A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 18:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB5B56458
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 19:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724697027; cv=none; b=OM+IVYkTlEYg84TkVaLbnfcx2Rdwf7cpjjWMMMTwz4V27d+i2kjH24Mj7cCMLwrt/lJnpqJxruo6Nu3eeBRrXbvtk9HQlAf1s5Qdo0vH9uet8rzvVqWzvaF627tuWoRmB91XGGwbtNu32kfSTUvvREKxCSop1YWhYLTgFb8Eny0=
+	t=1724700749; cv=none; b=gaDgGvSXOIGWUFNhid4RpBYepPetBC6QXizVIphACeVGHbRnELrEqcuMurP25c8/MTrw/wRy8he47OJODVAvWud0zzGSfwXw1LY4G357MXCHAymDJoJ8mfvCYuEnnH64VERu4xFR/8/aEUYZ2KsaocaOluLFT0AwuOP3JOxWYqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724697027; c=relaxed/simple;
-	bh=YhILNgjvH1xXf9u1639tG8k06076wywNcYFQG/t363M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T9CyvcPMMXJbgvtXHlbSjfCpok8qCXYgDbVZrRQhXblFayrCtC7E6w5VoQ04wik8/BUDu4ajOefR15NwKyivrY++p4J1EuI3TvQ6q8qjxOQ+XLZqhE8UwCu1uamINw18uFA8ffIDM6dUuZsWsJM1VHqCSSeEuxA2fztyhHGeuPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lg6+5Wi6; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1724700749; c=relaxed/simple;
+	bh=0d3e3xnQARHBnzJ3/KT8Z3pjx81V4NfO7llFRCrEoDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LnLA8w4sR9Rfwxhlfzfe4cS/0XbTG0IEPoxLOajSw7dQFvYFbEOoRyyqd9/GVuF91XeRphMRXzfPee5UnI9DeY175Moe/UOR2xy0TVEMslyqxYIqBZBVueH0dAWWQIS95eCBeca9OD3yMOs5I6wtjX3qFwLrv8V8OUKgiJ8sYPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iagpFL7/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lg6+5Wi6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iagpFL7/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724697026; x=1756233026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YhILNgjvH1xXf9u1639tG8k06076wywNcYFQG/t363M=;
-  b=lg6+5Wi6HfKGRVFXhhCpNFBGoLVtYivIU83515eBOxOTmNOtSS6EaqKj
-   xgnBl03+AUchjFY/qXBSKyhQ4AnYBRJ64GJw+cWGSYkHrSJEomLVRdbJ4
-   VIeSPckhrgVi7GojXfBNHzMPmrs+zpPawXigKFTZJ5qOO2KOhUeG8F2GM
-   vX2pUVoQBjuJ8RUCB63KV6u1E4driTC/6psp8ppfBe+2G7H9vK1TFUD3N
-   S0ZxkEMsVZmN/lcUKAqBkSH45gSrDa1c1VFY/P6WQWpZxDM+LHrEO2cK+
-   fLjYn3G+dwrWT1JUCpWQfl5UnlaBjkK2guRIVSkEgrA3g07b8jqxLlFTP
-   w==;
-X-CSE-ConnectionGUID: LPyIK6SlSOG/U4c1CSth6Q==
-X-CSE-MsgGUID: etqJLG/KS6yYd24E9lDfpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33707562"
+  t=1724700747; x=1756236747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0d3e3xnQARHBnzJ3/KT8Z3pjx81V4NfO7llFRCrEoDE=;
+  b=iagpFL7/RHEUNe+xMxHz1VM6eGi8Cpatngh/0my2ayOREucpPikgvklh
+   FkV7SstbOFqMJVWuoGJfYssdHE1d8WNwln1+XaOxd+L+gUdqXh+gbOuwf
+   96uVS4QxUqDGCnSzj5Fq5yDSV3M1xv3ubLgU2PyTvXjEsXiO/f20W5EDL
+   dUvfaNFP8wO44OTuljbdAy5OxmexR5SYoy8uhxIDpGxNPrFn3rO2l8VEN
+   Nbm6QM4xB/EMlnjYgg5Z9q9fd2d2UbXFu9LmmY0+SjS3cjKSZ5PNOHCDR
+   /Wl9XHnK43tjFb0uRZJiwQ2iHyhUu1dc0nI6NFc22bojzscEiteyNk/9l
+   Q==;
+X-CSE-ConnectionGUID: ErInVluASvuwvMfsoF5ybw==
+X-CSE-MsgGUID: tZmkbqdSThWxCfy6fkkbYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40649630"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="33707562"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 11:30:25 -0700
-X-CSE-ConnectionGUID: taVlwo3JRaWN6W0nhqJ4xA==
-X-CSE-MsgGUID: uPrZwXlhTOaN7MhPkDyZVg==
+   d="scan'208";a="40649630"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 12:32:26 -0700
+X-CSE-ConnectionGUID: 4JvIRGm7T5ux+8XFPNxewA==
+X-CSE-MsgGUID: QONRKAcHScKhmvGz6J6xLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="62911020"
+   d="scan'208";a="62668840"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2024 11:30:23 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Aug 2024 12:32:25 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sieTs-000HTu-2v;
-	Mon, 26 Aug 2024 18:30:20 +0000
-Date: Tue, 27 Aug 2024 02:29:45 +0800
+	id 1sifRv-000HXM-0j;
+	Mon, 26 Aug 2024 19:32:23 +0000
+Date: Tue, 27 Aug 2024 03:31:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:irq/core 60/61] kernel/irq/manage.c:230:47: error: section
- attribute cannot be specified for local variables
-Message-ID: <202408270209.9VfZ8muh-lkp@intel.com>
+To: Avri Altman <avri.altman@wdc.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Adrian Hunter <adrian.hunter@intel.com>,
+	Ricky WU <ricky_wu@realtek.com>, Avri Altman <avri.altman@wdc.com>
+Subject: Re: [PATCH v4 6/9] mmc: host: Add close-ended Ext memory addressing
+Message-ID: <202408270315.TTjSYp25-lkp@intel.com>
+References: <20240825074141.3171549-7-avri.altman@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,191 +64,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240825074141.3171549-7-avri.altman@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-head:   0b39441eaab8bedcba1129776ec85178d4d0d9fb
-commit: 6c70d79f363c0c9a712e107b9c4d3644ca8c7490 [60/61] genirq: Get rid of global lock in irq_do_set_affinity()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408270209.9VfZ8muh-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270209.9VfZ8muh-lkp@intel.com/reproduce)
+Hi Avri,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.11-rc5 next-20240826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/mmc-sd-SDUC-Support-Recognition/20240826-161527
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240825074141.3171549-7-avri.altman%40wdc.com
+patch subject: [PATCH v4 6/9] mmc: host: Add close-ended Ext memory addressing
+config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/archive/20240827/202408270315.TTjSYp25-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270315.TTjSYp25-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270209.9VfZ8muh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270315.TTjSYp25-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/percpu.h:7,
-                    from arch/s390/include/asm/percpu.h:183,
-                    from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/irq.h:14,
-                    from kernel/irq/manage.c:11:
-   kernel/irq/manage.c: In function 'irq_do_set_affinity':
-   include/linux/percpu-defs.h:92:40: error: section attribute cannot be specified for local variables
-      92 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
-         |                                        ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:115:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:93:33: error: section attribute cannot be specified for local variables
-      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |                                 ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:115:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
->> include/linux/percpu-defs.h:93:33: error: declaration of '__pcpu_unique___tmp_mask' with no linkage follows extern declaration
-      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |                                 ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:115:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:92:40: note: previous declaration of '__pcpu_unique___tmp_mask' with type 'char'
-      92 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
-         |                                        ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:115:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
->> kernel/irq/manage.c:230:47: error: section attribute cannot be specified for local variables
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                                               ^~~~~~~~~~
-   include/linux/percpu-defs.h:94:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      94 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
-         |                                                   ^~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
->> kernel/irq/manage.c:230:47: error: section attribute cannot be specified for local variables
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                                               ^~~~~~~~~~
-   include/linux/percpu-defs.h:95:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
->> kernel/irq/manage.c:230:47: error: weak declaration of '__tmp_mask' must be public
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                                               ^~~~~~~~~~
-   include/linux/percpu-defs.h:95:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
->> kernel/irq/manage.c:230:47: error: declaration of '__tmp_mask' with no linkage follows extern declaration
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                                               ^~~~~~~~~~
-   include/linux/percpu-defs.h:95:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
-   kernel/irq/manage.c:230:47: note: previous declaration of '__tmp_mask' with type 'struct cpumask'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                                               ^~~~~~~~~~
-   include/linux/percpu-defs.h:94:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      94 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
-         |                                                   ^~~~
-   kernel/irq/manage.c:230:16: note: in expansion of macro 'DEFINE_PER_CPU'
-     230 |         static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-         |                ^~~~~~~~~~~~~~
+   drivers/mmc/host/sdhci.c: In function 'sdhci_get_sbc_ext':
+>> drivers/mmc/host/sdhci.c:1797:24: error: implicit declaration of function 'mmc_card_ult_capacity' [-Werror=implicit-function-declaration]
+    1797 |         bool is_sduc = mmc_card_ult_capacity(host->mmc->card);
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +230 kernel/irq/manage.c
+vim +/mmc_card_ult_capacity +1797 drivers/mmc/host/sdhci.c
 
-   220	
-   221	int irq_do_set_affinity(struct irq_data *data, const struct cpumask *mask,
-   222				bool force)
-   223	{
-   224		struct irq_desc *desc = irq_data_to_desc(data);
-   225		struct irq_chip *chip = irq_data_get_irq_chip(data);
-   226		const struct cpumask  *prog_mask;
-   227		struct cpumask *tmp_mask;
-   228		int ret;
-   229	
- > 230		static DEFINE_PER_CPU(struct cpumask, __tmp_mask);
-   231	
-   232		if (!chip || !chip->irq_set_affinity)
-   233			return -EINVAL;
-   234	
-   235		tmp_mask = this_cpu_ptr(&__tmp_mask);
-   236	
-   237		/*
-   238		 * If this is a managed interrupt and housekeeping is enabled on
-   239		 * it check whether the requested affinity mask intersects with
-   240		 * a housekeeping CPU. If so, then remove the isolated CPUs from
-   241		 * the mask and just keep the housekeeping CPU(s). This prevents
-   242		 * the affinity setter from routing the interrupt to an isolated
-   243		 * CPU to avoid that I/O submitted from a housekeeping CPU causes
-   244		 * interrupts on an isolated one.
-   245		 *
-   246		 * If the masks do not intersect or include online CPU(s) then
-   247		 * keep the requested mask. The isolated target CPUs are only
-   248		 * receiving interrupts when the I/O operation was submitted
-   249		 * directly from them.
-   250		 *
-   251		 * If all housekeeping CPUs in the affinity mask are offline, the
-   252		 * interrupt will be migrated by the CPU hotplug code once a
-   253		 * housekeeping CPU which belongs to the affinity mask comes
-   254		 * online.
-   255		 */
-   256		if (irqd_affinity_is_managed(data) &&
-   257		    housekeeping_enabled(HK_TYPE_MANAGED_IRQ)) {
-   258			const struct cpumask *hk_mask;
-   259	
-   260			hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
-   261	
-   262			cpumask_and(tmp_mask, mask, hk_mask);
-   263			if (!cpumask_intersects(tmp_mask, cpu_online_mask))
-   264				prog_mask = mask;
-   265			else
-   266				prog_mask = tmp_mask;
-   267		} else {
-   268			prog_mask = mask;
-   269		}
-   270	
-   271		/*
-   272		 * Make sure we only provide online CPUs to the irqchip,
-   273		 * unless we are being asked to force the affinity (in which
-   274		 * case we do as we are told).
-   275		 */
-   276		cpumask_and(tmp_mask, prog_mask, cpu_online_mask);
-   277		if (!force && !cpumask_empty(tmp_mask))
-   278			ret = chip->irq_set_affinity(data, tmp_mask, force);
-   279		else if (force)
-   280			ret = chip->irq_set_affinity(data, mask, force);
-   281		else
-   282			ret = -EINVAL;
-   283	
-   284		switch (ret) {
-   285		case IRQ_SET_MASK_OK:
-   286		case IRQ_SET_MASK_OK_DONE:
-   287			cpumask_copy(desc->irq_common_data.affinity, mask);
-   288			fallthrough;
-   289		case IRQ_SET_MASK_OK_NOCOPY:
-   290			irq_validate_effective_affinity(data);
-   291			irq_set_thread_affinity(desc);
-   292			ret = 0;
-   293		}
-   294	
-   295		return ret;
-   296	}
-   297	
+  1793	
+  1794	static struct mmc_command *sdhci_get_sbc_ext(struct sdhci_host *host,
+  1795						     struct mmc_command *cmd)
+  1796	{
+> 1797		bool is_sduc = mmc_card_ult_capacity(host->mmc->card);
+  1798	
+  1799		if (is_sduc) {
+  1800			/*  Finished CMD22, now send actual command */
+  1801			if (cmd == cmd->mrq->ext)
+  1802				return cmd->mrq->cmd;
+  1803		}
+  1804	
+  1805		/* Finished CMD23 */
+  1806		if (cmd == cmd->mrq->sbc) {
+  1807			if (is_sduc) {
+  1808				/* send CMD22 after CMD23 */
+  1809				if (WARN_ON(!cmd->mrq->ext))
+  1810					return NULL;
+  1811				else
+  1812					return cmd->mrq->ext;
+  1813			} else {
+  1814				/* Finished CMD23, now send actual command */
+  1815				return cmd->mrq->cmd;
+  1816			}
+  1817		}
+  1818	
+  1819		return NULL;
+  1820	}
+  1821	
 
 -- 
 0-DAY CI Kernel Test Service
