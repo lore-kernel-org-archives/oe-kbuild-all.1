@@ -1,63 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F2E129E93
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 22:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F70D811E2;
+	Mon, 26 Aug 2024 22:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724710116; cv=none; b=N6o/bDs7yRNzgwdbCdPSoFdoBo60wTs4W6diInrjbaE5OIbZ0gvBhnN24M+9oI9c1+W3TdbLFT72uuY7m/ID3CYNh6a2bBQmicsFsMCmtlAu8T1wkgqDVcVapOBIxWH8Ql13R9IiQQ/prTfXOIAeDP+LDWCcD0fhDgphrvml3K0=
+	t=1724710716; cv=none; b=cv3QjVeFxzbh+p08WLPLXYC6t+0HzAxrqQrAZKaVbw4gxAh4j/ZOfXjtXoyoZ+a9QESKgKqPcPFFXV23mhq4PPBV5R3bdWUnn5PXYoF75cnLYVXzaB/bCFPYI2N1AXMhnRjPFA3N4p6YtHljbKZM+abqPbugWLQt2WnyAQGOqKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724710116; c=relaxed/simple;
-	bh=MTJqgXRrpWsKtfxj39yoPmid/iW6hxkvaquXtjAl2hE=;
+	s=arc-20240116; t=1724710716; c=relaxed/simple;
+	bh=MVlCFsa8xCqY3Xhljjr7AMHm4zhlZHIzJB6hjmluN/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LOT1qMKuYkpH/dF+Zldztto0ZxgWLMajVnQAZk0YEDOJkEVT+SNtAddLxwHTQl9VPT51c6v6kLZjWRDelvgzqG/H+mU/eF9oZ5M5ubFNbEnDLuSu3BxEbiJbOpbb/QYy5nohJK2NM/qXAdVBDiXABC+oZvFjwANeZ3dLtOid+VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7MsA1xR; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=t/Bue13jN1DWLIr8BCAZcT0alxY535TK3zvQSxVJcaI/+uGFdRSiLsi7m1HxkSebOZcWPCLq69aeQB+P5nhqTZ7FmMBHv6h5xJ3VmfhJtGnSLlNojVplhe8HkiIFX57UQ1LbaeZVy0uaHJcWEleEVhanHPKvRuHeTRZrYb1hR7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SndredBN; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7MsA1xR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SndredBN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724710114; x=1756246114;
+  t=1724710715; x=1756246715;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MTJqgXRrpWsKtfxj39yoPmid/iW6hxkvaquXtjAl2hE=;
-  b=A7MsA1xRrd1Hx9RxV/NwrVuxYTlcA0awSsWnk4npQIbV15YbAc0heCaq
-   my5mawcImlkQ7WdPaJVfhBo/mJ24zuszSGr38yYEg0KSbb7612CnhXZj1
-   FEudWT/G/WEZjsj3p7jI5A1eQtFxa7zn7fIBZrv317vK8S40bN+Jzln3S
-   dgNwvHa+4T/IFIT3JKkpANFVmylfnKoeID1JiPiL+t+rSHUpQcbmdbhCR
-   TGbe6U5CxOEcMewfaQDMv32eHtwIFWpw1GE1Z3d2ScTtwlg3nnfCPe2e9
-   DeewG/+0mZ4UVq1mtl3BhWsIEqKfzXLDqBtmRI/ZMAyREz/qLxP/iAcRg
-   g==;
-X-CSE-ConnectionGUID: thxK44kRQ7mGeTeG4pCzYg==
-X-CSE-MsgGUID: Tw9Wc4ecS6eEMKvYK6chuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40663729"
+  bh=MVlCFsa8xCqY3Xhljjr7AMHm4zhlZHIzJB6hjmluN/o=;
+  b=SndredBN1MWVFT7q7hhnmFO7zrr3IT4ivJ7RECF4RgX19dfew1N960q0
+   SgmdJynnMy0Pyq7qAx1CLzNuGY2gYUZtSszDmVF/vHcCmAdffn6enIQvb
+   M6Zni187m8YpWP5ibKJFWFPtOVszSiF6A50bcqiQnzQujBUL7VJYdxHCY
+   OFiz3O8q27f5UUn2KUHSNEgwQwK598UolknxAUXb0w001HW+F5tZK2ARj
+   1VGAsWV3uRSD0FMkiH8o3+3OtRCVjEZ0q5g/ErGVMBfB6mQ73SWMe9kk2
+   tCGma0yqnHwP6bpJAFIaMXEKlLL+jjH8g2qR7E6h4ws0pR8ZKcj6RiCQq
+   A==;
+X-CSE-ConnectionGUID: WH4qKkrpTWmSxpA8t+Znlg==
+X-CSE-MsgGUID: ZZ9DB/QbQZm3HIHGn7fX5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40664835"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="40663729"
+   d="scan'208";a="40664835"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:08:34 -0700
-X-CSE-ConnectionGUID: 4JVCmYgVQcu+R5/RgJWewA==
-X-CSE-MsgGUID: 8eEoDP5SRC2x05sHFey3mQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:18:34 -0700
+X-CSE-ConnectionGUID: Mnsg5zSNRGumjwdALwsruA==
+X-CSE-MsgGUID: zytyjoo3QH2G4lsEMjKcvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="62816508"
+   d="scan'208";a="62817568"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Aug 2024 15:08:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Aug 2024 15:18:31 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sihsz-000Hdm-0a;
-	Mon, 26 Aug 2024 22:08:29 +0000
-Date: Tue, 27 Aug 2024 06:07:36 +0800
+	id 1sii2f-000HeU-1h;
+	Mon, 26 Aug 2024 22:18:29 +0000
+Date: Tue, 27 Aug 2024 06:17:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmed Ehab <bottaawesome633@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	linux-ext4@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [PATCH v6 2/2] locking/lockdep: Test no new string literal is
- created in lockdep_set_subclass()
-Message-ID: <202408270559.rym5UAv9-lkp@intel.com>
-References: <20240824221031.7751-2-bottaawesome633@gmail.com>
+To: Riyan Dhiman <riyandhiman14@gmail.com>, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: Re: [PATCH] staging: vme_user: Added static to image_desc and
+ vme_user_vma_priv struct
+Message-ID: <202408270621.ILLZ4jZN-lkp@intel.com>
+References: <20240825035514.40095-1-riyandhiman14@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,55 +65,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240824221031.7751-2-bottaawesome633@gmail.com>
+In-Reply-To: <20240825035514.40095-1-riyandhiman14@gmail.com>
 
-Hi Ahmed,
+Hi Riyan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on tip/master arm-perf/for-next/perf linus/master tip/auto-latest v6.11-rc5 next-20240826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Ehab/locking-lockdep-Test-no-new-string-literal-is-created-in-lockdep_set_subclass/20240826-145215
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20240824221031.7751-2-bottaawesome633%40gmail.com
-patch subject: [PATCH v6 2/2] locking/lockdep: Test no new string literal is created in lockdep_set_subclass()
-config: i386-buildonly-randconfig-003-20240827 (https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Riyan-Dhiman/staging-vme_user-Added-static-to-image_desc-and-vme_user_vma_priv-struct/20240826-142747
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240825035514.40095-1-riyandhiman14%40gmail.com
+patch subject: [PATCH] staging: vme_user: Added static to image_desc and vme_user_vma_priv struct
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408270621.ILLZ4jZN-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270621.ILLZ4jZN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270559.rym5UAv9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270621.ILLZ4jZN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/locking-selftest.c: In function 'lock_class_subclass_X1':
->> lib/locking-selftest.c:2715:60: error: 'struct rw_semaphore' has no member named 'dep_map'
-    2715 |         const char *name_before_setting_subclass = rwsem_X1.dep_map.name;
-         |                                                            ^
-   lib/locking-selftest.c:2719:47: error: 'struct rw_semaphore' has no member named 'dep_map'
-    2719 |         name_after_setting_subclass = rwsem_X1.dep_map.name;
-         |                                               ^
+   In file included from drivers/staging/vme_user/vme_user.c:16:
+   In file included from include/linux/cdev.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/staging/vme_user/vme_user.c:91:1: warning: 'static' ignored on this declaration [-Wmissing-declarations]
+      91 | static struct image_desc {
+         | ^
+   drivers/staging/vme_user/vme_user.c:117:1: warning: 'static' ignored on this declaration [-Wmissing-declarations]
+     117 | static struct vme_user_vma_priv {
+         | ^
+   19 warnings generated.
 
 
-vim +2715 lib/locking-selftest.c
+vim +/static +91 drivers/staging/vme_user/vme_user.c
 
-  2712	
-  2713	static void lock_class_subclass_X1(void)
-  2714	{
-> 2715		const char *name_before_setting_subclass = rwsem_X1.dep_map.name;
-  2716		const char *name_after_setting_subclass;
-  2717	
-  2718		lockdep_set_subclass(&rwsem_X1, 1);
-  2719		name_after_setting_subclass = rwsem_X1.dep_map.name;
-  2720		DEBUG_LOCKS_WARN_ON(name_before_setting_subclass != name_after_setting_subclass);
-  2721	}
-  2722	
+    87	
+    88	/*
+    89	 * Structure to handle image related parameters.
+    90	 */
+  > 91	static struct image_desc {
+    92		void *kern_buf;	/* Buffer address in kernel space */
+    93		dma_addr_t pci_buf;	/* Buffer address in PCI address space */
+    94		unsigned long long size_buf;	/* Buffer size */
+    95		struct mutex mutex;	/* Mutex for locking image */
+    96		struct device *device;	/* Sysfs device */
+    97		struct vme_resource *resource;	/* VME resource */
+    98		int mmap_count;		/* Number of current mmap's */
+    99	};
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
