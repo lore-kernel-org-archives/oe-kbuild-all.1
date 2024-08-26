@@ -1,61 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AC019308C;
-	Mon, 26 Aug 2024 16:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AF619412A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 16:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724688328; cv=none; b=l3K3pqiDbLZFItkoPT85aY/LXGWp2LRXCkf+Ndx6pEQIfnyLPHhuahIvJxLxP89VClbEeGkvhbltDuIRhtmvlfwTwFGAiC7fVQ7KpkfjAcxGIfLX1vzYMlkfPrCY3QdZjdF4Zg5gOKkA5Fr+M2XEpWLqaFZi0b/equPVztZChiE=
+	t=1724688329; cv=none; b=oVu2SZ2xOkoBAzjJj2tkO7OX72ooo3fM7Azg0MTZMh4gB0K+2MLq9MbHntWuy0Y1cSCwoenzjIzu29j/hP8AgZE2j7Xc4z5z33GRVs+8toV8m+Sah800yXPTxRVQtoKn+10EHJLu2+ioVhMzMawVh87Sc4JcwGL4e9GVmGkck9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724688328; c=relaxed/simple;
-	bh=/2Do9k3Sze9rh2v7/7p30zOKQMTiSFu60fpAD/a0QrM=;
+	s=arc-20240116; t=1724688329; c=relaxed/simple;
+	bh=cjE5B/SZVIFmO1112HhPXpzbCl/E5vIJc416GqAbodc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VeFB0ZPxKNcBTp2IOr6ghAfSsX00Q0/k1zCIYgqWdqzgLVhOB/Z661Mz8eggheyHnuCjGKspTxZEfrx0/wAR/wK0NsHlUC+gjNDbTQVu9IcKIMMHncDIFR5d9M+VhzgJaWyL1NS69joL6s/FDf07QEcW60pEecRvy/erRdMXNJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMqy6Sfm; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FRN5KPY2AZptS10q11sCVedG89/zOR2AVmbYSw4EMJyKADatSo8oh1IpV22GILfmhDvO0ZFW9I3VkZ2FQGTZtTNy7vHiRgiPQBr8yu787qoEXlqIjsTIrA0+sNtLpR/YlBAncv4H5Bs9/OayTasRdvbjLhEdS9iEOdQNLpuT6fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZ+k1ZgX; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMqy6Sfm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZ+k1ZgX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724688326; x=1756224326;
+  t=1724688327; x=1756224327;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/2Do9k3Sze9rh2v7/7p30zOKQMTiSFu60fpAD/a0QrM=;
-  b=SMqy6SfmD9BINKHEZA0gadtteqr7QtSbWkpwe5u0UTV1PO83Tmy9g1tW
-   7HDUzYIeDu/9E2c85BCah58HVR9eYevc/dQI9zFaDIQJkSfnYaujUVbVe
-   R2yTJY1IE7QM58+PNobgvupQgDjT7uBlIovELW/DIoWFMke56qDO5/pvy
-   wEIpmvcGIpgpQ/EkHd4QSZO27MU4dziYBp2NVP3vqBbuVAmva/h1b52fc
-   pMZdDHZrO4orHEVzhxtLhRdJtbSbHw0FFS+z2pxW61kvnjPD0RhOcYaOE
-   YNlLrMrR9wT1Wceu/VHy/pAdYRIMRKhB0+rDSGD/hjNubP0Kn/uEJ+YYf
-   g==;
-X-CSE-ConnectionGUID: Bge7LZpDT96jB7NWN9tQww==
-X-CSE-MsgGUID: Irxjr5KsSjWmb6YDQagv+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23277577"
+  bh=cjE5B/SZVIFmO1112HhPXpzbCl/E5vIJc416GqAbodc=;
+  b=gZ+k1ZgX5uayo8p5i9QJgvHt1ss9wG9zS/pt0Mu+Pj/eZIpbpoG5kP3f
+   DUn3Cg0Y/gKFbl1/skXzsHkhVx1+bsZbKy+Z5LRq7W1OH0Vkh6OzGGe+R
+   jIb8owI3hKFC0DhLJeLfw3RymI1zHt/IXUKAp4BHsxsvbxrPA+k9fjQ2R
+   uUhqvJNzI8SwGddS5E95OjzpKIapXvVVUkOS4/pDRq/5gZoqSxu/kilT/
+   YX+p5Uo2snkNh0BcZdR95lE+b7FD6LPjwKVwg/3662oH4uNYt87jvYtHM
+   Vn3RpGXY+qp0w23QLThQAubuO0bQgaKpsRFomQEM8LxjlsTmi1kfGbZZ5
+   Q==;
+X-CSE-ConnectionGUID: YiP6kAqyRESsF/QLEH+CuA==
+X-CSE-MsgGUID: ek2FALdKRe+7ENOO5zV1Zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23277585"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="23277577"
+   d="scan'208";a="23277585"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 09:05:20 -0700
-X-CSE-ConnectionGUID: s0kwVPpTS0W4sAU9v6JqLQ==
-X-CSE-MsgGUID: FQMP2285QLCrGMnJg8flmw==
+X-CSE-ConnectionGUID: amHjYY4AS/mN3Akd2TuMHg==
+X-CSE-MsgGUID: oIO6nL4HSdOnjw6hAYQ+KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="67248289"
+   d="scan'208";a="67248333"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 26 Aug 2024 09:05:13 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sicDP-000HGQ-1G;
+	id 1sicDP-000HGS-1M;
 	Mon, 26 Aug 2024 16:05:11 +0000
-Date: Tue, 27 Aug 2024 00:05:07 +0800
+Date: Tue, 27 Aug 2024 00:05:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cheng Xu <chengyou@linux.alibaba.com>, jgg@ziepe.ca, leon@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rdma@vger.kernel.org, KaiShen@linux.alibaba.com
-Subject: Re: [PATCH for-next 2/4] RDMA/erdma: Refactor the initialization and
- destruction of EQ
-Message-ID: <202408262310.5jeNjXWm-lkp@intel.com>
-References: <20240823075058.89488-3-chengyou@linux.alibaba.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	jani.nikula@intel.com, Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] drm: ensure drm headers are self-contained and pass
+ kernel-doc
+Message-ID: <202408262328.MknfI1MV-lkp@intel.com>
+References: <20240823141110.3431423-2-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,156 +69,185 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823075058.89488-3-chengyou@linux.alibaba.com>
+In-Reply-To: <20240823141110.3431423-2-jani.nikula@intel.com>
 
-Hi Cheng,
+Hi Jani,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.11-rc5 next-20240826]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-misc/drm-misc-next next-20240826]
+[cannot apply to linus/master v6.11-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cheng-Xu/RDMA-erdma-Make-the-device-probe-process-more-robust/20240826-123256
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20240823075058.89488-3-chengyou%40linux.alibaba.com
-patch subject: [PATCH for-next 2/4] RDMA/erdma: Refactor the initialization and destruction of EQ
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240826/202408262310.5jeNjXWm-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262310.5jeNjXWm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-ensure-drm-headers-are-self-contained-and-pass-kernel-doc/20240826-134953
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240823141110.3431423-2-jani.nikula%40intel.com
+patch subject: [PATCH 2/2] drm: ensure drm headers are self-contained and pass kernel-doc
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240826/202408262328.MknfI1MV-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262328.MknfI1MV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262310.5jeNjXWm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408262328.MknfI1MV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/infiniband/hw/erdma/erdma_eq.c:7:
-   In file included from drivers/infiniband/hw/erdma/erdma_verbs.h:10:
-   In file included from drivers/infiniband/hw/erdma/erdma.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/infiniband/hw/erdma/erdma_eq.c:7:
-   In file included from drivers/infiniband/hw/erdma/erdma_verbs.h:10:
-   In file included from drivers/infiniband/hw/erdma/erdma.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/infiniband/hw/erdma/erdma_eq.c:7:
-   In file included from drivers/infiniband/hw/erdma/erdma_verbs.h:10:
-   In file included from drivers/infiniband/hw/erdma/erdma.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/infiniband/hw/erdma/erdma_eq.c:141:6: warning: no previous prototype for function 'erdma_aeq_destroy' [-Wmissing-prototypes]
-     141 | void erdma_aeq_destroy(struct erdma_dev *dev)
-         |      ^
-   drivers/infiniband/hw/erdma/erdma_eq.c:141:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     141 | void erdma_aeq_destroy(struct erdma_dev *dev)
-         | ^
-         | static 
-   18 warnings generated.
+   In file included from arch/sparc/include/asm/pgtable_64.h:16,
+                    from arch/sparc/include/asm/pgtable.h:5,
+                    from include/linux/pgtable.h:6,
+                    from include/drm/ttm/ttm_caching.h:28,
+                    from <command-line>:
+   include/asm-generic/pgtable-nop4d.h:9:18: error: unknown type name 'pgd_t'; did you mean 'pid_t'?
+       9 | typedef struct { pgd_t pgd; } p4d_t;
+         |                  ^~~~~
+         |                  pid_t
+   include/asm-generic/pgtable-nop4d.h:21:28: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
+         |                            ^~~~~
+         |                            p4d_t
+   include/asm-generic/pgtable-nop4d.h:22:27: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      22 | static inline int pgd_bad(pgd_t pgd)            { return 0; }
+         |                           ^~~~~
+         |                           p4d_t
+   include/asm-generic/pgtable-nop4d.h:23:31: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      23 | static inline int pgd_present(pgd_t pgd)        { return 1; }
+         |                               ^~~~~
+         |                               p4d_t
+   include/asm-generic/pgtable-nop4d.h:24:30: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      24 | static inline void pgd_clear(pgd_t *pgd)        { }
+         |                              ^~~~~
+         |                              p4d_t
+   include/asm-generic/pgtable-nop4d.h:35:33: error: unknown type name 'pgd_t'; did you mean 'p4d_t'?
+      35 | static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
+         |                                 ^~~~~
+         |                                 p4d_t
+   In file included from arch/sparc/include/asm/page.h:8,
+                    from arch/sparc/include/asm/pgtable_64.h:23:
+   include/linux/pgtable.h: In function 'pud_offset':
+   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
+      79 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   arch/sparc/include/asm/page_64.h:147:60: note: in definition of macro '__va'
+     147 | #define __va(x)                 ((void *)((unsigned long) (x) + PAGE_OFFSET))
+         |                                                            ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   arch/sparc/include/asm/pgtable_64.h:863:25: note: in expansion of macro 'p4d_val'
+     863 |         ((pud_t *) __va(p4d_val(p4d)))
+         |                         ^~~~~~~
+   include/linux/pgtable.h:133:16: note: in expansion of macro 'p4d_pgtable'
+     133 |         return p4d_pgtable(*p4d) + pud_index(address);
+         |                ^~~~~~~~~~~
+   include/linux/pgtable.h: In function 'pmd_off':
+   include/linux/pgtable.h:165:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pud_offset'? [-Wimplicit-function-declaration]
+     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~
+         |                                      pud_offset
+>> include/linux/pgtable.h:165:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/linux/pgtable.h:131:40: note: expected 'p4d_t *' but argument is of type 'int'
+     131 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmd_off_k':
+   include/linux/pgtable.h:170:38: error: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     170 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/linux/pgtable.h:131:40: note: expected 'p4d_t *' but argument is of type 'int'
+     131 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'p4d_same':
+   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
+      79 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1042:16: note: in expansion of macro 'p4d_val'
+    1042 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
+         |                ^~~~~~~
+   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
+      79 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1042:34: note: in expansion of macro 'p4d_val'
+    1042 |         return p4d_val(p4d_a) == p4d_val(p4d_b);
+         |                                  ^~~~~~~
+   include/linux/pgtable.h:1040:34: warning: parameter 'p4d_a' set but not used [-Wunused-but-set-parameter]
+    1040 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
+         |                            ~~~~~~^~~~~
+   include/linux/pgtable.h:1040:47: warning: parameter 'p4d_b' set but not used [-Wunused-but-set-parameter]
+    1040 | static inline int p4d_same(p4d_t p4d_a, p4d_t p4d_b)
+         |                                         ~~~~~~^~~~~
+   include/linux/pgtable.h: In function 'pgd_none_or_clear_bad':
+   include/linux/pgtable.h:1240:13: error: implicit declaration of function 'pgd_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
+    1240 |         if (pgd_none(*pgd))
+         |             ^~~~~~~~
+         |             p4d_none
+   In file included from arch/sparc/include/asm/pgtable_64.h:17:
+   include/linux/pgtable.h:1242:22: error: implicit declaration of function 'pgd_bad'; did you mean 'pmd_bad'? [-Wimplicit-function-declaration]
+    1242 |         if (unlikely(pgd_bad(*pgd))) {
+         |                      ^~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/pgtable.h: In function 'p4d_none_or_clear_bad':
+   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
+      79 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   arch/sparc/include/asm/pgtable_64.h:813:43: note: in expansion of macro 'p4d_val'
+     813 | #define p4d_none(p4d)                   (!p4d_val(p4d))
+         |                                           ^~~~~~~
+   include/linux/pgtable.h:1251:13: note: in expansion of macro 'p4d_none'
+    1251 |         if (p4d_none(*p4d))
+         |             ^~~~~~~~
+   arch/sparc/include/asm/page_64.h:79:29: error: request for member 'pgd' in something not a structure or union
+      79 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   arch/sparc/include/asm/pgtable_64.h:815:42: note: in expansion of macro 'p4d_val'
+     815 | #define p4d_bad(p4d)                    (p4d_val(p4d) & ~PAGE_MASK)
+         |                                          ^~~~~~~
+   include/linux/pgtable.h:1253:22: note: in expansion of macro 'p4d_bad'
+    1253 |         if (unlikely(p4d_bad(*p4d))) {
+         |                      ^~~~~~~
 
 
-vim +/erdma_aeq_destroy +141 drivers/infiniband/hw/erdma/erdma_eq.c
+vim +/pud_offset +165 include/linux/pgtable.h
 
-f2a0a630b953451 Cheng Xu 2022-07-27  140  
-f2a0a630b953451 Cheng Xu 2022-07-27 @141  void erdma_aeq_destroy(struct erdma_dev *dev)
-f2a0a630b953451 Cheng Xu 2022-07-27  142  {
-f2a0a630b953451 Cheng Xu 2022-07-27  143  	struct erdma_eq *eq = &dev->aeq;
-f2a0a630b953451 Cheng Xu 2022-07-27  144  
-f0697bf078368d7 Boshi Yu 2024-03-11  145  	dma_free_coherent(&dev->pdev->dev, eq->depth << EQE_SHIFT, eq->qbuf,
-f2a0a630b953451 Cheng Xu 2022-07-27  146  			  eq->qbuf_dma_addr);
-f0697bf078368d7 Boshi Yu 2024-03-11  147  
-fdb09ed15f272ad Boshi Yu 2024-03-11  148  	dma_pool_free(dev->db_pool, eq->dbrec, eq->dbrec_dma);
-f2a0a630b953451 Cheng Xu 2022-07-27  149  }
-f2a0a630b953451 Cheng Xu 2022-07-27  150  
+974b9b2c68f3d3 Mike Rapoport 2020-06-08  155  
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  156  /*
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  157   * In many cases it is known that a virtual address is mapped at PMD or PTE
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  158   * level, so instead of traversing all the page table levels, we can get a
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  159   * pointer to the PMD entry in user or kernel page table or translate a virtual
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  160   * address to the pointer in the PTE in the kernel page tables with simple
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  161   * helpers.
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  162   */
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  163  static inline pmd_t *pmd_off(struct mm_struct *mm, unsigned long va)
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  164  {
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08 @165  	return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  166  }
+e05c7b1f2bc4b7 Mike Rapoport 2020-06-08  167  
 
 -- 
 0-DAY CI Kernel Test Service
