@@ -1,60 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E81857CBA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 09:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5D8145B35
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 09:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664174; cv=none; b=DCCuPWlzpn5ltGqkgpx6lGKEBLAqJLo78KVtbMnqAwU/eXfvfIYemAmukuvir5cwL611l7vYQjXkMmHkPnP4Pt96zItUPWpBlBq8cDt47cg+FRaEoCiNAhcmJSJphY5Wx6yOdd1CkpuClg0Qr/RFybaGFsRei4sNRsAe5G3ojiY=
+	t=1724666041; cv=none; b=O/bRnZ66I5mE0rvYJIFhwIs0rmeSIkoXd61GHrGq0GGZOjYanUlvB21TKtSLjVfwCtqJOf18+EHowh90orUpJrZCkx0DKHlnuopO7yFPBswLMk+d96PuS4+O2WrVmpFZdnRimdMZ4wZdOl51gDEsey2+gvc9FDrrYq7Td6fTpCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664174; c=relaxed/simple;
-	bh=kNpeULUI88X2FtzoorTTIfhiAjeIDlBk8Gvxqn/jwJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=axK9PcObEIG7ntVwrwdH2jGvPbY0rBtAgz0WDUsMW3hf7rp2seR3u0+PCK7xstr37Z4SlhTZy6GUnWKdNDbDJeMPJ0JJ5lKJkV9pFU9Q00YxgvINqVaQK0ogHKNVhEEMbD7+/zziSrnET3oL4Ppu4ueKUaEUrmOI8QLiNhHskNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vqr2qRzm; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1724666041; c=relaxed/simple;
+	bh=vcYdnQgyCRay33ToVuzJbo8c+h90tN2Lwg3BJDUr05I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pesAM5fMPZIO/d+QqiqOfscjJKsjE06/N+jCNQnT0AyPTo50lfoCRunJblUzoidnzlpwZqMFpO/P2nc1CWtS3PhET75ISZssNM4oiItFnoDjF9VZkU00jZo6DWQHroX4TLio8HuSG6h1Wwysu/SP+yHXu3OskAT5m2GdxUWZqDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrDhllmh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vqr2qRzm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrDhllmh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724664173; x=1756200173;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kNpeULUI88X2FtzoorTTIfhiAjeIDlBk8Gvxqn/jwJo=;
-  b=Vqr2qRzmG+7iUpJdRqFFp6pQQrduLQcVnNMPHPMbvpw+t/Qp/QUjnfqf
-   pL22MVqW5n3pJ2DWSccbLbXGGpqQJqh3soAR6BFUHsS6wfXi+EbRSv2lM
-   zrbOBQlmu2CNH74vkmJtD/2FySmuzXpXoX/2GmXKwW1YnTxcYG71G8tg9
-   xaNcvu1LMvXaaS2eUex7cJwpFQyPNKnp5b3PN6ov1AXxNXjUUXjGvulW0
-   Y9EM4MlxtkVZr7GLUDr9/LGK8qemr5lrckgpnj2WF0iIA9YJWw3kGWW3D
-   mF8rgLQgFABE9o/FASicYvxyWb01RD8ir1/jdTKy+vw8eCE1vRKw5JrFF
-   g==;
-X-CSE-ConnectionGUID: Z4zwslRRQ9WcrPyrfNvxuA==
-X-CSE-MsgGUID: R7eFMYWPSDam/CIruwEpPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33696173"
+  t=1724666040; x=1756202040;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vcYdnQgyCRay33ToVuzJbo8c+h90tN2Lwg3BJDUr05I=;
+  b=HrDhllmhAcd+BMObqsqqZn/tzxz97/yzvr7f8uD3PFZh04KOXuGVHwEW
+   fSV3okNtubrh9GhO64UkWGLnVtXKFeT+NC4wwR6tSzGWcAc0UT7OuQ09A
+   qs31MI96+w1c1BzvCFzngY/UHlaMB4TPBE/AWLc3weoay1OozbqsEw6aY
+   khDcN4G3NkKcf1UF+ZYTy2uwgiXfr5Z78jgqrByY4RsqiwlqAa6PnaDDA
+   iBiUdIwLoZoc3R5X+95ZXB6hEKznvFsDG79a00J4Ks4lYKg/MS3T3hq3x
+   /s7chvY60SRvYObNWANmS6PdAZXhyHQwU8qQtNXjrJdyAoLCA0WnS6HlG
+   w==;
+X-CSE-ConnectionGUID: noLFSNBxSH+aFjBSXkb6cQ==
+X-CSE-MsgGUID: c/p2lu3CSvO/wL2LstT3KQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="48467944"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="33696173"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:22:53 -0700
-X-CSE-ConnectionGUID: 7yTUUD1rTXKj9b7uLG7uTg==
-X-CSE-MsgGUID: PgLoGPvoQ+6g769EvB8FUg==
+   d="scan'208";a="48467944"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:53:59 -0700
+X-CSE-ConnectionGUID: UmlrG8MtTlybU7QDnnFdgA==
+X-CSE-MsgGUID: uey+g6LCQp2NzzOVcPT78w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62424229"
+   d="scan'208";a="93193023"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Aug 2024 02:22:51 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 02:53:53 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siVw1-000GpT-1c;
-	Mon, 26 Aug 2024 09:22:49 +0000
-Date: Mon, 26 Aug 2024 17:22:33 +0800
+	id 1siWQ2-000Gql-0l;
+	Mon, 26 Aug 2024 09:53:50 +0000
+Date: Mon, 26 Aug 2024 17:53:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:net-next-page_frag_cache_v14 5/12]
- include/linux/compiler_types.h:510:45: error: call to
- '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON
- failed: PAGE_FRAG_CACHE_MAX_ORDER > PAGE_FRAG_CACHE_ORDER_MASK
-Message-ID: <202408261721.H6MAStKB-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Theodore Ts'o <tytso@mit.edu>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
+Message-ID: <202408261757.D4gOewE9-lkp@intel.com>
+References: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +81,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
 
-tree:   https://github.com/gestionlin/linux.git net-next-page_frag_cache_v14
-head:   9dabcec31187fb32e0622e35a4e7e5c8041eb33a
-commit: e18dc658cca744459b639a9de3ef12d0376a4ac7 [5/12] mm: page_frag: reuse existing space for 'size' and 'pfmemalloc'
-config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20240826/202408261721.H6MAStKB-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261721.H6MAStKB-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes shuah-kselftest/next shuah-kselftest/fixes crng-random/master linus/master v6.11-rc5 next-20240823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/asm-generic-unaligned-h-Extract-common-header-for-vDSO/20240826-103525
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
+config: x86_64-buildonly-randconfig-002-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261757.D4gOewE9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261757.D4gOewE9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261721.H6MAStKB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261757.D4gOewE9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'page_frag_encode_page',
-       inlined from '__page_frag_cache_refill' at mm/page_frag_cache.c:45:21,
-       inlined from '__page_frag_alloc_align' at mm/page_frag_cache.c:83:10:
->> include/linux/compiler_types.h:510:45: error: call to '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON failed: PAGE_FRAG_CACHE_MAX_ORDER > PAGE_FRAG_CACHE_ORDER_MASK
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:491:25: note: in definition of macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:510:9: note: in expansion of macro '_compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/page_frag_cache.h:33:9: note: in expansion of macro 'BUILD_BUG_ON'
-      33 |         BUILD_BUG_ON(PAGE_FRAG_CACHE_MAX_ORDER > PAGE_FRAG_CACHE_ORDER_MASK);
-         |         ^~~~~~~~~~~~
+   In file included from include/trace/events/page_ref.h:11,
+                    from mm/debug_page_ref.c:6:
+>> include/trace/events/mmflags.h:168:5: warning: "VM_DROPPABLE" is not defined, evaluates to 0 [-Wundef]
+     168 | #if VM_DROPPABLE != VM_NONE
+         |     ^~~~~~~~~~~~
+>> include/trace/events/mmflags.h:168:21: warning: "VM_NONE" is not defined, evaluates to 0 [-Wundef]
+     168 | #if VM_DROPPABLE != VM_NONE
+         |                     ^~~~~~~
+   In file included from include/trace/events/page_ref.h:11,
+                    from include/trace/define_trace.h:95,
+                    from include/trace/events/page_ref.h:135:
+>> include/trace/events/mmflags.h:168:5: warning: "VM_DROPPABLE" is not defined, evaluates to 0 [-Wundef]
+     168 | #if VM_DROPPABLE != VM_NONE
+         |     ^~~~~~~~~~~~
+>> include/trace/events/mmflags.h:168:21: warning: "VM_NONE" is not defined, evaluates to 0 [-Wundef]
+     168 | #if VM_DROPPABLE != VM_NONE
+         |                     ^~~~~~~
+   In file included from include/trace/events/page_ref.h:11,
+                    from include/trace/trace_events.h:94,
+                    from include/trace/define_trace.h:102:
+>> include/trace/events/mmflags.h:169: warning: "IF_HAVE_VM_DROPPABLE" redefined
+     169 | # define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
+         | 
+   include/trace/events/mmflags.h:171: note: this is the location of the previous definition
+     171 | # define IF_HAVE_VM_DROPPABLE(flag, name)
+         | 
 
 
-vim +/__compiletime_assert_242 +510 include/linux/compiler_types.h
+vim +/VM_DROPPABLE +168 include/trace/events/mmflags.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  496  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  497  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  498  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  499  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  500  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  501   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  502   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @510  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  
-
-:::::: The code at line 510 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   167	
+ > 168	#if VM_DROPPABLE != VM_NONE
+ > 169	# define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
+   170	#else
+   171	# define IF_HAVE_VM_DROPPABLE(flag, name)
+   172	#endif
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
