@@ -1,62 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9C719B3D8;
-	Mon, 26 Aug 2024 22:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FA319D074;
+	Mon, 26 Aug 2024 22:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724711916; cv=none; b=RzVVAE2VOrawJ5zik3AejusMsaeA1Y6p+OMJ+nThoqe407wlAmiCya9jhql0SH2+XRzJDvsFrwKSt12KbMtVdLWhL5Pwl+qvviHBhRHbw2XOrmzs6NoC1STXZWRQgYbRI8X5AHWWClYxB9q0rJg/V7GIGJvHgQemNvLH+tXaVcg=
+	t=1724711918; cv=none; b=q/+0oNGu2+zrphCDvkNjTMGjc5HK1sI2RV2gcR2EifTIABWIDUluLdQN9pcALIG1dzBEPkZQr9M/VfsnfrQuun9s7+N6KBAzcEGujPKOsP0umuzOvBwThxnSC91gX/mdCoQwv0INmm4rXhx4mtqK83uIH2Or/DhWbOwnotgDBPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724711916; c=relaxed/simple;
-	bh=IcfDBNU1XMYr6kUAKgn4NRrZgFHytBg+0l+87kEgNyE=;
+	s=arc-20240116; t=1724711918; c=relaxed/simple;
+	bh=sGYNWyOH1CghbLg8bcfIII/QyfEhcnZ+2s06PiUOs2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ejYr1sWkQi+CT9hNhRey3pjMZAg0TGsW4YtnXxbPp4GJeT0JrhDzHSRVqV0bi9+sTPnHjCF6O/TrikH4AHr8PzbJ/PoiFwVzuPJ/so7PlTX2JDiiBcty2y/g8KuEzqyOxqey/8LiR+s14ndKCV64ZxBNlm2BjIT51/zDaY37OYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKzWni60; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXDBZL5eaL2rAFQvqnCUpBRwmIzi7GNhHyvhGFAZfLstWqqgoua+fDk9Z8CGrE50LIRUIlFWgpUTs4IxXulEYLz7B7eTDBVL9vZl83RlIHvW9knstYDHsJxvD+Vrm6GrT4Ysqv7Dx+xBurljClHGkJZ6sP6rPor3t3e6+YSLlY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmXkDa/p; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKzWni60"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmXkDa/p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724711914; x=1756247914;
+  t=1724711917; x=1756247917;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IcfDBNU1XMYr6kUAKgn4NRrZgFHytBg+0l+87kEgNyE=;
-  b=bKzWni60CgE5CDjPSsIqxXz5ni5udZaMYUGFpBGBTc8ULs/+iE6qknlc
-   bSR6FwDn7cTKy4M61CrU0g0ESkf0oZYh3ukcz1HhaCmkNRm+QwWdi7Wrp
-   7XtqwLQ6E2Tr2gH/U/cplkiJSbPftnFtLtO21fEUHYgz7Xn4WHCtj+xS5
-   GDVWsQddZlgWbl2dHqQWUrnO4FkZIFfApR219lNBrqLdGHHB/GVv3/m1l
-   R4ArX+FvKugb7E78PVvL/IYsMsFQCV+UNe+EJfewSTMLd0aB1gwvObC1s
-   mZF8BgeM99hDm7+vSCGg9zVcSXXPzUnJq90JPOeYBzyxtSuvP8LA3/TBV
+  bh=sGYNWyOH1CghbLg8bcfIII/QyfEhcnZ+2s06PiUOs2g=;
+  b=nmXkDa/pBsuzttiIeciegeAjQhISzOC904cQWupcEuYtQVMW/XX7SwCY
+   IkH9fgw6wEhRls9qAJU7IBTcC1mlvdmtSEuPqiXkOzn0AY8C0C3RVh/GT
+   /zb9JlMTongw/gfMFbOfvkEBZEg7DSTWYJXqOdIobv9coCdwYOj6oTOcJ
+   HoDSkBGrudutZ63BMImfPS8B+irYRgRhyEWsTwc8f/85i98NpolFXfTtw
+   /iFrnSmYjt12rJjJFcH0cwOKMRVW3X6o8WdGU656JNik18Eds3BRcx97H
+   fdh0y/wAoZ0Kbgtm3pXGrFmFKKX7JcQ2MsIZ+9kzrSEH7RFqTki2yINmD
    A==;
-X-CSE-ConnectionGUID: BgWqtlMgTxGRL1/ycgbm0Q==
-X-CSE-MsgGUID: geRh+W1QTb230EyGqkbBrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26956211"
+X-CSE-ConnectionGUID: Z93BMSoWQXuSL22t15acng==
+X-CSE-MsgGUID: esoQ+B9gTKGdl4UyUqw0lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26956215"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="26956211"
+   d="scan'208";a="26956215"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:38:34 -0700
-X-CSE-ConnectionGUID: h1c1iO/IR4iTJCTa5+9muw==
-X-CSE-MsgGUID: 8C5xr0etTjOsB11IyaiXHQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:38:36 -0700
+X-CSE-ConnectionGUID: 90MxcbMcS7mFHJJdrZE2Yw==
+X-CSE-MsgGUID: /PRYL0HGSLSOnHw4npvl3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="63382603"
+   d="scan'208";a="63382602"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 26 Aug 2024 15:38:32 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siiM2-000HfM-04;
+	id 1siiM1-000HfK-39;
 	Mon, 26 Aug 2024 22:38:30 +0000
-Date: Tue, 27 Aug 2024 06:38:24 +0800
+Date: Tue, 27 Aug 2024 06:38:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Riyan Dhiman <riyandhiman14@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: Re: [PATCH] staging: vme_user: Added static to image_desc and
- vme_user_vma_priv struct
-Message-ID: <202408270655.m9x8rJA5-lkp@intel.com>
-References: <20240825035514.40095-1-riyandhiman14@gmail.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com,
+	gerald.schaefer@linux.ibm.com, schnelle@linux.ibm.com
+Cc: oe-kbuild-all@lists.linux.dev, jgg@ziepe.ca, baolu.lu@linux.intel.com,
+	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+	svens@linux.ibm.com, jroedel@suse.de, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH v3] iommu/s390: Implement blocking domain
+Message-ID: <202408270611.sr21RBzy-lkp@intel.com>
+References: <20240823203108.304054-1-mjrosato@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,53 +67,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240825035514.40095-1-riyandhiman14@gmail.com>
+In-Reply-To: <20240823203108.304054-1-mjrosato@linux.ibm.com>
 
-Hi Riyan,
+Hi Matthew,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on staging/staging-testing]
+[auto build test ERROR on s390/features]
+[also build test ERROR on linus/master v6.11-rc5 next-20240826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Riyan-Dhiman/staging-vme_user-Added-static-to-image_desc-and-vme_user_vma_priv-struct/20240826-142747
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240825035514.40095-1-riyandhiman14%40gmail.com
-patch subject: [PATCH] staging: vme_user: Added static to image_desc and vme_user_vma_priv struct
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408270655.m9x8rJA5-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270655.m9x8rJA5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Rosato/iommu-s390-Implement-blocking-domain/20240826-163744
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20240823203108.304054-1-mjrosato%40linux.ibm.com
+patch subject: [PATCH v3] iommu/s390: Implement blocking domain
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408270611.sr21RBzy-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270611.sr21RBzy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270655.m9x8rJA5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270611.sr21RBzy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/staging/vme_user/vme_user.c:99:1: warning: useless storage class specifier in empty declaration
-      99 | };
-         | ^
-   drivers/staging/vme_user/vme_user.c:120:1: warning: useless storage class specifier in empty declaration
-     120 | };
-         | ^
+   In file included from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:374,
+                    from include/linux/uuid.h:11,
+                    from include/linux/mod_devicetable.h:14,
+                    from include/linux/pci.h:27,
+                    from drivers/iommu/s390-iommu.c:9:
+   drivers/iommu/s390-iommu.c: In function 'zpci_get_iommu_ctrs':
+>> include/linux/lockdep.h:252:61: error: invalid type argument of '->' (have 'spinlock_t' {aka 'struct spinlock'})
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                             ^~
+   arch/s390/include/asm/bug.h:54:32: note: in definition of macro 'WARN_ON'
+      54 |         int __ret_warn_on = !!(x);                      \
+         |                                ^
+   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ^~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |                        ^~~~~~~~~~~~~~~
+   drivers/iommu/s390-iommu.c:707:9: note: in expansion of macro 'lockdep_assert_held'
+     707 |         lockdep_assert_held(zdev->dom_lock);
+         |         ^~~~~~~~~~~~~~~~~~~
 
 
-vim +99 drivers/staging/vme_user/vme_user.c
+vim +252 include/linux/lockdep.h
 
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   87  
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   88  /*
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   89   * Structure to handle image related parameters.
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   90   */
-e2d30086b6cc13 drivers/staging/vme_user/vme_user.c    Riyan Dhiman    2024-08-25   91  static struct image_desc {
-0a81a0f768e5bb drivers/staging/vme/devices/vme_user.c Emilio G. Cota  2010-11-12   92  	void *kern_buf;	/* Buffer address in kernel space */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   93  	dma_addr_t pci_buf;	/* Buffer address in PCI address space */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   94  	unsigned long long size_buf;	/* Buffer size */
-ecb3b80ff968f1 drivers/staging/vme/devices/vme_user.c Santosh Nayak   2012-04-03   95  	struct mutex mutex;	/* Mutex for locking image */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   96  	struct device *device;	/* Sysfs device */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   97  	struct vme_resource *resource;	/* VME resource */
-c74a804f115bde drivers/staging/vme/devices/vme_user.c Dmitry Kalinkin 2015-02-26   98  	int mmap_count;		/* Number of current mmap's */
-584721cab2bdd2 drivers/staging/vme/devices/vme_user.c Vincent Bossier 2011-06-03  @99  };
-cd974d35ab784d drivers/staging/vme/devices/vme_user.c Dmitry Kalinkin 2015-06-26  100  
+f607c668577481 Peter Zijlstra 2009-07-20  251  
+f8319483f57f1c Peter Zijlstra 2016-11-30 @252  #define lockdep_is_held(lock)		lock_is_held(&(lock)->dep_map)
+f8319483f57f1c Peter Zijlstra 2016-11-30  253  #define lockdep_is_held_type(lock, r)	lock_is_held_type(&(lock)->dep_map, (r))
+f607c668577481 Peter Zijlstra 2009-07-20  254  
 
 -- 
 0-DAY CI Kernel Test Service
