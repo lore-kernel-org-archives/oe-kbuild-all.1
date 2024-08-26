@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6777517625C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 12:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8065F804;
+	Mon, 26 Aug 2024 12:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724676486; cv=none; b=UC9XZM0PniZ2PitgPOBtnLyhZn+9sWpAeMYufIzbUkOsKRXGvQS72sPMJGhS110PVXsUnCTnI0oDurJaPmIKpek505AnBSnaz1HPOOIsv4wdcAAz+MJBYuSKxb/t9hRG5bzE2PEoKFXmwJzriEsbEXdrZzEvdauUt8pYJTZ8tmc=
+	t=1724677088; cv=none; b=CVvPWob7oiAqVbIc0GFveDrs+fZBBrHBf/jg7qw+AXMh6slUj91wKvSnZKydY5OpoQTzN4XEThGrl4SswOqHrnQ01ZhLnsKMOYxIGOENYBNZAHVgqWTU2pekFpfSeycdFucf0Zhx295Ka2FSMa3J/FYHlUEhOkHZ2P1tiE1VtfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724676486; c=relaxed/simple;
-	bh=3cHiwpJ0IGV2rDH7wRv3NTpGnsui1f0iIgctObp5wKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JCFMeTFEQOlWC/nThJrwAK9+3ahOZP9OgE/oRLxPpzZnhUR92+3LwC/n/SHSlO3ebHIvOe5kEfDS/8VT1Hdf8dfL/bCwZBhXmzQSnQdq3qSbG3HINvtEQj8XU8DT+swBnSZVlR3LK/NuTuqvSa2lZAFHBo0CFcS0u9bzXBf1JLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbmIE/Me; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1724677088; c=relaxed/simple;
+	bh=+PbHs8l+qbavMVlAXLwDj8SfpLxFMgAxuZhwJr8ymE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DQvdgJKSpiz8Luf5CbNxssK3fthpR46DjqtMnrPYO+V/+adRqXqL5ySi7ADBT07No1RxnXspH8bWYL+ChWNFBgViU+AttJH5GrBimFxsH/xBhGXCRxCL78DR1qXSWPJLTsVBWTo9ebDzUlQ98YlWLwRYgcLcG4hRB7bIU8Ul9GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cmrgba63; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbmIE/Me"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cmrgba63"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724676485; x=1756212485;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3cHiwpJ0IGV2rDH7wRv3NTpGnsui1f0iIgctObp5wKo=;
-  b=UbmIE/MeihVeNFRVUcuCEbMWjaHb8MwW3+135fXnva0OJI8tLeFdoHoP
-   1dndeCeRzpRfvikm3nlJDMMavNmW5TxMQive5hfGJxWG/bCDOFTc0f9oR
-   ma+rQ7yKZSA+d2aZyLJvHPWbmomqu5x9GoP0EBPWvMIafTkjy7k+eO8r8
-   h66e5Ft7WUcWdAOqRC+h51/4PTLSKQPf7shaIrwJe15/KLBUNkXg7fjTS
-   J00+5rJ3piBIFxipsy7uwBBcYpJ+Qn50P+J2iiXPk8q7MRG9t6iOzD0W8
-   UDu2jnVbW/HSvl3+7pw1yWtKqlE94T5nbbzrlrKSOIPmnzRrQML6+uMzg
-   Q==;
-X-CSE-ConnectionGUID: oBPII0ThTASibPdjmRBWMQ==
-X-CSE-MsgGUID: WLtXtBUPQXCcQRq/uCgqZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26976415"
+  t=1724677086; x=1756213086;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+PbHs8l+qbavMVlAXLwDj8SfpLxFMgAxuZhwJr8ymE0=;
+  b=Cmrgba63VVfwicke1bKBrGlBsxCxcrfieC9jp3bmISLVt2uS4t4XxD2b
+   qL5fQNXXQTZ//Psg2XH+dNJANHwfvjBJhIUShqrGBnb0sDsgpgFBkoqJL
+   XlFiR+R5lHskaT9MaPz93kRjShIWjjStC49a7LinsOO/fC7HFuqy8IhJ+
+   vfV8O8R8wsjhprBQ4fh647GHyM2Cy/NCDGnH80wXBzD8Cacp9ImNfHTHZ
+   VlHqWygLRu99aZ2zh4hxv8JX7iLZbVKgJMtBCIfkBlLW+waqRaKYwIErc
+   5fsWvLy/bFTi1snOSesqFDjjBsFPChpKRgjxrU29RkFXKgeHR25QNfcnB
+   g==;
+X-CSE-ConnectionGUID: WFfuxSRGTDqCzOtfryNT/A==
+X-CSE-MsgGUID: etz/ib6GSA6ZE7G0kdhaag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="45614094"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="26976415"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 05:48:04 -0700
-X-CSE-ConnectionGUID: R1pCx+aiTpK8UOU1ScsIkQ==
-X-CSE-MsgGUID: r3diwDvOTlG5clloy2J6Ew==
+   d="scan'208";a="45614094"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 05:58:06 -0700
+X-CSE-ConnectionGUID: v8gTvY0mSQOLgpDYqNeKHw==
+X-CSE-MsgGUID: leVOLblET+yax54yva8Ong==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="66830053"
+   d="scan'208";a="67200477"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Aug 2024 05:48:02 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Aug 2024 05:58:03 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siZ8a-000H5B-2E;
-	Mon, 26 Aug 2024 12:48:00 +0000
-Date: Mon, 26 Aug 2024 20:47:43 +0800
+	id 1siZIH-000H63-0F;
+	Mon, 26 Aug 2024 12:58:01 +0000
+Date: Mon, 26 Aug 2024 20:57:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/disk_accounting.c:136:5-8: Unneeded variable: "ret".
- Return "0" on line 184
-Message-ID: <202408262018.bWsiI6Oz-lkp@intel.com>
+To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
+	Yiting Deng <yiting.deng@amlogic.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>
+Subject: Re: [PATCH 2/3] rtc: support for the Amlogic on-chip RTC
+Message-ID: <202408262035.4BysJ5CK-lkp@intel.com>
+References: <20240823-rtc-v1-2-6f70381da283@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,83 +70,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240823-rtc-v1-2-6f70381da283@amlogic.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5be63fc19fcaa4c236b307420483578a56986a37
-commit: 077e47372309dcbe3a150754ea9c6f15cc838d6b bcachefs: bch2_accounting_invalid()
-date:   2 weeks ago
-config: i386-randconfig-053-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262018.bWsiI6Oz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Xianwei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dff71e5c6076314f3eefe700abd6af834c57bd64]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-rtc-Add-Amlogic-A311L2-and-A113X2-rtc/20240826-125504
+base:   dff71e5c6076314f3eefe700abd6af834c57bd64
+patch link:    https://lore.kernel.org/r/20240823-rtc-v1-2-6f70381da283%40amlogic.com
+patch subject: [PATCH 2/3] rtc: support for the Amlogic on-chip RTC
+config: i386-buildonly-randconfig-003-20240826 (https://download.01.org/0day-ci/archive/20240826/202408262035.4BysJ5CK-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262035.4BysJ5CK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262018.bWsiI6Oz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408262035.4BysJ5CK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/disk_accounting.c:136:5-8: Unneeded variable: "ret". Return "0" on line 184
+All warnings (new ones prefixed by >>):
 
-vim +136 fs/bcachefs/disk_accounting.c
+>> drivers/rtc/rtc-amlogic.c:159:6: warning: variable 'alarm_sec' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     159 |         if (alarm->enabled) {
+         |             ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-amlogic.c:173:19: note: uninitialized use occurs here
+     173 |                 alarm->enabled, alarm_sec);
+         |                                 ^~~~~~~~~
+   include/linux/dev_printk.h:168:46: note: expanded from macro 'dev_dbg'
+     168 |         dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                     ^~~~~~~~~~~
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                                ^~~~~~~~~~~
+   drivers/rtc/rtc-amlogic.c:159:2: note: remove the 'if' if its condition is always true
+     159 |         if (alarm->enabled) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-amlogic.c:157:20: note: initialize the variable 'alarm_sec' to silence this warning
+     157 |         time64_t alarm_sec;
+         |                           ^
+         |                            = 0
+>> drivers/rtc/rtc-amlogic.c:565:34: warning: unused variable 'aml_rtc_device_id' [-Wunused-const-variable]
+     565 | static const struct of_device_id aml_rtc_device_id[] = {
+         |                                  ^~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
-   128	
-   129	int bch2_accounting_invalid(struct bch_fs *c, struct bkey_s_c k,
-   130				    enum bch_validate_flags flags,
-   131				    struct printbuf *err)
-   132	{
-   133		struct disk_accounting_pos acc_k;
-   134		bpos_to_disk_accounting_pos(&acc_k, k.k->p);
-   135		void *end = &acc_k + 1;
- > 136		int ret = 0;
-   137	
-   138		switch (acc_k.type) {
-   139		case BCH_DISK_ACCOUNTING_nr_inodes:
-   140			end = field_end(acc_k, nr_inodes);
-   141			break;
-   142		case BCH_DISK_ACCOUNTING_persistent_reserved:
-   143			end = field_end(acc_k, persistent_reserved);
-   144			break;
-   145		case BCH_DISK_ACCOUNTING_replicas:
-   146			bkey_fsck_err_on(!acc_k.replicas.nr_devs,
-   147					 c, err, accounting_key_replicas_nr_devs_0,
-   148					 "accounting key replicas entry with nr_devs=0");
-   149	
-   150			bkey_fsck_err_on(acc_k.replicas.nr_required > acc_k.replicas.nr_devs ||
-   151					 (acc_k.replicas.nr_required > 1 &&
-   152					  acc_k.replicas.nr_required == acc_k.replicas.nr_devs),
-   153					 c, err, accounting_key_replicas_nr_required_bad,
-   154					 "accounting key replicas entry with bad nr_required");
-   155	
-   156			for (unsigned i = 0; i + 1 < acc_k.replicas.nr_devs; i++)
-   157				bkey_fsck_err_on(acc_k.replicas.devs[i] > acc_k.replicas.devs[i + 1],
-   158						 c, err, accounting_key_replicas_devs_unsorted,
-   159						 "accounting key replicas entry with unsorted devs");
-   160	
-   161			end = (void *) &acc_k.replicas + replicas_entry_bytes(&acc_k.replicas);
-   162			break;
-   163		case BCH_DISK_ACCOUNTING_dev_data_type:
-   164			end = field_end(acc_k, dev_data_type);
-   165			break;
-   166		case BCH_DISK_ACCOUNTING_compression:
-   167			end = field_end(acc_k, compression);
-   168			break;
-   169		case BCH_DISK_ACCOUNTING_snapshot:
-   170			end = field_end(acc_k, snapshot);
-   171			break;
-   172		case BCH_DISK_ACCOUNTING_btree:
-   173			end = field_end(acc_k, btree);
-   174			break;
-   175		case BCH_DISK_ACCOUNTING_rebalance_work:
-   176			end = field_end(acc_k, rebalance_work);
-   177			break;
-   178		}
-   179	
-   180		bkey_fsck_err_on(!is_zero(end, (void *) (&acc_k + 1)),
-   181				 c, err, accounting_key_junk_at_end,
-   182				 "junk at end of accounting key");
-   183	fsck_err:
- > 184		return ret;
-   185	}
-   186	
+
+vim +159 drivers/rtc/rtc-amlogic.c
+
+   153	
+   154	static int aml_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alarm)
+   155	{
+   156		struct aml_rtc_data *rtc = dev_get_drvdata(dev);
+   157		time64_t alarm_sec;
+   158	
+ > 159		if (alarm->enabled) {
+   160			regmap_update_bits(rtc->map, RTC_CTRL,
+   161					   RTC_ALRM0_EN, RTC_ALRM0_EN);
+   162			regmap_update_bits(rtc->map, RTC_INT_MASK,
+   163					   RTC_ALRM0_IRQ_MSK, 0);
+   164	
+   165			alarm_sec = rtc_tm_to_time64(&alarm->time);
+   166			if (alarm_sec > U32_MAX) {
+   167				dev_err(dev, "alarm value invalid!\n");
+   168				return -EINVAL;
+   169			}
+   170			aml_set_alarm(rtc, alarm_sec);
+   171		}
+   172		dev_dbg(dev, "%s: alarm->enabled=%d alarm_set=%llds\n", __func__,
+   173			alarm->enabled, alarm_sec);
+   174	
+   175		return 0;
+   176	}
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
