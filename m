@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8615419D881;
-	Mon, 26 Aug 2024 22:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7687919D075
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 22:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724711316; cv=none; b=sunFMEYX2Yjod+gbdBTbhLIOBwUGUAX1Yl2q4j39tMTBCA3bl8yIQoCF3Dwlgg2ZF0q/pQK0/Y0bTjnJGXi/0H68tD8fy65mHZMeDbsBW4a8Q1iDGeVoY5+tXOyXcbkiFxzn/kS8BujcRmXzvzIwaMrPBAPuOS/MkGP37eyBJyM=
+	t=1724711321; cv=none; b=ttOeeu/pZ+MzKrXiUhtFKtXdiW60xdzPb0/v7AsmF7xbMt97bjOP7xsAD6C5OZriZ+TJHTIu1zCnG6rdEsx/oTc6SYV0l4ffE9RhbCiitCBVmDWzRMztp2CqovT8rgA6aOYNIQ+Ysmclm+D5Lk2GQaVsqo6ue3XiXvgM+FOApcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724711316; c=relaxed/simple;
-	bh=s1hzt7glOz0ZAn9XcJ5h9svrxKmHqeYhfvvo9fsQxMU=;
+	s=arc-20240116; t=1724711321; c=relaxed/simple;
+	bh=0Qogogt71o7Y7M7XcFUPX/sDVPaFlsu14+gvAsGv0lY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eej1nhklKNu4OsWGYTByHjwRF8kiuQxK+ElDugr+zjgrzL4XtEC00mLnRXETvb6lkD+9oUdGuf9ryipoYxvKo/o2n9BdzPsJt/R7gpDrP9X8Gq71u1x7DvLiU3N2Lzx9Tbd2w3cEQ2Ot1AppSycEa2ensls7mC+/0JKkdV35Hhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ih3Y6nID; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=YKx5mcNDlpNyiNsiqIXhxiuaxVtZ6kvMpZ/DYpGTXwmXRi+xmd0kBw8Kxh1ST3Q5WDrTzT8uGFAckmJYjEAZsXT7nczC/J4GlEWYCI/4+G3eTEPM92aZc7N0iQH1P89t4Q7LbCxY/6Z1LEVHzObZ1Zf2GlSgjpGBY3zhbfW+jd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpcnYVwb; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ih3Y6nID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpcnYVwb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724711315; x=1756247315;
+  t=1724711318; x=1756247318;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s1hzt7glOz0ZAn9XcJ5h9svrxKmHqeYhfvvo9fsQxMU=;
-  b=ih3Y6nIDawFhUABBr2OT8DMUSZ2q+JnM0niDNwEX1R2ytenbQrtStlYd
-   bJldbauHMShAHupEZh9CPKsLu8Xhk7/FNg1QYg6jX+bqLa/hnvDLmRME7
-   qfZp5+G+01kaoVO6grt2m9072ftoGPOYLYm3OTg7OAflmGJiT+eKFBxt/
-   T58tlRA2SLhTSZMZj40tWkFFw8kkvMhJ4/MUzo6W1pD2Y4/YAek08sAYy
-   oQgWFeRO1b6cVX1GJeaFKBtybNA0kJ4e3swC7EXcfOgKCglg9ayNENP8z
-   Jdo4byZz7Nl9w+3iAu7wlOPho1DR1IVa01Ya47aV3XitTnybm2NJDei6h
-   Q==;
-X-CSE-ConnectionGUID: Qd8ZaORCQ6G/ySsHvJA70A==
-X-CSE-MsgGUID: SdPcogWRSd6S30Nm31/yRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="34537792"
+  bh=0Qogogt71o7Y7M7XcFUPX/sDVPaFlsu14+gvAsGv0lY=;
+  b=TpcnYVwbaTADnc7IfBzhz9doWWwIowBR3RsA2fB1nSh+ZsOdYvOOQDN+
+   4n/ZF8yIprrtHVvNtFad6qWN+qsS10obJOK5SeYqZj2icFCdJHqNQ+uFw
+   S1mH8kDVl9rU4IYbemkFYM6MYDj+nqNMZ9HWEjqPCwmu7WC0+kKRxjR6+
+   WQsbiImdgBzOgXWohJ9VRl21Ct436HUXlJm2lX9d1dr2gU1iQXSaLQyOM
+   M16HuA6cPOv5y8O9dUrz4BXiiTxqxPkY05JYrvXZ8Q4dbuagyvvEgTpMy
+   dXdvOe3n9msspdc1EPngq0dIHrYjdxfCRcCUZapDetsFfJyC9zfZTOeN3
+   A==;
+X-CSE-ConnectionGUID: jVbHpPgRTiesd4J3IrAaqw==
+X-CSE-MsgGUID: 9zos70DuRXGIASKN6DF3bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26954808"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="34537792"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:28:34 -0700
-X-CSE-ConnectionGUID: F8xtsXEHSZulrpyJwWgMzw==
-X-CSE-MsgGUID: DlF0mGv4R7uOUTqqQvs7Rw==
+   d="scan'208";a="26954808"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:28:38 -0700
+X-CSE-ConnectionGUID: fC5v4AWrTU6vmRXNVb2QFg==
+X-CSE-MsgGUID: NzcrWMc+SJqGXXtChWMO7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="66994201"
+   d="scan'208";a="93383021"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Aug 2024 15:28:32 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 15:28:32 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siiCL-000Hes-2C;
+	id 1siiCL-000Hew-2R;
 	Mon, 26 Aug 2024 22:28:29 +0000
 Date: Tue, 27 Aug 2024 06:28:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Avri Altman <avri.altman@wdc.com>, Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ricky WU <ricky_wu@realtek.com>, Avri Altman <avri.altman@wdc.com>
-Subject: Re: [PATCH v4 6/9] mmc: host: Add close-ended Ext memory addressing
-Message-ID: <202408270619.qJDzvXzO-lkp@intel.com>
-References: <20240825074141.3171549-7-avri.altman@wdc.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	jani.nikula@intel.com, Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] drm: ensure drm headers are self-contained and pass
+ kernel-doc
+Message-ID: <202408270538.dEV4dXpq-lkp@intel.com>
+References: <20240823141110.3431423-2-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,70 +69,500 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240825074141.3171549-7-avri.altman@wdc.com>
+In-Reply-To: <20240823141110.3431423-2-jani.nikula@intel.com>
 
-Hi Avri,
+Hi Jani,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.11-rc5 next-20240826]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on next-20240826]
+[cannot apply to drm-misc/drm-misc-next linus/master v6.11-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/mmc-sd-SDUC-Support-Recognition/20240826-161527
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240825074141.3171549-7-avri.altman%40wdc.com
-patch subject: [PATCH v4 6/9] mmc: host: Add close-ended Ext memory addressing
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240827/202408270619.qJDzvXzO-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270619.qJDzvXzO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-ensure-drm-headers-are-self-contained-and-pass-kernel-doc/20240826-134953
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240823141110.3431423-2-jani.nikula%40intel.com
+patch subject: [PATCH 2/2] drm: ensure drm headers are self-contained and pass kernel-doc
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408270538.dEV4dXpq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270538.dEV4dXpq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270619.qJDzvXzO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270538.dEV4dXpq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mmc/host/sdhci.c:1797:17: error: implicit declaration of function 'mmc_card_ult_capacity' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           bool is_sduc = mmc_card_ult_capacity(host->mmc->card);
-                          ^
-   1 error generated.
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/pgtable-levels.h:160:34: note: in expansion of macro 'pmd_val'
+     160 | #define pmd_page_vaddr(pmd)     (pmd_val(pmd) & PAGE_MASK)
+         |                                  ^~~~~~~
+   include/linux/pgtable.h:96:25: note: in expansion of macro 'pmd_page_vaddr'
+      96 |         return (pte_t *)pmd_page_vaddr(*pmd) + pte_index(address);
+         |                         ^~~~~~~~~~~~~~
+   include/linux/pgtable.h: In function 'pmd_off':
+   include/linux/pgtable.h:165:38: error: implicit declaration of function 'p4d_offset'; did you mean 'pmd_offset'? [-Werror=implicit-function-declaration]
+     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~
+         |                                      pmd_offset
+   include/linux/pgtable.h:165:38: warning: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     165 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmd_off_k':
+   include/linux/pgtable.h:170:38: warning: passing argument 1 of 'pud_offset' makes pointer from integer without a cast [-Wint-conversion]
+     170 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   include/asm-generic/pgtable-nopud.h:42:40: note: expected 'p4d_t *' but argument is of type 'int'
+      42 | static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+         |                                 ~~~~~~~^~~
+   include/linux/pgtable.h: In function 'virt_to_kpte':
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
+      41 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/pgtable-levels.h:156:35: note: in expansion of macro 'pmd_val'
+     156 | #define pmd_none(x)             (!pmd_val(x))
+         |                                   ^~~~~~~
+   include/linux/pgtable.h:177:16: note: in expansion of macro 'pmd_none'
+     177 |         return pmd_none(*pmd) ? NULL : pte_offset_kernel(pmd, vaddr);
+         |                ^~~~~~~~
+   include/linux/pgtable.h: In function 'ptep_test_and_clear_young':
+   include/linux/pgtable.h:359:55: error: implicit declaration of function 'pte_mkold'; did you mean 'pmd_mkold'? [-Werror=implicit-function-declaration]
+     359 |                 set_pte_at(vma->vm_mm, address, ptep, pte_mkold(pte));
+         |                                                       ^~~~~~~~~
+   include/linux/pgtable.h:280:66: note: in definition of macro 'set_pte_at'
+     280 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:359:55: error: incompatible type for argument 4 of 'set_ptes'
+     359 |                 set_pte_at(vma->vm_mm, address, ptep, pte_mkold(pte));
+         |                                                       ^~~~~~~~~~~~~~
+         |                                                       |
+         |                                                       int
+   include/linux/pgtable.h:280:66: note: in definition of macro 'set_pte_at'
+     280 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:265:36: note: expected 'pte_t' but argument is of type 'int'
+     265 |                 pte_t *ptep, pte_t pte, unsigned int nr)
+         |                              ~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmdp_test_and_clear_young':
+   arch/arc/include/asm/page.h:74:29: error: request for member 'pte' in something not a structure or union
+      74 | #define pte_val(x)      ((x).pte)
+         |                             ^
+   arch/arc/include/asm/pgtable-bits-arcv2.h:82:34: note: in expansion of macro 'pte_val'
+      82 | #define pte_young(pte)          (pte_val(pte) & _PAGE_ACCESSED)
+         |                                  ^~~~~~~
+   arch/arc/include/asm/hugepage.h:40:33: note: in expansion of macro 'pte_young'
+      40 | #define pmd_young(pmd)          pte_young(pmd_pte(pmd))
+         |                                 ^~~~~~~~~
+   include/linux/pgtable.h:372:14: note: in expansion of macro 'pmd_young'
+     372 |         if (!pmd_young(pmd))
+         |              ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:33:33: error: implicit declaration of function 'pte_pmd'; did you mean 'pfn_pmd'? [-Werror=implicit-function-declaration]
+      33 | #define pmd_mkold(pmd)          pte_pmd(pte_mkold(pmd_pte(pmd)))
+         |                                 ^~~~~~~
+   include/linux/pgtable.h:375:55: note: in expansion of macro 'pmd_mkold'
+     375 |                 set_pmd_at(vma->vm_mm, address, pmdp, pmd_mkold(pmd));
+         |                                                       ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:33:33: error: incompatible type for argument 4 of 'set_pmd_at'
+      33 | #define pmd_mkold(pmd)          pte_pmd(pte_mkold(pmd_pte(pmd)))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/pgtable.h:375:55: note: in expansion of macro 'pmd_mkold'
+     375 |                 set_pmd_at(vma->vm_mm, address, pmdp, pmd_mkold(pmd));
+         |                                                       ^~~~~~~~~
+   arch/arc/include/asm/hugepage.h:59:50: note: expected 'pmd_t' but argument is of type 'int'
+      59 |                               pmd_t *pmdp, pmd_t pmd)
+         |                                            ~~~~~~^~~
+   include/linux/pgtable.h: In function 'clear_young_dirty_ptes':
+   include/linux/pgtable.h:493:39: error: incompatible types when assigning to type 'pte_t' from type 'int'
+     493 |                                 pte = pte_mkold(pte);
+         |                                       ^~~~~~~~~
+>> include/linux/pgtable.h:495:39: error: implicit declaration of function 'pte_mkclean'; did you mean 'pmd_mkclean'? [-Werror=implicit-function-declaration]
+     495 |                                 pte = pte_mkclean(pte);
+         |                                       ^~~~~~~~~~~
+         |                                       pmd_mkclean
+   include/linux/pgtable.h:495:39: error: incompatible types when assigning to type 'pte_t' from type 'int'
+   include/linux/pgtable.h: In function 'pmdp_huge_get_and_clear':
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
+      41 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   arch/arc/include/asm/pgtable-levels.h:159:38: note: in expansion of macro 'pmd_val'
+     159 | #define pmd_clear(xp)           do { pmd_val(*(xp)) = 0; } while (0)
+         |                                      ^~~~~~~
+   include/linux/pgtable.h:603:9: note: in expansion of macro 'pmd_clear'
+     603 |         pmd_clear(pmdp);
+         |         ^~~~~~~~~
+   include/linux/pgtable.h: In function 'get_and_clear_full_ptes':
+>> include/linux/pgtable.h:684:31: error: implicit declaration of function 'pte_mkdirty'; did you mean 'pte_dirty'? [-Werror=implicit-function-declaration]
+     684 |                         pte = pte_mkdirty(pte);
+         |                               ^~~~~~~~~~~
+         |                               pte_dirty
+   include/linux/pgtable.h:684:31: error: incompatible types when assigning to type 'pte_t' from type 'int'
+>> include/linux/pgtable.h:686:31: error: implicit declaration of function 'pte_mkyoung'; did you mean 'pte_young'? [-Werror=implicit-function-declaration]
+     686 |                         pte = pte_mkyoung(pte);
+         |                               ^~~~~~~~~~~
+         |                               pte_young
+   include/linux/pgtable.h:686:31: error: incompatible types when assigning to type 'pte_t' from type 'int'
+   include/linux/pgtable.h: In function 'pte_mkwrite':
+   include/linux/pgtable.h:807:16: error: implicit declaration of function 'pte_mkwrite_novma'; did you mean 'pmd_mkwrite_novma'? [-Werror=implicit-function-declaration]
+     807 |         return pte_mkwrite_novma(pte);
+         |                ^~~~~~~~~~~~~~~~~
+         |                pmd_mkwrite_novma
+   include/linux/pgtable.h:807:16: error: incompatible types when returning type 'int' but 'pte_t' was expected
+     807 |         return pte_mkwrite_novma(pte);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h: In function 'pmd_mkwrite':
+   arch/arc/include/asm/hugepage.h:31:33: error: incompatible types when returning type 'int' but 'pmd_t' was expected
+      31 | #define pmd_mkwrite_novma(pmd)  pte_pmd(pte_mkwrite_novma(pmd_pte(pmd)))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h:814:16: note: in expansion of macro 'pmd_mkwrite_novma'
+     814 |         return pmd_mkwrite_novma(pmd);
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h: In function 'ptep_set_wrprotect':
+   include/linux/pgtable.h:823:39: error: implicit declaration of function 'pte_wrprotect'; did you mean 'pmd_wrprotect'? [-Werror=implicit-function-declaration]
+     823 |         set_pte_at(mm, address, ptep, pte_wrprotect(old_pte));
+         |                                       ^~~~~~~~~~~~~
+   include/linux/pgtable.h:280:66: note: in definition of macro 'set_pte_at'
+     280 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:823:39: error: incompatible type for argument 4 of 'set_ptes'
+     823 |         set_pte_at(mm, address, ptep, pte_wrprotect(old_pte));
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+         |                                       |
+         |                                       int
+   include/linux/pgtable.h:280:66: note: in definition of macro 'set_pte_at'
+     280 | #define set_pte_at(mm, addr, ptep, pte) set_ptes(mm, addr, ptep, pte, 1)
+         |                                                                  ^~~
+   include/linux/pgtable.h:265:36: note: expected 'pte_t' but argument is of type 'int'
+     265 |                 pte_t *ptep, pte_t pte, unsigned int nr)
+         |                              ~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmdp_set_wrprotect':
+   arch/arc/include/asm/hugepage.h:30:33: error: incompatible type for argument 4 of 'set_pmd_at'
+      30 | #define pmd_wrprotect(pmd)      pte_pmd(pte_wrprotect(pmd_pte(pmd)))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/pgtable.h:880:39: note: in expansion of macro 'pmd_wrprotect'
+     880 |         set_pmd_at(mm, address, pmdp, pmd_wrprotect(old_pmd));
+         |                                       ^~~~~~~~~~~~~
+   arch/arc/include/asm/hugepage.h:59:50: note: expected 'pmd_t' but argument is of type 'int'
+      59 |                               pmd_t *pmdp, pmd_t pmd)
+         |                                            ~~~~~~^~~
+   include/linux/pgtable.h: In function 'pmd_same':
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
+      41 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1027:16: note: in expansion of macro 'pmd_val'
+    1027 |         return pmd_val(pmd_a) == pmd_val(pmd_b);
+         |                ^~~~~~~
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
+      41 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopmd.h:52:50: note: in expansion of macro 'pud_val'
+      52 | #define pmd_val(x)                              (pud_val((x).pud))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1027:34: note: in expansion of macro 'pmd_val'
+    1027 |         return pmd_val(pmd_a) == pmd_val(pmd_b);
+         |                                  ^~~~~~~
+   include/linux/pgtable.h:1025:34: warning: parameter 'pmd_a' set but not used [-Wunused-but-set-parameter]
+    1025 | static inline int pmd_same(pmd_t pmd_a, pmd_t pmd_b)
+         |                            ~~~~~~^~~~~
+   include/linux/pgtable.h:1025:47: warning: parameter 'pmd_b' set but not used [-Wunused-but-set-parameter]
+    1025 | static inline int pmd_same(pmd_t pmd_a, pmd_t pmd_b)
+         |                                         ~~~~~~^~~~~
+   include/linux/pgtable.h: In function 'pud_same':
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
+      41 | #define pgd_val(x)      ((x).pgd)
+         |                             ^
+   include/asm-generic/pgtable-nop4d.h:40:50: note: in expansion of macro 'pgd_val'
+      40 | #define p4d_val(x)                              (pgd_val((x).pgd))
+         |                                                  ^~~~~~~
+   include/asm-generic/pgtable-nopud.h:48:50: note: in expansion of macro 'p4d_val'
+      48 | #define pud_val(x)                              (p4d_val((x).p4d))
+         |                                                  ^~~~~~~
+   include/linux/pgtable.h:1034:16: note: in expansion of macro 'pud_val'
+    1034 |         return pud_val(pud_a) == pud_val(pud_b);
+         |                ^~~~~~~
+   arch/arc/include/asm/page.h:41:29: error: request for member 'pgd' in something not a structure or union
 
 
-vim +/mmc_card_ult_capacity +1797 drivers/mmc/host/sdhci.c
+vim +495 include/linux/pgtable.h
 
-  1793	
-  1794	static struct mmc_command *sdhci_get_sbc_ext(struct sdhci_host *host,
-  1795						     struct mmc_command *cmd)
-  1796	{
-> 1797		bool is_sduc = mmc_card_ult_capacity(host->mmc->card);
-  1798	
-  1799		if (is_sduc) {
-  1800			/*  Finished CMD22, now send actual command */
-  1801			if (cmd == cmd->mrq->ext)
-  1802				return cmd->mrq->cmd;
-  1803		}
-  1804	
-  1805		/* Finished CMD23 */
-  1806		if (cmd == cmd->mrq->sbc) {
-  1807			if (is_sduc) {
-  1808				/* send CMD22 after CMD23 */
-  1809				if (WARN_ON(!cmd->mrq->ext))
-  1810					return NULL;
-  1811				else
-  1812					return cmd->mrq->ext;
-  1813			} else {
-  1814				/* Finished CMD23, now send actual command */
-  1815				return cmd->mrq->cmd;
-  1816			}
-  1817		}
-  1818	
-  1819		return NULL;
-  1820	}
-  1821	
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  461  
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  462  #ifndef clear_young_dirty_ptes
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  463  /**
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  464   * clear_young_dirty_ptes - Mark PTEs that map consecutive pages of the
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  465   *		same folio as old/clean.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  466   * @mm: Address space the pages are mapped into.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  467   * @addr: Address the first page is mapped at.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  468   * @ptep: Page table pointer for the first entry.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  469   * @nr: Number of entries to mark old/clean.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  470   * @flags: Flags to modify the PTE batch semantics.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  471   *
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  472   * May be overridden by the architecture; otherwise, implemented by
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  473   * get_and_clear/modify/set for each pte in the range.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  474   *
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  475   * Note that PTE bits in the PTE range besides the PFN can differ. For example,
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  476   * some PTEs might be write-protected.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  477   *
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  478   * Context: The caller holds the page table lock.  The PTEs map consecutive
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  479   * pages that belong to the same folio.  The PTEs are all in the same PMD.
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  480   */
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  481  static inline void clear_young_dirty_ptes(struct vm_area_struct *vma,
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  482  					  unsigned long addr, pte_t *ptep,
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  483  					  unsigned int nr, cydp_t flags)
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  484  {
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  485  	pte_t pte;
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  486  
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  487  	for (;;) {
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  488  		if (flags == CYDP_CLEAR_YOUNG)
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  489  			ptep_test_and_clear_young(vma, addr, ptep);
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  490  		else {
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  491  			pte = ptep_get_and_clear(vma->vm_mm, addr, ptep);
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  492  			if (flags & CYDP_CLEAR_YOUNG)
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  493  				pte = pte_mkold(pte);
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  494  			if (flags & CYDP_CLEAR_DIRTY)
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18 @495  				pte = pte_mkclean(pte);
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  496  			set_pte_at(vma->vm_mm, addr, ptep, pte);
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  497  		}
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  498  		if (--nr == 0)
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  499  			break;
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  500  		ptep++;
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  501  		addr += PAGE_SIZE;
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  502  	}
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  503  }
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  504  #endif
+1b68112c40395b include/linux/pgtable.h       Lance Yang         2024-04-18  505  
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  506  static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  507  			      pte_t *ptep)
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  508  {
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  509  	ptep_get_and_clear(mm, addr, ptep);
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  510  }
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  511  
+6ca297d4784625 include/linux/pgtable.h       Peter Zijlstra     2022-10-21  512  #ifdef CONFIG_GUP_GET_PXX_LOW_HIGH
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  513  /*
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  514   * For walking the pagetables without holding any locks.  Some architectures
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  515   * (eg x86-32 PAE) cannot load the entries atomically without using expensive
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  516   * instructions.  We are guaranteed that a PTE will only either go from not
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  517   * present to present, or present to not present -- it will not switch to a
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  518   * completely different present page without a TLB flush inbetween; which we
+93b3037a148275 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  519   * are blocking by holding interrupts off.
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  520   *
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  521   * Setting ptes from not present to present goes:
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  522   *
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  523   *   ptep->pte_high = h;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  524   *   smp_wmb();
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  525   *   ptep->pte_low = l;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  526   *
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  527   * And present to not present goes:
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  528   *
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  529   *   ptep->pte_low = 0;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  530   *   smp_wmb();
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  531   *   ptep->pte_high = 0;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  532   *
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  533   * We must ensure here that the load of pte_low sees 'l' IFF pte_high sees 'h'.
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  534   * We load pte_high *after* loading pte_low, which ensures we don't see an older
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  535   * value of pte_high.  *Then* we recheck pte_low, which ensures that we haven't
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  536   * picked up a changed pte high. We might have gotten rubbish values from
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  537   * pte_low and pte_high, but we are guaranteed that pte_low will not have the
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  538   * present bit set *unless* it is 'l'. Because get_user_pages_fast() only
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  539   * operates on present ptes we're safe.
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  540   */
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  541  static inline pte_t ptep_get_lockless(pte_t *ptep)
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  542  {
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  543  	pte_t pte;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  544  
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  545  	do {
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  546  		pte.pte_low = ptep->pte_low;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  547  		smp_rmb();
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  548  		pte.pte_high = ptep->pte_high;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  549  		smp_rmb();
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  550  	} while (unlikely(pte.pte_low != ptep->pte_low));
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  551  
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  552  	return pte;
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  553  }
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  554  #define ptep_get_lockless ptep_get_lockless
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  555  
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  556  #if CONFIG_PGTABLE_LEVELS > 2
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  557  static inline pmd_t pmdp_get_lockless(pmd_t *pmdp)
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  558  {
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  559  	pmd_t pmd;
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  560  
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  561  	do {
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  562  		pmd.pmd_low = pmdp->pmd_low;
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  563  		smp_rmb();
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  564  		pmd.pmd_high = pmdp->pmd_high;
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  565  		smp_rmb();
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  566  	} while (unlikely(pmd.pmd_low != pmdp->pmd_low));
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  567  
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  568  	return pmd;
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  569  }
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  570  #define pmdp_get_lockless pmdp_get_lockless
+146b42e07494e4 include/linux/pgtable.h       Hugh Dickins       2023-07-11  571  #define pmdp_get_lockless_sync() tlb_remove_table_sync_one()
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  572  #endif /* CONFIG_PGTABLE_LEVELS > 2 */
+6ca297d4784625 include/linux/pgtable.h       Peter Zijlstra     2022-10-21  573  #endif /* CONFIG_GUP_GET_PXX_LOW_HIGH */
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  574  
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  575  /*
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  576   * We require that the PTE can be read atomically.
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  577   */
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  578  #ifndef ptep_get_lockless
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  579  static inline pte_t ptep_get_lockless(pte_t *ptep)
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  580  {
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  581  	return ptep_get(ptep);
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  582  }
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  583  #endif
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  584  
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  585  #ifndef pmdp_get_lockless
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  586  static inline pmd_t pmdp_get_lockless(pmd_t *pmdp)
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  587  {
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  588  	return pmdp_get(pmdp);
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  589  }
+146b42e07494e4 include/linux/pgtable.h       Hugh Dickins       2023-07-11  590  static inline void pmdp_get_lockless_sync(void)
+146b42e07494e4 include/linux/pgtable.h       Hugh Dickins       2023-07-11  591  {
+146b42e07494e4 include/linux/pgtable.h       Hugh Dickins       2023-07-11  592  }
+024d232ae4fcd7 include/linux/pgtable.h       Peter Zijlstra     2020-11-26  593  #endif
+2a4a06da8a4b93 include/linux/pgtable.h       Peter Zijlstra     2020-11-13  594  
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  595  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  596  #ifndef __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
+8809aa2d28d741 include/asm-generic/pgtable.h Aneesh Kumar K.V   2015-06-24  597  static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm,
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  598  					    unsigned long address,
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  599  					    pmd_t *pmdp)
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  600  {
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  601  	pmd_t pmd = *pmdp;
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  602  
+2d28a2275c21d0 include/asm-generic/pgtable.h Catalin Marinas    2012-10-08  603  	pmd_clear(pmdp);
+1831414cd729a3 include/linux/pgtable.h       Kemeng Shi         2023-07-14  604  	page_table_check_pmd_clear(mm, pmd);
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  605  
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  606  	return pmd;
+49b24d6b41c576 include/asm-generic/pgtable.h Nicolas Kaiser     2011-06-15  607  }
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  608  #endif /* __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR */
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  609  #ifndef __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  610  static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  611  					    unsigned long address,
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  612  					    pud_t *pudp)
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  613  {
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  614  	pud_t pud = *pudp;
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  615  
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  616  	pud_clear(pudp);
+931c38e16499a0 include/linux/pgtable.h       Kemeng Shi         2023-07-14  617  	page_table_check_pud_clear(mm, pud);
+de8c8e52836d00 include/linux/pgtable.h       Tong Tiangen       2022-05-12  618  
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  619  	return pud;
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  620  }
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  621  #endif /* __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR */
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  622  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds     2005-04-16  623  
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  624  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  625  #ifndef __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR_FULL
+93a98695f2f9f9 include/asm-generic/pgtable.h Aneesh Kumar K.V   2020-05-05  626  static inline pmd_t pmdp_huge_get_and_clear_full(struct vm_area_struct *vma,
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  627  					    unsigned long address, pmd_t *pmdp,
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  628  					    int full)
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  629  {
+93a98695f2f9f9 include/asm-generic/pgtable.h Aneesh Kumar K.V   2020-05-05  630  	return pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  631  }
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  632  #endif
+fcbe08d66f57c3 include/asm-generic/pgtable.h Martin Schwidefsky 2014-10-24  633  
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  634  #ifndef __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR_FULL
+f32928ab6fe5ab include/linux/pgtable.h       Aneesh Kumar K.V   2023-07-25  635  static inline pud_t pudp_huge_get_and_clear_full(struct vm_area_struct *vma,
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  636  					    unsigned long address, pud_t *pudp,
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  637  					    int full)
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  638  {
+f32928ab6fe5ab include/linux/pgtable.h       Aneesh Kumar K.V   2023-07-25  639  	return pudp_huge_get_and_clear(vma->vm_mm, address, pudp);
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  640  }
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  641  #endif
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  642  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+a00cc7d9dd93d6 include/asm-generic/pgtable.h Matthew Wilcox     2017-02-24  643  
+a600388d284193 include/asm-generic/pgtable.h Zachary Amsden     2005-09-03  644  #ifndef __HAVE_ARCH_PTEP_GET_AND_CLEAR_FULL
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  645  static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  646  					    unsigned long address, pte_t *ptep,
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  647  					    int full)
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  648  {
+d3a89233583bf8 include/linux/pgtable.h       zhang songyi       2022-11-28  649  	return ptep_get_and_clear(mm, address, ptep);
+e2cda322648122 include/asm-generic/pgtable.h Andrea Arcangeli   2011-01-13  650  }
+a600388d284193 include/asm-generic/pgtable.h Zachary Amsden     2005-09-03  651  #endif
+a600388d284193 include/asm-generic/pgtable.h Zachary Amsden     2005-09-03  652  
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  653  #ifndef get_and_clear_full_ptes
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  654  /**
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  655   * get_and_clear_full_ptes - Clear present PTEs that map consecutive pages of
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  656   *			     the same folio, collecting dirty/accessed bits.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  657   * @mm: Address space the pages are mapped into.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  658   * @addr: Address the first page is mapped at.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  659   * @ptep: Page table pointer for the first entry.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  660   * @nr: Number of entries to clear.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  661   * @full: Whether we are clearing a full mm.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  662   *
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  663   * May be overridden by the architecture; otherwise, implemented as a simple
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  664   * loop over ptep_get_and_clear_full(), merging dirty/accessed bits into the
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  665   * returned PTE.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  666   *
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  667   * Note that PTE bits in the PTE range besides the PFN can differ. For example,
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  668   * some PTEs might be write-protected.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  669   *
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  670   * Context: The caller holds the page table lock.  The PTEs map consecutive
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  671   * pages that belong to the same folio.  The PTEs are all in the same PMD.
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  672   */
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  673  static inline pte_t get_and_clear_full_ptes(struct mm_struct *mm,
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  674  		unsigned long addr, pte_t *ptep, unsigned int nr, int full)
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  675  {
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  676  	pte_t pte, tmp_pte;
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  677  
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  678  	pte = ptep_get_and_clear_full(mm, addr, ptep, full);
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  679  	while (--nr) {
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  680  		ptep++;
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  681  		addr += PAGE_SIZE;
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  682  		tmp_pte = ptep_get_and_clear_full(mm, addr, ptep, full);
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  683  		if (pte_dirty(tmp_pte))
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14 @684  			pte = pte_mkdirty(pte);
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  685  		if (pte_young(tmp_pte))
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14 @686  			pte = pte_mkyoung(pte);
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  687  	}
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  688  	return pte;
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  689  }
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  690  #endif
+10ebac4f95e7a9 include/linux/pgtable.h       David Hildenbrand  2024-02-14  691  
 
 -- 
 0-DAY CI Kernel Test Service
