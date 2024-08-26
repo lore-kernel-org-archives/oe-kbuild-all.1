@@ -1,78 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AF81993BA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 21:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9AC19ADA3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 21:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724708079; cv=none; b=fSqxKXsu7cKZmeLXjqz7W+FWu9tCQaNcz3XSq+RsWQluXgdWKR/rFEvd2oPd1kAfBuooEi6Orhtjb0xYuE3lfH+sgo8H6J0nl8OjjF/SxaOvSHslRoCVq+BjdPaJTNCE34YjUoZ/f67qLm0grPoemT4tovOAKWTJZBR5TE7bfoQ=
+	t=1724708211; cv=none; b=RM8til6kZZI6OoyFLzpSUL0rxC1rltoki+PuiNx5TndCqAKvAvgpNkcGZrLIZCkeDRO17DEZtk+I8wlr6yvYWec1IUwiQSkbZG5rJFvmQmtrehOhqbaA2IS6TeyJPiLwGbvZvL25AHpHNqFhtol/j9WYoz9y8P8gv1hoIXt/lhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724708079; c=relaxed/simple;
-	bh=f6QVJ7gqPlOJSdYw6NwfRnwjtN71dpr2Yeva23qqdXQ=;
+	s=arc-20240116; t=1724708211; c=relaxed/simple;
+	bh=GYfQ2aJ6+j6KIn4wswZK8fwF1ipJKIXjPWzU4CXaGP0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/a6nafIQwPPn/AQ6kGN+n3jyuZBcIlbkAT5S5Ue7wSk8KrLhDIpqMRtYOEyVxAv/HkCH6tLhT4vbTJqPaJm4z0vv2NJwfkJ+jptXBY18sTMiRKlzodxU8Fg8nrHTiKYJHQk9teKdmcRXcgjGKKySB5if2cFkpdW5BSEY6kLKlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BupbacOo; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgXdNy0IK1RInD5FDNrTGYw2ML7hTQ/RXTcmtsA055Ltlx5Zi8gvuZDRnHKhQ0SPEtYO+O3tdPUyQAaKiAZNsTlihF00ZbPp68PMD990tzgHuie3mp3nQ8xJl9ocusO0wDqh6L2WMUk2J4zSoITiwwZaZEZZkNaAVjEinvYUpCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ey2gx3xl; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BupbacOo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724708077; x=1756244077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f6QVJ7gqPlOJSdYw6NwfRnwjtN71dpr2Yeva23qqdXQ=;
-  b=BupbacOoMmqT3KnKPl/JPcq4K8Brb5EleBhUTGjrfkGTsbNNqj4GHreD
-   hj3iV1Ynrqa2eesLEt49BjRHuKGiAYNIegbw5HjHR+E9cAqL0ihI8ombR
-   Z2UG576G176oSWVlyY+1Tdd9ad16Rvd29JkDhd7lEdobgcc8sCGRod+tj
-   LBPdro3r/y1b7Re+VDvMW8abOZDhLOeoiRI8HIE3++Otr/YzkxDsWvLME
-   gXpcwXjWh72mcydxGvG3C+bz1Dz0o8C/qhRV81lnmnnXLfUxsC3YjHZ6g
-   bzD+5KPv2FDwIDTtdU2PxHS6+JaE6nFI5qum9rbDG8KHG8VLz9Z5uZpHx
-   Q==;
-X-CSE-ConnectionGUID: OqDdme2bTUSvRdKKJWF89Q==
-X-CSE-MsgGUID: 7np4sV3vT+SZvARXekDcjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23025219"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="23025219"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 14:34:36 -0700
-X-CSE-ConnectionGUID: eZLAVeVBSbC/mqEo8Mbbug==
-X-CSE-MsgGUID: QnvKqTknQ4GeCeBOqGKUpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="66801034"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Aug 2024 14:34:30 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sihM4-000Hcg-1d;
-	Mon, 26 Aug 2024 21:34:28 +0000
-Date: Tue, 27 Aug 2024 05:34:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Theodore Ts'o <tytso@mit.edu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
-Message-ID: <202408270553.2S5d14Ar-lkp@intel.com>
-References: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ey2gx3xl"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c09fd20eddso1877528a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 14:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724708208; x=1725313008; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mrXFFnRr4yU7Etmc4wy+t+cJrIu15SH8enM9SvrbiKQ=;
+        b=Ey2gx3xlnY+i9C98fpzB+nJwVMk6jsgHMfcwAe181ZMuDwAQNoS0ubdj47p1/Injgd
+         d/E/4Aui+oNpxGldXp94Hp8BBsgOWrCiuIfwQSTLzJML16o2OlLoYbd0+5URDaBUnkAv
+         QALmxFGVqcgkYq8p/lWC+EJhcEhDfXW1uPoWZb2B7HnfYKrQnhSWQDPDVhTCK2+mLaoh
+         EMmxEFF61m7XrLCar0G8hA5ITvQIx+DY+e71Bfv59OaPwAOwLfmJb3ohmZAAUzoYEpvH
+         LJQ9NpK0V81odmQDKOT26pGLWsQaJ1ND4L3ojhEa5sip4vcJju2HyzELnjwR0EL/OewX
+         EzNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724708208; x=1725313008;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mrXFFnRr4yU7Etmc4wy+t+cJrIu15SH8enM9SvrbiKQ=;
+        b=sILRQJxSwtt6lOWc1DnwtlQ/Wj+FAwZSyCr/HfOJCtUDlJ3tqs2oqidNYLgwcKmXGq
+         9OEF1Hz/8ru8hyJ/ptMCs5NfGO0Bx/m2EFDbCxjl0jfnRAwWJMJuXeUbRGLa3N1BS2vV
+         rFjmtOAXHxQK/pa9IgSY+lgfi/OLOq4KXTquM/oeZl5rwWgJ+WzSBxAAe2Dg6zFVtqlQ
+         Fziwp0VKr+Xvp87xuOD0QleaCcXZZe62pf5l46zo4k5hpGX0QA8aUDXXrk/Zz0W+WEtg
+         FaF6U36pneWcwBAM/4bK9AucTKSNPBvx2xsn/+IL1YGbnCtOuHMwtZTlC0a2JhPcW1AR
+         VjzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwxfjWlcvcuM/lraMbMdmqYlBtMR0vOx+Xpnri0fktFp40wjZhw8Y9DI6o7w2HRhe69IF+V4EQE1vM2r4W@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMNyY9CxWC4drxVekR17iBt6FzINyjOZ2x1AnoX2duey0oNgeE
+	BQPQ3FqeFZkR8E4749UbNNIHhx45XLO6+1m4UADNWTxgVG190kpEeyKYZ9vbopQ=
+X-Google-Smtp-Source: AGHT+IFDd3BFQ04/0ytE5hJOoHnNG49Q5+Iezc5rR48h02qI4ikRCEhCnfwG37487ZRj5/YBze6HTw==
+X-Received: by 2002:a05:6402:84b:b0:5be:f1a7:c2cd with SMTP id 4fb4d7f45d1cf-5c0ba312cc8mr388408a12.31.1724708207427;
+        Mon, 26 Aug 2024 14:36:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb48106dsm218224a12.79.2024.08.26.14.36.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 14:36:46 -0700 (PDT)
+Date: Tue, 27 Aug 2024 00:36:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild@lists.linux.dev,
+	"Martin K . Petersen" <martin.petersen@oracle.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Peter Wang <peter.wang@mediatek.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Avri Altman <avri.altman@wdc.com>, Bean Huo <beanhuo@micron.com>,
+	Andrew Halaney <ahalaney@redhat.com>
+Subject: Re: [PATCH 1/2] scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier
+ to read
+Message-ID: <48a483e2-6a20-493a-80d8-7292c96aadcc@stanley.mountain>
+References: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
+ <602421aa-d546-49c2-a08f-6779d3c0f9af@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,54 +75,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy@csgroup.eu>
+In-Reply-To: <602421aa-d546-49c2-a08f-6779d3c0f9af@acm.org>
 
-Hi Christophe,
+On Mon, Aug 26, 2024 at 11:05:47AM -0700, Bart Van Assche wrote:
+> On 8/25/24 11:25 PM, Dan Carpenter wrote:
+> > New smatch warnings:
+> > drivers/ufs/core/ufshcd.c:5484 ufshcd_uic_cmd_compl() error: we previously assumed 'cmd' could be null (see line 5474)
+> 
+> This smatch warning is a false positive. There are multiple code blocks
+> in this functions that are guarded by if-statements. The two code blocks
+> this warning applies to are mutually exclusive. Hence, the 'cmd' check
+> from one block should not be used to draw conclusions about other code
+> blocks. I will consider to introduce the 'else' keyword to suppress this
+> false positive.
 
-kernel test robot noticed the following build warnings:
+I thought that might be the case, but I wasn't sure.
 
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes shuah-kselftest/next shuah-kselftest/fixes linus/master v6.11-rc5 next-20240826]
-[cannot apply to crng-random/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If it's a false positive, then you can just ignore it.  All old warnings are
+false positives.  People can find this thread if they have questions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/asm-generic-unaligned-h-Extract-common-header-for-vDSO/20240826-103525
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/315e3a268b165b6edad7dcb723b0d8a506a56c4e.1724309198.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 07/17] mm: Define VM_DROPPABLE for powerpc/32
-config: um-randconfig-r122-20240826 (https://download.01.org/0day-ci/archive/20240827/202408270553.2S5d14Ar-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270553.2S5d14Ar-lkp@intel.com/reproduce)
+regards,
+dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270553.2S5d14Ar-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   mm/debug_page_ref.c: note: in included file (through include/trace/events/page_ref.h):
->> include/trace/events/mmflags.h:168:5: sparse: sparse: undefined preprocessor identifier 'VM_DROPPABLE'
->> include/trace/events/mmflags.h:168:21: sparse: sparse: undefined preprocessor identifier 'VM_NONE'
-   mm/debug_page_ref.c: note: in included file (through include/trace/events/page_ref.h, include/trace/define_trace.h, include/trace/events/page_ref.h):
->> include/trace/events/mmflags.h:168:5: sparse: sparse: undefined preprocessor identifier 'VM_DROPPABLE'
->> include/trace/events/mmflags.h:168:21: sparse: sparse: undefined preprocessor identifier 'VM_NONE'
-   mm/debug_page_ref.c: note: in included file (through include/trace/events/page_ref.h, include/trace/trace_events.h, include/trace/define_trace.h, ...):
-   include/trace/events/mmflags.h:169:10: sparse: sparse: preprocessor token IF_HAVE_VM_DROPPABLE redefined
-   mm/debug_page_ref.c: note: in included file (through include/trace/events/page_ref.h):
-   include/trace/events/mmflags.h:171:10: sparse: this was the original definition
-
-vim +/VM_DROPPABLE +168 include/trace/events/mmflags.h
-
-   167	
- > 168	#if VM_DROPPABLE != VM_NONE
-   169	# define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
-   170	#else
-   171	# define IF_HAVE_VM_DROPPABLE(flag, name)
-   172	#endif
-   173	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
