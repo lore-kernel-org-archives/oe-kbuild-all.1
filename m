@@ -1,163 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09471CD25;
-	Mon, 26 Aug 2024 15:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6B13C17
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 15:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724685855; cv=none; b=M/wDutKAL27hnD4USPLOpUj/T4deSz55KA6Dov+UJvK1ksbKZqte/erckDGOnPTt/7ivYdwVsswlZ4zGdlombz76vCTRWzN0TDS/TqwztazvZvlYEGsglqh0MazzJgOKVzIcfW+aQEKhXzWKKzSBLu1EXYxMKKSGHaQTQw+smb8=
+	t=1724686459; cv=none; b=LAHXpHAfnZokqNBZOpONaC5MMZWeFgD2vWPQeCx239/qroTrVqqNHrZGbgR+3l2enPzlo2s5/s+8v8Gztdko6i8EqSPLayapLX0M/C2IYpohno/IcTfxEzjRJEAr8H64AyViu97iZmlriYGGbubUPoJSyq78CMgIKhjacgTcX1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724685855; c=relaxed/simple;
-	bh=CaBbi3OQv9oAwXqvZefHAetx2+TNWlDRtz/czDbMKd8=;
+	s=arc-20240116; t=1724686459; c=relaxed/simple;
+	bh=gi8HJl40tWv2dd4MmvKCXCZM2dhIkilsST7oNUF7m24=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=URDkSx5kML+DCz2ZovipnQ+/fVFGVE99TuNEWFrJSfVAxvaoezvjdCXlOdM+q1av3mX2gGECUGLRfeVl0U32X0E7ENAa0MNsRPYq2rtZPb2vVBnMPjvD78LNvGTZ9d48xEMqBfugpsq193RnM3QFYcPVI6lRMRbRCWnRfWKDZUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCb5HGd2; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/TV7vJ5SqHPJNGzr8RPrH49v8frn1UXE4yTWPRH2obQm3YPqyHJ+kvcAIxcWCKud3FsFE1OPwAP3cmeqQNmr9LWkbPerb5Guq5qRf1zVMdMMFhSejC0YUs4K3HSeSJ3FJ4SciuEeQZXdqN+BOYqM30bCQKepIGZzDr2bIkwRKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWIF7yYH; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCb5HGd2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWIF7yYH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724685852; x=1756221852;
+  t=1724686457; x=1756222457;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CaBbi3OQv9oAwXqvZefHAetx2+TNWlDRtz/czDbMKd8=;
-  b=eCb5HGd2O4wnrLcCKeEeM9/vxZnZaKd68QjCObbF7N+tfjPiYRfcOLjv
-   Xuvgku0daPDZi+X3YeXBI5FPaec1WCaGjP66w0AKUV2ePtEpjCK21zFn3
-   2LXTAHGX96jGuuNJHjamhLREZrdHdZ4C0VwbYO/k4t2uXhXGujlh/wCLy
-   H/1X8N5G2nPpgr+Ka+neVXLiNMAYMU2/DjOiy1T14njbHLJQrZp1FdaA5
-   nlBhWvmVD9zfmuYrIShSvaBXegWt1J66ohzdRuS7AtPFJnvbog4BItbU9
-   PfMSQFNUOgkpWz3IryOjVHDL4e2LBXTkBMyFyem4S0GrB1P7QztdTJcoy
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=gi8HJl40tWv2dd4MmvKCXCZM2dhIkilsST7oNUF7m24=;
+  b=jWIF7yYHZnuF8RWBT9Wzs7EQeAXTVWzturWCgiVLDtThgfzGBOeeeTof
+   84PBcK4VSDtIpu9OM5P6aWuCdO0ft6/FKPlwu4ciOEyloiKxZXPTr8PGO
+   LRlysAa0bgN6/cxCfA/8fitrtemgv9euyEDPLB4VkEZHSgSagsWjmwWwh
+   rWoNcN+NZ3+i6Qpse4+nOveFL938/NnTDvGcibRkE4CTLcL2qYbFtxvgZ
+   JUGYOY3Lp55MhYKykeDVX31CBPsinkIu8gf/1Ln7reQC8KGD0TPWEyAsD
+   QTAsALW1Lkn2xNOOi4ZNkDzZzOEjSNo14675lOYDx1BH4kQHgSPL9UPJH
    w==;
-X-CSE-ConnectionGUID: v4u+35YpTomxACHxu0K9xQ==
-X-CSE-MsgGUID: /1XiBFLhQGavWSCn08Yp0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23246729"
+X-CSE-ConnectionGUID: 8RwznYdvTbyTJPdvBKUtFw==
+X-CSE-MsgGUID: 8Bj6dKUVSkC28fDwgEbVtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22925950"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="23246729"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 08:24:11 -0700
-X-CSE-ConnectionGUID: M+wg2UATRHmxjMnfplPWmw==
-X-CSE-MsgGUID: 7Zy/U1HkROC40csSaOsdCg==
+   d="scan'208";a="22925950"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 08:34:16 -0700
+X-CSE-ConnectionGUID: OMHXyXqCQh+QanXWuNtozQ==
+X-CSE-MsgGUID: yXGUlNmkTCytHGNoeIdG0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="93271804"
+   d="scan'208";a="67445374"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 08:24:10 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2024 08:34:11 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sibZg-000HE7-0O;
-	Mon, 26 Aug 2024 15:24:08 +0000
-Date: Mon, 26 Aug 2024 23:23:31 +0800
+	id 1sibjM-000HEd-27;
+	Mon, 26 Aug 2024 15:34:08 +0000
+Date: Mon, 26 Aug 2024 23:33:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] xfs: call xfs_bmap_exact_minlen_extent_alloc from
- xfs_bmap_btalloc
-Message-ID: <202408262312.ekF7lryy-lkp@intel.com>
-References: <20240824034100.1163020-6-hch@lst.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/1] i2c: designware: Consolidate PM ops
+Message-ID: <202408262323.oYp5VaxV-lkp@intel.com>
+References: <20240823163057.1175381-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240824034100.1163020-6-hch@lst.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240823163057.1175381-1-andriy.shevchenko@linux.intel.com>
 
-Hi Christoph,
+Hi Andy,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on xfs-linux/for-next]
-[also build test ERROR on linus/master v6.11-rc5 next-20240826]
-[cannot apply to djwong-xfs/djwong-devel]
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on next-20240826]
+[cannot apply to linus/master v6.11-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-return-bool-from-xfs_attr3_leaf_add/20240826-140936
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20240824034100.1163020-6-hch%40lst.de
-patch subject: [PATCH 5/6] xfs: call xfs_bmap_exact_minlen_extent_alloc from xfs_bmap_btalloc
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240826/202408262312.ekF7lryy-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262312.ekF7lryy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Consolidate-PM-ops/20240826-171118
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240823163057.1175381-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] i2c: designware: Consolidate PM ops
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240826/202408262323.oYp5VaxV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408262323.oYp5VaxV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408262312.ekF7lryy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408262323.oYp5VaxV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/xfs/libxfs/xfs_bmap.c:3762:50: error: too many arguments provided to function-like macro invocation
-    3762 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-         |                                                                ^
-   fs/xfs/libxfs/xfs_bmap.c:3500:9: note: macro 'xfs_bmap_exact_minlen_extent_alloc' defined here
-    3500 | #define xfs_bmap_exact_minlen_extent_alloc(bma) (-EFSCORRUPTED)
-         |         ^
->> fs/xfs/libxfs/xfs_bmap.c:3762:11: error: use of undeclared identifier 'xfs_bmap_exact_minlen_extent_alloc'
-    3762 |                 error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-         |                         ^
-   2 errors generated.
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/i2c/busses/i2c-designware-platdrv.c:11:
+>> drivers/i2c/busses/i2c-designware-platdrv.c:383:35: error: 'dw_i2c_dev_pm_ops' undeclared here (not in a function)
+     383 |                 .pm     = pm_ptr(&dw_i2c_dev_pm_ops),
+         |                                   ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:48:44: note: in definition of macro 'PTR_IF'
+      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/i2c/busses/i2c-designware-platdrv.c:383:27: note: in expansion of macro 'pm_ptr'
+     383 |                 .pm     = pm_ptr(&dw_i2c_dev_pm_ops),
+         |                           ^~~~~~
 
 
-vim +3762 fs/xfs/libxfs/xfs_bmap.c
+vim +/dw_i2c_dev_pm_ops +383 drivers/i2c/busses/i2c-designware-platdrv.c
 
-  3728	
-  3729	static int
-  3730	xfs_bmap_btalloc(
-  3731		struct xfs_bmalloca	*ap)
-  3732	{
-  3733		struct xfs_mount	*mp = ap->ip->i_mount;
-  3734		struct xfs_alloc_arg	args = {
-  3735			.tp		= ap->tp,
-  3736			.mp		= mp,
-  3737			.fsbno		= NULLFSBLOCK,
-  3738			.oinfo		= XFS_RMAP_OINFO_SKIP_UPDATE,
-  3739			.minleft	= ap->minleft,
-  3740			.wasdel		= ap->wasdel,
-  3741			.resv		= XFS_AG_RESV_NONE,
-  3742			.datatype	= ap->datatype,
-  3743			.alignment	= 1,
-  3744			.minalignslop	= 0,
-  3745		};
-  3746		xfs_fileoff_t		orig_offset;
-  3747		xfs_extlen_t		orig_length;
-  3748		int			error;
-  3749		int			stripe_align;
-  3750	
-  3751		ASSERT(ap->length);
-  3752		orig_offset = ap->offset;
-  3753		orig_length = ap->length;
-  3754	
-  3755		stripe_align = xfs_bmap_compute_alignments(ap, &args);
-  3756	
-  3757		/* Trim the allocation back to the maximum an AG can fit. */
-  3758		args.maxlen = min(ap->length, mp->m_ag_max_usable);
-  3759	
-  3760		if (unlikely(XFS_TEST_ERROR(false, mp,
-  3761				XFS_ERRTAG_BMAP_ALLOC_MINLEN_EXTENT)))
-> 3762			error = xfs_bmap_exact_minlen_extent_alloc(ap, &args);
-  3763		else if ((ap->datatype & XFS_ALLOC_USERDATA) &&
-  3764				xfs_inode_is_filestream(ap->ip))
-  3765			error = xfs_bmap_btalloc_filestreams(ap, &args, stripe_align);
-  3766		else
-  3767			error = xfs_bmap_btalloc_best_length(ap, &args, stripe_align);
-  3768		if (error)
-  3769			return error;
-  3770	
-  3771		if (args.fsbno != NULLFSBLOCK) {
-  3772			xfs_bmap_process_allocated_extent(ap, &args, orig_offset,
-  3773				orig_length);
-  3774		} else {
-  3775			ap->blkno = NULLFSBLOCK;
-  3776			ap->length = 0;
-  3777		}
-  3778		return 0;
-  3779	}
-  3780	
+2373f6b9744d53 Dirk Brandewie   2011-10-29  375  
+2373f6b9744d53 Dirk Brandewie   2011-10-29  376  static struct platform_driver dw_i2c_driver = {
+6ad6fde3970c98 Jarkko Nikula    2015-08-31  377  	.probe = dw_i2c_plat_probe,
+e190a0c389e601 Uwe Kleine-König 2023-05-08  378  	.remove_new = dw_i2c_plat_remove,
+2373f6b9744d53 Dirk Brandewie   2011-10-29  379  	.driver		= {
+2373f6b9744d53 Dirk Brandewie   2011-10-29  380  		.name	= "i2c_designware",
+231da4058f0ae9 Andy Shevchenko  2024-08-19  381  		.of_match_table = dw_i2c_of_match,
+231da4058f0ae9 Andy Shevchenko  2024-08-19  382  		.acpi_match_table = dw_i2c_acpi_match,
+a9e4d8b641bc6c Paul Cercueil    2023-07-22 @383  		.pm	= pm_ptr(&dw_i2c_dev_pm_ops),
+2373f6b9744d53 Dirk Brandewie   2011-10-29  384  	},
+61e05bad821cb2 Andy Shevchenko  2024-04-25  385  	.id_table = dw_i2c_platform_ids,
+2373f6b9744d53 Dirk Brandewie   2011-10-29  386  };
+2373f6b9744d53 Dirk Brandewie   2011-10-29  387  
 
 -- 
 0-DAY CI Kernel Test Service
