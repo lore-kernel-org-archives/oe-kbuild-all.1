@@ -1,180 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E61145FF9;
-	Mon, 26 Aug 2024 08:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE9C73478
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 08:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724660931; cv=none; b=fpTAAMzypcLNoSl2yP3SSIhdWJUXWxcBtU4C2kmTp5bDs2XtMrkPhrmje2N94qrZEVVH8nesLka3FSY6GcMifN2H2dYPWocvbIcbtkYl2EEwsZ8FJpq0W50/RMvEIIojRKKWbvv8/nQAY0IZAymSfswTB0eoBqm0XCib7k8aAqE=
+	t=1724661511; cv=none; b=J9rWyJX7ilU8uyyG1IFa/SPbZzFQYl9AcrYjTPW1u84xgoENvNO/irFouT5hI3wdQgwZet8j8F49uPGYKlIKrw9SjE7U0J+WPuEfrlGlxuISK2pW5UQ9xIcqcQ7GTVAjgXi310LYPjYzuygDVVPzoK6qh5YkXjvPeYhrSVgeVm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724660931; c=relaxed/simple;
-	bh=CW+5hKUdRYfKL28YTTCoc4w1TLEiEKoAB4PnZpQqhbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nKF7M0eTDFmGSssNqMn3aaZbgKWbNSoFnYRxQlDjzGniZHHPXP3HiTjKth6Y9dyakZpDWKwuRtgSYk1rYA1kyPsi6ps11Oa7QO2LsMzlZgNnNfyD7CmuyUHTy8SpFCfzP3SHS+PLyZ/G/O4P0fW0aaKob8bSGwSCSe96WjF1gRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YwAMOlfY; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724661511; c=relaxed/simple;
+	bh=rZpXvGWUXTyOTyAFQsb2v5XOp9ux0J5EHi51JKfnKkQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CtcIF6XyfyKoDZv7wS8pbsyJi/hCEzoFIemIArgSrSJyc+nashurnbEuWcPpsrOmZ87Y/QirLJU1ZS419agfO8oFpDpCW/30yYg0VKxxblP9jAsf6Y5qifGEyICg/mA/LL9KCCwFbqg8gq68Tw57ACgDgaiVXlkWsHrPxHsC3yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hZy95HMu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=e3uBkDc8; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YwAMOlfY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724660927; x=1756196927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CW+5hKUdRYfKL28YTTCoc4w1TLEiEKoAB4PnZpQqhbk=;
-  b=YwAMOlfYko/CJe3neliBI7wbsA4iHZjK+aoeaPiXSkOopIosHle9LmfZ
-   vXWkW1JFmn2TOK0HgzGhhJnKaEyEVfOoeH4G8/fAvlHdiYFDQNy/H71g/
-   oglle/LiZ4mh+vD32G+1zD7p4okG5aoZcOVe6LS90d5CLgQ/LOQmLgVth
-   fx6GR6zVLq/rch8NLjj8P+qplIkzzxiVHmrrwgx12pOGcSKeEiIcUouE+
-   0AfybL+r4oQC96IcqhVba8rbPTRUYjmgKyq4YXx7mcc/r6pVE6qQ1t9FP
-   ZGXpFgkLcs7wbCPVplsWCf43fpoeW4ArEG2Gtuy6PYj8C9Z3t+1hYDlcW
-   Q==;
-X-CSE-ConnectionGUID: Fb7UXOqTR7KuPh7CbJpM3g==
-X-CSE-MsgGUID: XFjN4e2KRaGEdBhx39pHsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="26863117"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="26863117"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 01:28:47 -0700
-X-CSE-ConnectionGUID: qzDAa/RzQuqTqBcMmesRyg==
-X-CSE-MsgGUID: D/7I0FJIQVO3Zp7Qcviwrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="67337166"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2024 01:28:45 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1siV5e-000Gfd-1f;
-	Mon, 26 Aug 2024 08:28:42 +0000
-Date: Mon, 26 Aug 2024 16:28:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wenliang <wenliang202407@163.com>, linux@roeck-us.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jdelvare@suse.com,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wenliang <wenliang202407@163.com>
-Subject: Re: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
-Message-ID: <202408261627.lm2xKacD-lkp@intel.com>
-References: <20240822074426.7241-1-wenliang202407@163.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hZy95HMu";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="e3uBkDc8"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1724661508;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEmj5PbJdK9d42cG8HmV+A5nhUn/gve2pcMX40E25cQ=;
+	b=hZy95HMu5Yw1QjmMrM1hVa0HB/Twbnl0gRZqOjUEtXgNjSJaS45luP+LzPKY1e7o2c3Hvj
+	6MOEyZF0dD3ADWn9mBDKwncdAdM69UkFmESaQsBemrg2FUF1VXur0cdKdk0+fsGrWbBO3E
+	S9Y38spwCktNafideiuLYM13gz6PG+Ooc+Q6b65a0jurYIwdrtXTr3zx42fQIG8h1ubXyX
+	lt7Vo1y8UhxNcwRup8fn9OiJWPP2X+L67XPtgH23En1V2KqwAyP+r81GT4LV0VBVU99cQB
+	5oaacI3DeYz/3z372jMA61/eE1m9Dpt0O7GJh6MXYTKIlJ6QgGDXtiKIEzSSBQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1724661508;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TEmj5PbJdK9d42cG8HmV+A5nhUn/gve2pcMX40E25cQ=;
+	b=e3uBkDc8Nv2pu4wieJiKDtUMf7zaLdDAlmqSd/74MEuYEhHjD2W49/TjjOn10NIWyueI02
+	6JicRsSGxQMSY0AQ==
+To: kernel test robot <lkp@intel.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [PATCH] x86/EISA: Remedy address space conflict
+In-Reply-To: <202408261244.v2gfgSON-lkp@intel.com>
+References: <202408261244.v2gfgSON-lkp@intel.com>
+Date: Mon, 26 Aug 2024 10:38:27 +0200
+Message-ID: <87zfozd6gs.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822074426.7241-1-wenliang202407@163.com>
+Content-Type: text/plain
 
-Hi Wenliang,
+0-day reported a new sparse warning:
+ 
+  arch/x86/kernel/eisa.c:20:24: sparse:
+	incorrect type in argument 1 (different address spaces)
+        expected void const volatile [noderef] __iomem *addr
+	got void *[assigned] p
 
-kernel test robot noticed the following build errors:
+Cure it by removing the readl() and dereferencing the pointer directly,
+which is correct as it's a memory access.
 
-[auto build test ERROR on linux/master]
+Reported-by: kernel test robot <lkp@intel.com>
+Fixes: 80a4da05642c ("x86/EISA: Use memremap() to probe for the EISA BIOS signature")
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408261244.v2gfgSON-lkp@intel.com/
+---
+ arch/x86/kernel/eisa.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenliang/hwmon-add-new-hwmon-driver-sq52205/20240826-103932
-base:   linux/master
-patch link:    https://lore.kernel.org/r/20240822074426.7241-1-wenliang202407%40163.com
-patch subject: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240826/202408261627.lm2xKacD-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261627.lm2xKacD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261627.lm2xKacD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hwmon/sq52205.c:493:37: error: cannot assign to variable 'sq522xx_regmap_config' with const-qualified type 'const struct regmap_config'
-     493 |         sq522xx_regmap_config.max_register = data->config->registers;
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/hwmon/sq52205.c:67:35: note: variable 'sq522xx_regmap_config' declared const here
-      67 | static const struct regmap_config sq522xx_regmap_config = {
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-      68 |         .reg_bits = 8,
-         |         ~~~~~~~~~~~~~~
-      69 |         .val_bits = 16,
-         |         ~~~~~~~~~~~~~~~
-      70 | };
-         | ~
-   1 error generated.
-
-
-vim +493 drivers/hwmon/sq52205.c
-
-   460	
-   461	static int sq522xx_probe(struct i2c_client *client)
-   462	{
-   463		struct device *dev = &client->dev;
-   464		struct sq522xx_data *data;
-   465		struct device *hwmon_dev;
-   466		u32 val;
-   467		int ret, group = 0;
-   468		enum sq522xx_ids chip;
-   469	
-   470		if (client->dev.of_node)
-   471			chip = (uintptr_t)of_device_get_match_data(&client->dev);
-   472		else
-   473			chip = i2c_match_id(sq522xx_id, client)->driver_data;
-   474	
-   475		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-   476		if (!data)
-   477			return -ENOMEM;
-   478	
-   479		/* set the device type */
-   480		data->client = client;
-   481		data->config = &sq522xx_config[chip];
-   482		mutex_init(&data->config_lock);
-   483	
-   484		if (of_property_read_u32(dev->of_node, "shunt-resistor", &val) < 0)
-   485			val = SQ522XX_RSHUNT_DEFAULT;
-   486	
-   487	
-   488		if (val <= 0 || val > data->config->calibration_factor)
-   489			return -ENODEV;
-   490	
-   491		data->rshunt = val;
-   492	
- > 493		sq522xx_regmap_config.max_register = data->config->registers;
-   494	
-   495		data->regmap = devm_regmap_init_i2c(client, &sq522xx_regmap_config);
-   496		if (IS_ERR(data->regmap)) {
-   497			dev_err(dev, "failed to allocate register map\n");
-   498			return PTR_ERR(data->regmap);
-   499		}
-   500	
-   501	
-   502		ret = sq522xx_init(data);
-   503		if (ret < 0) {
-   504			dev_err(dev, "error configuring the device: %d\n", ret);
-   505			return -ENODEV;
-   506		}
-   507		if (chip == sq52205) {
-   508			ret = sq52205_init(data);
-   509			if (ret < 0) {
-   510				dev_err(dev, "error configuring the device cal: %d\n", ret);
-   511				return -ENODEV;
-   512			}
-   513		}
-   514	
-   515		data->groups[group++] = &sq522xx_group;
-   516		if (chip == sq52205)
-   517			data->groups[group++] = &sq52205_group;
-   518	
-   519		hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
-   520									data, data->groups);
-   521		if (IS_ERR(hwmon_dev))
-   522			return PTR_ERR(hwmon_dev);
-   523	
-   524		dev_info(dev, "power monitor %s (Rshunt = %li uOhm)\n",
-   525			 client->name, data->rshunt);
-   526	
-   527		return 0;
-   528	}
-   529	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/arch/x86/kernel/eisa.c
++++ b/arch/x86/kernel/eisa.c
+@@ -11,13 +11,13 @@
+ 
+ static __init int eisa_bus_probe(void)
+ {
+-	void *p;
++	u32 *p;
+ 
+ 	if ((xen_pv_domain() && !xen_initial_domain()) || cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
+ 		return 0;
+ 
+ 	p = memremap(0x0FFFD9, 4, MEMREMAP_WB);
+-	if (p && readl(p) == 'E' + ('I' << 8) + ('S' << 16) + ('A' << 24))
++	if (p && *p == 'E' + ('I' << 8) + ('S' << 16) + ('A' << 24))
+ 		EISA_bus = 1;
+ 	memunmap(p);
+ 	return 0;
