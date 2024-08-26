@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E837146A71
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 22:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A13F7DA92
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 23:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724713178; cv=none; b=oIQn6IZYg7pXeMt3b4hdOKAxhKbYXXeEbR0I403SVE6QtKt0QlEAEN97A6YOhEW5/sWtU3BVwXXK2AP8DNGN/lYlL3/TuX8JWkDFosspBaw+hdtWMXEx+otQZVQ84S8VVBU6z7hsACJrVWDB5n3Ki+d3rbISOJED44Cdiy6IraU=
+	t=1724715639; cv=none; b=kb6l5y5BIJqcHHH4i2g60aKS24+rY2w68KDV7f1Hk0E3iD5BV23QYefy+LTYwEWb8oiDaNE1SBqiOYnTeDcTWtb415Mbllg8ajCqdmUhqx4alrxO+mtdh0cTRgDlaujGHX463JfhrrUb9LxySW9zA4AMTSO6YR3x6sTDW7UvPpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724713178; c=relaxed/simple;
-	bh=j/xdvk5yqOYi7SqQ3cgkkE/vRKi8AEeOTmezkqrgBrs=;
+	s=arc-20240116; t=1724715639; c=relaxed/simple;
+	bh=571xJqCK4wO/Nkpro048RV+IqOsjkddALvzLZ8d2+NY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3Ku04+2p31KQt7A+UO5TH0xOpuW007L++Or4vP/fcV7GR8u+dPsYj8A64Ei6GrQEzxC7IGGrBRUjjVeiOVFAiIt3hwKRHt4zVxTg9iLvPTeDa3mLXny6u1ieR9FNPAGbsnDGjQUKtsOMnOTUrkvddmsLdyBAdO0A5J7w0H+mgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSTHEojy; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=CPjK0pKKKFTARJ+tlNi050ai4MeJSHHBgw69qHeKHSx+nrizfY27TtQgb7crLyMyczDDGO0rhCNZwlGJ+s3CCPkshQmhLga3SmVXE7uaA69EQ2M6b919LwcLIEED8c0G1rwZdlH9aDeKVAVAg+6kOIpBpEMZK3yf8TXSTC5Yb4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJqV+Uq3; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSTHEojy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJqV+Uq3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724713176; x=1756249176;
+  t=1724715637; x=1756251637;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=j/xdvk5yqOYi7SqQ3cgkkE/vRKi8AEeOTmezkqrgBrs=;
-  b=WSTHEojyorFU52B7E+mg2qYudJ+j5X0mbJAyedb/5N3u0NW81eA6OymS
-   wDQ6iPbtLFLYYtsUqPyNUatNfYYLwLvitYi64S/uOKGnf0vxLsqeTpF65
-   fZx/TXfds4tOKIxFqIkW0V0TZvRKn3w5O3B5JBVVM4fjrD7ZAIL3JeQpz
-   hqpFwWcVIUgSGiRevBkdkGrbU0Uy+BMyFCtqPhzA+mAbM6u9HEO6JeOWO
-   I4Pt5DtSXkr4sga+175GBXTB3GUSY6FeBJuDyDTkiZTSM88QRfJKtIhlh
-   VDJWNC4THZVsgwkdYNO+dtCHPyHdquCl9wCsd3Ie+6nNTPYqAvsgCr9Gv
-   g==;
-X-CSE-ConnectionGUID: hMQsT2vDSLyJrqTfwP82fQ==
-X-CSE-MsgGUID: TDO92HyOQeSVrO5VzqUlSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23047119"
+  bh=571xJqCK4wO/Nkpro048RV+IqOsjkddALvzLZ8d2+NY=;
+  b=UJqV+Uq3LnFLH/UA/DgGXvvjsDppBPEl3ldl5c1oF1ZKE3iy+gQ57Ad9
+   2qQpvr6M7OEsecm1K5HA7MnBGkPVozAN1rJ1dbiOe9+ZMrYcNoMGtWV4T
+   I4SNzjv5+pu8MtZUlFcK42YNut7lNdjBsaaorQDKrNDrP0fEQ/J9JbLBC
+   8iegbfktAaiFpTDfEKEu/sBL48hTwQfGSpyd1/w+ix40653lbY7zYN04V
+   1Nl0XEJQJgLInfZE+z0eA5Jf2DFcUxbVp1+soyu3efZ4ziiHZCnbNGNyY
+   m6l7DBXtn1UtdAwXw/71b+I9nGmnvIbp/fCR8PrKn/7C0CyeV8Nce+ro2
+   Q==;
+X-CSE-ConnectionGUID: ed25DHN5SwG7wQWvV5DClQ==
+X-CSE-MsgGUID: SpfXrdLMTTSCu6S5fSpm4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="48555798"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="23047119"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:59:36 -0700
-X-CSE-ConnectionGUID: gB2c0a4jSlm2+s5Ef4e1mw==
-X-CSE-MsgGUID: 2f2hlUuZR1Ki9PYIbqMxMQ==
+   d="scan'208";a="48555798"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 16:40:36 -0700
+X-CSE-ConnectionGUID: AxF7d+MhRQu3PzBd2tU2tw==
+X-CSE-MsgGUID: a7uNzrDrRHeEpfI7mJcKAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="93454149"
+   d="scan'208";a="62646779"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Aug 2024 15:59:32 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 Aug 2024 16:40:33 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siigM-000Hg6-1A;
-	Mon, 26 Aug 2024 22:59:30 +0000
-Date: Tue, 27 Aug 2024 06:58:44 +0800
+	id 1sijK3-000Hh8-0X;
+	Mon, 26 Aug 2024 23:40:31 +0000
+Date: Tue, 27 Aug 2024 07:40:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
 	Hugh Dickins <hughd@google.com>,
@@ -60,9 +60,9 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	kernel-dev@igalia.com, krisman@kernel.org,
 	Daniel Rosenberg <drosen@google.com>, smcv@collabora.com,
 	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH 4/5] tmpfs: Expose filesystem features via sysfs
-Message-ID: <202408270618.4ue8oNhS-lkp@intel.com>
-References: <20240823173332.281211-5-andrealmeid@igalia.com>
+Subject: Re: [PATCH 1/5] tmpfs: Add casefold lookup support
+Message-ID: <202408270609.Nj6iM21E-lkp@intel.com>
+References: <20240823173332.281211-2-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,7 +72,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240823173332.281211-5-andrealmeid@igalia.com>
+In-Reply-To: <20240823173332.281211-2-andrealmeid@igalia.com>
 
 Hi André,
 
@@ -86,28 +86,44 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/tmpfs-Add-casefold-lookup-support/20240826-135457
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240823173332.281211-5-andrealmeid%40igalia.com
-patch subject: [PATCH 4/5] tmpfs: Expose filesystem features via sysfs
-config: i386-randconfig-063-20240827 (https://download.01.org/0day-ci/archive/20240827/202408270618.4ue8oNhS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270618.4ue8oNhS-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240823173332.281211-2-andrealmeid%40igalia.com
+patch subject: [PATCH 1/5] tmpfs: Add casefold lookup support
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240827/202408270609.Nj6iM21E-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270609.Nj6iM21E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270618.4ue8oNhS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270609.Nj6iM21E-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/shmem.c:5515:1: sparse: sparse: symbol 'dev_attr_casefold' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/dev_attr_casefold +5515 mm/shmem.c
+>> mm/shmem.c:4874:23: warning: 'shmem_lookup' defined but not used [-Wunused-function]
+    4874 | static struct dentry *shmem_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+         |                       ^~~~~~~~~~~~
 
-  5512	
-  5513	#if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
-  5514	#if IS_ENABLED(CONFIG_UNICODE)
-> 5515	DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
-  5516	#endif
-  5517	
+
+vim +/shmem_lookup +4874 mm/shmem.c
+
+  4873	
+> 4874	static struct dentry *shmem_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+  4875	{
+  4876		if (dentry->d_name.len > NAME_MAX)
+  4877			return ERR_PTR(-ENAMETOOLONG);
+  4878	
+  4879		/*
+  4880		 * For now, VFS can't deal with case-insensitive negative dentries, so
+  4881		 * we prevent them from being created
+  4882		 */
+  4883		if (IS_CASEFOLDED(dir))
+  4884			return NULL;
+  4885	
+  4886		d_add(dentry, NULL);
+  4887	
+  4888		return NULL;
+  4889	}
+  4890	
 
 -- 
 0-DAY CI Kernel Test Service
