@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A3B148FF9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 10:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BBC14A4D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 10:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724669100; cv=none; b=UCCv8WbdlygUFwgHJTPVx97LuQpDZHzsgikjxMPWKqkWT8Cb+5XkbLH4ADrE3t6KwgqRU3otNStYrqakdVdW72ThhjZrpThKDvySsyqCHJJDm0l0j8/LBqBWv0aaoZYV7ky8+Nf8XcEDJmVAqQyTtyYiEN3GjT1hGYYeEpyTPEI=
+	t=1724669701; cv=none; b=aNnsX2adecixn1M0lZCCNX/R45sK6Kh/WYbfK1h79nXjKNATxQlvWUGM2Ud8efLNJ5vcnqI+STucjMu4u3weuu2nj0zVn1OxO4a46+ASfZpB0I1tXDjABM04xnpyh3iUNJFpg2QS5Yggvdbmu2IcQ0Wh0uUR6EQapytzxSeFq04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724669100; c=relaxed/simple;
-	bh=LAx3o7BI1oPkRwwdv4LldmT3Ey1D+edrru4HQfbSZBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JzeN6nHbOHc6V7v7xhynE7iDvXKB4KBqZQ/yHz9VUuse43wMbfw47SbVp9WYCgvhP6Gsp3fRTKT5ONfJ1AaMnzqSlsWnFMyKbclIDB7x8ccwRwl7FfUkV+wULz6Rz3qPJmMUeBVCLsZVmiot5Mc4s7jYUGUCaLBa00APUJ7Uq1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D20c+IbN; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1724669701; c=relaxed/simple;
+	bh=W8nuNbBdEHlJVtYL4VjX6VZb/AtBfROqXOtG3u4vP/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXVbR+soqN5P2WU6utxE/sPOgnlDuJQN12+7maKoD9zTvz5snccEA/mNQr6LvjEqUMIgHzvJ5u7AoNvxYtYLiz57Q6LQl9xxhiiOjKIpttfoFKoW6dkOvdg5RFmpnWzVr3QCcPll+dL86DNF0wjMK4QG1QfFHQv0PZTp2IGZOjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iebN5L1U; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D20c+IbN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iebN5L1U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724669098; x=1756205098;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LAx3o7BI1oPkRwwdv4LldmT3Ey1D+edrru4HQfbSZBk=;
-  b=D20c+IbN7g67QVErOLEI3Ug/Jg5MXvzI8mA5Oq642zi4f7oki26Ne9QD
-   ZC5oxnVoWi7VRLsFXJY+QF/fRqCOhuvaGx3H08YXnl0NpR+DnYPvkPrm2
-   Ev+L6XHRSJynB4nMaIb4jnpi1V7eG28gRnTdEWiXFRqdtK6kCteSQptQh
-   iInZR0XnPOjH5XtP4A5Awuw/IFhdZj5fj2QTghcVN5SLKkeuU49Vt2Brp
-   tm0A4fSolqdiqaM6PreGp5jQAoxmssDRvAlE6ioIQfqtpoJN5Ob9EgJOX
-   t4Cppp+0CeeB5KB2oFxIT3OvyhEgTiOQ7PZUai2Q5Xbuh0uIlCjbbPy3Q
+  t=1724669700; x=1756205700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W8nuNbBdEHlJVtYL4VjX6VZb/AtBfROqXOtG3u4vP/M=;
+  b=iebN5L1UvBZKHJ3Wt0mXd2SCWID0+UBtsGH8k9vELvvVZ8z9HKHV543g
+   C5HqpD+yXOncheEI5YtJ0N0Jsi48fMyvOkCZu6i8gdi1t65NqsXqFg/c8
+   H80NvhAkXmFMP+w4MJNG56g4iVg8hbOK4t5vj1ThJR+bjJnDrAXOH51wx
+   RevvjPNrFZax1mk2LL5tx24+wzrYn7zIBXfsgR7BCjWxp3cJUY3o8zSDU
+   gUcV8rocIpXOFGhaHYFMx+fUDAWx9snb99Eb25/xa6km2Puv1T1nchI9Y
+   2y9LFBnUcKY3iRbjc1WVrVZ6mFFp9XoGzibDl3MD7N35dCdU/Q8k8P3ol
    A==;
-X-CSE-ConnectionGUID: xwN9ytW2S/WaUDXKSH6Vgw==
-X-CSE-MsgGUID: lErzaKMpTuaqOvVVDCJsBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33650098"
+X-CSE-ConnectionGUID: 4L43MoVNS6y92DXXD0lBDQ==
+X-CSE-MsgGUID: ycPE2gKRQ3GiYC3icxZbsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33704996"
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="33650098"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:44:58 -0700
-X-CSE-ConnectionGUID: 9P0FTUsDReq2CAcg+/XU7g==
-X-CSE-MsgGUID: +BvNdt9uRi2dSnLwo2ltFw==
+   d="scan'208";a="33704996"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:54:59 -0700
+X-CSE-ConnectionGUID: PKPrqmHEQay8bHoY/wI+mg==
+X-CSE-MsgGUID: Bf8C/Mj7T2i+ak5igUEWOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62443088"
+   d="scan'208";a="93202995"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Aug 2024 03:44:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2024 03:54:57 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siXDR-000Gvn-2k;
-	Mon, 26 Aug 2024 10:44:53 +0000
-Date: Mon, 26 Aug 2024 18:44:17 +0800
+	id 1siXN8-000Gwy-2o;
+	Mon, 26 Aug 2024 10:54:54 +0000
+Date: Mon, 26 Aug 2024 18:54:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Puranjay Mohan <puranjay@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
-Subject: include/linux/ftrace.h:138:16: error: returning 'int' from a
- function with return type 'struct pt_regs *' makes pointer from integer
- without a cast
-Message-ID: <202408261838.hdkvXgaI-lkp@intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
+	Sanket.Goswami@amd.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH 2/5] i2c: piix4: Add i2c_algorithm operations to support
+ AMD ASF with SMBus
+Message-ID: <202408261818.T8eXqGIz-lkp@intel.com>
+References: <20240822142200.686842-3-Shyam-sundar.S-k@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,62 +66,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240822142200.686842-3-Shyam-sundar.S-k@amd.com>
 
-Hi Puranjay,
+Hi Shyam,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5be63fc19fcaa4c236b307420483578a56986a37
-commit: 7caa9765465f60b6d88e22264892cee12d971888 ftrace: riscv: move from REGS to ARGS
-date:   3 months ago
-config: riscv-randconfig-002-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261838.hdkvXgaI-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261838.hdkvXgaI-lkp@intel.com/reproduce)
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.11-rc5 next-20240823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i2c-piix4-Allow-more-than-two-algo-selection-for-SMBus/20240826-113028
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240822142200.686842-3-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH 2/5] i2c: piix4: Add i2c_algorithm operations to support AMD ASF with SMBus
+config: i386-randconfig-016-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261818.T8eXqGIz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261818.T8eXqGIz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261838.hdkvXgaI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261818.T8eXqGIz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:12:
-   include/linux/ftrace.h: In function 'ftrace_get_regs':
-   include/linux/ftrace.h:138:16: error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean 'ftrace_get_regs'? [-Wimplicit-function-declaration]
-     138 |         return arch_ftrace_get_regs(fregs);
-         |                ^~~~~~~~~~~~~~~~~~~~
-         |                ftrace_get_regs
->> include/linux/ftrace.h:138:16: error: returning 'int' from a function with return type 'struct pt_regs *' makes pointer from integer without a cast [-Wint-conversion]
-     138 |         return arch_ftrace_get_regs(fregs);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:117: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=2197832773
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1203: prepare0] Error 2 shuffle=2197832773
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=2197832773
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=2197832773
-   make: Target 'prepare' not remade because of errors.
+>> drivers/i2c/busses/i2c-piix4.c:1069:10: error: 'const struct i2c_algorithm' has no member named 'reg_slave'
+    1069 |         .reg_slave = sb800_asf_reg_slave,
+         |          ^~~~~~~~~
+>> drivers/i2c/busses/i2c-piix4.c:1069:22: error: initialization of 'int (*)(struct i2c_adapter *, struct i2c_msg *, int)' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
+    1069 |         .reg_slave = sb800_asf_reg_slave,
+         |                      ^~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-piix4.c:1069:22: note: (near initialization for 'sb800_asf_smbus_algorithm.<anonymous>.xfer_atomic')
+>> drivers/i2c/busses/i2c-piix4.c:1070:10: error: 'const struct i2c_algorithm' has no member named 'unreg_slave'
+    1070 |         .unreg_slave = sb800_asf_unreg_slave,
+         |          ^~~~~~~~~~~
+>> drivers/i2c/busses/i2c-piix4.c:1070:24: error: initialization of 'int (*)(struct i2c_adapter *, u16,  short unsigned int,  char,  u8,  int,  union i2c_smbus_data *)' {aka 'int (*)(struct i2c_adapter *, short unsigned int,  short unsigned int,  char,  unsigned char,  int,  union i2c_smbus_data *)'} from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
+    1070 |         .unreg_slave = sb800_asf_unreg_slave,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-piix4.c:1070:24: note: (near initialization for 'sb800_asf_smbus_algorithm.smbus_xfer')
+>> drivers/i2c/busses/i2c-piix4.c:1067:63: warning: missing braces around initializer [-Wmissing-braces]
+    1067 | static const struct i2c_algorithm sb800_asf_smbus_algorithm = {
+         |                                                               ^
+    1068 |         .master_xfer = sb800_asf_xfer,
+         |                                      }
+    1069 |         .reg_slave = sb800_asf_reg_slave,
+         |                      {                  }
+   cc1: some warnings being treated as errors
 
 
-vim +138 include/linux/ftrace.h
+vim +1069 drivers/i2c/busses/i2c-piix4.c
 
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  132) 
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  133) static __always_inline struct pt_regs *ftrace_get_regs(struct ftrace_regs *fregs)
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  134) {
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  135) 	if (!fregs)
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  136) 		return NULL;
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  137) 
-02a474ca266a47 Steven Rostedt (VMware  2020-10-27 @138) 	return arch_ftrace_get_regs(fregs);
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  139) }
-d19ad0775dcd64 Steven Rostedt (VMware  2020-10-28  140) 
-
-:::::: The code at line 138 was first introduced by commit
-:::::: 02a474ca266a47ea8f4d5a11f4ffa120f83730ad ftrace/x86: Allow for arguments to be passed in to ftrace_regs by default
-
-:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+  1066	
+> 1067	static const struct i2c_algorithm sb800_asf_smbus_algorithm = {
+  1068		.master_xfer = sb800_asf_xfer,
+> 1069		.reg_slave = sb800_asf_reg_slave,
+> 1070		.unreg_slave = sb800_asf_unreg_slave,
+  1071		.functionality = sb800_asf_func,
+  1072	};
+  1073	
 
 -- 
 0-DAY CI Kernel Test Service
