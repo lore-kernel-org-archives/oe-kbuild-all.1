@@ -1,64 +1,61 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1187A839E4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 06:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E61145FF9;
+	Mon, 26 Aug 2024 08:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724653739; cv=none; b=tWETKRCSwrEymOHmLtCnABI2YgF8Y7O9yil0d3knhqxPRcY9yOBFtZowWkavYAqoVtcV0tPSdap49gpEKBxCF/+uU1TvjlmowAx+JevbeOLD1VuNDaAfnZ/f9jBrgrRNW/H9ihHlq1UihjVCT/SqLjLCgTwrCPaVlDq/8ZckbE0=
+	t=1724660931; cv=none; b=fpTAAMzypcLNoSl2yP3SSIhdWJUXWxcBtU4C2kmTp5bDs2XtMrkPhrmje2N94qrZEVVH8nesLka3FSY6GcMifN2H2dYPWocvbIcbtkYl2EEwsZ8FJpq0W50/RMvEIIojRKKWbvv8/nQAY0IZAymSfswTB0eoBqm0XCib7k8aAqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724653739; c=relaxed/simple;
-	bh=okdG2a0qJ8UIOBr5/EkVEr7iuWcYdW0zZQUTNXr3230=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ELP8LIl+tATnCu4PW+ix1Zee+b3lKstXoClT5aUMLUPQSmYEuk52TTLxXnfQqMHW0rZUyRzmw2juudJ6g0fDofgXlX/wGO9xM444Bi/r1UpWpFCpA9QNxS8fD1MJsWJrYRuR8tQOKW52oNJSaY836Lgr2ctIhO93Piubs5Z2WX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OieeHyT/; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724660931; c=relaxed/simple;
+	bh=CW+5hKUdRYfKL28YTTCoc4w1TLEiEKoAB4PnZpQqhbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKF7M0eTDFmGSssNqMn3aaZbgKWbNSoFnYRxQlDjzGniZHHPXP3HiTjKth6Y9dyakZpDWKwuRtgSYk1rYA1kyPsi6ps11Oa7QO2LsMzlZgNnNfyD7CmuyUHTy8SpFCfzP3SHS+PLyZ/G/O4P0fW0aaKob8bSGwSCSe96WjF1gRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YwAMOlfY; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OieeHyT/"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5334b0e1a8eso5203279e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Aug 2024 23:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724653735; x=1725258535; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aqiBFey06gKWR64Nykb3hN0RcI8q8smd1b69ocWAqt8=;
-        b=OieeHyT/4Bu24EwVLAWQrIFRAa2ozp384Z47Pwi4mqoL/F0P+66tVSk9ZuXwpABj+h
-         /U2T0y58P/ffq+NmlgNnqL0uNbz1UzcWrfH3iAJvb6kyKui1rXDcrCYJmm6F8asA9opD
-         iXZw8oGoVe7cMZpPdRfXoOSBKrf4vA5JLYMUysoGRyZmtPohWyg9jjQAA5PEW8darJc2
-         J8rZZKTlRH04z9G6CccQnpx7NPxzv3e/jzp/HWzznXpjd5/yY7zSbWNzsninvmu/i9Wl
-         333nNalb9Bel1Fdq1ICe0vqM5eSpYezHmbaESGh5m/3DAeLlYrxlir7+okPMUi4InLSC
-         VUaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724653735; x=1725258535;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aqiBFey06gKWR64Nykb3hN0RcI8q8smd1b69ocWAqt8=;
-        b=E+ah//88FTTy6fTQmrjnYWCtVAX4vnPLvasX6MtcOEvA4exSquiIBogmRuiwU79yov
-         /zIT1azqVV+TOeDK7nzNh3S40Om+vGn2JfG7XwoCZccxbRBf1Wq5r6NJzQzhsde6GXR/
-         K/kjbK3P17daqEYh0bk2wk7xTacGipfN/Y/1IQ2UTwq9+u1BU6PNGM4LXbunYluJsr9r
-         +waNGd8+/FDNS8+r+IKIrn0iOy1x8MIGYlMPyopoEPv0GkjEomIiwTF1FMvtfTfoesXg
-         vXMCxVOiqrEFFEeRSe6yd5oKzuqHzvAYIkAwXB9rp2SW1/WuB8G0q9aidhxnQ+oleOq3
-         aJXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhPA0Fr+9RwIGdkVQLyzuE1Q/+7Q9R2gTd/b38d6R4mArF8r+V27xVj3m5ukEzEek1nBwEwMrSlNqtrn7J@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNMgxdL50nBpfolVXS5DhJxQlvMm4ZqNgMYen84FO0Ve1cLdf0
-	xgrHlsbLB8WYF+J39MtUVWYbFiCcC9cUsnvtkWCo2pnt9RNwZSj0BEP3RepRH3Y=
-X-Google-Smtp-Source: AGHT+IGKfB3saQUEIUkONKo/dp49P2vKf80IwyT5VPDbJqnXK30XKYgj+/J5OAL/1sx/3bSdT+jQZQ==
-X-Received: by 2002:a05:6512:3dab:b0:533:1cb8:ec6b with SMTP id 2adb3069b0e04-53438784989mr6168500e87.27.1724653734684;
-        Sun, 25 Aug 2024 23:28:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f47d1c3sm617117966b.169.2024.08.25.23.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2024 23:28:54 -0700 (PDT)
-Date: Mon, 26 Aug 2024 09:28:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thorsten Blum <thorsten.blum@toblux.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [paragon-software-group-ntfs3:master 2/16]
- fs/ntfs3/lib/lzx_decompress.c:555 lzx_decompress_block() error:
- uninitialized symbol 'match_offset'.
-Message-ID: <38752402-3a41-45f0-97ba-4f208d17337b@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YwAMOlfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724660927; x=1756196927;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CW+5hKUdRYfKL28YTTCoc4w1TLEiEKoAB4PnZpQqhbk=;
+  b=YwAMOlfYko/CJe3neliBI7wbsA4iHZjK+aoeaPiXSkOopIosHle9LmfZ
+   vXWkW1JFmn2TOK0HgzGhhJnKaEyEVfOoeH4G8/fAvlHdiYFDQNy/H71g/
+   oglle/LiZ4mh+vD32G+1zD7p4okG5aoZcOVe6LS90d5CLgQ/LOQmLgVth
+   fx6GR6zVLq/rch8NLjj8P+qplIkzzxiVHmrrwgx12pOGcSKeEiIcUouE+
+   0AfybL+r4oQC96IcqhVba8rbPTRUYjmgKyq4YXx7mcc/r6pVE6qQ1t9FP
+   ZGXpFgkLcs7wbCPVplsWCf43fpoeW4ArEG2Gtuy6PYj8C9Z3t+1hYDlcW
+   Q==;
+X-CSE-ConnectionGUID: Fb7UXOqTR7KuPh7CbJpM3g==
+X-CSE-MsgGUID: XFjN4e2KRaGEdBhx39pHsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="26863117"
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="26863117"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 01:28:47 -0700
+X-CSE-ConnectionGUID: qzDAa/RzQuqTqBcMmesRyg==
+X-CSE-MsgGUID: D/7I0FJIQVO3Zp7Qcviwrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="67337166"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2024 01:28:45 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1siV5e-000Gfd-1f;
+	Mon, 26 Aug 2024 08:28:42 +0000
+Date: Mon, 26 Aug 2024 16:28:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wenliang <wenliang202407@163.com>, linux@roeck-us.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jdelvare@suse.com,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Wenliang <wenliang202407@163.com>
+Subject: Re: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
+Message-ID: <202408261627.lm2xKacD-lkp@intel.com>
+References: <20240822074426.7241-1-wenliang202407@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,126 +64,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240822074426.7241-1-wenliang202407@163.com>
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-head:   7529036a025ad8bbd664f3aad8bd726e664a6db7
-commit: 7495ce846bbe4f38d7ea5e023e44ad864b6348ad [2/16] fs/ntfs3: Use swap() to improve code
-config: x86_64-randconfig-161-20240824 (https://download.01.org/0day-ci/archive/20240824/202408242247.tSSqBPqy-lkp@intel.com/config)
+Hi Wenliang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linux/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenliang/hwmon-add-new-hwmon-driver-sq52205/20240826-103932
+base:   linux/master
+patch link:    https://lore.kernel.org/r/20240822074426.7241-1-wenliang202407%40163.com
+patch subject: [PATCH linux dev 6.11] hwmon:add new hwmon driver sq52205
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240826/202408261627.lm2xKacD-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261627.lm2xKacD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408242247.tSSqBPqy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408261627.lm2xKacD-lkp@intel.com/
 
-smatch warnings:
-fs/ntfs3/lib/lzx_decompress.c:555 lzx_decompress_block() error: uninitialized symbol 'match_offset'.
+All errors (new ones prefixed by >>):
 
-vim +/match_offset +555 fs/ntfs3/lib/lzx_decompress.c
+>> drivers/hwmon/sq52205.c:493:37: error: cannot assign to variable 'sq522xx_regmap_config' with const-qualified type 'const struct regmap_config'
+     493 |         sq522xx_regmap_config.max_register = data->config->registers;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/hwmon/sq52205.c:67:35: note: variable 'sq522xx_regmap_config' declared const here
+      67 | static const struct regmap_config sq522xx_regmap_config = {
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+      68 |         .reg_bits = 8,
+         |         ~~~~~~~~~~~~~~
+      69 |         .val_bits = 16,
+         |         ~~~~~~~~~~~~~~~
+      70 | };
+         | ~
+   1 error generated.
 
-522e010b58379f Konstantin Komarov 2021-08-13  471  static int lzx_decompress_block(const struct lzx_decompressor *d,
-522e010b58379f Konstantin Komarov 2021-08-13  472  				struct input_bitstream *is,
-522e010b58379f Konstantin Komarov 2021-08-13  473  				int block_type, u32 block_size,
-522e010b58379f Konstantin Komarov 2021-08-13  474  				u8 * const out_begin, u8 *out_next,
-522e010b58379f Konstantin Komarov 2021-08-13  475  				u32 recent_offsets[])
-522e010b58379f Konstantin Komarov 2021-08-13  476  {
-522e010b58379f Konstantin Komarov 2021-08-13  477  	u8 * const block_end = out_next + block_size;
-522e010b58379f Konstantin Komarov 2021-08-13  478  	u32 ones_if_aligned = 0U - (block_type == LZX_BLOCKTYPE_ALIGNED);
-522e010b58379f Konstantin Komarov 2021-08-13  479  
-522e010b58379f Konstantin Komarov 2021-08-13  480  	do {
-522e010b58379f Konstantin Komarov 2021-08-13  481  		u32 mainsym;
-522e010b58379f Konstantin Komarov 2021-08-13  482  		u32 match_len;
-522e010b58379f Konstantin Komarov 2021-08-13  483  		u32 match_offset;
-522e010b58379f Konstantin Komarov 2021-08-13  484  		u32 offset_slot;
-522e010b58379f Konstantin Komarov 2021-08-13  485  		u32 num_extra_bits;
-522e010b58379f Konstantin Komarov 2021-08-13  486  
-522e010b58379f Konstantin Komarov 2021-08-13  487  		mainsym = read_mainsym(d, is);
-522e010b58379f Konstantin Komarov 2021-08-13  488  		if (mainsym < LZX_NUM_CHARS) {
-522e010b58379f Konstantin Komarov 2021-08-13  489  			/* Literal  */
-522e010b58379f Konstantin Komarov 2021-08-13  490  			*out_next++ = mainsym;
-522e010b58379f Konstantin Komarov 2021-08-13  491  			continue;
-522e010b58379f Konstantin Komarov 2021-08-13  492  		}
-522e010b58379f Konstantin Komarov 2021-08-13  493  
-522e010b58379f Konstantin Komarov 2021-08-13  494  		/* Match  */
-522e010b58379f Konstantin Komarov 2021-08-13  495  
-522e010b58379f Konstantin Komarov 2021-08-13  496  		/* Decode the length header and offset slot.  */
-522e010b58379f Konstantin Komarov 2021-08-13  497  		mainsym -= LZX_NUM_CHARS;
-522e010b58379f Konstantin Komarov 2021-08-13  498  		match_len = mainsym % LZX_NUM_LEN_HEADERS;
-522e010b58379f Konstantin Komarov 2021-08-13  499  		offset_slot = mainsym / LZX_NUM_LEN_HEADERS;
-522e010b58379f Konstantin Komarov 2021-08-13  500  
-522e010b58379f Konstantin Komarov 2021-08-13  501  		/* If needed, read a length symbol to decode the full length. */
-522e010b58379f Konstantin Komarov 2021-08-13  502  		if (match_len == LZX_NUM_PRIMARY_LENS)
-522e010b58379f Konstantin Komarov 2021-08-13  503  			match_len += read_lensym(d, is);
-522e010b58379f Konstantin Komarov 2021-08-13  504  		match_len += LZX_MIN_MATCH_LEN;
-522e010b58379f Konstantin Komarov 2021-08-13  505  
-522e010b58379f Konstantin Komarov 2021-08-13  506  		if (offset_slot < LZX_NUM_RECENT_OFFSETS) {
-522e010b58379f Konstantin Komarov 2021-08-13  507  			/* Repeat offset  */
-522e010b58379f Konstantin Komarov 2021-08-13  508  
-522e010b58379f Konstantin Komarov 2021-08-13  509  			/* Note: This isn't a real LRU queue, since using the R2
-522e010b58379f Konstantin Komarov 2021-08-13  510  			 * offset doesn't bump the R1 offset down to R2.  This
-522e010b58379f Konstantin Komarov 2021-08-13  511  			 * quirk allows all 3 recent offsets to be handled by
-522e010b58379f Konstantin Komarov 2021-08-13  512  			 * the same code.  (For R0, the swap is a no-op.)
-522e010b58379f Konstantin Komarov 2021-08-13  513  			 */
-7495ce846bbe4f Thorsten Blum      2024-07-31  514  			swap(recent_offsets[offset_slot], recent_offsets[0]);
 
-match_offset not set on this path
+vim +493 drivers/hwmon/sq52205.c
 
-522e010b58379f Konstantin Komarov 2021-08-13  515  		} else {
-522e010b58379f Konstantin Komarov 2021-08-13  516  			/* Explicit offset  */
-522e010b58379f Konstantin Komarov 2021-08-13  517  
-522e010b58379f Konstantin Komarov 2021-08-13  518  			/* Look up the number of extra bits that need to be read
-522e010b58379f Konstantin Komarov 2021-08-13  519  			 * to decode offsets with this offset slot.
-522e010b58379f Konstantin Komarov 2021-08-13  520  			 */
-522e010b58379f Konstantin Komarov 2021-08-13  521  			num_extra_bits = lzx_extra_offset_bits[offset_slot];
-522e010b58379f Konstantin Komarov 2021-08-13  522  
-522e010b58379f Konstantin Komarov 2021-08-13  523  			/* Start with the offset slot base value.  */
-522e010b58379f Konstantin Komarov 2021-08-13  524  			match_offset = lzx_offset_slot_base[offset_slot];
-522e010b58379f Konstantin Komarov 2021-08-13  525  
-522e010b58379f Konstantin Komarov 2021-08-13  526  			/* In aligned offset blocks, the low-order 3 bits of
-522e010b58379f Konstantin Komarov 2021-08-13  527  			 * each offset are encoded using the aligned offset
-522e010b58379f Konstantin Komarov 2021-08-13  528  			 * code.  Otherwise, all the extra bits are literal.
-522e010b58379f Konstantin Komarov 2021-08-13  529  			 */
-522e010b58379f Konstantin Komarov 2021-08-13  530  
-522e010b58379f Konstantin Komarov 2021-08-13  531  			if ((num_extra_bits & ones_if_aligned) >= LZX_NUM_ALIGNED_OFFSET_BITS) {
-522e010b58379f Konstantin Komarov 2021-08-13  532  				match_offset +=
-522e010b58379f Konstantin Komarov 2021-08-13  533  					bitstream_read_bits(is, num_extra_bits -
-522e010b58379f Konstantin Komarov 2021-08-13  534  								LZX_NUM_ALIGNED_OFFSET_BITS)
-522e010b58379f Konstantin Komarov 2021-08-13  535  							<< LZX_NUM_ALIGNED_OFFSET_BITS;
-522e010b58379f Konstantin Komarov 2021-08-13  536  				match_offset += read_alignedsym(d, is);
-522e010b58379f Konstantin Komarov 2021-08-13  537  			} else {
-522e010b58379f Konstantin Komarov 2021-08-13  538  				match_offset += bitstream_read_bits(is, num_extra_bits);
-522e010b58379f Konstantin Komarov 2021-08-13  539  			}
-522e010b58379f Konstantin Komarov 2021-08-13  540  
-522e010b58379f Konstantin Komarov 2021-08-13  541  			/* Adjust the offset.  */
-522e010b58379f Konstantin Komarov 2021-08-13  542  			match_offset -= (LZX_NUM_RECENT_OFFSETS - 1);
-522e010b58379f Konstantin Komarov 2021-08-13  543  
-522e010b58379f Konstantin Komarov 2021-08-13  544  			/* Update the recent offsets.  */
-522e010b58379f Konstantin Komarov 2021-08-13  545  			recent_offsets[2] = recent_offsets[1];
-522e010b58379f Konstantin Komarov 2021-08-13  546  			recent_offsets[1] = recent_offsets[0];
-522e010b58379f Konstantin Komarov 2021-08-13  547  			recent_offsets[0] = match_offset;
-522e010b58379f Konstantin Komarov 2021-08-13  548  		}
-522e010b58379f Konstantin Komarov 2021-08-13  549  
-522e010b58379f Konstantin Komarov 2021-08-13  550  		/* Validate the match, then copy it to the current position.  */
-522e010b58379f Konstantin Komarov 2021-08-13  551  
-522e010b58379f Konstantin Komarov 2021-08-13  552  		if (match_len > (size_t)(block_end - out_next))
-522e010b58379f Konstantin Komarov 2021-08-13  553  			return -1;
-522e010b58379f Konstantin Komarov 2021-08-13  554  
-522e010b58379f Konstantin Komarov 2021-08-13 @555  		if (match_offset > (size_t)(out_next - out_begin))
-                                                                    ^^^^^^^^^^^^
-Uninitialized.
-
-522e010b58379f Konstantin Komarov 2021-08-13  556  			return -1;
-522e010b58379f Konstantin Komarov 2021-08-13  557  
-522e010b58379f Konstantin Komarov 2021-08-13  558  		out_next = lz_copy(out_next, match_len, match_offset,
-522e010b58379f Konstantin Komarov 2021-08-13  559  				   block_end, LZX_MIN_MATCH_LEN);
-522e010b58379f Konstantin Komarov 2021-08-13  560  
-522e010b58379f Konstantin Komarov 2021-08-13  561  	} while (out_next != block_end);
-522e010b58379f Konstantin Komarov 2021-08-13  562  
-522e010b58379f Konstantin Komarov 2021-08-13  563  	return 0;
-522e010b58379f Konstantin Komarov 2021-08-13  564  }
+   460	
+   461	static int sq522xx_probe(struct i2c_client *client)
+   462	{
+   463		struct device *dev = &client->dev;
+   464		struct sq522xx_data *data;
+   465		struct device *hwmon_dev;
+   466		u32 val;
+   467		int ret, group = 0;
+   468		enum sq522xx_ids chip;
+   469	
+   470		if (client->dev.of_node)
+   471			chip = (uintptr_t)of_device_get_match_data(&client->dev);
+   472		else
+   473			chip = i2c_match_id(sq522xx_id, client)->driver_data;
+   474	
+   475		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+   476		if (!data)
+   477			return -ENOMEM;
+   478	
+   479		/* set the device type */
+   480		data->client = client;
+   481		data->config = &sq522xx_config[chip];
+   482		mutex_init(&data->config_lock);
+   483	
+   484		if (of_property_read_u32(dev->of_node, "shunt-resistor", &val) < 0)
+   485			val = SQ522XX_RSHUNT_DEFAULT;
+   486	
+   487	
+   488		if (val <= 0 || val > data->config->calibration_factor)
+   489			return -ENODEV;
+   490	
+   491		data->rshunt = val;
+   492	
+ > 493		sq522xx_regmap_config.max_register = data->config->registers;
+   494	
+   495		data->regmap = devm_regmap_init_i2c(client, &sq522xx_regmap_config);
+   496		if (IS_ERR(data->regmap)) {
+   497			dev_err(dev, "failed to allocate register map\n");
+   498			return PTR_ERR(data->regmap);
+   499		}
+   500	
+   501	
+   502		ret = sq522xx_init(data);
+   503		if (ret < 0) {
+   504			dev_err(dev, "error configuring the device: %d\n", ret);
+   505			return -ENODEV;
+   506		}
+   507		if (chip == sq52205) {
+   508			ret = sq52205_init(data);
+   509			if (ret < 0) {
+   510				dev_err(dev, "error configuring the device cal: %d\n", ret);
+   511				return -ENODEV;
+   512			}
+   513		}
+   514	
+   515		data->groups[group++] = &sq522xx_group;
+   516		if (chip == sq52205)
+   517			data->groups[group++] = &sq52205_group;
+   518	
+   519		hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
+   520									data, data->groups);
+   521		if (IS_ERR(hwmon_dev))
+   522			return PTR_ERR(hwmon_dev);
+   523	
+   524		dev_info(dev, "power monitor %s (Rshunt = %li uOhm)\n",
+   525			 client->name, data->rshunt);
+   526	
+   527		return 0;
+   528	}
+   529	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
