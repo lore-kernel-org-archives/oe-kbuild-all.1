@@ -1,84 +1,168 @@
-Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCA818FC83;
-	Mon, 26 Aug 2024 18:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431A7194C71
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 18:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724695561; cv=none; b=Hy9xW4QrdmMQ+Xp1a6z4htpXvW7rWa2yMN5UAsg6vMgQ0WlKDQLmaKEbrf9hIiz/C8n3FU/otaXtESIBfq422L+zsJWPGVzSfPKilVahaAF2/wMpNS7zbTw+9enCuCQSnGxags1UgspDylpsvxxdd/ka6hT8RGs4pJIXrodAsnk=
+	t=1724695825; cv=none; b=blN30dYj6W5SEXrfXyKAHyhdUMP8fcsiOXEkemEOkdbUbo1bA8l0xjmZZYPupYGPZy5eIGgZyU8X/rWWF7kfWwDBUJACdhX+rz6QvTeeOghvJVqaNfkuSIdnRAVN8MPW+UwJKpoGvFpMz/lpCxlPmdnvSTcbSKl0heDcdHi8nX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724695561; c=relaxed/simple;
-	bh=tBE1R9Ug8xlXzfm5VwVI4PjUuyZq8G9eo/PwJWmzBcI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lyvbaXKNTz86BMsqMTIKofc3KTr6MAJ1Uk3ZfEjLnDE07wqcfGakxY0Slm9UR7KF1/KyDkWbUp9L7tKV1zueT/CR3USRL/3TpQ8nlWdldUxJBPU2CK0j3/IjepEWskCIAVBo7hvC5mDK1dFpUHXXx0U6tOaxXkbT/m5ZqceCQp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=oFFZlLS9; arc=none smtp.client-ip=199.89.1.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1724695825; c=relaxed/simple;
+	bh=1HY95TgskjQw3DicPs8nXeZ75xLkAousJ1JOgMZJBIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rb9rNeU9Mf3xyb2o0WGWvUEzmuMNUW7BkZ/m/4wl1vJ6VgSVJzW8RN7bj3KoM+PM2BzAPePvjZ//N20r8KQzhiLwrNo4PYPTu5iQarWxxiFqNbym/13Xn0mBQs9rL/0XfH9y7aKAG2K9p0zDgotyJCK9pjlkRD+veriplfgfJjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sg5fD8vH; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="oFFZlLS9"
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4WszB93KtnzlgVnf;
-	Mon, 26 Aug 2024 18:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1724695550; x=1727287551; bh=tBE1R9Ug8xlXzfm5VwVI4PjU
-	uyZq8G9eo/PwJWmzBcI=; b=oFFZlLS9sq43/soBY5o06QDuemCNYcTcdpbUQPQ8
-	ZNPFZPrNqBL09S2zm9UA2LO4jPZxA2EJrRVuL/QRYgxpPqz3MVq1Azlrhetb69lC
-	yhB6NGPbx/2JeksUvytEK8EQRV265GHM7uhYMSmb4XIBoc5Nst7iU1kztk8Vlm1C
-	QiLlGcafMcnxCLWg5y7LWM87ggXZ8vsSX3vQa+HsbcRxVgWjSOqOdTpeCDDHCCBr
-	bxw99Egsm9UxmjZHNLl3kkWNkb55KtWsWVayO28Lj73KlbgQLTWUYHh1fmM9L6W8
-	QHfjnoA11XvdpPGJrtbf4AYqyj0zDD1Ee1+YC4R82Yv0KQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id Gsf3Jt8i6Laa; Mon, 26 Aug 2024 18:05:50 +0000 (UTC)
-Received: from [172.31.110.201] (unknown [216.9.110.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4WszB451SBzlgVnN;
-	Mon, 26 Aug 2024 18:05:48 +0000 (UTC)
-Message-ID: <602421aa-d546-49c2-a08f-6779d3c0f9af@acm.org>
-Date: Mon, 26 Aug 2024 11:05:47 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sg5fD8vH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724695825; x=1756231825;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1HY95TgskjQw3DicPs8nXeZ75xLkAousJ1JOgMZJBIE=;
+  b=Sg5fD8vHlNfGH7pb3t5giegT10qsmC+MWYD8hoUJ/8x52D3LTHOHPlda
+   29a2nj6Fn3VbamrpKLlA6IGFuF7YAWGCwUaBnv0rHqyMaCaEE1/NEHFuo
+   m3zdpSVvkbiJTf1JlRkWHfcGzhf+THEQWzZuUsYI4nq9e0bld5ADcAbyO
+   PxmaeqQemYfDMMKW6qVwsM7vLR2crhPd357J4l3KIzBB4T/RFjOii2Vpn
+   Vp0wGw1ZXQzEBWEi/ES+bpVEcbnlKJkJuvOPGwXN2MNxRFrduxC50foCa
+   plRFNUNGYeQPiQWJunxBsm4Qid6SRqlsv0H2fYvPpn4S6MhVMeVjpAeWe
+   Q==;
+X-CSE-ConnectionGUID: CNT1k2QgR4mHje1FWxvxqQ==
+X-CSE-MsgGUID: fyrZGD03QsCSGEbX7LLtng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23316672"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="23316672"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 11:10:24 -0700
+X-CSE-ConnectionGUID: N8hUpObdSlmiI5xQWlTqdw==
+X-CSE-MsgGUID: afF4w9ALQOuZv9ccMjJf4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="62908029"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2024 11:10:22 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sieAW-000HSs-1G;
+	Mon, 26 Aug 2024 18:10:20 +0000
+Date: Tue, 27 Aug 2024 02:09:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linusw-pinctrl:ib-sophgo-pintrl 2/5]
+ drivers/pinctrl/sophgo/pinctrl-cv18xx.c:544:14: error:
+ 'PIN_CONFIG_INPUT_SCHMITT_UV' undeclared; did you mean
+ 'PIN_CONFIG_INPUT_SCHMITT'?
+Message-ID: <202408270140.L6Hm1sNo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier
- to read
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Peter Wang <peter.wang@mediatek.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Avri Altman <avri.altman@wdc.com>, Bean Huo <beanhuo@micron.com>,
- Andrew Halaney <ahalaney@redhat.com>
-References: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 8/25/24 11:25 PM, Dan Carpenter wrote:
-> New smatch warnings:
-> drivers/ufs/core/ufshcd.c:5484 ufshcd_uic_cmd_compl() error: we previously assumed 'cmd' could be null (see line 5474)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-sophgo-pintrl
+head:   e7a4141f4420879720f9d2c99974e269044c7597
+commit: a29d8e93e710e97863d5bb4e4b6079d6c7daab81 [2/5] pinctrl: sophgo: add support for CV1800B SoC
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408270140.L6Hm1sNo-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270140.L6Hm1sNo-lkp@intel.com/reproduce)
 
-This smatch warning is a false positive. There are multiple code blocks
-in this functions that are guarded by if-statements. The two code blocks
-this warning applies to are mutually exclusive. Hence, the 'cmd' check
-from one block should not be used to draw conclusions about other code
-blocks. I will consider to introduce the 'else' keyword to suppress this
-false positive.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270140.L6Hm1sNo-lkp@intel.com/
 
-Thanks,
+All errors (new ones prefixed by >>):
 
-Bart.
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c: In function 'cv1800_pconf_get':
+>> drivers/pinctrl/sophgo/pinctrl-cv18xx.c:544:14: error: 'PIN_CONFIG_INPUT_SCHMITT_UV' undeclared (first use in this function); did you mean 'PIN_CONFIG_INPUT_SCHMITT'?
+     544 |         case PIN_CONFIG_INPUT_SCHMITT_UV:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |              PIN_CONFIG_INPUT_SCHMITT
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:544:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c: In function 'cv1800_pinconf_compute_config':
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:611:22: error: 'PIN_CONFIG_INPUT_SCHMITT_UV' undeclared (first use in this function); did you mean 'PIN_CONFIG_INPUT_SCHMITT'?
+     611 |                 case PIN_CONFIG_INPUT_SCHMITT_UV:
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      PIN_CONFIG_INPUT_SCHMITT
 
+
+vim +544 drivers/pinctrl/sophgo/pinctrl-cv18xx.c
+
+   505	
+   506	static int cv1800_pconf_get(struct pinctrl_dev *pctldev,
+   507				    unsigned int pin_id, unsigned long *config)
+   508	{
+   509		struct cv1800_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+   510		int param = pinconf_to_config_param(*config);
+   511		struct cv1800_pin *pin = cv1800_get_pin(pctrl, pin_id);
+   512		enum cv1800_pin_io_type type;
+   513		u32 value;
+   514		u32 arg;
+   515		bool enabled;
+   516		int ret;
+   517	
+   518		if (!pin)
+   519			return -EINVAL;
+   520	
+   521		type = cv1800_pin_io_type(pin);
+   522		if (type == IO_TYPE_ETH || type == IO_TYPE_AUDIO)
+   523			return -ENOTSUPP;
+   524	
+   525		value = readl(cv1800_pinctrl_get_component_addr(pctrl, &pin->conf));
+   526	
+   527		switch (param) {
+   528		case PIN_CONFIG_BIAS_PULL_DOWN:
+   529			enabled = FIELD_GET(PIN_IO_PULLDOWN, value);
+   530			arg = cv1800_pull_down_typical_resistor(pctrl, pin);
+   531			break;
+   532		case PIN_CONFIG_BIAS_PULL_UP:
+   533			enabled = FIELD_GET(PIN_IO_PULLUP, value);
+   534			arg = cv1800_pull_up_typical_resistor(pctrl, pin);
+   535			break;
+   536		case PIN_CONFIG_DRIVE_STRENGTH_UA:
+   537			enabled = true;
+   538			arg = FIELD_GET(PIN_IO_DRIVE, value);
+   539			ret = cv1800_pinctrl_reg2oc(pctrl, pin, arg);
+   540			if (ret < 0)
+   541				return ret;
+   542			arg = ret;
+   543			break;
+ > 544		case PIN_CONFIG_INPUT_SCHMITT_UV:
+   545			arg = FIELD_GET(PIN_IO_SCHMITT, value);
+   546			ret = cv1800_pinctrl_reg2schmitt(pctrl, pin, arg);
+   547			if (ret < 0)
+   548				return ret;
+   549			arg = ret;
+   550			enabled = arg != 0;
+   551			break;
+   552		case PIN_CONFIG_POWER_SOURCE:
+   553			enabled = true;
+   554			arg = cv1800_get_power_cfg(pctrl, pin->power_domain);
+   555			break;
+   556		case PIN_CONFIG_SLEW_RATE:
+   557			enabled = true;
+   558			arg = FIELD_GET(PIN_IO_OUT_FAST_SLEW, value);
+   559			break;
+   560		case PIN_CONFIG_BIAS_BUS_HOLD:
+   561			arg = FIELD_GET(PIN_IO_BUS_HOLD, value);
+   562			enabled = arg != 0;
+   563			break;
+   564		default:
+   565			return -ENOTSUPP;
+   566		}
+   567	
+   568		*config = pinconf_to_config_packed(param, arg);
+   569	
+   570		return enabled ? 0 : -EINVAL;
+   571	}
+   572	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
