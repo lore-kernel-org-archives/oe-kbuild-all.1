@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7133F9D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 04:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7A6548F7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Aug 2024 04:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724645774; cv=none; b=mpUvwuC93WDiS4UQBYeMW8urEWg1q347zi12iXLeo+z2Ffws/IvQ4cj5kn8HVg1t0hx/OgBKP2DuvIlJwigMjxTt/4Q0ebSfUvFWtWV3+XpjJHbId3XC9ZAJjB5AoocHRHqtq58OpSRIcoHt2r2ATPBOo4z+GslUYEpL5U9ZekU=
+	t=1724646616; cv=none; b=jR/AgOHut8FFl/vCGUWK6hrRoIc9P0kH3VGd2BTdeI68HfxsYh3j0EQjWII9REgryFGFGn7YF2x/apdrGR1hg4S5n1gZOKheh1njwWJrv7YjUnyTDSJx/KEfqauXMCSCfM8dLKt8DGS1YNHBLL3IF3ce2KFbzOXUvjL4DNJ9XQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724645774; c=relaxed/simple;
-	bh=Unri9OacCkg6ie+KLCMRLH797BcObua39LYWzctHEYM=;
+	s=arc-20240116; t=1724646616; c=relaxed/simple;
+	bh=agyhQfcNQ1E9nu9rmPP3nufi62taH7fRK1odNqqE+rU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tPTFnJOCD7NIgY2WIoanM0WkBfR0mbXOHnprvLypYyRtXC4D1B7F5RedDS3aXsAssuwqWePEjGRpI5Mhevq++qhqRp+lq/6JmOKn5ce4lC9OWRBl+m3O1IXop7R5Jzufbom/VZ5qna85ecu4nUjAfpTxuW6/5tpr8QFbVbOlETg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbhdkvR/; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition:In-Reply-To; b=jDdFVzVQV3XbhkZ5hfTvGk3FYlLnrNKchsDavlidZeuCoQh6mCS+sF329v8yXlZcbc+m+okQBpse6vx57z8iy7qEJoCK4k0hatQ/AMfs59aOUSVFJ7ziXgj1NuAI0JP7Lq/6y3iW7ijDCpZ+gFmAPlP4pLRK77WiFhOGc+T4/aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7NRUYYz; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbhdkvR/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7NRUYYz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724645772; x=1756181772;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Unri9OacCkg6ie+KLCMRLH797BcObua39LYWzctHEYM=;
-  b=nbhdkvR/wReFrCRhhdanuC9TfseyhJxXdgAteV+iYFXmJ4QhWqX+sOe5
-   OITCBH/AImP6yr8uJBMQPxuYZTiCVNmrKQ3bQ/0yy4Ds39VYFekMKE4ed
-   OKXl3+rNm4OyqCjvyA1F8VeNTvxYRZu8dYSoh+or4A6GQ99HwCPmgngnT
-   pqopO1cYLCCXxApjKRy3+yxgjgv6hpUxCpgdhnPbgRWTXy5dgSQXUBphb
-   dgwAXSqp7HOlHoSheD7J28wMvMd3hGWrrj4akYut6/9pyLDbM+eU8XOnT
-   esjDJ+ykmdrjHxTK7Yb+OLCqBA0ytRDbkjhEsqgI3UU3uB3XBL1kH6Sr0
-   Q==;
-X-CSE-ConnectionGUID: hEdhhB93T1eH8pTKFeDK1A==
-X-CSE-MsgGUID: wouStsAZTU62/CV5W4Vv9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="33666926"
+  t=1724646614; x=1756182614;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=agyhQfcNQ1E9nu9rmPP3nufi62taH7fRK1odNqqE+rU=;
+  b=A7NRUYYzE3ejSCNwR2LICEBcTuaEgzzup3zeSJDied+lu+TLG5yy4oTw
+   fc2EeSzkK3diLY5CvvdH8J8pncb5Ipy0M3stqzGgWTi7VZUUm0c+C6wk/
+   VPnmzyT3gQC8s50tlSebAL4oqfjldURHp44LQk+p24l7bYF+4nlzMMWx/
+   7ywyd2egcKbX36ZhddmYl/+z6GO4t3nOQT9OsRomS04eTtlmFPtF4tL7C
+   5gV0v4cacdasSDEBqcvnzjI9J6ssWmF4X1IDD2bKg2Osv5Qx3ktBobBb0
+   HK3gCKYsyD1cSxqeTgKf+L1hS0FRSnCPTOymfkKFDWTiMtfV6e7AMSdLz
+   w==;
+X-CSE-ConnectionGUID: mnYMk/fBSYyru3JzYF8P9Q==
+X-CSE-MsgGUID: CVZiVOamQxaJaAHeeDYQZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="23217459"
 X-IronPort-AV: E=Sophos;i="6.10,176,1719903600"; 
-   d="scan'208";a="33666926"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2024 21:16:12 -0700
-X-CSE-ConnectionGUID: 9W4a5g5eQ5a2u1OgMH9KrA==
-X-CSE-MsgGUID: aUfmLBIDRN2rx26dGp0mqA==
+   d="scan'208";a="23217459"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2024 21:30:14 -0700
+X-CSE-ConnectionGUID: fuI5+Ig7QV+yJKwYFjIxvQ==
+X-CSE-MsgGUID: lGemIZ0LTnilUHe/PGp90Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,176,1719903600"; 
-   d="scan'208";a="67313211"
+   d="scan'208";a="62221403"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Aug 2024 21:16:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Aug 2024 21:30:13 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siR9D-000Fs5-38;
-	Mon, 26 Aug 2024 04:16:07 +0000
-Date: Mon, 26 Aug 2024 12:15:23 +0800
+	id 1siRMo-000Fuj-1g;
+	Mon, 26 Aug 2024 04:30:10 +0000
+Date: Mon, 26 Aug 2024 12:29:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:x86/cleanups 3/9] arch/x86/kernel/eisa.c:20:24: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202408261244.v2gfgSON-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.11 regression fix] ASoC: Intel: Boards: Fix NULL
+ pointer deref in BYT/CHT boards harder
+Message-ID: <ZswEntCXPpKdXxgY@82455bb29b92>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240823074217.14653-1-hdegoede@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cleanups
-head:   cc5e03f3be3154f860c9d08b2ac8c139863e1515
-commit: 80a4da05642c384bc6f5b602b865ebd7e3963902 [3/9] x86/EISA: Use memremap() to probe for the EISA BIOS signature
-config: i386-randconfig-061-20240826 (https://download.01.org/0day-ci/archive/20240826/202408261244.v2gfgSON-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240826/202408261244.v2gfgSON-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408261244.v2gfgSON-lkp@intel.com/
+Thanks for your patch.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/eisa.c:20:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *[assigned] p @@
-   arch/x86/kernel/eisa.c:20:24: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/x86/kernel/eisa.c:20:24: sparse:     got void *[assigned] p
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-vim +20 arch/x86/kernel/eisa.c
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-6a92b11169a65b Boris Ostrovsky   2018-09-11  11  
-f7eaf6e00fd581 Thomas Gleixner   2017-08-28  12  static __init int eisa_bus_probe(void)
-f7eaf6e00fd581 Thomas Gleixner   2017-08-28  13  {
-80a4da05642c38 Maciej W. Rozycki 2024-08-24  14  	void *p;
-6a92b11169a65b Boris Ostrovsky   2018-09-11  15  
-0f4a1e80989aca Kevin Loughlin    2024-03-13  16  	if ((xen_pv_domain() && !xen_initial_domain()) || cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-6a92b11169a65b Boris Ostrovsky   2018-09-11  17  		return 0;
-f7eaf6e00fd581 Thomas Gleixner   2017-08-28  18  
-80a4da05642c38 Maciej W. Rozycki 2024-08-24  19  	p = memremap(0x0FFFD9, 4, MEMREMAP_WB);
-6a92b11169a65b Boris Ostrovsky   2018-09-11 @20  	if (p && readl(p) == 'E' + ('I' << 8) + ('S' << 16) + ('A' << 24))
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.11 regression fix] ASoC: Intel: Boards: Fix NULL pointer deref in BYT/CHT boards harder
+Link: https://lore.kernel.org/stable/20240823074217.14653-1-hdegoede%40redhat.com
 
-:::::: The code at line 20 was first introduced by commit
-:::::: 6a92b11169a65b3f8cc512c75a252cbd0d096ba0 x86/EISA: Don't probe EISA bus for Xen PV guests
-
-:::::: TO: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
