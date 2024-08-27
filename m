@@ -1,223 +1,258 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553B61CF297
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 18:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F65064A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 18:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724781662; cv=none; b=U7fVomCeFS2F/q4NmOFLyV15JQ5IeaGvGm5jRjpP1sWVfRctqs+5hVyPaQNSvNDQEm5nlayvQS+QQwwcq32rrrGkRjK7R4i87/F0C9JfHoOQsmmLFA8WF/ITc0astEqGUGw5jAxi4VDKTv2guhtApOBnlUwl4cR8mW2LyMwgPrU=
+	t=1724783235; cv=none; b=mzrlnSBlmo/2Zxfki2O3mKJQpO4zlE7b8CDPtOi0sU3icSWORnfEIYEINHMHsJRkjkCm8qn1VlbnRvEHXPzG83dNso0Y+kY58IqceoxZoaI6JZa+iLzGo0MXL3k7/KuvA7bJoytablP3S/1XlYYTR/tYuiO8/B64ZwgI4clrg6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724781662; c=relaxed/simple;
-	bh=c2xBtR+BsTJelqlilJWFgdmV1UZZD3UOaVzIWn6/YDE=;
+	s=arc-20240116; t=1724783235; c=relaxed/simple;
+	bh=U3S0NT5mAN5wdUNex9B7uZ/roVQlT/KDvNJFb560cvg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JSmCFuUX2mLFqUvKuLLyPUUr1Q4wS+rKuB4V7BawyK3WUsoD5dGx6W9awcUyIffHugN7JVxenv5VC3RUY1goPc7NeIjJ5BY/+rjHRgyylElRWVPjANN7DgYH+EOd6ukJd4pusYdh83pQFjy40ZV7thsKEp8aPR666AWwEzs4fDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2FWnJlX; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZ3dRnlYjZytrWbS2BkF9JP+uJ4ceIdTK/Phu+iguAV40Q+glubmebARowPSVXxFE1YA18jXcLVEFoAOSAea+w8YbxwOUNJPJ0srcOUtuWEPdDkVese5niVulGQoMbJ9X6j3Zr7WO57ZXAVHiZzyYFxKcsMRdzYWEClqcigJVtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdFr4q/a; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2FWnJlX"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7a4df9dc885so3015885a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 11:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724781659; x=1725386459; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mU7rEV6F3ZA0YUMBJPfPkkK8EXsvhkq32UE7Wg/stSM=;
-        b=H2FWnJlXCld7MgXxXpPzlv6RQdTWuJ8vN//qTJRgueHosclR+ZVI9MgIKIsD5+dNus
-         F6h0r2ODYwlrL/rTzOppjgve9L7Y0DbQXDINukX3Itk6+LFsIC87yv586SNOSvnkIzFH
-         YtfPgJhLv5lmpfNKPjPZfjkb6ciG8lWQ2kd/8kDi3xsDEiPl/hMGZiVf1Crf2dWkaINl
-         E70QgUUde/a30pQ5Zkl7s+r1JcmPt8gON8iYYmEdJYd+qRLuNAGUyGCRZpkDsJFUknjh
-         JriJ1DQ81/XvTzPa1Mw49KcqBmBJzcBeNmWFWIZDP+KToLZ/bNVUyXVyKe/86tT8k9sK
-         TFTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724781659; x=1725386459;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mU7rEV6F3ZA0YUMBJPfPkkK8EXsvhkq32UE7Wg/stSM=;
-        b=MDp0M2D9tz6NVRLQiL/PBHsbtTKq1kioqYcVkbq6jRd7Ez54SKS06MizETp+uFNTYZ
-         79dy8dLT6vW7HZyHRLRlXcfK0ygTJseX1fYzocgE8/ZB0aZpAkq8iQxYwu1/tqScCJoI
-         +Twxu0BOT3R8LIXKH3w8+6OeMehUXdikLEcexPG38YwiML0V7s9rKOfLMUZoKJOPXIer
-         npVJKwp06yPcrG6ZZKwaHJ7T1SRaFHAVzFZ0/dS5pRju0TXbKGV8f1aMtsi4uimntCsP
-         UQuzFWPaQ2MKcEWBEdHoGIId3afe/s+19GcL9s8F23rYdweyKSXxrGizOs4XnaLa+j8c
-         WkuA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7a1SSA09hEttlzmt4J/HvhJCO729BZNxqfSdy6SLhaqu68JIthbyLj7eXx+upItP5uU8V05cpmbsVTcHT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXDTNBhsocZ2N68wYLSo9ObV6jLI8jE/tgvnl3pmpONMpWHYUh
-	ixtsTEqpRDCwXapm1MLy0f7rAz/JUvxB+KYRrS379+wel2krHtdy
-X-Google-Smtp-Source: AGHT+IHMGn3vE4bmd2qRiL3QYM+3tpk60SO/OSnIYyt7YFcEgT7kSrgP8kVAhh6b4hORHiUOkcVGQQ==
-X-Received: by 2002:a05:620a:bcd:b0:7a1:e49b:9461 with SMTP id af79cd13be357-7a7f2d17baemr6613285a.26.1724781658874;
-        Tue, 27 Aug 2024 11:00:58 -0700 (PDT)
-Received: from fauth2-smtp.messagingengine.com (fauth2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a67f3622fasm570565485a.70.2024.08.27.11.00.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 11:00:58 -0700 (PDT)
-Received: from phl-compute-06.internal (phl-compute-06.nyi.internal [10.202.2.46])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id DB88B120006A;
-	Tue, 27 Aug 2024 14:00:57 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 27 Aug 2024 14:00:57 -0400
-X-ME-Sender: <xms:WRTOZulah2zzraf2wMT1zqNpucF-NZLaf050_fxiKnKlOsXi8NU29w>
-    <xme:WRTOZl0nEfbBWxLKsCkKaS7TQknN1qiAGSy6t82sfHc6VOJU8UPrqqlQOBVgl3njh
-    shA_aU6mrukbDO40w>
-X-ME-Received: <xmr:WRTOZsqoxxXIV5amHA4kGNjWnhFaG9aEu97bxW2HgVrmbblkMC8LZcLr5wkxrQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
-    hlrdgtohhmqeenucggtffrrghtthgvrhhnpeevtddugeejgefggeekvdeigeduteelueev
-    keejkefhieevffdvteeludffveefudenucffohhmrghinhepghhithdqshgtmhdrtghomh
-    dpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgpdguvghppghm
-    rghprdhnrghmvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledv
-    geehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtoh
-    hmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopegsohhtthgrrgifvghsohhmvgeifeefsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhig
-    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehovgdqkh
-    gsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgv
-    thgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepmhhinhhgohesrhgvug
-    hhrghtrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehlohhnghhmrghnsehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigqd
-    gvgihtgeesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:WRTOZinGw7LJ78tZrwAyM2NnyYZXEMHHJSe7LKseWCnyKkQWR8KL6g>
-    <xmx:WRTOZs35c3lJqDJe197ghuRQXVocOKOryVFN7QDo2WBFieHTJ-eyAQ>
-    <xmx:WRTOZpsmsnjBO-j0PdErZ18L57M-_0tEz9QisVPyeZbsGE467vTD1Q>
-    <xmx:WRTOZoVDC-YAWslYXmP7uoR31khYcHEIypxVlDFw_Wcr-xc9wRliMg>
-    <xmx:WRTOZn0Kwq4lRAzES1PlqRB2GkvO8rqs1hVV96bmkTR02BnOwB0lMMeL>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Aug 2024 14:00:56 -0400 (EDT)
-Date: Tue, 27 Aug 2024 11:00:32 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: ahmed Ehab <bottaawesome633@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, linux-ext4@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [PATCH v6 2/2] locking/lockdep: Test no new string literal is
- created in lockdep_set_subclass()
-Message-ID: <Zs4UQLbzOsmjhBGU@boqun-archlinux>
-References: <20240824221031.7751-2-bottaawesome633@gmail.com>
- <202408270559.rym5UAv9-lkp@intel.com>
- <CA+6bSauLj9MBs_HRP6Yt9qXVs4eO30cpvU00u=uj7sG7S8fHmQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdFr4q/a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724783232; x=1756319232;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U3S0NT5mAN5wdUNex9B7uZ/roVQlT/KDvNJFb560cvg=;
+  b=HdFr4q/aQDWTxMqykAOTG42smxIBpHmfnJa1s03HMkGReSTQe/hUHpAt
+   KWAhkVPmHd2VGCFq0E5nIbpfxG7UVQO72/dfZ1nZ/ZxvustKOafpumZ+X
+   u7SPl1Vs71kURUeyqJXi87cMHBWKtSx34fyRjhK9481rs2215l7aQAYCC
+   hs1M7m7yH5xl9rmUHEzD7HdfZvHShqAwQvJ1VVRAq6XZHhIlcj+/fSuOL
+   WzCQZPDkx4NKL7arU+PBkbpBVju9HIxT/7220WM1PiEpsBShHJ8cYds3/
+   EQpICsc1j0hXVxPyYFHPLdJ5PVVCdiTRsL4vKo+/YE67o2oEhKBlsHO2Q
+   Q==;
+X-CSE-ConnectionGUID: 8nVKMXadRWC8E8fpkqLeeQ==
+X-CSE-MsgGUID: sXVhyt0cSZ2fCOAnYhAdZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48665836"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="48665836"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 11:27:11 -0700
+X-CSE-ConnectionGUID: M03qrS0KQNqGUNKHYCV7Pw==
+X-CSE-MsgGUID: PQCa/K6lS8m6k3G9imHCJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="67306796"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Aug 2024 11:27:10 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sj0uJ-000JwQ-0c;
+	Tue, 27 Aug 2024 18:27:07 +0000
+Date: Wed, 28 Aug 2024 02:26:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hongbo Li <lihongbo22@huawei.com>, sam@mendozajonas.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lihongbo22@huawei.com,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] net/ncsi: Use str_up_down to simplify
+ the code
+Message-ID: <202408280152.l51y5bcU-lkp@intel.com>
+References: <20240827025246.963115-3-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+6bSauLj9MBs_HRP6Yt9qXVs4eO30cpvU00u=uj7sG7S8fHmQ@mail.gmail.com>
+In-Reply-To: <20240827025246.963115-3-lihongbo22@huawei.com>
 
-On Tue, Aug 27, 2024 at 01:04:15PM +0300, ahmed Ehab wrote:
-> On Tue, Aug 27, 2024 at 1:08 AM kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi Ahmed,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on tip/locking/core]
-> > [also build test ERROR on tip/master arm-perf/for-next/perf linus/master
-> > tip/auto-latest v6.11-rc5 next-20240826]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:
-> > https://github.com/intel-lab-lkp/linux/commits/Ahmed-Ehab/locking-lockdep-Test-no-new-string-literal-is-created-in-lockdep_set_subclass/20240826-145215
-> > base:   tip/locking/core
-> > patch link:
-> > https://lore.kernel.org/r/20240824221031.7751-2-bottaawesome633%40gmail.com
-> > patch subject: [PATCH v6 2/2] locking/lockdep: Test no new string literal
-> > is created in lockdep_set_subclass()
-> > config: i386-buildonly-randconfig-003-20240827 (
-> > https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/config
-> > )
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=1 build): (
-> > https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/reproduce
-> > )
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202408270559.rym5UAv9-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    lib/locking-selftest.c: In function 'lock_class_subclass_X1':
-> > >> lib/locking-selftest.c:2715:60: error: 'struct rw_semaphore' has no
-> > member named 'dep_map'
-> >     2715 |         const char *name_before_setting_subclass =
-> > rwsem_X1.dep_map.name;
-> >          |                                                            ^
-> >    lib/locking-selftest.c:2719:47: error: 'struct rw_semaphore' has no
-> > member named 'dep_map'
-> >     2719 |         name_after_setting_subclass = rwsem_X1.dep_map.name;
-> >          |                                               ^
-> >
-> These failures will only happen if CONFIG_DEBUG_LOCK_ALLOC is not set,
-> which is required for lockdep I think.
+Hi Hongbo,
 
-Oh yes, this test can be compiled with LOCKDEP=n.
+kernel test robot noticed the following build errors:
 
-> Should I consider these errors by checking CONFIG_DEBUG_LOCK_ALLOC before
-> calling my test method or is it
-> irrelevant?
-> 
+[auto build test ERROR on net-next/main]
 
-Could you introduce a helper function here?
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/net-ncsi-Use-str_up_down-to-simplify-the-code/20240827-104622
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240827025246.963115-3-lihongbo22%40huawei.com
+patch subject: [PATCH net-next v2 2/2] net/ncsi: Use str_up_down to simplify the code
+config: arc-randconfig-001-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280152.l51y5bcU-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280152.l51y5bcU-lkp@intel.com/reproduce)
 
-	#if CONFIG_DEBUG_LOCK_ALLOC
-	static inline char* rw_semaphore_lockdep_name(struct rw_semaphore *rwsem)
-	{
-		return rwsem.dep_map.name;
-	}
-	#else
-	static inline char* rw_semaphore_lockdep_name(struct rw_semaphore *rwsem)
-	{
-		return NULL;
-	}
-	#endif
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280152.l51y5bcU-lkp@intel.com/
 
-and use it in your test case (you put the function definitio right
-before the test case.
+All error/warnings (new ones prefixed by >>):
 
-Regards,
-Boqun
+   In file included from include/linux/skbuff.h:38,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from net/ncsi/ncsi-aen.c:9:
+   net/ncsi/ncsi-aen.c: In function 'ncsi_aen_handler_lsc':
+>> net/ncsi/ncsi-aen.c:78:28: error: implicit declaration of function 'str_up_down' [-Werror=implicit-function-declaration]
+      78 |                    nc->id, str_up_down(data & 0x1));
+         |                            ^~~~~~~~~~~
+   include/net/net_debug.h:66:60: note: in definition of macro 'netdev_dbg'
+      66 |                 netdev_printk(KERN_DEBUG, __dev, format, ##args); \
+         |                                                            ^~~~
+>> net/ncsi/ncsi-aen.c:77:35: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'int' [-Wformat=]
+      77 |         netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      78 |                    nc->id, str_up_down(data & 0x1));
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~
+         |                            |
+         |                            int
+   include/net/net_debug.h:66:50: note: in definition of macro 'netdev_dbg'
+      66 |                 netdev_printk(KERN_DEBUG, __dev, format, ##args); \
+         |                                                  ^~~~~~
+   net/ncsi/ncsi-aen.c:77:70: note: format string is defined here
+      77 |         netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
+         |                                                                     ~^
+         |                                                                      |
+         |                                                                      char *
+         |                                                                     %d
+   cc1: some warnings being treated as errors
 
 
-> >
-> >
-> > vim +2715 lib/locking-selftest.c
-> >
-> >   2712
-> >   2713  static void lock_class_subclass_X1(void)
-> >   2714  {
-> > > 2715          const char *name_before_setting_subclass =
-> > rwsem_X1.dep_map.name;
-> >   2716          const char *name_after_setting_subclass;
-> >   2717
-> >   2718          lockdep_set_subclass(&rwsem_X1, 1);
-> >   2719          name_after_setting_subclass = rwsem_X1.dep_map.name;
-> >   2720          DEBUG_LOCKS_WARN_ON(name_before_setting_subclass !=
-> > name_after_setting_subclass);
-> >   2721  }
-> >   2722
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> 
-> Regards,
-> Ahmed
+vim +/str_up_down +78 net/ncsi/ncsi-aen.c
+
+   > 9	#include <linux/netdevice.h>
+    10	#include <linux/skbuff.h>
+    11	
+    12	#include <net/ncsi.h>
+    13	#include <net/net_namespace.h>
+    14	#include <net/sock.h>
+    15	
+    16	#include "internal.h"
+    17	#include "ncsi-pkt.h"
+    18	
+    19	static int ncsi_validate_aen_pkt(struct ncsi_aen_pkt_hdr *h,
+    20					 const unsigned short payload)
+    21	{
+    22		u32 checksum;
+    23		__be32 *pchecksum;
+    24	
+    25		if (h->common.revision != NCSI_PKT_REVISION)
+    26			return -EINVAL;
+    27		if (ntohs(h->common.length) != payload)
+    28			return -EINVAL;
+    29	
+    30		/* Validate checksum, which might be zeroes if the
+    31		 * sender doesn't support checksum according to NCSI
+    32		 * specification.
+    33		 */
+    34		pchecksum = (__be32 *)((void *)(h + 1) + payload - 4);
+    35		if (ntohl(*pchecksum) == 0)
+    36			return 0;
+    37	
+    38		checksum = ncsi_calculate_checksum((unsigned char *)h,
+    39						   sizeof(*h) + payload - 4);
+    40		if (*pchecksum != htonl(checksum))
+    41			return -EINVAL;
+    42	
+    43		return 0;
+    44	}
+    45	
+    46	static int ncsi_aen_handler_lsc(struct ncsi_dev_priv *ndp,
+    47					struct ncsi_aen_pkt_hdr *h)
+    48	{
+    49		struct ncsi_channel *nc, *tmp;
+    50		struct ncsi_channel_mode *ncm;
+    51		unsigned long old_data, data;
+    52		struct ncsi_aen_lsc_pkt *lsc;
+    53		struct ncsi_package *np;
+    54		bool had_link, has_link;
+    55		unsigned long flags;
+    56		bool chained;
+    57		int state;
+    58	
+    59		/* Find the NCSI channel */
+    60		ncsi_find_package_and_channel(ndp, h->common.channel, NULL, &nc);
+    61		if (!nc)
+    62			return -ENODEV;
+    63	
+    64		/* Update the link status */
+    65		lsc = (struct ncsi_aen_lsc_pkt *)h;
+    66	
+    67		spin_lock_irqsave(&nc->lock, flags);
+    68		ncm = &nc->modes[NCSI_MODE_LINK];
+    69		old_data = ncm->data[2];
+    70		data = ntohl(lsc->status);
+    71		ncm->data[2] = data;
+    72		ncm->data[4] = ntohl(lsc->oem_status);
+    73	
+    74		had_link = !!(old_data & 0x1);
+    75		has_link = !!(data & 0x1);
+    76	
+  > 77		netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
+  > 78			   nc->id, str_up_down(data & 0x1));
+    79	
+    80		chained = !list_empty(&nc->link);
+    81		state = nc->state;
+    82		spin_unlock_irqrestore(&nc->lock, flags);
+    83	
+    84		if (state == NCSI_CHANNEL_INACTIVE)
+    85			netdev_warn(ndp->ndev.dev,
+    86				    "NCSI: Inactive channel %u received AEN!\n",
+    87				    nc->id);
+    88	
+    89		if ((had_link == has_link) || chained)
+    90			return 0;
+    91	
+    92		if (!ndp->multi_package && !nc->package->multi_channel) {
+    93			if (had_link) {
+    94				ndp->flags |= NCSI_DEV_RESHUFFLE;
+    95				ncsi_stop_channel_monitor(nc);
+    96				spin_lock_irqsave(&ndp->lock, flags);
+    97				list_add_tail_rcu(&nc->link, &ndp->channel_queue);
+    98				spin_unlock_irqrestore(&ndp->lock, flags);
+    99				return ncsi_process_next_channel(ndp);
+   100			}
+   101			/* Configured channel came up */
+   102			return 0;
+   103		}
+   104	
+   105		if (had_link) {
+   106			ncm = &nc->modes[NCSI_MODE_TX_ENABLE];
+   107			if (ncsi_channel_is_last(ndp, nc)) {
+   108				/* No channels left, reconfigure */
+   109				return ncsi_reset_dev(&ndp->ndev);
+   110			} else if (ncm->enable) {
+   111				/* Need to failover Tx channel */
+   112				ncsi_update_tx_channel(ndp, nc->package, nc, NULL);
+   113			}
+   114		} else if (has_link && nc->package->preferred_channel == nc) {
+   115			/* Return Tx to preferred channel */
+   116			ncsi_update_tx_channel(ndp, nc->package, NULL, nc);
+   117		} else if (has_link) {
+   118			NCSI_FOR_EACH_PACKAGE(ndp, np) {
+   119				NCSI_FOR_EACH_CHANNEL(np, tmp) {
+   120					/* Enable Tx on this channel if the current Tx
+   121					 * channel is down.
+   122					 */
+   123					ncm = &tmp->modes[NCSI_MODE_TX_ENABLE];
+   124					if (ncm->enable &&
+   125					    !ncsi_channel_has_link(tmp)) {
+   126						ncsi_update_tx_channel(ndp, nc->package,
+   127								       tmp, nc);
+   128						break;
+   129					}
+   130				}
+   131			}
+   132		}
+   133	
+   134		/* Leave configured channels active in a multi-channel scenario so
+   135		 * AEN events are still received.
+   136		 */
+   137		return 0;
+   138	}
+   139	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
