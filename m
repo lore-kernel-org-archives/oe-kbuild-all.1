@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887C4197A7A;
-	Tue, 27 Aug 2024 21:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209BF19755B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 21:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724793082; cv=none; b=sNtXWGqteA2sEue8xIQsRM51ihMXwE8JSE/mpgVUKFiCaQPRaYK6mcxYgbiIop4zyeE9s7/YV6rYMzjMCxAPb2JbuX1wTMdGh7BmJB0tBJjL4AJqRRECkyUB2uSFToHop0fvi2TnCCbX//++yiDxr5p6ZbOmUI35OI2p3int6lk=
+	t=1724793682; cv=none; b=paeyVg4wQ72CXl89KEUq0nWnXu3hsvFOTCQGC8ljz4qFTHTL1Z9tIiCeiLZg2JUWtH659F6HPycVq2gF9mggyiHSqy9jENwl2fXoGdgVE1G39rd3oCLiXytJjTPrUfXbRoUSOxn56Pd1+pFNePMldVGycr/iNoGzxEffyF4+fZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724793082; c=relaxed/simple;
-	bh=hX9UxprD85FtuIPVMil0tW9A26h2eibinJjk2tisZ+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zkpi+aCRVLEK6Sgc0NQoXjeqQIQgBMfV+3EKUK3ybS5tS4Hf5SBxPCiPLGdB6ks1haJseb4EyZlm/ZtUAtAJpWf/xRtiRV6/+X3bec6eAjh0ITWLALigZlDgRjqsLC4sXdMUAZa8kdGI3i90tuaLWn+Lqbw+LX6uYIBYUhqtJz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JodbmpKq; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1724793682; c=relaxed/simple;
+	bh=xQk45zRQ0xoVZuNXXa/W6qn9zlMrp++9qmVx/q0XDQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LZOUKKK+AzSVLieCiOQKj9JZcPzf7DTwEyJx0XpPKgvZp0nZkrEMToNUNr6o2vKGOx5j6fYVo6v0vlGBa5nlOmUJ/bSKnUfzPY14Pnn5x8WIOeUZItPecOT4UQ3r09xTcI5vV8sUOdHuftGWQYD4cymF/9VV/oaDlq0JlzCeZEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bic56hyF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JodbmpKq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bic56hyF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724793081; x=1756329081;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hX9UxprD85FtuIPVMil0tW9A26h2eibinJjk2tisZ+4=;
-  b=JodbmpKqU2bJse15Wuo0VpvRvxl/sDIjySjHfvBM+D5xzBsFvhYxnjvN
-   unw2PaRVqvVLPpk2dmHjBq7R04lC7YtwuSYbsLyMbVZ+RWZIcyGe+CVnO
-   DJMMliq5fpM8f9VAn87bhjJynQFHSCPYiF/FQI9/QTSzu8WGrTIhsatVi
-   +CEOTCN5+PcQqViin2qpRB7RaYt4AnkXt/medDiRp2Tugsl5Iw3bsVFNa
-   x6wtWiv6ZhAiCxwo61H+aGroGygxnpS7sLEQ2P/0v112vdQ7RuHUqlT8L
-   wQ2NjWL+F64SRBt1QoBi/Dnjm3s62dxqy/X79Gb3kU0zjaku6p33Kqry0
-   A==;
-X-CSE-ConnectionGUID: Tnd6KsdWTN+3+W/w+KOVZA==
-X-CSE-MsgGUID: SnlQy9gIRamkuX31hT1bxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23101650"
+  t=1724793679; x=1756329679;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xQk45zRQ0xoVZuNXXa/W6qn9zlMrp++9qmVx/q0XDQQ=;
+  b=Bic56hyFLVbmdbDjnlhh1qmNZlb7XIQC+bslX2ko7u6QBOyCAmToXhln
+   nEycolXUnGZkaEIJtaxUGPW1f6CblIAZqY6UfteutD9OwUVei0qsLMHrW
+   hgO3KDI47wp9Wm8nl+l+CtB7ar9xskbpSxX43emu7dSeuXZ0bIBAtGzff
+   CQf8+FV5kVTG9+J9sqaKoyF7IpHEYAMDq7ir2f+xS5WkY+oiu67XB8KlH
+   xwVS80npOrEZyC0j+IXQNDX2S06qUojh01z7YZjS91GO/JGvR3sPpdmJc
+   WmUYsvRzMwEld/dDnZUpiqQP47FtImrnmRi6W5kETX7/OVXUtESZWuNM6
+   Q==;
+X-CSE-ConnectionGUID: V+U2BTrcTzKhuuxBb5vCPQ==
+X-CSE-MsgGUID: 6nrSQT7vQ9a/8Mx29ZItsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34672094"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="23101650"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 14:11:20 -0700
-X-CSE-ConnectionGUID: Of5xkQfCSTynNfwGFbyAYA==
-X-CSE-MsgGUID: NlDceEr4StyItgZaBL9+OA==
+   d="scan'208";a="34672094"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 14:21:19 -0700
+X-CSE-ConnectionGUID: jFcVtE9JTu6u0OxZhRzz2A==
+X-CSE-MsgGUID: WkzoaYBySmutTnfA4vn/RA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="62837941"
+   d="scan'208";a="62727827"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 Aug 2024 14:11:17 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 Aug 2024 14:21:17 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj3T8-000K5i-2E;
-	Tue, 27 Aug 2024 21:11:14 +0000
-Date: Wed, 28 Aug 2024 05:10:52 +0800
+	id 1sj3co-000K5w-33;
+	Tue, 27 Aug 2024 21:21:14 +0000
+Date: Wed, 28 Aug 2024 05:21:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Leonard <David.Leonard@digi.com>,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 4/6] pinctrl: ls1046a: Add pinctrl driver support
-Message-ID: <202408280509.Jr3oFGGy-lkp@intel.com>
-References: <c0ecf4f4-94f1-2efd-b05b-fc117c62e516@digi.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: include/linux/slab.h:552:15: error: type defaults to 'int' in
+ declaration of 'kmem_buckets_create'
+Message-ID: <202408280559.FIsoHAAc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,161 +62,232 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c0ecf4f4-94f1-2efd-b05b-fc117c62e516@digi.com>
 
-Hi David,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next shawnguo/for-next arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next linus/master v6.11-rc5 next-20240827]
-[cannot apply to arm/for-next arm/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Leonard/arm64-dts-ls1012a-add-pinctrl-node/20240827-104431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/c0ecf4f4-94f1-2efd-b05b-fc117c62e516%40digi.com
-patch subject: [PATCH 4/6] pinctrl: ls1046a: Add pinctrl driver support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408280509.Jr3oFGGy-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280509.Jr3oFGGy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ec3f5fc4a91e389ea56b111a73d97ffc94f19c6
+commit: b32801d1255be1da62ea8134df3ed9f3331fba12 mm/slab: Introduce kmem_buckets_create() and family
+date:   8 weeks ago
+config: x86_64-randconfig-072-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280559.FIsoHAAc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280559.FIsoHAAc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280509.Jr3oFGGy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280559.FIsoHAAc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/pinctrl/freescale/pinctrl-ls1046a.c:8:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/pinctrl/freescale/pinctrl-ls1046a.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/pinctrl/freescale/pinctrl-ls1046a.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/pinctrl/freescale/pinctrl-ls1046a.c:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/pinctrl/freescale/pinctrl-ls1046a.c:199:51: error: passing 'const struct pinctrl_desc *' to parameter of type 'struct pinctrl_desc *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     199 |         ret = devm_pinctrl_register_and_init(&pdev->dev, &ls1046a_pinctrl_desc,
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/pinctrl/pinctrl.h:180:26: note: passing argument to parameter 'pctldesc' here
-     180 |                                 struct pinctrl_desc *pctldesc,
-         |                                                      ^
-   17 warnings and 1 error generated.
+   arch/x86/include/asm/fpu/types.h:355:22: note: in expansion of macro 'PAGE_SIZE'
+     355 |         u8 __padding[PAGE_SIZE];
+         |                      ^~~~~~~~~
+   arch/x86/include/asm/page_types.h:10:33: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+         |                                 ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/page_types.h:11:47: note: in expansion of macro 'PAGE_SHIFT'
+      11 | #define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
+         |                                               ^~~~~~~~~~
+   include/linux/mm_types.h:531:6: note: in expansion of macro 'PAGE_SIZE'
+     531 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |      ^~~~~~~~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/list.h:9,
+                    from include/linux/swait.h:5,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   arch/x86/include/asm/page_types.h:10:33: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/mm_types.h:508:41: note: in expansion of macro '__ALIGN_MASK'
+     508 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                         ^~~~~~~~~~~~
+   arch/x86/include/asm/page_types.h:11:47: note: in expansion of macro 'PAGE_SHIFT'
+      11 | #define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
+         |                                               ^~~~~~~~~~
+   arch/x86/include/asm/page_types.h:12:36: note: in expansion of macro 'PAGE_SIZE'
+      12 | #define PAGE_MASK               (~(PAGE_SIZE-1))
+         |                                    ^~~~~~~~~
+   include/linux/mm_types.h:508:62: note: in expansion of macro 'PAGE_MASK'
+     508 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                                              ^~~~~~~~~
+   include/linux/mm_types.h:531:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
+     531 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/page_types.h:10:33: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:32:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/mm_types.h:508:41: note: in expansion of macro '__ALIGN_MASK'
+     508 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                         ^~~~~~~~~~~~
+   arch/x86/include/asm/page_types.h:11:47: note: in expansion of macro 'PAGE_SHIFT'
+      11 | #define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
+         |                                               ^~~~~~~~~~
+   arch/x86/include/asm/page_types.h:12:36: note: in expansion of macro 'PAGE_SIZE'
+      12 | #define PAGE_MASK               (~(PAGE_SIZE-1))
+         |                                    ^~~~~~~~~
+   include/linux/mm_types.h:508:62: note: in expansion of macro 'PAGE_MASK'
+     508 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                                              ^~~~~~~~~
+   include/linux/mm_types.h:531:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
+     531 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/page.h:9,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   arch/x86/include/asm/page_types.h:10:33: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/mmzone.h:1757:23: note: in expansion of macro 'PAGE_SHIFT'
+    1757 | #if (MAX_PAGE_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
+         |                       ^~~~~~~~~~
+   In file included from include/linux/crypto.h:17,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/slab.h:431:21: error: type defaults to 'int' in declaration of 'kmalloc_caches' [-Werror=implicit-int]
+     431 | extern kmem_buckets kmalloc_caches[NR_KMALLOC_TYPES];
+         |                     ^~~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/swait.h:5,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   arch/x86/include/asm/page_types.h:10:33: error: expression in static assertion is not an integer
+      10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/slab.h:527:1: note: in expansion of macro 'static_assert'
+     527 | static_assert(PAGE_SHIFT <= 20);
+         | ^~~~~~~~~~~~~
+   include/linux/slab.h:527:15: note: in expansion of macro 'PAGE_SHIFT'
+     527 | static_assert(PAGE_SHIFT <= 20);
+         |               ^~~~~~~~~~
+   In file included from include/linux/crypto.h:17,
+                    from arch/x86/kernel/asm-offsets.c:9:
+>> include/linux/slab.h:552:15: error: type defaults to 'int' in declaration of 'kmem_buckets_create' [-Werror=implicit-int]
+     552 | kmem_buckets *kmem_buckets_create(const char *name, slab_flags_t flags,
+         |               ^~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:612:33: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
+     612 |                                 __assume_page_alignment __alloc_size(1);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:615:33: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
+     615 |                                 __assume_page_alignment __alloc_size(1);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h: In function 'kmalloc_noprof':
+   include/linux/slab.h:682:78: error: subscripted value is neither array nor pointer nor vector
+     682 |                                 kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+         |                                                                              ^
+   include/linux/slab.h:675:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     675 |                 unsigned int index;
+         |                              ^~~~~
+   include/linux/slab.h: In function 'kmalloc_node_noprof':
+   include/linux/slab.h:705:78: error: subscripted value is neither array nor pointer nor vector
+     705 |                                 kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+         |                                                                              ^
+   include/linux/slab.h:698:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     698 |                 unsigned int index;
+         |                              ^~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/swait.h:5,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/highmem.h: In function 'memcpy_from_file_folio':
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:39:28: note: in expansion of macro '__is_signed'
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |                            ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:161:33: note: in expansion of macro '__careful_cmp'
+     161 | #define min_t(type, x, y)       __careful_cmp(min, (type)(x), (type)(y))
+         |                                 ^~~~~~~~~~~~~
+   include/linux/highmem.h:596:23: note: in expansion of macro 'min_t'
+     596 |                 len = min_t(size_t, len, PAGE_SIZE - offset);
+         |                       ^~~~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:40:41: note: in expansion of macro '__is_signed'
+      40 |                 __is_signed((x) + 0) == __is_signed((y) + 0) || \
+         |                                         ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:161:33: note: in expansion of macro '__careful_cmp'
+     161 | #define min_t(type, x, y)       __careful_cmp(min, (type)(x), (type)(y))
+         |                                 ^~~~~~~~~~~~~
+   include/linux/highmem.h:596:23: note: in expansion of macro 'min_t'
+     596 |                 len = min_t(size_t, len, PAGE_SIZE - offset);
+         |                       ^~~~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |                                                     ^~~~~~~~~~~
+   include/linux/minmax.h:41:38: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                                      ^~~~~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:161:33: note: in expansion of macro '__careful_cmp'
+     161 | #define min_t(type, x, y)       __careful_cmp(min, (type)(x), (type)(y))
 
 
-vim +199 drivers/pinctrl/freescale/pinctrl-ls1046a.c
+vim +552 include/linux/slab.h
 
-   179	
-   180	static int ls1046a_pinctrl_probe(struct platform_device *pdev)
-   181	{
-   182		struct ls1046a_pinctrl_pdata *pd;
-   183		int ret;
-   184	
-   185		pd = devm_kzalloc(&pdev->dev, sizeof(*pd), GFP_KERNEL);
-   186		if (!pd)
-   187			return -ENOMEM;
-   188		platform_set_drvdata(pdev, pd);
-   189	
-   190		pd->big_endian = device_is_big_endian(&pdev->dev);
-   191	
-   192		/* SCFG PMUX0 */
-   193		pd->cr0mem = devm_platform_ioremap_resource(pdev, 0);
-   194		if (IS_ERR(pd->cr0mem))
-   195			return PTR_ERR(pd->cr0mem);
-   196		dev_dbg(&pdev->dev, "scfg pmuxcr0 at %px %s", pd->cr0mem,
-   197			pd->big_endian ? "be" : "le");
-   198	
- > 199		ret = devm_pinctrl_register_and_init(&pdev->dev, &ls1046a_pinctrl_desc,
-   200			pd, &pd->pctl_dev);
-   201		if (ret)
-   202			return dev_err_probe(&pdev->dev, ret, "Failed pinctrl init\n");
-   203	
-   204		pinctrl_enable(pd->pctl_dev);
-   205		return ret;
-   206	}
-   207	
+   551	
+ > 552	kmem_buckets *kmem_buckets_create(const char *name, slab_flags_t flags,
+   553					  unsigned int useroffset, unsigned int usersize,
+   554					  void (*ctor)(void *));
+   555	
 
 -- 
 0-DAY CI Kernel Test Service
