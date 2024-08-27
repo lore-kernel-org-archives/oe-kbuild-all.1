@@ -1,244 +1,181 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8B91C5788;
-	Tue, 27 Aug 2024 20:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1779C2CA6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 20:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724789806; cv=none; b=crGWfe58ipiB+nC8R0RocLPIIlmNPvBFqkVgzLjXSm6tsA8Uwbk0euCzXPPKrf96pfcxE0G2ymvqGxNIWa3SwC4A5R+7emWJ/k3KnFTZMg5SF6X8vR45a2/mpJgvdt89R2/hIOrg0K6K4lbHHNK63eR17uOkBj7G9+corLlSQwY=
+	t=1724790020; cv=none; b=JdG5RdA6tPWvYiM1Ks8xDyOVseHdbbiclx9M/9faXfjMmIYaB6cjnt+3RZnKFSv1ngyxxDIHru2Us6QW2Gu50brE6eHIn7bJU8istW24AGDd5eMWWjRG6BmWLV048TPtE+Eg+9y5evxYX0JnF/+0gTBOc/aUzmmxZ9vWgAT8mBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724789806; c=relaxed/simple;
-	bh=Hcx8QcIxQCwYgcS9aVzVA/bgTxxtOqbsBjmUJhdmgDE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=puVY7nm71kB31TwXAxWjnh/W0c9IQjAq+Bvr554ycGEwHX2QwvcmSa+747kjkNTEoI/eL/RH/b7sIJEKujzbBmgz9OGE+UGAOCkXE7uQP4tRZpttwzfZTWDE/G9hJbZMaq/d+Gr1o8xI8P2fYhZodi/voIeOl3xpMWqCUP5MVYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H2cRDo2s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oigw9UeX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H2cRDo2s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oigw9UeX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724790020; c=relaxed/simple;
+	bh=EvCytNfkenwJP6eCoW5lc0XF6c3zg+SCegqnJBoKXHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UwkwCktZ+6aFKurusz0YAr2dNlLBg8tkLhcEjuJBaZub4fz7Cse3BdvaRdXUfxqa9iVD0FjbphKIe3wNNGh8nEruaEASBG4xrRyEDX2eQ7KIah1I8LldhrOL7YNQte6F+gjV7aiZX6jiqcWIdcUuaMeo0U4T4DXF2EGXAQ3+1Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK20KZAg; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H2cRDo2s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oigw9UeX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H2cRDo2s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oigw9UeX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A903621B26;
-	Tue, 27 Aug 2024 20:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724789801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
-	b=H2cRDo2sZsK9GGwhMSl1+LBbuJkzDzZYXcRxrrBUP1ii16m+nlgl5lQuGRMlXjKO3rMU+2
-	RW7ZakNBPsPXhimbmHe87HiRt56Srjp7XbDJTAs786nC4bb+YpVip4YFqKQJVmk2ruOvwG
-	TTSl5TE1vADus4Sac+O5ia3FfZexrQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724789801;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
-	b=Oigw9UeXIEcBSjzCMhjwNNDBauMqt8lcBgPJkrJGXLDcmeW7czBJF9IftZwl7tLtBCB5ac
-	SJ5wvU5kPUJ/WpCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724789801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
-	b=H2cRDo2sZsK9GGwhMSl1+LBbuJkzDzZYXcRxrrBUP1ii16m+nlgl5lQuGRMlXjKO3rMU+2
-	RW7ZakNBPsPXhimbmHe87HiRt56Srjp7XbDJTAs786nC4bb+YpVip4YFqKQJVmk2ruOvwG
-	TTSl5TE1vADus4Sac+O5ia3FfZexrQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724789801;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
-	b=Oigw9UeXIEcBSjzCMhjwNNDBauMqt8lcBgPJkrJGXLDcmeW7czBJF9IftZwl7tLtBCB5ac
-	SJ5wvU5kPUJ/WpCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6516913A20;
-	Tue, 27 Aug 2024 20:16:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NMafEik0zmYWfQAAD6G6ig
-	(envelope-from <krisman@suse.de>); Tue, 27 Aug 2024 20:16:41 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: "Theodore Ts'o" <tytso@mit.edu>
-Cc: Lizhi Xu <lizhi.xu@windriver.com>,  adilger.kernel@dilger.ca,
-  coreteam@netfilter.org,  davem@davemloft.net,  ebiggers@kernel.org,
-  fw@strlen.de,  jaegeuk@kernel.org,  kadlec@netfilter.org,
-  kuba@kernel.org,  linux-ext4@vger.kernel.org,
-  linux-fscrypt@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  lkp@intel.com,  llvm@lists.linux.dev,  netdev@vger.kernel.org,
-  netfilter-devel@vger.kernel.org,  oe-kbuild-all@lists.linux.dev,
-  pablo@netfilter.org,
-  syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com,
-  syzkaller-bugs@googlegroups.com
-Subject: [PATCH] ext4: Fix error message when rejecting the default hash
-In-Reply-To: <172433877724.370733.16770771071139702263.b4-ty@mit.edu>
-	(Theodore Ts'o's message of "Thu, 22 Aug 2024 11:00:11 -0400")
-Organization: SUSE
-References: <87le3kle87.fsf@mailhost.krisman.be>
-	<20240605012335.44086-1-lizhi.xu@windriver.com>
-	<172433877724.370733.16770771071139702263.b4-ty@mit.edu>
-Date: Tue, 27 Aug 2024 16:16:36 -0400
-Message-ID: <87jzg1en6j.fsf_-_@mailhost.krisman.be>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK20KZAg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724790018; x=1756326018;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EvCytNfkenwJP6eCoW5lc0XF6c3zg+SCegqnJBoKXHM=;
+  b=EK20KZAg+/PZC2cMODYk8M7WFBxvrxOHOVY3nmlDJwkFqwWX9KOtGQTf
+   +R3BWH1dm1yj0os3zQoYJY6YldqOnn4byyfzTbrZxq1gKYefceIPrzLj/
+   AJvTIyCikRAPSfxE4agjWzeIxWixWHcOnwkOhe1T26RzHQYtHUhTBp2ct
+   gWC9J2QpsSQa0wXvRpdeym+okpGPdB27CSTqD9mQIQsEoglqktP02cwKM
+   kkSTnWrvB+w4VMc+qt069hBWEJspDmh2GehILjLRmUkgGeFNKlb5dISH8
+   n9Nfzyfocxg6JSZv54I1ZmX1fYdeUyOhRaK8VRL6TqFHOd0lkti6E6LQ0
+   Q==;
+X-CSE-ConnectionGUID: G0vFQRXhTLyXh/88EavYGA==
+X-CSE-MsgGUID: 9OaXFJNWTSyP0DcDlwGmFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34702447"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="34702447"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 13:20:17 -0700
+X-CSE-ConnectionGUID: kwlwdVyKQvyMN/r+/NdwEw==
+X-CSE-MsgGUID: p0gpK5PxQBirI/sVWE1Gog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="93703602"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Aug 2024 13:20:14 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sj2fj-000K3A-1A;
+	Tue, 27 Aug 2024 20:20:11 +0000
+Date: Wed, 28 Aug 2024 04:19:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 9880/10950]
+ kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype
+ for 'data_release'
+Message-ID: <202408280457.KX18NHiB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[340581ba9dceb7e06fb3];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-"Theodore Ts'o" <tytso@mit.edu> writes:
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   c99409f7fe0f14dae19af75e7e896e7a17b92946
+commit: 62b6061f5714aa71e2d5fdb14db9d1341bb82dd4 [9880/10950] [PATCH] security: add security hook point
+config: x86_64-oc_stream_base_config (https://download.01.org/0day-ci/archive/20240828/202408280457.KX18NHiB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280457.KX18NHiB-lkp@intel.com/reproduce)
 
-> On Wed, 05 Jun 2024 09:23:35 +0800, Lizhi Xu wrote:
->> When mounting the ext4 filesystem, if the default hash version is set to
->> DX_HASH_SIPHASH but the casefold feature is not set, exit the mounting.
->> 
->> 
->
-> Applied, thanks!
->
-> [1/1] fs/ext4: Filesystem without casefold feature cannot be mounted with spihash
->       commit: 985b67cd86392310d9e9326de941c22fc9340eec
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280457.KX18NHiB-lkp@intel.com/
 
-Ted,
+All warnings (new ones prefixed by >>):
 
-Since you took the above, can you please consider the following fixup?
-I had pointed we shouldn't have siphash as the sb default hash at all:
+>> kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype for 'data_release' [-Wmissing-prototypes]
+      49 | void data_release(struct kref *ref)
+         |      ^~~~~~~~~~~~
+--
+>> kernel/tkernel/aegis/module.c:15:6: warning: no previous prototype for 'hook_disable' [-Wmissing-prototypes]
+      15 | void hook_disable(void)
+         |      ^~~~~~~~~~~~
+>> kernel/tkernel/aegis/module.c:65:5: warning: no previous prototype for 'hook_sysfs_init' [-Wmissing-prototypes]
+      65 | int hook_sysfs_init(void)
+         |     ^~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/module.c:80:6: warning: no previous prototype for 'hook_sysfs_exit' [-Wmissing-prototypes]
+      80 | void hook_sysfs_exit(void)
+         |      ^~~~~~~~~~~~~~~
+--
+>> kernel/tkernel/aegis/list.c:20:15: warning: no previous prototype for 'percpu_total_num' [-Wmissing-prototypes]
+      20 | unsigned long percpu_total_num(long __percpu *num)
+         |               ^~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:33:15: warning: no previous prototype for 'percpu_total_num_atomic64' [-Wmissing-prototypes]
+      33 | unsigned long percpu_total_num_atomic64(atomic64_t __percpu *num)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:46:5: warning: no previous prototype for 'clear_hookinfo_list' [-Wmissing-prototypes]
+      46 | int clear_hookinfo_list(struct hook_info *info)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:73:6: warning: no previous prototype for 'clear_cpu_list' [-Wmissing-prototypes]
+      73 | void clear_cpu_list(void)
+         |      ^~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:176:5: warning: no previous prototype for 'hook_info_proc_create' [-Wmissing-prototypes]
+     176 | int hook_info_proc_create(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:206:6: warning: no previous prototype for 'hook_info_proc_delete' [-Wmissing-prototypes]
+     206 | void hook_info_proc_delete(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:211:5: warning: no previous prototype for 'hook_info_percpu_create' [-Wmissing-prototypes]
+     211 | int hook_info_percpu_create(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:254:5: warning: no previous prototype for 'hook_info_percpu_delete' [-Wmissing-prototypes]
+     254 | int hook_info_percpu_delete(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:269:5: warning: no previous prototype for 'hook_info_func_register' [-Wmissing-prototypes]
+     269 | int hook_info_func_register(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/list.c:301:6: warning: no previous prototype for 'init_wait_queue' [-Wmissing-prototypes]
+     301 | void init_wait_queue(void)
+         |      ^~~~~~~~~~~~~~~
+--
+>> kernel/tkernel/aegis/hook_info.c:87:6: warning: no previous prototype for 'hookinfo_total_numb' [-Wmissing-prototypes]
+      87 | void hookinfo_total_numb(int type)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:92:6: warning: no previous prototype for 'hookinfo_drop_stats' [-Wmissing-prototypes]
+      92 | void hookinfo_drop_stats(int type)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:97:6: warning: no previous prototype for 'clear_task_environ' [-Wmissing-prototypes]
+      97 | void clear_task_environ(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:114:5: warning: no previous prototype for 'get_task_environ' [-Wmissing-prototypes]
+     114 | int get_task_environ(struct exec_info *exec_info,
+         |     ^~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:200:5: warning: no previous prototype for 'get_task_para' [-Wmissing-prototypes]
+     200 | int get_task_para(int argc, struct user_arg_ptr *argv)
+         |     ^~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:291:6: warning: no previous prototype for 'get_pidns_inum' [-Wmissing-prototypes]
+     291 | void get_pidns_inum(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:305:6: warning: no previous prototype for 'get_task_ids' [-Wmissing-prototypes]
+     305 | void get_task_ids(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:317:6: warning: no previous prototype for 'get_task_pwd' [-Wmissing-prototypes]
+     317 | void get_task_pwd(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:340:6: warning: no previous prototype for 'get_task_start_time' [-Wmissing-prototypes]
+     340 | void get_task_start_time(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:345:6: warning: no previous prototype for 'info_ptr_hold_ref' [-Wmissing-prototypes]
+     345 | void info_ptr_hold_ref(struct exec_info *exec_info)
+         |      ^~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:607:5: warning: no previous prototype for 'para_len_sum_handler' [-Wmissing-prototypes]
+     607 | int para_len_sum_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> kernel/tkernel/aegis/hook_info.c:640:5: warning: no previous prototype for 'secur_sysctl_handler' [-Wmissing-prototypes]
+     640 | int secur_sysctl_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~
 
-based on your dev branch.
 
->8
-Subject: [PATCH] ext4: Fix error message when rejecting the default hash
+vim +/data_release +49 kernel/tkernel/onionhook/hook_frame.c
 
-Commit 985b67cd8639 ("ext4: filesystems without casefold feature cannot
-be mounted with siphash") properly rejects volumes where
-s_def_hash_version is set to DX_HASH_SIPHASH, but the check and the
-error message should not look into casefold setup - a filesystem should
-never have DX_HASH_SIPHASH as the default hash.  Fix it and, since we
-are there, move the check to ext4_hash_info_init.
+    48	
+  > 49	void data_release(struct kref *ref)
+    50	{
+    51		struct security_moni_info *data = container_of(ref, struct security_moni_info, refcount);
+    52	
+    53		kfree(data);
+    54	}
+    55	EXPORT_SYMBOL(data_release);
+    56	
 
-Fixes:985b67cd8639 ("ext4: filesystems without casefold feature cannot
-be mounted with siphash")
-Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
----
- fs/ext4/ext4.h  |  1 +
- fs/ext4/super.c | 27 +++++++++++++++++----------
- 2 files changed, 18 insertions(+), 10 deletions(-)
-
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 5845e4aa091a..4120f24880cb 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2462,6 +2462,7 @@ static inline __le16 ext4_rec_len_to_disk(unsigned len, unsigned blocksize)
- #define DX_HASH_HALF_MD4_UNSIGNED	4
- #define DX_HASH_TEA_UNSIGNED		5
- #define DX_HASH_SIPHASH			6
-+#define DX_HASH_LAST 			DX_HASH_SIPHASH
- 
- static inline u32 ext4_chksum(struct ext4_sb_info *sbi, u32 crc,
- 			      const void *address, unsigned int length)
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 25cd0d662e31..c6a34ad07ecc 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -3582,13 +3582,6 @@ int ext4_feature_set_ok(struct super_block *sb, int readonly)
- 			 "mounted without CONFIG_UNICODE");
- 		return 0;
- 	}
--	if (EXT4_SB(sb)->s_es->s_def_hash_version == DX_HASH_SIPHASH &&
--	    !ext4_has_feature_casefold(sb)) {
--		ext4_msg(sb, KERN_ERR,
--			 "Filesystem without casefold feature cannot be "
--			 "mounted with siphash");
--		return 0;
--	}
- 
- 	if (readonly)
- 		return 1;
-@@ -5094,16 +5087,27 @@ static int ext4_load_super(struct super_block *sb, ext4_fsblk_t *lsb,
- 	return ret;
- }
- 
--static void ext4_hash_info_init(struct super_block *sb)
-+static int ext4_hash_info_init(struct super_block *sb)
- {
- 	struct ext4_sb_info *sbi = EXT4_SB(sb);
- 	struct ext4_super_block *es = sbi->s_es;
- 	unsigned int i;
- 
-+	sbi->s_def_hash_version = es->s_def_hash_version;
-+
-+	if (sbi->s_def_hash_version > DX_HASH_LAST) {
-+		ext4_msg(sb, KERN_ERR,
-+			 "Invalid default hash set in the superblock");
-+		return -EINVAL;
-+	} else if (sbi->s_def_hash_version == DX_HASH_SIPHASH) {
-+		ext4_msg(sb, KERN_ERR,
-+			 "SIPHASH is not a valid default hash value");
-+		return -EINVAL;
-+	}
-+
- 	for (i = 0; i < 4; i++)
- 		sbi->s_hash_seed[i] = le32_to_cpu(es->s_hash_seed[i]);
- 
--	sbi->s_def_hash_version = es->s_def_hash_version;
- 	if (ext4_has_feature_dir_index(sb)) {
- 		i = le32_to_cpu(es->s_flags);
- 		if (i & EXT2_FLAGS_UNSIGNED_HASH)
-@@ -5121,6 +5125,7 @@ static void ext4_hash_info_init(struct super_block *sb)
- #endif
- 		}
- 	}
-+	return 0;
- }
- 
- static int ext4_block_group_meta_init(struct super_block *sb, int silent)
-@@ -5256,7 +5261,9 @@ static int __ext4_fill_super(struct fs_context *fc, struct super_block *sb)
- 	if (err)
- 		goto failed_mount;
- 
--	ext4_hash_info_init(sb);
-+	err = ext4_hash_info_init(sb);
-+	if (err)
-+		goto failed_mount;
- 
- 	err = ext4_handle_clustersize(sb);
- 	if (err)
 -- 
-2.46.0
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
