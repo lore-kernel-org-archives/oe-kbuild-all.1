@@ -1,308 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986961D1F72;
-	Tue, 27 Aug 2024 17:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553B61CF297
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 18:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724780114; cv=none; b=pPGcwFVA8F/woFX2Vdw2eFGES0QMtTyUnAV638BWyPc4LE+yJwEPsiVHYit0+OODBZ6SF47JQ9RkR0BX1YXZpbxrE2rKJ2ihIMKytj0WDyDq73sJkKrVnFsPUvP2FZj8tEpbC5m7PdVsMBY2CWV2FwNmCTM1tUz6axPrRQEsOjY=
+	t=1724781662; cv=none; b=U7fVomCeFS2F/q4NmOFLyV15JQ5IeaGvGm5jRjpP1sWVfRctqs+5hVyPaQNSvNDQEm5nlayvQS+QQwwcq32rrrGkRjK7R4i87/F0C9JfHoOQsmmLFA8WF/ITc0astEqGUGw5jAxi4VDKTv2guhtApOBnlUwl4cR8mW2LyMwgPrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724780114; c=relaxed/simple;
-	bh=o2+sF/0A4omvIOgfLTdESzGNUGu8e2JVHlh+A3RmGko=;
+	s=arc-20240116; t=1724781662; c=relaxed/simple;
+	bh=c2xBtR+BsTJelqlilJWFgdmV1UZZD3UOaVzIWn6/YDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1syrCEN4pGtCQ9++VkFAZrULLNzlVaxyjkeri9OmcykWksYj3LvJTUQVBQnRqqs6iybPLN/TUocmsX8/bT+SYkP9+aKQ14TPFeOIzsZ01NU/FXn6nP+H4b3Soh4S72Wfp9EX3qeRSpQuaS2AI5BLCODrGr08CnEOvZlW61FH34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JowLuRmv; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSmCFuUX2mLFqUvKuLLyPUUr1Q4wS+rKuB4V7BawyK3WUsoD5dGx6W9awcUyIffHugN7JVxenv5VC3RUY1goPc7NeIjJ5BY/+rjHRgyylElRWVPjANN7DgYH+EOd6ukJd4pusYdh83pQFjy40ZV7thsKEp8aPR666AWwEzs4fDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2FWnJlX; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JowLuRmv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724780113; x=1756316113;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o2+sF/0A4omvIOgfLTdESzGNUGu8e2JVHlh+A3RmGko=;
-  b=JowLuRmvQZ3VXYtX4BKtAVX9u0V9jYV4cDOdeXpAovrcztwEDiqRsnfC
-   euIcmRbuz6X2/nRolrJQkYQhjo3oHgDQRYNX1NTNiLzFWKE/bJSu5P0dw
-   tkgXsiPbloWsTzkH19O75CcZr2kuShlT56l3f/UIyJlGhMF2QctbMssAz
-   Cwj8V152wz65xzRr5PeGOePlWzFjYI+Wy7KTJl3sy+sdvEoiBUhoQAQJG
-   EWq9Znh/JSnsJY1nhGkbeMszOEZd2j/tNrCOuXYyOzoRuOBJRlEHm4/xU
-   JbanVJAMacQFj14cIaVzPn+1/Umnz+MlvF7fhapQbKWaIkyNDAYkF6J6s
-   Q==;
-X-CSE-ConnectionGUID: LKbu1u6kRyKFoXMBcpnt1g==
-X-CSE-MsgGUID: 60KeTkirTO6jal6coKAeUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27043380"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="27043380"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 10:35:11 -0700
-X-CSE-ConnectionGUID: r0OPTThvR8O5UEEm/XcKaA==
-X-CSE-MsgGUID: ns/Lpc/oTyWiPSMwJm7cXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="62655253"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Aug 2024 10:35:08 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sj05y-000Jua-0R;
-	Tue, 27 Aug 2024 17:35:06 +0000
-Date: Wed, 28 Aug 2024 01:34:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>, sam@mendozajonas.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lihongbo22@huawei.com, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v2 1/2] net/ncsi: Use str_up_down to simplify
- the code
-Message-ID: <202408280146.axPqeLlk-lkp@intel.com>
-References: <20240827025246.963115-2-lihongbo22@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2FWnJlX"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7a4df9dc885so3015885a.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 11:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724781659; x=1725386459; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=mU7rEV6F3ZA0YUMBJPfPkkK8EXsvhkq32UE7Wg/stSM=;
+        b=H2FWnJlXCld7MgXxXpPzlv6RQdTWuJ8vN//qTJRgueHosclR+ZVI9MgIKIsD5+dNus
+         F6h0r2ODYwlrL/rTzOppjgve9L7Y0DbQXDINukX3Itk6+LFsIC87yv586SNOSvnkIzFH
+         YtfPgJhLv5lmpfNKPjPZfjkb6ciG8lWQ2kd/8kDi3xsDEiPl/hMGZiVf1Crf2dWkaINl
+         E70QgUUde/a30pQ5Zkl7s+r1JcmPt8gON8iYYmEdJYd+qRLuNAGUyGCRZpkDsJFUknjh
+         JriJ1DQ81/XvTzPa1Mw49KcqBmBJzcBeNmWFWIZDP+KToLZ/bNVUyXVyKe/86tT8k9sK
+         TFTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724781659; x=1725386459;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mU7rEV6F3ZA0YUMBJPfPkkK8EXsvhkq32UE7Wg/stSM=;
+        b=MDp0M2D9tz6NVRLQiL/PBHsbtTKq1kioqYcVkbq6jRd7Ez54SKS06MizETp+uFNTYZ
+         79dy8dLT6vW7HZyHRLRlXcfK0ygTJseX1fYzocgE8/ZB0aZpAkq8iQxYwu1/tqScCJoI
+         +Twxu0BOT3R8LIXKH3w8+6OeMehUXdikLEcexPG38YwiML0V7s9rKOfLMUZoKJOPXIer
+         npVJKwp06yPcrG6ZZKwaHJ7T1SRaFHAVzFZ0/dS5pRju0TXbKGV8f1aMtsi4uimntCsP
+         UQuzFWPaQ2MKcEWBEdHoGIId3afe/s+19GcL9s8F23rYdweyKSXxrGizOs4XnaLa+j8c
+         WkuA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7a1SSA09hEttlzmt4J/HvhJCO729BZNxqfSdy6SLhaqu68JIthbyLj7eXx+upItP5uU8V05cpmbsVTcHT@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXDTNBhsocZ2N68wYLSo9ObV6jLI8jE/tgvnl3pmpONMpWHYUh
+	ixtsTEqpRDCwXapm1MLy0f7rAz/JUvxB+KYRrS379+wel2krHtdy
+X-Google-Smtp-Source: AGHT+IHMGn3vE4bmd2qRiL3QYM+3tpk60SO/OSnIYyt7YFcEgT7kSrgP8kVAhh6b4hORHiUOkcVGQQ==
+X-Received: by 2002:a05:620a:bcd:b0:7a1:e49b:9461 with SMTP id af79cd13be357-7a7f2d17baemr6613285a.26.1724781658874;
+        Tue, 27 Aug 2024 11:00:58 -0700 (PDT)
+Received: from fauth2-smtp.messagingengine.com (fauth2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a67f3622fasm570565485a.70.2024.08.27.11.00.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 11:00:58 -0700 (PDT)
+Received: from phl-compute-06.internal (phl-compute-06.nyi.internal [10.202.2.46])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id DB88B120006A;
+	Tue, 27 Aug 2024 14:00:57 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 27 Aug 2024 14:00:57 -0400
+X-ME-Sender: <xms:WRTOZulah2zzraf2wMT1zqNpucF-NZLaf050_fxiKnKlOsXi8NU29w>
+    <xme:WRTOZl0nEfbBWxLKsCkKaS7TQknN1qiAGSy6t82sfHc6VOJU8UPrqqlQOBVgl3njh
+    shA_aU6mrukbDO40w>
+X-ME-Received: <xmr:WRTOZsqoxxXIV5amHA4kGNjWnhFaG9aEu97bxW2HgVrmbblkMC8LZcLr5wkxrQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
+    hlrdgtohhmqeenucggtffrrghtthgvrhhnpeevtddugeejgefggeekvdeigeduteelueev
+    keejkefhieevffdvteeludffveefudenucffohhmrghinhepghhithdqshgtmhdrtghomh
+    dpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgpdguvghppghm
+    rghprdhnrghmvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledv
+    geehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtoh
+    hmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopegsohhtthgrrgifvghsohhmvgeifeefsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehovgdqkh
+    gsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgv
+    thgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepmhhinhhgohesrhgvug
+    hhrghtrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlohhnghhmrghnsehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigqd
+    gvgihtgeesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:WRTOZinGw7LJ78tZrwAyM2NnyYZXEMHHJSe7LKseWCnyKkQWR8KL6g>
+    <xmx:WRTOZs35c3lJqDJe197ghuRQXVocOKOryVFN7QDo2WBFieHTJ-eyAQ>
+    <xmx:WRTOZpsmsnjBO-j0PdErZ18L57M-_0tEz9QisVPyeZbsGE467vTD1Q>
+    <xmx:WRTOZoVDC-YAWslYXmP7uoR31khYcHEIypxVlDFw_Wcr-xc9wRliMg>
+    <xmx:WRTOZn0Kwq4lRAzES1PlqRB2GkvO8rqs1hVV96bmkTR02BnOwB0lMMeL>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Aug 2024 14:00:56 -0400 (EDT)
+Date: Tue, 27 Aug 2024 11:00:32 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: ahmed Ehab <bottaawesome633@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, linux-ext4@vger.kernel.org,
+	syzkaller@googlegroups.com
+Subject: Re: [PATCH v6 2/2] locking/lockdep: Test no new string literal is
+ created in lockdep_set_subclass()
+Message-ID: <Zs4UQLbzOsmjhBGU@boqun-archlinux>
+References: <20240824221031.7751-2-bottaawesome633@gmail.com>
+ <202408270559.rym5UAv9-lkp@intel.com>
+ <CA+6bSauLj9MBs_HRP6Yt9qXVs4eO30cpvU00u=uj7sG7S8fHmQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240827025246.963115-2-lihongbo22@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+6bSauLj9MBs_HRP6Yt9qXVs4eO30cpvU00u=uj7sG7S8fHmQ@mail.gmail.com>
 
-Hi Hongbo,
+On Tue, Aug 27, 2024 at 01:04:15PM +0300, ahmed Ehab wrote:
+> On Tue, Aug 27, 2024 at 1:08 AM kernel test robot <lkp@intel.com> wrote:
+> 
+> > Hi Ahmed,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on tip/locking/core]
+> > [also build test ERROR on tip/master arm-perf/for-next/perf linus/master
+> > tip/auto-latest v6.11-rc5 next-20240826]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:
+> > https://github.com/intel-lab-lkp/linux/commits/Ahmed-Ehab/locking-lockdep-Test-no-new-string-literal-is-created-in-lockdep_set_subclass/20240826-145215
+> > base:   tip/locking/core
+> > patch link:
+> > https://lore.kernel.org/r/20240824221031.7751-2-bottaawesome633%40gmail.com
+> > patch subject: [PATCH v6 2/2] locking/lockdep: Test no new string literal
+> > is created in lockdep_set_subclass()
+> > config: i386-buildonly-randconfig-003-20240827 (
+> > https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/config
+> > )
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=1 build): (
+> > https://download.01.org/0day-ci/archive/20240827/202408270559.rym5UAv9-lkp@intel.com/reproduce
+> > )
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202408270559.rym5UAv9-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    lib/locking-selftest.c: In function 'lock_class_subclass_X1':
+> > >> lib/locking-selftest.c:2715:60: error: 'struct rw_semaphore' has no
+> > member named 'dep_map'
+> >     2715 |         const char *name_before_setting_subclass =
+> > rwsem_X1.dep_map.name;
+> >          |                                                            ^
+> >    lib/locking-selftest.c:2719:47: error: 'struct rw_semaphore' has no
+> > member named 'dep_map'
+> >     2719 |         name_after_setting_subclass = rwsem_X1.dep_map.name;
+> >          |                                               ^
+> >
+> These failures will only happen if CONFIG_DEBUG_LOCK_ALLOC is not set,
+> which is required for lockdep I think.
 
-kernel test robot noticed the following build errors:
+Oh yes, this test can be compiled with LOCKDEP=n.
 
-[auto build test ERROR on net-next/main]
+> Should I consider these errors by checking CONFIG_DEBUG_LOCK_ALLOC before
+> calling my test method or is it
+> irrelevant?
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/net-ncsi-Use-str_up_down-to-simplify-the-code/20240827-104622
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240827025246.963115-2-lihongbo22%40huawei.com
-patch subject: [PATCH net-next v2 1/2] net/ncsi: Use str_up_down to simplify the code
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408280146.axPqeLlk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280146.axPqeLlk-lkp@intel.com/reproduce)
+Could you introduce a helper function here?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280146.axPqeLlk-lkp@intel.com/
+	#if CONFIG_DEBUG_LOCK_ALLOC
+	static inline char* rw_semaphore_lockdep_name(struct rw_semaphore *rwsem)
+	{
+		return rwsem.dep_map.name;
+	}
+	#else
+	static inline char* rw_semaphore_lockdep_name(struct rw_semaphore *rwsem)
+	{
+		return NULL;
+	}
+	#endif
 
-All error/warnings (new ones prefixed by >>):
+and use it in your test case (you put the function definitio right
+before the test case.
 
-   In file included from net/ncsi/ncsi-manage.c:6:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from net/ncsi/ncsi-manage.c:9:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/ncsi/ncsi-manage.c:9:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/ncsi/ncsi-manage.c:9:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> net/ncsi/ncsi-manage.c:1284:9: error: call to undeclared function 'str_up_down'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1284 |                                            str_up_down(ncm->data[2] & 0x1));
-         |                                            ^
->> net/ncsi/ncsi-manage.c:1284:9: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-    1282 |                                            "NCSI: Channel %u added to queue (link %s)\n",
-         |                                                                                   ~~
-         |                                                                                   %d
-    1283 |                                            nc->id,
-    1284 |                                            str_up_down(ncm->data[2] & 0x1));
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:38: note: expanded from macro 'netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |                                   ~~~~~~    ^~~~
-   include/linux/dynamic_debug.h:278:19: note: expanded from macro 'dynamic_netdev_dbg'
-     278 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   17 warnings and 1 error generated.
+Regards,
+Boqun
 
 
-vim +/str_up_down +1284 net/ncsi/ncsi-manage.c
-
-  1224	
-  1225	static int ncsi_choose_active_channel(struct ncsi_dev_priv *ndp)
-  1226	{
-  1227		struct ncsi_channel *nc, *found, *hot_nc;
-  1228		struct ncsi_channel_mode *ncm;
-  1229		unsigned long flags, cflags;
-  1230		struct ncsi_package *np;
-  1231		bool with_link;
-  1232	
-  1233		spin_lock_irqsave(&ndp->lock, flags);
-  1234		hot_nc = ndp->hot_channel;
-  1235		spin_unlock_irqrestore(&ndp->lock, flags);
-  1236	
-  1237		/* By default the search is done once an inactive channel with up
-  1238		 * link is found, unless a preferred channel is set.
-  1239		 * If multi_package or multi_channel are configured all channels in the
-  1240		 * whitelist are added to the channel queue.
-  1241		 */
-  1242		found = NULL;
-  1243		with_link = false;
-  1244		NCSI_FOR_EACH_PACKAGE(ndp, np) {
-  1245			if (!(ndp->package_whitelist & (0x1 << np->id)))
-  1246				continue;
-  1247			NCSI_FOR_EACH_CHANNEL(np, nc) {
-  1248				if (!(np->channel_whitelist & (0x1 << nc->id)))
-  1249					continue;
-  1250	
-  1251				spin_lock_irqsave(&nc->lock, cflags);
-  1252	
-  1253				if (!list_empty(&nc->link) ||
-  1254				    nc->state != NCSI_CHANNEL_INACTIVE) {
-  1255					spin_unlock_irqrestore(&nc->lock, cflags);
-  1256					continue;
-  1257				}
-  1258	
-  1259				if (!found)
-  1260					found = nc;
-  1261	
-  1262				if (nc == hot_nc)
-  1263					found = nc;
-  1264	
-  1265				ncm = &nc->modes[NCSI_MODE_LINK];
-  1266				if (ncm->data[2] & 0x1) {
-  1267					found = nc;
-  1268					with_link = true;
-  1269				}
-  1270	
-  1271				/* If multi_channel is enabled configure all valid
-  1272				 * channels whether or not they currently have link
-  1273				 * so they will have AENs enabled.
-  1274				 */
-  1275				if (with_link || np->multi_channel) {
-  1276					spin_lock_irqsave(&ndp->lock, flags);
-  1277					list_add_tail_rcu(&nc->link,
-  1278							  &ndp->channel_queue);
-  1279					spin_unlock_irqrestore(&ndp->lock, flags);
-  1280	
-  1281					netdev_dbg(ndp->ndev.dev,
-  1282						   "NCSI: Channel %u added to queue (link %s)\n",
-  1283						   nc->id,
-> 1284						   str_up_down(ncm->data[2] & 0x1));
-  1285				}
-  1286	
-  1287				spin_unlock_irqrestore(&nc->lock, cflags);
-  1288	
-  1289				if (with_link && !np->multi_channel)
-  1290					break;
-  1291			}
-  1292			if (with_link && !ndp->multi_package)
-  1293				break;
-  1294		}
-  1295	
-  1296		if (list_empty(&ndp->channel_queue) && found) {
-  1297			netdev_info(ndp->ndev.dev,
-  1298				    "NCSI: No channel with link found, configuring channel %u\n",
-  1299				    found->id);
-  1300			spin_lock_irqsave(&ndp->lock, flags);
-  1301			list_add_tail_rcu(&found->link, &ndp->channel_queue);
-  1302			spin_unlock_irqrestore(&ndp->lock, flags);
-  1303		} else if (!found) {
-  1304			netdev_warn(ndp->ndev.dev,
-  1305				    "NCSI: No channel found to configure!\n");
-  1306			ncsi_report_link(ndp, true);
-  1307			return -ENODEV;
-  1308		}
-  1309	
-  1310		return ncsi_process_next_channel(ndp);
-  1311	}
-  1312	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >
+> >
+> > vim +2715 lib/locking-selftest.c
+> >
+> >   2712
+> >   2713  static void lock_class_subclass_X1(void)
+> >   2714  {
+> > > 2715          const char *name_before_setting_subclass =
+> > rwsem_X1.dep_map.name;
+> >   2716          const char *name_after_setting_subclass;
+> >   2717
+> >   2718          lockdep_set_subclass(&rwsem_X1, 1);
+> >   2719          name_after_setting_subclass = rwsem_X1.dep_map.name;
+> >   2720          DEBUG_LOCKS_WARN_ON(name_before_setting_subclass !=
+> > name_after_setting_subclass);
+> >   2721  }
+> >   2722
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> Regards,
+> Ahmed
