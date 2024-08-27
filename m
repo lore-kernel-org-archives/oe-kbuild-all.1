@@ -1,129 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDEA19DF58
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 09:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC4213B588;
+	Tue, 27 Aug 2024 10:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724751436; cv=none; b=i3/mx5ikMqoM1K8avGRT6xbtDrZU5iy+BS7v+BkZ0xf/NG8pyDEgk8r8OW1leTMMSnpNTUK5y3JmEvznpLTTnKDVvCI1LGHM9sert5nRVS4tGdX9zJEQu8WThplLjJoRYqU0BEa6UaZ96TBk2/JLSyHQyr7Jbn2RD8T7rug47SA=
+	t=1724754499; cv=none; b=D9rgKRD+arN2wzLsjd8B6DHisPPZhujdgcW4d7bEzYzy563l6ba40WCRlkE2l7Tz71hMRXP5ESMJ+KhMrCWgSWB3WCkYRDNTBh796EZ5QeR2SEPzZJzkuGKEs1t98FeLv9DufYpGQula4sAfh9bshE/ANDa+q3nfBRMU2bClxzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724751436; c=relaxed/simple;
-	bh=fIUOVedot9IeaESAjfIzsPX/QunqKG3XqRU7QX9msjU=;
+	s=arc-20240116; t=1724754499; c=relaxed/simple;
+	bh=pUy2oyoJrVmMWlijASDITXcHu4JWTvCvhoAajFEhuFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FND3mkFWLaSLVx82m3+w6b0ufk3arkoEOSNCECJ24eclKcpJBt0nPagxfL82v7XJadXRaZyuhB/Dt+kUqKQutn0awch5yn9CFz4LtV0NrPKtKBnrBEfJdHD8ZDjmEtJ58f15+IZ3lLVX8vmtCSYsC7wM4lRQthzIdI2TWQmqwN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbLLNd9/; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=S3cj/FNkfylmFQkauNyIIy65Lty8fWkydBk29z9qX3jeRNTu6MCy7RMCKOuCOwFex6qkaiZEa0lbgdHbuu2/4inUieA7ptAnigK5K2fTklskZXuLhU/ZpCTTVY5MCmCEfh3UisNYM0mT32xKgvLnHehhZv+421JIgDvHr0uaDFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRbq/vIF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbLLNd9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRbq/vIF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724751434; x=1756287434;
+  t=1724754497; x=1756290497;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fIUOVedot9IeaESAjfIzsPX/QunqKG3XqRU7QX9msjU=;
-  b=FbLLNd9/Iga7nuJ85sYeL1CWJaELTCfb8shZR60BTJjH0R9tJgL5CLqa
-   FgQs5rfn9qdV8kyvemleJq5DjZeFYoXBHlAPChBx7ON3dT5iFz6tpO5MC
-   BBccyb8p+tihuhogvuLKPJyvuH9jXKt6LUWpItJMMmAhjsiLK+GN5OLU9
-   UiJdpuu5JZQLLxZuE4MjmK4YhjaGVBiZmFL2OA1lD9JY/NykF8JJZ1qzw
-   ydBdy3laxRSE0bBE0q5W/do5PFx3ecQiuOh0mAL4mfst3Ze7T/NmWCP5D
-   9j9F3zeIFbqVsqKfE15d49PglI7SCFrguKDuzRAATpEZkdczjIHMexJdn
-   A==;
-X-CSE-ConnectionGUID: YB7K+TMCSNOH1eRse5IqVw==
-X-CSE-MsgGUID: Bk4GfJzjRauryH1fxEzHyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23377725"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=pUy2oyoJrVmMWlijASDITXcHu4JWTvCvhoAajFEhuFw=;
+  b=fRbq/vIF74vohjTZEDmMGExMZimJHnwXIHyGAeFnPIIvoNRORXPh3RWF
+   PlgDhQH3AcP26/dv/C/Kmosg+/nEWnPcAixkU/IrGxFqqhDs3CTmaN01G
+   MYZXCGFoj3t7R6/OcMujMF14cXv/zXg9f2FeP3EaJtKwb+x1vvlZfoHpj
+   PN3JFhZJpfSPs1Ljkr+zUbNlnnoCeMzzb5fqZCZ8/ijQJhO7/dSzbVrFO
+   LiLOWhaIdBHDf/2xYQqDFPhITHsWau6kgs5TrNJo7Fy2IiczFR/UvrZ34
+   DdPGXqP0z7eV04NOqw3hVK6y2AplRvAyim/vL3rgR1pW3rDuxJSv2uB9h
+   w==;
+X-CSE-ConnectionGUID: 5prjfuv3Q0qDcEXA7wp2uw==
+X-CSE-MsgGUID: Mwy4RG3cTo2B8jv0hdr5ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23375844"
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="23377725"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 02:37:14 -0700
-X-CSE-ConnectionGUID: Y3S4DTg+R5Wqfj+T4JjJaA==
-X-CSE-MsgGUID: LPh9aVcORPSKtq6sP2WCwg==
+   d="scan'208";a="23375844"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 03:28:17 -0700
+X-CSE-ConnectionGUID: lRAVxdmHQOGvXCcobd+pPw==
+X-CSE-MsgGUID: dERGsDcGS/yCxKtbAjd9TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="62501975"
+   d="scan'208";a="100320793"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Aug 2024 02:37:11 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 Aug 2024 03:28:15 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sisdR-000IRM-0m;
-	Tue, 27 Aug 2024 09:37:09 +0000
-Date: Tue, 27 Aug 2024 17:36:26 +0800
+	id 1sitQr-000IWU-0W;
+	Tue, 27 Aug 2024 10:28:13 +0000
+Date: Tue, 27 Aug 2024 18:27:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maksym Kutsevol <max@kutsevol.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
-Message-ID: <202408271711.RhzKTDRD-lkp@intel.com>
-References: <20240824215130.2134153-2-max@kutsevol.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jani.nikula@intel.com
+Subject: Re: [PATCH 5/7] drm/i915/display: include media/cec-notifier.h and
+ linux/debugfs.h where needed
+Message-ID: <202408271847.dOpt09wa-lkp@intel.com>
+References: <a9aeb27f0107bdf3d2bd834a48583bc64072447a.1724689818.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240824215130.2134153-2-max@kutsevol.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9aeb27f0107bdf3d2bd834a48583bc64072447a.1724689818.git.jani.nikula@intel.com>
 
-Hi Maksym,
+Hi Jani,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 8af174ea863c72f25ce31cee3baad8a301c0cf0f]
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-xe/drm-xe-next next-20240827]
+[cannot apply to linus/master v6.11-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maksym-Kutsevol/netcons-Add-udp-send-fail-statistics-to-netconsole/20240826-163850
-base:   8af174ea863c72f25ce31cee3baad8a301c0cf0f
-patch link:    https://lore.kernel.org/r/20240824215130.2134153-2-max%40kutsevol.com
-patch subject: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408271711.RhzKTDRD-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271711.RhzKTDRD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-wm-move-struct-intel_watermark_params-to-i9xx_wm-c/20240827-003437
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/a9aeb27f0107bdf3d2bd834a48583bc64072447a.1724689818.git.jani.nikula%40intel.com
+patch subject: [PATCH 5/7] drm/i915/display: include media/cec-notifier.h and linux/debugfs.h where needed
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240827/202408271847.dOpt09wa-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271847.dOpt09wa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271711.RhzKTDRD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271847.dOpt09wa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/netconsole.c: In function 'stats_show':
->> drivers/net/netconsole.c:340:46: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
-         |                                            ~~^
-         |                                              |
-         |                                              long unsigned int
-         |                                            %u
-     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~     
-         |                          |
-         |                          size_t {aka unsigned int}
-   drivers/net/netconsole.c:340:58: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
-         |                                                        ~~^
-         |                                                          |
-         |                                                          long unsigned int
-         |                                                        %u
-     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     size_t {aka unsigned int}
+>> drivers/gpu/drm/i915/display/hsw_ips.c:321:5: error: expected identifier
+     321 |                          "%llu\n");
+         |                          ^
+>> drivers/gpu/drm/i915/display/hsw_ips.c:318:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     318 | DEFINE_DEBUGFS_ATTRIBUTE(hsw_ips_debugfs_false_color_fops,
+         | ^
+         | int
+>> drivers/gpu/drm/i915/display/hsw_ips.c:318:25: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     318 | DEFINE_DEBUGFS_ATTRIBUTE(hsw_ips_debugfs_false_color_fops,
+         |                         ^
+     319 |                          hsw_ips_debugfs_false_color_get,
+     320 |                          hsw_ips_debugfs_false_color_set,
+     321 |                          "%llu\n");
+         |                                  
+         |                                  void
+>> drivers/gpu/drm/i915/display/hsw_ips.c:355:2: error: call to undeclared function 'debugfs_create_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     355 |         debugfs_create_file("i915_ips_false_color", 0644, crtc->base.debugfs_entry,
+         |         ^
+   drivers/gpu/drm/i915/display/hsw_ips.c:355:2: note: did you mean 'bus_create_file'?
+   include/linux/device/bus.h:126:18: note: 'bus_create_file' declared here
+     126 | int __must_check bus_create_file(const struct bus_type *bus, struct bus_attribute *attr);
+         |                  ^
+>> drivers/gpu/drm/i915/display/hsw_ips.c:356:15: error: use of undeclared identifier 'hsw_ips_debugfs_false_color_fops'
+     356 |                             crtc, &hsw_ips_debugfs_false_color_fops);
+         |                                    ^
+   5 errors generated.
 
 
-vim +340 drivers/net/netconsole.c
+vim +321 drivers/gpu/drm/i915/display/hsw_ips.c
 
-   335	
-   336	static ssize_t stats_show(struct config_item *item, char *buf)
-   337	{
-   338		struct netconsole_target *nt = to_target(item);
-   339	
- > 340		return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
-   341			nt->stats.xmit_drop_count, nt->stats.enomem_count);
-   342	}
-   343	
+42b4c479025d92 Ville Syrjälä  2023-03-27  317  
+42b4c479025d92 Ville Syrjälä  2023-03-27 @318  DEFINE_DEBUGFS_ATTRIBUTE(hsw_ips_debugfs_false_color_fops,
+42b4c479025d92 Ville Syrjälä  2023-03-27  319  			 hsw_ips_debugfs_false_color_get,
+42b4c479025d92 Ville Syrjälä  2023-03-27  320  			 hsw_ips_debugfs_false_color_set,
+42b4c479025d92 Ville Syrjälä  2023-03-27 @321  			 "%llu\n");
+42b4c479025d92 Ville Syrjälä  2023-03-27  322  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  323  static int hsw_ips_debugfs_status_show(struct seq_file *m, void *unused)
+bc37c98a3d44f7 Jani Nikula    2023-03-02  324  {
+1fb4da5f7858d7 Ville Syrjälä  2023-03-27  325  	struct intel_crtc *crtc = m->private;
+1fb4da5f7858d7 Ville Syrjälä  2023-03-27  326  	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
+bc37c98a3d44f7 Jani Nikula    2023-03-02  327  	intel_wakeref_t wakeref;
+bc37c98a3d44f7 Jani Nikula    2023-03-02  328  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  329  	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+bc37c98a3d44f7 Jani Nikula    2023-03-02  330  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  331  	seq_printf(m, "Enabled by kernel parameter: %s\n",
+c39fc2aca32a93 Jouni Högander 2023-10-24  332  		   str_yes_no(i915->display.params.enable_ips));
+bc37c98a3d44f7 Jani Nikula    2023-03-02  333  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  334  	if (DISPLAY_VER(i915) >= 8) {
+bc37c98a3d44f7 Jani Nikula    2023-03-02  335  		seq_puts(m, "Currently: unknown\n");
+bc37c98a3d44f7 Jani Nikula    2023-03-02  336  	} else {
+bc37c98a3d44f7 Jani Nikula    2023-03-02  337  		if (intel_de_read(i915, IPS_CTL) & IPS_ENABLE)
+bc37c98a3d44f7 Jani Nikula    2023-03-02  338  			seq_puts(m, "Currently: enabled\n");
+bc37c98a3d44f7 Jani Nikula    2023-03-02  339  		else
+bc37c98a3d44f7 Jani Nikula    2023-03-02  340  			seq_puts(m, "Currently: disabled\n");
+bc37c98a3d44f7 Jani Nikula    2023-03-02  341  	}
+bc37c98a3d44f7 Jani Nikula    2023-03-02  342  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  343  	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
+bc37c98a3d44f7 Jani Nikula    2023-03-02  344  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  345  	return 0;
+bc37c98a3d44f7 Jani Nikula    2023-03-02  346  }
+bc37c98a3d44f7 Jani Nikula    2023-03-02  347  
+bc37c98a3d44f7 Jani Nikula    2023-03-02  348  DEFINE_SHOW_ATTRIBUTE(hsw_ips_debugfs_status);
+bc37c98a3d44f7 Jani Nikula    2023-03-02  349  
+1fb4da5f7858d7 Ville Syrjälä  2023-03-27  350  void hsw_ips_crtc_debugfs_add(struct intel_crtc *crtc)
+bc37c98a3d44f7 Jani Nikula    2023-03-02  351  {
+1fb4da5f7858d7 Ville Syrjälä  2023-03-27  352  	if (!hsw_crtc_supports_ips(crtc))
+1fb4da5f7858d7 Ville Syrjälä  2023-03-27  353  		return;
+bc37c98a3d44f7 Jani Nikula    2023-03-02  354  
+42b4c479025d92 Ville Syrjälä  2023-03-27 @355  	debugfs_create_file("i915_ips_false_color", 0644, crtc->base.debugfs_entry,
+42b4c479025d92 Ville Syrjälä  2023-03-27 @356  			    crtc, &hsw_ips_debugfs_false_color_fops);
 
 -- 
 0-DAY CI Kernel Test Service
