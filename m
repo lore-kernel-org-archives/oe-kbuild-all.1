@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9D318039;
-	Tue, 27 Aug 2024 03:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E472F1AAD7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 03:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724729399; cv=none; b=It/46t50+jIXlIEkoLREOMy4cOBaeWdM5uEgA1A/sXBgUbQ0EGTrOJzFNJqBhZBnixkSsPnqrkYZkLxNyUd7ttwXTaLsFToHXkH5U9EMbaoFHv/Hf+Vjw0CRJljV0EXfBT45F2vzkhkv2rshCUvDdK2ALmTymzEEXrmMw95dgdI=
+	t=1724729807; cv=none; b=QgxpKVrJuguhSh/yahX0BtIsKygVyjVq7ZY2Pr5ytRrka5MLLmAImielT7NLyukUPeaO+ajl3kTey2B6cXvBN22Xp+e7Z9lbuW5BNd9kaE4EbbsuVoqQvMjWK2KLMVMG5jqnxZf0pqWJmMxkw9YAnQe0eQ3jFlTynJaIT5azz6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724729399; c=relaxed/simple;
-	bh=nDDZZa2NUt3MBOd2plEH/XJHDllkd3y93u3Wq/0eZ0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nUOtDojX7JnwXDhAz1frQFdR57vE3k0WNM1+QunX0h6tuoxFbhAS6rEw2YZ/TN7vzzBdPRRw4/SrxTMViKkTvHSADmlqYIJ39M0qQac8lWgaziOwKDuRlK4zaNHhP5BRxvSwIKFEtynMxrmGmFzGAxtEY3S9B0qbILKZBVHIooI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkzKBDkM; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1724729807; c=relaxed/simple;
+	bh=qs9vqYM5ILCoCrBn2JGgG4NT+I9NNypOzJi1ynVDFeg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=I5WWApsdC6hI/G9eWhIC1OCgWy7+mDuA7M/YpC2gnGf5T+HLTSRUUaYHrPdymagsmjAGutmtU5PRjmpIV6VX3Nta8qP6bNolPbBwC2PdPj4wSxw6VZs7NXgk8zTNoTdrbIdo8b045Hn1CQRHCa/S4ykmjxBRGnnVjB88zQbPI6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKRGNiJg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkzKBDkM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKRGNiJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724729397; x=1756265397;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nDDZZa2NUt3MBOd2plEH/XJHDllkd3y93u3Wq/0eZ0w=;
-  b=BkzKBDkMl8hsSPOfBiQNrzKzuEqqpMO4JyYEWCp8iwPNVNq00HS6ftpg
-   FHq+gz+M2MAkMIqNFcpcUUmdnrha1FSCDFfejElQ7WZ5JmpzdKEDYJzFn
-   LftsfRxTp6s/K0JrIZGdnHgGAom6hS72eHV9d6LOIH8awfSUAqOOp8aPa
-   baxYUo2aJI2dMmq93iBH+aFIPnQgqx1Z9a28vRDOFCksRLUv8eeL2Tp53
-   YASm+xSMR4VylaPPgkBkUHqSwefrq7NTc53b5IhVtEoVYK/Zi3G+P8krL
-   DzhAO3ZDxDg2/6hlFm2TmjD+FJTheK/7QGbBV8C1sLXvjQKCAqPn0IjwB
+  t=1724729805; x=1756265805;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=qs9vqYM5ILCoCrBn2JGgG4NT+I9NNypOzJi1ynVDFeg=;
+  b=KKRGNiJgeIYMD9eo2t/olJvz2IY3mR6219EUNnWf3+zm8gACdvyuOMEt
+   Abgr/yuKHnnl8SjK43LJIetGEMN0XbkPmNcdObu766CPXyhHrHRsmZ4AY
+   aD4ECNnL9f+EjZ/V8iFgU2gSrDi5uLkPECQWPsAbQBe1Fh6CnV2+C8maq
+   PQVlZeUjE5IQ+FCzV2WE2+bcrl/voKNa5BAAXldpt8Zd3xMxtd5o+lcad
+   60AWGLy2Plu7gYEPGH0JWDHWbWSy8KPVjakVK1DhlJjqmzRGEz7AVbGRa
+   pXMf4dB/e69BqKljUammyiMI4aXqR3K+jOM4JdG5GOm5m2TZ4co+3mxUE
    w==;
-X-CSE-ConnectionGUID: uEd8BYNFRtKdCGcYyCjVXg==
-X-CSE-MsgGUID: x9vG1yLqTkG4jEKoSy/5OQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33847366"
+X-CSE-ConnectionGUID: YdvVDHbFT/2Lj1NKXFMDcQ==
+X-CSE-MsgGUID: 3gEs/daBQvapS1jNF2ph5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40657723"
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="33847366"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 20:27:47 -0700
-X-CSE-ConnectionGUID: LTtUaULPSgmoe1IavD1cNA==
-X-CSE-MsgGUID: Srw/+DRkTUS+v7mgMETgnw==
+   d="scan'208";a="40657723"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 20:36:45 -0700
+X-CSE-ConnectionGUID: pCP8lY0lSIKpKLWlVHFhTg==
+X-CSE-MsgGUID: 0fpEG+ypTJGSqL6bzIU2Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="62552107"
+   d="scan'208";a="67068436"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Aug 2024 20:27:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Aug 2024 20:36:45 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1simru-000Hqs-0Q;
-	Tue, 27 Aug 2024 03:27:42 +0000
-Date: Tue, 27 Aug 2024 11:26:54 +0800
+	id 1sin0c-000HrC-1H;
+	Tue, 27 Aug 2024 03:36:42 +0000
+Date: Tue, 27 Aug 2024 11:36:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wang Zhaolong <wangzhaolong1@huawei.com>, richard@nod.at,
-	miquel.raynal@bootlin.com, vigneshr@ti.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
-	wangzhaolong1@huawei.com, yi.zhang@huawei.com
-Subject: Re: [PATCH] mtd: ubi: remove unused parameter 'pnum' from
- add_volume()
-Message-ID: <202408271041.ttLMjF8z-lkp@intel.com>
-References: <20240825083515.4074081-1-wangzhaolong1@huawei.com>
+To: Yanhao Dong <570260087@qq.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] cpuidle: haltpoll: Fix guest_halt_poll_ns failed to take
+ effect
+Message-ID: <Zs1JxGfEn9vL_rLY@36921a91ba0e>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,74 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240825083515.4074081-1-wangzhaolong1@huawei.com>
+In-Reply-To: <tencent_65D10BAC9579867D29B79F44D999AED1E506@qq.com>
 
-Hi Wang,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on rw-ubifs/next]
-[also build test WARNING on rw-ubifs/fixes linus/master v6.11-rc5 next-20240826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Zhaolong/mtd-ubi-remove-unused-parameter-pnum-from-add_volume/20240826-142424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
-patch link:    https://lore.kernel.org/r/20240825083515.4074081-1-wangzhaolong1%40huawei.com
-patch subject: [PATCH] mtd: ubi: remove unused parameter 'pnum' from add_volume()
-config: i386-buildonly-randconfig-005-20240827 (https://download.01.org/0day-ci/archive/20240827/202408271041.ttLMjF8z-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271041.ttLMjF8z-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271041.ttLMjF8z-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/mtd/ubi/attach.c:398: warning: Excess function parameter 'pnum' description in 'add_volume'
-
-
-vim +398 drivers/mtd/ubi/attach.c
-
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  382  
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  383  /**
-a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  384   * add_volume - add volume to the attaching information.
-a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  385   * @ai: attaching information
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  386   * @vol_id: ID of the volume to add
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  387   * @pnum: physical eraseblock number
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  388   * @vid_hdr: volume identifier header
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  389   *
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  390   * If the volume corresponding to the @vid_hdr logical eraseblock is already
-a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  391   * present in the attaching information, this function does nothing. Otherwise
-a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  392   * it adds corresponding volume to the attaching information. Returns a pointer
-fbd0107f4d33be0 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  393   * to the allocated "av" object in case of success and a negative error code in
-fbd0107f4d33be0 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  394   * case of failure.
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  395   */
-beba9855702e14c drivers/mtd/ubi/attach.c Wang Zhaolong       2024-08-25  396  static struct ubi_ainf_volume *add_volume(struct ubi_attach_info *ai, int vol_id,
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  397  					  const struct ubi_vid_hdr *vid_hdr)
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27 @398  {
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  399  	struct ubi_ainf_volume *av;
-de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  400  	bool created;
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  401  
-3261ebd7d4194ff drivers/mtd/ubi/scan.c   Christoph Hellwig   2007-05-21  402  	ubi_assert(vol_id == be32_to_cpu(vid_hdr->vol_id));
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  403  
-de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  404  	av = ubi_find_or_add_av(ai, vol_id, &created);
-de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  405  	if (IS_ERR(av) || !created)
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  406  		return av;
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  407  
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  408  	av->used_ebs = be32_to_cpu(vid_hdr->used_ebs);
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  409  	av->data_pad = be32_to_cpu(vid_hdr->data_pad);
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  410  	av->compat = vid_hdr->compat;
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  411  	av->vol_type = vid_hdr->vol_type == UBI_VID_DYNAMIC ? UBI_DYNAMIC_VOLUME
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  412  							    : UBI_STATIC_VOLUME;
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  413  
-517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  414  	return av;
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  415  }
-801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  416  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] cpuidle: haltpoll: Fix guest_halt_poll_ns failed to take effect
+Link: https://lore.kernel.org/stable/tencent_65D10BAC9579867D29B79F44D999AED1E506%40qq.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
