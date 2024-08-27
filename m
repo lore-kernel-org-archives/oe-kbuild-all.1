@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE2717BEA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 07:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDEA19DF58
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 09:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724744707; cv=none; b=V/AY806Bshk/VwMWRU0fv5giWyfMgW56UD8+M6ABZm27wEL0KzGoG+MkipqvabGfAgqFNUHfEP1mTRp802mRoLK/DHh31S2nyOjM/6bd+wYvdSpQQdMlHD2cS4rBcRC8fLGLSchk8T1uRGlhT+cwLpuB0XR17ruceEcviFuR3fA=
+	t=1724751436; cv=none; b=i3/mx5ikMqoM1K8avGRT6xbtDrZU5iy+BS7v+BkZ0xf/NG8pyDEgk8r8OW1leTMMSnpNTUK5y3JmEvznpLTTnKDVvCI1LGHM9sert5nRVS4tGdX9zJEQu8WThplLjJoRYqU0BEa6UaZ96TBk2/JLSyHQyr7Jbn2RD8T7rug47SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724744707; c=relaxed/simple;
-	bh=MDU/96oRT+l32bSf/jk34uxuCawvJib6q3srLkuEFwA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iDhXn8FIedMi++TBcrvroeuh6djyzQUQn2P/GqZJAqkTgE3grjGimVH1CMcYR0MfTWCgDQ1SJVDaC/okzY8+0PHnwLKXwua8IEuIKxXFuxDKVzU5ozqYfMvQCGXmeSl6lE8JI80+ZDP3Oz6S1onwenLsV6BIPmF7hxXycFw6/0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAOZ/rJc; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1724751436; c=relaxed/simple;
+	bh=fIUOVedot9IeaESAjfIzsPX/QunqKG3XqRU7QX9msjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FND3mkFWLaSLVx82m3+w6b0ufk3arkoEOSNCECJ24eclKcpJBt0nPagxfL82v7XJadXRaZyuhB/Dt+kUqKQutn0awch5yn9CFz4LtV0NrPKtKBnrBEfJdHD8ZDjmEtJ58f15+IZ3lLVX8vmtCSYsC7wM4lRQthzIdI2TWQmqwN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbLLNd9/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAOZ/rJc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbLLNd9/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724744705; x=1756280705;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MDU/96oRT+l32bSf/jk34uxuCawvJib6q3srLkuEFwA=;
-  b=EAOZ/rJcBdThQoGygMP3F//8MY2ekwJnCV0Fp5dC4ePUrV+ycjw9eqbu
-   +9kJBe413vWkL8t+pBB80G9LLBpOu+f+fUrliQwjOoESl2egCCbXGvhPs
-   l/vKFgi3q9phWvz/lG6ywTh0Um0JRsorszecaf/1uq2n5grGsGs1lfNOr
-   +6cJKXEkbPHOFUSecr1XNGwhCZg6D4BPRyJTLsgjteTEGK9Z0wZZwWgbr
-   xxWuOLB0N/3r2A3ubKkto/cameVHiqHB6CKMhYA4YptJQcVdhOd/hfo/Z
-   m/MazP6yTKWWQcfdYn1jFCE2A9sk+DxJQ7sdpeXreFXHYaRtBiiM8cDj9
+  t=1724751434; x=1756287434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fIUOVedot9IeaESAjfIzsPX/QunqKG3XqRU7QX9msjU=;
+  b=FbLLNd9/Iga7nuJ85sYeL1CWJaELTCfb8shZR60BTJjH0R9tJgL5CLqa
+   FgQs5rfn9qdV8kyvemleJq5DjZeFYoXBHlAPChBx7ON3dT5iFz6tpO5MC
+   BBccyb8p+tihuhogvuLKPJyvuH9jXKt6LUWpItJMMmAhjsiLK+GN5OLU9
+   UiJdpuu5JZQLLxZuE4MjmK4YhjaGVBiZmFL2OA1lD9JY/NykF8JJZ1qzw
+   ydBdy3laxRSE0bBE0q5W/do5PFx3ecQiuOh0mAL4mfst3Ze7T/NmWCP5D
+   9j9F3zeIFbqVsqKfE15d49PglI7SCFrguKDuzRAATpEZkdczjIHMexJdn
    A==;
-X-CSE-ConnectionGUID: 93tKt0tSRRenA1W0BRdjvw==
-X-CSE-MsgGUID: YnpPEDp8SoyXU4vEKaJQXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22796223"
-X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="22796223"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 00:45:04 -0700
-X-CSE-ConnectionGUID: +GJSpEgPQ/q/VYzDcLGCxg==
-X-CSE-MsgGUID: aoloTQgCSoespUeCLk+mmw==
+X-CSE-ConnectionGUID: YB7K+TMCSNOH1eRse5IqVw==
+X-CSE-MsgGUID: Bk4GfJzjRauryH1fxEzHyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23377725"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="23377725"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 02:37:14 -0700
+X-CSE-ConnectionGUID: Y3S4DTg+R5Wqfj+T4JjJaA==
+X-CSE-MsgGUID: LPh9aVcORPSKtq6sP2WCwg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="62453891"
+X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
+   d="scan'208";a="62501975"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2024 00:45:03 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 Aug 2024 02:37:11 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siqsv-000IGZ-1G;
-	Tue, 27 Aug 2024 07:45:01 +0000
-Date: Tue, 27 Aug 2024 15:44:36 +0800
+	id 1sisdR-000IRM-0m;
+	Tue, 27 Aug 2024 09:37:09 +0000
+Date: Tue, 27 Aug 2024 17:36:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 12062/23560]
- drivers/tty/serial/.tmp_qcom_geni_serial.o: warning: objtool:
- qcom_geni_serial_isr()+0x6c8: unreachable instruction
-Message-ID: <202408271554.zPOb5Yqp-lkp@intel.com>
+To: Maksym Kutsevol <max@kutsevol.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Breno Leitao <leitao@debian.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
+Message-ID: <202408271711.RhzKTDRD-lkp@intel.com>
+References: <20240824215130.2134153-2-max@kutsevol.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +67,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240824215130.2134153-2-max@kutsevol.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4ac8b0d82ef645e01323a31304f6455504295672
-commit: c33757a1508dbe0d07881dbe5d82c59dcc6f28ac [12062/23560] tty: serial: qcom_geni_serial: Fix softlock
-config: x86_64-buildonly-randconfig-004-20240825 (https://download.01.org/0day-ci/archive/20240827/202408271554.zPOb5Yqp-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271554.zPOb5Yqp-lkp@intel.com/reproduce)
+Hi Maksym,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8af174ea863c72f25ce31cee3baad8a301c0cf0f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maksym-Kutsevol/netcons-Add-udp-send-fail-statistics-to-netconsole/20240826-163850
+base:   8af174ea863c72f25ce31cee3baad8a301c0cf0f
+patch link:    https://lore.kernel.org/r/20240824215130.2134153-2-max%40kutsevol.com
+patch subject: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408271711.RhzKTDRD-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271711.RhzKTDRD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271554.zPOb5Yqp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271711.RhzKTDRD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tty/serial/.tmp_qcom_geni_serial.o: warning: objtool: qcom_geni_serial_isr()+0x6c8: unreachable instruction
+   drivers/net/netconsole.c: In function 'stats_show':
+>> drivers/net/netconsole.c:340:46: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
+         |                                            ~~^
+         |                                              |
+         |                                              long unsigned int
+         |                                            %u
+     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~     
+         |                          |
+         |                          size_t {aka unsigned int}
+   drivers/net/netconsole.c:340:58: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
+         |                                                        ~~^
+         |                                                          |
+         |                                                          long unsigned int
+         |                                                        %u
+     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~
+         |                                                     |
+         |                                                     size_t {aka unsigned int}
+
+
+vim +340 drivers/net/netconsole.c
+
+   335	
+   336	static ssize_t stats_show(struct config_item *item, char *buf)
+   337	{
+   338		struct netconsole_target *nt = to_target(item);
+   339	
+ > 340		return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
+   341			nt->stats.xmit_drop_count, nt->stats.enomem_count);
+   342	}
+   343	
 
 -- 
 0-DAY CI Kernel Test Service
