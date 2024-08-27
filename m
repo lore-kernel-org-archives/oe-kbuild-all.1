@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9F5179A8;
-	Tue, 27 Aug 2024 06:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F03B34CDD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 07:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724740443; cv=none; b=k5wcbajOWOYAcgP1fWVIi29mURllkC4+Xb1VvcRoDHRRuWM3EKEYnZCs5I2fY8kEa1vPsD3jqdL9lgHj1WQ2m9PS28V0vNNxW4MP0x+7Upsg4DKds7479trmDQzHbmvv7q+L7Iu2vdfUW+GszzQOoShoKyZV67wMpNJk7XX4pxA=
+	t=1724743446; cv=none; b=NU7qNQRglwpTBYjMn9/Av9i5en/rtbKXWD3FCo4iAwqzwYBX2C6O6h3wL8pvVEUEsi/Z0q5bf/IMjhgjnaJHGokuzYsOZtIF+fo0rWx+jmGpp3hYygX8/WjAIjFsoDvvI0iYqmNDng55imRG7oC8MhNHwgu+kNaSTy6k3ohIO5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724740443; c=relaxed/simple;
-	bh=P9zOrCau2M2SHj2r5Dp5xZiqEpHI+waUUi/eT5wM3ec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSri264RXUEtqgeQKVb0EBLfg3ObdAU5WK7Nut2KecNXfpee1BYUVqauXNlDyGNZq834mzkfDJIWDFOvC+7ZYzvBVeGACImG59kL87iFCkV8T8TXZEbDoRao83uxpKROGhw2N9nqUEFVgbWk4PXFbQW6RkQBSSM7jMppxFwdaLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KI1KMHo0; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1724743446; c=relaxed/simple;
+	bh=CmAEHmdNY372YYGRlSDiF87NPY+C419Qi1N72n8+vAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d7fSSy+EeflpUtV4cF/rTWkK9jBjioVzWbBW1EESjeNaupRW9rrjy6uoaSbzMEGjfMdYcI/6Azj3fDrlDB4pw51UY9eb4Had5b3ABSLuB8N5u7dZ5cmZC5Rq/uZhB76z3FUAoAucHB5hYAIgEZv0kxrUTnOWrraugsCMmC8nHPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuDiJJWt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KI1KMHo0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuDiJJWt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724740442; x=1756276442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P9zOrCau2M2SHj2r5Dp5xZiqEpHI+waUUi/eT5wM3ec=;
-  b=KI1KMHo0/kxkI1qrFB5BSieF5zSjqGZjG7YSoMG6eYlMnwbLvlkO60AP
-   bqVfstvE7DLDRzJH04sphi3FIAMULDfRGBEry4cGVSLjk08pbmxzEtADw
-   km6XZ0qx2ZrjKVsy6Vz+Go+QujbEzjVyKuPu0aP5g7n3Cl2Z2GiHqvm4s
-   wDpPh5I2S7FtkBwIBYmoL7lKSJpDg8G0B9yMa5HytI7TjMfFh9zVChbgb
-   fFENCRgks+V0ctFHYaEAoEg0f8nsHHzyPrV15xgdBODgqSMjFL+uOiNYA
-   89TobmPW9zMR1F7qwARutTHFiz/AFnVcRxbq+idfQMM8rKLPTdIqNyKc1
-   w==;
-X-CSE-ConnectionGUID: Kd2PKgR4Q+ypr16VvXheXg==
-X-CSE-MsgGUID: mchAEZ2VTNW3/saBw98svA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="34606224"
+  t=1724743444; x=1756279444;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CmAEHmdNY372YYGRlSDiF87NPY+C419Qi1N72n8+vAw=;
+  b=VuDiJJWtTkSkk9hzLWgRdATCDpsp0/3MeQxSZIU4NiPOc8VdrP6EoKM7
+   ieowMxs7Zpt0I3T+Vfe1tPYmR/CIRXuyqJTEfX646+0RHCjLJdEPuEGo+
+   aq8BEbz8L/Oyw4qjA6S+EYiHLO3NGGOC7EoLgAB8BVCXC1L8NeNrM4RYF
+   hsCj3za3K4InQDKRhqRrmjCPHw8QcsuEr6Pr/SxjLYoEGfkX6GC6heuU1
+   dSlp/WH7GzGwjYvO+bH3GH0s0JMs8M6WrX7Ce7dsEQPxi+eyBeGiFBnn4
+   6pesyIh+zhjCJj0AYGTYEA+9D5WnM6wLTicFoq0Z2FIcepwuAyBfxZ2xh
+   A==;
+X-CSE-ConnectionGUID: Lf7pFyZWTrqc40FQsN10Tw==
+X-CSE-MsgGUID: NEbz0itGQb+vODlAaQdIoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26998402"
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="34606224"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 23:34:01 -0700
-X-CSE-ConnectionGUID: FG++n/t7TZmX7tyo1f58fw==
-X-CSE-MsgGUID: zUpZghT4SdS8EMlyUKnNVg==
+   d="scan'208";a="26998402"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 00:24:03 -0700
+X-CSE-ConnectionGUID: hN9JsKL2RTOIz1OROTxihg==
+X-CSE-MsgGUID: jFCPbgRPQKaUIB6OqpMIvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="62722566"
+   d="scan'208";a="62448277"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Aug 2024 23:33:58 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2024 00:24:02 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sipm8-000I9S-0k;
-	Tue, 27 Aug 2024 06:33:56 +0000
-Date: Tue, 27 Aug 2024 14:32:59 +0800
+	id 1siqYa-000IEU-0r;
+	Tue, 27 Aug 2024 07:24:00 +0000
+Date: Tue, 27 Aug 2024 15:23:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maksym Kutsevol <max@kutsevol.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Breno Leitao <leitao@debian.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
-Message-ID: <202408271419.3JJwwxE7-lkp@intel.com>
-References: <20240824215130.2134153-2-max@kutsevol.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 6490/6966]
+ drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202408271555.kpOmi9I8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,123 +63,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240824215130.2134153-2-max@kutsevol.com>
 
-Hi Maksym,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8af174ea863c72f25ce31cee3baad8a301c0cf0f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maksym-Kutsevol/netcons-Add-udp-send-fail-statistics-to-netconsole/20240826-163850
-base:   8af174ea863c72f25ce31cee3baad8a301c0cf0f
-patch link:    https://lore.kernel.org/r/20240824215130.2134153-2-max%40kutsevol.com
-patch subject: [PATCH 2/2] netcons: Add udp send fail statistics to netconsole
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408271419.3JJwwxE7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271419.3JJwwxE7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f923748057a4f6aa187e0d5b22990d633a48d12
+commit: 9b82ec85ebb326d20553220945bad1cc203b8805 [6490/6966] Merge branch 'ib-sophgo-pintrl' into devel
+config: m68k-randconfig-r111-20240827 (https://download.01.org/0day-ci/archive/20240827/202408271555.kpOmi9I8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240827/202408271555.kpOmi9I8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271419.3JJwwxE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271555.kpOmi9I8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c: note: in included file (through include/linux/mmzone.h, arch/m68k/include/asm/virtconvert.h, arch/m68k/include/asm/io_no.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from drivers/net/netconsole.c:27:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/net/netconsole.c:35:
-   In file included from include/linux/netpoll.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/netconsole.c:35:
-   In file included from include/linux/netpoll.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/netconsole.c:35:
-   In file included from include/linux/netpoll.h:11:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/net/netconsole.c:341:3: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
-         |                                            ~~~
-         |                                            %zu
-     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/netconsole.c:341:30: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     340 |         return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
-         |                                                        ~~~
-         |                                                        %zu
-     341 |                 nt->stats.xmit_drop_count, nt->stats.enomem_count);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
-   9 warnings generated.
+vim +141 drivers/pinctrl/sophgo/pinctrl-cv18xx.c
 
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  120  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  121  static void cv1800_pctrl_dbg_show(struct pinctrl_dev *pctldev,
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  122  				  struct seq_file *seq, unsigned int pin_id)
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  123  {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  124  	struct cv1800_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  125  	struct cv1800_pin *pin = cv1800_get_pin(pctrl, pin_id);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  126  	enum cv1800_pin_io_type type = cv1800_pin_io_type(pin);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  127  	u32 value;
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  128  	void *reg;
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  129  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  130  	if (pin->pin >> PIN_BGA_ID_OFFSET)
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  131  		seq_printf(seq, "pos: %c%u ",
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  132  			   'A' + (pin->pin >> PIN_BGA_ID_OFFSET) - 1,
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  133  			   pin->pin & PIN_BGA_ID_MASK);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  134  	else
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  135  		seq_printf(seq, "pos: %u ", pin->pin);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  136  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  137  	seq_printf(seq, "power-domain: %s ",
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  138  		   cv1800_get_power_cfg_desc(pctrl, pin->power_domain));
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  139  	seq_printf(seq, "type: %s ", io_type_desc[type]);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  140  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02 @141  	reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->mux);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  142  	value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  143  	seq_printf(seq, "mux: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  144  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  145  	if (pin->flags & CV1800_PIN_HAVE_MUX2) {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  146  		reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->mux2);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  147  		value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  148  		seq_printf(seq, "mux2: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  149  	}
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  150  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  151  	if (type == IO_TYPE_1V8_ONLY || type == IO_TYPE_1V8_OR_3V3) {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  152  		reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->conf);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  153  		value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  154  		seq_printf(seq, "conf: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  155  	}
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  156  }
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  157  
 
-vim +341 drivers/net/netconsole.c
+:::::: The code at line 141 was first introduced by commit
+:::::: a29d8e93e710e97863d5bb4e4b6079d6c7daab81 pinctrl: sophgo: add support for CV1800B SoC
 
-   335	
-   336	static ssize_t stats_show(struct config_item *item, char *buf)
-   337	{
-   338		struct netconsole_target *nt = to_target(item);
-   339	
-   340		return sysfs_emit(buf, "xmit_drop: %lu enomem: %lu\n",
- > 341			nt->stats.xmit_drop_count, nt->stats.enomem_count);
-   342	}
-   343	
+:::::: TO: Inochi Amaoto <inochiama@outlook.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
