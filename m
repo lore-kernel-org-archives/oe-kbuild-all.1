@@ -1,124 +1,135 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE1A2E414;
-	Tue, 27 Aug 2024 03:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A4146425
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 04:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724730744; cv=none; b=XtuTOSn4SphA9DtTafNW6XbIiSB1WtKHUwcXPFCIjB3iPjxLrx1sLRqLzqm5eji6XcMc9mHyKY5NehAt/ycTzV28LYe1fCffkl2bCOfm86WOD+7tZm89u2eG27eMYhsnwcC6cX/zLJWVXTQJAWtZncUh6q4oaaMC4euGtY3aTMY=
+	t=1724731733; cv=none; b=t/0UFP5RNr8k7OUROUFvmOCgawIADK4KhUntFCYErYOaq1EGcx96Wu+2UrxZ3jeCeKuU40jdaPk/ruexm9lcNxtK9NhCUthAKPcyCHqItx4Rb5t4J6yOC2wfjfUsQaKAxhsoWXkqdsQft2krEv45L9lOBGJ7nQmoxMUgTSblRiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724730744; c=relaxed/simple;
-	bh=6dLZqVfRHKNUGkoyZ6J9Cx4oIeOYqXbtyGtGQI4VuZo=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ugaCw5uhaVN4JBlUz0XkGhIuCGCWZe9xh42AQpJ4HlefyIdSbQCv+DzFUZ+r+ojX/7Qr6wbp3159G3upaolCrXlBXBMscoGEjN8+Mraj5qhkcb+SgxKeSI8Iwq42/b8lXwpJE2KFyZQQBdExB5Lex1AaxfSvk48V5I/HZ4kwB8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WtD9n2Ptkz13k4s;
-	Tue, 27 Aug 2024 11:51:25 +0800 (CST)
-Received: from kwepemm000013.china.huawei.com (unknown [7.193.23.81])
-	by mail.maildlp.com (Postfix) with ESMTPS id C68A1180105;
-	Tue, 27 Aug 2024 11:52:11 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- kwepemm000013.china.huawei.com (7.193.23.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 27 Aug 2024 11:52:10 +0800
-Subject: Re: [PATCH] mtd: ubi: remove unused parameter 'pnum' from
- add_volume()
-To: kernel test robot <lkp@intel.com>, Wang Zhaolong
-	<wangzhaolong1@huawei.com>, <richard@nod.at>, <miquel.raynal@bootlin.com>,
-	<vigneshr@ti.com>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<yi.zhang@huawei.com>
-References: <20240825083515.4074081-1-wangzhaolong1@huawei.com>
- <202408271041.ttLMjF8z-lkp@intel.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <8e511b87-f8e2-7e95-f212-5f2dd318c234@huawei.com>
-Date: Tue, 27 Aug 2024 11:52:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	s=arc-20240116; t=1724731733; c=relaxed/simple;
+	bh=2RhMA9ld3TYGzT3Zu+RPllo4dcYLHnnqBKdlP/aQ6B4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fUfe3gu/4mSnhTaD2TTAEbIyYnYcHn3gNVGVMdTRhEGSmdOTBwjhO7toHzE+DNfpQ9EPUH9vWjdSUN4x0Bf3fTAWv5B60dCH1f1fQRsqJBBd6nQit6y0hgFFYx2d8Rtj17BCtm4JoXJCbcFllT89SJl2PCmHrotZbBLk6Hd28bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EETMQjOU; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EETMQjOU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724731731; x=1756267731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2RhMA9ld3TYGzT3Zu+RPllo4dcYLHnnqBKdlP/aQ6B4=;
+  b=EETMQjOUMVfQyrK8PjvsN9cViYVJM5XJU1+qn7E0c0uHQEjrYAyiiAtD
+   3bAN6qlSwy8ft53mR03WDBhWwYf/gnwfgZKS+IZ6XcLVyHSKmawyNRQ4s
+   hPQ3hs3H3X3VnP9VVHuL/UePKgJSUM9LTZHi7wqq1c50c6N9qC5c6PptZ
+   SN4WW4VSYb6d3rtgGnBy5IYzJKdcLLWOFvdJeZBw0HM+tz7VcZmScQSnr
+   LaDGmuNR6pUbreWVLvPjoZJCIDXwIov58haLKK98nvsMJw49EKIu5cBa9
+   ujZc4Ck4x12FzR9LE1z+w0tCEMfY7l5juppoloPTdPfDIz/HZqMNJDmpv
+   g==;
+X-CSE-ConnectionGUID: e6DNQdeQRcWAKsEUWBDg9Q==
+X-CSE-MsgGUID: KSgkJRgNRSa1V6Z+3JCNgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23314260"
+X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
+   d="scan'208";a="23314260"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 21:08:50 -0700
+X-CSE-ConnectionGUID: mmwA98pyQ4Os67mvf7OvHA==
+X-CSE-MsgGUID: 6uDs9tbTRI2SS1wWObW+eA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
+   d="scan'208";a="85919016"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Aug 2024 21:08:47 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sinVd-000Hua-1C;
+	Tue, 27 Aug 2024 04:08:45 +0000
+Date: Tue, 27 Aug 2024 12:07:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 9912/9936]
+ arch/x86/events/zhaoxin/uncore.c:2835:6: sparse: sparse: symbol
+ 'kx7000_uncore_cpu_init' was not declared. Should it be static?
+Message-ID: <202408271119.oDFiELvZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202408271041.ttLMjF8z-lkp@intel.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm000013.china.huawei.com (7.193.23.81)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ÔÚ 2024/8/27 11:26, kernel test robot Ð´µÀ:
-> Hi Wang,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on rw-ubifs/next]
-> [also build test WARNING on rw-ubifs/fixes linus/master v6.11-rc5 next-20240826]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Zhaolong/mtd-ubi-remove-unused-parameter-pnum-from-add_volume/20240826-142424
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
-> patch link:    https://lore.kernel.org/r/20240825083515.4074081-1-wangzhaolong1%40huawei.com
-> patch subject: [PATCH] mtd: ubi: remove unused parameter 'pnum' from add_volume()
-> config: i386-buildonly-randconfig-005-20240827 (https://download.01.org/0day-ci/archive/20240827/202408271041.ttLMjF8z-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271041.ttLMjF8z-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408271041.ttLMjF8z-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/mtd/ubi/attach.c:398: warning: Excess function parameter 'pnum' description in 'add_volume'
-> 
-> 
-> vim +398 drivers/mtd/ubi/attach.c
-> 
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  382
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  383  /**
-> a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  384   * add_volume - add volume to the attaching information.
-> a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  385   * @ai: attaching information
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  386   * @vol_id: ID of the volume to add
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  387   * @pnum: physical eraseblock number
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   304e0163925d5bb281ad9846c091c122b6cc42a9
+commit: 008053bcdeaad929fa3f96b75eee49da15ab0a04 [9912/9936] perf/x86/zhaoxin/uncore: update KX-7000 support
+config: x86_64-randconfig-121-20240827 (https://download.01.org/0day-ci/archive/20240827/202408271119.oDFiELvZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271119.oDFiELvZ-lkp@intel.com/reproduce)
 
-Hi ZhaoLong, you need to remove the parameter description from comments too.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271119.oDFiELvZ-lkp@intel.com/
 
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  388   * @vid_hdr: volume identifier header
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  389   *
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  390   * If the volume corresponding to the @vid_hdr logical eraseblock is already
-> a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  391   * present in the attaching information, this function does nothing. Otherwise
-> a4e6042f1d07307 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  392   * it adds corresponding volume to the attaching information. Returns a pointer
-> fbd0107f4d33be0 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  393   * to the allocated "av" object in case of success and a negative error code in
-> fbd0107f4d33be0 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  394   * case of failure.
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  395   */
-> beba9855702e14c drivers/mtd/ubi/attach.c Wang Zhaolong       2024-08-25  396  static struct ubi_ainf_volume *add_volume(struct ubi_attach_info *ai, int vol_id,
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  397  					  const struct ubi_vid_hdr *vid_hdr)
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27 @398  {
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  399  	struct ubi_ainf_volume *av;
-> de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  400  	bool created;
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  401
-> 3261ebd7d4194ff drivers/mtd/ubi/scan.c   Christoph Hellwig   2007-05-21  402  	ubi_assert(vol_id == be32_to_cpu(vid_hdr->vol_id));
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  403
-> de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  404  	av = ubi_find_or_add_av(ai, vol_id, &created);
-> de4c455b3e9f630 drivers/mtd/ubi/attach.c Boris Brezillon     2016-09-16  405  	if (IS_ERR(av) || !created)
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  406  		return av;
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  407
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  408  	av->used_ebs = be32_to_cpu(vid_hdr->used_ebs);
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  409  	av->data_pad = be32_to_cpu(vid_hdr->data_pad);
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  410  	av->compat = vid_hdr->compat;
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  411  	av->vol_type = vid_hdr->vol_type == UBI_VID_DYNAMIC ? UBI_DYNAMIC_VOLUME
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  412  							    : UBI_STATIC_VOLUME;
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  413
-> 517af48c0540e61 drivers/mtd/ubi/scan.c   Artem Bityutskiy    2012-05-17  414  	return av;
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  415  }
-> 801c135ce73d5df drivers/mtd/ubi/scan.c   Artem B. Bityutskiy 2006-06-27  416
-> 
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/events/zhaoxin/uncore.c:339:1: sparse: sparse: symbol '__pcpu_scope_zx_package_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:340:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:341:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:396:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:397:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2433:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2438:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2444:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2805:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2814:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2819:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2835:6: sparse: sparse: symbol 'kx7000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2850:5: sparse: sparse: symbol 'kx7000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2858:6: sparse: sparse: symbol 'kx7000_uncore_mmio_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
+vim +/kx7000_uncore_cpu_init +2835 arch/x86/events/zhaoxin/uncore.c
+
+  2834	
+> 2835	void kx7000_uncore_cpu_init(void)
+  2836	{
+  2837		u64 val;
+  2838		int cpu;
+  2839	
+  2840		uncore_msr_uncores = kx7000_msr_uncores;
+  2841	
+  2842		/* clear bit 16 of MSR 0x1877 so that HIF can work normally */
+  2843		for_each_present_cpu(cpu) {
+  2844			rdmsrl_on_cpu(cpu, 0x1877, &val);
+  2845			val = val & 0xfffffffffffeffffULL;
+  2846			wrmsrl_on_cpu(cpu, 0x1877, val);
+  2847		}
+  2848	}
+  2849	
+> 2850	int kx7000_uncore_pci_init(void)
+  2851	{
+  2852		uncore_pci_uncores = kx7000_pci_uncores;
+  2853		uncore_pci_driver = &kx7000_uncore_pci_driver;
+  2854	
+  2855		return 0;
+  2856	}
+  2857	
+> 2858	void kx7000_uncore_mmio_init(void)
+  2859	{
+  2860		uncore_mmio_uncores = kx7000_mmio_uncores;
+  2861	}
+  2862	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
