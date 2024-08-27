@@ -1,70 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAAE1D45E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 23:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0AE13A258
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 23:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724800465; cv=none; b=MsDC4x1+hrGCG4murNAybS2QZ4jGzruVIv287Ojt9c5HvKHsb/ZliyvGFfJN7nDEUedb52Jj+4iymqwKtgASK1Xcpb28bBhs6Ocx3SGTmV5CS/2k7H7k2VD93LMTqiRth0/FE+dou/9G0buTvdcgXTbSfB7U1cvPnH19gBYmwEw=
+	t=1724801125; cv=none; b=GON4b30xLtgY8ilnHdWURr9Gy44IWELrf55/HEgjiZQnGir7ZKwp0cU7Eu8l7XAtm6QfFYQhl1unPhcb+MYBmOOcxpQCUwRD5iT9dpHStz4Obmh2af+cbDiC78AAsVGO0rLjvos/g8pQMkhNC3hp47XP+STFxpLxFkd2bnEjBNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724800465; c=relaxed/simple;
-	bh=5tz1G93NRxsPIGpvobyXVbvfwx5sxEmuE1mv+e1eidg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j7h1AO+lYx/zl8l695Ci0nXYrcLpAtWsQ5CDHaVKjw95eq0RP0WFFT7XezJJvB8xj4HUXMLee4lPVtYSNny58jP0TipKW9K5e9x5CQNNvkuX8HvynqkSZj9Rd9KrEZQKUif40BTSe4efcFZzlhDRNKlKdqYtaAFBJz0PuEmU6wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGAbf8MZ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1724801125; c=relaxed/simple;
+	bh=kF35JFr35QZFk99j3nJinGpyP3ZfaEKjJKzZlbfs7rQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B/Xn9yGpP1tZWpJTbz0l8Z1bYID3P48wL43wPZeVOSpvs3T/8mIYOVaeWmiIZ0MAgXbcvv+xMGvm/1mNfDgmGz85nsMNNuAsQytgtrbommNeuyGTs6HBh8gySR83Y0Z4uWzVfJykhrd91CiKTAgh2K8cpg9KrCNQzWBYhe81enc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr7NLUND; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGAbf8MZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr7NLUND"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724800464; x=1756336464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5tz1G93NRxsPIGpvobyXVbvfwx5sxEmuE1mv+e1eidg=;
-  b=EGAbf8MZZF6pfqJwX8/+s+E3955D8aCfBjRoMSXg4PvhWlKf71D+hO3f
-   WuEEWosSquNHnYAadMJezRmrEL5fbwmZqQhMDU1NTPUIxQzSeDC10ksPI
-   Ye+kBu+kwyTjgtdH6GyFvGdNl62x62LexkavA44jpxWiN4WBzJqGKV0VW
-   Uwu5YLdz1p2BWsEq5qd2nmGFEOB0S2ImyYQxFe16NISDHrUGATHWl1Qpw
-   G0ETv/SR95SE3Fd5Wsbf4uLcYkaMjzB4cSskRxWSWivFUksDHCvjRPOcw
-   WojENY7sW16u7fNErO04Z1OZulWS4U1CmWMDx6tNK+KmQB6zevUiayBjv
-   A==;
-X-CSE-ConnectionGUID: xS0RCv4PSgeXLg93L9qEMw==
-X-CSE-MsgGUID: SplOYQJmQRCGptgMjxZwKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48690607"
+  t=1724801123; x=1756337123;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kF35JFr35QZFk99j3nJinGpyP3ZfaEKjJKzZlbfs7rQ=;
+  b=Jr7NLUNDVKhaTxlQ11nzx8Rn1vzrj5H0MuHwDaFJFLuLDTRWjZRejgbv
+   S5K/PyYxnv5dBy3YAD4gekovAU3NFZxhM+CiTZPaFcMg8HTwLClPWTP3x
+   p5iOUUMFXJdI9xwnnqx4coVhmsPX9lz++cKm7XgHDgB5SylzWBrzokgnI
+   GaJyEA8taWnGw54xDIG4CTtDl6lv7M9EJQEbxmD6zws4jpCVfc21Yrdpv
+   yCVbcBN9g0LXRlg6EPr/udbyGdSV0Tf4UZ8hnjWfNurORDQcBQzL7C/oJ
+   VhQdJrIBNviw+2v6U0oZTr6zii4I/zf9zFCPhYem+6Cx6X7IV+lUFyu09
+   Q==;
+X-CSE-ConnectionGUID: yz9FZuNhR9WK5U8C3RwJBg==
+X-CSE-MsgGUID: wEeK+jSaQRK4nhe/XSYzCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48691762"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="48690607"
+   d="scan'208";a="48691762"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 16:14:23 -0700
-X-CSE-ConnectionGUID: 33OTtixcRg67rLk17NupHQ==
-X-CSE-MsgGUID: m8+QGGjbSweQHKL8zAVgQw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 16:25:23 -0700
+X-CSE-ConnectionGUID: KkWjRsyISBa5abvbes0yaw==
+X-CSE-MsgGUID: DqbpSOV2SNehMocWFHtMkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="63541486"
+   d="scan'208";a="63546344"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Aug 2024 16:14:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Aug 2024 16:25:22 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj5OE-000KBA-19;
-	Tue, 27 Aug 2024 23:14:18 +0000
-Date: Wed, 28 Aug 2024 07:13:58 +0800
+	id 1sj5Yt-000KCE-0D;
+	Tue, 27 Aug 2024 23:25:19 +0000
+Date: Wed, 28 Aug 2024 07:24:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dikshita Agarwal via B4 Relay <devnull+quic_dikshita.quicinc.com@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: Re: [PATCH v3 07/29] media: iris: implement video firmware
- load/unload
-Message-ID: <202408280657.WziT1uXM-lkp@intel.com>
-References: <20240827-iris_v3-v3-7-c5fdbbe65e70@quicinc.com>
+To: kernel@openeuler.org, wangyigen <ygw111@yeah.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 26811/30000] include/linux/backing-dev.h:418:49:
+ warning: declaration of 'struct cgroup_subsys' will not be visible outside
+ of this function
+Message-ID: <202408280725.RGVxlJvi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,181 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827-iris_v3-v3-7-c5fdbbe65e70@quicinc.com>
 
-Hi Dikshita,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 31aaa7d95e09892c81df0d7c49ae85640fa4e202]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal-via-B4-Relay/dt-bindings-media-Add-sm8550-dt-schema/20240827-181059
-base:   31aaa7d95e09892c81df0d7c49ae85640fa4e202
-patch link:    https://lore.kernel.org/r/20240827-iris_v3-v3-7-c5fdbbe65e70%40quicinc.com
-patch subject: [PATCH v3 07/29] media: iris: implement video firmware load/unload
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408280657.WziT1uXM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280657.WziT1uXM-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b32a887db4e5c4c061e61977efabbc1d5e867aa7
+commit: 13e5c52d7cec7621f78bce452b78785e689ed0b2 [26811/30000] cgroup_writeback: bind blkcg and memcg
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240828/202408280725.RGVxlJvi-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280725.RGVxlJvi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280657.WziT1uXM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280725.RGVxlJvi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/of_reserved_mem.h:5,
-                    from drivers/media/platform/qcom/iris/iris_firmware.c:9:
-   drivers/media/platform/qcom/iris/iris_firmware.c: In function 'iris_load_fw_to_memory':
->> drivers/media/platform/qcom/iris/iris_firmware.c:80:36: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'ssize_t' {aka 'int'} [-Wformat=]
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/qcom/iris/iris_firmware.c:80:17: note: in expansion of macro 'dev_err'
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                 ^~~~~~~
-   drivers/media/platform/qcom/iris/iris_firmware.c:80:70: note: format string is defined here
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                                                                    ~~^
-         |                                                                      |
-         |                                                                      long int
-         |                                                                    %d
->> drivers/media/platform/qcom/iris/iris_firmware.c:80:36: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/qcom/iris/iris_firmware.c:80:17: note: in expansion of macro 'dev_err'
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                 ^~~~~~~
-   drivers/media/platform/qcom/iris/iris_firmware.c:80:85: note: format string is defined here
-      80 |                 dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-         |                                                                                   ~~^
-         |                                                                                     |
-         |                                                                                     long unsigned int
-         |                                                                                   %u
+   In file included from kernel/sysctl.c:54:
+   In file included from include/linux/nfs_fs.h:31:
+   In file included from include/linux/sunrpc/auth.h:13:
+   In file included from include/linux/sunrpc/sched.h:19:
+   include/linux/sunrpc/xdr.h:606:10: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     606 |         if (len > SIZE_MAX / sizeof(*p))
+         |             ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sysctl.c:54:
+   In file included from include/linux/nfs_fs.h:39:
+   In file included from include/linux/nfs_fs_sb.h:6:
+>> include/linux/backing-dev.h:418:49: warning: declaration of 'struct cgroup_subsys' will not be visible outside of this function [-Wvisibility]
+     418 | static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+         |                                                 ^
+   2 warnings generated.
 
 
-vim +80 drivers/media/platform/qcom/iris/iris_firmware.c
+vim +418 include/linux/backing-dev.h
 
-   > 9	#include <linux/of_reserved_mem.h>
-    10	#include <linux/soc/qcom/mdt_loader.h>
-    11	
-    12	#include "iris_core.h"
-    13	#include "iris_firmware.h"
-    14	
-    15	#define MAX_FIRMWARE_NAME_SIZE	128
-    16	
-    17	static int iris_protect_cp_mem(struct iris_core *core)
-    18	{
-    19		struct tz_cp_config *cp_config;
-    20		int ret;
-    21	
-    22		cp_config = core->iris_platform_data->tz_cp_config_data;
-    23	
-    24		ret = qcom_scm_mem_protect_video_var(cp_config->cp_start,
-    25						     cp_config->cp_size,
-    26						     cp_config->cp_nonpixel_start,
-    27						     cp_config->cp_nonpixel_size);
-    28		if (ret)
-    29			dev_err(core->dev, "failed to protect memory(%d)\n", ret);
-    30	
-    31		return ret;
-    32	}
-    33	
-    34	static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
-    35	{
-    36		const struct firmware *firmware = NULL;
-    37		struct device_node *node = NULL;
-    38		struct reserved_mem *rmem;
-    39		phys_addr_t mem_phys = 0;
-    40		void *mem_virt = NULL;
-    41		size_t res_size = 0;
-    42		ssize_t fw_size = 0;
-    43		struct device *dev;
-    44		int pas_id = 0;
-    45		int ret;
-    46	
-    47		if (!fw_name || !(*fw_name) || !core)
-    48			return -EINVAL;
-    49	
-    50		dev = core->dev;
-    51	
-    52		if (strlen(fw_name) >= MAX_FIRMWARE_NAME_SIZE - 4)
-    53			return -EINVAL;
-    54	
-    55		pas_id = core->iris_platform_data->pas_id;
-    56	
-    57		node = of_parse_phandle(dev->of_node, "memory-region", 0);
-    58		if (!node)
-    59			return -EINVAL;
-    60	
-    61		rmem = of_reserved_mem_lookup(node);
-    62		if (!rmem) {
-    63			ret = -EINVAL;
-    64			goto err_put_node;
-    65		}
-    66	
-    67		mem_phys = rmem->base;
-    68		res_size = rmem->size;
-    69	
-    70		ret = request_firmware(&firmware, fw_name, dev);
-    71		if (ret) {
-    72			dev_err(core->dev, "failed to request fw \"%s\", error %d\n",
-    73				fw_name, ret);
-    74			goto err_put_node;
-    75		}
-    76	
-    77		fw_size = qcom_mdt_get_size(firmware);
-    78		if (fw_size < 0 || res_size < (size_t)fw_size) {
-    79			ret = -EINVAL;
-  > 80			dev_err(core->dev, "out of bound fw image fw size: %ld, res_size: %lu\n",
-    81				fw_size, res_size);
-    82			goto err_release_fw;
-    83		}
-    84	
-    85		mem_virt = memremap(mem_phys, res_size, MEMREMAP_WC);
-    86		if (!mem_virt) {
-    87			dev_err(core->dev, "failed to remap fw memory phys %pa[p]\n",
-    88				&mem_phys);
-    89			goto err_release_fw;
-    90		}
-    91	
-    92		ret = qcom_mdt_load(dev, firmware, fw_name,
-    93				    pas_id, mem_virt, mem_phys, res_size, NULL);
-    94		if (ret) {
-    95			dev_err(core->dev, "error %d loading fw \"%s\"\n",
-    96				ret, fw_name);
-    97			goto err_mem_unmap;
-    98		}
-    99		ret = qcom_scm_pas_auth_and_reset(pas_id);
-   100		if (ret) {
-   101			dev_err(core->dev, "error %d authenticating fw \"%s\"\n",
-   102				ret, fw_name);
-   103			goto err_mem_unmap;
-   104		}
-   105	
-   106		return ret;
-   107	
-   108	err_mem_unmap:
-   109		memunmap(mem_virt);
-   110	err_release_fw:
-   111		release_firmware(firmware);
-   112	err_put_node:
-   113		of_node_put(node);
-   114		return ret;
-   115	}
-   116	
+   417	
+ > 418	static inline void bind_memcg_blkcg_link(struct cgroup_subsys *ss,
+   419						   struct css_set *cset)
+   420	{
+   421	}
+   422	
 
 -- 
 0-DAY CI Kernel Test Service
