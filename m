@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C32FB2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 15:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407301C57A9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 15:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724770908; cv=none; b=uf38dW9/y5Ib5D9rArEpWRLuZVbSftrtq49xHwlPbHDjTDvILU7YxmI9WGcUhrI1nKlIFZKVOh93LXIFHrQdRZsbeTjWTLAdlovR8ojcpMeaxPrxd8G+H/TkM2YYVd2WE4bhWiTdrtLYbQfIXU4fsRD8g4ZTyFavqRJKDOKsVUc=
+	t=1724771577; cv=none; b=KB5STVDTjrDGo45mXWKPVdUC7hqan3epW9mBCQaKHvwjbdJM4fPEoDR3BMgE0dUcJJNQnqsKrZBbeWZ1iQosrI4V8L/hyJl3fBE9PdsOjC52I5fNBtiaHUoX35Y/IntUqt50YTbL8/KyJI5S8FXjEmD56xrinDMGAhQ+4DXGaEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724770908; c=relaxed/simple;
-	bh=04kzWfhg4OiC07BgSws7MX2zfVTZd9v2ch1ZbqtW5ps=;
+	s=arc-20240116; t=1724771577; c=relaxed/simple;
+	bh=FEk+B3LW5G85h/aXD2cDtqY3+o7ZLu3lhovxEZ2IoBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSFfXoHhPX99kq5Ahn8hh8MK0iooyR4Es4XXYfZLOl7c9RecOljI38MD4fTTzN/Opcs5ekNZ+P2j469k6RtML9rSqB+liBpuoPCDV7YuCcK0xxXOyT5vPeXcrzeTUJxRJ0X9J+8WQN0EkI64bYk39+N6kkwXAlPtJDF/+geDTUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KX9H5cus; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=gJSpV6l8MvHkKlWr9vItq4qlWiNsfsKayK9F2/pR2p4C7IsTbXCVeQQv/H2InX6bpbE8L6C4dcxDEFq/pty8HBCFS1+ds6/PlT3QgLvODPq9WF2v+ulTw2GXoFBbET28VTE4cFPaCwLck2hoBlDLU8eT3YZ0CMRuWU2m2UEaaAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBbPVbZA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KX9H5cus"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBbPVbZA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724770906; x=1756306906;
+  t=1724771576; x=1756307576;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=04kzWfhg4OiC07BgSws7MX2zfVTZd9v2ch1ZbqtW5ps=;
-  b=KX9H5cusryTRHwSHUaC8KS2Zm+6gJT97XM6Kv10F4UCiHiUUFd0Vvy6/
-   RLoIWb7Loq540CCKRqffLg//0zgNT6hls4Trkfu+ctOtQiQ3RFLv6tdXu
-   qin4YKZfeNeBLjJsq0aRLwnU7A8C/oMbH7ruVVOJCaoAo3hD+AhgSbK9W
-   LCPSe/hfm+tj63vLvRfrBFqOZn0xZG0PRrxUL+Edwfb1bokfDqiIWCv8/
-   v+HlZZK+D96BuneR2Gj0WbeYOe0gg/a5jkexPhh2T4WpdIqsAHakPp3D4
-   OsXpKOdHvadxZFZeseLPtMb4MeHZe+3d+PCmERXlcTYZEdWEL86TBGTRy
+  bh=FEk+B3LW5G85h/aXD2cDtqY3+o7ZLu3lhovxEZ2IoBI=;
+  b=QBbPVbZAhyQGDIBBAV2LrKH0vg6epKrPDIo7J5LJZ00ySQjpMGgiuodC
+   PELSzKsszTaC6fKtAFgQJj25FJNeOPmcdbrhjK2ZmSytiJuRvKfrmZKHX
+   FALZ5MrRC+l8CbkCE1nv0KsxY/Tj/CCex2q9fBqoZzxJfOEg/Rsfa1whm
+   50gQhy/KBJ8bRCJyEYuGmtqK7Cr+HMTaQS4I4ptK7O3sCKrCegaXtOJ27
+   HKCVpTDWXCm6InGRyLWrGtzrv0oVl2LgOGCsopdXnQqqAFuXnr4Xw/DCD
+   WmTBju2RcYMze6oRLGlb54C+99Kxw/t5jRJ0wAMLKHd655hZcmtmy+nHU
    w==;
-X-CSE-ConnectionGUID: GFWFGGslT/a3EnpZmg4pmw==
-X-CSE-MsgGUID: 5XoMUa83Rxe1reie9YRP9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23429061"
+X-CSE-ConnectionGUID: 9QA1T6qDRRW1+HSPLjK4vQ==
+X-CSE-MsgGUID: Y74eooCIQBq7kMSY2tBKtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="40729091"
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="23429061"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 08:01:36 -0700
-X-CSE-ConnectionGUID: k6CJQLvEQUqqBOszqa8vMw==
-X-CSE-MsgGUID: Vgoj9oVMSDqI06rGum72KA==
+   d="scan'208";a="40729091"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 08:12:42 -0700
+X-CSE-ConnectionGUID: XVIDEVmfSfeobkgIKCkRHA==
+X-CSE-MsgGUID: aoa9OdGxQRul5UVtZ423rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="86087616"
+   d="scan'208";a="67598318"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Aug 2024 08:01:34 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Aug 2024 08:12:40 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sixhL-000J6S-2L;
-	Tue, 27 Aug 2024 15:01:31 +0000
-Date: Tue, 27 Aug 2024 23:01:25 +0800
+	id 1sixs5-000JJC-2K;
+	Tue, 27 Aug 2024 15:12:37 +0000
+Date: Tue, 27 Aug 2024 23:11:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Subject: Re: [PATCH v1 2/2] iio: imu: st_lsm6dsx: Remove useless dev_fwnode()
- calls
-Message-ID: <202408272259.MsdckhWn-lkp@intel.com>
-References: <20240826212344.866928-3-andy.shevchenko@gmail.com>
+To: Liming Sun <limings@nvidia.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	David Thompson <davthompson@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Liming Sun <limings@nvidia.com>,
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] mmc: sdhci-of-dwcmshc: Add hw_reset() support for
+ BlueField-3 SoC
+Message-ID: <202408272252.lAVSmMBR-lkp@intel.com>
+References: <73703c853e36f3cd61114e4ac815926d94a1a802.1724695127.git.limings@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,87 +67,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826212344.866928-3-andy.shevchenko@gmail.com>
+In-Reply-To: <73703c853e36f3cd61114e4ac815926d94a1a802.1724695127.git.limings@nvidia.com>
 
-Hi Andy,
+Hi Liming,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.11-rc5 next-20240827]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.11-rc5 next-20240827]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-imu-st_lsm6dsx-Use-iio_read_acpi_mount_matrix-helper/20240827-052617
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240826212344.866928-3-andy.shevchenko%40gmail.com
-patch subject: [PATCH v1 2/2] iio: imu: st_lsm6dsx: Remove useless dev_fwnode() calls
-config: arc-randconfig-001-20240827 (https://download.01.org/0day-ci/archive/20240827/202408272259.MsdckhWn-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408272259.MsdckhWn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Liming-Sun/mmc-sdhci-of-dwcmshc-Add-hw_reset-support-for-BlueField-3-SoC/20240827-052819
+base:   linus/master
+patch link:    https://lore.kernel.org/r/73703c853e36f3cd61114e4ac815926d94a1a802.1724695127.git.limings%40nvidia.com
+patch subject: [PATCH v1 1/1] mmc: sdhci-of-dwcmshc: Add hw_reset() support for BlueField-3 SoC
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408272252.lAVSmMBR-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408272252.lAVSmMBR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408272259.MsdckhWn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408272252.lAVSmMBR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c: In function 'st_lsm6dsx_get_drdy_reg':
->> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:62: warning: passing argument 3 of 'device_property_read_u32' makes pointer from integer without a cast [-Wint-conversion]
-    2137 |         if (device_property_read_u32(dev, "st,drdy-int-pin", drdy_pin) < 0) {
-         |                                                              ^~~~~~~~
-         |                                                              |
-         |                                                              int
-   In file included from include/linux/acpi.h:16,
-                    from drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:76:
-   include/linux/property.h:229:71: note: expected 'u32 *' {aka 'unsigned int *'} but argument is of type 'int'
-     229 |                                            const char *propname, u32 *val)
-         |                                                                  ~~~~~^~~
-   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:13: warning: 'drdy_pin' is used uninitialized [-Wuninitialized]
-    2137 |         if (device_property_read_u32(dev, "st,drdy-int-pin", drdy_pin) < 0) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2135:22: note: 'drdy_pin' was declared here
-    2135 |         int err = 0, drdy_pin;
-         |                      ^~~~~~~~
+>> drivers/mmc/host/sdhci-of-dwcmshc.c:919:31: warning: 'sdhci_dwcmshc_bf3_ops' defined but not used [-Wunused-const-variable=]
+     919 | static const struct sdhci_ops sdhci_dwcmshc_bf3_ops = {
+         |                               ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/device_property_read_u32 +2137 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+vim +/sdhci_dwcmshc_bf3_ops +919 drivers/mmc/host/sdhci-of-dwcmshc.c
 
-  2129	
-  2130	static int
-  2131	st_lsm6dsx_get_drdy_reg(struct st_lsm6dsx_hw *hw,
-  2132				const struct st_lsm6dsx_reg **drdy_reg)
-  2133	{
-  2134		struct device *dev = hw->dev;
-  2135		int err = 0, drdy_pin;
-  2136	
-> 2137		if (device_property_read_u32(dev, "st,drdy-int-pin", drdy_pin) < 0) {
-  2138			struct st_sensors_platform_data *pdata;
-  2139	
-  2140			pdata = (struct st_sensors_platform_data *)dev->platform_data;
-  2141			drdy_pin = pdata ? pdata->drdy_int_pin : 1;
-  2142		}
-  2143	
-  2144		switch (drdy_pin) {
-  2145		case 1:
-  2146			hw->irq_routing = &hw->settings->irq_config.irq1_func;
-  2147			*drdy_reg = &hw->settings->irq_config.irq1;
-  2148			break;
-  2149		case 2:
-  2150			hw->irq_routing = &hw->settings->irq_config.irq2_func;
-  2151			*drdy_reg = &hw->settings->irq_config.irq2;
-  2152			break;
-  2153		default:
-  2154			dev_err(hw->dev, "unsupported data ready pin\n");
-  2155			err = -EINVAL;
-  2156			break;
-  2157		}
-  2158	
-  2159		return err;
-  2160	}
-  2161	
+   918	
+ > 919	static const struct sdhci_ops sdhci_dwcmshc_bf3_ops = {
+   920		.set_clock		= sdhci_set_clock,
+   921		.set_bus_width		= sdhci_set_bus_width,
+   922		.set_uhs_signaling	= dwcmshc_set_uhs_signaling,
+   923		.get_max_clock		= dwcmshc_get_max_clock,
+   924		.reset			= sdhci_reset,
+   925		.adma_write_desc	= dwcmshc_adma_write_desc,
+   926		.irq			= dwcmshc_cqe_irq_handler,
+   927		.hw_reset		= dwcmshc_bf3_hw_reset,
+   928	};
+   929	#endif
+   930	
 
 -- 
 0-DAY CI Kernel Test Service
