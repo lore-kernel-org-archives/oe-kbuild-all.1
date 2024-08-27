@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F65064A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 18:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19EF77117
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 19:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724783235; cv=none; b=mzrlnSBlmo/2Zxfki2O3mKJQpO4zlE7b8CDPtOi0sU3icSWORnfEIYEINHMHsJRkjkCm8qn1VlbnRvEHXPzG83dNso0Y+kY58IqceoxZoaI6JZa+iLzGo0MXL3k7/KuvA7bJoytablP3S/1XlYYTR/tYuiO8/B64ZwgI4clrg6Q=
+	t=1724786956; cv=none; b=ITEd/sXmU3ohJ52h3EymBR18QgZqBelLlNdsJ6KBZzoWv/V3wKFGBUejbdEXWNe+4WTzsDj2qq0I8BpZa/TWdQc41QzhtdifDFH7zZHzCVOpNHzrZQyG8vUIvglVxek1j7sB1GkR0utVsBiE0Eqo7rRwtQWhbdH+bS7JsGVVwQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724783235; c=relaxed/simple;
-	bh=U3S0NT5mAN5wdUNex9B7uZ/roVQlT/KDvNJFb560cvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZ3dRnlYjZytrWbS2BkF9JP+uJ4ceIdTK/Phu+iguAV40Q+glubmebARowPSVXxFE1YA18jXcLVEFoAOSAea+w8YbxwOUNJPJ0srcOUtuWEPdDkVese5niVulGQoMbJ9X6j3Zr7WO57ZXAVHiZzyYFxKcsMRdzYWEClqcigJVtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdFr4q/a; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1724786956; c=relaxed/simple;
+	bh=uH0YovJZwXVaptapODvOqbC+uSTPzIjlp9GmVLd0ypg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SoMzF5PxiuufqfUBsYun1sI+Mb9e4ZKTLf6stpL0On1+ydmifg5ltTn/bckiQg5o6RGp/TSdHx7kEGjEWfauSOozFSyg4WvEpfm/gPoMVAXqZADKv1LJbdkbWh2k94dmTbGtJYfBkhLM+/0/POp4GGV/SmPzEIBn1W1XrHw9Tb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPBl0pTj; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdFr4q/a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPBl0pTj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724783232; x=1756319232;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U3S0NT5mAN5wdUNex9B7uZ/roVQlT/KDvNJFb560cvg=;
-  b=HdFr4q/aQDWTxMqykAOTG42smxIBpHmfnJa1s03HMkGReSTQe/hUHpAt
-   KWAhkVPmHd2VGCFq0E5nIbpfxG7UVQO72/dfZ1nZ/ZxvustKOafpumZ+X
-   u7SPl1Vs71kURUeyqJXi87cMHBWKtSx34fyRjhK9481rs2215l7aQAYCC
-   hs1M7m7yH5xl9rmUHEzD7HdfZvHShqAwQvJ1VVRAq6XZHhIlcj+/fSuOL
-   WzCQZPDkx4NKL7arU+PBkbpBVju9HIxT/7220WM1PiEpsBShHJ8cYds3/
-   EQpICsc1j0hXVxPyYFHPLdJ5PVVCdiTRsL4vKo+/YE67o2oEhKBlsHO2Q
-   Q==;
-X-CSE-ConnectionGUID: 8nVKMXadRWC8E8fpkqLeeQ==
-X-CSE-MsgGUID: sXVhyt0cSZ2fCOAnYhAdZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48665836"
+  t=1724786954; x=1756322954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uH0YovJZwXVaptapODvOqbC+uSTPzIjlp9GmVLd0ypg=;
+  b=CPBl0pTjO9nGfOPTe/03q2pjCZlor1HED4HFXQI2TH6eJ4A8WDWUtbwa
+   W+mpAhiwv2aME4JzZKBFnMZ4MlujR//6yNemTpODF9/2YCkTLOJLSdHEU
+   6WBtK2O6lAO2ujqaTIAkRcXdD2ReXrkuOFbKwiljY2bqXnYY8X8dVXRA3
+   6XgSN2JggrRN/ItCga2q2YjO69a1UStfPt/QfnjvZFyfC0tAJbslvl79Y
+   Nwx0WH2YvSux5rHt/mIW8efd47lMEndThDnXY0FKtZeK634X+zRVvAn0s
+   L8kmkc7ygtxn3Pmgz35vQ4jAhZRe8ECjqRnmuLWm2wCszhSvgIH97er8n
+   w==;
+X-CSE-ConnectionGUID: ky4qgyU4R9CMfXMGfswo0g==
+X-CSE-MsgGUID: 2M4vMvSLSs+LXQM0yxW/OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="33861374"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="48665836"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 11:27:11 -0700
-X-CSE-ConnectionGUID: M03qrS0KQNqGUNKHYCV7Pw==
-X-CSE-MsgGUID: PQCa/K6lS8m6k3G9imHCJA==
+   d="scan'208";a="33861374"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 12:29:14 -0700
+X-CSE-ConnectionGUID: jvJC0cwhRJaMUiYqvPRd/Q==
+X-CSE-MsgGUID: no8umO26T9it3A5WbwMVTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="67306796"
+   d="scan'208";a="63283853"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Aug 2024 11:27:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 Aug 2024 12:29:13 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj0uJ-000JwQ-0c;
-	Tue, 27 Aug 2024 18:27:07 +0000
-Date: Wed, 28 Aug 2024 02:26:42 +0800
+	id 1sj1sL-000K0I-1r;
+	Tue, 27 Aug 2024 19:29:09 +0000
+Date: Wed, 28 Aug 2024 03:28:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>, sam@mendozajonas.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lihongbo22@huawei.com,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] net/ncsi: Use str_up_down to simplify
- the code
-Message-ID: <202408280152.l51y5bcU-lkp@intel.com>
-References: <20240827025246.963115-3-lihongbo22@huawei.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 17249/23564] kernel/.tmp_kprobes.o:
+ warning: objtool: register_kprobe()+0x6d4: unreachable instruction
+Message-ID: <202408280332.EuYU3ttl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,192 +61,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827025246.963115-3-lihongbo22@huawei.com>
 
-Hi Hongbo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/net-ncsi-Use-str_up_down-to-simplify-the-code/20240827-104622
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240827025246.963115-3-lihongbo22%40huawei.com
-patch subject: [PATCH net-next v2 2/2] net/ncsi: Use str_up_down to simplify the code
-config: arc-randconfig-001-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280152.l51y5bcU-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280152.l51y5bcU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   73a86ad60aabf460a4c8a0f96a1b2ddb98522fd8
+commit: 388c9a84a807812e7226e0e1ca606563e14a7f5a [17249/23564] kprobes: Warn if the kprobe is reregistered
+config: x86_64-buildonly-randconfig-004-20240825 (https://download.01.org/0day-ci/archive/20240828/202408280332.EuYU3ttl-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280332.EuYU3ttl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280152.l51y5bcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280332.EuYU3ttl-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/skbuff.h:38,
-                    from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from net/ncsi/ncsi-aen.c:9:
-   net/ncsi/ncsi-aen.c: In function 'ncsi_aen_handler_lsc':
->> net/ncsi/ncsi-aen.c:78:28: error: implicit declaration of function 'str_up_down' [-Werror=implicit-function-declaration]
-      78 |                    nc->id, str_up_down(data & 0x1));
-         |                            ^~~~~~~~~~~
-   include/net/net_debug.h:66:60: note: in definition of macro 'netdev_dbg'
-      66 |                 netdev_printk(KERN_DEBUG, __dev, format, ##args); \
-         |                                                            ^~~~
->> net/ncsi/ncsi-aen.c:77:35: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'int' [-Wformat=]
-      77 |         netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      78 |                    nc->id, str_up_down(data & 0x1));
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~
-         |                            |
-         |                            int
-   include/net/net_debug.h:66:50: note: in definition of macro 'netdev_dbg'
-      66 |                 netdev_printk(KERN_DEBUG, __dev, format, ##args); \
-         |                                                  ^~~~~~
-   net/ncsi/ncsi-aen.c:77:70: note: format string is defined here
-      77 |         netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
-         |                                                                     ~^
-         |                                                                      |
-         |                                                                      char *
-         |                                                                     %d
-   cc1: some warnings being treated as errors
-
-
-vim +/str_up_down +78 net/ncsi/ncsi-aen.c
-
-   > 9	#include <linux/netdevice.h>
-    10	#include <linux/skbuff.h>
-    11	
-    12	#include <net/ncsi.h>
-    13	#include <net/net_namespace.h>
-    14	#include <net/sock.h>
-    15	
-    16	#include "internal.h"
-    17	#include "ncsi-pkt.h"
-    18	
-    19	static int ncsi_validate_aen_pkt(struct ncsi_aen_pkt_hdr *h,
-    20					 const unsigned short payload)
-    21	{
-    22		u32 checksum;
-    23		__be32 *pchecksum;
-    24	
-    25		if (h->common.revision != NCSI_PKT_REVISION)
-    26			return -EINVAL;
-    27		if (ntohs(h->common.length) != payload)
-    28			return -EINVAL;
-    29	
-    30		/* Validate checksum, which might be zeroes if the
-    31		 * sender doesn't support checksum according to NCSI
-    32		 * specification.
-    33		 */
-    34		pchecksum = (__be32 *)((void *)(h + 1) + payload - 4);
-    35		if (ntohl(*pchecksum) == 0)
-    36			return 0;
-    37	
-    38		checksum = ncsi_calculate_checksum((unsigned char *)h,
-    39						   sizeof(*h) + payload - 4);
-    40		if (*pchecksum != htonl(checksum))
-    41			return -EINVAL;
-    42	
-    43		return 0;
-    44	}
-    45	
-    46	static int ncsi_aen_handler_lsc(struct ncsi_dev_priv *ndp,
-    47					struct ncsi_aen_pkt_hdr *h)
-    48	{
-    49		struct ncsi_channel *nc, *tmp;
-    50		struct ncsi_channel_mode *ncm;
-    51		unsigned long old_data, data;
-    52		struct ncsi_aen_lsc_pkt *lsc;
-    53		struct ncsi_package *np;
-    54		bool had_link, has_link;
-    55		unsigned long flags;
-    56		bool chained;
-    57		int state;
-    58	
-    59		/* Find the NCSI channel */
-    60		ncsi_find_package_and_channel(ndp, h->common.channel, NULL, &nc);
-    61		if (!nc)
-    62			return -ENODEV;
-    63	
-    64		/* Update the link status */
-    65		lsc = (struct ncsi_aen_lsc_pkt *)h;
-    66	
-    67		spin_lock_irqsave(&nc->lock, flags);
-    68		ncm = &nc->modes[NCSI_MODE_LINK];
-    69		old_data = ncm->data[2];
-    70		data = ntohl(lsc->status);
-    71		ncm->data[2] = data;
-    72		ncm->data[4] = ntohl(lsc->oem_status);
-    73	
-    74		had_link = !!(old_data & 0x1);
-    75		has_link = !!(data & 0x1);
-    76	
-  > 77		netdev_dbg(ndp->ndev.dev, "NCSI: LSC AEN - channel %u state %s\n",
-  > 78			   nc->id, str_up_down(data & 0x1));
-    79	
-    80		chained = !list_empty(&nc->link);
-    81		state = nc->state;
-    82		spin_unlock_irqrestore(&nc->lock, flags);
-    83	
-    84		if (state == NCSI_CHANNEL_INACTIVE)
-    85			netdev_warn(ndp->ndev.dev,
-    86				    "NCSI: Inactive channel %u received AEN!\n",
-    87				    nc->id);
-    88	
-    89		if ((had_link == has_link) || chained)
-    90			return 0;
-    91	
-    92		if (!ndp->multi_package && !nc->package->multi_channel) {
-    93			if (had_link) {
-    94				ndp->flags |= NCSI_DEV_RESHUFFLE;
-    95				ncsi_stop_channel_monitor(nc);
-    96				spin_lock_irqsave(&ndp->lock, flags);
-    97				list_add_tail_rcu(&nc->link, &ndp->channel_queue);
-    98				spin_unlock_irqrestore(&ndp->lock, flags);
-    99				return ncsi_process_next_channel(ndp);
-   100			}
-   101			/* Configured channel came up */
-   102			return 0;
-   103		}
-   104	
-   105		if (had_link) {
-   106			ncm = &nc->modes[NCSI_MODE_TX_ENABLE];
-   107			if (ncsi_channel_is_last(ndp, nc)) {
-   108				/* No channels left, reconfigure */
-   109				return ncsi_reset_dev(&ndp->ndev);
-   110			} else if (ncm->enable) {
-   111				/* Need to failover Tx channel */
-   112				ncsi_update_tx_channel(ndp, nc->package, nc, NULL);
-   113			}
-   114		} else if (has_link && nc->package->preferred_channel == nc) {
-   115			/* Return Tx to preferred channel */
-   116			ncsi_update_tx_channel(ndp, nc->package, NULL, nc);
-   117		} else if (has_link) {
-   118			NCSI_FOR_EACH_PACKAGE(ndp, np) {
-   119				NCSI_FOR_EACH_CHANNEL(np, tmp) {
-   120					/* Enable Tx on this channel if the current Tx
-   121					 * channel is down.
-   122					 */
-   123					ncm = &tmp->modes[NCSI_MODE_TX_ENABLE];
-   124					if (ncm->enable &&
-   125					    !ncsi_channel_has_link(tmp)) {
-   126						ncsi_update_tx_channel(ndp, nc->package,
-   127								       tmp, nc);
-   128						break;
-   129					}
-   130				}
-   131			}
-   132		}
-   133	
-   134		/* Leave configured channels active in a multi-channel scenario so
-   135		 * AEN events are still received.
-   136		 */
-   137		return 0;
-   138	}
-   139	
+   kernel/kprobes.c:120:14: warning: no previous prototype for function 'alloc_insn_page' [-Wmissing-prototypes]
+     120 | void __weak *alloc_insn_page(void)
+         |              ^
+   kernel/kprobes.c:120:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     120 | void __weak *alloc_insn_page(void)
+         | ^
+         | static 
+   kernel/kprobes.c:125:13: warning: no previous prototype for function 'free_insn_page' [-Wmissing-prototypes]
+     125 | void __weak free_insn_page(void *page)
+         |             ^
+   kernel/kprobes.c:125:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     125 | void __weak free_insn_page(void *page)
+         | ^
+         | static 
+   2 warnings generated.
+   kernel/kprobes.c:145: warning: Function parameter or member 'c' not described in '__get_insn_slot'
+>> kernel/.tmp_kprobes.o: warning: objtool: register_kprobe()+0x6d4: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
