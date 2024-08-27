@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE5DBA49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C34177113
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 06:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724739781; cv=none; b=GjcVPzvH/96pJOhBGuKe5QH/DCvFVlABGx+3Z5bjWUEFMXxlaDPqNZ0wreu9qPniLuXZXAalTOibj0/bpB/qY92A6lS6Ke+z2dCRfRoOcNPbXiG5/DJHAOTdSNZOzPs7s/OGI/j2sw+4/hN+HK95buQpHH3NIwQbaSpLgeJIRLg=
+	t=1724739782; cv=none; b=PvmXcY6NRpAsRTgXFZVCcax6coM+fdLOakRsJyqtjdXbhTnMcAi2EDLa+tNvm2QLjM/L1IFF7oMB4zxIzQwOr/NfdtU1nDaXGBDvSe3vHt6hNTMRFoLQkaZka+b+vQ2NcddQWRqH28Q06uRDUNGT9AIW/nd6PXfqZf5ANv59Uac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724739781; c=relaxed/simple;
-	bh=vjv6cq/hUumpq2H0zWrK8gIlsw1TATOpRuKOc1atGpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Il4WeYKAhFrKrJUTNHMQ4X18GuvCj1Kg5p8ZEovAES1LmQLt01KI73vsM9FrMNfH5Sws/afhV1th3bXl8R1e2S+7Bdi9C23+vlNLEDltp+ha34ZUNDUO+Q0n8pUWB5M8q5Pc4u6wHIbt+/qaVlrNFT4ZVOidHVCEIbrOiZ0ncVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EnmX0qM2; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1724739782; c=relaxed/simple;
+	bh=crLZWaA9tZqOl38BcFty53sZrr+x1AvDPHZt3AoUpsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hqpzUQZdcrjicY/qT7DfP0WuA62occS891C9CO2SnMQF+1fM0kREnkbCNINS9bCblOs6xzfZiSxctl4u7/acTS5TLVnG30tpqtk1ZAGJD3viEDgc4ozzeZpNzsMRFCIraM1rNtXl85xODPicOsnPTgL3hj3nLuF8XTUBwBF5V80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWY2ZMWE; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnmX0qM2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWY2ZMWE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1724739780; x=1756275780;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vjv6cq/hUumpq2H0zWrK8gIlsw1TATOpRuKOc1atGpg=;
-  b=EnmX0qM2s+fKDcs6L5oe0OYmC+y9ES4kOr2Bh1Rz77MbP5VBU/w7e5/h
-   jOyvtOX0BjKjV/r2KajIsRB1YxbOAoVyzGkSlbOdcRLz6RCtJfFusZlCm
-   CAr6mkqvnlLG4JnVIgFfxSBmIYEV9aIrAXXjVlB16xUgH/kVeE5mweoUE
-   2QfKxjHXV39FZNO9GuHFPRI0xuo0TsfwjmTqt4vl9RoPTEHWRDGXe96XI
-   A/hZjr2E1hQWwin+MwT+ykfR8hRLG446mby2MyXQFjSGo5EEPULyC+4Ym
-   2aXiJOP5RvJZONnMDq9HVJ453314nWTUUqIXlMEt7j3DOD234fN/th3fl
-   g==;
-X-CSE-ConnectionGUID: zRA4U3JwTuShGf6mHmVSag==
-X-CSE-MsgGUID: tjNLikhnR2y+KJ4Dh4gdUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40666923"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=crLZWaA9tZqOl38BcFty53sZrr+x1AvDPHZt3AoUpsQ=;
+  b=IWY2ZMWE7cfzW+GSPsWpbHf+0ASM1jQWVtbiP7ztWPOQWt1mGBfoFBAU
+   heS5pnBfvkUVZIJkdNc8NlpIpSyuNsFJv6AFUI5M0b6s3Bj/OGwegrlAI
+   J5i93fL4rLO6hjKkPLgYPA9i7b8c0sZDbTRNL4bzIHcWj/t+jO/LRpxru
+   xO3nrXBPdjTXzQKCEpIl0RpSCUU+fTLTINCKhau/z7MB8C5g7f9tqL/PW
+   JOCRZp+Pmb8ptt/Capw0IZthxIPfzhuqb2eLVzdNfBIEvGzu6QA/p3l+r
+   mDjhH68oUPzrLtrDIfO/t+ETLkKvUdzJi3uY0ZdqbZOlmNeFAejqDZRzp
+   A==;
+X-CSE-ConnectionGUID: deLaSicDQr27xRHPRQ6YCA==
+X-CSE-MsgGUID: 5ZmGxdsWTtenSz0//NRZxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33821568"
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="40666923"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 23:22:59 -0700
-X-CSE-ConnectionGUID: aL30MLiURaGOlVDeOAFBVw==
-X-CSE-MsgGUID: bjJ5297MQs2v0q8OiR5w6A==
+   d="scan'208";a="33821568"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 23:22:59 -0700
+X-CSE-ConnectionGUID: a/B4SlHAT02wldopP2ouyg==
+X-CSE-MsgGUID: dLnN+ZzRR1OiuSHPdBSuFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="67633716"
+   d="scan'208";a="62589118"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2024 23:22:58 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Aug 2024 23:22:58 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sipbT-000I8C-2F;
+	id 1sipbT-000I8E-2K;
 	Tue, 27 Aug 2024 06:22:55 +0000
 Date: Tue, 27 Aug 2024 14:22:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1783/30000] ld.lld: error:
- -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.
-  Try: 'ld.lld --help'
-Message-ID: <202408271443.DMMfqSKb-lkp@intel.com>
+To: Jeff Xie <jeff.xie@linux.dev>, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	xiehuan09@gmail.com, Jeff Xie <jeff.xie@linux.dev>
+Subject: Re: [PATCH v2] genirq: procfs: Make smp_affinity read-only for
+ interrupts that userspace can't set
+Message-ID: <202408271311.szIyk0et-lkp@intel.com>
+References: <20240825131911.107119-1-jeff.xie@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +64,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240825131911.107119-1-jeff.xie@linux.dev>
 
-Hi Sami,
+Hi Jeff,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   f4e5b5151e55932279287c55d4e4a801fbf1df96
-commit: 6f0e552d0f4018b3731866fd18f32c1295175a91 [1783/30000] ANDROID: x86, build: allow LTO_CLANG and THINLTO to be selected
-config: x86_64-buildonly-randconfig-001-20240827 (https://download.01.org/0day-ci/archive/20240827/202408271443.DMMfqSKb-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271443.DMMfqSKb-lkp@intel.com/reproduce)
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on linus/master v6.11-rc5 next-20240826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Xie/genirq-procfs-Make-smp_affinity-read-only-for-interrupts-that-userspace-can-t-set/20240826-153926
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20240825131911.107119-1-jeff.xie%40linux.dev
+patch subject: [PATCH v2] genirq: procfs: Make smp_affinity read-only for interrupts that userspace can't set
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240827/202408271311.szIyk0et-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271311.szIyk0et-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271443.DMMfqSKb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271311.szIyk0et-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
-   ld.lld: Did you mean '--stackrealign=8'?
---
-   lib/lib.a:irq_regs.o: no symbols
-   clang: warning: argument unused during compilation: '-MD' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-MF lib/.lib-ksyms.o.d' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-nostdinc' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-isystem /opt/cross/clang-617a15a9ea/lib/clang/18/include' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __KERNEL__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D KBUILD_EXTRA_WARN1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __ASSEMBLY__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-Werror=unknown-warning-option' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SIGNAL_FRAME=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SECTIONS=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SSSE3=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX2=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX512=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA1_NI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA256_NI=1' [-Wunused-command-line-argument]
->> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
-   ld.lld: Did you mean '--stackrealign=8'?
+   kernel/irq/proc.c: In function 'register_irq_proc':
+>> kernel/irq/proc.c:343:17: warning: unused variable 'umode' [-Wunused-variable]
+     343 |         umode_t umode = S_IRUGO;
+         |                 ^~~~~
+
+
+vim +/umode +343 kernel/irq/proc.c
+
+   337	
+   338	void register_irq_proc(unsigned int irq, struct irq_desc *desc)
+   339	{
+   340		static DEFINE_MUTEX(register_lock);
+   341		void __maybe_unused *irqp = (void *)(unsigned long) irq;
+   342		char name [MAX_NAMELEN];
+ > 343		umode_t umode = S_IRUGO;
+   344	
+   345		if (!root_irq_dir || (desc->irq_data.chip == &no_irq_chip))
+   346			return;
+   347	
+   348		/*
+   349		 * irq directories are registered only when a handler is
+   350		 * added, not when the descriptor is created, so multiple
+   351		 * tasks might try to register at the same time.
+   352		 */
+   353		mutex_lock(&register_lock);
+   354	
+   355		if (desc->dir)
+   356			goto out_unlock;
+   357	
+   358		sprintf(name, "%d", irq);
+   359	
+   360		/* create /proc/irq/1234 */
+   361		desc->dir = proc_mkdir(name, root_irq_dir);
+   362		if (!desc->dir)
+   363			goto out_unlock;
+   364	
 
 -- 
 0-DAY CI Kernel Test Service
