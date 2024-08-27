@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1779C2CA6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 20:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7757C133
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 21:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724790020; cv=none; b=JdG5RdA6tPWvYiM1Ks8xDyOVseHdbbiclx9M/9faXfjMmIYaB6cjnt+3RZnKFSv1ngyxxDIHru2Us6QW2Gu50brE6eHIn7bJU8istW24AGDd5eMWWjRG6BmWLV048TPtE+Eg+9y5evxYX0JnF/+0gTBOc/aUzmmxZ9vWgAT8mBw=
+	t=1724792480; cv=none; b=AE1to1JGtgUuP1HgFgCqXLxJwAZbvV9ta9D7qOlp8baj3S5PR25rIJRYWWqHQPdpAj/qA+nEZ9P2TC0fyAlnZqWIxVoCef5yGbHyMVFNXWqV5LakruX+4BGytezK1rsEXj9quGBPa1gfmJT/5CHaPckEKb1QJpN0nakNMyiFvQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724790020; c=relaxed/simple;
-	bh=EvCytNfkenwJP6eCoW5lc0XF6c3zg+SCegqnJBoKXHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UwkwCktZ+6aFKurusz0YAr2dNlLBg8tkLhcEjuJBaZub4fz7Cse3BdvaRdXUfxqa9iVD0FjbphKIe3wNNGh8nEruaEASBG4xrRyEDX2eQ7KIah1I8LldhrOL7YNQte6F+gjV7aiZX6jiqcWIdcUuaMeo0U4T4DXF2EGXAQ3+1Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK20KZAg; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1724792480; c=relaxed/simple;
+	bh=G6S9ZXF540KJ0ogMM2vMWXKqNUNMdb0caATckOJ5YK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=imjGWTQojplUdxsHUtBI0r2iQz95Gi6AmOfKEVh3WOQBIY/1z7ENoVwZ9QIX0t3fQNjPULDWVsFkTK/PNUk9ggMOywrdxu4FHO6xsDZiaDhl7ShD1XI0DGruUDqEF/RP4Sl3TUF2n7kifmqDb8AsAJuDrLomD2R/S8Vd+clk33s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKEvZSnd; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK20KZAg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKEvZSnd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724790018; x=1756326018;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EvCytNfkenwJP6eCoW5lc0XF6c3zg+SCegqnJBoKXHM=;
-  b=EK20KZAg+/PZC2cMODYk8M7WFBxvrxOHOVY3nmlDJwkFqwWX9KOtGQTf
-   +R3BWH1dm1yj0os3zQoYJY6YldqOnn4byyfzTbrZxq1gKYefceIPrzLj/
-   AJvTIyCikRAPSfxE4agjWzeIxWixWHcOnwkOhe1T26RzHQYtHUhTBp2ct
-   gWC9J2QpsSQa0wXvRpdeym+okpGPdB27CSTqD9mQIQsEoglqktP02cwKM
-   kkSTnWrvB+w4VMc+qt069hBWEJspDmh2GehILjLRmUkgGeFNKlb5dISH8
-   n9Nfzyfocxg6JSZv54I1ZmX1fYdeUyOhRaK8VRL6TqFHOd0lkti6E6LQ0
+  t=1724792477; x=1756328477;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G6S9ZXF540KJ0ogMM2vMWXKqNUNMdb0caATckOJ5YK0=;
+  b=kKEvZSnd3PQreIKTUOybD7O4d7HurDd+kW9y2Pg1UtMY8IYeFvbLCXvx
+   p19RIJe76mwCu8dxdr1n74/FQdzcLoWm4eyUpnMLcIyJgrKgmPevTkjPx
+   rly156JkDXT4zQHeCdRILvuAGtJ+tbTkN59XNvqWoeap9TJvRoKPPv1xC
+   sF+rGlWrxeWfwGQOaRzVIomWbo1wKAIC9GsvhpzwuAEmc460ZrNPN7nmQ
+   ihE6oeoCpj0LLFdHXlrdkd0jQ/T1mF0kgDQAyZ+q4qE2mWwmh0WzVZcGN
+   0kvToqYQGKnXdE7FfieewO4TghsphTm1SCBBcYenmyBM8NT6kbqWW+ExG
    Q==;
-X-CSE-ConnectionGUID: G0vFQRXhTLyXh/88EavYGA==
-X-CSE-MsgGUID: 9OaXFJNWTSyP0DcDlwGmFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34702447"
+X-CSE-ConnectionGUID: 4jny5MmcQP2jUaqZeRfHnA==
+X-CSE-MsgGUID: DjHMB0nJR/uRZ0nUeyKATw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23457136"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="34702447"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 13:20:17 -0700
-X-CSE-ConnectionGUID: kwlwdVyKQvyMN/r+/NdwEw==
-X-CSE-MsgGUID: p0gpK5PxQBirI/sVWE1Gog==
+   d="scan'208";a="23457136"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 14:01:17 -0700
+X-CSE-ConnectionGUID: lpCGtIyTSNqpjRBJqiVicQ==
+X-CSE-MsgGUID: KJN8VBQoR+izz1K1dhp20g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="93703602"
+   d="scan'208";a="93787724"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Aug 2024 13:20:14 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 27 Aug 2024 14:01:16 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj2fj-000K3A-1A;
-	Tue, 27 Aug 2024 20:20:11 +0000
-Date: Wed, 28 Aug 2024 04:19:31 +0800
+	id 1sj3JS-000K4y-0j;
+	Tue, 27 Aug 2024 21:01:14 +0000
+Date: Wed, 28 Aug 2024 05:00:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Peter Xu <peterx@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 9880/10950]
- kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype
- for 'data_release'
-Message-ID: <202408280457.KX18NHiB-lkp@intel.com>
+Subject: Re: [PATCH v2 19/19] vfio/pci: Implement huge_fault support
+Message-ID: <202408280405.b1X5dVHo-lkp@intel.com>
+References: <20240826204353.2228736-20-peterx@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,115 +62,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240826204353.2228736-20-peterx@redhat.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   c99409f7fe0f14dae19af75e7e896e7a17b92946
-commit: 62b6061f5714aa71e2d5fdb14db9d1341bb82dd4 [9880/10950] [PATCH] security: add security hook point
-config: x86_64-oc_stream_base_config (https://download.01.org/0day-ci/archive/20240828/202408280457.KX18NHiB-lkp@intel.com/config)
+Hi Peter,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Xu/mm-Introduce-ARCH_SUPPORTS_HUGE_PFNMAP-and-special-bits-to-pmd-pud/20240827-044708
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240826204353.2228736-20-peterx%40redhat.com
+patch subject: [PATCH v2 19/19] vfio/pci: Implement huge_fault support
+config: i386-randconfig-063-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280405.b1X5dVHo-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280457.KX18NHiB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280405.b1X5dVHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280457.KX18NHiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280405.b1X5dVHo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/vfio/pci/vfio_pci_core.c:246:33: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:246:41: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:250:25: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:250:43: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:250:56: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:250:65: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:255:25: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:255:44: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:255:57: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:255:66: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:263:39: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/vfio/pci/vfio_pci_core.c:263:58: sparse: sparse: restricted pci_power_t degrades to integer
+>> drivers/vfio/pci/vfio_pci_core.c:1705:9: sparse: sparse: cast from restricted vm_fault_t
 
->> kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype for 'data_release' [-Wmissing-prototypes]
-      49 | void data_release(struct kref *ref)
-         |      ^~~~~~~~~~~~
---
->> kernel/tkernel/aegis/module.c:15:6: warning: no previous prototype for 'hook_disable' [-Wmissing-prototypes]
-      15 | void hook_disable(void)
-         |      ^~~~~~~~~~~~
->> kernel/tkernel/aegis/module.c:65:5: warning: no previous prototype for 'hook_sysfs_init' [-Wmissing-prototypes]
-      65 | int hook_sysfs_init(void)
-         |     ^~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/module.c:80:6: warning: no previous prototype for 'hook_sysfs_exit' [-Wmissing-prototypes]
-      80 | void hook_sysfs_exit(void)
-         |      ^~~~~~~~~~~~~~~
---
->> kernel/tkernel/aegis/list.c:20:15: warning: no previous prototype for 'percpu_total_num' [-Wmissing-prototypes]
-      20 | unsigned long percpu_total_num(long __percpu *num)
-         |               ^~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:33:15: warning: no previous prototype for 'percpu_total_num_atomic64' [-Wmissing-prototypes]
-      33 | unsigned long percpu_total_num_atomic64(atomic64_t __percpu *num)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:46:5: warning: no previous prototype for 'clear_hookinfo_list' [-Wmissing-prototypes]
-      46 | int clear_hookinfo_list(struct hook_info *info)
-         |     ^~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:73:6: warning: no previous prototype for 'clear_cpu_list' [-Wmissing-prototypes]
-      73 | void clear_cpu_list(void)
-         |      ^~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:176:5: warning: no previous prototype for 'hook_info_proc_create' [-Wmissing-prototypes]
-     176 | int hook_info_proc_create(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:206:6: warning: no previous prototype for 'hook_info_proc_delete' [-Wmissing-prototypes]
-     206 | void hook_info_proc_delete(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:211:5: warning: no previous prototype for 'hook_info_percpu_create' [-Wmissing-prototypes]
-     211 | int hook_info_percpu_create(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:254:5: warning: no previous prototype for 'hook_info_percpu_delete' [-Wmissing-prototypes]
-     254 | int hook_info_percpu_delete(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:269:5: warning: no previous prototype for 'hook_info_func_register' [-Wmissing-prototypes]
-     269 | int hook_info_func_register(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/list.c:301:6: warning: no previous prototype for 'init_wait_queue' [-Wmissing-prototypes]
-     301 | void init_wait_queue(void)
-         |      ^~~~~~~~~~~~~~~
---
->> kernel/tkernel/aegis/hook_info.c:87:6: warning: no previous prototype for 'hookinfo_total_numb' [-Wmissing-prototypes]
-      87 | void hookinfo_total_numb(int type)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:92:6: warning: no previous prototype for 'hookinfo_drop_stats' [-Wmissing-prototypes]
-      92 | void hookinfo_drop_stats(int type)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:97:6: warning: no previous prototype for 'clear_task_environ' [-Wmissing-prototypes]
-      97 | void clear_task_environ(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:114:5: warning: no previous prototype for 'get_task_environ' [-Wmissing-prototypes]
-     114 | int get_task_environ(struct exec_info *exec_info,
-         |     ^~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:200:5: warning: no previous prototype for 'get_task_para' [-Wmissing-prototypes]
-     200 | int get_task_para(int argc, struct user_arg_ptr *argv)
-         |     ^~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:291:6: warning: no previous prototype for 'get_pidns_inum' [-Wmissing-prototypes]
-     291 | void get_pidns_inum(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:305:6: warning: no previous prototype for 'get_task_ids' [-Wmissing-prototypes]
-     305 | void get_task_ids(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:317:6: warning: no previous prototype for 'get_task_pwd' [-Wmissing-prototypes]
-     317 | void get_task_pwd(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:340:6: warning: no previous prototype for 'get_task_start_time' [-Wmissing-prototypes]
-     340 | void get_task_start_time(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:345:6: warning: no previous prototype for 'info_ptr_hold_ref' [-Wmissing-prototypes]
-     345 | void info_ptr_hold_ref(struct exec_info *exec_info)
-         |      ^~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:607:5: warning: no previous prototype for 'para_len_sum_handler' [-Wmissing-prototypes]
-     607 | int para_len_sum_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> kernel/tkernel/aegis/hook_info.c:640:5: warning: no previous prototype for 'secur_sysctl_handler' [-Wmissing-prototypes]
-     640 | int secur_sysctl_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~
+vim +1705 drivers/vfio/pci/vfio_pci_core.c
 
-
-vim +/data_release +49 kernel/tkernel/onionhook/hook_frame.c
-
-    48	
-  > 49	void data_release(struct kref *ref)
-    50	{
-    51		struct security_moni_info *data = container_of(ref, struct security_moni_info, refcount);
-    52	
-    53		kfree(data);
-    54	}
-    55	EXPORT_SYMBOL(data_release);
-    56	
+  1660	
+  1661	static vm_fault_t vfio_pci_mmap_huge_fault(struct vm_fault *vmf,
+  1662						   unsigned int order)
+  1663	{
+  1664		struct vm_area_struct *vma = vmf->vma;
+  1665		struct vfio_pci_core_device *vdev = vma->vm_private_data;
+  1666		unsigned long pfn, pgoff = vmf->pgoff - vma->vm_pgoff;
+  1667		vm_fault_t ret = VM_FAULT_SIGBUS;
+  1668	
+  1669		if (order && (vmf->address & ((PAGE_SIZE << order) - 1) ||
+  1670			      vmf->address + (PAGE_SIZE << order) > vma->vm_end)) {
+  1671			ret = VM_FAULT_FALLBACK;
+  1672			goto out;
+  1673		}
+  1674	
+  1675		pfn = vma_to_pfn(vma);
+  1676	
+  1677		down_read(&vdev->memory_lock);
+  1678	
+  1679		if (vdev->pm_runtime_engaged || !__vfio_pci_memory_enabled(vdev))
+  1680			goto out_unlock;
+  1681	
+  1682		switch (order) {
+  1683		case 0:
+  1684			ret = vmf_insert_pfn(vma, vmf->address, pfn + pgoff);
+  1685			break;
+  1686	#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
+  1687		case PMD_ORDER:
+  1688			ret = vmf_insert_pfn_pmd(vmf, __pfn_to_pfn_t(pfn + pgoff,
+  1689								     PFN_DEV), false);
+  1690			break;
+  1691	#endif
+  1692	#ifdef CONFIG_ARCH_SUPPORTS_PUD_PFNMAP
+  1693		case PUD_ORDER:
+  1694			ret = vmf_insert_pfn_pud(vmf, __pfn_to_pfn_t(pfn + pgoff,
+  1695								     PFN_DEV), false);
+  1696			break;
+  1697	#endif
+  1698		default:
+  1699			ret = VM_FAULT_FALLBACK;
+  1700		}
+  1701	
+  1702	out_unlock:
+  1703		up_read(&vdev->memory_lock);
+  1704	out:
+> 1705		dev_dbg_ratelimited(&vdev->pdev->dev,
+  1706				   "%s(,order = %d) BAR %ld page offset 0x%lx: 0x%x\n",
+  1707				    __func__, order,
+  1708				    vma->vm_pgoff >>
+  1709					(VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT),
+  1710				    pgoff, (unsigned int)ret);
+  1711	
+  1712		return ret;
+  1713	}
+  1714	
 
 -- 
 0-DAY CI Kernel Test Service
