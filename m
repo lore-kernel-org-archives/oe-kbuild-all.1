@@ -1,190 +1,244 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A886C2EAE6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 20:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8B91C5788;
+	Tue, 27 Aug 2024 20:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724789425; cv=none; b=Dn/UZKCTT8Ya9qD0lgtUCFOgAeTSmd9KqKtVCjL2Erif1/E68ddcVJyRAMziGgqxvO/tNFNLRLjvPLg2gEU1vGYk5HBZ6wUbwIHM8fQz3ZpfC1MbtqacsBRg/Gk3l4WHgpij/UqQKQslJjn3x+Xzt2c33O88wvJu7JY5/HzUO28=
+	t=1724789806; cv=none; b=crGWfe58ipiB+nC8R0RocLPIIlmNPvBFqkVgzLjXSm6tsA8Uwbk0euCzXPPKrf96pfcxE0G2ymvqGxNIWa3SwC4A5R+7emWJ/k3KnFTZMg5SF6X8vR45a2/mpJgvdt89R2/hIOrg0K6K4lbHHNK63eR17uOkBj7G9+corLlSQwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724789425; c=relaxed/simple;
-	bh=f3sZbsLPe/J4HvOjV7og6WTUbkDT102FyoUUj5gFOAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rThFBZQQ4MjyjyAgXc19O/nVX42wc5wU9Kj8UlGRBiIEDgfDpz68/4GEgNpVtzFofEDDI7H/cd++2h3Km0a5zgUVi5WfF8qv/2jKSizk5zXLSK3qG64FRKKZQHEbmOu9OzfEI6HhZlkS+8U7oELSifv6iZUfYsz0BfLqteBdjiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWQZ4Sp8; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724789806; c=relaxed/simple;
+	bh=Hcx8QcIxQCwYgcS9aVzVA/bgTxxtOqbsBjmUJhdmgDE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=puVY7nm71kB31TwXAxWjnh/W0c9IQjAq+Bvr554ycGEwHX2QwvcmSa+747kjkNTEoI/eL/RH/b7sIJEKujzbBmgz9OGE+UGAOCkXE7uQP4tRZpttwzfZTWDE/G9hJbZMaq/d+Gr1o8xI8P2fYhZodi/voIeOl3xpMWqCUP5MVYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H2cRDo2s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oigw9UeX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H2cRDo2s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oigw9UeX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWQZ4Sp8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724789423; x=1756325423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f3sZbsLPe/J4HvOjV7og6WTUbkDT102FyoUUj5gFOAY=;
-  b=eWQZ4Sp8d5GaU0Il28KSFrQPr1aZ9bd5XM48hXPgtQ0JB+mwYMhKRonR
-   lqQIJdc+cCdYFCKTIkZYc+3TNeRzKbW3/eQBHUn+jygSHGWLMwZJ1XMLn
-   JpTnbtEHWwINS+wrkEQoE0eraxQvgEvubi2mJnl/cSRU8Pdl1uPiI8Lhi
-   f2/DycUX2u9CPOE0i+mX6pEGcN+KRShHnZhYK8GMJbIiDdjmHJmnWjVgm
-   /oBOmzI2rEIKXWWzKmHkqr2HZHh0oUUDs5fCven0u9TdjNi6qptaJRgG8
-   lwbb9aKqn3skkC5eYcI1o6it/UVq/pdKUnBmtDUP/Rb+CdNUYZLAwWkBF
-   A==;
-X-CSE-ConnectionGUID: P/WlZgzQSw6RMgxtAtoqRQ==
-X-CSE-MsgGUID: hCyhbH9MRNS4x1VQEIncTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27084989"
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="27084989"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 13:10:21 -0700
-X-CSE-ConnectionGUID: MkWdwHFPSaORUXRLLgx3tA==
-X-CSE-MsgGUID: pScGyMYhQB+U1HU6Fp8Wxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="100500178"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Aug 2024 13:10:14 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sj2W3-000K2k-0N;
-	Tue, 27 Aug 2024 20:10:11 +0000
-Date: Wed, 28 Aug 2024 04:09:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, ross.philipson@oracle.com,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for
- Secure Launch
-Message-ID: <202408280656.66ZxoOOL-lkp@intel.com>
-References: <20240826223835.3928819-21-ross.philipson@oracle.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H2cRDo2s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oigw9UeX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H2cRDo2s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oigw9UeX"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A903621B26;
+	Tue, 27 Aug 2024 20:16:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724789801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
+	b=H2cRDo2sZsK9GGwhMSl1+LBbuJkzDzZYXcRxrrBUP1ii16m+nlgl5lQuGRMlXjKO3rMU+2
+	RW7ZakNBPsPXhimbmHe87HiRt56Srjp7XbDJTAs786nC4bb+YpVip4YFqKQJVmk2ruOvwG
+	TTSl5TE1vADus4Sac+O5ia3FfZexrQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724789801;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
+	b=Oigw9UeXIEcBSjzCMhjwNNDBauMqt8lcBgPJkrJGXLDcmeW7czBJF9IftZwl7tLtBCB5ac
+	SJ5wvU5kPUJ/WpCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724789801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
+	b=H2cRDo2sZsK9GGwhMSl1+LBbuJkzDzZYXcRxrrBUP1ii16m+nlgl5lQuGRMlXjKO3rMU+2
+	RW7ZakNBPsPXhimbmHe87HiRt56Srjp7XbDJTAs786nC4bb+YpVip4YFqKQJVmk2ruOvwG
+	TTSl5TE1vADus4Sac+O5ia3FfZexrQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724789801;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nGZ2P7NBrFDQ9r5RZr35OZ49pTXK6VSOYy22Fa0AIok=;
+	b=Oigw9UeXIEcBSjzCMhjwNNDBauMqt8lcBgPJkrJGXLDcmeW7czBJF9IftZwl7tLtBCB5ac
+	SJ5wvU5kPUJ/WpCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6516913A20;
+	Tue, 27 Aug 2024 20:16:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NMafEik0zmYWfQAAD6G6ig
+	(envelope-from <krisman@suse.de>); Tue, 27 Aug 2024 20:16:41 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: Lizhi Xu <lizhi.xu@windriver.com>,  adilger.kernel@dilger.ca,
+  coreteam@netfilter.org,  davem@davemloft.net,  ebiggers@kernel.org,
+  fw@strlen.de,  jaegeuk@kernel.org,  kadlec@netfilter.org,
+  kuba@kernel.org,  linux-ext4@vger.kernel.org,
+  linux-fscrypt@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  lkp@intel.com,  llvm@lists.linux.dev,  netdev@vger.kernel.org,
+  netfilter-devel@vger.kernel.org,  oe-kbuild-all@lists.linux.dev,
+  pablo@netfilter.org,
+  syzbot+340581ba9dceb7e06fb3@syzkaller.appspotmail.com,
+  syzkaller-bugs@googlegroups.com
+Subject: [PATCH] ext4: Fix error message when rejecting the default hash
+In-Reply-To: <172433877724.370733.16770771071139702263.b4-ty@mit.edu>
+	(Theodore Ts'o's message of "Thu, 22 Aug 2024 11:00:11 -0400")
+Organization: SUSE
+References: <87le3kle87.fsf@mailhost.krisman.be>
+	<20240605012335.44086-1-lizhi.xu@windriver.com>
+	<172433877724.370733.16770771071139702263.b4-ty@mit.edu>
+Date: Tue, 27 Aug 2024 16:16:36 -0400
+Message-ID: <87jzg1en6j.fsf_-_@mailhost.krisman.be>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826223835.3928819-21-ross.philipson@oracle.com>
+Content-Type: text/plain
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[340581ba9dceb7e06fb3];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Ross,
+"Theodore Ts'o" <tytso@mit.edu> writes:
 
-kernel test robot noticed the following build warnings:
+> On Wed, 05 Jun 2024 09:23:35 +0800, Lizhi Xu wrote:
+>> When mounting the ext4 filesystem, if the default hash version is set to
+>> DX_HASH_SIPHASH but the casefold feature is not set, exit the mounting.
+>> 
+>> 
+>
+> Applied, thanks!
+>
+> [1/1] fs/ext4: Filesystem without casefold feature cannot be mounted with spihash
+>       commit: 985b67cd86392310d9e9326de941c22fc9340eec
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master efi/next linus/master v6.11-rc5]
-[cannot apply to herbert-crypto-2.6/master next-20240827]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ted,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/Documentation-x86-Secure-Launch-kernel-documentation/20240827-065225
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240826223835.3928819-21-ross.philipson%40oracle.com
-patch subject: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for Secure Launch
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408280656.66ZxoOOL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280656.66ZxoOOL-lkp@intel.com/reproduce)
+Since you took the above, can you please consider the following fixup?
+I had pointed we shouldn't have siphash as the sb default hash at all:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280656.66ZxoOOL-lkp@intel.com/
+based on your dev branch.
 
-All warnings (new ones prefixed by >>):
+>8
+Subject: [PATCH] ext4: Fix error message when rejecting the default hash
 
-   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_secure_launch_update_boot_params':
->> drivers/firmware/efi/libstub/x86-stub.c:941:40: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     941 |         os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
-         |                                        ^
-   drivers/firmware/efi/libstub/x86-stub.c:945:36: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     945 |         os_mle->boot_params_addr = (u64)boot_params;
-         |                                    ^
-   drivers/firmware/efi/libstub/x86-stub.c:953:60: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     953 |                         policy->policy_entries[i].entity = (u64)boot_params;
-         |                                                            ^
-   drivers/firmware/efi/libstub/x86-stub.c:980:56: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     980 |                 boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
-         |                                                        ^
-   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_secure_launch':
-   drivers/firmware/efi/libstub/x86-stub.c:1014:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    1014 |         handler_callback = (dl_handler_func)dlinfo->dl_handler;
-         |                            ^
+Commit 985b67cd8639 ("ext4: filesystems without casefold feature cannot
+be mounted with siphash") properly rejects volumes where
+s_def_hash_version is set to DX_HASH_SIPHASH, but the check and the
+error message should not look into casefold setup - a filesystem should
+never have DX_HASH_SIPHASH as the default hash.  Fix it and, since we
+are there, move the check to ext4_hash_info_init.
 
+Fixes:985b67cd8639 ("ext4: filesystems without casefold feature cannot
+be mounted with siphash")
+Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
+---
+ fs/ext4/ext4.h  |  1 +
+ fs/ext4/super.c | 27 +++++++++++++++++----------
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
-vim +941 drivers/firmware/efi/libstub/x86-stub.c
-
-   927	
-   928	static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
-   929							 struct boot_params *boot_params)
-   930	{
-   931		struct slr_entry_intel_info *txt_info;
-   932		struct slr_entry_policy *policy;
-   933		struct txt_os_mle_data *os_mle;
-   934		bool updated = false;
-   935		int i;
-   936	
-   937		txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
-   938		if (!txt_info)
-   939			return false;
-   940	
- > 941		os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
-   942		if (!os_mle)
-   943			return false;
-   944	
-   945		os_mle->boot_params_addr = (u64)boot_params;
-   946	
-   947		policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
-   948		if (!policy)
-   949			return false;
-   950	
-   951		for (i = 0; i < policy->nr_entries; i++) {
-   952			if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
-   953				policy->policy_entries[i].entity = (u64)boot_params;
-   954				updated = true;
-   955				break;
-   956			}
-   957		}
-   958	
-   959		/*
-   960		 * If this is a PE entry into EFI stub the mocked up boot params will
-   961		 * be missing some of the setup header data needed for the second stage
-   962		 * of the Secure Launch boot.
-   963		 */
-   964		if (image) {
-   965			struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base +
-   966						    offsetof(struct boot_params, hdr));
-   967			u64 cmdline_ptr;
-   968	
-   969			boot_params->hdr.setup_sects = hdr->setup_sects;
-   970			boot_params->hdr.syssize = hdr->syssize;
-   971			boot_params->hdr.version = hdr->version;
-   972			boot_params->hdr.loadflags = hdr->loadflags;
-   973			boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
-   974			boot_params->hdr.min_alignment = hdr->min_alignment;
-   975			boot_params->hdr.xloadflags = hdr->xloadflags;
-   976			boot_params->hdr.init_size = hdr->init_size;
-   977			boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
-   978			efi_set_u64_form(boot_params->hdr.cmd_line_ptr, boot_params->ext_cmd_line_ptr,
-   979					 &cmdline_ptr);
-   980			boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
-   981		}
-   982	
-   983		return updated;
-   984	}
-   985	
-
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 5845e4aa091a..4120f24880cb 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -2462,6 +2462,7 @@ static inline __le16 ext4_rec_len_to_disk(unsigned len, unsigned blocksize)
+ #define DX_HASH_HALF_MD4_UNSIGNED	4
+ #define DX_HASH_TEA_UNSIGNED		5
+ #define DX_HASH_SIPHASH			6
++#define DX_HASH_LAST 			DX_HASH_SIPHASH
+ 
+ static inline u32 ext4_chksum(struct ext4_sb_info *sbi, u32 crc,
+ 			      const void *address, unsigned int length)
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 25cd0d662e31..c6a34ad07ecc 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -3582,13 +3582,6 @@ int ext4_feature_set_ok(struct super_block *sb, int readonly)
+ 			 "mounted without CONFIG_UNICODE");
+ 		return 0;
+ 	}
+-	if (EXT4_SB(sb)->s_es->s_def_hash_version == DX_HASH_SIPHASH &&
+-	    !ext4_has_feature_casefold(sb)) {
+-		ext4_msg(sb, KERN_ERR,
+-			 "Filesystem without casefold feature cannot be "
+-			 "mounted with siphash");
+-		return 0;
+-	}
+ 
+ 	if (readonly)
+ 		return 1;
+@@ -5094,16 +5087,27 @@ static int ext4_load_super(struct super_block *sb, ext4_fsblk_t *lsb,
+ 	return ret;
+ }
+ 
+-static void ext4_hash_info_init(struct super_block *sb)
++static int ext4_hash_info_init(struct super_block *sb)
+ {
+ 	struct ext4_sb_info *sbi = EXT4_SB(sb);
+ 	struct ext4_super_block *es = sbi->s_es;
+ 	unsigned int i;
+ 
++	sbi->s_def_hash_version = es->s_def_hash_version;
++
++	if (sbi->s_def_hash_version > DX_HASH_LAST) {
++		ext4_msg(sb, KERN_ERR,
++			 "Invalid default hash set in the superblock");
++		return -EINVAL;
++	} else if (sbi->s_def_hash_version == DX_HASH_SIPHASH) {
++		ext4_msg(sb, KERN_ERR,
++			 "SIPHASH is not a valid default hash value");
++		return -EINVAL;
++	}
++
+ 	for (i = 0; i < 4; i++)
+ 		sbi->s_hash_seed[i] = le32_to_cpu(es->s_hash_seed[i]);
+ 
+-	sbi->s_def_hash_version = es->s_def_hash_version;
+ 	if (ext4_has_feature_dir_index(sb)) {
+ 		i = le32_to_cpu(es->s_flags);
+ 		if (i & EXT2_FLAGS_UNSIGNED_HASH)
+@@ -5121,6 +5125,7 @@ static void ext4_hash_info_init(struct super_block *sb)
+ #endif
+ 		}
+ 	}
++	return 0;
+ }
+ 
+ static int ext4_block_group_meta_init(struct super_block *sb, int silent)
+@@ -5256,7 +5261,9 @@ static int __ext4_fill_super(struct fs_context *fc, struct super_block *sb)
+ 	if (err)
+ 		goto failed_mount;
+ 
+-	ext4_hash_info_init(sb);
++	err = ext4_hash_info_init(sb);
++	if (err)
++		goto failed_mount;
+ 
+ 	err = ext4_handle_clustersize(sb);
+ 	if (err)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
