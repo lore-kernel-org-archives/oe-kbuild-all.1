@@ -1,72 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF10F507
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 04:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FC116426
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 05:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724733594; cv=none; b=fmqAg0u17wLzwDoO5CrFjYboynCCTtuLRexTTA+WSkbtsZC56KQ8nPFi6iZCGgHcYBwMFroryflUuRhNFLKJXaqIRgGAddSdZm6ASS173eufTs2kK64TK1hAF0Vc34gScln01YaZTr7JE4VYE8C1mM7zotS61zqu68recfnrdQc=
+	t=1724734856; cv=none; b=Ju36u8t79vEzxbE36zy48yyG5ObSnix0AnVGyJvJgQDhv0uxHWkksaW9bzE/HTZzuopGg/gLIvBwLW72rkMaPdGrUgBT6YiKKJ+k1WHd2OOaovkXyfeJ6RkjeSe9s4XLjFGFoBo0UiOrkmw2bnZqrfy1mE654zu/pgeCeOCRqIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724733594; c=relaxed/simple;
-	bh=IvHgAsD2Jsl0yIxPJmOkQqE9LY3kZsEaCrqs+DYIQno=;
+	s=arc-20240116; t=1724734856; c=relaxed/simple;
+	bh=Jwiaej+MuS0sAw9/WHQErV8zaZ++mO5Zjkt35e8hEiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E0fwyZezJ0Jl1BjDgNW3HL5TmSu43nxil6mb4O5izexIeODlUnOZIUR1mCkpsi2v99FF9ev/HMHue+VTKTu8T5DidVdQa5/9gqXABVJJIwydKc0WSgs4akg1hdygsIN31UZ1un3Df0DLmJjTAaCnQC6eI9DJhmXH0OWql0mWAk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FA1cd8pp; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iw/lam5skeYDli2kZorPdIN3EfAG59BxFcrkkPpuCcedJoNZvtGDSVvXH1cmTVH0yEEQp8ngugc+ifavFO9BpGaFZspS90tS3kB6K0CMmS6OsC+HXWPRZgLqNXcuQzZhvfaZmAO47GCqY7ZlBewGbvCsjeztyBZnq7gL+vrKdVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTSZa7zV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FA1cd8pp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTSZa7zV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724733593; x=1756269593;
+  t=1724734855; x=1756270855;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IvHgAsD2Jsl0yIxPJmOkQqE9LY3kZsEaCrqs+DYIQno=;
-  b=FA1cd8pp9Hk1a9m1CMOcyudnaCmAmBc/gW+LOlgIv5ECKY2xNlbg2H0n
-   kaPRaqyWb4+1rFHW7BI5ZTB9F8WdodgaY93gBGcuWrTkj/YTO/s2SpUO9
-   2WIZgTlgh11RLDZeoXlBnTkAhQN+7X3BVBIUw+hLkJSCiLcCvo3+tYEZR
-   lAvv/Q6I/P+AA63mkID6uKlhk4IFRItvpiFw5UN2Fm7pXLZ56UblZvQpg
-   3GQZNBj01gHX6tzuf9JWcNRiTrHe2wVFLmPcnRsswM7mlfStghZ9VvBFg
-   obR+pZECuTWRXPE45kCF64A43Q0N5lXG8nLDYxpVzPHoZEQmGVsDDUKTy
+  bh=Jwiaej+MuS0sAw9/WHQErV8zaZ++mO5Zjkt35e8hEiw=;
+  b=DTSZa7zVG5hhla+NWXyenPz+vDRqf0jJVV5/1gYhxeke5LDARhjQ2J9S
+   Z42+xhNVNzcUUnA3xj12DxVAT+2aLRCIPb5XcVA1GkJUNUCMVKq7RUnCb
+   qZm+jiB0PKTSU7imCZPo/Ookkm1eTM/Djg8txhTTOCu3dufqZBK7PG5cR
+   tiBkyKyaHg8smyri1rHi9j8sL6mOsS8wWIakMWfx9dKqdvaSpslMcVKYG
+   5GlR5jMWKMwawIbv+z18oozALHueqpXSceJKKjkkmH74o9Z5mE5XyAced
+   o20o6HRiV4TU/CRX+BKYC6OqCR6DefotXK3JZ5zvmkoU2KKwLpZ5oi8xn
    w==;
-X-CSE-ConnectionGUID: 0BVYLoxxTaijpPNRRF6FrQ==
-X-CSE-MsgGUID: prF0eltySauMcRS5N1axEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23315938"
+X-CSE-ConnectionGUID: mSoJRe1xRji0/h9ZA690cA==
+X-CSE-MsgGUID: LxQs2jPeRUigfDs3hh0Xmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="13230369"
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="23315938"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 21:39:52 -0700
-X-CSE-ConnectionGUID: cfd7qcZ3SoanNwlFt9l3RA==
-X-CSE-MsgGUID: 4C2CmRAaQ0Kx0udHm7tlww==
+   d="scan'208";a="13230369"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 22:00:54 -0700
+X-CSE-ConnectionGUID: whjT/zDrQDawoCinAjACeg==
+X-CSE-MsgGUID: wpj8mmTQRFCGhy5uMRjMrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
-   d="scan'208";a="62433427"
+   d="scan'208";a="62701837"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Aug 2024 21:39:49 -0700
+  by orviesa009.jf.intel.com with ESMTP; 26 Aug 2024 22:00:51 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sinze-000Hw6-1V;
-	Tue, 27 Aug 2024 04:39:46 +0000
-Date: Tue, 27 Aug 2024 12:38:56 +0800
+	id 1sioK0-000I0C-2e;
+	Tue, 27 Aug 2024 05:00:48 +0000
+Date: Tue, 27 Aug 2024 13:00:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chester Lin <chester62515@gmail.com>,
-	Matthias Brugger <mbrugger@suse.com>,
-	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>,
-	Larisa Grigore <larisa.grigore@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>
-Subject: Re: [PATCH 2/3] drivers: gpio: siul2-s32g2: add NXP S32G2/S32G3 SoCs
- support
-Message-ID: <202408271250.W4HQp7ZZ-lkp@intel.com>
-References: <20240826084214.2368673-3-andrei.stefanescu@oss.nxp.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 4/4] media: pisp_be: Fix pm_runtime underrun in probe
+Message-ID: <202408271258.YcqkRjNU-lkp@intel.com>
+References: <20240826144338.463683-5-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,126 +69,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826084214.2368673-3-andrei.stefanescu@oss.nxp.com>
+In-Reply-To: <20240826144338.463683-5-jacopo.mondi@ideasonboard.com>
 
-Hi Andrei,
+Hi Jacopo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on robh/for-next linus/master v6.11-rc5 next-20240826]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.11-rc5 next-20240826]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Stefanescu/dt-bindings-gpio-add-schema-for-NXP-S32G2-S32G3-SoCs/20240826-164853
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240826084214.2368673-3-andrei.stefanescu%40oss.nxp.com
-patch subject: [PATCH 2/3] drivers: gpio: siul2-s32g2: add NXP S32G2/S32G3 SoCs support
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408271250.W4HQp7ZZ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271250.W4HQp7ZZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-pisp_be-Drop-reference-to-non-existing-function/20240826-224625
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240826144338.463683-5-jacopo.mondi%40ideasonboard.com
+patch subject: [PATCH 4/4] media: pisp_be: Fix pm_runtime underrun in probe
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408271258.YcqkRjNU-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408271258.YcqkRjNU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408271250.W4HQp7ZZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408271258.YcqkRjNU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/gpio/gpio-siul2-s32g2.c:13:
-   drivers/gpio/gpio-siul2-s32g2.c: In function 'siul2_gpio_pads_init':
->> drivers/gpio/gpio-siul2-s32g2.c:341:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     341 |                                 "Failed to initialize opad2%lu regmap config\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:340:25: note: in expansion of macro 'dev_err'
-     340 |                         dev_err(dev,
-         |                         ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:341:62: note: format string is defined here
-     341 |                                 "Failed to initialize opad2%lu regmap config\n",
-         |                                                            ~~^
-         |                                                              |
-         |                                                              long unsigned int
-         |                                                            %u
-   drivers/gpio/gpio-siul2-s32g2.c:350:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     350 |                                 "Failed to initialize ipad2%lu regmap config\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:349:25: note: in expansion of macro 'dev_err'
-     349 |                         dev_err(dev,
-         |                         ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:350:62: note: format string is defined here
-     350 |                                 "Failed to initialize ipad2%lu regmap config\n",
-         |                                                            ~~^
-         |                                                              |
-         |                                                              long unsigned int
-         |                                                            %u
-   drivers/gpio/gpio-siul2-s32g2.c: In function 'siul2_gpio_probe':
-   drivers/gpio/gpio-siul2-s32g2.c:498:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     498 |                                 "unable to get pinspec %lu from device tree\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:497:25: note: in expansion of macro 'dev_err'
-     497 |                         dev_err(dev,
-         |                         ^~~~~~~
-   drivers/gpio/gpio-siul2-s32g2.c:498:58: note: format string is defined here
-     498 |                                 "unable to get pinspec %lu from device tree\n",
-         |                                                        ~~^
-         |                                                          |
-         |                                                          long unsigned int
-         |                                                        %u
+>> drivers/media/platform/raspberrypi/pisp_be/pisp_be.c:1641:12: warning: 'pispbe_runtime_resume' defined but not used [-Wunused-function]
+    1641 | static int pispbe_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +341 drivers/gpio/gpio-siul2-s32g2.c
+vim +/pispbe_runtime_resume +1641 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
 
-   329	
-   330	static int siul2_gpio_pads_init(struct platform_device *pdev,
-   331					struct siul2_gpio_dev *gpio_dev)
-   332	{
-   333		struct device *dev = &pdev->dev;
-   334		size_t i;
-   335	
-   336		for (i = 0; i < ARRAY_SIZE(gpio_dev->siul2); i++) {
-   337			gpio_dev->siul2[i].opadmap = init_padregmap(pdev, gpio_dev, i,
-   338								    false);
-   339			if (IS_ERR(gpio_dev->siul2[i].opadmap)) {
-   340				dev_err(dev,
- > 341					"Failed to initialize opad2%lu regmap config\n",
-   342					i);
-   343				return PTR_ERR(gpio_dev->siul2[i].opadmap);
-   344			}
-   345	
-   346			gpio_dev->siul2[i].ipadmap = init_padregmap(pdev, gpio_dev, i,
-   347								    true);
-   348			if (IS_ERR(gpio_dev->siul2[i].ipadmap)) {
-   349				dev_err(dev,
-   350					"Failed to initialize ipad2%lu regmap config\n",
-   351					i);
-   352				return PTR_ERR(gpio_dev->siul2[i].ipadmap);
-   353			}
-   354		}
-   355	
-   356		return 0;
-   357	}
-   358	
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1640  
+12187bd5d4f8c1 Naushir Patuck 2024-06-26 @1641  static int pispbe_runtime_resume(struct device *dev)
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1642  {
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1643  	struct pispbe_dev *pispbe = dev_get_drvdata(dev);
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1644  	int ret;
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1645  
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1646  	ret = clk_prepare_enable(pispbe->clk);
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1647  	if (ret) {
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1648  		dev_err(dev, "Unable to enable clock\n");
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1649  		return ret;
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1650  	}
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1651  
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1652  	dev_dbg(dev, "%s: Enabled clock, rate=%lu\n",
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1653  		__func__, clk_get_rate(pispbe->clk));
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1654  
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1655  	return 0;
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1656  }
+12187bd5d4f8c1 Naushir Patuck 2024-06-26  1657  
 
 -- 
 0-DAY CI Kernel Test Service
