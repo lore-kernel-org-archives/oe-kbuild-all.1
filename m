@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE83A1D31A2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Aug 2024 21:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8964734CDD;
+	Tue, 27 Aug 2024 22:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724795542; cv=none; b=LUOSyRJG2txZkCGzJEbPCpG3VHr+FSRhwWf5dJEFjCUB3nPuq7hqe4/sRki3+EbUXnnBoSUwiKmzGkSM8OZ5embNQ0/yNlfIx8H6diUz0bDUGJffD+Xt6IOO/HUYdNUXTjldSpehlx5JsQTx/ClFxCFE18b+jYmPOn6Bg/mPk54=
+	t=1724797403; cv=none; b=mOHzPR4RUqSQ/bCxjXzbhmfK3FsKBq7vxZn3/NXFmkJjKnlp5qs2nnGFsPYOPlHDg0PUo7Savn1XDj3DlgaQitx25y1evcWQM56Pyipd7dXQt1x9l1OctJYxwOBU3HpuO+AYRIkPLuInhbBU4Cp+fFw6FqJ01syey6r8BqW0Pcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724795542; c=relaxed/simple;
-	bh=dkzf2aDi4L8Ri6W/1MIwZYUaW+wPvWex3hg2ipdUIlg=;
+	s=arc-20240116; t=1724797403; c=relaxed/simple;
+	bh=ItqJNfn3hlKuY1giqmucMmbfP7TZmqrlAw07jjbs07Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qD3MnpMb7N+h8vgjHDAuff57o+adb9HklPHxb9izzwJiqIElaybdrPKUh5dHkLWFfEDB6d3QRAZ6D3RyGFSrviBx4y3e9DL0Cb9QdYekJsFUVtT30PKphLQOUVswIoFPW4Wu/mgmp7A1zS0q3lY3X5vveG27dOt6rlf9RdutTNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyiBWm8k; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nbus/WaiiKBD2B6HzjjGdM3vmePWcj9+McUkIswuwReUExdQ46fMZdiGFwOVEn5A79tI54cEwZMLmhY9LscY5TWO0xYpfPglXOt+jR/fo44Hzfq9sBN8R69VeS/0Hz7RQixK5WnRTd4c0K39lspu8krz+l4hDCYq0cb1qOVqXp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5KS/wZG; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyiBWm8k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5KS/wZG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724795541; x=1756331541;
+  t=1724797401; x=1756333401;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dkzf2aDi4L8Ri6W/1MIwZYUaW+wPvWex3hg2ipdUIlg=;
-  b=QyiBWm8kd2rsQfuBwLK5nb9Uxrr3cU20kZrNyWjA5wTds9ENPmEyvbnJ
-   2xtjJ4Cl6lA8P9TfXSqgRtihcd5BLbD3J2U7gOaQ7SGcrhAFFFxsD9cUC
-   u7RVG62rornyPRgC78W1QfOaUAivOeNt+KiWLCU5GhdVG33Z6iT6KumLE
-   FCOFPvVAS4EijYH1QYHONJPTxZqJHTBDELDblIFjpF/Qu5haulTnPvRRE
-   b9WVBsqZwbd/5ty3s05iCqH0Lnb1uTN1dTFqpcYypaiYsKzYZtNfezGvG
-   Dbx/NfPdjFYSJvV/QtlwqOXyciB7fn3z0RShnxGsUXlVfztRBZg96jXNa
+  bh=ItqJNfn3hlKuY1giqmucMmbfP7TZmqrlAw07jjbs07Q=;
+  b=A5KS/wZGdDG4wPT7ZXHe9rrH0+cJnet6oVrNfelgODLcl1shYk09GJCj
+   +hlTUIWdsy/mLmf0H1aebpcZckRRWnWjZ0icGMe0LpZaLCLgqC44/jUc0
+   89u8qzdaBKoVQ/hPXPfFRBMItrEblkchr2bo16n8Fi7h3AZLqScQQ7XjR
+   aq2mESY+2WI64wBKMYKOM2uLY09KsrVqvBqIZ2COSubkw+kFNCHUnRUwB
+   g5VNyFM6mVYo+59nc6f51cki6k4YoFeZiOFXlcPGHapLeT4D7ZmfSJ0dP
+   Fw5jUiiCj75FDZjfii9n5g+VCCsnhpNDy2aEGd4IXBD58H4x35zX67j5B
    Q==;
-X-CSE-ConnectionGUID: A59Ixpi8T8KMVPJfzCwrmQ==
-X-CSE-MsgGUID: daGaEPLqSJ2jq4fgbVIGQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27094271"
+X-CSE-ConnectionGUID: Ox+1iG/7RdiSp6dO4ab4Pg==
+X-CSE-MsgGUID: Xott1kZHTTOnWrgkbZAx9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="22827970"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="27094271"
+   d="scan'208";a="22827970"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 14:52:21 -0700
-X-CSE-ConnectionGUID: 3FERiylgSFSxt4iwDgOkfA==
-X-CSE-MsgGUID: /vDw5U+9ReqbtFmKUtiwFA==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 15:23:21 -0700
+X-CSE-ConnectionGUID: TfXBwgbVROG8c7n2l5+BrA==
+X-CSE-MsgGUID: 0ny/6AyhSVKNPQ49kngS3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="63002571"
+   d="scan'208";a="63009612"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Aug 2024 14:52:18 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 Aug 2024 15:23:18 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj46q-000K7G-0C;
-	Tue, 27 Aug 2024 21:52:16 +0000
-Date: Wed, 28 Aug 2024 05:51:56 +0800
+	id 1sj4aq-000K8Y-2V;
+	Tue, 27 Aug 2024 22:23:16 +0000
+Date: Wed, 28 Aug 2024 06:22:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, josef@toxicpanda.com,
-	bernd.schubert@fastmail.fm, jefflexu@linux.alibaba.com,
-	laoar.shao@gmail.com, kernel-team@meta.com,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v5 2/2] fuse: add default_request_timeout and
- max_request_timeout sysctls
-Message-ID: <202408280419.yuu33o7t-lkp@intel.com>
-References: <20240826203234.4079338-3-joannelkoong@gmail.com>
+To: Brett Creeley <brett.creeley@amd.com>, netdev@vger.kernel.org,
+	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
+	pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	shannon.nelson@amd.com, brett.creeley@amd.com
+Subject: Re: [PATCH v2 net-next 5/5] ionic: convert Rx queue buffers to use
+ page_pool
+Message-ID: <202408280648.f6Hb9cX3-lkp@intel.com>
+References: <20240826184422.21895-6-brett.creeley@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +66,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826203234.4079338-3-joannelkoong@gmail.com>
+In-Reply-To: <20240826184422.21895-6-brett.creeley@amd.com>
 
-Hi Joanne,
+Hi Brett,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v6.11-rc5 next-20240827]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-add-optional-kernel-enforced-timeout-for-requests/20240827-043354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20240826203234.4079338-3-joannelkoong%40gmail.com
-patch subject: [PATCH v5 2/2] fuse: add default_request_timeout and max_request_timeout sysctls
-config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280419.yuu33o7t-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280419.yuu33o7t-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Brett-Creeley/ionic-debug-line-for-Tx-completion-errors/20240827-024626
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240826184422.21895-6-brett.creeley%40amd.com
+patch subject: [PATCH v2 net-next 5/5] ionic: convert Rx queue buffers to use page_pool
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240828/202408280648.f6Hb9cX3-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280648.f6Hb9cX3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408280419.yuu33o7t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408280648.f6Hb9cX3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/fuse/sysctl.c:30:5: error: redefinition of 'fuse_sysctl_register'
-      30 | int fuse_sysctl_register(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   In file included from fs/fuse/sysctl.c:9:
-   fs/fuse/fuse_i.h:1495:19: note: previous definition of 'fuse_sysctl_register' with type 'int(void)'
-    1495 | static inline int fuse_sysctl_register(void) { return 0; }
-         |                   ^~~~~~~~~~~~~~~~~~~~
->> fs/fuse/sysctl.c:38:6: error: redefinition of 'fuse_sysctl_unregister'
-      38 | void fuse_sysctl_unregister(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_i.h:1496:20: note: previous definition of 'fuse_sysctl_unregister' with type 'void(void)'
-    1496 | static inline void fuse_sysctl_unregister(void) { return; }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/pensando/ionic/ionic_txrx.c:4:
+   In file included from include/linux/ip.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/powerpc/include/asm/cacheflush.h:7:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     524 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/pensando/ionic/ionic_txrx.c:203:30: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 65536 to 0 [-Wconstant-conversion]
+     203 |                 frag_len = min_t(u16, len, IONIC_PAGE_SIZE);
+         |                            ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/pensando/ionic/ionic_dev.h:184:28: note: expanded from macro 'IONIC_PAGE_SIZE'
+     184 | #define IONIC_PAGE_SIZE                         PAGE_SIZE
+         |                                                 ^
+   arch/powerpc/include/asm/page.h:25:34: note: expanded from macro 'PAGE_SIZE'
+      25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
+         |                                               ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                ~~    ^
+   drivers/net/ethernet/pensando/ionic/ionic_txrx.c:797:36: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 65536 to 0 [-Wconstant-conversion]
+     797 |                 first_frag_len = min_t(u16, len, IONIC_PAGE_SIZE);
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/pensando/ionic/ionic_dev.h:184:28: note: expanded from macro 'IONIC_PAGE_SIZE'
+     184 | #define IONIC_PAGE_SIZE                         PAGE_SIZE
+         |                                                 ^
+   arch/powerpc/include/asm/page.h:25:34: note: expanded from macro 'PAGE_SIZE'
+      25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
+         |                                               ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                ~~    ^
+   drivers/net/ethernet/pensando/ionic/ionic_txrx.c:832:38: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 65536 to 0 [-Wconstant-conversion]
+     832 |                         frag_len = min_t(u16, remain_len, IONIC_PAGE_SIZE);
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/pensando/ionic/ionic_dev.h:184:28: note: expanded from macro 'IONIC_PAGE_SIZE'
+     184 | #define IONIC_PAGE_SIZE                         PAGE_SIZE
+         |                                                 ^
+   arch/powerpc/include/asm/page.h:25:34: note: expanded from macro 'PAGE_SIZE'
+      25 | #define PAGE_SIZE               (ASM_CONST(1) << PAGE_SHIFT)
+         |                                               ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                ~~    ^
+   7 warnings generated.
 
 
-vim +/fuse_sysctl_register +30 fs/fuse/sysctl.c
+vim +203 drivers/net/ethernet/pensando/ionic/ionic_txrx.c
 
-    29	
-  > 30	int fuse_sysctl_register(void)
-    31	{
-    32		fuse_table_header = register_sysctl("fs/fuse", fuse_sysctl_table);
-    33		if (!fuse_table_header)
-    34			return -ENOMEM;
-    35		return 0;
-    36	}
-    37	
-  > 38	void fuse_sysctl_unregister(void)
+   174	
+   175	static struct sk_buff *ionic_rx_build_skb(struct ionic_queue *q,
+   176						  struct ionic_rx_desc_info *desc_info,
+   177						  unsigned int headroom,
+   178						  unsigned int len,
+   179						  unsigned int num_sg_elems,
+   180						  bool synced)
+   181	{
+   182		struct ionic_buf_info *buf_info;
+   183		struct sk_buff *skb;
+   184		unsigned int i;
+   185		u16 frag_len;
+   186	
+   187		buf_info = &desc_info->bufs[0];
+   188		prefetchw(buf_info->page);
+   189	
+   190		skb = napi_get_frags(&q_to_qcq(q)->napi);
+   191		if (unlikely(!skb)) {
+   192			net_warn_ratelimited("%s: SKB alloc failed on %s!\n",
+   193					     dev_name(q->dev), q->name);
+   194			q_to_rx_stats(q)->alloc_err++;
+   195			return NULL;
+   196		}
+   197		skb_mark_for_recycle(skb);
+   198	
+   199		if (headroom)
+   200			frag_len = min_t(u16, len,
+   201					 IONIC_XDP_MAX_LINEAR_MTU + VLAN_ETH_HLEN);
+   202		else
+ > 203			frag_len = min_t(u16, len, IONIC_PAGE_SIZE);
+   204	
+   205		if (unlikely(!buf_info->page))
+   206			goto err_bad_buf_page;
+   207		ionic_rx_add_skb_frag(q, skb, buf_info, headroom, frag_len, synced);
+   208		len -= frag_len;
+   209		buf_info++;
+   210	
+   211		for (i = 0; i < num_sg_elems; i++, buf_info++) {
+   212			if (unlikely(!buf_info->page))
+   213				goto err_bad_buf_page;
+   214			frag_len = min_t(u16, len, buf_info->len);
+   215			ionic_rx_add_skb_frag(q, skb, buf_info, 0, frag_len, synced);
+   216			len -= frag_len;
+   217		}
+   218	
+   219		return skb;
+   220	
+   221	err_bad_buf_page:
+   222		dev_kfree_skb(skb);
+   223		return NULL;
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
