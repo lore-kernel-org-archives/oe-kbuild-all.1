@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639D4161339
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 09:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31879165EFB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 09:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724836808; cv=none; b=PyR+nc4U8IwbMjgCFJOXVjAamfDIZFg96l6NazpAba8dFLqvxWWjZkbbnCtUclQg7hcdQ8Qx/XUKhXpuhSN/KftUrV16jRDSGqYpzfl1PXlYMY6y1mwS6hAvWNSyx/FPrUzbGWZA93mrnyhiGUGutt7bOTmQhQzT8xX0ACUFSxM=
+	t=1724836869; cv=none; b=t5H4GBoug9GT0QdFyx7KuRXTM3IFoFEvqDug7nQouUC46iSaEsKevOTbO/avlMRsRDtJt+d04s6W4X69A4Z1HqaaDMKtHa+0BM3E84EQIISm83cWIRHCLRRL3MY4TZwLzYIhP9PWQfcKiyjrOAvKd/Q6Di8g/4PfcA+aDnqKzPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724836808; c=relaxed/simple;
-	bh=hu883E1FxjVyQTtyknLveLynp6p7J0+GSlG4ENdgxUU=;
+	s=arc-20240116; t=1724836869; c=relaxed/simple;
+	bh=ZhDZ+AN6NLSzRJrYTmiKQa7saSWoS+qzLJqQmnJP9wA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ivgHai4y6NPOxKq1e6Yiy7ZTCdx+zrLGhIJx4XmqhYrwcLuGzbbCY8B01qannCWmODCi7lQVIaCRcs8Y0wmy7Jqf0Q2qw4JB+p0ea8FtY0ZJHt9UoFsA6Gpq129Z8WlDEQQIi6vJACtlkpnP3oiNUoZvVxhuhYlr6pRvmhiCgYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1aZ+Hjf; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=nFFjUL0yeWMYEBUUs1hmJiw4bigUN7IOc/0/PwVWloKV5UEUS3ohjcHf9NnWnub/VUYGW1WRNmot/djwX46Nb2cqxHQJXx7l44GccrodNUQBVFCMaJ0Sv1RNbr2IoyMxkoFdSkyh/hwYzYscXmRreLAMrrvosn8vfTP9RNruFp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bn0v8lnA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1aZ+Hjf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bn0v8lnA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724836807; x=1756372807;
+  t=1724836867; x=1756372867;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hu883E1FxjVyQTtyknLveLynp6p7J0+GSlG4ENdgxUU=;
-  b=W1aZ+Hjf0rodAHX1wF9EIZMI3WQ9Ccz3CgCfA8cAyZCSzPjvA/0ttA+r
-   +H2u9ES6+hwyff36kYl/1MRoBBDAZzVAMNRyWudxTv8+HQAGY632pHi0B
-   ZIxBD0oBDEddcKLbrDUT8YrmyZXfkAMZ5ZWPh9Vhx7MrBSUattfNqzN5L
-   uqkU/UZYi1Kx30ztXnqIcwuEyy5i6ECEnTouf/3Rn00+vi1ioSS9nsrJE
-   n2D9QIjMw1L0Ee7zfGfiIHA6qQOVFoFu9qKoIGdil96YoG39rIPge5ujc
-   MtSIALSXEACc+cjZL051Dr18WtbBySL04W9CxGYQcG3ZBZJG4g/jKNRCm
-   Q==;
-X-CSE-ConnectionGUID: FpqxYw/CS6++u08imUGb8g==
-X-CSE-MsgGUID: h3tiMkEiQgWyluqrEyOxLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48740546"
+  bh=ZhDZ+AN6NLSzRJrYTmiKQa7saSWoS+qzLJqQmnJP9wA=;
+  b=bn0v8lnAZSAhyqSwUAdQm+OYLCBCnwyoYVR5lbXjro9SpONs8ihYa73x
+   fU9tDtiW/0xSwGtiNwpCBT2zK3qQ+Ky2Zw7Pcwt6YMT/GpCMu3SFNjzdA
+   6Z2138mdFhppvbJ48FGW7Gu4ShSKam+NP+XSvIUjgPwjQk/AYlGISAzwJ
+   uWkllBeR+1uv2GkwdPpvf2fxMMRggzm8UzktWjSDUTD31YUx0TutsMiiz
+   l2o+lIq2M+PFD/j8aI2sAhFFCbJ3dMn5XU24n/gkkZAu6b9cA+WRlTJNk
+   GQyl3iNDD1o+93QbxBnpltV9RG2vUTivvjuaqw1oTMoUs3e/V1jUtlj3a
+   w==;
+X-CSE-ConnectionGUID: HnSzzBWFRAmAGKwZsaGy/A==
+X-CSE-MsgGUID: dsD3qtwnS9Sxy9QJUrsAww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27152057"
 X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="48740546"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 02:20:06 -0700
-X-CSE-ConnectionGUID: Pt4rjWGjQcKZPk14WOlAYA==
-X-CSE-MsgGUID: rBPFDe7NRPqAj1M9ZhODcQ==
+   d="scan'208";a="27152057"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 02:21:06 -0700
+X-CSE-ConnectionGUID: ueQ00mOmRa2S2RIy/TLb5Q==
+X-CSE-MsgGUID: N0Y7kS6FRkqh90jSkDBN4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="67314408"
+   d="scan'208";a="67839554"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Aug 2024 02:20:05 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Aug 2024 02:21:05 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjEqR-000KjG-0R;
-	Wed, 28 Aug 2024 09:20:03 +0000
-Date: Wed, 28 Aug 2024 17:20:02 +0800
+	id 1sjErP-000KjO-0m;
+	Wed, 28 Aug 2024 09:21:03 +0000
+Date: Wed, 28 Aug 2024 17:20:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: xuxiang <xuxiang@eswincomputing.com>
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	Darshan Prajapati <darshan.prajapati@einfochips.com>,
-	Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
-Subject: [esmil:eic7700 18/24] drivers/rtc/rtc-eswin.c:113:23: warning:
- variable 'rtc_time' set but not used
-Message-ID: <202408281743.j1XDEvG0-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 6479/7353]
+ drivers/pinctrl/sophgo/pinctrl-cv18xx.c:142:23: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202408281749.gNRV7S8v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +64,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/esmil/linux eic7700
-head:   eb44174b12f99d320be704b45db6b994f6a014bd
-commit: 36a8667f93cd7cea30fc8617f3fb00c73a3bf832 [18/24] drivers: rtc: Added EIC7700 Internal RTC driver
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240828/202408281743.j1XDEvG0-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281743.j1XDEvG0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f923748057a4f6aa187e0d5b22990d633a48d12
+commit: 9b82ec85ebb326d20553220945bad1cc203b8805 [6479/7353] Merge branch 'ib-sophgo-pintrl' into devel
+config: sparc64-randconfig-r123-20240828 (https://download.01.org/0day-ci/archive/20240828/202408281749.gNRV7S8v-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240828/202408281749.gNRV7S8v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408281743.j1XDEvG0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408281749.gNRV7S8v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:141:13: sparse:     got void [noderef] __iomem *
+>> drivers/pinctrl/sophgo/pinctrl-cv18xx.c:142:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *reg @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:142:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:142:23: sparse:     got void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:146:21: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:147:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *reg @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:147:31: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:147:31: sparse:     got void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse:     expected void *reg
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:152:21: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:153:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *reg @@
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:153:31: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/sophgo/pinctrl-cv18xx.c:153:31: sparse:     got void *reg
 
-   drivers/rtc/rtc-eswin.c: In function 'eswin_rtc_set_alarm':
->> drivers/rtc/rtc-eswin.c:113:23: warning: variable 'rtc_time' set but not used [-Wunused-but-set-variable]
-     113 |         unsigned long rtc_time;
-         |                       ^~~~~~~~
+vim +142 drivers/pinctrl/sophgo/pinctrl-cv18xx.c
 
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  120  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  121  static void cv1800_pctrl_dbg_show(struct pinctrl_dev *pctldev,
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  122  				  struct seq_file *seq, unsigned int pin_id)
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  123  {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  124  	struct cv1800_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  125  	struct cv1800_pin *pin = cv1800_get_pin(pctrl, pin_id);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  126  	enum cv1800_pin_io_type type = cv1800_pin_io_type(pin);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  127  	u32 value;
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  128  	void *reg;
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  129  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  130  	if (pin->pin >> PIN_BGA_ID_OFFSET)
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  131  		seq_printf(seq, "pos: %c%u ",
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  132  			   'A' + (pin->pin >> PIN_BGA_ID_OFFSET) - 1,
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  133  			   pin->pin & PIN_BGA_ID_MASK);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  134  	else
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  135  		seq_printf(seq, "pos: %u ", pin->pin);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  136  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  137  	seq_printf(seq, "power-domain: %s ",
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  138  		   cv1800_get_power_cfg_desc(pctrl, pin->power_domain));
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  139  	seq_printf(seq, "type: %s ", io_type_desc[type]);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  140  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  141  	reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->mux);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02 @142  	value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  143  	seq_printf(seq, "mux: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  144  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  145  	if (pin->flags & CV1800_PIN_HAVE_MUX2) {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  146  		reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->mux2);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  147  		value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  148  		seq_printf(seq, "mux2: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  149  	}
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  150  
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  151  	if (type == IO_TYPE_1V8_ONLY || type == IO_TYPE_1V8_OR_3V3) {
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  152  		reg = cv1800_pinctrl_get_component_addr(pctrl, &pin->conf);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  153  		value = readl(reg);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  154  		seq_printf(seq, "conf: 0x%08x ", value);
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  155  	}
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  156  }
+a29d8e93e710e9 Inochi Amaoto 2024-08-02  157  
 
-vim +/rtc_time +113 drivers/rtc/rtc-eswin.c
+:::::: The code at line 142 was first introduced by commit
+:::::: a29d8e93e710e97863d5bb4e4b6079d6c7daab81 pinctrl: sophgo: add support for CV1800B SoC
 
-   109	
-   110	static int eswin_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
-   111	{
-   112		struct eswin_rtc_dev *pdata = dev_get_drvdata(dev);
- > 113		unsigned long rtc_time;
-   114		unsigned long alarm_time;
-   115		rtc_time = readl(pdata->csr_base + RTC_CCVR);
-   116		alarm_time = rtc_tm_to_time64(&alrm->time);
-   117	
-   118		pdata->alarm_time = alarm_time;
-   119		writel((u32) pdata->alarm_time, pdata->csr_base + RTC_CMR);
-   120	
-   121		eswin_rtc_alarm_irq_enable(dev, alrm->enabled);
-   122	
-   123		return 0;
-   124	}
-   125	
+:::::: TO: Inochi Amaoto <inochiama@outlook.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
