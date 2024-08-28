@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B968F165F02
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 23:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4C41AE87D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 23:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724887058; cv=none; b=Ip539lh5oUyzLzNXSCECWfeIZZOGbVMIU/cb/DQK9DjIGJBV855QPC67/5Bu5s5NIEQbhXDJr8K1E2WDPVSHo0MTD7yL7zNjzizCcpXR/HHkEJ179sQbq1/K8CsIOtr1/kFo+FsIyrqK8vMJdR+nC6Bpo/q0V/x1EmRk75IRDH0=
+	t=1724888256; cv=none; b=EUeLNKEKQMWCrZ2ErXEcXnGrqcOO5vN5csbTfLzRbWIf2XGG+4obbkq7ee4CU37SfeCBQu6hqvCwd/PTbKrRmAgbd+jcrKAhTsXqOfz+lX47aYx6QvOzN02uW1SSqbugqb/fsBap5L+38XrLlDHsnb4otm97/Zc3Mb2N+n1iDJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724887058; c=relaxed/simple;
-	bh=xTFXw5fW98i/uom18MtpYnU+ph1/QdPNkw+9Ey01zDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kt9aeZEQPFDlDdLudLU0zOwnKi0yx6pyknYWsmBXtUlNL/819r6vcdUcnR1VRiLYYMIqscGKeYuIJl4NX7X49vqJN++Tl9PVCCXKd0XoSBIaG7jI3KSyo/Yd0NzG/Jg+tBr8RW2UMwN7g2NijuCncNQSXDWcaAbnzwX+5v356xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zjt8ALt/; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1724888256; c=relaxed/simple;
+	bh=ZmUdwUA3/86+VINrkOjZtIFKanQqPqUAZ//v3LfFUug=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Gw7mbx57gIvIhMLYXM27/lcFIWm+NMelhZjUZVrkBKXZh1/XPW0TYeih3RemMLLatigoqHQf9sUPWCfV9P7G5GEvJyd9mRXK5bSgcIANBtbLiOzA60TgpsNe51gZfnOOteA+BV5d9+Qq5gaZ2M3YPqsBv1LxhENapW1CoicTFfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WV3BrI9A; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zjt8ALt/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WV3BrI9A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724887057; x=1756423057;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xTFXw5fW98i/uom18MtpYnU+ph1/QdPNkw+9Ey01zDI=;
-  b=Zjt8ALt/+6yVb7SOZYn9oa2+ILSV4RDKDd63WE2nSPsN8IeZIzVzE0Io
-   nE+Gbu0GxgFmMq4GesR6822QvnilvWUe0wpGNMMARhSuuj062+Tx0cjD9
-   kWlBHUBKIB4CJ8lCvyxsOkfA1CmEU+K8VuydFHZdjqtkHzg3BzWKg6iNx
-   MSdVpDtLLIedwUsebQCXgdi3qaDz5SYPm8TAO1g3y3BwfpyjqVQZnWqb0
-   Kh6YS5mDIbQeMay6E28DjMDP8tHrASJYcpQQIHJjDdTRdW5sl0DfeB0VJ
-   D3gyPkp2dNfu/JY7QqjMXU8X4J0IhacD0OTicuU2HRneLxYebkWBE7AIW
-   w==;
-X-CSE-ConnectionGUID: Ki7z7bpUSjqerGvbdDm7gQ==
-X-CSE-MsgGUID: zkRwegKaSZCdmlfGJOP66Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="34022072"
+  t=1724888255; x=1756424255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZmUdwUA3/86+VINrkOjZtIFKanQqPqUAZ//v3LfFUug=;
+  b=WV3BrI9AYJYQ7uIVEqNiWeA561jx9hR2sgX5KnfxbZdXw/YaTruB8oOu
+   HGm0ya0qhKQUnR6WBGgt63LcqjSBdSpFJOGjwRInwegBIDoQTZltfKGCI
+   F9INddUN0LUDHtBbbjHPhcfpD3jmzoFFLYKSAbuAGlmkKmGibelV4S0AV
+   iW4W3Ms5L2S4yIjafxJVQg2640v6UN1XirNulYR+vTE2qTB3Dj0nXJ5zI
+   z7v09ichxRpndvqKTRuLo0w9YxLHat933eVrkFkwafvmwOi2z/K14iyhh
+   Y+NGkcbcQ9yxUrwaRMQUN0r+tthQtPFZYzi6IiAhEu6Uui+HyA7ftFfp2
+   Q==;
+X-CSE-ConnectionGUID: 6KMgDKJZSBe5S20rgTAvZw==
+X-CSE-MsgGUID: 9heB5UU8SraB4P8xCk+OwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23257841"
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="34022072"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 16:17:37 -0700
-X-CSE-ConnectionGUID: Nfd4LzNgRCmLQ0OShireQw==
-X-CSE-MsgGUID: 3u170mVFQTGlOlu+J54MEA==
+   d="scan'208";a="23257841"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 16:37:34 -0700
+X-CSE-ConnectionGUID: IwMh48sHRCyIqQFxdehCEA==
+X-CSE-MsgGUID: ssooHOwqSkSbelwAKB9nCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="63714103"
+   d="scan'208";a="67531906"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Aug 2024 16:17:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Aug 2024 16:37:33 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjRut-000LRK-09;
-	Wed, 28 Aug 2024 23:17:31 +0000
-Date: Thu, 29 Aug 2024 07:16:52 +0800
+	id 1sjSEF-000LSO-1i;
+	Wed, 28 Aug 2024 23:37:31 +0000
+Date: Thu, 29 Aug 2024 07:37:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Lingfeng <lilingfeng3@huawei.com>, trondmy@kernel.org,
-	anna@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jlayton@kernel.org,
-	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	yukuai1@huaweicloud.com, houtao1@huawei.com, yi.zhang@huawei.com,
-	yangerkun@huawei.com, lilingfeng@huaweicloud.com,
-	lilingfeng3@huawei.com
-Subject: Re: [PATCH] nfs: protect nfs41_impl_id by rcu
-Message-ID: <202408290616.QG17h6tl-lkp@intel.com>
-References: <20240828044933.676898-1-lilingfeng3@huawei.com>
+To: kernel@openeuler.org, Zhang Zekun <zhangzekun11@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21426/23581]
+ drivers/base/regmap/.tmp_regmap.o: warning: objtool:
+ _regmap_raw_read()+0x22b: unreachable instruction
+Message-ID: <202408290700.9RGzzfB9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,55 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240828044933.676898-1-lilingfeng3@huawei.com>
 
-Hi Li,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on linus/master v6.11-rc5 next-20240828]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Lingfeng/nfs-protect-nfs41_impl_id-by-rcu/20240828-124056
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20240828044933.676898-1-lilingfeng3%40huawei.com
-patch subject: [PATCH] nfs: protect nfs41_impl_id by rcu
-config: x86_64-randconfig-121-20240829 (https://download.01.org/0day-ci/archive/20240829/202408290616.QG17h6tl-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   46d28312ab3cc0cfe7e8dea2f41d22fe4ac35e67
+commit: d98c83e735e83721d3f995fe2bd190cf8aec8d78 [21426/23581] regmap: fix NULL deref on lookup
+config: x86_64-buildonly-randconfig-004-20240825 (https://download.01.org/0day-ci/archive/20240829/202408290700.9RGzzfB9-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408290616.QG17h6tl-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408290700.9RGzzfB9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408290616.QG17h6tl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408290700.9RGzzfB9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfs/nfs4client.c:296:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct nfs41_impl_id [noderef] __rcu *cl_implid @@
-   fs/nfs/nfs4client.c:296:18: sparse:     expected void const *objp
-   fs/nfs/nfs4client.c:296:18: sparse:     got struct nfs41_impl_id [noderef] __rcu *cl_implid
+All warnings (new ones prefixed by >>):
 
-vim +296 fs/nfs/nfs4client.c
-
-ec409897e7c715 Bryan Schumaker 2012-07-16  283  
-ec409897e7c715 Bryan Schumaker 2012-07-16  284  static void nfs4_shutdown_client(struct nfs_client *clp)
-ec409897e7c715 Bryan Schumaker 2012-07-16  285  {
-ec409897e7c715 Bryan Schumaker 2012-07-16  286  	if (__test_and_clear_bit(NFS_CS_RENEWD, &clp->cl_res_state))
-ec409897e7c715 Bryan Schumaker 2012-07-16  287  		nfs4_kill_renewd(clp);
-abf79bb341bf52 Chuck Lever     2013-08-09  288  	clp->cl_mvops->shutdown_client(clp);
-ec409897e7c715 Bryan Schumaker 2012-07-16  289  	nfs4_destroy_callback(clp);
-ec409897e7c715 Bryan Schumaker 2012-07-16  290  	if (__test_and_clear_bit(NFS_CS_IDMAP, &clp->cl_res_state))
-ec409897e7c715 Bryan Schumaker 2012-07-16  291  		nfs_idmap_delete(clp);
-ec409897e7c715 Bryan Schumaker 2012-07-16  292  
-ec409897e7c715 Bryan Schumaker 2012-07-16  293  	rpc_destroy_wait_queue(&clp->cl_rpcwaitq);
-ec409897e7c715 Bryan Schumaker 2012-07-16  294  	kfree(clp->cl_serverowner);
-ec409897e7c715 Bryan Schumaker 2012-07-16  295  	kfree(clp->cl_serverscope);
-ec409897e7c715 Bryan Schumaker 2012-07-16 @296  	kfree(clp->cl_implid);
-ceb3a16c070c40 Trond Myklebust 2015-01-03  297  	kfree(clp->cl_owner_id);
-ec409897e7c715 Bryan Schumaker 2012-07-16  298  }
-ec409897e7c715 Bryan Schumaker 2012-07-16  299  
+>> drivers/base/regmap/.tmp_regmap.o: warning: objtool: _regmap_raw_read()+0x22b: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
