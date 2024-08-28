@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C216745C1C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 21:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450781AAE0D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 21:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724879673; cv=none; b=Fk5H9ptULQOoj9HM18NHW7A9nETqOwNSZC9XalGr4nGun6S5sOZQWn7VqpPpAh2x77MDB69hVWmdECq1sY/CG9qFIH1TwKb+JkoMyM001jX1gLxCyV46SiW/BwXj9nRF/e43r9yBO5OuevN/g6+9pSl5i9WiBB3nz3uEFhr6jXE=
+	t=1724880875; cv=none; b=LjeoCWQKv1awLYXtdl5e3z1UKwR+aqnE8zbb0vJXcI3kkzcCAWCRK00UYcEA6+qFdeTcZMzIDDjK7Yh8NtyEKQb8FjXdn18V5M8YJ/eBmMoAR2KcbHbmUoFJ0MacPYsa9phvfAGLkXotUxD/KBXUm8Z4/Zj0SUcjq5asLHTWQ5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724879673; c=relaxed/simple;
-	bh=BGNLA8OgXbDwIgQyvKzvKHX/APYGvJdhb6ArVHOMnCc=;
+	s=arc-20240116; t=1724880875; c=relaxed/simple;
+	bh=K3TVhqZD2LoGcgSX+U5ogY05EldIfQxSAnnsOGx6PkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M8zOS3cCLICw0SKW235q9tOaue6pL0wexqna/WYBMbDrzoGJmAe1MwSZl7vsNcb2+24Q5OYJrTFGv3lq5h00QSNTvXqNYk1Sp9ZYsHvIaIbswu7ZKkuPUeyJl21bcvxA49c81sofWBxg9AbBLmYJ1tIyT36Vhl3YgfjIwPK9BmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k18O6xO/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=RnOzNEwX8KfyHk1bkZKU7Co30+p5eN6Xe7eaAsRRAEyVtbi6TVPZvc/ZPhfAVcgDzm1LTEsBHqBrOvUYnSv3GcXIxgm7FP5uoArosp+WjDyH1/bWuWXXIFRxGKCUyMiywtFrUUWGl+pXluUOjAum9VirE9Y/e57Iv4YZEa+2ArI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiV23sBK; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k18O6xO/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiV23sBK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724879672; x=1756415672;
+  t=1724880873; x=1756416873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BGNLA8OgXbDwIgQyvKzvKHX/APYGvJdhb6ArVHOMnCc=;
-  b=k18O6xO/1U4nfBfKrKUJFVGvegn3WzIO5CiW7ZEo2xBJIws9TsqZT33h
-   5WpMiykP2ou0y/3SjxW25Sf9GktqNYLqn+QwPQGmUz+7uukXGLP2kabKg
-   uM7HzEjeZdJ13rcwXCeeTAKLmwj3/TbRre/9WPh3xzWSNffAhU9iEIe/B
-   EPuxVtsj+Lp/uQJeMNe/giTnJRS10MHJeTcYZ7xWMeG3bFh8g5Y+ZYG5E
-   9hTf9rLQ1MOb6k17aoeiqSce9oqeigNzB6ROLUNKxpoSJGgejvikeMzs7
-   hE+DtvmiLDjwuVrvZk91PI0Bx30JMXRUaNvsF0KUW2invsPVvgLwYjWrw
+  bh=K3TVhqZD2LoGcgSX+U5ogY05EldIfQxSAnnsOGx6PkA=;
+  b=ZiV23sBKIX3vMPsvsqwiFvQcwUDs2McZW410zf74EygOICodt9iFr5c0
+   hb5DAeT9qM0C7XlVAWxyS+s3V16MWbysQlg8h90+kx1rGJ19T0F7lHxHe
+   9A3P5Voq2zdADROCD3baaV8Rd0DCXS6z4VWTmEhH80zP0/IVPVwZcusKR
+   7Z4Kd7EkQjIMDXxPqj4vDczNHWUV32klRqfeAFF6bR4TijmWdM4ui/YxK
+   6HwtRx8cmB81hZ072gifCTvygAfRe+8OBPTjDP0kQooyCdBqteD0mJ+g9
+   LoZPiM0gqwp2WqUHOhv0b+QFUhCmIsCit7a/B2R4Q2Vepew8ziBRSS2VV
    g==;
-X-CSE-ConnectionGUID: hEXb4riKRK+1/D1FIJYm1Q==
-X-CSE-MsgGUID: cBfMNDO9TbSVVFHIBvHgHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23303522"
-X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
-   d="scan'208";a="23303522"
+X-CSE-ConnectionGUID: Pvs7uSaWSzO2L6hhAswDwA==
+X-CSE-MsgGUID: ZSbWCQXoSOaQs0Qpc1dQyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23401643"
+X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
+   d="scan'208";a="23401643"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 14:14:32 -0700
-X-CSE-ConnectionGUID: PlPoWMWjSrCd0q+eo9Znhw==
-X-CSE-MsgGUID: 4s6Mx7KFTW6DpmoVP6mlbQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 14:34:33 -0700
+X-CSE-ConnectionGUID: LWbMWIouSyaxu5BlnjfGHA==
+X-CSE-MsgGUID: B0Mf3IWjTNeYzdOVQs5q5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
-   d="scan'208";a="63420739"
+X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
+   d="scan'208";a="63425650"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Aug 2024 14:14:29 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Aug 2024 14:34:31 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjPzn-000LMo-27;
-	Wed, 28 Aug 2024 21:14:27 +0000
-Date: Thu, 29 Aug 2024 05:13:46 +0800
+	id 1sjQJB-000LNs-09;
+	Wed, 28 Aug 2024 21:34:29 +0000
+Date: Thu, 29 Aug 2024 05:34:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [sudeep-holla:for-next/scmi/updates 24/31]
- drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:171:20: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202408290526.ymfAZZ88-lkp@intel.com>
+To: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/net/dsa/realtek/rtl8366rb.c:953:undefined reference to
+ `led_init_default_state_get'
+Message-ID: <202408290528.lIGXaLsw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/scmi/updates
-head:   c49438109fd362dd5eb47fbf8a325d13b1c271b6
-commit: 00bdb213e944386bd6d424213726ac2b303fe87c [24/31] firmware: arm_scmi: add initial support for i.MX MISC protocol
-config: sparc-randconfig-r121-20240828 (https://download.01.org/0day-ci/archive/20240829/202408290526.ymfAZZ88-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240829/202408290526.ymfAZZ88-lkp@intel.com/reproduce)
+Hi Luiz,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   928f79a188aacc057ba36c85b36b6d1e99c8f595
+commit: 32d617005475a71ebcc4ec8b2791e8d1481e9a10 net: dsa: realtek: add LED drivers for rtl8366rb
+date:   4 months ago
+config: nios2-randconfig-002-20240828 (https://download.01.org/0day-ci/archive/20240829/202408290528.lIGXaLsw-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408290528.lIGXaLsw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408290526.ymfAZZ88-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408290528.lIGXaLsw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:171:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int ctrl_id @@     got restricted __le32 const [usertype] ctrl_id @@
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:171:20: sparse:     expected unsigned int ctrl_id
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:171:20: sparse:     got restricted __le32 const [usertype] ctrl_id
->> drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:172:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int flags @@     got restricted __le32 const [usertype] flags @@
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:172:18: sparse:     expected unsigned int flags
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c:172:18: sparse:     got restricted __le32 const [usertype] flags
+All errors (new ones prefixed by >>):
 
-vim +171 drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
+   nios2-linux-ld: drivers/net/dsa/realtek/rtl8366rb.o: in function `rtl8366rb_setup_led':
+>> drivers/net/dsa/realtek/rtl8366rb.c:953:(.text.unlikely+0x3ec): undefined reference to `led_init_default_state_get'
+>> drivers/net/dsa/realtek/rtl8366rb.c:953:(.text.unlikely+0x3ec): relocation truncated to fit: R_NIOS2_CALL26 against `led_init_default_state_get'
+>> nios2-linux-ld: drivers/net/dsa/realtek/rtl8366rb.c:980:(.text.unlikely+0x52c): undefined reference to `devm_led_classdev_register_ext'
+>> drivers/net/dsa/realtek/rtl8366rb.c:980:(.text.unlikely+0x52c): relocation truncated to fit: R_NIOS2_CALL26 against `devm_led_classdev_register_ext'
 
-   157	
-   158	static void *
-   159	scmi_imx_misc_ctrl_fill_custom_report(const struct scmi_protocol_handle *ph,
-   160					      u8 evt_id, ktime_t timestamp,
-   161					      const void *payld, size_t payld_sz,
-   162					      void *report, u32 *src_id)
-   163	{
-   164		const struct scmi_imx_misc_ctrl_notify_payld *p = payld;
-   165		struct scmi_imx_misc_ctrl_notify_report *r = report;
-   166	
-   167		if (sizeof(*p) != payld_sz)
-   168			return NULL;
-   169	
-   170		r->timestamp = timestamp;
- > 171		r->ctrl_id = p->ctrl_id;
- > 172		r->flags = p->flags;
-   173		if (src_id)
-   174			*src_id = r->ctrl_id;
-   175		dev_dbg(ph->dev, "%s: ctrl_id: %d flags: %d\n", __func__,
-   176			r->ctrl_id, r->flags);
-   177	
-   178		return r;
-   179	}
-   180	
+
+vim +953 drivers/net/dsa/realtek/rtl8366rb.c
+
+   927	
+   928	static int rtl8366rb_setup_led(struct realtek_priv *priv, struct dsa_port *dp,
+   929				       struct fwnode_handle *led_fwnode)
+   930	{
+   931		struct rtl8366rb *rb = priv->chip_data;
+   932		struct led_init_data init_data = { };
+   933		enum led_default_state state;
+   934		struct rtl8366rb_led *led;
+   935		u32 led_group;
+   936		int ret;
+   937	
+   938		ret = fwnode_property_read_u32(led_fwnode, "reg", &led_group);
+   939		if (ret)
+   940			return ret;
+   941	
+   942		if (led_group >= RTL8366RB_NUM_LEDGROUPS) {
+   943			dev_warn(priv->dev, "Invalid LED reg %d defined for port %d",
+   944				 led_group, dp->index);
+   945			return -EINVAL;
+   946		}
+   947	
+   948		led = &rb->leds[dp->index][led_group];
+   949		led->port_num = dp->index;
+   950		led->led_group = led_group;
+   951		led->priv = priv;
+   952	
+ > 953		state = led_init_default_state_get(led_fwnode);
+   954		switch (state) {
+   955		case LEDS_DEFSTATE_ON:
+   956			led->cdev.brightness = 1;
+   957			rb8366rb_set_port_led(led, 1);
+   958			break;
+   959		case LEDS_DEFSTATE_KEEP:
+   960			led->cdev.brightness =
+   961				rb8366rb_get_port_led(led);
+   962			break;
+   963		case LEDS_DEFSTATE_OFF:
+   964		default:
+   965			led->cdev.brightness = 0;
+   966			rb8366rb_set_port_led(led, 0);
+   967		}
+   968	
+   969		led->cdev.max_brightness = 1;
+   970		led->cdev.brightness_set_blocking =
+   971			rtl8366rb_cled_brightness_set_blocking;
+   972		init_data.fwnode = led_fwnode;
+   973		init_data.devname_mandatory = true;
+   974	
+   975		init_data.devicename = kasprintf(GFP_KERNEL, "Realtek-%d:0%d:%d",
+   976						 dp->ds->index, dp->index, led_group);
+   977		if (!init_data.devicename)
+   978			return -ENOMEM;
+   979	
+ > 980		ret = devm_led_classdev_register_ext(priv->dev, &led->cdev, &init_data);
+   981		if (ret) {
+   982			dev_warn(priv->dev, "Failed to init LED %d for port %d",
+   983				 led_group, dp->index);
+   984			return ret;
+   985		}
+   986	
+   987		return 0;
+   988	}
+   989	
 
 -- 
 0-DAY CI Kernel Test Service
