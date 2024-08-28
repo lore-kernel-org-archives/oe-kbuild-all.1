@@ -1,151 +1,83 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B1C1A2C20
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 15:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A2077112
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 15:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724860298; cv=none; b=VMrb6lCxZaitjlRYMKWpLN6u3jWg5GaAU9ssEqltXrvHXdcBTpQa88KEISuzLeaK9AXpizw1fmI0sblhE1PrWGWPefeEdGtH52xpr8AXCNnn06mjkK5Le36liwqZAu3sKikKtSdsKSjUG5YyL4Q0egnWXemnunUelxivb+RswtM=
+	t=1724860703; cv=none; b=dzX6V+U1kz6KibF4czZA0jiYnjsCPd1rna9ImaZJvxcX/u53LmlFYl8icONFCo6akd33jXRQGVHnjWjFjLCt6cTb0lEgPJKJXY2IBhKPclbWD1fA/EM8qEWdL8wmQVtxEHD9yRPz78BCvJh7AueOAW17vY1LJoJ3k5Xk6S/NlAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724860298; c=relaxed/simple;
-	bh=OFFj1NEy5g3i6vGCQ/1G2WW7fCe1HDsr1xX6gfPYgSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBKTakpraiTSGJO/e9mJMMh69yfnqo32n1r2cd9HdIz5I3a26xgzcgHePnmelUEGPgo+1z+ucauj+ve0YXhf3uYz8QqfF/oqvFE8YWSQ9z+dVtNB9JMAjc3Etcwp6/GnV8zOpDaKxlIyFoy/EGAYIuGjBu4u19zDr0zZH396gBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IhHIPBov; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724860703; c=relaxed/simple;
+	bh=vNxeR0GNYI8cPsLw/0NgaSNqFim22/qR2C517aSXJNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fv5XG0eImbMHZxHtuEvYwQx9Q6lCs/RI5LUO8/wLwIaU4zcnnB6Qwn+84LL7oR5DpTCw3NnTokghQbT8jTOAi6+IJ/XCz+Sck1xLDvMw+EMAQZYvwwaj7R2OUN0M6uwGYsl+msgeIaVwxIT7EVjlXKXnxSkvvPDXBsbtnfiBWis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YK0mHDid; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IhHIPBov"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4567edb7dceso220611cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 08:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724860294; x=1725465094; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I7ms7TuhcUGP2Kd6Iyh+E63IDbeeFTrHgWyCubmUSMg=;
-        b=IhHIPBovv7DpB/5lmGGhvaRV0IXP19clWQYl1URy9/B5XGgu7LEceE9krffq7mRirU
-         29lN2BMD1MnC1UE9HXRKhrnQLR7H8QbusEU0NQfAcoCIeOzzlCf9Ho5D2lpXzkj7ftuX
-         omenctlSvy5iRmsovlOoVfi1znA2/suX3tMmrrykYXUmjKHSvi7yExDhAwz8eXTUhPbB
-         J24cx7/lanveguWtVWOukEfWIbbUplPLr5iU+Ipzqy4BvWBTfpNzRW9n8bLCIEusZawD
-         cErav8kuB/Odb27PNk2UpqOCat2hx1knoj3XbaRxF1KxFZbIjMl5egsChDxGaPPrC/7j
-         2o7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724860294; x=1725465094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I7ms7TuhcUGP2Kd6Iyh+E63IDbeeFTrHgWyCubmUSMg=;
-        b=MCZWU+1via89yna3yGMG7Z72IooIi2xAnSd5CYFRooHFG5/inlBOcfZn+8zGpdqVuD
-         vhmrcuSI7bLTavP2kSlIx65TOuTF78rNcCH/wWswZxqfUeZKBT8lec/RJVr6K7OsQ3Ok
-         gc3yDO6KD4ZU6WcTuFGvP3cNxZ6y/oCneZxgKtl+TiADMsvpbU7ax5Oe4EuLfH6wGxEL
-         df2CsAjTtyhhJnRdTnyi4aMiR7ljqqpgkLukPOYqHnTZy8OZoitlrudieSUmoUHpws0K
-         m8tUTlYaLB6TrU2jyfhEj/sJvK8XqFdE93Ie+YizyJkkKtTYnWrmp/8RSKRQ+SHtrd9n
-         +QFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUh94vgkZCH66O4ygMIAnj1jnGiQloBdyWmIWasxZgXcAdjtB9iWbwqauAMdan0FUQnXyagn2ETF6ciyqTJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9kxCCs6KKR1cc5gUjYO1wZLSKcHQ76Z2lLJIZjOTdeGFOQJHg
-	vUNl1d+PSRbFY3h90HxAS0z9HfxWDmN0OCVqOgTYqTKOP96OeRskU7U49js5K1wLXtCG3/MhTF7
-	Yns9/TqLlE/w4GlMyOinfm047zNc=
-X-Google-Smtp-Source: AGHT+IEGoKWC4F/OJCQkBY+n2LoGZU9WkWOA8kAbisIXzU03+K4zrmT76a+W6VlyWt3PPU/6qDA5iMrh5CsysucEsn4=
-X-Received: by 2002:a05:622a:17ca:b0:450:3eb:cb30 with SMTP id
- d75a77b69052e-4566e6a81f2mr27575271cf.42.1724860293793; Wed, 28 Aug 2024
- 08:51:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YK0mHDid"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724860701; x=1756396701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vNxeR0GNYI8cPsLw/0NgaSNqFim22/qR2C517aSXJNQ=;
+  b=YK0mHDid+wCx9y9qyrWiHn+9s7Tc3ikaN3U3RiehF79lJdYllc1dTotW
+   eJFczyvLdXivlLuv1znp4ehkJ0ceDMhW7zfazhjZ1tzQnrbVlrVJNnpgP
+   w1hRPe8hdnAE49nCxoMFOArFwMk/MHdkbqcGooQZou6+O1j/ChnN+NfiP
+   QGHx+s73MAzX5NhwXPxaSjWZnGgk4fbv+pPxLyEV98qjtQqI39jiwMjEw
+   /KlzUvteHAMaUR8u5bHYUtEjXpmPOV7FibwtqB/NPcBn259aYwDQ8FpWH
+   wyxxQDinwS9g1odeSXBsfu5tVtiVT6JsBvPlLrIgwl5rIB7yhKZqNmaXI
+   w==;
+X-CSE-ConnectionGUID: l+bElem/Qly96LJ1deFDUg==
+X-CSE-MsgGUID: 0Ahgm9elQDS1HNgV1dmsPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="33970601"
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
+   d="scan'208";a="33970601"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 08:58:20 -0700
+X-CSE-ConnectionGUID: vkqrG9wISHyF3dd6mKOfzw==
+X-CSE-MsgGUID: eA/9czFdRDWTxuI66ASyzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,183,1719903600"; 
+   d="scan'208";a="63323787"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 28 Aug 2024 08:58:19 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjL3o-000L7E-2h;
+	Wed, 28 Aug 2024 15:58:16 +0000
+Date: Wed, 28 Aug 2024 23:57:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 19673/23581] net/bpf/.tmp_test_run.o:
+ warning: objtool: bpf_prog_test_run_skb()+0x3b2: unreachable instruction
+Message-ID: <202408282340.JcOrudl8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240826203234.4079338-3-joannelkoong@gmail.com> <202408280419.yuu33o7t-lkp@intel.com>
-In-Reply-To: <202408280419.yuu33o7t-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 28 Aug 2024 08:51:22 -0700
-Message-ID: <CAJnrk1Y3piNWm3482N1QcasAmmUMYk1KkoO9TyupaJDBM8jW9A@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] fuse: add default_request_timeout and
- max_request_timeout sysctls
-To: kernel test robot <lkp@intel.com>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, josef@toxicpanda.com, 
-	bernd.schubert@fastmail.fm, jefflexu@linux.alibaba.com, laoar.shao@gmail.com, 
-	kernel-team@meta.com, Bernd Schubert <bschubert@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Aug 27, 2024 at 2:52=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Joanne,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on mszeredi-fuse/for-next]
-> [also build test ERROR on linus/master v6.11-rc5 next-20240827]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-=
-add-optional-kernel-enforced-timeout-for-requests/20240827-043354
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
- for-next
-> patch link:    https://lore.kernel.org/r/20240826203234.4079338-3-joannel=
-koong%40gmail.com
-> patch subject: [PATCH v5 2/2] fuse: add default_request_timeout and max_r=
-equest_timeout sysctls
-> config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/arch=
-ive/20240828/202408280419.yuu33o7t-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240828/202408280419.yuu33o7t-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408280419.yuu33o7t-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> fs/fuse/sysctl.c:30:5: error: redefinition of 'fuse_sysctl_register'
->       30 | int fuse_sysctl_register(void)
->          |     ^~~~~~~~~~~~~~~~~~~~
->    In file included from fs/fuse/sysctl.c:9:
->    fs/fuse/fuse_i.h:1495:19: note: previous definition of 'fuse_sysctl_re=
-gister' with type 'int(void)'
->     1495 | static inline int fuse_sysctl_register(void) { return 0; }
->          |                   ^~~~~~~~~~~~~~~~~~~~
-> >> fs/fuse/sysctl.c:38:6: error: redefinition of 'fuse_sysctl_unregister'
->       38 | void fuse_sysctl_unregister(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~~
->    fs/fuse/fuse_i.h:1496:20: note: previous definition of 'fuse_sysctl_un=
-register' with type 'void(void)'
->     1496 | static inline void fuse_sysctl_unregister(void) { return; }
->          |                    ^~~~~~~~~~~~~~~~~~~~~~
->
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   46d28312ab3cc0cfe7e8dea2f41d22fe4ac35e67
+commit: 47e8d3acb59547baba8a14b65b4c11aef372e263 [19673/23581] bpf: Don't redirect packets with invalid pkt_len
+config: x86_64-buildonly-randconfig-004-20240825 (https://download.01.org/0day-ci/archive/20240828/202408282340.JcOrudl8-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408282340.JcOrudl8-lkp@intel.com/reproduce)
 
-I see. In the Makefile, the sysctl.o needs to be gated by CONFIG_SYSCTL
-eg
-fuse-$(CONFIG_SYSCTL) +=3D sysctl.o
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408282340.JcOrudl8-lkp@intel.com/
 
-I'll wait a bit to see if there are more comments on this patchset
-before submitting v6.
+All warnings (new ones prefixed by >>):
 
->
-> vim +/fuse_sysctl_register +30 fs/fuse/sysctl.c
->
->     29
->   > 30  int fuse_sysctl_register(void)
->     31  {
->     32          fuse_table_header =3D register_sysctl("fs/fuse", fuse_sys=
-ctl_table);
->     33          if (!fuse_table_header)
->     34                  return -ENOMEM;
->     35          return 0;
->     36  }
->     37
->   > 38  void fuse_sysctl_unregister(void)
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> net/bpf/.tmp_test_run.o: warning: objtool: bpf_prog_test_run_skb()+0x3b2: unreachable instruction
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
