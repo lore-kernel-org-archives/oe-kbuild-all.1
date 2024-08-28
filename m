@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F3742067
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 04:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE9B3D96A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 04:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724820161; cv=none; b=CGuzcQjxN7J5ZBrDhUVdPj1o+GrDShPkXEsD17WuAYqqe0MIhf8EMA9HVpE6D18gIz5TqZ6zssZobrtT9o/7yKBcd8l3lsxmlerW/0Qo+Ktpf5pihmx673T1jtYgVkc5xUOAoTU/Z18hS1EB0F4dQTgJgNcT4a3UDDPBPjUlcNs=
+	t=1724820823; cv=none; b=TG9hzwBQ66AfZhfcp76xGpw9jsccyNPT1YRuAw9icQ3eOxhRI8OJvW4ImIqGkZx3BdxIMQPWKdXRJ6u1gwm1GT0E87p5xrAFgo0kemsnj3F+G/PawLUziZ+cNTy8h2BXivJkJbSDRs/15XSjyr007Lm9gOnM5IPsNH9mMhVJGqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724820161; c=relaxed/simple;
-	bh=2ay/oOqiFBaFYr9Gx95uXp9a0/E+Hh4ICzvyh/8FHrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oxZxe7F+V2GqkAhq9Sw/7kxwaZR5XpYpaLnEf7fzWDCSSWiqdOzuzq/CbMvdV7wLynedYshex8m+uGIoev7JIL+LKyo+3gvo/9QPYVd5qFzcPDATzpl/Yp/9Gu2pK0yUDJzNG1lFqgJnX5kHf/XO+mw9yvmqZWoaIItmzQhFheE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfdU4+Cd; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1724820823; c=relaxed/simple;
+	bh=V1yZOu2GId5b6bnaYM6dmXuqDYTml9tYA+NecUp0Zag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxAVgIJV9w5Z/Q6vwEHVHPcw5hIQtr56xZL1aqgxVeY0vKwgwemvducj7A9CdZDuP8poBWMk0gvs3mLeHRrsIc3a4SrqPo+Yl0xwzq6DoPbpFQl4hmY4S1iev4giFi5Xcr5zixgMx96dT4lbCSX3KkH0qn0oAnF7BDEHS8Bu4kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IbWDjIsx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfdU4+Cd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IbWDjIsx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724820159; x=1756356159;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2ay/oOqiFBaFYr9Gx95uXp9a0/E+Hh4ICzvyh/8FHrs=;
-  b=XfdU4+CdFKC0VJEBnX6LSVZshW2VO7pF8OiGkWDA6MQmUTEKEwcZHd8P
-   kBgBnH4z/CdI1pCcwV/pdb/1CtVDURLrvR/wxyHh6TcjDquJKztak/hfi
-   0jXGxQ2T6XEOzBIsHfOKE+nWvk+PZ3AJ3xAYTwGk3ZYyxfkjt9udfQgc0
-   bRewLK8MXzlPppnspvjrX19TXUeKj2/jgY8EZ88DkodiV+k/xJrI6YMsk
-   JGlR8NucmIokq0jnscl+Le9MdJzcLPi+Iwq37dDpjXSOCEclc6coVW4q3
-   Kplw/aUxZBSm2grNZE0XdDbL72j73Mku9Rp71TB1XHEK4dkW1G/nTBIJu
-   A==;
-X-CSE-ConnectionGUID: 3Qov5fOlRvGgZpzPsq/yyg==
-X-CSE-MsgGUID: t+z/rLSjQUieydxBbOaMfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23472340"
+  t=1724820821; x=1756356821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V1yZOu2GId5b6bnaYM6dmXuqDYTml9tYA+NecUp0Zag=;
+  b=IbWDjIsxUYeIr/954+4Wc2mDyamqyp/oNCyJhB/+4SIca7tXjCjZ3Las
+   LAOUlnAWQglGZ4tBrGbl09M9clXZq8hq/YkGr475YdCay/TYX5bmoMyas
+   RyIJJhlq6cHnvbyoi6EpS2ZChFba4NFwV0VFtQ0/DVc1oekwLB1+47Yi6
+   BIrKaN0r9oYs2bXHodtfeAzOCxNIoQ1hzYr8IKHCfSvnVFfpISfDvJfFB
+   vP9BWp432kEN/Swgu/IRvMDf9YUG/h6STn6fGBUPpIAjbxcJycPtd+QYP
+   VS3MF3KO0VykkerGxzAZASl/mZsLvIRBS/7FtljX2DO8TGlfG2wer8FWL
+   w==;
+X-CSE-ConnectionGUID: O/+K+duDSrqE0bMK3gHIsg==
+X-CSE-MsgGUID: rzagQO83TZO1ne1I5Y37DA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34737013"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="23472340"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 21:42:38 -0700
-X-CSE-ConnectionGUID: CJQa3YscTJmZLnbMMP45hQ==
-X-CSE-MsgGUID: KjzmI+HMRmKcka0PWjo5DA==
+   d="scan'208";a="34737013"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 21:53:40 -0700
+X-CSE-ConnectionGUID: cQZeiJr2Qa2wN9m847ImQg==
+X-CSE-MsgGUID: Dt1q/+H2RlG43n9QpIA1cA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="62820279"
+   d="scan'208";a="93809470"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Aug 2024 21:42:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 Aug 2024 21:53:38 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjAVv-000KU4-1T;
-	Wed, 28 Aug 2024 04:42:35 +0000
-Date: Wed, 28 Aug 2024 12:42:33 +0800
+	id 1sjAgZ-000KUq-3B;
+	Wed, 28 Aug 2024 04:53:35 +0000
+Date: Wed, 28 Aug 2024 12:52:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 2/39] warning: unknown and unstable
- feature specified for `-Ctarget-feature`: `reserve-x18`
-Message-ID: <202408281220.PfRKp2lz-lkp@intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>
+Subject: Re: [PATCH v1 2/2] iio: imu: st_lsm6dsx: Remove useless dev_fwnode()
+ calls
+Message-ID: <202408281240.oT6C3uTj-lkp@intel.com>
+References: <20240826212344.866928-3-andy.shevchenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,106 +66,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240826212344.866928-3-andy.shevchenko@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   1d249e2f6485e9f4dd8dc97d4af04b2982190168
-commit: b5e76872bd38c8f103ba656e43bc4c3a53173520 [2/39] Merge 6d75c6f40a03 ("Merge tag 'arm64-upstream' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux") into android-mainline
-config: arm64-randconfig-r123-20240828 (https://download.01.org/0day-ci/archive/20240828/202408281220.PfRKp2lz-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
-reproduce: (https://download.01.org/0day-ci/archive/20240828/202408281220.PfRKp2lz-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.11-rc5 next-20240827]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-imu-st_lsm6dsx-Use-iio_read_acpi_mount_matrix-helper/20240827-052617
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240826212344.866928-3-andy.shevchenko%40gmail.com
+patch subject: [PATCH v1 2/2] iio: imu: st_lsm6dsx: Remove useless dev_fwnode() calls
+config: x86_64-randconfig-122-20240828 (https://download.01.org/0day-ci/archive/20240828/202408281240.oT6C3uTj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281240.oT6C3uTj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408281220.PfRKp2lz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408281240.oT6C3uTj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:62: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] *val @@     got int drdy_pin @@
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:62: sparse:     expected unsigned int [usertype] *val
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:62: sparse:     got int drdy_pin
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2137:62: sparse: sparse: non size-preserving integer to pointer cast
 
->> warning: unknown and unstable feature specified for `-Ctarget-feature`: `reserve-x18`
-   |
-   = note: it is still passed through to the codegen backend, but use of this feature might be unsound and the behavior of this feature can change in the future
-   = help: consider filing a feature request
---
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   In file included from arch/arm64/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
-   clang diag: include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->> warning: unknown and unstable feature specified for `-Ctarget-feature`: `reserve-x18`
-   |
-   = note: it is still passed through to the codegen backend, but use of this feature might be unsound and the behavior of this feature can change in the future
-   = help: consider filing a feature request
+vim +2137 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+  2129	
+  2130	static int
+  2131	st_lsm6dsx_get_drdy_reg(struct st_lsm6dsx_hw *hw,
+  2132				const struct st_lsm6dsx_reg **drdy_reg)
+  2133	{
+  2134		struct device *dev = hw->dev;
+  2135		int err = 0, drdy_pin;
+  2136	
+> 2137		if (device_property_read_u32(dev, "st,drdy-int-pin", drdy_pin) < 0) {
+  2138			struct st_sensors_platform_data *pdata;
+  2139	
+  2140			pdata = (struct st_sensors_platform_data *)dev->platform_data;
+  2141			drdy_pin = pdata ? pdata->drdy_int_pin : 1;
+  2142		}
+  2143	
+  2144		switch (drdy_pin) {
+  2145		case 1:
+  2146			hw->irq_routing = &hw->settings->irq_config.irq1_func;
+  2147			*drdy_reg = &hw->settings->irq_config.irq1;
+  2148			break;
+  2149		case 2:
+  2150			hw->irq_routing = &hw->settings->irq_config.irq2_func;
+  2151			*drdy_reg = &hw->settings->irq_config.irq2;
+  2152			break;
+  2153		default:
+  2154			dev_err(hw->dev, "unsupported data ready pin\n");
+  2155			err = -EINVAL;
+  2156			break;
+  2157		}
+  2158	
+  2159		return err;
+  2160	}
+  2161	
 
 -- 
 0-DAY CI Kernel Test Service
