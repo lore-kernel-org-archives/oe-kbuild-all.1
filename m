@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C61016A934
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 10:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94B615445E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 10:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724840532; cv=none; b=jeQmm50+6L/PaTwiu71TbOSWFvZdVMx/bWlq5jajgmu1lTSknDBkF22/x2NXi9fn/0956knnRyUOvWpyzgDiOWcf0qDhjRhNZK/ygLFiQycxvYEib2f+SEGupmStiftN9E97fMJq5u8GvwP2bfqMn9ayCHsicYLcgmjE9N0lAHI=
+	t=1724841132; cv=none; b=A/DnowuM8NrURFYnVMJCWsVqn49SXXoRXtGb6yfwIoMxBOQaashQ+k8azzKvWe9uswuSBrF7pZa904+lLsZH7uEljg3wWe3FhsxLwarx36QvcbK5QUEfYeb0QLr2HAy1Emr7mrKC6u+ExpI09Y5oSw1MVMqSUkwDKsJ/NRjG/d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724840532; c=relaxed/simple;
-	bh=w6ljfkY5PQNpBzNZf4RZ9DugJisfO9RIvMKwyiiUCeI=;
+	s=arc-20240116; t=1724841132; c=relaxed/simple;
+	bh=jcYZZYUopyame7hS+JYBfmT0dPB6Dpo9GVEzMdp4nBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UVnGOmu1ue1S4NXJ4PAu2JtFfLX0/9iVNQOtHLVyoP0ucN7bFf3183ZO7bisat5Pfh71EWWbF6dMzkmZ7E6k//HKU1L8Zj9qopDZospKpAaSYdiLM1tptDNr1nGI5xjB+0hVbIfm3LxEaNNXIrh557SvqTEB8nHKADsr5CIPLek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFgJjQse; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=GGnk6dzsNsVFjWH6NrfKpgFY+AZ16XfjKEwtUn0gvlKV2EfNkTHhn17hacHJ7glBxvt/Pd6D/hW7AJaE6mOAx5ykudSREa38jHVUJ2PLAhndiM7M3AqFI0fdwl49zKjiM5wMq0e2eGpmV7PBGUZFsc3aH+HhNz23BIJ+a1YRTag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krSnZL6C; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFgJjQse"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krSnZL6C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724840530; x=1756376530;
+  t=1724841131; x=1756377131;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w6ljfkY5PQNpBzNZf4RZ9DugJisfO9RIvMKwyiiUCeI=;
-  b=QFgJjQseASAXrx/6/pi9DdqescgAakb3wY2b5U8h6csVC0XS9bK4hcyZ
-   Zkl1qXHXRTtHdUnN6L7wMCQtyUrkg3ThAA7YdAOpWcIgfLU7mZSaJE/mw
-   o+l/Etkw1rZhEysQdev2mwasxWNuJbMYPHzR4nQTisUNnhKvzhtFLgq7Y
-   KtDjNfQ5vGbgUHIkME2LwDjCLuCLvpxF/LQbI0R7qFQ/UXQOS9VNyzerM
-   P3BU1cm9+ehpaY4guNdOn78FllXNw1+H5bfILTWhPlRjnIPOcOnG13q0Z
-   J6I59pQOWQR/ETaaqyl9rGw/jmRPdTWRFQVt+pEOYoDN+EqPT9TU+Gngl
+  bh=jcYZZYUopyame7hS+JYBfmT0dPB6Dpo9GVEzMdp4nBY=;
+  b=krSnZL6C2X5Yg3wJsre3JwPW8cpi+uHnYl5ocJ3MufX1L+sd+lPqM6sF
+   ablqd/pjyX7Kuix0HrEqQaVHw4d6Pdc2xMIhmqzK9z/CIFxNDNru5MsUy
+   wGKifLy3lgyNePRvo6h+QW+jx5hbfUrM9BjYzUGr6n3BkuaAeXU+3oNb6
+   18L1VOmWNoPo49YtlTlySjq6ufrmyjHmqmu/YIUtHKeDhvPkUkINp6kyn
+   VtsGguYo5PYxEZqEfq1tCZu4R1EVOXVleLzGGQbTotDxO4g0peM4L9kXa
+   2BNdTPkIDGOkjOfSwweSb7wPfnD3cNFIP0wa2BR1vQtZAIHKhAj4HWYyi
    w==;
-X-CSE-ConnectionGUID: nvcUO+TbSvqQ3x5azBbdww==
-X-CSE-MsgGUID: 70lGDLuYRLSEztzoYxQ+jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="34768573"
+X-CSE-ConnectionGUID: Ylup4/Q4SHSQC+kjVIQOAA==
+X-CSE-MsgGUID: TLckFaL2RnqUJ7atZeV4hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23236153"
 X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="34768573"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 03:22:09 -0700
-X-CSE-ConnectionGUID: cMK+5H7XTDW7vSu1MkK9bw==
-X-CSE-MsgGUID: ALixg9IlQoOH9BT/7/tTJQ==
+   d="scan'208";a="23236153"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 03:32:09 -0700
+X-CSE-ConnectionGUID: eWMh+ryxTqSYcSJ/D0Y1CA==
+X-CSE-MsgGUID: FMYheXhqQPql8ESxDM8YTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="68065305"
+   d="scan'208";a="67546462"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Aug 2024 03:22:08 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Aug 2024 03:32:08 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjFoT-000Knz-1p;
-	Wed, 28 Aug 2024 10:22:05 +0000
-Date: Wed, 28 Aug 2024 18:21:16 +0800
+	id 1sjFyA-000Kp0-0O;
+	Wed, 28 Aug 2024 10:32:06 +0000
+Date: Wed, 28 Aug 2024 18:31:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: linmin <linmin@eswincomputing.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	Darshan Prajapati <darshan.prajapati@einfochips.com>,
-	Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
-Subject: [esmil:eic7700 15/20] drivers/iommu/eswin/eic7700-sid.c:264:63:
- error: 'eic7700_sid_soc' undeclared here (not in a function)
-Message-ID: <202408281843.QDmMrm5l-lkp@intel.com>
+To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 27353/30000] arch/x86/kvm/x86.c:805:5: warning:
+ no previous prototype for function 'kvm_read_guest_page_mmu'
+Message-ID: <202408281850.dOf6mZes-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,269 +62,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/esmil/linux eic7700
-head:   eb44174b12f99d320be704b45db6b994f6a014bd
-commit: 8168e67adcf849dda6a557aeeae0061dd0ad7d94 [15/20] drivers: iommu: Add IOMMU driver for EIC7700
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240828/202408281843.QDmMrm5l-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281843.QDmMrm5l-lkp@intel.com/reproduce)
+Hi Sean,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   591c3cfd9334124e0c6df438eb2ffb040e6de29e
+commit: aeaeb4dcb428b870d4207cc0fae7c125b7522406 [27353/30000] KVM: x86: Subsume nested GPA read helper into load_pdptrs()
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240828/202408281850.dOf6mZes-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281850.dOf6mZes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408281843.QDmMrm5l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408281850.dOf6mZes-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iommu/eswin/eic7700-sid.c:94:5: warning: no previous prototype for 'eic7700_dynm_sid_enable' [-Wmissing-prototypes]
-      94 | int eic7700_dynm_sid_enable(int nid)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/eswin/eic7700-sid.c:134:5: warning: no previous prototype for 'eic7700_aon_sid_cfg' [-Wmissing-prototypes]
-     134 | int eic7700_aon_sid_cfg(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/iommu/eswin/eic7700-sid.c:264:63: error: 'eic7700_sid_soc' undeclared here (not in a function)
-     264 |         { .compatible = "eswin,eic7700-scu-sys-con", .data = &eic7700_sid_soc },
-         |                                                               ^~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:31,
-                    from drivers/iommu/eswin/eic7700-sid.c:8:
-   drivers/iommu/eswin/eic7700-sid.c: In function 'eic7700_tbu_powr_priv_init':
->> drivers/iommu/eswin/eic7700-sid.c:548:18: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
-     548 |         pr_debug("%s:%d, num_tbu=%d,sizeof(struct tbu_priv)=0x%lx, alloc_size=0x%x, tbu_priv_p=0x%px\n",
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:355:21: note: in definition of macro 'pr_fmt'
-     355 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:589:9: note: in expansion of macro 'dynamic_pr_debug'
-     589 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/eswin/eic7700-sid.c:548:9: note: in expansion of macro 'pr_debug'
-     548 |         pr_debug("%s:%d, num_tbu=%d,sizeof(struct tbu_priv)=0x%lx, alloc_size=0x%x, tbu_priv_p=0x%px\n",
-         |         ^~~~~~~~
-   drivers/iommu/eswin/eic7700-sid.c:548:65: note: format string is defined here
-     548 |         pr_debug("%s:%d, num_tbu=%d,sizeof(struct tbu_priv)=0x%lx, alloc_size=0x%x, tbu_priv_p=0x%px\n",
-         |                                                               ~~^
-         |                                                                 |
-         |                                                                 long unsigned int
-         |                                                               %x
-   drivers/iommu/eswin/eic7700-sid.c:556:26: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'unsigned int' [-Wformat=]
-     556 |                 pr_debug("%s, nid %d, tbu 0x%02x, tbu_priv_p(0x%px), sizeof(struct tbu_priv)=0x%lx\n", __func__, nid, tbu_priv_p->tbu_client_p->tbu_id, tbu_priv_p, sizeof(struct tbu_priv));
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:355:21: note: in definition of macro 'pr_fmt'
-     355 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:589:9: note: in expansion of macro 'dynamic_pr_debug'
-     589 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/iommu/eswin/eic7700-sid.c:556:17: note: in expansion of macro 'pr_debug'
-     556 |                 pr_debug("%s, nid %d, tbu 0x%02x, tbu_priv_p(0x%px), sizeof(struct tbu_priv)=0x%lx\n", __func__, nid, tbu_priv_p->tbu_client_p->tbu_id, tbu_priv_p, sizeof(struct tbu_priv));
-         |                 ^~~~~~~~
-   drivers/iommu/eswin/eic7700-sid.c:556:98: note: format string is defined here
-     556 |                 pr_debug("%s, nid %d, tbu 0x%02x, tbu_priv_p(0x%px), sizeof(struct tbu_priv)=0x%lx\n", __func__, nid, tbu_priv_p->tbu_client_p->tbu_id, tbu_priv_p, sizeof(struct tbu_priv));
-         |                                                                                                ~~^
-         |                                                                                                  |
-         |                                                                                                  long unsigned int
-         |                                                                                                %x
-   drivers/iommu/eswin/eic7700-sid.c: At top level:
->> drivers/iommu/eswin/eic7700-sid.c:608:5: warning: no previous prototype for 'eic7700_tbu_power' [-Wmissing-prototypes]
-     608 | int eic7700_tbu_power(struct device *dev, bool is_powerUp)
-         |     ^~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:805:5: warning: no previous prototype for function 'kvm_read_guest_page_mmu' [-Wmissing-prototypes]
+     805 | int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+         |     ^
+   arch/x86/kvm/x86.c:805:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     805 | int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+         | ^
+         | static 
+   arch/x86/kvm/x86.c:900:6: warning: no previous prototype for function 'kvm_post_set_cr0' [-Wmissing-prototypes]
+     900 | void kvm_post_set_cr0(struct kvm_vcpu *vcpu, unsigned long old_cr0, unsigned long cr0)
+         |      ^
+   arch/x86/kvm/x86.c:900:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     900 | void kvm_post_set_cr0(struct kvm_vcpu *vcpu, unsigned long old_cr0, unsigned long cr0)
+         | ^
+         | static 
+   arch/x86/kvm/x86.c:1081:6: warning: no previous prototype for function 'kvm_post_set_cr4' [-Wmissing-prototypes]
+    1081 | void kvm_post_set_cr4(struct kvm_vcpu *vcpu, unsigned long old_cr4, unsigned long cr4)
+         |      ^
+   arch/x86/kvm/x86.c:1081:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1081 | void kvm_post_set_cr4(struct kvm_vcpu *vcpu, unsigned long old_cr4, unsigned long cr4)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/eic7700_sid_soc +264 drivers/iommu/eswin/eic7700-sid.c
+vim +/kvm_read_guest_page_mmu +805 arch/x86/kvm/x86.c
 
-    93	
-  > 94	int eic7700_dynm_sid_enable(int nid)
-    95	{
-    96		unsigned long reg_val;
-    97		struct eic7700_sid *mc = NULL;
-    98	
-    99		if (nid == NUMA_NO_NODE) {
-   100		#ifdef CONFIG_NUMA
-   101			pr_err("%s:%d, NUMA_NO_NODE\n", __func__, __LINE__);
-   102			return -EFAULT;
-   103		#else
-   104			pr_info("%s:%d, NUMA_NO_NODE, single DIE\n", __func__, __LINE__);
-   105			nid = 0;
-   106		#endif
-   107		}
-   108	
-   109		mc = syscon_sid_cfg[nid];
-   110		if (mc == NULL)
-   111			return -EFAULT;
-   112	
-   113		mutex_lock(&mc->eswin_dynm_sid_cfg_en_lock);
-   114		reg_val = readl(mc->regs + DYMN_CSR_EN_REG_OFFSET);
-   115		set_bit(MCPU_SP0_DYMN_CSR_EN_BIT, &reg_val);
-   116		writel(reg_val, mc->regs + DYMN_CSR_EN_REG_OFFSET);
-   117	
-   118		while(1) {
-   119			reg_val = readl(mc->regs + DYMN_CSR_GNT_REG_OFFSET) & (1 << MCPU_SP0_DYMN_CSR_GNT_BIT);
-   120			if (reg_val)
-   121				break;
-   122	
-   123			msleep(10);
-   124		}
-   125		reg_val = readl(mc->regs + DYMN_CSR_EN_REG_OFFSET);
-   126		clear_bit(MCPU_SP0_DYMN_CSR_EN_BIT, &reg_val);
-   127		writel(reg_val, mc->regs + DYMN_CSR_EN_REG_OFFSET);
-   128		mutex_unlock(&mc->eswin_dynm_sid_cfg_en_lock);
-   129	
-   130		return 0;
-   131	}
-   132	EXPORT_SYMBOL(eic7700_dynm_sid_enable);
-   133	
- > 134	int eic7700_aon_sid_cfg(struct device *dev)
-   135	{
-   136		int ret = 0;
-   137		struct regmap *regmap;
-   138		int aon_sid_reg;
-   139		u32 rdwr_sid_ssid;
-   140		u32 sid;
-   141		int i,sid_count;
-   142		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-   143		struct device_node *np_syscon;
-   144		int syscon_cell_size = 0;
-   145	
-   146		/* not behind smmu, use the default reset value(0x0) of the reg as streamID*/
-   147		if (fwspec == NULL) {
-   148			dev_info(dev, "dev is not behind smmu, skip configuration of sid\n");
-   149			return 0;
-   150		}
-   151	
-   152		regmap = syscon_regmap_lookup_by_phandle(dev->of_node, "eswin,syscfg");
-   153		if (IS_ERR(regmap)) {
-   154			dev_err(dev, "No eswin,syscfg phandle specified\n");
-   155			return -1;
-   156		}
-   157	
-   158		np_syscon = of_parse_phandle(dev->of_node, "eswin,syscfg", 0);
-   159		if (np_syscon) {
-   160			if (of_property_read_u32(np_syscon, "#syscon-cells", &syscon_cell_size)) {
-   161				of_node_put(np_syscon);
-   162				dev_err(dev, "failed to get #syscon-cells of sys_con\n");
-   163				return -1;
-   164			}
-   165			of_node_put(np_syscon);
-   166		}
-   167	
-   168		sid_count = of_count_phandle_with_args(dev->of_node,
-   169						"eswin,syscfg", "#syscon-cells");
-   170	
-   171		dev_dbg(dev, "sid_count=%d, fwspec->num_ids=%d, syscon_cell_size=%d\n",
-   172				sid_count, fwspec->num_ids, syscon_cell_size);
-   173	
-   174		if (sid_count < 0) {
-   175			dev_err(dev, "failed to parse eswin,syscfg property!\n");
-   176			return -1;
-   177		}
-   178	
-   179		if (fwspec->num_ids != sid_count) {
-   180			dev_err(dev, "num_ids(%d) is NOT equal to num of sid regs(%d)!\n",
-   181				fwspec->num_ids, sid_count);
-   182			return -1;
-   183		}
-   184	
-   185		for (i = 0; i < sid_count; i++) {
-   186			sid = fwspec->ids[i];
-   187			ret = of_property_read_u32_index(dev->of_node, "eswin,syscfg", (syscon_cell_size + 1)*i+1,
-   188						&aon_sid_reg);
-   189			if (ret) {
-   190				dev_err(dev, "can't get sid cfg reg offset in sys_con(errno:%d)\n", ret);
-   191				return ret;
-   192			}
-   193	
-   194			/* make the reading sid the same as writing sid, ssid is fixed to zero */
-   195			rdwr_sid_ssid  = FIELD_PREP(AWSMMUSID, sid);
-   196			rdwr_sid_ssid |= FIELD_PREP(ARSMMUSID, sid);
-   197			rdwr_sid_ssid |= FIELD_PREP(AWSMMUSSID, 0);
-   198			rdwr_sid_ssid |= FIELD_PREP(ARSMMUSSID, 0);
-   199			regmap_write(regmap, aon_sid_reg, rdwr_sid_ssid);
-   200	
-   201			ret = eic7700_dynm_sid_enable(dev_to_node(dev));
-   202			if (ret < 0)
-   203				dev_err(dev, "failed to config streamID(%d) for %s!\n", sid, of_node_full_name(dev->of_node));
-   204			else
-   205				dev_info(dev, "success to config dma streamID(%d) for %s!\n", sid, of_node_full_name(dev->of_node));
-   206		}
-   207	
-   208		return ret;
-   209	}
-   210	EXPORT_SYMBOL(eic7700_aon_sid_cfg);
-   211	
-   212	static int of_parse_syscon_nodes(struct device_node *np, int *nid_p)
-   213	{
-   214		#ifdef CONFIG_NUMA
-   215		int nid;
-   216		int r;
-   217	
-   218		r = of_property_read_u32(np, "numa-node-id", &nid);
-   219		if (r)
-   220			return -EINVAL;
-   221	
-   222		pr_debug("Syscon on %u\n", nid);
-   223		if (nid >= MAX_NUMNODES) {
-   224			pr_warn("Node id %u exceeds maximum value\n", nid);
-   225			return -EINVAL;
-   226		}
-   227		else
-   228			*nid_p = nid;
-   229		#else
-   230			*nid_p = 0;
-   231		#endif
-   232	
-   233		pr_debug("%s, nid = %d\n", __func__, *nid_p);
-   234	
-   235		return 0;
-   236	}
-   237	
-   238	#if defined(CONFIG_RISCV)
-   239	static const struct eic7700_sid_client eic7700_sid_clients[] = {
-   240		{
-   241			.name = "scpu",
-   242			.sid = EIC7700_SID_SCPU,
-   243			.reg_offset = SCPU_SID_REG_OFFSET,
-   244		},
-   245		{
-   246			.name = "dma1",
-   247			.sid = EIC7700_SID_DMA1,
-   248			.reg_offset = DMA1_SID_REG_OFFSET,
-   249		},
-   250		//{
-   251		//	.name = "crypt",
-   252		//	.sid = EIC7700_SID_CRYPT,
-   253		//	.reg_offset = CRYPT_SID_REG_OFFSET,
-   254		//}
-   255	};
-   256	
-   257	static const struct eic7700_sid_soc eic7700_sid_soc = {
-   258		.num_clients = ARRAY_SIZE(eic7700_sid_clients),
-   259		.clients = eic7700_sid_clients,
-   260	};
-   261	#endif
-   262	
-   263	static const struct of_device_id eic7700_sid_of_match[] = {
- > 264		{ .compatible = "eswin,eic7700-scu-sys-con", .data = &eic7700_sid_soc },
-   265		{ /* sentinel */ }
-   266	};
-   267	
+16f8a6f9798ab9a Nadav Amit    2014-10-03  799  
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  800  /*
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  801   * This function will be used to read from the physical memory of the currently
+54bf36aac520315 Paolo Bonzini 2015-04-08  802   * running guest. The difference to kvm_vcpu_read_guest_page is that this function
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  803   * can read from guest physical or from the guest's guest physical memory.
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  804   */
+ec92fe44e7ff94d Joerg Roedel  2010-09-10 @805  int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  806  			    gfn_t ngfn, void *data, int offset, int len,
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  807  			    u32 access)
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  808  {
+54987b7afa902e8 Paolo Bonzini 2014-09-02  809  	struct x86_exception exception;
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  810  	gfn_t real_gfn;
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  811  	gpa_t ngpa;
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  812  
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  813  	ngpa     = gfn_to_gpa(ngfn);
+54987b7afa902e8 Paolo Bonzini 2014-09-02  814  	real_gfn = mmu->translate_gpa(vcpu, ngpa, access, &exception);
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  815  	if (real_gfn == UNMAPPED_GVA)
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  816  		return -EFAULT;
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  817  
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  818  	real_gfn = gpa_to_gfn(real_gfn);
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  819  
+54bf36aac520315 Paolo Bonzini 2015-04-08  820  	return kvm_vcpu_read_guest_page(vcpu, real_gfn, data, offset, len);
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  821  }
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  822  EXPORT_SYMBOL_GPL(kvm_read_guest_page_mmu);
+ec92fe44e7ff94d Joerg Roedel  2010-09-10  823  
+
+:::::: The code at line 805 was first introduced by commit
+:::::: ec92fe44e7ff94d04d8305e49efcffd8773e1cf6 KVM: X86: Add kvm_read_guest_page_mmu function
+
+:::::: TO: Joerg Roedel <joerg.roedel@amd.com>
+:::::: CC: Avi Kivity <avi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
