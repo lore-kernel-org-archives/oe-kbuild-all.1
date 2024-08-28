@@ -1,94 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34A189B91;
-	Wed, 28 Aug 2024 14:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B1C1A2C20
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 15:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724856700; cv=none; b=WB1aaEJh4lkAAvgLJQJ/xbSdM8Iam9rVHMYeAsEB4MU4BIJ/M8lHaMF6tdetE17vdFTtyuYMvSS3HyX67cWFFUVLMsNpVnW+jNC29Pb88ZqBpesEMg0q0zcjlj6yCBclh665sEkPUPmKvFMzWeUXzHcWSX9exXQWoJCZIBnoQmE=
+	t=1724860298; cv=none; b=VMrb6lCxZaitjlRYMKWpLN6u3jWg5GaAU9ssEqltXrvHXdcBTpQa88KEISuzLeaK9AXpizw1fmI0sblhE1PrWGWPefeEdGtH52xpr8AXCNnn06mjkK5Le36liwqZAu3sKikKtSdsKSjUG5YyL4Q0egnWXemnunUelxivb+RswtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724856700; c=relaxed/simple;
-	bh=4FHpHzVbMFWT7DROllR6n7Aj0djCGiLqWO/WUuaZc9I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VXBHNmRt/omRi6G/J91a6E5IQN85IiGd9nEQJEQAICDfbmsv7v4vlr4QNjqHWecSqzbJF6jxldplPcv3ByRa3NgoVtAA/GvkqWlKxqYo1DPeVBznRJY2/Fh2saXDPs/BaQlK4RMC/BdEk2RuB+8+lm0BsRmIuDYom7i5EyeIjGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+OqbC2/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724860298; c=relaxed/simple;
+	bh=OFFj1NEy5g3i6vGCQ/1G2WW7fCe1HDsr1xX6gfPYgSM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rBKTakpraiTSGJO/e9mJMMh69yfnqo32n1r2cd9HdIz5I3a26xgzcgHePnmelUEGPgo+1z+ucauj+ve0YXhf3uYz8QqfF/oqvFE8YWSQ9z+dVtNB9JMAjc3Etcwp6/GnV8zOpDaKxlIyFoy/EGAYIuGjBu4u19zDr0zZH396gBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IhHIPBov; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+OqbC2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C25DC51ED5;
-	Wed, 28 Aug 2024 14:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724856699;
-	bh=4FHpHzVbMFWT7DROllR6n7Aj0djCGiLqWO/WUuaZc9I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T+OqbC2/APdPI2yNcDWSPkdPRXwTLoX9/Xaoh141sawzc8AU53TIAI6NDPOV5+bBV
-	 zm6csvSjnRD/jU0W6sQRoFEdTkQaLSCrawWvJe59HRv4wKlICvmYSdNZ/u4jCQQmlg
-	 YseNTjmnXxyPjg0s5UfIDTLQI6WbUqHmheyGn7yjRvFs4QUVmETslMIVE/DNS4wK/U
-	 raC5psF+XetvYw6yGlddXTRNDyxqaYpFRB/Tu5Zy0VQYWFz8lWSaK8lJEk4ZgHLjWX
-	 waUV3/i3i0HEBI1dKeyUDIpgNGzunMYNPbSHg3DVpu9qqCqn4whgImLJaAQ0tEOjCV
-	 7JK9m7/D6COFg==
-Message-ID: <7b28ccf9-63fe-4e32-8484-24b55432c2b6@kernel.org>
-Date: Wed, 28 Aug 2024 16:51:33 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IhHIPBov"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4567edb7dceso220611cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 08:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724860294; x=1725465094; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I7ms7TuhcUGP2Kd6Iyh+E63IDbeeFTrHgWyCubmUSMg=;
+        b=IhHIPBovv7DpB/5lmGGhvaRV0IXP19clWQYl1URy9/B5XGgu7LEceE9krffq7mRirU
+         29lN2BMD1MnC1UE9HXRKhrnQLR7H8QbusEU0NQfAcoCIeOzzlCf9Ho5D2lpXzkj7ftuX
+         omenctlSvy5iRmsovlOoVfi1znA2/suX3tMmrrykYXUmjKHSvi7yExDhAwz8eXTUhPbB
+         J24cx7/lanveguWtVWOukEfWIbbUplPLr5iU+Ipzqy4BvWBTfpNzRW9n8bLCIEusZawD
+         cErav8kuB/Odb27PNk2UpqOCat2hx1knoj3XbaRxF1KxFZbIjMl5egsChDxGaPPrC/7j
+         2o7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724860294; x=1725465094;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I7ms7TuhcUGP2Kd6Iyh+E63IDbeeFTrHgWyCubmUSMg=;
+        b=MCZWU+1via89yna3yGMG7Z72IooIi2xAnSd5CYFRooHFG5/inlBOcfZn+8zGpdqVuD
+         vhmrcuSI7bLTavP2kSlIx65TOuTF78rNcCH/wWswZxqfUeZKBT8lec/RJVr6K7OsQ3Ok
+         gc3yDO6KD4ZU6WcTuFGvP3cNxZ6y/oCneZxgKtl+TiADMsvpbU7ax5Oe4EuLfH6wGxEL
+         df2CsAjTtyhhJnRdTnyi4aMiR7ljqqpgkLukPOYqHnTZy8OZoitlrudieSUmoUHpws0K
+         m8tUTlYaLB6TrU2jyfhEj/sJvK8XqFdE93Ie+YizyJkkKtTYnWrmp/8RSKRQ+SHtrd9n
+         +QFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUh94vgkZCH66O4ygMIAnj1jnGiQloBdyWmIWasxZgXcAdjtB9iWbwqauAMdan0FUQnXyagn2ETF6ciyqTJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9kxCCs6KKR1cc5gUjYO1wZLSKcHQ76Z2lLJIZjOTdeGFOQJHg
+	vUNl1d+PSRbFY3h90HxAS0z9HfxWDmN0OCVqOgTYqTKOP96OeRskU7U49js5K1wLXtCG3/MhTF7
+	Yns9/TqLlE/w4GlMyOinfm047zNc=
+X-Google-Smtp-Source: AGHT+IEGoKWC4F/OJCQkBY+n2LoGZU9WkWOA8kAbisIXzU03+K4zrmT76a+W6VlyWt3PPU/6qDA5iMrh5CsysucEsn4=
+X-Received: by 2002:a05:622a:17ca:b0:450:3eb:cb30 with SMTP id
+ d75a77b69052e-4566e6a81f2mr27575271cf.42.1724860293793; Wed, 28 Aug 2024
+ 08:51:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 4179/4667]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3301:3: error: call to undeclared
- function 'pci_prepare_ats'; ISO C99 and later do not support implicit
- function declarations
-To: kernel test robot <lkp@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
-References: <202408150626.4kndgpL3-lkp@intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <202408150626.4kndgpL3-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240826203234.4079338-3-joannelkoong@gmail.com> <202408280419.yuu33o7t-lkp@intel.com>
+In-Reply-To: <202408280419.yuu33o7t-lkp@intel.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 28 Aug 2024 08:51:22 -0700
+Message-ID: <CAJnrk1Y3piNWm3482N1QcasAmmUMYk1KkoO9TyupaJDBM8jW9A@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] fuse: add default_request_timeout and
+ max_request_timeout sysctls
+To: kernel test robot <lkp@intel.com>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, josef@toxicpanda.com, 
+	bernd.schubert@fastmail.fm, jefflexu@linux.alibaba.com, laoar.shao@gmail.com, 
+	kernel-team@meta.com, Bernd Schubert <bschubert@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15.08.2024 12:09 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   320eb81df4f6c1a1814fd02ebb4ba41eb80a3c7e
-> commit: 2665d975db35f124d47e9584d448a3fb4d54f225 [4179/4667] iommu: Allow ATS to work on VFs when the PF uses IDENTITY
-> config: arm64-randconfig-003-20240815 (https://download.01.org/0day-ci/archive/20240815/202408150626.4kndgpL3-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f86594788ce93b696675c94f54016d27a6c21d18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408150626.4kndgpL3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+On Tue, Aug 27, 2024 at 2:52=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Joanne,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on mszeredi-fuse/for-next]
+> [also build test ERROR on linus/master v6.11-rc5 next-20240827]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-=
+add-optional-kernel-enforced-timeout-for-requests/20240827-043354
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
+ for-next
+> patch link:    https://lore.kernel.org/r/20240826203234.4079338-3-joannel=
+koong%40gmail.com
+> patch subject: [PATCH v5 2/2] fuse: add default_request_timeout and max_r=
+equest_timeout sysctls
+> config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/arch=
+ive/20240828/202408280419.yuu33o7t-lkp@intel.com/config)
+> compiler: arceb-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240828/202408280419.yuu33o7t-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202408150626.4kndgpL3-lkp@intel.com/
-> 
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408280419.yuu33o7t-lkp=
+@intel.com/
+>
 > All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:15:
->    In file included from include/linux/crash_dump.h:5:
->    In file included from include/linux/kexec.h:18:
->    In file included from include/linux/vmcore_info.h:6:
->    In file included from include/linux/elfcore.h:11:
->    In file included from include/linux/ptrace.h:10:
->    In file included from include/linux/pid_namespace.h:7:
->    In file included from include/linux/mm.h:2228:
->    include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
->      514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
->          |                               ~~~~~~~~~~~ ^ ~~~
->>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3301:3: error: call to undeclared function 'pci_prepare_ats'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     3301 |                 pci_prepare_ats(to_pci_dev(dev), stu);
->          |                 ^
->    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3301:3: note: did you mean 'pci_enable_ats'?
->    include/linux/pci-ats.h:18:19: note: 'pci_enable_ats' declared here
->       18 | static inline int pci_enable_ats(struct pci_dev *d, int ps)
->          |                   ^
->    1 warning and 1 error generated.
-> 
-> 
-> vim +/pci_prepare_ats +3301 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+>
+> >> fs/fuse/sysctl.c:30:5: error: redefinition of 'fuse_sysctl_register'
+>       30 | int fuse_sysctl_register(void)
+>          |     ^~~~~~~~~~~~~~~~~~~~
+>    In file included from fs/fuse/sysctl.c:9:
+>    fs/fuse/fuse_i.h:1495:19: note: previous definition of 'fuse_sysctl_re=
+gister' with type 'int(void)'
+>     1495 | static inline int fuse_sysctl_register(void) { return 0; }
+>          |                   ^~~~~~~~~~~~~~~~~~~~
+> >> fs/fuse/sysctl.c:38:6: error: redefinition of 'fuse_sysctl_unregister'
+>       38 | void fuse_sysctl_unregister(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~
+>    fs/fuse/fuse_i.h:1496:20: note: previous definition of 'fuse_sysctl_un=
+register' with type 'void(void)'
+>     1496 | static inline void fuse_sysctl_unregister(void) { return; }
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~
+>
 
-Hi, this is still an issue on next-20240826
+I see. In the Makefile, the sysctl.o needs to be gated by CONFIG_SYSCTL
+eg
+fuse-$(CONFIG_SYSCTL) +=3D sysctl.o
 
-Konrad
+I'll wait a bit to see if there are more comments on this patchset
+before submitting v6.
+
+>
+> vim +/fuse_sysctl_register +30 fs/fuse/sysctl.c
+>
+>     29
+>   > 30  int fuse_sysctl_register(void)
+>     31  {
+>     32          fuse_table_header =3D register_sysctl("fs/fuse", fuse_sys=
+ctl_table);
+>     33          if (!fuse_table_header)
+>     34                  return -ENOMEM;
+>     35          return 0;
+>     36  }
+>     37
+>   > 38  void fuse_sysctl_unregister(void)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
