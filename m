@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD9E647
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 03:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3684864A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 03:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724814636; cv=none; b=DB4z0RDFWfck9ud7YGByvwDLA9tExIKueHCwqzJgno4Nrn6sFqUATFCM/P0zbluebVsl/Yk5SU8qhzoDjz2vnBq8iglT3H0Jr52Je25qfGcIiuPvosj7zA4OS8L7xUhO4x10HYbAauVOwL7kIxCmqpltO2z+1gOcnI96InO4Xqk=
+	t=1724815238; cv=none; b=AbsUKhnFxCc4ADdDmfoLzlRgIGoe8T89cTILdHbKEVt93PW0njoE6b87xjzOX541RuCiprpMkkCRAAmLEudmOrv46uUneI0WNO7wj6GQcNDuHLzG5HG0kow+JqlSpaf+uiK3hDGP2tK+IvR2h8jOMuH1YCntbNFgiWP6YbSe7MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724814636; c=relaxed/simple;
-	bh=a3k8cc72V7JMXReGRf2X1g0nAVPj5lw6UnAU/C3SKjA=;
+	s=arc-20240116; t=1724815238; c=relaxed/simple;
+	bh=HvJjMVoeXzJcsa8qRTSkMFeVZYNus8Sf7Se56IboCf4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oP6ZmpdXuA5T0fbFtxabbZJuKyKWgHjjoO+8p1uLWQZwnTuJAeoGTascCo1rMDF873ZP4FSXBCCcxhI23ahOfXdOBLSQv2Rzuv3B4oWN13d8c7qT7bKCxGIzy7QAlh6LtQ+yCtvTjseaiVvXcU//hXF3drgIJzF5EXhSVs9xads=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWArATGq; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=tcFLTGQIOSTT3svS+WnT2/tddh3I0xIV2RIlmpipw4AhfG9TPgG5UcmuucFXCClsNsmsHgWMCI5KVLF5VnuS2C54c9NO5+I7q4n7LIbE8lqJU0/LuLRtI0yZGx42pHvVciptCbbNrBRoj/B66Kd9C4Yx5qGzzGJ9zIph4EkwK40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMmHuv0/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWArATGq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMmHuv0/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724814634; x=1756350634;
+  t=1724815236; x=1756351236;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a3k8cc72V7JMXReGRf2X1g0nAVPj5lw6UnAU/C3SKjA=;
-  b=YWArATGq6uhtjo0k5gcxiQo4ucPHKtMNgxiUizAJjQAB6Nb+OZhv/B20
-   l+hBiDKCJiaBiKYx+6XuKWDNhaiX6lZUpOld2gxs29tkmwXKnAZs7SFT0
-   vsZd7wz6hJqxtedasNDodMimu2PO7lO3u+WDFIiCx7zGeJcknWYQLng8a
-   6s02SCOxdwQtvpa6UIyGR+RyfiO36LAcLjK82reCL62q+XzpiGKxfyLy0
-   P1IQSCQKkr6C+Pey4fJZq9RKJGptiaaVzDKhuwLJT8jS0AKFokM0JPjWE
-   qIMOgIKHuh7Np9R+3pyjN8D6Rm5QJb3SYMT5xOLW2sE5Nu8goxpI2SdLu
-   w==;
-X-CSE-ConnectionGUID: Io65lva/Q/2hqECrilUeGw==
-X-CSE-MsgGUID: epd+xN7eSl6assV7U/nLVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23449126"
+  bh=HvJjMVoeXzJcsa8qRTSkMFeVZYNus8Sf7Se56IboCf4=;
+  b=nMmHuv0/ghP8NvCUwjZCEdNlhnN3jI1YTsdeBlrNpsplLn5jwXDLl3Q+
+   cRHNVMhp0AdTMM0BwMsGNd1I4tOLzhc3sPypp4TVq5dHY8IUI3j29NlGa
+   DQlZm9mlP6PndLvkRA21p7v8p8qcqeOVO0ylcTpW81BaWyejGyKibKuC3
+   mRnrCQ3hrzN+oZHgRqKgaDmtyR2TGniqmivNxrj3EG1PI8KOgKDrlq2GD
+   7W7GE50tUibNjb0ObpKSeKiirRsORNt7NG4zw4satgjFCJulNjQJhhHwI
+   t+JkBvvzlE8BbCgVsXRy4ECX3gD1T4H3fF8huZm3fO65jyYXpHNnWAagz
+   g==;
+X-CSE-ConnectionGUID: S7CDrYJZTWSMCMLW7X/77Q==
+X-CSE-MsgGUID: HPoKzLXzTCelPyi+0et1MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="48707508"
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="23449126"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 20:10:33 -0700
-X-CSE-ConnectionGUID: NhaxaZWgR1CSukahmfbTcg==
-X-CSE-MsgGUID: zRd3zeOqQyKTNnTJ3pdoSw==
+   d="scan'208";a="48707508"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 20:20:35 -0700
+X-CSE-ConnectionGUID: GIn+g6s+QZG93lNQkIY9qQ==
+X-CSE-MsgGUID: vKWFAliCQ9O7JBrHgbsOpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
-   d="scan'208";a="67893646"
+   d="scan'208";a="63120617"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 27 Aug 2024 20:10:32 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 27 Aug 2024 20:20:32 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sj94n-000KP4-27;
-	Wed, 28 Aug 2024 03:10:29 +0000
-Date: Wed, 28 Aug 2024 11:09:42 +0800
+	id 1sj9EU-000KPw-07;
+	Wed, 28 Aug 2024 03:20:30 +0000
+Date: Wed, 28 Aug 2024 11:20:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 27226/30000] arch/x86/kvm/x86.c:1076:6: warning:
- no previous prototype for 'kvm_post_set_cr4'
-Message-ID: <202408281038.faDmsrP1-lkp@intel.com>
+Subject: [opencloudos:next 9880/10950]
+ kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype
+ for function 'data_release'
+Message-ID: <202408281150.Rheqx2le-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,228 +67,222 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a3e2493c22a624aefb09b92b040c97ecd2e8e2dd
-commit: 8a7e6f51a756aa6e88ebd5da8a5f3b6744cd07b5 [27226/30000] KVM: x86: Introduce kvm_post_set_cr4 to post handle the CR4 emulation
-config: x86_64-buildonly-randconfig-005-20240828 (https://download.01.org/0day-ci/archive/20240828/202408281038.faDmsrP1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281038.faDmsrP1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   c99409f7fe0f14dae19af75e7e896e7a17b92946
+commit: 62b6061f5714aa71e2d5fdb14db9d1341bb82dd4 [9880/10950] [PATCH] security: add security hook point
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240828/202408281150.Rheqx2le-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408281150.Rheqx2le-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408281038.faDmsrP1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408281150.Rheqx2le-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c:893:6: warning: no previous prototype for 'kvm_post_set_cr0' [-Wmissing-prototypes]
-     893 | void kvm_post_set_cr0(struct kvm_vcpu *vcpu, unsigned long old_cr0, unsigned long cr0)
-         |      ^~~~~~~~~~~~~~~~
->> arch/x86/kvm/x86.c:1076:6: warning: no previous prototype for 'kvm_post_set_cr4' [-Wmissing-prototypes]
-    1076 | void kvm_post_set_cr4(struct kvm_vcpu *vcpu, unsigned long old_cr4, unsigned long cr4)
-         |      ^~~~~~~~~~~~~~~~
+>> kernel/tkernel/onionhook/hook_frame.c:49:6: warning: no previous prototype for function 'data_release' [-Wmissing-prototypes]
+      49 | void data_release(struct kref *ref)
+         |      ^
+   kernel/tkernel/onionhook/hook_frame.c:49:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      49 | void data_release(struct kref *ref)
+         | ^
+         | static 
+   1 warning generated.
+--
+>> kernel/tkernel/aegis/module.c:15:6: warning: no previous prototype for function 'hook_disable' [-Wmissing-prototypes]
+      15 | void hook_disable(void)
+         |      ^
+   kernel/tkernel/aegis/module.c:15:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      15 | void hook_disable(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/module.c:65:5: warning: no previous prototype for function 'hook_sysfs_init' [-Wmissing-prototypes]
+      65 | int hook_sysfs_init(void)
+         |     ^
+   kernel/tkernel/aegis/module.c:65:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      65 | int hook_sysfs_init(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/module.c:80:6: warning: no previous prototype for function 'hook_sysfs_exit' [-Wmissing-prototypes]
+      80 | void hook_sysfs_exit(void)
+         |      ^
+   kernel/tkernel/aegis/module.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      80 | void hook_sysfs_exit(void)
+         | ^
+         | static 
+   3 warnings generated.
+--
+>> kernel/tkernel/aegis/list.c:20:15: warning: no previous prototype for function 'percpu_total_num' [-Wmissing-prototypes]
+      20 | unsigned long percpu_total_num(long __percpu *num)
+         |               ^
+   kernel/tkernel/aegis/list.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      20 | unsigned long percpu_total_num(long __percpu *num)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:33:15: warning: no previous prototype for function 'percpu_total_num_atomic64' [-Wmissing-prototypes]
+      33 | unsigned long percpu_total_num_atomic64(atomic64_t __percpu *num)
+         |               ^
+   kernel/tkernel/aegis/list.c:33:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      33 | unsigned long percpu_total_num_atomic64(atomic64_t __percpu *num)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:46:5: warning: no previous prototype for function 'clear_hookinfo_list' [-Wmissing-prototypes]
+      46 | int clear_hookinfo_list(struct hook_info *info)
+         |     ^
+   kernel/tkernel/aegis/list.c:46:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      46 | int clear_hookinfo_list(struct hook_info *info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:73:6: warning: no previous prototype for function 'clear_cpu_list' [-Wmissing-prototypes]
+      73 | void clear_cpu_list(void)
+         |      ^
+   kernel/tkernel/aegis/list.c:73:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      73 | void clear_cpu_list(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:176:5: warning: no previous prototype for function 'hook_info_proc_create' [-Wmissing-prototypes]
+     176 | int hook_info_proc_create(void)
+         |     ^
+   kernel/tkernel/aegis/list.c:176:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     176 | int hook_info_proc_create(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:206:6: warning: no previous prototype for function 'hook_info_proc_delete' [-Wmissing-prototypes]
+     206 | void hook_info_proc_delete(void)
+         |      ^
+   kernel/tkernel/aegis/list.c:206:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     206 | void hook_info_proc_delete(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:211:5: warning: no previous prototype for function 'hook_info_percpu_create' [-Wmissing-prototypes]
+     211 | int hook_info_percpu_create(void)
+         |     ^
+   kernel/tkernel/aegis/list.c:211:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     211 | int hook_info_percpu_create(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:254:5: warning: no previous prototype for function 'hook_info_percpu_delete' [-Wmissing-prototypes]
+     254 | int hook_info_percpu_delete(void)
+         |     ^
+   kernel/tkernel/aegis/list.c:254:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     254 | int hook_info_percpu_delete(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:269:5: warning: no previous prototype for function 'hook_info_func_register' [-Wmissing-prototypes]
+     269 | int hook_info_func_register(void)
+         |     ^
+   kernel/tkernel/aegis/list.c:269:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     269 | int hook_info_func_register(void)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/list.c:301:6: warning: no previous prototype for function 'init_wait_queue' [-Wmissing-prototypes]
+     301 | void init_wait_queue(void)
+         |      ^
+   kernel/tkernel/aegis/list.c:301:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     301 | void init_wait_queue(void)
+         | ^
+         | static 
+   10 warnings generated.
+--
+>> kernel/tkernel/aegis/hook_info.c:87:6: warning: no previous prototype for function 'hookinfo_total_numb' [-Wmissing-prototypes]
+      87 | void hookinfo_total_numb(int type)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:87:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      87 | void hookinfo_total_numb(int type)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:92:6: warning: no previous prototype for function 'hookinfo_drop_stats' [-Wmissing-prototypes]
+      92 | void hookinfo_drop_stats(int type)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:92:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      92 | void hookinfo_drop_stats(int type)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:97:6: warning: no previous prototype for function 'clear_task_environ' [-Wmissing-prototypes]
+      97 | void clear_task_environ(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      97 | void clear_task_environ(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:114:5: warning: no previous prototype for function 'get_task_environ' [-Wmissing-prototypes]
+     114 | int get_task_environ(struct exec_info *exec_info,
+         |     ^
+   kernel/tkernel/aegis/hook_info.c:114:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     114 | int get_task_environ(struct exec_info *exec_info,
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:200:5: warning: no previous prototype for function 'get_task_para' [-Wmissing-prototypes]
+     200 | int get_task_para(int argc, struct user_arg_ptr *argv)
+         |     ^
+   kernel/tkernel/aegis/hook_info.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     200 | int get_task_para(int argc, struct user_arg_ptr *argv)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:291:6: warning: no previous prototype for function 'get_pidns_inum' [-Wmissing-prototypes]
+     291 | void get_pidns_inum(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:291:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     291 | void get_pidns_inum(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:305:6: warning: no previous prototype for function 'get_task_ids' [-Wmissing-prototypes]
+     305 | void get_task_ids(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:305:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     305 | void get_task_ids(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:317:6: warning: no previous prototype for function 'get_task_pwd' [-Wmissing-prototypes]
+     317 | void get_task_pwd(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:317:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     317 | void get_task_pwd(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:340:6: warning: no previous prototype for function 'get_task_start_time' [-Wmissing-prototypes]
+     340 | void get_task_start_time(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:340:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     340 | void get_task_start_time(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:345:6: warning: no previous prototype for function 'info_ptr_hold_ref' [-Wmissing-prototypes]
+     345 | void info_ptr_hold_ref(struct exec_info *exec_info)
+         |      ^
+   kernel/tkernel/aegis/hook_info.c:345:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     345 | void info_ptr_hold_ref(struct exec_info *exec_info)
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:607:5: warning: no previous prototype for function 'para_len_sum_handler' [-Wmissing-prototypes]
+     607 | int para_len_sum_handler(struct ctl_table *table, int write,
+         |     ^
+   kernel/tkernel/aegis/hook_info.c:607:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     607 | int para_len_sum_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+>> kernel/tkernel/aegis/hook_info.c:640:5: warning: no previous prototype for function 'secur_sysctl_handler' [-Wmissing-prototypes]
+     640 | int secur_sysctl_handler(struct ctl_table *table, int write,
+         |     ^
+   kernel/tkernel/aegis/hook_info.c:640:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     640 | int secur_sysctl_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+   12 warnings generated.
 
 
-vim +/kvm_post_set_cr4 +1076 arch/x86/kvm/x86.c
+vim +/data_release +49 kernel/tkernel/onionhook/hook_frame.c
 
-   892	
- > 893	void kvm_post_set_cr0(struct kvm_vcpu *vcpu, unsigned long old_cr0, unsigned long cr0)
-   894	{
-   895		unsigned long update_bits = X86_CR0_PG | X86_CR0_WP;
-   896	
-   897		if ((cr0 ^ old_cr0) & X86_CR0_PG) {
-   898			kvm_clear_async_pf_completion_queue(vcpu);
-   899			kvm_async_pf_hash_reset(vcpu);
-   900		}
-   901	
-   902		if ((cr0 ^ old_cr0) & update_bits)
-   903			kvm_mmu_reset_context(vcpu);
-   904	
-   905		if (((cr0 ^ old_cr0) & X86_CR0_CD) &&
-   906		    kvm_arch_has_noncoherent_dma(vcpu->kvm) &&
-   907		    !kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_CD_NW_CLEARED))
-   908			kvm_zap_gfn_range(vcpu->kvm, 0, ~0ULL);
-   909	}
-   910	
-   911	int kvm_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0)
-   912	{
-   913		unsigned long old_cr0 = kvm_read_cr0(vcpu);
-   914		unsigned long pdptr_bits = X86_CR0_CD | X86_CR0_NW | X86_CR0_PG;
-   915	
-   916		cr0 |= X86_CR0_ET;
-   917	
-   918	#ifdef CONFIG_X86_64
-   919		if (cr0 & 0xffffffff00000000UL)
-   920			return 1;
-   921	#endif
-   922	
-   923		cr0 &= ~CR0_RESERVED_BITS;
-   924	
-   925		if ((cr0 & X86_CR0_NW) && !(cr0 & X86_CR0_CD))
-   926			return 1;
-   927	
-   928		if ((cr0 & X86_CR0_PG) && !(cr0 & X86_CR0_PE))
-   929			return 1;
-   930	
-   931	#ifdef CONFIG_X86_64
-   932		if ((vcpu->arch.efer & EFER_LME) && !is_paging(vcpu) &&
-   933		    (cr0 & X86_CR0_PG)) {
-   934			int cs_db, cs_l;
-   935	
-   936			if (!is_pae(vcpu))
-   937				return 1;
-   938			kvm_x86_ops.get_cs_db_l_bits(vcpu, &cs_db, &cs_l);
-   939			if (cs_l)
-   940				return 1;
-   941		}
-   942	#endif
-   943		if (!(vcpu->arch.efer & EFER_LME) && (cr0 & X86_CR0_PG) &&
-   944		    is_pae(vcpu) && ((cr0 ^ old_cr0) & pdptr_bits) &&
-   945		    !load_pdptrs(vcpu, vcpu->arch.walk_mmu, kvm_read_cr3(vcpu)))
-   946			return 1;
-   947	
-   948		if (!(cr0 & X86_CR0_PG) && kvm_read_cr4_bits(vcpu, X86_CR4_PCIDE))
-   949			return 1;
-   950	
-   951		kvm_x86_ops.set_cr0(vcpu, cr0);
-   952	
-   953		kvm_post_set_cr0(vcpu, old_cr0, cr0);
-   954	
-   955		return 0;
-   956	}
-   957	EXPORT_SYMBOL_GPL(kvm_set_cr0);
-   958	
-   959	void kvm_lmsw(struct kvm_vcpu *vcpu, unsigned long msw)
-   960	{
-   961		(void)kvm_set_cr0(vcpu, kvm_read_cr0_bits(vcpu, ~0x0eul) | (msw & 0x0f));
-   962	}
-   963	EXPORT_SYMBOL_GPL(kvm_lmsw);
-   964	
-   965	void kvm_load_guest_xsave_state(struct kvm_vcpu *vcpu)
-   966	{
-   967		if (kvm_read_cr4_bits(vcpu, X86_CR4_OSXSAVE)) {
-   968	
-   969			if (vcpu->arch.xcr0 != host_xcr0)
-   970				xsetbv(XCR_XFEATURE_ENABLED_MASK, vcpu->arch.xcr0);
-   971	
-   972			if (vcpu->arch.xsaves_enabled &&
-   973			    vcpu->arch.ia32_xss != host_xss)
-   974				wrmsrl(MSR_IA32_XSS, vcpu->arch.ia32_xss);
-   975		}
-   976	
-   977		if (static_cpu_has(X86_FEATURE_PKU) &&
-   978		    (kvm_read_cr4_bits(vcpu, X86_CR4_PKE) ||
-   979		     (vcpu->arch.xcr0 & XFEATURE_MASK_PKRU)) &&
-   980		    vcpu->arch.pkru != vcpu->arch.host_pkru)
-   981			write_pkru(vcpu->arch.pkru);
-   982	}
-   983	EXPORT_SYMBOL_GPL(kvm_load_guest_xsave_state);
-   984	
-   985	void kvm_load_host_xsave_state(struct kvm_vcpu *vcpu)
-   986	{
-   987		if (static_cpu_has(X86_FEATURE_PKU) &&
-   988		    (kvm_read_cr4_bits(vcpu, X86_CR4_PKE) ||
-   989		     (vcpu->arch.xcr0 & XFEATURE_MASK_PKRU))) {
-   990			vcpu->arch.pkru = rdpkru();
-   991			if (vcpu->arch.pkru != vcpu->arch.host_pkru)
-   992				write_pkru(vcpu->arch.host_pkru);
-   993		}
-   994	
-   995		if (kvm_read_cr4_bits(vcpu, X86_CR4_OSXSAVE)) {
-   996	
-   997			if (vcpu->arch.xcr0 != host_xcr0)
-   998				xsetbv(XCR_XFEATURE_ENABLED_MASK, host_xcr0);
-   999	
-  1000			if (vcpu->arch.xsaves_enabled &&
-  1001			    vcpu->arch.ia32_xss != host_xss)
-  1002				wrmsrl(MSR_IA32_XSS, host_xss);
-  1003		}
-  1004	
-  1005	}
-  1006	EXPORT_SYMBOL_GPL(kvm_load_host_xsave_state);
-  1007	
-  1008	static int __kvm_set_xcr(struct kvm_vcpu *vcpu, u32 index, u64 xcr)
-  1009	{
-  1010		u64 xcr0 = xcr;
-  1011		u64 old_xcr0 = vcpu->arch.xcr0;
-  1012		u64 valid_bits;
-  1013	
-  1014		/* Only support XCR_XFEATURE_ENABLED_MASK(xcr0) now  */
-  1015		if (index != XCR_XFEATURE_ENABLED_MASK)
-  1016			return 1;
-  1017		if (!(xcr0 & XFEATURE_MASK_FP))
-  1018			return 1;
-  1019		if ((xcr0 & XFEATURE_MASK_YMM) && !(xcr0 & XFEATURE_MASK_SSE))
-  1020			return 1;
-  1021	
-  1022		/*
-  1023		 * Do not allow the guest to set bits that we do not support
-  1024		 * saving.  However, xcr0 bit 0 is always set, even if the
-  1025		 * emulated CPU does not support XSAVE (see fx_init).
-  1026		 */
-  1027		valid_bits = vcpu->arch.guest_supported_xcr0 | XFEATURE_MASK_FP;
-  1028		if (xcr0 & ~valid_bits)
-  1029			return 1;
-  1030	
-  1031		if ((!(xcr0 & XFEATURE_MASK_BNDREGS)) !=
-  1032		    (!(xcr0 & XFEATURE_MASK_BNDCSR)))
-  1033			return 1;
-  1034	
-  1035		if (xcr0 & XFEATURE_MASK_AVX512) {
-  1036			if (!(xcr0 & XFEATURE_MASK_YMM))
-  1037				return 1;
-  1038			if ((xcr0 & XFEATURE_MASK_AVX512) != XFEATURE_MASK_AVX512)
-  1039				return 1;
-  1040		}
-  1041	
-  1042		if ((xcr0 & XFEATURE_MASK_XTILE) &&
-  1043		    ((xcr0 & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE))
-  1044			return 1;
-  1045	
-  1046		vcpu->arch.xcr0 = xcr0;
-  1047	
-  1048		if ((xcr0 ^ old_xcr0) & XFEATURE_MASK_EXTEND)
-  1049			kvm_update_cpuid_runtime(vcpu);
-  1050		return 0;
-  1051	}
-  1052	
-  1053	int kvm_set_xcr(struct kvm_vcpu *vcpu, u32 index, u64 xcr)
-  1054	{
-  1055		if (kvm_x86_ops.get_cpl(vcpu) != 0 ||
-  1056		    __kvm_set_xcr(vcpu, index, xcr)) {
-  1057			kvm_inject_gp(vcpu, 0);
-  1058			return 1;
-  1059		}
-  1060		return 0;
-  1061	}
-  1062	EXPORT_SYMBOL_GPL(kvm_set_xcr);
-  1063	
-  1064	bool kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
-  1065	{
-  1066		if (cr4 & cr4_reserved_bits)
-  1067			return false;
-  1068	
-  1069		if (cr4 & vcpu->arch.cr4_guest_rsvd_bits)
-  1070			return false;
-  1071	
-  1072		return kvm_x86_ops.is_valid_cr4(vcpu, cr4);
-  1073	}
-  1074	EXPORT_SYMBOL_GPL(kvm_is_valid_cr4);
-  1075	
-> 1076	void kvm_post_set_cr4(struct kvm_vcpu *vcpu, unsigned long old_cr4, unsigned long cr4)
-  1077	{
-  1078		unsigned long mmu_role_bits = X86_CR4_PGE | X86_CR4_PSE | X86_CR4_PAE |
-  1079					      X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_PKE;
-  1080	
-  1081		if (((cr4 ^ old_cr4) & mmu_role_bits) ||
-  1082		    (!(cr4 & X86_CR4_PCIDE) && (old_cr4 & X86_CR4_PCIDE)))
-  1083			kvm_mmu_reset_context(vcpu);
-  1084	}
-  1085	
+    48	
+  > 49	void data_release(struct kref *ref)
+    50	{
+    51		struct security_moni_info *data = container_of(ref, struct security_moni_info, refcount);
+    52	
+    53		kfree(data);
+    54	}
+    55	EXPORT_SYMBOL(data_release);
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
