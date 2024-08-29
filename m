@@ -1,129 +1,208 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620D210A24;
-	Thu, 29 Aug 2024 02:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724896962; cv=none; b=sHwuPW1X8mmnzwvL/2D1MpjhkZQGq5+aUfJSGA2N+rZncSLlhKkLqddOKoXpaSGf6Tj8fiPFCSW2/vC95m3HeBw9T1lv/cujdrcge97NwZvYunzzqykVIDuF3SXoBn4LiHLhzSQoiV1widsD3TqFttmJa4+JYqcIJ+Q/NXRPTlk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724896962; c=relaxed/simple;
-	bh=0juvYXdajUddBhJi8nQrWw7uHzjYGwFtazF6bvX/GXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZgFm0S1c0XM/VMb2OX0/9WnUidTtopYPBjPL4uFEdkJhbiwlELUFDIOAbJUj0wPtcd6a0QbcYh+neNpbic2XdIxFTuNMoZd8VvvTjkuZ/TSib4AeXUsxKTQTYvnno/pen7HjehOth0TgXRcUjAAVJONAP1CZWCWwRfxrLHogk0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwdOSQkA; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DAED520
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 02:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724897261; cv=fail; b=q8BM4TpwYcY47dcR9CMSni/QAAq1pQGHlTkjJnkkAyFILP1C2r9hpI8vSVTmOSxS5GDMBj+h4c6RdLUp4eSgldYxgLXuII8c3re4KWb7ROQfhHDelXKwEywEEdq0u6jCzYbTQ46RJgpY6D00Ar35siI4tnAArBmMPluBhJe2WF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724897261; c=relaxed/simple;
+	bh=hCIvc0qdi0a/WkhSFaH8uoNQ83jPjUNAXPXW70b0+Ck=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=iXYxhdgqP0yQfdPba0EVQ+9HrjcyISMElbSLe8GSwr+sJM2RbG7D25KGCo7+BLxZFGSbc78EkvupcLkY1r7uVMmwcUg5cdMXdn6/cwJERnvMaeqpDGlTdnsJH52kiFssXmp+tDyqk/p/6gBOKkkJvjU092otzp3tlB0BYhmaOT8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i3l7elyq; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwdOSQkA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i3l7elyq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724896960; x=1756432960;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0juvYXdajUddBhJi8nQrWw7uHzjYGwFtazF6bvX/GXE=;
-  b=SwdOSQkAnlcEsMIna2WimQD0eOsI3k9tLq2bE4cxqKH00cFYzR3byYxc
-   o77MZHyVw9iVOx1c5V5oJX/PHUDkjWyqdNy5bVBkiiw2x27zE5uspaxJ/
-   FcIh15nngGJbhSj5A8b0MClutTKNv90Jk1pMcqxRsSnnYMbRChuywc67y
-   KwKswg++4BBRzFkWy8ieXLFwBcUtH4Ed1y1cyduxsGG9EX0RyxNw20iXh
-   0m4TNsMyG0yG2jhiwta3kCe8QT4s6LOGfIKBp6jMREsH1KlVlhygPc8pc
-   aVFqJbxryPGPTDUbUC+7+C2ajEsRn1DtqwlFLbfjXazOUbppaBxTXXzK5
-   Q==;
-X-CSE-ConnectionGUID: ntcNZUniTuaEvJL4yOqxIg==
-X-CSE-MsgGUID: e0jD+XTYS0Og3HgVdogNcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="26365326"
+  t=1724897258; x=1756433258;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=hCIvc0qdi0a/WkhSFaH8uoNQ83jPjUNAXPXW70b0+Ck=;
+  b=i3l7elyqBxEEfxqyrzOJy1XJufcl+NH6L5OV6Vss4byIReB/HPpENhgu
+   I3b6XxvXTjvhjqgfVsepDvlxcPL0ItYvCancSZFtlNLpl+cMlZFbaH/Kj
+   LPNZwOS1BhZ1/F8SHP45uj5Src13EBXyWPWMkHrhJYMU6Elf/aykp5lw6
+   DcjVyjRfSFmYeAT9QXiYN1lXED91pYlYz7iQ2d8/3VzFkHnHkzgMIckiD
+   woczk/4hiwaD753VHoI+HRmfzwnZIEeWxkL5z/x0YigkV8VdcT9ypw5/h
+   gmbkTLa7lE6g40fEBG6n4AfyM37TI55ZezW+i0mFLlVz2X6kcFQHX5tpK
+   g==;
+X-CSE-ConnectionGUID: aBFZgU9iTpS9Rb+YIcR88w==
+X-CSE-MsgGUID: 4kDD+mHDSpKoNMgjHTfJag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="26365611"
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="26365326"
+   d="scan'208";a="26365611"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 19:02:39 -0700
-X-CSE-ConnectionGUID: ewHr2/aPRMW8XbdGFv6j1A==
-X-CSE-MsgGUID: dYrM7thGSs6QE8zDbMjPqg==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 19:07:38 -0700
+X-CSE-ConnectionGUID: 8XpfgaITSvixHNJxUz3xhQ==
+X-CSE-MsgGUID: D9sHX5HEQ++zEo8KECxSwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="63367231"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Aug 2024 19:02:38 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sjUUd-000LZW-1g;
-	Thu, 29 Aug 2024 02:02:35 +0000
-Date: Thu, 29 Aug 2024 10:01:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [linux-next:master 5237/7353] drivers/gpu/drm/xe/xe_ggtt.c:714:3:
- error: variable 'total' is uninitialized when used here
-Message-ID: <202408290916.B9yUmPQD-lkp@intel.com>
+   d="scan'208";a="63368273"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Aug 2024 19:07:28 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 28 Aug 2024 19:07:27 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 28 Aug 2024 19:07:27 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.42) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 28 Aug 2024 19:07:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ymoRqDVXbbHRUVh3OOedvJ+LWVBAcCYbHyDzy67rot5OX+5SovnWuxBh4AS74RkZMmdR2RXEfzT+Hu2X95er+Hkc88XRqzx4NYoLxwWT/m3Ld7wIj7SjgBzLzT+waTIkP5EaRF7d5fyroMgIu8/7bZPzDKKbh18IxBX9mTjGVxhH4ApKmMxPPmyTgq1xDXP9oipl+6uhZjqBwoxDdjbkjJGQg5MbeRlf0gMqL5/gjJEvJ8rktj1y0tgpp4ELjCyRLPNQ0auI48FlzV49Ho8xpRk/Q8mGZWSHJihfUXkdTL/GE6XbgwxPTWviNcs0UeBg0WJXBnWsLwj24dSaQASo0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vTbuCxbKHOVqJn4HCzsaoY4POs5XSytYQ2CSQh8llYc=;
+ b=EfIwLFff3EakZ4YAH3FWmDT9ZVxxGrIOt2MqIImzI8Gsrwj2rYIgv2v6d1AzBGR2nURj35jxJAu+9WeMak0LHUp6iKnPbkr+rxYXcb4MWDYZVkVUoIL9VqZfQShoC0zB2WkAwhecIv6Ej4oVSW/4WOy03wS0qjV/LhFYYaJ9nOSfmyrxxof92a+IDE7EVEnN5p6nfSxxE3GzIH0iWPhn10lcR9J4mFZRvErCjXgGTR383MZT99y3nIw1/5aeFC+v8PqQxV5L/BGRxFqDWfNThQnIEFNSxIBxe3Bh45quF2jrDfhmCSicR8jtFBWpjycBRoCmDaYqgQLka2QyWlYxzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by SA0PR11MB4542.namprd11.prod.outlook.com (2603:10b6:806:9f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.27; Thu, 29 Aug
+ 2024 02:07:24 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7897.027; Thu, 29 Aug 2024
+ 02:07:24 +0000
+Date: Thu, 29 Aug 2024 10:07:16 +0800
+From: Philip Li <philip.li@intel.com>
+To: Kees Cook <kees@kernel.org>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Vlastimil Babka <vbabka@suse.cz>, "Arnd
+ Bergmann" <arnd@arndb.de>
+Subject: Re: include/linux/slab.h:552:15: error: type defaults to 'int' in
+ declaration of 'kmem_buckets_create'
+Message-ID: <Zs/X1DT9VOtHulk1@rli9-mobl>
+References: <202408280559.FIsoHAAc-lkp@intel.com>
+ <202408281843.D8948B2@keescook>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202408281843.D8948B2@keescook>
+X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SA0PR11MB4542:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cdaf052-264e-4107-6236-08dcc7cf5314
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fnXwq6y/8MOyqBi+WGaNc2TYM7VNTIkK01Wpfr6FTQDEsffHFAaHyFTK3ru+?=
+ =?us-ascii?Q?Dr2MHiFHXCEACv+o9Rf4458aS+63iyDBNN7RkWFTtb1VLF6/aKKr8qbnDSoM?=
+ =?us-ascii?Q?YDVIuXwjHcNoe36xQ5bjmlgtuAXpNsG0cQTaPDV522QnrAqxFUEoGzCvOmqn?=
+ =?us-ascii?Q?XGarLVkebjR4uy933I3didX1w7ZKe+Nn3zaErBGZo9f+zCoyN65ZXego6f9b?=
+ =?us-ascii?Q?KZCDGs3nLO2/R3vRtZAR7h82IvMd/kzQylewtF+j+NpDkBcO/+cYEfuym5gZ?=
+ =?us-ascii?Q?fVy8DCpLjkPLcXtkIMSBmvitkW9JpS1JR0DxekAdYByO2sA6XbfUlPz6guer?=
+ =?us-ascii?Q?jk+jKLTy/6DCoKaoVzqxAWIprCRIZ24YqaFElSe6XaLrsgo/ok+Xmxn+zyVX?=
+ =?us-ascii?Q?rqv3TiEmEmilI2Tv90JJyBqDNJ6Whe4Y9exLmOh849LgmtaEfkOdhET7QaSJ?=
+ =?us-ascii?Q?ks8waRysxTCVpENd0e5nDn8hP7YmYhALMdJV4VTg+JFocVX0lQWWcv1ttgMJ?=
+ =?us-ascii?Q?SwxSv2L3sQ4nPI8aki6MgHd0U0Ln3PFDhKt6zkge9gYPkWoYnizUpZdAcIQ1?=
+ =?us-ascii?Q?J7JPX0/NtgTU0Um5gALNr4fCcpN1GzeBIzp/n/G2hPpetCTLStm5eiDcjxCz?=
+ =?us-ascii?Q?XXc1UNz4Clv7+KmUrYy3AvQzxS6heW14/GueCKw3cUiEoK7dYq0V1OsS0Lgt?=
+ =?us-ascii?Q?VFb0QIFuXmckzrYGShBWFYvQqE339bpQc49TkYHNSJ9FFNWVDHq3zdAH7NjU?=
+ =?us-ascii?Q?uFYBwCu8RKop4syX22gV3u9GX0V6a01SC1C4Pl4yHVKxlIujKqRQZyo+yEUq?=
+ =?us-ascii?Q?Qv+dHRqIwLanoSuyIe1s6Z+fiw+sf10RihYxccKpWYkibYAeFgutRDrav+iJ?=
+ =?us-ascii?Q?9NUkjDaaN3BKf2A/82HopAYP+GhHwvD1WVq9DLqWNRxV3TZNpnBFZk+2DDGi?=
+ =?us-ascii?Q?fYhWZnxoxanbSTHgnTnO4ITdkzm8it8o0gbW+OI4VqZe7n05edX1gld1ThsK?=
+ =?us-ascii?Q?yfwoufGcndb/TihQO3eiwRJ1kyUMngEwg6+jV24R6X7M+MFF24Dv28WlLUSr?=
+ =?us-ascii?Q?/oDAvvgZTNrWCv7G3qd8/vgfWVWJuxKGGTvA99HCebz1+url6Btpfij7Uon3?=
+ =?us-ascii?Q?dCgx0M7E52Bihs9k3E8bmEm4XIMx1AU5Cc7TqzNKiRcFXuJADhU6kSZQ37fy?=
+ =?us-ascii?Q?TbtDlX5OvkE+IqEmAP+FaVMy8u3MB5Sq6pSVGM2H8i6/JVde8bAzV/pBs1fh?=
+ =?us-ascii?Q?QgoGVbf4f9wqjpW1WxuUDvAQTNHew33q7hheKyPYChLQTLsX8kWFnyz4y/mb?=
+ =?us-ascii?Q?N/Iipgzes78X9j1tcS68Gb9E?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N0oPMblHo658jjeNQSVSj44v5aS5JBgrN07bNAyD5fjhricz5ZqjpX2B3soy?=
+ =?us-ascii?Q?Ib2HrOrVyba0AEe5yyyjFMTEIKijsVXcUIR2y+UitbTL3sdlGs6+/Ygi//1A?=
+ =?us-ascii?Q?OHpQ4D255gltwJYPAZBfRq5K47qRckaSO2uBkg5oLoSSrp9XTvJjkaxOFuZb?=
+ =?us-ascii?Q?2lc56SOqc7D1NA+umYaGDlhT+sk44gXjaXe1Ft7rpJYEwLBe9Pv7pdweNFN7?=
+ =?us-ascii?Q?6A7Z5+Wkyb1l5+HNgc6Li8mhqhJq2AIc5rx13qjSspJvjm5hobrzaVpiLbwL?=
+ =?us-ascii?Q?gzSZrpEEokokANT64CdtvWJoSH3CET5Tk44kWsIA6ibgMRGHAQ5qDINexXjq?=
+ =?us-ascii?Q?vguEQu/KXJi2X4AuQSrZUtIkCG6w/I8sOJxPDhjeXaRib4OaQLNJriifxg28?=
+ =?us-ascii?Q?lty6wkVj6hjvGUhWXn1e91A1SPRJ5mZnsVTacWk1fHTUM+uYowYN/FUdREa8?=
+ =?us-ascii?Q?gxcHw8QaJp1U0qS9og2p/wpwyrBZEwi4ujTjbQhWNblwywueQk50ofTLHhqK?=
+ =?us-ascii?Q?Yh661mJsjhWcqj1FczTb8UG9ml3CrbCEbvEqx54lwybrbV2hlv96ciN8i56Q?=
+ =?us-ascii?Q?I1ugEYho7Jn6SEj0NmnfxZnQtH2gVuccWXADNPXgSa95S2TUPIUnNtJ+UsEy?=
+ =?us-ascii?Q?zdiK067/9ohX7vW1SX/vzy3db/Ipki4OVesy5dkCkMNB7VcBZG2n162qXKzB?=
+ =?us-ascii?Q?gYdh21SVFkestl1dV+yc3DsGiK7y4Sf6v11LigdMcnRVJCTBAiQEqMKB/5E/?=
+ =?us-ascii?Q?HyKOk51kJJPdgMB7QHWovcaR+Pk+TJGFwkSeUuw1WbR3dLEZyAm4RIew8z7d?=
+ =?us-ascii?Q?iQ1yEY4yy70uQZpm5WVKU9FVmuAClpdidEiSFUxbN1sz4dHi1/byhFomb2Dl?=
+ =?us-ascii?Q?TTAtnu/KIGQGKr4WZpnjwqdeH4Dzh0ZUvAuLN27PmtiuqC/oEfEptKepXx+Z?=
+ =?us-ascii?Q?hMFjpe+7fPr25F9xkDn2hOWwm50YZo/au6sxzgIsAiiy+QAvXxk2DmxtgxJz?=
+ =?us-ascii?Q?F6ltdezU7mlYR5dX1KJniGJu7im9L9RfaRIZdoqJbehkow3kyQ+8CcsmNwS5?=
+ =?us-ascii?Q?GdGqfzR9y1nJCGFG1dnnoMgVm7opEBRMjS4R6jyeWf0Dg2lnxlthPxpq9Xdx?=
+ =?us-ascii?Q?ULjuJp15wSeXR564Z+B5E3J2OAUEofhCvbtbm6GzT7k2P1/NIns5ExhPB9sR?=
+ =?us-ascii?Q?6WH2ErpUMAgAjvt6nO9xrZmfZ8EnWDasbaHI7PR7I2OBtGCJg5i3fNs5b4D7?=
+ =?us-ascii?Q?oezJzMxXuqhZZSM2WHh9OblSIs1Vvpi+LjP1hqP0j5PaFY9L3bvSGxuy50aY?=
+ =?us-ascii?Q?omdUWW+3qKfUgT6GrhdD7aJ4gYs4HlP3HQGNvbnZkpqag78DPR4VdRgv4QVA?=
+ =?us-ascii?Q?kOLMSATDO0ai6bpWDo28tdL9jMjnfjpT84/ITRhFpnWA4sOx3jPJbteNKNF9?=
+ =?us-ascii?Q?OPKJDyx16ApBMXHm1zt25hrpB36rWw7LibwgBHGdKWnPLENT3B/TKn6tvB3L?=
+ =?us-ascii?Q?PlQeubsmQqZvswJtiJkL9st3DtRjxRVEj+E8fVFceDsSIHsIO5drmqztzz6g?=
+ =?us-ascii?Q?CE/8li5jajkS0wFnlpmid/gqnAMIEYodHsYTybid?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cdaf052-264e-4107-6236-08dcc7cf5314
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 02:07:24.8551
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0AHX29JC/vszUjxK8PcvOuF2yF8VbJcm8w6Xs+1vaad3V69rThG0feTjTRrrXT6Csp34FYO3v0ZY2XyNYz+YuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4542
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   195a402a75791e6e0d96d9da27ca77671bc656a8
-commit: 136367290ea5d7b5d05696189e9fd6162b9d9742 [5237/7353] drm/xe: Introduce xe_ggtt_print_holes
-config: x86_64-randconfig-002-20240829 (https://download.01.org/0day-ci/archive/20240829/202408290916.B9yUmPQD-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408290916.B9yUmPQD-lkp@intel.com/reproduce)
+On Wed, Aug 28, 2024 at 06:47:59PM -0700, Kees Cook wrote:
+> On Wed, Aug 28, 2024 at 05:21:04AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   3ec3f5fc4a91e389ea56b111a73d97ffc94f19c6
+> > commit: b32801d1255be1da62ea8134df3ed9f3331fba12 mm/slab: Introduce kmem_buckets_create() and family
+> > date:   8 weeks ago
+> > config: x86_64-randconfig-072-20240827 (https://download.01.org/0day-ci/archive/20240828/202408280559.FIsoHAAc-lkp@intel.com/config)
+> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240828/202408280559.FIsoHAAc-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408280559.FIsoHAAc-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    arch/x86/include/asm/fpu/types.h:355:22: note: in expansion of macro 'PAGE_SIZE'
+> >      355 |         u8 __padding[PAGE_SIZE];
+> >          |                      ^~~~~~~~~
+> >    arch/x86/include/asm/page_types.h:10:33: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+> >       10 | #define PAGE_SHIFT              CONFIG_PAGE_SHIFT
+> >          |                                 ^~~~~~~~~~~~~~~~~
+> 
+> This continues to be a problem with CONFIG_PAGE_SHIFT with this config,
+> and is a known problem with no clear fix[1]. I think reports could be
+> silenced for now.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408290916.B9yUmPQD-lkp@intel.com/
+Got it, we will configure the bot to ignore the further report.
 
-Note: the linux-next/master HEAD 195a402a75791e6e0d96d9da27ca77671bc656a8 builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/xe/xe_ggtt.c:714:3: error: variable 'total' is uninitialized when used here [-Werror,-Wuninitialized]
-     714 |                 total += hole_size;
-         |                 ^~~~~
-   drivers/gpu/drm/xe/xe_ggtt.c:702:11: note: initialize the variable 'total' to silence this warning
-     702 |         u64 total;
-         |                  ^
-         |                   = 0
-   1 error generated.
-
-
-vim +/total +714 drivers/gpu/drm/xe/xe_ggtt.c
-
-   685	
-   686	/**
-   687	 * xe_ggtt_print_holes - Print holes
-   688	 * @ggtt: the &xe_ggtt to be inspected
-   689	 * @alignment: min alignment
-   690	 * @p: the &drm_printer
-   691	 *
-   692	 * Print GGTT ranges that are available and return total size available.
-   693	 *
-   694	 * Return: Total available size.
-   695	 */
-   696	u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer *p)
-   697	{
-   698		const struct drm_mm *mm = &ggtt->mm;
-   699		const struct drm_mm_node *entry;
-   700		u64 hole_min_start = xe_wopcm_size(tile_to_xe(ggtt->tile));
-   701		u64 hole_start, hole_end, hole_size;
-   702		u64 total;
-   703		char buf[10];
-   704	
-   705		mutex_lock(&ggtt->lock);
-   706	
-   707		drm_mm_for_each_hole(entry, mm, hole_start, hole_end) {
-   708			hole_start = max(hole_start, hole_min_start);
-   709			hole_start = ALIGN(hole_start, alignment);
-   710			hole_end = ALIGN_DOWN(hole_end, alignment);
-   711			if (hole_start >= hole_end)
-   712				continue;
-   713			hole_size = hole_end - hole_start;
- > 714			total += hole_size;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -Kees
+> 
+> [1] https://lore.kernel.org/all/85bb8bbc-f48d-46fd-aebb-03b2f7d3980a@app.fastmail.com/
+> 
+> -- 
+> Kees Cook
+> 
