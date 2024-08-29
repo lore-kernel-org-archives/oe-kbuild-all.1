@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCBB200CB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 03:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073104E1CA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 03:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724902485; cv=none; b=LCwaoZweaDs1K4F+a+WGSD0rPne5+9w8wg7Eq87vmfg39MvEvPJVjFOmja9s6BUt3/xTsl4F+hvi4sWwTxP15kPvApsLf3z9tclrY++9bJuL4i/kkIXAdLxcPY+1iwTJm0lgxHB20WBNEsqrB9MNb/rpEAFqYLigZ2tbVat5zww=
+	t=1724903686; cv=none; b=UlrjcZ+obq0rPPAIYvPalJ53NEOIe814b7fMmZ4EmJ7/uqi7R6TDldVjCZ1+rFT34M1784nzOFxTncNunJMbSxgLJAvDRhlDTtr/KmBuoTE5Wz+XvXZI2LzO+VoeSGEL2KdBHveAQHJwJvgFFDez5oWBPFvWNK4FAqnnYiSeV5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724902485; c=relaxed/simple;
-	bh=pkT+3f/uI+mzbwgmTVvJXm0kw3fpxX14MU5I5PHZcDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m0MIdohWBjioMrBISKrhz8E8dl6Xb+meToBRU77a2SJXDRdiVYdKLuvbtYjVVygC2vvjSkO5AMUcmkErocp1iihErlkME9qi/uRKdV9Oqq0HfMRPJrjEpIBNafNzoLq80+67lzMEdMlaIXMRZDkxJRCp8AlwWun2XjVo/8ZADVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/i17I9j; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1724903686; c=relaxed/simple;
+	bh=sF0iGMOK+Lwj1e0gMx/2nuQN7xoRc9d6g+UIAuerDlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FF3gvNwWT/RMu6PB/JQBad0lN6IrqFsZ/ximkfw4e3TbuKvUIZon9cq8sPZ3nT4+b0LJiPtVXSY2GXo/nSdZlyNPxshsYnaFFkk17b7HVtwohmAlENkVWtRsuJVTz0CX2uyZanLUBRDK5AMMtP4QN1bkR5A/MPHa3G+vW7/az/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kqreyw9R; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/i17I9j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kqreyw9R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724902483; x=1756438483;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pkT+3f/uI+mzbwgmTVvJXm0kw3fpxX14MU5I5PHZcDk=;
-  b=J/i17I9jFfVJJoPxFX26CR2hbPYu1NY83Mt2tlK5Ohyfg7BlihR77im1
-   eWuB/5V1nuhyYyzKZEWrM7pbXKIBQWt7If6IgIZ0wzZ46tE3TihbCdj5s
-   zPgv7XGsGL+iKeT94jQvdpE8XajCqf6tT6g4hidmxXsy2lA3eIWX00zCZ
-   0XSjn2wtwh9XLGlSWAbcwvk+RoAue0z8uP6i1hDIJ8VIHsMEFHsXUfSBK
-   n+U8MpdEyfwJRvDqrjjYvXRzrfoKMqrnPFsNTpWMDHNwu4UNIpoQRjZNP
-   YB7KMT4N+rON21QDI2tLtbpTOQ1xlDKpgfyJ4gJEtkTLKdYucl5WPAy23
-   w==;
-X-CSE-ConnectionGUID: 6VaUU/4eQRuAQ1A3/UqkJQ==
-X-CSE-MsgGUID: bN2JE3lUTSeH+/q7UYdSOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23427156"
+  t=1724903685; x=1756439685;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sF0iGMOK+Lwj1e0gMx/2nuQN7xoRc9d6g+UIAuerDlY=;
+  b=Kqreyw9RuzlpB5w0EKVmnJtP3hzjCDj/JH70/9vcO4XuezDhHYpETvzf
+   O3Z6sunF3FB87MCQ2peKfc5dWyWG4bZ0vWdoUAP7sZa8oHvGula08ZAs2
+   22Mk2byPFKVaYhLyMnc9Lj/IWwiqIbAyABQbsyfMVGAokMqJ1y8CVL5rK
+   rgVmSvDrvx/Qvx07qwyU9LDeQYKEEbN5MVDvOoOEoctFheTpO17VlpFcp
+   AUL0dt4ac7qmxitG4a45mBCGQ2MLUChVyo56KWJQQtCHZxbR5+y1vQ6OI
+   IW4fxtjzhl6r2bj8Qy1B8whvdL3lKxw+70J7mBmNHhBXWRmg0eO8Y+7lL
+   A==;
+X-CSE-ConnectionGUID: +hzaSB0dSkKosDpJ1Gx3Zw==
+X-CSE-MsgGUID: uqzC9HP6RfGexWC90VCmrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="45988089"
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="23427156"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 20:34:42 -0700
-X-CSE-ConnectionGUID: H+WZb8fQTeaefh2I0ia48Q==
-X-CSE-MsgGUID: zVx27wPTSgGzOb5vITJ4DA==
+   d="scan'208";a="45988089"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 20:54:44 -0700
+X-CSE-ConnectionGUID: H8229kuBQhCqOQ1BZAW+NA==
+X-CSE-MsgGUID: wCahuuRASLyhUGYuwZV7Kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="63427957"
+   d="scan'208";a="67805003"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Aug 2024 20:34:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Aug 2024 20:54:43 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjVvj-000Lck-1i;
-	Thu, 29 Aug 2024 03:34:39 +0000
-Date: Thu, 29 Aug 2024 11:34:03 +0800
+	id 1sjWF6-000Ldy-1j;
+	Thu, 29 Aug 2024 03:54:40 +0000
+Date: Thu, 29 Aug 2024 11:54:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] kconfig: add optional selective yaml output support
-Message-ID: <202408291147.Rrzo0NB6-lkp@intel.com>
-References: <20240823034455.3593819-1-mcgrof@kernel.org>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d'
+ directive output may be truncated writing between 1 and 11 bytes into a
+ region of size 3
+Message-ID: <202408291130.0S7KrQvL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823034455.3593819-1-mcgrof@kernel.org>
 
-Hi Luis,
+Hi Serge,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on masahiroy-kbuild/kbuild]
-[also build test WARNING on linus/master v6.11-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/kconfig-add-optional-selective-yaml-output-support/20240826-123912
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-patch link:    https://lore.kernel.org/r/20240823034455.3593819-1-mcgrof%40kernel.org
-patch subject: [RFC] kconfig: add optional selective yaml output support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240829/202408291147.Rrzo0NB6-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291147.Rrzo0NB6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d5d547aa7b51467b15d9caa86b116f8c2507c72a
+commit: 939fbcd568fd294034c96edc92ff5b9de1a5fce8 PCI: dwc: Add Root Port and Endpoint controller eDMA engine support
+date:   1 year, 6 months ago
+config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240829/202408291130.0S7KrQvL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291130.0S7KrQvL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408291147.Rrzo0NB6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408291130.0S7KrQvL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   scripts/kconfig/confdata.c: In function 'conf_value_to_yaml':
->> scripts/kconfig/confdata.c:672:13: warning: implicit declaration of function 'asprintf'; did you mean 'vsprintf'? [-Wimplicit-function-declaration]
-     672 |             asprintf(&yaml_value, "0x%s", val);
-         |             ^~~~~~~~
-         |             vsprintf
+   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_edma_detect':
+>> drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 3 [-Werror=format-truncation=]
+     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
+         |                                                  ^~
+   In function 'dw_pcie_edma_irq_verify',
+       inlined from 'dw_pcie_edma_detect' at drivers/pci/controller/dwc/pcie-designware.c:949:8:
+   drivers/pci/controller/dwc/pcie-designware.c:898:46: note: directive argument in the range [-2147483648, 22]
+     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
+         |                                              ^~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:898:17: note: 'snprintf' output between 5 and 15 bytes into a destination of size 6
+     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +672 scripts/kconfig/confdata.c
+vim +898 drivers/pci/controller/dwc/pcie-designware.c
 
-   662	
-   663	static char *conf_value_to_yaml(struct symbol *sym, const char *val)
-   664	{
-   665		char *yaml_value = NULL;
-   666	
-   667		switch (sym->type) {
-   668		case S_INT:
-   669			yaml_value = strdup(val);
-   670			break;
-   671		case S_HEX:
- > 672	            asprintf(&yaml_value, "0x%s", val);
-   673	            break;
-   674	        case S_STRING:
-   675		    /* Wrap strings in quotes */
-   676	            asprintf(&yaml_value, "\"%s\"", val);
-   677	            break;
-   678	        case S_BOOLEAN:
-   679	        case S_TRISTATE:
-   680			if (strcmp(val, "y") == 0)
-   681				yaml_value = strdup("True");
-   682			else if (strcmp(val, "n") == 0)
-   683				yaml_value = strdup("False");
-   684			else
-   685				yaml_value = strdup(val); /* m in tristate */
-   686			break;
-   687	        default:
-   688			/* In case type is unknown */
-   689			yaml_value = strdup(val);
-   690			break;
-   691		}
-   692	
-   693		return yaml_value;
-   694	}
-   695	
+   878	
+   879	static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+   880	{
+   881		struct platform_device *pdev = to_platform_device(pci->dev);
+   882		u16 ch_cnt = pci->edma.ll_wr_cnt + pci->edma.ll_rd_cnt;
+   883		char name[6];
+   884		int ret;
+   885	
+   886		if (pci->edma.nr_irqs == 1)
+   887			return 0;
+   888		else if (pci->edma.nr_irqs > 1)
+   889			return pci->edma.nr_irqs != ch_cnt ? -EINVAL : 0;
+   890	
+   891		ret = platform_get_irq_byname_optional(pdev, "dma");
+   892		if (ret > 0) {
+   893			pci->edma.nr_irqs = 1;
+   894			return 0;
+   895		}
+   896	
+   897		for (; pci->edma.nr_irqs < ch_cnt; pci->edma.nr_irqs++) {
+ > 898			snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
+   899	
+   900			ret = platform_get_irq_byname_optional(pdev, name);
+   901			if (ret <= 0)
+   902				return -EINVAL;
+   903		}
+   904	
+   905		return 0;
+   906	}
+   907	
 
 -- 
 0-DAY CI Kernel Test Service
