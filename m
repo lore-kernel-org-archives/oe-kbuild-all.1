@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C3C1B3B1E;
-	Thu, 29 Aug 2024 15:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D5C1B4C30
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 16:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724946633; cv=none; b=eZ4BlTAMXkpS1Vk3O4KWiYNwh/wMHr96KVKTBHLn4qhIgnjObtdoQyC/08hP0XOQVpbw3XOU9+4VuiDiCICrDnlw95wgaHJeSB85GBNdfV8aoZjrji/Uq0gebmP4s9Y/DNqsYUzJllKwHDfCIIccmLf5frQ3mDEdkTtxSSduP7g=
+	t=1724948494; cv=none; b=sC3u10pG2EmEBLnlZFFScJNju1BV12sE0s4DM6Y6cnVOEVGaAOETxjFFHUULf56SAqHCKVR4SYaYP0wsGbiw6jvE1r2bZ9UBC7Qte1Rai9DvgNTLBcUUWcnXeRziPlVKB9szao+Yxjw9wBXHc9mNI5R3dn0ehT4g3o+qiMnkvGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724946633; c=relaxed/simple;
-	bh=Xwa41nPWXFk5ZvYn4P/GOc574DpMq9cTCMistG6DV14=;
+	s=arc-20240116; t=1724948494; c=relaxed/simple;
+	bh=QSD0KfHL5nBVjCs5CyKPuF0Hu/LItF1ebis/Y0+ARtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LzXgzAOhDLZrHQ2D/eEhJQrscF0UBNSFmVTsxEtzYhprpGLM0Tju/vo/RNQUWxAwmdK/yImPzKgxOecLFsznBwTiCR41UzQNkAuQrpmiS+NlRNLOFwBPih7u/gYKdvvMvnMLndudXcbkU4BG3wglaa9QK/4u1+KrL4h5E0W6nRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NImxa3nI; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=S5v58mI0AzJKYeI6HgeFij6zTbbfvoFthjlDsPAyeO8fObhi1g5jPDPvkMbCnp8QnMuudwD2Vp57E/20As1mmCcaVQQ/SeIzZRU7pDdl712BYWe64Lz+1kacEmgKhhaIfHftHqvyaYzLU40cIxgbzF9dMZsYMNNxPWSW7Jhz3lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoARXOaD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NImxa3nI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoARXOaD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724946632; x=1756482632;
+  t=1724948493; x=1756484493;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Xwa41nPWXFk5ZvYn4P/GOc574DpMq9cTCMistG6DV14=;
-  b=NImxa3nIClo/jpMESSCQs4KUQCd5g84rNliAtgA8w5YPwwWRN5EAt2mD
-   lr4nwcVXFDffaQhxM7kBXg38WvAlU1IQXYsIm9pRGCQApYX46XbN6XMNa
-   3VoOKtqGEPbB5YLtQHh67mJ4Tx7TW+47tllnJncZtcr3eaQRE+x6nUCde
-   VVxd2l6yqi9ASq5FEBfkPxRDROf6/OkHAOD0O9iASd1iLUrdXQuIPjPw6
-   nVTNzu2lcx3N/dtB5XYY+P6lKi2DWwpXvyZxPdDW9Ih7JuMA97V4EPv0U
-   poMZdOSYiQ7W16Y7s+CMM+RkJsbslKu4+mkTEVIun+op7xJioOaRjQMkE
-   w==;
-X-CSE-ConnectionGUID: wDVRYTL3S2WIo/kO2Qv1Ug==
-X-CSE-MsgGUID: kAcONysLTb2yGTptUH3utg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34958254"
+  bh=QSD0KfHL5nBVjCs5CyKPuF0Hu/LItF1ebis/Y0+ARtE=;
+  b=CoARXOaDXvSxzo5PFlyYg6jyW5xR47lo+6Da/LT7bPo8kyF+dc1vAnHR
+   m8RauvLq0C0Owqo210V3hw948HykysylRgRdUc8/8fPxoCn3pcmlGkuKF
+   NU+wDpJxynLnEFzjhpzQhACjdKdiKWiit80loWmE010eXip9DM8jw8Mbj
+   35W1W2g7TVj7btBBWowhYakfLwkE7lMYibkgAgEuLFk82lD4AfgjGB66S
+   rcoGE49Z92WBBw4aCcuofvp1XHo/BwM9jRL3e2G4Vj5cngxyWebv7Q/ZG
+   E2kDzUtmvmMOqHSpOwQZujzILKSNwfjPnqunQSxXw2Fh/wqN4bDyX+Mim
+   g==;
+X-CSE-ConnectionGUID: lig6T4Q+TUaOP/GksUOVNg==
+X-CSE-MsgGUID: piS4+76cTtCzifadiDnwiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23725568"
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="34958254"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 08:50:31 -0700
-X-CSE-ConnectionGUID: SqhaKlPuSoS/Ppr9Z5wcWA==
-X-CSE-MsgGUID: caMfL994RjyUJRCwpirnWg==
+   d="scan'208";a="23725568"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 09:21:32 -0700
+X-CSE-ConnectionGUID: baVme5SvQhCgxvjuylVrYg==
+X-CSE-MsgGUID: SRL9VVpyRRKKuQttzYY6tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="101129077"
+   d="scan'208";a="94368725"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Aug 2024 08:50:28 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2024 09:21:30 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjhPl-0000Q4-0p;
-	Thu, 29 Aug 2024 15:50:25 +0000
-Date: Thu, 29 Aug 2024 23:50:07 +0800
+	id 1sjhtm-0000So-29;
+	Thu, 29 Aug 2024 16:21:26 +0000
+Date: Fri, 30 Aug 2024 00:20:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashish Kalra <Ashish.Kalra@amd.com>, seanjc@google.com,
-	pbonzini@redhat.com, dave.hansen@linux.intel.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	thomas.lendacky@amd.com, michael.roth@amd.com,
-	kexec@lists.infradead.org, linux-coco@lists.linux.dev
-Subject: Re: [PATCH] x86/sev: Fix host kdump support for SNP
-Message-ID: <202408292344.yuQ5sYEz-lkp@intel.com>
-References: <20240827203804.4989-1-Ashish.Kalra@amd.com>
+To: Haifeng Xu <haifeng.xu@shopee.com>, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, jack@suse.cz
+Cc: oe-kbuild-all@lists.linux.dev, tytso@mit.edu, yi.zhang@huaweicloud.com,
+	yukuai1@huaweicloud.com, tj@kernel.org, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Haifeng Xu <haifeng.xu@shopee.com>
+Subject: Re: [PATCH] buffer: Associate the meta bio with blkg from buffer page
+Message-ID: <202408300007.m9sHEOXo-lkp@intel.com>
+References: <20240828033224.146584-1-haifeng.xu@shopee.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,70 +66,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827203804.4989-1-Ashish.Kalra@amd.com>
+In-Reply-To: <20240828033224.146584-1-haifeng.xu@shopee.com>
 
-Hi Ashish,
+Hi Haifeng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on linus/master v6.11-rc5 next-20240829]
-[cannot apply to kvm/linux-next]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.11-rc5 next-20240829]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/x86-sev-Fix-host-kdump-support-for-SNP/20240828-044035
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20240827203804.4989-1-Ashish.Kalra%40amd.com
-patch subject: [PATCH] x86/sev: Fix host kdump support for SNP
-config: x86_64-buildonly-randconfig-002-20240829 (https://download.01.org/0day-ci/archive/20240829/202408292344.yuQ5sYEz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408292344.yuQ5sYEz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/buffer-Associate-the-meta-bio-with-blkg-from-buffer-page/20240828-113409
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20240828033224.146584-1-haifeng.xu%40shopee.com
+patch subject: [PATCH] buffer: Associate the meta bio with blkg from buffer page
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240830/202408300007.m9sHEOXo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300007.m9sHEOXo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408292344.yuQ5sYEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300007.m9sHEOXo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/svm/avic.c:28:
->> arch/x86/kvm/svm/svm.h:783:13: warning: 'snp_decommision_all' declared 'static' but never defined [-Wunused-function]
-     783 | static void snp_decommision_all(void);
-         |             ^~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/x86/kvm/svm/svm.c:50:
->> arch/x86/kvm/svm/svm.h:783:13: warning: 'snp_decommision_all' used but never defined
-     783 | static void snp_decommision_all(void);
-         |             ^~~~~~~~~~~~~~~~~~~
+   fs/buffer.c: In function 'submit_bh_wbc':
+   fs/buffer.c:2826:29: error: implicit declaration of function 'mem_cgroup_css_from_folio'; did you mean 'mem_cgroup_from_obj'? [-Werror=implicit-function-declaration]
+    2826 |                 memcg_css = mem_cgroup_css_from_folio(folio);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             mem_cgroup_from_obj
+   fs/buffer.c:2826:27: warning: assignment to 'struct cgroup_subsys_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2826 |                 memcg_css = mem_cgroup_css_from_folio(folio);
+         |                           ^
+>> fs/buffer.c:2827:21: error: implicit declaration of function 'cgroup_subsys_on_dfl' [-Werror=implicit-function-declaration]
+    2827 |                 if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
+         |                     ^~~~~~~~~~~~~~~~~~~~
+>> fs/buffer.c:2827:42: error: 'memory_cgrp_subsys' undeclared (first use in this function)
+    2827 |                 if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
+         |                                          ^~~~~~~~~~~~~~~~~~
+   fs/buffer.c:2827:42: note: each undeclared identifier is reported only once for each function it appears in
+   fs/buffer.c:2828:42: error: 'io_cgrp_subsys' undeclared (first use in this function)
+    2828 |                     cgroup_subsys_on_dfl(io_cgrp_subsys)) {
+         |                                          ^~~~~~~~~~~~~~
+>> fs/buffer.c:2829:37: error: implicit declaration of function 'cgroup_e_css'; did you mean 'cgroup_exit'? [-Werror=implicit-function-declaration]
+    2829 |                         blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
+         |                                     ^~~~~~~~~~~~
+         |                                     cgroup_exit
+>> fs/buffer.c:2829:59: error: invalid use of undefined type 'struct cgroup_subsys_state'
+    2829 |                         blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
+         |                                                           ^~
+   cc1: some warnings being treated as errors
 
 
-vim +783 arch/x86/kvm/svm/svm.h
+vim +/cgroup_subsys_on_dfl +2827 fs/buffer.c
 
-   763	
-   764	static inline void sev_free_vcpu(struct kvm_vcpu *vcpu) {}
-   765	static inline void sev_vm_destroy(struct kvm *kvm) {}
-   766	static inline void __init sev_set_cpu_caps(void) {}
-   767	static inline void __init sev_hardware_setup(void) {}
-   768	static inline void sev_hardware_unsetup(void) {}
-   769	static inline int sev_cpu_init(struct svm_cpu_data *sd) { return 0; }
-   770	static inline int sev_dev_get_attr(u32 group, u64 attr, u64 *val) { return -ENXIO; }
-   771	#define max_sev_asid 0
-   772	static inline void sev_handle_rmp_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u64 error_code) {}
-   773	static inline void sev_snp_init_protected_guest_state(struct kvm_vcpu *vcpu) {}
-   774	static inline int sev_gmem_prepare(struct kvm *kvm, kvm_pfn_t pfn, gfn_t gfn, int max_order)
-   775	{
-   776		return 0;
-   777	}
-   778	static inline void sev_gmem_invalidate(kvm_pfn_t start, kvm_pfn_t end) {}
-   779	static inline int sev_private_max_mapping_level(struct kvm *kvm, kvm_pfn_t pfn)
-   780	{
-   781		return 0;
-   782	}
- > 783	static void snp_decommision_all(void);
-   784	#endif
-   785	
+  2778	
+  2779	static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+  2780				  enum rw_hint write_hint,
+  2781				  struct writeback_control *wbc)
+  2782	{
+  2783		const enum req_op op = opf & REQ_OP_MASK;
+  2784		struct bio *bio;
+  2785	
+  2786		BUG_ON(!buffer_locked(bh));
+  2787		BUG_ON(!buffer_mapped(bh));
+  2788		BUG_ON(!bh->b_end_io);
+  2789		BUG_ON(buffer_delay(bh));
+  2790		BUG_ON(buffer_unwritten(bh));
+  2791	
+  2792		/*
+  2793		 * Only clear out a write error when rewriting
+  2794		 */
+  2795		if (test_set_buffer_req(bh) && (op == REQ_OP_WRITE))
+  2796			clear_buffer_write_io_error(bh);
+  2797	
+  2798		if (buffer_meta(bh))
+  2799			opf |= REQ_META;
+  2800		if (buffer_prio(bh))
+  2801			opf |= REQ_PRIO;
+  2802	
+  2803		bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
+  2804	
+  2805		fscrypt_set_bio_crypt_ctx_bh(bio, bh, GFP_NOIO);
+  2806	
+  2807		bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
+  2808		bio->bi_write_hint = write_hint;
+  2809	
+  2810		__bio_add_page(bio, bh->b_page, bh->b_size, bh_offset(bh));
+  2811	
+  2812		bio->bi_end_io = end_bio_bh_io_sync;
+  2813		bio->bi_private = bh;
+  2814	
+  2815		/* Take care of bh's that straddle the end of the device */
+  2816		guard_bio_eod(bio);
+  2817	
+  2818		if (wbc) {
+  2819			wbc_init_bio(wbc, bio);
+  2820			wbc_account_cgroup_owner(wbc, bh->b_page, bh->b_size);
+  2821		} else if (buffer_meta(bh)) {
+  2822			struct folio *folio;
+  2823			struct cgroup_subsys_state *memcg_css, *blkcg_css;
+  2824	
+  2825			folio = page_folio(bh->b_page);
+  2826			memcg_css = mem_cgroup_css_from_folio(folio);
+> 2827			if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
+  2828			    cgroup_subsys_on_dfl(io_cgrp_subsys)) {
+> 2829				blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
+  2830				bio_associate_blkg_from_css(bio, blkcg_css);
+  2831			}
+  2832		}
+  2833	
+  2834		submit_bio(bio);
+  2835	}
+  2836	
 
 -- 
 0-DAY CI Kernel Test Service
