@@ -1,182 +1,115 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D898115FA93
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 08:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0639618C023
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 08:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724918774; cv=none; b=Wi1SsTg+N+49rFok+5avzfgJh0AJi5zQ9iFeNQR2Op7ta7UZ15Zej+f1/NXGYMa3DD2ko72Wf9GPrDzDamvfc4JpZao0qeXIeXIrMrBaoDjcUvtohC5VYp9r7W2JjDQvH1ir01XsznxyDeiVe5FMgRpB+h8MiU4o6uWLXs50iW4=
+	t=1724919733; cv=none; b=nZN+5TEaotNgzrxKaIXew9JFjo5PzojWf/xwexuQJHbBDPAvxBr1pag11ftjbeFUb4Puhb1htyznaDR3S4Oat/taDiAsbpszitK2UBUPkzs2Dx1tADlrKf6S8KMJUEMSXwdU4gWSB9WWM8BsZvMJ3JsNSQ85dBexDFhH2+sstf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724918774; c=relaxed/simple;
-	bh=WADVHpmrppU9JtnOjIwY5J7I644fptX9Ii69q7ozQjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F1y5c0tEoiFjWF3z2KfQXExU1vYSa5iUQ58XOg18VomnaAuW7DIciKv7cj7POzboyxx/1Gm8mkIRAS/sgJsX3qCoM+XgkvrQV8Cyz50LGJceQm1AGvsEIH8qCKeIShKBSoPb46VjWr/5Izhjjjt4TijiP17kq5oEf9LcHT9XA0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MU+vrjPv; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724919733; c=relaxed/simple;
+	bh=1XRbFjivy2UI63n8hEF1xsoWJeiDJ7ShAwl1TtE4Osg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mc9drqcokcy95IzHAyOuseBd9PSnYgRk93Z3UmEa/sEx3Qrmz5242myhsFYTdTr6rWwhPS6wpKqTCUyUc1vxMJHk55pe08zn6FznKSIGP+kiSzRoD7bJHVANTMYH4cjrAt29aUUJtZtk+oBtso+xUJuFCOtH4uyT4P/0C7REylo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJtiL6bd; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MU+vrjPv"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7a1dcba8142so115102585a.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 01:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724918771; x=1725523571; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OYgvuKqZcmRq3AS2Q5lvhT3PiVjGn2/fDZSyjmpEqyA=;
-        b=MU+vrjPvKyxez7mmtkHTGThWcYN9lmhDBNlSyIEKXtqIR4p6wCTlFVEr2e1ugY99qK
-         Y0fCKOUGaAI0EQETCOX9VojLpxN6olgfgf06GI/I3mdTbtM8pnZzuuVJTRaM62YgRxtt
-         IL1D4bldChsms0li8ssAq9/w7gGGUYfvOG7gQyue1Btj2TUqzDEFYzAnRODeMA+tbjUd
-         UJ0i4Gb+rTFeuyjkp0qZEWxTDcgj+jJ3oTFgkQzzSM2BUri3vHWBLbtPMJwkNZEGZjG5
-         YTFU2/sSGS6GkIi3hcHmFNkliNqxOMTh98ZNhoLfeURIcRKTNW29D904hBRIomcX1LHu
-         Ujxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724918771; x=1725523571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OYgvuKqZcmRq3AS2Q5lvhT3PiVjGn2/fDZSyjmpEqyA=;
-        b=fQyWG4ycFrbn4mbTtj/LVCSsejl5IiXHa9X0RZ6zUW2Eqev/+bSA35cu1c7+mupOTi
-         VgL/3gopSUIHA9lwCGTPTxbS3L8jVFw1OkahbGRw6LapOvM3IGmFRWlwMfVZEwHLrw76
-         VjHagc81VgSw8vRB7C56TMeJJv0DYe/HEci3XrfgZWFmiVFr8HEN4pSlwVsU0LxC1w1Z
-         WZSj8W7UCyPTTYpOwnymN7lZ0z7za72/TL1r+n4rcPlTyQL9PYlUytKIyAic1RtKcFXD
-         JXqHO4RiRKPOBzVnG9OaUESOPCSceks588FvPtlU2l9r8Cl8Llrhd2G4nwWiNLSGHbQy
-         JhJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzOgMG6RWdlq4ex56iSJYVxvfTcsmSoZt/MIHw8lV2GQdb3UWu/AMCIqL0fxU1j4cEqbPAj4lX1Mr6ZTyE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYCZ8yvyZSf9cUfVLJjnhqQ+th4MfjbD0pGgdN4jd7TFjzg3uW
-	seryAAXb8AqH6wgR/bYEYOVuxFXwFKRTsyJb+698TerkkhBIVI0I+pzgx9wPlF/ymiUdAnB0Wfh
-	mgNIuADUttpQiOAWgcVa8T8OSvGg=
-X-Google-Smtp-Source: AGHT+IHwQM3l4fVs0TLwgaw6UHwDGfa/YXuKNhg+OUIL0VUZl1cZkhKDOS6yggUL3zwoxQnVYEECNFei/Mcz3cb5XKw=
-X-Received: by 2002:a05:6214:f69:b0:6b5:2062:dd5c with SMTP id
- 6a1803df08f44-6c33f33be5fmr35504506d6.8.1724918771539; Thu, 29 Aug 2024
- 01:06:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJtiL6bd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724919731; x=1756455731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1XRbFjivy2UI63n8hEF1xsoWJeiDJ7ShAwl1TtE4Osg=;
+  b=QJtiL6bdiTu0FbXG7PLFCcM6V06d/BVWAVipiVtHvuw+PXaFG/O+4x0a
+   RQezh0IvmeXIrqjAviJDAWQ1t+4Gx9LC2g0RmMvDx6Fk6mRJtZ38EgcR+
+   gNm29xjjhg6MOY+cF3R89YA74RUxeOrq7/ZIs5VEweJNDfuMaotz6zT16
+   mYJt5E6kIgmzVHCMD7JNF3+0mz5WHUZPP+GlPeIXxoj/6KqI0TEGD31Am
+   fPeJshXgR1SkLqIU5DClb1wpxH6LU8HeAXKPBG/CkBgaQw391vP8s+FfI
+   0lgCmdM1szpfMes4GQUfduljPJwpc7RU3+MrWpn5gyACvLMcBuwBqb3WR
+   A==;
+X-CSE-ConnectionGUID: tzRBJfDDS46Fda1xmWfI/w==
+X-CSE-MsgGUID: vbNJ4IDGRXiy2upUnnBJxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23071012"
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="23071012"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 01:22:10 -0700
+X-CSE-ConnectionGUID: 8DXLO4AIQombw/+ImEdEhg==
+X-CSE-MsgGUID: aqBA81d0TayvJrcNI29olw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
+   d="scan'208";a="67864050"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Aug 2024 01:22:09 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjaPu-00001O-2t;
+	Thu, 29 Aug 2024 08:22:06 +0000
+Date: Thu, 29 Aug 2024 16:21:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: ningyu <ningyu@eswincomputing.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+	Darshan Prajapati <darshan.prajapati@einfochips.com>,
+	Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Subject: [esmil:eic7700 22/24] arch/riscv/kernel/bus_error.c:123:3-8: No need
+ to set .owner here. The core will do it.
+Message-ID: <202408291635.JJwDxA53-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240826203234.4079338-3-joannelkoong@gmail.com>
- <202408280419.yuu33o7t-lkp@intel.com> <CAJnrk1Y3piNWm3482N1QcasAmmUMYk1KkoO9TyupaJDBM8jW9A@mail.gmail.com>
- <CALOAHbC9a-U+Gk53bxo1=X4nMQng8TSUWo7B=TZVN-f=Y4JeUg@mail.gmail.com> <c6b851b4-57ba-4ad3-9a52-c5509ffb08b3@linux.alibaba.com>
-In-Reply-To: <c6b851b4-57ba-4ad3-9a52-c5509ffb08b3@linux.alibaba.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 29 Aug 2024 16:05:35 +0800
-Message-ID: <CALOAHbCOgxWXojuyzyGVLdrG_=XW2HBhr9Oj=KxfpgJNvAusRA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] fuse: add default_request_timeout and
- max_request_timeout sysctls
-To: Jingbo Xu <jefflexu@linux.alibaba.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, kernel test robot <lkp@intel.com>, miklos@szeredi.hu, 
-	linux-fsdevel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	josef@toxicpanda.com, bernd.schubert@fastmail.fm, kernel-team@meta.com, 
-	Bernd Schubert <bschubert@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Aug 29, 2024 at 2:38=E2=80=AFPM Jingbo Xu <jefflexu@linux.alibaba.c=
-om> wrote:
->
-> Hi, Yafang,
->
-> On 8/29/24 11:58 AM, Yafang Shao wrote:
-> > On Wed, Aug 28, 2024 at 11:51=E2=80=AFPM Joanne Koong <joannelkoong@gma=
-il.com> wrote:
-> >>
-> >> On Tue, Aug 27, 2024 at 2:52=E2=80=AFPM kernel test robot <lkp@intel.c=
-om> wrote:
-> >>>
-> >>> Hi Joanne,
-> >>>
-> >>> kernel test robot noticed the following build errors:
-> >>>
-> >>> [auto build test ERROR on mszeredi-fuse/for-next]
-> >>> [also build test ERROR on linus/master v6.11-rc5 next-20240827]
-> >>> [If your patch is applied to the wrong git tree, kindly drop us a not=
-e.
-> >>> And when submitting patch, we suggest to use '--base' as documented i=
-n
-> >>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >>>
-> >>> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/f=
-use-add-optional-kernel-enforced-timeout-for-requests/20240827-043354
-> >>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse=
-.git for-next
-> >>> patch link:    https://lore.kernel.org/r/20240826203234.4079338-3-joa=
-nnelkoong%40gmail.com
-> >>> patch subject: [PATCH v5 2/2] fuse: add default_request_timeout and m=
-ax_request_timeout sysctls
-> >>> config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/=
-archive/20240828/202408280419.yuu33o7t-lkp@intel.com/config)
-> >>> compiler: arceb-elf-gcc (GCC) 13.2.0
-> >>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20240828/202408280419.yuu33o7t-lkp@intel.com/reproduce)
-> >>>
-> >>> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> >>> the same patch/commit), kindly add following tags
-> >>> | Reported-by: kernel test robot <lkp@intel.com>
-> >>> | Closes: https://lore.kernel.org/oe-kbuild-all/202408280419.yuu33o7t=
--lkp@intel.com/
-> >>>
-> >>> All errors (new ones prefixed by >>):
-> >>>
-> >>>>> fs/fuse/sysctl.c:30:5: error: redefinition of 'fuse_sysctl_register=
-'
-> >>>       30 | int fuse_sysctl_register(void)
-> >>>          |     ^~~~~~~~~~~~~~~~~~~~
-> >>>    In file included from fs/fuse/sysctl.c:9:
-> >>>    fs/fuse/fuse_i.h:1495:19: note: previous definition of 'fuse_sysct=
-l_register' with type 'int(void)'
-> >>>     1495 | static inline int fuse_sysctl_register(void) { return 0; }
-> >>>          |                   ^~~~~~~~~~~~~~~~~~~~
-> >>>>> fs/fuse/sysctl.c:38:6: error: redefinition of 'fuse_sysctl_unregist=
-er'
-> >>>       38 | void fuse_sysctl_unregister(void)
-> >>>          |      ^~~~~~~~~~~~~~~~~~~~~~
-> >>>    fs/fuse/fuse_i.h:1496:20: note: previous definition of 'fuse_sysct=
-l_unregister' with type 'void(void)'
-> >>>     1496 | static inline void fuse_sysctl_unregister(void) { return; =
-}
-> >>>          |                    ^~~~~~~~~~~~~~~~~~~~~~
-> >>>
-> >>
-> >> I see. In the Makefile, the sysctl.o needs to be gated by CONFIG_SYSCT=
-L
-> >> eg
-> >> fuse-$(CONFIG_SYSCTL) +=3D sysctl.o
-> >>
-> >> I'll wait a bit to see if there are more comments on this patchset
-> >> before submitting v6.
-> >
-> > Hello Joanne,
-> >
-> > I noticed a change in behavior between versions v5 and v4 during my
-> > hellofuse test.
-> >
-> > - Setup:
-> >   1. Set fs.fuse.default_request_timeout to 10.
-> >   2. Start the hellofuse daemon, with FUSE mounted on /tmp/fuse/.
-> >   3. Run `cat /tmp/fuse/hello` and kill it within 10 seconds to
-> > trigger a Timer expired event.
-> >   4. Run `cat /tmp/fuse/hello` again.
-> >
-> > - v4:
-> >   After the Timer expired event occurs, running `cat /tmp/fuse/hello`
-> > again is successful.
-> >
-> > - v5:
-> >   Running `cat /tmp/fuse/hello` fails with the error: "Transport
-> > endpoint is not connected."
-> >
-> > I believe this behavior in v5 is unintended, correct?
-> >
->
-> I think v5 has changed the per-request timeout to per-connection timeout
-> according to Miklos's suggestion.  That is, once timedout, the whole
-> connection will be aborted.
+tree:   https://github.com/esmil/linux eic7700
+head:   eb44174b12f99d320be704b45db6b994f6a014bd
+commit: d877fe698cc67af36c4281e018700c7c341efbf2 [22/24] drivers: bus-error: Added SiFive Bus Error driver
+config: riscv-randconfig-r062-20240829 (https://download.01.org/0day-ci/archive/20240829/202408291635.JJwDxA53-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291635.JJwDxA53-lkp@intel.com/reproduce)
 
-Understood. Thanks for your explanation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408291635.JJwDxA53-lkp@intel.com/
 
---=20
-Regards
-Yafang
+All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+   WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+>> WARNING: modpost: drivers/pci/controller/dwc/pcie-eswin: section mismatch in reference: eswin_pcie_driver+0x8 (section: .data) -> eswin_pcie_remove (section: .exit.text)
+   ERROR: modpost: missing MODULE_LICENSE() in drivers/reset/reset-eswin-eic7700.o
+   WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/reset-eswin-eic7700.o
+   WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/rnull_mod.o
+   WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+>> ERROR: modpost: "eic7700_tbu_power" [drivers/pci/controller/dwc/pcie-eswin.ko] undefined!
+>> ERROR: modpost: "eic7700_tbu_power" [drivers/ata/ahci_eswin.ko] undefined!
+>> ERROR: modpost: "eic7700_dynm_sid_enable" [drivers/ata/ahci_eswin.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+
+cocci warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/bus_error.c:123:3-8: No need to set .owner here. The core will do it.
+
+vim +123 arch/riscv/kernel/bus_error.c
+
+   118	
+   119	static struct platform_driver bus_error_driver = {
+   120		.probe = bus_error_probe,
+   121		.driver = {
+   122			.name = "buserror",
+ > 123			.owner = THIS_MODULE,
+   124			.of_match_table = of_match_ptr(eswin_bus_error_of_match),},
+   125	};
+   126	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
