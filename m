@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D5C1B4C30
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 16:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585E419EECF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 16:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724948494; cv=none; b=sC3u10pG2EmEBLnlZFFScJNju1BV12sE0s4DM6Y6cnVOEVGaAOETxjFFHUULf56SAqHCKVR4SYaYP0wsGbiw6jvE1r2bZ9UBC7Qte1Rai9DvgNTLBcUUWcnXeRziPlVKB9szao+Yxjw9wBXHc9mNI5R3dn0ehT4g3o+qiMnkvGU=
+	t=1724949094; cv=none; b=uiZ+kkgFoT7TE+kCRVN6md/tMQ9l3KMlTvt+JpiY1aJSm20Jj+3jOrRLMkitShl3udYQB977oBEmOsIJTZjH39aR3WNrcKAweO+yRrTckTTOwruGPAQlx5C9NbcmOSI4e94kvgrMH1NRJEkE7UqjaA86bVOvv2Zco1nVDkYxn64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724948494; c=relaxed/simple;
-	bh=QSD0KfHL5nBVjCs5CyKPuF0Hu/LItF1ebis/Y0+ARtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S5v58mI0AzJKYeI6HgeFij6zTbbfvoFthjlDsPAyeO8fObhi1g5jPDPvkMbCnp8QnMuudwD2Vp57E/20As1mmCcaVQQ/SeIzZRU7pDdl712BYWe64Lz+1kacEmgKhhaIfHftHqvyaYzLU40cIxgbzF9dMZsYMNNxPWSW7Jhz3lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoARXOaD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1724949094; c=relaxed/simple;
+	bh=GEs5tljAS1UHS5279kLBzm66dYn01BqQKjJf1uIw/oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g/ZVO8jJG64eP1PO/zxE66hc45ZtlvQ0ZSWhDilC+eMJyDOg1TLe6T9whcURe4vukcGL2+U2xHfR1VV25iXFVXKyo4rqjItoVPh6xxWZTURWEKMLl6jdTl5B71qF/AT4VBEaslJOiBA5boRcQxSGCOyJLGHH4agPhScLGW23uUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YbE/+eCs; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoARXOaD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YbE/+eCs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724948493; x=1756484493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QSD0KfHL5nBVjCs5CyKPuF0Hu/LItF1ebis/Y0+ARtE=;
-  b=CoARXOaDXvSxzo5PFlyYg6jyW5xR47lo+6Da/LT7bPo8kyF+dc1vAnHR
-   m8RauvLq0C0Owqo210V3hw948HykysylRgRdUc8/8fPxoCn3pcmlGkuKF
-   NU+wDpJxynLnEFzjhpzQhACjdKdiKWiit80loWmE010eXip9DM8jw8Mbj
-   35W1W2g7TVj7btBBWowhYakfLwkE7lMYibkgAgEuLFk82lD4AfgjGB66S
-   rcoGE49Z92WBBw4aCcuofvp1XHo/BwM9jRL3e2G4Vj5cngxyWebv7Q/ZG
-   E2kDzUtmvmMOqHSpOwQZujzILKSNwfjPnqunQSxXw2Fh/wqN4bDyX+Mim
-   g==;
-X-CSE-ConnectionGUID: lig6T4Q+TUaOP/GksUOVNg==
-X-CSE-MsgGUID: piS4+76cTtCzifadiDnwiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23725568"
+  t=1724949093; x=1756485093;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GEs5tljAS1UHS5279kLBzm66dYn01BqQKjJf1uIw/oc=;
+  b=YbE/+eCsAuOrRJwm52slRL6AsBgiJwbSrXSMvAJsINkzsWqMUVRxCcJG
+   oj9mL9zjK06wLK+I29JtwZftLjUc8nIIGaqByHh/H3vj2Tu0p+CSkcKcU
+   6wMFD1gtw8pPHpPpLhBDfEKg0loZ4whm25MB01lLmFyQHJhm+ydw1xhUi
+   QuBVL9ws0B110xfgupGL7EIQZy4chniggURBde40ikvmPvJX90YC7fsm+
+   is+KCkkAI+mWrl028abU1/3Ak+eFCimYatMgl0yEKaixJ6EtxQZ4aVjkk
+   CRM+PB92ol7YB8ZgRwYRj81xbV2/1havcRQKVEhlCpD1Tn//R0g4Gwk/O
+   Q==;
+X-CSE-ConnectionGUID: GFGN17QcT7SpGCFw6KNU7w==
+X-CSE-MsgGUID: i3tOXc8AQMCn3qsCo3uftw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="27436163"
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="23725568"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 09:21:32 -0700
-X-CSE-ConnectionGUID: baVme5SvQhCgxvjuylVrYg==
-X-CSE-MsgGUID: SRL9VVpyRRKKuQttzYY6tg==
+   d="scan'208";a="27436163"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 09:31:32 -0700
+X-CSE-ConnectionGUID: ZueLJWmPQ5aQLKvOSQVFYw==
+X-CSE-MsgGUID: biF8Qwa5STGivvM9bJenGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="94368725"
+   d="scan'208";a="101149035"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2024 09:21:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Aug 2024 09:31:30 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjhtm-0000So-29;
-	Thu, 29 Aug 2024 16:21:26 +0000
-Date: Fri, 30 Aug 2024 00:20:59 +0800
+	id 1sji3U-0000UR-0M;
+	Thu, 29 Aug 2024 16:31:28 +0000
+Date: Fri, 30 Aug 2024 00:31:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haifeng Xu <haifeng.xu@shopee.com>, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, jack@suse.cz
-Cc: oe-kbuild-all@lists.linux.dev, tytso@mit.edu, yi.zhang@huaweicloud.com,
-	yukuai1@huaweicloud.com, tj@kernel.org, linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Haifeng Xu <haifeng.xu@shopee.com>
-Subject: Re: [PATCH] buffer: Associate the meta bio with blkg from buffer page
-Message-ID: <202408300007.m9sHEOXo-lkp@intel.com>
-References: <20240828033224.146584-1-haifeng.xu@shopee.com>
+To: Kaixiong Yu <yukaixiong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, Joel Granados <j.granados@samsung.com>,
+	Kees Cook <kees@kernel.org>
+Subject: [joel-granados:jag/vm_table_move 8/15] mm/nommu.c:410:1: error:
+ expected ',' or ';' before 'void'
+Message-ID: <202408300045.f8Ib9ljS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,122 +62,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240828033224.146584-1-haifeng.xu@shopee.com>
 
-Hi Haifeng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.11-rc5 next-20240829]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/buffer-Associate-the-meta-bio-with-blkg-from-buffer-page/20240828-113409
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20240828033224.146584-1-haifeng.xu%40shopee.com
-patch subject: [PATCH] buffer: Associate the meta bio with blkg from buffer page
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240830/202408300007.m9sHEOXo-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300007.m9sHEOXo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/vm_table_move
+head:   78da303f82e590bc887df890dd3ddeb712712fc9
+commit: 5aa2c9cd13716ef1922c9a7efe629d8da93b14e4 [8/15] mm: nommu: move sysctl to its own file
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240830/202408300045.f8Ib9ljS-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300045.f8Ib9ljS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408300007.m9sHEOXo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300045.f8Ib9ljS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/buffer.c: In function 'submit_bh_wbc':
-   fs/buffer.c:2826:29: error: implicit declaration of function 'mem_cgroup_css_from_folio'; did you mean 'mem_cgroup_from_obj'? [-Werror=implicit-function-declaration]
-    2826 |                 memcg_css = mem_cgroup_css_from_folio(folio);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             mem_cgroup_from_obj
-   fs/buffer.c:2826:27: warning: assignment to 'struct cgroup_subsys_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2826 |                 memcg_css = mem_cgroup_css_from_folio(folio);
-         |                           ^
->> fs/buffer.c:2827:21: error: implicit declaration of function 'cgroup_subsys_on_dfl' [-Werror=implicit-function-declaration]
-    2827 |                 if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
-         |                     ^~~~~~~~~~~~~~~~~~~~
->> fs/buffer.c:2827:42: error: 'memory_cgrp_subsys' undeclared (first use in this function)
-    2827 |                 if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
-         |                                          ^~~~~~~~~~~~~~~~~~
-   fs/buffer.c:2827:42: note: each undeclared identifier is reported only once for each function it appears in
-   fs/buffer.c:2828:42: error: 'io_cgrp_subsys' undeclared (first use in this function)
-    2828 |                     cgroup_subsys_on_dfl(io_cgrp_subsys)) {
-         |                                          ^~~~~~~~~~~~~~
->> fs/buffer.c:2829:37: error: implicit declaration of function 'cgroup_e_css'; did you mean 'cgroup_exit'? [-Werror=implicit-function-declaration]
-    2829 |                         blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
-         |                                     ^~~~~~~~~~~~
-         |                                     cgroup_exit
->> fs/buffer.c:2829:59: error: invalid use of undefined type 'struct cgroup_subsys_state'
-    2829 |                         blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
-         |                                                           ^~
-   cc1: some warnings being treated as errors
+   In file included from mm/internal.h:22,
+                    from mm/nommu.c:43:
+   mm/vma.h: In function 'init_vma_munmap':
+   mm/vma.h:183:28: error: 'FIRST_USER_ADDRESS' undeclared (first use in this function)
+     183 |         vms->unmap_start = FIRST_USER_ADDRESS;
+         |                            ^~~~~~~~~~~~~~~~~~
+   mm/vma.h:183:28: note: each undeclared identifier is reported only once for each function it appears in
+   mm/vma.h:184:26: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+     184 |         vms->unmap_end = USER_PGTABLES_CEILING;
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   mm/nommu.c: At top level:
+>> mm/nommu.c:410:1: error: expected ',' or ';' before 'void'
+     410 | void __init mmap_init(void)
+         | ^~~~
+>> mm/nommu.c:396:25: warning: 'nommu_table' defined but not used [-Wunused-variable]
+     396 | static struct ctl_table nommu_table[] = {
+         |                         ^~~~~~~~~~~
 
 
-vim +/cgroup_subsys_on_dfl +2827 fs/buffer.c
+vim +410 mm/nommu.c
 
-  2778	
-  2779	static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
-  2780				  enum rw_hint write_hint,
-  2781				  struct writeback_control *wbc)
-  2782	{
-  2783		const enum req_op op = opf & REQ_OP_MASK;
-  2784		struct bio *bio;
-  2785	
-  2786		BUG_ON(!buffer_locked(bh));
-  2787		BUG_ON(!buffer_mapped(bh));
-  2788		BUG_ON(!bh->b_end_io);
-  2789		BUG_ON(buffer_delay(bh));
-  2790		BUG_ON(buffer_unwritten(bh));
-  2791	
-  2792		/*
-  2793		 * Only clear out a write error when rewriting
-  2794		 */
-  2795		if (test_set_buffer_req(bh) && (op == REQ_OP_WRITE))
-  2796			clear_buffer_write_io_error(bh);
-  2797	
-  2798		if (buffer_meta(bh))
-  2799			opf |= REQ_META;
-  2800		if (buffer_prio(bh))
-  2801			opf |= REQ_PRIO;
-  2802	
-  2803		bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
-  2804	
-  2805		fscrypt_set_bio_crypt_ctx_bh(bio, bh, GFP_NOIO);
-  2806	
-  2807		bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
-  2808		bio->bi_write_hint = write_hint;
-  2809	
-  2810		__bio_add_page(bio, bh->b_page, bh->b_size, bh_offset(bh));
-  2811	
-  2812		bio->bi_end_io = end_bio_bh_io_sync;
-  2813		bio->bi_private = bh;
-  2814	
-  2815		/* Take care of bh's that straddle the end of the device */
-  2816		guard_bio_eod(bio);
-  2817	
-  2818		if (wbc) {
-  2819			wbc_init_bio(wbc, bio);
-  2820			wbc_account_cgroup_owner(wbc, bh->b_page, bh->b_size);
-  2821		} else if (buffer_meta(bh)) {
-  2822			struct folio *folio;
-  2823			struct cgroup_subsys_state *memcg_css, *blkcg_css;
-  2824	
-  2825			folio = page_folio(bh->b_page);
-  2826			memcg_css = mem_cgroup_css_from_folio(folio);
-> 2827			if (cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
-  2828			    cgroup_subsys_on_dfl(io_cgrp_subsys)) {
-> 2829				blkcg_css = cgroup_e_css(memcg_css->cgroup, &io_cgrp_subsys);
-  2830				bio_associate_blkg_from_css(bio, blkcg_css);
-  2831			}
-  2832		}
-  2833	
-  2834		submit_bio(bio);
-  2835	}
-  2836	
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  395  
+5aa2c9cd13716e Kaixiong Yu      2024-08-26 @396  static struct ctl_table nommu_table[] = {
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  397  	{
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  398  		.procname	= "nr_trim_pages",
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  399  		.data		= &sysctl_nr_trim_pages,
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  400  		.maxlen		= sizeof(sysctl_nr_trim_pages),
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  401  		.mode		= 0644,
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  402  		.proc_handler	= proc_dointvec_minmax,
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  403  		.extra1		= SYSCTL_ZERO,
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  404  	},
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  405  }
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  406  
+8feae13110d60c David Howells    2009-01-08  407  /*
+3edf41d8458770 seokhoon.yoon    2017-02-24  408   * initialise the percpu counter for VM and region record slabs
+8feae13110d60c David Howells    2009-01-08  409   */
+8feae13110d60c David Howells    2009-01-08 @410  void __init mmap_init(void)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  411  {
+00a62ce91e5541 KOSAKI Motohiro  2009-04-30  412  	int ret;
+00a62ce91e5541 KOSAKI Motohiro  2009-04-30  413  
+908c7f1949cb7c Tejun Heo        2014-09-08  414  	ret = percpu_counter_init(&vm_committed_as, 0, GFP_KERNEL);
+00a62ce91e5541 KOSAKI Motohiro  2009-04-30  415  	VM_BUG_ON(ret);
+5d097056c9a017 Vladimir Davydov 2016-01-14  416  	vm_region_jar = KMEM_CACHE(vm_region, SLAB_PANIC|SLAB_ACCOUNT);
+5aa2c9cd13716e Kaixiong Yu      2024-08-26  417  	register_syscall_init("vm", nommu_table);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  418  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  419  
+
+:::::: The code at line 410 was first introduced by commit
+:::::: 8feae13110d60cc6287afabc2887366b0eb226c2 NOMMU: Make VMAs per MM as for MMU-mode linux
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
