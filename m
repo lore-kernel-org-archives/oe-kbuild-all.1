@@ -1,138 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073104E1CA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 03:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9723BBE3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 03:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724903686; cv=none; b=UlrjcZ+obq0rPPAIYvPalJ53NEOIe814b7fMmZ4EmJ7/uqi7R6TDldVjCZ1+rFT34M1784nzOFxTncNunJMbSxgLJAvDRhlDTtr/KmBuoTE5Wz+XvXZI2LzO+VoeSGEL2KdBHveAQHJwJvgFFDez5oWBPFvWNK4FAqnnYiSeV5w=
+	t=1724903954; cv=none; b=YdcEVmritFT2Uv/od+KF5qjin96WDcq5GsM8D4Q3/iIzWKnwHFjxKprrOrGrEgj73K1B/lXsZ+CHde2H80Rhj6gEvAvQ4Dq1+4xwX4IuRNaRJ4UThE2EJYkoN69mIbPpU8UgzT6BMWC0dANVrBZj0I3lV9AG+SyhFupRdzP/1I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724903686; c=relaxed/simple;
-	bh=sF0iGMOK+Lwj1e0gMx/2nuQN7xoRc9d6g+UIAuerDlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FF3gvNwWT/RMu6PB/JQBad0lN6IrqFsZ/ximkfw4e3TbuKvUIZon9cq8sPZ3nT4+b0LJiPtVXSY2GXo/nSdZlyNPxshsYnaFFkk17b7HVtwohmAlENkVWtRsuJVTz0CX2uyZanLUBRDK5AMMtP4QN1bkR5A/MPHa3G+vW7/az/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kqreyw9R; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724903954; c=relaxed/simple;
+	bh=oS3Wew+q5mdFePU9SpJOR2+UjomrZ0n/Ii/nChpH2to=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vF7jJ7AgXcJspE7k9iXCMV1phnMo8d8RLoUobptycWkxfCkdkH7GR8QNakGnpIyGqMQrd2qKvl08IsdsgwdFVQtG7OSKzYdD9Vq4nLIiOXimhknLm+VtZ5LVdBgJ90rOIHWmIaTyPSK3Zq6V4WCEVcwq/hyxVnbhsEjpy0W6jDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=juuoYpou; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kqreyw9R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724903685; x=1756439685;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sF0iGMOK+Lwj1e0gMx/2nuQN7xoRc9d6g+UIAuerDlY=;
-  b=Kqreyw9RuzlpB5w0EKVmnJtP3hzjCDj/JH70/9vcO4XuezDhHYpETvzf
-   O3Z6sunF3FB87MCQ2peKfc5dWyWG4bZ0vWdoUAP7sZa8oHvGula08ZAs2
-   22Mk2byPFKVaYhLyMnc9Lj/IWwiqIbAyABQbsyfMVGAokMqJ1y8CVL5rK
-   rgVmSvDrvx/Qvx07qwyU9LDeQYKEEbN5MVDvOoOEoctFheTpO17VlpFcp
-   AUL0dt4ac7qmxitG4a45mBCGQ2MLUChVyo56KWJQQtCHZxbR5+y1vQ6OI
-   IW4fxtjzhl6r2bj8Qy1B8whvdL3lKxw+70J7mBmNHhBXWRmg0eO8Y+7lL
-   A==;
-X-CSE-ConnectionGUID: +hzaSB0dSkKosDpJ1Gx3Zw==
-X-CSE-MsgGUID: uqzC9HP6RfGexWC90VCmrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="45988089"
-X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="45988089"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 20:54:44 -0700
-X-CSE-ConnectionGUID: H8229kuBQhCqOQ1BZAW+NA==
-X-CSE-MsgGUID: wCahuuRASLyhUGYuwZV7Kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,184,1719903600"; 
-   d="scan'208";a="67805003"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Aug 2024 20:54:43 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sjWF6-000Ldy-1j;
-	Thu, 29 Aug 2024 03:54:40 +0000
-Date: Thu, 29 Aug 2024 11:54:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d'
- directive output may be truncated writing between 1 and 11 bytes into a
- region of size 3
-Message-ID: <202408291130.0S7KrQvL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juuoYpou"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7a7ff6c4fd0so11404385a.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Aug 2024 20:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724903952; x=1725508752; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vkUS09TgKftE5W/7Kxc6xlgjZNojsIxIrYnirPLk26Q=;
+        b=juuoYpouawWQVeg1o7fXSi73Y4sV1c082rK508uuFdC0su7YF3mb+4nZ2y67vzSg6e
+         8rnJxv4qFUtGDE2jYOuxSjrk3myOcp6HUpff/mbFQ5gmfsF14QF4G2uYQ2KML1ntPjKI
+         1xe8GXev+ORlzWdluBlBdWf8mJv//zqZ67FbYO+E/mysVlL8aTLWbbAzz3Rc5o00iizi
+         rk4V2+0eZ1V3j+cIA8ZJ54Djmm7sNill5nibtb1rmHD5wp/zia+wg739cW2uMyKMPtzB
+         OXMoliPpQQtpEjKW7ishDDhblmIRcFruY5paZeL3snrEyAalF9euvZ1gBhpeuG+MXDDV
+         yqsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724903952; x=1725508752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vkUS09TgKftE5W/7Kxc6xlgjZNojsIxIrYnirPLk26Q=;
+        b=Sjbtns3rvL/y5yVWFuc+Ql4/B6ilHPaosianyo4dFJ3xu3orYeL+8zp4aOO8nr37h+
+         V+63AzSoGBy5S4BCkmxZ2Iv25bcR+JeWR+vRVR7yopjFT2Y50ra514j27FZTUJ0+PAUm
+         sTZXI0Y/ITE8bmrtdIxomg6+Y85mva2DoV29okcj4+Ub4YSfanu8G+hi+1/7y/kR47GA
+         X6G2PfHoqzQRGi3a5r6LQRwt+u5nO6NYR8tjrAk7OH+h3P2QaHlX4lCYq33QJ2EfysLG
+         KV2hdTJsC+v9dWTYaxHVJElT6WvKoa1Pus6az2FRxwxZzormScqq3gqhfFoBHPjKvudj
+         IXxw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8YQo+2KSrC+AhC2o3ifcBbH0GGtkHPL7hD/l3Yj+trmMLoaMSXAaMAYp2F0oAS00uohp9Cwsl1M7BqQEH@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx63ZBpbU/hjt83p74NuecwD/3wdb9EJkrMcy8xG0tdGRKuc5+7
+	lnFtf1un+dv+qsUUkeo0vu8w8KtL5WV3hurtyOnaXEGC9PtSwux267l9S9EDfQrAYRFDUDwZzWZ
+	llNPSJD23WKVswPJKa+Bx4cXGcBY=
+X-Google-Smtp-Source: AGHT+IEMiF+uKlvQ/HQhWuT4CtYTG4vdA+JApdic7PbkXTKHDRZTz4RHVK52hkMZzaSXYvagp+4k1Of+vLk6VUk4/4A=
+X-Received: by 2002:a0c:f413:0:b0:6c1:75de:b9bd with SMTP id
+ 6a1803df08f44-6c33e6a73dbmr17367546d6.54.1724903951719; Wed, 28 Aug 2024
+ 20:59:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240826203234.4079338-3-joannelkoong@gmail.com>
+ <202408280419.yuu33o7t-lkp@intel.com> <CAJnrk1Y3piNWm3482N1QcasAmmUMYk1KkoO9TyupaJDBM8jW9A@mail.gmail.com>
+In-Reply-To: <CAJnrk1Y3piNWm3482N1QcasAmmUMYk1KkoO9TyupaJDBM8jW9A@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Thu, 29 Aug 2024 11:58:33 +0800
+Message-ID: <CALOAHbC9a-U+Gk53bxo1=X4nMQng8TSUWo7B=TZVN-f=Y4JeUg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] fuse: add default_request_timeout and
+ max_request_timeout sysctls
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, josef@toxicpanda.com, 
+	bernd.schubert@fastmail.fm, jefflexu@linux.alibaba.com, kernel-team@meta.com, 
+	Bernd Schubert <bschubert@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Serge,
+On Wed, Aug 28, 2024 at 11:51=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
+>
+> On Tue, Aug 27, 2024 at 2:52=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > Hi Joanne,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on mszeredi-fuse/for-next]
+> > [also build test ERROR on linus/master v6.11-rc5 next-20240827]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fus=
+e-add-optional-kernel-enforced-timeout-for-requests/20240827-043354
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.g=
+it for-next
+> > patch link:    https://lore.kernel.org/r/20240826203234.4079338-3-joann=
+elkoong%40gmail.com
+> > patch subject: [PATCH v5 2/2] fuse: add default_request_timeout and max=
+_request_timeout sysctls
+> > config: arc-randconfig-002-20240827 (https://download.01.org/0day-ci/ar=
+chive/20240828/202408280419.yuu33o7t-lkp@intel.com/config)
+> > compiler: arceb-elf-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240828/202408280419.yuu33o7t-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408280419.yuu33o7t-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> fs/fuse/sysctl.c:30:5: error: redefinition of 'fuse_sysctl_register'
+> >       30 | int fuse_sysctl_register(void)
+> >          |     ^~~~~~~~~~~~~~~~~~~~
+> >    In file included from fs/fuse/sysctl.c:9:
+> >    fs/fuse/fuse_i.h:1495:19: note: previous definition of 'fuse_sysctl_=
+register' with type 'int(void)'
+> >     1495 | static inline int fuse_sysctl_register(void) { return 0; }
+> >          |                   ^~~~~~~~~~~~~~~~~~~~
+> > >> fs/fuse/sysctl.c:38:6: error: redefinition of 'fuse_sysctl_unregiste=
+r'
+> >       38 | void fuse_sysctl_unregister(void)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~
+> >    fs/fuse/fuse_i.h:1496:20: note: previous definition of 'fuse_sysctl_=
+unregister' with type 'void(void)'
+> >     1496 | static inline void fuse_sysctl_unregister(void) { return; }
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~
+> >
+>
+> I see. In the Makefile, the sysctl.o needs to be gated by CONFIG_SYSCTL
+> eg
+> fuse-$(CONFIG_SYSCTL) +=3D sysctl.o
+>
+> I'll wait a bit to see if there are more comments on this patchset
+> before submitting v6.
 
-FYI, the error/warning still remains.
+Hello Joanne,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d5d547aa7b51467b15d9caa86b116f8c2507c72a
-commit: 939fbcd568fd294034c96edc92ff5b9de1a5fce8 PCI: dwc: Add Root Port and Endpoint controller eDMA engine support
-date:   1 year, 6 months ago
-config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20240829/202408291130.0S7KrQvL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291130.0S7KrQvL-lkp@intel.com/reproduce)
+I noticed a change in behavior between versions v5 and v4 during my
+hellofuse test.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408291130.0S7KrQvL-lkp@intel.com/
+- Setup:
+  1. Set fs.fuse.default_request_timeout to 10.
+  2. Start the hellofuse daemon, with FUSE mounted on /tmp/fuse/.
+  3. Run `cat /tmp/fuse/hello` and kill it within 10 seconds to
+trigger a Timer expired event.
+  4. Run `cat /tmp/fuse/hello` again.
 
-All errors (new ones prefixed by >>):
+- v4:
+  After the Timer expired event occurs, running `cat /tmp/fuse/hello`
+again is successful.
 
-   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_edma_detect':
->> drivers/pci/controller/dwc/pcie-designware.c:898:50: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 3 [-Werror=format-truncation=]
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                                                  ^~
-   In function 'dw_pcie_edma_irq_verify',
-       inlined from 'dw_pcie_edma_detect' at drivers/pci/controller/dwc/pcie-designware.c:949:8:
-   drivers/pci/controller/dwc/pcie-designware.c:898:46: note: directive argument in the range [-2147483648, 22]
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                                              ^~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:898:17: note: 'snprintf' output between 5 and 15 bytes into a destination of size 6
-     898 |                 snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+- v5:
+  Running `cat /tmp/fuse/hello` fails with the error: "Transport
+endpoint is not connected."
+
+I believe this behavior in v5 is unintended, correct?
+
+--
+Regards
 
 
-vim +898 drivers/pci/controller/dwc/pcie-designware.c
 
-   878	
-   879	static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
-   880	{
-   881		struct platform_device *pdev = to_platform_device(pci->dev);
-   882		u16 ch_cnt = pci->edma.ll_wr_cnt + pci->edma.ll_rd_cnt;
-   883		char name[6];
-   884		int ret;
-   885	
-   886		if (pci->edma.nr_irqs == 1)
-   887			return 0;
-   888		else if (pci->edma.nr_irqs > 1)
-   889			return pci->edma.nr_irqs != ch_cnt ? -EINVAL : 0;
-   890	
-   891		ret = platform_get_irq_byname_optional(pdev, "dma");
-   892		if (ret > 0) {
-   893			pci->edma.nr_irqs = 1;
-   894			return 0;
-   895		}
-   896	
-   897		for (; pci->edma.nr_irqs < ch_cnt; pci->edma.nr_irqs++) {
- > 898			snprintf(name, sizeof(name), "dma%d", pci->edma.nr_irqs);
-   899	
-   900			ret = platform_get_irq_byname_optional(pdev, name);
-   901			if (ret <= 0)
-   902				return -EINVAL;
-   903		}
-   904	
-   905		return 0;
-   906	}
-   907	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yafang
