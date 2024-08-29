@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E1116C86D;
-	Thu, 29 Aug 2024 07:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DC51547C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 08:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724916655; cv=none; b=cCjd88MF4UxeifpPNSCX13ojgriLu4yPFqbR93Yo5UGJaoRBIHsifLBJTeZKKToKT5MAm9vfQzeF1NhLAWHAVejXVQ7a8cma7s46VXIC9GuczTjbtdi0DaRQc7Pv7ZS5HZp4IOURAMWhmI0Ws9hTzb3uXlFDvbTBrxLF5wAdrTQ=
+	t=1724918454; cv=none; b=Cemm0JbTi668yUXbxbxBOVjpUdrhDcf0R97T+h0pnrEgJuDIUZfCHsC9xixEG/ha7CbJMGYMP75shdKzIr4YrT6hjXxeZfHgcmwaCklLNJLYy7WJacHidcNC4E/ZC8fJfm6H912JCFB8YuZBfgdXW9EHYkovavBwDS3jDt9MX4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724916655; c=relaxed/simple;
-	bh=br5YSHH2dpsgd6ZsbLMoQl+gzHFga1+L7uA0e08Xg/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HQ4wX/QxDgDArdJKTYe9F6bVfItcChREMSrY6oWQIhlXE3xtm5BaaAI6C4wW9pW3e/3nxaXZ1Q8DMRbzmpfoeaqSvzwbNfK1I1m7iHs6jghIQu+RtXY9AK8kafj98bmtMedRYfZq4LBLSx13K0gFLLGKgkPWiYBsLcVJDv8CSFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lj3cc1JP; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1724918454; c=relaxed/simple;
+	bh=lBFMwaF5XsuQDJLJ4wI9KG7U0AIHTD6K0fXvDT9yfeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ss7oSC8i/wFXrNEZy0BFo1WDEzm3k1NQK6UP4iJYTvOD81Dfc657dPMhOFUfDf7jiWMwg+jU6qMKLWjJBXfwGSJVnsmM/xDHNjLf4i4zoEj8tB8E7sqKWs2/dngNeQH13dsTE90IaNmJT80SC4Gnra0g6LnEDNW4Msk+yd46cBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fiixTQEh; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lj3cc1JP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fiixTQEh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724916653; x=1756452653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=br5YSHH2dpsgd6ZsbLMoQl+gzHFga1+L7uA0e08Xg/E=;
-  b=Lj3cc1JPQMSo++udepTez5Fnv0fTkEdOjshmz+J9tNh/OkesvDhftS+U
-   PvCgoWkdWsjSyn/fcypKQ2vH+yBzHiP2wczYkkvhRJe2NMq1NHCQuc3dF
-   5SvFoZDDw5m7l30e5nm0RDNbuRBhd84+ukb8mKUtmxuDimEa2mYHhzrm5
-   6j8zExSE4LuVKWme4hjpIJRPKw1DG8qz48/tLpm5ylRSKIrvf23+Z0a3J
-   BELz+49n6luXsgQZNvR4lTvnZTJYTF+pH7xL1aZay3SHjkXHqsdQdHLGv
-   lJyjlCJyZy+2DFdJrb+zTrKlLDLN7d6WQn8qrva8hdoZK26r0RXYJwKKq
+  t=1724918453; x=1756454453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lBFMwaF5XsuQDJLJ4wI9KG7U0AIHTD6K0fXvDT9yfeI=;
+  b=fiixTQEhN0eZcy1WHZWrdNAO8BQ2frIJTuZh50IIW/O7UeyYCoxUljWX
+   B2cVhSl3eM+2eRzTQkLdxzB3N9nUf3+D/+anpD/KNewNIVTlaJTeklYoB
+   JNZi8XTRKcaUe9aZRhi1QfKUsPGJNsawcd9RM6vUvEiTfiTtn82tf2Zne
+   xD0TVSlOCYBGKmHCbK72YEmcu9NRH6tYFxdZuS+K2uvOMcNVSEqdzhoeb
+   Gu05pubNmL8Plgs+r3EYIhc1Q5P+dUWM3ahWdkcghFVutYLFCr289sO2s
+   Ea0FLlay+0aamox/nLUwRxz23rpKUbT0pgvlT0IGtn7nbM6xbXmeXbYq/
    A==;
-X-CSE-ConnectionGUID: g0XKOkHxQsiBtcUEH7G6Kw==
-X-CSE-MsgGUID: 5/wXMSCGQwWNdyfhaXlb9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23648924"
+X-CSE-ConnectionGUID: JD3IGIHsThifWi1SX5ADqA==
+X-CSE-MsgGUID: qP7Z3SglQtmu/9YaYSU7fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="23006093"
 X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
-   d="scan'208";a="23648924"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 00:30:52 -0700
-X-CSE-ConnectionGUID: 7Dk5lrEtSiCF1bpsASUzqw==
-X-CSE-MsgGUID: l4XClNB/T3yBV4mscdRnIA==
+   d="scan'208";a="23006093"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 01:00:52 -0700
+X-CSE-ConnectionGUID: RAiu/apyTyCN14g9kafogA==
+X-CSE-MsgGUID: UWli57DWTqypfyVgOzQjhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
-   d="scan'208";a="63173591"
+   d="scan'208";a="64181439"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Aug 2024 00:30:50 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Aug 2024 01:00:51 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjZcG-000Lqw-10;
-	Thu, 29 Aug 2024 07:30:48 +0000
-Date: Thu, 29 Aug 2024 15:30:10 +0800
+	id 1sja5I-000LsU-33;
+	Thu, 29 Aug 2024 08:00:48 +0000
+Date: Thu, 29 Aug 2024 16:00:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Johnston <matt@codeconstruct.com.au>, jk@codeconstruct.com.au
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH net 1/2] net: mctp-serial: Add kunit test for
- next_chunk_len()
-Message-ID: <202408291542.2o5GOBhQ-lkp@intel.com>
-References: <20240827020803.957250-2-matt@codeconstruct.com.au>
+To: kernel@openeuler.org, sanglipeng1 <sanglipeng1@jd.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 29859/30000]
+ drivers/usb/dwc2/core_intr.c:404:22: error: 'struct dwc2_hsotg' has no
+ member named 'bus_suspended'
+Message-ID: <202408291511.CoEgpYo7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +62,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827020803.957250-2-matt@codeconstruct.com.au>
 
-Hi Matt,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/net-mctp-serial-Add-kunit-test-for-next_chunk_len/20240827-101656
-base:   net/main
-patch link:    https://lore.kernel.org/r/20240827020803.957250-2-matt%40codeconstruct.com.au
-patch subject: [PATCH net 1/2] net: mctp-serial: Add kunit test for next_chunk_len()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240829/202408291542.2o5GOBhQ-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291542.2o5GOBhQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   9c002e226526016292b0c1d3dbed7ebc4e3e71d6
+commit: cae57e806b90cecf7f322a6a37de4fb422f1ea60 [29859/30000] usb: dwc2: gadget: LPM flow fix
+config: x86_64-randconfig-101-20240829 (https://download.01.org/0day-ci/archive/20240829/202408291511.CoEgpYo7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408291511.CoEgpYo7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408291542.2o5GOBhQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408291511.CoEgpYo7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/mctp/mctp-serial.c:541:24: error: initializing 'struct test_chunk_tx *' with an expression of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     541 |         struct test_chunk_tx *params = test->param_value;
-         |                               ^        ~~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/usb/dwc2/core_intr.c: In function 'dwc2_wakeup_from_lpm_l1':
+>> drivers/usb/dwc2/core_intr.c:404:22: error: 'struct dwc2_hsotg' has no member named 'bus_suspended'
+     404 |                 hsotg->bus_suspended = false;
+         |                      ^~
 
 
-vim +541 drivers/net/mctp/mctp-serial.c
+vim +404 drivers/usb/dwc2/core_intr.c
 
-   534	
-   535	static void test_next_chunk_len(struct kunit *test)
-   536	{
-   537		struct mctp_serial devx;
-   538		struct mctp_serial *dev = &devx;
-   539		int next;
-   540	
- > 541		struct test_chunk_tx *params = test->param_value;
-   542	
-   543		memset(dev, 0x0, sizeof(*dev));
-   544		memcpy(dev->txbuf, params->input, params->input_len);
-   545		dev->txlen = params->input_len;
-   546	
-   547		for (size_t i = 0; i < MAX_CHUNKS; i++) {
-   548			next = next_chunk_len(dev);
-   549			dev->txpos += next;
-   550			KUNIT_EXPECT_EQ(test, next, params->chunks[i]);
-   551	
-   552			if (next == 0) {
-   553				KUNIT_EXPECT_EQ(test, dev->txpos, dev->txlen);
-   554				return;
-   555			}
-   556		}
-   557	
-   558		KUNIT_FAIL_AND_ABORT(test, "Ran out of chunks");
-   559	}
-   560	
+   340	
+   341	/**
+   342	 * dwc2_wakeup_from_lpm_l1 - Exit the device from LPM L1 state
+   343	 *
+   344	 * @hsotg: Programming view of DWC_otg controller
+   345	 *
+   346	 */
+   347	void dwc2_wakeup_from_lpm_l1(struct dwc2_hsotg *hsotg, bool remotewakeup)
+   348	{
+   349		u32 glpmcfg;
+   350		u32 pcgctl;
+   351		u32 dctl;
+   352	
+   353		if (hsotg->lx_state != DWC2_L1) {
+   354			dev_err(hsotg->dev, "Core isn't in DWC2_L1 state\n");
+   355			return;
+   356		}
+   357	
+   358		glpmcfg = dwc2_readl(hsotg, GLPMCFG);
+   359		if (dwc2_is_device_mode(hsotg)) {
+   360			dev_dbg(hsotg->dev, "Exit from L1 state, remotewakeup=%d\n", remotewakeup);
+   361			glpmcfg &= ~GLPMCFG_ENBLSLPM;
+   362			glpmcfg &= ~GLPMCFG_HIRD_THRES_MASK;
+   363			dwc2_writel(hsotg, glpmcfg, GLPMCFG);
+   364	
+   365			pcgctl = dwc2_readl(hsotg, PCGCTL);
+   366			pcgctl &= ~PCGCTL_ENBL_SLEEP_GATING;
+   367			dwc2_writel(hsotg, pcgctl, PCGCTL);
+   368	
+   369			glpmcfg = dwc2_readl(hsotg, GLPMCFG);
+   370			if (glpmcfg & GLPMCFG_ENBESL) {
+   371				glpmcfg |= GLPMCFG_RSTRSLPSTS;
+   372				dwc2_writel(hsotg, glpmcfg, GLPMCFG);
+   373			}
+   374	
+   375			if (remotewakeup) {
+   376				if (dwc2_hsotg_wait_bit_set(hsotg, GLPMCFG, GLPMCFG_L1RESUMEOK, 1000)) {
+   377					dev_warn(hsotg->dev, "%s: timeout GLPMCFG_L1RESUMEOK\n", __func__);
+   378					goto fail;
+   379					return;
+   380				}
+   381	
+   382				dctl = dwc2_readl(hsotg, DCTL);
+   383				dctl |= DCTL_RMTWKUPSIG;
+   384				dwc2_writel(hsotg, dctl, DCTL);
+   385	
+   386				if (dwc2_hsotg_wait_bit_set(hsotg, GINTSTS, GINTSTS_WKUPINT, 1000)) {
+   387					dev_warn(hsotg->dev, "%s: timeout GINTSTS_WKUPINT\n", __func__);
+   388					goto fail;
+   389					return;
+   390				}
+   391			}
+   392	
+   393			glpmcfg = dwc2_readl(hsotg, GLPMCFG);
+   394			if (glpmcfg & GLPMCFG_COREL1RES_MASK || glpmcfg & GLPMCFG_SLPSTS ||
+   395			    glpmcfg & GLPMCFG_L1RESUMEOK) {
+   396				goto fail;
+   397				return;
+   398			}
+   399	
+   400			/* Inform gadget to exit from L1 */
+   401			call_gadget(hsotg, resume);
+   402			/* Change to L0 state */
+   403			hsotg->lx_state = DWC2_L0;
+ > 404			hsotg->bus_suspended = false;
+   405	fail:		dwc2_gadget_init_lpm(hsotg);
+   406		} else {
+   407			/* TODO */
+   408			dev_err(hsotg->dev, "Host side LPM is not supported.\n");
+   409			return;
+   410		}
+   411	}
+   412	
 
 -- 
 0-DAY CI Kernel Test Service
