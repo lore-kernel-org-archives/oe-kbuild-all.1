@@ -1,117 +1,148 @@
-Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC57D15666A;
-	Thu, 29 Aug 2024 09:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A1818CBFE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 09:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724922567; cv=none; b=QBZUQhp1A7aWH+Hnf3LJxoL1tc0JX8GNQh+MUgY1l1knK6wbkfr6rLx2rrW/SH3oe4USkHRU4FKMe3DPM4Oa9N9O7mlVJX7mdNbhigxPSwvvLmVCEWPhZ2GuomSdtrw1CQNuTWT6m01ArCt14f54DZfmwGfNgnUk7GXnw1AU6P4=
+	t=1724923565; cv=none; b=UOo0nmwVzbVVPU7g5k5jx6tnDNDbCd6NUamVMvhhTOZ1GvykR37Lp6a7CbegqQWFPd0ZVE8wQdXZ74p/IJxaGTbFdhl4FfSiEH4Qh0QA9FoQ2fNtW79b+aEwlhyn6N3W7YrqOMir9Ve65QenD1AeBq36YPMWtadnIIpy7/HGkJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724922567; c=relaxed/simple;
-	bh=ml4sOxO8ZKyXC6YXZdo3WVWHC04PEgkVadV4wh9Vvcs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hDkmUN/W23g+MC4kpBOqp7KROkomWOpi6sBJshu4R7jfHAwehY4weECNnwZPjghqTTgrDM4fsJPnw6vS08RuMmdWbABUTu8qYjm6A32iZPg0eDWW+sOKMbqZ0Ph5xsTYKvd8Bh7YeG73/aIfWdkN0mjv0K/qwhGZrZgbonYmXMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
-Received: from localhost (p200300c5972FE490000000000000032b.dip0.t-ipconnect.de [IPv6:2003:c5:972f:e490::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.simonwunderlich.de (Postfix) with ESMTPSA id 3F8F4FA131;
-	Thu, 29 Aug 2024 11:09:18 +0200 (CEST)
-From: Issam Hamdi <ih@simonwunderlich.de>
-To: johannes@sipsolutions.net
-Cc: ih@simonwunderlich.de,
-	kvalo@kernel.org,
-	linux-wireless@vger.kernel.org,
-	lkp@intel.com,
-	llvm@lists.linux.dev,
-	mathias.kretschmer@fit.fraunhofer.de,
-	oe-kbuild-all@lists.linux.dev,
-	quic_jjohnson@quicinc.com
-Subject: [PATCH v4] wifi: cfg80211: Set the channel definition for the different Wi-Fi modes when starting CAC
-Date: Thu, 29 Aug 2024 11:09:15 +0200
-Message-Id: <20240829090915.2887206-1-ih@simonwunderlich.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
-References: <6a9916848826a07ca41f1170e1d20cda9e798872.camel@sipsolutions.net>
+	s=arc-20240116; t=1724923565; c=relaxed/simple;
+	bh=uutYeKyO7LdsKfzYZjAxmuhW/jm/YwmRfv23rebccWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=YqG6/Fz7W9+gZ3sgMpjwdJ+w/pZtuTXjAkzrfDcUqEy2E0cEtmVtJLzfH5BBvEi1KaF9tgFnwrevXn//XkSmxZbEvLjc4rcl/ENPN9mYyQ7xRcYqD0SnupOYBru5Xnz9RMI5NIqbYu4nrb4OEshsURGdyTr/XlkIPV83H5f9KQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WNbl5/q0; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WNbl5/q0"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4280c55e488so2370005e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 02:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724923562; x=1725528362; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gAvX4nxugzvLLHwzqMBg3PEBh+8hsK2td8y9rNRJjlY=;
+        b=WNbl5/q0NUsN5rmHPKXtotzD/99nZzNHQAzdPg9yOuMCEwT+LHcj4Si6GWQ/Rhev0/
+         OrQKdTEwyR49V548VcHqtwDmKHDZra902TSjTIe1OEyuqWuXcMxolISmq/iex+Y9tUZ4
+         IYYen2LWnXrUqcFPFGXqE8Z+iPAKrZBl+yXGqsRVwe03APaH7LVDjHqb04tRYfas7NA6
+         rYikZDkYDqvg44gJyQqtiFUseRThP5stdtPUBjVz6pxjtCDwUuRayG9VW8ldieEEnmh5
+         HMsyuw4Hx1kH8gvKlD0aTjetwiPY5J8BMHkKSCmYHP5LKucsSius7Va8RUkDS9T4RCkh
+         1SJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724923562; x=1725528362;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gAvX4nxugzvLLHwzqMBg3PEBh+8hsK2td8y9rNRJjlY=;
+        b=rZZ5jDRkXhoIKxg3dRmu2qBglI80rKACK8ubPeOsbGrIPIMlwNrFLZk4p/8YjeEDU6
+         MWwdAyRTgEXqngrAJ4Bi/GM8eo6GgQk8hRBWjk1SQYYAyjzJvcJaSdQDSx8M4R088S8b
+         Rh9+LF12qjpZbpyKYjlhTGVSeZ0dw1/Qp310GXwZj1B7H5zX2+d6EP1bxZugFNvBAqcN
+         T8p76+LJjs+c9GT5sFqtw+E4tOtyDlI9L1YU4iBbPeCrocOxavCbxvXUJi1DYFxSy9Q/
+         cKe6nh/CDPxhj76rD9v65liyOO1Cb9iNBL0R08SGAoezmTpboMK7BDYDTcvqktXMoXDq
+         Fe9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXOFcg1PMdgSTqBF2JG2Ekls7sV+FIPVUdweiX8K//PZ0tiwzg+j79iHlfUxqAbTYu1orZAHX+N5c8zwy0m@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGI2I8u8xRp3XFu/mc5xj/RSZvwxBfNwdL5bUOYkgWQBYh7qT2
+	zuNFuUC0+9dYCEkuMWKYU9IKznnmNoNzkdUHGgP8HAqRgWdd4y2rIOEU2gE1QCo=
+X-Google-Smtp-Source: AGHT+IHS0mdsJlWj1rrvXndoz5Oe14EVmdyVaw6esL3Lk15aOpT3/U6xPInumH4Z/7S66CPs1y9WnA==
+X-Received: by 2002:a05:600c:1909:b0:426:526f:4a1f with SMTP id 5b1f17b1804b1-42bb74549a5mr6726015e9.16.1724923561802;
+        Thu, 29 Aug 2024 02:26:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6396580sm44599855e9.9.2024.08.29.02.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 02:26:01 -0700 (PDT)
+Date: Thu, 29 Aug 2024 12:25:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-dev@igalia.com, krisman@kernel.org,
+	Daniel Rosenberg <drosen@google.com>, smcv@collabora.com,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH 3/5] tmpfs: Create casefold mount options
+Message-ID: <fc502406-af31-439c-b8fe-94518dd7c800@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240823173332.281211-4-andrealmeid@igalia.com>
 
-When starting CAC in a mode other than AP mode, it return a
-"WARNING: CPU: 0 PID: 63 at cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]"
-caused by the chandef.chan being null at the end of CAC.
+Hi André,
 
-Solution: Ensure the channel definition is set for the different modes
-when starting CAC to avoid getting a NULL 'chan' at the end of CAC.
+kernel test robot noticed the following build warnings:
 
- Call Trace:
-  ? show_regs.part.0+0x14/0x16
-  ? __warn+0x67/0xc0
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? report_bug+0xa7/0x130
-  ? exc_overflow+0x30/0x30
-  ? handle_bug+0x27/0x50
-  ? exc_invalid_op+0x18/0x60
-  ? handle_exception+0xf6/0xf6
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? exc_overflow+0x30/0x30
-  ? cfg80211_chandef_dfs_usable+0x20/0xaf [cfg80211]
-  ? regulatory_propagate_dfs_state.cold+0x1b/0x4c [cfg80211]
-  ? cfg80211_propagate_cac_done_wk+0x1a/0x30 [cfg80211]
-  ? process_one_work+0x165/0x280
-  ? worker_thread+0x120/0x3f0
-  ? kthread+0xc2/0xf0
-  ? process_one_work+0x280/0x280
-  ? kthread_complete_and_exit+0x20/0x20
-  ? ret_from_fork+0x19/0x24
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
-Signed-off-by: Kretschmer Mathias <mathias.kretschmer@fit.fraunhofer.de>
----
----
-v2: update the subject
-v3: update the second Signed-off-by to Reported-by
-v4: Remove the check on the OCB mode
----
- net/wireless/nl80211.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/tmpfs-Add-casefold-lookup-support/20240826-135457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240823173332.281211-4-andrealmeid%40igalia.com
+patch subject: [PATCH 3/5] tmpfs: Create casefold mount options
+config: x86_64-randconfig-161-20240827 (https://download.01.org/0day-ci/archive/20240829/202408290349.lp2Eq74b-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
-diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
-index 7397a372c78e..60cf6d3dd3ca 100644
---- a/net/wireless/nl80211.c
-+++ b/net/wireless/nl80211.c
-@@ -10143,7 +10143,20 @@ static int nl80211_start_radar_detection(struct sk_buff *skb,
- 
- 	err = rdev_start_radar_detection(rdev, dev, &chandef, cac_time_ms);
- 	if (!err) {
--		wdev->links[0].ap.chandef = chandef;
-+		switch (wdev->iftype) {
-+		case NL80211_IFTYPE_MESH_POINT:
-+			wdev->u.mesh.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_ADHOC:
-+			wdev->u.ibss.chandef = chandef;
-+			break;
-+		case NL80211_IFTYPE_AP:
-+		case NL80211_IFTYPE_P2P_GO:
-+			wdev->links[0].ap.chandef = chandef;
-+			break;
-+		default:
-+			break;
-+		}
- 		wdev->cac_started = true;
- 		wdev->cac_start_time = jiffies;
- 		wdev->cac_time_ms = cac_time_ms;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408290349.lp2Eq74b-lkp@intel.com/
 
-base-commit: cc32e9fb380d8afdbf3486d7063d5520bfb0f071
+smatch warnings:
+mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'maj'.
+mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'min'.
+mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'rev'.
+
+vim +/maj +4307 mm/shmem.c
+
+a024e87c2944676 André Almeida 2024-08-23  4291  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param)
+a024e87c2944676 André Almeida 2024-08-23  4292  {
+a024e87c2944676 André Almeida 2024-08-23  4293  	struct shmem_options *ctx = fc->fs_private;
+a024e87c2944676 André Almeida 2024-08-23  4294  	unsigned int maj, min, rev, version_number;
+a024e87c2944676 André Almeida 2024-08-23  4295  	char version[10];
+a024e87c2944676 André Almeida 2024-08-23  4296  	int ret;
+a024e87c2944676 André Almeida 2024-08-23  4297  	struct unicode_map *encoding;
+a024e87c2944676 André Almeida 2024-08-23  4298  
+a024e87c2944676 André Almeida 2024-08-23  4299  	if (strncmp(param->string, "utf8-", 5))
+a024e87c2944676 André Almeida 2024-08-23  4300  		return invalfc(fc, "Only utf8 encondings are supported");
+a024e87c2944676 André Almeida 2024-08-23  4301  	ret = strscpy(version, param->string + 5, sizeof(version));
+a024e87c2944676 André Almeida 2024-08-23  4302  	if (ret < 0)
+a024e87c2944676 André Almeida 2024-08-23  4303  		return invalfc(fc, "Invalid enconding argument: %s",
+a024e87c2944676 André Almeida 2024-08-23  4304  			       param->string);
+a024e87c2944676 André Almeida 2024-08-23  4305  
+a024e87c2944676 André Almeida 2024-08-23  4306  	utf8_parse_version(version, &maj, &min, &rev);
+
+No error checking
+
+a024e87c2944676 André Almeida 2024-08-23 @4307  	version_number = UNICODE_AGE(maj, min, rev);
+                                                                                     ^^^^^^^^^^^^^
+
+a024e87c2944676 André Almeida 2024-08-23  4308  	encoding = utf8_load(version_number);
+a024e87c2944676 André Almeida 2024-08-23  4309  	if (IS_ERR(encoding))
+a024e87c2944676 André Almeida 2024-08-23  4310  		return invalfc(fc, "Invalid utf8 version: %s", version);
+a024e87c2944676 André Almeida 2024-08-23  4311  	pr_info("tmpfs: Using encoding provided by mount options: %s\n",
+a024e87c2944676 André Almeida 2024-08-23  4312  		param->string);
+a024e87c2944676 André Almeida 2024-08-23  4313  	ctx->encoding = encoding;
+a024e87c2944676 André Almeida 2024-08-23  4314  
+a024e87c2944676 André Almeida 2024-08-23  4315  	return 0;
+a024e87c2944676 André Almeida 2024-08-23  4316  }
+a024e87c2944676 André Almeida 2024-08-23  4317  #else
+a024e87c2944676 André Almeida 2024-08-23  4318  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param)
+a024e87c2944676 André Almeida 2024-08-23  4319  {
+a024e87c2944676 André Almeida 2024-08-23  4320  	return invalfc(fc, "tmpfs: No kernel support for casefold filesystems\n");
+a024e87c2944676 André Almeida 2024-08-23  4321  }
+
 -- 
-2.39.2
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
