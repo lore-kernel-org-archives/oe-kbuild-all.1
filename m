@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AB726AE6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Aug 2024 13:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67C61AE024;
+	Thu, 29 Aug 2024 13:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.93.131.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724939189; cv=none; b=oPOgDt9HF3amMVu6fb2Luf++swqJPd4OpqvPNXqueKBLOuEY845ViwVVYARudhSzT+d4cfh9opBhO98R2PizQG9YOnavZncP0XRim08p5yVzDUj9EiarJLHbFzW28sY62etXdV273wDQf5FtkiP2QoQMu456Ea5Jq6AMC3tNln4=
+	t=1724939582; cv=none; b=Ua0XUBMVdzwYAV5OaUbmpZWoCIF8G9NAKwEGzHyz9UP7NCgVcIEmv40xTP1AW0dsOXDT0VeCxzednkvvxad2QT4bqgEOTJSsaa8ixvPKl1azLdG9VQQpMqQWVydOuvrtqq3MFnAZfZLuBOTB0Sc2iyEPxSYJjRk5ljDaAoNPMOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724939189; c=relaxed/simple;
-	bh=C0pV0ra6gdUolhq25m4X59H0XFGuLIfL9M0hFB9/udc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p8w9692ZT7wwH3/pioWzIXxJuqYypzJ5w8dv99EerFWJ9SiOAeAK6hWr1eXg2MsQ8Sv7Hu+3h1hiju5upUJXxpiF8lEOci7iv+xSAZzS+duViJavNSGxgUa1LuY2DV0Z/Hmfj20UkR9YZJa2zArwXgqwGQJNXS2QEl5WzctnP2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXv/Jm1z; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724939582; c=relaxed/simple;
+	bh=TS8/vjAK45qFX9WJoJ/dilPjrHp5NM1aNV5VZoirYWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AND3lPaOCJqGAgcAi3c4Fez6N2PJebhTl4oMoqiNDegwpXfN1bBoSx2dqtnWW+f6Vo2rqHScUzx6MDPyVSC8tLFdvLAd6Bt51Z5Nfm7svTZkyQFLTFTNQswxW+Jspudlkf2Ri9IkPR8cYym+mKeO4cHHt+MUgsT1gYht/KeJzvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=earth.li; spf=pass smtp.mailfrom=earth.li; dkim=pass (2048-bit key) header.d=earth.li header.i=@earth.li header.b=SpXzNTJw; arc=none smtp.client-ip=93.93.131.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=earth.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=earth.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXv/Jm1z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724939186; x=1756475186;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C0pV0ra6gdUolhq25m4X59H0XFGuLIfL9M0hFB9/udc=;
-  b=VXv/Jm1zmjafwz/dJe5wXpwHiJlPWIOsrbwH78NvQnwWX4cOa3F9oA7K
-   BYED3O64nuttRb5OlOlB2zmvNuY5ae7lHYYlRXAT0y7mHabdkyEPurim2
-   yGzbz94QQ5993t1Ne64BNPA1gWzlfIup+l268Ja+c5jyNX4ZpRCG6Dzzu
-   ql1U2LPPBSQfxgdAoyJdeeM+svb2zPJ0M+MA2hMv33P+kG8UJ3ndu5E5J
-   8Yzlj+fnrez1Qk4ChKqR/WPLj/GHqSYMceKR+hW3w9wHTZMDjLvV96ZDd
-   o1bnf9IMWftsT9Y0a81Ju3B9EsgG0oPMPdS1vNcoNhUOHIwGgShK9WUf8
-   w==;
-X-CSE-ConnectionGUID: 1dUov5w3RjKUHPVa0/gKeA==
-X-CSE-MsgGUID: Xp9A8pShTBeoW5mgaaJuNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23716629"
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
-   d="scan'208";a="23716629"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 06:46:24 -0700
-X-CSE-ConnectionGUID: MmYQAU9eTJSnl3f6rLe6aQ==
-X-CSE-MsgGUID: sxBnJOzXTrGL3MJk+67HFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,185,1719903600"; 
-   d="scan'208";a="68246109"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Aug 2024 06:46:22 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sjfTg-0000KU-2M;
-	Thu, 29 Aug 2024 13:46:20 +0000
-Date: Thu, 29 Aug 2024 21:46:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martyn Welch <martyn.welch@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Hari Nagalla <hnagalla@ti.com>, Andrew Davis <afd@ti.com>
-Subject: [linux-next:master 4949/7693] drivers/mailbox/omap-mailbox.c:383:34:
- warning: unused variable 'omap_mailbox_of_match'
-Message-ID: <202408292154.19W0R3u3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=earth.li header.i=@earth.li header.b="SpXzNTJw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
+	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=4SsUxAHHD2XiSfMK9a212e44ANeEU+e+fE9aWYn+bJE=; b=SpXzNTJw16lQvy4BiXl4M+gO1C
+	X/YJoIDkFgrEqq5d8KnaDYzUPu/62gk0yYm0gxbcTncsHvpJqc9JLwd4JFlqCPah1H+So/oi4HnOg
+	dmqJAIZfYwV8dZdQKqDev1dK+qHEsmGi2dKR0ha1UxnwMdi9dA1dCsR7GLquKrGGsZy24oZqVVMZD
+	78RtG2CnBczWuj57uGcmkjy7nqpfrR0T2CZBNiSzxCThAftLWAUSz6S/Yq9U+21Fe0DSNYMCZ9n9I
+	psZThcU/wEKQ4w5K/cFHaE970E8T/NnaDHK/ncPwoSSz4b41lqdcDOct1rqa7jk9DqW3dl8sGpuww
+	prZbRpdw==;
+Received: from noodles by the.earth.li with local (Exim 4.96)
+	(envelope-from <noodles@earth.li>)
+	id 1sjf80-00BZY2-0U;
+	Thu, 29 Aug 2024 14:23:56 +0100
+Date: Thu, 29 Aug 2024 14:23:56 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: ross.philipson@oracle.com
+Cc: Ard Biesheuvel <ardb@kernel.org>, kernel test robot <lkp@intel.com>,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
+	oe-kbuild-all@lists.linux.dev, dpsmith@apertussolutions.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+	dave.hansen@linux.intel.com, mjg59@srcf.ucam.org,
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
+	davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com,
+	kanth.ghatraju@oracle.com
+Subject: Re: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for
+ Secure Launch
+Message-ID: <ZtB2bP1Mx3zTr9e5@earth.li>
+References: <20240826223835.3928819-21-ross.philipson@oracle.com>
+ <202408290030.FEbUhHbr-lkp@intel.com>
+ <CAMj1kXGVn85ht_srwhYXDnKffPFX=B2+Cnv-8EAocwoHi__OoQ@mail.gmail.com>
+ <6b214ad2-d448-4f5f-85e9-93cd38e0e035@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,118 +64,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6b214ad2-d448-4f5f-85e9-93cd38e0e035@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b18bbfc14a38b5234e09c2adcf713e38063a7e6e
-commit: ebcf9008a895a2a9416f69e186b56fbade35e12c [4949/7693] remoteproc: k3-m4: Add a remoteproc driver for M4F subsystem
-config: hexagon-randconfig-r062-20240829 (https://download.01.org/0day-ci/archive/20240829/202408292154.19W0R3u3-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240829/202408292154.19W0R3u3-lkp@intel.com/reproduce)
+On Wed, Aug 28, 2024 at 01:19:16PM -0700, ross.philipson@oracle.com wrote:
+> On 8/28/24 10:14 AM, Ard Biesheuvel wrote:
+> > On Wed, 28 Aug 2024 at 19:09, kernel test robot <lkp@intel.com> wrote:
+> > > 
+> > > Hi Ross,
+> > > 
+> > > kernel test robot noticed the following build warnings:
+> > > 
+> > > [auto build test WARNING on tip/x86/core]
+> > > [also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master efi/next linus/master v6.11-rc5]
+> > > [cannot apply to herbert-crypto-2.6/master next-20240828]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://urldefense.com/v3/__https://git-scm.com/docs/git-format-patch*_base_tree_information__;Iw!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIxuz-LAC$ ]
+> > > 
+> > > url:    https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/Documentation-x86-Secure-Launch-kernel-documentation/20240827-065225__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmI7Z6SQKy$
+> > > base:   tip/x86/core
+> > > patch link:    https://urldefense.com/v3/__https://lore.kernel.org/r/20240826223835.3928819-21-ross.philipson*40oracle.com__;JQ!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIzWfs1XZ$
+> > > patch subject: [PATCH v10 20/20] x86/efi: EFI stub DRTM launch support for Secure Launch
+> > > config: i386-randconfig-062-20240828 (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20240829/202408290030.FEbUhHbr-lkp@intel.com/config__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIwkYG0TY$ )
+> > 
+> > 
+> > This is a i386 32-bit build, which makes no sense: this stuff should
+> > just declare 'depends on 64BIT'
+> 
+> Our config entry already has 'depends on X86_64' which in turn depends on
+> 64BIT. I would think that would be enough. Do you think it needs an explicit
+> 'depends on 64BIT' in our entry as well?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408292154.19W0R3u3-lkp@intel.com/
+The error is in x86-stub.c, which is pre-existing and compiled for 32
+bit as well, so you need more than a "depends" here.
 
-All warnings (new ones prefixed by >>):
+> > > compiler: clang version 18.1.5 (https://urldefense.com/v3/__https://github.com/llvm/llvm-project__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmI2SDLdTN$  617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > > reproduce (this is a W=1 build): (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20240829/202408290030.FEbUhHbr-lkp@intel.com/reproduce__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmI5MJDdIG$ )
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202408290030.FEbUhHbr-lkp@intel.com/__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmI-MitiqR$
+> > > 
+> > > sparse warnings: (new ones prefixed by >>)
+> > > > > drivers/firmware/efi/libstub/x86-stub.c:945:41: sparse: sparse: non size-preserving pointer to integer cast
+> > >     drivers/firmware/efi/libstub/x86-stub.c:953:65: sparse: sparse: non size-preserving pointer to integer cast
+> > > > > drivers/firmware/efi/libstub/x86-stub.c:980:70: sparse: sparse: non size-preserving integer to pointer cast
+> > >     drivers/firmware/efi/libstub/x86-stub.c:1014:45: sparse: sparse: non size-preserving integer to pointer cast
+> > > 
+> > > vim +945 drivers/firmware/efi/libstub/x86-stub.c
+> > > 
+> > >     927
+> > >     928  static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
+> > >     929                                                   struct boot_params *boot_params)
+> > >     930  {
+> > >     931          struct slr_entry_intel_info *txt_info;
+> > >     932          struct slr_entry_policy *policy;
+> > >     933          struct txt_os_mle_data *os_mle;
+> > >     934          bool updated = false;
+> > >     935          int i;
+> > >     936
+> > >     937          txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
+> > >     938          if (!txt_info)
+> > >     939                  return false;
+> > >     940
+> > >     941          os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
+> > >     942          if (!os_mle)
+> > >     943                  return false;
+> > >     944
+> > >   > 945          os_mle->boot_params_addr = (u64)boot_params;
+> > >     946
+> > >     947          policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
+> > >     948          if (!policy)
+> > >     949                  return false;
+> > >     950
+> > >     951          for (i = 0; i < policy->nr_entries; i++) {
+> > >     952                  if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
+> > >     953                          policy->policy_entries[i].entity = (u64)boot_params;
+> > >     954                          updated = true;
+> > >     955                          break;
+> > >     956                  }
+> > >     957          }
+> > >     958
+> > >     959          /*
+> > >     960           * If this is a PE entry into EFI stub the mocked up boot params will
+> > >     961           * be missing some of the setup header data needed for the second stage
+> > >     962           * of the Secure Launch boot.
+> > >     963           */
+> > >     964          if (image) {
+> > >     965                  struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base +
+> > >     966                                              offsetof(struct boot_params, hdr));
+> > >     967                  u64 cmdline_ptr;
+> > >     968
+> > >     969                  boot_params->hdr.setup_sects = hdr->setup_sects;
+> > >     970                  boot_params->hdr.syssize = hdr->syssize;
+> > >     971                  boot_params->hdr.version = hdr->version;
+> > >     972                  boot_params->hdr.loadflags = hdr->loadflags;
+> > >     973                  boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
+> > >     974                  boot_params->hdr.min_alignment = hdr->min_alignment;
+> > >     975                  boot_params->hdr.xloadflags = hdr->xloadflags;
+> > >     976                  boot_params->hdr.init_size = hdr->init_size;
+> > >     977                  boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
+> > >     978                  efi_set_u64_form(boot_params->hdr.cmd_line_ptr, boot_params->ext_cmd_line_ptr,
+> > >     979                                   &cmdline_ptr);
+> > >   > 980                  boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
+> > >     981          }
+> > >     982
+> > >     983          return updated;
+> > >     984  }
+> > >     985
+> > > 
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://urldefense.com/v3/__https://github.com/intel/lkp-tests/wiki__;!!ACWV5N9M2RV99hQ!KhkZK77BXRIR4F24tKkUeIlIrdqXtUW2vcnDV74c_5BmrQBQaQ4FqcDKKv9LB3HQUocTGkrmIy5kGTJf$
+> > > 
+> 
+> 
 
-   In file included from drivers/mailbox/omap-mailbox.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/mailbox/omap-mailbox.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/mailbox/omap-mailbox.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/mailbox/omap-mailbox.c:383:34: warning: unused variable 'omap_mailbox_of_match' [-Wunused-const-variable]
-   static const struct of_device_id omap_mailbox_of_match[] = {
-                                    ^
-   7 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +/omap_mailbox_of_match +383 drivers/mailbox/omap-mailbox.c
-
-ea2ec1e80f78e5f Suman Anna 2018-07-11  382  
-75288cc66dc478b Suman Anna 2014-09-10 @383  static const struct of_device_id omap_mailbox_of_match[] = {
-75288cc66dc478b Suman Anna 2014-09-10  384  	{
-75288cc66dc478b Suman Anna 2014-09-10  385  		.compatible	= "ti,omap2-mailbox",
-ea2ec1e80f78e5f Suman Anna 2018-07-11  386  		.data		= &omap2_data,
-75288cc66dc478b Suman Anna 2014-09-10  387  	},
-75288cc66dc478b Suman Anna 2014-09-10  388  	{
-75288cc66dc478b Suman Anna 2014-09-10  389  		.compatible	= "ti,omap3-mailbox",
-ea2ec1e80f78e5f Suman Anna 2018-07-11  390  		.data		= &omap2_data,
-75288cc66dc478b Suman Anna 2014-09-10  391  	},
-75288cc66dc478b Suman Anna 2014-09-10  392  	{
-75288cc66dc478b Suman Anna 2014-09-10  393  		.compatible	= "ti,omap4-mailbox",
-ea2ec1e80f78e5f Suman Anna 2018-07-11  394  		.data		= &omap4_data,
-75288cc66dc478b Suman Anna 2014-09-10  395  	},
-9c1f2a5dc2948b9 Suman Anna 2019-06-04  396  	{
-9c1f2a5dc2948b9 Suman Anna 2019-06-04  397  		.compatible	= "ti,am654-mailbox",
-9c1f2a5dc2948b9 Suman Anna 2019-06-04  398  		.data		= &omap4_data,
-9c1f2a5dc2948b9 Suman Anna 2019-06-04  399  	},
-595be654b0c23b6 Suman Anna 2021-02-09  400  	{
-595be654b0c23b6 Suman Anna 2021-02-09  401  		.compatible	= "ti,am64-mailbox",
-595be654b0c23b6 Suman Anna 2021-02-09  402  		.data		= &omap4_data,
-595be654b0c23b6 Suman Anna 2021-02-09  403  	},
-75288cc66dc478b Suman Anna 2014-09-10  404  	{
-75288cc66dc478b Suman Anna 2014-09-10  405  		/* end */
-75288cc66dc478b Suman Anna 2014-09-10  406  	},
-75288cc66dc478b Suman Anna 2014-09-10  407  };
-75288cc66dc478b Suman Anna 2014-09-10  408  MODULE_DEVICE_TABLE(of, omap_mailbox_of_match);
-75288cc66dc478b Suman Anna 2014-09-10  409  
-
-:::::: The code at line 383 was first introduced by commit
-:::::: 75288cc66dc478b32e43970dd6913396526504ae mailbox/omap: add support for parsing dt devices
-
-:::::: TO: Suman Anna <s-anna@ti.com>
-:::::: CC: Tony Lindgren <tony@atomide.com>
+J.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   101 things you can't have too   |  .''`.  Debian GNU/Linux Developer
+     much of : 23 - Red Dwarf.     | : :' :  Happy to accept PGP signed
+                                   | `. `'   or encrypted mail - RSA
+                                   |   `-    key on the keyservers.
