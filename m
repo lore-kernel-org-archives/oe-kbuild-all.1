@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044731B4C49
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 15:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AAF1B5311;
+	Fri, 30 Aug 2024 15:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725031579; cv=none; b=VlYqpKyrVdnkggkwztPcd8GXfTiUcQEVqw0Paw6F8ekti3girTTQAbBoUP0tLeeaS22jvmrDi6BSahylpwLCBHEuFwwzTk9EwD5lyHBiGsoPBSpnhtnA0ZVkCBDKexMWHmpRp/7W70FdcLkL7fc/2qvPHm1nrsD4M/yl6alhtTk=
+	t=1725031580; cv=none; b=ByWeiacIfN7G7AbG3H3ynCFFQtukxRF7ww6B8qENud6jkNG+42bnUMkFcr8pC8JY8OfKFunfemGk88ZnqwFUccs9H/K+gW+rEo6vxgJSgtYGQdAlERxtu8KVQfG24mUz6nAMVGaKByQPvaiTnw+5w7uo2oTbVWqmLURAQ40pwYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725031579; c=relaxed/simple;
-	bh=/9VQxGYcx8JDUjVZIntao1ukbjqmACtVcYWi7C66IC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QNw3YQQq85MhVeAvJDBUoY1Bm6s1pSYUZdsmfF2WHE/gckC5uaW0IbNPSHeT2ft4od1GsEHgVZ6TtrXs/w7Gw27Qy1OuluZQWaZvKTSungViEOqXKQyjqsYbB2uArh5GtaRd27JTWnglneHdq6gPJEFkTdcHlZi8pXjp1tHzRGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccrvnIQE; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1725031580; c=relaxed/simple;
+	bh=C0WOOozSTgEFuiMBLxHw7M8hNxWE4gcUb9pNKJ7jF8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZq9aoriaQZa2PCwtDPerj3l3ID/iBjXLEvVX0e7VmN8fLITei7m2rBsEI20nIvMFgvxMz3eSC6CWL1LiYuP3DaJ1hsRo6nM2SbCAOwLn5+eMtauz8X4qumFIWgBR44bjanKLhHF9F9N/HGtTRWFVIozBWWkFtdbvbRn3ygHEEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7lyQ7cI; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccrvnIQE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7lyQ7cI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725031578; x=1756567578;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/9VQxGYcx8JDUjVZIntao1ukbjqmACtVcYWi7C66IC0=;
-  b=ccrvnIQEIK6wNKdoR1XcAaEP2x/Xf1FlHVTThFPuIGFfv3UBWCEOBjK9
-   gMSjtkslXxe7A+gm6kGYeTRvynsAK18PFec63XGC/msjAmQHysJZD+P2K
-   DbQpvF9mUzQ57obI0l3ykIq83vWYO0lUbkVnq9Exa7Hs9tjh10UbaD7t/
-   VUgyj6njAAURoL19x7kaP4W08dbgazCNwHSnT/IA4cgPyQVgM5rruM2Cv
-   YGRvIGOKKifehNlYCmAGmeXjcDurKxYmgVe4Icoxb2KJ+eT1HiBHE9EAQ
-   GNV/kUzDKP+2JAB8t8W5SL7Zz1NBuSw1dkdw062tb0HDIMtKVwmBdmXGF
-   Q==;
-X-CSE-ConnectionGUID: hgn5P2BGTvClzR2GCstZwg==
-X-CSE-MsgGUID: Enpvh41FTDac37Y+SUWmFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23243503"
+  t=1725031579; x=1756567579;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C0WOOozSTgEFuiMBLxHw7M8hNxWE4gcUb9pNKJ7jF8Y=;
+  b=g7lyQ7cIBJhF+aWjl2XfY2XiTJRgDZ8sbmYOIt4nN00mnVcyAEw3epWi
+   2cCsArMb1NIlZrfQQ9cbZLw7AaCSaQ5uFMGWbgTW81YCzObRP78N2M/UG
+   uol6G+1yYJ0uigAxvNPp+LfeXTd/3/nOPfyd/DONb/j8WxzX/1bHy+Ax/
+   e8HMS0oZoI/8EBQPeJemsXxiZSLsLi8zi+ktUJFgeTsb8UlGeX8kT8s4U
+   gGe1pmRoWcWpobd3BKqLSEyACBQNW0w4roRzj7fIhdDaPFMUcC7mV8tew
+   5yOmpnmXRfXwMiLuATRV1LtF55QCRk0fuGNUmCeDC6SbhUN4Sb/1twDdi
+   A==;
+X-CSE-ConnectionGUID: FboqWLqVR+aAkbvj4v84hw==
+X-CSE-MsgGUID: Xg3abouuSKu4O7Of/THUkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="13299624"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="23243503"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 08:26:17 -0700
-X-CSE-ConnectionGUID: JKAaWtrQS8ifInxg7GtlSA==
-X-CSE-MsgGUID: wGwcf4/DSyK32s+YdF/IRg==
+   d="scan'208";a="13299624"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 08:26:18 -0700
+X-CSE-ConnectionGUID: tl3tTf0ESYi2Xww4hMSRhg==
+X-CSE-MsgGUID: o8vLVVWmRMaRu2s4tMj8AQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="63548776"
+   d="scan'208";a="63941616"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Aug 2024 08:26:16 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 Aug 2024 08:26:15 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk3Vt-0001a6-1F;
+	id 1sk3Vt-0001a4-1C;
 	Fri, 30 Aug 2024 15:26:13 +0000
-Date: Fri, 30 Aug 2024 23:26:12 +0800
+Date: Fri, 30 Aug 2024 23:26:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Weston Andros Adamson <dros@primarydata.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [snitzer:nfs-localio-for-next.v14-neilb 16/25] fs/nfsd/localio.c:45:
- warning: Function parameter or struct member 'uuid' not described in
- 'nfsd_open_local_fh'
-Message-ID: <202408310153.AvSB7KeS-lkp@intel.com>
+To: Li Lingfeng <lilingfeng3@huawei.com>, trondmy@kernel.org,
+	anna@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jlayton@kernel.org,
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	yukuai1@huaweicloud.com, houtao1@huawei.com, yi.zhang@huawei.com,
+	yangerkun@huawei.com, lilingfeng@huaweicloud.com,
+	lilingfeng3@huawei.com
+Subject: Re: [PATCH v2] nfs: protect nfs41_impl_id by rcu
+Message-ID: <202408302315.02P7HuVM-lkp@intel.com>
+References: <20240829133743.1008788-1-lilingfeng3@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,119 +67,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240829133743.1008788-1-lilingfeng3@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next.v14-neilb
-head:   bb6e0696ba08aae13ade6331ef14f91afa9fc4df
-commit: b00ce59a8111778930e24b6cf63c9779e744f809 [16/25] nfsd: add localio support
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240831/202408310153.AvSB7KeS-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310153.AvSB7KeS-lkp@intel.com/reproduce)
+Hi Li,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Lingfeng/nfs-protect-nfs41_impl_id-by-rcu/20240829-213622
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20240829133743.1008788-1-lilingfeng3%40huawei.com
+patch subject: [PATCH v2] nfs: protect nfs41_impl_id by rcu
+config: i386-randconfig-001-20240830 (https://download.01.org/0day-ci/archive/20240830/202408302315.02P7HuVM-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302315.02P7HuVM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408310153.AvSB7KeS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408302315.02P7HuVM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfsd/localio.c:45: warning: Function parameter or struct member 'uuid' not described in 'nfsd_open_local_fh'
->> fs/nfsd/localio.c:45: warning: Excess function parameter 'cl_nfssvc_net' description in 'nfsd_open_local_fh'
->> fs/nfsd/localio.c:45: warning: Excess function parameter 'cl_nfssvc_dom' description in 'nfsd_open_local_fh'
+>> fs/nfs/nfs4client.c:286:34: error: incomplete definition of type 'struct nfs41_impl_id'
+     286 |         struct nfs41_impl_id *impl_id = container_of(head, struct nfs41_impl_id, __rcu_head);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:47: note: expanded from macro 'container_of'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      22 |                       "pointer type mismatch in container_of()");       \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:451:74: note: expanded from macro '__same_type'
+     451 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/nfs_fs_sb.h:23:8: note: forward declaration of 'struct nfs41_impl_id'
+      23 | struct nfs41_impl_id;
+         |        ^
+>> fs/nfs/nfs4client.c:286:34: error: offsetof of incomplete type 'struct nfs41_impl_id'
+     286 |         struct nfs41_impl_id *impl_id = container_of(head, struct nfs41_impl_id, __rcu_head);
+         |                                         ^                  ~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^        ~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                  ~~~~
+   include/linux/nfs_fs_sb.h:23:8: note: forward declaration of 'struct nfs41_impl_id'
+      23 | struct nfs41_impl_id;
+         |        ^
+>> fs/nfs/nfs4client.c:286:24: error: initializing 'struct nfs41_impl_id *' with an expression of incompatible type 'void'
+     286 |         struct nfs41_impl_id *impl_id = container_of(head, struct nfs41_impl_id, __rcu_head);
+         |                               ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4client.c:304:27: error: incomplete definition of type 'struct nfs41_impl_id'
+     304 |                 call_rcu(&clp->cl_implid->__rcu_head, nfs4_free_impl_id_rcu);
+         |                           ~~~~~~~~~~~~~~^
+   include/linux/nfs_fs_sb.h:23:8: note: forward declaration of 'struct nfs41_impl_id'
+      23 | struct nfs41_impl_id;
+         |        ^
+   4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
 
 
-vim +45 fs/nfsd/localio.c
+vim +286 fs/nfs/nfs4client.c
 
-    22	
-    23	/**
-    24	 * nfsd_open_local_fh - lookup a local filehandle @nfs_fh and map to nfsd_file
-    25	 *
-    26	 * @cl_nfssvc_net: the 'struct net' to use to get the proper nfsd_net
-    27	 * @cl_nfssvc_dom: the 'struct auth_domain' required for localio access
-    28	 * @rpc_clnt: rpc_clnt that the client established, used for sockaddr and cred
-    29	 * @cred: cred that the client established
-    30	 * @nfs_fh: filehandle to lookup
-    31	 * @fmode: fmode_t to use for open
-    32	 *
-    33	 * This function maps a local fh to a path on a local filesystem.
-    34	 * This is useful when the nfs client has the local server mounted - it can
-    35	 * avoid all the NFS overhead with reads, writes and commits.
-    36	 *
-    37	 * On successful return, returned nfs_localio_ctx will have its nfsd_file and
-    38	 * nfsd_net members set. Caller is responsible for calling nfsd_file_put and
-    39	 * nfsd_serv_put (via nfs_localio_ctx_free).
-    40	 */
-    41	struct nfs_localio_ctx *
-    42	nfsd_open_local_fh(nfs_uuid_t *uuid,
-    43			   struct rpc_clnt *rpc_clnt, const struct cred *cred,
-    44			   const struct nfs_fh *nfs_fh, const fmode_t fmode)
-  > 45	{
-    46		int mayflags = NFSD_MAY_LOCALIO;
-    47		int status = 0;
-    48		struct nfsd_net *nn = NULL;
-    49		struct net *net;
-    50		struct svc_cred rq_cred;
-    51		struct svc_fh fh;
-    52		struct nfs_localio_ctx *localio;
-    53		__be32 beres;
-    54	
-    55		if (nfs_fh->size > NFS4_FHSIZE)
-    56			return ERR_PTR(-EINVAL);
-    57	
-    58		localio = nfs_localio_ctx_alloc();
-    59		if (!localio)
-    60			return ERR_PTR(-ENOMEM);
-    61	
-    62		/*
-    63		 * Not running in nfsd context, so must safely get reference on nfsd_serv.
-    64		 * But the server may already be shutting down, if so disallow new localio.
-    65		 * uuid->net is NOT a counted reference, but rcu_read_lock() ensures that if
-    66		 * uuid->net is not NULL, then nfsd_serv_try_get() is safe and if that succeeds
-    67		 * we will have an implied reference to the net.
-    68		 */
-    69		rcu_read_lock();
-    70		net = READ_ONCE(uuid->net);
-    71		if (net)
-    72			nn = net_generic(net, nfsd_net_id);
-    73		if (unlikely(!nn || !nfsd_serv_try_get(nn))) {
-    74			rcu_read_unlock();
-    75			status = -ENXIO;
-    76			goto out_nfsd_serv;
-    77		}
-    78		rcu_read_unlock();
-    79	
-    80		/* nfs_fh -> svc_fh */
-    81		fh_init(&fh, NFS4_FHSIZE);
-    82		fh.fh_handle.fh_size = nfs_fh->size;
-    83		memcpy(fh.fh_handle.fh_raw, nfs_fh->data, nfs_fh->size);
-    84	
-    85		if (fmode & FMODE_READ)
-    86			mayflags |= NFSD_MAY_READ;
-    87		if (fmode & FMODE_WRITE)
-    88			mayflags |= NFSD_MAY_WRITE;
-    89	
-    90		svcauth_map_clnt_to_svc_cred_local(rpc_clnt, cred, &rq_cred);
-    91	
-    92		beres = nfsd_file_acquire_local(uuid->net, &rq_cred, uuid->dom,
-    93						&fh, mayflags, &localio->nf);
-    94		if (beres) {
-    95			status = nfs_stat_to_errno(be32_to_cpu(beres));
-    96			goto out_fh_put;
-    97		}
-    98		localio->nn = nn;
-    99	
-   100	out_fh_put:
-   101		fh_put(&fh);
-   102		if (rq_cred.cr_group_info)
-   103			put_group_info(rq_cred.cr_group_info);
-   104	out_nfsd_serv:
-   105		if (status) {
-   106			nfs_localio_ctx_free(localio);
-   107			return ERR_PTR(status);
-   108		}
-   109		return localio;
-   110	}
-   111	EXPORT_SYMBOL_GPL(nfsd_open_local_fh);
-   112	
+   283	
+   284	static void nfs4_free_impl_id_rcu(struct rcu_head *head)
+   285	{
+ > 286		struct nfs41_impl_id *impl_id = container_of(head, struct nfs41_impl_id, __rcu_head);
+   287	
+   288		kfree(impl_id);
+   289	}
+   290	
 
 -- 
 0-DAY CI Kernel Test Service
