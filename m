@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D393B1B532E;
-	Fri, 30 Aug 2024 15:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE47EEC3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Aug 2024 15:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725031582; cv=none; b=r2R6HOYavz7/QPUWs6YW93owyhKccH7+L8muin9Wl0zPWV88vmnKtrNjSsrqyB3GGuDgeJaUn1wkN0MpuCnDv9qyHrxKoGcWLCU4qIHiKK8zbyDojTZ/Oo4UtmLmh8LqNfIe9cj5IvZecXQKd+OLqWURvls3k+6nHtIO6D5AN74=
+	t=1725032841; cv=none; b=SSSWwwnEdx31iFqV5TIz/T7BC8s3D/OqU9TGjTzXtgMXEvoqqFB9ojV3lw9t4kfPTvw6QmIcmvuVlCsdP+FVdB54ULHlwnQQWi1KkAWr1rWfhn3P2RbOY8xq6fJnpG5WNEeeWzJIg9H07TD6oALiQkKTX4U0xP1J/oFtLsbeTy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725031582; c=relaxed/simple;
-	bh=xsFTu4zK6e/bQKyKpNXx4yuqJpMh03KU59hP5ZIhsFo=;
+	s=arc-20240116; t=1725032841; c=relaxed/simple;
+	bh=uiCnDnNiKIAco9v6qpSv5J3po9i3rWfe/GTa8Dxcvwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szevbnh/hB4I4mghv8SABgfDSze5ZZF6mGQnrArZjJhj74Be7J7UN2uOgqdgFXoFzSdIkIfygCmBbrYtuO7RycClU8YVx6xejO4LHG5E9xZyRRdjvt0gAXRkupe2b/W4QYIcFLGP7al+3EfmWQPZvvrrqkc0X3B87rtpS9HjiEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5MLktO3; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dz9oz8zNYll33t52qCC3adiCd8rIzfNBDzI6FZ9UZtByGOshzmwRfvH+WjH5u1o3n9S2a95mn7iQDfluVIbGPQlkjvNCEus70cHskyfK/yTWqhEuu5b4fk1enTQMSM1sB01kGqc+eyCHmI1UyNz3ITkc0WX+65kH4239bEUKdB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2VOKmdn; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5MLktO3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2VOKmdn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725031581; x=1756567581;
+  t=1725032839; x=1756568839;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xsFTu4zK6e/bQKyKpNXx4yuqJpMh03KU59hP5ZIhsFo=;
-  b=f5MLktO3ySVMfL5Ny+AUmqBAFD4FixmPOeWCpyJJuAh9pd1AuLf35l6d
-   k6gAb2NW3S3kOnK5GNmZa0J1X//P43166sGg6HQYzAfk/90ya1eAXPjke
-   1/+jjYMZXfZ5/cNhoE8MMBkbd9wCKl8tCt8jOmPSCzi/tFereM5NiXSBK
-   IlbjddXfa44C9Lt+dGZCxPeXUx5YJdxTLZkPlshQQZwN3ss6QVJBeUga/
-   AMLvKOR4ZXaevpcsrLRJbHgc+cs0zXAiyJ0NUd3wYkQF20JUI6PCC5r8O
-   +Qw3ia+flHoW+KIK660igtkfoMx1Iv5Ql1KimGq9UrP1Q9pdbzWPb5u3B
-   g==;
-X-CSE-ConnectionGUID: im8nJOsbS+ST6vzO8qfrwg==
-X-CSE-MsgGUID: AYZtzBx5TjuZQ99ONNY0yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="13299645"
+  bh=uiCnDnNiKIAco9v6qpSv5J3po9i3rWfe/GTa8Dxcvwg=;
+  b=U2VOKmdniAkocZwuvdTLMoZ5I7z74iijglmw4MscktUH/ePlOJBwLa1p
+   KXX1Lziw1WnnuBKieFvSA5eTTJbQhQW2RLuyQXDjI+DXP3n8QuoQQLf+C
+   UUJdVs5DjkHw4/uc2fnKtLwQyKjqDg+FfhZ1T71SnG/RWSag7WJTmeRP/
+   6trObAR8wRB1b+X/QXuYky+jXurZ6V26ewxWdEheOofGc0FMhOrRDWLpC
+   +eD1GGRiu41VHcyEZTgaxAHWSFCjYE93kK80yh5MZT6v6BTYy0MlhZcJq
+   dk8pBKVYJR6vT3t+cUEeoZu1QFHcuu2fgRlspMVPatrL3xZRJUHNM3Jfn
+   A==;
+X-CSE-ConnectionGUID: MfEQ2OZhRpaYT7HkhQaYlg==
+X-CSE-MsgGUID: AkGlXyxITC2zc1i/Hy3/8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="46187236"
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="13299645"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 08:26:20 -0700
-X-CSE-ConnectionGUID: qSo7wQuiRQOgWqbJHGSuaA==
-X-CSE-MsgGUID: xWQhpaPgQ7q/KjwQk08jIw==
+   d="scan'208";a="46187236"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 08:47:19 -0700
+X-CSE-ConnectionGUID: I4UYG+87Qfa+7DgX0IABYA==
+X-CSE-MsgGUID: MB/2X/7GR/+3GLIJpNyARw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="63941617"
+   d="scan'208";a="94744154"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Aug 2024 08:26:15 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Aug 2024 08:47:16 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk3Vt-0001a2-19;
-	Fri, 30 Aug 2024 15:26:13 +0000
-Date: Fri, 30 Aug 2024 23:26:09 +0800
+	id 1sk3qE-0001bq-0n;
+	Fri, 30 Aug 2024 15:47:14 +0000
+Date: Fri, 30 Aug 2024 23:47:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-	linux-security-module@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
-	serge@hallyn.com, keescook@chromium.org,
-	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-	selinux@vger.kernel.org, mic@digikod.net,
-	linux-integrity@vger.kernel.org, audit@vger.kernel.org,
-	Todd Kjos <tkjos@google.com>
-Subject: Re: [PATCH v2 10/13] LSM: Create new security_cred_getlsmblob LSM
- hook
-Message-ID: <202408302309.08WssiJu-lkp@intel.com>
-References: <20240830003411.16818-11-casey@schaufler-ca.com>
+To: David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: Re: [PATCH 2/2] btrfs: constify more pointer parameters
+Message-ID: <202408302358.rW7e7sjz-lkp@intel.com>
+References: <e163012ed80a4f55ce17641586681c6ac4ff9018.1724859620.git.dsterba@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,148 +62,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830003411.16818-11-casey@schaufler-ca.com>
+In-Reply-To: <e163012ed80a4f55ce17641586681c6ac4ff9018.1724859620.git.dsterba@suse.com>
 
-Hi Casey,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pcmoore-audit/next]
-[also build test WARNING on pcmoore-selinux/next zohar-integrity/next-integrity linus/master v6.11-rc5 next-20240830]
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master next-20240830]
+[cannot apply to v6.11-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Add-the-lsmblob-data-structure/20240830-085050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git next
-patch link:    https://lore.kernel.org/r/20240830003411.16818-11-casey%40schaufler-ca.com
-patch subject: [PATCH v2 10/13] LSM: Create new security_cred_getlsmblob LSM hook
-config: i386-buildonly-randconfig-006-20240830 (https://download.01.org/0day-ci/archive/20240830/202408302309.08WssiJu-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302309.08WssiJu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Sterba/btrfs-rework-BTRFS_I-as-macro-to-preserve-parameter-const/20240828-234222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/e163012ed80a4f55ce17641586681c6ac4ff9018.1724859620.git.dsterba%40suse.com
+patch subject: [PATCH 2/2] btrfs: constify more pointer parameters
+config: i386-buildonly-randconfig-001-20240830 (https://download.01.org/0day-ci/archive/20240830/202408302358.rW7e7sjz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408302358.rW7e7sjz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408302309.08WssiJu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408302358.rW7e7sjz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/dma/swiotlb.c:53:
-   In file included from include/trace/events/swiotlb.h:41:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:21:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:62:
-   include/linux/security.h:1199:3: error: use of undeclared identifier 'secid'
-    1199 |         *secid = 0;
-         |          ^
->> kernel/dma/swiotlb.c:639:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     638 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     639 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     640 |                     !(gfp & (__GFP_DMA32 | __GFP_DMA)))
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
->> kernel/dma/swiotlb.c:639:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     638 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     639 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     640 |                     !(gfp & (__GFP_DMA32 | __GFP_DMA)))
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
->> kernel/dma/swiotlb.c:639:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     638 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     639 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     640 |                     !(gfp & (__GFP_DMA32 | __GFP_DMA)))
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                                     ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   3 warnings and 1 error generated.
+   fs/btrfs/block-group.c: In function 'btrfs_should_reclaim':
+>> fs/btrfs/block-group.c:1762:51: warning: passing argument 1 of 'btrfs_zoned_should_reclaim' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1762 |                 return btrfs_zoned_should_reclaim(fs_info);
+         |                                                   ^~~~~~~
+   In file included from fs/btrfs/block-group.c:20:
+   fs/btrfs/zoned.h:245:69: note: expected 'struct btrfs_fs_info *' but argument is of type 'const struct btrfs_fs_info *'
+     245 | static inline bool btrfs_zoned_should_reclaim(struct btrfs_fs_info *fs_info)
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
 
 
-vim +639 kernel/dma/swiotlb.c
+vim +1762 fs/btrfs/block-group.c
 
-79636caad3618e Petr Tesarik 2023-08-01  602  
-79636caad3618e Petr Tesarik 2023-08-01  603  /**
-79636caad3618e Petr Tesarik 2023-08-01  604   * swiotlb_alloc_tlb() - allocate a dynamic IO TLB buffer
-79636caad3618e Petr Tesarik 2023-08-01  605   * @dev:	Device for which a memory pool is allocated.
-79636caad3618e Petr Tesarik 2023-08-01  606   * @bytes:	Size of the buffer.
-79636caad3618e Petr Tesarik 2023-08-01  607   * @phys_limit:	Maximum allowed physical address of the buffer.
-79636caad3618e Petr Tesarik 2023-08-01  608   * @gfp:	GFP flags for the allocation.
-79636caad3618e Petr Tesarik 2023-08-01  609   *
-79636caad3618e Petr Tesarik 2023-08-01  610   * Return: Allocated pages, or %NULL on allocation failure.
-79636caad3618e Petr Tesarik 2023-08-01  611   */
-79636caad3618e Petr Tesarik 2023-08-01  612  static struct page *swiotlb_alloc_tlb(struct device *dev, size_t bytes,
-79636caad3618e Petr Tesarik 2023-08-01  613  		u64 phys_limit, gfp_t gfp)
-79636caad3618e Petr Tesarik 2023-08-01  614  {
-79636caad3618e Petr Tesarik 2023-08-01  615  	struct page *page;
-79636caad3618e Petr Tesarik 2023-08-01  616  
-79636caad3618e Petr Tesarik 2023-08-01  617  	/*
-79636caad3618e Petr Tesarik 2023-08-01  618  	 * Allocate from the atomic pools if memory is encrypted and
-79636caad3618e Petr Tesarik 2023-08-01  619  	 * the allocation is atomic, because decrypting may block.
-79636caad3618e Petr Tesarik 2023-08-01  620  	 */
-79636caad3618e Petr Tesarik 2023-08-01  621  	if (!gfpflags_allow_blocking(gfp) && dev && force_dma_unencrypted(dev)) {
-79636caad3618e Petr Tesarik 2023-08-01  622  		void *vaddr;
-79636caad3618e Petr Tesarik 2023-08-01  623  
-79636caad3618e Petr Tesarik 2023-08-01  624  		if (!IS_ENABLED(CONFIG_DMA_COHERENT_POOL))
-79636caad3618e Petr Tesarik 2023-08-01  625  			return NULL;
-79636caad3618e Petr Tesarik 2023-08-01  626  
-79636caad3618e Petr Tesarik 2023-08-01  627  		return dma_alloc_from_pool(dev, bytes, &vaddr, gfp,
-79636caad3618e Petr Tesarik 2023-08-01  628  					   dma_coherent_ok);
-79636caad3618e Petr Tesarik 2023-08-01  629  	}
-79636caad3618e Petr Tesarik 2023-08-01  630  
-79636caad3618e Petr Tesarik 2023-08-01  631  	gfp &= ~GFP_ZONEMASK;
-79636caad3618e Petr Tesarik 2023-08-01  632  	if (phys_limit <= DMA_BIT_MASK(zone_dma_bits))
-79636caad3618e Petr Tesarik 2023-08-01  633  		gfp |= __GFP_DMA;
-79636caad3618e Petr Tesarik 2023-08-01  634  	else if (phys_limit <= DMA_BIT_MASK(32))
-79636caad3618e Petr Tesarik 2023-08-01  635  		gfp |= __GFP_DMA32;
-79636caad3618e Petr Tesarik 2023-08-01  636  
-a5e3b127455d07 Petr Tesarik 2023-11-02  637  	while (IS_ERR(page = alloc_dma_pages(gfp, bytes, phys_limit))) {
-79636caad3618e Petr Tesarik 2023-08-01  638  		if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-79636caad3618e Petr Tesarik 2023-08-01 @639  		    phys_limit < DMA_BIT_MASK(64) &&
-79636caad3618e Petr Tesarik 2023-08-01  640  		    !(gfp & (__GFP_DMA32 | __GFP_DMA)))
-79636caad3618e Petr Tesarik 2023-08-01  641  			gfp |= __GFP_DMA32;
-79636caad3618e Petr Tesarik 2023-08-01  642  		else if (IS_ENABLED(CONFIG_ZONE_DMA) &&
-79636caad3618e Petr Tesarik 2023-08-01  643  			 !(gfp & __GFP_DMA))
-79636caad3618e Petr Tesarik 2023-08-01  644  			gfp = (gfp & ~__GFP_DMA32) | __GFP_DMA;
-79636caad3618e Petr Tesarik 2023-08-01  645  		else
-79636caad3618e Petr Tesarik 2023-08-01  646  			return NULL;
-79636caad3618e Petr Tesarik 2023-08-01  647  	}
-79636caad3618e Petr Tesarik 2023-08-01  648  
-79636caad3618e Petr Tesarik 2023-08-01  649  	return page;
-79636caad3618e Petr Tesarik 2023-08-01  650  }
-79636caad3618e Petr Tesarik 2023-08-01  651  
+2ca0ec770c62b3 Johannes Thumshirn 2021-10-14  1758  
+17ca64afd0470e David Sterba       2024-08-28  1759  static inline bool btrfs_should_reclaim(const struct btrfs_fs_info *fs_info)
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29  1760  {
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29  1761  	if (btrfs_is_zoned(fs_info))
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29 @1762  		return btrfs_zoned_should_reclaim(fs_info);
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29  1763  	return true;
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29  1764  }
+3687fcb0752ac9 Johannes Thumshirn 2022-03-29  1765  
 
 -- 
 0-DAY CI Kernel Test Service
